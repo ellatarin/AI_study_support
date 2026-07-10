@@ -129,7 +129,7 @@ async function main() {
     .convert({
       file: fs.createReadStream(audioPath).pipe(progressStream),
       modelId: 'scribe_v2',
-      languageCode: 'en-GB',
+      languageCode: 'eng',
       noVerbatim: true,
     })
     .finally(() => bar.stop());
