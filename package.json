@@ -8,9 +8,11 @@
   "dependencies": {
     "@elevenlabs/elevenlabs-js": "^2.57.0",
     "@inquirer/prompts": "^7.5.2",
+    "cli-progress": "^3.12.0",
     "dotenv": "^16.5.0"
   },
   "devDependencies": {
+    "@types/cli-progress": "^3.11.6",
     "@types/node": "^22.0.0",
     "tsx": "^4.19.0",
     "typescript": "^5.8.0"

@@ -1,13 +1,42 @@
 import 'dotenv/config';
 import { ElevenLabsClient } from '@elevenlabs/elevenlabs-js';
 import { select, confirm } from '@inquirer/prompts';
+import cliProgress from 'cli-progress';
 import fs from 'fs';
 import path from 'path';
+import { Transform } from 'stream';
 
 const SOURCE_DIR =
   '/Users/jamestarin/Source material/Lecture Content/Biology of Disease/Lecture recordings';
 const OUTPUT_DIR =
   '/Users/jamestarin/Source material/Lecture Content/Biology of Disease/Lecture transcriptions';
+
+function formatMB(bytes: number): string {
+  return (bytes / 1024 / 1024).toFixed(1) + ' MB';
+}
+
+function createProgressStream(totalBytes: number): { stream: Transform; bar: cliProgress.SingleBar } {
+  const bar = new cliProgress.SingleBar(
+    {
+      format: 'Uploading |{bar}| {percentage}%  {value} / {total}',
+      formatValue: (v, _, type) => (type === 'value' || type === 'total' ? formatMB(v) : String(v)),
+      hideCursor: true,
+    },
+    cliProgress.Presets.shades_classic,
+  );
+
+  let uploaded = 0;
+  const stream = new Transform({
+    transform(chunk: Buffer, _encoding, callback) {
+      uploaded += chunk.length;
+      bar.update(uploaded);
+      callback(null, chunk);
+    },
+  });
+
+  bar.start(totalBytes, 0);
+  return { stream, bar };
+}
 
 async function main() {
   const apiKey = process.env.ELEVENLABS_API_KEY;
@@ -48,21 +77,22 @@ async function main() {
     }
   }
 
-  console.log(`\nUploading "${chosen}" to ElevenLabs…`);
+  const totalBytes = fs.statSync(inputPath).size;
+  const { stream: progressStream, bar } = createProgressStream(totalBytes);
 
   const client = new ElevenLabsClient({ apiKey });
 
-  const result = await client.speechToText.convert({
-    file: fs.createReadStream(inputPath),
-    modelId: 'scribe_v1',
-  });
+  const result = await client.speechToText
+    .convert({ file: fs.createReadStream(inputPath).pipe(progressStream), modelId: 'scribe_v1' })
+    .finally(() => bar.stop());
 
   if (!('text' in result)) {
     throw new Error('Unexpected response from ElevenLabs — no transcript text returned.');
   }
 
+  console.log(`\nTranscribing… (this may take a moment)`);
   fs.writeFileSync(outputPath, result.text, 'utf-8');
-  console.log(`\nTranscript saved to:\n  ${outputPath}\n`);
+  console.log(`Transcript saved to:\n  ${outputPath}\n`);
 }
 
 main().catch((err: Error) => {
