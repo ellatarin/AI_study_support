@@ -126,7 +126,12 @@ async function main() {
   const client = new ElevenLabsClient({ apiKey });
 
   const result = await client.speechToText
-    .convert({ file: fs.createReadStream(audioPath).pipe(progressStream), modelId: 'scribe_v1' })
+    .convert({
+      file: fs.createReadStream(audioPath).pipe(progressStream),
+      modelId: 'scribe_v2',
+      languageCode: 'en-GB',
+      noVerbatim: true,
+    })
     .finally(() => bar.stop());
 
   if (!('text' in result)) {
