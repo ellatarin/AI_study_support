@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Requirements Specification
 
-**Version:** 0.1 (draft)
+**Version:** 0.2 (draft)
 **Date:** 2026-07-11
 **Status:** For review
 
@@ -34,7 +34,7 @@ The system shall take a set of lecture recordings (video files) and accompanying
 
 **FR-2.4** The system shall assign a descriptive label to each extracted image that identifies its content and its position within the source material.
 
-**FR-2.5** The system shall filter out images that are not relevant to the academic content (e.g. decorative elements, institutional logos, slide backgrounds).
+**FR-2.5** The system shall filter out images that are not relevant to the academic content (e.g. decorative elements, institutional logos, slide backgrounds, and images that do not meaningfully illustrate or explain core academic concepts).
 
 ### FR-3 — Content Synthesis
 
@@ -46,7 +46,7 @@ The system shall take a set of lecture recordings (video files) and accompanying
 
 **FR-3.4** The synthesised notes shall be written in a textbook style: coherent prose, well-organised sections, and academically appropriate language.
 
-**FR-3.5** The system shall incorporate relevant extracted images into the synthesised notes at appropriate positions.
+**FR-3.5** The system shall incorporate relevant extracted images into the synthesised notes at appropriate positions, referencing them as separate image files via relative paths so that the output markdown remains human-readable.
 
 ### FR-4 — Quality Assurance
 
@@ -54,7 +54,11 @@ The system shall take a set of lecture recordings (video files) and accompanying
 
 **FR-4.2** The quality check shall identify any significant content present in the source materials that is absent or inadequately represented in the synthesised notes.
 
-**FR-4.3** The system shall produce a revised output that addresses any deficiencies identified during the quality check.
+**FR-4.3** The quality check shall identify any areas where the synthesised notes have introduced inaccuracies or explanations that lack clarity.
+
+**FR-4.4** The system shall produce a revised output that addresses all deficiencies identified during the quality check.
+
+**FR-4.5** The system shall repeat the quality check and revision cycle automatically until no deficiencies are identified, or until a configurable maximum number of iterations is reached.
 
 ### FR-5 — Model Configurability
 
@@ -74,7 +78,7 @@ The system shall take a set of lecture recordings (video files) and accompanying
 
 **FR-6.4** The system shall support re-running the pipeline from any stage without re-executing completed upstream stages.
 
-**FR-6.5** The system shall provide clear progress feedback to the user at each stage of the pipeline.
+**FR-6.5** The system shall provide clear progress feedback to the user at each stage of the pipeline, including upload progress bars where large files are being transferred.
 
 ---
 
@@ -111,3 +115,5 @@ The system shall take a set of lecture recordings (video files) and accompanying
 **NFR-5.1** Each pipeline stage shall be independently configurable and testable in isolation.
 
 **NFR-5.2** Adding a new pipeline stage or modifying an existing one shall not require changes to unrelated stages.
+
+**NFR-5.3** The system shall be sufficiently modular that the orchestration layer makes it straightforward to alter the order in which stages are executed where appropriate.
