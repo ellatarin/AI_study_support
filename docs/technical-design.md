@@ -28,6 +28,7 @@ The system is a TypeScript/Node.js CLI tool with nine stages (Stage 0 through St
 | Date parsing | `chrono-node` | Robust natural-language date parsing for varied source filename formats |
 | CLI prompts | `@inquirer/prompts` | Already in use |
 | Progress bars | `cli-progress` | Already in use |
+| Logging | `pino` | Structured JSON log output; child loggers for per-stage context; file transport keeps debug output off stdout/stderr |
 | Environment variables | `dotenv` | Already in use |
 
 ### Environment Variables
@@ -209,7 +210,21 @@ interface StageCost {
 }
 ```
 
-`isComplete()` checks two conditions: the manifest marks the stage `'complete'`, AND the expected output files exist on disk. Both must be true.
+`isComplete()` checks two conditions: the manifest marks the stage `'complete'`, AND every path in `manifest.stages[stageId].filesWritten` exists on disk. Both must be true. This means a completed stage whose output was manually deleted returns `false` and re-runs automatically.
+
+After a stage's `run()` succeeds, the runner writes the `filesWritten` list from `StageResult` to `manifest.stages[stageId].filesWritten` before marking the stage `complete`. These are exactly the paths `isComplete()` later verifies.
+
+**Stage status semantics:**
+
+| Status | Meaning |
+|---|---|
+| `pending` | Has not run in this pipeline configuration |
+| `running` | Currently executing, or crashed mid-run — treated as `failed` on next launch |
+| `complete` | `run()` succeeded and all output files are on disk |
+| `failed` | `run()` threw an exception; `error` and `failedAt` are set |
+| `skipped` | `isComplete()` returned `true` before the stage was invoked — output already existed from a prior run |
+
+`skipped` is distinct from `not-reached`, the run log action used when an upstream failure prevented a stage from being attempted at all. A `skipped` stage was eligible to run; a `not-reached` stage was never considered.
 
 ### 4.3 Atomic File Writes
 
@@ -337,6 +352,8 @@ class PipelineRunner {
 **`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes per-stage intermediate files for the stages being re-run (e.g. `Slide content/raw/*.md` when re-running Stage 4), so the re-run produces entirely fresh output. Upstream stages are untouched.
 
 **Natural restart after failure:** Does not clear intermediate files — per-slide markdown files from Stage 4 are preserved for resumability, allowing a failed run to pick up at the slide where it stopped.
+
+**`StageContext` assembly:** Before invoking any stage, the runner reads `manifest.json` and assembles a `StageContext`. `lectureNumber`, `lectureDate`, `provisionalTitle`, `provisionalTitleIsDescriptive`, `lectureTitle`, and `workspaceRoot` are sourced from the manifest. `moduleRoot` and `config` come from the CLI invocation. The context is constructed once per lecture run and passed unchanged to every stage; stages must not mutate it directly — all manifest updates go through `updateManifest()`.
 
 **Batch mode:** Lectures processed sequentially by default. `--concurrency N` enables parallel processing. A batch cost and status summary is printed on completion.
 
@@ -804,5 +821,34 @@ src/
     ├── naming.ts                     # Lecture folder and file naming helpers
     ├── files.ts                      # Atomic write helpers (.tmp pattern), workspace path resolution
     ├── progress.ts                   # Shared cli-progress bar helpers
-    └── cost.ts                       # Cost accumulation and report formatting
+    ├── cost.ts                       # Cost accumulation and report formatting
+    └── logger.ts                     # pino instance and child-logger factory
 ```
+
+---
+
+## 10. Logging
+
+`pino` is used for all structured logging. Each pipeline invocation creates a child logger bound to the run timestamp. Stage implementations call `logger.child({ stage: stageId })` to add per-stage context to every log entry automatically.
+
+### Debug Log File
+
+The pino file transport writes newline-delimited JSON to `runs/<timestamp>-debug.log` alongside the structured run log. This file captures operational detail not stored in the run log:
+
+- Every LLM call: model, prompt token count, latency ms
+- Rate limit retries: attempt number, back-off delay, error message
+- Per-slide processing times (Stage 4)
+- File I/O errors: path and OS error code
+
+The debug log is for human inspection when diagnosing failures. Its JSON format also makes it trivially parseable if automated analysis is ever needed.
+
+### Output Streams
+
+| Level | Destination | When used |
+|---|---|---|
+| Progress | stdout (cli-progress) | Real-time stage progress bars |
+| Info | stdout | Stage start/end messages, skipped-stage notices |
+| Warning | stderr | Unmatched source files (Stage 0), stalled QA loop, max-iterations reached |
+| Error | stderr | Stage failure with full stack trace |
+
+The pino file transport is configured with `sync: false` and routes only to the debug log file — no debug output reaches stdout or stderr during normal operation, so it does not interfere with cli-progress bars.
