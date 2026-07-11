@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Version:** 0.2 (draft)
+**Version:** 0.3 (draft)
 **Date:** 2026-07-11
 **Status:** For review
 
@@ -8,7 +8,7 @@
 
 ## 1. System Overview
 
-The system is a TypeScript/Node.js CLI tool with eight stages (Stage 0 through Stage 7). Stage 0 is a one-time batch normalisation step across all lectures in a module. Stages 1–7 run per lecture, orchestrated by a pipeline runner that reads and writes a per-lecture run manifest. Every stage is idempotent — if its output exists and the manifest marks it complete, it is skipped.
+The system is a TypeScript/Node.js CLI tool with nine stages (Stage 0 through Stage 8). Stage 0 is a batch normalisation step across all lectures in a module. Stages 1–8 run per lecture, orchestrated by a pipeline runner that reads and writes a per-lecture run manifest. Every stage is idempotent — if its output exists and the manifest marks it complete, it is skipped.
 
 ---
 
@@ -24,6 +24,7 @@ The system is a TypeScript/Node.js CLI tool with eight stages (Stage 0 through S
 | LLM access (all new stages) | `openai` SDK pointed at OpenRouter | OpenRouter is OpenAI API-compatible; avoids bespoke client; gets retry logic and TypeScript types for free |
 | PDF-to-image rendering | `pdfjs-dist` + `canvas` | Pure-Node, no system binary dependency, consistent PNG output |
 | Image cropping | `sharp` | Standard Node image processing library |
+| PDF generation | `pandoc` (system binary) | Gold standard for academic document conversion; excellent LaTeX equation and image support |
 | Date parsing | `chrono-node` | Robust natural-language date parsing for varied source filename formats |
 | CLI prompts | `@inquirer/prompts` | Already in use |
 | Progress bars | `cli-progress` | Already in use |
@@ -47,100 +48,98 @@ Biology of Disease/
 ├── Source files/
 │   ├── Video files/
 │   └── Lecture slides/
-└── Pipeline processing/
-    └── Lecture 1 - Cell Injury and the Immune System - 2025-10-10/
-        ├── manifest.json
-        ├── Audio/
-        ├── Transcript/
-        ├── Structured transcript/
-        ├── Slide content/
-        ├── Slide images/
-        ├── Synthesised notes/
-        ├── QA iterations/
-        └── Output/
+├── Pipeline processing/
+│   └── Lecture 1 - Cell Injury and the Immune System - 2025-10-10/
+│       └── (see §3.3)
+└── Final output/
+    ├── Lecture 1 - Cell Injury and the Immune System - 2025-10-10.pdf
+    └── Lecture 2 - Immunity to Infection - 2025-10-13.pdf
 ```
 
-All pipeline artefacts for a lecture live inside a single named folder. Folder names carry the full lecture identity. Files inside each folder use simple, stage-agnostic names so that if stage ordering ever changes, no files need renaming — only the manifest stage mapping changes.
+All pipeline artefacts for a lecture live inside a single named workspace folder. Files inside each folder use simple, stage-agnostic names — the folder itself carries the full lecture identity. This means re-numbering a lecture requires renaming only the folder, not any of its contents.
+
+`Final output/` is a direct subfolder of the module root and is the human-facing deliverable. Because it is a flat folder shared across all lectures, its PDFs carry the full descriptive filename.
 
 ### 3.2 Source Files
 
 #### Video files
-Source videos are renamed in two passes by the pipeline (see Stage 0 and Stage 3):
+
+Source videos may have the date in any position and any format. Stage 0 extracts the date using `chrono-node`, assigns a lecture number by date order, and produces the provisional title by stripping the date, day names (Mon–Sun), module code prefixes (e.g. `BOD_`), and trailing artefacts (`co`, `copy`) from the original filename, then title-casing the result.
 
 | Pass | Example filename |
 |---|---|
 | Original (user-supplied) | `2025-10-10 BOD_Disease cell injury and the immune system Fri co.mp4` |
-| After Stage 0 | `Lecture 1 - 2025-10-10.mp4` |
-| After Stage 3 (title known) | `Lecture 1 - Cell Injury and the Immune System - 2025-10-10.mp4` |
+| After Stage 0 | `Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10.mp4` |
+
+Stage 0 sets a `provisionalTitleIsDescriptive` flag in the manifest. If the cleaned result is non-substantive (e.g. original was `Virology 1.mp4`), Stage 3 performs a conditional second rename once the transcript-derived title is known:
+
+| `provisionalTitleIsDescriptive` | After Stage 3 |
+|---|---|
+| `true` | `Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10.mp4` *(unchanged)* |
+| `false` | `Lecture 1 - Innate Immune Response - 2025-10-10.mp4` *(renamed by Stage 3)* |
 
 #### Lecture slides
-Source slide PDFs are supplied with the date at the very beginning of the filename (e.g. `2025-10-10 Lecture slides.pdf`). Stage 0 matches them to videos by date and renames them on the same two-pass schedule:
 
-| Pass | Example filename |
-|---|---|
-| Original (user-supplied) | `2025-10-10 Lecture slides.pdf` |
-| After Stage 0 | `Lecture 1 - 2025-10-10.pdf` |
-| After Stage 3 (title known) | `Lecture 1 - Cell Injury and the Immune System - 2025-10-10.pdf` |
+Slide PDFs are supplied with the date at the very beginning of the filename (e.g. `2025-10-10 Lecture slides.pdf`). Stage 0 matches each slide to the video with the same date and renames it on the same schedule as the video.
 
-### 3.3 Pipeline Processing — Per-Lecture Folder
-
-The lecture folder is created in two passes matching the source file renames:
-
-| Pass | Folder name |
-|---|---|
-| Created at Stage 0 | `Lecture 1 - 2025-10-10/` |
-| Renamed at end of Stage 3 | `Lecture 1 - Cell Injury and the Immune System - 2025-10-10/` |
-
-Full structure of a completed lecture folder:
+### 3.3 Pipeline Processing — Per-Lecture Workspace
 
 ```
 Lecture 1 - Cell Injury and the Immune System - 2025-10-10/
 │
 ├── manifest.json
+├── runs/
+│   ├── 2025-10-10T09-00-00Z.json              # per-invocation run logs
+│   └── 2025-10-10T10-30-00Z.json
 │
 ├── Audio/
-│   └── audio.m4a                              # Stage 1 output
+│   └── audio.m4a                              # Stage 1
 │
 ├── Transcript/
-│   └── transcript.txt                         # Stage 2 output
+│   └── transcript.txt                         # Stage 2
 │
 ├── Structured transcript/
-│   └── structured-transcript.md              # Stage 3 output
+│   └── structured-transcript.md              # Stage 3
 │
 ├── Slide content/
 │   ├── raw/
-│   │   ├── slide-001.md                       # per-slide extraction (resumability)
+│   │   ├── slide-001.md                       # per-slide extraction (Stage 4 resumability)
 │   │   ├── slide-002.md
 │   │   └── ...
-│   └── slides.md                              # Stage 4 output — concatenated
+│   └── slides.md                              # Stage 4 — concatenated
 │
 ├── Slide images/
-│   ├── images-manifest.json                   # Stage 5 output — index of all figures
+│   ├── images-manifest.json                   # Stage 5
 │   ├── slide-003-figure-01.png
 │   ├── slide-003-figure-01-caption.md
-│   ├── slide-007-figure-01.png
-│   └── slide-007-figure-01-caption.md
+│   └── ...
 │
 ├── Synthesised notes/
-│   └── synthesised-notes.md                  # Stage 6 output
+│   └── synthesised-notes.md                  # Stage 6
 │
 ├── QA iterations/
 │   ├── qa-iteration-01-deficiencies.json
 │   ├── qa-iteration-01-revised.md
-│   └── qa-iteration-02-deficiencies.json     # Stage 7 output
+│   └── ...                                    # Stage 7
 │
 └── Output/
-    ├── Lecture 1 - Cell Injury and the Immune System - 2025-10-10.md   # final deliverable
+    ├── notes.md                               # Stage 7 final — simple name
     └── images/
-        ├── slide-003-figure-01.png            # copies of included figures
-        └── slide-007-figure-01.png
+        └── slide-003-figure-01.png
 ```
 
-The final deliverable in `Output/` is the only file in the pipeline that carries the full lecture name. All other files use short, descriptive names that are unambiguous within the context of their containing folder.
+`Output/notes.md` uses a simple name because it lives inside the named lecture folder. The full descriptive filename appears only on the PDF in `Final output/` (Stage 8).
 
 ### 3.4 Re-numbering When New Lectures Are Added
 
-If a new lecture is inserted whose date falls between existing lectures, Stage 0 re-runs across all lectures in the module, detects the change in sequence, and renames all affected lecture folders and source files. Because files inside each lecture folder use simple names (not the lecture title), only the folder itself needs renaming — not its contents. The manifest uses relative paths throughout, so it survives a folder rename without modification.
+If a new lecture is inserted whose date falls between existing lectures, Stage 0 re-runs across all lectures in the module, detects the changed sequence, and renames all affected items atomically (via a temporary name to avoid collision):
+
+- Workspace folders in `Pipeline processing/`
+- Source video and slide files in `Source files/`
+- PDF files in `Final output/`
+- Updates `lectureNumber` in each affected manifest
+
+Because all other files inside the workspace use simple names, only the four items above need renaming per affected lecture. Manifests use relative paths throughout and survive folder renames without modification.
 
 ---
 
@@ -150,14 +149,15 @@ If a new lecture is inserted whose date falls between existing lectures, Stage 0
 
 | Stage | Name | Type | Description |
 |---|---|---|---|
-| 0 | Source Normalisation | Batch | Parse dates, assign lecture numbers, rename source files, create workspace folders |
+| 0 | Source Normalisation | Batch | Parse dates, extract provisional titles, assign lecture numbers, rename source files, create workspace folders |
 | 1 | Audio Extraction | Per-lecture | Extract audio track from video using ffmpeg |
 | 2 | Transcription | Per-lecture | Upload audio to ElevenLabs, save raw transcript |
-| 3 | Transcript Structuring | Per-lecture | Determine meaningful title; structure raw transcript into markdown |
+| 3 | Transcript Structuring | Per-lecture | Determine AI title from transcript; structure transcript into markdown; conditionally rename files if original title was non-descriptive |
 | 4 | Slide Conversion | Per-lecture | Render PDF slides as images; extract content via vision LLM |
 | 5 | Image Extraction & Labelling | Per-lecture | Identify, label, and filter academic figures from slide images |
 | 6 | Synthesis | Per-lecture | Combine transcript, slide content, and figures into textbook-style notes |
-| 7 | QA Loop | Per-lecture | Iteratively check and revise notes until they pass quality review |
+| 7 | QA Loop | Per-lecture | Iteratively check and revise notes; write final `Output/notes.md` |
+| 8 | PDF Generation | Per-lecture | Convert `Output/notes.md` to PDF via pandoc; deposit in `Final output/` |
 
 ### 4.2 Stage Interface
 
@@ -178,15 +178,18 @@ type StageId =
   | 'slide-conversion'
   | 'image-extraction'
   | 'synthesis'
-  | 'qa-loop';
+  | 'qa-loop'
+  | 'pdf-generation';
 
 interface StageContext {
-  lectureSlug: string;            // e.g. 'lecture-01-2025-10-10' (stable, date-based)
-  lectureTitle: string | null;    // null until Stage 3 completes
+  lectureSlug: string;                    // stable date-based key: 'lecture-01-2025-10-10'
   lectureNumber: number;
-  lectureDate: string;            // YYYY-MM-DD
-  workspaceRoot: string;          // absolute path to the lecture folder
-  moduleRoot: string;             // absolute path to Biology of Disease/
+  lectureDate: string;                    // YYYY-MM-DD
+  provisionalTitle: string;              // cleaned title extracted from original filename
+  provisionalTitleIsDescriptive: boolean;
+  lectureTitle: string | null;            // null until Stage 3 completes
+  workspaceRoot: string;                  // absolute path to the lecture workspace folder
+  moduleRoot: string;                     // absolute path to Biology of Disease/
   config: PipelineConfig;
   manifest: RunManifest;
 }
@@ -210,19 +213,24 @@ interface StageCost {
 
 ### 4.3 Atomic File Writes
 
-Every file is written to a `.tmp`-suffixed path first, then renamed on success. Any file that exists on disk without a `.tmp` suffix is guaranteed to be complete. Partial `.tmp` files are safe to delete on restart.
+Every file is written to a `.tmp`-suffixed path first, then renamed on success. Any file that exists on disk without a `.tmp` suffix is guaranteed to be complete. At the start of every stage run, the stage scans its output directories and deletes any `.tmp` files left by a previous crashed run before beginning processing. This is automatic and requires no user intervention.
 
 ### 4.4 Run Manifest
 
-One `manifest.json` per lecture, stored in the lecture workspace root. All paths are relative to `workspaceRoot` so the manifest survives a folder rename.
+One `manifest.json` per lecture, stored in the workspace root. All paths are relative to `workspaceRoot` so the manifest survives a folder rename.
+
+The manifest tracks the **current pipeline state** and the cost of the most recent successful execution of each stage. Historical cost across multiple runs is the responsibility of the run logs (§4.5).
 
 ```jsonc
 {
   "version": "1",
   "lectureNumber": 1,
   "lectureDate": "2025-10-10",
-  "lectureTitle": "Cell Injury and the Immune System",   // null until Stage 3 completes
-  "workspaceFolderName": "Lecture 1 - Cell Injury and the Immune System - 2025-10-10",
+  "provisionalTitle": "Disease Cell Injury and the Immune System",
+  "provisionalTitleIsDescriptive": true,
+  "aiDerivedTitle": "Cell Injury and the Immune System",   // set by Stage 3
+  "lectureTitle": "Disease Cell Injury and the Immune System", // provisionalTitle if descriptive, else aiDerivedTitle
+  "workspaceFolderName": "Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10",
   "createdAt": "2025-10-10T09:00:00.000Z",
   "updatedAt": "2025-10-10T10:15:00.000Z",
   "stages": {
@@ -259,38 +267,80 @@ One `manifest.json` per lecture, stored in the lecture workspace root. All paths
       "filesWritten": [
         "QA iterations/qa-iteration-01-deficiencies.json",
         "QA iterations/qa-iteration-01-revised.md",
-        "Output/Lecture 1 - Cell Injury and the Immune System - 2025-10-10.md",
+        "Output/notes.md",
         "Output/images/slide-003-figure-01.png"
       ]
     }
   },
-  "totalCost": {
+  "currentPipelineCost": {
     "totalCostUsd": 0.954,
     "byStage": {
       "transcription": 0.042,
-      "transcript-structuring": 0.081
+      "transcript-structuring": 0.081,
+      "slide-conversion": 0.034,
+      "image-extraction": 0.038,
+      "synthesis": 0.312,
+      "qa-loop": 0.447
     }
   }
 }
 ```
 
-**`running` status is persisted before a stage begins.** A crash mid-stage leaves `running` in the manifest, which is treated as `failed` on next launch — the stage re-runs from scratch. This prevents silent data corruption from partial outputs.
+**`running` status is written before a stage begins.** A crash mid-stage leaves `running` in the manifest, which is treated as `failed` on next launch — the stage re-runs from scratch.
 
-### 4.5 Pipeline Runner
+### 4.5 Run Logs
+
+Every pipeline invocation creates a new log file in `runs/` named by ISO timestamp (e.g. `runs/2025-10-10T09-00-00Z.json`). Run logs are append-only and never modified after creation.
+
+Each log records which stages were attempted, skipped, or re-run; cost and model per stage; and whether each stage succeeded or failed. This provides a complete financial audit trail including failed attempts and model experiments.
+
+```jsonc
+{
+  "runId": "2025-10-10T09-00-00Z",
+  "startedAt": "2025-10-10T09:00:00.000Z",
+  "endedAt": "2025-10-10T09:12:00.000Z",
+  "triggeredBy": "manual",          // 'manual' | 'from-stage'
+  "fromStage": null,                // stageId if --from-stage was used
+  "stages": {
+    "audio-extraction":       { "action": "skipped" },
+    "transcription":          { "action": "skipped" },
+    "transcript-structuring": { "action": "skipped" },
+    "slide-conversion": {
+      "action": "ran",
+      "status": "failed",
+      "error": "Rate limit exceeded after 3 retries on slide 14",
+      "cost": { "totalCostUsd": 0.021, "callCount": 13 }
+    },
+    "image-extraction":  { "action": "not-reached" },
+    "synthesis":         { "action": "not-reached" },
+    "qa-loop":           { "action": "not-reached" },
+    "pdf-generation":    { "action": "not-reached" }
+  },
+  "totalCostThisRun": 0.021
+}
+```
+
+### 4.6 Pipeline Runner
 
 ```typescript
 class PipelineRunner {
   async normaliseSources(moduleRoot: string): Promise<void>          // Stage 0, batch
   async runLecture(lectureSlug: string, options: RunOptions): Promise<RunSummary>
   async runBatch(modulePath: string, options: RunOptions): Promise<BatchSummary>
+  async costReport(moduleRoot: string, options: ReportOptions): Promise<void>
   private async runStage(stage: PipelineStage<unknown, unknown>, context: StageContext): Promise<void>
   private async updateManifest(slug: string, update: Partial<RunManifest>): Promise<void>
+  private createRunLog(slug: string, options: RunOptions): RunLog
 }
 ```
 
-**`--from-stage <stageId>` flag:** Forces re-run from the named stage. All downstream stages are reset to `pending` before execution. Upstream stages are untouched.
+**`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes per-stage intermediate files for the stages being re-run (e.g. `Slide content/raw/*.md` when re-running Stage 4), so the re-run produces entirely fresh output. Upstream stages are untouched.
 
-**Batch mode:** Lectures are processed sequentially by default to respect OpenRouter rate limits. `--concurrency N` enables parallel processing. A batch summary (status and cost per lecture) is printed on completion.
+**Natural restart after failure:** Does not clear intermediate files — per-slide markdown files from Stage 4 are preserved for resumability, allowing a failed run to pick up at the slide where it stopped.
+
+**Batch mode:** Lectures processed sequentially by default. `--concurrency N` enables parallel processing. A batch cost and status summary is printed on completion.
+
+**`cost-report` command:** Aggregates all run logs for a lecture or module and prints a table showing total expenditure broken down by run and stage — enabling comparison of model experiments and visibility of wasted spend from failures (see §7).
 
 ---
 
@@ -306,17 +356,19 @@ class PipelineRunner {
 
 1. **Date extraction:** Parse the date from each video filename using `chrono-node`. Dates may appear in any position and format (e.g. `2025-10-10`, `10 Oct 2025`, `Fri 10th Oct`). Log a warning and skip any file where no date can be confidently extracted.
 
-2. **Lecture number assignment:** Sort all video files by extracted date. Assign sequential lecture numbers (`Lecture 1`, `Lecture 2`, …) in date order. If Stage 0 is re-run after new lectures are added, detect changes in sequence and rename all affected workspace folders and source files.
+2. **Lecture number assignment:** Sort all video files by extracted date. Assign sequential lecture numbers (`Lecture 1`, `Lecture 2`, …) in date order. If Stage 0 is re-run after new lectures are added, detect changes in sequence and rename all affected workspace folders, source files, and `Final output/` PDFs.
 
-3. **Slide matching:** Parse the date from each slide PDF (date always at beginning of filename). Match each slide PDF to the video with the same date. Log a warning for any unmatched video or slide.
+3. **Slide matching:** Parse the date from each slide PDF (date always at the beginning of the filename). Match each slide PDF to the video with the same date. Log a warning for any unmatched video or slide.
 
-4. **First-pass rename (Pass 1):**
-   - Video: `[original].mp4` → `Lecture N - YYYY-MM-DD.mp4`
-   - Slide: `[original].pdf` → `Lecture N - YYYY-MM-DD.pdf`
+4. **Provisional title extraction:** Strip the date, day names (Mon–Sun), module code prefixes (e.g. `BOD_`, `BOD `), and trailing artefacts (`co`, `copy`, `v2`) from the video filename; title-case the result. Set `provisionalTitleIsDescriptive: true` if the result is substantive (more than two meaningful words); `false` if minimal (e.g. `Virology 1`).
 
-5. **Workspace folder creation:** Create `Pipeline processing/Lecture N - YYYY-MM-DD/` for any lecture that does not already have one. Write an initial `manifest.json` with `lectureNumber`, `lectureDate`, and all stage statuses set to `pending`.
+5. **Rename source files:**
+   - Video: `[original].mp4` → `Lecture N - [provisional title] - YYYY-MM-DD.mp4`
+   - Slide: `[original].pdf` → `Lecture N - [provisional title] - YYYY-MM-DD.pdf`
 
-**Re-numbering:** When the sequence changes, Stage 0 renames affected workspace folders and source files in a single atomic operation (rename to a temporary name, then rename to the final name, to avoid collision). Manifests do not need updating because they use relative paths.
+6. **Workspace folder creation:** Create `Pipeline processing/Lecture N - [provisional title] - YYYY-MM-DD/` for any lecture that does not already have one. Write an initial `manifest.json` with `lectureNumber`, `lectureDate`, `provisionalTitle`, `provisionalTitleIsDescriptive`, and all stage statuses set to `pending`.
+
+**Re-numbering:** When the sequence changes, Stage 0 renames affected workspace folders, source files, and `Final output/` PDFs atomically (rename to a temporary name first to avoid collision), then updates `lectureNumber` in each affected manifest.
 
 ---
 
@@ -346,19 +398,20 @@ Uploads the audio to ElevenLabs Scribe v2 with a streaming upload progress bar (
 
 **Input:** `Transcript/transcript.txt`
 **Output:** `Structured transcript/structured-transcript.md`
-**Side effects:** Second-pass rename of source video, source slide, and workspace folder (once title is known).
+**Conditional side effect:** Rename of source video, source slide, workspace folder, and `Final output/` PDF only when `provisionalTitleIsDescriptive: false`.
 
 Stage 3 makes a single LLM call that returns two things: a proposed lecture title and the structured transcript markdown. The title is extracted first; everything else in the pipeline depends on it.
 
 #### Title Determination
 
-The LLM receives the raw transcript and is asked to infer a concise, descriptive academic title (4–8 words) that accurately reflects the content, suitable for use in a filename. The title is returned as a structured JSON field alongside the markdown output, or as the first line of the response in a defined format that the pipeline parses before processing the rest.
+The LLM receives the raw transcript and is asked to infer a concise, descriptive academic title (4–8 words) that accurately reflects the content, suitable for use in a filename. The title is always stored in the manifest as `aiDerivedTitle`.
 
-Once the title is confirmed, the pipeline performs the **second-pass rename:**
-- `Source files/Video files/Lecture N - YYYY-MM-DD.mp4` → `Lecture N - [Title] - YYYY-MM-DD.mp4`
-- `Source files/Lecture slides/Lecture N - YYYY-MM-DD.pdf` → `Lecture N - [Title] - YYYY-MM-DD.pdf`
-- `Pipeline processing/Lecture N - YYYY-MM-DD/` → `Lecture N - [Title] - YYYY-MM-DD/`
-- `manifest.json` `lectureTitle` and `workspaceFolderName` fields updated
+The rename is **conditional:**
+
+| `provisionalTitleIsDescriptive` | Action |
+|---|---|
+| `true` | `lectureTitle` set to `provisionalTitle`. No renaming — Stage 0 already gave a good name. |
+| `false` | `lectureTitle` set to `aiDerivedTitle`. Source video, source slide, workspace folder, and any existing `Final output/` PDF are renamed to include the AI-derived title. `workspaceFolderName` updated in manifest. |
 
 All subsequent stages use the now-resolved `context.lectureTitle`.
 
@@ -399,6 +452,10 @@ Native PDF text extraction is rejected for this use case. Academic biology slide
 **Progress:** `cli-progress` bar showing `Slide X / N`. Default concurrency: 3 parallel API calls.
 
 **Recommended model:** A cost-efficient vision model (e.g. `google/gemini-flash-1.5`) — this stage makes the most individual API calls.
+
+**`.tmp` cleanup:** At the start of Stage 4, any `.tmp` files in `Slide content/` are deleted before processing begins.
+
+**`--from-stage slide-conversion`:** Deletes all files in `Slide content/raw/` before starting, ensuring entirely fresh output rather than resuming from cached per-slide files.
 
 ---
 
@@ -487,7 +544,7 @@ Align transcript sections to slide sections by heading similarity to produce pai
 
 **Inputs:** All source materials + current synthesised notes draft.
 **Outputs (per iteration):** `QA iterations/qa-iteration-{02d}-deficiencies.json`, `QA iterations/qa-iteration-{02d}-revised.md`
-**Final output:** `Output/Lecture N - [Title] - YYYY-MM-DD.md` and `Output/images/`
+**Final output:** `Output/notes.md` and `Output/images/`
 
 #### Two-Prompt Design
 
@@ -527,7 +584,25 @@ The loop exits when any one of the following is true:
 
 `terminationReason` in the manifest records which condition triggered the exit (`'qa-passed'`, `'max-iterations-reached'`, `'stalled'`).
 
-On successful exit, the final revised draft is copied to `Output/Lecture N - [Title] - YYYY-MM-DD.md` and all included figures are copied to `Output/images/`.
+On successful exit, the final revised draft is written to `Output/notes.md` and all included figures are copied to `Output/images/`. Stage 8 then converts this to the final PDF.
+
+---
+
+### Stage 8 — PDF Generation
+
+**Input:** `Output/notes.md`, `Output/images/`
+**Output:** `Final output/Lecture N - [title] - YYYY-MM-DD.pdf` (at module level)
+
+Invokes `pandoc` to convert `Output/notes.md` to PDF, placing the result in `Final output/` with the full descriptive filename:
+
+```
+pandoc Output/notes.md \
+  --resource-path=Output/images \
+  --pdf-engine=xelatex \
+  --output="../../Final output/Lecture N - [title] - YYYY-MM-DD.pdf"
+```
+
+`xelatex` is used as the PDF engine for correct Unicode and LaTeX equation rendering. The `--resource-path` flag allows pandoc to resolve relative image references in the markdown. The output filename carries the full lecture identity since `Final output/` is a flat folder shared across all lectures in the module.
 
 ---
 
@@ -592,7 +667,8 @@ Located in the project root. Specifies model and parameters per stage independen
     }
   },
   "output": {
-    "language": "en-GB"
+    "language": "en-GB",
+    "pandocEngine": "xelatex"
   }
 }
 ```
@@ -601,22 +677,77 @@ Located in the project root. Specifies model and parameters per stage independen
 
 ## 7. Cost Tracking
 
-OpenRouter exposes cost via the `/api/v1/generation?id={response.id}` endpoint. After each LLM call, `response.usage.prompt_tokens` and `response.usage.completion_tokens` are captured synchronously. The USD cost is fetched asynchronously from the generation endpoint and written to the manifest when it resolves.
+### Sources
 
-Each stage accumulates a `StageCost` across all its API calls. The pipeline runner recomputes `totalCost` by summing all complete stage costs after each stage finishes. A formatted cost table is printed at the end of every run:
+OpenRouter exposes cost via the `/api/v1/generation?id={response.id}` endpoint. After each LLM call, `response.usage.prompt_tokens` and `response.usage.completion_tokens` are captured synchronously. The USD cost is fetched asynchronously from the generation endpoint and written to both the manifest and the run log when it resolves. ElevenLabs transcription cost is captured from the API response where available, otherwise approximated from audio duration.
+
+### Two-Level Tracking
+
+| Level | Location | What it tracks |
+|---|---|---|
+| Current pipeline | `manifest.json` → `currentPipelineCost` | Cost of the outputs currently on disk |
+| All-time expenditure | `runs/*.json` | Every API call ever made, including failures and experiments |
+
+### Run Classification
+
+The pipeline runner classifies each run automatically by inspecting the manifest state at the time the run starts:
+
+| Condition | Classification |
+|---|---|
+| Normal run, no `--from-stage` | `normal` |
+| `--from-stage` targets a stage that was `failed` or `running` | `error-recovery` |
+| `--from-stage` targets a stage that was `complete` | `experiment` |
+
+This classification is stored in the run log as `runType` and drives the layout of the cost report.
+
+### End-of-Run Summary
+
+Printed after every run, showing only the stages executed in that invocation:
 
 ```
 Stage                    Model                      Calls    Tokens (in / out)    Cost
 ────────────────────────────────────────────────────────────────────────────────────────
-Audio extraction         —                             —               —           $0.042
-Transcription            elevenlabs/scribe_v2          1               —           $0.042
-Transcript structuring   claude-3.5-sonnet             1      18,400 /  3,200     $0.081
 Slide conversion         gemini-flash-1.5             24      41,000 /  8,100     $0.034
 Image extraction         gpt-4o                       12           0 /  2,400     $0.038
 Synthesis                claude-3.5-sonnet             1      65,000 / 14,200     $0.312
 QA loop (2 iterations)   claude-3.5-sonnet             4      68,000 / 15,800     $0.405
 ────────────────────────────────────────────────────────────────────────────────────────
-TOTAL                                                 43     192,400 / 43,700     $0.912
+This run                                              41     174,000 / 40,500     $0.789
+```
+
+### Cost Report Command
+
+`pnpm start cost-report [--lecture <slug>] [--module]` aggregates all run logs and presents three sections:
+
+**1 — Current pipeline cost** (what the outputs on disk cost to produce):
+```
+Stage                    Model                  Calls    Cost
+──────────────────────────────────────────────────────────────
+Transcription            elevenlabs/scribe_v2      1    $0.042
+Transcript structuring   claude-3.5-sonnet         1    $0.081
+Slide conversion         gemini-flash-1.5         24    $0.034
+Image extraction         gpt-4o                   12    $0.038
+Synthesis                claude-3.5-sonnet         1    $0.312
+QA loop                  claude-3.5-sonnet         4    $0.405
+──────────────────────────────────────────────────────────────
+                                                         $0.912
+```
+
+**2 — Error recovery cost** (spend from failed runs and retries):
+```
+Run                    Stage                  Status    Cost
+────────────────────────────────────────────────────────────
+2025-10-10T09:00Z      slide-conversion       failed   $0.021
+2025-10-10T10:30Z      slide-conversion       retry    $0.034
+────────────────────────────────────────────────────────────
+Wasted on failures                                     $0.021
+```
+
+**3 — Experiment cost** (deliberate model re-runs, grouped for comparison):
+```
+Stage: synthesis
+  Run 2025-10-11T14:00Z    claude-3.5-sonnet      $0.312
+  Run 2025-10-11T15:30Z    anthropic/claude-opus  $0.890
 ```
 
 ---
@@ -655,7 +786,7 @@ src/
 │   └── pipeline.ts                   # All shared types: StageId, StageContext, StageResult,
 │                                     # StageCost, RunManifest, QaDeficiency
 ├── pipeline/
-│   ├── runner.ts                     # Orchestrator, manifest I/O, batch mode, cost accumulation
+│   ├── runner.ts                     # Orchestrator, manifest I/O, run log creation, batch mode, cost accumulation
 │   ├── config.ts                     # Config file loader and validator
 │   ├── openrouter.ts                 # OpenAI SDK client configured for OpenRouter
 │   └── stages/
@@ -666,10 +797,12 @@ src/
 │       ├── slide-conversion.ts       # Stage 4 — PDF render + per-slide vision LLM
 │       ├── image-extraction.ts       # Stage 5 — vision-guided crop + labelling
 │       ├── synthesis.ts              # Stage 6 — context assembly, chunking fallback
-│       └── qa-loop.ts               # Stage 7 — two-prompt QA pattern, loop termination
+│       ├── qa-loop.ts               # Stage 7 — two-prompt QA pattern, loop termination
+│       └── pdf-generation.ts         # Stage 8 — pandoc invocation, Final output/ deposit
 └── utils/
     ├── date.ts                       # Date extraction and normalisation (chrono-node)
     ├── naming.ts                     # Lecture folder and file naming helpers
+    ├── files.ts                      # Atomic write helpers (.tmp pattern), workspace path resolution
     ├── progress.ts                   # Shared cli-progress bar helpers
     └── cost.ts                       # Cost accumulation and report formatting
 ```
