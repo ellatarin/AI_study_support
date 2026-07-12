@@ -1,0 +1,44 @@
+{
+  "version": "1",
+  "moduleRoots": [
+    "/absolute/path/to/Biology of Disease",
+    "/absolute/path/to/Anatomy"
+  ],
+  "openRouter": {
+    "rateLimitRpm": 60
+  },
+  "stages": {
+    "transcript-structuring": {
+      "modelId": "<REASONING_MODEL>",
+      "temperature": 0.2,
+      "maxTokens": 8192
+    },
+    "slide-conversion": {
+      "modelId": "<COST_EFFICIENT_VISION_MODEL>",
+      "temperature": 0.1,
+      "maxTokens": 4096,
+      "concurrency": 3
+    },
+    "image-extraction": {
+      "modelId": "<PRECISION_VISION_MODEL>",
+      "temperature": 0.0,
+      "maxTokens": 2048,
+      "concurrency": 2
+    },
+    "synthesis": {
+      "modelId": "<REASONING_MODEL>",
+      "temperature": 0.3,
+      "maxTokens": 16384
+    },
+    "qa-loop": {
+      "modelId": "<REASONING_MODEL>",
+      "temperature": 0.1,
+      "maxTokens": 8192,
+      "maxIterations": 3
+    }
+  },
+  "output": {
+    "language": "en-GB",
+    "pandocEngine": "xelatex"
+  }
+}
