@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Requirements Specification
 
-**Version:** 0.2 (draft)
-**Date:** 2026-07-11
+**Suite version:** 1.0-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-07-12
 **Status:** For review
 
 ---
@@ -54,7 +54,11 @@ The system shall take a set of lecture recordings (video files) and accompanying
 
 **FR-4.2** The quality check shall identify any significant content present in the source materials that is absent or inadequately represented in the synthesised notes.
 
-**FR-4.3** The quality check shall identify any areas where the synthesised notes have introduced inaccuracies or explanations that lack clarity.
+**FR-4.3** The quality check shall identify areas where the synthesised notes have introduced any of the following:
+
+- **factual errors** — claims that contradict statements in the source materials
+- **unsupported claims** — statements not supported by any source material
+- **clarity deficiencies** — passages that are factually correct but ambiguous, muddled, or otherwise difficult to follow
 
 **FR-4.4** The system shall produce a revised output that addresses all deficiencies identified during the quality check.
 

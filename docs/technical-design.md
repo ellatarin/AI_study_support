@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Technical Design
 
-**Version:** 0.3 (draft)
-**Date:** 2026-07-11
+**Suite version:** 1.0-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-07-12
 **Status:** For review
 
 ---
@@ -50,16 +50,18 @@ Biology of Disease/
 │   ├── Video files/
 │   └── Lecture slides/
 ├── Pipeline processing/
-│   └── Lecture 1 - Cell Injury and the Immune System - 2025-10-10/
+│   └── Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │       └── (see §3.3)
 └── Final output/
-    ├── Lecture 1 - Cell Injury and the Immune System - 2025-10-10.pdf
+    ├── Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10.pdf
     └── Lecture 2 - Immunity to Infection - 2025-10-13.pdf
 ```
 
 All pipeline artefacts for a lecture live inside a single named workspace folder. Files inside each folder use simple, stage-agnostic names — the folder itself carries the full lecture identity. This means re-numbering a lecture requires renaming only the folder, not any of its contents.
 
 `Final output/` is a direct subfolder of the module root and is the human-facing deliverable. Because it is a flat folder shared across all lectures, its PDFs carry the full descriptive filename.
+
+**Folder-name convention.** Only `moduleRoots[i]` is configurable (see §6). The subfolder names shown above — `Source files/`, `Video files/`, `Lecture slides/`, `Pipeline processing/`, `Final output/` — are fixed conventions baked into the pipeline. Every module folder that the pipeline manages MUST follow this layout. The tool creates these subfolders on demand; users should not rename them.
 
 ### 3.2 Source Files
 
@@ -86,7 +88,7 @@ Slide PDFs are supplied with the date at the very beginning of the filename (e.g
 ### 3.3 Pipeline Processing — Per-Lecture Workspace
 
 ```
-Lecture 1 - Cell Injury and the Immune System - 2025-10-10/
+Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │
 ├── manifest.json
 ├── runs/
@@ -163,13 +165,13 @@ Because all other files inside the workspace use simple names, only the four ite
 ### 4.2 Stage Interface
 
 ```typescript
-interface PipelineStage<TInput, TOutput> {
+type PipelineStage<TInput, TOutput> = {
   readonly stageId: StageId;
 
   isComplete(context: StageContext): Promise<boolean>;
   getInput(context: StageContext): Promise<TInput>;
   run(input: TInput, context: StageContext): Promise<StageResult<TOutput>>;
-}
+};
 
 type StageId =
   | 'source-normalisation'
@@ -182,32 +184,39 @@ type StageId =
   | 'qa-loop'
   | 'pdf-generation';
 
-interface StageContext {
-  lectureSlug: string;                    // stable date-based key: 'lecture-01-2025-10-10'
+type StageContext = {
   lectureNumber: number;
-  lectureDate: string;                    // YYYY-MM-DD
+  lectureDate: string;                    // YYYY-MM-DD — unique within moduleRoot; used as the CLI identifier for a lecture (see §4.7)
   provisionalTitle: string;              // cleaned title extracted from original filename
   provisionalTitleIsDescriptive: boolean;
-  lectureTitle: string | null;            // null until Stage 3 completes
-  workspaceRoot: string;                  // absolute path to the lecture workspace folder
-  moduleRoot: string;                     // absolute path to Biology of Disease/
+  lectureTitle: string;                   // always non-null; initialised at Stage 0 to `provisionalTitle`; Stage 3 overwrites to `aiDerivedTitle` iff `provisionalTitleIsDescriptive === false`
+  workspaceRoot: string;                  // absolute path to the lecture workspace folder — the canonical internal handle
+  moduleRoot: string;                     // absolute path to the containing module (e.g. Biology of Disease/)
   config: PipelineConfig;
   manifest: RunManifest;
-}
+};
 
-interface StageResult<TOutput> {
+type StageResult<TOutput> = {
   output: TOutput;
-  cost: StageCost;
-  filesWritten: string[];         // relative paths from workspaceRoot
-}
+  cost: StageCost | null;         // null for stages that make no billable calls (e.g. audio-extraction, pdf-generation)
+  filesWritten: string[];         // relative paths from workspaceRoot; MAY escape upward with `..` (e.g. pdf-generation writes to `../../Final output/`) but MUST resolve to a location under moduleRoot — see §4.4
+};
 
-interface StageCost {
+type StageCost = {
   promptTokens: number;
   completionTokens: number;
-  totalCostUsd: number;
-  modelId: string;
+  totalCostUsd: number | null;              // null only when every retry of the generation cost lookup failed; see §7
   callCount: number;
-}
+  costResolutionError?: string;             // present iff totalCostUsd is null due to a failed lookup
+};
+
+type StageRunConfig = {
+  readonly modelId: string | null;         // null only for stages that make no LLM calls (e.g. audio-extraction, pdf-generation) — in which case StageRunConfig itself is typically null
+  readonly temperature?: number;
+  readonly maxTokens?: number;
+  readonly concurrency?: number;           // slide-conversion, image-extraction
+  readonly maxIterations?: number;         // qa-loop
+};
 ```
 
 `isComplete()` checks two conditions: the manifest marks the stage `'complete'`, AND every path in `manifest.stages[stageId].filesWritten` exists on disk. Both must be true. This means a completed stage whose output was manually deleted returns `false` and re-runs automatically.
@@ -230,11 +239,33 @@ After a stage's `run()` succeeds, the runner writes the `filesWritten` list from
 
 Every file is written to a `.tmp`-suffixed path first, then renamed on success. Any file that exists on disk without a `.tmp` suffix is guaranteed to be complete. At the start of every stage run, the stage scans its output directories and deletes any `.tmp` files left by a previous crashed run before beginning processing. This is automatic and requires no user intervention.
 
-### 4.4 Run Manifest
+### 4.4 Path Validation
+
+`filesWritten` entries and any other path derived from manifest or LLM output MUST be validated before any filesystem operation. The manifest is trusted only to the extent that the runner enforces its bounds — a corrupted or hand-edited manifest must never be able to delete, overwrite, or observe files outside the module tree.
+
+**Boundary check.** For every path derived from the manifest or a stage's `filesWritten`:
+
+1. Resolve with `path.resolve(workspaceRoot, entry)`.
+2. Resolve the parent directory (or file, if it exists) with `fs.promises.realpath(...)` to collapse any symlinks.
+3. Verify the resulting absolute path is a descendant of `moduleRoot`. Reject otherwise as a corrupt manifest.
+
+This is enforced in every place a path from `filesWritten` or the manifest is used: `isComplete()` existence checks, `--from-stage` cleanup considerations, `cost-report` file discovery, and PDF output resolution.
+
+**`filenameSafe(title)`.** Titles reach the filesystem via workspace folder names, source file renames, and the `Final output/` PDF name. Titles originate from user filenames (Stage 0) or LLM output (Stage 3) — neither is a trusted path component. `filenameSafe` MUST:
+
+- Strip path separators (`/`, `\`), directory-traversal segments (`.`, `..`), null bytes, and ASCII control characters.
+- Collapse whitespace runs to a single space; trim leading/trailing whitespace and dots.
+- Reject an empty result — the caller must fall back to `provisionalTitle` or a stage-defined default.
+
+**Stage cleanup boundaries.** `--from-stage <stageId>` MUST NOT drive its cleanup off `filesWritten` from the manifest. Cleanup deletes files inside a per-stage, hard-coded set of workspace subdirectories (e.g. `Slide content/raw/` for Stage 4). This ensures a corrupt manifest cannot trigger deletion of unintended files.
+
+**No shell interpolation.** Every child-process invocation across the pipeline (fluent-ffmpeg in Stage 1, pandoc in Stage 8, any future subprocess call) MUST use `spawn(cmd, argv, opts)` with an explicit argv array — never `exec(shellString)` and never any variant that concatenates paths into a shell command. This eliminates the class of bug where folder names with spaces (`Final output/`, `Slide content/`, `QA iterations/`) or attacker-controlled title strings break out of an argument via unescaped shell metacharacters. Paths are passed verbatim as argv elements; no quoting is required or applied.
+
+### 4.5 Run Manifest
 
 One `manifest.json` per lecture, stored in the workspace root. All paths are relative to `workspaceRoot` so the manifest survives a folder rename.
 
-The manifest tracks the **current pipeline state** and the cost of the most recent successful execution of each stage. Historical cost across multiple runs is the responsibility of the run logs (§4.5).
+The manifest tracks the **current pipeline state** and the cost of the most recent successful execution of each stage. Historical cost across multiple runs is the responsibility of the run logs (§4.6).
 
 ```jsonc
 {
@@ -252,31 +283,53 @@ The manifest tracks the **current pipeline state** and the cost of the most rece
     "audio-extraction": {
       "status": "complete",          // pending | running | complete | failed | skipped
       "completedAt": "...",
-      "modelId": null,
+      "configUsed": null,
       "cost": null,
       "filesWritten": ["Audio/audio.m4a"]
     },
     "transcription": {
       "status": "complete",
       "completedAt": "...",
-      "modelId": "elevenlabs/scribe_v2",
+      "configUsed": { "modelId": "elevenlabs/scribe_v2" },
       "cost": { "promptTokens": 0, "completionTokens": 0, "totalCostUsd": 0.042, "callCount": 1 },
       "filesWritten": ["Transcript/transcript.txt"]
     },
     "transcript-structuring": {
       "status": "complete",
       "completedAt": "...",
-      "modelId": "anthropic/claude-3.5-sonnet",
+      "configUsed": { "modelId": "anthropic/claude-sonnet-4.6", "temperature": 0.2, "maxTokens": 8192 },
       "cost": { "promptTokens": 18400, "completionTokens": 3200, "totalCostUsd": 0.081, "callCount": 1 },
       "filesWritten": ["Structured transcript/structured-transcript.md"]
     },
+    "slide-conversion": {
+      "status": "complete",
+      "completedAt": "...",
+      "configUsed": { "modelId": "google/gemini-2.5-flash", "temperature": 0.1, "maxTokens": 4096, "concurrency": 3 },
+      "cost": { "promptTokens": 41000, "completionTokens": 8100, "totalCostUsd": 0.034, "callCount": 24 },
+      "filesWritten": ["Slide content/slides.md"]
+    },
+    "image-extraction": {
+      "status": "complete",
+      "completedAt": "...",
+      "configUsed": { "modelId": "openai/gpt-4.1", "temperature": 0.0, "maxTokens": 2048, "concurrency": 2 },
+      "cost": { "promptTokens": 0, "completionTokens": 2400, "totalCostUsd": 0.038, "callCount": 12 },
+      "filesWritten": ["Slide images/images-manifest.json"]
+    },
+    "synthesis": {
+      "status": "complete",
+      "completedAt": "...",
+      "configUsed": { "modelId": "anthropic/claude-sonnet-4.6", "temperature": 0.3, "maxTokens": 16384 },
+      "cost": { "promptTokens": 65000, "completionTokens": 14200, "totalCostUsd": 0.312, "callCount": 1 },
+      "filesWritten": ["Synthesised notes/synthesised-notes.md"]
+    },
     "qa-loop": {
       "status": "complete",
-      "modelId": "anthropic/claude-3.5-sonnet",
-      "cost": { "totalCostUsd": 0.312, "callCount": 6 },
+      "completedAt": "...",
+      "configUsed": { "modelId": "anthropic/claude-sonnet-4.6", "temperature": 0.1, "maxTokens": 8192, "maxIterations": 3 },
+      "cost": { "promptTokens": 68000, "completionTokens": 15800, "totalCostUsd": 0.405, "callCount": 4 },
       "qaIterations": [
-        { "iteration": 1, "verdict": "fail", "deficiencyCount": 7, "criticalCount": 2, "costUsd": 0.098 },
-        { "iteration": 2, "verdict": "pass", "deficiencyCount": 0, "criticalCount": 0, "costUsd": 0.104 }
+        { "iteration": 1, "verdict": "fail", "deficiencyCount": 7, "criticalCount": 2, "costUsd": 0.200 },
+        { "iteration": 2, "verdict": "pass", "deficiencyCount": 0, "criticalCount": 0, "costUsd": 0.205 }
       ],
       "terminationReason": "qa-passed",
       "filesWritten": [
@@ -285,17 +338,24 @@ The manifest tracks the **current pipeline state** and the cost of the most rece
         "Output/notes.md",
         "Output/images/slide-003-figure-01.png"
       ]
+    },
+    "pdf-generation": {
+      "status": "complete",
+      "completedAt": "...",
+      "configUsed": null,
+      "cost": null,
+      "filesWritten": ["../../Final output/Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10.pdf"]
     }
   },
   "currentPipelineCost": {
-    "totalCostUsd": 0.954,
+    "totalCostUsd": 0.912,
     "byStage": {
       "transcription": 0.042,
       "transcript-structuring": 0.081,
       "slide-conversion": 0.034,
       "image-extraction": 0.038,
       "synthesis": 0.312,
-      "qa-loop": 0.447
+      "qa-loop": 0.405
     }
   }
 }
@@ -303,7 +363,7 @@ The manifest tracks the **current pipeline state** and the cost of the most rece
 
 **`running` status is written before a stage begins.** A crash mid-stage leaves `running` in the manifest, which is treated as `failed` on next launch — the stage re-runs from scratch.
 
-### 4.5 Run Logs
+### 4.6 Run Logs
 
 Every pipeline invocation creates a new log file in `runs/` named by ISO timestamp (e.g. `runs/2025-10-10T09-00-00Z.json`). Run logs are append-only and never modified after creation.
 
@@ -323,6 +383,7 @@ Each log records which stages were attempted, skipped, or re-run; cost and model
     "slide-conversion": {
       "action": "ran",
       "status": "failed",
+      "configUsed": { "modelId": "google/gemini-2.5-flash", "temperature": 0.1, "maxTokens": 4096, "concurrency": 3 },
       "error": "Rate limit exceeded after 3 retries on slide 14",
       "cost": { "totalCostUsd": 0.021, "callCount": 13 }
     },
@@ -335,29 +396,69 @@ Each log records which stages were attempted, skipped, or re-run; cost and model
 }
 ```
 
-### 4.6 Pipeline Runner
+### 4.7 Pipeline Runner
 
 ```typescript
+type LectureMatch = {
+  readonly moduleRoot: string;
+  readonly workspaceRoot: string;
+  readonly lectureNumber: number;
+  readonly lectureTitle: string;
+};
+
+type RunOptions = {
+  readonly fromStage?: StageId;              // reset this stage + all downstream to `pending` before running
+  readonly concurrency?: number;             // parallel lecture count for runBatch; overrides config defaults
+  readonly continueOnError?: boolean;        // if true, on stage failure the runner logs and moves to the next stage
+};
+
+type ReportOptions = {
+  readonly lectureDate?: string;             // narrow the report to lectures on this date (uses resolveLecturesByDate)
+};
+
+type RunSummary = {
+  readonly workspaceRoot: string;
+  readonly runId: string;                    // matches the created run log
+  readonly startedAt: string;                // ISO 8601
+  readonly endedAt: string;                  // ISO 8601
+  readonly totalCostUsd: number;
+  readonly stageOutcomes: readonly RunLogStageEntry[];
+  readonly overallStatus: 'success' | 'partial' | 'failed';   // success = every attempted stage complete; partial = some skipped/not-reached; failed = at least one failure
+};
+
+type BatchSummary = {
+  readonly startedAt: string;
+  readonly endedAt: string;
+  readonly lectures: readonly RunSummary[];  // one entry per lecture attempted, in the order they ran
+  readonly totalCostUsd: number;
+  readonly overallStatus: 'success' | 'partial' | 'failed';
+};
+
 class PipelineRunner {
-  async normaliseSources(moduleRoot: string): Promise<void>          // Stage 0, batch
-  async runLecture(lectureSlug: string, options: RunOptions): Promise<RunSummary>
-  async runBatch(modulePath: string, options: RunOptions): Promise<BatchSummary>
-  async costReport(moduleRoot: string, options: ReportOptions): Promise<void>
-  private async runStage(stage: PipelineStage<unknown, unknown>, context: StageContext): Promise<void>
-  private async updateManifest(slug: string, update: Partial<RunManifest>): Promise<void>
-  private createRunLog(slug: string, options: RunOptions): RunLog
+  async normaliseSources(args: { moduleRoots: readonly string[] }): Promise<void>          // Stage 0
+  async runLecture(args: { workspaceRoot: string; options: RunOptions }): Promise<RunSummary>
+  async runBatch(args: { moduleRoots: readonly string[]; options: RunOptions }): Promise<BatchSummary>
+  async costReport(args: { moduleRoots: readonly string[]; options: ReportOptions }): Promise<void>
+  async resolveLecturesByDate(args: { moduleRoots: readonly string[]; lectureDate: string }): Promise<readonly LectureMatch[]>
+  private async runStage(args: { stage: PipelineStage<unknown, unknown>; context: StageContext }): Promise<void>
+  private async updateManifest(args: { workspaceRoot: string; update: Partial<RunManifest> }): Promise<void>
+  private createRunLog(args: { workspaceRoot: string; options: RunOptions }): RunLog
 }
 ```
 
-**`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes per-stage intermediate files for the stages being re-run (e.g. `Slide content/raw/*.md` when re-running Stage 4), so the re-run produces entirely fresh output. Upstream stages are untouched.
+**`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes per-stage intermediate files for the stages being re-run (e.g. `Slide content/raw/*.md` when re-running Stage 4), so the re-run produces entirely fresh output. Upstream stages are untouched. Deletion targets hard-coded per-stage directories (see §4.4) — never `filesWritten` from the manifest.
 
 **Natural restart after failure:** Does not clear intermediate files — per-slide markdown files from Stage 4 are preserved for resumability, allowing a failed run to pick up at the slide where it stopped.
 
-**`StageContext` assembly:** Before invoking any stage, the runner reads `manifest.json` and assembles a `StageContext`. `lectureNumber`, `lectureDate`, `provisionalTitle`, `provisionalTitleIsDescriptive`, `lectureTitle`, and `workspaceRoot` are sourced from the manifest. `moduleRoot` and `config` come from the CLI invocation. The context is constructed once per lecture run and passed unchanged to every stage; stages must not mutate it directly — all manifest updates go through `updateManifest()`.
+**Lecture identification:** A lecture is uniquely identified by `(moduleRoot, lectureDate)`. Stage 0 guarantees `lectureDate` is unique within a module. Across modules, dates may collide — see `resolveLecturesByDate` below.
 
-**Batch mode:** Lectures processed sequentially by default. `--concurrency N` enables parallel processing. A batch cost and status summary is printed on completion.
+**`resolveLecturesByDate`:** Scans every `moduleRoots[i]/Pipeline processing/*/manifest.json` and returns matches whose `lectureDate` equals the argument. Zero matches: caller decides (typically an error). One match: caller uses it directly. Multiple matches: caller (the CLI) prompts the user via `@inquirer/prompts` — checkbox list of matches (each labelled `<module name> — Lecture N — <title>`) with "All matches" and "Cancel" affordances. Interactive prompt lives in the CLI layer, not the runner.
 
-**`cost-report` command:** Aggregates all run logs for a lecture or module and prints a table showing total expenditure broken down by run and stage — enabling comparison of model experiments and visibility of wasted spend from failures (see §7).
+**`StageContext` assembly:** Before invoking any stage, the runner reads `manifest.json` at `workspaceRoot` and assembles a `StageContext`. `lectureNumber`, `lectureDate`, `provisionalTitle`, `provisionalTitleIsDescriptive`, `lectureTitle`, and `workspaceRoot` are sourced from the manifest. `moduleRoot` (the containing module for this lecture) and `config` come from the CLI invocation. The context is constructed once per lecture run and passed unchanged to every stage; stages must not mutate it directly — all manifest updates go through `updateManifest()`.
+
+**Batch mode:** `runBatch({ moduleRoots })` processes every lecture across every listed module. The CLI passes an array of one for `batch <moduleRoot>` and the full `config.moduleRoots` for `batch` (no argument). Modules processed in the order given; lectures within a module in date order. Sequential by default; `--concurrency N` enables parallel processing (per-module or global — decided at the CLI layer). A per-module cost/status summary is printed after each module, followed by a cross-module aggregate.
+
+**`cost-report` command:** Aggregates all run logs across the configured `moduleRoots` and prints a table showing total expenditure broken down by run and stage — enabling comparison of model experiments and visibility of wasted spend from failures (see §7). Narrowed by `--date` (via `resolveLecturesByDate`, with the same multi-match prompt) or `--module <moduleRoot>`.
 
 ---
 
@@ -383,7 +484,7 @@ class PipelineRunner {
    - Video: `[original].mp4` → `Lecture N - [provisional title] - YYYY-MM-DD.mp4`
    - Slide: `[original].pdf` → `Lecture N - [provisional title] - YYYY-MM-DD.pdf`
 
-6. **Workspace folder creation:** Create `Pipeline processing/Lecture N - [provisional title] - YYYY-MM-DD/` for any lecture that does not already have one. Write an initial `manifest.json` with `lectureNumber`, `lectureDate`, `provisionalTitle`, `provisionalTitleIsDescriptive`, and all stage statuses set to `pending`.
+6. **Workspace folder creation:** Create `Pipeline processing/Lecture N - [provisional title] - YYYY-MM-DD/` for any lecture that does not already have one. Write an initial `manifest.json` with `lectureNumber`, `lectureDate`, `provisionalTitle`, `provisionalTitleIsDescriptive`, `lectureTitle = provisionalTitle` (Stage 3 may overwrite), `aiDerivedTitle = null`, and all stage statuses set to `pending`.
 
 **Re-numbering:** When the sequence changes, Stage 0 renames affected workspace folders, source files, and `Final output/` PDFs atomically (rename to a temporary name first to avoid collision), then updates `lectureNumber` in each affected manifest.
 
@@ -427,10 +528,10 @@ The rename is **conditional:**
 
 | `provisionalTitleIsDescriptive` | Action |
 |---|---|
-| `true` | `lectureTitle` set to `provisionalTitle`. No renaming — Stage 0 already gave a good name. |
-| `false` | `lectureTitle` set to `aiDerivedTitle`. Source video, source slide, workspace folder, and any existing `Final output/` PDF are renamed to include the AI-derived title. `workspaceFolderName` updated in manifest. |
+| `true` | `lectureTitle` already equals `provisionalTitle` from Stage 0 — left unchanged. No renaming. |
+| `false` | `lectureTitle` overwritten with `aiDerivedTitle`. Source video, source slide, workspace folder, and any existing `Final output/` PDF are renamed to include the AI-derived title. `workspaceFolderName` updated in manifest. |
 
-All subsequent stages use the now-resolved `context.lectureTitle`.
+`context.lectureTitle` is always non-null (see §4.2) — Stage 0 seeds it, Stage 3 may overwrite it. Downstream stages consume it directly with no null check required.
 
 #### Transcript Structuring
 
@@ -466,9 +567,19 @@ Native PDF text extraction is rejected for this use case. Academic biology slide
 
 4. Once all slides are processed, concatenate into `Slide content/slides.md` with `---` separators and `### Slide N` headings.
 
-**Progress:** `cli-progress` bar showing `Slide X / N`. Default concurrency: 3 parallel API calls.
+**Progress:** A single `cli-progress` `SingleBar` per stage with an in-flight status suffix — one line, no `MultiBar`:
 
-**Recommended model:** A cost-efficient vision model (e.g. `google/gemini-flash-1.5`) — this stage makes the most individual API calls.
+```
+Slide conversion  [████████░░░░░░░]  15/24  ETA 42s  | in flight: 16, 17, 18
+```
+
+Format string: `'{label}  [{bar}] {value}/{total}  ETA {eta_formatted}  | in flight: {inFlight}'`. The runner updates the bar's `payload.inFlight` array whenever a worker picks up or finishes a slide. Default concurrency: 3 parallel API calls.
+
+**Failure behaviour:** If a slide's LLM call fails, the runner requests cancellation of the stage. Workers already in flight complete their current call (never abandoned mid-write); the stage then aborts. The final bar render highlights the failing slide's number in the status suffix so the failure point is visible in a scrollback.
+
+**Non-TTY output:** When stdout isn't a TTY (piped to a file, CI), `cli-progress` falls back to periodic newline-delimited status prints on stderr — no cursor moves, no ANSI. The design tolerates this without special handling; runs remain readable in captured logs.
+
+**Recommended model:** A cost-efficient vision model (e.g. `google/gemini-2.5-flash`) — this stage makes the most individual API calls.
 
 **`.tmp` cleanup:** At the start of Stage 4, any `.tmp` files in `Slide content/` are deleted before processing begins.
 
@@ -507,6 +618,8 @@ For each slide PNG, a vision LLM call identifies distinct figures and their boun
 ```
 
 Figures with `academicRelevance: 'exclude'` or `figureType` of `logo` or `decorative` are discarded without saving. Cropped PNGs are saved using zero-padded naming: `slide-{003d}-figure-{02d}.png`.
+
+**Progress, failure, and non-TTY behaviour:** Same convention as Stage 4 (single `SingleBar` with in-flight suffix). Default concurrency: 2 parallel API calls.
 
 #### `images-manifest.json`
 
@@ -569,26 +682,41 @@ QA and revision are two separate LLM calls per iteration. Combining them in one 
 
 **QA checker call:** Reads source transcript + source slides + image manifest + current draft. Returns a structured `QaDeficienciesReport`.
 
-**QA reviser call:** Reads current draft + deficiencies report. Applies targeted edits to address each deficiency. Does not rewrite wholesale.
+**QA reviser call:** Reads current draft + deficiencies report. Applies targeted edits to address each deficiency. Does not rewrite wholesale. Every remedy is grounded in the lecture's own source materials (transcript, slide content, image manifest) — the reviser MUST NOT introduce content from outside the source set. The reviser branches on `type`:
+
+- `omission` → insert the missing content, grounded in the cited `sourceEvidence`
+- `inadequate-coverage` → expand the existing passage using the cited evidence; do not add unrelated material
+- `factual-error` → correct the claim against the cited source
+- `unsupported-claim` → **remove** the claim. The reviser MUST NOT go looking for external corroboration — grounding an unsupported statement in a newly-cited source would violate NFR-1.3 (faithful representation) and licenses citation fabrication
+- `clarity` → rewrite the passage for readability without introducing new content or altering meaning
+- `british-english` / `formatting` / `figure-reference` → apply the targeted edit; no other changes
 
 #### Deficiency Schema
 
 ```typescript
-interface QaDeficienciesReport {
+type QaDeficienciesReport = {
   iteration: number;
   overallVerdict: 'pass' | 'fail';
   coverageScore: number;          // 0–100, LLM self-assessed
   deficiencies: QaDeficiency[];
-}
+};
 
-interface QaDeficiency {
+type QaDeficiency = {
   severity: 'critical' | 'major' | 'minor';
-  type: 'omission' | 'inaccuracy' | 'british-english' | 'formatting' | 'figure-reference';
+  type:
+    | 'omission'             // source content is entirely absent from the notes (FR-4.2)
+    | 'inadequate-coverage'  // source content is mentioned but under-developed (FR-4.2)
+    | 'factual-error'        // a claim in the notes contradicts the source (FR-4.3)
+    | 'unsupported-claim'    // a claim in the notes is not supported by any source (FR-4.3)
+    | 'clarity'              // factually correct but ambiguous, muddled, or hard to follow (FR-4.3)
+    | 'british-english'      // spelling, punctuation, or idiom deviating from en-GB
+    | 'formatting'           // heading level, list structure, table structure, LaTeX rendering
+    | 'figure-reference';    // wrong image, missing image, broken relative path
   description: string;
   sourceEvidence: string;         // direct quote from source material
   suggestedFix: string;
   location: string;               // section heading, "Glossary", or "throughout"
-}
+};
 ```
 
 #### Loop Termination
@@ -610,16 +738,20 @@ On successful exit, the final revised draft is written to `Output/notes.md` and 
 **Input:** `Output/notes.md`, `Output/images/`
 **Output:** `Final output/Lecture N - [title] - YYYY-MM-DD.pdf` (at module level)
 
-Invokes `pandoc` to convert `Output/notes.md` to PDF, placing the result in `Final output/` with the full descriptive filename:
+Invokes `pandoc` as a child process to convert `Output/notes.md` to PDF, placing the result in `Final output/` with the full descriptive filename:
 
-```
-pandoc Output/notes.md \
-  --resource-path=Output/images \
-  --pdf-engine=xelatex \
-  --output="../../Final output/Lecture N - [title] - YYYY-MM-DD.pdf"
+```typescript
+spawn('pandoc', [
+  'Output/notes.md',
+  '--resource-path', 'Output/images',
+  '--pdf-engine=xelatex',
+  '--output', '../../Final output/Lecture N - [title] - YYYY-MM-DD.pdf',
+], { cwd: workspaceRoot });
 ```
 
-`xelatex` is used as the PDF engine for correct Unicode and LaTeX equation rendering. The `--resource-path` flag allows pandoc to resolve relative image references in the markdown. The output filename carries the full lecture identity since `Final output/` is a flat folder shared across all lectures in the module.
+`xelatex` is used as the PDF engine for correct Unicode and LaTeX equation rendering. The `--resource-path` flag allows pandoc to resolve relative image references in the markdown. The output filename carries the full lecture identity since `Final output/` is a flat folder shared across all lectures in the module. Every argv element is passed to pandoc verbatim — spaces in paths (`Final output/`, the lecture title) need no quoting because there is no shell to interpret them (see §4.4).
+
+**External dependencies:** Both `pandoc` and `xelatex` must be present on the system `PATH`. The stage runs a pre-flight check for each binary at process start (cached) and fails with a clear, platform-specific install hint if either is missing — `pandoc` missing, `xelatex` missing, and "pandoc ran but LaTeX errored" are distinct failure modes.
 
 ---
 
@@ -634,8 +766,7 @@ const openrouter = new OpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
   baseURL: 'https://openrouter.ai/api/v1',
   defaultHeaders: {
-    'HTTP-Referer': 'https://github.com/your-org/lecture-notes-pipeline',
-    'X-Title': 'Lecture Notes Pipeline',
+    'X-Title': 'Lecture Notes Pipeline',   // display name shown on OpenRouter analytics; no URL header until there is a real public repo
   },
   maxRetries: 5,
   timeout: 120_000,
@@ -646,38 +777,43 @@ const openrouter = new OpenAI({
 
 Located in the project root. Specifies model and parameters per stage independently. Changing a model requires only a config edit — no code changes.
 
+Model IDs below are **capability-based placeholders**, not real OpenRouter routing strings. Before running the pipeline, replace each `<...>` with a concrete model ID looked up on `https://openrouter.ai/models`. The config loader validates every configured ID against OpenRouter's live model list at startup (see Phase 2) and fails fast if any is unrecognised or retired.
+
 ```jsonc
 {
   "version": "1",
-  "moduleRoot": "/Users/jamestarin/Source material/Lecture Content/Biology of Disease",
+  "moduleRoots": [
+    "/absolute/path/to/Biology of Disease",
+    "/absolute/path/to/Anatomy"
+  ],
   "openRouter": {
     "rateLimitRpm": 60
   },
   "stages": {
     "transcript-structuring": {
-      "modelId": "anthropic/claude-3.5-sonnet",
+      "modelId": "<REASONING_MODEL>",             // long-context text model with strong structure/summarisation
       "temperature": 0.2,
       "maxTokens": 8192
     },
     "slide-conversion": {
-      "modelId": "google/gemini-flash-1.5",
+      "modelId": "<COST_EFFICIENT_VISION_MODEL>", // vision model — called once per slide, so cost per call matters most
       "temperature": 0.1,
       "maxTokens": 4096,
       "concurrency": 3
     },
     "image-extraction": {
-      "modelId": "openai/gpt-4o",
+      "modelId": "<PRECISION_VISION_MODEL>",      // vision model — fewer calls, prioritise bounding-box accuracy
       "temperature": 0.0,
       "maxTokens": 2048,
       "concurrency": 2
     },
     "synthesis": {
-      "modelId": "anthropic/claude-3.5-sonnet",
+      "modelId": "<REASONING_MODEL>",             // single long-context call combining transcript + slides + captions
       "temperature": 0.3,
       "maxTokens": 16384
     },
     "qa-loop": {
-      "modelId": "anthropic/claude-3.5-sonnet",
+      "modelId": "<REASONING_MODEL>",             // iterative critical review + revision
       "temperature": 0.1,
       "maxTokens": 8192,
       "maxIterations": 3
@@ -696,7 +832,11 @@ Located in the project root. Specifies model and parameters per stage independen
 
 ### Sources
 
-OpenRouter exposes cost via the `/api/v1/generation?id={response.id}` endpoint. After each LLM call, `response.usage.prompt_tokens` and `response.usage.completion_tokens` are captured synchronously. The USD cost is fetched asynchronously from the generation endpoint and written to both the manifest and the run log when it resolves. ElevenLabs transcription cost is captured from the API response where available, otherwise approximated from audio duration.
+OpenRouter exposes cost via the `/api/v1/generation?id={response.id}` endpoint. After each LLM call, `response.usage.prompt_tokens` and `response.usage.completion_tokens` are captured synchronously, then `makeCompletionCall` awaits the cost lookup before its own promise resolves — its return value already includes a fully-resolved `StageCost`. Stages that issue multiple completions in parallel therefore get their concurrency naturally: cost lookups fan out with the completions. The stage's `run()` awaits every completion promise before returning, so **the stage is never marked `complete` while a cost lookup is still outstanding**. This eliminates the race where a process exit or crash silently drops cost data.
+
+Each cost lookup has a 30-second timeout and up to 3 exponential-backoff retries (the generation endpoint is briefly eventually-consistent after completion). If a lookup ultimately fails, the stage still succeeds — cost telemetry MUST NOT gate pipeline progress. The manifest and run-log entries record `cost.totalCostUsd = null` along with `cost.costResolutionError` describing why. Tokens and `callCount` are always populated regardless.
+
+ElevenLabs transcription cost is captured synchronously from the API response where available; otherwise it is approximated from audio duration.
 
 ### Two-Level Tracking
 
@@ -724,28 +864,30 @@ Printed after every run, showing only the stages executed in that invocation:
 ```
 Stage                    Model                      Calls    Tokens (in / out)    Cost
 ────────────────────────────────────────────────────────────────────────────────────────
-Slide conversion         gemini-flash-1.5             24      41,000 /  8,100     $0.034
-Image extraction         gpt-4o                       12           0 /  2,400     $0.038
-Synthesis                claude-3.5-sonnet             1      65,000 / 14,200     $0.312
-QA loop (2 iterations)   claude-3.5-sonnet             4      68,000 / 15,800     $0.405
+Slide conversion         gemini-2.5-flash             24      41,000 /  8,100     $0.034
+Image extraction         gpt-4.1                       12           0 /  2,400     $0.038
+Synthesis                claude-sonnet-4.6             1      65,000 / 14,200     $0.312
+QA loop (2 iterations)   claude-sonnet-4.6             4      68,000 / 15,800     $0.405
 ────────────────────────────────────────────────────────────────────────────────────────
 This run                                              41     174,000 / 40,500     $0.789
 ```
 
 ### Cost Report Command
 
-`pnpm start cost-report [--lecture <slug>] [--module]` aggregates all run logs and presents three sections:
+`lecture-notes cost-report [--date <YYYY-MM-DD>] [--module <moduleRoot>]` aggregates all run logs across the configured `moduleRoots` and presents three sections. With no flags, aggregates across everything. With `--date`, narrows to lectures on that date (uses `resolveLecturesByDate`; prompts if the date matches multiple modules). With `--module`, restricts to a single module.
+
+(The `lecture-notes` command becomes available after running `./scripts/setup` once, which appends a PATH export to your shell config. During dev the equivalent invocation is `pnpm exec tsx src/index.ts cost-report …`.)
 
 **1 — Current pipeline cost** (what the outputs on disk cost to produce):
 ```
 Stage                    Model                  Calls    Cost
 ──────────────────────────────────────────────────────────────
 Transcription            elevenlabs/scribe_v2      1    $0.042
-Transcript structuring   claude-3.5-sonnet         1    $0.081
-Slide conversion         gemini-flash-1.5         24    $0.034
-Image extraction         gpt-4o                   12    $0.038
-Synthesis                claude-3.5-sonnet         1    $0.312
-QA loop                  claude-3.5-sonnet         4    $0.405
+Transcript structuring   claude-sonnet-4.6         1    $0.081
+Slide conversion         gemini-2.5-flash         24    $0.034
+Image extraction         gpt-4.1                   12    $0.038
+Synthesis                claude-sonnet-4.6         1    $0.312
+QA loop                  claude-sonnet-4.6         4    $0.405
 ──────────────────────────────────────────────────────────────
                                                          $0.912
 ```
@@ -763,7 +905,7 @@ Wasted on failures                                     $0.021
 **3 — Experiment cost** (deliberate model re-runs, grouped for comparison):
 ```
 Stage: synthesis
-  Run 2025-10-11T14:00Z    claude-3.5-sonnet      $0.312
+  Run 2025-10-11T14:00Z    claude-sonnet-4.6      $0.312
   Run 2025-10-11T15:30Z    anthropic/claude-opus  $0.890
 ```
 

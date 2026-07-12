@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Version:** 0.1 (draft)
-**Date:** 2026-07-11
+**Suite version:** 1.0-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-07-12
 **Status:** For review
 
 ---
@@ -14,6 +14,8 @@ Testing is not a final phase — unit tests are written alongside each deliverab
 
 Cross-references to the technical design are noted as **(TD §N)**.
 
+**CLAUDE.md is the single source of truth for development conventions.** Every rule in `/CLAUDE.md` — TSDoc, `Promise<T>` return types, named exports, `type` aliases, typed catches, immutability, DRY, atomic commits, etc. — applies to every deliverable in this plan and MUST be applied during development, not left to the pre-commit checklist. Rules are not restated per phase.
+
 ---
 
 ## Phase 1 — Project Scaffolding
@@ -24,16 +26,27 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `tsconfig.json` — strict mode, `"types": ["node"]`, `moduleResolution: "bundler"`
 - `biome.json` — formatting and standard linting rules, `noDefaultExport` enforced
 - `eslint.config.js` — architectural rules (no cross-feature imports, restricted imports)
-- `package.json` — all dependencies installed; scripts for `start`, `typecheck`, `lint`, `test`
-- Directory skeleton: `src/types/`, `src/pipeline/stages/`, `src/utils/`, `docs/`
+- `package.json` — all dependencies installed; scripts for `typecheck`, `lint`, `test`, `setup` (the last aliases `scripts/setup`)
+- Directory skeleton: `src/types/`, `src/pipeline/stages/`, `src/utils/`, `docs/`, `bin/`, `scripts/`
 - `pipeline-config.json` — initial config with placeholder model IDs **(TD §6)**
-- `.gitignore` updated to include `.env`, `*.log`, test output folders
+- `.gitignore` updated to include `.env`, `.claude/`, `CLAUDE.md`, `*.log`, test output folders (`.claude/` and `CLAUDE.md` per CLAUDE.md §Version Control)
+- `bin/lecture-notes` — executable bash wrapper (`chmod +x`) that `cd`s to the repo root and `exec pnpm exec tsx src/index.ts "$@"`. Live TypeScript, no build step. Runs from any directory once the user's shell has the repo's `bin/` on `PATH`
+- `scripts/setup` — executable bash script (`chmod +x`) that performs two idempotent installs:
+  1. Appends a PATH export to the user's shell config (`.zshrc` / `.bashrc` / `config.fish`) so `lecture-notes` is on `PATH`. Marker-comment skip on re-run; read-then-append only (never overwrites)
+  2. Merges the hook block from `scripts/claude-hooks.json` into **`.claude/settings.local.json` inside the repo** (Claude Code's per-user, per-repo settings file — gitignored by default via the existing `.claude/` rule; hooks fire only for Claude Code sessions in this project, never globally). Existing keys preserved (deep merge — e.g. any `permissions.allow` already present is untouched); a `__project` marker on each hook entry lets re-runs replace only our own entries so a human hand-editing the file to add unrelated hooks isn't clobbered. Uses `node -e '<merge script>'` (jq is not a hard dependency)
+  Prints what was touched and the reload command. Users invoke it once via `./scripts/setup` or `pnpm setup`
+- `scripts/claude-hooks.json` — template describing this project's Claude Code hook configuration (committed to the repo — a normal file, not under `.claude/`, so unaffected by the gitignore rule). Two hooks:
+  - **PostToolUse matcher `Edit|Write`** → the hook command invokes `scripts/hooks/post-edit-biome`, which reads the tool-call JSON from stdin, extracts `.tool_input.file_path`, and runs `pnpm exec biome check --write <file>` on it. Fast fixup, no cross-file false positives (eslint deliberately omitted — its architectural rules only make sense against the whole tree)
+  - **PreToolUse matcher `Bash`** → the hook command invokes `scripts/hooks/pre-commit-check`, which reads `.tool_input.command` from stdin, no-ops unless the command contains `git commit`, then on a commit runs `biome check --error-on-warnings` (staged files), `tsc --noEmit` (whole-project — TS needs the graph), and `eslint` (staged `.ts`/`.tsx` files). Any failure → the script exits `2`, which Claude Code treats as a block-with-feedback (stderr is fed back into the conversation)
+  - Each hook is tagged with a marker string (`"__project": "lecture-notes-generator"`) so `scripts/setup` re-installs are idempotent: it strips only entries carrying our marker before re-inserting the template, leaving any hand-added hooks (or Claude Code's own auto-managed keys such as `permissions.allow`) untouched
 
 **Dependencies installed:**
 - Runtime: `openai`, `@elevenlabs/elevenlabs-js`, `fluent-ffmpeg`, `pdfjs-dist`, `canvas`, `sharp`, `chrono-node`, `pino`, `cli-progress`, `@inquirer/prompts`, `dotenv`
-- Dev: `typescript`, `tsx`, `@biomejs/biome`, `eslint`, `vitest`, `nock`, `@types/node`, `@types/fluent-ffmpeg`
+- Dev: `typescript`, `tsx`, `@biomejs/biome`, `eslint`, `typescript-eslint`, `vitest`, `nock`, `@types/node`, `@types/fluent-ffmpeg`
 
-**Acceptance:** `tsc --noEmit`, `biome check`, and `eslint .` all pass on the empty project skeleton.
+**Acceptance:**
+- `tsc --noEmit`, `biome check`, and `eslint .` all pass on the empty project skeleton
+- After `./scripts/setup`: `lecture-notes --help` runs from any directory; a deliberately mis-formatted `Edit` triggers biome auto-fix via the PostToolUse hook; a `git commit` attempt with a tsc error is blocked by the PreToolUse hook
 
 ---
 
@@ -43,19 +56,21 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 **Deliverables:**
 
-`src/types/pipeline.ts` — all shared types **(TD §4.2)**:
+`src/types/pipeline.ts` — all shared types **(TD §4.2, §4.7)**. All declared as `type` aliases (never `interface`) per CLAUDE.md:
 - `StageId` union
 - `StageStatus` union (`pending | running | complete | failed | skipped`)
-- `StageContext`, `StageResult<TOutput>`, `StageCost`
+- `PipelineStage<TInput, TOutput>`, `StageContext`, `StageResult<TOutput>`, `StageCost`, `StageRunConfig`
 - `RunManifest`, `ManifestStageEntry`
 - `QaDeficiency`, `QaDeficienciesReport`
 - `PipelineConfig`, `StageConfig`
 - `RunLog`, `RunLogStageEntry`, `RunType`
+- `LectureMatch`, `RunOptions`, `ReportOptions`, `RunSummary`, `BatchSummary` (runner-facing)
 
-`src/utils/files.ts` — atomic write helpers **(TD §4.3)**:
-- `writeFileAtomic(path, content)` — writes to `.tmp`, renames on success
+`src/utils/files.ts` — atomic write helpers **(TD §4.3)** and path validation **(TD §4.4)**:
+- `writeFileAtomic({ path, content })` — writes to `.tmp`, renames on success
 - `cleanTmpFiles(dir)` — deletes any `.tmp` files in a directory
-- `workspacePath(context, ...segments)` — resolves paths relative to `workspaceRoot`
+- `workspacePath({ context, segments })` — resolves paths relative to `workspaceRoot`
+- `resolveManifestPath({ workspaceRoot, moduleRoot, entry })` — resolves an entry from `filesWritten`, then `realpath`, then asserts the result is under `moduleRoot`; throws `ManifestPathError` if not. Used everywhere a manifest-derived path reaches the filesystem.
 
 `src/utils/logger.ts` — pino setup **(TD §10)**:
 - Root logger with file transport to `runs/<timestamp>-debug.log`
@@ -70,18 +85,20 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `extractProvisionalTitle(filename)` — strips date, day names, module code prefixes (`BOD_`, `BOD `), trailing artefacts (`co`, `copy`, `v2`); title-cases the result
 - `isDescriptiveTitle(title)` — returns `true` if more than two meaningful words remain
 - `lectureFolderName({ lectureNumber, title, date })` — canonical folder/filename format
-- `filenameSafe(title)` — strips characters invalid in filenames
+- `filenameSafe(title)` — strips path separators (`/`, `\`), traversal segments (`.`, `..`), null bytes, and ASCII control chars; collapses whitespace; trims leading/trailing whitespace and dots; throws if the result is empty **(TD §4.4)**
 
 `src/utils/progress.ts` — cli-progress helpers:
 - `createProgressBar(format)` — returns a configured `SingleBar`
 - `createUploadProgressStream(totalBytes)` — Transform stream + bar (moved from `src/index.ts`)
+- `createParallelWorkBar({ label, total })` — returns `{ bar, start, pick, complete, fail, stop }`. Wraps a `SingleBar` pre-configured with the in-flight-suffix format from TD Stage 4. `pick(id)` adds an id to the in-flight set; `complete(id)` removes it and ticks the bar; `fail(id)` marks the item red in the final render. Used by Stages 4 and 5. Non-TTY fallback delegated to `cli-progress` defaults.
 
 `src/utils/cost.ts` — cost utilities:
-- `accumulateCost(a, b)` — merges two `StageCost` objects
-- `formatCostReport(runLogs, manifest)` — returns the three-section report string **(TD §7)**
+- `accumulateCost({ current, incoming })` — merges two `StageCost` objects
+- `formatCostReport({ runLogs, manifest })` — returns the three-section report string **(TD §7)**
 
 `src/pipeline/config.ts` — config loader:
 - `loadConfig(projectRoot)` — reads and validates `pipeline-config.json`; throws on missing required fields
+- **Model-ID resolution check:** at startup, fetches `https://openrouter.ai/api/v1/models` once and asserts every configured `stages[*].modelId` appears in the response. On any miss, throws a `ConfigError` naming the stage(s) with unrecognised IDs and linking to `https://openrouter.ai/models`. This catches placeholder strings (e.g. `<REASONING_MODEL>` left un-substituted), typos, and retired IDs before any billable call is made. The check is cached in-process; a `--skip-model-check` flag exists for offline runs against a mocked SDK.
 
 `src/pipeline/openrouter.ts` — OpenRouter client **(TD §6)**:
 - Exports a configured `OpenAI` instance pointing at OpenRouter
@@ -93,26 +110,37 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `should extract correct date when filename format is [format]` — parametrised across: `2025-10-10 BOD_...`, `10 Oct 2025 ...`, `Fri 10th Oct ...`, filename with no date (expect `null`)
 - `should extract provisional title when filename is [sample]` — parametrised across samples covering module code prefixes, trailing artefacts, and day names
 - `should return correct isDescriptive result when title is [sample]` — parametrised
+- `filenameSafe` — `test.each` covering path separators, `..`, `.`, null bytes, control chars, whitespace-only input, trailing dots, and empty result (expect throw)
 
 `files.ts` — integration tests (real temp directory):
 - `should write file and remove .tmp when write succeeds`
 - `should leave no partial file when write fails`
 - `should delete all .tmp files when cleanTmpFiles called`
+- `resolveManifestPath` — `test.each` covering: in-workspace path (accepted), `..` escape into `Final output/` under moduleRoot (accepted), `..` escape outside moduleRoot (rejected), symlink pointing outside moduleRoot (rejected after realpath), absolute path (rejected)
 
 `cost.ts` — unit tests:
 - `accumulateCost` — `test.each` across combinations including zeros and nulls
 - `formatCostReport` — snapshot test (serialisation format regression only)
 
+`config.ts` — HTTP interceptor tests using `nock`:
+- `should throw ConfigError naming the offending stage when a configured modelId is not in the OpenRouter models response`
+- `should throw ConfigError with a helpful hint when a placeholder like <REASONING_MODEL> is left un-substituted`
+- `should accept the config when every stage modelId appears in the OpenRouter response`
+- `should skip the model-ID check when --skip-model-check is set` — for offline test runs
+
 `openrouter.ts` — HTTP interceptor tests using `nock`:
 - `should send correct baseURL, headers, and model ID when makeCompletionCall invoked`
-- `should fetch cost from /api/v1/generation after each completion call`
-- `should resolve with totalCostUsd: 0 when cost endpoint returns error`
-- `should retry with exponential backoff when response is 429`
+- `should await cost lookup before makeCompletionCall promise resolves` — verify no unresolved cost promise leaks
+- `should populate totalCostUsd when generation endpoint returns cost`
+- `should resolve with totalCostUsd null and costResolutionError set when cost lookup fails after all retries`
+- `should retry cost lookup with exponential backoff on transient failure`
+- `should retry completion call with exponential backoff when response is 429`
 - `should throw typed ContextLengthError when model returns context length exceeded`
-- `should throw after 120s when request times out`
+- `should throw after 120s when completion request times out`
+- `should time out cost lookup after 30s per attempt`
 
 `openrouter.integration.test.ts` — live tests against real OpenRouter (not run in CI):
-- `should complete a minimal prompt and return non-zero cost when called with valid API key`
+- `should complete a minimal prompt and return a fully-resolved non-zero cost when called with valid API key`
 
 **Acceptance:** All unit and integration tests pass; `tsc --noEmit` clean.
 
@@ -124,25 +152,29 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 **Deliverables:**
 
-`src/pipeline/runner.ts` — `PipelineRunner` class **(TD §4.6)**:
-- `normaliseSources(moduleRoot)` — invokes Stage 0
-- `runLecture(lectureSlug, options)` — assembles `StageContext`, runs stages in order, writes run log
-- `runBatch(modulePath, options)` — sequential by default; `--concurrency N` for parallel
-- `costReport(moduleRoot, options)` — aggregates run logs, prints three-section report
-- `private runStage(stage, context)` — handles the full status lifecycle:
+`src/pipeline/runner.ts` — `PipelineRunner` class **(TD §4.7)**. All method signatures use a single options object per CLAUDE.md:
+- `normaliseSources({ moduleRoots })` — invokes Stage 0 across every listed module
+- `runLecture({ workspaceRoot, options })` — assembles `StageContext`, runs stages in order, writes run log
+- `runBatch({ moduleRoots, options })` — one module or many; sequential by default; `--concurrency N` for parallel
+- `costReport({ moduleRoots, options })` — aggregates run logs across the given modules, prints three-section report
+- `resolveLecturesByDate({ moduleRoots, lectureDate })` — returns matches from scanning `${moduleRoot}/Pipeline processing/*/manifest.json`
+- `private runStage({ stage, context })` — handles the full status lifecycle:
   - Calls `isComplete()` → sets `skipped` if true
   - Writes `running` to manifest before invoking `run()`
   - On success: writes `filesWritten` to manifest, sets `complete`
   - On exception: sets `failed`, writes `error` and `failedAt`
   - Appends stage outcome to the active run log
-- `private assembleContext(slug, manifest, config)` — builds `StageContext` from manifest + CLI options **(TD §4.6)**
-- `private updateManifest(slug, update)` — atomic manifest write via `writeFileAtomic`
-- `private createRunLog(slug, options)` — creates timestamped run log file in `runs/`
+- `private assembleContext({ workspaceRoot, moduleRoot, config })` — reads manifest at `workspaceRoot`, builds `StageContext` **(TD §4.7)**
+- `private updateManifest({ workspaceRoot, update })` — atomic manifest write via `writeFileAtomic`
+- `private createRunLog({ workspaceRoot, options })` — creates timestamped run log file in `runs/`
 
-`src/index.ts` — CLI entry point:
-- Commands: `run <slug>`, `batch <modulePath>`, `cost-report`
-- Flags: `--from-stage <stageId>`, `--concurrency N`, `--continue-on-error`, `--lecture`, `--module`
-- `--from-stage` resets nominated stage and all downstream stages to `pending` in manifest; deletes intermediate files for those stages
+`src/index.ts` — CLI entry point. Invoked in docs and examples as `lecture-notes <cmd>` via the `bin/lecture-notes` wrapper installed by `scripts/setup`. During dev without the wrapper, equivalent to `pnpm exec tsx src/index.ts <cmd>`.
+- Commands:
+  - `lecture-notes run <date>` — resolves the date across `config.moduleRoots`; 0 matches → error, 1 → run it, N → interactive picker (`@inquirer/prompts` checkbox with "All matches" and "Cancel") calling `runLecture` per selection
+  - `lecture-notes batch [<moduleRoot>]` — with an arg, runs that module; without, runs every configured module
+  - `lecture-notes cost-report [--date <YYYY-MM-DD>] [--module <moduleRoot>]` — aggregates by default; narrows with either flag; `--date` uses the same picker on multi-match
+- Flags: `--from-stage <stageId>`, `--concurrency N`, `--continue-on-error`
+- `--from-stage` resets nominated stage and all downstream stages to `pending` in manifest; deletes intermediate files for those stages (using hard-coded per-stage directories per TD §4.4, not manifest input)
 
 **Tests:**
 
@@ -158,7 +190,14 @@ Runner lifecycle — integration tests (real temp directory with fixture manifes
 `assembleContext` — unit test:
 - `should assemble StageContext from manifest fields and CLI options`
 
-**Acceptance:** Runner drives stub stages through all lifecycle states correctly; manifest and run logs written atomically to real temp directory.
+`resolveLecturesByDate` — integration tests (real temp directory with two fixture module trees):
+- `should return empty array when no manifest matches the date`
+- `should return single match when only one module contains the date`
+- `should return all matches when the date appears in multiple modules`
+- `should include moduleRoot, workspaceRoot, lectureNumber, and lectureTitle in every match`
+- `should skip module directories that contain no Pipeline processing/ folder`
+
+**Acceptance:** Runner drives stub stages through all lifecycle states correctly; manifest and run logs written atomically to real temp directory; multi-module resolver returns correct matches for 0/1/N cases.
 
 ---
 
@@ -174,7 +213,7 @@ Runner lifecycle — integration tests (real temp directory with fixture manifes
 3. Match each slide PDF (date at start of filename) to its video
 4. Extract provisional title; set `provisionalTitleIsDescriptive`
 5. Rename source files atomically (temp name → final name to avoid collision)
-6. Create workspace folders; write initial `manifest.json` for new lectures
+6. Create workspace folders; write initial `manifest.json` for new lectures — including `lectureTitle = provisionalTitle` and `aiDerivedTitle = null` (Stage 3 may overwrite both)
 7. On re-run after new lectures added: detect sequence changes, rename all affected workspace folders, source files, and any `Final output/` PDFs; update `lectureNumber` in affected manifests
 
 **Tests:**
@@ -188,6 +227,7 @@ Integration tests (real temp directory with fixture source files):
 - `should log warning and continue when source file has no matching counterpart` — `test.each` for unmatched video and unmatched slide
 - `should rename source files atomically when normalisation runs`
 - `should create workspace folder and write initial manifest when lecture is new`
+- `should seed initial manifest with lectureTitle equal to provisionalTitle and aiDerivedTitle null`
 - `should produce no filesystem changes when Stage 0 re-run on already-normalised sources`
 
 **Acceptance:** Given a folder of raw video and slide files, Stage 0 produces correct workspace folders, manifests, renamed source files, and handles mid-sequence insertion correctly.
@@ -236,7 +276,7 @@ Integration tests (`.integration.test.ts`) against a small real test audio/video
 `src/pipeline/stages/transcript-structuring.ts` **(TD Stage 3)**:
 - One LLM call returning: `{ title: string; structuredMarkdown: string }`
 - Prompt specifies: title must be 4–8 words, filename-safe, accurately reflects content
-- Title stored as `aiDerivedTitle` in manifest; `lectureTitle` set per the conditional table
+- Title stored as `aiDerivedTitle` in manifest. `lectureTitle` (always non-null since Stage 0 seeded it with `provisionalTitle`) is overwritten with `aiDerivedTitle` iff `provisionalTitleIsDescriptive === false`; otherwise left untouched
 - Conditional rename when `provisionalTitleIsDescriptive: false`:
   - Source video, source slide, workspace folder, `Final output/` PDF (if present)
   - `workspaceFolderName` updated in manifest after rename
@@ -254,6 +294,8 @@ Unit tests (mock `makeCompletionCall`):
 
 Integration tests (real temp directory) — `test.each` across both `provisionalTitleIsDescriptive` values:
 - `should rename source video, slide, workspace folder, and update manifest when provisionalTitleIsDescriptive is false`
+- `should overwrite manifest.lectureTitle with aiDerivedTitle when provisionalTitleIsDescriptive is false`
+- `should leave manifest.lectureTitle unchanged (still equal to provisionalTitle) when provisionalTitleIsDescriptive is true`
 - `should leave all files unchanged when provisionalTitleIsDescriptive is true`
 
 **Acceptance:** Stage produces `structured-transcript.md`; renames files correctly per the conditional logic; runner context reflects updated `lectureTitle` for downstream stages.
@@ -376,8 +418,8 @@ Unit tests:
 - On successful termination: write `Output/notes.md` (final revised draft) and copy accepted figures to `Output/images/`
 
 **Prompt design notes:**
-- Checker prompt: instruct to be thorough and critical; list every omission, inaccuracy, and British English deviation found; do not suggest the notes are adequate unless they genuinely are
-- Reviser prompt: apply targeted fixes only; do not rewrite wholesale; preserve all correct content
+- Checker prompt: instruct to be thorough and critical; categorise every deficiency into exactly one of the eight `QaDeficiency.type` values; provide short in-prompt definitions per type; be strict about `factual-error` vs `unsupported-claim` (contradiction of the source vs. simple absence of source support); do not suggest the notes are adequate unless they genuinely are
+- Reviser prompt: apply targeted fixes only; do not rewrite wholesale; preserve all correct content; branch per the type-specific action table in TD Stage 7. **Explicitly forbid the reviser from introducing content outside the provided source set** — for `unsupported-claim` the only remedy is removal (never adding a citation to an external source, which would license fabrication and violate NFR-1.3)
 
 **Tests:**
 
@@ -386,6 +428,9 @@ Unit tests (mock `makeCompletionCall` via `nock`) — `test.each` across all thr
 - `should terminate with max-iterations-reached when iteration count reaches configured maximum`
 - `should terminate with stalled when deficiency count is identical across two consecutive iterations`
 - `should record correct terminationReason in manifest for each termination condition`
+- `should include all eight QaDeficiency.type values with definitions in the checker prompt`
+- `should include the per-type action table in the reviser prompt`
+- `should explicitly forbid external grounding and restrict unsupported-claim remedies to removal in the reviser prompt` — grep the constructed prompt for the prohibition
 
 Integration tests (real temp directory):
 - `should write Output/notes.md and copy figures to Output/images/ on termination`
@@ -402,29 +447,38 @@ Integration tests (real temp directory):
 **Deliverables:**
 
 `src/pipeline/stages/pdf-generation.ts` **(TD Stage 8)**:
-- Check pandoc is installed; fail with a clear actionable message if not
-- Invoke pandoc as a child process:
+- **Pre-flight checks (before invoking pandoc):**
+  - `pandoc --version` — verify pandoc is on PATH; on failure, throw a stage error naming the missing binary and pointing to `https://pandoc.org/installing.html` (plus the platform-specific install command: `brew install pandoc` on macOS)
+  - `xelatex --version` — verify the LaTeX engine is on PATH; on failure, throw a stage error naming `xelatex` and pointing to the platform-specific LaTeX distribution (`brew install --cask mactex-no-gui` on macOS, `apt install texlive-xetex` on Debian/Ubuntu)
+  - Cache both check results at process start so subsequent per-lecture invocations don't re-shell
+- Invoke pandoc via `spawn` with an explicit argv array (never `exec` — see TD §4.4 "No shell interpolation"):
+  ```typescript
+  spawn('pandoc', [
+    'Output/notes.md',
+    '--resource-path', 'Output/images',
+    '--pdf-engine=xelatex',
+    '--output', `../../Final output/${outputFilename}`,
+  ], { cwd: workspaceRoot });
   ```
-  pandoc Output/notes.md
-    --resource-path=Output/images
-    --pdf-engine=xelatex
-    --output="../../Final output/Lecture N - [title] - YYYY-MM-DD.pdf"
-  ```
-- Capture stderr; on non-zero exit: include stderr content in the stage failure message
-- Output filename assembled from `StageContext` (`lectureNumber`, `lectureTitle`, `lectureDate`)
+- Capture stderr; on non-zero exit: include stderr content in the stage failure message. Pandoc's own stderr on a LaTeX failure is verbose but usually includes the offending line — surface it verbatim rather than trying to parse it
+- `outputFilename` assembled from `StageContext` (`lectureNumber`, `lectureTitle`, `lectureDate`); each component passed through `filenameSafe` per TD §4.4
 
 **Tests:**
 
 Unit tests (mock child process spawn):
-- `should construct correct pandoc command from StageContext values` — `test.each` across different lecture numbers, titles, and dates
-- `should throw clear error when pandoc is not found on PATH`
-- `should include pandoc stderr in failure message when pandoc exits non-zero`
+- `should construct correct pandoc argv array from StageContext values` — `test.each` across different lecture numbers, titles, and dates
+- `should invoke pandoc via spawn with an argv array (never exec) and never build a shell command string` — spy on the child_process import and assert `exec`/`execSync` are unused
+- `should pass paths containing spaces (e.g. "Final output/") as raw argv elements with no quoting applied`
+- `should throw clear actionable error when pandoc is not found on PATH` — verify error message names `pandoc` and includes the install URL
+- `should throw clear actionable error when xelatex is not found on PATH` — verify error message names `xelatex` and includes the platform install hint
+- `should include pandoc stderr verbatim in failure message when pandoc exits non-zero`
+- `should cache pre-flight check results and skip re-checking on second invocation in the same process`
 
 Integration tests (`pdf-generation.integration.test.ts`) — requires pandoc and xelatex installed; not run in CI:
 - `should produce a valid PDF file when given a small markdown input`
 - `should deposit PDF in Final output/ with correct full descriptive filename`
 
-**Acceptance:** PDF deposited in `Final output/` with the correct full descriptive filename; stage produces a clear, actionable error if pandoc is absent or xelatex fails.
+**Acceptance:** PDF deposited in `Final output/` with the correct full descriptive filename; stage produces a clear, actionable error distinguishing "pandoc missing" from "xelatex missing" from "pandoc ran but LaTeX failed".
 
 ---
 
