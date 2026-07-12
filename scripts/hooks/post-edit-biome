@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# PostToolUse hook for Edit|Write.
+# Runs `biome check --write` on the just-edited file, if it lives inside this repo.
+#
+# NOTE: Claude Code passes the tool call as JSON on stdin. The exact schema
+# should be verified against the current Claude Code docs before relying on it
+# in anger. This script reads the JSON, extracts tool_input.file_path, and no-ops
+# for anything outside the repo or with an extension biome doesn't handle.
+
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+
+# Parse the tool input JSON from stdin, extract file_path.
+file_path="$(node -e '
+  let s = "";
+  process.stdin.on("data", d => (s += d));
+  process.stdin.on("end", () => {
+    try {
+      const j = JSON.parse(s);
+      const p = j.tool_input?.file_path ?? j.tool_input?.filePath ?? "";
+      process.stdout.write(String(p));
+    } catch {
+      process.stdout.write("");
+    }
+  });
+' 2>/dev/null || echo "")"
+
+# No file → nothing to do.
+[ -z "$file_path" ] && exit 0
+
+# Skip files outside the repo.
+case "$file_path" in
+  "$repo_root"/*) : ;;
+  *) exit 0 ;;
+esac
+
+# Only handle extensions biome cares about.
+case "$file_path" in
+  *.ts|*.tsx|*.js|*.mjs|*.cjs|*.jsx|*.json|*.jsonc|*.md)
+    cd "$repo_root"
+    # biome writes fixes back to the file; we surface diagnostics to stderr but
+    # never block the tool call itself (formatting is best-effort in-session).
+    pnpm exec biome check --write "$file_path" >&2 || true
+    ;;
+esac
+
+exit 0

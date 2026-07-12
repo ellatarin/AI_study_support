@@ -1,0 +1,119 @@
+#!/usr/bin/env bash
+# One-time setup for the lecture-notes CLI.
+#   1. Adds the repo's bin/ to PATH via the user's shell config.
+#   2. Merges this project's Claude Code hooks into .claude/settings.local.json
+#      inside the repo (per-user, per-repo, gitignored — hooks only fire for
+#      Claude Code sessions in this project).
+# Idempotent. Never overwrites existing content — appends and merges only.
+
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+bin_dir="$repo_root/bin"
+hooks_template="$repo_root/scripts/claude-hooks.json"
+project_marker="lecture-notes-generator"
+
+# ------------------------------------------------------------------
+# 1. PATH export in shell config
+# ------------------------------------------------------------------
+
+marker="# lecture-notes (auto-added by scripts/setup)"
+
+shell_name="$(basename "${SHELL:-unknown}")"
+case "$shell_name" in
+  zsh)   config_file="$HOME/.zshrc"                   ; export_line="export PATH=\"$bin_dir:\$PATH\"" ;;
+  bash)  config_file="$HOME/.bashrc"                  ; export_line="export PATH=\"$bin_dir:\$PATH\"" ;;
+  fish)  config_file="$HOME/.config/fish/config.fish" ; export_line="fish_add_path $bin_dir"          ;;
+  *)
+    echo "Unrecognised shell ($shell_name). Add this line to your shell config manually:"
+    echo "  export PATH=\"$bin_dir:\$PATH\""
+    ;;
+esac
+
+if [ -n "${config_file:-}" ]; then
+  if [ -f "$config_file" ] && grep -qF "$marker" "$config_file"; then
+    echo "PATH already configured in $config_file — skipped."
+  else
+    mkdir -p "$(dirname "$config_file")"
+    touch "$config_file"
+    {
+      printf '\n%s\n' "$marker"
+      printf '%s\n' "$export_line"
+    } >> "$config_file"
+    echo "Added $bin_dir to PATH in $config_file."
+  fi
+fi
+
+# ------------------------------------------------------------------
+# 2. Merge Claude Code hooks into .claude/settings.local.json (repo-local)
+# ------------------------------------------------------------------
+#
+# .claude/settings.local.json is Claude Code's per-user, per-repo settings
+# file — gitignored by default (via the existing .claude/ ignore rule).
+# Hooks installed here fire only for Claude Code sessions in this project.
+#
+# The template at $hooks_template carries a "__project" marker inside each
+# hook entry. When we merge, we FIRST strip any hook entries that carry OUR
+# marker (from a previous install), THEN insert the template entries — so
+# re-running is idempotent and does not disturb unrelated hooks a human may
+# have added by hand.
+
+settings_dir="$repo_root/.claude"
+settings_file="$settings_dir/settings.local.json"
+
+if [ ! -f "$hooks_template" ]; then
+  echo "Template not found at $hooks_template — skipping hook install."
+else
+  mkdir -p "$settings_dir"
+
+  HOOK_TEMPLATE="$hooks_template" \
+  SETTINGS_FILE="$settings_file" \
+  PROJECT_MARKER="$project_marker" \
+  node -e '
+    const fs = require("fs");
+
+    const templatePath = process.env.HOOK_TEMPLATE;
+    const settingsPath = process.env.SETTINGS_FILE;
+    const marker       = process.env.PROJECT_MARKER;
+
+    const template = JSON.parse(fs.readFileSync(templatePath, "utf8"));
+
+    let settings = {};
+    if (fs.existsSync(settingsPath)) {
+      try {
+        settings = JSON.parse(fs.readFileSync(settingsPath, "utf8"));
+      } catch (e) {
+        console.error("Existing " + settingsPath + " failed to parse; aborting so nothing is overwritten.");
+        console.error(e.message);
+        process.exit(1);
+      }
+    }
+
+    settings.hooks = settings.hooks || {};
+
+    for (const [event, entries] of Object.entries(template.hooks || {})) {
+      settings.hooks[event] = settings.hooks[event] || [];
+      settings.hooks[event] = settings.hooks[event].filter(
+        (e) => e.__project !== marker
+      );
+      for (const entry of entries) {
+        settings.hooks[event].push({ ...entry, __project: marker });
+      }
+    }
+
+    const tmp = settingsPath + ".tmp";
+    fs.writeFileSync(tmp, JSON.stringify(settings, null, 2) + "\n");
+    fs.renameSync(tmp, settingsPath);
+    console.log("Merged Claude Code hooks into " + settingsPath);
+  '
+fi
+
+# ------------------------------------------------------------------
+# Reload hint
+# ------------------------------------------------------------------
+
+if [ -n "${config_file:-}" ]; then
+  echo ""
+  echo "Restart your shell or run:  source $config_file"
+  echo "Then verify with:           lecture-notes --help"
+fi

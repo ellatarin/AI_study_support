@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# lecture-notes CLI wrapper.
+# Runs live TypeScript via tsx from wherever the caller is (no build step).
+# See docs/technical-design.md §7 and docs/implementation-plan.md Phase 3.
+
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$repo_root"
+exec pnpm exec tsx src/index.ts "$@"
