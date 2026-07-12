@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.0-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.1-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-07-12
 **Status:** For review
 
@@ -170,7 +170,7 @@ type PipelineStage<TInput, TOutput> = {
 
   isComplete(context: StageContext): Promise<boolean>;
   getInput(context: StageContext): Promise<TInput>;
-  run(input: TInput, context: StageContext): Promise<StageResult<TOutput>>;
+  run(args: { input: TInput; context: StageContext }): Promise<StageResult<TOutput>>;
 };
 
 type StageId =
@@ -205,10 +205,15 @@ type StageResult<TOutput> = {
 type StageCost = {
   promptTokens: number;
   completionTokens: number;
-  totalCostUsd: number | null;              // null only when every retry of the generation cost lookup failed; see §7
   callCount: number;
-  costResolutionError?: string;             // present iff totalCostUsd is null due to a failed lookup
-};
+} & (
+  // Discriminated on totalCostUsd: a resolved cost carries a number; a failed
+  // lookup carries null together with costResolutionError explaining why (every
+  // retry of the generation lookup failed; see §7). Modelling it as a union
+  // keeps the error field present exactly when the cost is null.
+  | { totalCostUsd: number }
+  | { totalCostUsd: null; costResolutionError: string }
+);
 
 type StageRunConfig = {
   readonly modelId: string | null;         // null only for stages that make no LLM calls (e.g. audio-extraction, pdf-generation) — in which case StageRunConfig itself is typically null
