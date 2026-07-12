@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.1-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.2-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-07-12
 **Status:** For review
 
@@ -82,8 +82,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `formatDateISO(date)` — `YYYY-MM-DD`
 
 `src/utils/naming.ts` — title and folder naming:
-- `extractProvisionalTitle(filename)` — strips date, day names, module code prefixes (`BOD_`, `BOD `), trailing artefacts (`co`, `copy`, `v2`); title-cases the result
-- `isDescriptiveTitle(title)` — returns `true` if more than two meaningful words remain
+- `extractProvisionalTitle(filename)` — best-effort title: strips whichever of the date, day names, module-code prefix (`BOD_`, `BOD `), embedded lecture-number token (e.g. `Lecture 1`, which would otherwise duplicate the assigned number), and trailing artefacts (`co`, `copy`, `v2`) are present, then title-cases the result. Filenames vary; a thin or even empty result is acceptable (a date-plus-number filename leaves nothing) — the caller falls back and Stage 3's LLM judges title meaningfulness once the transcript exists (TD Stage 3)
 - `lectureFolderName({ lectureNumber, title, date })` — canonical folder/filename format
 - `filenameSafe(title)` — strips path separators (`/`, `\`), traversal segments (`.`, `..`), null bytes, and ASCII control chars; collapses whitespace; trims leading/trailing whitespace and dots; throws if the result is empty **(TD §4.4)**
 
@@ -108,8 +107,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 `date.ts`, `naming.ts` — unit tests using `test.each`:
 - `should extract correct date when filename format is [format]` — parametrised across: `2025-10-10 BOD_...`, `10 Oct 2025 ...`, `Fri 10th Oct ...`, filename with no date (expect `null`)
-- `should extract provisional title when filename is [sample]` — parametrised across samples covering module code prefixes, trailing artefacts, and day names
-- `should return correct isDescriptive result when title is [sample]` — parametrised
+- `should extract provisional title when filename is [sample]` — parametrised across samples covering a full descriptive title, a module-code prefix, trailing artefacts, day names, and a minimal date-plus-number filename
 - `filenameSafe` — `test.each` covering path separators, `..`, `.`, null bytes, control chars, whitespace-only input, trailing dots, and empty result (expect throw)
 
 `files.ts` — integration tests (real temp directory):
@@ -211,7 +209,7 @@ Runner lifecycle — integration tests (real temp directory with fixture manifes
 1. Parse date from each video filename using `extractDate`
 2. Sort by date; assign sequential lecture numbers
 3. Match each slide PDF (date at start of filename) to its video
-4. Extract provisional title; set `provisionalTitleIsDescriptive`
+4. Extract a best-effort provisional title (adequacy judged later, at Stage 3)
 5. Rename source files atomically (temp name → final name to avoid collision)
 6. Create workspace folders; write initial `manifest.json` for new lectures — including `lectureTitle = provisionalTitle` and `aiDerivedTitle = null` (Stage 3 may overwrite both)
 7. On re-run after new lectures added: detect sequence changes, rename all affected workspace folders, source files, and any `Final output/` PDFs; update `lectureNumber` in affected manifests
@@ -274,29 +272,30 @@ Integration tests (`.integration.test.ts`) against a small real test audio/video
 **Deliverables:**
 
 `src/pipeline/stages/transcript-structuring.ts` **(TD Stage 3)**:
-- One LLM call returning: `{ title: string; structuredMarkdown: string }`
-- Prompt specifies: title must be 4–8 words, filename-safe, accurately reflects content
-- Title stored as `aiDerivedTitle` in manifest. `lectureTitle` (always non-null since Stage 0 seeded it with `provisionalTitle`) is overwritten with `aiDerivedTitle` iff `provisionalTitleIsDescriptive === false`; otherwise left untouched
-- Conditional rename when `provisionalTitleIsDescriptive: false`:
+- One LLM call, given the transcript and the lecturer's provisional title, returning: `{ provisionalTitleMeaningful: boolean; suggestedTitle: string | null; structuredMarkdown: string }`
+- Prompt specifies: judge whether the lecturer's provisional title is meaningful and accurate for the content and **prefer it when it is** (a deliberately-written title is authoritative); only when it is not, propose a `suggestedTitle` that is 4–8 words, filename-safe, and accurately reflects the content
+- When `provisionalTitleMeaningful === false`, `suggestedTitle` is stored as `aiDerivedTitle` and `lectureTitle` (always non-null since Stage 0 seeded it with `provisionalTitle`) is overwritten with it; when `true`, `aiDerivedTitle` stays `null` and `lectureTitle` is left untouched
+- Conditional rename when `provisionalTitleMeaningful === false`:
   - Source video, source slide, workspace folder, `Final output/` PDF (if present)
   - `workspaceFolderName` updated in manifest after rename
 - Output: `Structured transcript/structured-transcript.md`
 
 **Prompt design notes:**
-- Ask for JSON response: `{ "title": "...", "markdown": "..." }` — use structured output / JSON mode
+- Ask for JSON response: `{ "provisionalTitleMeaningful": true, "suggestedTitle": null, "markdown": "..." }` — use structured output / JSON mode
 - Structuring instructions: H2 major topics, H3 sub-topics, filler words removed, LaTeX for maths, Q&A as blockquote, no added content
 
 **Tests:**
 
 Unit tests (mock `makeCompletionCall`):
-- `should extract title and structured markdown when LLM returns valid JSON response`
-- `should store aiDerivedTitle in manifest regardless of provisionalTitleIsDescriptive value`
+- `should extract structured markdown and keep the provisional title when LLM judges it meaningful`
+- `should store suggestedTitle as aiDerivedTitle when LLM judges the provisional not meaningful`
+- `should leave aiDerivedTitle null when LLM judges the provisional meaningful`
 
-Integration tests (real temp directory) — `test.each` across both `provisionalTitleIsDescriptive` values:
-- `should rename source video, slide, workspace folder, and update manifest when provisionalTitleIsDescriptive is false`
-- `should overwrite manifest.lectureTitle with aiDerivedTitle when provisionalTitleIsDescriptive is false`
-- `should leave manifest.lectureTitle unchanged (still equal to provisionalTitle) when provisionalTitleIsDescriptive is true`
-- `should leave all files unchanged when provisionalTitleIsDescriptive is true`
+Integration tests (real temp directory) — `test.each` across both `provisionalTitleMeaningful` verdicts:
+- `should rename source video, slide, workspace folder, and update manifest when provisionalTitleMeaningful is false`
+- `should overwrite manifest.lectureTitle with aiDerivedTitle when provisionalTitleMeaningful is false`
+- `should leave manifest.lectureTitle unchanged (still equal to provisionalTitle) when provisionalTitleMeaningful is true`
+- `should leave all files unchanged when provisionalTitleMeaningful is true`
 
 **Acceptance:** Stage produces `structured-transcript.md`; renames files correctly per the conditional logic; runner context reflects updated `lectureTitle` for downstream stages.
 

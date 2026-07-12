@@ -198,8 +198,14 @@ type ManifestStages = {
 type LectureIdentity = {
 	readonly lectureNumber: number;
 	readonly lectureDate: string;
+	/** Best-effort title from the source filename; may be thin (see naming.ts). */
 	readonly provisionalTitle: string;
-	readonly provisionalTitleIsDescriptive: boolean;
+	/**
+	 * The final title. Seeded at Stage 0 to `provisionalTitle`; replaced by
+	 * `aiDerivedTitle` at Stage 3 only when the LLM judges the lecturer's
+	 * provisional title not meaningful for the content. Always non-null so
+	 * downstream stages read it without a guard.
+	 */
 	readonly lectureTitle: string;
 };
 
@@ -211,6 +217,14 @@ type LectureIdentity = {
 export type RunManifest = {
 	readonly version: string;
 } & LectureIdentity & {
+		/**
+		 * The replacement title Stage 3's LLM proposes from the transcript.
+		 * `null` before Stage 3 runs, and `null` afterwards when Stage 3 keeps the
+		 * lecturer's provisional title (the LLM prefers a meaningful original and
+		 * proposes nothing). Set only when the provisional is judged not
+		 * meaningful, in which case `lectureTitle` becomes this value and the
+		 * source files, workspace folder, and any PDF are renamed accordingly.
+		 */
 		readonly aiDerivedTitle: string | null;
 		readonly workspaceFolderName: string;
 		readonly createdAt: string;

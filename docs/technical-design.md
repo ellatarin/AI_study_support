@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.1-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.2-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-07-12
 **Status:** For review
 
@@ -67,19 +67,19 @@ All pipeline artefacts for a lecture live inside a single named workspace folder
 
 #### Video files
 
-Source videos may have the date in any position and any format. Stage 0 extracts the date using `chrono-node`, assigns a lecture number by date order, and produces the provisional title by stripping the date, day names (Mon–Sun), module code prefixes (e.g. `BOD_`), and trailing artefacts (`co`, `copy`) from the original filename, then title-casing the result.
+Source videos may have the date in any position and any format. Stage 0 extracts the date using `chrono-node`, assigns a lecture number by date order, and produces the provisional title by stripping the date, day names (Mon–Sun), module code prefixes (e.g. `BOD_`), any embedded lecture-number token (e.g. `Lecture 1`, which would otherwise duplicate the assigned number), and trailing artefacts (`co`, `copy`) from the original filename, then title-casing the result.
 
 | Pass | Example filename |
 |---|---|
 | Original (user-supplied) | `2025-10-10 BOD_Disease cell injury and the immune system Fri co.mp4` |
 | After Stage 0 | `Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10.mp4` |
 
-Stage 0 sets a `provisionalTitleIsDescriptive` flag in the manifest. If the cleaned result is non-substantive (e.g. original was `Virology 1.mp4`), Stage 3 performs a conditional second rename once the transcript-derived title is known:
+The provisional title is a best-effort guess from whatever the filename happens to carry — some filenames include a full descriptive title, others little more than a date and a lecture number. Whether it is good enough is not decided here. Stage 3, which reads the transcript, judges whether the lecturer's provisional title is meaningful and accurate for the content and **prefers it when it is** — a title the lecturer wrote deliberately is authoritative. Only when the provisional title is not meaningful does Stage 3 replace it:
 
-| `provisionalTitleIsDescriptive` | After Stage 3 |
+| Provisional title | After Stage 3 |
 |---|---|
-| `true` | `Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10.mp4` *(unchanged)* |
-| `false` | `Lecture 1 - Innate Immune Response - 2025-10-10.mp4` *(renamed by Stage 3)* |
+| Meaningful (lecturer's title kept) | `Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10.mp4` *(unchanged)* |
+| Not meaningful (replaced by Stage 3) | `Lecture 1 - Innate Immune Response - 2025-10-10.mp4` *(renamed by Stage 3)* |
 
 #### Lecture slides
 
@@ -187,9 +187,8 @@ type StageId =
 type StageContext = {
   lectureNumber: number;
   lectureDate: string;                    // YYYY-MM-DD — unique within moduleRoot; used as the CLI identifier for a lecture (see §4.7)
-  provisionalTitle: string;              // cleaned title extracted from original filename
-  provisionalTitleIsDescriptive: boolean;
-  lectureTitle: string;                   // always non-null; initialised at Stage 0 to `provisionalTitle`; Stage 3 overwrites to `aiDerivedTitle` iff `provisionalTitleIsDescriptive === false`
+  provisionalTitle: string;              // best-effort title extracted from original filename; may be thin
+  lectureTitle: string;                   // always non-null; initialised at Stage 0 to `provisionalTitle`; Stage 3 overwrites to `aiDerivedTitle` only if the LLM judges the provisional not meaningful for the content
   workspaceRoot: string;                  // absolute path to the lecture workspace folder — the canonical internal handle
   moduleRoot: string;                     // absolute path to the containing module (e.g. Biology of Disease/)
   config: PipelineConfig;
@@ -278,9 +277,8 @@ The manifest tracks the **current pipeline state** and the cost of the most rece
   "lectureNumber": 1,
   "lectureDate": "2025-10-10",
   "provisionalTitle": "Disease Cell Injury and the Immune System",
-  "provisionalTitleIsDescriptive": true,
-  "aiDerivedTitle": "Cell Injury and the Immune System",   // set by Stage 3
-  "lectureTitle": "Disease Cell Injury and the Immune System", // provisionalTitle if descriptive, else aiDerivedTitle
+  "aiDerivedTitle": null,                                  // Stage 3 kept the lecturer's title; no replacement proposed
+  "lectureTitle": "Disease Cell Injury and the Immune System", // provisional kept — Stage 3 judged it meaningful
   "workspaceFolderName": "Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10",
   "createdAt": "2025-10-10T09:00:00.000Z",
   "updatedAt": "2025-10-10T10:15:00.000Z",
@@ -459,7 +457,7 @@ class PipelineRunner {
 
 **`resolveLecturesByDate`:** Scans every `moduleRoots[i]/Pipeline processing/*/manifest.json` and returns matches whose `lectureDate` equals the argument. Zero matches: caller decides (typically an error). One match: caller uses it directly. Multiple matches: caller (the CLI) prompts the user via `@inquirer/prompts` — checkbox list of matches (each labelled `<module name> — Lecture N — <title>`) with "All matches" and "Cancel" affordances. Interactive prompt lives in the CLI layer, not the runner.
 
-**`StageContext` assembly:** Before invoking any stage, the runner reads `manifest.json` at `workspaceRoot` and assembles a `StageContext`. `lectureNumber`, `lectureDate`, `provisionalTitle`, `provisionalTitleIsDescriptive`, `lectureTitle`, and `workspaceRoot` are sourced from the manifest. `moduleRoot` (the containing module for this lecture) and `config` come from the CLI invocation. The context is constructed once per lecture run and passed unchanged to every stage; stages must not mutate it directly — all manifest updates go through `updateManifest()`.
+**`StageContext` assembly:** Before invoking any stage, the runner reads `manifest.json` at `workspaceRoot` and assembles a `StageContext`. `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle`, and `workspaceRoot` are sourced from the manifest. `moduleRoot` (the containing module for this lecture) and `config` come from the CLI invocation. The context is constructed once per lecture run and passed unchanged to every stage; stages must not mutate it directly — all manifest updates go through `updateManifest()`.
 
 **Batch mode:** `runBatch({ moduleRoots })` processes every lecture across every listed module. The CLI passes an array of one for `batch <moduleRoot>` and the full `config.moduleRoots` for `batch` (no argument). Modules processed in the order given; lectures within a module in date order. Sequential by default; `--concurrency N` enables parallel processing (per-module or global — decided at the CLI layer). A per-module cost/status summary is printed after each module, followed by a cross-module aggregate.
 
@@ -483,13 +481,13 @@ class PipelineRunner {
 
 3. **Slide matching:** Parse the date from each slide PDF (date always at the beginning of the filename). Match each slide PDF to the video with the same date. Log a warning for any unmatched video or slide.
 
-4. **Provisional title extraction:** Strip the date, day names (Mon–Sun), module code prefixes (e.g. `BOD_`, `BOD `), and trailing artefacts (`co`, `copy`, `v2`) from the video filename; title-case the result. Set `provisionalTitleIsDescriptive: true` if the result is substantive (more than two meaningful words); `false` if minimal (e.g. `Virology 1`).
+4. **Provisional title extraction:** Strip whichever of the date, day names (Mon–Sun), module code prefix (e.g. `BOD_`, `BOD `), embedded lecture-number token (e.g. `Lecture 1`, which would otherwise duplicate the assigned number), and trailing artefacts (`co`, `copy`, `v2`) are present in the video filename; title-case the result. Filenames vary — some yield a full descriptive title, others little beyond a date and lecture number (in which case the provisional title may be empty and Stage 0 falls back to the bare `Lecture N` name). Whether the result is meaningful is **not** judged here; Stage 3 makes that call once the transcript is available.
 
 5. **Rename source files:**
    - Video: `[original].mp4` → `Lecture N - [provisional title] - YYYY-MM-DD.mp4`
    - Slide: `[original].pdf` → `Lecture N - [provisional title] - YYYY-MM-DD.pdf`
 
-6. **Workspace folder creation:** Create `Pipeline processing/Lecture N - [provisional title] - YYYY-MM-DD/` for any lecture that does not already have one. Write an initial `manifest.json` with `lectureNumber`, `lectureDate`, `provisionalTitle`, `provisionalTitleIsDescriptive`, `lectureTitle = provisionalTitle` (Stage 3 may overwrite), `aiDerivedTitle = null`, and all stage statuses set to `pending`.
+6. **Workspace folder creation:** Create `Pipeline processing/Lecture N - [provisional title] - YYYY-MM-DD/` for any lecture that does not already have one. Write an initial `manifest.json` with `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle = provisionalTitle` (Stage 3 may overwrite), `aiDerivedTitle = null`, and all stage statuses set to `pending`.
 
 **Re-numbering:** When the sequence changes, Stage 0 renames affected workspace folders, source files, and `Final output/` PDFs atomically (rename to a temporary name first to avoid collision), then updates `lectureNumber` in each affected manifest.
 
@@ -521,20 +519,20 @@ Uploads the audio to ElevenLabs Scribe v2 with a streaming upload progress bar (
 
 **Input:** `Transcript/transcript.txt`
 **Output:** `Structured transcript/structured-transcript.md`
-**Conditional side effect:** Rename of source video, source slide, workspace folder, and `Final output/` PDF only when `provisionalTitleIsDescriptive: false`.
+**Conditional side effect:** Rename of source video, source slide, workspace folder, and `Final output/` PDF only when the LLM judges the provisional title not meaningful.
 
-Stage 3 makes a single LLM call that returns two things: a proposed lecture title and the structured transcript markdown. The title is extracted first; everything else in the pipeline depends on it.
+Stage 3 makes a single LLM call that returns a title judgement and the structured transcript markdown. The title is resolved first; everything else in the pipeline depends on it.
 
 #### Title Determination
 
-The LLM receives the raw transcript and is asked to infer a concise, descriptive academic title (4–8 words) that accurately reflects the content, suitable for use in a filename. The title is always stored in the manifest as `aiDerivedTitle`.
+The LLM receives the raw transcript **and the lecturer's provisional title**, and judges whether that title is meaningful and accurate for the lecture's content. A title the lecturer wrote is treated as authoritative: when it is meaningful the LLM **keeps it and proposes nothing**. Only when it is not meaningful does the LLM propose a concise, descriptive academic title (4–8 words) suitable for a filename, which is then stored as `aiDerivedTitle`; otherwise `aiDerivedTitle` stays `null`.
 
-The rename is **conditional:**
+The rename is **conditional** on the LLM's judgement:
 
-| `provisionalTitleIsDescriptive` | Action |
+| LLM judgement | Action |
 |---|---|
-| `true` | `lectureTitle` already equals `provisionalTitle` from Stage 0 — left unchanged. No renaming. |
-| `false` | `lectureTitle` overwritten with `aiDerivedTitle`. Source video, source slide, workspace folder, and any existing `Final output/` PDF are renamed to include the AI-derived title. `workspaceFolderName` updated in manifest. |
+| Provisional meaningful | `lectureTitle` already equals `provisionalTitle` from Stage 0 — left unchanged; `aiDerivedTitle` stays `null`. No renaming. |
+| Provisional not meaningful | `aiDerivedTitle` set to the proposed title and `lectureTitle` overwritten with it. Source video, source slide, workspace folder, and any existing `Final output/` PDF are renamed to include the AI-derived title. `workspaceFolderName` updated in manifest. |
 
 `context.lectureTitle` is always non-null (see §4.2) — Stage 0 seeds it, Stage 3 may overwrite it. Downstream stages consume it directly with no null check required.
 
