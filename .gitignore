@@ -6,3 +6,4 @@ CLAUDE.md
 coverage/
 .vera/
 *.log
+pipeline-config.json
