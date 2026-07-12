@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "tsx src/index.ts"
+    "start": "tsx src/index.ts",
+    "test": "vitest --run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest --run --coverage",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check --write && eslint . && jscpd",
+    "setup": "./scripts/setup"
   },
   "dependencies": {
     "@elevenlabs/elevenlabs-js": "^2.57.0",
@@ -14,12 +20,21 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.3",
+    "@secretlint/secretlint-rule-preset-recommend": "^13.0.2",
     "@types/cli-progress": "^3.11.6",
     "@types/fluent-ffmpeg": "^2.1.28",
     "@types/node": "^22.0.0",
+    "@vitest/coverage-v8": "^4.1.10",
+    "@vitest/eslint-plugin": "^1.6.23",
     "eslint": "^10.7.0",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsdoc": "^63.0.13",
+    "jscpd": "^5.0.12",
+    "secretlint": "^13.0.2",
     "tsx": "^4.19.0",
     "typescript": "^5.8.0",
-    "typescript-eslint": "^8.63.0"
+    "typescript-eslint": "^8.63.0",
+    "vitest": "^4.1.10"
   }
 }

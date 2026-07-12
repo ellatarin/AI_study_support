@@ -36,10 +36,9 @@ esac
 cd "$repo_root"
 
 # Collect staged files by category.
-staged_all="$(git diff --cached --name-only --diff-filter=ACM \
-  | grep -E '\.(ts|tsx|js|mjs|cjs|jsx|json|jsonc|md)$' || true)"
-staged_ts="$(git diff --cached --name-only --diff-filter=ACM \
-  | grep -E '\.(ts|tsx)$' || true)"
+staged_any="$(git diff --cached --name-only --diff-filter=ACM || true)"
+staged_all="$(echo "$staged_any" | grep -E '\.(ts|tsx|js|mjs|cjs|jsx|json|jsonc|md)$' || true)"
+staged_ts="$(echo "$staged_any" | grep -E '\.(ts|tsx)$' || true)"
 
 fail() {
   # Print the reason for the block to stderr; Claude Code surfaces stderr
@@ -47,6 +46,14 @@ fail() {
   echo "$*" >&2
   exit 2
 }
+
+# 0. secretlint — secret/credential detection on ALL staged files.
+# Runs first because a leaked secret is the one class of bug where remediation
+# after the commit lands is far more expensive than catching it here.
+if [ -n "$staged_any" ]; then
+  echo "$staged_any" | xargs pnpm exec secretlint \
+    || fail "secretlint detected potential secrets in staged files. Review, redact, and re-commit. If it is a genuine false positive, add an allowlist entry to .secretlintrc.json."
+fi
 
 # 1. biome — format + standard linting on staged files.
 if [ -n "$staged_all" ]; then
@@ -63,6 +70,17 @@ if [ -n "$staged_ts" ]; then
   echo "$staged_ts" | xargs pnpm exec eslint \
     || fail "eslint failed on staged TypeScript files. Fix and re-commit."
 fi
+
+# 4. jscpd — copy-paste detection across the whole src/ tree.
+# Whole-tree, not staged-only: a new file may duplicate an existing one that
+# wasn't in the staged set. Config lives in .jscpd.json.
+pnpm exec jscpd --silent \
+  || fail "jscpd found duplicate code. See report above; extract into a shared helper and re-commit."
+
+# 5. vitest — full test suite. --passWithNoTests avoids blocking during the
+# pre-Phase-1 window when there are no tests yet.
+pnpm exec vitest --run --passWithNoTests \
+  || fail "Tests failed. Fix the failures above and re-commit."
 
 # All checks passed; allow the commit to proceed.
 exit 0
