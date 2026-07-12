@@ -1,0 +1,9 @@
+#!/bin/bash
+echo "BLOCKED: The Grep tool returns raw file matches and leads to Read chains that bloat context." >&2
+echo "" >&2
+echo "Use vera instead:" >&2
+echo "  - vera search \"describe behaviour\"  → semantic/conceptual queries" >&2
+echo "  - vera grep \"exact pattern\"         → regex, exact strings, imports, TODOs" >&2
+echo "" >&2
+echo "If the vera index is missing: run \`vera index .\` then retry." >&2
+exit 2

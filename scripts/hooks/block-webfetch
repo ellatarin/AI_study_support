@@ -1,0 +1,21 @@
+#!/bin/bash
+OVERRIDE_FILE=".claude/tool-override"
+
+if [ -f "$OVERRIDE_FILE" ]; then
+  reason=$(cat "$OVERRIDE_FILE")
+  rm "$OVERRIDE_FILE"
+  echo "Override accepted: $reason" >&2
+  exit 0
+fi
+
+echo "BLOCKED: WebFetch fetches entire pages and bloats context. Use tavily MCP tools instead:" >&2
+echo "  - tavily_search   → find information on the web" >&2
+echo "  - tavily_extract  → extract content from a specific URL" >&2
+echo "  - tavily_research → deep multi-step research" >&2
+echo "" >&2
+echo "Override is legitimate when:" >&2
+echo "  - The URL is not a webpage (e.g. raw JSON/YAML spec, binary, non-crawlable resource)" >&2
+echo "  - tavily_extract already failed on this URL" >&2
+echo "" >&2
+echo "To override: Write '.claude/tool-override' with your reason before this tool call." >&2
+exit 2
