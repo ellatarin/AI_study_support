@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.2-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.3-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-07-12
 **Status:** For review
 
@@ -15,6 +15,8 @@ Testing is not a final phase — unit tests are written alongside each deliverab
 Cross-references to the technical design are noted as **(TD §N)**.
 
 **CLAUDE.md is the single source of truth for development conventions.** Every rule in `/CLAUDE.md` — TSDoc, `Promise<T>` return types, named exports, `type` aliases, typed catches, immutability, DRY, atomic commits, etc. — applies to every deliverable in this plan and MUST be applied during development, not left to the pre-commit checklist. Rules are not restated per phase.
+
+**Each fact has one home.** This plan owns build order, per-phase deliverables, acceptance criteria, and test intent. It does not restate design: stage behaviour, contracts, and data shapes live in the technical design (referenced as **(TD §N)**), and exact type definitions live in `src/types/*` once written — the TD references those too rather than reproducing them. A phase that needs a design detail links to it; it never copies it. Test names may echo the behaviour they verify — that is the executable spec following the design, not duplication.
 
 ---
 
@@ -271,18 +273,7 @@ Integration tests (`.integration.test.ts`) against a small real test audio/video
 
 **Deliverables:**
 
-`src/pipeline/stages/transcript-structuring.ts` **(TD Stage 3)**:
-- One LLM call, given the transcript and the lecturer's provisional title, returning: `{ provisionalTitleMeaningful: boolean; suggestedTitle: string | null; structuredMarkdown: string }`
-- Prompt specifies: judge whether the lecturer's provisional title is meaningful and accurate for the content and **prefer it when it is** (a deliberately-written title is authoritative); only when it is not, propose a `suggestedTitle` that is 4–8 words, filename-safe, and accurately reflects the content
-- When `provisionalTitleMeaningful === false`, `suggestedTitle` is stored as `aiDerivedTitle` and `lectureTitle` (always non-null since Stage 0 seeded it with `provisionalTitle`) is overwritten with it; when `true`, `aiDerivedTitle` stays `null` and `lectureTitle` is left untouched
-- Conditional rename when `provisionalTitleMeaningful === false`:
-  - Source video, source slide, workspace folder, `Final output/` PDF (if present)
-  - `workspaceFolderName` updated in manifest after rename
-- Output: `Structured transcript/structured-transcript.md`
-
-**Prompt design notes:**
-- Ask for JSON response: `{ "provisionalTitleMeaningful": true, "suggestedTitle": null, "markdown": "..." }` — use structured output / JSON mode
-- Structuring instructions: H2 major topics, H3 sub-topics, filler words removed, LaTeX for maths, Q&A as blockquote, no added content
+`src/pipeline/stages/transcript-structuring.ts` **(TD Stage 3)** — a single JSON-mode LLM call that judges the lecturer's provisional title against the transcript and structures the transcript into markdown, then performs the conditional source/folder/PDF rename. Implement to TD Stage 3, which specifies the response contract, the prefer-the-original title judgement, the `aiDerivedTitle`/`lectureTitle` semantics, the rename rules, and the structuring rules (headings, filler removal, LaTeX, Q&A blockquotes, no added content). Output: `Structured transcript/structured-transcript.md`.
 
 **Tests:**
 

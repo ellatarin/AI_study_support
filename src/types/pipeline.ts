@@ -11,7 +11,8 @@
  */
 
 /**
- * Canonical identifier for each pipeline stage, in execution order.
+ * Canonical identifier for each pipeline stage, in execution order
+ * (technical-design.md §4.1).
  */
 export type StageId =
 	| "source-normalisation"
@@ -28,7 +29,8 @@ export type StageId =
  * Lifecycle status of a stage as recorded in the run manifest.
  *
  * `running` is written before a stage begins; a crash therefore leaves
- * `running` behind, which the next launch treats as `failed`.
+ * `running` behind, which the next launch treats as `failed`
+ * (technical-design.md §4.2, stage status semantics).
  */
 export type StageStatus = "pending" | "running" | "complete" | "failed" | "skipped";
 
@@ -38,7 +40,7 @@ export type StageStatus = "pending" | "running" | "complete" | "failed" | "skipp
  * Modelled as a discriminated union on `totalCostUsd`: a resolved cost carries
  * a number; a failed lookup carries `null` together with the
  * `costResolutionError` explaining why (every retry of the OpenRouter
- * generation lookup failed). Tokens and `callCount` are always populated.
+ * generation lookup failed). Tokens and `callCount` are always populated (technical-design.md §7).
  */
 export type StageCost = {
 	readonly promptTokens: number;
@@ -61,7 +63,8 @@ type StageParams = {
  * The resolved per-stage configuration actually used for a run, recorded in the
  * manifest and run log so cost data can be attributed to a specific model and
  * parameter set. `modelId` is `null` only for stages that make no LLM calls (in
- * which case the whole `StageRunConfig` is typically `null`).
+ * which case the whole `StageRunConfig` is typically `null`). Recorded per stage
+ * in the manifest and run log (technical-design.md §4.5, §4.6).
  */
 export type StageRunConfig = {
 	readonly modelId: string | null;
@@ -70,7 +73,7 @@ export type StageRunConfig = {
 /**
  * Per-stage model and parameter configuration as declared in
  * `pipeline-config.json`. Unlike {@link StageRunConfig}, `modelId` is required
- * here — a configured stage always names a model.
+ * here — a configured stage always names a model (technical-design.md §6).
  */
 export type StageConfig = {
 	readonly modelId: string;
@@ -93,12 +96,13 @@ export type PipelineConfig = {
 };
 
 /**
- * The checker's verdict for a single QA iteration.
+ * The checker's verdict for a single QA iteration (technical-design.md Stage 7).
  */
 export type QaVerdict = "pass" | "fail";
 
 /**
- * A single QA iteration's outcome, summarised for the manifest.
+ * A single QA iteration's outcome, summarised for the manifest
+ * (technical-design.md Stage 7).
  */
 export type QaIterationSummary = {
 	readonly iteration: number;
@@ -174,7 +178,7 @@ type SharedStageEntry =
  * A stage's entry in the run manifest, discriminated by `status` so that
  * status-specific fields (`completedAt`, `failedAt`, `error`) are present only
  * when they are meaningful. Applies to every stage except `qa-loop`, which
- * carries additional data — see {@link QaManifestStageEntry}.
+ * carries additional data — see {@link QaManifestStageEntry}. Defined in technical-design.md §4.5.
  */
 export type ManifestStageEntry = SharedStageEntry | StageEntryComplete;
 
@@ -197,6 +201,11 @@ type ManifestStages = {
 /** The lecture-identity fields common to the manifest and the stage context. */
 type LectureIdentity = {
 	readonly lectureNumber: number;
+	/**
+	 * `YYYY-MM-DD`. Unique within its `moduleRoot` (guaranteed by Stage 0) and
+	 * the user-facing identifier the CLI accepts, e.g. `run <date>`
+	 * (technical-design.md §4.7).
+	 */
 	readonly lectureDate: string;
 	/** Best-effort title from the source filename; may be thin (see naming.ts). */
 	readonly provisionalTitle: string;
@@ -234,12 +243,13 @@ export type RunManifest = {
 	};
 
 /**
- * Immutable context handed to every stage for a single lecture run. Stages read
+ * Immutable context handed to every stage for a single lecture run
+ * (technical-design.md §4.2). Stages read
  * from it but never mutate it; all manifest changes flow through the runner.
  */
 export type StageContext = LectureIdentity & {
-	readonly workspaceRoot: string;
-	readonly moduleRoot: string;
+	readonly workspaceRoot: string; // canonical internal handle; absolute path to workspace folder
+	readonly moduleRoot: string; // absolute path to the containing module (e.g. Biology of Disease/)
 	readonly config: PipelineConfig;
 	readonly manifest: RunManifest;
 };
@@ -261,7 +271,7 @@ export type StageResult<TOutput> = {
 };
 
 /**
- * The interface every pipeline stage implements.
+ * The interface every pipeline stage implements (technical-design.md §4.2).
  *
  * @typeParam TInput - The input the stage consumes, produced by `getInput`.
  * @typeParam TOutput - The output the stage's `run` produces.
@@ -296,7 +306,7 @@ export type PipelineStage<TInput, TOutput> = {
 };
 
 /**
- * Severity of a single QA deficiency.
+ * Severity of a single QA deficiency (technical-design.md Stage 7).
  */
 export type QaSeverity = "critical" | "major" | "minor";
 
@@ -306,35 +316,36 @@ export type QaSeverity = "critical" | "major" | "minor";
  * Stage 7).
  */
 export type QaDeficiencyType =
-	| "omission"
-	| "inadequate-coverage"
-	| "factual-error"
-	| "unsupported-claim"
-	| "clarity"
-	| "british-english"
-	| "formatting"
-	| "figure-reference";
+	| "omission" // source content is entirely absent from the notes (FR-4.2)
+	| "inadequate-coverage" // source content is mentioned but under-developed (FR-4.2)
+	| "factual-error" // a claim in the notes contradicts the source (FR-4.3)
+	| "unsupported-claim" // a claim in the notes is not supported by any source (FR-4.3)
+	| "clarity" // factually correct but ambiguous, muddled, or hard to follow (FR-4.3)
+	| "british-english" // spelling, punctuation, or idiom deviating from en-GB
+	| "formatting" // heading level, list structure, table structure, or LaTeX rendering
+	| "figure-reference"; // wrong image, missing image, or broken relative path
 
 /**
  * A single issue found by the QA checker, with the evidence and the suggested
- * remedy the reviser will act on.
+ * remedy the reviser will act on (technical-design.md Stage 7).
  */
 export type QaDeficiency = {
 	readonly severity: QaSeverity;
 	readonly type: QaDeficiencyType;
 	readonly description: string;
-	readonly sourceEvidence: string;
+	readonly sourceEvidence: string; // direct quote from the source material
 	readonly suggestedFix: string;
-	readonly location: string;
+	readonly location: string; // section heading, "Glossary", or "throughout"
 };
 
 /**
- * The structured report returned by the QA checker for one iteration.
+ * The structured report returned by the QA checker for one iteration
+ * (technical-design.md Stage 7).
  */
 export type QaDeficienciesReport = {
 	readonly iteration: number;
 	readonly overallVerdict: QaVerdict;
-	readonly coverageScore: number;
+	readonly coverageScore: number; // 0–100, LLM self-assessed
 	readonly deficiencies: readonly QaDeficiency[];
 };
 
@@ -364,7 +375,8 @@ type RanStageBase = {
 };
 
 /**
- * What happened to a stage during a run, as recorded in the run log.
+ * What happened to a stage during a run, as recorded in the run log
+ * (technical-design.md §4.6).
  *
  * `skipped` means the stage was eligible but its output already existed;
  * `not-reached` means an upstream failure prevented it from being attempted. A
@@ -396,7 +408,7 @@ export type RunLog = {
 /**
  * The overall outcome of a run or batch: every attempted stage complete
  * (`success`), some skipped or not reached (`partial`), or at least one failure
- * (`failed`).
+ * (`failed`) (technical-design.md §4.7).
  */
 export type OverallStatus = "success" | "partial" | "failed";
 
@@ -415,8 +427,13 @@ export type LectureMatch = {
  * Options controlling a single lecture or batch run (technical-design.md §4.7).
  */
 export type RunOptions = {
-	readonly fromStage?: StageId;
-	readonly concurrency?: number;
+	readonly fromStage?: StageId; // reset this stage + all downstream to pending before running
+	readonly concurrency?: number; // parallel lecture count for runBatch; overrides the config default
+	/**
+	 * When `true`, a stage failure is logged and the runner moves to the next
+	 * stage rather than aborting the run; when unset (default), the run stops at
+	 * the first failed stage (technical-design.md §8, Stage Failure Protocol).
+	 */
 	readonly continueOnError?: boolean;
 };
 
@@ -424,29 +441,30 @@ export type RunOptions = {
  * Options narrowing a cost report (technical-design.md §4.7).
  */
 export type ReportOptions = {
-	readonly lectureDate?: string;
+	readonly lectureDate?: string; // narrow the report to this date (via resolveLecturesByDate)
 };
 
 /**
- * The outcome of running one lecture through the pipeline.
+ * The outcome of running one lecture through the pipeline (technical-design.md §4.7).
  */
 export type RunSummary = {
 	readonly workspaceRoot: string;
-	readonly runId: string;
-	readonly startedAt: string;
-	readonly endedAt: string;
+	readonly runId: string; // matches the run log created for this run
+	readonly startedAt: string; // ISO 8601
+	readonly endedAt: string; // ISO 8601
 	readonly totalCostUsd: number;
 	readonly stageOutcomes: readonly RunLogStageEntry[];
 	readonly overallStatus: OverallStatus;
 };
 
 /**
- * The outcome of running a batch of lectures across one or more modules.
+ * The outcome of running a batch of lectures across one or more modules
+ * (technical-design.md §4.7).
  */
 export type BatchSummary = {
 	readonly startedAt: string;
 	readonly endedAt: string;
-	readonly lectures: readonly RunSummary[];
+	readonly lectures: readonly RunSummary[]; // one entry per lecture attempted, in the order they ran
 	readonly totalCostUsd: number;
 	readonly overallStatus: OverallStatus;
 };

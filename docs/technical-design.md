@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.2-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.3-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-07-12
 **Status:** For review
 
@@ -164,64 +164,14 @@ Because all other files inside the workspace use simple names, only the four ite
 
 ### 4.2 Stage Interface
 
-```typescript
-type PipelineStage<TInput, TOutput> = {
-  readonly stageId: StageId;
+Every stage implements a common `PipelineStage<TInput, TOutput>` contract: an idempotency check `isComplete(context)`, an input step `getInput(context)`, and `run({ input, context })` returning a `StageResult`. Stages read an immutable `StageContext` — lecture identity, `workspaceRoot`, `moduleRoot`, the resolved `PipelineConfig`, and the current `RunManifest` — and never mutate it; all manifest changes flow through the runner.
 
-  isComplete(context: StageContext): Promise<boolean>;
-  getInput(context: StageContext): Promise<TInput>;
-  run(args: { input: TInput; context: StageContext }): Promise<StageResult<TOutput>>;
-};
+**Authoritative types.** The exact shape of every pipeline contract — `PipelineStage`, `StageId`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, and the rest — lives in `src/types/pipeline.ts` with per-field documentation. That file is the single source of truth; this section describes intent and the invariants those types encode, not field lists:
 
-type StageId =
-  | 'source-normalisation'
-  | 'audio-extraction'
-  | 'transcription'
-  | 'transcript-structuring'
-  | 'slide-conversion'
-  | 'image-extraction'
-  | 'synthesis'
-  | 'qa-loop'
-  | 'pdf-generation';
-
-type StageContext = {
-  lectureNumber: number;
-  lectureDate: string;                    // YYYY-MM-DD — unique within moduleRoot; used as the CLI identifier for a lecture (see §4.7)
-  provisionalTitle: string;              // best-effort title extracted from original filename; may be thin
-  lectureTitle: string;                   // always non-null; initialised at Stage 0 to `provisionalTitle`; Stage 3 overwrites to `aiDerivedTitle` only if the LLM judges the provisional not meaningful for the content
-  workspaceRoot: string;                  // absolute path to the lecture workspace folder — the canonical internal handle
-  moduleRoot: string;                     // absolute path to the containing module (e.g. Biology of Disease/)
-  config: PipelineConfig;
-  manifest: RunManifest;
-};
-
-type StageResult<TOutput> = {
-  output: TOutput;
-  cost: StageCost | null;         // null for stages that make no billable calls (e.g. audio-extraction, pdf-generation)
-  filesWritten: string[];         // relative paths from workspaceRoot; MAY escape upward with `..` (e.g. pdf-generation writes to `../../Final output/`) but MUST resolve to a location under moduleRoot — see §4.4
-};
-
-type StageCost = {
-  promptTokens: number;
-  completionTokens: number;
-  callCount: number;
-} & (
-  // Discriminated on totalCostUsd: a resolved cost carries a number; a failed
-  // lookup carries null together with costResolutionError explaining why (every
-  // retry of the generation lookup failed; see §7). Modelling it as a union
-  // keeps the error field present exactly when the cost is null.
-  | { totalCostUsd: number }
-  | { totalCostUsd: null; costResolutionError: string }
-);
-
-type StageRunConfig = {
-  readonly modelId: string | null;         // null only for stages that make no LLM calls (e.g. audio-extraction, pdf-generation) — in which case StageRunConfig itself is typically null
-  readonly temperature?: number;
-  readonly maxTokens?: number;
-  readonly concurrency?: number;           // slide-conversion, image-extraction
-  readonly maxIterations?: number;         // qa-loop
-};
-```
+- `StageResult.cost` is `null` for stages that make no billable calls (audio-extraction, pdf-generation).
+- `StageResult.filesWritten` holds paths relative to `workspaceRoot`, and MAY escape upward with `..` (e.g. pdf-generation writes to `../../Final output/`) but MUST resolve under `moduleRoot` — enforced by §4.4.
+- `StageCost` is discriminated on `totalCostUsd`: a resolved cost is a `number`; a failed lookup is `null` paired with a `costResolutionError` (see §7).
+- `lectureTitle` is always non-null — seeded at Stage 0, possibly overwritten at Stage 3 (see §3.2, Stage 3).
 
 `isComplete()` checks two conditions: the manifest marks the stage `'complete'`, AND every path in `manifest.stages[stageId].filesWritten` exists on disk. Both must be true. This means a completed stage whose output was manually deleted returns `false` and re-runs automatically.
 
@@ -269,7 +219,9 @@ This is enforced in every place a path from `filesWritten` or the manifest is us
 
 One `manifest.json` per lecture, stored in the workspace root. All paths are relative to `workspaceRoot` so the manifest survives a folder rename.
 
-The manifest tracks the **current pipeline state** and the cost of the most recent successful execution of each stage. Historical cost across multiple runs is the responsibility of the run logs (§4.6).
+The manifest tracks the **current pipeline state** and the cost of the most recent successful execution of each stage. Historical cost across multiple runs is the responsibility of the run logs (§4.6). Its TypeScript shape is `RunManifest` in `src/types/pipeline.ts` (single source of truth); the example below is illustrative, not the schema.
+
+Each stage entry records `configUsed` — a `StageRunConfig` capturing the model ID and tuning parameters (temperature, max tokens, concurrency, max QA iterations) actually resolved for that run, or `null` for stages that make no LLM calls. This lets spend be attributed to a specific model and configuration and lets model experiments be compared (NFR-3.2). The run logs (§4.6) record the same `configUsed` per attempt.
 
 ```jsonc
 {
@@ -277,8 +229,8 @@ The manifest tracks the **current pipeline state** and the cost of the most rece
   "lectureNumber": 1,
   "lectureDate": "2025-10-10",
   "provisionalTitle": "Disease Cell Injury and the Immune System",
-  "aiDerivedTitle": null,                                  // Stage 3 kept the lecturer's title; no replacement proposed
-  "lectureTitle": "Disease Cell Injury and the Immune System", // provisional kept — Stage 3 judged it meaningful
+  "aiDerivedTitle": null,
+  "lectureTitle": "Disease Cell Injury and the Immune System",
   "workspaceFolderName": "Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10",
   "createdAt": "2025-10-10T09:00:00.000Z",
   "updatedAt": "2025-10-10T10:15:00.000Z",
@@ -401,42 +353,9 @@ Each log records which stages were attempted, skipped, or re-run; cost and model
 
 ### 4.7 Pipeline Runner
 
+The runner-facing types — `LectureMatch`, `RunOptions`, `ReportOptions`, `RunSummary`, and `BatchSummary` — are defined in `src/types/pipeline.ts` (single source of truth). The `PipelineRunner` surface:
+
 ```typescript
-type LectureMatch = {
-  readonly moduleRoot: string;
-  readonly workspaceRoot: string;
-  readonly lectureNumber: number;
-  readonly lectureTitle: string;
-};
-
-type RunOptions = {
-  readonly fromStage?: StageId;              // reset this stage + all downstream to `pending` before running
-  readonly concurrency?: number;             // parallel lecture count for runBatch; overrides config defaults
-  readonly continueOnError?: boolean;        // if true, on stage failure the runner logs and moves to the next stage
-};
-
-type ReportOptions = {
-  readonly lectureDate?: string;             // narrow the report to lectures on this date (uses resolveLecturesByDate)
-};
-
-type RunSummary = {
-  readonly workspaceRoot: string;
-  readonly runId: string;                    // matches the created run log
-  readonly startedAt: string;                // ISO 8601
-  readonly endedAt: string;                  // ISO 8601
-  readonly totalCostUsd: number;
-  readonly stageOutcomes: readonly RunLogStageEntry[];
-  readonly overallStatus: 'success' | 'partial' | 'failed';   // success = every attempted stage complete; partial = some skipped/not-reached; failed = at least one failure
-};
-
-type BatchSummary = {
-  readonly startedAt: string;
-  readonly endedAt: string;
-  readonly lectures: readonly RunSummary[];  // one entry per lecture attempted, in the order they ran
-  readonly totalCostUsd: number;
-  readonly overallStatus: 'success' | 'partial' | 'failed';
-};
-
 class PipelineRunner {
   async normaliseSources(args: { moduleRoots: readonly string[] }): Promise<void>          // Stage 0
   async runLecture(args: { workspaceRoot: string; options: RunOptions }): Promise<RunSummary>
@@ -448,6 +367,8 @@ class PipelineRunner {
   private createRunLog(args: { workspaceRoot: string; options: RunOptions }): RunLog
 }
 ```
+
+**Run outcome classification.** A `RunSummary.overallStatus` — and the aggregate `BatchSummary.overallStatus` across a batch's lectures — is `success` when every attempted stage completed, `partial` when one or more stages were skipped or not reached, and `failed` when at least one stage failed.
 
 **`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes per-stage intermediate files for the stages being re-run (e.g. `Slide content/raw/*.md` when re-running Stage 4), so the re-run produces entirely fresh output. Upstream stages are untouched. Deletion targets hard-coded per-stage directories (see §4.4) — never `filesWritten` from the manifest.
 
@@ -521,7 +442,7 @@ Uploads the audio to ElevenLabs Scribe v2 with a streaming upload progress bar (
 **Output:** `Structured transcript/structured-transcript.md`
 **Conditional side effect:** Rename of source video, source slide, workspace folder, and `Final output/` PDF only when the LLM judges the provisional title not meaningful.
 
-Stage 3 makes a single LLM call that returns a title judgement and the structured transcript markdown. The title is resolved first; everything else in the pipeline depends on it.
+Stage 3 makes a single JSON-mode LLM call returning `{ provisionalTitleMeaningful: boolean; suggestedTitle: string | null; structuredMarkdown: string }` — a title judgement and the structured transcript markdown. The title is resolved first; everything else in the pipeline depends on it.
 
 #### Title Determination
 
@@ -696,31 +617,7 @@ QA and revision are two separate LLM calls per iteration. Combining them in one 
 
 #### Deficiency Schema
 
-```typescript
-type QaDeficienciesReport = {
-  iteration: number;
-  overallVerdict: 'pass' | 'fail';
-  coverageScore: number;          // 0–100, LLM self-assessed
-  deficiencies: QaDeficiency[];
-};
-
-type QaDeficiency = {
-  severity: 'critical' | 'major' | 'minor';
-  type:
-    | 'omission'             // source content is entirely absent from the notes (FR-4.2)
-    | 'inadequate-coverage'  // source content is mentioned but under-developed (FR-4.2)
-    | 'factual-error'        // a claim in the notes contradicts the source (FR-4.3)
-    | 'unsupported-claim'    // a claim in the notes is not supported by any source (FR-4.3)
-    | 'clarity'              // factually correct but ambiguous, muddled, or hard to follow (FR-4.3)
-    | 'british-english'      // spelling, punctuation, or idiom deviating from en-GB
-    | 'formatting'           // heading level, list structure, table structure, LaTeX rendering
-    | 'figure-reference';    // wrong image, missing image, broken relative path
-  description: string;
-  sourceEvidence: string;         // direct quote from source material
-  suggestedFix: string;
-  location: string;               // section heading, "Glossary", or "throughout"
-};
-```
+The QA checker returns a `QaDeficienciesReport`: an `overallVerdict` (`pass`/`fail`), a self-assessed `coverageScore` (0–100), and a list of `QaDeficiency` items. Each deficiency carries a `severity` (`critical`/`major`/`minor`), a `type` (the eight categories listed in the reviser-branch table above, each mapped to FR-4.2/FR-4.3), a `description`, a `sourceEvidence` quote from the source material, a `suggestedFix`, and a `location`. Exact shapes and per-field/per-category documentation are the single source of truth in `src/types/pipeline.ts` (`QaDeficienciesReport`, `QaDeficiency`, `QaDeficiencyType`, `QaSeverity`).
 
 #### Loop Termination
 
