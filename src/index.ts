@@ -8,8 +8,7 @@ import { confirm, select } from "@inquirer/prompts";
 import cliProgress from "cli-progress";
 import ffmpeg from "fluent-ffmpeg";
 
-const BASE_DIR =
-	"/Users/jamestarin/Source material/Lecture Content/Biology of Disease";
+const BASE_DIR = "/Users/jamestarin/Source material/Lecture Content/Biology of Disease";
 const SOURCE_DIR = path.join(BASE_DIR, "Lecture recordings");
 const AUDIO_DIR = path.join(BASE_DIR, "Lecture audio extracts");
 const OUTPUT_DIR = path.join(BASE_DIR, "Lecture transcriptions");
@@ -18,7 +17,9 @@ function formatMB(bytes: number): string {
 	return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
 
-function extractAudio(inputPath: string, outputPath: string): Promise<void> {
+function extractAudio(args: { inputPath: string; outputPath: string }): Promise<void> {
+	const { inputPath, outputPath } = args;
+	// eslint-disable-next-line max-params -- Promise executor signature is spec-defined
 	return new Promise((resolve, reject) => {
 		const bar = new cliProgress.SingleBar(
 			{ format: "Extracting audio |{bar}| {percentage}%", hideCursor: true },
@@ -30,9 +31,7 @@ function extractAudio(inputPath: string, outputPath: string): Promise<void> {
 			.noVideo()
 			.audioCodec("copy")
 			.output(outputPath)
-			.on("progress", (p) =>
-				bar.update(Math.min(Math.round(p.percent ?? 0), 99)),
-			)
+			.on("progress", (progress) => bar.update(Math.min(Math.round(progress.percent ?? 0), 99)))
 			.on("end", () => {
 				bar.update(100);
 				bar.stop();
@@ -53,8 +52,9 @@ function createUploadProgressStream(totalBytes: number): {
 	const bar = new cliProgress.SingleBar(
 		{
 			format: "Uploading    |{bar}| {percentage}%  {value} / {total}",
-			formatValue: (v, _, type) =>
-				type === "value" || type === "total" ? formatMB(v) : String(v),
+			// eslint-disable-next-line max-params -- cli-progress formatValue signature is fixed
+			formatValue: (value, _, type) =>
+				type === "value" || type === "total" ? formatMB(value) : String(value),
 			hideCursor: true,
 		},
 		cliProgress.Presets.shades_classic,
@@ -62,6 +62,7 @@ function createUploadProgressStream(totalBytes: number): {
 
 	let uploaded = 0;
 	const stream = new Transform({
+		// eslint-disable-next-line max-params -- Node stream Transform.transform signature is fixed
 		transform(chunk: Buffer, _encoding, callback) {
 			uploaded += chunk.length;
 			bar.update(uploaded);
@@ -85,7 +86,7 @@ async function main() {
 
 	const files = fs
 		.readdirSync(SOURCE_DIR)
-		.filter((f) => f.toLowerCase().endsWith(".mp4"))
+		.filter((file) => file.toLowerCase().endsWith(".mp4"))
 		.sort();
 
 	if (files.length === 0) {
@@ -95,7 +96,7 @@ async function main() {
 
 	const chosen = await select({
 		message: "Select a lecture to transcribe:",
-		choices: files.map((f) => ({ value: f, name: f })),
+		choices: files.map((file) => ({ value: file, name: file })),
 	});
 
 	const inputPath = path.join(SOURCE_DIR, chosen);
@@ -117,19 +118,16 @@ async function main() {
 	console.log("");
 
 	if (fs.existsSync(audioPath)) {
-		console.log(
-			`Audio extract already exists, skipping extraction:\n  ${audioPath}`,
-		);
+		console.log(`Audio extract already exists, skipping extraction:\n  ${audioPath}`);
 	} else {
-		await extractAudio(inputPath, audioPath);
+		await extractAudio({ inputPath, outputPath: audioPath });
 		console.log(`Audio saved to:\n  ${audioPath}`);
 	}
 
 	console.log("");
 
 	const totalBytes = fs.statSync(audioPath).size;
-	const { stream: progressStream, bar } =
-		createUploadProgressStream(totalBytes);
+	const { stream: progressStream, bar } = createUploadProgressStream(totalBytes);
 
 	const client = new ElevenLabsClient({ apiKey });
 
@@ -143,9 +141,7 @@ async function main() {
 		.finally(() => bar.stop());
 
 	if (!("text" in result)) {
-		throw new Error(
-			"Unexpected response from ElevenLabs — no transcript text returned.",
-		);
+		throw new Error("Unexpected response from ElevenLabs — no transcript text returned.");
 	}
 
 	console.log("\nTranscribing… (this may take a moment)");
@@ -153,7 +149,8 @@ async function main() {
 	console.log(`Transcript saved to:\n  ${outputPath}\n`);
 }
 
-main().catch((err: Error) => {
-	console.error("Error:", err.message);
+main().catch((err: unknown) => {
+	const message = err instanceof Error ? err.message : String(err);
+	console.error("Error:", message);
 	process.exit(1);
 });
