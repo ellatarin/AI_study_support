@@ -1,5 +1,6 @@
 import { readdir, realpath, rename, rm, writeFile } from "node:fs/promises";
 import { basename, dirname, isAbsolute, join, relative, resolve } from "node:path";
+import { NamedError } from "./errors.js";
 
 /**
  * Thrown when a path derived from the run manifest or a stage's `filesWritten`
@@ -7,15 +8,7 @@ import { basename, dirname, isAbsolute, join, relative, resolve } from "node:pat
  * signals a corrupt or hand-edited manifest attempting to reach beyond
  * `moduleRoot` (technical-design.md §4.4).
  */
-export class ManifestPathError extends Error {
-	/**
-	 * @param message - Human-readable description of the boundary violation.
-	 */
-	public constructor(message: string) {
-		super(message);
-		this.name = "ManifestPathError";
-	}
-}
+export class ManifestPathError extends NamedError {}
 
 /**
  * Writes a file atomically: content is written to a `.tmp`-suffixed sibling and
