@@ -10,8 +10,8 @@ import type { StageId } from "../types/pipeline.js";
  * stdout or stderr and cannot interfere with the cli-progress bars
  * (technical-design.md §10).
  *
- * @param args - The run timestamp identifying this invocation; it names the log
- * file and is shared with the run log.
+ * @param args - The invocation identity.
+ * @param args.runTimestamp - The run timestamp; names the log file and is shared with the run log.
  * @returns A pino logger writing at `debug` level to the run's debug log file.
  * @example
  * const logger = createRootLogger({ runTimestamp: "2025-10-10T09-00-00-000Z" });
@@ -30,7 +30,9 @@ export function createRootLogger({ runTimestamp }: { readonly runTimestamp: stri
  * stage context is attached automatically without each call site repeating it
  * (technical-design.md §10).
  *
- * @param args - The root logger to derive from and the stage the child logs for.
+ * @param args - The child-logger inputs.
+ * @param args.logger - The root logger to derive from.
+ * @param args.stageId - The stage the child logs for.
  * @returns A child logger bound to the given stage.
  * @example
  * const stageLogger = createStageLogger({ logger, stageId: "transcription" });

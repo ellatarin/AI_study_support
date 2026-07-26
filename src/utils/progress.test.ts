@@ -15,7 +15,6 @@ describe("createProgressBar", () => {
 	it("should return a SingleBar when a value formatter is also provided", () => {
 		const bar = createProgressBar({
 			format: "Task |{bar}| {value}",
-			// eslint-disable-next-line max-params -- cli-progress formatValue signature is fixed
 			formatValue: (value, _options, type) => (type === "value" ? `${value}b` : String(value)),
 		});
 

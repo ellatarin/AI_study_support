@@ -8,12 +8,22 @@ const PARALLEL_WORK_FORMAT =
 /** ESC control character, built at runtime to avoid embedding a literal control byte in source. */
 const ESC = String.fromCharCode(27);
 
-/** ANSI-red wrapper used to highlight a failed item's id in the in-flight suffix. */
+/**
+ * ANSI-red wrapper used to highlight a failed item's id in the in-flight suffix.
+ *
+ * @param text - The text to wrap in the red control sequence.
+ * @returns The text wrapped in ANSI red.
+ */
 function inRed(text: string): string {
 	return `${ESC}[31m${text}${ESC}[0m`;
 }
 
-/** Formats a byte count as megabytes for the upload bar's value display. */
+/**
+ * Formats a byte count as megabytes for the upload bar's value display.
+ *
+ * @param bytes - The byte count to format.
+ * @returns The value formatted as megabytes (e.g. `1.5 MB`).
+ */
 function formatMegabytes(bytes: number): string {
 	return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
@@ -23,8 +33,9 @@ function formatMegabytes(bytes: number): string {
  * cursor handling. The single place bars are built, so every bar shares the same
  * look and no construction is duplicated across stages.
  *
- * @param args - The cli-progress format string and an optional value formatter
- * (e.g. for byte-to-megabyte display).
+ * @param args - The bar configuration.
+ * @param args.format - The cli-progress format string.
+ * @param args.formatValue - Optional value formatter (e.g. byte-to-megabyte display).
  * @returns A configured, not-yet-started `SingleBar`.
  */
 export function createProgressBar({
@@ -89,7 +100,14 @@ export type ParallelWorkBar = {
 	stop(): void;
 };
 
-/** Renders the in-flight suffix: active ids plainly, failed ids highlighted in red. */
+/**
+ * Renders the in-flight suffix: active ids plainly, failed ids highlighted in red.
+ *
+ * @param args - The id sets to render.
+ * @param args.active - Ids currently being processed.
+ * @param args.failed - Ids that have failed.
+ * @returns The comma-separated in-flight suffix.
+ */
 function renderInFlight({
 	active,
 	failed,
@@ -108,7 +126,9 @@ function renderInFlight({
  * up, complete, and fail items (used by Stages 4 and 5). Non-TTY output falls
  * back to cli-progress defaults.
  *
- * @param args - The bar label and the total number of items to process.
+ * @param args - The bar configuration.
+ * @param args.label - The bar label.
+ * @param args.total - The total number of items to process.
  * @returns The bar and its `start`/`pick`/`complete`/`fail`/`stop` controls.
  */
 export function createParallelWorkBar({
