@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.3-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-07-12
+**Suite version:** 1.4-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-07-26
 **Status:** For review
 
 ---
@@ -75,9 +75,9 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `resolveManifestPath({ workspaceRoot, moduleRoot, entry })` — resolves an entry from `filesWritten`, then `realpath`, then asserts the result is under `moduleRoot`; throws `ManifestPathError` if not. Used everywhere a manifest-derived path reaches the filesystem.
 
 `src/utils/logger.ts` — pino setup **(TD §10)**:
-- Root logger with file transport to `runs/<timestamp>-debug.log`
-- `createStageLogger(stageId)` — returns a child logger with `{ stage }` binding
-- Info/warning to stdout/stderr; all debug output to file only
+- `createRootLogger({ runTimestamp })` — root logger writing newline-delimited JSON to `runs/<runTimestamp>-debug.log` (`sync: false`, `mkdir`, file-only); takes the run timestamp so the debug log shares it with the run log
+- `createStageLogger({ logger, stageId })` — returns a child logger with `{ stage }` binding
+- File-only: no debug output reaches stdout/stderr. User-facing info/warning/error messaging (Output Streams table, §10) is emitted by the CLI/runner, not this logger
 
 `src/utils/date.ts` — date parsing:
 - `extractDate(filename)` — uses `chrono-node` to extract a `Date` from a filename; returns `null` if no date found with sufficient confidence
