@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.6-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.7-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-07-26
 **Status:** For review
 
@@ -98,7 +98,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `formatCostReport({ runLogs, manifest })` — returns the three-section report string **(TD §7)**
 
 `src/pipeline/config.ts` — config loader:
-- `loadConfig(projectRoot)` — reads and validates `pipeline-config.json`; throws on missing required fields
+- `loadConfig({ projectRoot, skipModelCheck })` — reads and validates `pipeline-config.json`; throws on missing required fields
 - **Model-ID resolution check:** at startup, fetches `https://openrouter.ai/api/v1/models` once and asserts every configured `stages[*].modelId` appears in the response. On any miss, throws a `ConfigError` naming the stage(s) with unrecognised IDs and linking to `https://openrouter.ai/models`. This catches placeholder strings (e.g. `<REASONING_MODEL>` left un-substituted), typos, and retired IDs before any billable call is made. The check is cached in-process; a `--skip-model-check` flag exists for offline runs against a mocked SDK.
 
 `src/pipeline/openrouter.ts` — OpenRouter client **(TD §6)**:
