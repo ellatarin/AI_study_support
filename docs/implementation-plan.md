@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.5-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.6-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-07-26
 **Status:** For review
 
@@ -89,7 +89,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `filenameSafe(title)` — strips path separators (`/`, `\`), traversal segments (`.`, `..`), null bytes, and ASCII control chars; collapses whitespace; trims leading/trailing whitespace and dots; throws if the result is empty **(TD §4.4)**
 
 `src/utils/progress.ts` — cli-progress helpers:
-- `createProgressBar(format)` — returns a configured `SingleBar`
+- `createProgressBar({ format, formatValue? })` — shared `SingleBar` factory (preset + hideCursor) reused by the other two helpers so bar construction lives in one place; `formatValue` supports e.g. byte→MB display
 - `createUploadProgressStream(totalBytes)` — Transform stream + bar (moved from `src/index.ts`)
 - `createParallelWorkBar({ label, total })` — returns `{ bar, start, pick, complete, fail, stop }`. Wraps a `SingleBar` pre-configured with the in-flight-suffix format from TD Stage 4. `pick(id)` adds an id to the in-flight set; `complete(id)` removes it and ticks the bar; `fail(id)` marks the item red in the final render. Used by Stages 4 and 5. Non-TTY fallback delegated to `cli-progress` defaults.
 

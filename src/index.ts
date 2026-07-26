@@ -2,20 +2,16 @@ import "dotenv/config";
 
 import fs from "node:fs";
 import path from "node:path";
-import { Transform } from "node:stream";
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 import { confirm, select } from "@inquirer/prompts";
 import cliProgress from "cli-progress";
 import ffmpeg from "fluent-ffmpeg";
+import { createUploadProgressStream } from "./utils/progress.js";
 
 const BASE_DIR = "/Users/jamestarin/Source material/Lecture Content/Biology of Disease";
 const SOURCE_DIR = path.join(BASE_DIR, "Lecture recordings");
 const AUDIO_DIR = path.join(BASE_DIR, "Lecture audio extracts");
 const OUTPUT_DIR = path.join(BASE_DIR, "Lecture transcriptions");
-
-function formatMB(bytes: number): string {
-	return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
-}
 
 function extractAudio(args: { inputPath: string; outputPath: string }): Promise<void> {
 	const { inputPath, outputPath } = args;
@@ -43,35 +39,6 @@ function extractAudio(args: { inputPath: string; outputPath: string }): Promise<
 			})
 			.run();
 	});
-}
-
-function createUploadProgressStream(totalBytes: number): {
-	stream: Transform;
-	bar: cliProgress.SingleBar;
-} {
-	const bar = new cliProgress.SingleBar(
-		{
-			format: "Uploading    |{bar}| {percentage}%  {value} / {total}",
-			// eslint-disable-next-line max-params -- cli-progress formatValue signature is fixed
-			formatValue: (value, _, type) =>
-				type === "value" || type === "total" ? formatMB(value) : String(value),
-			hideCursor: true,
-		},
-		cliProgress.Presets.shades_classic,
-	);
-
-	let uploaded = 0;
-	const stream = new Transform({
-		// eslint-disable-next-line max-params -- Node stream Transform.transform signature is fixed
-		transform(chunk: Buffer, _encoding, callback) {
-			uploaded += chunk.length;
-			bar.update(uploaded);
-			callback(null, chunk);
-		},
-	});
-
-	bar.start(totalBytes, 0);
-	return { stream, bar };
 }
 
 async function main() {
