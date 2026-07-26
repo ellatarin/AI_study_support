@@ -66,11 +66,7 @@ export function stripDateTokens(text: string): string {
 	let withoutDates = text;
 	// chrono returns spans in ascending index order; splice from the last span
 	// backwards so earlier indices remain valid as the string shrinks.
-	for (let cursor = spans.length - 1; cursor >= 0; cursor--) {
-		const span = spans[cursor];
-		if (span === undefined) {
-			continue;
-		}
+	for (const span of [...spans].reverse()) {
 		withoutDates = `${withoutDates.slice(0, span.index)} ${withoutDates.slice(span.index + span.text.length)}`;
 	}
 	return withoutDates.replace(/\s+/g, " ").trim();

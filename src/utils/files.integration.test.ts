@@ -79,6 +79,7 @@ describe("files utilities", () => {
 				entry: "../Final output/notes.pdf",
 				leaf: "notes.pdf",
 			},
+			{ description: "the module root itself", entry: "..", leaf: "Biology of Disease" },
 		])("should return a path under moduleRoot when the entry is $description", async ({
 			entry,
 			leaf,
@@ -107,6 +108,14 @@ describe("files utilities", () => {
 			await expect(
 				resolveManifestPath({ workspaceRoot, moduleRoot, entry: makeEntry() }),
 			).rejects.toThrow(ManifestPathError);
+		});
+
+		it("should rethrow a non-ENOENT error when a path segment is a file, not a directory", async () => {
+			await writeFile(join(workspaceRoot, "blocker"), "");
+
+			await expect(
+				resolveManifestPath({ workspaceRoot, moduleRoot, entry: "blocker/child/notes.txt" }),
+			).rejects.toThrow();
 		});
 	});
 });

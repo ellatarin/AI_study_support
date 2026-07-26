@@ -1,5 +1,11 @@
 import { Transform } from "node:stream";
-import { Presets, SingleBar, type ValueFormatter } from "cli-progress";
+import {
+	type Options,
+	Presets,
+	SingleBar,
+	type ValueFormatter,
+	type ValueType,
+} from "cli-progress";
 
 /** cli-progress format for the parallel-work bar's in-flight suffix (technical-design.md Stage 4). */
 const PARALLEL_WORK_FORMAT =
@@ -26,6 +32,20 @@ function inRed(text: string): string {
  */
 function formatMegabytes(bytes: number): string {
 	return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+
+/**
+ * cli-progress value formatter for the upload bar: renders the byte value and
+ * total as megabytes, and leaves other tokens (e.g. percentage) unchanged.
+ *
+ * @param value - The raw numeric value cli-progress is formatting.
+ * @param _options - The cli-progress options (unused).
+ * @param type - Which token is being formatted.
+ * @returns The formatted token string.
+ */
+// eslint-disable-next-line max-params -- cli-progress ValueFormatter signature is fixed
+export function formatUploadValue(value: number, _options: Options, type: ValueType): string {
+	return type === "value" || type === "total" ? formatMegabytes(value) : String(value);
 }
 
 /**
@@ -63,9 +83,7 @@ export function createUploadProgressStream(totalBytes: number): {
 } {
 	const bar = createProgressBar({
 		format: "Uploading    |{bar}| {percentage}%  {value} / {total}",
-		// eslint-disable-next-line max-params -- cli-progress formatValue signature is fixed
-		formatValue: (value, _options, type) =>
-			type === "value" || type === "total" ? formatMegabytes(value) : String(value),
+		formatValue: formatUploadValue,
 	});
 
 	let uploaded = 0;

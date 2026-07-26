@@ -1,10 +1,11 @@
 import { Transform } from "node:stream";
-import { SingleBar } from "cli-progress";
+import { SingleBar, type ValueType } from "cli-progress";
 import { describe, expect, it, vi } from "vitest";
 import {
 	createParallelWorkBar,
 	createProgressBar,
 	createUploadProgressStream,
+	formatUploadValue,
 } from "./progress.js";
 
 describe("createProgressBar", () => {
@@ -99,5 +100,24 @@ describe("createParallelWorkBar", () => {
 		work.stop();
 
 		expect(stopSpy).toHaveBeenCalled();
+	});
+});
+
+describe("formatUploadValue", () => {
+	const byteCases: readonly { type: ValueType; input: number; expected: string }[] = [
+		{ type: "value", input: 1_048_576, expected: "1.0 MB" },
+		{ type: "total", input: 2_621_440, expected: "2.5 MB" },
+	];
+
+	it.each(byteCases)("should render bytes as MB when the token is $type", ({
+		type,
+		input,
+		expected,
+	}) => {
+		expect(formatUploadValue(input, {}, type)).toBe(expected);
+	});
+
+	it("should stringify the value unchanged when the token is not a byte column", () => {
+		expect(formatUploadValue(42, {}, "percentage")).toBe("42");
 	});
 });

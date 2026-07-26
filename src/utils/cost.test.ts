@@ -53,6 +53,27 @@ describe("accumulateCost", () => {
 		});
 	});
 
+	it("should carry the error and null the cost when the current cost is unresolved", () => {
+		const result = accumulateCost({
+			current: {
+				promptTokens: 100,
+				completionTokens: 50,
+				callCount: 1,
+				totalCostUsd: null,
+				costResolutionError: "boom",
+			},
+			incoming: { promptTokens: 200, completionTokens: 80, callCount: 2, totalCostUsd: 0.03 },
+		});
+
+		expect(result).toEqual({
+			promptTokens: 300,
+			completionTokens: 130,
+			callCount: 3,
+			totalCostUsd: null,
+			costResolutionError: "boom",
+		});
+	});
+
 	it("should join both errors when current and incoming are both unresolved", () => {
 		const result = accumulateCost({
 			current: {
@@ -105,6 +126,15 @@ const manifest: RunManifest = {
 	createdAt: "2025-10-10T09:00:00.000Z",
 	updatedAt: "2025-10-10T10:15:00.000Z",
 	stages: {
+		// Completed non-LLM stage: null config and null cost exercise the
+		// manifestStageMeta "—"/0 fallbacks within the complete branch.
+		"audio-extraction": {
+			status: "complete",
+			completedAt: "2025-10-10T09:02:00.000Z",
+			configUsed: null,
+			cost: null,
+			filesWritten: ["Audio/audio.m4a"],
+		},
 		transcription: {
 			status: "complete",
 			completedAt: "2025-10-10T09:05:00.000Z",
@@ -128,8 +158,15 @@ const manifest: RunManifest = {
 		},
 	},
 	currentPipelineCost: {
-		totalCostUsd: 0.388,
-		byStage: { transcription: 0.042, "slide-conversion": 0.034, synthesis: 0.312 },
+		totalCostUsd: 0.393,
+		byStage: {
+			"audio-extraction": 0,
+			transcription: 0.042,
+			"slide-conversion": 0.034,
+			synthesis: 0.312,
+			// In byStage but absent from `stages` — exercises the manifestStageMeta fallback.
+			"pdf-generation": 0.005,
+		},
 	},
 };
 
@@ -185,6 +222,45 @@ const runLogs: readonly RunLog[] = [
 			},
 		},
 		totalCostThisRun: 0.89,
+	},
+	{
+		runId: "2025-10-10T11:00:00Z-1",
+		startedAt: "2025-10-10T11:00:00.000Z",
+		endedAt: "2025-10-10T11:01:00.000Z",
+		triggeredBy: "from-stage",
+		runType: "error-recovery",
+		fromStage: "image-extraction",
+		stages: {
+			// null cost → the section-2 "n/a" (costCell null) and the wasted-sum null guard.
+			"image-extraction": {
+				action: "ran",
+				status: "failed",
+				configUsed: { modelId: "openai/gpt-4.1" },
+				cost: { totalCostUsd: null, callCount: 2 },
+				error: "cost lookup timed out",
+			},
+			// non-"ran" entry → the ranStageEntries skip branch.
+			"audio-extraction": { action: "skipped" },
+		},
+		totalCostThisRun: 0,
+	},
+	{
+		runId: "2025-10-11T16:00:00Z-1",
+		startedAt: "2025-10-11T16:00:00.000Z",
+		endedAt: "2025-10-11T16:02:00.000Z",
+		triggeredBy: "from-stage",
+		runType: "experiment",
+		fromStage: "synthesis",
+		stages: {
+			// null cost → the experiment-section "n/a" branch.
+			synthesis: {
+				action: "ran",
+				status: "complete",
+				configUsed: { modelId: "meta-llama/llama-3.1-405b" },
+				cost: { totalCostUsd: null, callCount: 1 },
+			},
+		},
+		totalCostThisRun: 0,
 	},
 ];
 

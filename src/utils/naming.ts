@@ -66,9 +66,6 @@ const DELETE_CODE = 0x7f;
  * @returns The title-cased word.
  */
 function titleCaseWord(word: string): string {
-	if (word.length === 0) {
-		return word;
-	}
 	return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
 
