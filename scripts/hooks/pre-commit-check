@@ -67,7 +67,9 @@ fi
 
 # 1. biome — format + standard linting on changed files.
 if [ -n "$changed_all" ]; then
-  echo "$changed_all" | xargs pnpm exec biome check --error-on-warnings \
+  # --no-errors-on-unmatched: don't fail when the changed set is entirely biome
+  # ignored (e.g. only root config files like vitest.config.ts changed).
+  echo "$changed_all" | xargs pnpm exec biome check --error-on-warnings --no-errors-on-unmatched \
     || fail "biome check failed on changed files. Fix and re-commit."
 fi
 
@@ -87,10 +89,10 @@ fi
 pnpm exec jscpd --silent \
   || fail "jscpd found duplicate code. See report above; extract into a shared helper and re-commit."
 
-# 5. vitest — full test suite. --passWithNoTests avoids blocking during the
-# pre-Phase-1 window when there are no tests yet.
-pnpm exec vitest --run --passWithNoTests \
-  || fail "Tests failed. Fix the failures above and re-commit."
+# 5. vitest — full test suite with coverage, enforcing the thresholds in
+# vitest.config.ts. --passWithNoTests avoids blocking if tests are ever absent.
+pnpm exec vitest --run --coverage --passWithNoTests \
+  || fail "Tests failed or coverage dropped below threshold. Fix and re-commit."
 
 # All checks passed; allow the commit to proceed.
 exit 0

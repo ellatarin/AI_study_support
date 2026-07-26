@@ -6,13 +6,12 @@ export default defineConfig({
 		// Brace expansion below yields *.test.ts and *.integration.test.ts (and .tsx variants).
 		include: ["src/**/*.{test,integration.test}.{ts,tsx}"],
 
-		// Coverage: v8 provider (native, fast). Thresholds are DELIBERATELY left
-		// commented out. Once Phase 1 has a baseline of tested code, uncomment and
-		// tune to real values — setting them now would either force fake passes
-		// (thresholds of 0) or fail every commit until real tests exist.
-		//
-		// Suggested initial thresholds when uncommenting (adjust to reality):
-		//   statements: 80, branches: 75, functions: 80, lines: 80
+		// Coverage: v8 provider (native, fast). Thresholds enabled now that Phase 2
+		// has a real baseline (currently stmts/funcs/lines 100%, branches ~97%). Set
+		// just below current as a ratchet floor — raise them as coverage climbs, do
+		// not lower. Branches sits a little lower than the rest to absorb the odd
+		// compiler-required guard for a nullable API that can't run at runtime. The
+		// pre-commit gate runs `vitest --coverage`, so these block any eroding commit.
 		coverage: {
 			provider: "v8",
 			reporter: ["text", "html"],
@@ -22,12 +21,12 @@ export default defineConfig({
 				"src/**/*.d.ts",
 				"src/index.ts", // CLI wiring; entry point tested via integration
 			],
-			// thresholds: {
-			// 	statements: 80,
-			// 	branches: 75,
-			// 	functions: 80,
-			// 	lines: 80,
-			// },
+			thresholds: {
+				statements: 95,
+				branches: 90,
+				functions: 95,
+				lines: 95,
+			},
 		},
 	},
 });
