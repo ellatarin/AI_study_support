@@ -1,0 +1,24 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`formatCostReport > should render the three-section report when given a manifest and run logs 1`] = `
+"Current pipeline cost
+Stage                   Model                       Calls      Cost
+───────────────────────────────────────────────────────────────────
+Transcription           elevenlabs/scribe_v2            1    $0.042
+Slide conversion        google/gemini-2.5-flash        24    $0.034
+Synthesis               anthropic/claude-sonnet-4.6      1    $0.312
+───────────────────────────────────────────────────────────────────
+                                                             $0.388
+
+Error recovery cost
+Run                       Stage                   Status      Cost
+──────────────────────────────────────────────────────────────────
+2025-10-10T09:00:00.000Z  slide-conversion        failed    $0.021
+2025-10-10T10:30:00.000Z  slide-conversion         retry    $0.034
+──────────────────────────────────────────────────────────────────
+Wasted on failures                                          $0.021
+
+Experiment cost
+Stage: synthesis
+  Run 2025-10-11T14:00:00.000Z    anthropic/claude-opus-4.1     $0.890"
+`;
