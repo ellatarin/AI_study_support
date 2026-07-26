@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.7-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.8-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-07-26
 **Status:** For review
 
@@ -102,8 +102,8 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - **Model-ID resolution check:** at startup, fetches `https://openrouter.ai/api/v1/models` once and asserts every configured `stages[*].modelId` appears in the response. On any miss, throws a `ConfigError` naming the stage(s) with unrecognised IDs and linking to `https://openrouter.ai/models`. This catches placeholder strings (e.g. `<REASONING_MODEL>` left un-substituted), typos, and retired IDs before any billable call is made. The check is cached in-process; a `--skip-model-check` flag exists for offline runs against a mocked SDK.
 
 `src/pipeline/openrouter.ts` — OpenRouter client **(TD §6)**:
-- Exports a configured `OpenAI` instance pointing at OpenRouter
-- `makeCompletionCall({ messages, stageId, config })` — wraps the SDK call; fetches cost from `/api/v1/generation`; returns `{ content, cost: StageCost }`
+- `createOpenRouterClient()` — factory for a configured `OpenAI` client pointing at OpenRouter (reused in-process via a lazily-created shared instance; not exported as a live instance, so importing the module never requires `OPENROUTER_API_KEY`)
+- `makeCompletionCall({ messages, stageId, config, client })` — wraps the SDK call; fetches cost from `/api/v1/generation`; returns `{ content, cost: StageCost }`. `client` is an optional injected `OpenAI` (defaults to the shared instance; tests inject their own). Throws the exported `ContextLengthError` when the model rejects the prompt for context length
 
 **Tests:**
 
