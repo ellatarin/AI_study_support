@@ -7,6 +7,13 @@
 # and the exact exit-code contract should be verified against the current
 # Claude Code docs. This script exits 2 on check failure (the widely-used
 # "block-and-inform" convention for PreToolUse hooks).
+#
+# IMPORTANT: this is a PreToolUse hook, so it fires BEFORE the `git commit`
+# command runs — which means before any `git add` in the same command line has
+# executed. It therefore checks the WORKING TREE (files that differ from HEAD,
+# staged or not, plus untracked files), never the index. Checking the index
+# would silently skip everything when files are staged and committed in a single
+# `git add X && git commit` step.
 
 set -euo pipefail
 
@@ -35,10 +42,13 @@ esac
 
 cd "$repo_root"
 
-# Collect staged files by category.
-staged_any="$(git diff --cached --name-only --diff-filter=ACM || true)"
-staged_all="$(echo "$staged_any" | grep -E '\.(ts|tsx|js|mjs|cjs|jsx|json|jsonc|md)$' || true)"
-staged_ts="$(echo "$staged_any" | grep -E '\.(ts|tsx)$' || true)"
+# Collect files that differ from HEAD in the WORKING TREE, regardless of whether
+# they have been `git add`ed: tracked modifications/additions (git diff HEAD)
+# plus untracked new files (git ls-files --others). This makes the gate robust
+# to staging order — see the header note.
+changed_any="$( { git diff HEAD --name-only --diff-filter=ACM; git ls-files --others --exclude-standard; } 2>/dev/null | sort -u || true)"
+changed_all="$(echo "$changed_any" | grep -E '\.(ts|tsx|js|mjs|cjs|jsx|json|jsonc|md)$' || true)"
+changed_ts="$(echo "$changed_any" | grep -E '\.(ts|tsx)$' || true)"
 
 fail() {
   # Print the reason for the block to stderr; Claude Code surfaces stderr
@@ -47,33 +57,33 @@ fail() {
   exit 2
 }
 
-# 0. secretlint — secret/credential detection on ALL staged files.
+# 0. secretlint — secret/credential detection on all changed files.
 # Runs first because a leaked secret is the one class of bug where remediation
 # after the commit lands is far more expensive than catching it here.
-if [ -n "$staged_any" ]; then
-  echo "$staged_any" | xargs pnpm exec secretlint \
-    || fail "secretlint detected potential secrets in staged files. Review, redact, and re-commit. If it is a genuine false positive, add an allowlist entry to .secretlintrc.json."
+if [ -n "$changed_any" ]; then
+  echo "$changed_any" | xargs pnpm exec secretlint \
+    || fail "secretlint detected potential secrets in changed files. Review, redact, and re-commit. If it is a genuine false positive, add an allowlist entry to .secretlintrc.json."
 fi
 
-# 1. biome — format + standard linting on staged files.
-if [ -n "$staged_all" ]; then
-  echo "$staged_all" | xargs pnpm exec biome check --error-on-warnings \
-    || fail "biome check failed on staged files. Fix and re-commit."
+# 1. biome — format + standard linting on changed files.
+if [ -n "$changed_all" ]; then
+  echo "$changed_all" | xargs pnpm exec biome check --error-on-warnings \
+    || fail "biome check failed on changed files. Fix and re-commit."
 fi
 
-# 2. tsc — whole-project type check. Type errors span files, so no staged narrowing.
+# 2. tsc — whole-project type check. Type errors span files, so no narrowing.
 pnpm exec tsc --noEmit \
   || fail "tsc --noEmit failed. Fix the type errors above and re-commit."
 
-# 3. eslint — architectural rules on staged TS files.
-if [ -n "$staged_ts" ]; then
-  echo "$staged_ts" | xargs pnpm exec eslint \
-    || fail "eslint failed on staged TypeScript files. Fix and re-commit."
+# 3. eslint — architectural rules on changed TS files.
+if [ -n "$changed_ts" ]; then
+  echo "$changed_ts" | xargs pnpm exec eslint \
+    || fail "eslint failed on changed TypeScript files. Fix and re-commit."
 fi
 
 # 4. jscpd — copy-paste detection across the whole src/ tree.
-# Whole-tree, not staged-only: a new file may duplicate an existing one that
-# wasn't in the staged set. Config lives in .jscpd.json.
+# Whole-tree, not change-scoped: a new file may duplicate an existing one that
+# was not itself changed. Config lives in .jscpd.json.
 pnpm exec jscpd --silent \
   || fail "jscpd found duplicate code. See report above; extract into a shared helper and re-commit."
 
