@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.4-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.5-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-07-26
 **Status:** For review
 
@@ -71,7 +71,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 `src/utils/files.ts` — atomic write helpers **(TD §4.3)** and path validation **(TD §4.4)**:
 - `writeFileAtomic({ path, content })` — writes to `.tmp`, renames on success
 - `cleanTmpFiles(dir)` — deletes any `.tmp` files in a directory
-- `workspacePath({ context, segments })` — resolves paths relative to `workspaceRoot`
+- `workspacePath({ workspaceRoot, segments })` — resolves an absolute path from trusted, code-supplied segments (no boundary check; untrusted paths use `resolveManifestPath`)
 - `resolveManifestPath({ workspaceRoot, moduleRoot, entry })` — resolves an entry from `filesWritten`, then `realpath`, then asserts the result is under `moduleRoot`; throws `ManifestPathError` if not. Used everywhere a manifest-derived path reaches the filesystem.
 
 `src/utils/logger.ts` — pino setup **(TD §10)**:

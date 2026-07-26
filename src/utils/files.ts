@@ -43,6 +43,28 @@ export async function writeFileAtomic({
 }
 
 /**
+ * Resolves an absolute path inside a workspace from trusted path segments. Used
+ * for internal, code-supplied paths (e.g. a stage's own output directories); it
+ * performs no boundary validation because the segments never originate from the
+ * manifest or LLM output — untrusted paths must go through
+ * {@link resolveManifestPath} instead (technical-design.md §4.3).
+ *
+ * @param args - The workspace root and the path segments to append to it.
+ * @returns The joined absolute path.
+ * @example
+ * workspacePath({ workspaceRoot, segments: ["Audio", "audio.m4a"] });
+ */
+export function workspacePath({
+	workspaceRoot,
+	segments,
+}: {
+	readonly workspaceRoot: string;
+	readonly segments: readonly string[];
+}): string {
+	return join(workspaceRoot, ...segments);
+}
+
+/**
  * Deletes every `.tmp` file in a directory. Run at the start of a stage to clear
  * partial files left by a crashed previous run (technical-design.md §4.3).
  *
