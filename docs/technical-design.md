@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.9-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.10-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-07-26
 **Status:** For review
 
@@ -402,17 +402,22 @@ updateManifest(args: { workspaceRoot: string; stageId: StageId; entry: ManifestS
 
 ### Stage 0 — Source Normalisation (Batch)
 
-**Runs across all lectures in the module at once, not per-lecture.**
+**Runs across all lectures in the module at once, not per-lecture**, and is re-run over the module's life as new lectures are added (they arrive weekly). Each run is a full pass over whatever sources are currently present. Whole-module scope is required because lecture numbers are sequential by date across the module: a newly added, earlier-dated lecture shifts later numbers, so correct numbering and collision-safe renumbering are impossible lecture-in-isolation.
 
 **Inputs:** All files in `Source files/Video files/` and `Source files/Lecture slides/`.
 
-**What it does:**
+**Validate, then apply.** Stage 0 first validates the whole module with read-only checks. If any check fails it logs every problem found (at `error`) and throws, making **no filesystem changes** — a failed run never leaves a half-normalised module, and the error propagates through the runner to the CLI. Only a module that passes every check is mutated. The following **stop the run** (they are errors, not warnings):
+- a video or slide filename with no confidently extractable date;
+- a video with no matching slide, or a slide with no matching video (matching is 1:1 by date);
+- two videos sharing a date, or two slides sharing a date — Stage 0 enforces the "`lectureDate` unique within a module" guarantee the rest of the system relies on (see §4.7).
 
-1. **Date extraction:** Parse the date from each video filename using `chrono-node`. Dates may appear in any position and format (e.g. `2025-10-10`, `10 Oct 2025`, `Fri 10th Oct`). Log a warning and skip any file where no date can be confidently extracted.
+**What it does** (once validation passes):
+
+1. **Date extraction:** Parse the date from each video filename using `chrono-node`. Dates may appear in any position and format (e.g. `2025-10-10`, `10 Oct 2025`, `Fri 10th Oct`).
 
 2. **Lecture number assignment:** Sort all video files by extracted date. Assign sequential lecture numbers (`Lecture 1`, `Lecture 2`, …) in date order. If Stage 0 is re-run after new lectures are added, detect changes in sequence and rename all affected workspace folders, source files, and `Final output/` PDFs.
 
-3. **Slide matching:** Parse the date from each slide PDF (date always at the beginning of the filename). Match each slide PDF to the video with the same date. Log a warning for any unmatched video or slide.
+3. **Slide matching:** Parse the date from each slide PDF (date always at the beginning of the filename) and match it to the video with the same date (validation has already guaranteed a 1:1 match).
 
 4. **Provisional title extraction:** Strip whichever of the date, day names (Mon–Sun), module code prefix (e.g. `BOD_`, `BOD `), embedded lecture-number token (e.g. `Lecture 1`, which would otherwise duplicate the assigned number), and trailing artefacts (`co`, `copy`, `v2`) are present in the video filename; title-case the result. Filenames vary — some yield a full descriptive title, others little beyond a date and lecture number (in which case the provisional title may be empty and Stage 0 falls back to the bare `Lecture N` name). Whether the result is meaningful is **not** judged here; Stage 3 makes that call once the transcript is available.
 
@@ -423,6 +428,8 @@ updateManifest(args: { workspaceRoot: string; stageId: StageId; entry: ManifestS
 6. **Workspace folder creation:** Create `Pipeline processing/Lecture N - [provisional title] - YYYY-MM-DD/` for any lecture that does not already have one. Write an initial `manifest.json` with `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle = provisionalTitle` (Stage 3 may overwrite), `aiDerivedTitle = null`, and all stage statuses set to `pending`.
 
 **Re-numbering:** When the sequence changes, Stage 0 renames affected workspace folders, source files, and `Final output/` PDFs atomically (rename to a temporary name first to avoid collision), then updates `lectureNumber` in each affected manifest.
+
+**Logging:** Every action — files discovered, dates extracted, numbers assigned, matches, each rename, each workspace/manifest write, each renumber — is recorded at `info` on the run's pino logger; validation failures are recorded at `error` before the throw.
 
 ---
 

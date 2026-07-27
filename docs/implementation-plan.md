@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.9-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.10-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-07-26
 **Status:** For review
 
@@ -225,7 +225,7 @@ Integration tests (real temp directory with fixture source files):
 - `should assign correct lecture numbers when lectures sorted by date` — `test.each` across straight sequence and mid-sequence insertion
 - `should renumber all affected lectures when new lecture inserted between existing dates`
 - `should match slide PDF to video when dates align`
-- `should log warning and continue when source file has no matching counterpart` — `test.each` for unmatched video and unmatched slide
+- `should log an error and stop without filesystem changes when a source anomaly is found` — `test.each` for: undateable file, unmatched video, unmatched slide, duplicate video date, duplicate slide date
 - `should rename source files atomically when normalisation runs`
 - `should create workspace folder and write initial manifest when lecture is new`
 - `should seed initial manifest with lectureTitle equal to provisionalTitle and aiDerivedTitle null`

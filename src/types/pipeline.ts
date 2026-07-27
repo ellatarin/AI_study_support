@@ -307,9 +307,15 @@ export type PipelineStage<TInput, TOutput> = {
 
 /**
  * Stage 0's per-module contract. Unlike a per-lecture {@link PipelineStage}, it
- * normalises a whole module's raw sources into lecture workspaces in one pass, so
- * the runner drives it once per module before any lecture runs
- * (technical-design.md §5, Stage 0).
+ * processes ALL of a module's currently-present raw sources together in one batch
+ * pass, not one lecture at a time. It is re-run over the module's life as further
+ * lectures are added (they arrive weekly): each run picks up new sources, leaves
+ * already-normalised lectures untouched, and renumbers existing lectures when a
+ * newly added lecture sorts earlier by date. Whole-module scope is required
+ * precisely because sequential date-ordered numbering means a new earlier lecture
+ * shifts later numbers — which demands collision-safe (temp-first) renames across
+ * the whole module, impossible to do lecture-in-isolation (technical-design.md §5,
+ * Stage 0).
  */
 export type SourceNormalisationStage = {
 	readonly stageId: "source-normalisation";
