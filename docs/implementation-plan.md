@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.8-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.9-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-07-26
 **Status:** For review
 
@@ -152,21 +152,22 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 **Deliverables:**
 
-`src/pipeline/runner.ts` — `PipelineRunner` class **(TD §4.7)**. All method signatures use a single options object per CLAUDE.md:
+`src/pipeline/runner.ts` — `PipelineRunner` class **(TD §4.7)**. Stages are injected via the constructor (`{ config, sourceNormalisation, lectureStages }`) so the runner is driven by stub stages under test. All method signatures use a single options object per CLAUDE.md; `options` is optional:
 - `normaliseSources({ moduleRoots })` — invokes Stage 0 across every listed module
-- `runLecture({ workspaceRoot, options })` — assembles `StageContext`, runs stages in order, writes run log
+- `runLecture({ workspaceRoot, options })` — assembles `StageContext`, runs stages in order, writes a timestamped run log to `runs/`
 - `runBatch({ moduleRoots, options })` — one module or many; sequential by default; `--concurrency N` for parallel
 - `costReport({ moduleRoots, options })` — aggregates run logs across the given modules, prints three-section report
 - `resolveLecturesByDate({ moduleRoots, lectureDate })` — returns matches from scanning `${moduleRoot}/Pipeline processing/*/manifest.json`
-- `private runStage({ stage, context })` — handles the full status lifecycle:
-  - Calls `isComplete()` → sets `skipped` if true
-  - Writes `running` to manifest before invoking `run()`
-  - On success: writes `filesWritten` to manifest, sets `complete`
-  - On exception: sets `failed`, writes `error` and `failedAt`
-  - Appends stage outcome to the active run log
-- `private assembleContext({ workspaceRoot, moduleRoot, config })` — reads manifest at `workspaceRoot`, builds `StageContext` **(TD §4.7)**
-- `private updateManifest({ workspaceRoot, update })` — atomic manifest write via `writeFileAtomic`
-- `private createRunLog({ workspaceRoot, options })` — creates timestamped run log file in `runs/`
+
+Supporting logic lives in module-level functions (not private methods) so the pure parts are unit-testable in isolation **(TD §4.7)**:
+- `runStage({ stage, context, config, timestamp })` — handles the full status lifecycle and returns a `RunLogStageEntry` (not void):
+  - Calls `isComplete()` → writes a `skipped` manifest entry (preserving the prior completed data) and returns `{ action: "skipped" }`
+  - Otherwise runs the stage; on success writes a `complete` manifest entry and returns a `ran`/`complete` entry
+  - On exception: writes a `failed` manifest entry (`error`, `failedAt`) and returns a `ran`/`failed` entry — never throws
+  - Returning the entry lets `runLecture` collect outcomes, decide whether to halt, and fill `not-reached`
+- `assembleContext({ workspaceRoot, manifest, config })` — builds a frozen `StageContext`; `moduleRoot` is derived from `workspaceRoot` two levels up **(TD §4.7)**
+- `updateManifest({ workspaceRoot, stageId, entry, timestamp })` — atomic per-stage manifest patch via `writeFileAtomic`
+- `deriveRunId({ instant })` / `classifyRunType({ options, manifest })` — filesystem-safe run id and run classification (`normal` | `experiment` | `error-recovery`)
 
 `src/index.ts` — CLI entry point. Invoked in docs and examples as `lecture-notes <cmd>` via the `bin/lecture-notes` wrapper installed by `scripts/setup`. During dev without the wrapper, equivalent to `pnpm exec tsx src/index.ts <cmd>`.
 - Commands:

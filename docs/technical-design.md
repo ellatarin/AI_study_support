@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.8-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.9-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-07-26
 **Status:** For review
 
@@ -357,15 +357,27 @@ The runner-facing types — `LectureMatch`, `RunOptions`, `ReportOptions`, `RunS
 
 ```typescript
 class PipelineRunner {
+  // Stages are injected so the runner is driven by stub stages under test and real stages in production.
+  constructor(deps: { config: PipelineConfig; sourceNormalisation: SourceNormalisationStage; lectureStages: readonly PipelineStage<unknown, unknown>[] })
   async normaliseSources(args: { moduleRoots: readonly string[] }): Promise<void>          // Stage 0
-  async runLecture(args: { workspaceRoot: string; options: RunOptions }): Promise<RunSummary>
-  async runBatch(args: { moduleRoots: readonly string[]; options: RunOptions }): Promise<BatchSummary>
-  async costReport(args: { moduleRoots: readonly string[]; options: ReportOptions }): Promise<void>
+  async runLecture(args: { workspaceRoot: string; options?: RunOptions }): Promise<RunSummary>
+  async runBatch(args: { moduleRoots: readonly string[]; options?: RunOptions }): Promise<BatchSummary>
+  async costReport(args: { moduleRoots: readonly string[]; options?: ReportOptions }): Promise<void>
   async resolveLecturesByDate(args: { moduleRoots: readonly string[]; lectureDate: string }): Promise<readonly LectureMatch[]>
-  private async runStage(args: { stage: PipelineStage<unknown, unknown>; context: StageContext }): Promise<void>
-  private async updateManifest(args: { workspaceRoot: string; update: Partial<RunManifest> }): Promise<void>
-  private createRunLog(args: { workspaceRoot: string; options: RunOptions }): RunLog
 }
+
+// Stage 0's per-module contract (Phase 4 supplies the real implementation):
+type SourceNormalisationStage = { stageId: "source-normalisation"; normaliseModule(args: { moduleRoot: string }): Promise<void> }
+
+// The runner's supporting logic lives in module-level functions rather than private methods, so the pure
+// parts are unit-testable in isolation. Notably runStage returns a RunLogStageEntry (rather than void): the
+// caller collects the entries, decides whether to halt, and fills `not-reached` — so no shared mutable
+// run-log state exists and batch concurrency is safe.
+deriveRunId(args: { instant: Date }): string                                   // filesystem-safe run id, e.g. 2025-10-10T09-00-00Z
+classifyRunType(args: { options: RunOptions; manifest: RunManifest }): RunType  // normal | experiment | error-recovery (§7)
+assembleContext(args: { workspaceRoot: string; manifest: RunManifest; config: PipelineConfig }): StageContext  // moduleRoot derived two levels up
+runStage(args: { stage: PipelineStage<unknown, unknown>; context: StageContext; config: PipelineConfig; timestamp: string }): Promise<RunLogStageEntry>  // runs/skips one stage; converts a throw into a failed entry (never throws); writes the manifest
+updateManifest(args: { workspaceRoot: string; stageId: StageId; entry: ManifestStageEntry; timestamp: string }): Promise<void>  // atomic per-stage manifest patch via writeFileAtomic
 ```
 
 **Run outcome classification.** A `RunSummary.overallStatus` — and the aggregate `BatchSummary.overallStatus` across a batch's lectures — is `success` when every attempted stage completed, `partial` when one or more stages were skipped or not reached, and `failed` when at least one stage failed.
@@ -378,7 +390,7 @@ class PipelineRunner {
 
 **`resolveLecturesByDate`:** Scans every `moduleRoots[i]/Pipeline processing/*/manifest.json` and returns matches whose `lectureDate` equals the argument. Zero matches: caller decides (typically an error). One match: caller uses it directly. Multiple matches: caller (the CLI) prompts the user via `@inquirer/prompts` — checkbox list of matches (each labelled `<module name> — Lecture N — <title>`) with "All matches" and "Cancel" affordances. Interactive prompt lives in the CLI layer, not the runner.
 
-**`StageContext` assembly:** Before invoking any stage, the runner reads `manifest.json` at `workspaceRoot` and assembles a `StageContext`. `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle`, and `workspaceRoot` are sourced from the manifest. `moduleRoot` (the containing module for this lecture) and `config` come from the CLI invocation. The context is constructed once per lecture run and passed unchanged to every stage; stages must not mutate it directly — all manifest updates go through `updateManifest()`.
+**`StageContext` assembly:** Before invoking any stage, the runner reads `manifest.json` at `workspaceRoot` and assembles a `StageContext` (via `assembleContext`). `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle`, and `workspaceRoot` are sourced from the manifest. `moduleRoot` (the containing module for this lecture) is derived from `workspaceRoot` two levels up (`moduleRoot/Pipeline processing/<folder>`); `config` comes from the runner's construction. The context is constructed once per lecture run, frozen, and passed unchanged to every stage; stages must not mutate it directly — all manifest updates go through `updateManifest()`.
 
 **Batch mode:** `runBatch({ moduleRoots })` processes every lecture across every listed module. The CLI passes an array of one for `batch <moduleRoot>` and the full `config.moduleRoots` for `batch` (no argument). Modules processed in the order given; lectures within a module in date order. Sequential by default; `--concurrency N` enables parallel processing (per-module or global — decided at the CLI layer). A per-module cost/status summary is printed after each module, followed by a cross-module aggregate.
 
