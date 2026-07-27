@@ -16,6 +16,7 @@ import type {
 	RunOptions,
 	RunSummary,
 	RunType,
+	SourceNormalisationStage,
 	StageContext,
 	StageCost,
 	StageId,
@@ -23,23 +24,6 @@ import type {
 } from "../types/pipeline.js";
 import { formatCostReport } from "../utils/cost.js";
 import { writeFileAtomic } from "../utils/files.js";
-
-/**
- * Stage 0's per-module contract. Unlike a per-lecture {@link PipelineStage}, it
- * normalises a whole module's raw sources into lecture workspaces in one pass,
- * so the runner drives it once per module before any lecture runs. Phase 4
- * supplies the real implementation (technical-design.md §4.2, Stage 0).
- */
-export type SourceNormalisationStage = {
-	readonly stageId: "source-normalisation";
-	/**
-	 * Normalises every raw source under a module into lecture workspaces.
-	 * @param args - The module to normalise.
-	 * @param args.moduleRoot - Absolute path to the module directory.
-	 * @returns A promise that resolves once the module's workspaces exist.
-	 */
-	normaliseModule(args: { readonly moduleRoot: string }): Promise<void>;
-};
 
 /**
  * Constructor dependencies for {@link PipelineRunner}. Stages are injected so the

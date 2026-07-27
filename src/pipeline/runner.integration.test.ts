@@ -7,11 +7,12 @@ import type {
 	PipelineStage,
 	RunLog,
 	RunManifest,
+	SourceNormalisationStage,
 	StageContext,
 	StageId,
 	StageResult,
 } from "../types/pipeline.js";
-import { PipelineRunner, type SourceNormalisationStage } from "./runner.js";
+import { PipelineRunner } from "./runner.js";
 
 const ALL_STAGES: readonly StageId[] = [
 	"source-normalisation",
