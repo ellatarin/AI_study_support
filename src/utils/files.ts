@@ -1,6 +1,56 @@
+import type { Dirent } from "node:fs";
 import { readdir, realpath, rename, rm, writeFile } from "node:fs/promises";
 import { basename, dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { NamedError } from "./errors.js";
+
+/**
+ * Reads a directory's entries with file-type info, returning `[]` when the
+ * directory does not exist. Wraps `readdir` so callers can scan optional
+ * directories (a workspace's `runs/`, a module's `Final output/`) without a
+ * try/catch at every call site.
+ *
+ * @param dir - Absolute path to the directory to read.
+ * @returns The directory entries, or `[]` when the directory is missing.
+ */
+export async function readDirSafe(dir: string): Promise<readonly Dirent[]> {
+	try {
+		return await readdir(dir, { withFileTypes: true });
+	} catch {
+		return [];
+	}
+}
+
+async function readEntryNames({
+	dir,
+	matches,
+}: {
+	readonly dir: string;
+	readonly matches: (entry: Dirent) => boolean;
+}): Promise<readonly string[]> {
+	return (await readDirSafe(dir)).filter(matches).map((entry) => entry.name);
+}
+
+/**
+ * Lists the real file names in a directory (excluding subdirectories and
+ * dotfiles), or `[]` when the directory is missing.
+ *
+ * @param dir - Absolute path to the directory to list.
+ * @returns The non-dotfile file names.
+ */
+export function listFileNames(dir: string): Promise<readonly string[]> {
+	return readEntryNames({ dir, matches: (entry) => entry.isFile() && !entry.name.startsWith(".") });
+}
+
+/**
+ * Lists the immediate subdirectory names of a directory, or `[]` when it is
+ * missing.
+ *
+ * @param dir - Absolute path to the directory to list.
+ * @returns The subdirectory names.
+ */
+export function listSubdirectoryNames(dir: string): Promise<readonly string[]> {
+	return readEntryNames({ dir, matches: (entry) => entry.isDirectory() });
+}
 
 /**
  * Thrown when a path derived from the run manifest or a stage's `filesWritten`

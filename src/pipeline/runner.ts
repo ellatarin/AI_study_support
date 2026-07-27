@@ -1,5 +1,4 @@
-import type { Dirent } from "node:fs";
-import { mkdir, readdir, readFile, rm } from "node:fs/promises";
+import { mkdir, readFile, rm } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import type {
 	BatchSummary,
@@ -23,7 +22,7 @@ import type {
 	StageRunConfig,
 } from "../types/pipeline.js";
 import { formatCostReport } from "../utils/cost.js";
-import { writeFileAtomic } from "../utils/files.js";
+import { listSubdirectoryNames, readDirSafe, writeFileAtomic } from "../utils/files.js";
 
 /**
  * Constructor dependencies for {@link PipelineRunner}. Stages are injected so the
@@ -160,24 +159,14 @@ function readManifestFile(workspaceRoot: string): Promise<RunManifest | null> {
 	return readJsonFile<RunManifest>(join(workspaceRoot, MANIFEST_FILE));
 }
 
-async function readDirSafe(dir: string): Promise<readonly Dirent[]> {
-	try {
-		return await readdir(dir, { withFileTypes: true });
-	} catch {
-		return [];
-	}
-}
-
 async function listWorkspaces({
 	moduleRoot,
 }: {
 	readonly moduleRoot: string;
 }): Promise<readonly string[]> {
 	const processingRoot = join(moduleRoot, PROCESSING_DIR);
-	const entries = await readDirSafe(processingRoot);
-	return entries
-		.filter((entry) => entry.isDirectory())
-		.map((entry) => join(processingRoot, entry.name));
+	const names = await listSubdirectoryNames(processingRoot);
+	return names.map((name) => join(processingRoot, name));
 }
 
 function resolveStageRunConfig({
