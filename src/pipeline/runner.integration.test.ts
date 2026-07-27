@@ -409,9 +409,9 @@ describe("PipelineRunner integration", () => {
 		let moduleC: string;
 
 		beforeEach(async () => {
-			moduleA = join(tempDir, "Module A");
-			moduleB = join(tempDir, "Module B");
-			moduleC = join(tempDir, "Module C");
+			moduleA = join(tempDir, "Immunology");
+			moduleB = join(tempDir, "Pharmacology");
+			moduleC = join(tempDir, "Microbiology");
 			const write = async (root: string, folder: string, manifest: RunManifest): Promise<void> => {
 				await writeManifest(join(root, "Pipeline processing", folder), manifest);
 			};
@@ -485,7 +485,7 @@ describe("PipelineRunner integration", () => {
 		let moduleA: string;
 
 		beforeEach(async () => {
-			moduleA = join(tempDir, "Module A");
+			moduleA = join(tempDir, "Immunology");
 			await writeManifest(
 				join(moduleA, "Pipeline processing", "L1"),
 				makeManifest({ lectureNumber: 1 }),

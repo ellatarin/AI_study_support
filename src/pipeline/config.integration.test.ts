@@ -175,110 +175,110 @@ describe("loadConfig shape validation", () => {
 	it.each([
 		{
 			name: "version is missing",
-			mutate: (c: Record<string, unknown>) => delete c.version,
+			mutate: (config: Record<string, unknown>) => delete config.version,
 			match: /version/,
 		},
 		{
 			name: "version is not a string",
-			mutate: (c: Record<string, unknown>) => {
-				c.version = 1;
+			mutate: (config: Record<string, unknown>) => {
+				config.version = 1;
 			},
 			match: /version/,
 		},
 		{
 			name: "moduleRoots is missing",
-			mutate: (c: Record<string, unknown>) => delete c.moduleRoots,
+			mutate: (config: Record<string, unknown>) => delete config.moduleRoots,
 			match: /moduleRoots/,
 		},
 		{
 			name: "moduleRoots is not an array",
-			mutate: (c: Record<string, unknown>) => {
-				c.moduleRoots = "not-an-array";
+			mutate: (config: Record<string, unknown>) => {
+				config.moduleRoots = "not-an-array";
 			},
 			match: /moduleRoots/,
 		},
 		{
 			name: "a moduleRoots entry is not a string",
-			mutate: (c: Record<string, unknown>) => {
-				c.moduleRoots = [42];
+			mutate: (config: Record<string, unknown>) => {
+				config.moduleRoots = [42];
 			},
 			match: /moduleRoots/,
 		},
 		{
 			name: "openRouter is missing",
-			mutate: (c: Record<string, unknown>) => delete c.openRouter,
+			mutate: (config: Record<string, unknown>) => delete config.openRouter,
 			match: /openRouter/,
 		},
 		{
 			name: "openRouter is null",
-			mutate: (c: Record<string, unknown>) => {
-				c.openRouter = null;
+			mutate: (config: Record<string, unknown>) => {
+				config.openRouter = null;
 			},
 			match: /openRouter/,
 		},
 		{
 			name: "rateLimitRpm is not a number",
-			mutate: (c: Record<string, unknown>) => {
-				c.openRouter = { rateLimitRpm: "fast" };
+			mutate: (config: Record<string, unknown>) => {
+				config.openRouter = { rateLimitRpm: "fast" };
 			},
 			match: /rateLimitRpm/,
 		},
 		{
 			name: "stages is missing",
-			mutate: (c: Record<string, unknown>) => delete c.stages,
+			mutate: (config: Record<string, unknown>) => delete config.stages,
 			match: /stages/,
 		},
 		{
 			name: "stages is an array",
-			mutate: (c: Record<string, unknown>) => {
-				c.stages = [];
+			mutate: (config: Record<string, unknown>) => {
+				config.stages = [];
 			},
 			match: /stages/,
 		},
 		{
 			name: "a stage is not an object",
-			mutate: (c: Record<string, unknown>) => {
-				c.stages = { synthesis: "gpt" };
+			mutate: (config: Record<string, unknown>) => {
+				config.stages = { synthesis: "gpt" };
 			},
 			match: /synthesis/,
 		},
 		{
 			name: "a stage modelId is missing",
-			mutate: (c: Record<string, unknown>) => {
-				c.stages = { synthesis: {} };
+			mutate: (config: Record<string, unknown>) => {
+				config.stages = { synthesis: {} };
 			},
 			match: /modelId/,
 		},
 		{
 			name: "a stage modelId is not a string",
-			mutate: (c: Record<string, unknown>) => {
-				c.stages = { synthesis: { modelId: 5 } };
+			mutate: (config: Record<string, unknown>) => {
+				config.stages = { synthesis: { modelId: 5 } };
 			},
 			match: /modelId/,
 		},
 		{
 			name: "a stage param is not a number",
-			mutate: (c: Record<string, unknown>) => {
-				c.stages = { synthesis: { modelId: "openai/gpt-4o", temperature: "hot" } };
+			mutate: (config: Record<string, unknown>) => {
+				config.stages = { synthesis: { modelId: "openai/gpt-4o", temperature: "hot" } };
 			},
 			match: /temperature/,
 		},
 		{
 			name: "output is missing",
-			mutate: (c: Record<string, unknown>) => delete c.output,
+			mutate: (config: Record<string, unknown>) => delete config.output,
 			match: /output/,
 		},
 		{
 			name: "output.language is not a string",
-			mutate: (c: Record<string, unknown>) => {
-				c.output = { language: 1, pandocEngine: "xelatex" };
+			mutate: (config: Record<string, unknown>) => {
+				config.output = { language: 1, pandocEngine: "xelatex" };
 			},
 			match: /language/,
 		},
 		{
 			name: "output.pandocEngine is not a string",
-			mutate: (c: Record<string, unknown>) => {
-				c.output = { language: "en-GB", pandocEngine: 9 };
+			mutate: (config: Record<string, unknown>) => {
+				config.output = { language: "en-GB", pandocEngine: 9 };
 			},
 			match: /pandocEngine/,
 		},
