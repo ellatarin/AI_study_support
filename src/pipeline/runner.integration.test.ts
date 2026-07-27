@@ -46,8 +46,8 @@ function makeManifest(overrides: Partial<RunManifest> = {}): RunManifest {
 		version: "1",
 		lectureNumber: 1,
 		lectureDate: "2025-10-10",
-		provisionalTitle: "Prov",
-		lectureTitle: "Title",
+		provisionalTitle: "Immune System",
+		lectureTitle: "Immune System",
 		aiDerivedTitle: null,
 		workspaceFolderName: "L1",
 		createdAt: "2025-10-10T00:00:00Z",
@@ -131,11 +131,11 @@ describe("PipelineRunner integration", () => {
 				stageId: "audio-extraction",
 				run: async ({ context }) => {
 					await mkdir(join(context.workspaceRoot, "Audio"), { recursive: true });
-					await writeFile(join(context.workspaceRoot, "Audio", "out.m4a"), "x");
+					await writeFile(join(context.workspaceRoot, "Audio", "audio.m4a"), "x");
 					return {
 						output: undefined,
 						cost: { promptTokens: 0, completionTokens: 0, callCount: 1, totalCostUsd: 0.5 },
-						filesWritten: ["Audio/out.m4a"],
+						filesWritten: ["Audio/audio.m4a"],
 					};
 				},
 			});
@@ -150,7 +150,7 @@ describe("PipelineRunner integration", () => {
 			const manifest = await readManifest(workspaceRoot);
 			const entry = manifest.stages["audio-extraction"];
 			expect(entry?.status).toBe("complete");
-			expect(entry?.status === "complete" && entry.filesWritten).toEqual(["Audio/out.m4a"]);
+			expect(entry?.status === "complete" && entry.filesWritten).toEqual(["Audio/audio.m4a"]);
 			const runLog = await readRunLog(workspaceRoot, summary.runId);
 			expect(runLog.stages["audio-extraction"]).toMatchObject({
 				action: "ran",
@@ -161,14 +161,18 @@ describe("PipelineRunner integration", () => {
 		it("should record a failed stage when the stage throws", async () => {
 			const stage = makeStubStage({
 				stageId: "audio-extraction",
-				run: () => Promise.reject(new Error("boom")),
+				run: () => Promise.reject(new Error("audio extraction failed")),
 			});
 
 			const summary = await makeRunner([stage]).runLecture({ workspaceRoot });
 
 			expect(summary.overallStatus).toBe("failed");
 			expect(summary.stageOutcomes).toEqual([
-				expect.objectContaining({ action: "ran", status: "failed", error: "boom" }),
+				expect.objectContaining({
+					action: "ran",
+					status: "failed",
+					error: "audio extraction failed",
+				}),
 			]);
 			const manifest = await readManifest(workspaceRoot);
 			expect(manifest.stages["audio-extraction"]?.status).toBe("failed");
@@ -178,7 +182,7 @@ describe("PipelineRunner integration", () => {
 			const stage = makeStubStage({
 				stageId: "audio-extraction",
 				run: () => {
-					const failure: unknown = "kaboom";
+					const failure: unknown = "ffmpeg exited unexpectedly";
 					return Promise.reject(failure);
 				},
 			});
@@ -186,13 +190,17 @@ describe("PipelineRunner integration", () => {
 			const summary = await makeRunner([stage]).runLecture({ workspaceRoot });
 
 			expect(summary.stageOutcomes).toEqual([
-				expect.objectContaining({ action: "ran", status: "failed", error: "kaboom" }),
+				expect.objectContaining({
+					action: "ran",
+					status: "failed",
+					error: "ffmpeg exited unexpectedly",
+				}),
 			]);
 		});
 
 		it("should skip a stage and not run it when its output already exists", async () => {
 			await mkdir(join(workspaceRoot, "Audio"), { recursive: true });
-			await writeFile(join(workspaceRoot, "Audio", "a"), "x");
+			await writeFile(join(workspaceRoot, "Audio", "audio.m4a"), "x");
 			await writeManifest(
 				workspaceRoot,
 				makeManifest({
@@ -203,7 +211,7 @@ describe("PipelineRunner integration", () => {
 							completedAt: "earlier",
 							configUsed: null,
 							cost: null,
-							filesWritten: ["Audio/a"],
+							filesWritten: ["Audio/audio.m4a"],
 						},
 					} as RunManifest["stages"],
 				}),
@@ -245,7 +253,7 @@ describe("PipelineRunner integration", () => {
 			});
 			const second = makeStubStage({
 				stageId: "transcription",
-				run: () => Promise.reject(new Error("mid failure")),
+				run: () => Promise.reject(new Error("transcription request failed")),
 			});
 			const thirdRun = vi.fn(
 				async () =>
@@ -273,7 +281,7 @@ describe("PipelineRunner integration", () => {
 		it("should continue past a failed stage when continueOnError is set", async () => {
 			const failing = makeStubStage({
 				stageId: "audio-extraction",
-				run: () => Promise.reject(new Error("boom")),
+				run: () => Promise.reject(new Error("audio extraction failed")),
 			});
 			const laterRun = vi.fn(
 				async () =>
@@ -337,9 +345,9 @@ describe("PipelineRunner integration", () => {
 			await mkdir(join(workspaceRoot, "Audio"), { recursive: true });
 			await mkdir(join(workspaceRoot, "Transcript"), { recursive: true });
 			await mkdir(join(workspaceRoot, "Synthesised notes"), { recursive: true });
-			await writeFile(join(workspaceRoot, "Audio", "a"), "x");
-			await writeFile(join(workspaceRoot, "Transcript", "b"), "x");
-			await writeFile(join(workspaceRoot, "Synthesised notes", "c"), "x");
+			await writeFile(join(workspaceRoot, "Audio", "audio.m4a"), "x");
+			await writeFile(join(workspaceRoot, "Transcript", "transcript.txt"), "x");
+			await writeFile(join(workspaceRoot, "Synthesised notes", "notes.md"), "x");
 			const complete = (files: readonly string[]): RunManifest["stages"][StageId] => ({
 				status: "complete",
 				completedAt: "earlier",
@@ -352,9 +360,9 @@ describe("PipelineRunner integration", () => {
 				makeManifest({
 					stages: {
 						...pendingStages(),
-						"audio-extraction": complete(["Audio/a"]),
-						transcription: complete(["Transcript/b"]),
-						synthesis: complete(["Synthesised notes/c"]),
+						"audio-extraction": complete(["Audio/audio.m4a"]),
+						transcription: complete(["Transcript/transcript.txt"]),
+						synthesis: complete(["Synthesised notes/notes.md"]),
 					} as RunManifest["stages"],
 				}),
 			);
@@ -390,7 +398,7 @@ describe("PipelineRunner integration", () => {
 				options: { fromStage: "transcription" },
 			});
 
-			await expect(access(join(workspaceRoot, "Audio", "a"))).resolves.toBeUndefined();
+			await expect(access(join(workspaceRoot, "Audio", "audio.m4a"))).resolves.toBeUndefined();
 			expect(summary.stageOutcomes[0]).toEqual({ action: "skipped" });
 		});
 	});
@@ -410,17 +418,21 @@ describe("PipelineRunner integration", () => {
 			await write(
 				moduleA,
 				"L1",
-				makeManifest({ lectureNumber: 1, lectureDate: "2025-10-10", lectureTitle: "Alpha" }),
+				makeManifest({ lectureNumber: 1, lectureDate: "2025-10-10", lectureTitle: "Cell Injury" }),
 			);
 			await write(
 				moduleA,
 				"L2",
-				makeManifest({ lectureNumber: 2, lectureDate: "2025-10-11", lectureTitle: "Beta" }),
+				makeManifest({
+					lectureNumber: 2,
+					lectureDate: "2025-10-11",
+					lectureTitle: "Immunity to Infection",
+				}),
 			);
 			await write(
 				moduleB,
 				"L3",
-				makeManifest({ lectureNumber: 3, lectureDate: "2025-10-10", lectureTitle: "Gamma" }),
+				makeManifest({ lectureNumber: 3, lectureDate: "2025-10-10", lectureTitle: "Virology" }),
 			);
 			await mkdir(join(moduleA, "Pipeline processing", "L-empty"), { recursive: true });
 			await mkdir(moduleC, { recursive: true });
@@ -446,7 +458,7 @@ describe("PipelineRunner integration", () => {
 			});
 
 			expect(matches).toHaveLength(1);
-			expect(matches[0]).toMatchObject({ lectureNumber: 2, lectureTitle: "Beta" });
+			expect(matches[0]).toMatchObject({ lectureNumber: 2, lectureTitle: "Immunity to Infection" });
 		});
 
 		it("should return every matching lecture across modules when several match the date", async () => {
@@ -457,7 +469,7 @@ describe("PipelineRunner integration", () => {
 
 			expect(matches).toHaveLength(2);
 			const titles = matches.map((match) => match.lectureTitle).sort();
-			expect(titles).toEqual(["Alpha", "Gamma"]);
+			expect(titles).toEqual(["Cell Injury", "Virology"]);
 			for (const match of matches) {
 				expect(match).toMatchObject({
 					moduleRoot: expect.any(String),
@@ -520,7 +532,7 @@ describe("PipelineRunner integration", () => {
 		it("should report a failed batch when any lecture fails", async () => {
 			const failing = makeStubStage({
 				stageId: "audio-extraction",
-				run: () => Promise.reject(new Error("boom")),
+				run: () => Promise.reject(new Error("audio extraction failed")),
 			});
 			const runner = makeRunner([failing]);
 

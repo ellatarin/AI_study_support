@@ -40,7 +40,7 @@ describe("accumulateCost", () => {
 				completionTokens: 80,
 				callCount: 2,
 				totalCostUsd: null,
-				costResolutionError: "timeout",
+				costResolutionError: "cost lookup timed out",
 			},
 		});
 
@@ -49,7 +49,7 @@ describe("accumulateCost", () => {
 			completionTokens: 130,
 			callCount: 3,
 			totalCostUsd: null,
-			costResolutionError: "timeout",
+			costResolutionError: "cost lookup timed out",
 		});
 	});
 
@@ -60,7 +60,7 @@ describe("accumulateCost", () => {
 				completionTokens: 50,
 				callCount: 1,
 				totalCostUsd: null,
-				costResolutionError: "boom",
+				costResolutionError: "generation lookup returned 503",
 			},
 			incoming: { promptTokens: 200, completionTokens: 80, callCount: 2, totalCostUsd: 0.03 },
 		});
@@ -70,7 +70,7 @@ describe("accumulateCost", () => {
 			completionTokens: 130,
 			callCount: 3,
 			totalCostUsd: null,
-			costResolutionError: "boom",
+			costResolutionError: "generation lookup returned 503",
 		});
 	});
 
@@ -81,14 +81,14 @@ describe("accumulateCost", () => {
 				completionTokens: 50,
 				callCount: 1,
 				totalCostUsd: null,
-				costResolutionError: "err-a",
+				costResolutionError: "prompt-cost lookup failed",
 			},
 			incoming: {
 				promptTokens: 200,
 				completionTokens: 80,
 				callCount: 2,
 				totalCostUsd: null,
-				costResolutionError: "err-b",
+				costResolutionError: "completion-cost lookup failed",
 			},
 		});
 
@@ -97,7 +97,7 @@ describe("accumulateCost", () => {
 			completionTokens: 130,
 			callCount: 3,
 			totalCostUsd: null,
-			costResolutionError: "err-a; err-b",
+			costResolutionError: "prompt-cost lookup failed; completion-cost lookup failed",
 		});
 	});
 });

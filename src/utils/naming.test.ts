@@ -27,13 +27,13 @@ describe("extractProvisionalTitle", () => {
 
 describe("filenameSafe", () => {
 	it.each([
-		{ input: "a/b\\c", expected: "a b c", label: "path separators" },
+		{ input: "Cell/Injury\\Notes", expected: "Cell Injury Notes", label: "path separators" },
 		{ input: "../etc/passwd", expected: "etc passwd", label: "parent traversal" },
-		{ input: "./foo", expected: "foo", label: "current-dir segment" },
-		{ input: `foo${NULL_BYTE}bar`, expected: "foobar", label: "a null byte" },
-		{ input: `foo${CONTROL_CHAR}bar`, expected: "foobar", label: "a control char" },
-		{ input: "a   b", expected: "a b", label: "collapsed whitespace" },
-		{ input: "name...", expected: "name", label: "trailing dots" },
+		{ input: "./Cell Injury", expected: "Cell Injury", label: "current-dir segment" },
+		{ input: `Cell${NULL_BYTE}Injury`, expected: "CellInjury", label: "a null byte" },
+		{ input: `Cell${CONTROL_CHAR}Injury`, expected: "CellInjury", label: "a control char" },
+		{ input: "Cell   Injury", expected: "Cell Injury", label: "collapsed whitespace" },
+		{ input: "Cell Injury...", expected: "Cell Injury", label: "trailing dots" },
 		{ input: "Cell Injury.", expected: "Cell Injury", label: "a single trailing dot" },
 	])("should sanitise to $expected when input has $label", ({ input, expected }) => {
 		expect(filenameSafe(input)).toBe(expected);

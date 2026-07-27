@@ -259,7 +259,7 @@ describe("loadConfig shape validation", () => {
 		{
 			name: "a stage param is not a number",
 			mutate: (c: Record<string, unknown>) => {
-				c.stages = { synthesis: { modelId: "a/b", temperature: "hot" } };
+				c.stages = { synthesis: { modelId: "openai/gpt-4o", temperature: "hot" } };
 			},
 			match: /temperature/,
 		},

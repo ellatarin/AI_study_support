@@ -43,8 +43,8 @@ function makeManifest(overrides: Partial<RunManifest> = {}): RunManifest {
 		version: "1",
 		lectureNumber: 1,
 		lectureDate: "2025-10-10",
-		provisionalTitle: "Prov",
-		lectureTitle: "Title",
+		provisionalTitle: "Immune System",
+		lectureTitle: "Immune System",
 		aiDerivedTitle: null,
 		workspaceFolderName: "L1",
 		createdAt: "2025-10-10T00:00:00Z",
@@ -78,22 +78,22 @@ describe("deriveRunId", () => {
 describe("classifyRunType", () => {
 	const complete: ManifestStageEntry = {
 		status: "complete",
-		completedAt: "t",
+		completedAt: "2025-10-10T09:02:00.000Z",
 		configUsed: null,
 		cost: null,
 		filesWritten: [],
 	};
 	const skipped: ManifestStageEntry = {
 		status: "skipped",
-		completedAt: "t",
+		completedAt: "2025-10-10T09:02:00.000Z",
 		configUsed: null,
 		cost: null,
 		filesWritten: [],
 	};
 	const failed: ManifestStageEntry = {
 		status: "failed",
-		failedAt: "t",
-		error: "boom",
+		failedAt: "2025-10-10T09:02:00.000Z",
+		error: "transcription request failed",
 		configUsed: null,
 		cost: null,
 		filesWritten: [],
@@ -165,10 +165,12 @@ describe("PipelineRunner.normaliseSources", () => {
 			lectureStages: [],
 		});
 
-		await runner.normaliseSources({ moduleRoots: ["/m1", "/m2"] });
+		await runner.normaliseSources({
+			moduleRoots: ["/modules/Biology of Disease", "/modules/Immunology"],
+		});
 
 		expect(normaliseModule).toHaveBeenCalledTimes(2);
-		expect(normaliseModule).toHaveBeenCalledWith({ moduleRoot: "/m1" });
-		expect(normaliseModule).toHaveBeenCalledWith({ moduleRoot: "/m2" });
+		expect(normaliseModule).toHaveBeenCalledWith({ moduleRoot: "/modules/Biology of Disease" });
+		expect(normaliseModule).toHaveBeenCalledWith({ moduleRoot: "/modules/Immunology" });
 	});
 });
