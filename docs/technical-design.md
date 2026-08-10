@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.10-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-07-26
+**Suite version:** 1.11-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-08-10
 **Status:** For review
 
 ---
@@ -396,6 +396,13 @@ updateManifest(args: { workspaceRoot: string; stageId: StageId; entry: ManifestS
 
 **`cost-report` command:** Aggregates all run logs across the configured `moduleRoots` and prints a table showing total expenditure broken down by run and stage — enabling comparison of model experiments and visibility of wasted spend from failures (see §7). Narrowed by `--date` (via `resolveLecturesByDate`, with the same multi-match prompt) or `--module <moduleRoot>`.
 
+**Identity-mutation commands (`rename`, `delete`, `change-date`).** A lecture's identity is changed only through these commands — never by editing the filesystem directly — so the manifest and filesystem stay in lock-step (see Stage 0, §5):
+- `rename <date> "<new title>"` — sets `userTitle` in the manifest (which then wins the title precedence) and renames the video, slide, workspace folder, and any `Final output/` PDF to match.
+- `delete <date>` — removes the lecture's video, slide, workspace, and outputs, then renumbers the remaining lectures.
+- `change-date <date> <new date>` — moves the lecture (video, slide, workspace, outputs) to the new date, updates its manifest, and renumbers.
+
+Each performs its change and then re-runs Stage 0's normalisation to return the module to a consistent, renumbered state. A lecture is addressed by `<date>`; cross-module date collisions use the same multi-match picker as `run` (`resolveLecturesByDate`).
+
 ---
 
 ## 5. Stage Designs
@@ -406,6 +413,10 @@ updateManifest(args: { workspaceRoot: string; stageId: StageId; entry: ManifestS
 
 **Inputs:** All files in `Source files/Video files/` and `Source files/Lecture slides/`.
 
+**Identity and source of truth.** A lecture is identified by its **date** (unique within a module, enforced below). The **filesystem is authoritative for a lecture's existence**: adding a lecture means dropping its `video + slide` into the source folders, which Stage 0 picks up on the next run. The **manifest is authoritative for a lecture's title, cost, and history**. Because the two must never drift, **identity changes — rename, delete, change date — are made only through the CLI** (§4.7), which drives the same Stage 0 machinery and updates manifest and filesystem together. The user is instructed never to rename, move, or delete sources or workspaces directly; only *adding* a pair is done by dropping files. The sole guard against an accidental direct deletion is orphan handling (below).
+
+**Title precedence.** The effective `lectureTitle` is, in order: a user-supplied title (`userTitle`, set by the CLI `rename` command) › the AI-derived title (`aiDerivedTitle`, Stage 3) › the provisional title Stage 0 extracts from the filename. Stage 0 seeds `lectureTitle = provisionalTitle` for a new lecture and never overwrites a title set later; on re-run it names files and folders from the manifest's current `lectureTitle`, never by re-parsing the already-canonical filename.
+
 **Validate, then apply.** Stage 0 first validates the whole module with read-only checks. If any check fails it logs every problem found (at `error`) and throws, making **no filesystem changes** — a failed run never leaves a half-normalised module, and the error propagates through the runner to the CLI. Only a module that passes every check is mutated. The following **stop the run** (they are errors, not warnings):
 - a video or slide filename with no confidently extractable date;
 - a video with no matching slide, or a slide with no matching video (matching is 1:1 by date);
@@ -415,21 +426,21 @@ updateManifest(args: { workspaceRoot: string; stageId: StageId; entry: ManifestS
 
 1. **Date extraction:** Parse the date from each video filename using `chrono-node`. Dates may appear in any position and format (e.g. `2025-10-10`, `10 Oct 2025`, `Fri 10th Oct`).
 
-2. **Lecture number assignment:** Sort all video files by extracted date. Assign sequential lecture numbers (`Lecture 1`, `Lecture 2`, …) in date order. If Stage 0 is re-run after new lectures are added, detect changes in sequence and rename all affected workspace folders, source files, and `Final output/` PDFs.
+2. **Lecture number assignment:** Sort all video files by extracted date. Assign sequential lecture numbers (`Lecture 1`, `Lecture 2`, …) in date order.
 
 3. **Slide matching:** Parse the date from each slide PDF (date always at the beginning of the filename) and match it to the video with the same date (validation has already guaranteed a 1:1 match).
 
-4. **Provisional title extraction:** Strip whichever of the date, day names (Mon–Sun), module code prefix (e.g. `BOD_`, `BOD `), embedded lecture-number token (e.g. `Lecture 1`, which would otherwise duplicate the assigned number), and trailing artefacts (`co`, `copy`, `v2`) are present in the video filename; title-case the result. Filenames vary — some yield a full descriptive title, others little beyond a date and lecture number (in which case the provisional title may be empty and Stage 0 falls back to the bare `Lecture N` name). Whether the result is meaningful is **not** judged here; Stage 3 makes that call once the transcript is available.
+4. **Title resolution:** For a **new** lecture, extract a provisional title from the video filename — strip whichever of the date, day names (Mon–Sun), module-code prefix (e.g. `BOD_`, `BOD `), embedded lecture-number token (e.g. `Lecture 1`), and trailing artefacts (`co`, `copy`, `v2`) are present, then title-case what remains. A filename with nothing beyond a date and lecture number yields an **empty** provisional title, and the lecture falls back to a bare `Lecture N` name. Whether the title is meaningful is **not** judged here; Stage 3 makes that call. For an **existing** lecture, the title is taken from its manifest (`lectureTitle`), never re-extracted — so a CLI `rename` and a Stage 3 rename are both preserved.
 
-5. **Rename source files:**
-   - Video: `[original].mp4` → `Lecture N - [provisional title] - YYYY-MM-DD.mp4`
-   - Slide: `[original].pdf` → `Lecture N - [provisional title] - YYYY-MM-DD.pdf`
+5. **Canonical naming:** Rename the source video and its matched slide, the workspace folder, and any `Final output/` PDF to the shared base name `Lecture N - <title> - YYYY-MM-DD` (bare `Lecture N - YYYY-MM-DD` when the title is empty). Items already at their target are left untouched.
 
-6. **Workspace folder creation:** Create `Pipeline processing/Lecture N - [provisional title] - YYYY-MM-DD/` for any lecture that does not already have one. Write an initial `manifest.json` with `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle = provisionalTitle` (Stage 3 may overwrite), `aiDerivedTitle = null`, and all stage statuses set to `pending`.
+6. **Workspace + manifest:** Create `Pipeline processing/Lecture N - <title> - YYYY-MM-DD/` for any lecture that does not already have one, writing an initial `manifest.json` with `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle = provisionalTitle`, `userTitle = null`, `aiDerivedTitle = null`, and all stage statuses `pending`. For an existing lecture whose number or folder changed, update `lectureNumber` and `workspaceFolderName` in its manifest, preserving everything else.
 
-**Re-numbering:** When the sequence changes, Stage 0 renames affected workspace folders, source files, and `Final output/` PDFs atomically (rename to a temporary name first to avoid collision), then updates `lectureNumber` in each affected manifest.
+**Collision-safe renaming.** When the sequence changes, all renames (source files, workspace folders, `Final output/` PDFs) are applied in two phases — each item to a temporary name, then each temporary to its target — so shifting lecture numbers never collide mid-rename. Items already correct are skipped, so a re-run with no changes touches nothing.
 
-**Logging:** Every action — files discovered, dates extracted, numbers assigned, matches, each rename, each workspace/manifest write, each renumber — is recorded at `info` on the run's pino logger; validation failures are recorded at `error` before the throw.
+**Orphan handling (direct-deletion guard).** If a workspace's date has **no source pair present** (both its video and slide are gone — a partial loss is already a 1:1 validation error), the sources were deleted directly rather than via the CLI, which can leave the pipeline inconsistent. Stage 0 neither silently deletes work nor silently proceeds. For **each** orphaned workspace it prompts the user — via an injected `confirm` callback the CLI backs with `@inquirer/prompts` — showing the lecture's number, title, date, and the cost already spent, and asks whether to delete the workspace and its outputs. Only if **every** orphan is approved does a final "are you sure?" confirm the irreversible deletion; then the workspaces and their `Final output/` PDFs are deleted (their manifests go with them), the module is renumbered, and each deletion is logged with its prior state. If **any** orphan is declined, or the final confirmation is declined, Stage 0 aborts with an informative error and makes **no changes** — protecting against, e.g., the whole source folder being moved by mistake.
+
+**Logging:** Every action — files discovered, dates extracted, numbers assigned, matches, each rename, each workspace/manifest write, each renumber, each approved deletion (with its prior number/title/date/cost) — is recorded at `info` on the run's pino logger; validation and orphan-abort failures are recorded at `error` before the throw.
 
 ---
 

@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.10-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-07-26
+**Suite version:** 1.11-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-08-10
 **Status:** For review
 
 ---
