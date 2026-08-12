@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.12-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.13-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-12
 **Status:** For review
 
@@ -245,28 +245,53 @@ Integration tests (real temp directory with fixture source files):
 
 ## Phase 5 — Stages 1 & 2: Audio Extraction and Transcription
 
-**Goal:** Refactor the existing proof-of-concept code in `src/index.ts` into `PipelineStage` implementations.
+**Goal:** The first two `PipelineStage` implementations, and the first stages the runner drives end-to-end. Built fresh from the contract, not ported from `src/index.ts` — the prototype supplies the proven API parameters and nothing else.
 
 **Deliverables:**
 
+`src/pipeline/config.ts` — three additions **(TD §6)**, each a required key:
+- `modelIdCheck.exemptProviders` — provider prefixes skipped by the OpenRouter model-ID check, so a stage on a non-OpenRouter provider can declare its model in config and have it recorded in the manifest and cost report. Generic, not ElevenLabs-specific
+- `elevenLabs.costPerAudioHourUsd` — the rate Stage 2 multiplies by audio duration, since Scribe returns no price
+- `currency.gbpPerUsd` — the USD→GBP rate applied when presenting costs
+- `pipeline-config.json` gains all three plus a `transcription` stage entry
+
+`src/utils/cost.ts` — present all user-facing costs in pounds **(TD §7, NFR-2.3)**. Stored figures stay in USD; conversion happens only in the reporting layer, so the end-of-run summary and all three `cost-report` sections render `£`.
+
+A shared stage helper for `isComplete` — the manifest marks the stage complete and every recorded `filesWritten` entry still exists, each resolved through `resolveManifestPath` so a corrupt manifest cannot escape the module tree **(TD §4.4)**. Both stages need identical logic, so it is written once.
+
 `src/pipeline/stages/audio-extraction.ts` **(TD Stage 1)**:
 - Implements `PipelineStage<AudioExtractionInput, AudioExtractionOutput>`
-- Preserves existing behaviour: `fluent-ffmpeg`, `-acodec copy`, `cli-progress` bar
-- Input: path to source video; Output: `Audio/audio.m4a`
+- `fluent-ffmpeg`, `-acodec copy`, `cli-progress` bar; locates the source video by workspace base name whatever its extension
+- Writes `Audio/audio.m4a` via a `.tmp` sibling; makes no billable call, so cost is `null`
 
 `src/pipeline/stages/transcription.ts` **(TD Stage 2)**:
 - Implements `PipelineStage<TranscriptionInput, TranscriptionOutput>`
-- Preserves existing behaviour: ElevenLabs `scribe_v2`, `languageCode: 'eng'`, `noVerbatim: true`
+- ElevenLabs Scribe v2, `languageCode: 'eng'`, `noVerbatim: true`; model ID from config with its provider prefix stripped
 - Upload progress via `createUploadProgressStream` (from `progress.ts`)
+- Cost from audio duration × the configured rate; `totalCostUsd: null` with `costResolutionError` when the duration cannot be read
 - Output: `Transcript/transcript.txt`
 
 **Tests:**
 
-Unit tests (mock ffmpeg via child process stub; mock ElevenLabs via `nock`):
+Config loader — integration tests:
+- `should skip the OpenRouter check when a model ID names an exempt provider`
+- `should still check a model ID when its provider is not exempt`
+- `should throw ConfigError when a required currency or ElevenLabs field is missing or not a number`
+
+Cost reporting — unit tests:
+- `should render totals in pounds when a report is produced from USD figures`
+- `should convert at the configured rate when the rate changes`
+
+Stages — unit tests (mock ffmpeg via child process stub; mock ElevenLabs via `nock`):
 - `should skip audio extraction when output file exists and stage is complete`
 - `should skip transcription when output file exists and stage is complete`
 - `should pass bytes through unchanged when upload progress stream processes a chunk`
 - `should return correct filesWritten list when stage completes`
+- `should fail before invoking ffmpeg when the source video is missing`
+- `should fail before uploading when ELEVENLABS_API_KEY is unset`
+- `should strip the provider prefix when sending the model ID to ElevenLabs`
+- `should record cost from audio duration and the configured rate when transcription completes`
+- `should record a null cost with costResolutionError when the audio duration cannot be read`
 
 Integration tests (`.integration.test.ts`) against a small real test audio/video fixture — not run in CI:
 - `should extract audio track from video file producing valid m4a output`

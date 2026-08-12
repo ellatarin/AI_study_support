@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.12-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.13-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-12
 **Status:** For review
 
@@ -447,23 +447,25 @@ Each performs its change and then re-runs Stage 0's normalisation to return the 
 
 ### Stage 1 — Audio Extraction
 
-**Already implemented.** Formally stage 1.
-
 **Input:** `Source files/Video files/Lecture N - YYYY-MM-DD.mp4`
 **Output:** `Audio/audio.m4a`
 
 Extracts the audio track from the video using fluent-ffmpeg with `-acodec copy` (no re-encoding). Displays a `cli-progress` bar showing extraction percentage. The extracted audio is retained in `Audio/` for the life of the lecture workspace.
 
+The source video is located by base name: the workspace folder name plus whatever extension the video carries, since Stage 0 gives the video, the slide, and the workspace folder the same base name but preserves the original container extension. A missing or ambiguous video is a stage failure, reported before ffmpeg is invoked. fluent-ffmpeg spawns with an explicit argv array, satisfying the no-shell-interpolation rule (§4.4). Extraction writes to a `.tmp` sibling and renames on success (§4.3), so a killed run never leaves a truncated `audio.m4a` that a later run would mistake for complete. This stage makes no billable call, so its recorded cost is `null`.
+
 ---
 
 ### Stage 2 — Transcription
 
-**Already implemented.** Formally stage 2.
-
 **Input:** `Audio/audio.m4a`
 **Output:** `Transcript/transcript.txt`
 
-Uploads the audio to ElevenLabs Scribe v2 with a streaming upload progress bar (bytes sent vs total). Parameters: `modelId: 'scribe_v2'`, `languageCode: 'eng'`, `noVerbatim: true`. Saves the returned plain-text transcript.
+Uploads the audio to ElevenLabs Scribe v2 with a streaming upload progress bar (bytes sent vs total). Parameters: `languageCode: 'eng'`, `noVerbatim: true` — the latter is supported only on `scribe_v2`, so the two travel together.
+
+**Model ID and the provider prefix.** Config holds `stages.transcription.modelId = "elevenlabs/scribe_v2"`, but the ElevenLabs API takes a bare `model_id` of `scribe_v2` with no provider prefix. The prefix therefore exists purely to serve this codebase: `modelIdCheck.exemptProviders` matches on the segment before the `/` (§6), so a model can only be exempted from the OpenRouter check if it is provider-qualified — a bare `scribe_v2` would have no prefix to match and no way to opt out of a check it must fail. The stage strips the prefix before the call, so config keeps the qualified form the exemption and the cost report need, and ElevenLabs receives the form it expects.
+
+The API key comes from `ELEVENLABS_API_KEY`; its absence is a stage failure raised before any upload begins. Cost is derived from audio duration as described in §7. The transcript is written atomically (§4.3).
 
 ---
 
@@ -710,6 +712,12 @@ Located in the project root. Specifies model and parameters per stage independen
 
 Model IDs below are **capability-based placeholders**, not real OpenRouter routing strings. Before running the pipeline, replace each `<...>` with a concrete model ID looked up on `https://openrouter.ai/models`. The config loader validates every configured ID against OpenRouter's live model list at startup (see Phase 2) and fails fast if any is unrecognised or retired.
 
+**Exempting non-OpenRouter providers.** Not every stage calls OpenRouter — Stage 2 transcribes through ElevenLabs — so checking its model ID against OpenRouter's list would always fail. `modelIdCheck.exemptProviders` lists provider prefixes (the part of a model ID before the `/`) that the check skips, so a stage on any non-OpenRouter provider can still declare its model in config and have it recorded in the manifest and cost report. The mechanism is general: it is not specific to ElevenLabs, and a stage whose provider is not exempt is always checked. Exempting a provider trades away the typo protection for its IDs, so keep the list to providers that genuinely sit outside OpenRouter.
+
+**Currency.** Every provider bills in US dollars, so costs are stored in USD and converted to pounds only for presentation (§7). `currency.gbpPerUsd` is the rate applied. Because it converts at display time rather than at write time, correcting a stale rate re-renders every historical report consistently — no stored figure is ever rewritten, and none silently mixes rates.
+
+**ElevenLabs cost rate.** The Scribe API returns no price with a transcript, so `elevenLabs.costPerAudioHourUsd` supplies the rate Stage 2 multiplies by the audio's duration to attribute transcription spend (§7). Set it from the ElevenLabs plan in force; it is a billing figure that changes independently of this codebase, which is why it is configuration rather than a constant. The single rate is accurate for the call this pipeline makes — batch Scribe v2 with no diarization, entity detection, or keyterm prompting, each of which ElevenLabs bills as a surcharge on top of the base hourly rate. Enabling any of those later means revisiting this figure, since one number can no longer describe the call.
+
 ```jsonc
 {
   "version": "1",
@@ -720,7 +728,19 @@ Model IDs below are **capability-based placeholders**, not real OpenRouter routi
   "openRouter": {
     "rateLimitRpm": 60
   },
+  "elevenLabs": {
+    "costPerAudioHourUsd": 0.22        // Scribe v2 list price; set from your current ElevenLabs plan
+  },
+  "currency": {
+    "gbpPerUsd": 0.74                  // USD→GBP rate used to present all costs; refresh periodically
+  },
+  "modelIdCheck": {
+    "exemptProviders": ["elevenlabs"]  // provider prefixes skipped by the OpenRouter model-ID check
+  },
   "stages": {
+    "transcription": {
+      "modelId": "elevenlabs/scribe_v2"          // exempt provider — not checked against OpenRouter
+    },
     "transcript-structuring": {
       "modelId": "<REASONING_MODEL>",             // long-context text model with strong structure/summarisation
       "temperature": 0.2,
@@ -767,7 +787,13 @@ OpenRouter exposes cost via the `/api/v1/generation?id={response.id}` endpoint. 
 
 Each cost lookup has a 30-second timeout and up to 3 exponential-backoff retries (the generation endpoint is briefly eventually-consistent after completion). If a lookup ultimately fails, the stage still succeeds — cost telemetry MUST NOT gate pipeline progress. The manifest and run-log entries record `cost.totalCostUsd = null` along with `cost.costResolutionError` describing why. Tokens and `callCount` are always populated regardless.
 
-ElevenLabs transcription cost is captured synchronously from the API response where available; otherwise it is approximated from audio duration.
+ElevenLabs returns no price with a transcript, so Stage 2 derives transcription cost from the audio's duration (read with `ffprobe`) multiplied by the configured `elevenLabs.costPerAudioHourUsd` (§6). The result is recorded as a normal `StageCost` with `callCount: 1` and zero token counts — Scribe is billed by audio duration, not tokens. If the duration cannot be read, the stage still succeeds and records `totalCostUsd: null` with `costResolutionError`, exactly as a failed OpenRouter cost lookup does: cost telemetry MUST NOT gate pipeline progress.
+
+### Currency
+
+Providers bill in US dollars, so **USD is the stored currency and GBP is the presented one**. Every persisted figure — `manifest.currentPipelineCost`, each stage entry's `cost`, and every run-log entry — records the dollar amount actually charged, which is why those fields are named `…Usd`. Conversion happens in the reporting layer alone, at `currency.gbpPerUsd` (§6): the end-of-run summary, all three sections of `cost-report`, and any other user-facing total render pounds and the `£` symbol.
+
+Keeping the conversion at the edge means a stale or corrected rate never invalidates stored data — re-running a report applies the current rate to the full history at once. Storing pounds instead would freeze each figure at whatever rate happened to be configured when it was written, leaving a single manifest holding amounts converted at several different rates and no way to restate them.
 
 ### Two-Level Tracking
 
@@ -795,12 +821,12 @@ Printed after every run, showing only the stages executed in that invocation:
 ```
 Stage                    Model                      Calls    Tokens (in / out)    Cost
 ────────────────────────────────────────────────────────────────────────────────────────
-Slide conversion         gemini-2.5-flash             24      41,000 /  8,100     $0.034
-Image extraction         gpt-4.1                       12           0 /  2,400     $0.038
-Synthesis                claude-sonnet-4.6             1      65,000 / 14,200     $0.312
-QA loop (2 iterations)   claude-sonnet-4.6             4      68,000 / 15,800     $0.405
+Slide conversion         gemini-2.5-flash             24      41,000 /  8,100     £0.025
+Image extraction         gpt-4.1                       12           0 /  2,400     £0.028
+Synthesis                claude-sonnet-4.6             1      65,000 / 14,200     £0.231
+QA loop (2 iterations)   claude-sonnet-4.6             4      68,000 / 15,800     £0.300
 ────────────────────────────────────────────────────────────────────────────────────────
-This run                                              41     174,000 / 40,500     $0.789
+This run                                              41     174,000 / 40,500     £0.584
 ```
 
 ### Cost Report Command
@@ -813,31 +839,31 @@ This run                                              41     174,000 / 40,500   
 ```
 Stage                    Model                  Calls    Cost
 ──────────────────────────────────────────────────────────────
-Transcription            elevenlabs/scribe_v2      1    $0.042
-Transcript structuring   claude-sonnet-4.6         1    $0.081
-Slide conversion         gemini-2.5-flash         24    $0.034
-Image extraction         gpt-4.1                   12    $0.038
-Synthesis                claude-sonnet-4.6         1    $0.312
-QA loop                  claude-sonnet-4.6         4    $0.405
+Transcription            elevenlabs/scribe_v2      1    £0.031
+Transcript structuring   claude-sonnet-4.6         1    £0.060
+Slide conversion         gemini-2.5-flash         24    £0.025
+Image extraction         gpt-4.1                   12    £0.028
+Synthesis                claude-sonnet-4.6         1    £0.231
+QA loop                  claude-sonnet-4.6         4    £0.300
 ──────────────────────────────────────────────────────────────
-                                                         $0.912
+                                                         £0.675
 ```
 
 **2 — Error recovery cost** (spend from failed runs and retries):
 ```
 Run                    Stage                  Status    Cost
 ────────────────────────────────────────────────────────────
-2025-10-10T09:00Z      slide-conversion       failed   $0.021
-2025-10-10T10:30Z      slide-conversion       retry    $0.034
+2025-10-10T09:00Z      slide-conversion       failed   £0.016
+2025-10-10T10:30Z      slide-conversion       retry    £0.025
 ────────────────────────────────────────────────────────────
-Wasted on failures                                     $0.021
+Wasted on failures                                     £0.016
 ```
 
 **3 — Experiment cost** (deliberate model re-runs, grouped for comparison):
 ```
 Stage: synthesis
-  Run 2025-10-11T14:00Z    claude-sonnet-4.6      $0.312
-  Run 2025-10-11T15:30Z    anthropic/claude-opus  $0.890
+  Run 2025-10-11T14:00Z    claude-sonnet-4.6      £0.231
+  Run 2025-10-11T15:30Z    anthropic/claude-opus  £0.659
 ```
 
 ---
