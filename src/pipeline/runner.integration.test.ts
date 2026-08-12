@@ -49,6 +49,7 @@ function makeManifest(overrides: Partial<RunManifest> = {}): RunManifest {
 		lectureDate: "2025-10-10",
 		provisionalTitle: "Immune System",
 		lectureTitle: "Immune System",
+		userTitle: null,
 		aiDerivedTitle: null,
 		workspaceFolderName: "L1",
 		createdAt: "2025-10-10T00:00:00Z",

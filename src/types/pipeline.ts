@@ -227,6 +227,14 @@ export type RunManifest = {
 	readonly version: string;
 } & LectureIdentity & {
 		/**
+		 * The title the user set explicitly through the CLI `rename` command.
+		 * `null` until they rename the lecture. It wins the title precedence
+		 * outright — `userTitle` › `aiDerivedTitle` › `provisionalTitle` — so once
+		 * set, neither Stage 0 nor Stage 3 overwrites `lectureTitle`
+		 * (technical-design.md §5, Stage 0).
+		 */
+		readonly userTitle: string | null;
+		/**
 		 * The replacement title Stage 3's LLM proposes from the transcript.
 		 * `null` before Stage 3 runs, and `null` afterwards when Stage 3 keeps the
 		 * lecturer's provisional title (the LLM prefers a meaningful original and

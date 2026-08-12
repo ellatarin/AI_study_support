@@ -121,6 +121,7 @@ const manifest: RunManifest = {
 	lectureDate: "2025-10-10",
 	provisionalTitle: "Cell Injury",
 	lectureTitle: "Cell Injury",
+	userTitle: null,
 	aiDerivedTitle: null,
 	workspaceFolderName: "Lecture 1 - Cell Injury - 2025-10-10",
 	createdAt: "2025-10-10T09:00:00.000Z",
