@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.11-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-08-10
+**Suite version:** 1.12-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-08-12
 **Status:** For review
 
 ---
@@ -229,6 +229,7 @@ Each stage entry records `configUsed` — a `StageRunConfig` capturing the model
   "lectureNumber": 1,
   "lectureDate": "2025-10-10",
   "provisionalTitle": "Disease Cell Injury and the Immune System",
+  "userTitle": null,
   "aiDerivedTitle": null,
   "lectureTitle": "Disease Cell Injury and the Immune System",
   "workspaceFolderName": "Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10",

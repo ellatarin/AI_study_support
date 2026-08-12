@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Requirements Specification
 
-**Suite version:** 1.11-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-08-10
+**Suite version:** 1.12-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-08-12
 **Status:** For review
 
 ---
@@ -84,6 +84,10 @@ The system shall take a set of lecture recordings (video files) and accompanying
 
 **FR-6.5** The system shall provide clear progress feedback to the user at each stage of the pipeline, including upload progress bars where large files are being transferred.
 
+**FR-6.6** The system shall identify each lecture by its date, number lectures sequentially in date order within a module, and renumber the affected lectures automatically when a lecture is added or removed.
+
+**FR-6.7** The system shall provide commands to rename a lecture, delete a lecture, and change a lecture's date, keeping its source files, workspace, and outputs consistent with one another.
+
 ---
 
 ## 3. Non-Functional Requirements
@@ -113,6 +117,8 @@ The system shall take a set of lecture recordings (video files) and accompanying
 **NFR-4.1** A failure at any pipeline stage shall not cause the loss of outputs already produced by earlier stages.
 
 **NFR-4.2** The system shall report failures clearly, including which stage failed and why.
+
+**NFR-4.3** The system shall not irreversibly delete pipeline work without explicit user confirmation; where confirmation is declined, the system shall make no changes at all.
 
 ### NFR-5 — Maintainability
 

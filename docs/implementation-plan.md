@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.11-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-08-10
+**Suite version:** 1.12-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-08-12
 **Status:** For review
 
 ---
@@ -214,8 +214,11 @@ Runner lifecycle — integration tests (real temp directory with fixture manifes
 3. Match each slide PDF (date at start of filename) to its video
 4. Extract a best-effort provisional title (adequacy judged later, at Stage 3)
 5. Rename source files atomically (temp name → final name to avoid collision)
-6. Create workspace folders; write initial `manifest.json` for new lectures — including `lectureTitle = provisionalTitle` and `aiDerivedTitle = null` (Stage 3 may overwrite both)
-7. On re-run after new lectures added: detect sequence changes, rename all affected workspace folders, source files, and any `Final output/` PDFs; update `lectureNumber` in affected manifests
+6. Create workspace folders; write initial `manifest.json` for new lectures — including `lectureTitle = provisionalTitle`, `userTitle = null`, and `aiDerivedTitle = null` (the CLI `rename` sets the first two; Stage 3 may overwrite `lectureTitle` and `aiDerivedTitle`)
+7. On re-run after new lectures added: detect sequence changes, rename all affected workspace folders, source files, and any `Final output/` PDFs; update `lectureNumber` in affected manifests. An existing lecture is named from its manifest's `lectureTitle`, never re-extracted
+8. Orphan handling (direct-deletion guard): detect every workspace whose date has no source pair present; prompt per orphan through the injected `confirm` dependency (`createSourceNormalisationStage({ logger, confirm })`, where `confirm(args: { message: string }): Promise<boolean>`), showing number, title, date, and cost already spent; only when every orphan is approved, take a final confirmation and then delete each workspace and its `Final output/` PDF, renumber the module, and log each deletion's prior state; any decline aborts with no filesystem changes (NFR-4.3)
+
+The CLI identity-mutation commands that drive this same machinery — `rename`, `delete`, `change-date` (FR-6.7, TD §4.7) — are built with the CLI, not in this phase.
 
 **Tests:**
 
@@ -228,8 +231,13 @@ Integration tests (real temp directory with fixture source files):
 - `should log an error and stop without filesystem changes when a source anomaly is found` — `test.each` for: undateable file, unmatched video, unmatched slide, duplicate video date, duplicate slide date
 - `should rename source files atomically when normalisation runs`
 - `should create workspace folder and write initial manifest when lecture is new`
-- `should seed initial manifest with lectureTitle equal to provisionalTitle and aiDerivedTitle null`
+- `should seed initial manifest with lectureTitle equal to provisionalTitle and userTitle and aiDerivedTitle null`
+- `should name an existing lecture from its manifest lectureTitle when the title changed after Stage 0`
 - `should produce no filesystem changes when Stage 0 re-run on already-normalised sources`
+- `should delete the workspace and its Final output PDF when an orphaned lecture is approved` — `test.each` for one orphan and for several orphans all approved
+- `should renumber the remaining lectures and log the prior number, title, date, and cost when an orphan is deleted`
+- `should abort without filesystem changes when a confirmation is declined` — `test.each` for: an orphan declined, the final confirmation declined
+- `should not prompt when every workspace still has its source pair`
 
 **Acceptance:** Given a folder of raw video and slide files, Stage 0 produces correct workspace folders, manifests, renamed source files, and handles mid-sequence insertion correctly.
 
