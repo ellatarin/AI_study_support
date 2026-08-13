@@ -162,14 +162,46 @@ async function readJsonFile<TValue>(path: string): Promise<TValue | null> {
 	}
 }
 
-async function listWorkspaces({
-	moduleRoot,
-}: {
-	readonly moduleRoot: string;
-}): Promise<readonly string[]> {
+/** A single module, addressed by the root directory that contains it. */
+type ModuleQuery = { readonly moduleRoot: string };
+
+async function listWorkspaces({ moduleRoot }: ModuleQuery): Promise<readonly string[]> {
 	const processingRoot = join(moduleRoot, PROCESSING_DIR);
 	const names = await listSubdirectoryNames(processingRoot);
 	return names.map((name) => join(processingRoot, name));
+}
+
+/**
+ * A module's lecture workspaces in date order (technical-design.md §4.7).
+ *
+ * The directory listing they come from is in whatever order the filesystem
+ * chooses, and their names cannot stand in for the date either — `Lecture 10`
+ * precedes `Lecture 2` lexicographically. So the order comes from the manifests,
+ * whose `lectureDate` is ISO and therefore sorts chronologically as text.
+ *
+ * A folder with no readable manifest keeps its place at the end rather than
+ * being dropped: it will fail when it is run, which is the right way to hear
+ * about a corrupt workspace — ordering is not the place to start hiding one.
+ *
+ * @param args - The module to list.
+ * @param args.moduleRoot - Absolute path to the module directory.
+ * @returns The workspace paths, earliest lecture first.
+ */
+async function listWorkspacesByDate({ moduleRoot }: ModuleQuery): Promise<readonly string[]> {
+	const dated = await Promise.all(
+		(await listWorkspaces({ moduleRoot })).map(async (workspaceRoot) => ({
+			workspaceRoot,
+			lectureDate: (await readManifestSafe({ workspaceRoot }))?.lectureDate ?? null,
+		})),
+	);
+	const withDate = dated.filter((entry) => entry.lectureDate !== null);
+	// eslint-disable-next-line max-params -- Array.prototype.sort's comparator is spec-defined
+	withDate.sort((left, right) =>
+		(left.lectureDate as string).localeCompare(right.lectureDate as string),
+	);
+	return [...withDate, ...dated.filter((entry) => entry.lectureDate === null)].map(
+		(entry) => entry.workspaceRoot,
+	);
 }
 
 function resolveStageRunConfig({
@@ -618,10 +650,11 @@ export class PipelineRunner {
 		};
 	}
 
+	// Modules in the order given, and each module's lectures in date order.
 	async #collectWorkspaces(moduleRoots: readonly string[]): Promise<readonly string[]> {
 		const workspaces: string[] = [];
 		for (const moduleRoot of moduleRoots) {
-			workspaces.push(...(await listWorkspaces({ moduleRoot })));
+			workspaces.push(...(await listWorkspacesByDate({ moduleRoot })));
 		}
 		return workspaces;
 	}

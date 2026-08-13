@@ -545,6 +545,36 @@ describe("PipelineRunner integration", () => {
 			expect(summary.totalCostUsd).toBeCloseTo(0.5);
 		});
 
+		it("should run the lectures in date order when the batch starts", async () => {
+			// Names deliberately at odds with date order in both directions a listing
+			// might take them: "Lecture 10" sorts before "Lecture 2" lexicographically,
+			// and neither matches the order the dates put them in.
+			const byDate = [
+				{ folder: "Lecture 10 - Autumn - 2025-09-01", lectureDate: "2025-09-01" },
+				{ folder: "Lecture 2 - Winter - 2025-11-20", lectureDate: "2025-11-20" },
+				{ folder: "Lecture 1 - Spring - 2025-12-05", lectureDate: "2025-12-05" },
+			];
+			const moduleB = join(tempDir, "Chronology");
+			for (const { folder, lectureDate } of byDate) {
+				await writeManifest(
+					join(moduleB, "Pipeline processing", folder),
+					makeManifest({ lectureDate }),
+				);
+			}
+			const ran: string[] = [];
+			const recordingStage = makeStubStage({
+				stageId: "audio-extraction",
+				run: ({ context }) => {
+					ran.push(context.lectureDate);
+					return Promise.resolve({ output: undefined, cost: null, filesWritten: [] });
+				},
+			});
+
+			await makeRunner([recordingStage]).runBatch({ moduleRoots: [moduleB] });
+
+			expect(ran).toEqual(["2025-09-01", "2025-11-20", "2025-12-05"]);
+		});
+
 		it("should report a failed batch when any lecture fails", async () => {
 			const failing = makeStubStage({
 				stageId: "audio-extraction",
