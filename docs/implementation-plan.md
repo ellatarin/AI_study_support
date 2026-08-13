@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.16-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.17-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-13
 **Status:** For review
 
@@ -58,7 +58,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 **Deliverables:**
 
-- `src/types/pipeline.ts` — every shared type, and `STAGE_IDS`, the ordered stage list `StageId` is derived from **(TD §4.1, §4.2, §4.7)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, `StageStatus`), the persisted shapes (`RunManifest`, `ManifestStageEntry`, `RunLog`, `RunLogStageEntry`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaDeficienciesReport`), and the runner-facing `LectureMatch`, `RunOptions`, `ReportOptions`, `RunSummary`, `BatchSummary`
+- `src/types/pipeline.ts` — every shared type, and `STAGE_IDS`, the ordered stage list `StageId` is derived from **(TD §4.1, §4.2, §4.7)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, `StageStatus`), the persisted shapes (`RunManifest`, `ManifestStageEntry`, `RunLog`, `RunLogStageEntry`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaDeficienciesReport`), and the runner-facing `LectureMatch`, `RunOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, `BatchSummary`
 - `src/utils/files.ts` — `writeFileAtomic` and `cleanTmpFiles` **(TD §4.3)**; `workspacePath` and `resolveManifestPath` **(TD §4.4)**
 - `src/utils/logger.ts` — `createRootLogger`, `createStageLogger` **(TD §10, Logging and Progress Helpers)**
 - `src/utils/date.ts` — `extractDate`, `formatDateISO` **(TD §3.2, Date and Naming Helpers)**
@@ -117,16 +117,25 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 `src/pipeline/runner.ts` — the `PipelineRunner` class and its supporting module-level functions (`runStage`, `assembleContext`, `updateManifest`, `deriveRunId`, `classifyRunType`). Full surface and behaviour in **TD §4.7**.
 
-`src/index.ts` — CLI entry point. Invoked in docs and examples as `lecture-notes <cmd>` via the `bin/lecture-notes` wrapper installed by `scripts/setup`. During dev without the wrapper, equivalent to `pnpm exec tsx src/index.ts <cmd>`.
+`src/pipeline/manifest.ts` — where `manifest.json` lives, and how it is read and atomically written. Extracted because Stage 0, the runner, and the CLI all touch it (**TD §4.5**).
+
+`src/pipeline/run-status.ts` — the shared rule reducing stage and lecture outcomes to an `OverallStatus` (**TD §4.7**).
+
+`src/index.ts` and `src/cli/` — the CLI. Invoked in docs and examples as `lecture-notes <cmd>` via the `bin/lecture-notes` wrapper installed by `scripts/setup`. During dev without the wrapper, equivalent to `pnpm exec tsx src/index.ts <cmd>`.
 - Commands: `run <date>`, `batch [<moduleRoot>]`, `cost-report [--date <YYYY-MM-DD>] [--module <moduleRoot>]`
 - Flags: `--from-stage <stageId>`, `--concurrency N`, `--continue-on-error`
-- Behaviour of each — including the multi-match picker, batch scope, and what `--from-stage` resets and deletes — is specified in **TD §4.7**. The identity-mutation commands (`rename`, `delete`, `change-date`) land with this deliverable too
+- The identity-mutation commands (`rename`, `delete`, `change-date`) land with this deliverable too
+- Behaviour of each — the module layout, the multi-match picker, batch scope, what `--from-stage` resets and deletes, exit codes, and how each mutation leaves the module for Stage 0 to finish — is specified in **TD §4.7**
+
+`formatRunSummary` and `formatBatchSummary` in `src/utils/cost.ts` — the end-of-run and batch summaries the CLI prints (**TD §7**).
 
 **Tests:**
 
 Runner lifecycle — integration tests (real temp directory with fixture manifests and stub stages):
 - `should transition stage status to complete when stage run succeeds`
 - `should transition stage status to failed when stage run throws`
+- `should mark the stage running on disk before it begins when a stage runs`
+- `should log the failure with its stack against the stage when a stage throws`
 - `should mark stage skipped when isComplete returns true before run`
 - `should record not-reached in run log when upstream stage fails`
 - `should reset nominated stage and all downstream stages to pending when --from-stage invoked`
@@ -143,7 +152,39 @@ Runner lifecycle — integration tests (real temp directory with fixture manifes
 - `should include moduleRoot, workspaceRoot, lectureNumber, and lectureTitle in every match`
 - `should skip module directories that contain no Pipeline processing/ folder`
 
-**Acceptance:** Runner drives stub stages through all lifecycle states correctly; manifest and run logs written atomically to real temp directory; multi-module resolver returns correct matches for 0/1/N cases.
+Manifest I/O and run status — integration and unit tests:
+- `should return null when the manifest is missing` / `when the manifest is malformed`
+- `should leave no temporary file behind when the write succeeds`
+- `should report partial when a stage was skipped or not reached`, `failed when any part failed`
+
+CLI argument parsing — unit tests (no filesystem, no runner):
+- `should carry every run flag when they are all supplied`
+- `should reject the invocation when the date names a day the month does not have`
+- `should reject the invocation when --from-stage names no known stage`
+- `should reject --concurrency when it is zero` (and when fractional, negative, or not a number)
+
+CLI prompts — unit tests with `@inquirer/prompts` mocked:
+- `should label every match with its module, number, and title when prompting`
+- `should return every match when the user chooses all matches` / `nothing when the user cancels`
+
+Identity commands — integration tests (real temp module tree with sources, workspace, and PDF):
+- `should record the new title as the user's own when renaming`
+- `should remove the source video and slide when deleting`
+- `should rename the source video and slide to the new date when changing the date`
+- `should reject the change when a source file already sits at the new date`
+
+Command dispatch — integration tests (real manifests, stubbed runner and prompts):
+- `should normalise every configured module before looking for the lecture when running`
+- `should ask which lectures to run when several share the date`
+- `should report that nothing matched when no lecture carries the date`
+- `should name each failed stage and its error when a stage failed`
+- `should leave the lecture in place when the deletion is declined`
+
+End to end — integration tests through `runCli`:
+- `should print the usage text without reading the config when help is asked for`
+- `should report the problem plainly and fail when the config cannot be read`
+
+**Acceptance:** Runner drives stub stages through all lifecycle states correctly; manifest and run logs written atomically to real temp directory; multi-module resolver returns correct matches for 0/1/N cases; every command dispatches, reports, and exits with the right code without a stack trace reaching the user.
 
 ---
 

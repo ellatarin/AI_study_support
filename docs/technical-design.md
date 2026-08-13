@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.16-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.17-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-13
 **Status:** For review
 
@@ -92,7 +92,8 @@ Slide PDFs are supplied with the date at the very beginning of the filename (e.g
 ```typescript
 extractDate(filename: string): Date | null
 // chrono-node extraction; null when no date is found with sufficient confidence.
-formatDateISO(date: Date): string                    // YYYY-MM-DD
+formatDateISO(date: Date): string                    // YYYY-MM-DD, in local time — the zone the date was read in
+stripDateTokens(text: string): string                // removes every date and weekday span chrono finds
 
 extractProvisionalTitle(filename: string): string
 // Best-effort title: strips whichever of the date, day names, module-code prefix (`BOD_`, `BOD `),
@@ -100,8 +101,9 @@ extractProvisionalTitle(filename: string): string
 // trailing artefacts (`co`, `copy`, `v2`) are present, then title-cases the result. A thin or empty
 // result is acceptable — a date-plus-number filename leaves nothing — and Stage 3 judges the title
 // once the transcript exists.
-lectureFolderName(args: { lectureNumber: number; title: string; date: string }): string
-// The canonical `Lecture N - <title> - YYYY-MM-DD` form shared by the folder, sources, and PDF.
+lectureFolderName(args: { lectureNumber: number; title: string; date: Date }): string
+// The canonical `Lecture N - <title> - YYYY-MM-DD` form shared by the folder, sources, and PDF. Takes the
+// parsed Date rather than a formatted string so the one place that formats a lecture date is formatDateISO.
 filenameSafe(title: string): string                  // see §4.4 for the rules it enforces
 ```
 
@@ -229,7 +231,7 @@ Output a stage does not hold in memory — bytes written by a subprocess, such a
 
 ```typescript
 // src/utils/files.ts
-writeFileAtomic(args: { path: string; content: string }): Promise<void>   // writes .tmp, renames on success
+writeFileAtomic(args: { path: string; content: string | Uint8Array }): Promise<void>   // writes .tmp, renames on success
 produceFileAtomic(args: { path: string; produce: (tmpPath: string) => Promise<void> }): Promise<void>
 // the general form: the caller creates the file at the .tmp path it is given
 cleanTmpFiles(dir: string): Promise<void>                                 // deletes any .tmp files in a directory
@@ -276,6 +278,18 @@ filenameSafe(title: string): string   // src/utils/naming.ts; throws when the re
 One `manifest.json` per lecture, stored in the workspace root. All paths are relative to `workspaceRoot` so the manifest survives a folder rename.
 
 The manifest tracks the **current pipeline state** and the cost of the most recent successful execution of each stage. Historical cost across multiple runs is the responsibility of the run logs (§4.6). Its TypeScript shape is `RunManifest` in `src/types/pipeline.ts` (single source of truth); the example below is illustrative, not the schema.
+
+Three separate callers touch it — Stage 0 creates and renumbers it, the runner patches a stage entry after every stage, and the CLI's identity commands rewrite a lecture's title or date — so where it lives and how it is written are stated once:
+
+```typescript
+// src/pipeline/manifest.ts
+manifestPath(args: { workspaceRoot: string }): string
+readManifest(args: { workspaceRoot: string }): Promise<RunManifest>        // throws when missing or malformed
+readManifestSafe(args: { workspaceRoot: string }): Promise<RunManifest | null>
+// null instead: a folder under `Pipeline processing/` with no readable manifest is not a lecture, which is a
+// fact to skip over rather than an error, since both Stage 0 and the runner scan those folders speculatively.
+writeManifest(args: { workspaceRoot: string; manifest: RunManifest }): Promise<void>   // atomic (§4.3); creates the workspace if absent
+```
 
 Each stage entry records `configUsed` — a `StageRunConfig` capturing the model ID and tuning parameters (temperature, max tokens, concurrency, max QA iterations) actually resolved for that run, or `null` for stages that make no LLM calls. This lets spend be attributed to a specific model and configuration and lets model experiments be compared (NFR-3.2). The run logs (§4.6) record the same `configUsed` per attempt.
 
@@ -387,6 +401,7 @@ Each log records which stages were attempted, skipped, or re-run; cost and model
   "startedAt": "2025-10-10T09:00:00.000Z",
   "endedAt": "2025-10-10T09:12:00.000Z",
   "triggeredBy": "manual",          // 'manual' | 'from-stage'
+  "runType": "normal",              // 'normal' | 'error-recovery' | 'experiment' — classified at run start (§7)
   "fromStage": null,                // stageId if --from-stage was used
   "stages": {
     "audio-extraction":       { "action": "skipped" },
@@ -410,12 +425,12 @@ Each log records which stages were attempted, skipped, or re-run; cost and model
 
 ### 4.7 Pipeline Runner
 
-The runner-facing types — `LectureMatch`, `RunOptions`, `ReportOptions`, `RunSummary`, and `BatchSummary` — are defined in `src/types/pipeline.ts` (single source of truth). The `PipelineRunner` surface:
+The runner-facing types — `LectureMatch`, `RunOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, and `BatchSummary` — are defined in `src/types/pipeline.ts` (single source of truth). The `PipelineRunner` surface:
 
 ```typescript
 class PipelineRunner {
   // Stages are injected so the runner is driven by stub stages under test and real stages in production.
-  constructor(deps: { config: PipelineConfig; sourceNormalisation: SourceNormalisationStage; lectureStages: readonly PipelineStage<unknown, unknown>[] })
+  constructor(deps: { config: PipelineConfig; sourceNormalisation: SourceNormalisationStage; lectureStages: readonly PipelineStage<unknown, unknown>[]; logger: Logger })
   async normaliseSources(args: { moduleRoots: readonly string[] }): Promise<void>          // Stage 0
   async runLecture(args: { workspaceRoot: string; options?: RunOptions }): Promise<RunSummary>
   async runBatch(args: { moduleRoots: readonly string[]; options?: RunOptions }): Promise<BatchSummary>
@@ -433,8 +448,19 @@ type SourceNormalisationStage = { stageId: "source-normalisation"; normaliseModu
 deriveRunId(args: { instant: Date }): string                                   // filesystem-safe run id, e.g. 2025-10-10T09-00-00Z
 classifyRunType(args: { options: RunOptions; manifest: RunManifest }): RunType  // normal | experiment | error-recovery (§7)
 assembleContext(args: { workspaceRoot: string; manifest: RunManifest; config: PipelineConfig }): StageContext  // moduleRoot derived two levels up
-runStage(args: { stage: PipelineStage<unknown, unknown>; context: StageContext; config: PipelineConfig; timestamp: string }): Promise<RunLogStageEntry>  // runs/skips one stage; converts a throw into a failed entry (never throws); writes the manifest
-updateManifest(args: { workspaceRoot: string; stageId: StageId; entry: ManifestStageEntry; timestamp: string }): Promise<void>  // atomic per-stage manifest patch via writeFileAtomic
+runStage(args: { stage: PipelineStage<unknown, unknown>; context: StageContext; config: PipelineConfig; timestamp: string; logger: Logger }): Promise<RunLogStageEntry>
+// Runs or skips one stage: marks it `running`, converts a throw into a failed entry (never throws), logs
+// any failure with its stack (§8), and writes the manifest at each transition.
+updateManifest(args: { workspaceRoot: string; stageId: StageId; entry: ManifestStageEntry; timestamp: string }): Promise<void>  // atomic per-stage manifest patch via manifest.ts (§4.5)
+```
+
+A `RunSummary` lists its stages as `RunStageOutcome` — the run-log entry *paired with the stage id it belongs to*. The run log keys entries by stage id, but a summary is an ordered list, and its consumer (the end-of-run summary, §7) has to name each stage it reports.
+
+**Reducing outcomes to a status.** The same three-way rule applies at every level — a stage within a lecture, a lecture within a module, a module within a batch — so it is stated once in `src/pipeline/run-status.ts` and applied by both the runner and the reporting that prints its summaries:
+
+```typescript
+stageOutcomeStatus(entry: RunLogStageEntry): OverallStatus            // failed | partial (skipped/not-reached) | success
+summariseOverallStatus(args: { statuses: readonly OverallStatus[] }): OverallStatus  // any failure wins, then any partial
 ```
 
 **Run outcome classification.** A `RunSummary.overallStatus` — and the aggregate `BatchSummary.overallStatus` across a batch's lectures — is `success` when every attempted stage completed, `partial` when one or more stages were skipped or not reached, and `failed` when at least one stage failed.
@@ -449,7 +475,7 @@ updateManifest(args: { workspaceRoot: string; stageId: StageId; entry: ManifestS
 
 **`StageContext` assembly:** Before invoking any stage, the runner reads `manifest.json` at `workspaceRoot` and assembles a `StageContext` (via `assembleContext`). `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle`, and `workspaceRoot` are sourced from the manifest. `moduleRoot` (the containing module for this lecture) is derived from `workspaceRoot` two levels up (`moduleRoot/Pipeline processing/<folder>`); `config` comes from the runner's construction. The context is constructed once per lecture run, frozen, and passed unchanged to every stage; stages must not mutate it directly — all manifest updates go through `updateManifest()`.
 
-**Batch mode:** `runBatch({ moduleRoots })` processes every lecture across every listed module. The CLI passes an array of one for `batch <moduleRoot>` and the full `config.moduleRoots` for `batch` (no argument). Modules processed in the order given; lectures within a module in date order. Sequential by default; `--concurrency N` enables parallel processing (per-module or global — decided at the CLI layer). A per-module cost/status summary is printed after each module, followed by a cross-module aggregate.
+**Batch mode:** `runBatch({ moduleRoots })` normalises every listed module, then processes every lecture across them. The CLI passes an array of one for `batch <moduleRoot>` and the full `config.moduleRoots` for `batch` (no argument). Modules processed in the order given; lectures within a module in date order. Sequential by default; `--concurrency N` runs that many lectures at once, drawn from a single global queue rather than per module — with modules in order, a global queue keeps every worker busy where a per-module one would idle at each module boundary. Because lectures from different modules may therefore be in flight together, the per-module and cross-module summaries are printed once the batch completes rather than as each module finishes (§7).
 
 **`cost-report` command:** Aggregates all run logs across the configured `moduleRoots` and prints a table showing total expenditure broken down by run and stage — enabling comparison of model experiments and visibility of wasted spend from failures (see §7). Narrowed by `--date` (via `resolveLecturesByDate`, with the same multi-match prompt) or `--module <moduleRoot>`.
 
@@ -459,6 +485,50 @@ updateManifest(args: { workspaceRoot: string; stageId: StageId; entry: ManifestS
 - `change-date <date> <new date>` — moves the lecture (video, slide, workspace, outputs) to the new date, updates its manifest, and renumbers.
 
 Each performs its change and then re-runs Stage 0's normalisation to return the module to a consistent, renumbered state. A lecture is addressed by `<date>`; cross-module date collisions use the same multi-match picker as `run` (`resolveLecturesByDate`).
+
+Each mutation leaves the module in a state Stage 0 can finish, rather than doing Stage 0's work itself:
+
+- **`rename`** writes `userTitle` (and `lectureTitle`) to the manifest and stops there. The renaming of video, slide, workspace, and PDF falls out of the following Stage 0 pass, which names them from the manifest's current `lectureTitle` — the same code path that named them originally, so a rename cannot drift from a normalisation.
+- **`delete`** removes the video, the slide, the workspace, and the `Final output/` PDF, having first asked for confirmation. Removing the sources *and* the workspace together is what keeps the module consistent: a workspace left without sources is an orphan the next Stage 0 run would stop to ask about, and sources left without a workspace would simply be normalised back into one. Stage 0 then renumbers the lectures that follow.
+- **`change-date`** renames the video, slide, and PDF to the base name Stage 0 would give them at the new date, renames the workspace folder to match, and writes the new `lectureDate` and `workspaceFolderName` to the manifest — so the Stage 0 pass that follows has only renumbering left, and renames again if the new date changes the lecture's number. It refuses when a source file already carries the target date, since a rename would otherwise overwrite another lecture, and when the lecture's own video or slide is missing.
+
+#### CLI Structure
+
+`src/index.ts` is a bootstrap and nothing more: it loads `dotenv`, hands `process.argv` to `runCli`, and sets the exit code. Everything else lives under `src/cli/` so that it can be tested without a process, a terminal, or a real pipeline:
+
+```typescript
+// src/cli/args.ts — the command line, parsed and validated
+type CliCommand = { command: 'run'; lectureDate; options } | { command: 'batch'; moduleRoot: string | null; options }
+                | { command: 'cost-report'; lectureDate: string | null; moduleRoot: string | null }
+                | { command: 'rename'; lectureDate; title } | { command: 'delete'; lectureDate }
+                | { command: 'change-date'; lectureDate; newLectureDate } | { command: 'help' }
+parseCliArgs(args: { argv: readonly string[] }): CliCommand   // throws CliUsageError; USAGE holds the help text
+
+// src/cli/prompts.ts — the only code that touches the terminal
+confirmPrompt: ConfirmPrompt                                                  // @inquirer/prompts confirm, defaulting to no
+selectLectureMatches(args: { matches: readonly LectureMatch[] }): Promise<readonly LectureMatch[]>
+
+// src/cli/lecture-identity.ts — the filesystem half of rename/delete/change-date
+renameLecture(args: { workspaceRoot: string; title: string }): Promise<void>
+deleteLecture(args: { match: LectureMatch }): Promise<void>
+changeLectureDate(args: { match: LectureMatch; newLectureDate: string }): Promise<void>
+// All three throw LectureIdentityError, having made no change (§8).
+
+// src/cli/commands.ts — carrying a command out
+type CliDeps = { runner; moduleRoots; gbpPerUsd; selectMatches; confirm; write }
+executeCommand(args: { command: RunnableCliCommand; deps: CliDeps }): Promise<number>   // returns the exit code
+
+// src/cli/run-cli.ts — composition root
+runCli(args: { argv; projectRoot?; write?; writeError? }): Promise<number>
+```
+
+Parsing is validated in full before anything runs: the command must exist, its positional arguments must be present and well formed, `<date>` must be a real calendar date (`2025-02-30` is rejected as firmly as `yesterday`), `--from-stage` must name a stage that exists, and `--concurrency` must be a whole number of 1 or more. Flags are declared once for the whole CLI and each command consumes the ones its usage line lists.
+
+**`run <date>` normalises first.** Before resolving the date it runs Stage 0 across the configured modules. Without that, a lecture whose video and slides were added this week has no workspace and no manifest, so no date could resolve to it and `run` could never be its first command — the user would have to reach for `batch` and process everything. Stage 0 is idempotent, so this costs nothing when there is nothing new.
+
+**Exit codes.** `0` when the command did what was asked, `1` when it could not: an unusable command line, a date matching no lecture, an unreadable configuration, or a run in which any stage failed. A user who cancels a choice has not failed at anything and exits `0`.
+
+**`--help` is answered before the configuration is read**, so the commands can be discovered in a project that is not yet configured.
 
 ---
 
@@ -506,6 +576,13 @@ createSourceNormalisationStage(args: { logger: Logger; confirm: ConfirmPrompt })
 // `confirm` is injected rather than imported so the stage never reaches for stdin: the CLI backs it with
 // @inquirer/prompts and tests stub it. Throws SourceNormalisationError on any validation failure or
 // declined confirmation, having made no filesystem changes.
+
+// Shared with the CLI's identity commands (§4.7), which move the same files this stage normalises:
+type ModuleDirs = { video: string; slide: string; processing: string; finalOutput: string }
+moduleDirs(args: { moduleRoot: string }): ModuleDirs        // the module layout of §3.1, stated once
+lectureBaseName(args: { lectureNumber: number; title: string; date: Date }): string
+// The canonical base name, falling back to `Lecture N - YYYY-MM-DD` when the title is empty — so
+// `change-date` names a moved lecture exactly as a normalisation would.
 ```
 
 ---
@@ -920,17 +997,32 @@ This classification is stored in the run log as `runType` and drives the layout 
 
 ### End-of-Run Summary
 
-Printed after every run, showing only the stages executed in that invocation:
+Printed after every run, showing only the stages executed in that invocation — a skipped or unreached stage did no work and has nothing to report. The heading names the lecture, since a batch prints one of these per lecture:
 
 ```
-Stage                    Model                      Calls    Tokens (in / out)    Cost
-────────────────────────────────────────────────────────────────────────────────────────
-Slide conversion         gemini-2.5-flash             24      41,000 /  8,100     £0.025
-Image extraction         gpt-4.1                       12           0 /  2,400     £0.028
-Synthesis                claude-sonnet-4.6             1      65,000 / 14,200     £0.231
-QA loop (2 iterations)   claude-sonnet-4.6             4      68,000 / 15,800     £0.300
-────────────────────────────────────────────────────────────────────────────────────────
-This run                                              41     174,000 / 40,500     £0.584
+Run summary — Lecture 1: Cell Injury (2025-10-10)
+Stage                   Model                         Calls    Tokens (in / out)      Cost
+──────────────────────────────────────────────────────────────────────────────────────────
+Slide conversion        google/gemini-2.5-flash          24     41,000 /   8,100    £0.025
+Image extraction        openai/gpt-4.1                   12          0 /   2,400    £0.028
+Synthesis               anthropic/claude-sonnet-4.6       1     65,000 /  14,200    £0.231
+QA loop                 anthropic/claude-sonnet-4.6       4     68,000 /  15,800    £0.300
+──────────────────────────────────────────────────────────────────────────────────────────
+This run                                                 41    174,000 /  40,500    £0.584
+```
+
+Any stage that failed is named underneath with the message recorded for it (§8).
+
+A batch closes with one further table, per module and then across all of them (§4.7):
+
+```
+Batch summary
+Module                          Lectures    Status      Cost
+────────────────────────────────────────────────────────────
+Biology of Disease                     2    failed    £0.222
+Immunology                             1   partial    £0.222
+────────────────────────────────────────────────────────────
+All modules                            3    failed    £0.444
 ```
 
 ### Cost Report Command
@@ -989,7 +1081,23 @@ createMoneyFormatter(args: { gbpPerUsd: number }): MoneyFormatter
 
 formatCostReport(args: { runLogs: readonly RunLog[]; manifest: RunManifest; gbpPerUsd: number }): string
 // The three sections above, rendered as a single string.
+
+formatRunSummary(args: { outcomes: readonly RunStageOutcome[]; manifest: RunManifest; gbpPerUsd: number }): string
+// The end-of-run summary above. The outcomes say which stages this invocation executed; the manifest, read
+// after the run, says what each one used and cost — tokens live there and not in the run log. A stage that
+// recorded no cost (one making no billable call, or one that failed before it made any) shows `n/a` and adds
+// nothing to the total; a stage whose cost lookup failed leaves the total itself `n/a`, since the run's real
+// spend is then unknown.
+
+formatBatchSummary(args: { batch: BatchSummary; gbpPerUsd: number }): string
+// One row per module — lectures attempted, combined status, spend — closed by a cross-module total. A
+// lecture's module is derived from its workspace two levels up, exactly as the runner derives moduleRoot.
+
+stageLabel(args: { stageId: StageId }): string
+// A stage's display name. Exported so the CLI names a failed stage exactly as the summary table above does.
 ```
+
+The tables above share one renderer and one money formatter, so a column of pounds looks the same wherever it appears.
 
 ---
 
@@ -997,7 +1105,7 @@ formatCostReport(args: { runLogs: readonly RunLog[]; manifest: RunManifest; gbpP
 
 ### Typed Errors
 
-Each module that can fail in a way a caller must distinguish exports its own error class — `ConfigError`, `ManifestPathError`, `ContextLengthError`, `SourceNormalisationError`, `AudioExtractionError`, `TranscriptionError`. All extend a shared `NamedError` base that captures the concrete subclass name via `new.target`, so each stays a distinct `instanceof` type without repeating constructor boilerplate and reports its own name in logs.
+Each module that can fail in a way a caller must distinguish exports its own error class — `ConfigError`, `ManifestPathError`, `ContextLengthError`, `SourceNormalisationError`, `AudioExtractionError`, `TranscriptionError`, `CliUsageError`, `LectureIdentityError`. All extend a shared `NamedError` base that captures the concrete subclass name via `new.target`, so each stays a distinct `instanceof` type without repeating constructor boilerplate and reports its own name in logs.
 
 A `catch` binding is typed `unknown`, because any value can be thrown. Every site that wants to report what went wrong therefore needs the same narrowing, so it lives in one place rather than at each catch.
 
@@ -1007,13 +1115,20 @@ abstract class NamedError extends Error   // subclasses extend with an empty bod
 errorMessage(error: unknown): string      // the caught value's message, or the value stringified
 ```
 
+### The CLI Boundary
+
+`runCli` wraps the whole invocation in a single catch. Whatever reaches it — a misused command line, an unreadable config, a stage error, a corrupt manifest — is reported as its message on stderr and a `1` exit code, never as an unhandled rejection or a stack trace; a `CliUsageError` additionally prints the usage text. One catch rather than a case per command is what makes that guarantee hold for failures nobody anticipated, including the one place a stage error escapes the runner's own handling: `runStage` calls `isComplete()` outside its try, so a `ManifestPathError` from a manifest pointing outside the module tree propagates out of `runLecture` rather than becoming a failed stage entry.
+
 ### Stage Failure Protocol
 
 1. Manifest updated to `status: 'running'` before the stage begins
 2. On exception: manifest updated to `status: 'failed'`, `error: err.message`, `failedAt: now`
 3. Partial output files are not deleted — they remain for inspection
-4. Error is logged to stderr with full stack trace
-5. Default behaviour: pipeline halts. `--continue-on-error` skips to the next stage
+4. The error is logged with its stack to the run's debug log (§10), through a child logger bound to the stage
+5. The CLI names each failed stage and its message after the run summary, and points at the debug log
+6. Default behaviour: pipeline halts. `--continue-on-error` skips to the next stage
+
+Items 4 and 5 split one job in two on purpose. A stage's recorded `error` is a message, and for a typed stage error (`TranscriptionError: no transcript text in response`) the message *is* the diagnosis — a stack would only point back into the runner. But an unanticipated failure inside a stage yields a message that explains nothing on its own (`Cannot read properties of undefined`), and there the stack is the only thing that says where. So the message goes to the user, the stack goes to the debug log, and nothing goes to stderr from the runner: user-facing output is the CLI's job, and the runner is driven by tests that deliberately fail stages.
 
 ### Intra-Stage Resumability (Slide Conversion)
 
@@ -1034,12 +1149,20 @@ Each slide's extracted markdown is written to `Slide content/raw/slide-{003d}.md
 
 ```
 src/
-├── index.ts                          # CLI entry point
+├── index.ts                          # Entry point: loads dotenv, calls runCli, sets the exit code
+├── cli/
+│   ├── args.ts                       # parseArgs → CliCommand; usage text; CliUsageError
+│   ├── prompts.ts                    # The only terminal I/O: confirm, multi-match picker
+│   ├── lecture-identity.ts           # rename/delete/change-date on the filesystem
+│   ├── commands.ts                   # Carrying a parsed command out; exit codes
+│   └── run-cli.ts                    # Composition root: config, logger, runner, stages, prompts
 ├── types/
 │   └── pipeline.ts                   # All shared types: StageId, StageContext, StageResult,
 │                                     # StageCost, RunManifest, QaDeficiency
 ├── pipeline/
-│   ├── runner.ts                     # Orchestrator, manifest I/O, run log creation, batch mode, cost accumulation
+│   ├── runner.ts                     # Orchestrator, run log creation, batch mode, cost accumulation
+│   ├── manifest.ts                   # manifest.json location, reading, and atomic writing
+│   ├── run-status.ts                 # Reducing stage and lecture outcomes to an OverallStatus
 │   ├── config.ts                     # Config file loader and validator
 │   ├── openrouter.ts                 # OpenAI SDK client configured for OpenRouter
 │   └── stages/
@@ -1075,6 +1198,7 @@ The pino file transport writes newline-delimited JSON to `runs/<timestamp>-debug
 - Rate limit retries: attempt number, back-off delay, error message
 - Per-slide processing times (Stage 4)
 - File I/O errors: path and OS error code
+- Every stage failure, with its stack, bound to the stage that raised it (§8)
 
 The debug log is for human inspection when diagnosing failures. Its JSON format also makes it trivially parseable if automated analysis is ever needed.
 
@@ -1083,9 +1207,11 @@ The debug log is for human inspection when diagnosing failures. Its JSON format 
 | Level | Destination | When used |
 |---|---|---|
 | Progress | stdout (cli-progress) | Real-time stage progress bars |
-| Info | stdout | Stage start/end messages, skipped-stage notices |
+| Info | stdout | Stage start/end messages, skipped-stage notices, run and batch summaries |
 | Warning | stderr | Unmatched source files (Stage 0), stalled QA loop, max-iterations reached |
-| Error | stderr | Stage failure with full stack trace |
+| Error | stdout | Each failed stage and its message, printed by the CLI after the run summary (§8) |
+| Error | stderr | Anything that ends the invocation: a usage error, an unreadable config, an escaped stage error |
+| Error | debug log | Every stage failure, with its stack — the runner logs it; nothing else sees a stack trace |
 
 The pino file transport is configured with `sync: false` and routes only to the debug log file — no debug output reaches stdout or stderr during normal operation, so it does not interfere with cli-progress bars.
 
