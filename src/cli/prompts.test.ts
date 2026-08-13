@@ -1,9 +1,9 @@
-import { checkbox, confirm } from "@inquirer/prompts";
+import { checkbox, confirm, select } from "@inquirer/prompts";
 import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 import type { LectureMatch } from "../types/pipeline.js";
-import { confirmPrompt, selectLectureMatches } from "./prompts.js";
+import { confirmPrompt, selectLectureMatch, selectLectureMatches } from "./prompts.js";
 
-vi.mock("@inquirer/prompts", () => ({ checkbox: vi.fn(), confirm: vi.fn() }));
+vi.mock("@inquirer/prompts", () => ({ checkbox: vi.fn(), confirm: vi.fn(), select: vi.fn() }));
 
 /** One choice as the checkbox was offered it. */
 type Choice = { readonly name: string; readonly value: number };
@@ -18,6 +18,9 @@ const askCheckbox = checkbox as unknown as Mock<
 		readonly message: string;
 		readonly choices: readonly Choice[];
 	}) => Promise<readonly number[]>
+>;
+const askSelect = select as unknown as Mock<
+	(args: { readonly message: string; readonly choices: readonly Choice[] }) => Promise<number>
 >;
 
 const matches: readonly LectureMatch[] = [
@@ -35,15 +38,19 @@ const matches: readonly LectureMatch[] = [
 	},
 ];
 
-/** The choices the checkbox was offered, in the order they were presented. */
-function offeredChoices(): readonly Choice[] {
-	const [call] = askCheckbox.mock.calls;
+/** Either prompt double, seen only as the calls it recorded. */
+type PromptDouble = { readonly mock: { readonly calls: readonly unknown[] } };
+
+/** The choices a prompt was offered, in the order they were presented. */
+function offeredChoices(prompt: PromptDouble = askCheckbox): readonly Choice[] {
+	const [call] = prompt.mock.calls;
 	return (call as [{ readonly choices: readonly Choice[] }])[0].choices;
 }
 
 /** The value of the choice whose label contains the given text. */
-function choiceValueFor(label: string): number {
-	return (offeredChoices().find((candidate) => candidate.name.includes(label)) as Choice).value;
+function choiceValueFor(label: string, prompt: PromptDouble = askCheckbox): number {
+	return (offeredChoices(prompt).find((candidate) => candidate.name.includes(label)) as Choice)
+		.value;
 }
 
 beforeEach(() => {
@@ -112,5 +119,41 @@ describe("selectLectureMatches", () => {
 		askCheckbox.mockResolvedValue([]);
 
 		expect(await selectLectureMatches({ matches })).toEqual([]);
+	});
+});
+
+describe("selectLectureMatch", () => {
+	beforeEach(() => {
+		askSelect.mockResolvedValue(0);
+	});
+
+	it("should label every match with its module, number, and title when prompting", async () => {
+		await selectLectureMatch({ matches });
+
+		const labels = offeredChoices(askSelect).map((choice) => choice.name);
+		expect(labels).toEqual([
+			"Biology of Disease — Lecture 1 — Cell Injury",
+			"Immunology — Lecture 3 — Antigens",
+			"Cancel",
+		]);
+	});
+
+	it("should offer no all-matches choice when prompting", async () => {
+		await selectLectureMatch({ matches });
+
+		// One new title cannot belong to two lectures, so this picker takes exactly one.
+		expect(offeredChoices(askSelect).map((choice) => choice.name)).not.toContain("All matches");
+	});
+
+	it("should return the single lecture chosen when the user picks one", async () => {
+		askSelect.mockImplementation(async () => choiceValueFor("Antigens", askSelect));
+
+		expect(await selectLectureMatch({ matches })).toEqual(matches[1]);
+	});
+
+	it("should return nothing when the user cancels", async () => {
+		askSelect.mockImplementation(async () => choiceValueFor("Cancel", askSelect));
+
+		expect(await selectLectureMatch({ matches })).toBeNull();
 	});
 });

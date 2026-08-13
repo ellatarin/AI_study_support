@@ -17,7 +17,7 @@ import { errorMessage } from "../utils/errors.js";
 import { createRootLogger } from "../utils/logger.js";
 import { CliUsageError, parseCliArgs, USAGE } from "./args.js";
 import { type CliDeps, executeCommand, type RunnableCliCommand } from "./commands.js";
-import { confirmPrompt, selectLectureMatches } from "./prompts.js";
+import { confirmPrompt, selectLectureMatch, selectLectureMatches } from "./prompts.js";
 
 const EXIT_SUCCESS = 0;
 const EXIT_FAILURE = 1;
@@ -61,6 +61,7 @@ async function assembleDeps({
 		moduleRoots: config.moduleRoots,
 		gbpPerUsd: config.currency.gbpPerUsd,
 		selectMatches: selectLectureMatches,
+		selectMatch: selectLectureMatch,
 		confirm: confirmPrompt,
 		write,
 	};

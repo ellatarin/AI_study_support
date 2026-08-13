@@ -30,6 +30,9 @@ describe("executeCommand", () => {
 	let selectMatches: Mock<
 		(args: { readonly matches: readonly LectureMatch[] }) => Promise<readonly LectureMatch[]>
 	>;
+	let selectMatch: Mock<
+		(args: { readonly matches: readonly LectureMatch[] }) => Promise<LectureMatch | null>
+	>;
 	let confirm: Mock<(args: { readonly message: string }) => Promise<boolean>>;
 
 	function runSummaryFor({
@@ -87,6 +90,7 @@ describe("executeCommand", () => {
 			moduleRoots: [moduleRoot, join(tempDir, "Immunology")],
 			gbpPerUsd: 0.74,
 			selectMatches,
+			selectMatch,
 			confirm,
 			write: (text: string) => {
 				written.push(text);
@@ -103,6 +107,16 @@ describe("executeCommand", () => {
 		return executeCommand({ command, deps: deps() });
 	}
 
+	/** A second lecture sharing the first one's date, for the multi-match cases. */
+	async function makeSecondLecture(): Promise<LectureMatch> {
+		return {
+			moduleRoot,
+			workspaceRoot: await makeLectureWorkspace("Lecture 2 - Antigens - 2025-10-10"),
+			lectureNumber: 2,
+			lectureTitle: "Antigens",
+		};
+	}
+
 	beforeEach(async () => {
 		tempDir = await mkdtemp(join(tmpdir(), "commands-"));
 		moduleRoot = join(tempDir, "Biology of Disease");
@@ -117,6 +131,7 @@ describe("executeCommand", () => {
 			resolveLecturesByDate: vi.fn(async () => [match]),
 		};
 		selectMatches = vi.fn(async () => [match]);
+		selectMatch = vi.fn(async () => match);
 		confirm = vi.fn(async () => true);
 	});
 
@@ -213,13 +228,7 @@ describe("executeCommand", () => {
 		});
 
 		it("should ask which lectures to run when several share the date", async () => {
-			const otherWorkspace = await makeLectureWorkspace("Lecture 2 - Antigens - 2025-10-10");
-			const other: LectureMatch = {
-				moduleRoot,
-				workspaceRoot: otherWorkspace,
-				lectureNumber: 2,
-				lectureTitle: "Antigens",
-			};
+			const other = await makeSecondLecture();
 			runner.resolveLecturesByDate.mockResolvedValue([match, other]);
 			selectMatches.mockResolvedValue([match, other]);
 			runner.runLecture.mockImplementation(async ({ workspaceRoot: workspace }) =>
@@ -397,13 +406,30 @@ describe("executeCommand", () => {
 
 		it("should rename nothing when the user cancels the choice", async () => {
 			runner.resolveLecturesByDate.mockResolvedValue([match, match]);
-			selectMatches.mockResolvedValue([]);
+			selectMatch.mockResolvedValue(null);
 
 			const code = await invoke(renameCommand);
 
 			expect(code).toBe(0);
 			expect((await readManifest({ workspaceRoot })).userTitle).toBeNull();
 			expect(runner.normaliseSources).not.toHaveBeenCalled();
+		});
+
+		it("should ask for one lecture only when several share the date", async () => {
+			const other = await makeSecondLecture();
+			runner.resolveLecturesByDate.mockResolvedValue([match, other]);
+			selectMatch.mockResolvedValue(other);
+
+			await invoke(renameCommand);
+
+			// One title cannot sensibly belong to two lectures, so rename never offers
+			// the "All matches" picker the other commands use.
+			expect(selectMatches).not.toHaveBeenCalled();
+			expect(selectMatch).toHaveBeenCalledWith({ matches: [match, other] });
+			expect((await readManifest({ workspaceRoot: other.workspaceRoot })).userTitle).toBe(
+				"Cell Injury and Death",
+			);
+			expect((await readManifest({ workspaceRoot })).userTitle).toBeNull();
 		});
 	});
 

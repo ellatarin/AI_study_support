@@ -27,6 +27,16 @@ export type PipelineRunnerFacade = Pick<
 	"normaliseSources" | "runLecture" | "runBatch" | "costReport" | "resolveLecturesByDate"
 >;
 
+/** What a picker is handed: the lectures a date turned out to name. */
+type MatchQuery = { readonly matches: readonly LectureMatch[] };
+
+/**
+ * Settles a date that names several lectures, returning those to act on and an
+ * empty list when the user cancels. Which picker a command uses depends on
+ * whether acting on several at once means anything for it.
+ */
+type LecturePicker = (args: MatchQuery) => Promise<readonly LectureMatch[]>;
+
 /** Everything a command needs from the world outside it. */
 export type CliDeps = {
 	/** The pipeline runner the commands drive. */
@@ -36,9 +46,9 @@ export type CliDeps = {
 	/** Pounds per US dollar, for presenting stored costs. */
 	readonly gbpPerUsd: number;
 	/** Asks which lectures to act on when a date matches several. */
-	readonly selectMatches: (args: {
-		readonly matches: readonly LectureMatch[];
-	}) => Promise<readonly LectureMatch[]>;
+	readonly selectMatches: LecturePicker;
+	/** Asks which single lecture to act on, where acting on several would be meaningless. */
+	readonly selectMatch: (args: MatchQuery) => Promise<LectureMatch | null>;
 	/** Asks the user to approve an irreversible action. */
 	readonly confirm: ConfirmPrompt;
 	/** Where user-facing output goes. */
@@ -61,6 +71,28 @@ type CommandArgs<TCommand> = { readonly command: TCommand; readonly deps: CliDep
 type LectureReport = { readonly deps: CliDeps; readonly summary: RunSummary };
 
 /**
+ * The picker a mutation uses. `rename` takes one lecture: a single new title
+ * applied to two lectures in different modules is never what "rename the lecture
+ * on that date" means, so it offers no "All matches". Deleting or re-dating
+ * several at once is meaningful, and each is confirmed or bounds-checked on its
+ * own (technical-design.md §4.7).
+ *
+ * @param args - The command and its dependencies.
+ * @param args.command - The mutation being carried out.
+ * @param args.deps - The command dependencies.
+ * @returns The picker to settle a multi-match date with.
+ */
+function pickerFor({ command, deps }: CommandArgs<MutationCommand>): LecturePicker {
+	if (command.command !== "rename") {
+		return deps.selectMatches;
+	}
+	return async ({ matches }) => {
+		const chosen = await deps.selectMatch({ matches });
+		return chosen === null ? [] : [chosen];
+	};
+}
+
+/**
  * Runs an action against the lectures a date names.
  *
  * Every command that takes a date shares this preamble: the date is resolved
@@ -74,6 +106,7 @@ type LectureReport = { readonly deps: CliDeps; readonly summary: RunSummary };
  * @param args.deps - The command dependencies.
  * @param args.lectureDate - The date the command was given.
  * @param args.act - What to do with the resolved lectures.
+ * @param args.choose - Which picker settles a date matching several lectures.
  * @param args.moduleRoots - The modules to search; defaults to every configured module.
  * @returns The action's exit code, or the code for an unmatched or cancelled choice.
  */
@@ -81,11 +114,13 @@ async function withResolvedLectures({
 	deps,
 	lectureDate,
 	act,
+	choose,
 	moduleRoots = undefined,
 }: {
 	readonly deps: CliDeps;
 	readonly lectureDate: string;
 	readonly act: (matches: readonly LectureMatch[]) => Promise<number>;
+	readonly choose: LecturePicker;
 	readonly moduleRoots?: readonly string[];
 }): Promise<number> {
 	const searched = moduleRoots ?? deps.moduleRoots;
@@ -99,7 +134,7 @@ async function withResolvedLectures({
 		);
 		return EXIT_FAILURE;
 	}
-	const chosen = matches.length === 1 ? matches : await deps.selectMatches({ matches });
+	const chosen = matches.length === 1 ? matches : await choose({ matches });
 	if (chosen.length === 0) {
 		return EXIT_SUCCESS;
 	}
@@ -220,6 +255,7 @@ async function runCommand({
 	return withResolvedLectures({
 		deps,
 		lectureDate: command.lectureDate,
+		choose: deps.selectMatches,
 		act: (matches) => runLectures({ deps, matches, options: command.options }),
 	});
 }
@@ -271,6 +307,7 @@ async function costReportCommand({
 		deps,
 		moduleRoots,
 		lectureDate,
+		choose: deps.selectMatches,
 		act: async (matches) => {
 			await deps.runner.costReport({
 				moduleRoots: matches.map((lectureMatch) => lectureMatch.moduleRoot),
@@ -379,6 +416,7 @@ function mutationCommand({ command, deps }: CommandArgs<MutationCommand>): Promi
 	return withResolvedLectures({
 		deps,
 		lectureDate: command.lectureDate,
+		choose: pickerFor({ command, deps }),
 		act: (matches) =>
 			mutateLectures({
 				deps,
