@@ -1,12 +1,13 @@
-import { mkdir, readFile, rename, rm } from "node:fs/promises";
+import { rename, rm } from "node:fs/promises";
 import { extname, join } from "node:path";
 import type { Logger } from "pino";
 import type { RunManifest, SourceNormalisationStage } from "../../types/pipeline.js";
 import { STAGE_IDS } from "../../types/pipeline.js";
 import { extractDate, formatDateISO } from "../../utils/date.js";
 import { NamedError } from "../../utils/errors.js";
-import { listFileNames, listSubdirectoryNames, writeFileAtomic } from "../../utils/files.js";
+import { listFileNames, listSubdirectoryNames } from "../../utils/files.js";
 import { extractProvisionalTitle, lectureFolderName } from "../../utils/naming.js";
+import { readManifest, readManifestSafe, writeManifest } from "../manifest.js";
 
 // prefer-readonly-parameter-types is disabled file-wide: this stage's helpers take
 // a pino Logger and a Date (library/built-in types carrying methods) and the
@@ -36,9 +37,42 @@ const VIDEO_SUBDIR = "Video files";
 const SLIDE_SUBDIR = "Lecture slides";
 const PROCESSING_DIR = "Pipeline processing";
 const FINAL_OUTPUT_DIR = "Final output";
-const MANIFEST_FILE = "manifest.json";
 const MANIFEST_VERSION = "1";
 const TEMP_SUFFIX = ".stage0-tmp";
+
+/**
+ * The four directories a module's lecture files are spread across
+ * (technical-design.md §3.1).
+ */
+export type ModuleDirs = {
+	/** Where the source videos live. */
+	readonly video: string;
+	/** Where the source slide decks live. */
+	readonly slide: string;
+	/** Where each lecture's pipeline workspace lives. */
+	readonly processing: string;
+	/** Where the finished PDFs are deposited. */
+	readonly finalOutput: string;
+};
+
+/**
+ * Resolves a module's four directories. Exported because the CLI's identity
+ * commands (`rename`, `delete`, `change-date`) move the same files Stage 0
+ * normalises, and the module layout is stated once here rather than in each
+ * (technical-design.md §3.1, §4.7).
+ *
+ * @param args - The module to resolve.
+ * @param args.moduleRoot - Absolute path to the module directory.
+ * @returns The module's source, workspace, and output directory paths.
+ */
+export function moduleDirs({ moduleRoot }: { readonly moduleRoot: string }): ModuleDirs {
+	return {
+		video: join(moduleRoot, SOURCE_DIR, VIDEO_SUBDIR),
+		slide: join(moduleRoot, SOURCE_DIR, SLIDE_SUBDIR),
+		processing: join(moduleRoot, PROCESSING_DIR),
+		finalOutput: join(moduleRoot, FINAL_OUTPUT_DIR),
+	};
+}
 
 /** A source file identified only by its name and extracted `YYYY-MM-DD` date. */
 type SourceRef = { readonly name: string; readonly iso: string };
@@ -155,7 +189,9 @@ function collectAnomalies({
 
 /**
  * The canonical `Lecture N - Title - YYYY-MM-DD` base name, falling back to
- * `Lecture N - YYYY-MM-DD` when the provisional title is empty.
+ * `Lecture N - YYYY-MM-DD` when the provisional title is empty. Exported because
+ * the CLI's `change-date` command renames the same files to a new date and must
+ * name them exactly as Stage 0 would (technical-design.md §3.2, §4.7).
  *
  * @param args - The lecture number, provisional title, and parsed date.
  * @param args.lectureNumber - The assigned lecture number.
@@ -163,7 +199,7 @@ function collectAnomalies({
  * @param args.date - The lecture's parsed date.
  * @returns The base name shared by the workspace folder and renamed source files.
  */
-function baseNameFor({
+export function lectureBaseName({
 	lectureNumber,
 	title,
 	date,
@@ -213,7 +249,7 @@ function orderLectures({
 			lectureNumber,
 			iso,
 			provisionalTitle,
-			baseName: baseNameFor({ lectureNumber, title, date: video.date }),
+			baseName: lectureBaseName({ lectureNumber, title, date: video.date }),
 			videoName: video.name,
 			slideName: slideByIso.get(iso) as string,
 		};
@@ -232,12 +268,10 @@ async function discoverWorkspaces(
 ): Promise<ReadonlyMap<string, ExistingWorkspace>> {
 	const workspaces = new Map<string, ExistingWorkspace>();
 	for (const folder of await listSubdirectoryNames(processingDirPath)) {
-		let manifest: RunManifest;
-		try {
-			manifest = JSON.parse(
-				await readFile(join(processingDirPath, folder, MANIFEST_FILE), "utf8"),
-			) as RunManifest;
-		} catch {
+		const manifest = await readManifestSafe({
+			workspaceRoot: join(processingDirPath, folder),
+		});
+		if (manifest === null) {
 			continue;
 		}
 		workspaces.set(manifest.lectureDate, { folder, manifest });
@@ -288,12 +322,7 @@ function planRenames({
 	existingPdfs,
 }: {
 	readonly lectures: readonly Lecture[];
-	readonly dirs: {
-		readonly video: string;
-		readonly slide: string;
-		readonly processing: string;
-		readonly finalOutput: string;
-	};
+	readonly dirs: ModuleDirs;
 	readonly existingWorkspaces: ReadonlyMap<string, ExistingWorkspace>;
 	readonly existingPdfs: ReadonlyMap<string, string>;
 }): readonly RenameOp[] {
@@ -555,16 +584,12 @@ async function reconcileManifest({
 	readonly processingDirPath: string;
 	readonly isExisting: boolean;
 }): Promise<"created" | "updated" | "unchanged"> {
-	const manifestPath = join(processingDirPath, lecture.baseName, MANIFEST_FILE);
+	const workspaceRoot = join(processingDirPath, lecture.baseName);
 	if (!isExisting) {
-		await mkdir(join(processingDirPath, lecture.baseName), { recursive: true });
-		await writeFileAtomic({
-			path: manifestPath,
-			content: JSON.stringify(initialManifest(lecture), null, 2),
-		});
+		await writeManifest({ workspaceRoot, manifest: initialManifest(lecture) });
 		return "created";
 	}
-	const manifest = JSON.parse(await readFile(manifestPath, "utf8")) as RunManifest;
+	const manifest = await readManifest({ workspaceRoot });
 	if (
 		manifest.lectureNumber === lecture.lectureNumber &&
 		manifest.workspaceFolderName === lecture.baseName
@@ -577,7 +602,7 @@ async function reconcileManifest({
 		workspaceFolderName: lecture.baseName,
 		updatedAt: new Date().toISOString(),
 	};
-	await writeFileAtomic({ path: manifestPath, content: JSON.stringify(updated, null, 2) });
+	await writeManifest({ workspaceRoot, manifest: updated });
 	return "updated";
 }
 
@@ -600,12 +625,7 @@ export function createSourceNormalisationStage({
 	readonly confirm: ConfirmPrompt;
 }): SourceNormalisationStage {
 	async function normaliseModule({ moduleRoot }: { readonly moduleRoot: string }): Promise<void> {
-		const dirs = {
-			video: join(moduleRoot, SOURCE_DIR, VIDEO_SUBDIR),
-			slide: join(moduleRoot, SOURCE_DIR, SLIDE_SUBDIR),
-			processing: join(moduleRoot, PROCESSING_DIR),
-			finalOutput: join(moduleRoot, FINAL_OUTPUT_DIR),
-		};
+		const dirs = moduleDirs({ moduleRoot });
 
 		const videos = toDatedFiles(await listFileNames(dirs.video));
 		const slides = toDatedFiles(await listFileNames(dirs.slide));

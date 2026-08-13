@@ -1,10 +1,10 @@
-import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { pino } from "pino";
 import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RunManifest } from "../../types/pipeline.js";
+import { makeTempDir } from "../fixtures.js";
 import {
 	createSourceNormalisationStage,
 	SourceNormalisationError,
@@ -73,7 +73,7 @@ describe("createSourceNormalisationStage", () => {
 	let stage: ReturnType<typeof createSourceNormalisationStage>;
 
 	beforeEach(async () => {
-		tempDir = await mkdtemp(join(tmpdir(), "stage0-"));
+		tempDir = await makeTempDir({ prefix: "stage0-" });
 		moduleRoot = join(tempDir, "Biology of Disease");
 		const logger = pino({ level: "silent" });
 		info = vi.fn();

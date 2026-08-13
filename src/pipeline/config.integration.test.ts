@@ -1,10 +1,9 @@
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { ConfigError, clearModelIdCache, loadConfig } from "./config.js";
-import { captureError } from "./fixtures.js";
+import { captureError, makeTempDir } from "./fixtures.js";
 
 const OPENROUTER_HOST = "https://openrouter.ai";
 const MODELS_PATH = "/api/v1/models";
@@ -58,7 +57,7 @@ async function writeConfig(config: unknown): Promise<void> {
 beforeEach(async () => {
 	clearModelIdCache();
 	nock.disableNetConnect();
-	projectRoot = await mkdtemp(join(tmpdir(), "config-test-"));
+	projectRoot = await makeTempDir({ prefix: "config-test-" });
 });
 
 afterEach(async () => {

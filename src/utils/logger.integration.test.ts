@@ -1,9 +1,9 @@
 import { readFileSync } from "node:fs";
-import { access, mkdtemp, rm } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { access, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { destination, pino } from "pino";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { makeTempDir } from "../pipeline/fixtures.js";
 import { createRootLogger, createStageLogger } from "./logger.js";
 
 function delay(milliseconds: number): Promise<void> {
@@ -26,7 +26,7 @@ describe("logger", () => {
 	let tempDir: string;
 
 	beforeEach(async () => {
-		tempDir = await mkdtemp(join(tmpdir(), "logger-"));
+		tempDir = await makeTempDir({ prefix: "logger-" });
 	});
 
 	afterEach(async () => {

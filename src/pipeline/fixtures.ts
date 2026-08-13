@@ -13,6 +13,7 @@ import { mkdir, mkdtemp } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import nock from "nock";
+import type { Logger } from "pino";
 import { vi } from "vitest";
 import type {
 	ManifestStageEntry,
@@ -46,6 +47,43 @@ export async function captureError(promise: Promise<unknown>): Promise<Error> {
 		return error as Error;
 	}
 	throw new Error("Expected the promise to reject, but it resolved");
+}
+
+/** One `error` call made against {@link makeStubLogger}, with the bindings in force. */
+export type LoggedError = {
+	readonly bindings: Record<string, unknown>;
+	readonly payload: Record<string, unknown>;
+	readonly message: string;
+};
+
+/**
+ * A pino stand-in that records what was logged at `error` and swallows the rest.
+ *
+ * The runner logs a stage failure through a child logger bound to the stage, so
+ * a stub has to support `child()` and carry its bindings down — which is exactly
+ * what a test asserting "the failure was logged, with its stack, against the
+ * right stage" needs to see.
+ *
+ * @returns The logger to inject, and the errors it has recorded so far.
+ */
+export function makeStubLogger(): {
+	readonly logger: Logger;
+	readonly errors: readonly LoggedError[];
+} {
+	const errors: LoggedError[] = [];
+	const makeChild = (bindings: Readonly<Record<string, unknown>>): Logger =>
+		({
+			child: (childBindings: Readonly<Record<string, unknown>>) =>
+				makeChild({ ...bindings, ...childBindings }),
+			// eslint-disable-next-line max-params -- mirrors pino's own (payload, message) signature
+			error: (payload: Readonly<Record<string, unknown>>, message: string) => {
+				errors.push({ bindings, payload, message });
+			},
+			info: () => undefined,
+			warn: () => undefined,
+			debug: () => undefined,
+		}) as unknown as Logger;
+	return { logger: makeChild({}), errors };
 }
 
 /**
@@ -151,10 +189,27 @@ export async function makeWorkspaceTree({
 	readonly prefix: string;
 	readonly folderName?: string;
 }): Promise<{ readonly moduleRoot: string; readonly workspaceRoot: string }> {
-	const moduleRoot = await mkdtemp(join(tmpdir(), prefix));
+	const moduleRoot = await makeTempDir({ prefix });
 	const workspaceRoot = join(moduleRoot, "Pipeline processing", folderName);
 	await mkdir(workspaceRoot, { recursive: true });
 	return { moduleRoot, workspaceRoot };
+}
+
+/**
+ * Creates an empty temporary directory for a suite to build its own tree in, and
+ * to remove afterwards.
+ *
+ * Every integration test that touches the filesystem starts this way; stating it
+ * once keeps the temp-directory dance — and the platform imports it needs — out
+ * of each suite. Where the tree is a lecture workspace, {@link makeWorkspaceTree}
+ * lays out the nesting too.
+ *
+ * @param args - The directory inputs.
+ * @param args.prefix - Prefix for the directory name, identifying the suite in `/tmp`.
+ * @returns The absolute path of the new directory.
+ */
+export function makeTempDir({ prefix }: { readonly prefix: string }): Promise<string> {
+	return mkdtemp(join(tmpdir(), prefix));
 }
 
 /**
