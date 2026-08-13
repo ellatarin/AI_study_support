@@ -1,5 +1,15 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`formatBatchSummary > should render the whole batch table when given a batch summary 1`] = `
+"Batch summary
+Module                          Lectures    Status      Cost
+────────────────────────────────────────────────────────────
+Biology of Disease                     2    failed    £0.222
+Immunology                             1   partial    £0.222
+────────────────────────────────────────────────────────────
+All modules                            3    failed    £0.444"
+`;
+
 exports[`formatCostReport > should render the three-section report when given a manifest and run logs 1`] = `
 "Current pipeline cost
 Stage                   Model                       Calls      Cost
@@ -25,4 +35,15 @@ Experiment cost
 Stage: synthesis
   Run 2025-10-11T14:00:00.000Z    anthropic/claude-opus-4.1     £0.659
   Run 2025-10-11T16:00:00.000Z    meta-llama/llama-3.1-405b        n/a"
+`;
+
+exports[`formatRunSummary > should render the whole summary table when given a run's outcomes 1`] = `
+"Run summary — Lecture 1: Cell Injury (2025-10-10)
+Stage                   Model                         Calls    Tokens (in / out)      Cost
+──────────────────────────────────────────────────────────────────────────────────────────
+Transcription           elevenlabs/scribe_v2              1          0 /       0    £0.031
+Slide conversion        google/gemini-2.5-flash          24     41,000 /   8,100    £0.025
+Synthesis               anthropic/claude-sonnet-4.6       0          0 /       0       n/a
+──────────────────────────────────────────────────────────────────────────────────────────
+This run                                                 25     41,000 /   8,100    £0.056"
 `;

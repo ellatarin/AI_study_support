@@ -1,6 +1,22 @@
 import { describe, expect, it } from "vitest";
-import type { RunLog, RunManifest, StageCost } from "../types/pipeline.js";
-import { accumulateCost, createMoneyFormatter, formatCostReport } from "./cost.js";
+import type {
+	BatchSummary,
+	OverallStatus,
+	RunLog,
+	RunLogStageEntry,
+	RunManifest,
+	RunStageOutcome,
+	RunSummary,
+	StageCost,
+	StageRunConfig,
+} from "../types/pipeline.js";
+import {
+	accumulateCost,
+	createMoneyFormatter,
+	formatBatchSummary,
+	formatCostReport,
+	formatRunSummary,
+} from "./cost.js";
 
 const GBP_PER_USD = 0.74;
 
@@ -117,6 +133,26 @@ const resolved = ({
 	totalCostUsd,
 });
 
+/**
+ * A completed stage entry. What a report draws on is the model and the cost; the
+ * timestamp is shared across entries because no report prints it.
+ */
+const completed = ({
+	configUsed = null,
+	cost = null,
+	filesWritten = [],
+}: {
+	readonly configUsed?: StageRunConfig | null;
+	readonly cost?: StageCost | null;
+	readonly filesWritten?: readonly string[];
+}) => ({
+	status: "complete" as const,
+	completedAt: "2025-10-10T09:05:00.000Z",
+	configUsed,
+	cost,
+	filesWritten,
+});
+
 const manifest: RunManifest = {
 	version: "1",
 	lectureNumber: 1,
@@ -131,34 +167,22 @@ const manifest: RunManifest = {
 	stages: {
 		// Completed non-LLM stage: null config and null cost exercise the
 		// manifestStageMeta "—"/0 fallbacks within the complete branch.
-		"audio-extraction": {
-			status: "complete",
-			completedAt: "2025-10-10T09:02:00.000Z",
-			configUsed: null,
-			cost: null,
-			filesWritten: ["Audio/audio.m4a"],
-		},
-		transcription: {
-			status: "complete",
-			completedAt: "2025-10-10T09:05:00.000Z",
+		"audio-extraction": completed({ filesWritten: ["Audio/audio.m4a"] }),
+		transcription: completed({
 			configUsed: { modelId: "elevenlabs/scribe_v2" },
 			cost: resolved({ callCount: 1, totalCostUsd: 0.042 }),
 			filesWritten: ["Transcript/transcript.txt"],
-		},
-		"slide-conversion": {
-			status: "complete",
-			completedAt: "2025-10-10T09:20:00.000Z",
+		}),
+		"slide-conversion": completed({
 			configUsed: { modelId: "google/gemini-2.5-flash", concurrency: 3 },
 			cost: resolved({ callCount: 24, totalCostUsd: 0.034 }),
 			filesWritten: ["Slide content/slides.md"],
-		},
-		synthesis: {
-			status: "complete",
-			completedAt: "2025-10-10T09:40:00.000Z",
+		}),
+		synthesis: completed({
 			configUsed: { modelId: "anthropic/claude-sonnet-4.6", maxTokens: 8192 },
 			cost: resolved({ callCount: 1, totalCostUsd: 0.312 }),
 			filesWritten: ["Notes/notes.md"],
-		},
+		}),
 	},
 	currentPipelineCost: {
 		totalCostUsd: 0.393,
@@ -306,5 +330,234 @@ describe("formatCostReport", () => {
 		// 0.393 USD is the manifest's stored total; 0.393 * 0.74 = 0.29082.
 		expect(report).toContain("£0.291");
 		expect(report).not.toContain("$");
+	});
+});
+
+const ran = (status: "complete" | "failed"): RunLogStageEntry =>
+	status === "complete"
+		? { action: "ran", status, configUsed: null, cost: { totalCostUsd: 0.1, callCount: 1 } }
+		: {
+				action: "ran",
+				status,
+				error: "synthesis failed",
+				configUsed: null,
+				cost: { totalCostUsd: null, callCount: 0 },
+			};
+
+// The stages this run touched: two that completed, one that failed, one skipped
+// because its output already existed, and one never reached after the failure.
+const runOutcomes: readonly RunStageOutcome[] = [
+	{ stageId: "audio-extraction", entry: { action: "skipped" } },
+	{ stageId: "transcription", entry: ran("complete") },
+	{ stageId: "slide-conversion", entry: ran("complete") },
+	{ stageId: "synthesis", entry: ran("failed") },
+	{ stageId: "pdf-generation", entry: { action: "not-reached" } },
+];
+
+const runManifest: RunManifest = {
+	...manifest,
+	stages: {
+		"audio-extraction": {
+			...completed({ filesWritten: ["Audio/audio.m4a"] }),
+			status: "skipped",
+		},
+		// The same transcription entry the report fixture uses: one call, no tokens.
+		transcription: manifest.stages.transcription,
+		"slide-conversion": completed({
+			configUsed: { modelId: "google/gemini-2.5-flash", concurrency: 3 },
+			cost: {
+				promptTokens: 41_000,
+				completionTokens: 8100,
+				callCount: 24,
+				totalCostUsd: 0.034,
+			},
+			filesWritten: ["Slide content/slides.md"],
+		}),
+		// A failed stage records no cost at all, so its row has nothing to show.
+		synthesis: {
+			status: "failed",
+			failedAt: "2025-10-10T09:40:00.000Z",
+			error: "synthesis failed",
+			configUsed: { modelId: "anthropic/claude-sonnet-4.6" },
+			cost: null,
+			filesWritten: [],
+		},
+	},
+};
+
+describe("formatRunSummary", () => {
+	it("should list only the stages that ran when others were skipped or not reached", () => {
+		const summary = formatRunSummary({
+			outcomes: runOutcomes,
+			manifest: runManifest,
+			gbpPerUsd: GBP_PER_USD,
+		});
+
+		expect(summary).toContain("Transcription");
+		expect(summary).toContain("Slide conversion");
+		expect(summary).toContain("Synthesis");
+		expect(summary).not.toContain("Audio extraction");
+		expect(summary).not.toContain("PDF generation");
+	});
+
+	it("should show the model, calls, and token counts recorded for a stage when it ran", () => {
+		const summary = formatRunSummary({
+			outcomes: runOutcomes,
+			manifest: runManifest,
+			gbpPerUsd: GBP_PER_USD,
+		});
+
+		expect(summary).toContain("google/gemini-2.5-flash");
+		expect(summary).toContain("41,000");
+		expect(summary).toContain("8,100");
+		// 0.034 USD at 0.74 = 0.02516.
+		expect(summary).toContain("£0.025");
+	});
+
+	it("should identify the lecture in its heading when summarising a run", () => {
+		const summary = formatRunSummary({
+			outcomes: runOutcomes,
+			manifest: runManifest,
+			gbpPerUsd: GBP_PER_USD,
+		});
+
+		expect(summary).toContain("Lecture 1");
+		expect(summary).toContain("Cell Injury");
+		expect(summary).toContain("2025-10-10");
+	});
+
+	it("should render a stage's cost as n/a when the manifest recorded none", () => {
+		const summary = formatRunSummary({
+			outcomes: [{ stageId: "synthesis", entry: ran("failed") }],
+			manifest: runManifest,
+			gbpPerUsd: GBP_PER_USD,
+		});
+
+		expect(summary).toContain("n/a");
+	});
+
+	it("should total the calls, tokens, and cost of every stage that ran when the run ends", () => {
+		const summary = formatRunSummary({
+			outcomes: runOutcomes,
+			manifest: runManifest,
+			gbpPerUsd: GBP_PER_USD,
+		});
+
+		// 1 + 24 calls; 0.042 + 0.034 USD at 0.74 = 0.05624; the failed stage adds nothing.
+		expect(summary).toContain("This run");
+		expect(summary).toMatch(/This run\s+25\s+41,000 \/\s+8,100\s+£0\.056/);
+	});
+
+	it("should render the total as n/a when a stage's cost lookup did not resolve", () => {
+		const unresolved: RunManifest = {
+			...runManifest,
+			stages: {
+				...runManifest.stages,
+				transcription: completed({
+					configUsed: { modelId: "elevenlabs/scribe_v2" },
+					cost: {
+						promptTokens: 0,
+						completionTokens: 0,
+						callCount: 1,
+						totalCostUsd: null,
+						costResolutionError: "duration lookup failed",
+					},
+				}),
+			},
+		};
+
+		const summary = formatRunSummary({
+			outcomes: [{ stageId: "transcription", entry: ran("complete") }],
+			manifest: unresolved,
+			gbpPerUsd: GBP_PER_USD,
+		});
+
+		expect(summary).toMatch(/This run\s+1\s+0 \/\s+0\s+n\/a/);
+	});
+
+	it("should render the whole summary table when given a run's outcomes", () => {
+		expect(
+			formatRunSummary({ outcomes: runOutcomes, manifest: runManifest, gbpPerUsd: GBP_PER_USD }),
+		).toMatchSnapshot();
+	});
+});
+
+const lecture = ({
+	module: moduleName,
+	folder,
+	overallStatus,
+	totalCostUsd,
+}: {
+	readonly module: string;
+	readonly folder: string;
+	readonly overallStatus: OverallStatus;
+	readonly totalCostUsd: number;
+}): RunSummary => ({
+	workspaceRoot: `/modules/${moduleName}/Pipeline processing/${folder}`,
+	runId: "2025-10-10T09-00-00Z",
+	startedAt: "2025-10-10T09:00:00.000Z",
+	endedAt: "2025-10-10T09:30:00.000Z",
+	totalCostUsd,
+	stageOutcomes: [],
+	overallStatus,
+});
+
+const batch: BatchSummary = {
+	startedAt: "2025-10-10T09:00:00.000Z",
+	endedAt: "2025-10-10T10:00:00.000Z",
+	lectures: [
+		lecture({
+			module: "Biology of Disease",
+			folder: "Lecture 1 - Cell Injury - 2025-10-10",
+			overallStatus: "success",
+			totalCostUsd: 0.2,
+		}),
+		lecture({
+			module: "Biology of Disease",
+			folder: "Lecture 2 - Inflammation - 2025-10-17",
+			overallStatus: "failed",
+			totalCostUsd: 0.1,
+		}),
+		lecture({
+			module: "Immunology",
+			folder: "Lecture 1 - Antigens - 2025-10-11",
+			overallStatus: "partial",
+			totalCostUsd: 0.3,
+		}),
+	],
+	totalCostUsd: 0.6,
+	overallStatus: "failed",
+};
+
+describe("formatBatchSummary", () => {
+	it("should render one row per module when the batch spanned several modules", () => {
+		const summary = formatBatchSummary({ batch, gbpPerUsd: GBP_PER_USD });
+
+		expect(summary).toMatch(/Biology of Disease\s+2\s/);
+		expect(summary).toMatch(/Immunology\s+1\s/);
+	});
+
+	it("should report a module as failed when one of its lectures failed", () => {
+		const summary = formatBatchSummary({ batch, gbpPerUsd: GBP_PER_USD });
+
+		// 0.2 + 0.1 USD at 0.74 = 0.222.
+		expect(summary).toMatch(/Biology of Disease\s+2\s+failed\s+£0\.222/);
+	});
+
+	it("should carry a module's own status when none of its lectures failed", () => {
+		const summary = formatBatchSummary({ batch, gbpPerUsd: GBP_PER_USD });
+
+		expect(summary).toMatch(/Immunology\s+1\s+partial\s+£0\.222/);
+	});
+
+	it("should total every lecture in an all-modules row when the batch ends", () => {
+		const summary = formatBatchSummary({ batch, gbpPerUsd: GBP_PER_USD });
+
+		// 0.6 USD at 0.74 = 0.444.
+		expect(summary).toMatch(/All modules\s+3\s+failed\s+£0\.444/);
+	});
+
+	it("should render the whole batch table when given a batch summary", () => {
+		expect(formatBatchSummary({ batch, gbpPerUsd: GBP_PER_USD })).toMatchSnapshot();
 	});
 });
