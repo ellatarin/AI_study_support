@@ -22,6 +22,7 @@ import type {
 	StageRunConfig,
 } from "../types/pipeline.js";
 import { formatCostReport } from "../utils/cost.js";
+import { errorMessage } from "../utils/errors.js";
 import { listSubdirectoryNames, readDirSafe, writeFileAtomic } from "../utils/files.js";
 
 /**
@@ -325,7 +326,7 @@ async function runStage({
 		});
 		return { action: "ran", status: "complete", configUsed, cost: runLogCost(result.cost) };
 	} catch (error: unknown) {
-		const message = error instanceof Error ? error.message : String(error);
+		const message = errorMessage(error);
 		await updateManifest({
 			workspaceRoot: context.workspaceRoot,
 			stageId,
