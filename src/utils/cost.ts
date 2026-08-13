@@ -63,17 +63,34 @@ const RULE = "─";
 /** A single table cell: its text, column width, and alignment. */
 type Cell = readonly [text: string, width: number, align: "left" | "right"];
 
+/** Width of the cost column, shared by the header, the cells, and the free-form rows. */
+const COST_WIDTH = 10;
+
 /** The shared cost-column header, reused by every table so it is declared once. */
-const COST_HEADER: Cell = ["Cost", 10, "right"];
+const COST_HEADER: Cell = ["Cost", COST_WIDTH, "right"];
+
+/**
+ * Renders a stored cost as display text. The single place a money amount becomes
+ * a string, so every table and free-form row shows the same format.
+ *
+ * @param amount - The stored amount, or `null` if cost resolution failed.
+ * @returns The formatted amount, or `n/a` when it could not be resolved.
+ */
+function formatMoney(amount: number | null): string {
+	if (amount === null) {
+		return "n/a";
+	}
+	return `$${amount.toFixed(3)}`;
+}
 
 /**
  * Builds a right-aligned cost cell of the standard width.
  *
- * @param amount - The dollar amount, or `null` if cost resolution failed.
+ * @param amount - The stored amount, or `null` if cost resolution failed.
  * @returns The formatted cost cell.
  */
 function costCell(amount: number | null): Cell {
-	return [amount === null ? "n/a" : `$${amount.toFixed(3)}`, 10, "right"];
+	return [formatMoney(amount), COST_WIDTH, "right"];
 }
 
 /**
@@ -246,9 +263,7 @@ function experimentSection(runLogs: readonly RunLog[]): readonly string[] {
 	const byStage = new Map<string, string[]>();
 	for (const { log, stageId, entry } of ranStageEntries({ runLogs, runType: "experiment" })) {
 		const model = (entry.configUsed?.modelId ?? "—").padEnd(26);
-		const cost = (
-			entry.cost.totalCostUsd === null ? "n/a" : `$${entry.cost.totalCostUsd.toFixed(3)}`
-		).padStart(10);
+		const cost = formatMoney(entry.cost.totalCostUsd).padStart(COST_WIDTH);
 		byStage.set(stageId, [
 			...(byStage.get(stageId) ?? []),
 			`  Run ${log.startedAt}    ${model}${cost}`,
