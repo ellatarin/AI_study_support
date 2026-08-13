@@ -20,6 +20,11 @@ export default defineConfig({
 				"src/**/*.{test,integration.test}.{ts,tsx}",
 				"src/**/*.d.ts",
 				"src/index.ts", // CLI wiring; entry point tested via integration
+				// Test-support code, not production code. It is not a *.test.ts file
+				// (the tests import from it), but measuring it would be measuring the
+				// tests themselves — and it holds deliberately unreachable guards, like
+				// captureError's throw for a promise that wrongly resolves.
+				"src/**/fixtures.ts",
 			],
 			thresholds: {
 				statements: 95,

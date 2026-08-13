@@ -2,7 +2,7 @@ import nock from "nock";
 import OpenAI from "openai";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { PipelineConfig } from "../types/pipeline.js";
-import { makeConfig } from "./fixtures.js";
+import { captureError, makeConfig } from "./fixtures.js";
 import { ContextLengthError, createOpenRouterClient, makeCompletionCall } from "./openrouter.js";
 
 const OPENROUTER_HOST = "https://openrouter.ai";
@@ -51,13 +51,14 @@ function call(
 	return makeCompletionCall({ messages, stageId: "transcript-structuring", config, ...overrides });
 }
 
-async function captureError(promise: Promise<unknown>): Promise<Error> {
-	try {
-		await promise;
-	} catch (error: unknown) {
-		return error as Error;
-	}
-	throw new Error("Expected the call to reject, but it resolved");
+/**
+ * Mocks a successful completion plus its cost lookup, then makes the call —
+ * the arrange-and-act every resolved-cost test shares.
+ */
+function callWithResolvedCost(totalCost: number): ReturnType<typeof call> {
+	mockCompletion().reply(200, completionBody());
+	mockGeneration().reply(200, generationBody(totalCost));
+	return call();
 }
 
 beforeEach(() => {
@@ -103,10 +104,7 @@ describe("makeCompletionCall", () => {
 	});
 
 	it("should populate totalCostUsd and token counts when the generation endpoint returns cost", async () => {
-		mockCompletion().reply(200, completionBody());
-		mockGeneration().reply(200, generationBody(0.0042));
-
-		const result = await call();
+		const result = await callWithResolvedCost(0.0042);
 
 		expect(result.cost).toEqual({
 			promptTokens: 120,
@@ -117,10 +115,7 @@ describe("makeCompletionCall", () => {
 	});
 
 	it("should resolve with a fully-resolved cost when the promise settles after the cost lookup", async () => {
-		mockCompletion().reply(200, completionBody());
-		mockGeneration().reply(200, generationBody(0.0042));
-
-		const result = await call();
+		const result = await callWithResolvedCost(0.0042);
 
 		expect(typeof result.cost.totalCostUsd).toBe("number");
 		expect(nock.isDone()).toBe(true);

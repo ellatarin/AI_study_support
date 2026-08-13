@@ -4,6 +4,7 @@ import { join } from "node:path";
 import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { ConfigError, clearModelIdCache, loadConfig } from "./config.js";
+import { captureError } from "./fixtures.js";
 
 const OPENROUTER_HOST = "https://openrouter.ai";
 const MODELS_PATH = "/api/v1/models";
@@ -54,15 +55,6 @@ async function writeConfig(config: unknown): Promise<void> {
 	await writeFile(join(projectRoot, CONFIG_FILENAME), JSON.stringify(config));
 }
 
-async function captureError(promise: Promise<unknown>): Promise<Error> {
-	try {
-		await promise;
-	} catch (error: unknown) {
-		return error as Error;
-	}
-	throw new Error("Expected loadConfig to reject, but it resolved");
-}
-
 beforeEach(async () => {
 	clearModelIdCache();
 	nock.disableNetConnect();
@@ -76,17 +68,31 @@ afterEach(async () => {
 });
 
 describe("loadConfig model-ID resolution check", () => {
-	it("should throw ConfigError naming the offending stage when a configured modelId is not in the OpenRouter models response", async () => {
+	it.each([
+		{
+			scenario: "a configured modelId is not in the OpenRouter models response",
+			stageId: "transcript-structuring",
+			modelId: "openai/nonexistent-model",
+		},
+		{
+			scenario: "a modelId names a provider that is not exempt from the check",
+			stageId: "transcription",
+			modelId: "deepgram/nova-3",
+		},
+	])("should throw ConfigError naming the offending stage and model when $scenario", async ({
+		stageId,
+		modelId,
+	}) => {
 		const config = makeValidConfig();
-		stageModelIds(config)["transcript-structuring"].modelId = "openai/nonexistent-model";
+		stageModelIds(config)[stageId] = { modelId };
 		await writeConfig(config);
 		mockModelsResponse(KNOWN_MODEL_IDS);
 
 		const error = await captureError(loadConfig({ projectRoot }));
 
 		expect(error).toBeInstanceOf(ConfigError);
-		expect(error.message).toContain("transcript-structuring");
-		expect(error.message).toContain("openai/nonexistent-model");
+		expect(error.message).toContain(stageId);
+		expect(error.message).toContain(modelId);
 		expect(error.message).toContain("https://openrouter.ai/models");
 	});
 
@@ -112,19 +118,6 @@ describe("loadConfig model-ID resolution check", () => {
 		const loaded = await loadConfig({ projectRoot });
 
 		expect(loaded.stages.transcription?.modelId).toBe("elevenlabs/scribe_v2");
-	});
-
-	it("should still check a model ID when its provider is not exempt", async () => {
-		const config = makeValidConfig();
-		stageModelIds(config).transcription = { modelId: "deepgram/nova-3" };
-		await writeConfig(config);
-		mockModelsResponse(KNOWN_MODEL_IDS);
-
-		const error = await captureError(loadConfig({ projectRoot }));
-
-		expect(error).toBeInstanceOf(ConfigError);
-		expect(error.message).toContain("transcription");
-		expect(error.message).toContain("deepgram/nova-3");
 	});
 
 	it("should not fetch the OpenRouter model list when every configured provider is exempt", async () => {

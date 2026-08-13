@@ -16,6 +16,11 @@ const SLIDE_DIR = "Lecture slides";
 const PROCESSING_DIR = "Pipeline processing";
 const FINAL_OUTPUT_DIR = "Final output";
 
+const CELL_INJURY = "Lecture 1 - Cell Injury - 2025-10-10";
+const VACCINATION = "Lecture 2 - Vaccination - 2025-10-17";
+const CELL_INJURY_VIDEO = "2025-10-10 BOD_Cell Injury.mp4";
+const CELL_INJURY_SLIDE = "2025-10-10 Cell Injury deck.pdf";
+
 function videoDir(moduleRoot: string): string {
 	return join(moduleRoot, SOURCE_DIR, VIDEO_DIR);
 }
@@ -90,6 +95,31 @@ describe("createSourceNormalisationStage", () => {
 		await writeInto(slideDir(moduleRoot), slide);
 	}
 
+	/** Normalises a single new lecture and returns the manifest Stage 0 wrote. */
+	async function normaliseNewLecture(): Promise<RunManifest> {
+		await writeLecture(CELL_INJURY_VIDEO, CELL_INJURY_SLIDE);
+		await stage.normaliseModule({ moduleRoot });
+		return readManifestIn(join(processingDir(moduleRoot), CELL_INJURY));
+	}
+
+	/** Normalises a two-lecture module, the starting point for renumbering cases. */
+	async function normaliseTwoLectures(): Promise<void> {
+		await writeLecture(CELL_INJURY_VIDEO, CELL_INJURY_SLIDE);
+		await writeLecture("2025-10-17 BOD_Vaccination.mp4", "2025-10-17 Vaccination deck.pdf");
+		await stage.normaliseModule({ moduleRoot });
+	}
+
+	/**
+	 * Asserts that normalisation aborts: it throws, logs the failure, and leaves
+	 * exactly the given workspaces behind.
+	 */
+	async function expectNormalisationToAbort(workspaces: readonly string[]): Promise<void> {
+		await expect(stage.normaliseModule({ moduleRoot })).rejects.toThrow(SourceNormalisationError);
+
+		expect(error).toHaveBeenCalled();
+		expect(await listNames(processingDir(moduleRoot))).toEqual(workspaces);
+	}
+
 	it("should expose the source-normalisation stage id when created", () => {
 		expect(stage.stageId).toBe("source-normalisation");
 	});
@@ -124,13 +154,8 @@ describe("createSourceNormalisationStage", () => {
 	});
 
 	it("should create a workspace and seed pending stages when a lecture is new", async () => {
-		await writeLecture("2025-10-10 BOD_Cell Injury.mp4", "2025-10-10 Cell Injury deck.pdf");
+		const manifest = await normaliseNewLecture();
 
-		await stage.normaliseModule({ moduleRoot });
-
-		const manifest = await readManifestIn(
-			join(processingDir(moduleRoot), "Lecture 1 - Cell Injury - 2025-10-10"),
-		);
 		expect(manifest).toMatchObject({
 			lectureNumber: 1,
 			lectureDate: "2025-10-10",
@@ -143,13 +168,8 @@ describe("createSourceNormalisationStage", () => {
 	});
 
 	it("should seed lectureTitle equal to provisionalTitle and leave userTitle and aiDerivedTitle null when a lecture is new", async () => {
-		await writeLecture("2025-10-10 BOD_Cell Injury.mp4", "2025-10-10 Cell Injury deck.pdf");
+		const manifest = await normaliseNewLecture();
 
-		await stage.normaliseModule({ moduleRoot });
-
-		const manifest = await readManifestIn(
-			join(processingDir(moduleRoot), "Lecture 1 - Cell Injury - 2025-10-10"),
-		);
 		expect(manifest.lectureTitle).toBe(manifest.provisionalTitle);
 		expect(manifest.userTitle).toBeNull();
 		expect(manifest.aiDerivedTitle).toBeNull();
@@ -255,10 +275,8 @@ describe("createSourceNormalisationStage", () => {
 			const videosBefore = await listNames(videoDir(moduleRoot));
 			const slidesBefore = await listNames(slideDir(moduleRoot));
 
-			await expect(stage.normaliseModule({ moduleRoot })).rejects.toThrow(SourceNormalisationError);
+			await expectNormalisationToAbort([]);
 
-			expect(error).toHaveBeenCalled();
-			expect(await listNames(processingDir(moduleRoot))).toEqual([]);
 			expect(await listNames(videoDir(moduleRoot))).toEqual(videosBefore);
 			expect(await listNames(slideDir(moduleRoot))).toEqual(slidesBefore);
 		});
@@ -338,9 +356,6 @@ describe("createSourceNormalisationStage", () => {
 	});
 
 	describe("orphan handling", () => {
-		const CELL_INJURY = "Lecture 1 - Cell Injury - 2025-10-10";
-		const VACCINATION = "Lecture 2 - Vaccination - 2025-10-17";
-
 		function promptMessages(): readonly string[] {
 			return confirm.mock.calls.map(([args]) => args.message);
 		}
@@ -351,9 +366,7 @@ describe("createSourceNormalisationStage", () => {
 		}
 
 		beforeEach(async () => {
-			await writeLecture("2025-10-10 BOD_Cell Injury.mp4", "2025-10-10 Cell Injury deck.pdf");
-			await writeLecture("2025-10-17 BOD_Vaccination.mp4", "2025-10-17 Vaccination deck.pdf");
-			await stage.normaliseModule({ moduleRoot });
+			await normaliseTwoLectures();
 			await writeInto(join(moduleRoot, FINAL_OUTPUT_DIR), `${CELL_INJURY}.pdf`);
 			await writeInto(join(moduleRoot, FINAL_OUTPUT_DIR), `${VACCINATION}.pdf`);
 			await patchManifest({
@@ -460,10 +473,8 @@ describe("createSourceNormalisationStage", () => {
 				confirm.mockResolvedValueOnce(response);
 			}
 
-			await expect(stage.normaliseModule({ moduleRoot })).rejects.toThrow(SourceNormalisationError);
+			await expectNormalisationToAbort([CELL_INJURY, VACCINATION]);
 
-			expect(error).toHaveBeenCalled();
-			expect(await listNames(processingDir(moduleRoot))).toEqual([CELL_INJURY, VACCINATION]);
 			expect(await listNames(join(moduleRoot, FINAL_OUTPUT_DIR))).toEqual([
 				`${CELL_INJURY}.pdf`,
 				`${VACCINATION}.pdf`,
@@ -473,10 +484,8 @@ describe("createSourceNormalisationStage", () => {
 	});
 
 	it("should rename the Final output PDF when a lecture is renumbered", async () => {
-		await writeLecture("2025-10-10 BOD_Cell Injury.mp4", "2025-10-10 Cell Injury deck.pdf");
-		await writeLecture("2025-10-17 BOD_Vaccination.mp4", "2025-10-17 Vaccination deck.pdf");
-		await stage.normaliseModule({ moduleRoot });
-		await writeInto(join(moduleRoot, FINAL_OUTPUT_DIR), "Lecture 2 - Vaccination - 2025-10-17.pdf");
+		await normaliseTwoLectures();
+		await writeInto(join(moduleRoot, FINAL_OUTPUT_DIR), `${VACCINATION}.pdf`);
 		await writeLecture("2025-10-13 BOD_Immunity to Infection.mp4", "2025-10-13 Immunity deck.pdf");
 
 		await stage.normaliseModule({ moduleRoot });
