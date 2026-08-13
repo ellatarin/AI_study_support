@@ -1,0 +1,11 @@
+{
+	"threshold": 0,
+	"reporters": ["console"],
+	"absolute": true,
+	"gitignore": true,
+	"ignore": ["**/__fixtures__/**", "**/__snapshots__/**", "node_modules/**", "dist/**", ".claude/**"],
+	"pattern": "src/**/*.{test,integration.test}.{ts,tsx}",
+	"minTokens": 40,
+	"minLines": 2,
+	"format": ["typescript", "tsx"]
+}

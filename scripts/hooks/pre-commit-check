@@ -89,6 +89,15 @@ fi
 pnpm exec jscpd --silent \
   || fail "jscpd found duplicate code. See report above; extract into a shared helper and re-commit."
 
+# 4b. jscpd — the same check over test files, which .jscpd.json excludes.
+# Separate pass because jscpd takes one config per run, and tests need a higher
+# minTokens (40 vs 20): the arrange/act/assert skeleton legitimately repeats at
+# ~35 tokens, so a tighter floor would demand contorted tests. At 40 every hit
+# has been a real extraction — a shared helper, a `beforeEach`, or a `test.each`.
+# Raise minTokens in .jscpd.tests.json if it ever starts asking otherwise.
+pnpm exec jscpd --silent --config .jscpd.tests.json \
+  || fail "jscpd found duplicate code in tests. Extract a helper, a beforeEach, or a test.each and re-commit."
+
 # 5. vitest — full test suite with coverage, enforcing the thresholds in
 # vitest.config.ts. --passWithNoTests avoids blocking if tests are ever absent.
 pnpm exec vitest --run --coverage --passWithNoTests \
