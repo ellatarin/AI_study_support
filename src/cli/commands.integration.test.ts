@@ -107,6 +107,15 @@ describe("executeCommand", () => {
 		return executeCommand({ command, deps: deps() });
 	}
 
+	/** The source pair Stage 0 would have produced, for the commands that move or remove it. */
+	async function writeSourceFiles(): Promise<void> {
+		for (const dir of ["Video files", "Lecture slides"]) {
+			await mkdir(join(moduleRoot, "Source files", dir), { recursive: true });
+		}
+		await writeFile(join(moduleRoot, "Source files", "Video files", `${FOLDER}.mp4`), "video");
+		await writeFile(join(moduleRoot, "Source files", "Lecture slides", `${FOLDER}.pdf`), "slides");
+	}
+
 	/** A second lecture sharing the first one's date, for the multi-match cases. */
 	async function makeSecondLecture(): Promise<LectureMatch> {
 		return {
@@ -415,17 +424,13 @@ describe("executeCommand", () => {
 			expect(runner.normaliseSources).not.toHaveBeenCalled();
 		});
 
-		it("should ask for one lecture only when several share the date", async () => {
+		it("should rename only the lecture chosen when several share the date", async () => {
 			const other = await makeSecondLecture();
 			runner.resolveLecturesByDate.mockResolvedValue([match, other]);
 			selectMatch.mockResolvedValue(other);
 
 			await invoke(renameCommand);
 
-			// One title cannot sensibly belong to two lectures, so rename never offers
-			// the "All matches" picker the other commands use.
-			expect(selectMatches).not.toHaveBeenCalled();
-			expect(selectMatch).toHaveBeenCalledWith({ matches: [match, other] });
 			expect((await readManifest({ workspaceRoot: other.workspaceRoot })).userTitle).toBe(
 				"Cell Injury and Death",
 			);
@@ -477,16 +482,7 @@ describe("executeCommand", () => {
 			newLectureDate: "2025-10-24",
 		} as const;
 
-		beforeEach(async () => {
-			for (const dir of ["Video files", "Lecture slides"]) {
-				await mkdir(join(moduleRoot, "Source files", dir), { recursive: true });
-			}
-			await writeFile(join(moduleRoot, "Source files", "Video files", `${FOLDER}.mp4`), "video");
-			await writeFile(
-				join(moduleRoot, "Source files", "Lecture slides", `${FOLDER}.pdf`),
-				"slides",
-			);
-		});
+		beforeEach(writeSourceFiles);
 
 		it("should move the lecture to the new date when changing it", async () => {
 			const code = await invoke(changeCommand);
@@ -499,6 +495,36 @@ describe("executeCommand", () => {
 		it("should renormalise the lecture's module when changing the date", async () => {
 			await invoke(changeCommand);
 
+			expect(runner.normaliseSources).toHaveBeenCalledWith({ moduleRoots: [moduleRoot] });
+		});
+	});
+
+	describe("identity mutations on a date several lectures share", () => {
+		beforeEach(writeSourceFiles);
+
+		it.each([
+			{ command: { command: "rename", lectureDate: "2025-10-10", title: "New Title" } as const },
+			{ command: { command: "delete", lectureDate: "2025-10-10" } as const },
+			{
+				command: {
+					command: "change-date",
+					lectureDate: "2025-10-10",
+					newLectureDate: "2025-10-24",
+				} as const,
+			},
+		])("should ask for one lecture only when $command.command is given the date", async ({
+			command,
+		}) => {
+			const other = await makeSecondLecture();
+			runner.resolveLecturesByDate.mockResolvedValue([match, other]);
+			selectMatch.mockResolvedValue(match);
+
+			await invoke(command);
+
+			// Each of these names a single lecture (FR-6.7), so a shared date is a
+			// question to settle rather than licence to act on both.
+			expect(selectMatches).not.toHaveBeenCalled();
+			expect(selectMatch).toHaveBeenCalledWith({ matches: [match, other] });
 			expect(runner.normaliseSources).toHaveBeenCalledWith({ moduleRoots: [moduleRoot] });
 		});
 	});

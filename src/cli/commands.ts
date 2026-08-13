@@ -71,21 +71,24 @@ type CommandArgs<TCommand> = { readonly command: TCommand; readonly deps: CliDep
 type LectureReport = { readonly deps: CliDeps; readonly summary: RunSummary };
 
 /**
- * The picker a mutation uses. `rename` takes one lecture: a single new title
- * applied to two lectures in different modules is never what "rename the lecture
- * on that date" means, so it offers no "All matches". Deleting or re-dating
- * several at once is meaningful, and each is confirmed or bounds-checked on its
- * own (technical-design.md §4.7).
- *
- * @param args - The command and its dependencies.
- * @param args.command - The mutation being carried out.
- * @param args.deps - The command dependencies.
- * @returns The picker to settle a multi-match date with.
+ * The lectures an action is handed: at least one, because a date naming none is
+ * reported before any action runs.
  */
-function pickerFor({ command, deps }: CommandArgs<MutationCommand>): LecturePicker {
-	if (command.command !== "rename") {
-		return deps.selectMatches;
-	}
+type ChosenLectures = readonly [LectureMatch, ...LectureMatch[]];
+
+/**
+ * The picker every identity mutation uses: exactly one lecture, or none.
+ *
+ * `rename`, `delete`, and `change-date` each name a single lecture (FR-6.7), so
+ * a date that turns out to name several is a question to settle rather than a
+ * licence to act on all of them — one new title cannot belong to two lectures,
+ * and neither a deletion nor a re-dating is something to do twice on the
+ * strength of one command (technical-design.md §4.7).
+ *
+ * @param deps - The command dependencies.
+ * @returns A picker yielding at most one lecture.
+ */
+function chooseOneLecture(deps: CliDeps): LecturePicker {
 	return async ({ matches }) => {
 		const chosen = await deps.selectMatch({ matches });
 		return chosen === null ? [] : [chosen];
@@ -119,7 +122,7 @@ async function withResolvedLectures({
 }: {
 	readonly deps: CliDeps;
 	readonly lectureDate: string;
-	readonly act: (matches: readonly LectureMatch[]) => Promise<number>;
+	readonly act: (matches: ChosenLectures) => Promise<number>;
 	readonly choose: LecturePicker;
 	readonly moduleRoots?: readonly string[];
 }): Promise<number> {
@@ -138,7 +141,9 @@ async function withResolvedLectures({
 	if (chosen.length === 0) {
 		return EXIT_SUCCESS;
 	}
-	return act(chosen);
+	// The guard above is what makes this true, and it lets an action that works on
+	// exactly one lecture take the first without a second emptiness check.
+	return act(chosen as ChosenLectures);
 }
 
 /**
@@ -329,33 +334,19 @@ function deletionPrompt(lectureMatch: LectureMatch): string {
 }
 
 /**
- * Applies an identity change to each chosen lecture, then re-runs Stage 0 over
- * the modules involved so numbering and file names catch up
- * (technical-design.md §4.7).
+ * Applies an identity change to the chosen lecture, then re-runs Stage 0 over
+ * its module so numbering and file names catch up (technical-design.md §4.7).
+ * A change the user declines leaves the module alone, so nothing is normalised.
  *
  * @param args - The mutation inputs.
+ * @param args.command - The parsed mutation command.
  * @param args.deps - The command dependencies.
- * @param args.matches - The lectures to change.
- * @param args.mutate - The change to apply to one lecture; returning `false` skips it.
- * @returns The success exit code once every change and renormalisation is done.
+ * @param args.lectureMatch - The lecture to change.
+ * @returns The success exit code once the change and any renormalisation are done.
  */
-async function mutateLectures({
-	deps,
-	matches,
-	mutate,
-}: {
-	readonly deps: CliDeps;
-	readonly matches: readonly LectureMatch[];
-	readonly mutate: (lectureMatch: LectureMatch) => Promise<boolean>;
-}): Promise<number> {
-	const changedModules = new Set<string>();
-	for (const lectureMatch of matches) {
-		if (await mutate(lectureMatch)) {
-			changedModules.add(lectureMatch.moduleRoot);
-		}
-	}
-	if (changedModules.size > 0) {
-		await deps.runner.normaliseSources({ moduleRoots: [...changedModules] });
+async function mutateLecture({ command, deps, lectureMatch }: MutationTarget): Promise<number> {
+	if (await applyMutation({ command, deps, lectureMatch })) {
+		await deps.runner.normaliseSources({ moduleRoots: [lectureMatch.moduleRoot] });
 	}
 	return EXIT_SUCCESS;
 }
@@ -365,6 +356,13 @@ async function mutateLectures({
  * the change, then renormalise (technical-design.md §4.7).
  */
 type MutationCommand = Extract<CliCommand, { command: "rename" | "delete" | "change-date" }>;
+
+/** The lecture an identity change is being made to, and the change to make. */
+type MutationTarget = {
+	readonly command: MutationCommand;
+	readonly deps: CliDeps;
+	readonly lectureMatch: LectureMatch;
+};
 
 /**
  * Applies one lecture's identity change, asking first where the change destroys
@@ -376,15 +374,7 @@ type MutationCommand = Extract<CliCommand, { command: "rename" | "delete" | "cha
  * @param args.lectureMatch - The lecture to change.
  * @returns Whether the change was made; `false` when the user declined it.
  */
-async function applyMutation({
-	command,
-	deps,
-	lectureMatch,
-}: {
-	readonly command: MutationCommand;
-	readonly deps: CliDeps;
-	readonly lectureMatch: LectureMatch;
-}): Promise<boolean> {
+async function applyMutation({ command, deps, lectureMatch }: MutationTarget): Promise<boolean> {
 	if (command.command === "rename") {
 		await renameLecture({ workspaceRoot: lectureMatch.workspaceRoot, title: command.title });
 		deps.write(`Renamed to "${command.title}".\n`);
@@ -405,7 +395,7 @@ async function applyMutation({
 }
 
 /**
- * Runs an identity-mutation command against the lectures its date names.
+ * Runs an identity-mutation command against the single lecture its date names.
  *
  * @param args - The command inputs.
  * @param args.command - The parsed mutation command.
@@ -416,13 +406,8 @@ function mutationCommand({ command, deps }: CommandArgs<MutationCommand>): Promi
 	return withResolvedLectures({
 		deps,
 		lectureDate: command.lectureDate,
-		choose: pickerFor({ command, deps }),
-		act: (matches) =>
-			mutateLectures({
-				deps,
-				matches,
-				mutate: (lectureMatch) => applyMutation({ command, deps, lectureMatch }),
-			}),
+		choose: chooseOneLecture(deps),
+		act: ([lectureMatch]) => mutateLecture({ command, deps, lectureMatch }),
 	});
 }
 
