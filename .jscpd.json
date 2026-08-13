@@ -6,6 +6,7 @@
 	"ignore": [
 		"**/*.test.{ts,tsx}",
 		"**/*.integration.test.{ts,tsx}",
+		"**/fixtures.ts",
 		"**/__fixtures__/**",
 		"**/__snapshots__/**",
 		"node_modules/**",

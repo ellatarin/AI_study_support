@@ -69,20 +69,49 @@ export class ManifestPathError extends NamedError {}
  * @param args - The destination path and the content to write.
  * @param args.path - The final path to write to; the `.tmp` sibling is derived from it.
  * @param args.content - The text or bytes to write.
+ * @returns A promise that resolves once the file is in place.
  * @throws Rethrows any filesystem error after removing the partial `.tmp` file.
  * @example
  * await writeFileAtomic({ path: "notes.md", content: "# Notes" });
  */
-export async function writeFileAtomic({
+export function writeFileAtomic({
 	path,
 	content,
 }: {
 	readonly path: string;
 	readonly content: string | Uint8Array;
 }): Promise<void> {
+	return produceFileAtomic({ path, produce: (tmpPath) => writeFile(tmpPath, content) });
+}
+
+/**
+ * The general form of {@link writeFileAtomic}, for output a caller produces
+ * rather than supplies: `produce` is handed the `.tmp` path to create, and the
+ * result is renamed onto the target only once it resolves. A failure removes the
+ * partial `.tmp` and rethrows, so the real path never holds partial output
+ * (technical-design.md §4.3).
+ *
+ * Used where the bytes come from a subprocess rather than from memory — Stage 1
+ * has ffmpeg write the audio track directly to the `.tmp` sibling.
+ *
+ * @param args - The destination and the producer.
+ * @param args.path - The final path; the `.tmp` sibling is derived from it.
+ * @param args.produce - Creates the file at the `.tmp` path it is given.
+ * @returns A promise that resolves once the file is in place.
+ * @throws Rethrows any error from `produce` after removing the partial `.tmp` file.
+ * @example
+ * await produceFileAtomic({ path: audioPath, produce: (tmpPath) => extract(tmpPath) });
+ */
+export async function produceFileAtomic({
+	path,
+	produce,
+}: {
+	readonly path: string;
+	readonly produce: (tmpPath: string) => Promise<void>;
+}): Promise<void> {
 	const tmpPath = `${path}.tmp`;
 	try {
-		await writeFile(tmpPath, content);
+		await produce(tmpPath);
 		await rename(tmpPath, path);
 	} catch (error: unknown) {
 		await rm(tmpPath, { force: true });
@@ -177,6 +206,20 @@ function isDescendant({
 }
 
 /**
+ * One untrusted manifest path together with the roots that bound it. Named so
+ * that callers forwarding a path to {@link resolveManifestPath} state the shape
+ * once rather than restating all three fields.
+ */
+export type ManifestPathQuery = {
+	/** The workspace root the entry is relative to. */
+	readonly workspaceRoot: string;
+	/** The module root that bounds all pipeline output. */
+	readonly moduleRoot: string;
+	/** The untrusted `filesWritten` entry to resolve. */
+	readonly entry: string;
+};
+
+/**
  * Resolves a manifest-derived path to an absolute location and asserts it stays
  * within `moduleRoot`, collapsing symlinks first so a symlinked escape is caught
  * (technical-design.md §4.4).
@@ -192,11 +235,7 @@ export async function resolveManifestPath({
 	workspaceRoot,
 	moduleRoot,
 	entry,
-}: {
-	readonly workspaceRoot: string;
-	readonly moduleRoot: string;
-	readonly entry: string;
-}): Promise<string> {
+}: ManifestPathQuery): Promise<string> {
 	const candidate = resolve(workspaceRoot, entry);
 	const resolved = await realpathResolved(candidate);
 	const moduleRootReal = await realpath(moduleRoot);
