@@ -1,5 +1,4 @@
-import { access, mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { access, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type {
@@ -12,7 +11,13 @@ import type {
 	StageId,
 	StageResult,
 } from "../types/pipeline.js";
-import { makeConfig, makeManifest, pendingStages } from "./fixtures.js";
+import {
+	makeConfig,
+	makeManifest,
+	makeStubLogger,
+	makeTempDir,
+	pendingStages,
+} from "./fixtures.js";
 import { PipelineRunner } from "./runner.js";
 
 // The runner is driven through a single configured stage throughout, so the
@@ -55,6 +60,14 @@ async function readRunLog(workspaceRoot: string, runId: string): Promise<RunLog>
 	return JSON.parse(await readFile(join(workspaceRoot, "runs", `${runId}.json`), "utf8")) as RunLog;
 }
 
+/**
+ * The shape every stage-outcome assertion takes: the stage, and the part of its
+ * run-log entry the test actually cares about.
+ */
+function outcome(stageId: StageId, entry: Record<string, unknown>): unknown {
+	return { stageId, entry: expect.objectContaining(entry) };
+}
+
 const noopSourceNormalisation: SourceNormalisationStage = {
 	stageId: "source-normalisation",
 	normaliseModule: async () => undefined,
@@ -64,11 +77,13 @@ describe("PipelineRunner integration", () => {
 	let tempDir: string;
 	let moduleRoot: string;
 	let workspaceRoot: string;
+	let logged: ReturnType<typeof makeStubLogger>;
 
 	beforeEach(async () => {
-		tempDir = await mkdtemp(join(tmpdir(), "runner-"));
+		tempDir = await makeTempDir({ prefix: "runner-" });
 		moduleRoot = join(tempDir, "Biology of Disease");
 		workspaceRoot = join(moduleRoot, "Pipeline processing", "L1");
+		logged = makeStubLogger();
 	});
 
 	afterEach(async () => {
@@ -81,6 +96,7 @@ describe("PipelineRunner integration", () => {
 			config: RUNNER_CONFIG,
 			sourceNormalisation: noopSourceNormalisation,
 			lectureStages,
+			logger: logged.logger,
 		});
 	}
 
@@ -108,7 +124,7 @@ describe("PipelineRunner integration", () => {
 			expect(summary.overallStatus).toBe("success");
 			expect(summary.totalCostUsd).toBe(0.5);
 			expect(summary.stageOutcomes).toEqual([
-				expect.objectContaining({ action: "ran", status: "complete" }),
+				outcome("audio-extraction", { action: "ran", status: "complete" }),
 			]);
 			const manifest = await readManifest(workspaceRoot);
 			const entry = manifest.stages["audio-extraction"];
@@ -121,6 +137,37 @@ describe("PipelineRunner integration", () => {
 			});
 		});
 
+		it("should mark the stage running on disk before it begins when a stage runs", async () => {
+			let statusDuringRun: string | undefined;
+			const stage = makeStubStage({
+				stageId: "audio-extraction",
+				run: async ({ context }) => {
+					const current = await readManifest(context.workspaceRoot);
+					statusDuringRun = current.stages["audio-extraction"]?.status;
+					return { output: undefined, cost: null, filesWritten: [] };
+				},
+			});
+
+			await makeRunner([stage]).runLecture({ workspaceRoot });
+
+			expect(statusDuringRun).toBe("running");
+		});
+
+		it("should log the failure with its stack against the stage when a stage throws", async () => {
+			const failure = new Error("audio extraction failed");
+			const stage = makeStubStage({
+				stageId: "audio-extraction",
+				run: () => Promise.reject(failure),
+			});
+
+			await makeRunner([stage]).runLecture({ workspaceRoot });
+
+			expect(logged.errors).toHaveLength(1);
+			const [entry] = logged.errors;
+			expect(entry?.bindings).toEqual({ stage: "audio-extraction" });
+			expect(entry?.payload.err).toBe(failure);
+		});
+
 		it("should record a failed stage when the stage throws", async () => {
 			const stage = makeStubStage({
 				stageId: "audio-extraction",
@@ -131,7 +178,7 @@ describe("PipelineRunner integration", () => {
 
 			expect(summary.overallStatus).toBe("failed");
 			expect(summary.stageOutcomes).toEqual([
-				expect.objectContaining({
+				outcome("audio-extraction", {
 					action: "ran",
 					status: "failed",
 					error: "audio extraction failed",
@@ -153,7 +200,7 @@ describe("PipelineRunner integration", () => {
 			const summary = await makeRunner([stage]).runLecture({ workspaceRoot });
 
 			expect(summary.stageOutcomes).toEqual([
-				expect.objectContaining({
+				outcome("audio-extraction", {
 					action: "ran",
 					status: "failed",
 					error: "ffmpeg exited unexpectedly",
@@ -198,7 +245,9 @@ describe("PipelineRunner integration", () => {
 
 			expect(run).not.toHaveBeenCalled();
 			expect(summary.overallStatus).toBe("partial");
-			expect(summary.stageOutcomes).toEqual([{ action: "skipped" }]);
+			expect(summary.stageOutcomes).toEqual([
+				{ stageId: "audio-extraction", entry: { action: "skipped" } },
+			]);
 			const manifest = await readManifest(workspaceRoot);
 			const entry = manifest.stages["audio-extraction"];
 			expect(entry?.status).toBe("skipped");
@@ -233,9 +282,9 @@ describe("PipelineRunner integration", () => {
 			expect(thirdRun).not.toHaveBeenCalled();
 			expect(summary.overallStatus).toBe("failed");
 			expect(summary.stageOutcomes).toEqual([
-				expect.objectContaining({ action: "ran", status: "complete" }),
-				expect.objectContaining({ action: "ran", status: "failed" }),
-				{ action: "not-reached" },
+				outcome("audio-extraction", { action: "ran", status: "complete" }),
+				outcome("transcription", { action: "ran", status: "failed" }),
+				{ stageId: "synthesis", entry: { action: "not-reached" } },
 			]);
 			const runLog = await readRunLog(workspaceRoot, summary.runId);
 			expect(runLog.stages.synthesis).toEqual({ action: "not-reached" });
@@ -264,8 +313,8 @@ describe("PipelineRunner integration", () => {
 			expect(laterRun).toHaveBeenCalledTimes(1);
 			expect(summary.overallStatus).toBe("failed");
 			expect(summary.stageOutcomes).toEqual([
-				expect.objectContaining({ action: "ran", status: "failed" }),
-				expect.objectContaining({ action: "ran", status: "complete" }),
+				outcome("audio-extraction", { action: "ran", status: "failed" }),
+				outcome("transcription", { action: "ran", status: "complete" }),
 			]);
 		});
 
@@ -362,7 +411,10 @@ describe("PipelineRunner integration", () => {
 			});
 
 			await expect(access(join(workspaceRoot, "Audio", "audio.m4a"))).resolves.toBeUndefined();
-			expect(summary.stageOutcomes[0]).toEqual({ action: "skipped" });
+			expect(summary.stageOutcomes[0]).toEqual({
+				stageId: "audio-extraction",
+				entry: { action: "skipped" },
+			});
 		});
 	});
 
@@ -482,6 +534,7 @@ describe("PipelineRunner integration", () => {
 				config: RUNNER_CONFIG,
 				sourceNormalisation: { stageId: "source-normalisation", normaliseModule },
 				lectureStages: [batchStage()],
+				logger: logged.logger,
 			});
 
 			const summary = await runner.runBatch({ moduleRoots: [moduleA], options: { concurrency } });

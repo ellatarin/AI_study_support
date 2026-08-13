@@ -1,5 +1,6 @@
 import { mkdir, readFile, rm } from "node:fs/promises";
 import { join, resolve } from "node:path";
+import type { Logger } from "pino";
 import type {
 	BatchSummary,
 	CurrentPipelineCost,
@@ -13,6 +14,7 @@ import type {
 	RunLogStageEntry,
 	RunManifest,
 	RunOptions,
+	RunStageOutcome,
 	RunSummary,
 	RunType,
 	SourceNormalisationStage,
@@ -24,6 +26,9 @@ import type {
 import { formatCostReport } from "../utils/cost.js";
 import { errorMessage } from "../utils/errors.js";
 import { listSubdirectoryNames, readDirSafe, writeFileAtomic } from "../utils/files.js";
+import { createStageLogger } from "../utils/logger.js";
+import { readManifest, readManifestSafe, writeManifest } from "./manifest.js";
+import { stageOutcomeStatus, summariseOverallStatus } from "./run-status.js";
 
 /**
  * Constructor dependencies for {@link PipelineRunner}. Stages are injected so the
@@ -34,6 +39,8 @@ export type PipelineRunnerDeps = {
 	readonly config: PipelineConfig;
 	readonly sourceNormalisation: SourceNormalisationStage;
 	readonly lectureStages: readonly PipelineStage<unknown, unknown>[];
+	/** The run's logger; a stage failure is recorded on it with its stack (technical-design.md §8, §10). */
+	readonly logger: Logger;
 };
 
 // Inputs addressing a set of modules with optional run- or report-specific options.
@@ -64,7 +71,6 @@ const STAGE_OUTPUT_DIRS: Readonly<Record<StageId, readonly string[]>> = {
 
 const STAGE_ORDER = Object.keys(STAGE_OUTPUT_DIRS) as readonly StageId[];
 
-const MANIFEST_FILE = "manifest.json";
 const RUNS_DIR = "runs";
 const PROCESSING_DIR = "Pipeline processing";
 
@@ -156,10 +162,6 @@ async function readJsonFile<TValue>(path: string): Promise<TValue | null> {
 	}
 }
 
-function readManifestFile(workspaceRoot: string): Promise<RunManifest | null> {
-	return readJsonFile<RunManifest>(join(workspaceRoot, MANIFEST_FILE));
-}
-
 async function listWorkspaces({
 	moduleRoot,
 }: {
@@ -245,15 +247,14 @@ async function updateManifest({
 	readonly entry: ManifestStageEntry;
 	readonly timestamp: string;
 }): Promise<void> {
-	const manifestPath = join(workspaceRoot, MANIFEST_FILE);
-	const manifest = JSON.parse(await readFile(manifestPath, "utf8")) as RunManifest;
+	const manifest = await readManifest({ workspaceRoot });
 	const updated: RunManifest = {
 		...manifest,
 		stages: patchStages({ stages: manifest.stages, stageId, entry }),
 		currentPipelineCost: recomputeCost({ current: manifest.currentPipelineCost, stageId, entry }),
 		updatedAt: timestamp,
 	};
-	await writeJsonAtomic({ path: manifestPath, value: updated });
+	await writeManifest({ workspaceRoot, manifest: updated });
 }
 
 function skippedEntry({
@@ -286,59 +287,57 @@ function runLogCost(cost: StageCost | null): {
 	return { totalCostUsd: cost.totalCostUsd, callCount: cost.callCount };
 }
 
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- PipelineStage carries method signatures; CLAUDE.md permits dropping readonly for such method-bearing types
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- PipelineStage and Logger carry method signatures; CLAUDE.md permits dropping readonly for such method-bearing types
 async function runStage({
 	stage,
 	context,
 	config,
 	timestamp,
+	logger,
 }: {
 	readonly stage: PipelineStage<unknown, unknown>;
 	readonly context: StageContext;
 	readonly config: PipelineConfig;
 	readonly timestamp: string;
+	readonly logger: Logger;
 }): Promise<RunLogStageEntry> {
 	const { stageId } = stage;
+	// Every write in this function patches the same stage of the same manifest at
+	// the same instant; only the entry differs.
+	const record = (entry: ManifestStageEntry): Promise<void> =>
+		updateManifest({ workspaceRoot: context.workspaceRoot, stageId, entry, timestamp });
+
 	if (await stage.isComplete(context)) {
-		await updateManifest({
-			workspaceRoot: context.workspaceRoot,
-			stageId,
-			entry: skippedEntry({ context, stageId, timestamp }),
-			timestamp,
-		});
+		await record(skippedEntry({ context, stageId, timestamp }));
 		return { action: "skipped" };
 	}
 	const configUsed = resolveStageRunConfig({ config, stageId });
+	// Written before the stage begins, so a crash leaves `running` behind for the
+	// next launch to treat as failed rather than as never attempted (§4.5).
+	await record({ status: "running" });
 	try {
 		const input = await stage.getInput(context);
 		const result = await stage.run({ input, context });
-		await updateManifest({
-			workspaceRoot: context.workspaceRoot,
-			stageId,
-			entry: {
-				status: "complete",
-				completedAt: timestamp,
-				configUsed,
-				cost: result.cost,
-				filesWritten: result.filesWritten,
-			},
-			timestamp,
+		await record({
+			status: "complete",
+			completedAt: timestamp,
+			configUsed,
+			cost: result.cost,
+			filesWritten: result.filesWritten,
 		});
 		return { action: "ran", status: "complete", configUsed, cost: runLogCost(result.cost) };
 	} catch (error: unknown) {
 		const message = errorMessage(error);
-		await updateManifest({
-			workspaceRoot: context.workspaceRoot,
-			stageId,
-			entry: {
-				status: "failed",
-				failedAt: timestamp,
-				error: message,
-				configUsed,
-				cost: null,
-				filesWritten: [],
-			},
-			timestamp,
+		// The message alone reaches the user; the stack goes to the debug log, which
+		// is where an unanticipated failure is actually diagnosed (§8, §10).
+		createStageLogger({ logger, stageId }).error({ err: error }, "Stage failed");
+		await record({
+			status: "failed",
+			failedAt: timestamp,
+			error: message,
+			configUsed,
+			cost: null,
+			filesWritten: [],
 		});
 		return {
 			action: "ran",
@@ -379,11 +378,9 @@ async function resetFromStage({
 		await deleteStageOutput({ workspaceRoot, stageId });
 	}
 	const updated: RunManifest = { ...manifest, stages, updatedAt: timestamp };
-	await writeJsonAtomic({ path: join(workspaceRoot, MANIFEST_FILE), value: updated });
+	await writeManifest({ workspaceRoot, manifest: updated });
 	return updated;
 }
-
-type StageOutcome = { readonly stageId: StageId; readonly entry: RunLogStageEntry };
 
 function buildRunLog({
 	runId,
@@ -398,7 +395,7 @@ function buildRunLog({
 	readonly endedAt: string;
 	readonly options: RunOptions;
 	readonly runType: RunType;
-	readonly outcomes: readonly StageOutcome[];
+	readonly outcomes: readonly RunStageOutcome[];
 }): RunLog {
 	const stages: Record<string, RunLogStageEntry> = {};
 	let totalCostThisRun = 0;
@@ -420,36 +417,14 @@ function buildRunLog({
 	};
 }
 
-function summariseStatus({
-	hasFailure,
-	hasPartial,
-}: {
-	readonly hasFailure: boolean;
-	readonly hasPartial: boolean;
-}): OverallStatus {
-	if (hasFailure) {
-		return "failed";
-	}
-	if (hasPartial) {
-		return "partial";
-	}
-	return "success";
-}
-
-function overallStatus(outcomes: readonly RunLogStageEntry[]): OverallStatus {
-	return summariseStatus({
-		hasFailure: outcomes.some((entry) => entry.action === "ran" && entry.status === "failed"),
-		hasPartial: outcomes.some(
-			(entry) => entry.action === "skipped" || entry.action === "not-reached",
-		),
+function overallStatus(outcomes: readonly RunStageOutcome[]): OverallStatus {
+	return summariseOverallStatus({
+		statuses: outcomes.map(({ entry }) => stageOutcomeStatus(entry)),
 	});
 }
 
 function aggregateStatus(lectures: readonly RunSummary[]): OverallStatus {
-	return summariseStatus({
-		hasFailure: lectures.some((lecture) => lecture.overallStatus === "failed"),
-		hasPartial: lectures.some((lecture) => lecture.overallStatus === "partial"),
-	});
+	return summariseOverallStatus({ statuses: lectures.map((lecture) => lecture.overallStatus) });
 }
 
 async function writeRunLog({
@@ -490,18 +465,21 @@ export class PipelineRunner {
 	readonly #config: PipelineConfig;
 	readonly #sourceNormalisation: SourceNormalisationStage;
 	readonly #lectureStages: readonly PipelineStage<unknown, unknown>[];
+	readonly #logger: Logger;
 
 	/**
 	 * @param deps - The runner's injected configuration and stages.
 	 * @param deps.config - The validated pipeline configuration.
 	 * @param deps.sourceNormalisation - The per-module Stage 0 implementation.
 	 * @param deps.lectureStages - The per-lecture stages, in execution order.
+	 * @param deps.logger - The run's logger, which records each stage failure with its stack.
 	 */
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- lectureStages holds method-bearing PipelineStage values; CLAUDE.md permits dropping readonly
 	public constructor(deps: PipelineRunnerDeps) {
 		this.#config = deps.config;
 		this.#sourceNormalisation = deps.sourceNormalisation;
 		this.#lectureStages = deps.lectureStages;
+		this.#logger = deps.logger;
 	}
 
 	/**
@@ -544,9 +522,7 @@ export class PipelineRunner {
 		const startedAt = new Date();
 		const runId = deriveRunId({ instant: startedAt });
 		const startedIso = startedAt.toISOString();
-		const initialManifest = JSON.parse(
-			await readFile(join(workspaceRoot, MANIFEST_FILE), "utf8"),
-		) as RunManifest;
+		const initialManifest = await readManifest({ workspaceRoot });
 		const runType = classifyRunType({ options, manifest: initialManifest });
 		const manifest =
 			options.fromStage === undefined
@@ -576,8 +552,8 @@ export class PipelineRunner {
 			startedAt: startedIso,
 			endedAt: endedIso,
 			totalCostUsd: runLog.totalCostThisRun,
-			stageOutcomes: outcomes.map((outcome) => outcome.entry),
-			overallStatus: overallStatus(outcomes.map((outcome) => outcome.entry)),
+			stageOutcomes: outcomes,
+			overallStatus: overallStatus(outcomes),
 		};
 	}
 
@@ -587,8 +563,8 @@ export class PipelineRunner {
 	}: {
 		readonly context: StageContext;
 		readonly options: RunOptions;
-	}): Promise<readonly StageOutcome[]> {
-		const outcomes: StageOutcome[] = [];
+	}): Promise<readonly RunStageOutcome[]> {
+		const outcomes: RunStageOutcome[] = [];
 		let halted = false;
 		for (const stage of this.#lectureStages) {
 			if (halted) {
@@ -600,6 +576,7 @@ export class PipelineRunner {
 				context,
 				config: this.#config,
 				timestamp: new Date().toISOString(),
+				logger: this.#logger,
 			});
 			outcomes.push({ stageId: stage.stageId, entry });
 			if (entry.action === "ran" && entry.status === "failed" && options.continueOnError !== true) {
@@ -694,7 +671,7 @@ export class PipelineRunner {
 		const matches: LectureMatch[] = [];
 		for (const moduleRoot of moduleRoots) {
 			for (const workspaceRoot of await listWorkspaces({ moduleRoot })) {
-				const manifest = await readManifestFile(workspaceRoot);
+				const manifest = await readManifestSafe({ workspaceRoot });
 				if (manifest === null || manifest.lectureDate !== lectureDate) {
 					continue;
 				}
@@ -730,7 +707,7 @@ export class PipelineRunner {
 						(match) => match.workspaceRoot,
 					);
 		for (const workspaceRoot of workspaces) {
-			const manifest = await readManifestFile(workspaceRoot);
+			const manifest = await readManifestSafe({ workspaceRoot });
 			if (manifest === null) {
 				continue;
 			}

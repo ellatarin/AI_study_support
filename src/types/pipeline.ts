@@ -515,6 +515,18 @@ export type ReportOptions = {
 };
 
 /**
+ * What one stage did during a run, paired with the stage it happened to. The run
+ * log keys its entries by stage id; a summary is an ordered list, so it carries
+ * the id alongside each entry — without it a caller (the CLI's end-of-run
+ * summary) could not say which stage an outcome belongs to
+ * (technical-design.md §4.7, §7).
+ */
+export type RunStageOutcome = {
+	readonly stageId: StageId;
+	readonly entry: RunLogStageEntry;
+};
+
+/**
  * The outcome of running one lecture through the pipeline (technical-design.md §4.7).
  */
 export type RunSummary = {
@@ -523,7 +535,7 @@ export type RunSummary = {
 	readonly startedAt: string; // ISO 8601
 	readonly endedAt: string; // ISO 8601
 	readonly totalCostUsd: number;
-	readonly stageOutcomes: readonly RunLogStageEntry[];
+	readonly stageOutcomes: readonly RunStageOutcome[]; // in execution order
 	readonly overallStatus: OverallStatus;
 };
 

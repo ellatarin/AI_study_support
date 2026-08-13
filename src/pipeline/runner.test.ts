@@ -7,7 +7,7 @@ import type {
 	RunType,
 	StageId,
 } from "../types/pipeline.js";
-import { makeConfig, makeManifest, pendingStages } from "./fixtures.js";
+import { makeConfig, makeManifest, makeStubLogger, pendingStages } from "./fixtures.js";
 import { assembleContext, classifyRunType, deriveRunId, PipelineRunner } from "./runner.js";
 
 function manifestWithStage(stageId: StageId, entry: ManifestStageEntry): RunManifest {
@@ -118,6 +118,7 @@ describe("PipelineRunner.normaliseSources", () => {
 			config: makeConfig(),
 			sourceNormalisation: { stageId: "source-normalisation", normaliseModule },
 			lectureStages: [],
+			logger: makeStubLogger().logger,
 		});
 
 		await runner.normaliseSources({
