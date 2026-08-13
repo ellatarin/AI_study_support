@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.14-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.15-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-13
 **Status:** For review
 
@@ -58,50 +58,15 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 **Deliverables:**
 
-`src/types/pipeline.ts` — all shared types **(TD §4.2, §4.7)**. All declared as `type` aliases (never `interface`) per CLAUDE.md:
-- `StageId` union
-- `StageStatus` union (`pending | running | complete | failed | skipped`)
-- `PipelineStage<TInput, TOutput>`, `StageContext`, `StageResult<TOutput>`, `StageCost`, `StageRunConfig`
-- `RunManifest`, `ManifestStageEntry`
-- `QaDeficiency`, `QaDeficienciesReport`
-- `PipelineConfig`, `StageConfig`
-- `RunLog`, `RunLogStageEntry`, `RunType`
-- `LectureMatch`, `RunOptions`, `ReportOptions`, `RunSummary`, `BatchSummary` (runner-facing)
-
-`src/utils/files.ts` — atomic write helpers **(TD §4.3)** and path validation **(TD §4.4)**:
-- `writeFileAtomic({ path, content })` — writes to `.tmp`, renames on success
-- `cleanTmpFiles(dir)` — deletes any `.tmp` files in a directory
-- `workspacePath({ workspaceRoot, segments })` — resolves an absolute path from trusted, code-supplied segments (no boundary check; untrusted paths use `resolveManifestPath`)
-- `resolveManifestPath({ workspaceRoot, moduleRoot, entry })` — resolves an entry from `filesWritten`, then `realpath`, then asserts the result is under `moduleRoot`; throws `ManifestPathError` if not. Used everywhere a manifest-derived path reaches the filesystem.
-
-`src/utils/logger.ts` — pino setup **(TD §10)**:
-- `createRootLogger({ runTimestamp })` — root logger writing newline-delimited JSON to `runs/<runTimestamp>-debug.log` (`sync: false`, `mkdir`, file-only); takes the run timestamp so the debug log shares it with the run log
-- `createStageLogger({ logger, stageId })` — returns a child logger with `{ stage }` binding
-- File-only: no debug output reaches stdout/stderr. User-facing info/warning/error messaging (Output Streams table, §10) is emitted by the CLI/runner, not this logger
-
-`src/utils/date.ts` — date parsing:
-- `extractDate(filename)` — uses `chrono-node` to extract a `Date` from a filename; returns `null` if no date found with sufficient confidence
-- `formatDateISO(date)` — `YYYY-MM-DD`
-
-`src/utils/naming.ts` — title and folder naming:
-- `extractProvisionalTitle(filename)` — best-effort title: strips whichever of the date, day names, module-code prefix (`BOD_`, `BOD `), embedded lecture-number token (e.g. `Lecture 1`, which would otherwise duplicate the assigned number), and trailing artefacts (`co`, `copy`, `v2`) are present, then title-cases the result. Filenames vary; a thin or even empty result is acceptable (a date-plus-number filename leaves nothing) — the caller falls back and Stage 3's LLM judges title meaningfulness once the transcript exists (TD Stage 3)
-- `lectureFolderName({ lectureNumber, title, date })` — canonical folder/filename format
-- `filenameSafe(title)` — strips path separators (`/`, `\`), traversal segments (`.`, `..`), null bytes, and ASCII control chars; collapses whitespace; trims leading/trailing whitespace and dots; throws if the result is empty **(TD §4.4)**
-
-`src/utils/progress.ts` — cli-progress helpers:
-- `createProgressBar({ format, formatValue? })` — shared `SingleBar` factory (preset + hideCursor) reused by the other two helpers so bar construction lives in one place; `formatValue` supports e.g. byte→MB display
-- `createUploadProgressStream(totalBytes)` — Transform stream + bar (moved from `src/index.ts`)
-- `createParallelWorkBar({ label, total })` — returns `{ bar, start, pick, complete, fail, stop }`. Wraps a `SingleBar` pre-configured with the in-flight-suffix format from TD Stage 4. `pick(id)` adds an id to the in-flight set; `complete(id)` removes it and ticks the bar; `fail(id)` marks the item red in the final render. Used by Stages 4 and 5. Non-TTY fallback delegated to `cli-progress` defaults.
-
-`src/utils/cost.ts` — cost utilities: `accumulateCost`, `createMoneyFormatter`, and `formatCostReport`. Signatures and behaviour in **TD §7, Cost Module**.
-
-`src/pipeline/config.ts` — config loader:
-- `loadConfig({ projectRoot, skipModelCheck })` — reads and validates `pipeline-config.json`; throws on missing required fields
-- **Model-ID resolution check:** at startup, fetches `https://openrouter.ai/api/v1/models` once and asserts every configured `stages[*].modelId` appears in the response. On any miss, throws a `ConfigError` naming the stage(s) with unrecognised IDs and linking to `https://openrouter.ai/models`. This catches placeholder strings (e.g. `<REASONING_MODEL>` left un-substituted), typos, and retired IDs before any billable call is made. The check is cached in-process; a `--skip-model-check` flag exists for offline runs against a mocked SDK.
-
-`src/pipeline/openrouter.ts` — OpenRouter client **(TD §6)**:
-- `createOpenRouterClient()` — factory for a configured `OpenAI` client pointing at OpenRouter (reused in-process via a lazily-created shared instance; not exported as a live instance, so importing the module never requires `OPENROUTER_API_KEY`)
-- `makeCompletionCall({ messages, stageId, config, client })` — wraps the SDK call; fetches cost from `/api/v1/generation`; returns `{ content, cost: StageCost }`. `client` is an optional injected `OpenAI` (defaults to the shared instance; tests inject their own). Throws the exported `ContextLengthError` when the model rejects the prompt for context length
+- `src/types/pipeline.ts` — every shared type, and `STAGE_IDS`, the ordered stage list `StageId` is derived from **(TD §4.1, §4.2, §4.7)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, `StageStatus`), the persisted shapes (`RunManifest`, `ManifestStageEntry`, `RunLog`, `RunLogStageEntry`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaDeficienciesReport`), and the runner-facing `LectureMatch`, `RunOptions`, `ReportOptions`, `RunSummary`, `BatchSummary`
+- `src/utils/files.ts` — `writeFileAtomic` and `cleanTmpFiles` **(TD §4.3)**; `workspacePath` and `resolveManifestPath` **(TD §4.4)**
+- `src/utils/logger.ts` — `createRootLogger`, `createStageLogger` **(TD §10, Logging and Progress Helpers)**
+- `src/utils/date.ts` — `extractDate`, `formatDateISO` **(TD §3.2, Date and Naming Helpers)**
+- `src/utils/naming.ts` — `extractProvisionalTitle`, `lectureFolderName` **(TD §3.2)**; `filenameSafe` **(TD §4.4)**
+- `src/utils/progress.ts` — `createProgressBar`, `createUploadProgressStream`, `createParallelWorkBar` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`
+- `src/utils/cost.ts` — `accumulateCost`, `createMoneyFormatter`, `formatCostReport` **(TD §7, Cost Module)**
+- `src/pipeline/config.ts` — `loadConfig`, plus the model-ID resolution check and its provider exemptions **(TD §6)**
+- `src/pipeline/openrouter.ts` — `createOpenRouterClient`, `makeCompletionCall`, and the exported `ContextLengthError` **(TD §6)**
 
 **Tests:**
 
@@ -150,30 +115,12 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 **Deliverables:**
 
-`src/pipeline/runner.ts` — `PipelineRunner` class **(TD §4.7)**. Stages are injected via the constructor (`{ config, sourceNormalisation, lectureStages }`) so the runner is driven by stub stages under test. All method signatures use a single options object per CLAUDE.md; `options` is optional:
-- `normaliseSources({ moduleRoots })` — invokes Stage 0 across every listed module
-- `runLecture({ workspaceRoot, options })` — assembles `StageContext`, runs stages in order, writes a timestamped run log to `runs/`
-- `runBatch({ moduleRoots, options })` — one module or many; sequential by default; `--concurrency N` for parallel
-- `costReport({ moduleRoots, options })` — aggregates run logs across the given modules, prints three-section report
-- `resolveLecturesByDate({ moduleRoots, lectureDate })` — returns matches from scanning `${moduleRoot}/Pipeline processing/*/manifest.json`
-
-Supporting logic lives in module-level functions (not private methods) so the pure parts are unit-testable in isolation **(TD §4.7)**:
-- `runStage({ stage, context, config, timestamp })` — handles the full status lifecycle and returns a `RunLogStageEntry` (not void):
-  - Calls `isComplete()` → writes a `skipped` manifest entry (preserving the prior completed data) and returns `{ action: "skipped" }`
-  - Otherwise runs the stage; on success writes a `complete` manifest entry and returns a `ran`/`complete` entry
-  - On exception: writes a `failed` manifest entry (`error`, `failedAt`) and returns a `ran`/`failed` entry — never throws
-  - Returning the entry lets `runLecture` collect outcomes, decide whether to halt, and fill `not-reached`
-- `assembleContext({ workspaceRoot, manifest, config })` — builds a frozen `StageContext`; `moduleRoot` is derived from `workspaceRoot` two levels up **(TD §4.7)**
-- `updateManifest({ workspaceRoot, stageId, entry, timestamp })` — atomic per-stage manifest patch via `writeFileAtomic`
-- `deriveRunId({ instant })` / `classifyRunType({ options, manifest })` — filesystem-safe run id and run classification (`normal` | `experiment` | `error-recovery`)
+`src/pipeline/runner.ts` — the `PipelineRunner` class and its supporting module-level functions (`runStage`, `assembleContext`, `updateManifest`, `deriveRunId`, `classifyRunType`). Full surface and behaviour in **TD §4.7**.
 
 `src/index.ts` — CLI entry point. Invoked in docs and examples as `lecture-notes <cmd>` via the `bin/lecture-notes` wrapper installed by `scripts/setup`. During dev without the wrapper, equivalent to `pnpm exec tsx src/index.ts <cmd>`.
-- Commands:
-  - `lecture-notes run <date>` — resolves the date across `config.moduleRoots`; 0 matches → error, 1 → run it, N → interactive picker (`@inquirer/prompts` checkbox with "All matches" and "Cancel") calling `runLecture` per selection
-  - `lecture-notes batch [<moduleRoot>]` — with an arg, runs that module; without, runs every configured module
-  - `lecture-notes cost-report [--date <YYYY-MM-DD>] [--module <moduleRoot>]` — aggregates by default; narrows with either flag; `--date` uses the same picker on multi-match
+- Commands: `run <date>`, `batch [<moduleRoot>]`, `cost-report [--date <YYYY-MM-DD>] [--module <moduleRoot>]`
 - Flags: `--from-stage <stageId>`, `--concurrency N`, `--continue-on-error`
-- `--from-stage` resets nominated stage and all downstream stages to `pending` in manifest; deletes intermediate files for those stages (using hard-coded per-stage directories per TD §4.4, not manifest input)
+- Behaviour of each — including the multi-match picker, batch scope, and what `--from-stage` resets and deletes — is specified in **TD §4.7**. The identity-mutation commands (`rename`, `delete`, `change-date`) land with this deliverable too
 
 **Tests:**
 
@@ -206,15 +153,7 @@ Runner lifecycle — integration tests (real temp directory with fixture manifes
 
 **Deliverables:**
 
-`src/pipeline/stages/source-normalisation.ts` **(TD Stage 0)**:
-1. Parse date from each video filename using `extractDate`
-2. Sort by date; assign sequential lecture numbers
-3. Match each slide PDF (date at start of filename) to its video
-4. Extract a best-effort provisional title (adequacy judged later, at Stage 3)
-5. Rename source files atomically (temp name → final name to avoid collision)
-6. Create workspace folders; write initial `manifest.json` for new lectures — including `lectureTitle = provisionalTitle`, `userTitle = null`, and `aiDerivedTitle = null` (the CLI `rename` sets the first two; Stage 3 may overwrite `lectureTitle` and `aiDerivedTitle`)
-7. On re-run after new lectures added: detect sequence changes, rename all affected workspace folders, source files, and any `Final output/` PDFs; update `lectureNumber` in affected manifests. An existing lecture is named from its manifest's `lectureTitle`, never re-extracted
-8. Orphan handling (direct-deletion guard): detect every workspace whose date has no source pair present; prompt per orphan through the injected `confirm` dependency (`createSourceNormalisationStage({ logger, confirm })`, where `confirm(args: { message: string }): Promise<boolean>`), showing number, title, date, and cost already spent; only when every orphan is approved, take a final confirmation and then delete each workspace and its `Final output/` PDF, renumber the module, and log each deletion's prior state; any decline aborts with no filesystem changes (NFR-4.3)
+`src/pipeline/stages/source-normalisation.ts` — the whole of **TD Stage 0**: date parsing and lecture numbering, slide-to-video matching, provisional titles, collision-safe renaming, workspace and manifest creation, renumbering on re-run, and the orphan direct-deletion guard (NFR-4.3).
 
 The CLI identity-mutation commands that drive this same machinery — `rename`, `delete`, `change-date` (FR-6.7, TD §4.7) — are built with the CLI, not in this phase.
 
@@ -247,27 +186,17 @@ Integration tests (real temp directory with fixture source files):
 
 **Deliverables:**
 
-`src/pipeline/config.ts` — three additions **(TD §6)**, each a required key:
-- `modelIdCheck.exemptProviders` — provider prefixes skipped by the OpenRouter model-ID check, so a stage on a non-OpenRouter provider can declare its model in config and have it recorded in the manifest and cost report. Generic, not ElevenLabs-specific
-- `elevenLabs.costPerAudioHourUsd` — the rate Stage 2 multiplies by audio duration, since Scribe returns no price
-- `currency.gbpPerUsd` — the USD→GBP rate applied when presenting costs
-- `pipeline-config.json` gains all three plus a `transcription` stage entry
+`src/pipeline/config.ts` — three new required keys, `modelIdCheck.exemptProviders`, `elevenLabs.costPerAudioHourUsd`, and `currency.gbpPerUsd`, each specified in **TD §6**. `pipeline-config.json` gains all three plus a `transcription` stage entry.
 
-`src/utils/cost.ts` — present all user-facing costs in pounds **(TD §7, NFR-2.3)**. Stored figures stay in USD; conversion happens only in the reporting layer, so the end-of-run summary and all three `cost-report` sections render `£`.
+`src/utils/cost.ts` — present all user-facing costs in pounds **(TD §7, NFR-2.3)**.
 
 A shared stage helper for `isComplete` — the manifest marks the stage complete and every recorded `filesWritten` entry still exists, each resolved through `resolveManifestPath` so a corrupt manifest cannot escape the module tree **(TD §4.4)**. Both stages need identical logic, so it is written once.
 
-`src/pipeline/stages/audio-extraction.ts` **(TD Stage 1)**:
-- Implements `PipelineStage<AudioExtractionInput, AudioExtractionOutput>`
-- `fluent-ffmpeg`, `-acodec copy`, `cli-progress` bar; locates the source video by workspace base name whatever its extension
-- Writes `Audio/audio.m4a` via a `.tmp` sibling; makes no billable call, so cost is `null`
+`src/pipeline/stages/audio-extraction.ts` — the whole of **TD Stage 1**: locating the source video by workspace base name whatever its extension, the fluent-ffmpeg `-acodec copy` extraction and its progress bar, and the `.tmp`-sibling write. Makes no billable call, so its cost is `null`.
 
-`src/pipeline/stages/transcription.ts` **(TD Stage 2)**:
-- Implements `PipelineStage<TranscriptionInput, TranscriptionOutput>`
-- ElevenLabs Scribe v2, `languageCode: 'eng'`, `noVerbatim: true`; model ID from config with its provider prefix stripped
-- Upload progress via `createUploadProgressStream` (from `progress.ts`)
-- Cost from audio duration × the configured rate; `totalCostUsd: null` with `costResolutionError` when the duration cannot be read
-- Output: `Transcript/transcript.txt`
+`src/pipeline/stages/transcription.ts` — the whole of **TD Stage 2**: the Scribe v2 call and its parameters, stripping the provider prefix from the configured model ID, upload progress via `createUploadProgressStream`, and cost derived from audio duration × the configured rate.
+
+Both are the first real `PipelineStage` implementations, so each defines its own `TInput`/`TOutput` pair.
 
 **Tests:**
 
@@ -331,17 +260,7 @@ Integration tests (real temp directory) — `test.each` across both `provisional
 
 **Deliverables:**
 
-`src/pipeline/stages/slide-conversion.ts` **(TD Stage 4)**:
-1. Render each PDF page to `Slide content/raw/slide-{003d}.png` at 150 DPI using `pdfjs-dist` + `canvas`
-2. For each slide, check if `slide-{003d}.md` already exists — skip if so (resumability)
-3. Make vision LLM call; write result to `Slide content/raw/slide-{003d}.md` immediately
-4. Concurrency controlled by `config.stages['slide-conversion'].concurrency` (default 3)
-5. `.tmp` cleanup at stage start
-6. Concatenate all per-slide markdown into `Slide content/slides.md` with `---` separators and `### Slide N` headings
-7. On `--from-stage slide-conversion`: delete all files in `Slide content/raw/` before processing
-
-**Prompt design notes:**
-- Per-slide prompt includes: slide number, total slides, lecture title, instructions to reproduce all text exactly, describe diagrams fully (structure, labels, arrows), reconstruct tables, render formulas as LaTeX, note slide purpose
+`src/pipeline/stages/slide-conversion.ts` — the whole of **TD Stage 4**: PDF-to-PNG rendering, the per-slide vision call and its prompt, intra-stage resumability, bounded concurrency, the in-flight progress bar, concatenation, and `--from-stage` cleanup.
 
 **Tests:**
 
@@ -365,17 +284,7 @@ Integration tests (real temp directory; real small PDF fixture):
 
 **Deliverables:**
 
-`src/pipeline/stages/image-extraction.ts` **(TD Stage 5)**:
-1. For each slide PNG, make a vision LLM call returning the figure schema (bounding boxes as percentages, caption, `academicRelevance`, `figureType`)
-2. Discard figures where `academicRelevance: 'exclude'` or `figureType` is `logo` / `decorative`
-3. Crop each accepted figure from the slide PNG using `sharp` (convert percentage bounds to pixel coordinates)
-4. Save to `Slide images/slide-{003d}-figure-{02d}.png` and `slide-{003d}-figure-{02d}-caption.md`
-5. Write `Slide images/images-manifest.json` atomically after all slides processed
-6. `outputRelativePath` in the manifest is relative to `Output/` for use in synthesis **(TD Stage 5)**
-
-**Prompt design notes:**
-- Instruct the LLM to be conservative: only include figures that a student would meaningfully benefit from seeing in their notes
-- Request JSON-mode response matching the figure schema
+`src/pipeline/stages/image-extraction.ts` — the whole of **TD Stage 5**: the per-slide vision call and its figure schema, the relevance and type exclusions, percentage-to-pixel cropping with `sharp`, the per-figure PNG and caption files, and `images-manifest.json`.
 
 **Tests:**
 
@@ -398,17 +307,7 @@ Integration tests (real temp directory; real slide PNG fixture):
 
 **Deliverables:**
 
-`src/pipeline/stages/synthesis.ts` **(TD Stage 6)**:
-- Assemble context: `structured-transcript.md` + `slides.md` + figure captions from `images-manifest.json` (captions and filenames only — not the images)
-- Estimate total token count before calling; if > ~80,000 tokens, activate chunking fallback:
-  - Align transcript sections to slide sections by heading similarity
-  - Synthesise each bundle independently
-  - Coherence pass to smooth transitions
-- Output: `Synthesised notes/synthesised-notes.md`
-
-**Prompt design notes:**
-- Specify: formal British English prose (not bullet lists), H2 major topics, H3 sub-topics, transcript provides narrative voice, slides provide structural anchors, image references as `![caption](outputRelativePath)`, Key Concepts box at end of each H2 section, Glossary at end
-- Explicitly prohibit adding content not present in the sources
+`src/pipeline/stages/synthesis.ts` — the whole of **TD Stage 6**: context assembly from the structured transcript, slide content, and figure captions; the token-budget estimate and the chunking fallback above it; and the synthesis prompt and its output structure.
 
 **Tests:**
 
@@ -429,20 +328,7 @@ Unit tests:
 
 **Deliverables:**
 
-`src/pipeline/stages/qa-loop.ts` **(TD Stage 7)**:
-- **Checker call:** source materials + current draft → `QaDeficienciesReport` (JSON mode)
-- **Reviser call:** current draft + deficiencies report → revised draft
-- Loop termination conditions:
-  1. `overallVerdict === 'pass'`
-  2. `currentIteration >= maxQaIterations` (from config, default 3) — log warning
-  3. Two consecutive iterations with identical deficiency count and no severity change — log stall warning
-- Per-iteration files: `QA iterations/qa-iteration-{02d}-deficiencies.json`, `QA iterations/qa-iteration-{02d}-revised.md`
-- `terminationReason` written to manifest (`qa-passed | max-iterations-reached | stalled`)
-- On successful termination: write `Output/notes.md` (final revised draft) and copy accepted figures to `Output/images/`
-
-**Prompt design notes:**
-- Checker prompt: instruct to be thorough and critical; categorise every deficiency into exactly one of the eight `QaDeficiency.type` values; provide short in-prompt definitions per type; be strict about `factual-error` vs `unsupported-claim` (contradiction of the source vs. simple absence of source support); do not suggest the notes are adequate unless they genuinely are
-- Reviser prompt: apply targeted fixes only; do not rewrite wholesale; preserve all correct content; branch per the type-specific action table in TD Stage 7. **Explicitly forbid the reviser from introducing content outside the provided source set** — for `unsupported-claim` the only remedy is removal (never adding a citation to an external source, which would license fabrication and violate NFR-1.3)
+`src/pipeline/stages/qa-loop.ts` — the whole of **TD Stage 7**: the two-prompt checker/reviser design and both prompts, the per-type reviser action table (including the NFR-1.3 prohibition on grounding an unsupported claim in a new source), the per-iteration files, all three loop-termination conditions, and the final `Output/` write.
 
 **Tests:**
 
@@ -469,22 +355,7 @@ Integration tests (real temp directory):
 
 **Deliverables:**
 
-`src/pipeline/stages/pdf-generation.ts` **(TD Stage 8)**:
-- **Pre-flight checks (before invoking pandoc):**
-  - `pandoc --version` — verify pandoc is on PATH; on failure, throw a stage error naming the missing binary and pointing to `https://pandoc.org/installing.html` (plus the platform-specific install command: `brew install pandoc` on macOS)
-  - `xelatex --version` — verify the LaTeX engine is on PATH; on failure, throw a stage error naming `xelatex` and pointing to the platform-specific LaTeX distribution (`brew install --cask mactex-no-gui` on macOS, `apt install texlive-xetex` on Debian/Ubuntu)
-  - Cache both check results at process start so subsequent per-lecture invocations don't re-shell
-- Invoke pandoc via `spawn` with an explicit argv array (never `exec` — see TD §4.4 "No shell interpolation"):
-  ```typescript
-  spawn('pandoc', [
-    'Output/notes.md',
-    '--resource-path', 'Output/images',
-    '--pdf-engine=xelatex',
-    '--output', `../../Final output/${outputFilename}`,
-  ], { cwd: workspaceRoot });
-  ```
-- Capture stderr; on non-zero exit: include stderr content in the stage failure message. Pandoc's own stderr on a LaTeX failure is verbose but usually includes the offending line — surface it verbatim rather than trying to parse it
-- `outputFilename` assembled from `StageContext` (`lectureNumber`, `lectureTitle`, `lectureDate`); each component passed through `filenameSafe` per TD §4.4
+`src/pipeline/stages/pdf-generation.ts` — the whole of **TD Stage 8**: the cached `pandoc` and `xelatex` pre-flight checks and their install hints, the `spawn` invocation with its explicit argv array, stderr capture on a non-zero exit, and the output filename assembled from `StageContext` through `filenameSafe` (TD §4.4).
 
 **Tests:**
 

@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.14-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.15-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-13
 **Status:** For review
 
@@ -84,6 +84,26 @@ The provisional title is a best-effort guess from whatever the filename happens 
 #### Lecture slides
 
 Slide PDFs are supplied with the date at the very beginning of the filename (e.g. `2025-10-10 Lecture slides.pdf`). Stage 0 matches each slide to the video with the same date and renames it on the same schedule as the video.
+
+#### Date and Naming Helpers
+
+`src/utils/date.ts` and `src/utils/naming.ts` hold the filename parsing described above.
+
+```typescript
+extractDate(filename: string): Date | null
+// chrono-node extraction; null when no date is found with sufficient confidence.
+formatDateISO(date: Date): string                    // YYYY-MM-DD
+
+extractProvisionalTitle(filename: string): string
+// Best-effort title: strips whichever of the date, day names, module-code prefix (`BOD_`, `BOD `),
+// embedded lecture-number token (e.g. `Lecture 1`, which would duplicate the assigned number), and
+// trailing artefacts (`co`, `copy`, `v2`) are present, then title-cases the result. A thin or empty
+// result is acceptable — a date-plus-number filename leaves nothing — and Stage 3 judges the title
+// once the transcript exists.
+lectureFolderName(args: { lectureNumber: number; title: string; date: string }): string
+// The canonical `Lecture N - <title> - YYYY-MM-DD` form shared by the folder, sources, and PDF.
+filenameSafe(title: string): string                  // see §4.4 for the rules it enforces
+```
 
 ### 3.3 Pipeline Processing — Per-Lecture Workspace
 
@@ -193,6 +213,12 @@ After a stage's `run()` succeeds, the runner writes the `filesWritten` list from
 
 Every file is written to a `.tmp`-suffixed path first, then renamed on success. Any file that exists on disk without a `.tmp` suffix is guaranteed to be complete. At the start of every stage run, the stage scans its output directories and deletes any `.tmp` files left by a previous crashed run before beginning processing. This is automatic and requires no user intervention.
 
+```typescript
+// src/utils/files.ts
+writeFileAtomic(args: { path: string; content: string }): Promise<void>   // writes .tmp, renames on success
+cleanTmpFiles(dir: string): Promise<void>                                 // deletes any .tmp files in a directory
+```
+
 ### 4.4 Path Validation
 
 `filesWritten` entries and any other path derived from manifest or LLM output MUST be validated before any filesystem operation. The manifest is trusted only to the extent that the runner enforces its bounds — a corrupted or hand-edited manifest must never be able to delete, overwrite, or observe files outside the module tree.
@@ -205,11 +231,23 @@ Every file is written to a `.tmp`-suffixed path first, then renamed on success. 
 
 This is enforced in every place a path from `filesWritten` or the manifest is used: `isComplete()` existence checks, `--from-stage` cleanup considerations, `cost-report` file discovery, and PDF output resolution.
 
+```typescript
+// src/utils/files.ts — the two path resolvers, deliberately distinct
+workspacePath(args: { workspaceRoot: string; segments: readonly string[] }): string
+// Trusted, code-supplied segments only. No boundary check — untrusted input uses the resolver below.
+resolveManifestPath(args: { workspaceRoot: string; moduleRoot: string; entry: string }): Promise<string>
+// The three steps above, in order; throws ManifestPathError when the result escapes moduleRoot.
+```
+
 **`filenameSafe(title)`.** Titles reach the filesystem via workspace folder names, source file renames, and the `Final output/` PDF name. Titles originate from user filenames (Stage 0) or LLM output (Stage 3) — neither is a trusted path component. `filenameSafe` MUST:
 
 - Strip path separators (`/`, `\`), directory-traversal segments (`.`, `..`), null bytes, and ASCII control characters.
 - Collapse whitespace runs to a single space; trim leading/trailing whitespace and dots.
 - Reject an empty result — the caller must fall back to `provisionalTitle` or a stage-defined default.
+
+```typescript
+filenameSafe(title: string): string   // src/utils/naming.ts; throws when the result would be empty
+```
 
 **Stage cleanup boundaries.** `--from-stage <stageId>` MUST NOT drive its cleanup off `filesWritten` from the manifest. Cleanup deletes files inside a per-stage, hard-coded set of workspace subdirectories (e.g. `Slide content/raw/` for Stage 4). This ensures a corrupt manifest cannot trigger deletion of unintended files.
 
@@ -443,6 +481,15 @@ Each performs its change and then re-runs Stage 0's normalisation to return the 
 
 **Logging:** Every action — files discovered, dates extracted, numbers assigned, matches, each rename, each workspace/manifest write, each renumber, each approved deletion (with its prior number/title/date/cost) — is recorded at `info` on the run's pino logger; validation and orphan-abort failures are recorded at `error` before the throw.
 
+```typescript
+// src/pipeline/stages/source-normalisation.ts
+type ConfirmPrompt = (args: { message: string }) => Promise<boolean>
+createSourceNormalisationStage(args: { logger: Logger; confirm: ConfirmPrompt }): SourceNormalisationStage
+// `confirm` is injected rather than imported so the stage never reaches for stdin: the CLI backs it with
+// @inquirer/prompts and tests stub it. Throws SourceNormalisationError on any validation failure or
+// declined confirmation, having made no filesystem changes.
+```
+
 ---
 
 ### Stage 1 — Audio Extraction
@@ -637,7 +684,7 @@ Align transcript sections to slide sections by heading similarity to produce pai
 
 QA and revision are two separate LLM calls per iteration. Combining them in one call degrades quality — the model cannot be simultaneously maximally critical and produce fluent prose. Separating the tasks allows each to be done well.
 
-**QA checker call:** Reads source transcript + source slides + image manifest + current draft. Returns a structured `QaDeficienciesReport`.
+**QA checker call:** Reads source transcript + source slides + image manifest + current draft. Returns a structured `QaDeficienciesReport`. The prompt instructs the model to be thorough and critical, to categorise every deficiency into exactly one of the eight `QaDeficiency.type` values (carrying a short definition of each in-prompt), to hold the `factual-error` / `unsupported-claim` line precisely — contradiction of a source versus mere absence of support — and not to call the notes adequate unless they genuinely are.
 
 **QA reviser call:** Reads current draft + deficiencies report. Applies targeted edits to address each deficiency. Does not rewrite wholesale. Every remedy is grounded in the lecture's own source materials (transcript, slide content, image manifest) — the reviser MUST NOT introduce content from outside the source set. The reviser branches on `type`:
 
@@ -684,7 +731,7 @@ spawn('pandoc', [
 
 `xelatex` is used as the PDF engine for correct Unicode and LaTeX equation rendering. The `--resource-path` flag allows pandoc to resolve relative image references in the markdown. The output filename carries the full lecture identity since `Final output/` is a flat folder shared across all lectures in the module. Every argv element is passed to pandoc verbatim — spaces in paths (`Final output/`, the lecture title) need no quoting because there is no shell to interpret them (see §4.4).
 
-**External dependencies:** Both `pandoc` and `xelatex` must be present on the system `PATH`. The stage runs a pre-flight check for each binary at process start (cached) and fails with a clear, platform-specific install hint if either is missing — `pandoc` missing, `xelatex` missing, and "pandoc ran but LaTeX errored" are distinct failure modes.
+**External dependencies:** Both `pandoc` and `xelatex` must be present on the system `PATH`. The stage runs a pre-flight check for each binary at process start (`pandoc --version`, `xelatex --version`, both cached so per-lecture invocations do not re-shell) and fails with a clear install hint if either is missing: `https://pandoc.org/installing.html` plus `brew install pandoc` for pandoc, and the platform's LaTeX distribution for xelatex (`brew install --cask mactex-no-gui` on macOS, `apt install texlive-xetex` on Debian/Ubuntu). `pandoc` missing, `xelatex` missing, and "pandoc ran but LaTeX errored" are distinct failure modes; on a non-zero exit the stage failure message includes pandoc's captured stderr, which usually names the offending construct.
 
 ---
 
@@ -710,7 +757,27 @@ const openrouter = new OpenAI({
 
 Located in the project root. Specifies model and parameters per stage independently. Changing a model requires only a config edit — no code changes.
 
-Model IDs below are **capability-based placeholders**, not real OpenRouter routing strings. Before running the pipeline, replace each `<...>` with a concrete model ID looked up on `https://openrouter.ai/models`. The config loader validates every configured ID against OpenRouter's live model list at startup (see Phase 2) and fails fast if any is unrecognised or retired.
+Model IDs below are **capability-based placeholders**, not real OpenRouter routing strings. Before running the pipeline, replace each `<...>` with a concrete model ID looked up on `https://openrouter.ai/models`. The config loader checks every configured ID at startup — see **Model-ID resolution check** below.
+
+The loader and the client surface:
+
+```typescript
+// src/pipeline/config.ts
+loadConfig(args: { projectRoot: string; skipModelCheck?: boolean }): Promise<PipelineConfig>
+// Reads and validates pipeline-config.json; throws ConfigError on a missing or mistyped required field,
+// or on a model ID the check below rejects. skipModelCheck exists for offline runs against a mocked SDK.
+
+// src/pipeline/openrouter.ts
+createOpenRouterClient(): OpenAI
+// The configured client above, created lazily and reused in-process. Not exported as a live instance, so
+// importing the module never requires OPENROUTER_API_KEY.
+makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; client?: OpenAI }):
+  Promise<{ content: string; cost: StageCost }>
+// Wraps the SDK call and resolves cost from /api/v1/generation (§7). Throws ContextLengthError when the
+// model rejects the prompt for length. `client` is injected by tests; it defaults to the shared instance.
+```
+
+**Model-ID resolution check.** At startup `loadConfig` fetches the model list once and asserts every configured `stages[*].modelId` appears in it, so placeholders left un-substituted, typos, and retired IDs are caught before any billable call. A miss throws a `ConfigError` naming the offending stages and linking to the models page. The result is cached in-process.
 
 **Exempting non-OpenRouter providers.** Not every stage calls OpenRouter — Stage 2 transcribes through ElevenLabs — so checking its model ID against OpenRouter's list would always fail. `modelIdCheck.exemptProviders` lists provider prefixes (the part of a model ID before the `/`) that the check skips, so a stage on any non-OpenRouter provider can still declare its model in config and have it recorded in the manifest and cost report. The mechanism is general: it is not specific to ElevenLabs, and a stage whose provider is not exempt is always checked. Exempting a provider trades away the typo protection for its IDs, so keep the list to providers that genuinely sit outside OpenRouter.
 
@@ -972,3 +1039,26 @@ The debug log is for human inspection when diagnosing failures. Its JSON format 
 | Error | stderr | Stage failure with full stack trace |
 
 The pino file transport is configured with `sync: false` and routes only to the debug log file — no debug output reaches stdout or stderr during normal operation, so it does not interfere with cli-progress bars.
+
+### Logging and Progress Helpers
+
+```typescript
+// src/utils/logger.ts — file-only; the user-facing messaging in the table above is emitted by the
+// CLI and runner, not by this logger.
+createRootLogger(args: { runTimestamp: string }): Logger
+// Writes newline-delimited JSON to runs/<runTimestamp>-debug.log (sync: false, mkdir). Takes the run
+// timestamp so the debug log shares it with the run log.
+createStageLogger(args: { logger: Logger; stageId: StageId }): Logger   // child logger with a { stage } binding
+
+// src/utils/progress.ts — the stdout progress bars from the table above.
+createProgressBar(args: { format: string; formatValue?: FormatValueFn }): SingleBar
+// Shared SingleBar factory (preset + hideCursor) that the other two build on, so bar construction lives
+// in one place; formatValue supports e.g. byte-to-MB display.
+createUploadProgressStream(totalBytes: number): Transform    // upload byte progress; used by Stage 2
+createParallelWorkBar(args: { label: string; total: number }): {
+  bar; start; pick; complete; fail; stop
+}
+// The in-flight-suffix bar from Stage 4. pick(id) adds an id to the in-flight set, complete(id) removes it
+// and ticks, fail(id) marks the item red in the final render. Used by Stages 4 and 5; non-TTY behaviour is
+// delegated to cli-progress defaults.
+```
