@@ -2,62 +2,13 @@ import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import type {
 	ManifestStageEntry,
-	PipelineConfig,
 	RunManifest,
 	RunOptions,
 	RunType,
 	StageId,
 } from "../types/pipeline.js";
+import { makeConfig, makeManifest, pendingStages } from "./fixtures.js";
 import { assembleContext, classifyRunType, deriveRunId, PipelineRunner } from "./runner.js";
-
-const ALL_STAGES: readonly StageId[] = [
-	"source-normalisation",
-	"audio-extraction",
-	"transcription",
-	"transcript-structuring",
-	"slide-conversion",
-	"image-extraction",
-	"synthesis",
-	"qa-loop",
-	"pdf-generation",
-];
-
-function pendingStages(): RunManifest["stages"] {
-	const entries = ALL_STAGES.map((id) => [id, { status: "pending" }] as const);
-	return Object.fromEntries(entries) as RunManifest["stages"];
-}
-
-function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineConfig {
-	return {
-		version: "1",
-		moduleRoots: [],
-		openRouter: { rateLimitRpm: 60 },
-		elevenLabs: { costPerAudioHourUsd: 0.22 },
-		currency: { gbpPerUsd: 0.74 },
-		modelIdCheck: { exemptProviders: ["elevenlabs"] },
-		stages: {},
-		output: { language: "en-GB", pandocEngine: "xelatex" },
-		...overrides,
-	};
-}
-
-function makeManifest(overrides: Partial<RunManifest> = {}): RunManifest {
-	return {
-		version: "1",
-		lectureNumber: 1,
-		lectureDate: "2025-10-10",
-		provisionalTitle: "Immune System",
-		lectureTitle: "Immune System",
-		userTitle: null,
-		aiDerivedTitle: null,
-		workspaceFolderName: "L1",
-		createdAt: "2025-10-10T00:00:00Z",
-		updatedAt: "2025-10-10T00:00:00Z",
-		stages: pendingStages(),
-		currentPipelineCost: { totalCostUsd: 0, byStage: {} },
-		...overrides,
-	};
-}
 
 function manifestWithStage(stageId: StageId, entry: ManifestStageEntry): RunManifest {
 	return makeManifest({

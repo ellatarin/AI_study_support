@@ -1,5 +1,6 @@
 /**
- * Shared type contracts for the lecture-notes pipeline.
+ * Shared type contracts for the lecture-notes pipeline, plus the one runtime
+ * constant the contracts are derived from ({@link STAGE_IDS}).
  *
  * Every stage, the runner, the config loader, and the cost tooling depend on
  * these definitions. All data types are declared `readonly` throughout: the
@@ -11,19 +12,29 @@
  */
 
 /**
- * Canonical identifier for each pipeline stage, in execution order
- * (technical-design.md §4.1).
+ * Every pipeline stage, in execution order (technical-design.md §4.1).
+ *
+ * This is the one runtime value in an otherwise type-only module, and it is the
+ * source of truth for {@link StageId}: the union is derived from it, so a stage
+ * cannot be added to one and forgotten in the other.
  */
-export type StageId =
-	| "source-normalisation"
-	| "audio-extraction"
-	| "transcription"
-	| "transcript-structuring"
-	| "slide-conversion"
-	| "image-extraction"
-	| "synthesis"
-	| "qa-loop"
-	| "pdf-generation";
+export const STAGE_IDS = [
+	"source-normalisation",
+	"audio-extraction",
+	"transcription",
+	"transcript-structuring",
+	"slide-conversion",
+	"image-extraction",
+	"synthesis",
+	"qa-loop",
+	"pdf-generation",
+] as const;
+
+/**
+ * Canonical identifier for each pipeline stage, in execution order
+ * (technical-design.md §4.1). Derived from {@link STAGE_IDS}.
+ */
+export type StageId = (typeof STAGE_IDS)[number];
 
 /**
  * Lifecycle status of a stage as recorded in the run manifest.

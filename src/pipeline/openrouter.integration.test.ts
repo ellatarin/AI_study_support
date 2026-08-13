@@ -2,24 +2,19 @@ import nock from "nock";
 import OpenAI from "openai";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { PipelineConfig } from "../types/pipeline.js";
+import { makeConfig } from "./fixtures.js";
 import { ContextLengthError, createOpenRouterClient, makeCompletionCall } from "./openrouter.js";
 
 const OPENROUTER_HOST = "https://openrouter.ai";
 const COMPLETIONS_PATH = "/api/v1/chat/completions";
 const GENERATION_PATH = "/api/v1/generation";
 
-const config: PipelineConfig = {
-	version: "1",
+const config: PipelineConfig = makeConfig({
 	moduleRoots: ["/absolute/path/to/Biology of Disease"],
-	openRouter: { rateLimitRpm: 60 },
-	elevenLabs: { costPerAudioHourUsd: 0.22 },
-	currency: { gbpPerUsd: 0.74 },
-	modelIdCheck: { exemptProviders: ["elevenlabs"] },
 	stages: {
 		"transcript-structuring": { modelId: "openai/gpt-4o", temperature: 0.2, maxTokens: 8192 },
 	},
-	output: { language: "en-GB", pandocEngine: "xelatex" },
-};
+});
 
 const messages = [{ role: "user", content: "Structure this transcript." }] as const;
 

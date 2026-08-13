@@ -12,56 +12,14 @@ import type {
 	StageId,
 	StageResult,
 } from "../types/pipeline.js";
+import { makeConfig, makeManifest, pendingStages } from "./fixtures.js";
 import { PipelineRunner } from "./runner.js";
 
-const ALL_STAGES: readonly StageId[] = [
-	"source-normalisation",
-	"audio-extraction",
-	"transcription",
-	"transcript-structuring",
-	"slide-conversion",
-	"image-extraction",
-	"synthesis",
-	"qa-loop",
-	"pdf-generation",
-];
-
-function pendingStages(): RunManifest["stages"] {
-	const entries = ALL_STAGES.map((id) => [id, { status: "pending" }] as const);
-	return Object.fromEntries(entries) as RunManifest["stages"];
-}
-
-function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineConfig {
-	return {
-		version: "1",
-		moduleRoots: [],
-		openRouter: { rateLimitRpm: 60 },
-		elevenLabs: { costPerAudioHourUsd: 0.22 },
-		currency: { gbpPerUsd: 0.74 },
-		modelIdCheck: { exemptProviders: ["elevenlabs"] },
-		stages: { "audio-extraction": { modelId: "openrouter/model-a" } },
-		output: { language: "en-GB", pandocEngine: "xelatex" },
-		...overrides,
-	};
-}
-
-function makeManifest(overrides: Partial<RunManifest> = {}): RunManifest {
-	return {
-		version: "1",
-		lectureNumber: 1,
-		lectureDate: "2025-10-10",
-		provisionalTitle: "Immune System",
-		lectureTitle: "Immune System",
-		userTitle: null,
-		aiDerivedTitle: null,
-		workspaceFolderName: "L1",
-		createdAt: "2025-10-10T00:00:00Z",
-		updatedAt: "2025-10-10T00:00:00Z",
-		stages: pendingStages(),
-		currentPipelineCost: { totalCostUsd: 0, byStage: {} },
-		...overrides,
-	};
-}
+// The runner is driven through a single configured stage throughout, so the
+// stage entry is fixed here rather than restated at each construction site.
+const RUNNER_CONFIG: PipelineConfig = makeConfig({
+	stages: { "audio-extraction": { modelId: "openrouter/model-a" } },
+});
 
 type StubConfig = {
 	stageId: StageId;
@@ -120,7 +78,7 @@ describe("PipelineRunner integration", () => {
 
 	function makeRunner(lectureStages: readonly PipelineStage<unknown, unknown>[]): PipelineRunner {
 		return new PipelineRunner({
-			config: makeConfig(),
+			config: RUNNER_CONFIG,
 			sourceNormalisation: noopSourceNormalisation,
 			lectureStages,
 		});
@@ -521,7 +479,7 @@ describe("PipelineRunner integration", () => {
 		}) => {
 			const normaliseModule = vi.fn(async () => undefined);
 			const runner = new PipelineRunner({
-				config: makeConfig(),
+				config: RUNNER_CONFIG,
 				sourceNormalisation: { stageId: "source-normalisation", normaliseModule },
 				lectureStages: [batchStage()],
 			});

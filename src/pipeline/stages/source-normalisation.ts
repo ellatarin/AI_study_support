@@ -1,7 +1,8 @@
 import { mkdir, readFile, rename, rm } from "node:fs/promises";
 import { extname, join } from "node:path";
 import type { Logger } from "pino";
-import type { RunManifest, SourceNormalisationStage, StageId } from "../../types/pipeline.js";
+import type { RunManifest, SourceNormalisationStage } from "../../types/pipeline.js";
+import { STAGE_IDS } from "../../types/pipeline.js";
 import { extractDate, formatDateISO } from "../../utils/date.js";
 import { NamedError } from "../../utils/errors.js";
 import { listFileNames, listSubdirectoryNames, writeFileAtomic } from "../../utils/files.js";
@@ -38,18 +39,6 @@ const FINAL_OUTPUT_DIR = "Final output";
 const MANIFEST_FILE = "manifest.json";
 const MANIFEST_VERSION = "1";
 const TEMP_SUFFIX = ".stage0-tmp";
-
-const STAGE_IDS: readonly StageId[] = [
-	"source-normalisation",
-	"audio-extraction",
-	"transcription",
-	"transcript-structuring",
-	"slide-conversion",
-	"image-extraction",
-	"synthesis",
-	"qa-loop",
-	"pdf-generation",
-];
 
 /** A source file identified only by its name and extracted `YYYY-MM-DD` date. */
 type SourceRef = { readonly name: string; readonly iso: string };
