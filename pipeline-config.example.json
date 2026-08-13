@@ -7,7 +7,19 @@
   "openRouter": {
     "rateLimitRpm": 60
   },
+  "elevenLabs": {
+    "costPerAudioHourUsd": 0.22
+  },
+  "currency": {
+    "gbpPerUsd": 0.74
+  },
+  "modelIdCheck": {
+    "exemptProviders": ["elevenlabs"]
+  },
   "stages": {
+    "transcription": {
+      "modelId": "elevenlabs/scribe_v2"
+    },
     "transcript-structuring": {
       "modelId": "<REASONING_MODEL>",
       "temperature": 0.2,

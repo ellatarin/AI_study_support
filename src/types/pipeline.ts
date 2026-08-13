@@ -88,6 +88,34 @@ export type PipelineConfig = {
 	readonly openRouter: {
 		readonly rateLimitRpm: number;
 	};
+	readonly elevenLabs: {
+		/**
+		 * The rate Stage 2 multiplies by audio duration to attribute transcription
+		 * spend, since the Scribe API returns no price with a transcript. Accurate
+		 * only for the call this pipeline makes — batch Scribe v2 with no
+		 * diarization, entity detection, or keyterm prompting, each of which
+		 * ElevenLabs bills as a surcharge on top of the base rate.
+		 */
+		readonly costPerAudioHourUsd: number;
+	};
+	readonly currency: {
+		/**
+		 * The USD→GBP rate applied when presenting costs. Every provider bills in
+		 * US dollars, so costs are stored in USD and converted only at display
+		 * time (NFR-2.3): correcting a stale rate re-renders every historical
+		 * report consistently, and no stored figure ever mixes rates.
+		 */
+		readonly gbpPerUsd: number;
+	};
+	readonly modelIdCheck: {
+		/**
+		 * Provider prefixes — the part of a model ID before the `/` — that the
+		 * OpenRouter model-ID check skips, so a stage on a non-OpenRouter provider
+		 * can still declare its model in config. Exempting a provider trades away
+		 * typo protection for its IDs.
+		 */
+		readonly exemptProviders: readonly string[];
+	};
 	readonly stages: Readonly<Partial<Record<StageId, StageConfig>>>;
 	readonly output: {
 		readonly language: string;

@@ -64,19 +64,49 @@ function requireOptionalNumber(args: {
 	return requireNumber(args);
 }
 
-function requireModuleRoots(value: unknown): readonly string[] {
-	if (!Array.isArray(value)) {
-		throw new ConfigError("moduleRoots must be an array of strings");
+function requireStringArray(args: {
+	readonly value: unknown;
+	readonly label: string;
+}): readonly string[] {
+	if (!Array.isArray(args.value)) {
+		throw new ConfigError(`${args.label} must be an array of strings`);
 	}
-	return Array.from(value.entries(), ([index, entry]) =>
-		requireString({ value: entry, label: `moduleRoots[${index}]` }),
+	return Array.from(args.value.entries(), ([index, entry]) =>
+		requireString({ value: entry, label: `${args.label}[${index}]` }),
 	);
 }
 
-function requireOpenRouter(value: unknown): PipelineConfig["openRouter"] {
-	const record = requireRecord({ value, label: "openRouter" });
+/**
+ * Reads a required number from a config section that must itself be an object,
+ * so a missing section and a mistyped field within it each report against their
+ * own label.
+ *
+ * @param args - The section to read from and the labels to report against.
+ * @param args.value - The raw section value, expected to be an object.
+ * @param args.sectionLabel - The section's config key, e.g. `currency`.
+ * @param args.field - The field to read within the section.
+ * @returns The field's value.
+ * @throws {ConfigError} If the section is not an object or the field is not a number.
+ */
+function requireSectionNumber(args: {
+	readonly value: unknown;
+	readonly sectionLabel: string;
+	readonly field: string;
+}): number {
+	const record = requireRecord({ value: args.value, label: args.sectionLabel });
+	return requireNumber({
+		value: record[args.field],
+		label: `${args.sectionLabel}.${args.field}`,
+	});
+}
+
+function requireModelIdCheck(value: unknown): PipelineConfig["modelIdCheck"] {
+	const record = requireRecord({ value, label: "modelIdCheck" });
 	return {
-		rateLimitRpm: requireNumber({ value: record.rateLimitRpm, label: "openRouter.rateLimitRpm" }),
+		exemptProviders: requireStringArray({
+			value: record.exemptProviders,
+			label: "modelIdCheck.exemptProviders",
+		}),
 	};
 }
 
@@ -128,8 +158,29 @@ function validateConfig(raw: unknown): PipelineConfig {
 	const root = requireRecord({ value: raw, label: CONFIG_FILENAME });
 	return {
 		version: requireString({ value: root.version, label: "version" }),
-		moduleRoots: requireModuleRoots(root.moduleRoots),
-		openRouter: requireOpenRouter(root.openRouter),
+		moduleRoots: requireStringArray({ value: root.moduleRoots, label: "moduleRoots" }),
+		openRouter: {
+			rateLimitRpm: requireSectionNumber({
+				value: root.openRouter,
+				sectionLabel: "openRouter",
+				field: "rateLimitRpm",
+			}),
+		},
+		elevenLabs: {
+			costPerAudioHourUsd: requireSectionNumber({
+				value: root.elevenLabs,
+				sectionLabel: "elevenLabs",
+				field: "costPerAudioHourUsd",
+			}),
+		},
+		currency: {
+			gbpPerUsd: requireSectionNumber({
+				value: root.currency,
+				sectionLabel: "currency",
+				field: "gbpPerUsd",
+			}),
+		},
+		modelIdCheck: requireModelIdCheck(root.modelIdCheck),
 		stages: requireStages(root.stages),
 		output: requireOutput(root.output),
 	};
@@ -179,8 +230,27 @@ function formatModelIdError(misses: ReadonlyArray<readonly [string, StageConfig]
 	return `Model ID check failed in ${CONFIG_FILENAME}: ${details}. Verify each ID at ${OPENROUTER_MODELS_PAGE}.`;
 }
 
+/**
+ * The provider segment of a model ID — the part before the first `/`. A bare ID
+ * carrying no prefix yields the empty string, so it can never match an exempt
+ * provider and is always checked (technical-design.md §6).
+ *
+ * @param modelId - The configured model ID.
+ * @returns The provider prefix, or the empty string when the ID carries none.
+ */
+function providerPrefixOf(modelId: string): string {
+	const separatorIndex = modelId.indexOf("/");
+	if (separatorIndex === -1) {
+		return "";
+	}
+	return modelId.slice(0, separatorIndex);
+}
+
 async function assertModelIdsResolvable(config: PipelineConfig): Promise<void> {
-	const entries = Object.entries(config.stages) as ReadonlyArray<readonly [StageId, StageConfig]>;
+	const exemptProviders = new Set(config.modelIdCheck.exemptProviders);
+	const entries = (
+		Object.entries(config.stages) as ReadonlyArray<readonly [StageId, StageConfig]>
+	).filter(([, stageConfig]) => !exemptProviders.has(providerPrefixOf(stageConfig.modelId)));
 	if (entries.length === 0) {
 		return;
 	}
@@ -197,7 +267,11 @@ async function assertModelIdsResolvable(config: PipelineConfig): Promise<void> {
  * `pipeline-config.json` in the given project root. Every configured
  * `stages[*].modelId` is checked against OpenRouter's live model list (fetched
  * once and cached in-process) so un-substituted placeholders, typos, and retired
- * IDs are caught before any billable call is made (technical-design.md §6).
+ * IDs are caught before any billable call is made. Stages whose model ID names a
+ * provider listed in `modelIdCheck.exemptProviders` are excluded from that check
+ * — a stage on a non-OpenRouter provider would otherwise always fail it — and
+ * the list is never fetched when every configured stage is exempt
+ * (technical-design.md §6).
  *
  * @param options - Loader options.
  * @param options.projectRoot - Absolute path to the directory containing `pipeline-config.json`.

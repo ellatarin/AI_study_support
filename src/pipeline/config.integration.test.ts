@@ -22,6 +22,9 @@ function makeValidConfig(): Record<string, unknown> {
 		version: "1",
 		moduleRoots: ["/absolute/path/to/Biology of Disease"],
 		openRouter: { rateLimitRpm: 60 },
+		elevenLabs: { costPerAudioHourUsd: 0.22 },
+		currency: { gbpPerUsd: 0.74 },
+		modelIdCheck: { exemptProviders: ["elevenlabs"] },
 		stages: {
 			"transcript-structuring": { modelId: "openai/gpt-4o", temperature: 0.2, maxTokens: 8192 },
 			"slide-conversion": {
@@ -98,6 +101,40 @@ describe("loadConfig model-ID resolution check", () => {
 		expect(error).toBeInstanceOf(ConfigError);
 		expect(error.message).toContain("<REASONING_MODEL>");
 		expect(error.message).toContain("placeholder");
+	});
+
+	it("should skip the OpenRouter check when a model ID names an exempt provider", async () => {
+		const config = makeValidConfig();
+		stageModelIds(config).transcription = { modelId: "elevenlabs/scribe_v2" };
+		await writeConfig(config);
+		mockModelsResponse(KNOWN_MODEL_IDS);
+
+		const loaded = await loadConfig({ projectRoot });
+
+		expect(loaded.stages.transcription?.modelId).toBe("elevenlabs/scribe_v2");
+	});
+
+	it("should still check a model ID when its provider is not exempt", async () => {
+		const config = makeValidConfig();
+		stageModelIds(config).transcription = { modelId: "deepgram/nova-3" };
+		await writeConfig(config);
+		mockModelsResponse(KNOWN_MODEL_IDS);
+
+		const error = await captureError(loadConfig({ projectRoot }));
+
+		expect(error).toBeInstanceOf(ConfigError);
+		expect(error.message).toContain("transcription");
+		expect(error.message).toContain("deepgram/nova-3");
+	});
+
+	it("should not fetch the OpenRouter model list when every configured provider is exempt", async () => {
+		const config = makeValidConfig();
+		config.modelIdCheck = { exemptProviders: ["openai", "google"] };
+		await writeConfig(config);
+
+		const loaded = await loadConfig({ projectRoot });
+
+		expect(loaded.stages["transcript-structuring"]?.modelId).toBe("openai/gpt-4o");
 	});
 
 	it("should accept the config when every stage modelId appears in the OpenRouter response", async () => {
@@ -222,6 +259,49 @@ describe("loadConfig shape validation", () => {
 				config.openRouter = { rateLimitRpm: "fast" };
 			},
 			match: /rateLimitRpm/,
+		},
+		{
+			name: "elevenLabs is missing",
+			mutate: (config: Record<string, unknown>) => delete config.elevenLabs,
+			match: /elevenLabs/,
+		},
+		{
+			name: "costPerAudioHourUsd is not a number",
+			mutate: (config: Record<string, unknown>) => {
+				config.elevenLabs = { costPerAudioHourUsd: "0.22" };
+			},
+			match: /costPerAudioHourUsd/,
+		},
+		{
+			name: "currency is missing",
+			mutate: (config: Record<string, unknown>) => delete config.currency,
+			match: /currency/,
+		},
+		{
+			name: "gbpPerUsd is not a number",
+			mutate: (config: Record<string, unknown>) => {
+				config.currency = { gbpPerUsd: "0.74" };
+			},
+			match: /gbpPerUsd/,
+		},
+		{
+			name: "modelIdCheck is missing",
+			mutate: (config: Record<string, unknown>) => delete config.modelIdCheck,
+			match: /modelIdCheck/,
+		},
+		{
+			name: "exemptProviders is not an array",
+			mutate: (config: Record<string, unknown>) => {
+				config.modelIdCheck = { exemptProviders: "elevenlabs" };
+			},
+			match: /exemptProviders/,
+		},
+		{
+			name: "an exemptProviders entry is not a string",
+			mutate: (config: Record<string, unknown>) => {
+				config.modelIdCheck = { exemptProviders: [42] };
+			},
+			match: /exemptProviders/,
 		},
 		{
 			name: "stages is missing",

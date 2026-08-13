@@ -12,6 +12,9 @@ const config: PipelineConfig = {
 	version: "1",
 	moduleRoots: ["/absolute/path/to/Biology of Disease"],
 	openRouter: { rateLimitRpm: 60 },
+	elevenLabs: { costPerAudioHourUsd: 0.22 },
+	currency: { gbpPerUsd: 0.74 },
+	modelIdCheck: { exemptProviders: ["elevenlabs"] },
 	stages: {
 		"transcript-structuring": { modelId: "openai/gpt-4o", temperature: 0.2, maxTokens: 8192 },
 	},
