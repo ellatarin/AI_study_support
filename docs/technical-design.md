@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.15-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.16-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-13
 **Status:** For review
 
@@ -193,7 +193,19 @@ Every stage implements a common `PipelineStage<TInput, TOutput>` contract: an id
 - `StageCost` is discriminated on `totalCostUsd`: a resolved cost is a `number`; a failed lookup is `null` paired with a `costResolutionError` (see §7).
 - `lectureTitle` is always non-null — seeded at Stage 0, possibly overwritten at Stage 3 (see §3.2, Stage 3).
 
-`isComplete()` checks two conditions: the manifest marks the stage `'complete'`, AND every path in `manifest.stages[stageId].filesWritten` exists on disk. Both must be true. This means a completed stage whose output was manually deleted returns `false` and re-runs automatically.
+`isComplete()` checks two conditions: the manifest marks the stage `'complete'`, AND every path in `manifest.stages[stageId].filesWritten` exists on disk. Both must be true. This means a completed stage whose output was manually deleted returns `false` and re-runs automatically. A recorded path that cannot be resolved at all counts as absent rather than as an error, since deleting a stage's output usually removes its containing directory too; a path resolving *outside* `moduleRoot` is a different matter and always throws (§4.4).
+
+That check is identical for every stage, so stages are not assembled by hand: each is built through a shared factory that supplies `isComplete` for the given stage id, leaving a stage to define only the two things that genuinely differ — how it gathers its input, and what it does.
+
+```typescript
+// src/pipeline/stages/pipeline-stage.ts
+isStageComplete(args: { context: StageContext; stageId: StageId }): Promise<boolean>
+createPipelineStage<TInput, TOutput>(args: {
+  stageId: StageId
+  getInput: (context: StageContext) => Promise<TInput>
+  run: (args: { input: TInput; context: StageContext }) => Promise<StageResult<TOutput>>
+}): PipelineStage<TInput, TOutput>
+```
 
 After a stage's `run()` succeeds, the runner writes the `filesWritten` list from `StageResult` to `manifest.stages[stageId].filesWritten` before marking the stage `complete`. These are exactly the paths `isComplete()` later verifies.
 
@@ -213,9 +225,13 @@ After a stage's `run()` succeeds, the runner writes the `filesWritten` list from
 
 Every file is written to a `.tmp`-suffixed path first, then renamed on success. Any file that exists on disk without a `.tmp` suffix is guaranteed to be complete. At the start of every stage run, the stage scans its output directories and deletes any `.tmp` files left by a previous crashed run before beginning processing. This is automatic and requires no user intervention.
 
+Output a stage does not hold in memory — bytes written by a subprocess, such as Stage 1's ffmpeg extraction — goes through the same discipline via `produceFileAtomic`, which hands the producer the `.tmp` path and renames only once it resolves. One consequence is worth stating because it looks like an oversight otherwise: a `.tmp` suffix defeats the container inference ffmpeg does from the output extension, so any stage muxing to a temporary path must name its output format explicitly.
+
 ```typescript
 // src/utils/files.ts
 writeFileAtomic(args: { path: string; content: string }): Promise<void>   // writes .tmp, renames on success
+produceFileAtomic(args: { path: string; produce: (tmpPath: string) => Promise<void> }): Promise<void>
+// the general form: the caller creates the file at the .tmp path it is given
 cleanTmpFiles(dir: string): Promise<void>                                 // deletes any .tmp files in a directory
 ```
 
@@ -235,8 +251,10 @@ This is enforced in every place a path from `filesWritten` or the manifest is us
 // src/utils/files.ts — the two path resolvers, deliberately distinct
 workspacePath(args: { workspaceRoot: string; segments: readonly string[] }): string
 // Trusted, code-supplied segments only. No boundary check — untrusted input uses the resolver below.
-resolveManifestPath(args: { workspaceRoot: string; moduleRoot: string; entry: string }): Promise<string>
+type ManifestPathQuery = { workspaceRoot: string; moduleRoot: string; entry: string }
+resolveManifestPath(query: ManifestPathQuery): Promise<string>
 // The three steps above, in order; throws ManifestPathError when the result escapes moduleRoot.
+// The query is a named type so callers forwarding a path state the shape once.
 ```
 
 **`filenameSafe(title)`.** Titles reach the filesystem via workspace folder names, source file renames, and the `Final output/` PDF name. Titles originate from user filenames (Stage 0) or LLM output (Stage 3) — neither is a trusted path component. `filenameSafe` MUST:
@@ -499,7 +517,15 @@ createSourceNormalisationStage(args: { logger: Logger; confirm: ConfirmPrompt })
 
 Extracts the audio track from the video using fluent-ffmpeg with `-acodec copy` (no re-encoding). Displays a `cli-progress` bar showing extraction percentage. The extracted audio is retained in `Audio/` for the life of the lecture workspace.
 
-The source video is located by base name: the workspace folder name plus whatever extension the video carries, since Stage 0 gives the video, the slide, and the workspace folder the same base name but preserves the original container extension. A missing or ambiguous video is a stage failure, reported before ffmpeg is invoked. fluent-ffmpeg spawns with an explicit argv array, satisfying the no-shell-interpolation rule (§4.4). Extraction writes to a `.tmp` sibling and renames on success (§4.3), so a killed run never leaves a truncated `audio.m4a` that a later run would mistake for complete. This stage makes no billable call, so its recorded cost is `null`.
+The source video is located by base name: the workspace folder name plus whatever extension the video carries, since Stage 0 gives the video, the slide, and the workspace folder the same base name but preserves the original container extension. A missing or ambiguous video is a stage failure, reported before ffmpeg is invoked. fluent-ffmpeg spawns with an explicit argv array, satisfying the no-shell-interpolation rule (§4.4). Extraction writes to a `.tmp` sibling and renames on success (§4.3), so a killed run never leaves a truncated `audio.m4a` that a later run would mistake for complete — and because that `.tmp` suffix stops ffmpeg inferring the container, the m4a muxer is named explicitly. This stage makes no billable call, so its recorded cost is `null`.
+
+```typescript
+// src/pipeline/stages/audio-extraction.ts
+type AudioExtractionInput = { sourceVideoPath: string }
+type AudioExtractionOutput = { audioPath: string }
+createAudioExtractionStage(): PipelineStage<AudioExtractionInput, AudioExtractionOutput>
+// Throws AudioExtractionError when the source video is missing or ambiguous, or when ffmpeg fails.
+```
 
 ---
 
@@ -512,7 +538,18 @@ Uploads the audio to ElevenLabs Scribe v2 with a streaming upload progress bar (
 
 **Model ID and the provider prefix.** Config holds `stages.transcription.modelId = "elevenlabs/scribe_v2"`, but the ElevenLabs API takes a bare `model_id` of `scribe_v2` with no provider prefix. The prefix therefore exists purely to serve this codebase: `modelIdCheck.exemptProviders` matches on the segment before the `/` (§6), so a model can only be exempted from the OpenRouter check if it is provider-qualified — a bare `scribe_v2` would have no prefix to match and no way to opt out of a check it must fail. The stage strips the prefix before the call, so config keeps the qualified form the exemption and the cost report need, and ElevenLabs receives the form it expects.
 
-The API key comes from `ELEVENLABS_API_KEY`; its absence is a stage failure raised before any upload begins. Cost is derived from audio duration as described in §7. The transcript is written atomically (§4.3).
+The API key comes from `ELEVENLABS_API_KEY`; its absence is a stage failure raised before any upload begins, as is an unconfigured model — neither costs anything to detect, so both are checked before the file is opened. Cost is derived from audio duration as described in §7. The transcript is written atomically (§4.3).
+
+The SDK types `model_id` as the Scribe versions it shipped with, but the model is configuration (§6): a newer Scribe ID must be usable by editing `pipeline-config.json`, not by waiting for an SDK release, and ElevenLabs rejects an unknown ID itself. The stage therefore widens the configured value to the SDK's parameter type at the call site.
+
+```typescript
+// src/pipeline/stages/transcription.ts
+type TranscriptionInput = { audioPath: string; sizeBytes: number }
+type TranscriptionOutput = { transcriptPath: string }
+createTranscriptionStage(): PipelineStage<TranscriptionInput, TranscriptionOutput>
+// Throws TranscriptionError when the audio, the API key, or the configured model is missing,
+// or when the response carries no transcript text. A failed cost lookup is not a failure (§7).
+```
 
 ---
 
@@ -957,6 +994,18 @@ formatCostReport(args: { runLogs: readonly RunLog[]; manifest: RunManifest; gbpP
 ---
 
 ## 8. Error Handling
+
+### Typed Errors
+
+Each module that can fail in a way a caller must distinguish exports its own error class — `ConfigError`, `ManifestPathError`, `ContextLengthError`, `SourceNormalisationError`, `AudioExtractionError`, `TranscriptionError`. All extend a shared `NamedError` base that captures the concrete subclass name via `new.target`, so each stays a distinct `instanceof` type without repeating constructor boilerplate and reports its own name in logs.
+
+A `catch` binding is typed `unknown`, because any value can be thrown. Every site that wants to report what went wrong therefore needs the same narrowing, so it lives in one place rather than at each catch.
+
+```typescript
+// src/utils/errors.ts
+abstract class NamedError extends Error   // subclasses extend with an empty body
+errorMessage(error: unknown): string      // the caught value's message, or the value stringified
+```
 
 ### Stage Failure Protocol
 

@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.15-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.16-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-13
 **Status:** For review
 
@@ -190,7 +190,11 @@ Integration tests (real temp directory with fixture source files):
 
 `src/utils/cost.ts` — present all user-facing costs in pounds **(TD §7, NFR-2.3)**.
 
-A shared stage helper for `isComplete` — the manifest marks the stage complete and every recorded `filesWritten` entry still exists, each resolved through `resolveManifestPath` so a corrupt manifest cannot escape the module tree **(TD §4.4)**. Both stages need identical logic, so it is written once.
+`src/pipeline/stages/pipeline-stage.ts` — the shared `isComplete` check and the stage factory every per-lecture stage is assembled through **(TD §4.2)**. Both stages need identical completeness logic, so it is written once.
+
+`src/utils/files.ts` — `produceFileAtomic`, the caller-produces form of `writeFileAtomic`, needed because Stage 1's bytes come from ffmpeg rather than from memory **(TD §4.3)**.
+
+`src/utils/errors.ts` — `errorMessage`, the narrowing every catch site repeats **(TD §8)**.
 
 `src/pipeline/stages/audio-extraction.ts` — the whole of **TD Stage 1**: locating the source video by workspace base name whatever its extension, the fluent-ffmpeg `-acodec copy` extraction and its progress bar, and the `.tmp`-sibling write. Makes no billable call, so its cost is `null`.
 
@@ -210,20 +214,26 @@ Cost reporting — unit tests:
 - `should convert at the configured rate when given $scenario` — `test.each` across the standard rate, a corrected higher rate, and parity
 - `should render n/a when the cost could not be resolved`
 
-Stages — unit tests (mock ffmpeg via child process stub; mock ElevenLabs via `nock`):
+Stages — unit tests (mock ffmpeg and ffprobe via `vi.mock`; mock ElevenLabs via `nock`):
 - `should skip audio extraction when output file exists and stage is complete`
 - `should skip transcription when output file exists and stage is complete`
-- `should pass bytes through unchanged when upload progress stream processes a chunk`
 - `should return correct filesWritten list when stage completes`
 - `should fail before invoking ffmpeg when the source video is missing`
-- `should fail before uploading when ELEVENLABS_API_KEY is unset`
+- `should fail before uploading when ELEVENLABS_API_KEY is $label`
 - `should strip the provider prefix when sending the model ID to ElevenLabs`
 - `should record cost from audio duration and the configured rate when transcription completes`
 - `should record a null cost with costResolutionError when the audio duration cannot be read`
 
-Integration tests (`.integration.test.ts`) against a small real test audio/video fixture — not run in CI:
-- `should extract audio track from video file producing valid m4a output`
+Shared stage helper — integration tests (real filesystem):
+- `should report incomplete when the manifest status is $status`
+- `should report incomplete when a recorded output file has been deleted`
+- `should throw ManifestPathError when a recorded path escapes the module root`
+
+Integration tests (`.integration.test.ts`) against a real audio/video fixture the test renders itself with ffmpeg, so no binary is committed:
+- `should produce valid m4a output when extracting the audio track from a real video file`
 - `should return transcript text when audio file uploaded to ElevenLabs`
+
+The transcription integration test streams a real file through the real SDK but keeps the ElevenLabs endpoint stubbed with `nock`: the external API is mocked as CLAUDE.md requires, and the suite never spends money or depends on a live key.
 
 **Acceptance:** Both stages implement `PipelineStage<T, U>` and are driven correctly by the runner; all existing transcription behaviour is preserved.
 
