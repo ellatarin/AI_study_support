@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import type { RunLog, RunManifest, StageCost } from "../types/pipeline.js";
-import { accumulateCost, formatCostReport } from "./cost.js";
+import { accumulateCost, createMoneyFormatter, formatCostReport } from "./cost.js";
+
+const GBP_PER_USD = 0.74;
 
 describe("accumulateCost", () => {
 	it.each([
@@ -265,8 +267,44 @@ const runLogs: readonly RunLog[] = [
 	},
 ];
 
+describe("createMoneyFormatter", () => {
+	it.each([
+		{
+			scenario: "a whole dollar at the standard rate",
+			gbpPerUsd: 0.74,
+			usd: 1,
+			expected: "£0.740",
+		},
+		{ scenario: "a fractional amount", gbpPerUsd: 0.74, usd: 0.042, expected: "£0.031" },
+		{ scenario: "a corrected, higher rate", gbpPerUsd: 0.8, usd: 0.042, expected: "£0.034" },
+		{ scenario: "a rate of parity", gbpPerUsd: 1, usd: 0.042, expected: "£0.042" },
+	])("should convert at the configured rate when given $scenario", ({
+		gbpPerUsd,
+		usd,
+		expected,
+	}) => {
+		const formatMoney = createMoneyFormatter({ gbpPerUsd });
+
+		expect(formatMoney(usd)).toBe(expected);
+	});
+
+	it("should render n/a when the cost could not be resolved", () => {
+		const formatMoney = createMoneyFormatter({ gbpPerUsd: GBP_PER_USD });
+
+		expect(formatMoney(null)).toBe("n/a");
+	});
+});
+
 describe("formatCostReport", () => {
 	it("should render the three-section report when given a manifest and run logs", () => {
-		expect(formatCostReport({ runLogs, manifest })).toMatchSnapshot();
+		expect(formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD })).toMatchSnapshot();
+	});
+
+	it("should render every total in pounds when the stored figures are in dollars", () => {
+		const report = formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD });
+
+		// 0.393 USD is the manifest's stored total; 0.393 * 0.74 = 0.29082.
+		expect(report).toContain("£0.291");
+		expect(report).not.toContain("$");
 	});
 });

@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.13-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-08-12
+**Suite version:** 1.14-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-08-13
 **Status:** For review
 
 ---
@@ -864,6 +864,27 @@ Wasted on failures                                     £0.016
 Stage: synthesis
   Run 2025-10-11T14:00Z    claude-sonnet-4.6      £0.231
   Run 2025-10-11T15:30Z    anthropic/claude-opus  £0.659
+```
+
+### Cost Module
+
+`src/utils/cost.ts` holds the cost helpers the runner and CLI call. The data types they operate on (`StageCost`, `CurrentPipelineCost`) are defined in `src/types/pipeline.ts` (single source of truth).
+
+```typescript
+accumulateCost(args: { current: StageCost; incoming: StageCost }): StageCost
+// Sums tokens, call counts, and cost at full precision — rounding is a display concern. The merged cost is
+// resolved only when both inputs resolved; if either is null the result is null and the errors are joined.
+// Takes no rate and does no formatting: it works entirely in stored USD, which is what keeps it unaffected
+// by the presentation currency.
+
+type MoneyFormatter = (amount: number | null) => string
+createMoneyFormatter(args: { gbpPerUsd: number }): MoneyFormatter
+// The one place a money amount becomes a string: converts a stored USD figure to pounds, or renders `n/a`
+// when cost resolution failed. The rate is bound once and the resulting function passed down to each
+// section, so no section knows about rates or currency at all (see Currency above).
+
+formatCostReport(args: { runLogs: readonly RunLog[]; manifest: RunManifest; gbpPerUsd: number }): string
+// The three sections above, rendered as a single string.
 ```
 
 ---

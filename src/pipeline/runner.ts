@@ -734,7 +734,8 @@ export class PipelineRunner {
 				continue;
 			}
 			const runLogs = await readRunLogs(workspaceRoot);
-			process.stdout.write(`${formatCostReport({ runLogs, manifest })}\n`);
+			const { gbpPerUsd } = this.#config.currency;
+			process.stdout.write(`${formatCostReport({ runLogs, manifest, gbpPerUsd })}\n`);
 		}
 	}
 }

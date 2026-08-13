@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.13-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-08-12
+**Suite version:** 1.14-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-08-13
 **Status:** For review
 
 ---
@@ -93,9 +93,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `createUploadProgressStream(totalBytes)` — Transform stream + bar (moved from `src/index.ts`)
 - `createParallelWorkBar({ label, total })` — returns `{ bar, start, pick, complete, fail, stop }`. Wraps a `SingleBar` pre-configured with the in-flight-suffix format from TD Stage 4. `pick(id)` adds an id to the in-flight set; `complete(id)` removes it and ticks the bar; `fail(id)` marks the item red in the final render. Used by Stages 4 and 5. Non-TTY fallback delegated to `cli-progress` defaults.
 
-`src/utils/cost.ts` — cost utilities:
-- `accumulateCost({ current, incoming })` — merges two `StageCost` objects
-- `formatCostReport({ runLogs, manifest })` — returns the three-section report string **(TD §7)**
+`src/utils/cost.ts` — cost utilities: `accumulateCost`, `createMoneyFormatter`, and `formatCostReport`. Signatures and behaviour in **TD §7, Cost Module**.
 
 `src/pipeline/config.ts` — config loader:
 - `loadConfig({ projectRoot, skipModelCheck })` — reads and validates `pipeline-config.json`; throws on missing required fields
@@ -279,8 +277,9 @@ Config loader — integration tests:
 - `should throw ConfigError when a required currency or ElevenLabs field is missing or not a number`
 
 Cost reporting — unit tests:
-- `should render totals in pounds when a report is produced from USD figures`
-- `should convert at the configured rate when the rate changes`
+- `should render every total in pounds when the stored figures are in dollars`
+- `should convert at the configured rate when given $scenario` — `test.each` across the standard rate, a corrected higher rate, and parity
+- `should render n/a when the cost could not be resolved`
 
 Stages — unit tests (mock ffmpeg via child process stub; mock ElevenLabs via `nock`):
 - `should skip audio extraction when output file exists and stage is complete`

@@ -4,25 +4,25 @@ exports[`formatCostReport > should render the three-section report when given a 
 "Current pipeline cost
 Stage                   Model                       Calls      Cost
 ───────────────────────────────────────────────────────────────────
-Audio extraction        —                               0    $0.000
-Transcription           elevenlabs/scribe_v2            1    $0.042
-Slide conversion        google/gemini-2.5-flash        24    $0.034
-Synthesis               anthropic/claude-sonnet-4.6      1    $0.312
-PDF generation          —                               0    $0.005
+Audio extraction        —                               0    £0.000
+Transcription           elevenlabs/scribe_v2            1    £0.031
+Slide conversion        google/gemini-2.5-flash        24    £0.025
+Synthesis               anthropic/claude-sonnet-4.6      1    £0.231
+PDF generation          —                               0    £0.004
 ───────────────────────────────────────────────────────────────────
-                                                             $0.393
+                                                             £0.291
 
 Error recovery cost
 Run                       Stage                   Status      Cost
 ──────────────────────────────────────────────────────────────────
-2025-10-10T09:00:00.000Z  slide-conversion        failed    $0.021
-2025-10-10T10:30:00.000Z  slide-conversion         retry    $0.034
+2025-10-10T09:00:00.000Z  slide-conversion        failed    £0.016
+2025-10-10T10:30:00.000Z  slide-conversion         retry    £0.025
 2025-10-10T11:00:00.000Z  image-extraction        failed       n/a
 ──────────────────────────────────────────────────────────────────
-Wasted on failures                                          $0.021
+Wasted on failures                                          £0.016
 
 Experiment cost
 Stage: synthesis
-  Run 2025-10-11T14:00:00.000Z    anthropic/claude-opus-4.1     $0.890
+  Run 2025-10-11T14:00:00.000Z    anthropic/claude-opus-4.1     £0.659
   Run 2025-10-11T16:00:00.000Z    meta-llama/llama-3.1-405b        n/a"
 `;

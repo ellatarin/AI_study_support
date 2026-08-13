@@ -70,26 +70,54 @@ const COST_WIDTH = 10;
 const COST_HEADER: Cell = ["Cost", COST_WIDTH, "right"];
 
 /**
- * Renders a stored cost as display text. The single place a money amount becomes
- * a string, so every table and free-form row shows the same format.
- *
- * @param amount - The stored amount, or `null` if cost resolution failed.
- * @returns The formatted amount, or `n/a` when it could not be resolved.
+ * Renders a stored USD amount as display text in the presentation currency, or
+ * `n/a` when cost resolution failed. The single place a money amount becomes a
+ * string, so every table and free-form row shows the same format.
  */
-function formatMoney(amount: number | null): string {
-	if (amount === null) {
-		return "n/a";
-	}
-	return `$${amount.toFixed(3)}`;
+export type MoneyFormatter = (amount: number | null) => string;
+
+/**
+ * Builds the report's money formatter for a given exchange rate.
+ *
+ * Costs are stored in USD because that is what providers bill, and converted
+ * only here, at the point of display (technical-design.md §7, NFR-2.3). Binding
+ * the rate once and passing the resulting function down means no section knows
+ * about rates or currency at all, and a corrected rate re-renders the whole
+ * history consistently rather than leaving figures frozen at the rate in force
+ * when each was written.
+ *
+ * @param args - The conversion inputs.
+ * @param args.gbpPerUsd - Pounds per US dollar, from `currency.gbpPerUsd`.
+ * @returns A formatter that renders a stored USD amount in pounds.
+ */
+export function createMoneyFormatter({
+	gbpPerUsd,
+}: {
+	readonly gbpPerUsd: number;
+}): MoneyFormatter {
+	return (amount) => {
+		if (amount === null) {
+			return "n/a";
+		}
+		return `£${(amount * gbpPerUsd).toFixed(3)}`;
+	};
 }
 
 /**
  * Builds a right-aligned cost cell of the standard width.
  *
- * @param amount - The stored amount, or `null` if cost resolution failed.
+ * @param args - The cell inputs.
+ * @param args.amount - The stored USD amount, or `null` if cost resolution failed.
+ * @param args.formatMoney - The report's money formatter.
  * @returns The formatted cost cell.
  */
-function costCell(amount: number | null): Cell {
+function costCell({
+	amount,
+	formatMoney,
+}: {
+	readonly amount: number | null;
+	readonly formatMoney: MoneyFormatter;
+}): Cell {
 	return [formatMoney(amount), COST_WIDTH, "right"];
 }
 
@@ -193,13 +221,27 @@ function manifestStageMeta(entry: ManifestStageEntry | QaManifestStageEntry | un
 	return { model: "—", calls: 0 };
 }
 
+/** Inputs for the section driven by the manifest, plus the shared formatter. */
+type ManifestSectionArgs = {
+	readonly manifest: RunManifest;
+	readonly formatMoney: MoneyFormatter;
+};
+
+/** Inputs for the sections driven by run logs, plus the shared formatter. */
+type RunLogSectionArgs = {
+	readonly runLogs: readonly RunLog[];
+	readonly formatMoney: MoneyFormatter;
+};
+
 /**
  * Section 1: what the outputs currently on disk cost to produce.
  *
- * @param manifest - The lecture's run manifest.
+ * @param args - The section inputs.
+ * @param args.manifest - The lecture's run manifest.
+ * @param args.formatMoney - The report's money formatter.
  * @returns The section's lines.
  */
-function currentPipelineSection(manifest: RunManifest): readonly string[] {
+function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs): readonly string[] {
 	const rows: Cell[][] = [];
 	for (const stageId of STAGE_ORDER) {
 		const cost = manifest.currentPipelineCost.byStage[stageId];
@@ -211,14 +253,17 @@ function currentPipelineSection(manifest: RunManifest): readonly string[] {
 			[STAGE_LABELS[stageId], 24, "left"],
 			[model, 26, "left"],
 			[String(calls), 7, "right"],
-			costCell(cost),
+			costCell({ amount: cost, formatMoney }),
 		]);
 	}
 	return renderCostTable({
 		title: "Current pipeline cost",
 		columns: [["Stage", 24, "left"], ["Model", 26, "left"], ["Calls", 7, "right"], COST_HEADER],
 		rows,
-		footer: [["", 57, "left"], costCell(manifest.currentPipelineCost.totalCostUsd)],
+		footer: [
+			["", 57, "left"],
+			costCell({ amount: manifest.currentPipelineCost.totalCostUsd, formatMoney }),
+		],
 		width: 67,
 	});
 }
@@ -226,10 +271,12 @@ function currentPipelineSection(manifest: RunManifest): readonly string[] {
 /**
  * Section 2: spend from failed runs and their retries.
  *
- * @param runLogs - The lecture's run logs.
+ * @param args - The section inputs.
+ * @param args.runLogs - The lecture's run logs.
+ * @param args.formatMoney - The report's money formatter.
  * @returns The section's lines.
  */
-function errorRecoverySection(runLogs: readonly RunLog[]): readonly string[] {
+function errorRecoverySection({ runLogs, formatMoney }: RunLogSectionArgs): readonly string[] {
 	const rows: Cell[][] = [];
 	let wasted = 0;
 	for (const { log, stageId, entry } of ranStageEntries({ runLogs, runType: "error-recovery" })) {
@@ -241,14 +288,14 @@ function errorRecoverySection(runLogs: readonly RunLog[]): readonly string[] {
 			[log.startedAt, 26, "left"],
 			[stageId, 22, "left"],
 			[status, 8, "right"],
-			costCell(entry.cost.totalCostUsd),
+			costCell({ amount: entry.cost.totalCostUsd, formatMoney }),
 		]);
 	}
 	return renderCostTable({
 		title: "Error recovery cost",
 		columns: [["Run", 26, "left"], ["Stage", 22, "left"], ["Status", 8, "right"], COST_HEADER],
 		rows,
-		footer: [["Wasted on failures", 56, "left"], costCell(wasted)],
+		footer: [["Wasted on failures", 56, "left"], costCell({ amount: wasted, formatMoney })],
 		width: 66,
 	});
 }
@@ -256,10 +303,12 @@ function errorRecoverySection(runLogs: readonly RunLog[]): readonly string[] {
 /**
  * Section 3: deliberate model re-runs, grouped by stage for comparison.
  *
- * @param runLogs - The lecture's run logs.
+ * @param args - The section inputs.
+ * @param args.runLogs - The lecture's run logs.
+ * @param args.formatMoney - The report's money formatter.
  * @returns The section's lines.
  */
-function experimentSection(runLogs: readonly RunLog[]): readonly string[] {
+function experimentSection({ runLogs, formatMoney }: RunLogSectionArgs): readonly string[] {
 	const byStage = new Map<string, string[]>();
 	for (const { log, stageId, entry } of ranStageEntries({ runLogs, runType: "experiment" })) {
 		const model = (entry.configUsed?.modelId ?? "—").padEnd(26);
@@ -279,25 +328,30 @@ function experimentSection(runLogs: readonly RunLog[]): readonly string[] {
 /**
  * Renders the three-section cost report for a single lecture: current pipeline
  * cost (from the manifest), error-recovery spend, and experiment comparisons
- * (both from the run logs, selected by `runType`) (technical-design.md §7).
+ * (both from the run logs, selected by `runType`). Stored figures are in USD and
+ * every total is presented in pounds (technical-design.md §7).
  *
  * @param args - The report inputs.
  * @param args.runLogs - The lecture's run logs.
  * @param args.manifest - The lecture's run manifest.
+ * @param args.gbpPerUsd - Pounds per US dollar, from `currency.gbpPerUsd`.
  * @returns The formatted multi-section report string.
  */
 export function formatCostReport({
 	runLogs,
 	manifest,
+	gbpPerUsd,
 }: {
 	readonly runLogs: readonly RunLog[];
 	readonly manifest: RunManifest;
+	readonly gbpPerUsd: number;
 }): string {
+	const formatMoney = createMoneyFormatter({ gbpPerUsd });
 	return [
-		...currentPipelineSection(manifest),
+		...currentPipelineSection({ manifest, formatMoney }),
 		"",
-		...errorRecoverySection(runLogs),
+		...errorRecoverySection({ runLogs, formatMoney }),
 		"",
-		...experimentSection(runLogs),
+		...experimentSection({ runLogs, formatMoney }),
 	].join("\n");
 }
