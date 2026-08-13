@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.18-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.19-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-13
 **Status:** For review
 
@@ -167,7 +167,7 @@ CLI argument parsing — unit tests (no filesystem, no runner):
 CLI prompts — unit tests with `@inquirer/prompts` mocked:
 - `should label every match with its module, number, and title when prompting`
 - `should return every match when the user chooses all matches` / `nothing when the user cancels`
-- `should offer no all-matches choice when prompting` — the single-choice picker `rename` uses
+- `should offer no all-matches choice when prompting` — the single-choice picker the identity mutations use
 
 Identity commands — integration tests (real temp module tree with sources, workspace, and PDF):
 - `should record the new title as the user's own when renaming`
@@ -178,7 +178,7 @@ Identity commands — integration tests (real temp module tree with sources, wor
 Command dispatch — integration tests (real manifests, stubbed runner and prompts):
 - `should normalise every configured module before looking for the lecture when running`
 - `should ask which lectures to run when several share the date`
-- `should ask for one lecture only when several share the date` — `rename`
+- `should ask for one lecture only when $command.command is given the date` — parametrised across all three identity mutations
 - `should report that nothing matched when no lecture carries the date`
 - `should name each failed stage and its error when a stage failed`
 - `should leave the lecture in place when the deletion is declined`

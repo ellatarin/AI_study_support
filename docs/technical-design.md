@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.18-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.19-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-13
 **Status:** For review
 
@@ -486,11 +486,11 @@ summariseOverallStatus(args: { statuses: readonly OverallStatus[] }): OverallSta
 
 Each performs its change and then re-runs Stage 0's normalisation to return the module to a consistent, renumbered state. A lecture is addressed by `<date>`, resolved through `resolveLecturesByDate`.
 
-**Which picker settles a collision depends on whether acting on several means anything.** `delete` and `change-date` use the same multi-select picker as `run`: deleting or re-dating two lectures that happen to share a date is a coherent request, and each is confirmed (`delete`) or bounds-checked against its own module (`change-date`) individually. `rename` uses a single-choice picker with no "All matches", because one new title applied to two lectures in different modules is never what "rename the lecture on that date" means.
+**A mutation acts on exactly one lecture.** FR-6.7 asks for commands to rename *a* lecture, delete *a* lecture, and change *a* lecture's date, so a date that turns out to name several is a question to settle, not a licence to act on all of them: all three use a single-choice picker with no "All matches", and cancelling leaves the module untouched. `run` and `cost-report` keep the multi-select picker, since running or reporting on several lectures at once is exactly what they are for.
 
 Each mutation leaves the module in a state Stage 0 can finish, rather than doing Stage 0's work itself:
 
-- **`rename`** acts on exactly one lecture (see the picker note below) and writes `userTitle` (and `lectureTitle`) to the manifest and stops there. The renaming of video, slide, workspace, and PDF falls out of the following Stage 0 pass, which names them from the manifest's current `lectureTitle` — the same code path that named them originally, so a rename cannot drift from a normalisation.
+- **`rename`** writes `userTitle` (and `lectureTitle`) to the manifest and stops there. The renaming of video, slide, workspace, and PDF falls out of the following Stage 0 pass, which names them from the manifest's current `lectureTitle` — the same code path that named them originally, so a rename cannot drift from a normalisation.
 - **`delete`** removes the video, the slide, the workspace, and the `Final output/` PDF, having first asked for confirmation. Removing the sources *and* the workspace together is what keeps the module consistent: a workspace left without sources is an orphan the next Stage 0 run would stop to ask about, and sources left without a workspace would simply be normalised back into one. Stage 0 then renumbers the lectures that follow.
 - **`change-date`** renames the video, slide, and PDF to the base name Stage 0 would give them at the new date, renames the workspace folder to match, and writes the new `lectureDate` and `workspaceFolderName` to the manifest — so the Stage 0 pass that follows has only renumbering left, and renames again if the new date changes the lecture's number. It refuses when a source file already carries the target date, since a rename would otherwise overwrite another lecture, and when the lecture's own video or slide is missing.
 
@@ -511,7 +511,7 @@ confirmPrompt: ConfirmPrompt                                                  //
 selectLectureMatches(args: { matches: readonly LectureMatch[] }): Promise<readonly LectureMatch[]>
 // The checkbox picker: several lectures, "All matches", and "Cancel".
 selectLectureMatch(args: { matches: readonly LectureMatch[] }): Promise<LectureMatch | null>
-// The single-choice picker, for a command where acting on several is meaningless (see `rename` above).
+// The single-choice picker the identity mutations use; `null` when the user cancels.
 
 // src/cli/lecture-identity.ts — the filesystem half of rename/delete/change-date
 renameLecture(args: { workspaceRoot: string; title: string }): Promise<void>
