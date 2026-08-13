@@ -45,21 +45,13 @@ describe("parseCliArgs", () => {
 			});
 		});
 
-		it("should carry every run flag when they are all supplied", () => {
+		it("should carry every flag run takes when they are all supplied", () => {
 			expect(
-				parse([
-					"run",
-					"2025-10-10",
-					"--from-stage",
-					"transcription",
-					"--concurrency",
-					"4",
-					"--continue-on-error",
-				]),
+				parse(["run", "2025-10-10", "--from-stage", "transcription", "--continue-on-error"]),
 			).toEqual({
 				command: "run",
 				lectureDate: "2025-10-10",
-				options: { fromStage: "transcription", concurrency: 4, continueOnError: true },
+				options: { fromStage: "transcription", continueOnError: true },
 			});
 		});
 
@@ -102,11 +94,20 @@ describe("parseCliArgs", () => {
 			});
 		});
 
-		it("should carry the concurrency flag when it is supplied", () => {
-			expect(parse(["batch", "--concurrency", "3"])).toEqual({
+		it("should carry every flag batch takes when they are all supplied", () => {
+			expect(
+				parse([
+					"batch",
+					"--concurrency",
+					"3",
+					"--from-stage",
+					"transcription",
+					"--continue-on-error",
+				]),
+			).toEqual({
 				command: "batch",
 				moduleRoot: null,
-				options: { concurrency: 3 },
+				options: { fromStage: "transcription", concurrency: 3, continueOnError: true },
 			});
 		});
 
@@ -231,6 +232,42 @@ describe("parseCliArgs", () => {
 
 			expect(error).toBeInstanceOf(CliUsageError);
 			expect(error.message).toContain("concurrency");
+		});
+
+		it.each([
+			// --concurrency counts lectures running at once, and only batch runs more than one.
+			{ flag: "--concurrency", argv: ["run", "2025-10-10", "--concurrency", "4"] },
+			{ flag: "--date", argv: ["run", "2025-10-10", "--date", "2025-10-17"] },
+			{ flag: "--module", argv: ["batch", "--module", "/modules/Immunology"] },
+			{
+				flag: "--from-stage",
+				argv: ["rename", "2025-10-10", "Title", "--from-stage", "synthesis"],
+			},
+			{ flag: "--continue-on-error", argv: ["cost-report", "--continue-on-error"] },
+			{ flag: "--concurrency", argv: ["delete", "2025-10-10", "--concurrency", "2"] },
+		])("should reject $flag when the command does not take it", ({ flag, argv }) => {
+			const error = usageError(argv);
+
+			expect(error).toBeInstanceOf(CliUsageError);
+			expect(error.message).toContain(flag);
+			expect(error.message).toContain(argv[0] as string);
+		});
+
+		it("should name the options a command does take when one is rejected", () => {
+			const error = usageError(["run", "2025-10-10", "--concurrency", "4"]);
+
+			expect(error.message).toContain("--from-stage");
+			expect(error.message).toContain("--continue-on-error");
+		});
+
+		it("should say a command takes no options when one is rejected", () => {
+			const error = usageError(["delete", "2025-10-10", "--concurrency", "2"]);
+
+			expect(error.message).toContain("no options");
+		});
+
+		it("should still answer with usage when help is asked of a command taking no options", () => {
+			expect(parse(["delete", "--help"])).toEqual({ command: "help" });
 		});
 	});
 });

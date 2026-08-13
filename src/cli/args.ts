@@ -247,25 +247,77 @@ function splitArgv(argv: readonly string[]): {
 	}
 }
 
-/** What a command looks like: how it is written, and how many arguments it takes. */
+/** The flag names a command can declare, matching the keys of {@link OPTION_SPEC}. */
+type FlagName = Exclude<keyof ParsedFlags, "help">;
+
+/** What a command looks like: how it is written, and what it accepts. */
 type CommandSpec = {
 	/** The usage line, quoted back when the command's arguments do not fit. */
 	readonly usage: string;
 	/** How many positional arguments the command accepts. */
 	readonly maxPositionals: number;
+	/** The flags this command acts on; any other is a usage error rather than a silent no-op. */
+	readonly flags: readonly FlagName[];
 };
 
 const COMMAND_SPECS: Readonly<Record<string, CommandSpec>> = {
-	run: { usage: "run <date>", maxPositionals: 1 },
-	batch: { usage: "batch [<moduleRoot>]", maxPositionals: 1 },
+	run: {
+		usage: "run <date>",
+		maxPositionals: 1,
+		flags: ["from-stage", "continue-on-error"],
+	},
+	batch: {
+		usage: "batch [<moduleRoot>]",
+		maxPositionals: 1,
+		flags: ["concurrency", "from-stage", "continue-on-error"],
+	},
 	"cost-report": {
 		usage: "cost-report [--date <YYYY-MM-DD>] [--module <moduleRoot>]",
 		maxPositionals: 0,
+		flags: ["date", "module"],
 	},
-	rename: { usage: 'rename <date> "<new title>"', maxPositionals: 2 },
-	delete: { usage: "delete <date>", maxPositionals: 1 },
-	"change-date": { usage: "change-date <date> <new date>", maxPositionals: 2 },
+	rename: { usage: 'rename <date> "<new title>"', maxPositionals: 2, flags: [] },
+	delete: { usage: "delete <date>", maxPositionals: 1, flags: [] },
+	"change-date": { usage: "change-date <date> <new date>", maxPositionals: 2, flags: [] },
 };
+
+/**
+ * Fails when a command was given a flag it does not act on.
+ *
+ * The flags are declared once for the whole CLI, so `parseArgs` accepts any of
+ * them after any command. Without this check the surplus ones would be parsed
+ * and then quietly ignored — `run --concurrency 4` would run one lecture and say
+ * nothing about the request to run four.
+ *
+ * @param args - The invocation to check.
+ * @param args.command - The command word.
+ * @param args.flags - The parsed flag values.
+ * @param args.spec - The command's specification.
+ * @returns Nothing.
+ * @throws {CliUsageError} When a flag outside the command's own set was supplied.
+ */
+function rejectForeignFlags({
+	command,
+	flags,
+	spec,
+}: {
+	readonly command: string;
+	readonly flags: ParsedFlags;
+	readonly spec: CommandSpec;
+}): void {
+	const supplied = Object.keys(flags).filter((name): name is FlagName => name !== "help");
+	const foreign = supplied.filter((name) => !spec.flags.includes(name));
+	if (foreign.length === 0) {
+		return;
+	}
+	const accepted =
+		spec.flags.length === 0
+			? "it takes no options"
+			: `it takes ${spec.flags.map((name) => `--${name}`).join(", ")}`;
+	throw new CliUsageError(
+		`--${foreign[0]} is not an option for ${command}: ${accepted}. Usage: ${spec.usage}`,
+	);
+}
 
 /**
  * Builds the command for an invocation whose command word is already known to be
@@ -287,8 +339,10 @@ function buildCommand({
 	readonly positionals: readonly string[];
 	readonly flags: ParsedFlags;
 }): CliCommand {
-	const { usage, maxPositionals } = COMMAND_SPECS[command] as CommandSpec;
+	const spec = COMMAND_SPECS[command] as CommandSpec;
+	const { usage, maxPositionals } = spec;
 	rejectExtraPositionals({ positionals, limit: maxPositionals, usage });
+	rejectForeignFlags({ command, flags, spec });
 	if (command === "batch") {
 		return { command, moduleRoot: positionals[0] ?? null, options: toRunOptions(flags) };
 	}

@@ -498,7 +498,15 @@ export type LectureMatch = {
  */
 export type RunOptions = {
 	readonly fromStage?: StageId; // reset this stage + all downstream to pending before running
-	readonly concurrency?: number; // parallel lecture count for runBatch; overrides the config default
+	/**
+	 * How many lectures `runBatch` processes at once, drawn from one queue across
+	 * every module in the batch. Defaults to 1, i.e. sequential. Only `batch`
+	 * offers it: `run` addresses a single lecture, so the CLI rejects
+	 * `--concurrency` there rather than accepting an option it would ignore
+	 * (technical-design.md §4.7). Distinct from `StageConfig.concurrency`, which
+	 * bounds the parallel API calls made *within* one stage.
+	 */
+	readonly concurrency?: number;
 	/**
 	 * When `true`, a stage failure is logged and the runner moves to the next
 	 * stage rather than aborting the run; when unset (default), the run stops at
