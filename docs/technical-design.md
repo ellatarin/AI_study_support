@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.21-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.22-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -929,7 +929,7 @@ The `openai` npm package is used with a custom `baseURL`:
 ```typescript
 const openrouter = new OpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
-  baseURL: 'https://openrouter.ai/api/v1',
+  baseURL: config.openRouter.baseUrl,     // configuration, never a literal in code — see below
   defaultHeaders: {
     'X-Title': 'Lecture Notes Pipeline',   // display name shown on OpenRouter analytics; no URL header until there is a real public repo
   },
@@ -937,6 +937,20 @@ const openrouter = new OpenAI({
   timeout: 120_000,
 });
 ```
+
+**The service address is configuration.** `openRouter.baseUrl` is the single place OpenRouter's address is stated; no source or test file holds the URL as a literal. It is configuration for the same reason a model ID is — it is an operational detail of the service being called, not a fact about this codebase — and keeping it in one place is what allows the pipeline to be pointed at a gateway, a regional endpoint, or a recording proxy without touching code.
+
+Everything that addresses OpenRouter derives from it:
+
+| Address | Derived as |
+|---|---|
+| Chat completions, and the `/generation` cost lookup | The SDK's `baseURL`, so both are relative to it |
+| The model-ID resolution check | `${baseUrl}/models` |
+| The models page named in a failed check | the origin of `baseUrl`, plus `/models` |
+
+The last is a human-facing link rather than an API call, and taking it from the origin assumes the host serving the API also serves that page. That holds for OpenRouter, and a second config field for a documentation link would be more surface than the assumption is worth — but a gateway deployment may want to correct the link it prints.
+
+Validation treats it like any other required field, with one addition: it must parse as an absolute URL, so a typo is a `ConfigError` at startup rather than an obscure failure at the first billable call.
 
 ### `pipeline-config.json`
 
@@ -953,9 +967,10 @@ loadConfig(args: { projectRoot: string; skipModelCheck?: boolean }): Promise<Pip
 // or on a model ID the check below rejects. skipModelCheck exists for offline runs against a mocked SDK.
 
 // src/pipeline/openrouter.ts
-createOpenRouterClient(): OpenAI
-// The configured client above, created lazily and reused in-process. Not exported as a live instance, so
-// importing the module never requires OPENROUTER_API_KEY.
+createOpenRouterClient(args: { baseUrl: string }): OpenAI
+// The configured client above. Reused in-process, keyed on the baseUrl it was built for, so a differently
+// configured run cannot be served a client pointed elsewhere. Not exported as a live instance, so importing
+// the module never requires OPENROUTER_API_KEY.
 makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; responseFormat: "text" | "json"; client?: OpenAI }):
   Promise<{ content: string; cost: StageCost }>
 // Wraps the SDK call and resolves cost from /api/v1/generation (§7). Throws ContextLengthError when the
@@ -969,7 +984,7 @@ makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; r
 
 Belt and braces, not belt alone: OpenRouter's own parameter reference states that JSON mode requires the prompt to ask for JSON as well, so a `"json"` caller instructs the model in its messages too, and still treats a reply that will not parse as a stage failure.
 
-**Model-ID resolution check.** At startup `loadConfig` fetches the model list once and asserts every configured `stages[*].modelId` appears in it, so placeholders left un-substituted, typos, and retired IDs are caught before any billable call. A miss throws a `ConfigError` naming the offending stages and linking to the models page. The result is cached in-process.
+**Model-ID resolution check.** At startup `loadConfig` fetches the model list once from `${openRouter.baseUrl}/models` and asserts every configured `stages[*].modelId` appears in it, so placeholders left un-substituted, typos, and retired IDs are caught before any billable call. A miss throws a `ConfigError` naming the offending stages and linking to the models page. The result is cached in-process.
 
 **Exempting non-OpenRouter providers.** Not every stage calls OpenRouter — Stage 2 transcribes through ElevenLabs — so checking its model ID against OpenRouter's list would always fail. `modelIdCheck.exemptProviders` lists provider prefixes (the part of a model ID before the `/`) that the check skips, so a stage on any non-OpenRouter provider can still declare its model in config and have it recorded in the manifest and cost report. The mechanism is general: it is not specific to ElevenLabs, and a stage whose provider is not exempt is always checked. Exempting a provider trades away the typo protection for its IDs, so keep the list to providers that genuinely sit outside OpenRouter.
 
@@ -985,6 +1000,7 @@ Belt and braces, not belt alone: OpenRouter's own parameter reference states tha
     "/absolute/path/to/Anatomy"
   ],
   "openRouter": {
+    "baseUrl": "https://openrouter.ai/api/v1",   // every OpenRouter address is derived from this
     "rateLimitRpm": 60
   },
   "elevenLabs": {
