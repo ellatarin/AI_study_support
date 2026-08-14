@@ -1,8 +1,16 @@
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { rm } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, type Mock, vi } from "vitest";
-import { makeManifest } from "../pipeline/fixtures.js";
+import {
+	makeLectureTree,
+	makeManifest,
+	otherModuleName,
+	testLecture,
+	testModuleName,
+	userChosenTitle,
+} from "../pipeline/fixtures.js";
+import { moduleDirs, stageOutputEntry } from "../pipeline/layout.js";
+import { baseNameForLecture } from "../pipeline/lecture-files.js";
 import { readManifest, writeManifest } from "../pipeline/manifest.js";
 import type { BatchSummary, LectureMatch, OverallStatus, RunSummary } from "../types/pipeline.js";
 import {
@@ -12,7 +20,8 @@ import {
 	type RunnableCliCommand,
 } from "./commands.js";
 
-const FOLDER = "Lecture 1 - Cell Injury - 2025-10-10";
+/** The date the `change-date` command moves the test lecture to. */
+const NEW_DATE = "2025-10-24";
 
 describe("executeCommand", () => {
 	let tempDir: string;
@@ -63,31 +72,44 @@ describe("executeCommand", () => {
 		};
 	}
 
-	async function makeLectureWorkspace(folder: string): Promise<string> {
-		const workspace = join(moduleRoot, "Pipeline processing", folder);
+	/** Records one finished transcription, so a cost report has something to show. */
+	async function writeLectureManifest(workspace: string, folder?: string): Promise<void> {
 		await writeManifest({
 			workspaceRoot: workspace,
 			manifest: makeManifest({
-				lectureTitle: "Cell Injury",
-				workspaceFolderName: folder,
+				...(folder === undefined ? {} : { workspaceFolderName: folder }),
 				stages: {
 					transcription: {
 						status: "complete",
 						completedAt: "2025-10-10T09:05:00.000Z",
 						configUsed: { modelId: "elevenlabs/scribe_v2" },
 						cost: { promptTokens: 0, completionTokens: 0, callCount: 1, totalCostUsd: 0.2 },
-						filesWritten: ["Transcript/transcript.txt"],
+						filesWritten: [stageOutputEntry("transcription")],
 					},
 				} as ReturnType<typeof makeManifest>["stages"],
 			}),
 		});
+	}
+
+	/** A second workspace in the same module, for the multi-match cases. */
+	async function makeLectureWorkspace(folder: string): Promise<string> {
+		const workspace = join(moduleDirs({ moduleRoot }).processing, folder);
+		await writeLectureManifest(workspace, folder);
 		return workspace;
+	}
+
+	/**
+	 * A second configured module. Only ever a path in `moduleRoots` — nothing is
+	 * laid out under it — so it is derived rather than stored.
+	 */
+	function otherModuleRoot(): string {
+		return join(tempDir, otherModuleName);
 	}
 
 	function deps(): CliDeps {
 		return {
 			runner: runner as unknown as PipelineRunnerFacade,
-			moduleRoots: [moduleRoot, join(tempDir, "Immunology")],
+			moduleRoots: [moduleRoot, otherModuleRoot()],
 			gbpPerUsd: 0.74,
 			selectMatches,
 			selectMatch,
@@ -107,30 +129,27 @@ describe("executeCommand", () => {
 		return executeCommand({ command, deps: deps() });
 	}
 
-	/** The source pair Stage 0 would have produced, for the commands that move or remove it. */
-	async function writeSourceFiles(): Promise<void> {
-		for (const dir of ["Video files", "Lecture slides"]) {
-			await mkdir(join(moduleRoot, "Source files", dir), { recursive: true });
-		}
-		await writeFile(join(moduleRoot, "Source files", "Video files", `${FOLDER}.mp4`), "video");
-		await writeFile(join(moduleRoot, "Source files", "Lecture slides", `${FOLDER}.pdf`), "slides");
-	}
-
 	/** A second lecture sharing the first one's date, for the multi-match cases. */
 	async function makeSecondLecture(): Promise<LectureMatch> {
 		return {
 			moduleRoot,
-			workspaceRoot: await makeLectureWorkspace("Lecture 2 - Antigens - 2025-10-10"),
+			workspaceRoot: await makeLectureWorkspace(`Lecture 2 - Antigens - ${testLecture.date}`),
 			lectureNumber: 2,
 			lectureTitle: "Antigens",
 		};
 	}
 
 	beforeEach(async () => {
-		tempDir = await mkdtemp(join(tmpdir(), "commands-"));
-		moduleRoot = join(tempDir, "Biology of Disease");
-		workspaceRoot = await makeLectureWorkspace(FOLDER);
-		match = { moduleRoot, workspaceRoot, lectureNumber: 1, lectureTitle: "Cell Injury" };
+		// The whole module tree, including the source video and slide the delete
+		// and change-date commands move, comes from the shared fixture.
+		({ tempDir, moduleRoot, workspaceRoot } = await makeLectureTree({ prefix: "commands-" }));
+		await writeLectureManifest(workspaceRoot);
+		match = {
+			moduleRoot,
+			workspaceRoot,
+			lectureNumber: testLecture.number,
+			lectureTitle: testLecture.title,
+		};
 		written = [];
 		runner = {
 			normaliseSources: vi.fn(async () => undefined),
@@ -151,7 +170,7 @@ describe("executeCommand", () => {
 	describe("run", () => {
 		const runCommand = {
 			command: "run",
-			lectureDate: "2025-10-10",
+			lectureDate: testLecture.date,
 			options: {},
 		} as const;
 
@@ -159,7 +178,7 @@ describe("executeCommand", () => {
 			await invoke(runCommand);
 
 			expect(runner.normaliseSources).toHaveBeenCalledWith({
-				moduleRoots: [moduleRoot, join(tempDir, "Immunology")],
+				moduleRoots: [moduleRoot, otherModuleRoot()],
 			});
 		});
 
@@ -232,7 +251,7 @@ describe("executeCommand", () => {
 			const code = await invoke(runCommand);
 
 			expect(code).toBe(1);
-			expect(output()).toContain("2025-10-10");
+			expect(output()).toContain(testLecture.date);
 			expect(runner.runLecture).not.toHaveBeenCalled();
 		});
 
@@ -284,7 +303,7 @@ describe("executeCommand", () => {
 
 			expect(code).toBe(0);
 			expect(runner.runBatch).toHaveBeenCalledWith({
-				moduleRoots: [moduleRoot, join(tempDir, "Immunology")],
+				moduleRoots: [moduleRoot, otherModuleRoot()],
 				options: { concurrency: 2 },
 			});
 		});
@@ -306,7 +325,7 @@ describe("executeCommand", () => {
 
 			expect(output()).toContain("Run summary");
 			expect(output()).toContain("Batch summary");
-			expect(output()).toContain("Biology of Disease");
+			expect(output()).toContain(testModuleName);
 		});
 
 		it("should report a failure when any lecture in the batch failed", async () => {
@@ -327,7 +346,7 @@ describe("executeCommand", () => {
 
 			expect(code).toBe(0);
 			expect(runner.costReport).toHaveBeenCalledWith({
-				moduleRoots: [moduleRoot, join(tempDir, "Immunology")],
+				moduleRoots: [moduleRoot, otherModuleRoot()],
 				options: {},
 			});
 		});
@@ -340,19 +359,19 @@ describe("executeCommand", () => {
 
 		it("should narrow to the chosen lectures when the date matches several modules", async () => {
 			const other: LectureMatch = {
-				moduleRoot: join(tempDir, "Immunology"),
-				workspaceRoot: join(tempDir, "Immunology", "Pipeline processing", "L1"),
+				moduleRoot: otherModuleRoot(),
+				workspaceRoot: join(moduleDirs({ moduleRoot: otherModuleRoot() }).processing, "L1"),
 				lectureNumber: 1,
 				lectureTitle: "Antigens",
 			};
 			runner.resolveLecturesByDate.mockResolvedValue([match, other]);
 			selectMatches.mockResolvedValue([other]);
 
-			await invoke({ command: "cost-report", lectureDate: "2025-10-10", moduleRoot: null });
+			await invoke({ command: "cost-report", lectureDate: testLecture.date, moduleRoot: null });
 
 			expect(runner.costReport).toHaveBeenCalledWith({
 				moduleRoots: [other.moduleRoot],
-				options: { lectureDate: "2025-10-10" },
+				options: { lectureDate: testLecture.date },
 			});
 		});
 
@@ -361,7 +380,7 @@ describe("executeCommand", () => {
 
 			const code = await invoke({
 				command: "cost-report",
-				lectureDate: "2025-10-10",
+				lectureDate: testLecture.date,
 				moduleRoot: null,
 			});
 
@@ -375,7 +394,7 @@ describe("executeCommand", () => {
 
 			const code = await invoke({
 				command: "cost-report",
-				lectureDate: "2025-10-10",
+				lectureDate: testLecture.date,
 				moduleRoot: null,
 			});
 
@@ -387,15 +406,15 @@ describe("executeCommand", () => {
 	describe("rename", () => {
 		const renameCommand = {
 			command: "rename",
-			lectureDate: "2025-10-10",
-			title: "Cell Injury and Death",
+			lectureDate: testLecture.date,
+			title: userChosenTitle,
 		} as const;
 
 		it("should record the new title when renaming", async () => {
 			const code = await invoke(renameCommand);
 
 			expect(code).toBe(0);
-			expect((await readManifest({ workspaceRoot })).userTitle).toBe("Cell Injury and Death");
+			expect((await readManifest({ workspaceRoot })).userTitle).toBe(userChosenTitle);
 		});
 
 		it("should renormalise the lecture's module when renaming", async () => {
@@ -432,27 +451,21 @@ describe("executeCommand", () => {
 			await invoke(renameCommand);
 
 			expect((await readManifest({ workspaceRoot: other.workspaceRoot })).userTitle).toBe(
-				"Cell Injury and Death",
+				userChosenTitle,
 			);
 			expect((await readManifest({ workspaceRoot })).userTitle).toBeNull();
 		});
 	});
 
 	describe("delete", () => {
-		const deleteCommand = { command: "delete", lectureDate: "2025-10-10" } as const;
-
-		beforeEach(async () => {
-			const videoDir = join(moduleRoot, "Source files", "Video files");
-			await mkdir(videoDir, { recursive: true });
-			await writeFile(join(videoDir, `${FOLDER}.mp4`), "video");
-		});
+		const deleteCommand = { command: "delete", lectureDate: testLecture.date } as const;
 
 		it("should ask before deleting when a lecture is to be removed", async () => {
 			await invoke(deleteCommand);
 
 			expect(confirm).toHaveBeenCalledTimes(1);
 			expect(String((confirm.mock.calls[0] as [{ message: string }])[0].message)).toContain(
-				"Cell Injury",
+				testLecture.title,
 			);
 		});
 
@@ -478,18 +491,22 @@ describe("executeCommand", () => {
 	describe("change-date", () => {
 		const changeCommand = {
 			command: "change-date",
-			lectureDate: "2025-10-10",
-			newLectureDate: "2025-10-24",
+			lectureDate: testLecture.date,
+			newLectureDate: NEW_DATE,
 		} as const;
-
-		beforeEach(writeSourceFiles);
 
 		it("should move the lecture to the new date when changing it", async () => {
 			const code = await invoke(changeCommand);
 
 			expect(code).toBe(0);
-			const moved = join(moduleRoot, "Pipeline processing", "Lecture 1 - Cell Injury - 2025-10-24");
-			expect((await readManifest({ workspaceRoot: moved })).lectureDate).toBe("2025-10-24");
+			// The same lecture, renamed for its new date by the pipeline's own rule.
+			const movedFolder = baseNameForLecture({
+				lectureNumber: testLecture.number,
+				title: testLecture.title,
+				lectureDate: NEW_DATE,
+			});
+			const moved = join(moduleDirs({ moduleRoot }).processing, movedFolder);
+			expect((await readManifest({ workspaceRoot: moved })).lectureDate).toBe(NEW_DATE);
 		});
 
 		it("should renormalise the lecture's module when changing the date", async () => {
@@ -500,16 +517,16 @@ describe("executeCommand", () => {
 	});
 
 	describe("identity mutations on a date several lectures share", () => {
-		beforeEach(writeSourceFiles);
-
 		it.each([
-			{ command: { command: "rename", lectureDate: "2025-10-10", title: "New Title" } as const },
-			{ command: { command: "delete", lectureDate: "2025-10-10" } as const },
+			{
+				command: { command: "rename", lectureDate: testLecture.date, title: "New Title" } as const,
+			},
+			{ command: { command: "delete", lectureDate: testLecture.date } as const },
 			{
 				command: {
 					command: "change-date",
-					lectureDate: "2025-10-10",
-					newLectureDate: "2025-10-24",
+					lectureDate: testLecture.date,
+					newLectureDate: NEW_DATE,
 				} as const,
 			},
 		])("should ask for one lecture only when $command.command is given the date", async ({

@@ -352,7 +352,7 @@ export async function makeWorkspaceTree({
  * @param args - The layout inputs.
  * @param args.prefix - Prefix for the temporary directory name, identifying the suite.
  * @param args.folderName - The base name the workspace and the three files share; defaults to {@link testLecture}'s.
- * @returns The temp directory to clean up, the module's directories, and the workspace.
+ * @returns The temp directory to clean up, the module root and its directories, and the workspace.
  */
 export async function makeLectureTree({
 	prefix,
@@ -362,11 +362,13 @@ export async function makeLectureTree({
 	readonly folderName?: string;
 }): Promise<{
 	readonly tempDir: string;
+	readonly moduleRoot: string;
 	readonly dirs: ModuleDirs;
 	readonly workspaceRoot: string;
 }> {
 	const tempDir = await makeTempDir({ prefix });
-	const dirs = moduleDirs({ moduleRoot: join(tempDir, testModuleName) });
+	const moduleRoot = join(tempDir, testModuleName);
+	const dirs = moduleDirs({ moduleRoot });
 	const workspaceRoot = join(dirs.processing, folderName);
 
 	for (const dir of [dirs.video, dirs.slide, dirs.finalOutput, workspaceRoot]) {
@@ -376,7 +378,7 @@ export async function makeLectureTree({
 	await writeFile(join(dirs.slide, `${folderName}.pdf`), "slides");
 	await writeFile(join(dirs.finalOutput, `${folderName}.pdf`), "notes");
 
-	return { tempDir, dirs, workspaceRoot };
+	return { tempDir, moduleRoot, dirs, workspaceRoot };
 }
 
 /**

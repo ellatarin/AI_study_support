@@ -28,9 +28,10 @@ describe("lecture identity commands", () => {
 
 	beforeEach(async () => {
 		let workspaceRoot: string;
-		({ tempDir, dirs, workspaceRoot } = await makeLectureTree({ prefix: "identity-" }));
+		let moduleRoot: string;
+		({ tempDir, moduleRoot, dirs, workspaceRoot } = await makeLectureTree({ prefix: "identity-" }));
 		match = {
-			moduleRoot: join(dirs.processing, ".."),
+			moduleRoot,
 			workspaceRoot,
 			lectureNumber: testLecture.number,
 			lectureTitle: testLecture.title,
