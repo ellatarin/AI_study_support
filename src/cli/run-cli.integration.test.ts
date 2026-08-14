@@ -1,7 +1,9 @@
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { makeConfig, makeTempDir } from "../pipeline/fixtures.js";
+import { CONFIG_FILENAME } from "../pipeline/config.js";
+import { makeConfig, makeTempDir, testLecture, testModuleName } from "../pipeline/fixtures.js";
+import { moduleDirs } from "../pipeline/layout.js";
 import { runCli } from "./run-cli.js";
 
 describe("runCli", () => {
@@ -26,20 +28,21 @@ describe("runCli", () => {
 
 	async function writeConfig(moduleRoots: readonly string[]): Promise<void> {
 		await writeFile(
-			join(projectRoot, "pipeline-config.json"),
+			join(projectRoot, CONFIG_FILENAME),
 			JSON.stringify(makeConfig({ moduleRoots })),
 		);
 	}
 
 	beforeEach(async () => {
 		projectRoot = await makeTempDir({ prefix: "run-cli-" });
-		moduleRoot = join(projectRoot, "Biology of Disease");
+		moduleRoot = join(projectRoot, testModuleName);
 		// The debug log is written relative to the working directory, so the suite
 		// runs from the temporary project rather than scattering logs in the repo.
 		previousCwd = process.cwd();
 		process.chdir(projectRoot);
-		for (const dir of ["Source files/Video files", "Source files/Lecture slides"]) {
-			await mkdir(join(moduleRoot, dir), { recursive: true });
+		const { video, slide } = moduleDirs({ moduleRoot });
+		for (const dir of [video, slide]) {
+			await mkdir(dir, { recursive: true });
 		}
 		out = [];
 		errors = [];
@@ -95,9 +98,9 @@ describe("runCli", () => {
 	it("should normalise the module and report no match when the date names no lecture", async () => {
 		await writeConfig([moduleRoot]);
 
-		const code = await invoke(["run", "2025-10-10"]);
+		const code = await invoke(["run", testLecture.date]);
 
 		expect(code).toBe(1);
-		expect(out.join("")).toContain("2025-10-10");
+		expect(out.join("")).toContain(testLecture.date);
 	});
 });

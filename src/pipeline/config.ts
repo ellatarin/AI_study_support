@@ -4,7 +4,12 @@ import type { PipelineConfig, StageConfig, StageId } from "../types/pipeline.js"
 import { NamedError } from "../utils/errors.js";
 import { OPENROUTER_PATHS } from "./openrouter.js";
 
-const CONFIG_FILENAME = "pipeline-config.json";
+/**
+ * The configuration file's name within the project root. Exported because the
+ * suites that write one for the CLI to read must name the same file the loader
+ * looks for.
+ */
+export const CONFIG_FILENAME = "pipeline-config.json";
 
 /**
  * Thrown when `pipeline-config.json` cannot be read, is malformed, or names a

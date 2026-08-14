@@ -2,10 +2,8 @@ import { rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { ConfigError, clearModelIdCache, loadConfig } from "./config.js";
+import { CONFIG_FILENAME, ConfigError, clearModelIdCache, loadConfig } from "./config.js";
 import { captureError, makeConfig, makeTempDir, openRouterUrls } from "./fixtures.js";
-
-const CONFIG_FILENAME = "pipeline-config.json";
 
 // Model IDs present in the mocked OpenRouter models response and used by the
 // structurally valid config the tests build on.
