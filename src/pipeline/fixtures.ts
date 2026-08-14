@@ -9,7 +9,7 @@
  */
 
 import { spawn } from "node:child_process";
-import { mkdir, mkdtemp } from "node:fs/promises";
+import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import nock from "nock";
@@ -24,6 +24,7 @@ import type {
 } from "../types/pipeline.js";
 import { STAGE_IDS } from "../types/pipeline.js";
 import { assembleContext } from "./runner.js";
+import { type ModuleDirs, moduleDirs } from "./stages/source-normalisation.js";
 
 /**
  * Awaits a promise that a test expects to reject and returns the rejection, so
@@ -193,6 +194,47 @@ export async function makeWorkspaceTree({
 	const workspaceRoot = join(moduleRoot, "Pipeline processing", folderName);
 	await mkdir(workspaceRoot, { recursive: true });
 	return { moduleRoot, workspaceRoot };
+}
+
+/**
+ * Lays a whole lecture out on disk as Stage 0 leaves it: the module's four
+ * directories, a source video and slide deck sharing the workspace's base name,
+ * a finished PDF, and the empty workspace itself.
+ *
+ * Anything that moves a lecture needs all of this — the `change-date` command
+ * and Stage 3 both rename the four together — so the layout is built here rather
+ * than restated by each suite that exercises a rename. The caller writes
+ * whatever else its stage reads (a transcript, a manifest) and removes
+ * `tempDir` afterwards.
+ *
+ * @param args - The layout inputs.
+ * @param args.prefix - Prefix for the temporary directory name, identifying the suite.
+ * @param args.folderName - The base name the workspace and the three files share.
+ * @returns The temp directory to clean up, the module's directories, and the workspace.
+ */
+export async function makeLectureTree({
+	prefix,
+	folderName,
+}: {
+	readonly prefix: string;
+	readonly folderName: string;
+}): Promise<{
+	readonly tempDir: string;
+	readonly dirs: ModuleDirs;
+	readonly workspaceRoot: string;
+}> {
+	const tempDir = await makeTempDir({ prefix });
+	const dirs = moduleDirs({ moduleRoot: join(tempDir, "Biology of Disease") });
+	const workspaceRoot = join(dirs.processing, folderName);
+
+	for (const dir of [dirs.video, dirs.slide, dirs.finalOutput, workspaceRoot]) {
+		await mkdir(dir, { recursive: true });
+	}
+	await writeFile(join(dirs.video, `${folderName}.mp4`), "video");
+	await writeFile(join(dirs.slide, `${folderName}.pdf`), "slides");
+	await writeFile(join(dirs.finalOutput, `${folderName}.pdf`), "notes");
+
+	return { tempDir, dirs, workspaceRoot };
 }
 
 /**

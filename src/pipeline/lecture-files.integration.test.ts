@@ -1,10 +1,10 @@
-import { mkdir, rm, writeFile } from "node:fs/promises";
+import { rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { pathExists } from "../utils/files.js";
-import { makeTempDir } from "./fixtures.js";
+import { makeLectureTree } from "./fixtures.js";
 import { findDatedFile, renameLectureFiles } from "./lecture-files.js";
-import { type ModuleDirs, moduleDirs } from "./stages/source-normalisation.js";
+import type { ModuleDirs } from "./stages/source-normalisation.js";
 
 const FOLDER = "Lecture 1 - Cell Injury - 2025-10-10";
 const NEW_BASE_NAME = "Lecture 1 - Innate Immune Response - 2025-10-10";
@@ -20,16 +20,10 @@ describe("lecture files", () => {
 		renameLectureFiles({ dirs, workspaceRoot, lectureDate: LECTURE_DATE, baseName: NEW_BASE_NAME });
 
 	beforeEach(async () => {
-		tempDir = await makeTempDir({ prefix: "lecture-files-" });
-		dirs = moduleDirs({ moduleRoot: join(tempDir, "Biology of Disease") });
-		workspaceRoot = join(dirs.processing, FOLDER);
-
-		for (const dir of [dirs.video, dirs.slide, dirs.finalOutput, workspaceRoot]) {
-			await mkdir(dir, { recursive: true });
-		}
-		await writeFile(join(dirs.video, `${FOLDER}.mp4`), "video");
-		await writeFile(join(dirs.slide, `${FOLDER}.pdf`), "slides");
-		await writeFile(join(dirs.finalOutput, `${FOLDER}.pdf`), "notes");
+		({ tempDir, dirs, workspaceRoot } = await makeLectureTree({
+			prefix: "lecture-files-",
+			folderName: FOLDER,
+		}));
 		await writeFile(join(workspaceRoot, "manifest.json"), "{}");
 	});
 
