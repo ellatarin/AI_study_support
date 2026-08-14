@@ -10,8 +10,9 @@
  * change made stale (technical-design.md §4.7).
  */
 
-import { rename, rm } from "node:fs/promises";
-import { dirname, extname, join } from "node:path";
+import { rm } from "node:fs/promises";
+import { join } from "node:path";
+import { findDatedFile, renameLectureFiles } from "../pipeline/lecture-files.js";
 import { readManifest, writeManifest } from "../pipeline/manifest.js";
 import {
 	lectureBaseName,
@@ -19,9 +20,7 @@ import {
 	moduleDirs,
 } from "../pipeline/stages/source-normalisation.js";
 import type { LectureMatch, RunManifest } from "../types/pipeline.js";
-import { extractDate, formatDateISO } from "../utils/date.js";
 import { errorMessage, NamedError } from "../utils/errors.js";
-import { listFileNames } from "../utils/files.js";
 import { filenameSafe } from "../utils/naming.js";
 
 /**
@@ -30,34 +29,6 @@ import { filenameSafe } from "../utils/naming.js";
  * The command makes no change when it throws (technical-design.md §8).
  */
 export class LectureIdentityError extends NamedError {}
-
-/**
- * The single file in a directory whose name carries the given lecture date.
- *
- * Sources are addressed by date rather than by name because a lecture's name
- * changes with its number and title, while its date is what identifies it
- * (technical-design.md §3.2).
- *
- * @param args - Where to look and what date to look for.
- * @param args.dir - The directory to scan.
- * @param args.lectureDate - The `YYYY-MM-DD` date to match.
- * @returns The matching file name, or `null` when the directory holds none.
- */
-async function findDatedFile({
-	dir,
-	lectureDate,
-}: {
-	readonly dir: string;
-	readonly lectureDate: string;
-}): Promise<string | null> {
-	for (const name of await listFileNames(dir)) {
-		const date = extractDate(name);
-		if (date !== null && formatDateISO(date) === lectureDate) {
-			return name;
-		}
-	}
-	return null;
-}
 
 /**
  * Opens a lecture for change: where its files live, and what its manifest
@@ -163,31 +134,24 @@ export async function deleteLecture({ match }: { readonly match: LectureMatch })
 	await rm(match.workspaceRoot, { recursive: true, force: true });
 }
 
-/** A lecture's files, located by its current date, ready to be moved to a new one. */
-type LectureFiles = {
-	readonly video: string;
-	readonly slide: string;
-	readonly finalOutput: string | null;
-};
-
 /**
- * Locates the files a date change has to move, insisting on the source pair: a
+ * Insists a lecture still has both its sources before its date is changed: a
  * lecture without both is not one Stage 0 produced, and moving half of it would
  * leave the module in a state normalisation would reject.
  *
  * @param args - Where to look and for which lecture.
  * @param args.dirs - The module's directories.
  * @param args.lectureDate - The lecture's current date.
- * @returns The lecture's video, slide, and finished PDF if it has one.
+ * @returns Nothing.
  * @throws {LectureIdentityError} When the source video or slide is missing.
  */
-async function locateLectureFiles({
+async function assertSourcePairPresent({
 	dirs,
 	lectureDate,
 }: {
 	readonly dirs: ModuleDirs;
 	readonly lectureDate: string;
-}): Promise<LectureFiles> {
+}): Promise<void> {
 	const video = await findDatedFile({ dir: dirs.video, lectureDate });
 	const slide = await findDatedFile({ dir: dirs.slide, lectureDate });
 	if (video === null || slide === null) {
@@ -195,7 +159,6 @@ async function locateLectureFiles({
 			`The lecture on ${lectureDate} has no source ${video === null ? "video" : "slide"}, so its date cannot be changed. Restore the file and try again.`,
 		);
 	}
-	return { video, slide, finalOutput: await findDatedFile({ dir: dirs.finalOutput, lectureDate }) };
 }
 
 /**
@@ -226,27 +189,6 @@ async function assertDateIsFree({
 }
 
 /**
- * Renames a file to a new base name, keeping whatever extension it carried.
- *
- * @param args - The file to rename and its new base name.
- * @param args.dir - The directory holding the file.
- * @param args.name - The file's current name.
- * @param args.baseName - The new name, without extension.
- * @returns A promise that resolves once the file is renamed.
- */
-async function renameToBase({
-	dir,
-	name,
-	baseName,
-}: {
-	readonly dir: string;
-	readonly name: string;
-	readonly baseName: string;
-}): Promise<void> {
-	await rename(join(dir, name), join(dir, `${baseName}${extname(name)}`));
-}
-
-/**
  * Moves a lecture to another date: its source video and slides, its workspace,
  * its finished PDF, and the date recorded in its manifest.
  *
@@ -269,7 +211,7 @@ export async function changeLectureDate({
 	readonly newLectureDate: string;
 }): Promise<void> {
 	const { dirs, manifest } = await openLecture(match);
-	const files = await locateLectureFiles({ dirs, lectureDate: manifest.lectureDate });
+	await assertSourcePairPresent({ dirs, lectureDate: manifest.lectureDate });
 	await assertDateIsFree({ dirs, newLectureDate });
 
 	// Local midnight, matching how dates are read out of filenames, so the base
@@ -289,10 +231,10 @@ export async function changeLectureDate({
 			updatedAt: new Date().toISOString(),
 		},
 	});
-	await renameToBase({ dir: dirs.video, name: files.video, baseName });
-	await renameToBase({ dir: dirs.slide, name: files.slide, baseName });
-	if (files.finalOutput !== null) {
-		await renameToBase({ dir: dirs.finalOutput, name: files.finalOutput, baseName });
-	}
-	await rename(match.workspaceRoot, join(dirname(match.workspaceRoot), baseName));
+	await renameLectureFiles({
+		dirs,
+		workspaceRoot: match.workspaceRoot,
+		lectureDate: manifest.lectureDate,
+		baseName,
+	});
 }
