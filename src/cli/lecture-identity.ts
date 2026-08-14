@@ -12,13 +12,13 @@
 
 import { rm } from "node:fs/promises";
 import { join } from "node:path";
-import { findDatedFile, renameLectureFiles } from "../pipeline/lecture-files.js";
-import { readManifest, writeManifest } from "../pipeline/manifest.js";
 import {
-	lectureBaseName,
-	type ModuleDirs,
-	moduleDirs,
-} from "../pipeline/stages/source-normalisation.js";
+	baseNameForLecture,
+	findDatedFile,
+	renameLectureFiles,
+} from "../pipeline/lecture-files.js";
+import { readManifest, writeManifest } from "../pipeline/manifest.js";
+import { type ModuleDirs, moduleDirs } from "../pipeline/stages/source-normalisation.js";
 import type { LectureMatch, RunManifest } from "../types/pipeline.js";
 import { errorMessage, NamedError } from "../utils/errors.js";
 import { filenameSafe } from "../utils/naming.js";
@@ -214,12 +214,10 @@ export async function changeLectureDate({
 	await assertSourcePairPresent({ dirs, lectureDate: manifest.lectureDate });
 	await assertDateIsFree({ dirs, newLectureDate });
 
-	// Local midnight, matching how dates are read out of filenames, so the base
-	// name never lands on the previous day west of Greenwich.
-	const baseName = lectureBaseName({
+	const baseName = baseNameForLecture({
 		lectureNumber: manifest.lectureNumber,
 		title: manifest.lectureTitle,
-		date: new Date(`${newLectureDate}T00:00:00`),
+		lectureDate: newLectureDate,
 	});
 
 	await writeManifest({

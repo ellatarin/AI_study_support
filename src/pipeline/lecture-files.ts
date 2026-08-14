@@ -18,7 +18,39 @@ import { rename } from "node:fs/promises";
 import { dirname, extname, join } from "node:path";
 import { extractDate, formatDateISO } from "../utils/date.js";
 import { listFileNames } from "../utils/files.js";
-import type { ModuleDirs } from "./stages/source-normalisation.js";
+import { lectureBaseName, type ModuleDirs } from "./stages/source-normalisation.js";
+
+/**
+ * The canonical base name for a lecture sitting on an ISO date.
+ *
+ * Both callers that rename a lecture — `change-date` and Stage 3 — hold the date
+ * as the `YYYY-MM-DD` string the manifest stores, while {@link lectureBaseName}
+ * takes a `Date`. Converting it in one place keeps the trap in one place too:
+ * the string must be read as **local** midnight, matching how dates are read out
+ * of filenames, or the base name lands a day early west of Greenwich.
+ *
+ * @param args - The lecture's identity.
+ * @param args.lectureNumber - The assigned lecture number.
+ * @param args.title - The title to name it by; may be empty.
+ * @param args.lectureDate - The lecture's `YYYY-MM-DD` date.
+ * @returns The base name its files and workspace share.
+ * @throws Error when the title has no characters usable in a filename.
+ */
+export function baseNameForLecture({
+	lectureNumber,
+	title,
+	lectureDate,
+}: {
+	readonly lectureNumber: number;
+	readonly title: string;
+	readonly lectureDate: string;
+}): string {
+	return lectureBaseName({
+		lectureNumber,
+		title,
+		date: new Date(`${lectureDate}T00:00:00`),
+	});
+}
 
 /**
  * The single file in a directory whose name carries the given lecture date.
