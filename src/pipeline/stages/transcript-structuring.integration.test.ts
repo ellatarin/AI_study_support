@@ -9,17 +9,12 @@ import {
 	makeLectureTree,
 	makeManifest,
 	makeStageContext,
-	TEST_OPENROUTER_BASE_URL,
+	openRouterCompletionBody,
+	openRouterUrls,
 } from "../fixtures.js";
-import type { ModuleDirs } from "../layout.js";
+import { type ModuleDirs, stageOutputEntry } from "../layout.js";
 import { readManifest, writeManifest } from "../manifest.js";
 import { createTranscriptStructuringStage } from "./transcript-structuring.js";
-
-// Derived from the one configured address, as the client derives its own.
-const BASE_URL = new URL(TEST_OPENROUTER_BASE_URL);
-const OPENROUTER_HOST = BASE_URL.origin;
-const COMPLETIONS_PATH = `${BASE_URL.pathname}/chat/completions`;
-const GENERATION_PATH = `${BASE_URL.pathname}/generation`;
 
 const FOLDER = "Lecture 1 - Cell Injury - 2025-10-10";
 const RENAMED_FOLDER = "Lecture 1 - Innate Immune Response - 2025-10-10";
@@ -27,7 +22,7 @@ const PROVISIONAL_TITLE = "Cell Injury";
 const SUGGESTED_TITLE = "Innate Immune Response";
 const USER_TITLE = "Cell Injury and Death";
 const LECTURE_DATE = "2025-10-10";
-const STRUCTURED_ENTRY = join("Structured transcript", "structured-transcript.md");
+const STRUCTURED_ENTRY = stageOutputEntry("transcript-structuring");
 const STRUCTURED_MARKDOWN = "## The Innate Immune Response\n\nBarrier defences come first.";
 
 describe("transcript structuring against a real module tree", () => {
@@ -38,27 +33,14 @@ describe("transcript structuring against a real module tree", () => {
 
 	/** Mocks the completion and its cost lookup, capturing what was sent. */
 	function mockModelReply(reply: Record<string, unknown>): void {
-		nock(OPENROUTER_HOST)
-			.post(COMPLETIONS_PATH)
+		nock(openRouterUrls.origin)
+			.post(openRouterUrls.completions)
 			.reply((_uri, body) => {
 				capturedBody = body as Record<string, unknown>;
-				return [
-					200,
-					{
-						id: "gen-abc",
-						choices: [
-							{
-								index: 0,
-								message: { role: "assistant", content: JSON.stringify(reply) },
-								finish_reason: "stop",
-							},
-						],
-						usage: { prompt_tokens: 1200, completion_tokens: 300 },
-					},
-				];
+				return [200, openRouterCompletionBody({ content: JSON.stringify(reply) })];
 			});
-		nock(OPENROUTER_HOST)
-			.get(GENERATION_PATH)
+		nock(openRouterUrls.origin)
+			.get(openRouterUrls.generation)
 			.query(true)
 			.reply(200, { data: { total_cost: 0.004 } });
 	}

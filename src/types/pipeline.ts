@@ -106,7 +106,18 @@ export type PipelineConfig = {
 		 * edit (technical-design.md §6).
 		 */
 		readonly baseUrl: string;
-		readonly rateLimitRpm: number;
+		/** How long one completion attempt may take before it is abandoned. */
+		readonly completionTimeoutMs: number;
+		/** How many times a failed completion is retried before giving up. */
+		readonly completionMaxRetries: number;
+		/**
+		 * How long one `/generation` cost lookup may take. Shorter than a
+		 * completion's budget on purpose: cost is telemetry, and must never hold up
+		 * a run that has already produced its output (technical-design.md §7).
+		 */
+		readonly costLookupTimeoutMs: number;
+		/** How many times a failed cost lookup is retried before it resolves to `null`. */
+		readonly costLookupMaxRetries: number;
 	};
 	readonly elevenLabs: {
 		/**

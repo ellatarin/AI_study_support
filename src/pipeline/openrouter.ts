@@ -3,13 +3,25 @@ import type { PipelineConfig, StageConfig, StageCost, StageId } from "../types/p
 import { NamedError } from "../utils/errors.js";
 
 const OPENROUTER_APP_TITLE = "Lecture Notes Pipeline";
-const GENERATION_PATH = "/generation";
 const CONTEXT_LENGTH_CODE = "context_length_exceeded";
 
-const COMPLETION_TIMEOUT_MS = 120_000;
-const COMPLETION_MAX_RETRIES = 5;
-const COST_LOOKUP_TIMEOUT_MS = 30_000;
-const COST_LOOKUP_MAX_RETRIES = 3;
+/**
+ * OpenRouter's endpoints, relative to the configured base URL.
+ *
+ * Stated once because three parties address them: this module (`generation`),
+ * the config loader's model-ID check (`models`), and the tests that intercept
+ * all three. `completions` is the SDK's own path — the pipeline never builds it
+ * — and is named here only so a test mocking the call does not have to know it
+ * independently of the code under test.
+ */
+export const OPENROUTER_PATHS = {
+	completions: "/chat/completions",
+	generation: "/generation",
+	models: "/models",
+} as const;
+
+/** Where OpenRouter is and how patiently to wait on it, all from config (§6). */
+type OpenRouterSettings = PipelineConfig["openRouter"];
 
 /**
  * Thrown when a completion is rejected because the prompt exceeds the model's
@@ -69,33 +81,39 @@ type CostResolution =
 	| { readonly totalCostUsd: number }
 	| { readonly totalCostUsd: null; readonly costResolutionError: string };
 
-// One client is reused across calls, remembering the address it was built for so
-// a differently configured run is never served a client pointed elsewhere. Tests
-// inject their own client instead.
-let sharedClient: { readonly baseUrl: string; readonly client: OpenAI } | null = null;
+// One client is reused across calls, remembering the settings it was built from
+// so a differently configured run is never served a client pointed elsewhere or
+// waiting to the wrong budget. Tests inject their own client instead.
+let sharedClient: { readonly key: string; readonly client: OpenAI } | null = null;
 
 /**
- * Builds an OpenAI SDK client pointed at OpenRouter, with the app title header,
- * completion timeout, and retry budget the pipeline requires
- * (technical-design.md §6). The API key is read from `OPENROUTER_API_KEY`.
+ * Builds an OpenAI SDK client pointed at OpenRouter, with the app title header
+ * and the address, timeout, and retry budget the configuration asks for
+ * (technical-design.md §6). The API key is read from `OPENROUTER_API_KEY` — the
+ * one OpenRouter value that is a secret, and so the one that is not config.
  *
- * @param args - The client's address.
- * @param args.baseUrl - The configured OpenRouter base URL; every call is relative to it.
+ * @param args - The client's settings.
+ * @param args.openRouter - The validated `openRouter` config section.
  * @returns A configured OpenAI client targeting OpenRouter.
  */
-export function createOpenRouterClient({ baseUrl }: { readonly baseUrl: string }): OpenAI {
+export function createOpenRouterClient({
+	openRouter,
+}: {
+	readonly openRouter: OpenRouterSettings;
+}): OpenAI {
 	return new OpenAI({
 		apiKey: process.env.OPENROUTER_API_KEY,
-		baseURL: baseUrl,
+		baseURL: openRouter.baseUrl,
 		defaultHeaders: { "X-Title": OPENROUTER_APP_TITLE },
-		maxRetries: COMPLETION_MAX_RETRIES,
-		timeout: COMPLETION_TIMEOUT_MS,
+		maxRetries: openRouter.completionMaxRetries,
+		timeout: openRouter.completionTimeoutMs,
 	});
 }
 
-function getSharedClient(baseUrl: string): OpenAI {
-	if (sharedClient === null || sharedClient.baseUrl !== baseUrl) {
-		sharedClient = { baseUrl, client: createOpenRouterClient({ baseUrl }) };
+function getSharedClient(openRouter: OpenRouterSettings): OpenAI {
+	const key = JSON.stringify(openRouter);
+	if (sharedClient === null || sharedClient.key !== key) {
+		sharedClient = { key, client: createOpenRouterClient({ openRouter }) };
 	}
 	return sharedClient.client;
 }
@@ -157,13 +175,14 @@ async function createCompletion(options: {
 async function lookupCost(options: {
 	readonly client: OpenAI;
 	readonly generationId: string;
+	readonly openRouter: OpenRouterSettings;
 }): Promise<CostResolution> {
 	try {
-		const body = (await options.client.get(GENERATION_PATH, {
+		const body = (await options.client.get(OPENROUTER_PATHS.generation, {
 			// eslint-disable-next-line id-length -- "id" is OpenRouter's generation-endpoint query parameter name
 			query: { id: options.generationId },
-			timeout: COST_LOOKUP_TIMEOUT_MS,
-			maxRetries: COST_LOOKUP_MAX_RETRIES,
+			timeout: options.openRouter.costLookupTimeoutMs,
+			maxRetries: options.openRouter.costLookupMaxRetries,
 		})) as { readonly data: { readonly total_cost: number } };
 		return { totalCostUsd: body.data.total_cost };
 	} catch (error: unknown) {
@@ -199,7 +218,8 @@ export async function makeCompletionCall(options: {
 	readonly client?: OpenAI;
 }): Promise<{ readonly content: string; readonly cost: StageCost }> {
 	const stageConfig = stageConfigFor({ config: options.config, stageId: options.stageId });
-	const client = options.client ?? getSharedClient(options.config.openRouter.baseUrl);
+	const { openRouter } = options.config;
+	const client = options.client ?? getSharedClient(openRouter);
 	const response = await createCompletion({
 		client,
 		stageConfig,
@@ -208,7 +228,7 @@ export async function makeCompletionCall(options: {
 	});
 	const usage = response.usage ?? { prompt_tokens: 0, completion_tokens: 0 };
 	const content = response.choices[0].message.content ?? "";
-	const costResolution = await lookupCost({ client, generationId: response.id });
+	const costResolution = await lookupCost({ client, generationId: response.id, openRouter });
 	return {
 		content,
 		cost: {

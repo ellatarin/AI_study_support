@@ -6,7 +6,10 @@
   ],
   "openRouter": {
     "baseUrl": "https://openrouter.ai/api/v1",
-    "rateLimitRpm": 60
+    "completionTimeoutMs": 120000,
+    "completionMaxRetries": 5,
+    "costLookupTimeoutMs": 30000,
+    "costLookupMaxRetries": 3
   },
   "elevenLabs": {
     "costPerAudioHourUsd": 0.22

@@ -19,7 +19,12 @@ import {
 	TranscriptStructuringError,
 } from "./transcript-structuring.js";
 
-vi.mock("../openrouter.js", () => ({ makeCompletionCall: vi.fn() }));
+// Only the call is stubbed; everything else the module exports — the endpoint
+// paths the fixtures build their URLs from — stays real.
+vi.mock(import("../openrouter.js"), async (importOriginal) => ({
+	...(await importOriginal()),
+	makeCompletionCall: vi.fn(),
+}));
 
 const completionMock = makeCompletionCall as unknown as Mock;
 

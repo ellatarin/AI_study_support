@@ -9,6 +9,7 @@
  */
 
 import { spawn } from "node:child_process";
+import { readFileSync } from "node:fs";
 import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -23,7 +24,9 @@ import type {
 	StageId,
 } from "../types/pipeline.js";
 import { STAGE_IDS } from "../types/pipeline.js";
+import { parseConfig } from "./config.js";
 import { type ModuleDirs, moduleDirs } from "./layout.js";
+import { OPENROUTER_PATHS } from "./openrouter.js";
 import { assembleContext } from "./runner.js";
 
 /**
@@ -99,35 +102,80 @@ export function pendingStages(): RunManifest["stages"] {
 }
 
 /**
- * The OpenRouter address the test configs point at.
+ * The shipped example configuration, validated.
  *
- * OpenRouter's address is configuration, not a literal in code
- * (technical-design.md §6), so a suite that needs the host — to intercept it, or
- * to assert what was sent — derives it from here rather than restating the URL.
- * It lives in the fixtures because a test must not depend on the real
- * `pipeline-config.json`, which the user edits.
+ * Configuration lives in the config file, so tests read it rather than restating
+ * it: a suite needing OpenRouter's address or a timeout takes it from here, and
+ * adding a required field means editing one file. The *example* rather than
+ * `pipeline-config.json`, because that one is gitignored and edited per machine
+ * — tests must not behave differently on the author's laptop than anywhere else.
+ *
+ * Parsing it through the real validator also makes every suite a check that the
+ * shipped example is loadable, which nothing else verifies.
  */
-export const TEST_OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
+export const exampleConfig: PipelineConfig = parseConfig(
+	JSON.parse(
+		readFileSync(join(import.meta.dirname, "..", "..", "pipeline-config.example.json"), "utf8"),
+	),
+);
 
 /**
- * Builds a structurally valid {@link PipelineConfig} with no stages configured,
- * so a test declares only the stages it exercises.
+ * Where a suite intercepting OpenRouter should point nock: the configured
+ * address split into the origin and full paths nock wants.
  *
- * @param overrides - Top-level fields to replace on the base config.
+ * Assembled once, from the configured base URL and the endpoint paths the
+ * production code calls, so a suite mocking OpenRouter neither restates the URL
+ * nor knows an endpoint independently of the code under test — if either moves,
+ * the mocks move with it.
+ */
+export const openRouterUrls = {
+	/** The scheme and host, as nock's scope. */
+	origin: new URL(exampleConfig.openRouter.baseUrl).origin,
+	/** Full path to the chat completions endpoint. */
+	completions: `${new URL(exampleConfig.openRouter.baseUrl).pathname}${OPENROUTER_PATHS.completions}`,
+	/** Full path to the generation (cost lookup) endpoint. */
+	generation: `${new URL(exampleConfig.openRouter.baseUrl).pathname}${OPENROUTER_PATHS.generation}`,
+	/** Full path to the model-list endpoint. */
+	models: `${new URL(exampleConfig.openRouter.baseUrl).pathname}${OPENROUTER_PATHS.models}`,
+	/** The human-facing models page a failed model-ID check links to. */
+	modelsPage: `${new URL(exampleConfig.openRouter.baseUrl).origin}${OPENROUTER_PATHS.models}`,
+} as const;
+
+/**
+ * A well-formed OpenRouter chat-completion response body.
+ *
+ * Two suites need one, and its shape is the SDK's contract rather than either
+ * suite's business.
+ *
+ * @param args - What the model should appear to have said.
+ * @param args.content - The assistant message content.
+ * @returns The response body to reply with.
+ */
+export function openRouterCompletionBody({
+	content,
+}: {
+	readonly content: string;
+}): Record<string, unknown> {
+	return {
+		id: "gen-abc",
+		choices: [{ index: 0, message: { role: "assistant", content }, finish_reason: "stop" }],
+		usage: { prompt_tokens: 120, completion_tokens: 45 },
+	};
+}
+
+/**
+ * The example configuration with its module and stage lists emptied.
+ *
+ * The emptying is the only fixture decision left here — everything else is real
+ * configuration. A suite states the stages it exercises rather than inheriting
+ * all nine, so a test that forgets to configure a stage fails loudly instead of
+ * quietly using a placeholder model.
+ *
+ * @param overrides - Top-level fields to replace.
  * @returns The config.
  */
 export function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineConfig {
-	return {
-		version: "1",
-		moduleRoots: [],
-		openRouter: { baseUrl: TEST_OPENROUTER_BASE_URL, rateLimitRpm: 60 },
-		elevenLabs: { costPerAudioHourUsd: 0.22 },
-		currency: { gbpPerUsd: 0.74 },
-		modelIdCheck: { exemptProviders: ["elevenlabs"] },
-		stages: {},
-		output: { language: "en-GB", pandocEngine: "xelatex" },
-		...overrides,
-	};
+	return { ...exampleConfig, moduleRoots: [], stages: {}, ...overrides };
 }
 
 /**

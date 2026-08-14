@@ -2,14 +2,14 @@ import nock from "nock";
 import OpenAI from "openai";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { PipelineConfig } from "../types/pipeline.js";
-import { captureError, makeConfig, TEST_OPENROUTER_BASE_URL } from "./fixtures.js";
+import {
+	captureError,
+	exampleConfig,
+	makeConfig,
+	openRouterCompletionBody,
+	openRouterUrls,
+} from "./fixtures.js";
 import { ContextLengthError, createOpenRouterClient, makeCompletionCall } from "./openrouter.js";
-
-// Derived from the one configured address, as the client derives its own.
-const BASE_URL = new URL(TEST_OPENROUTER_BASE_URL);
-const OPENROUTER_HOST = BASE_URL.origin;
-const COMPLETIONS_PATH = `${BASE_URL.pathname}/chat/completions`;
-const GENERATION_PATH = `${BASE_URL.pathname}/generation`;
 
 const config: PipelineConfig = makeConfig({
 	moduleRoots: ["/absolute/path/to/Biology of Disease"],
@@ -21,18 +21,7 @@ const config: PipelineConfig = makeConfig({
 const messages = [{ role: "user", content: "Structure this transcript." }] as const;
 
 function completionBody(overrides: Record<string, unknown> = {}): Record<string, unknown> {
-	return {
-		id: "gen-abc",
-		choices: [
-			{
-				index: 0,
-				message: { role: "assistant", content: "Structured notes." },
-				finish_reason: "stop",
-			},
-		],
-		usage: { prompt_tokens: 120, completion_tokens: 45 },
-		...overrides,
-	};
+	return { ...openRouterCompletionBody({ content: "Structured notes." }), ...overrides };
 }
 
 function generationBody(totalCost: number): Record<string, unknown> {
@@ -40,11 +29,11 @@ function generationBody(totalCost: number): Record<string, unknown> {
 }
 
 function mockCompletion(): nock.Interceptor {
-	return nock(OPENROUTER_HOST).post(COMPLETIONS_PATH);
+	return nock(openRouterUrls.origin).post(openRouterUrls.completions);
 }
 
 function mockGeneration(): nock.Interceptor {
-	return nock(OPENROUTER_HOST).get(GENERATION_PATH).query(true);
+	return nock(openRouterUrls.origin).get(openRouterUrls.generation).query(true);
 }
 
 function call(
@@ -77,13 +66,11 @@ async function callCapturingRequest(
 		body: {},
 		headers: {},
 	};
-	nock(OPENROUTER_HOST)
-		.post(COMPLETIONS_PATH)
-		.reply(function reply(_uri, body) {
-			captured.body = body as Record<string, unknown>;
-			captured.headers = this.req.headers as Record<string, unknown>;
-			return [200, completionBody()];
-		});
+	mockCompletion().reply(function reply(_uri, body) {
+		captured.body = body as Record<string, unknown>;
+		captured.headers = this.req.headers as Record<string, unknown>;
+		return [200, completionBody()];
+	});
 	mockGeneration().reply(200, generationBody(0.0042));
 
 	await call(overrides);
@@ -113,12 +100,20 @@ afterEach(() => {
 });
 
 describe("createOpenRouterClient", () => {
-	it("should configure the OpenRouter baseURL, timeout, and retries when a client is created", () => {
-		const client = createOpenRouterClient({ baseUrl: TEST_OPENROUTER_BASE_URL });
+	it("should take its baseURL, timeout, and retries from the config when a client is created", () => {
+		// Deliberately unlike the shipped values, so the assertion cannot pass by
+		// coincidence if the client ever went back to hard-coded defaults.
+		const openRouter = {
+			...exampleConfig.openRouter,
+			completionTimeoutMs: 90_000,
+			completionMaxRetries: 7,
+		};
 
-		expect(client.baseURL).toBe(TEST_OPENROUTER_BASE_URL);
-		expect(client.timeout).toBe(120_000);
-		expect(client.maxRetries).toBe(5);
+		const client = createOpenRouterClient({ openRouter });
+
+		expect(client.baseURL).toBe(exampleConfig.openRouter.baseUrl);
+		expect(client.timeout).toBe(90_000);
+		expect(client.maxRetries).toBe(7);
 	});
 });
 
@@ -201,11 +196,7 @@ describe("makeCompletionCall", () => {
 
 	it("should resolve with totalCostUsd null and costResolutionError set when the cost lookup fails after all retries", async () => {
 		mockCompletion().reply(200, completionBody());
-		nock(OPENROUTER_HOST)
-			.get(GENERATION_PATH)
-			.query(true)
-			.times(4)
-			.reply(500, {}, { "retry-after": "0" });
+		mockGeneration().times(4).reply(500, {}, { "retry-after": "0" });
 
 		const result = await call();
 
@@ -218,8 +209,8 @@ describe("makeCompletionCall", () => {
 
 	it("should retry the cost lookup with backoff and resolve the cost when a transient failure recovers", async () => {
 		mockCompletion().reply(200, completionBody());
-		nock(OPENROUTER_HOST).get(GENERATION_PATH).query(true).reply(500, {}, { "retry-after": "0" });
-		nock(OPENROUTER_HOST).get(GENERATION_PATH).query(true).reply(200, generationBody(0.01));
+		mockGeneration().reply(500, {}, { "retry-after": "0" });
+		mockGeneration().reply(200, generationBody(0.01));
 
 		const result = await call();
 
@@ -227,8 +218,8 @@ describe("makeCompletionCall", () => {
 	});
 
 	it("should retry the completion call with backoff and succeed when the first response is a 429", async () => {
-		nock(OPENROUTER_HOST).post(COMPLETIONS_PATH).reply(429, {}, { "retry-after": "0" });
-		nock(OPENROUTER_HOST).post(COMPLETIONS_PATH).reply(200, completionBody());
+		mockCompletion().reply(429, {}, { "retry-after": "0" });
+		mockCompletion().reply(200, completionBody());
 		mockGeneration().reply(200, generationBody(0.0042));
 
 		const result = await call();
@@ -254,19 +245,19 @@ describe("makeCompletionCall", () => {
 	it("should throw when the completion request times out before a response arrives", async () => {
 		const client = new OpenAI({
 			apiKey: "test-key",
-			baseURL: TEST_OPENROUTER_BASE_URL,
+			baseURL: exampleConfig.openRouter.baseUrl,
 			timeout: 20,
 			maxRetries: 0,
 		});
-		nock(OPENROUTER_HOST).post(COMPLETIONS_PATH).delay(200).reply(200, completionBody());
+		mockCompletion().delay(200).reply(200, completionBody());
 
 		const error = await captureError(call({ client }));
 
 		expect(error.message).toMatch(/timed out|timeout/i);
 	});
 
-	it("should apply a 30s per-attempt timeout and bounded retries when the cost lookup runs", async () => {
-		const client = createOpenRouterClient({ baseUrl: TEST_OPENROUTER_BASE_URL });
+	it("should apply the configured per-attempt timeout and retries when the cost lookup runs", async () => {
+		const client = createOpenRouterClient({ openRouter: config.openRouter });
 		const getSpy = vi.spyOn(client, "get");
 		mockCompletion().reply(200, completionBody());
 		mockGeneration().reply(200, generationBody(0.0042));
@@ -275,7 +266,10 @@ describe("makeCompletionCall", () => {
 
 		expect(getSpy).toHaveBeenCalledWith(
 			"/generation",
-			expect.objectContaining({ timeout: 30_000, maxRetries: 3 }),
+			expect.objectContaining({
+				timeout: config.openRouter.costLookupTimeoutMs,
+				maxRetries: config.openRouter.costLookupMaxRetries,
+			}),
 		);
 	});
 

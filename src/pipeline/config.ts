@@ -2,9 +2,9 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { PipelineConfig, StageConfig, StageId } from "../types/pipeline.js";
 import { NamedError } from "../utils/errors.js";
+import { OPENROUTER_PATHS } from "./openrouter.js";
 
 const CONFIG_FILENAME = "pipeline-config.json";
-const MODELS_SEGMENT = "models";
 
 /**
  * Thrown when `pipeline-config.json` cannot be read, is malformed, or names a
@@ -118,6 +118,29 @@ function requireSectionNumber(args: {
 	});
 }
 
+/**
+ * Validates the `openRouter` section: where the service is, and how patiently to
+ * wait on it. All of it is configuration because none of it describes this
+ * codebase — a slow gateway wants a longer timeout and a flaky one wants more
+ * retries, neither of which should need a release (technical-design.md §6).
+ *
+ * @param value - The raw `openRouter` section.
+ * @returns The validated section.
+ * @throws {ConfigError} If the section is not an object, or any field is missing or mistyped.
+ */
+function requireOpenRouter(value: unknown): PipelineConfig["openRouter"] {
+	const record = requireRecord({ value, label: "openRouter" });
+	const requireField = (field: keyof PipelineConfig["openRouter"]): number =>
+		requireNumber({ value: record[field], label: `openRouter.${field}` });
+	return {
+		baseUrl: requireUrl({ value: record.baseUrl, label: "openRouter.baseUrl" }),
+		completionTimeoutMs: requireField("completionTimeoutMs"),
+		completionMaxRetries: requireField("completionMaxRetries"),
+		costLookupTimeoutMs: requireField("costLookupTimeoutMs"),
+		costLookupMaxRetries: requireField("costLookupMaxRetries"),
+	};
+}
+
 function requireModelIdCheck(value: unknown): PipelineConfig["modelIdCheck"] {
 	const record = requireRecord({ value, label: "modelIdCheck" });
 	return {
@@ -172,22 +195,24 @@ function requireOutput(value: unknown): PipelineConfig["output"] {
 	};
 }
 
-function validateConfig(raw: unknown): PipelineConfig {
+/**
+ * Validates parsed config JSON into a {@link PipelineConfig}.
+ *
+ * Exported separately from {@link loadConfig} so config already in memory can be
+ * checked without a file read — which is how the test fixtures take their
+ * defaults from `pipeline-config.example.json` rather than restating them, and
+ * how that example is proved to be valid.
+ *
+ * @param raw - The parsed JSON to validate.
+ * @returns The validated configuration.
+ * @throws {ConfigError} If any required field is missing or mistyped.
+ */
+export function parseConfig(raw: unknown): PipelineConfig {
 	const root = requireRecord({ value: raw, label: CONFIG_FILENAME });
 	return {
 		version: requireString({ value: root.version, label: "version" }),
 		moduleRoots: requireStringArray({ value: root.moduleRoots, label: "moduleRoots" }),
-		openRouter: {
-			baseUrl: requireUrl({
-				value: requireRecord({ value: root.openRouter, label: "openRouter" }).baseUrl,
-				label: "openRouter.baseUrl",
-			}),
-			rateLimitRpm: requireSectionNumber({
-				value: root.openRouter,
-				sectionLabel: "openRouter",
-				field: "rateLimitRpm",
-			}),
-		},
+		openRouter: requireOpenRouter(root.openRouter),
 		elevenLabs: {
 			costPerAudioHourUsd: requireSectionNumber({
 				value: root.elevenLabs,
@@ -231,14 +256,14 @@ async function readConfigFile(configPath: string): Promise<unknown> {
  * @returns The models page URL.
  */
 function modelsPageFor(baseUrl: string): string {
-	return `${new URL(baseUrl).origin}/${MODELS_SEGMENT}`;
+	return `${new URL(baseUrl).origin}${OPENROUTER_PATHS.models}`;
 }
 
 async function fetchKnownModelIds(baseUrl: string): Promise<ReadonlySet<string>> {
 	if (cachedModelIds !== null) {
 		return cachedModelIds;
 	}
-	const response = await fetch(`${baseUrl}/${MODELS_SEGMENT}`);
+	const response = await fetch(`${baseUrl}${OPENROUTER_PATHS.models}`);
 	if (!response.ok) {
 		throw new ConfigError(
 			`Could not fetch the OpenRouter model list (HTTP ${response.status}); see ${modelsPageFor(baseUrl)}.`,
@@ -322,7 +347,7 @@ export async function loadConfig(options: {
 	readonly skipModelCheck?: boolean;
 }): Promise<PipelineConfig> {
 	const configPath = join(options.projectRoot, CONFIG_FILENAME);
-	const config = validateConfig(await readConfigFile(configPath));
+	const config = parseConfig(await readConfigFile(configPath));
 	if (options.skipModelCheck !== true) {
 		await assertModelIdsResolvable(config);
 	}

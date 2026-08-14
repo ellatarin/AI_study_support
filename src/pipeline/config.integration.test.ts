@@ -3,14 +3,8 @@ import { join } from "node:path";
 import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { ConfigError, clearModelIdCache, loadConfig } from "./config.js";
-import { captureError, makeConfig, makeTempDir, TEST_OPENROUTER_BASE_URL } from "./fixtures.js";
+import { captureError, makeConfig, makeTempDir, openRouterUrls } from "./fixtures.js";
 
-// Every OpenRouter address the tests use is derived from the one configured
-// value, exactly as the loader derives its own (technical-design.md §6).
-const BASE_URL = new URL(TEST_OPENROUTER_BASE_URL);
-const OPENROUTER_HOST = BASE_URL.origin;
-const MODELS_PATH = `${BASE_URL.pathname}/models`;
-const MODELS_PAGE = `${BASE_URL.origin}/models`;
 const CONFIG_FILENAME = "pipeline-config.json";
 
 // Model IDs present in the mocked OpenRouter models response and used by the
@@ -53,13 +47,31 @@ function makeValidConfig(): Record<string, unknown> {
 const GATEWAY_ORIGIN = "https://gateway.example.test";
 const GATEWAY_BASE_URL = `${GATEWAY_ORIGIN}/openrouter/v1`;
 
+/**
+ * The `openRouter` section as raw JSON, with one field replaced — so a
+ * validation case states only the field it is corrupting. `undefined` drops the
+ * field, which is how the "missing" cases are written.
+ */
+function openRouterSection(overrides: Record<string, unknown>): Record<string, unknown> {
+	const section: Record<string, unknown> = {
+		...(makeValidConfig().openRouter as Record<string, unknown>),
+		...overrides,
+	};
+	for (const [key, value] of Object.entries(overrides)) {
+		if (value === undefined) {
+			delete section[key];
+		}
+	}
+	return section;
+}
+
 function stageModelIds(config: Record<string, unknown>): Record<string, { modelId: string }> {
 	return config.stages as Record<string, { modelId: string }>;
 }
 
 function mockModelsResponse(ids: readonly string[]): void {
-	nock(OPENROUTER_HOST)
-		.get(MODELS_PATH)
+	nock(openRouterUrls.origin)
+		.get(openRouterUrls.models)
 		.reply(200, { data: ids.map((id) => ({ id })) });
 }
 
@@ -76,7 +88,7 @@ async function writeConfig(config: unknown): Promise<void> {
  */
 async function writeConfigAtGateway(): Promise<void> {
 	const config = makeValidConfig();
-	config.openRouter = { baseUrl: GATEWAY_BASE_URL, rateLimitRpm: 60 };
+	config.openRouter = openRouterSection({ baseUrl: GATEWAY_BASE_URL });
 	await writeConfig(config);
 }
 
@@ -118,7 +130,7 @@ describe("loadConfig model-ID resolution check", () => {
 		expect(error).toBeInstanceOf(ConfigError);
 		expect(error.message).toContain(stageId);
 		expect(error.message).toContain(modelId);
-		expect(error.message).toContain(MODELS_PAGE);
+		expect(error.message).toContain(openRouterUrls.modelsPage);
 	});
 
 	it("should fetch the model list from the configured base URL when the check runs", async () => {
@@ -138,9 +150,9 @@ describe("loadConfig model-ID resolution check", () => {
 			write: async () => {
 				await writeConfig(makeValidConfig());
 			},
-			origin: OPENROUTER_HOST,
-			path: MODELS_PATH,
-			page: MODELS_PAGE,
+			origin: openRouterUrls.origin,
+			path: openRouterUrls.models,
+			page: openRouterUrls.modelsPage,
 		},
 		{
 			address: "a configured gateway",
@@ -306,32 +318,53 @@ describe("loadConfig shape validation", () => {
 			match: /openRouter/,
 		},
 		{
-			name: "rateLimitRpm is not a number",
-			mutate: (config: Record<string, unknown>) => {
-				config.openRouter = { baseUrl: TEST_OPENROUTER_BASE_URL, rateLimitRpm: "fast" };
-			},
-			match: /rateLimitRpm/,
-		},
-		{
 			name: "baseUrl is missing",
 			mutate: (config: Record<string, unknown>) => {
-				config.openRouter = { rateLimitRpm: 60 };
+				config.openRouter = openRouterSection({ baseUrl: undefined });
 			},
 			match: /baseUrl/,
 		},
 		{
 			name: "baseUrl is not a string",
 			mutate: (config: Record<string, unknown>) => {
-				config.openRouter = { baseUrl: 443, rateLimitRpm: 60 };
+				config.openRouter = openRouterSection({ baseUrl: 443 });
 			},
 			match: /baseUrl/,
 		},
 		{
 			name: "baseUrl is not an absolute URL",
 			mutate: (config: Record<string, unknown>) => {
-				config.openRouter = { baseUrl: "/api/v1", rateLimitRpm: 60 };
+				config.openRouter = openRouterSection({ baseUrl: "/api/v1" });
 			},
 			match: /baseUrl/,
+		},
+		{
+			name: "completionTimeoutMs is missing",
+			mutate: (config: Record<string, unknown>) => {
+				config.openRouter = openRouterSection({ completionTimeoutMs: undefined });
+			},
+			match: /completionTimeoutMs/,
+		},
+		{
+			name: "completionMaxRetries is not a number",
+			mutate: (config: Record<string, unknown>) => {
+				config.openRouter = openRouterSection({ completionMaxRetries: "lots" });
+			},
+			match: /completionMaxRetries/,
+		},
+		{
+			name: "costLookupTimeoutMs is missing",
+			mutate: (config: Record<string, unknown>) => {
+				config.openRouter = openRouterSection({ costLookupTimeoutMs: undefined });
+			},
+			match: /costLookupTimeoutMs/,
+		},
+		{
+			name: "costLookupMaxRetries is not a number",
+			mutate: (config: Record<string, unknown>) => {
+				config.openRouter = openRouterSection({ costLookupMaxRetries: null });
+			},
+			match: /costLookupMaxRetries/,
 		},
 		{
 			name: "elevenLabs is missing",
