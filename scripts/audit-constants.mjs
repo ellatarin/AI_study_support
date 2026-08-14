@@ -133,8 +133,37 @@ function scan(source) {
 }
 
 /**
+ * Marks every character that sits inside a string literal, so the brace walk can
+ * tell structure from content. The strings here were re-emitted by {@link scan}
+ * through `JSON.stringify`, so every one is double-quoted with its escapes
+ * normalised.
+ *
+ * @param {string} text - Comment-free source with its strings intact.
+ * @returns {Uint8Array} `1` at each index within a string, `0` elsewhere.
+ */
+function maskedStringSpans(text) {
+	const quoted = new Uint8Array(text.length);
+	for (let index = 0; index < text.length; index += 1) {
+		if (text[index] !== '"') continue;
+		let end = index + 1;
+		while (end < text.length && text[end] !== '"') {
+			end += text[end] === "\\" ? 2 : 1;
+		}
+		for (let inner = index; inner <= Math.min(end, text.length - 1); inner += 1) {
+			quoted[inner] = 1;
+		}
+		index = end;
+	}
+	return quoted;
+}
+
+/**
  * Every balanced `{…}` literal in a file, normalised to one line so that two
  * spelt the same but wrapped differently still compare equal.
+ *
+ * Braces inside string literals are not structure: `"{ not json"` opens nothing.
+ * They are masked first, so a string holding an unmatched brace cannot close a
+ * real literal early or run a scan off the end of the file.
  *
  * Blocks are excluded rather than judged: anything holding a statement
  * separator, an arrow, or a keyword that only appears in code is a function
@@ -145,11 +174,13 @@ function scan(source) {
  */
 function objectLiterals(text) {
 	const found = [];
+	const quoted = maskedStringSpans(text);
 	for (let start = 0; start < text.length; start += 1) {
-		if (text[start] !== "{") continue;
+		if (text[start] !== "{" || quoted[start] === 1) continue;
 		let depth = 0;
 		let end = start;
 		for (; end < text.length; end += 1) {
+			if (quoted[end] === 1) continue;
 			if (text[end] === "{") depth += 1;
 			else if (text[end] === "}") {
 				depth -= 1;
