@@ -4,21 +4,32 @@ import type { StageId } from "../types/pipeline.js";
 
 /**
  * Creates the root logger for a single pipeline invocation. All structured
- * output is written as newline-delimited JSON to `runs/<runTimestamp>-debug.log`,
- * alongside the run log that shares the same timestamp. The destination is
- * asynchronous (`sync: false`) and file-only, so debug output never reaches
- * stdout or stderr and cannot interfere with the cli-progress bars
- * (technical-design.md §10).
+ * output is written as newline-delimited JSON to
+ * `<runsDir>/<runTimestamp>-debug.log`, alongside the run log that shares the
+ * same timestamp. The destination is asynchronous (`sync: false`) and file-only,
+ * so debug output never reaches stdout or stderr and cannot interfere with the
+ * cli-progress bars (technical-design.md §10).
  *
- * @param args - The invocation identity.
+ * The directory is taken from the caller rather than named here: `runs/` is
+ * declared in the pipeline's layout module (technical-design.md §3.3), and a
+ * utility should not reach up into the pipeline to read it.
+ *
+ * @param args - The invocation identity and destination.
  * @param args.runTimestamp - The run timestamp; names the log file and is shared with the run log.
+ * @param args.runsDir - The directory to write the debug log into.
  * @returns A pino logger writing at `debug` level to the run's debug log file.
  * @example
- * const logger = createRootLogger({ runTimestamp: "2025-10-10T09-00-00-000Z" });
+ * const logger = createRootLogger({ runTimestamp: "2025-10-10T09-00-00Z", runsDir: RUNS_DIR });
  */
-export function createRootLogger({ runTimestamp }: { readonly runTimestamp: string }): Logger {
+export function createRootLogger({
+	runTimestamp,
+	runsDir,
+}: {
+	readonly runTimestamp: string;
+	readonly runsDir: string;
+}): Logger {
 	const debugLog = destination({
-		dest: join("runs", `${runTimestamp}-debug.log`),
+		dest: join(runsDir, `${runTimestamp}-debug.log`),
 		sync: false,
 		mkdir: true,
 	});

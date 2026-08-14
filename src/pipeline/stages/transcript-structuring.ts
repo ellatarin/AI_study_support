@@ -4,7 +4,7 @@
    (CLAUDE.md, File Organisation). Only the imports are exempt; the code below is
    checked as normal. */
 import { mkdir, readFile } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname } from "node:path";
 import type {
 	PipelineStage,
 	RunManifest,
@@ -12,12 +12,12 @@ import type {
 	StageResult,
 } from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
-import { cleanTmpFiles, workspacePath, writeFileAtomic } from "../../utils/files.js";
+import { cleanTmpFiles, writeFileAtomic } from "../../utils/files.js";
+import { moduleDirs, stageOutputEntry, stageOutputPath } from "../layout.js";
 import { baseNameForLecture, renameLectureFiles } from "../lecture-files.js";
 import { writeManifest } from "../manifest.js";
 import { makeCompletionCall } from "../openrouter.js";
 import { createPipelineStage } from "./pipeline-stage.js";
-import { moduleDirs } from "./source-normalisation.js";
 import { buildStructuringMessages } from "./transcript-structuring.prompt.js";
 /* jscpd:ignore-end */
 
@@ -45,10 +45,6 @@ export type TranscriptStructuringOutput = {
 };
 
 const STAGE_ID = "transcript-structuring";
-const TRANSCRIPT_SEGMENTS = ["Transcript", "transcript.txt"] as const;
-const STRUCTURED_DIR = "Structured transcript";
-const STRUCTURED_FILE = "structured-transcript.md";
-const STRUCTURED_ENTRY = join(STRUCTURED_DIR, STRUCTURED_FILE);
 
 /** The object Stage 3's single call is contracted to return. */
 type StructuringReply = {
@@ -65,9 +61,11 @@ type StructuringReply = {
  * @throws {TranscriptStructuringError} If the transcript is missing or holds no text.
  */
 async function readTranscript(context: StageContext): Promise<TranscriptStructuringInput> {
-	const transcriptPath = workspacePath({
+	// Asked of the layout rather than restated here, so this stage and the stage
+	// that wrote the transcript cannot disagree about where it is (§3.3).
+	const transcriptPath = stageOutputPath({
 		workspaceRoot: context.workspaceRoot,
-		segments: [...TRANSCRIPT_SEGMENTS],
+		stageId: "transcription",
 	});
 	let transcriptText: string;
 	try {
@@ -150,10 +148,11 @@ async function writeStructuredTranscript({
 	readonly workspaceRoot: string;
 	readonly markdown: string;
 }): Promise<void> {
-	const directory = workspacePath({ workspaceRoot, segments: [STRUCTURED_DIR] });
+	const outputPath = stageOutputPath({ workspaceRoot, stageId: STAGE_ID });
+	const directory = dirname(outputPath);
 	await mkdir(directory, { recursive: true });
 	await cleanTmpFiles(directory);
-	await writeFileAtomic({ path: join(directory, STRUCTURED_FILE), content: markdown });
+	await writeFileAtomic({ path: outputPath, content: markdown });
 }
 
 /**
@@ -350,11 +349,14 @@ async function structureTranscript({
 		output: {
 			// Resolved against where the workspace ended up: settling the title may have
 			// moved it, taking the file just written along with it.
-			structuredTranscriptPath: join(settled.workspaceRoot, STRUCTURED_ENTRY),
+			structuredTranscriptPath: stageOutputPath({
+				workspaceRoot: settled.workspaceRoot,
+				stageId: STAGE_ID,
+			}),
 			lectureTitle: settled.lectureTitle,
 		},
 		cost,
-		filesWritten: [STRUCTURED_ENTRY],
+		filesWritten: [stageOutputEntry(STAGE_ID)],
 	};
 }
 

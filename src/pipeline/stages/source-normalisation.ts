@@ -7,6 +7,7 @@ import { extractDate, formatDateISO } from "../../utils/date.js";
 import { NamedError } from "../../utils/errors.js";
 import { listFileNames, listSubdirectoryNames } from "../../utils/files.js";
 import { extractProvisionalTitle, lectureFolderName } from "../../utils/naming.js";
+import { type ModuleDirs, moduleDirs } from "../layout.js";
 import { readManifest, readManifestSafe, writeManifest } from "../manifest.js";
 
 // prefer-readonly-parameter-types is disabled file-wide: this stage's helpers take
@@ -32,47 +33,8 @@ export class SourceNormalisationError extends NamedError {}
  */
 export type ConfirmPrompt = (args: { readonly message: string }) => Promise<boolean>;
 
-const SOURCE_DIR = "Source files";
-const VIDEO_SUBDIR = "Video files";
-const SLIDE_SUBDIR = "Lecture slides";
-const PROCESSING_DIR = "Pipeline processing";
-const FINAL_OUTPUT_DIR = "Final output";
 const MANIFEST_VERSION = "1";
 const TEMP_SUFFIX = ".stage0-tmp";
-
-/**
- * The four directories a module's lecture files are spread across
- * (technical-design.md §3.1).
- */
-export type ModuleDirs = {
-	/** Where the source videos live. */
-	readonly video: string;
-	/** Where the source slide decks live. */
-	readonly slide: string;
-	/** Where each lecture's pipeline workspace lives. */
-	readonly processing: string;
-	/** Where the finished PDFs are deposited. */
-	readonly finalOutput: string;
-};
-
-/**
- * Resolves a module's four directories. Exported because the CLI's identity
- * commands (`rename`, `delete`, `change-date`) move the same files Stage 0
- * normalises, and the module layout is stated once here rather than in each
- * (technical-design.md §3.1, §4.7).
- *
- * @param args - The module to resolve.
- * @param args.moduleRoot - Absolute path to the module directory.
- * @returns The module's source, workspace, and output directory paths.
- */
-export function moduleDirs({ moduleRoot }: { readonly moduleRoot: string }): ModuleDirs {
-	return {
-		video: join(moduleRoot, SOURCE_DIR, VIDEO_SUBDIR),
-		slide: join(moduleRoot, SOURCE_DIR, SLIDE_SUBDIR),
-		processing: join(moduleRoot, PROCESSING_DIR),
-		finalOutput: join(moduleRoot, FINAL_OUTPUT_DIR),
-	};
-}
 
 /** A source file identified only by its name and extracted `YYYY-MM-DD` date. */
 type SourceRef = { readonly name: string; readonly iso: string };

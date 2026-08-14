@@ -1,13 +1,14 @@
 import { createReadStream } from "node:fs";
 import { mkdir, stat } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname } from "node:path";
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 import type { FfprobeData } from "fluent-ffmpeg";
 import ffmpeg from "fluent-ffmpeg";
 import type { PipelineStage, StageContext, StageCost, StageResult } from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
-import { cleanTmpFiles, workspacePath, writeFileAtomic } from "../../utils/files.js";
+import { cleanTmpFiles, writeFileAtomic } from "../../utils/files.js";
 import { createUploadProgressStream } from "../../utils/progress.js";
+import { stageOutputEntry, stageOutputPath } from "../layout.js";
 import { createPipelineStage } from "./pipeline-stage.js";
 
 // prefer-readonly-parameter-types is disabled file-wide: every helper here takes
@@ -40,10 +41,6 @@ export type TranscriptionOutput = {
 };
 
 const STAGE_ID = "transcription";
-const AUDIO_SEGMENTS = ["Audio", "audio.m4a"] as const;
-const TRANSCRIPT_DIR = "Transcript";
-const TRANSCRIPT_FILE = "transcript.txt";
-const TRANSCRIPT_ENTRY = join(TRANSCRIPT_DIR, TRANSCRIPT_FILE);
 const API_KEY_VARIABLE = "ELEVENLABS_API_KEY";
 const LANGUAGE_CODE = "eng";
 const PROVIDER_SEPARATOR = "/";
@@ -66,9 +63,11 @@ type ScribeModelId = Parameters<ElevenLabsClient["speechToText"]["convert"]>[0][
  * @throws {TranscriptionError} If Stage 1's audio is not on disk.
  */
 async function locateAudio(context: StageContext): Promise<TranscriptionInput> {
-	const audioPath = workspacePath({
+	// Asked of the layout rather than restated here, so this stage and the stage
+	// that extracted the audio cannot disagree about where it is (§3.3).
+	const audioPath = stageOutputPath({
 		workspaceRoot: context.workspaceRoot,
-		segments: [...AUDIO_SEGMENTS],
+		stageId: "audio-extraction",
 	});
 	try {
 		const { size } = await stat(audioPath);
@@ -234,22 +233,22 @@ async function transcribeAudio({
 	const apiKey = requireApiKey();
 	const modelId = resolveModelId(context);
 
-	const transcriptDir = workspacePath({
+	const transcriptPath = stageOutputPath({
 		workspaceRoot: context.workspaceRoot,
-		segments: [TRANSCRIPT_DIR],
+		stageId: STAGE_ID,
 	});
+	const transcriptDir = dirname(transcriptPath);
 	await mkdir(transcriptDir, { recursive: true });
 	await cleanTmpFiles(transcriptDir);
 
 	const text = await requestTranscript({ apiKey, modelId, input });
-	const transcriptPath = join(transcriptDir, TRANSCRIPT_FILE);
 	await writeFileAtomic({ path: transcriptPath, content: text });
 
 	const cost = await deriveCost({
 		audioPath: input.audioPath,
 		costPerAudioHourUsd: context.config.elevenLabs.costPerAudioHourUsd,
 	});
-	return { output: { transcriptPath }, cost, filesWritten: [TRANSCRIPT_ENTRY] };
+	return { output: { transcriptPath }, cost, filesWritten: [stageOutputEntry(STAGE_ID)] };
 }
 
 /**

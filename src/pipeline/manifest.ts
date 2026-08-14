@@ -14,9 +14,7 @@ import { mkdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import type { RunManifest } from "../types/pipeline.js";
 import { writeFileAtomic } from "../utils/files.js";
-
-/** The manifest's filename within a lecture workspace. */
-const MANIFEST_FILE = "manifest.json";
+import { MANIFEST_FILE } from "./layout.js";
 
 /** Indentation applied to the persisted manifest, so it stays diff-friendly. */
 const JSON_INDENT = 2;

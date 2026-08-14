@@ -23,10 +23,12 @@ import type {
 	StageId,
 	StageRunConfig,
 } from "../types/pipeline.js";
+import { STAGE_IDS } from "../types/pipeline.js";
 import { formatCostReport } from "../utils/cost.js";
 import { errorMessage } from "../utils/errors.js";
 import { listSubdirectoryNames, readDirSafe, writeFileAtomic } from "../utils/files.js";
 import { createStageLogger } from "../utils/logger.js";
+import { moduleDirs, RUNS_DIR, STAGE_WORKSPACE, type StageInWorkspace } from "./layout.js";
 import { readManifest, readManifestSafe, writeManifest } from "./manifest.js";
 import { stageOutcomeStatus, summariseOverallStatus } from "./run-status.js";
 
@@ -49,30 +51,10 @@ type ModuleScopedArgs<TOptions> = {
 	readonly options?: TOptions;
 };
 
-/**
- * The output directory each stage owns, relative to the workspace root. A
- * `--from-stage` re-run deletes exactly these directories for the nominated
- * stage and everything downstream — never the manifest's recorded `filesWritten`
- * (technical-design.md §4.4, §4.5). `source-normalisation` owns no per-workspace
- * directory; `pdf-generation`'s module-level `Final output/` is cleaned by the
- * stage itself, not here.
- */
-const STAGE_OUTPUT_DIRS: Readonly<Record<StageId, readonly string[]>> = {
-	"source-normalisation": [],
-	"audio-extraction": ["Audio"],
-	transcription: ["Transcript"],
-	"transcript-structuring": ["Structured transcript"],
-	"slide-conversion": ["Slide content"],
-	"image-extraction": ["Slide images"],
-	synthesis: ["Synthesised notes"],
-	"qa-loop": ["QA iterations"],
-	"pdf-generation": ["Output"],
-};
-
-const STAGE_ORDER = Object.keys(STAGE_OUTPUT_DIRS) as readonly StageId[];
-
-const RUNS_DIR = "runs";
-const PROCESSING_DIR = "Pipeline processing";
+// Pipeline order comes from STAGE_IDS, the declared source of truth, rather than
+// from the key order of some lookup map — a map is keyed *by* stage, and reading
+// its keys as the sequence means a stage added to one map and not another
+// silently changes the order (technical-design.md §4.7).
 
 /**
  * Derives a filesystem-safe run identifier from a timestamp: the ISO 8601 string
@@ -166,7 +148,7 @@ async function readJsonFile<TValue>(path: string): Promise<TValue | null> {
 type ModuleQuery = { readonly moduleRoot: string };
 
 async function listWorkspaces({ moduleRoot }: ModuleQuery): Promise<readonly string[]> {
-	const processingRoot = join(moduleRoot, PROCESSING_DIR);
+	const processingRoot = moduleDirs({ moduleRoot }).processing;
 	const names = await listSubdirectoryNames(processingRoot);
 	return names.map((name) => join(processingRoot, name));
 }
@@ -505,14 +487,8 @@ async function runStage({
 	}
 }
 
-async function deleteStageOutput({
-	workspaceRoot,
-	stageId,
-}: {
-	readonly workspaceRoot: string;
-	readonly stageId: StageId;
-}): Promise<void> {
-	for (const dir of STAGE_OUTPUT_DIRS[stageId]) {
+async function deleteStageOutput({ workspaceRoot, stageId }: StageInWorkspace): Promise<void> {
+	for (const dir of STAGE_WORKSPACE[stageId].directories) {
 		await rm(join(workspaceRoot, dir), { recursive: true, force: true });
 	}
 }
@@ -529,7 +505,7 @@ async function resetFromStage({
 	readonly timestamp: string;
 }): Promise<RunManifest> {
 	let stages = manifest.stages;
-	for (const stageId of STAGE_ORDER.slice(STAGE_ORDER.indexOf(fromStage))) {
+	for (const stageId of STAGE_IDS.slice(STAGE_IDS.indexOf(fromStage))) {
 		stages = patchStages({ stages, stageId, entry: { status: "pending" } });
 		await deleteStageOutput({ workspaceRoot, stageId });
 	}

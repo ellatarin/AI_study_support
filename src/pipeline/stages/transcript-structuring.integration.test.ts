@@ -11,8 +11,8 @@ import {
 	makeStageContext,
 	TEST_OPENROUTER_BASE_URL,
 } from "../fixtures.js";
+import type { ModuleDirs } from "../layout.js";
 import { readManifest, writeManifest } from "../manifest.js";
-import type { ModuleDirs } from "./source-normalisation.js";
 import { createTranscriptStructuringStage } from "./transcript-structuring.js";
 
 // Derived from the one configured address, as the client derives its own.

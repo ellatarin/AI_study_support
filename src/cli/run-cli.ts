@@ -9,6 +9,7 @@
  */
 
 import { loadConfig } from "../pipeline/config.js";
+import { RUNS_DIR } from "../pipeline/layout.js";
 import { deriveRunId, PipelineRunner } from "../pipeline/runner.js";
 import { createAudioExtractionStage } from "../pipeline/stages/audio-extraction.js";
 import { createSourceNormalisationStage } from "../pipeline/stages/source-normalisation.js";
@@ -49,7 +50,10 @@ async function assembleDeps({
 	readonly write: (text: string) => void;
 }): Promise<CliDeps> {
 	const config = await loadConfig({ projectRoot });
-	const logger = createRootLogger({ runTimestamp: deriveRunId({ instant: new Date() }) });
+	const logger = createRootLogger({
+		runTimestamp: deriveRunId({ instant: new Date() }),
+		runsDir: RUNS_DIR,
+	});
 	const runner = new PipelineRunner({
 		config,
 		sourceNormalisation: createSourceNormalisationStage({ logger, confirm: confirmPrompt }),

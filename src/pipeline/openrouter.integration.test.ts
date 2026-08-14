@@ -79,7 +79,6 @@ async function callCapturingRequest(
 	};
 	nock(OPENROUTER_HOST)
 		.post(COMPLETIONS_PATH)
-		// eslint-disable-next-line max-params -- nock's reply callback signature is fixed
 		.reply(function reply(_uri, body) {
 			captured.body = body as Record<string, unknown>;
 			captured.headers = this.req.headers as Record<string, unknown>;

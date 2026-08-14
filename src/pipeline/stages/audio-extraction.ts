@@ -1,15 +1,11 @@
 import { mkdir } from "node:fs/promises";
-import { basename, extname, join } from "node:path";
+import { basename, dirname, extname, join } from "node:path";
 import ffmpeg from "fluent-ffmpeg";
 import type { PipelineStage, StageContext, StageResult } from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
-import {
-	cleanTmpFiles,
-	listFileNames,
-	produceFileAtomic,
-	workspacePath,
-} from "../../utils/files.js";
+import { cleanTmpFiles, listFileNames, produceFileAtomic } from "../../utils/files.js";
 import { createProgressBar } from "../../utils/progress.js";
+import { moduleDirs, stageOutputEntry, stageOutputPath } from "../layout.js";
 import { createPipelineStage } from "./pipeline-stage.js";
 
 // prefer-readonly-parameter-types is disabled file-wide: every helper here takes
@@ -38,10 +34,6 @@ export type AudioExtractionOutput = {
 };
 
 const STAGE_ID = "audio-extraction";
-const AUDIO_DIR = "Audio";
-const AUDIO_FILE = "audio.m4a";
-const AUDIO_ENTRY = join(AUDIO_DIR, AUDIO_FILE);
-const SOURCE_VIDEO_SEGMENTS = ["Source files", "Video files"] as const;
 const PROGRESS_FORMAT = "Extracting audio |{bar}| {percentage}%";
 /**
  * The m4a muxer, named explicitly because extraction writes to a `.tmp` sibling
@@ -63,7 +55,7 @@ const PERCENT_BEFORE_END = 99;
  * @throws {AudioExtractionError} If no video matches, or more than one does.
  */
 async function locateSourceVideo(context: StageContext): Promise<AudioExtractionInput> {
-	const videoDir = join(context.moduleRoot, ...SOURCE_VIDEO_SEGMENTS);
+	const videoDir = moduleDirs({ moduleRoot: context.moduleRoot }).video;
 	const baseName = context.manifest.workspaceFolderName;
 	const matches = (await listFileNames(videoDir)).filter(
 		(name) => basename(name, extname(name)) === baseName,
@@ -142,11 +134,11 @@ async function extractAudio({
 	readonly input: AudioExtractionInput;
 	readonly context: StageContext;
 }): Promise<StageResult<AudioExtractionOutput>> {
-	const audioDir = workspacePath({ workspaceRoot: context.workspaceRoot, segments: [AUDIO_DIR] });
+	const audioPath = stageOutputPath({ workspaceRoot: context.workspaceRoot, stageId: STAGE_ID });
+	const audioDir = dirname(audioPath);
 	await mkdir(audioDir, { recursive: true });
 	await cleanTmpFiles(audioDir);
 
-	const audioPath = join(audioDir, AUDIO_FILE);
 	try {
 		await produceFileAtomic({
 			path: audioPath,
@@ -160,7 +152,7 @@ async function extractAudio({
 	}
 
 	// No billable call is made, so this stage records no cost.
-	return { output: { audioPath }, cost: null, filesWritten: [AUDIO_ENTRY] };
+	return { output: { audioPath }, cost: null, filesWritten: [stageOutputEntry(STAGE_ID)] };
 }
 
 /**

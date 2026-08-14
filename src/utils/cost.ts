@@ -14,6 +14,7 @@ import type {
 	StageCost,
 	StageId,
 } from "../types/pipeline.js";
+import { STAGE_IDS } from "../types/pipeline.js";
 
 /**
  * Merges two `StageCost` accumulators, summing tokens, call counts, and cost.
@@ -62,7 +63,11 @@ const STAGE_LABELS: Readonly<Record<StageId, string>> = {
 	"pdf-generation": "PDF generation",
 };
 
-const STAGE_ORDER = Object.keys(STAGE_LABELS) as readonly StageId[];
+// Reports walk the stages in STAGE_IDS order, the declared source of truth,
+// rather than in the key order of the label map above — that map is keyed *by*
+// stage, and reading its keys as the pipeline sequence would let a stage added
+// to one map and not another silently reorder or vanish from a report
+// (technical-design.md §4.7).
 
 /**
  * The human-readable name of a stage, as every report and message shows it.
@@ -295,7 +300,7 @@ type RunLogSectionArgs = {
  */
 function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs): readonly string[] {
 	const rows: Cell[][] = [];
-	for (const stageId of STAGE_ORDER) {
+	for (const stageId of STAGE_IDS) {
 		const cost = manifest.currentPipelineCost.byStage[stageId];
 		if (cost === undefined) {
 			continue;

@@ -23,8 +23,8 @@ import type {
 	StageId,
 } from "../types/pipeline.js";
 import { STAGE_IDS } from "../types/pipeline.js";
+import { type ModuleDirs, moduleDirs } from "./layout.js";
 import { assembleContext } from "./runner.js";
-import { type ModuleDirs, moduleDirs } from "./stages/source-normalisation.js";
 
 /**
  * Awaits a promise that a test expects to reject and returns the rejection, so

@@ -12,13 +12,13 @@
 
 import { rm } from "node:fs/promises";
 import { join } from "node:path";
+import { type ModuleDirs, moduleDirs } from "../pipeline/layout.js";
 import {
 	baseNameForLecture,
 	findDatedFile,
 	renameLectureFiles,
 } from "../pipeline/lecture-files.js";
 import { readManifest, writeManifest } from "../pipeline/manifest.js";
-import { type ModuleDirs, moduleDirs } from "../pipeline/stages/source-normalisation.js";
 import type { LectureMatch, RunManifest } from "../types/pipeline.js";
 import { errorMessage, NamedError } from "../utils/errors.js";
 import { filenameSafe } from "../utils/naming.js";

@@ -3,8 +3,8 @@ import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { pathExists } from "../utils/files.js";
 import { makeLectureTree } from "./fixtures.js";
+import type { ModuleDirs } from "./layout.js";
 import { findDatedFile, renameLectureFiles } from "./lecture-files.js";
-import type { ModuleDirs } from "./stages/source-normalisation.js";
 
 const FOLDER = "Lecture 1 - Cell Injury - 2025-10-10";
 const NEW_BASE_NAME = "Lecture 1 - Innate Immune Response - 2025-10-10";

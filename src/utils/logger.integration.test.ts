@@ -34,26 +34,23 @@ describe("logger", () => {
 	});
 
 	describe("createRootLogger", () => {
-		it("should write a JSON debug log to runs/<timestamp> when the root logger logs", async () => {
+		it("should write a JSON debug log named for the timestamp when the root logger logs", async () => {
 			const runTimestamp = "2025-10-10T09-00-00-000Z";
-			const originalCwd = process.cwd();
-			process.chdir(tempDir);
+			// The directory is a parameter, so the log lands where the test says rather
+			// than relative to the working directory — no chdir needed to contain it.
+			const runsDir = join(tempDir, "runs");
 
-			try {
-				const logger = createRootLogger({ runTimestamp });
-				logger.info("pipeline started");
-				logger.flush();
+			const logger = createRootLogger({ runTimestamp, runsDir });
+			logger.info("pipeline started");
+			logger.flush();
 
-				const logPath = join(tempDir, "runs", `${runTimestamp}-debug.log`);
-				await waitForFile(logPath);
-				const [firstLine] = readFileSync(logPath, "utf8").trim().split("\n");
-				const entry = JSON.parse(firstLine);
+			const logPath = join(runsDir, `${runTimestamp}-debug.log`);
+			await waitForFile(logPath);
+			const [firstLine] = readFileSync(logPath, "utf8").trim().split("\n");
+			const entry = JSON.parse(firstLine);
 
-				expect(entry.msg).toBe("pipeline started");
-				expect(entry.level).toBe(30);
-			} finally {
-				process.chdir(originalCwd);
-			}
+			expect(entry.msg).toBe("pipeline started");
+			expect(entry.level).toBe(30);
 		});
 	});
 
