@@ -191,7 +191,7 @@ function report(title, counts, minFiles) {
 
 report("NAMED CONSTANTS declared in several files", constNames, 2);
 report("STRING LITERALS", stringLiterals, 2);
-report("NUMERIC LITERALS", numberLiterals, 3);
+report("NUMERIC LITERALS", numberLiterals, 2);
 
 console.log(`\n${"=".repeat(78)}\nPROPERTY KNOBS given literal values\n${"=".repeat(78)}`);
 for (const [key, values] of [...propertyKnobs.entries()].sort()) {
