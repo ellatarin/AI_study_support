@@ -29,6 +29,7 @@ import { type ModuleDirs, moduleDirs } from "./layout.js";
 import { baseNameForLecture } from "./lecture-files.js";
 import { OPENROUTER_PATHS } from "./openrouter.js";
 import { assembleContext } from "./runner.js";
+import { ELEVENLABS_PATHS } from "./stages/transcription.js";
 
 /**
  * Awaits a promise that a test expects to reject and returns the rejection, so
@@ -140,6 +141,21 @@ export const openRouterUrls = {
 	models: `${new URL(exampleConfig.openRouter.baseUrl).pathname}${OPENROUTER_PATHS.models}`,
 	/** The human-facing models page a failed model-ID check links to. */
 	modelsPage: `${new URL(exampleConfig.openRouter.baseUrl).origin}${OPENROUTER_PATHS.models}`,
+} as const;
+
+/**
+ * Where a suite intercepting ElevenLabs should point nock: the configured
+ * address and the route the SDK appends to it.
+ *
+ * Assembled the same way {@link openRouterUrls} is, so a suite mocking Scribe
+ * neither restates the host nor knows the endpoint independently of the code
+ * under test.
+ */
+export const elevenLabsUrls = {
+	/** The scheme and host, as nock's scope. */
+	origin: new URL(exampleConfig.elevenLabs.baseUrl).origin,
+	/** Path to the speech-to-text endpoint the transcription stage posts to. */
+	speechToText: ELEVENLABS_PATHS.speechToText,
 } as const;
 
 /**

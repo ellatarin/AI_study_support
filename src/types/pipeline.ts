@@ -121,6 +121,23 @@ export type PipelineConfig = {
 	};
 	readonly elevenLabs: {
 		/**
+		 * The address every ElevenLabs call is made against, handed to the SDK's
+		 * own `baseUrl` option. Configuration for the same reason
+		 * {@link PipelineConfig.openRouter.baseUrl} is, and more pressingly:
+		 * ElevenLabs serves the same API from several regional residency hosts,
+		 * and which one an account must use is a fact about that account rather
+		 * than about this codebase (technical-design.md §6).
+		 */
+		readonly baseUrl: string;
+		/**
+		 * The language spoken in the lectures, as the ISO-639-3 code Scribe expects
+		 * (`eng`). Deliberately not {@link PipelineConfig.output.language}, which is
+		 * the language the *notes* are written in: a lecture delivered in one
+		 * language may want notes in another, and the two take different forms
+		 * anyway (technical-design.md §6).
+		 */
+		readonly languageCode: string;
+		/**
 		 * The rate Stage 2 multiplies by audio duration to attribute transcription
 		 * spend, since the Scribe API returns no price with a transcript. Accurate
 		 * only for the call this pipeline makes — batch Scribe v2 with no

@@ -4,8 +4,15 @@ import ffmpeg from "fluent-ffmpeg";
 import nock from "nock";
 import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { ManifestStageEntry, StageContext, StageResult } from "../../types/pipeline.js";
+import type {
+	ManifestStageEntry,
+	PipelineConfig,
+	StageContext,
+	StageResult,
+} from "../../types/pipeline.js";
 import {
+	elevenLabsUrls,
+	exampleConfig,
 	makeConfig,
 	makeManifest,
 	makeStageContext,
@@ -23,13 +30,10 @@ vi.mock("fluent-ffmpeg", () => ({
 
 const ffprobeMock = ffmpeg.ffprobe as unknown as Mock;
 
-const ELEVENLABS_ORIGIN = "https://api.elevenlabs.io";
-const SPEECH_TO_TEXT_PATH = "/v1/speech-to-text";
 const AUDIO_ENTRY = join("Audio", "audio.m4a");
 const TRANSCRIPT_ENTRY = join("Transcript", "transcript.txt");
 const TRANSCRIPT_TEXT = "Today we are covering cell injury.";
 const HALF_HOUR_SECONDS = 1800;
-const COST_PER_AUDIO_HOUR_USD = 0.22;
 
 /** A Scribe v2 single-channel response body, as the SDK expects to deserialise it. */
 function scribeResponse(text: string): Record<string, unknown> {
@@ -73,8 +77,8 @@ describe("createTranscriptionStage", () => {
 	}
 
 	function interceptTranscription(body: Record<string, unknown>): nock.Scope {
-		return nock(ELEVENLABS_ORIGIN)
-			.post(SPEECH_TO_TEXT_PATH)
+		return nock(elevenLabsUrls.origin)
+			.post(elevenLabsUrls.speechToText)
 			.reply(200, (_uri: string, requestBody: nock.Body) => {
 				capturedBody = typeof requestBody === "string" ? requestBody : JSON.stringify(requestBody);
 				return body;
@@ -82,13 +86,17 @@ describe("createTranscriptionStage", () => {
 	}
 
 	function contextWith(
-		overrides: { readonly entry?: ManifestStageEntry; readonly modelId?: string | null } = {},
+		overrides: {
+			readonly entry?: ManifestStageEntry;
+			readonly modelId?: string | null;
+			readonly elevenLabs?: Partial<PipelineConfig["elevenLabs"]>;
+		} = {},
 	): StageContext {
 		const modelId = overrides.modelId === undefined ? "elevenlabs/scribe_v2" : overrides.modelId;
 		return makeStageContext({
 			workspaceRoot,
 			config: makeConfig({
-				elevenLabs: { costPerAudioHourUsd: COST_PER_AUDIO_HOUR_USD },
+				elevenLabs: { ...exampleConfig.elevenLabs, ...overrides.elevenLabs },
 				stages: modelId === null ? {} : { transcription: { modelId } },
 			}),
 			manifest: makeManifest(
@@ -168,13 +176,33 @@ describe("createTranscriptionStage", () => {
 		expect(capturedBody).toContain("scribe_v2");
 	});
 
-	it("should request an English non-verbatim transcript when calling Scribe", async () => {
+	it("should request a non-verbatim transcript when calling Scribe", async () => {
 		interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
 
 		await runStage(contextWith());
 
-		expect(capturedBody).toContain("eng");
 		expect(capturedBody).toContain("no_verbatim");
+	});
+
+	// A different language from the example config's, so passing could not come
+	// from the stage having kept a hardcoded default that happens to match.
+	it("should tell Scribe the configured spoken language when uploading", async () => {
+		interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+
+		await runStage(contextWith({ elevenLabs: { languageCode: "fra" } }));
+
+		expect(capturedBody).toContain("fra");
+	});
+
+	it("should upload to the configured host when elevenLabs.baseUrl names another endpoint", async () => {
+		const residencyOrigin = "https://api.eu.residency.elevenlabs.test";
+		const scope = nock(residencyOrigin)
+			.post(elevenLabsUrls.speechToText)
+			.reply(200, scribeResponse(TRANSCRIPT_TEXT));
+
+		await runStage(contextWith({ elevenLabs: { baseUrl: residencyOrigin } }));
+
+		expect(scope.isDone()).toBe(true);
 	});
 
 	it("should write the transcript with no .tmp left behind when the API returns text", async () => {
@@ -204,7 +232,8 @@ describe("createTranscriptionStage", () => {
 			promptTokens: 0,
 			completionTokens: 0,
 			callCount: 1,
-			totalCostUsd: expect.closeTo(COST_PER_AUDIO_HOUR_USD / 2, 6),
+			// The stubbed duration is half an hour, so half the configured hourly rate.
+			totalCostUsd: expect.closeTo(exampleConfig.elevenLabs.costPerAudioHourUsd / 2, 6),
 		});
 	});
 
@@ -248,8 +277,8 @@ describe("createTranscriptionStage", () => {
 	});
 
 	it("should fail when the response carries no transcript text", async () => {
-		nock(ELEVENLABS_ORIGIN)
-			.post(SPEECH_TO_TEXT_PATH)
+		nock(elevenLabsUrls.origin)
+			.post(elevenLabsUrls.speechToText)
 			.reply(200, { transcripts: [], language_code: "eng", language_probability: 0.99 });
 
 		await expect(runStage(contextWith())).rejects.toThrow(TranscriptionError);

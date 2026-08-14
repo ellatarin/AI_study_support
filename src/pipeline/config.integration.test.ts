@@ -48,22 +48,33 @@ const GATEWAY_ORIGIN = "https://gateway.example.test";
 const GATEWAY_BASE_URL = `${GATEWAY_ORIGIN}/openrouter/v1`;
 
 /**
- * The `openRouter` section as raw JSON, with one field replaced — so a
- * validation case states only the field it is corrupting. `undefined` drops the
- * field, which is how the "missing" cases are written.
+ * Builds a corrupter for one config section: it returns that section as raw
+ * JSON with the named fields replaced, so a validation case states only the
+ * field it is corrupting. `undefined` drops the field, which is how the
+ * "missing" cases are written.
+ *
+ * @param sectionName - The top-level config key the corrupter targets.
+ * @returns A function taking the field overrides and returning the section.
  */
-function openRouterSection(overrides: Record<string, unknown>): Record<string, unknown> {
-	const section: Record<string, unknown> = {
-		...(makeValidConfig().openRouter as Record<string, unknown>),
-		...overrides,
-	};
-	for (const [key, value] of Object.entries(overrides)) {
-		if (value === undefined) {
-			delete section[key];
+function sectionCorrupter(
+	sectionName: string,
+): (overrides: Record<string, unknown>) => Record<string, unknown> {
+	return (overrides) => {
+		const section: Record<string, unknown> = {
+			...(makeValidConfig()[sectionName] as Record<string, unknown>),
+			...overrides,
+		};
+		for (const [key, value] of Object.entries(overrides)) {
+			if (value === undefined) {
+				delete section[key];
+			}
 		}
-	}
-	return section;
+		return section;
+	};
 }
+
+const openRouterSection = sectionCorrupter("openRouter");
+const elevenLabsSection = sectionCorrupter("elevenLabs");
 
 function stageModelIds(config: Record<string, unknown>): Record<string, { modelId: string }> {
 	return config.stages as Record<string, { modelId: string }>;
@@ -372,9 +383,37 @@ describe("loadConfig shape validation", () => {
 			match: /elevenLabs/,
 		},
 		{
+			name: "elevenLabs.baseUrl is missing",
+			mutate: (config: Record<string, unknown>) => {
+				config.elevenLabs = elevenLabsSection({ baseUrl: undefined });
+			},
+			match: /elevenLabs\.baseUrl/,
+		},
+		{
+			name: "elevenLabs.baseUrl is not an absolute URL",
+			mutate: (config: Record<string, unknown>) => {
+				config.elevenLabs = elevenLabsSection({ baseUrl: "/v1" });
+			},
+			match: /elevenLabs\.baseUrl/,
+		},
+		{
+			name: "languageCode is missing",
+			mutate: (config: Record<string, unknown>) => {
+				config.elevenLabs = elevenLabsSection({ languageCode: undefined });
+			},
+			match: /languageCode/,
+		},
+		{
+			name: "languageCode is not a string",
+			mutate: (config: Record<string, unknown>) => {
+				config.elevenLabs = elevenLabsSection({ languageCode: 3 });
+			},
+			match: /languageCode/,
+		},
+		{
 			name: "costPerAudioHourUsd is not a number",
 			mutate: (config: Record<string, unknown>) => {
-				config.elevenLabs = { costPerAudioHourUsd: "0.22" };
+				config.elevenLabs = elevenLabsSection({ costPerAudioHourUsd: "0.22" });
 			},
 			match: /costPerAudioHourUsd/,
 		},

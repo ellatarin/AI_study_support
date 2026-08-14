@@ -3,6 +3,8 @@ import { join } from "node:path";
 import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
+	elevenLabsUrls,
+	exampleConfig,
 	makeConfig,
 	makeManifest,
 	makeStageContext,
@@ -13,13 +15,10 @@ import {
 } from "../fixtures.js";
 import { createTranscriptionStage } from "./transcription.js";
 
-const ELEVENLABS_ORIGIN = "https://api.elevenlabs.io";
-const SPEECH_TO_TEXT_PATH = "/v1/speech-to-text";
 const AUDIO_ENTRY = join("Audio", "audio.m4a");
 const TRANSCRIPT_ENTRY = join("Transcript", "transcript.txt");
 const TRANSCRIPT_TEXT = "Today we are covering cell injury and the immune system.";
 const FIXTURE_SECONDS = 2;
-const COST_PER_AUDIO_HOUR_USD = 0.22;
 const SECONDS_PER_HOUR = 3600;
 
 /**
@@ -58,8 +57,8 @@ describe("createTranscriptionStage against real audio", () => {
 
 	it("should return transcript text when audio file uploaded to ElevenLabs", async () => {
 		let uploadedBytes = 0;
-		const scope = nock(ELEVENLABS_ORIGIN)
-			.post(SPEECH_TO_TEXT_PATH)
+		const scope = nock(elevenLabsUrls.origin)
+			.post(elevenLabsUrls.speechToText)
 			.reply(200, (_uri: string, requestBody: nock.Body) => {
 				uploadedBytes = String(requestBody).length;
 				return {
@@ -73,10 +72,7 @@ describe("createTranscriptionStage against real audio", () => {
 		const context = makeStageContext({
 			workspaceRoot,
 			manifest: makeManifest(),
-			config: makeConfig({
-				elevenLabs: { costPerAudioHourUsd: COST_PER_AUDIO_HOUR_USD },
-				stages: { transcription: { modelId: "elevenlabs/scribe_v2" } },
-			}),
+			config: makeConfig({ stages: { transcription: { modelId: "elevenlabs/scribe_v2" } } }),
 		});
 
 		const input = await stage.getInput(context);
@@ -87,7 +83,7 @@ describe("createTranscriptionStage against real audio", () => {
 		expect(await readFile(join(workspaceRoot, TRANSCRIPT_ENTRY), "utf8")).toBe(TRANSCRIPT_TEXT);
 		expect(result.filesWritten).toStrictEqual([TRANSCRIPT_ENTRY]);
 		expect(result.cost?.totalCostUsd).toBeCloseTo(
-			(FIXTURE_SECONDS / SECONDS_PER_HOUR) * COST_PER_AUDIO_HOUR_USD,
+			(FIXTURE_SECONDS / SECONDS_PER_HOUR) * exampleConfig.elevenLabs.costPerAudioHourUsd,
 			5,
 		);
 	}, 30_000);

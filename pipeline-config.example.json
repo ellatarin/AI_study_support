@@ -12,6 +12,8 @@
     "costLookupMaxRetries": 3
   },
   "elevenLabs": {
+    "baseUrl": "https://api.elevenlabs.io",
+    "languageCode": "eng",
     "costPerAudioHourUsd": 0.22
   },
   "currency": {

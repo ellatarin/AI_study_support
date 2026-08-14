@@ -4,7 +4,13 @@ import { dirname } from "node:path";
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 import type { FfprobeData } from "fluent-ffmpeg";
 import ffmpeg from "fluent-ffmpeg";
-import type { PipelineStage, StageContext, StageCost, StageResult } from "../../types/pipeline.js";
+import type {
+	PipelineConfig,
+	PipelineStage,
+	StageContext,
+	StageCost,
+	StageResult,
+} from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
 import { cleanTmpFiles, writeFileAtomic } from "../../utils/files.js";
 import { createUploadProgressStream } from "../../utils/progress.js";
@@ -40,9 +46,22 @@ export type TranscriptionOutput = {
 	readonly transcriptPath: string;
 };
 
+/**
+ * ElevenLabs' endpoints, relative to the configured base URL.
+ *
+ * `speechToText` is the SDK's own route — the stage never builds it — and is
+ * named here only so a test intercepting the upload does not have to know it
+ * independently of the code under test, exactly as `OPENROUTER_PATHS` does. Its
+ * `v1` is the API version, not the Scribe version: one endpoint serves every
+ * Scribe model, and which one runs is decided by `model_id` in the request body
+ * (technical-design.md §6).
+ */
+export const ELEVENLABS_PATHS = {
+	speechToText: "/v1/speech-to-text",
+} as const;
+
 const STAGE_ID = "transcription";
 const API_KEY_VARIABLE = "ELEVENLABS_API_KEY";
-const LANGUAGE_CODE = "eng";
 const PROVIDER_SEPARATOR = "/";
 const SECONDS_PER_HOUR = 3600;
 
@@ -122,6 +141,7 @@ function resolveModelId(context: StageContext): string {
  * @param args.apiKey - The ElevenLabs API key.
  * @param args.modelId - The bare Scribe model ID.
  * @param args.input - The audio to upload.
+ * @param args.elevenLabs - Where ElevenLabs is and what language to expect, from config.
  * @returns The transcript text.
  * @throws {TranscriptionError} If the response carries no transcript text.
  */
@@ -129,18 +149,20 @@ async function requestTranscript({
 	apiKey,
 	modelId,
 	input,
+	elevenLabs,
 }: {
 	readonly apiKey: string;
 	readonly modelId: string;
 	readonly input: TranscriptionInput;
+	readonly elevenLabs: PipelineConfig["elevenLabs"];
 }): Promise<string> {
 	const { stream, bar } = createUploadProgressStream(input.sizeBytes);
-	const client = new ElevenLabsClient({ apiKey });
+	const client = new ElevenLabsClient({ apiKey, baseUrl: elevenLabs.baseUrl });
 	try {
 		const result = await client.speechToText.convert({
 			file: createReadStream(input.audioPath).pipe(stream),
 			modelId: modelId as ScribeModelId,
-			languageCode: LANGUAGE_CODE,
+			languageCode: elevenLabs.languageCode,
 			// Supported only on scribe_v2, so it travels with that model ID.
 			noVerbatim: true,
 		});
@@ -241,7 +263,12 @@ async function transcribeAudio({
 	await mkdir(transcriptDir, { recursive: true });
 	await cleanTmpFiles(transcriptDir);
 
-	const text = await requestTranscript({ apiKey, modelId, input });
+	const text = await requestTranscript({
+		apiKey,
+		modelId,
+		input,
+		elevenLabs: context.config.elevenLabs,
+	});
 	await writeFileAtomic({ path: transcriptPath, content: text });
 
 	const cost = await deriveCost({

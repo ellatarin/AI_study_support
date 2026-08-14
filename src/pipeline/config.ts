@@ -141,6 +141,28 @@ function requireOpenRouter(value: unknown): PipelineConfig["openRouter"] {
 	};
 }
 
+/**
+ * Validates the `elevenLabs` section: where the service is, what language it
+ * should expect to hear, and what it charges. All three are facts about the
+ * account, the recordings, and the plan in force rather than about this
+ * codebase, so all three are configuration (technical-design.md §6).
+ *
+ * @param value - The raw `elevenLabs` section.
+ * @returns The validated section.
+ * @throws {ConfigError} If the section is not an object, or any field is missing or mistyped.
+ */
+function requireElevenLabs(value: unknown): PipelineConfig["elevenLabs"] {
+	const record = requireRecord({ value, label: "elevenLabs" });
+	return {
+		baseUrl: requireUrl({ value: record.baseUrl, label: "elevenLabs.baseUrl" }),
+		languageCode: requireString({ value: record.languageCode, label: "elevenLabs.languageCode" }),
+		costPerAudioHourUsd: requireNumber({
+			value: record.costPerAudioHourUsd,
+			label: "elevenLabs.costPerAudioHourUsd",
+		}),
+	};
+}
+
 function requireModelIdCheck(value: unknown): PipelineConfig["modelIdCheck"] {
 	const record = requireRecord({ value, label: "modelIdCheck" });
 	return {
@@ -213,13 +235,7 @@ export function parseConfig(raw: unknown): PipelineConfig {
 		version: requireString({ value: root.version, label: "version" }),
 		moduleRoots: requireStringArray({ value: root.moduleRoots, label: "moduleRoots" }),
 		openRouter: requireOpenRouter(root.openRouter),
-		elevenLabs: {
-			costPerAudioHourUsd: requireSectionNumber({
-				value: root.elevenLabs,
-				sectionLabel: "elevenLabs",
-				field: "costPerAudioHourUsd",
-			}),
-		},
+		elevenLabs: requireElevenLabs(root.elevenLabs),
 		currency: {
 			gbpPerUsd: requireSectionNumber({
 				value: root.currency,
