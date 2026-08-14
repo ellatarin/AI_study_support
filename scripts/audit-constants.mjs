@@ -17,12 +17,36 @@
  * of an import, `vi.mock`, or `require`), never by judging which values look
  * like noise.
  *
- * Four groups are reported, each restricted to values appearing in more than one
- * file and split source-vs-test:
+ * Six groups are reported, split source-vs-test:
  *   1. `const NAME = …` names declared in several files
  *   2. string literals
  *   3. numeric literals
- *   4. object-property knobs (`maxRetries: 4`) and every value each is given
+ *   4. object shapes repeated verbatim
+ *   5. object-property knobs (`maxRetries: 4`) and every value each is given
+ *   6. single-home constants in source — candidates for configuration
+ *
+ * Groups 1–3 report a value seen in several files *or* several times within one
+ * file. Counting files alone missed two whole classes of duplication:
+ *
+ *   - One home, many uses. `0.0042` was written out eleven times inside a single
+ *     suite and never reported, because it lived in one file.
+ *   - A shape rather than a value. The same four-field stage entry appeared four
+ *     times in one suite; no individual literal in it looked duplicated. Group 4
+ *     hashes whole object literals to catch this, below the size at which jscpd
+ *     starts calling something a clone.
+ *
+ * Group 6 exists for a third class the other five *cannot* see: a value with
+ * exactly one home that should not be a constant at all. `LANGUAGE_CODE = "eng"`
+ * was hardcoded in one stage while the output language sat in config, and no
+ * duplication-counting rule could ever have flagged it. So the tool stops
+ * counting and simply lists every literal constant in shipped code, for a human
+ * to read and ask of each: is this a fact about this codebase, or about the
+ * service, the account, or the user's material? Only the second kind is
+ * configuration. Expect most of the list to be fine; that is the point.
+ *
+ * A shared *name* is not a duplicate. `STAGE_ID`, `TRANSCRIPT_TEXT` and
+ * `FIXTURE_SECONDS` each hold a different value in every file that declares
+ * them. Group 1 reports names; check the values before changing anything.
  */
 
 import { readdirSync, readFileSync, statSync } from "node:fs";
@@ -59,11 +83,13 @@ function walk(dir) {
  * open a string.
  *
  * @param {string} source - The file contents.
- * @returns {{ code: string, strings: string[] }} The comment-free code and its strings.
+ * @returns {{ code: string, bare: string, strings: string[] }} The code with strings
+ *   masked, the same code with strings intact, and the strings themselves.
  */
 function scan(source) {
 	const strings = [];
 	let code = "";
+	let bare = "";
 	let index = 0;
 	while (index < source.length) {
 		const char = source[index];
@@ -96,36 +122,96 @@ function scan(source) {
 			index += 1;
 			strings.push(value);
 			code += '"<str>"';
+			bare += JSON.stringify(value);
 			continue;
 		}
 		code += char;
+		bare += char;
 		index += 1;
 	}
-	return { code, strings };
+	return { code, bare, strings };
 }
 
 /**
- * Records that a value was seen in a file.
+ * Every balanced `{…}` literal in a file, normalised to one line so that two
+ * spelt the same but wrapped differently still compare equal.
  *
- * @param {Map<string, Set<string>>} counts - The value-to-files map to add to.
+ * Blocks are excluded rather than judged: anything holding a statement
+ * separator, an arrow, or a keyword that only appears in code is a function
+ * body or a control structure, not a data literal.
+ *
+ * @param {string} text - Comment-free source with its strings intact.
+ * @returns {string[]} The normalised literals found.
+ */
+function objectLiterals(text) {
+	const found = [];
+	for (let start = 0; start < text.length; start += 1) {
+		if (text[start] !== "{") continue;
+		let depth = 0;
+		let end = start;
+		for (; end < text.length; end += 1) {
+			if (text[end] === "{") depth += 1;
+			else if (text[end] === "}") {
+				depth -= 1;
+				if (depth === 0) break;
+			}
+		}
+		if (depth !== 0) continue;
+		const body = text.slice(start, end + 1);
+		if (/[;]|=>|\b(?:function|return|await|if|for|while)\b/.test(body)) continue;
+		const normalised = body.replace(/\s+/g, " ").replace(/,\s*}/g, " }").trim();
+		// Three properties minimum. A one- or two-field literal is nearly always
+		// some API's own option vocabulary — `{ recursive: true, force: true }` is
+		// `rm`'s, not ours — and there is no objective way to tell those from our
+		// own small shapes. Size is objective, so the threshold is size: a literal
+		// big enough to be a design decision rather than a call convention.
+		if ((normalised.match(/:/g) ?? []).length < 3) continue;
+		if (normalised.length > 240) continue;
+		found.push(normalised);
+	}
+	return found;
+}
+
+/**
+ * Records one sighting of a value, keeping a per-file tally rather than a set of
+ * files, so a value used many times in one place is as visible as one spread
+ * across several.
+ *
+ * @param {Map<string, Map<string, number>>} counts - The value-to-files tally to add to.
  * @param {string} value - The value seen.
  * @param {string} file - The file it was seen in.
  * @returns {void}
  */
 function record(counts, value, file) {
-	if (!counts.has(value)) counts.set(value, new Set());
-	counts.get(value).add(file);
+	if (!counts.has(value)) counts.set(value, new Map());
+	const perFile = counts.get(value);
+	perFile.set(file, (perFile.get(file) ?? 0) + 1);
+}
+
+/**
+ * How many times a value was seen in total, across every file holding it.
+ *
+ * @param {Map<string, number>} perFile - One value's per-file tally.
+ * @returns {number} The total sightings.
+ */
+function totalSightings(perFile) {
+	let total = 0;
+	for (const count of perFile.values()) total += count;
+	return total;
 }
 
 const constNames = new Map();
 const stringLiterals = new Map();
 const numberLiterals = new Map();
+const objectShapes = new Map();
 const propertyKnobs = new Map();
+/** @type {{ file: string, name: string, value: string, exported: boolean }[]} */
+const sourceConstants = [];
 
 for (const path of walk(ROOT).sort()) {
 	const file = relative(".", path);
 	const raw = readFileSync(path, "utf8");
-	const { code, strings } = scan(raw);
+	const { code, bare, strings } = scan(raw);
 
 	// Import targets are not constants anyone could extract.
 	const specifiers = new Set(
@@ -154,6 +240,21 @@ for (const path of walk(ROOT).sort()) {
 		if (!propertyKnobs.has(key)) propertyKnobs.set(key, new Map());
 		record(propertyKnobs.get(key), value, file);
 	}
+
+	for (const shape of objectLiterals(bare)) {
+		record(objectShapes, shape, file);
+	}
+
+	// Group 6 asks a question about shipped code, so test scaffolding is not
+	// listed: a constant in a suite is that suite's own business.
+	if (!isTest(file)) {
+		for (const match of bare.matchAll(
+			/(?:^|\n)(export\s+)?const\s+([A-Za-z][A-Za-z0-9_]*)\s*(?::[^=\n]*)?=\s*("(?:[^"\\]|\\.)*"|-?\d[\d_]*(?:\.\d+)?)\s*;/g,
+		)) {
+			const [, exported, name, value] = match;
+			sourceConstants.push({ file, name, value, exported: exported !== undefined });
+		}
+	}
 }
 
 /**
@@ -166,24 +267,41 @@ function isTest(file) {
 	return file.includes(".test.") || file.endsWith("fixtures.ts");
 }
 
+/** A value in one file is reported once it has been written out this many times. */
+const MIN_SIGHTINGS_IN_ONE_FILE = 4;
+
 /**
- * Prints one report section.
+ * Prints one report section: every value in at least `minFiles` files, plus
+ * every value concentrated in a single file but written out often enough to be
+ * worth naming.
  *
  * @param {string} title - The section heading.
- * @param {Map<string, Set<string>>} counts - The values and the files holding them.
+ * @param {Map<string, Map<string, number>>} counts - The values and their per-file tallies.
  * @param {number} minFiles - The number of files a value must appear in to be reported.
  * @returns {void}
  */
 function report(title, counts, minFiles) {
 	const rows = [...counts.entries()]
-		.filter(([, files]) => files.size >= minFiles)
-		.sort((left, right) => right[1].size - left[1].size);
-	console.log(`\n${"=".repeat(78)}\n${title} — ${rows.length} in ≥${minFiles} files\n${"=".repeat(78)}`);
-	for (const [value, files] of rows) {
-		const all = [...files];
-		const source = all.filter((file) => !isTest(file));
-		const tests = all.filter(isTest);
-		console.log(`\n[${files.size}] ${JSON.stringify(value)}`);
+		.filter(
+			([, perFile]) =>
+				perFile.size >= minFiles || totalSightings(perFile) >= MIN_SIGHTINGS_IN_ONE_FILE,
+		)
+		.sort(
+			(left, right) =>
+				right[1].size - left[1].size || totalSightings(right[1]) - totalSightings(left[1]),
+		);
+	console.log(
+		`\n${"=".repeat(78)}\n${title} — ${rows.length} in ≥${minFiles} files, or ≥${MIN_SIGHTINGS_IN_ONE_FILE} times in one\n${"=".repeat(78)}`,
+	);
+	for (const [value, perFile] of rows) {
+		const describe = (file) => {
+			const count = perFile.get(file);
+			return count === 1 ? file : `${file} (${count}×)`;
+		};
+		const all = [...perFile.keys()];
+		const source = all.filter((file) => !isTest(file)).map(describe);
+		const tests = all.filter(isTest).map(describe);
+		console.log(`\n[${perFile.size} file(s), ${totalSightings(perFile)}×] ${JSON.stringify(value)}`);
 		if (source.length > 0) console.log(`    src : ${source.join(", ")}`);
 		if (tests.length > 0) console.log(`    test: ${tests.join(", ")}`);
 	}
@@ -192,13 +310,36 @@ function report(title, counts, minFiles) {
 report("NAMED CONSTANTS declared in several files", constNames, 2);
 report("STRING LITERALS", stringLiterals, 2);
 report("NUMERIC LITERALS", numberLiterals, 2);
+report("OBJECT SHAPES repeated verbatim", objectShapes, 2);
 
 console.log(`\n${"=".repeat(78)}\nPROPERTY KNOBS given literal values\n${"=".repeat(78)}`);
 for (const [key, values] of [...propertyKnobs.entries()].sort()) {
-	const files = new Set([...values.values()].flatMap((set) => [...set]));
+	const files = new Set([...values.values()].flatMap((perFile) => [...perFile.keys()]));
 	if (files.size < 2) continue;
 	console.log(`\n${key}:`);
-	for (const [value, seenIn] of values) {
-		console.log(`    = ${value}  (${seenIn.size} files)`);
+	for (const [value, perFile] of values) {
+		console.log(`    = ${value}  (${perFile.size} files)`);
 	}
+}
+
+console.log(
+	`\n${"=".repeat(78)}\nSINGLE-HOME CONSTANTS IN SOURCE — ${sourceConstants.length} to read\n${"=".repeat(78)}`,
+);
+console.log(
+	"\nNot duplication — no counting rule can reach these. For each, ask: is this a\n" +
+		"fact about this codebase, or about the service, the account, or the user's\n" +
+		"material? Only the second kind belongs in pipeline-config.json. Most of this\n" +
+		"list is expected to be fine.\n",
+);
+let lastFile = "";
+for (const { file, name, value, exported } of sourceConstants) {
+	if (file !== lastFile) {
+		console.log(`\n${file}`);
+		lastFile = file;
+	}
+	// Long values are prose — usage text, prompts — and are never the answer to
+	// "should this be configuration?", so they are shown only far enough to
+	// recognise.
+	const shown = value.length > 72 ? `${value.slice(0, 69)}…` : value;
+	console.log(`    ${exported ? "export " : "       "}${name} = ${shown}`);
 }
