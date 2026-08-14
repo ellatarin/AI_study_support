@@ -1,22 +1,6 @@
-import { access } from "node:fs/promises";
 import type { PipelineStage, StageContext, StageId, StageResult } from "../../types/pipeline.js";
 import type { ManifestPathQuery } from "../../utils/files.js";
-import { ManifestPathError, resolveManifestPath } from "../../utils/files.js";
-
-/**
- * Whether a path exists on disk.
- *
- * @param path - The absolute path to test.
- * @returns `true` when the path is reachable.
- */
-async function pathExists(path: string): Promise<boolean> {
-	try {
-		await access(path);
-		return true;
-	} catch {
-		return false;
-	}
-}
+import { ManifestPathError, pathExists, resolveManifestPath } from "../../utils/files.js";
 
 /**
  * Whether one recorded `filesWritten` entry still exists, resolved through the

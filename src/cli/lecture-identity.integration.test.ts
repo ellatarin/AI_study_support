@@ -1,9 +1,10 @@
-import { access, mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { captureError, makeManifest, makeTempDir } from "../pipeline/fixtures.js";
 import { readManifest, writeManifest } from "../pipeline/manifest.js";
 import type { LectureMatch } from "../types/pipeline.js";
+import { pathExists } from "../utils/files.js";
 import {
 	changeLectureDate,
 	deleteLecture,
@@ -13,15 +14,6 @@ import {
 
 const FOLDER = "Lecture 1 - Cell Injury - 2025-10-10";
 const NEW_TITLE = "Cell Injury and Death";
-
-async function exists(path: string): Promise<boolean> {
-	try {
-		await access(path);
-		return true;
-	} catch {
-		return false;
-	}
-}
 
 describe("lecture identity commands", () => {
 	let tempDir: string;
@@ -80,7 +72,7 @@ describe("lecture identity commands", () => {
 		it("should leave the files for the renormalisation to rename when renaming", async () => {
 			await renameLecture({ workspaceRoot: match.workspaceRoot, title: NEW_TITLE });
 
-			expect(await exists(join(videoDir, `${FOLDER}.mp4`))).toBe(true);
+			expect(await pathExists(join(videoDir, `${FOLDER}.mp4`))).toBe(true);
 		});
 
 		it("should reject the rename when the title has no usable characters", async () => {
@@ -99,20 +91,20 @@ describe("lecture identity commands", () => {
 		it("should remove the source video and slide when deleting", async () => {
 			await deleteLecture({ match });
 
-			expect(await exists(join(videoDir, `${FOLDER}.mp4`))).toBe(false);
-			expect(await exists(join(slideDir, `${FOLDER}.pdf`))).toBe(false);
+			expect(await pathExists(join(videoDir, `${FOLDER}.mp4`))).toBe(false);
+			expect(await pathExists(join(slideDir, `${FOLDER}.pdf`))).toBe(false);
 		});
 
 		it("should remove the workspace and everything in it when deleting", async () => {
 			await deleteLecture({ match });
 
-			expect(await exists(match.workspaceRoot)).toBe(false);
+			expect(await pathExists(match.workspaceRoot)).toBe(false);
 		});
 
 		it("should remove the final output when deleting", async () => {
 			await deleteLecture({ match });
 
-			expect(await exists(join(outputDir, `${FOLDER}.pdf`))).toBe(false);
+			expect(await pathExists(join(outputDir, `${FOLDER}.pdf`))).toBe(false);
 		});
 
 		it("should leave other lectures untouched when deleting", async () => {
@@ -121,7 +113,7 @@ describe("lecture identity commands", () => {
 
 			await deleteLecture({ match });
 
-			expect(await exists(join(videoDir, `${other}.mp4`))).toBe(true);
+			expect(await pathExists(join(videoDir, `${other}.mp4`))).toBe(true);
 		});
 
 		it("should succeed when the lecture has produced no final output yet", async () => {
@@ -147,25 +139,25 @@ describe("lecture identity commands", () => {
 		it("should rename the source video and slide to the new date when changing the date", async () => {
 			await changeLectureDate({ match, newLectureDate: "2025-10-24" });
 
-			expect(await exists(join(videoDir, `${NEW_FOLDER}.mp4`))).toBe(true);
-			expect(await exists(join(slideDir, `${NEW_FOLDER}.pdf`))).toBe(true);
-			expect(await exists(join(videoDir, `${FOLDER}.mp4`))).toBe(false);
+			expect(await pathExists(join(videoDir, `${NEW_FOLDER}.mp4`))).toBe(true);
+			expect(await pathExists(join(slideDir, `${NEW_FOLDER}.pdf`))).toBe(true);
+			expect(await pathExists(join(videoDir, `${FOLDER}.mp4`))).toBe(false);
 		});
 
 		it("should rename the workspace to the new date when changing the date", async () => {
 			await changeLectureDate({ match, newLectureDate: "2025-10-24" });
 
-			expect(await exists(join(moduleRoot, "Pipeline processing", NEW_FOLDER, "notes.md"))).toBe(
-				true,
-			);
-			expect(await exists(match.workspaceRoot)).toBe(false);
+			expect(
+				await pathExists(join(moduleRoot, "Pipeline processing", NEW_FOLDER, "notes.md")),
+			).toBe(true);
+			expect(await pathExists(match.workspaceRoot)).toBe(false);
 		});
 
 		it("should rename the final output to the new date when changing the date", async () => {
 			await changeLectureDate({ match, newLectureDate: "2025-10-24" });
 
-			expect(await exists(join(outputDir, `${NEW_FOLDER}.pdf`))).toBe(true);
-			expect(await exists(join(outputDir, `${FOLDER}.pdf`))).toBe(false);
+			expect(await pathExists(join(outputDir, `${NEW_FOLDER}.pdf`))).toBe(true);
+			expect(await pathExists(join(outputDir, `${FOLDER}.pdf`))).toBe(false);
 		});
 
 		it("should succeed when the lecture has produced no final output yet", async () => {
@@ -173,7 +165,7 @@ describe("lecture identity commands", () => {
 
 			await changeLectureDate({ match, newLectureDate: "2025-10-24" });
 
-			expect(await exists(join(videoDir, `${NEW_FOLDER}.mp4`))).toBe(true);
+			expect(await pathExists(join(videoDir, `${NEW_FOLDER}.mp4`))).toBe(true);
 		});
 
 		it("should reject the change when a source file already sits at the new date", async () => {
@@ -190,7 +182,7 @@ describe("lecture identity commands", () => {
 
 			await captureError(changeLectureDate({ match, newLectureDate: "2025-10-24" }));
 
-			expect(await exists(join(videoDir, `${FOLDER}.mp4`))).toBe(true);
+			expect(await pathExists(join(videoDir, `${FOLDER}.mp4`))).toBe(true);
 			expect((await readManifest({ workspaceRoot: match.workspaceRoot })).lectureDate).toBe(
 				"2025-10-10",
 			);

@@ -2,7 +2,13 @@ import { access, mkdir, readFile, realpath, rm, symlink, writeFile } from "node:
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { makeTempDir } from "../pipeline/fixtures.js";
-import { cleanTmpFiles, ManifestPathError, resolveManifestPath, writeFileAtomic } from "./files.js";
+import {
+	cleanTmpFiles,
+	ManifestPathError,
+	pathExists,
+	resolveManifestPath,
+	writeFileAtomic,
+} from "./files.js";
 
 describe("files utilities", () => {
 	let tempDir: string;
@@ -44,6 +50,23 @@ describe("files utilities", () => {
 			await expect(access(join(tempDir, "a.tmp"))).rejects.toThrow();
 			await expect(access(join(tempDir, "b.tmp"))).rejects.toThrow();
 			await expect(access(join(tempDir, "keep.md"))).resolves.toBeUndefined();
+		});
+	});
+
+	describe("pathExists", () => {
+		it("should report the path as present when a file is on disk", async () => {
+			const target = join(tempDir, "notes.md");
+			await writeFile(target, "content");
+
+			expect(await pathExists(target)).toBe(true);
+		});
+
+		it("should report the path as present when a directory is on disk", async () => {
+			expect(await pathExists(tempDir)).toBe(true);
+		});
+
+		it("should report the path as absent when nothing is on disk", async () => {
+			expect(await pathExists(join(tempDir, "never-written.md"))).toBe(false);
 		});
 	});
 

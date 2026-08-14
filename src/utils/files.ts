@@ -1,5 +1,5 @@
 import type { Dirent } from "node:fs";
-import { readdir, realpath, rename, rm, writeFile } from "node:fs/promises";
+import { access, readdir, realpath, rename, rm, writeFile } from "node:fs/promises";
 import { basename, dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { NamedError } from "./errors.js";
 
@@ -17,6 +17,25 @@ export async function readDirSafe(dir: string): Promise<readonly Dirent[]> {
 		return await readdir(dir, { withFileTypes: true });
 	} catch {
 		return [];
+	}
+}
+
+/**
+ * Whether a path exists on disk, whatever kind of entry it is.
+ *
+ * Phrased as a question rather than as a thrown error because every caller is
+ * choosing between two ordinary outcomes — a stage output that still exists or
+ * has been deleted, a lecture PDF that has been produced or has not yet.
+ *
+ * @param path - The absolute path to test.
+ * @returns `true` when the path is reachable.
+ */
+export async function pathExists(path: string): Promise<boolean> {
+	try {
+		await access(path);
+		return true;
+	} catch {
+		return false;
 	}
 }
 
