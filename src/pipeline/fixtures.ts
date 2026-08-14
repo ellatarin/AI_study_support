@@ -191,6 +191,25 @@ export const transcriptionModelId = exampleModelId("transcription");
 export const openRouterModelId = "openai/gpt-4o";
 
 /**
+ * The token counts the stubbed OpenRouter call reports.
+ *
+ * One value because two responses have to agree about it: the completion's
+ * `usage` and the `/generation` lookup's `tokens_prompt`/`tokens_completion`
+ * describe the same call, and a suite asserting the resolved `StageCost` is
+ * checking that the pipeline carried these counts through unchanged.
+ */
+export const stubbedTokenUsage = { promptTokens: 120, completionTokens: 45 } as const;
+
+/** What the stubbed LLM call is billed at, where a suite needs a settled figure. */
+export const stubbedCostUsd = 0.004;
+
+/**
+ * How long a test that renders real media with ffmpeg may take. Well beyond the
+ * default: these encode and probe an actual file rather than stub one.
+ */
+export const mediaTestTimeoutMs = 30_000;
+
+/**
  * A whole stage configuration as the example ships it — temperature, token
  * budget and any other tuning — with only the placeholder model swapped for
  * {@link openRouterModelId}.
@@ -199,20 +218,43 @@ export const openRouterModelId = "openai/gpt-4o";
  * that stated `temperature` and `maxTokens` itself was restating the example's
  * tuning, and would keep passing after that tuning changed.
  *
- * @param stageId - The stage whose configuration to take.
+ * @param args - Which stage, and which model to put in its place.
+ * @param args.stageId - The stage whose configuration to take.
+ * @param args.modelId - The model to substitute; defaults to {@link openRouterModelId}.
  * @returns The stage config, ready to hand to {@link makeConfig}.
  * @throws {Error} If the example configures no such stage.
  */
-export function openRouterStageConfig(stageId: StageId): StageConfig {
+export function openRouterStageConfig({
+	stageId,
+	modelId = openRouterModelId,
+}: {
+	readonly stageId: StageId;
+	readonly modelId?: string;
+}): StageConfig {
 	const configured = exampleConfig.stages[stageId];
 	if (configured === undefined) {
 		throw new Error(`pipeline-config.example.json configures no stage "${stageId}"`);
 	}
-	return { ...configured, modelId: openRouterModelId };
+	return { ...configured, modelId };
 }
 
 /** Text that is not valid JSON, for the suites checking a corrupt file is reported. */
 export const corruptJson = "{ not json";
+
+/**
+ * A well-formed Scribe single-channel response body, as the SDK deserialises it.
+ *
+ * Both suites that intercept a transcription need one, and its shape — down to
+ * the language fields the stage never reads — is ElevenLabs' contract rather
+ * than either suite's business.
+ *
+ * @param args - What Scribe should appear to have heard.
+ * @param args.text - The transcript text to return.
+ * @returns The response body to reply with.
+ */
+export function scribeResponseBody({ text }: { readonly text: string }): Record<string, unknown> {
+	return { language_code: "eng", language_probability: 0.99, text, words: [] };
+}
 
 /**
  * A well-formed OpenRouter chat-completion response body.
@@ -232,7 +274,10 @@ export function openRouterCompletionBody({
 	return {
 		id: "gen-abc",
 		choices: [{ index: 0, message: { role: "assistant", content }, finish_reason: "stop" }],
-		usage: { prompt_tokens: 120, completion_tokens: 45 },
+		usage: {
+			prompt_tokens: stubbedTokenUsage.promptTokens,
+			completion_tokens: stubbedTokenUsage.completionTokens,
+		},
 	};
 }
 

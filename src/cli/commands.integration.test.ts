@@ -23,6 +23,12 @@ import {
 	type RunnableCliCommand,
 } from "./commands.js";
 
+// A rate this suite fixes for itself, deliberately NOT `currency.gbpPerUsd`: the
+// pounds figure asserted below was worked out by hand at this rate, so taking it
+// from config would fail the assertion on an unrelated config edit and blame the
+// formatter. Same reasoning as cost.test.ts.
+const GBP_PER_USD = 0.74;
+
 describe("executeCommand", () => {
 	let tempDir: string;
 	let moduleRoot: string;
@@ -110,7 +116,7 @@ describe("executeCommand", () => {
 		return {
 			runner: runner as unknown as PipelineRunnerFacade,
 			moduleRoots: [moduleRoot, otherModuleRoot()],
-			gbpPerUsd: 0.74,
+			gbpPerUsd: GBP_PER_USD,
 			selectMatches,
 			selectMatch,
 			confirm,

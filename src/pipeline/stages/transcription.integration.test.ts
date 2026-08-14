@@ -9,8 +9,10 @@ import {
 	makeManifest,
 	makeStageContext,
 	makeWorkspaceTree,
+	mediaTestTimeoutMs,
 	renderFixtureMedia,
 	resetElevenLabsApi,
+	scribeResponseBody,
 	stubElevenLabsApi,
 	transcriptionModelId,
 } from "../fixtures.js";
@@ -56,38 +58,37 @@ describe("createTranscriptionStage against real audio", () => {
 		await rm(moduleRoot, { recursive: true, force: true });
 	});
 
-	it("should return transcript text when audio file uploaded to ElevenLabs", async () => {
-		let uploadedBytes = 0;
-		const scope = nock(elevenLabsUrls.origin)
-			.post(elevenLabsUrls.speechToText)
-			.reply(200, (_uri: string, requestBody: nock.Body) => {
-				uploadedBytes = String(requestBody).length;
-				return {
-					language_code: "eng",
-					language_probability: 0.99,
-					text: TRANSCRIPT_TEXT,
-					words: [],
-				};
+	it(
+		"should return transcript text when audio file uploaded to ElevenLabs",
+		async () => {
+			let uploadedBytes = 0;
+			const scope = nock(elevenLabsUrls.origin)
+				.post(elevenLabsUrls.speechToText)
+				.reply(200, (_uri: string, requestBody: nock.Body) => {
+					uploadedBytes = String(requestBody).length;
+					return scribeResponseBody({ text: TRANSCRIPT_TEXT });
+				});
+			const stage = createTranscriptionStage();
+			const context = makeStageContext({
+				workspaceRoot,
+				manifest: makeManifest(),
+				config: makeConfig({ stages: { transcription: { modelId: transcriptionModelId } } }),
 			});
-		const stage = createTranscriptionStage();
-		const context = makeStageContext({
-			workspaceRoot,
-			manifest: makeManifest(),
-			config: makeConfig({ stages: { transcription: { modelId: transcriptionModelId } } }),
-		});
 
-		const input = await stage.getInput(context);
-		const result = await stage.run({ input, context });
+			const input = await stage.getInput(context);
+			const result = await stage.run({ input, context });
 
-		expect(scope.isDone()).toBe(true);
-		expect(uploadedBytes).toBeGreaterThan(0);
-		expect(
-			await readFile(stageOutputPath({ workspaceRoot, stageId: "transcription" }), "utf8"),
-		).toBe(TRANSCRIPT_TEXT);
-		expect(result.filesWritten).toStrictEqual([stageOutputEntry("transcription")]);
-		expect(result.cost?.totalCostUsd).toBeCloseTo(
-			(FIXTURE_SECONDS / SECONDS_PER_HOUR) * exampleConfig.elevenLabs.costPerAudioHourUsd,
-			5,
-		);
-	}, 30_000);
+			expect(scope.isDone()).toBe(true);
+			expect(uploadedBytes).toBeGreaterThan(0);
+			expect(
+				await readFile(stageOutputPath({ workspaceRoot, stageId: "transcription" }), "utf8"),
+			).toBe(TRANSCRIPT_TEXT);
+			expect(result.filesWritten).toStrictEqual([stageOutputEntry("transcription")]);
+			expect(result.cost?.totalCostUsd).toBeCloseTo(
+				(FIXTURE_SECONDS / SECONDS_PER_HOUR) * exampleConfig.elevenLabs.costPerAudioHourUsd,
+				5,
+			);
+		},
+		mediaTestTimeoutMs,
+	);
 });

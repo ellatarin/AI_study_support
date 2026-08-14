@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
 	makeStageContext,
 	makeWorkspaceTree,
+	mediaTestTimeoutMs,
 	renderFixtureMedia,
 	testLecture,
 } from "../fixtures.js";
@@ -60,21 +61,25 @@ describe("createAudioExtractionStage against real ffmpeg", () => {
 		await rm(moduleRoot, { recursive: true, force: true });
 	});
 
-	it("should produce valid m4a output when extracting the audio track from a real video file", async () => {
-		await renderFixtureVideo(join(moduleDirs({ moduleRoot }).video, testLecture.videoFile));
-		const stage = createAudioExtractionStage();
-		const context = makeStageContext({ workspaceRoot });
+	it(
+		"should produce valid m4a output when extracting the audio track from a real video file",
+		async () => {
+			await renderFixtureVideo(join(moduleDirs({ moduleRoot }).video, testLecture.videoFile));
+			const stage = createAudioExtractionStage();
+			const context = makeStageContext({ workspaceRoot });
 
-		const input = await stage.getInput(context);
-		const result = await stage.run({ input, context });
+			const input = await stage.getInput(context);
+			const result = await stage.run({ input, context });
 
-		const audioPath = stageOutputPath({ workspaceRoot, stageId: "audio-extraction" });
-		expect(result.filesWritten).toStrictEqual([stageOutputEntry("audio-extraction")]);
-		expect(await readdir(dirname(audioPath))).toStrictEqual([basename(audioPath)]);
+			const audioPath = stageOutputPath({ workspaceRoot, stageId: "audio-extraction" });
+			expect(result.filesWritten).toStrictEqual([stageOutputEntry("audio-extraction")]);
+			expect(await readdir(dirname(audioPath))).toStrictEqual([basename(audioPath)]);
 
-		const probed = await probe(result.output.audioPath);
-		expect(probed.streams.map((stream) => stream.codec_type)).toStrictEqual(["audio"]);
-		expect(probed.streams[0].codec_name).toBe("aac");
-		expect(probed.format.duration).toBeCloseTo(FIXTURE_SECONDS, 0);
-	}, 30_000);
+			const probed = await probe(result.output.audioPath);
+			expect(probed.streams.map((stream) => stream.codec_type)).toStrictEqual(["audio"]);
+			expect(probed.streams[0].codec_name).toBe("aac");
+			expect(probed.format.duration).toBeCloseTo(FIXTURE_SECONDS, 0);
+		},
+		mediaTestTimeoutMs,
+	);
 });

@@ -18,6 +18,7 @@ import {
 	makeStageContext,
 	makeWorkspaceTree,
 	resetElevenLabsApi,
+	scribeResponseBody,
 	stageCompletedAt,
 	stagesWith,
 	stubElevenLabsApi,
@@ -36,9 +37,9 @@ const ffprobeMock = ffmpeg.ffprobe as unknown as Mock;
 const TRANSCRIPT_TEXT = "Today we are covering cell injury.";
 const HALF_HOUR_SECONDS = 1800;
 
-/** A Scribe v2 single-channel response body, as the SDK expects to deserialise it. */
+/** The shared Scribe body, taking the text positionally as this suite reads best. */
 function scribeResponse(text: string): Record<string, unknown> {
-	return { language_code: "eng", language_probability: 0.99, text, words: [] };
+	return scribeResponseBody({ text });
 }
 
 describe("createTranscriptionStage", () => {
@@ -288,9 +289,11 @@ describe("createTranscriptionStage", () => {
 	});
 
 	it("should fail when the response carries no transcript text", async () => {
+		// A well-formed Scribe body with the one field under test removed. `text:
+		// undefined` drops out when nock serialises the reply as JSON.
 		nock(elevenLabsUrls.origin)
 			.post(elevenLabsUrls.speechToText)
-			.reply(200, { transcripts: [], language_code: "eng", language_probability: 0.99 });
+			.reply(200, { ...scribeResponseBody({ text: "" }), text: undefined, transcripts: [] });
 
 		await expect(runStage(contextWith())).rejects.toThrow(TranscriptionError);
 	});

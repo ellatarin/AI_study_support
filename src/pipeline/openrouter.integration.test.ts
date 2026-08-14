@@ -10,12 +10,18 @@ import {
 	openRouterModelId,
 	openRouterStageConfig,
 	openRouterUrls,
+	stubbedTokenUsage,
 } from "./fixtures.js";
 import { ContextLengthError, createOpenRouterClient, makeCompletionCall } from "./openrouter.js";
 
 const config: PipelineConfig = makeConfig({
-	stages: { "transcript-structuring": openRouterStageConfig("transcript-structuring") },
+	stages: {
+		"transcript-structuring": openRouterStageConfig({ stageId: "transcript-structuring" }),
+	},
 });
+
+/** What the stubbed `/generation` lookup reports this call cost. */
+const RESOLVED_COST_USD = 0.0042;
 
 const messages = [{ role: "user", content: "Structure this transcript." }] as const;
 
@@ -24,7 +30,13 @@ function completionBody(overrides: Record<string, unknown> = {}): Record<string,
 }
 
 function generationBody(totalCost: number): Record<string, unknown> {
-	return { data: { total_cost: totalCost, tokens_prompt: 120, tokens_completion: 45 } };
+	return {
+		data: {
+			total_cost: totalCost,
+			tokens_prompt: stubbedTokenUsage.promptTokens,
+			tokens_completion: stubbedTokenUsage.completionTokens,
+		},
+	};
 }
 
 function mockCompletion(): nock.Interceptor {
@@ -70,7 +82,7 @@ async function callCapturingRequest(
 		captured.headers = this.req.headers as Record<string, unknown>;
 		return [200, completionBody()];
 	});
-	mockGeneration().reply(200, generationBody(0.0042));
+	mockGeneration().reply(200, generationBody(RESOLVED_COST_USD));
 
 	await call(overrides);
 
@@ -150,18 +162,17 @@ describe("makeCompletionCall", () => {
 	});
 
 	it("should populate totalCostUsd and token counts when the generation endpoint returns cost", async () => {
-		const result = await callWithResolvedCost(0.0042);
+		const result = await callWithResolvedCost(RESOLVED_COST_USD);
 
 		expect(result.cost).toEqual({
-			promptTokens: 120,
-			completionTokens: 45,
+			...stubbedTokenUsage,
 			callCount: 1,
-			totalCostUsd: 0.0042,
+			totalCostUsd: RESOLVED_COST_USD,
 		});
 	});
 
 	it("should resolve with a fully-resolved cost when the promise settles after the cost lookup", async () => {
-		const result = await callWithResolvedCost(0.0042);
+		const result = await callWithResolvedCost(RESOLVED_COST_USD);
 
 		expect(typeof result.cost.totalCostUsd).toBe("number");
 		expect(nock.isDone()).toBe(true);
@@ -169,7 +180,7 @@ describe("makeCompletionCall", () => {
 
 	it("should default token counts to zero when the completion response omits usage", async () => {
 		mockCompletion().reply(200, completionBody({ usage: undefined }));
-		mockGeneration().reply(200, generationBody(0.0042));
+		mockGeneration().reply(200, generationBody(RESOLVED_COST_USD));
 
 		const result = await call();
 
@@ -186,7 +197,7 @@ describe("makeCompletionCall", () => {
 				],
 			}),
 		);
-		mockGeneration().reply(200, generationBody(0.0042));
+		mockGeneration().reply(200, generationBody(RESOLVED_COST_USD));
 
 		const result = await call();
 
@@ -200,7 +211,7 @@ describe("makeCompletionCall", () => {
 		const result = await call();
 
 		expect(result.cost.totalCostUsd).toBeNull();
-		expect(result.cost).toMatchObject({ promptTokens: 120, completionTokens: 45, callCount: 1 });
+		expect(result.cost).toMatchObject({ ...stubbedTokenUsage, callCount: 1 });
 		if (result.cost.totalCostUsd === null) {
 			expect(result.cost.costResolutionError).toMatch(/./);
 		}
@@ -219,7 +230,7 @@ describe("makeCompletionCall", () => {
 	it("should retry the completion call with backoff and succeed when the first response is a 429", async () => {
 		mockCompletion().reply(429, {}, { "retry-after": "0" });
 		mockCompletion().reply(200, completionBody());
-		mockGeneration().reply(200, generationBody(0.0042));
+		mockGeneration().reply(200, generationBody(RESOLVED_COST_USD));
 
 		const result = await call();
 
@@ -259,7 +270,7 @@ describe("makeCompletionCall", () => {
 		const client = createOpenRouterClient({ openRouter: config.openRouter });
 		const getSpy = vi.spyOn(client, "get");
 		mockCompletion().reply(200, completionBody());
-		mockGeneration().reply(200, generationBody(0.0042));
+		mockGeneration().reply(200, generationBody(RESOLVED_COST_USD));
 
 		await call({ client });
 

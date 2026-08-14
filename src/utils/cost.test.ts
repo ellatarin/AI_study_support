@@ -39,6 +39,16 @@ import {
 // same rate the code under test does, and prove nothing.
 const GBP_PER_USD = 0.74;
 
+// Slide conversion is the stage these tables are built around: it is the one
+// with a per-call model, a concurrency, and enough calls for the totals to be
+// worth checking. Every fixture below records the same run of it.
+const SLIDE_CONVERSION_CONFIG: StageRunConfig = {
+	modelId: "google/gemini-2.5-flash",
+	concurrency: 3,
+};
+const SLIDE_CONVERSION_CALLS = 24;
+const SLIDE_CONVERSION_COST_USD = 0.034;
+
 describe("accumulateCost", () => {
 	it.each([
 		{
@@ -183,8 +193,11 @@ const manifest: RunManifest = makeManifest({
 			filesWritten: [stageOutputEntry("transcription")],
 		}),
 		"slide-conversion": completed({
-			configUsed: { modelId: "google/gemini-2.5-flash", concurrency: 3 },
-			cost: resolved({ callCount: 24, totalCostUsd: 0.034 }),
+			configUsed: SLIDE_CONVERSION_CONFIG,
+			cost: resolved({
+				callCount: SLIDE_CONVERSION_CALLS,
+				totalCostUsd: SLIDE_CONVERSION_COST_USD,
+			}),
 			filesWritten: [stageOutputEntry("slide-conversion")],
 		}),
 		synthesis: completed({
@@ -198,7 +211,7 @@ const manifest: RunManifest = makeManifest({
 		byStage: {
 			"audio-extraction": 0,
 			transcription: 0.042,
-			"slide-conversion": 0.034,
+			"slide-conversion": SLIDE_CONVERSION_COST_USD,
 			synthesis: 0.312,
 			// In byStage but absent from `stages` — exercises the manifestStageMeta fallback.
 			"pdf-generation": 0.005,
@@ -218,7 +231,7 @@ const runLogs: readonly RunLog[] = [
 			"slide-conversion": {
 				action: "ran",
 				status: "failed",
-				configUsed: { modelId: "google/gemini-2.5-flash", concurrency: 3 },
+				configUsed: SLIDE_CONVERSION_CONFIG,
 				cost: { totalCostUsd: 0.021, callCount: 5 },
 				error: "Slide 17 conversion failed: 429 rate limit",
 			},
@@ -236,11 +249,14 @@ const runLogs: readonly RunLog[] = [
 			"slide-conversion": {
 				action: "ran",
 				status: "complete",
-				configUsed: { modelId: "google/gemini-2.5-flash", concurrency: 3 },
-				cost: { totalCostUsd: 0.034, callCount: 24 },
+				configUsed: SLIDE_CONVERSION_CONFIG,
+				cost: {
+					totalCostUsd: SLIDE_CONVERSION_COST_USD,
+					callCount: SLIDE_CONVERSION_CALLS,
+				},
 			},
 		},
-		totalCostThisRun: 0.034,
+		totalCostThisRun: SLIDE_CONVERSION_COST_USD,
 	},
 	{
 		runId: "2025-10-11T14:00:00Z-1",
@@ -373,12 +389,12 @@ const runManifest: RunManifest = {
 		// The same transcription entry the report fixture uses: one call, no tokens.
 		transcription: manifest.stages.transcription,
 		"slide-conversion": completed({
-			configUsed: { modelId: "google/gemini-2.5-flash", concurrency: 3 },
+			configUsed: SLIDE_CONVERSION_CONFIG,
 			cost: {
 				promptTokens: 41_000,
 				completionTokens: 8100,
-				callCount: 24,
-				totalCostUsd: 0.034,
+				callCount: SLIDE_CONVERSION_CALLS,
+				totalCostUsd: SLIDE_CONVERSION_COST_USD,
 			},
 			filesWritten: [stageOutputEntry("slide-conversion")],
 		}),
@@ -416,7 +432,7 @@ describe("formatRunSummary", () => {
 			gbpPerUsd: GBP_PER_USD,
 		});
 
-		expect(summary).toContain("google/gemini-2.5-flash");
+		expect(summary).toContain(SLIDE_CONVERSION_CONFIG.modelId);
 		expect(summary).toContain("41,000");
 		expect(summary).toContain("8,100");
 		// 0.034 USD at 0.74 = 0.02516.

@@ -14,6 +14,7 @@ import {
 	openRouterStageConfig,
 	openRouterUrls,
 	structuredMarkdown,
+	stubbedCostUsd,
 	testLecture,
 	userChosenTitle,
 } from "../fixtures.js";
@@ -38,7 +39,7 @@ describe("transcript structuring against a real module tree", () => {
 		nock(openRouterUrls.origin)
 			.get(openRouterUrls.generation)
 			.query(true)
-			.reply(200, { data: { total_cost: 0.004 } });
+			.reply(200, { data: { total_cost: stubbedCostUsd } });
 	}
 
 	/** The model's verdict, as the two cases every title test is written across. */
@@ -76,7 +77,9 @@ describe("transcript structuring against a real module tree", () => {
 			workspaceRoot,
 			manifest,
 			config: makeConfig({
-				stages: { "transcript-structuring": openRouterStageConfig("transcript-structuring") },
+				stages: {
+					"transcript-structuring": openRouterStageConfig({ stageId: "transcript-structuring" }),
+				},
 			}),
 		});
 	}

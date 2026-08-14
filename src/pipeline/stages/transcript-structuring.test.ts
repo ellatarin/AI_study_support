@@ -13,6 +13,7 @@ import {
 	makeWorkspaceTree,
 	openRouterStageConfig,
 	structuredMarkdown,
+	stubbedCostUsd,
 	testLecture,
 	userChosenTitle,
 } from "../fixtures.js";
@@ -39,7 +40,7 @@ const COST: StageCost = {
 	promptTokens: 1200,
 	completionTokens: 300,
 	callCount: 1,
-	totalCostUsd: 0.004,
+	totalCostUsd: stubbedCostUsd,
 };
 
 /** A well-formed model reply, with the fields a test cares about overridden. */
@@ -76,7 +77,9 @@ describe("createTranscriptStructuringStage", () => {
 		return makeStageContext({
 			workspaceRoot,
 			config: makeConfig({
-				stages: { "transcript-structuring": openRouterStageConfig("transcript-structuring") },
+				stages: {
+					"transcript-structuring": openRouterStageConfig({ stageId: "transcript-structuring" }),
+				},
 			}),
 			manifest: makeManifest(manifestOverrides),
 		});

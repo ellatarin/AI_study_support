@@ -6,16 +6,22 @@ import { CONFIG_FILENAME, ConfigError, clearModelIdCache, loadConfig } from "./c
 import {
 	captureError,
 	corruptJson,
+	exampleConfig,
 	makeConfig,
 	makeTempDir,
 	openRouterModelId,
+	openRouterStageConfig,
 	openRouterUrls,
 	transcriptionModelId,
 } from "./fixtures.js";
 
-// Model IDs present in the mocked OpenRouter models response and used by the
-// structurally valid config the tests build on.
-const KNOWN_MODEL_IDS = [openRouterModelId, "google/gemini-2.5-flash"] as const;
+// Two model IDs the mocked OpenRouter models response returns. The valid config
+// below configures exactly these, so the check under test passes for reasons
+// this suite controls; a second ID is needed so a test can fail one stage's
+// model while leaving the other's resolvable.
+const STRUCTURING_MODEL_ID = openRouterModelId;
+const SLIDE_MODEL_ID = "google/gemini-2.5-flash";
+const KNOWN_MODEL_IDS = [STRUCTURING_MODEL_ID, SLIDE_MODEL_ID] as const;
 
 /**
  * A structurally valid config as a fresh mutable object each call, so a test can
@@ -30,20 +36,17 @@ function makeValidConfig(): Record<string, unknown> {
 	return JSON.parse(
 		JSON.stringify(
 			makeConfig({
-				moduleRoots: ["/absolute/path/to/Biology of Disease"],
-				modelIdCheck: { exemptProviders: ["elevenlabs"] },
+				moduleRoots: exampleConfig.moduleRoots,
 				stages: {
-					"transcript-structuring": {
-						modelId: openRouterModelId,
-						temperature: 0.2,
-						maxTokens: 8192,
-					},
-					"slide-conversion": {
-						modelId: "google/gemini-2.5-flash",
-						temperature: 0.1,
-						maxTokens: 4096,
-						concurrency: 3,
-					},
+					// The example's own tuning for each, with only the placeholder models
+					// replaced by the two the mocked model list knows.
+					"transcript-structuring": openRouterStageConfig({
+						stageId: "transcript-structuring",
+					}),
+					"slide-conversion": openRouterStageConfig({
+						stageId: "slide-conversion",
+						modelId: SLIDE_MODEL_ID,
+					}),
 				},
 			}),
 		),
@@ -198,7 +201,7 @@ describe("loadConfig model-ID resolution check", () => {
 		const config = makeValidConfig();
 		stageModelIds(config)["transcript-structuring"].modelId = "<REASONING_MODEL>";
 		await writeConfig(config);
-		mockModelsResponse(["google/gemini-2.5-flash"]);
+		mockModelsResponse([SLIDE_MODEL_ID]);
 
 		const error = await captureError(loadConfig({ projectRoot }));
 
@@ -225,7 +228,7 @@ describe("loadConfig model-ID resolution check", () => {
 
 		const loaded = await loadConfig({ projectRoot });
 
-		expect(loaded.stages["transcript-structuring"]?.modelId).toBe(openRouterModelId);
+		expect(loaded.stages["transcript-structuring"]?.modelId).toBe(STRUCTURING_MODEL_ID);
 	});
 
 	it("should accept the config when every stage modelId appears in the OpenRouter response", async () => {
@@ -235,7 +238,7 @@ describe("loadConfig model-ID resolution check", () => {
 		const config = await loadConfig({ projectRoot });
 
 		expect(config.version).toBe("1");
-		expect(config.stages["transcript-structuring"]?.modelId).toBe(openRouterModelId);
+		expect(config.stages["transcript-structuring"]?.modelId).toBe(STRUCTURING_MODEL_ID);
 		expect(config.stages["slide-conversion"]?.concurrency).toBe(3);
 	});
 
