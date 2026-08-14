@@ -2,29 +2,28 @@ import { rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { pathExists } from "../utils/files.js";
-import { makeLectureTree } from "./fixtures.js";
+import { aiDerivedLecture, makeLectureTree, otherLecture, testLecture } from "./fixtures.js";
 import type { ModuleDirs } from "./layout.js";
 import { findDatedFile, renameLectureFiles } from "./lecture-files.js";
-
-const FOLDER = "Lecture 1 - Cell Injury - 2025-10-10";
-const NEW_BASE_NAME = "Lecture 1 - Innate Immune Response - 2025-10-10";
-const LECTURE_DATE = "2025-10-10";
+import { manifestPath } from "./manifest.js";
 
 describe("lecture files", () => {
 	let tempDir: string;
 	let dirs: ModuleDirs;
 	let workspaceRoot: string;
 
-	/** Moves the lecture laid out in `beforeEach` onto {@link NEW_BASE_NAME}. */
+	/** Moves the lecture laid out in `beforeEach` onto the AI-derived name. */
 	const renameToNewBase = (): Promise<string> =>
-		renameLectureFiles({ dirs, workspaceRoot, lectureDate: LECTURE_DATE, baseName: NEW_BASE_NAME });
+		renameLectureFiles({
+			dirs,
+			workspaceRoot,
+			lectureDate: testLecture.date,
+			baseName: aiDerivedLecture.folderName,
+		});
 
 	beforeEach(async () => {
-		({ tempDir, dirs, workspaceRoot } = await makeLectureTree({
-			prefix: "lecture-files-",
-			folderName: FOLDER,
-		}));
-		await writeFile(join(workspaceRoot, "manifest.json"), "{}");
+		({ tempDir, dirs, workspaceRoot } = await makeLectureTree({ prefix: "lecture-files-" }));
+		await writeFile(manifestPath({ workspaceRoot }), "{}");
 	});
 
 	afterEach(async () => {
@@ -33,9 +32,9 @@ describe("lecture files", () => {
 
 	describe("findDatedFile", () => {
 		it("should return the file carrying the lecture date when the directory holds one", async () => {
-			const found = await findDatedFile({ dir: dirs.video, lectureDate: LECTURE_DATE });
+			const found = await findDatedFile({ dir: dirs.video, lectureDate: testLecture.date });
 
-			expect(found).toBe(`${FOLDER}.mp4`);
+			expect(found).toBe(`${testLecture.folderName}.mp4`);
 		});
 
 		it("should return null when no file carries the lecture date", async () => {
@@ -47,7 +46,7 @@ describe("lecture files", () => {
 		it("should return null when the directory does not exist", async () => {
 			const found = await findDatedFile({
 				dir: join(tempDir, "no-such-directory"),
-				lectureDate: LECTURE_DATE,
+				lectureDate: testLecture.date,
 			});
 
 			expect(found).toBeNull();
@@ -65,39 +64,48 @@ describe("lecture files", () => {
 		}) => {
 			await renameToNewBase();
 
-			expect(await pathExists(join(dirs[key], `${NEW_BASE_NAME}${extension}`))).toBe(true);
-			expect(await pathExists(join(dirs[key], `${FOLDER}${extension}`))).toBe(false);
+			expect(await pathExists(join(dirs[key], `${aiDerivedLecture.folderName}${extension}`))).toBe(
+				true,
+			);
+			expect(await pathExists(join(dirs[key], `${testLecture.folderName}${extension}`))).toBe(
+				false,
+			);
 		});
 
 		it("should move the workspace and everything in it when the lecture moves", async () => {
 			await renameToNewBase();
 
-			expect(await pathExists(join(dirs.processing, NEW_BASE_NAME, "manifest.json"))).toBe(true);
+			expect(
+				await pathExists(
+					manifestPath({ workspaceRoot: join(dirs.processing, aiDerivedLecture.folderName) }),
+				),
+			).toBe(true);
 			expect(await pathExists(workspaceRoot)).toBe(false);
 		});
 
 		it("should return the workspace's new path when the lecture moves", async () => {
 			const movedTo = await renameToNewBase();
 
-			expect(movedTo).toBe(join(dirs.processing, NEW_BASE_NAME));
+			expect(movedTo).toBe(join(dirs.processing, aiDerivedLecture.folderName));
 		});
 
 		it("should skip the final output PDF when the lecture has none yet", async () => {
-			await rm(join(dirs.finalOutput, `${FOLDER}.pdf`));
+			await rm(join(dirs.finalOutput, `${testLecture.folderName}.pdf`));
 
 			await renameToNewBase();
 
-			expect(await pathExists(join(dirs.video, `${NEW_BASE_NAME}.mp4`))).toBe(true);
-			expect(await pathExists(join(dirs.finalOutput, `${NEW_BASE_NAME}.pdf`))).toBe(false);
+			expect(await pathExists(join(dirs.video, `${aiDerivedLecture.folderName}.mp4`))).toBe(true);
+			expect(await pathExists(join(dirs.finalOutput, `${aiDerivedLecture.folderName}.pdf`))).toBe(
+				false,
+			);
 		});
 
 		it("should leave another lecture's files untouched when one lecture moves", async () => {
-			const other = "Lecture 2 - Inflammation - 2025-10-17";
-			await writeFile(join(dirs.video, `${other}.mp4`), "video");
+			await writeFile(join(dirs.video, `${otherLecture.folderName}.mp4`), "video");
 
 			await renameToNewBase();
 
-			expect(await pathExists(join(dirs.video, `${other}.mp4`))).toBe(true);
+			expect(await pathExists(join(dirs.video, `${otherLecture.folderName}.mp4`))).toBe(true);
 		});
 	});
 });
