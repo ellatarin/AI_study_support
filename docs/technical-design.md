@@ -684,7 +684,7 @@ createAudioExtractionStage(): PipelineStage<AudioExtractionInput, AudioExtractio
 **Input:** `Audio/audio.m4a`
 **Output:** `Transcript/transcript.txt`
 
-Uploads the audio to ElevenLabs Scribe v2 with a streaming upload progress bar (bytes sent vs total). Parameters: `languageCode: 'eng'`, `noVerbatim: true` — the latter is supported only on `scribe_v2`, so the two travel together.
+Uploads the audio to ElevenLabs Scribe v2 with a streaming upload progress bar (bytes sent vs total). Parameters: `languageCode` from `elevenLabs.languageCode` (§6), and `noVerbatim: true` — the latter is supported only on `scribe_v2`, so it travels with that model ID.
 
 **Model ID and the provider prefix.** Config holds `stages.transcription.modelId = "elevenlabs/scribe_v2"`, but the ElevenLabs API takes a bare `model_id` of `scribe_v2` with no provider prefix. The prefix therefore exists purely to serve this codebase: `modelIdCheck.exemptProviders` matches on the segment before the `/` (§6), so a model can only be exempted from the OpenRouter check if it is provider-qualified — a bare `scribe_v2` would have no prefix to match and no way to opt out of a check it must fail. The stage strips the prefix before the call, so config keeps the qualified form the exemption and the cost report need, and ElevenLabs receives the form it expects.
 
@@ -1033,6 +1033,8 @@ Belt and braces, not belt alone: OpenRouter's own parameter reference states tha
 
 Unlike OpenRouter's, this base URL carries no path — the SDK appends the versioned route itself — so `speechToText` is named alongside it in `transcription.ts` rather than being built by the pipeline, for the same reason `completions` is named in `OPENROUTER_PATHS`: so a test intercepting the call does not have to know the route independently of the code under test.
 
+**The spoken language is configuration, and it is not `output.language`.** `elevenLabs.languageCode` is the language Scribe is told to expect in the audio; `output.language` is the language the notes are written in (§6, Output). They are deliberately separate fields: a lecture delivered in one language may want notes in another, and collapsing them would make that impossible to express. They also take different forms — Scribe wants an ISO-639-3 code (`eng`), while the notes language is a BCP-47 tag carrying a regional spelling convention (`en-GB`) — so neither can be derived from the other without losing something.
+
 **ElevenLabs cost rate.** The Scribe API returns no price with a transcript, so `elevenLabs.costPerAudioHourUsd` supplies the rate Stage 2 multiplies by the audio's duration to attribute transcription spend (§7). Set it from the ElevenLabs plan in force; it is a billing figure that changes independently of this codebase, which is why it is configuration rather than a constant. The single rate is accurate for the call this pipeline makes — batch Scribe v2 with no diarization, entity detection, or keyterm prompting, each of which ElevenLabs bills as a surcharge on top of the base hourly rate. Enabling any of those later means revisiting this figure, since one number can no longer describe the call.
 
 ```jsonc
@@ -1051,6 +1053,7 @@ Unlike OpenRouter's, this base URL carries no path — the SDK appends the versi
   },
   "elevenLabs": {
     "baseUrl": "https://api.elevenlabs.io",  // every ElevenLabs call is made against this; use your account's residency host
+    "languageCode": "eng",             // language SPOKEN in the lectures (ISO-639-3); not output.language below
     "costPerAudioHourUsd": 0.22        // Scribe v2 list price; set from your current ElevenLabs plan
   },
   "currency": {
@@ -1093,7 +1096,7 @@ Unlike OpenRouter's, this base URL carries no path — the SDK appends the versi
     }
   },
   "output": {
-    "language": "en-GB",
+    "language": "en-GB",               // language the NOTES are written in; not elevenLabs.languageCode above
     "pandocEngine": "xelatex"
   }
 }
