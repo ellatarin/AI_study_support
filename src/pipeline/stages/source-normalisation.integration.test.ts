@@ -5,32 +5,36 @@ import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RunManifest } from "../../types/pipeline.js";
 import { makeTempDir } from "../fixtures.js";
+import { moduleDirs } from "../layout.js";
+import { manifestPath } from "../manifest.js";
 import {
 	createSourceNormalisationStage,
 	SourceNormalisationError,
 } from "./source-normalisation.js";
 
-const SOURCE_DIR = "Source files";
-const VIDEO_DIR = "Video files";
-const SLIDE_DIR = "Lecture slides";
-const PROCESSING_DIR = "Pipeline processing";
-const FINAL_OUTPUT_DIR = "Final output";
-
+// The names Stage 0 is expected to produce, written out on purpose: this suite
+// tests the naming rule, so deriving them would assert it against itself. The
+// directories they live in are the layout's business, not this suite's, and come
+// from moduleDirs.
 const CELL_INJURY = "Lecture 1 - Cell Injury - 2025-10-10";
 const VACCINATION = "Lecture 2 - Vaccination - 2025-10-17";
 const CELL_INJURY_VIDEO = "2025-10-10 BOD_Cell Injury.mp4";
 const CELL_INJURY_SLIDE = "2025-10-10 Cell Injury deck.pdf";
 
 function videoDir(moduleRoot: string): string {
-	return join(moduleRoot, SOURCE_DIR, VIDEO_DIR);
+	return moduleDirs({ moduleRoot }).video;
 }
 
 function slideDir(moduleRoot: string): string {
-	return join(moduleRoot, SOURCE_DIR, SLIDE_DIR);
+	return moduleDirs({ moduleRoot }).slide;
 }
 
 function processingDir(moduleRoot: string): string {
-	return join(moduleRoot, PROCESSING_DIR);
+	return moduleDirs({ moduleRoot }).processing;
+}
+
+function finalOutputDir(moduleRoot: string): string {
+	return moduleDirs({ moduleRoot }).finalOutput;
 }
 
 async function writeInto(dir: string, name: string): Promise<void> {
@@ -47,7 +51,7 @@ async function listNames(dir: string): Promise<readonly string[]> {
 }
 
 async function readManifestIn(folder: string): Promise<RunManifest> {
-	return JSON.parse(await readFile(join(folder, "manifest.json"), "utf8")) as RunManifest;
+	return JSON.parse(await readFile(manifestPath({ workspaceRoot: folder }), "utf8")) as RunManifest;
 }
 
 async function patchManifest({
@@ -59,7 +63,7 @@ async function patchManifest({
 }): Promise<void> {
 	const manifest = await readManifestIn(folder);
 	await writeFile(
-		join(folder, "manifest.json"),
+		manifestPath({ workspaceRoot: folder }),
 		JSON.stringify({ ...manifest, ...patch }, null, 2),
 	);
 }
@@ -334,12 +338,12 @@ describe("createSourceNormalisationStage", () => {
 
 	it("should leave an undateable file in Final output untouched when normalisation runs", async () => {
 		await writeLecture("2025-10-10 BOD_Cell Injury.mp4", "2025-10-10 Cell Injury deck.pdf");
-		await writeInto(join(moduleRoot, FINAL_OUTPUT_DIR), "Module handbook.pdf");
+		await writeInto(finalOutputDir(moduleRoot), "Module handbook.pdf");
 
 		await stage.normaliseModule({ moduleRoot });
 
 		expect(error).not.toHaveBeenCalled();
-		expect(await listNames(join(moduleRoot, FINAL_OUTPUT_DIR))).toEqual(["Module handbook.pdf"]);
+		expect(await listNames(finalOutputDir(moduleRoot))).toEqual(["Module handbook.pdf"]);
 	});
 
 	it("should leave a workspace folder untouched when it has no readable manifest", async () => {
@@ -367,8 +371,8 @@ describe("createSourceNormalisationStage", () => {
 
 		beforeEach(async () => {
 			await normaliseTwoLectures();
-			await writeInto(join(moduleRoot, FINAL_OUTPUT_DIR), `${CELL_INJURY}.pdf`);
-			await writeInto(join(moduleRoot, FINAL_OUTPUT_DIR), `${VACCINATION}.pdf`);
+			await writeInto(finalOutputDir(moduleRoot), `${CELL_INJURY}.pdf`);
+			await writeInto(finalOutputDir(moduleRoot), `${VACCINATION}.pdf`);
 			await patchManifest({
 				folder: join(processingDir(moduleRoot), CELL_INJURY),
 				patch: { currentPipelineCost: { totalCostUsd: 1.23, byStage: { transcription: 1.23 } } },
@@ -406,7 +410,7 @@ describe("createSourceNormalisationStage", () => {
 			expect(await listNames(processingDir(moduleRoot))).toEqual([
 				"Lecture 1 - Vaccination - 2025-10-17",
 			]);
-			expect(await listNames(join(moduleRoot, FINAL_OUTPUT_DIR))).toEqual([
+			expect(await listNames(finalOutputDir(moduleRoot))).toEqual([
 				"Lecture 1 - Vaccination - 2025-10-17.pdf",
 			]);
 			expect(await listNames(videoDir(moduleRoot))).toEqual([
@@ -422,7 +426,7 @@ describe("createSourceNormalisationStage", () => {
 
 			expect(confirm).toHaveBeenCalledTimes(3);
 			expect(await listNames(processingDir(moduleRoot))).toEqual([]);
-			expect(await listNames(join(moduleRoot, FINAL_OUTPUT_DIR))).toEqual([]);
+			expect(await listNames(finalOutputDir(moduleRoot))).toEqual([]);
 		});
 
 		it("should describe an orphan as untitled when its manifest carries no title", async () => {
@@ -438,7 +442,7 @@ describe("createSourceNormalisationStage", () => {
 		});
 
 		it("should delete the workspace when an orphan has no final output PDF", async () => {
-			await rm(join(moduleRoot, FINAL_OUTPUT_DIR, `${CELL_INJURY}.pdf`));
+			await rm(join(finalOutputDir(moduleRoot), `${CELL_INJURY}.pdf`));
 			await removeSourcePair(CELL_INJURY);
 
 			await stage.normaliseModule({ moduleRoot });
@@ -475,7 +479,7 @@ describe("createSourceNormalisationStage", () => {
 
 			await expectNormalisationToAbort([CELL_INJURY, VACCINATION]);
 
-			expect(await listNames(join(moduleRoot, FINAL_OUTPUT_DIR))).toEqual([
+			expect(await listNames(finalOutputDir(moduleRoot))).toEqual([
 				`${CELL_INJURY}.pdf`,
 				`${VACCINATION}.pdf`,
 			]);
@@ -485,12 +489,12 @@ describe("createSourceNormalisationStage", () => {
 
 	it("should rename the Final output PDF when a lecture is renumbered", async () => {
 		await normaliseTwoLectures();
-		await writeInto(join(moduleRoot, FINAL_OUTPUT_DIR), `${VACCINATION}.pdf`);
+		await writeInto(finalOutputDir(moduleRoot), `${VACCINATION}.pdf`);
 		await writeLecture("2025-10-13 BOD_Immunity to Infection.mp4", "2025-10-13 Immunity deck.pdf");
 
 		await stage.normaliseModule({ moduleRoot });
 
-		expect(await listNames(join(moduleRoot, FINAL_OUTPUT_DIR))).toEqual([
+		expect(await listNames(finalOutputDir(moduleRoot))).toEqual([
 			"Lecture 3 - Vaccination - 2025-10-17.pdf",
 		]);
 	});

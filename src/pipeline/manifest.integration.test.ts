@@ -40,7 +40,7 @@ describe("manifest I/O", () => {
 		it("should reject when the manifest is missing", async () => {
 			const error = await captureError(readManifest({ workspaceRoot }));
 
-			expect(error.message).toContain("manifest.json");
+			expect(error.message).toContain(MANIFEST_FILE);
 		});
 	});
 
@@ -76,7 +76,7 @@ describe("manifest I/O", () => {
 
 			await writeManifest({ workspaceRoot, manifest });
 
-			const written = await readFile(join(workspaceRoot, "manifest.json"), "utf8");
+			const written = await readFile(manifestPath({ workspaceRoot }), "utf8");
 			expect(JSON.parse(written) as RunManifest).toEqual(manifest);
 			expect(written).toContain('\n  "version"');
 		});

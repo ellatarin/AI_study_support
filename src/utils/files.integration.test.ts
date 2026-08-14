@@ -1,7 +1,7 @@
 import { access, mkdir, readFile, realpath, rm, symlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { makeTempDir } from "../pipeline/fixtures.js";
+import { makeTempDir, testModuleName } from "../pipeline/fixtures.js";
 import {
 	cleanTmpFiles,
 	ManifestPathError,
@@ -76,10 +76,13 @@ describe("files utilities", () => {
 		let outsideDir: string;
 
 		beforeEach(async () => {
-			moduleRoot = join(tempDir, "Biology of Disease");
+			moduleRoot = join(tempDir, testModuleName);
 			workspaceRoot = join(moduleRoot, "Lecture 1");
 			outsideDir = join(tempDir, "outside");
 
+			// resolveManifestPath is layout-agnostic — it only decides whether an
+			// entry stays under moduleRoot — so the directories below are sample
+			// paths rather than the layout's, and are deliberately written out.
 			await mkdir(join(workspaceRoot, "Audio"), { recursive: true });
 			await mkdir(join(moduleRoot, "Final output"), { recursive: true });
 			await mkdir(outsideDir, { recursive: true });
@@ -93,7 +96,7 @@ describe("files utilities", () => {
 				entry: "../Final output/notes.pdf",
 				leaf: "notes.pdf",
 			},
-			{ description: "the module root itself", entry: "..", leaf: "Biology of Disease" },
+			{ description: "the module root itself", entry: "..", leaf: testModuleName },
 		])("should return a path under moduleRoot when the entry is $description", async ({
 			entry,
 			leaf,
