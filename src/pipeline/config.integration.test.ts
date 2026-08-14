@@ -3,10 +3,14 @@ import { join } from "node:path";
 import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { ConfigError, clearModelIdCache, loadConfig } from "./config.js";
-import { captureError, makeTempDir } from "./fixtures.js";
+import { captureError, makeConfig, makeTempDir, TEST_OPENROUTER_BASE_URL } from "./fixtures.js";
 
-const OPENROUTER_HOST = "https://openrouter.ai";
-const MODELS_PATH = "/api/v1/models";
+// Every OpenRouter address the tests use is derived from the one configured
+// value, exactly as the loader derives its own (technical-design.md §6).
+const BASE_URL = new URL(TEST_OPENROUTER_BASE_URL);
+const OPENROUTER_HOST = BASE_URL.origin;
+const MODELS_PATH = `${BASE_URL.pathname}/models`;
+const MODELS_PAGE = `${BASE_URL.origin}/models`;
 const CONFIG_FILENAME = "pipeline-config.json";
 
 // Model IDs present in the mocked OpenRouter models response and used by the
@@ -16,27 +20,38 @@ const KNOWN_MODEL_IDS = ["openai/gpt-4o", "google/gemini-2.5-flash"] as const;
 /**
  * A structurally valid config as a fresh mutable object each call, so a test can
  * mutate one field to exercise a single validation branch in isolation.
+ *
+ * Round-tripped from the typed fixture rather than restated, so "valid" means
+ * one thing across the suite: a new required field cannot be added to the
+ * fixture and forgotten here, which would leave these tests asserting against a
+ * config the loader would reject for an unrelated reason.
  */
 function makeValidConfig(): Record<string, unknown> {
-	return {
-		version: "1",
-		moduleRoots: ["/absolute/path/to/Biology of Disease"],
-		openRouter: { rateLimitRpm: 60 },
-		elevenLabs: { costPerAudioHourUsd: 0.22 },
-		currency: { gbpPerUsd: 0.74 },
-		modelIdCheck: { exemptProviders: ["elevenlabs"] },
-		stages: {
-			"transcript-structuring": { modelId: "openai/gpt-4o", temperature: 0.2, maxTokens: 8192 },
-			"slide-conversion": {
-				modelId: "google/gemini-2.5-flash",
-				temperature: 0.1,
-				maxTokens: 4096,
-				concurrency: 3,
-			},
-		},
-		output: { language: "en-GB", pandocEngine: "xelatex" },
-	};
+	return JSON.parse(
+		JSON.stringify(
+			makeConfig({
+				moduleRoots: ["/absolute/path/to/Biology of Disease"],
+				modelIdCheck: { exemptProviders: ["elevenlabs"] },
+				stages: {
+					"transcript-structuring": {
+						modelId: "openai/gpt-4o",
+						temperature: 0.2,
+						maxTokens: 8192,
+					},
+					"slide-conversion": {
+						modelId: "google/gemini-2.5-flash",
+						temperature: 0.1,
+						maxTokens: 4096,
+						concurrency: 3,
+					},
+				},
+			}),
+		),
+	) as Record<string, unknown>;
 }
+
+const GATEWAY_ORIGIN = "https://gateway.example.test";
+const GATEWAY_BASE_URL = `${GATEWAY_ORIGIN}/openrouter/v1`;
 
 function stageModelIds(config: Record<string, unknown>): Record<string, { modelId: string }> {
 	return config.stages as Record<string, { modelId: string }>;
@@ -52,6 +67,17 @@ let projectRoot: string;
 
 async function writeConfig(config: unknown): Promise<void> {
 	await writeFile(join(projectRoot, CONFIG_FILENAME), JSON.stringify(config));
+}
+
+/**
+ * Writes a valid config addressing OpenRouter somewhere other than the default,
+ * which is how the derived-address tests prove the loader reads the config
+ * rather than a constant.
+ */
+async function writeConfigAtGateway(): Promise<void> {
+	const config = makeValidConfig();
+	config.openRouter = { baseUrl: GATEWAY_BASE_URL, rateLimitRpm: 60 };
+	await writeConfig(config);
 }
 
 beforeEach(async () => {
@@ -92,7 +118,51 @@ describe("loadConfig model-ID resolution check", () => {
 		expect(error).toBeInstanceOf(ConfigError);
 		expect(error.message).toContain(stageId);
 		expect(error.message).toContain(modelId);
-		expect(error.message).toContain("https://openrouter.ai/models");
+		expect(error.message).toContain(MODELS_PAGE);
+	});
+
+	it("should fetch the model list from the configured base URL when the check runs", async () => {
+		await writeConfigAtGateway();
+		const scope = nock(GATEWAY_ORIGIN)
+			.get("/openrouter/v1/models")
+			.reply(200, { data: KNOWN_MODEL_IDS.map((id) => ({ id })) });
+
+		await loadConfig({ projectRoot });
+
+		expect(scope.isDone()).toBe(true);
+	});
+
+	it.each([
+		{
+			address: "the default address",
+			write: async () => {
+				await writeConfig(makeValidConfig());
+			},
+			origin: OPENROUTER_HOST,
+			path: MODELS_PATH,
+			page: MODELS_PAGE,
+		},
+		{
+			address: "a configured gateway",
+			write: writeConfigAtGateway,
+			origin: GATEWAY_ORIGIN,
+			path: `${new URL(GATEWAY_BASE_URL).pathname}/models`,
+			page: `${GATEWAY_ORIGIN}/models`,
+		},
+	])("should fail naming that host's models page when the model list cannot be fetched from $address", async ({
+		write,
+		origin,
+		path,
+		page,
+	}) => {
+		await write();
+		nock(origin).get(path).reply(500, {});
+
+		const error = await captureError(loadConfig({ projectRoot }));
+
+		expect(error).toBeInstanceOf(ConfigError);
+		expect(error.message).toMatch(/model list/i);
+		expect(error.message).toContain(page);
 	});
 
 	it("should throw ConfigError with a helpful hint when a placeholder like <REASONING_MODEL> is left un-substituted", async () => {
@@ -170,16 +240,6 @@ describe("loadConfig model-ID resolution check", () => {
 
 		expect(result.stages).toEqual({});
 	});
-
-	it("should throw ConfigError when the OpenRouter model list cannot be fetched", async () => {
-		await writeConfig(makeValidConfig());
-		nock(OPENROUTER_HOST).get(MODELS_PATH).reply(500, {});
-
-		const error = await captureError(loadConfig({ projectRoot }));
-
-		expect(error).toBeInstanceOf(ConfigError);
-		expect(error.message).toMatch(/model list/i);
-	});
 });
 
 describe("loadConfig file handling", () => {
@@ -248,9 +308,30 @@ describe("loadConfig shape validation", () => {
 		{
 			name: "rateLimitRpm is not a number",
 			mutate: (config: Record<string, unknown>) => {
-				config.openRouter = { rateLimitRpm: "fast" };
+				config.openRouter = { baseUrl: TEST_OPENROUTER_BASE_URL, rateLimitRpm: "fast" };
 			},
 			match: /rateLimitRpm/,
+		},
+		{
+			name: "baseUrl is missing",
+			mutate: (config: Record<string, unknown>) => {
+				config.openRouter = { rateLimitRpm: 60 };
+			},
+			match: /baseUrl/,
+		},
+		{
+			name: "baseUrl is not a string",
+			mutate: (config: Record<string, unknown>) => {
+				config.openRouter = { baseUrl: 443, rateLimitRpm: 60 };
+			},
+			match: /baseUrl/,
+		},
+		{
+			name: "baseUrl is not an absolute URL",
+			mutate: (config: Record<string, unknown>) => {
+				config.openRouter = { baseUrl: "/api/v1", rateLimitRpm: 60 };
+			},
+			match: /baseUrl/,
 		},
 		{
 			name: "elevenLabs is missing",

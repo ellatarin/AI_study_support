@@ -4,14 +4,22 @@ import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { RunManifest, StageContext } from "../../types/pipeline.js";
 import { pathExists } from "../../utils/files.js";
-import { makeConfig, makeLectureTree, makeManifest, makeStageContext } from "../fixtures.js";
+import {
+	makeConfig,
+	makeLectureTree,
+	makeManifest,
+	makeStageContext,
+	TEST_OPENROUTER_BASE_URL,
+} from "../fixtures.js";
 import { readManifest, writeManifest } from "../manifest.js";
 import type { ModuleDirs } from "./source-normalisation.js";
 import { createTranscriptStructuringStage } from "./transcript-structuring.js";
 
-const OPENROUTER_HOST = "https://openrouter.ai";
-const COMPLETIONS_PATH = "/api/v1/chat/completions";
-const GENERATION_PATH = "/api/v1/generation";
+// Derived from the one configured address, as the client derives its own.
+const BASE_URL = new URL(TEST_OPENROUTER_BASE_URL);
+const OPENROUTER_HOST = BASE_URL.origin;
+const COMPLETIONS_PATH = `${BASE_URL.pathname}/chat/completions`;
+const GENERATION_PATH = `${BASE_URL.pathname}/generation`;
 
 const FOLDER = "Lecture 1 - Cell Injury - 2025-10-10";
 const RENAMED_FOLDER = "Lecture 1 - Innate Immune Response - 2025-10-10";

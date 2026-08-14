@@ -99,6 +99,17 @@ export function pendingStages(): RunManifest["stages"] {
 }
 
 /**
+ * The OpenRouter address the test configs point at.
+ *
+ * OpenRouter's address is configuration, not a literal in code
+ * (technical-design.md §6), so a suite that needs the host — to intercept it, or
+ * to assert what was sent — derives it from here rather than restating the URL.
+ * It lives in the fixtures because a test must not depend on the real
+ * `pipeline-config.json`, which the user edits.
+ */
+export const TEST_OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
+
+/**
  * Builds a structurally valid {@link PipelineConfig} with no stages configured,
  * so a test declares only the stages it exercises.
  *
@@ -109,7 +120,7 @@ export function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineCon
 	return {
 		version: "1",
 		moduleRoots: [],
-		openRouter: { rateLimitRpm: 60 },
+		openRouter: { baseUrl: TEST_OPENROUTER_BASE_URL, rateLimitRpm: 60 },
 		elevenLabs: { costPerAudioHourUsd: 0.22 },
 		currency: { gbpPerUsd: 0.74 },
 		modelIdCheck: { exemptProviders: ["elevenlabs"] },

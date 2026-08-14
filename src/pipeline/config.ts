@@ -4,8 +4,7 @@ import type { PipelineConfig, StageConfig, StageId } from "../types/pipeline.js"
 import { NamedError } from "../utils/errors.js";
 
 const CONFIG_FILENAME = "pipeline-config.json";
-const OPENROUTER_MODELS_URL = "https://openrouter.ai/api/v1/models";
-const OPENROUTER_MODELS_PAGE = "https://openrouter.ai/models";
+const MODELS_SEGMENT = "models";
 
 /**
  * Thrown when `pipeline-config.json` cannot be read, is malformed, or names a
@@ -62,6 +61,25 @@ function requireOptionalNumber(args: {
 		return undefined;
 	}
 	return requireNumber(args);
+}
+
+/**
+ * Reads a required absolute URL. Checked at load rather than at first use, so a
+ * mistyped address fails at startup instead of at the first billable call
+ * (technical-design.md §6).
+ *
+ * @param args - The value to read and the label to report against.
+ * @param args.value - The raw config value.
+ * @param args.label - The config key, for the error message.
+ * @returns The URL, with any trailing slash removed so paths append cleanly.
+ * @throws {ConfigError} If the value is not a string, or does not parse as an absolute URL.
+ */
+function requireUrl(args: { readonly value: unknown; readonly label: string }): string {
+	const url = requireString(args);
+	if (!URL.canParse(url)) {
+		throw new ConfigError(`${args.label} must be an absolute URL, e.g. https://example.com/api/v1`);
+	}
+	return url.replace(/\/+$/, "");
 }
 
 function requireStringArray(args: {
@@ -160,6 +178,10 @@ function validateConfig(raw: unknown): PipelineConfig {
 		version: requireString({ value: root.version, label: "version" }),
 		moduleRoots: requireStringArray({ value: root.moduleRoots, label: "moduleRoots" }),
 		openRouter: {
+			baseUrl: requireUrl({
+				value: requireRecord({ value: root.openRouter, label: "openRouter" }).baseUrl,
+				label: "openRouter.baseUrl",
+			}),
 			rateLimitRpm: requireSectionNumber({
 				value: root.openRouter,
 				sectionLabel: "openRouter",
@@ -200,14 +222,26 @@ async function readConfigFile(configPath: string): Promise<unknown> {
 	}
 }
 
-async function fetchKnownModelIds(): Promise<ReadonlySet<string>> {
+/**
+ * The human-facing models page, for an error message to point at. Taken from the
+ * configured API address's origin, so the two cannot name different hosts — which
+ * assumes whatever serves the API also serves that page (technical-design.md §6).
+ *
+ * @param baseUrl - The configured OpenRouter base URL.
+ * @returns The models page URL.
+ */
+function modelsPageFor(baseUrl: string): string {
+	return `${new URL(baseUrl).origin}/${MODELS_SEGMENT}`;
+}
+
+async function fetchKnownModelIds(baseUrl: string): Promise<ReadonlySet<string>> {
 	if (cachedModelIds !== null) {
 		return cachedModelIds;
 	}
-	const response = await fetch(OPENROUTER_MODELS_URL);
+	const response = await fetch(`${baseUrl}/${MODELS_SEGMENT}`);
 	if (!response.ok) {
 		throw new ConfigError(
-			`Could not fetch the OpenRouter model list (HTTP ${response.status}); see ${OPENROUTER_MODELS_PAGE}.`,
+			`Could not fetch the OpenRouter model list (HTTP ${response.status}); see ${modelsPageFor(baseUrl)}.`,
 		);
 	}
 	const body = (await response.json()) as { readonly data: readonly { readonly id: string }[] };
@@ -223,11 +257,14 @@ function describeModelIdMiss(args: { readonly stageId: string; readonly modelId:
 	return `stage "${args.stageId}" names unrecognised model ID "${args.modelId}"`;
 }
 
-function formatModelIdError(misses: ReadonlyArray<readonly [string, StageConfig]>): string {
-	const details = misses
+function formatModelIdError(args: {
+	readonly misses: ReadonlyArray<readonly [string, StageConfig]>;
+	readonly baseUrl: string;
+}): string {
+	const details = args.misses
 		.map(([stageId, stageConfig]) => describeModelIdMiss({ stageId, modelId: stageConfig.modelId }))
 		.join("; ");
-	return `Model ID check failed in ${CONFIG_FILENAME}: ${details}. Verify each ID at ${OPENROUTER_MODELS_PAGE}.`;
+	return `Model ID check failed in ${CONFIG_FILENAME}: ${details}. Verify each ID at ${modelsPageFor(args.baseUrl)}.`;
 }
 
 /**
@@ -254,12 +291,13 @@ async function assertModelIdsResolvable(config: PipelineConfig): Promise<void> {
 	if (entries.length === 0) {
 		return;
 	}
-	const knownIds = await fetchKnownModelIds();
+	const { baseUrl } = config.openRouter;
+	const knownIds = await fetchKnownModelIds(baseUrl);
 	const misses = entries.filter(([, stageConfig]) => !knownIds.has(stageConfig.modelId));
 	if (misses.length === 0) {
 		return;
 	}
-	throw new ConfigError(formatModelIdError(misses));
+	throw new ConfigError(formatModelIdError({ misses, baseUrl }));
 }
 
 /**

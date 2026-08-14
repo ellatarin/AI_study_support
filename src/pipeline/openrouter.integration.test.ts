@@ -2,12 +2,14 @@ import nock from "nock";
 import OpenAI from "openai";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { PipelineConfig } from "../types/pipeline.js";
-import { captureError, makeConfig } from "./fixtures.js";
+import { captureError, makeConfig, TEST_OPENROUTER_BASE_URL } from "./fixtures.js";
 import { ContextLengthError, createOpenRouterClient, makeCompletionCall } from "./openrouter.js";
 
-const OPENROUTER_HOST = "https://openrouter.ai";
-const COMPLETIONS_PATH = "/api/v1/chat/completions";
-const GENERATION_PATH = "/api/v1/generation";
+// Derived from the one configured address, as the client derives its own.
+const BASE_URL = new URL(TEST_OPENROUTER_BASE_URL);
+const OPENROUTER_HOST = BASE_URL.origin;
+const COMPLETIONS_PATH = `${BASE_URL.pathname}/chat/completions`;
+const GENERATION_PATH = `${BASE_URL.pathname}/generation`;
 
 const config: PipelineConfig = makeConfig({
 	moduleRoots: ["/absolute/path/to/Biology of Disease"],
@@ -113,9 +115,9 @@ afterEach(() => {
 
 describe("createOpenRouterClient", () => {
 	it("should configure the OpenRouter baseURL, timeout, and retries when a client is created", () => {
-		const client = createOpenRouterClient();
+		const client = createOpenRouterClient({ baseUrl: TEST_OPENROUTER_BASE_URL });
 
-		expect(client.baseURL).toBe("https://openrouter.ai/api/v1");
+		expect(client.baseURL).toBe(TEST_OPENROUTER_BASE_URL);
 		expect(client.timeout).toBe(120_000);
 		expect(client.maxRetries).toBe(5);
 	});
@@ -253,7 +255,7 @@ describe("makeCompletionCall", () => {
 	it("should throw when the completion request times out before a response arrives", async () => {
 		const client = new OpenAI({
 			apiKey: "test-key",
-			baseURL: "https://openrouter.ai/api/v1",
+			baseURL: TEST_OPENROUTER_BASE_URL,
 			timeout: 20,
 			maxRetries: 0,
 		});
@@ -265,7 +267,7 @@ describe("makeCompletionCall", () => {
 	});
 
 	it("should apply a 30s per-attempt timeout and bounded retries when the cost lookup runs", async () => {
-		const client = createOpenRouterClient();
+		const client = createOpenRouterClient({ baseUrl: TEST_OPENROUTER_BASE_URL });
 		const getSpy = vi.spyOn(client, "get");
 		mockCompletion().reply(200, completionBody());
 		mockGeneration().reply(200, generationBody(0.0042));

@@ -2,7 +2,6 @@ import OpenAI from "openai";
 import type { PipelineConfig, StageConfig, StageCost, StageId } from "../types/pipeline.js";
 import { NamedError } from "../utils/errors.js";
 
-const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 const OPENROUTER_APP_TITLE = "Lecture Notes Pipeline";
 const GENERATION_PATH = "/generation";
 const CONTEXT_LENGTH_CODE = "context_length_exceeded";
@@ -70,32 +69,35 @@ type CostResolution =
 	| { readonly totalCostUsd: number }
 	| { readonly totalCostUsd: null; readonly costResolutionError: string };
 
-// The client config never varies within a process, so a single instance is
-// reused across calls; tests inject their own client instead.
-let sharedClient: OpenAI | null = null;
+// One client is reused across calls, remembering the address it was built for so
+// a differently configured run is never served a client pointed elsewhere. Tests
+// inject their own client instead.
+let sharedClient: { readonly baseUrl: string; readonly client: OpenAI } | null = null;
 
 /**
  * Builds an OpenAI SDK client pointed at OpenRouter, with the app title header,
  * completion timeout, and retry budget the pipeline requires
  * (technical-design.md §6). The API key is read from `OPENROUTER_API_KEY`.
  *
+ * @param args - The client's address.
+ * @param args.baseUrl - The configured OpenRouter base URL; every call is relative to it.
  * @returns A configured OpenAI client targeting OpenRouter.
  */
-export function createOpenRouterClient(): OpenAI {
+export function createOpenRouterClient({ baseUrl }: { readonly baseUrl: string }): OpenAI {
 	return new OpenAI({
 		apiKey: process.env.OPENROUTER_API_KEY,
-		baseURL: OPENROUTER_BASE_URL,
+		baseURL: baseUrl,
 		defaultHeaders: { "X-Title": OPENROUTER_APP_TITLE },
 		maxRetries: COMPLETION_MAX_RETRIES,
 		timeout: COMPLETION_TIMEOUT_MS,
 	});
 }
 
-function getSharedClient(): OpenAI {
-	if (sharedClient === null) {
-		sharedClient = createOpenRouterClient();
+function getSharedClient(baseUrl: string): OpenAI {
+	if (sharedClient === null || sharedClient.baseUrl !== baseUrl) {
+		sharedClient = { baseUrl, client: createOpenRouterClient({ baseUrl }) };
 	}
-	return sharedClient;
+	return sharedClient.client;
 }
 
 function stageConfigFor(options: {
@@ -197,7 +199,7 @@ export async function makeCompletionCall(options: {
 	readonly client?: OpenAI;
 }): Promise<{ readonly content: string; readonly cost: StageCost }> {
 	const stageConfig = stageConfigFor({ config: options.config, stageId: options.stageId });
-	const client = options.client ?? getSharedClient();
+	const client = options.client ?? getSharedClient(options.config.openRouter.baseUrl);
 	const response = await createCompletion({
 		client,
 		stageConfig,

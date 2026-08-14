@@ -97,6 +97,15 @@ export type PipelineConfig = {
 	readonly version: string;
 	readonly moduleRoots: readonly string[];
 	readonly openRouter: {
+		/**
+		 * The address every OpenRouter call is made against — the SDK's `baseURL`,
+		 * the model-list endpoint, and the models page a failed model-ID check
+		 * links to are all derived from it. Configuration rather than a constant
+		 * for the same reason a model ID is: it describes the service being
+		 * called, not this codebase, so a gateway or regional endpoint is a config
+		 * edit (technical-design.md §6).
+		 */
+		readonly baseUrl: string;
 		readonly rateLimitRpm: number;
 	};
 	readonly elevenLabs: {

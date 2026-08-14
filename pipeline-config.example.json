@@ -5,6 +5,7 @@
     "/absolute/path/to/Anatomy"
   ],
   "openRouter": {
+    "baseUrl": "https://openrouter.ai/api/v1",
     "rateLimitRpm": 60
   },
   "elevenLabs": {
