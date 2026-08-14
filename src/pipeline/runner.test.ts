@@ -1,4 +1,4 @@
-import { resolve } from "node:path";
+import { join, resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import type {
 	ManifestStageEntry,
@@ -7,7 +7,15 @@ import type {
 	RunType,
 	StageId,
 } from "../types/pipeline.js";
-import { makeConfig, makeManifest, makeStubLogger, pendingStages } from "./fixtures.js";
+import {
+	makeConfig,
+	makeManifest,
+	makeStubLogger,
+	otherModuleName,
+	pendingStages,
+	testModuleName,
+} from "./fixtures.js";
+import { moduleDirs } from "./layout.js";
 import { assembleContext, classifyRunType, deriveRunId, PipelineRunner } from "./runner.js";
 
 function manifestWithStage(stageId: StageId, entry: ManifestStageEntry): RunManifest {
@@ -84,7 +92,8 @@ describe("classifyRunType", () => {
 });
 
 describe("assembleContext", () => {
-	const workspaceRoot = resolve("/base", "Module A", "Pipeline processing", "L1");
+	const moduleRoot = resolve("/base", testModuleName);
+	const workspaceRoot = join(moduleDirs({ moduleRoot }).processing, "L1");
 
 	it("should derive moduleRoot two levels up and attach config and manifest when assembling a context", () => {
 		const manifest = makeManifest({ lectureNumber: 3, lectureTitle: "Cellular Respiration" });
@@ -92,7 +101,9 @@ describe("assembleContext", () => {
 
 		const context = assembleContext({ workspaceRoot, manifest, config });
 
-		expect(context.moduleRoot).toBe(resolve(workspaceRoot, "..", ".."));
+		// Against the module root the workspace was built under, not against the
+		// same "../.." arithmetic assembleContext itself does.
+		expect(context.moduleRoot).toBe(moduleRoot);
 		expect(context.workspaceRoot).toBe(workspaceRoot);
 		expect(context.config).toBe(config);
 		expect(context.manifest).toBe(manifest);
@@ -121,12 +132,13 @@ describe("PipelineRunner.normaliseSources", () => {
 			logger: makeStubLogger().logger,
 		});
 
-		await runner.normaliseSources({
-			moduleRoots: ["/modules/Biology of Disease", "/modules/Immunology"],
-		});
+		const moduleRoots = [join("/modules", testModuleName), join("/modules", otherModuleName)];
 
-		expect(normaliseModule).toHaveBeenCalledTimes(2);
-		expect(normaliseModule).toHaveBeenCalledWith({ moduleRoot: "/modules/Biology of Disease" });
-		expect(normaliseModule).toHaveBeenCalledWith({ moduleRoot: "/modules/Immunology" });
+		await runner.normaliseSources({ moduleRoots });
+
+		expect(normaliseModule).toHaveBeenCalledTimes(moduleRoots.length);
+		for (const moduleRoot of moduleRoots) {
+			expect(normaliseModule).toHaveBeenCalledWith({ moduleRoot });
+		}
 	});
 });

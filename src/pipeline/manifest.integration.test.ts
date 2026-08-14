@@ -2,7 +2,8 @@ import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { RunManifest } from "../types/pipeline.js";
-import { captureError, makeManifest, makeTempDir } from "./fixtures.js";
+import { captureError, makeManifest, makeTempDir, testLecture } from "./fixtures.js";
+import { MANIFEST_FILE, moduleDirs } from "./layout.js";
 import { manifestPath, readManifest, readManifestSafe, writeManifest } from "./manifest.js";
 
 describe("manifest I/O", () => {
@@ -17,10 +18,12 @@ describe("manifest I/O", () => {
 	});
 
 	async function writeRaw(content: string): Promise<void> {
-		await writeFile(join(workspaceRoot, "manifest.json"), content);
+		await writeFile(manifestPath({ workspaceRoot }), content);
 	}
 
 	describe("manifestPath", () => {
+		// The one assertion here that must state the filename: it is what the
+		// function under test is for, and deriving it would prove nothing.
 		it("should resolve manifest.json inside the workspace when given a workspace root", () => {
 			expect(manifestPath({ workspaceRoot })).toBe(join(workspaceRoot, "manifest.json"));
 		});
@@ -81,11 +84,16 @@ describe("manifest I/O", () => {
 		it("should leave no temporary file behind when the write succeeds", async () => {
 			await writeManifest({ workspaceRoot, manifest: makeManifest() });
 
-			expect(await readdir(workspaceRoot)).toEqual(["manifest.json"]);
+			expect(await readdir(workspaceRoot)).toEqual([MANIFEST_FILE]);
 		});
 
 		it("should create the workspace directory when it does not yet exist", async () => {
-			const nested = join(workspaceRoot, "Pipeline processing", "Lecture 1 - 2025-10-10");
+			// Nested as deeply as a real workspace, so the test exercises the depth
+			// writeManifest actually has to create.
+			const nested = join(
+				moduleDirs({ moduleRoot: workspaceRoot }).processing,
+				testLecture.folderName,
+			);
 
 			await writeManifest({ workspaceRoot: nested, manifest: makeManifest() });
 

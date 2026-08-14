@@ -1,4 +1,13 @@
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import {
+	makeManifest,
+	otherLecture,
+	otherModuleName,
+	testLecture,
+	testModuleName,
+} from "../pipeline/fixtures.js";
+import { moduleDirs, stageOutputEntry } from "../pipeline/layout.js";
 import type {
 	BatchSummary,
 	OverallStatus,
@@ -18,6 +27,12 @@ import {
 	formatRunSummary,
 } from "./cost.js";
 
+// A rate this suite fixes for itself, deliberately NOT `currency.gbpPerUsd`.
+// Every expected figure below is a pounds amount worked out by hand at this
+// rate, so taking it from config would make an unrelated config edit fail eight
+// assertions with "expected £0.148, got £0.170" — blaming the formatter for a
+// change in the rate. Deriving the expectations instead would multiply by the
+// same rate the code under test does, and prove nothing.
 const GBP_PER_USD = 0.74;
 
 describe("accumulateCost", () => {
@@ -153,35 +168,25 @@ const completed = ({
 	filesWritten,
 });
 
-const manifest: RunManifest = {
-	version: "1",
-	lectureNumber: 1,
-	lectureDate: "2025-10-10",
-	provisionalTitle: "Cell Injury",
-	lectureTitle: "Cell Injury",
-	userTitle: null,
-	aiDerivedTitle: null,
-	workspaceFolderName: "Lecture 1 - Cell Injury - 2025-10-10",
-	createdAt: "2025-10-10T09:00:00.000Z",
-	updatedAt: "2025-10-10T10:15:00.000Z",
+const manifest: RunManifest = makeManifest({
 	stages: {
 		// Completed non-LLM stage: null config and null cost exercise the
 		// manifestStageMeta "—"/0 fallbacks within the complete branch.
-		"audio-extraction": completed({ filesWritten: ["Audio/audio.m4a"] }),
+		"audio-extraction": completed({ filesWritten: [stageOutputEntry("audio-extraction")] }),
 		transcription: completed({
 			configUsed: { modelId: "elevenlabs/scribe_v2" },
 			cost: resolved({ callCount: 1, totalCostUsd: 0.042 }),
-			filesWritten: ["Transcript/transcript.txt"],
+			filesWritten: [stageOutputEntry("transcription")],
 		}),
 		"slide-conversion": completed({
 			configUsed: { modelId: "google/gemini-2.5-flash", concurrency: 3 },
 			cost: resolved({ callCount: 24, totalCostUsd: 0.034 }),
-			filesWritten: ["Slide content/slides.md"],
+			filesWritten: [stageOutputEntry("slide-conversion")],
 		}),
 		synthesis: completed({
 			configUsed: { modelId: "anthropic/claude-sonnet-4.6", maxTokens: 8192 },
 			cost: resolved({ callCount: 1, totalCostUsd: 0.312 }),
-			filesWritten: ["Notes/notes.md"],
+			filesWritten: [stageOutputEntry("synthesis")],
 		}),
 	},
 	currentPipelineCost: {
@@ -195,7 +200,7 @@ const manifest: RunManifest = {
 			"pdf-generation": 0.005,
 		},
 	},
-};
+});
 
 const runLogs: readonly RunLog[] = [
 	{
@@ -358,7 +363,7 @@ const runManifest: RunManifest = {
 	...manifest,
 	stages: {
 		"audio-extraction": {
-			...completed({ filesWritten: ["Audio/audio.m4a"] }),
+			...completed({ filesWritten: [stageOutputEntry("audio-extraction")] }),
 			status: "skipped",
 		},
 		// The same transcription entry the report fixture uses: one call, no tokens.
@@ -371,7 +376,7 @@ const runManifest: RunManifest = {
 				callCount: 24,
 				totalCostUsd: 0.034,
 			},
-			filesWritten: ["Slide content/slides.md"],
+			filesWritten: [stageOutputEntry("slide-conversion")],
 		}),
 		// A failed stage records no cost at all, so its row has nothing to show.
 		synthesis: {
@@ -421,9 +426,9 @@ describe("formatRunSummary", () => {
 			gbpPerUsd: GBP_PER_USD,
 		});
 
-		expect(summary).toContain("Lecture 1");
-		expect(summary).toContain("Cell Injury");
-		expect(summary).toContain("2025-10-10");
+		expect(summary).toContain(`Lecture ${String(testLecture.number)}`);
+		expect(summary).toContain(testLecture.title);
+		expect(summary).toContain(testLecture.date);
 	});
 
 	it("should render a stage's cost as n/a when the manifest recorded none", () => {
@@ -493,7 +498,7 @@ const lecture = ({
 	readonly overallStatus: OverallStatus;
 	readonly totalCostUsd: number;
 }): RunSummary => ({
-	workspaceRoot: `/modules/${moduleName}/Pipeline processing/${folder}`,
+	workspaceRoot: join(moduleDirs({ moduleRoot: join("/modules", moduleName) }).processing, folder),
 	runId: "2025-10-10T09-00-00Z",
 	startedAt: "2025-10-10T09:00:00.000Z",
 	endedAt: "2025-10-10T09:30:00.000Z",
@@ -507,19 +512,21 @@ const batch: BatchSummary = {
 	endedAt: "2025-10-10T10:00:00.000Z",
 	lectures: [
 		lecture({
-			module: "Biology of Disease",
-			folder: "Lecture 1 - Cell Injury - 2025-10-10",
+			module: testModuleName,
+			folder: testLecture.folderName,
 			overallStatus: "success",
 			totalCostUsd: 0.2,
 		}),
 		lecture({
-			module: "Biology of Disease",
-			folder: "Lecture 2 - Inflammation - 2025-10-17",
+			module: testModuleName,
+			folder: otherLecture.folderName,
 			overallStatus: "failed",
 			totalCostUsd: 0.1,
 		}),
+		// A third lecture, in the second module, so the table has a module whose
+		// status differs from the first's. Its own identity is not shared.
 		lecture({
-			module: "Immunology",
+			module: otherModuleName,
 			folder: "Lecture 1 - Antigens - 2025-10-11",
 			overallStatus: "partial",
 			totalCostUsd: 0.3,
@@ -533,21 +540,21 @@ describe("formatBatchSummary", () => {
 	it("should render one row per module when the batch spanned several modules", () => {
 		const summary = formatBatchSummary({ batch, gbpPerUsd: GBP_PER_USD });
 
-		expect(summary).toMatch(/Biology of Disease\s+2\s/);
-		expect(summary).toMatch(/Immunology\s+1\s/);
+		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+2\\s`));
+		expect(summary).toMatch(new RegExp(`${otherModuleName}\\s+1\\s`));
 	});
 
 	it("should report a module as failed when one of its lectures failed", () => {
 		const summary = formatBatchSummary({ batch, gbpPerUsd: GBP_PER_USD });
 
 		// 0.2 + 0.1 USD at 0.74 = 0.222.
-		expect(summary).toMatch(/Biology of Disease\s+2\s+failed\s+£0\.222/);
+		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+2\\s+failed\\s+£0\\.222`));
 	});
 
 	it("should carry a module's own status when none of its lectures failed", () => {
 		const summary = formatBatchSummary({ batch, gbpPerUsd: GBP_PER_USD });
 
-		expect(summary).toMatch(/Immunology\s+1\s+partial\s+£0\.222/);
+		expect(summary).toMatch(new RegExp(`${otherModuleName}\\s+1\\s+partial\\s+£0\\.222`));
 	});
 
 	it("should total every lecture in an all-modules row when the batch ends", () => {
