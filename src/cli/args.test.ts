@@ -1,4 +1,12 @@
 import { describe, expect, it } from "vitest";
+import {
+	changedDate,
+	otherLecture,
+	otherModuleRoot,
+	testLecture,
+	testModuleRoot,
+	userChosenTitle,
+} from "../pipeline/fixtures.js";
 import { type CliCommand, CliUsageError, parseCliArgs, USAGE } from "./args.js";
 
 function parse(argv: readonly string[]): CliCommand {
@@ -38,19 +46,19 @@ describe("parseCliArgs", () => {
 
 	describe("run", () => {
 		it("should address the lecture on the given date when run is invoked", () => {
-			expect(parse(["run", "2025-10-10"])).toEqual({
+			expect(parse(["run", testLecture.date])).toEqual({
 				command: "run",
-				lectureDate: "2025-10-10",
+				lectureDate: testLecture.date,
 				options: {},
 			});
 		});
 
 		it("should carry every flag run takes when they are all supplied", () => {
 			expect(
-				parse(["run", "2025-10-10", "--from-stage", "transcription", "--continue-on-error"]),
+				parse(["run", testLecture.date, "--from-stage", "transcription", "--continue-on-error"]),
 			).toEqual({
 				command: "run",
-				lectureDate: "2025-10-10",
+				lectureDate: testLecture.date,
 				options: { fromStage: "transcription", continueOnError: true },
 			});
 		});
@@ -75,7 +83,7 @@ describe("parseCliArgs", () => {
 		});
 
 		it("should reject the invocation when more than one date is given", () => {
-			const error = usageError(["run", "2025-10-10", "2025-10-17"]);
+			const error = usageError(["run", testLecture.date, otherLecture.date]);
 
 			expect(error).toBeInstanceOf(CliUsageError);
 		});
@@ -87,9 +95,9 @@ describe("parseCliArgs", () => {
 		});
 
 		it("should target one module when a module root is named", () => {
-			expect(parse(["batch", "/modules/Biology of Disease"])).toEqual({
+			expect(parse(["batch", testModuleRoot])).toEqual({
 				command: "batch",
-				moduleRoot: "/modules/Biology of Disease",
+				moduleRoot: testModuleRoot,
 				options: {},
 			});
 		});
@@ -112,7 +120,7 @@ describe("parseCliArgs", () => {
 		});
 
 		it("should reject the invocation when more than one module is named", () => {
-			const error = usageError(["batch", "/modules/A", "/modules/B"]);
+			const error = usageError(["batch", testModuleRoot, otherModuleRoot]);
 
 			expect(error).toBeInstanceOf(CliUsageError);
 		});
@@ -128,18 +136,18 @@ describe("parseCliArgs", () => {
 		});
 
 		it("should narrow to a date when --date is given", () => {
-			expect(parse(["cost-report", "--date", "2025-10-10"])).toEqual({
+			expect(parse(["cost-report", "--date", testLecture.date])).toEqual({
 				command: "cost-report",
-				lectureDate: "2025-10-10",
+				lectureDate: testLecture.date,
 				moduleRoot: null,
 			});
 		});
 
 		it("should narrow to a module when --module is given", () => {
-			expect(parse(["cost-report", "--module", "/modules/Immunology"])).toEqual({
+			expect(parse(["cost-report", "--module", otherModuleRoot])).toEqual({
 				command: "cost-report",
 				lectureDate: null,
-				moduleRoot: "/modules/Immunology",
+				moduleRoot: otherModuleRoot,
 			});
 		});
 
@@ -152,50 +160,50 @@ describe("parseCliArgs", () => {
 
 	describe("identity mutations", () => {
 		it("should carry the new title when rename is invoked", () => {
-			expect(parse(["rename", "2025-10-10", "Cell Injury and Death"])).toEqual({
+			expect(parse(["rename", testLecture.date, userChosenTitle])).toEqual({
 				command: "rename",
-				lectureDate: "2025-10-10",
-				title: "Cell Injury and Death",
+				lectureDate: testLecture.date,
+				title: userChosenTitle,
 			});
 		});
 
 		it("should reject the invocation when rename is given no title", () => {
-			const error = usageError(["rename", "2025-10-10"]);
+			const error = usageError(["rename", testLecture.date]);
 
 			expect(error).toBeInstanceOf(CliUsageError);
 			expect(error.message).toContain("rename");
 		});
 
 		it("should reject the invocation when the new title is blank", () => {
-			const error = usageError(["rename", "2025-10-10", "   "]);
+			const error = usageError(["rename", testLecture.date, "   "]);
 
 			expect(error).toBeInstanceOf(CliUsageError);
 		});
 
 		it("should address the lecture on the given date when delete is invoked", () => {
-			expect(parse(["delete", "2025-10-10"])).toEqual({
+			expect(parse(["delete", testLecture.date])).toEqual({
 				command: "delete",
-				lectureDate: "2025-10-10",
+				lectureDate: testLecture.date,
 			});
 		});
 
 		it("should carry both dates when change-date is invoked", () => {
-			expect(parse(["change-date", "2025-10-10", "2025-10-24"])).toEqual({
+			expect(parse(["change-date", testLecture.date, changedDate])).toEqual({
 				command: "change-date",
-				lectureDate: "2025-10-10",
-				newLectureDate: "2025-10-24",
+				lectureDate: testLecture.date,
+				newLectureDate: changedDate,
 			});
 		});
 
 		it("should reject the invocation when change-date is given only one date", () => {
-			const error = usageError(["change-date", "2025-10-10"]);
+			const error = usageError(["change-date", testLecture.date]);
 
 			expect(error).toBeInstanceOf(CliUsageError);
 			expect(error.message).toContain("change-date");
 		});
 
 		it("should reject the invocation when the new date is not a real date", () => {
-			const error = usageError(["change-date", "2025-10-10", "not-a-date"]);
+			const error = usageError(["change-date", testLecture.date, "not-a-date"]);
 
 			expect(error).toBeInstanceOf(CliUsageError);
 		});
@@ -203,20 +211,20 @@ describe("parseCliArgs", () => {
 
 	describe("invalid invocations", () => {
 		it("should reject the invocation when the command is unknown", () => {
-			const error = usageError(["publish", "2025-10-10"]);
+			const error = usageError(["publish", testLecture.date]);
 
 			expect(error).toBeInstanceOf(CliUsageError);
 			expect(error.message).toContain("publish");
 		});
 
 		it("should reject the invocation when an option is unknown", () => {
-			const error = usageError(["run", "2025-10-10", "--dry-run"]);
+			const error = usageError(["run", testLecture.date, "--dry-run"]);
 
 			expect(error).toBeInstanceOf(CliUsageError);
 		});
 
 		it("should reject the invocation when --from-stage names no known stage", () => {
-			const error = usageError(["run", "2025-10-10", "--from-stage", "summarising"]);
+			const error = usageError(["run", testLecture.date, "--from-stage", "summarising"]);
 
 			expect(error).toBeInstanceOf(CliUsageError);
 			expect(error.message).toContain("summarising");
@@ -236,15 +244,15 @@ describe("parseCliArgs", () => {
 
 		it.each([
 			// --concurrency counts lectures running at once, and only batch runs more than one.
-			{ flag: "--concurrency", argv: ["run", "2025-10-10", "--concurrency", "4"] },
-			{ flag: "--date", argv: ["run", "2025-10-10", "--date", "2025-10-17"] },
-			{ flag: "--module", argv: ["batch", "--module", "/modules/Immunology"] },
+			{ flag: "--concurrency", argv: ["run", testLecture.date, "--concurrency", "4"] },
+			{ flag: "--date", argv: ["run", testLecture.date, "--date", otherLecture.date] },
+			{ flag: "--module", argv: ["batch", "--module", otherModuleRoot] },
 			{
 				flag: "--from-stage",
-				argv: ["rename", "2025-10-10", "Title", "--from-stage", "synthesis"],
+				argv: ["rename", testLecture.date, "Title", "--from-stage", "synthesis"],
 			},
 			{ flag: "--continue-on-error", argv: ["cost-report", "--continue-on-error"] },
-			{ flag: "--concurrency", argv: ["delete", "2025-10-10", "--concurrency", "2"] },
+			{ flag: "--concurrency", argv: ["delete", testLecture.date, "--concurrency", "2"] },
 		])("should reject $flag when the command does not take it", ({ flag, argv }) => {
 			const error = usageError(argv);
 
@@ -254,14 +262,14 @@ describe("parseCliArgs", () => {
 		});
 
 		it("should name the options a command does take when one is rejected", () => {
-			const error = usageError(["run", "2025-10-10", "--concurrency", "4"]);
+			const error = usageError(["run", testLecture.date, "--concurrency", "4"]);
 
 			expect(error.message).toContain("--from-stage");
 			expect(error.message).toContain("--continue-on-error");
 		});
 
 		it("should say a command takes no options when one is rejected", () => {
-			const error = usageError(["delete", "2025-10-10", "--concurrency", "2"]);
+			const error = usageError(["delete", testLecture.date, "--concurrency", "2"]);
 
 			expect(error.message).toContain("no options");
 		});

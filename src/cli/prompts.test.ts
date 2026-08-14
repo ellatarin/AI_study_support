@@ -1,5 +1,8 @@
+import { join } from "node:path";
 import { checkbox, confirm, select } from "@inquirer/prompts";
 import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
+import { otherModuleRoot, testLecture, testModuleRoot } from "../pipeline/fixtures.js";
+import { moduleDirs } from "../pipeline/layout.js";
 import type { LectureMatch } from "../types/pipeline.js";
 import { confirmPrompt, selectLectureMatch, selectLectureMatches } from "./prompts.js";
 
@@ -23,19 +26,34 @@ const askSelect = select as unknown as Mock<
 	(args: { readonly message: string; readonly choices: readonly Choice[] }) => Promise<number>
 >;
 
+/** A match in the given module, with a workspace laid out as the pipeline would. */
+function matchIn({
+	moduleRoot,
+	lectureNumber,
+	lectureTitle,
+}: {
+	readonly moduleRoot: string;
+	readonly lectureNumber: number;
+	readonly lectureTitle: string;
+}): LectureMatch {
+	return {
+		moduleRoot,
+		workspaceRoot: join(
+			moduleDirs({ moduleRoot }).processing,
+			`Lecture ${String(lectureNumber)} - ${lectureTitle}`,
+		),
+		lectureNumber,
+		lectureTitle,
+	};
+}
+
 const matches: readonly LectureMatch[] = [
-	{
-		moduleRoot: "/modules/Biology of Disease",
-		workspaceRoot: "/modules/Biology of Disease/Pipeline processing/Lecture 1 - Cell Injury",
-		lectureNumber: 1,
-		lectureTitle: "Cell Injury",
-	},
-	{
-		moduleRoot: "/modules/Immunology",
-		workspaceRoot: "/modules/Immunology/Pipeline processing/Lecture 3 - Antigens",
-		lectureNumber: 3,
-		lectureTitle: "Antigens",
-	},
+	matchIn({
+		moduleRoot: testModuleRoot,
+		lectureNumber: testLecture.number,
+		lectureTitle: testLecture.title,
+	}),
+	matchIn({ moduleRoot: otherModuleRoot, lectureNumber: 3, lectureTitle: "Antigens" }),
 ];
 
 /** Either prompt double, seen only as the calls it recorded. */

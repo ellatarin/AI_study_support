@@ -2,6 +2,7 @@ import { rm } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 import {
+	changedDate,
 	makeLectureTree,
 	makeManifest,
 	otherModuleName,
@@ -19,9 +20,6 @@ import {
 	type PipelineRunnerFacade,
 	type RunnableCliCommand,
 } from "./commands.js";
-
-/** The date the `change-date` command moves the test lecture to. */
-const NEW_DATE = "2025-10-24";
 
 describe("executeCommand", () => {
 	let tempDir: string;
@@ -492,7 +490,7 @@ describe("executeCommand", () => {
 		const changeCommand = {
 			command: "change-date",
 			lectureDate: testLecture.date,
-			newLectureDate: NEW_DATE,
+			newLectureDate: changedDate,
 		} as const;
 
 		it("should move the lecture to the new date when changing it", async () => {
@@ -503,10 +501,10 @@ describe("executeCommand", () => {
 			const movedFolder = baseNameForLecture({
 				lectureNumber: testLecture.number,
 				title: testLecture.title,
-				lectureDate: NEW_DATE,
+				lectureDate: changedDate,
 			});
 			const moved = join(moduleDirs({ moduleRoot }).processing, movedFolder);
-			expect((await readManifest({ workspaceRoot: moved })).lectureDate).toBe(NEW_DATE);
+			expect((await readManifest({ workspaceRoot: moved })).lectureDate).toBe(changedDate);
 		});
 
 		it("should renormalise the lecture's module when changing the date", async () => {
@@ -526,7 +524,7 @@ describe("executeCommand", () => {
 				command: {
 					command: "change-date",
 					lectureDate: testLecture.date,
-					newLectureDate: NEW_DATE,
+					newLectureDate: changedDate,
 				} as const,
 			},
 		])("should ask for one lecture only when $command.command is given the date", async ({

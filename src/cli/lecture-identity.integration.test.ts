@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
 	captureError,
+	changedDate,
 	makeLectureTree,
 	makeManifest,
 	otherLecture,
@@ -51,7 +52,7 @@ describe("lecture identity commands", () => {
 			// and the effective one; the provisional title is history and stays put.
 			{ field: "userTitle" as const, expected: userChosenTitle },
 			{ field: "lectureTitle" as const, expected: userChosenTitle },
-			{ field: "provisionalTitle" as const, expected: "Cell Injury" },
+			{ field: "provisionalTitle" as const, expected: testLecture.title },
 		])("should record $field as $expected when renaming", async ({ field, expected }) => {
 			await renameLecture({ workspaceRoot: match.workspaceRoot, title: userChosenTitle });
 
@@ -113,27 +114,26 @@ describe("lecture identity commands", () => {
 	});
 
 	describe("changeLectureDate", () => {
-		const NEW_DATE = "2025-10-24";
 		// The name Stage 0 would give this lecture at its new date, derived rather
 		// than written out so the expectation follows the naming rule.
 		const MOVED_FOLDER = baseNameForLecture({
 			lectureNumber: testLecture.number,
 			title: testLecture.title,
-			lectureDate: NEW_DATE,
+			lectureDate: changedDate,
 		});
 
 		it("should record the new date in the manifest when changing the date", async () => {
-			await changeLectureDate({ match, newLectureDate: NEW_DATE });
+			await changeLectureDate({ match, newLectureDate: changedDate });
 
 			const manifest = await readManifest({
 				workspaceRoot: join(dirs.processing, MOVED_FOLDER),
 			});
-			expect(manifest.lectureDate).toBe("2025-10-24");
+			expect(manifest.lectureDate).toBe(changedDate);
 			expect(manifest.workspaceFolderName).toBe(MOVED_FOLDER);
 		});
 
 		it("should rename the source video and slide to the new date when changing the date", async () => {
-			await changeLectureDate({ match, newLectureDate: NEW_DATE });
+			await changeLectureDate({ match, newLectureDate: changedDate });
 
 			expect(await pathExists(join(dirs.video, `${MOVED_FOLDER}.mp4`))).toBe(true);
 			expect(await pathExists(join(dirs.slide, `${MOVED_FOLDER}.pdf`))).toBe(true);
@@ -141,14 +141,14 @@ describe("lecture identity commands", () => {
 		});
 
 		it("should rename the workspace to the new date when changing the date", async () => {
-			await changeLectureDate({ match, newLectureDate: NEW_DATE });
+			await changeLectureDate({ match, newLectureDate: changedDate });
 
 			expect(await pathExists(join(dirs.processing, MOVED_FOLDER, "notes.md"))).toBe(true);
 			expect(await pathExists(match.workspaceRoot)).toBe(false);
 		});
 
 		it("should rename the final output to the new date when changing the date", async () => {
-			await changeLectureDate({ match, newLectureDate: NEW_DATE });
+			await changeLectureDate({ match, newLectureDate: changedDate });
 
 			expect(await pathExists(join(dirs.finalOutput, `${MOVED_FOLDER}.pdf`))).toBe(true);
 			expect(await pathExists(join(dirs.finalOutput, `${testLecture.folderName}.pdf`))).toBe(false);
@@ -157,7 +157,7 @@ describe("lecture identity commands", () => {
 		it("should succeed when the lecture has produced no final output yet", async () => {
 			await rm(join(dirs.finalOutput, `${testLecture.folderName}.pdf`));
 
-			await changeLectureDate({ match, newLectureDate: NEW_DATE });
+			await changeLectureDate({ match, newLectureDate: changedDate });
 
 			expect(await pathExists(join(dirs.video, `${MOVED_FOLDER}.mp4`))).toBe(true);
 		});
@@ -165,27 +165,27 @@ describe("lecture identity commands", () => {
 		it("should reject the change when a source file already sits at the new date", async () => {
 			await writeFile(join(dirs.video, `${MOVED_FOLDER}.mp4`), "another lecture");
 
-			const error = await captureError(changeLectureDate({ match, newLectureDate: NEW_DATE }));
+			const error = await captureError(changeLectureDate({ match, newLectureDate: changedDate }));
 
 			expect(error).toBeInstanceOf(LectureIdentityError);
-			expect(error.message).toContain("2025-10-24");
+			expect(error.message).toContain(changedDate);
 		});
 
 		it("should leave the lecture untouched when the change is rejected", async () => {
 			await writeFile(join(dirs.video, `${MOVED_FOLDER}.mp4`), "another lecture");
 
-			await captureError(changeLectureDate({ match, newLectureDate: NEW_DATE }));
+			await captureError(changeLectureDate({ match, newLectureDate: changedDate }));
 
 			expect(await pathExists(join(dirs.video, `${testLecture.folderName}.mp4`))).toBe(true);
 			expect((await readManifest({ workspaceRoot: match.workspaceRoot })).lectureDate).toBe(
-				"2025-10-10",
+				testLecture.date,
 			);
 		});
 
 		it("should reject the change when the lecture's source video is missing", async () => {
 			await rm(join(dirs.video, `${testLecture.folderName}.mp4`));
 
-			const error = await captureError(changeLectureDate({ match, newLectureDate: NEW_DATE }));
+			const error = await captureError(changeLectureDate({ match, newLectureDate: changedDate }));
 
 			expect(error).toBeInstanceOf(LectureIdentityError);
 		});

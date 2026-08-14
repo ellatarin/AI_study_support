@@ -11,9 +11,10 @@ import {
 	makeConfig,
 	makeManifest,
 	makeStubLogger,
-	otherModuleName,
+	otherModuleRoot,
 	pendingStages,
 	testModuleName,
+	testModuleRoot,
 } from "./fixtures.js";
 import { moduleDirs } from "./layout.js";
 import { assembleContext, classifyRunType, deriveRunId, PipelineRunner } from "./runner.js";
@@ -132,7 +133,7 @@ describe("PipelineRunner.normaliseSources", () => {
 			logger: makeStubLogger().logger,
 		});
 
-		const moduleRoots = [join("/modules", testModuleName), join("/modules", otherModuleName)];
+		const moduleRoots = [testModuleRoot, otherModuleRoot];
 
 		await runner.normaliseSources({ moduleRoots });
 

@@ -4,8 +4,10 @@ import {
 	makeManifest,
 	otherLecture,
 	otherModuleName,
+	otherModuleRoot,
 	testLecture,
 	testModuleName,
+	testModuleRoot,
 } from "../pipeline/fixtures.js";
 import { moduleDirs, stageOutputEntry } from "../pipeline/layout.js";
 import type {
@@ -488,17 +490,17 @@ describe("formatRunSummary", () => {
 });
 
 const lecture = ({
-	module: moduleName,
+	moduleRoot,
 	folder,
 	overallStatus,
 	totalCostUsd,
 }: {
-	readonly module: string;
+	readonly moduleRoot: string;
 	readonly folder: string;
 	readonly overallStatus: OverallStatus;
 	readonly totalCostUsd: number;
 }): RunSummary => ({
-	workspaceRoot: join(moduleDirs({ moduleRoot: join("/modules", moduleName) }).processing, folder),
+	workspaceRoot: join(moduleDirs({ moduleRoot }).processing, folder),
 	runId: "2025-10-10T09-00-00Z",
 	startedAt: "2025-10-10T09:00:00.000Z",
 	endedAt: "2025-10-10T09:30:00.000Z",
@@ -512,13 +514,13 @@ const batch: BatchSummary = {
 	endedAt: "2025-10-10T10:00:00.000Z",
 	lectures: [
 		lecture({
-			module: testModuleName,
+			moduleRoot: testModuleRoot,
 			folder: testLecture.folderName,
 			overallStatus: "success",
 			totalCostUsd: 0.2,
 		}),
 		lecture({
-			module: testModuleName,
+			moduleRoot: testModuleRoot,
 			folder: otherLecture.folderName,
 			overallStatus: "failed",
 			totalCostUsd: 0.1,
@@ -526,7 +528,7 @@ const batch: BatchSummary = {
 		// A third lecture, in the second module, so the table has a module whose
 		// status differs from the first's. Its own identity is not shared.
 		lecture({
-			module: otherModuleName,
+			moduleRoot: otherModuleRoot,
 			folder: "Lecture 1 - Antigens - 2025-10-11",
 			overallStatus: "partial",
 			totalCostUsd: 0.3,

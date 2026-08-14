@@ -195,6 +195,9 @@ export function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineCon
 	return { ...exampleConfig, moduleRoots: [], stages: {}, ...overrides };
 }
 
+/** The imaginary directory {@link testModuleRoot} and its sibling sit under. */
+const SYNTHETIC_MODULES_DIR = "/modules";
+
 /** One lecture's identity, as the suites refer to it. */
 type TestLecture = {
 	readonly number: number;
@@ -251,6 +254,9 @@ export const aiDerivedLecture = describeLecture({
 /** The title a user sets through the CLI's `rename` command. */
 export const userChosenTitle = "Cell Injury and Death";
 
+/** The date the CLI's `change-date` command moves {@link testLecture} to. */
+export const changedDate = "2025-10-24";
+
 /** A second lecture in the same module, for "left untouched" assertions. */
 export const otherLecture = describeLecture({
 	number: 2,
@@ -260,6 +266,17 @@ export const otherLecture = describeLecture({
 
 /** A second module, for the cases where a date matches across modules. */
 export const otherModuleName = "Immunology";
+
+/**
+ * Absolute module roots for the suites that never touch the disk — argument
+ * parsing, prompt rendering, and the runner's own unit tests all need a path
+ * that looks real without one existing. Suites that do write to disk build
+ * theirs under a temporary directory instead ({@link makeLectureTree}).
+ */
+export const testModuleRoot = join(SYNTHETIC_MODULES_DIR, testModuleName);
+
+/** The {@link otherModuleName} counterpart to {@link testModuleRoot}. */
+export const otherModuleRoot = join(SYNTHETIC_MODULES_DIR, otherModuleName);
 
 /**
  * Builds a structurally valid {@link RunManifest} for {@link testLecture}, with
