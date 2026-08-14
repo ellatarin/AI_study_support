@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.23-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.24-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -688,7 +688,7 @@ Uploads the audio to ElevenLabs Scribe v2 with a streaming upload progress bar (
 
 **Model ID and the provider prefix.** Config holds `stages.transcription.modelId = "elevenlabs/scribe_v2"`, but the ElevenLabs API takes a bare `model_id` of `scribe_v2` with no provider prefix. The prefix therefore exists purely to serve this codebase: `modelIdCheck.exemptProviders` matches on the segment before the `/` (§6), so a model can only be exempted from the OpenRouter check if it is provider-qualified — a bare `scribe_v2` would have no prefix to match and no way to opt out of a check it must fail. The stage strips the prefix before the call, so config keeps the qualified form the exemption and the cost report need, and ElevenLabs receives the form it expects.
 
-The API key comes from `ELEVENLABS_API_KEY`; its absence is a stage failure raised before any upload begins, as is an unconfigured model — neither costs anything to detect, so both are checked before the file is opened. Cost is derived from audio duration as described in §7. The transcript is written atomically (§4.3).
+The client is pointed at `elevenLabs.baseUrl` (§6) rather than left on the SDK's default host. The API key comes from `ELEVENLABS_API_KEY`; its absence is a stage failure raised before any upload begins, as is an unconfigured model — neither costs anything to detect, so both are checked before the file is opened. Cost is derived from audio duration as described in §7. The transcript is written atomically (§4.3).
 
 The SDK types `model_id` as the Scribe versions it shipped with, but the model is configuration (§6): a newer Scribe ID must be usable by editing `pipeline-config.json`, not by waiting for an SDK release, and ElevenLabs rejects an unknown ID itself. The stage therefore widens the configured value to the SDK's parameter type at the call site.
 
@@ -699,7 +699,12 @@ type TranscriptionOutput = { transcriptPath: string }
 createTranscriptionStage(): PipelineStage<TranscriptionInput, TranscriptionOutput>
 // Throws TranscriptionError when the audio, the API key, or the configured model is missing,
 // or when the response carries no transcript text. A failed cost lookup is not a failure (§7).
+
+ELEVENLABS_PATHS: { speechToText: "/v1/speech-to-text" }
+// The route the SDK appends to elevenLabs.baseUrl. Named here, not built here (§6).
 ```
+
+The `v1` in that route is the ElevenLabs **API** version, not the Scribe version: one endpoint serves every Scribe model, and which one runs is decided by the `model_id` in the request body. Moving to a later Scribe stays a config edit, as intended.
 
 ---
 
@@ -1024,6 +1029,10 @@ Belt and braces, not belt alone: OpenRouter's own parameter reference states tha
 
 **Currency.** Every provider bills in US dollars, so costs are stored in USD and converted to pounds only for presentation (§7). `currency.gbpPerUsd` is the rate applied. Because it converts at display time rather than at write time, correcting a stale rate re-renders every historical report consistently — no stored figure is ever rewritten, and none silently mixes rates.
 
+**The ElevenLabs address is configuration too.** `elevenLabs.baseUrl` is the single place ElevenLabs' address is stated, and it is passed to the SDK's own `baseUrl` option so every Scribe call is made against it. The reasoning is the same as for `openRouter.baseUrl` above, and so is the validation — it must parse as an absolute URL or startup fails. It matters more here than the shared reasoning suggests: ElevenLabs serves the same API from several regional residency hosts, and which one an account must use is a fact about that account, not about this codebase. Left to the SDK's default the pipeline would always reach for the global host, and moving to a regional one would be a code edit.
+
+Unlike OpenRouter's, this base URL carries no path — the SDK appends the versioned route itself — so `speechToText` is named alongside it in `transcription.ts` rather than being built by the pipeline, for the same reason `completions` is named in `OPENROUTER_PATHS`: so a test intercepting the call does not have to know the route independently of the code under test.
+
 **ElevenLabs cost rate.** The Scribe API returns no price with a transcript, so `elevenLabs.costPerAudioHourUsd` supplies the rate Stage 2 multiplies by the audio's duration to attribute transcription spend (§7). Set it from the ElevenLabs plan in force; it is a billing figure that changes independently of this codebase, which is why it is configuration rather than a constant. The single rate is accurate for the call this pipeline makes — batch Scribe v2 with no diarization, entity detection, or keyterm prompting, each of which ElevenLabs bills as a surcharge on top of the base hourly rate. Enabling any of those later means revisiting this figure, since one number can no longer describe the call.
 
 ```jsonc
@@ -1041,6 +1050,7 @@ Belt and braces, not belt alone: OpenRouter's own parameter reference states tha
     "costLookupMaxRetries": 3
   },
   "elevenLabs": {
+    "baseUrl": "https://api.elevenlabs.io",  // every ElevenLabs call is made against this; use your account's residency host
     "costPerAudioHourUsd": 0.22        // Scribe v2 list price; set from your current ElevenLabs plan
   },
   "currency": {
