@@ -26,6 +26,7 @@ import type {
 import { STAGE_IDS } from "../types/pipeline.js";
 import { parseConfig } from "./config.js";
 import { type ModuleDirs, moduleDirs } from "./layout.js";
+import { baseNameForLecture } from "./lecture-files.js";
 import { OPENROUTER_PATHS } from "./openrouter.js";
 import { assembleContext } from "./runner.js";
 
@@ -178,8 +179,74 @@ export function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineCon
 	return { ...exampleConfig, moduleRoots: [], stages: {}, ...overrides };
 }
 
+/** One lecture's identity, as the suites refer to it. */
+type TestLecture = {
+	readonly number: number;
+	readonly date: string;
+	readonly title: string;
+	readonly folderName: string;
+};
+
 /**
- * Builds a structurally valid {@link RunManifest} for a single lecture with
+ * Names a lecture the way Stage 0 would, so a fixture can never describe a
+ * lecture the pipeline would not produce — a folder name that disagreed with its
+ * own date would fail suites for a reason unrelated to what they test.
+ *
+ * @param lecture - The lecture's number, date, and title.
+ * @returns The lecture with its canonical folder name filled in.
+ */
+function describeLecture(lecture: Omit<TestLecture, "folderName">): TestLecture {
+	return {
+		...lecture,
+		folderName: baseNameForLecture({
+			lectureNumber: lecture.number,
+			title: lecture.title,
+			lectureDate: lecture.date,
+		}),
+	};
+}
+
+/**
+ * The lecture the suites use when they need a concrete one.
+ *
+ * Its identity was restated across a dozen files — the date in eleven, the
+ * folder name in ten, the title in nine — so changing the example meant a sweep,
+ * and any suite that updated one part but not another broke confusingly.
+ *
+ * Suites that *test* the naming keep their own literals: asserting a derived
+ * value against itself would prove nothing.
+ */
+export const testLecture = describeLecture({
+	number: 1,
+	date: "2025-10-10",
+	title: "Cell Injury",
+});
+
+/** The module {@link testLecture} belongs to. */
+export const testModuleName = "Biology of Disease";
+
+/** The title Stage 3's model proposes when it judges the lecturer's inadequate. */
+export const aiDerivedLecture = describeLecture({
+	number: testLecture.number,
+	date: testLecture.date,
+	title: "Innate Immune Response",
+});
+
+/** The title a user sets through the CLI's `rename` command. */
+export const userChosenTitle = "Cell Injury and Death";
+
+/** A second lecture in the same module, for "left untouched" assertions. */
+export const otherLecture = describeLecture({
+	number: 2,
+	date: "2025-10-17",
+	title: "Inflammation",
+});
+
+/** A second module, for the cases where a date matches across modules. */
+export const otherModuleName = "Immunology";
+
+/**
+ * Builds a structurally valid {@link RunManifest} for {@link testLecture}, with
  * every stage pending and no cost recorded.
  *
  * @param overrides - Top-level fields to replace on the base manifest.
@@ -188,15 +255,15 @@ export function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineCon
 export function makeManifest(overrides: Partial<RunManifest> = {}): RunManifest {
 	return {
 		version: "1",
-		lectureNumber: 1,
-		lectureDate: "2025-10-10",
-		provisionalTitle: "Immune System",
-		lectureTitle: "Immune System",
+		lectureNumber: testLecture.number,
+		lectureDate: testLecture.date,
+		provisionalTitle: testLecture.title,
+		lectureTitle: testLecture.title,
 		userTitle: null,
 		aiDerivedTitle: null,
-		workspaceFolderName: "L1",
-		createdAt: "2025-10-10T00:00:00Z",
-		updatedAt: "2025-10-10T00:00:00Z",
+		workspaceFolderName: testLecture.folderName,
+		createdAt: `${testLecture.date}T00:00:00.000Z`,
+		updatedAt: `${testLecture.date}T00:00:00.000Z`,
 		stages: pendingStages(),
 		currentPipelineCost: { totalCostUsd: 0, byStage: {} },
 		...overrides,
@@ -239,18 +306,18 @@ export function resetElevenLabsApi(): void {
  *
  * @param args - The layout inputs.
  * @param args.prefix - Prefix for the temporary directory name, identifying the suite.
- * @param args.folderName - The workspace folder name; defaults to a bare lecture name.
+ * @param args.folderName - The workspace folder name; defaults to {@link testLecture}'s.
  * @returns The module root and the workspace root inside it.
  */
 export async function makeWorkspaceTree({
 	prefix,
-	folderName = "Lecture 1 - 2025-10-10",
+	folderName = testLecture.folderName,
 }: {
 	readonly prefix: string;
 	readonly folderName?: string;
 }): Promise<{ readonly moduleRoot: string; readonly workspaceRoot: string }> {
 	const moduleRoot = await makeTempDir({ prefix });
-	const workspaceRoot = join(moduleRoot, "Pipeline processing", folderName);
+	const workspaceRoot = join(moduleDirs({ moduleRoot }).processing, folderName);
 	await mkdir(workspaceRoot, { recursive: true });
 	return { moduleRoot, workspaceRoot };
 }
@@ -268,22 +335,22 @@ export async function makeWorkspaceTree({
  *
  * @param args - The layout inputs.
  * @param args.prefix - Prefix for the temporary directory name, identifying the suite.
- * @param args.folderName - The base name the workspace and the three files share.
+ * @param args.folderName - The base name the workspace and the three files share; defaults to {@link testLecture}'s.
  * @returns The temp directory to clean up, the module's directories, and the workspace.
  */
 export async function makeLectureTree({
 	prefix,
-	folderName,
+	folderName = testLecture.folderName,
 }: {
 	readonly prefix: string;
-	readonly folderName: string;
+	readonly folderName?: string;
 }): Promise<{
 	readonly tempDir: string;
 	readonly dirs: ModuleDirs;
 	readonly workspaceRoot: string;
 }> {
 	const tempDir = await makeTempDir({ prefix });
-	const dirs = moduleDirs({ moduleRoot: join(tempDir, "Biology of Disease") });
+	const dirs = moduleDirs({ moduleRoot: join(tempDir, testModuleName) });
 	const workspaceRoot = join(dirs.processing, folderName);
 
 	for (const dir of [dirs.video, dirs.slide, dirs.finalOutput, workspaceRoot]) {

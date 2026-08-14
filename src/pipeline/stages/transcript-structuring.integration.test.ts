@@ -1,28 +1,24 @@
 import { mkdir, rm, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { RunManifest, StageContext } from "../../types/pipeline.js";
 import { pathExists } from "../../utils/files.js";
 import {
+	aiDerivedLecture,
 	makeConfig,
 	makeLectureTree,
 	makeManifest,
 	makeStageContext,
 	openRouterCompletionBody,
 	openRouterUrls,
+	testLecture,
+	userChosenTitle,
 } from "../fixtures.js";
-import { type ModuleDirs, stageOutputEntry } from "../layout.js";
+import { type ModuleDirs, stageOutputPath } from "../layout.js";
 import { readManifest, writeManifest } from "../manifest.js";
 import { createTranscriptStructuringStage } from "./transcript-structuring.js";
 
-const FOLDER = "Lecture 1 - Cell Injury - 2025-10-10";
-const RENAMED_FOLDER = "Lecture 1 - Innate Immune Response - 2025-10-10";
-const PROVISIONAL_TITLE = "Cell Injury";
-const SUGGESTED_TITLE = "Innate Immune Response";
-const USER_TITLE = "Cell Injury and Death";
-const LECTURE_DATE = "2025-10-10";
-const STRUCTURED_ENTRY = stageOutputEntry("transcript-structuring");
 const STRUCTURED_MARKDOWN = "## The Innate Immune Response\n\nBarrier defences come first.";
 
 describe("transcript structuring against a real module tree", () => {
@@ -49,7 +45,7 @@ describe("transcript structuring against a real module tree", () => {
 	function verdict(meaningful: boolean): Record<string, unknown> {
 		return {
 			provisionalTitleMeaningful: meaningful,
-			suggestedTitle: meaningful ? null : SUGGESTED_TITLE,
+			suggestedTitle: meaningful ? null : aiDerivedLecture.title,
 			structuredMarkdown: STRUCTURED_MARKDOWN,
 		};
 	}
@@ -60,12 +56,10 @@ describe("transcript structuring against a real module tree", () => {
 		nock.disableNetConnect();
 		capturedBody = {};
 
-		({ tempDir, dirs, workspaceRoot } = await makeLectureTree({
-			prefix: "structuring-int-",
-			folderName: FOLDER,
-		}));
-		await mkdir(join(workspaceRoot, "Transcript"), { recursive: true });
-		await writeFile(join(workspaceRoot, "Transcript", "transcript.txt"), "The lecture text.");
+		({ tempDir, dirs, workspaceRoot } = await makeLectureTree({ prefix: "structuring-int-" }));
+		const transcriptPath = stageOutputPath({ workspaceRoot, stageId: "transcription" });
+		await mkdir(dirname(transcriptPath), { recursive: true });
+		await writeFile(transcriptPath, "The lecture text.");
 	});
 
 	afterEach(async () => {
@@ -76,14 +70,7 @@ describe("transcript structuring against a real module tree", () => {
 
 	/** Writes the lecture's manifest and returns the context built from it. */
 	async function prepareLecture(overrides: Partial<RunManifest> = {}): Promise<StageContext> {
-		const manifest = makeManifest({
-			lectureNumber: 1,
-			lectureDate: LECTURE_DATE,
-			provisionalTitle: PROVISIONAL_TITLE,
-			lectureTitle: PROVISIONAL_TITLE,
-			workspaceFolderName: FOLDER,
-			...overrides,
-		});
+		const manifest = makeManifest(overrides);
 		await writeManifest({ workspaceRoot, manifest });
 		return makeStageContext({
 			workspaceRoot,
@@ -111,8 +98,8 @@ describe("transcript structuring against a real module tree", () => {
 	});
 
 	it.each([
-		{ meaningful: false, folder: RENAMED_FOLDER, extinct: FOLDER },
-		{ meaningful: true, folder: FOLDER, extinct: RENAMED_FOLDER },
+		{ meaningful: false, folder: aiDerivedLecture.folderName, extinct: testLecture.folderName },
+		{ meaningful: true, folder: testLecture.folderName, extinct: aiDerivedLecture.folderName },
 	])("should leave the lecture's files named $folder when provisionalTitleMeaningful is $meaningful", async ({
 		meaningful,
 		folder,
@@ -125,13 +112,25 @@ describe("transcript structuring against a real module tree", () => {
 		expect(await pathExists(join(dirs.video, `${folder}.mp4`))).toBe(true);
 		expect(await pathExists(join(dirs.slide, `${folder}.pdf`))).toBe(true);
 		expect(await pathExists(join(dirs.finalOutput, `${folder}.pdf`))).toBe(true);
-		expect(await pathExists(join(dirs.processing, folder, STRUCTURED_ENTRY))).toBe(true);
+		expect(
+			await pathExists(
+				stageOutputPath({
+					workspaceRoot: join(dirs.processing, folder),
+					stageId: "transcript-structuring",
+				}),
+			),
+		).toBe(true);
 		expect(await pathExists(join(dirs.video, `${extinct}.mp4`))).toBe(false);
 	});
 
 	it.each([
-		{ meaningful: false, folder: RENAMED_FOLDER, title: SUGGESTED_TITLE, derived: SUGGESTED_TITLE },
-		{ meaningful: true, folder: FOLDER, title: PROVISIONAL_TITLE, derived: null },
+		{
+			meaningful: false,
+			folder: aiDerivedLecture.folderName,
+			title: aiDerivedLecture.title,
+			derived: aiDerivedLecture.title,
+		},
+		{ meaningful: true, folder: testLecture.folderName, title: testLecture.title, derived: null },
 	])("should record lectureTitle $title when provisionalTitleMeaningful is $meaningful", async ({
 		meaningful,
 		folder,
@@ -151,22 +150,26 @@ describe("transcript structuring against a real module tree", () => {
 	it("should leave the lecture's title and every file alone when the user has named it", async () => {
 		mockModelReply(verdict(false));
 
-		await runStage(await prepareLecture({ userTitle: USER_TITLE, lectureTitle: USER_TITLE }));
+		await runStage(
+			await prepareLecture({ userTitle: userChosenTitle, lectureTitle: userChosenTitle }),
+		);
 
-		const manifest = await manifestAt(FOLDER);
-		expect(manifest.lectureTitle).toBe(USER_TITLE);
-		expect(manifest.aiDerivedTitle).toBe(SUGGESTED_TITLE);
-		expect(await pathExists(join(dirs.video, `${FOLDER}.mp4`))).toBe(true);
-		expect(await pathExists(join(dirs.processing, RENAMED_FOLDER))).toBe(false);
+		const manifest = await manifestAt(testLecture.folderName);
+		expect(manifest.lectureTitle).toBe(userChosenTitle);
+		expect(manifest.aiDerivedTitle).toBe(aiDerivedLecture.title);
+		expect(await pathExists(join(dirs.video, `${testLecture.folderName}.mp4`))).toBe(true);
+		expect(await pathExists(join(dirs.processing, aiDerivedLecture.folderName))).toBe(false);
 	});
 
 	it("should move a lecture that has produced no PDF yet when the title is replaced", async () => {
-		await rm(join(dirs.finalOutput, `${FOLDER}.pdf`));
+		await rm(join(dirs.finalOutput, `${testLecture.folderName}.pdf`));
 		mockModelReply(verdict(false));
 
 		await runStage(await prepareLecture());
 
-		expect(await pathExists(join(dirs.processing, RENAMED_FOLDER))).toBe(true);
-		expect(await pathExists(join(dirs.finalOutput, `${RENAMED_FOLDER}.pdf`))).toBe(false);
+		expect(await pathExists(join(dirs.processing, aiDerivedLecture.folderName))).toBe(true);
+		expect(await pathExists(join(dirs.finalOutput, `${aiDerivedLecture.folderName}.pdf`))).toBe(
+			false,
+		);
 	});
 });

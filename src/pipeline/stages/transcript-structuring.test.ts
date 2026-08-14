@@ -5,13 +5,17 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RunManifest, StageContext, StageCost, StageResult } from "../../types/pipeline.js";
 import { pathExists } from "../../utils/files.js";
 import {
+	aiDerivedLecture,
 	captureError,
 	makeConfig,
 	makeManifest,
 	makeStageContext,
 	makeWorkspaceTree,
+	testLecture,
+	userChosenTitle,
 } from "../fixtures.js";
-import { readManifest } from "../manifest.js";
+import { stageOutputEntry, stageOutputPath } from "../layout.js";
+import { manifestPath, readManifest } from "../manifest.js";
 import { makeCompletionCall } from "../openrouter.js";
 import type { TranscriptStructuringOutput } from "./transcript-structuring.js";
 import {
@@ -28,13 +32,6 @@ vi.mock(import("../openrouter.js"), async (importOriginal) => ({
 
 const completionMock = makeCompletionCall as unknown as Mock;
 
-const WORKSPACE_FOLDER = "Lecture 1 - Cell Injury - 2025-10-10";
-const RENAMED_FOLDER = "Lecture 1 - Innate Immune Response - 2025-10-10";
-const PROVISIONAL_TITLE = "Cell Injury";
-const SUGGESTED_TITLE = "Innate Immune Response";
-const USER_TITLE = "Cell Injury and Death";
-const TRANSCRIPT_ENTRY = join("Transcript", "transcript.txt");
-const STRUCTURED_ENTRY = join("Structured transcript", "structured-transcript.md");
 const TRANSCRIPT_TEXT = "Today we are covering the innate immune response.";
 const STRUCTURED_MARKDOWN = "## The Innate Immune Response\n\nBarrier defences come first.";
 const COST: StageCost = {
@@ -63,12 +60,10 @@ describe("createTranscriptStructuringStage", () => {
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
-		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({
-			prefix: "structuring-",
-			folderName: WORKSPACE_FOLDER,
-		}));
-		await mkdir(join(workspaceRoot, "Transcript"), { recursive: true });
-		await writeFile(join(workspaceRoot, TRANSCRIPT_ENTRY), TRANSCRIPT_TEXT);
+		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "structuring-" }));
+		const transcriptPath = stageOutputPath({ workspaceRoot, stageId: "transcription" });
+		await mkdir(dirname(transcriptPath), { recursive: true });
+		await writeFile(transcriptPath, TRANSCRIPT_TEXT);
 		stubReply();
 	});
 
@@ -82,12 +77,7 @@ describe("createTranscriptStructuringStage", () => {
 			config: makeConfig({
 				stages: { "transcript-structuring": { modelId: "openai/gpt-4o" } },
 			}),
-			manifest: makeManifest({
-				provisionalTitle: PROVISIONAL_TITLE,
-				lectureTitle: PROVISIONAL_TITLE,
-				workspaceFolderName: WORKSPACE_FOLDER,
-				...manifestOverrides,
-			}),
+			manifest: makeManifest(manifestOverrides),
 		});
 	}
 
@@ -108,7 +98,7 @@ describe("createTranscriptStructuringStage", () => {
 	});
 
 	it("should fail when the transcript is missing", async () => {
-		await rm(join(workspaceRoot, TRANSCRIPT_ENTRY));
+		await rm(stageOutputPath({ workspaceRoot, stageId: "transcription" }));
 
 		await expect(createTranscriptStructuringStage().getInput(contextWith())).rejects.toThrow(
 			TranscriptStructuringError,
@@ -116,7 +106,7 @@ describe("createTranscriptStructuringStage", () => {
 	});
 
 	it("should fail when the transcript holds no text", async () => {
-		await writeFile(join(workspaceRoot, TRANSCRIPT_ENTRY), "   \n  ");
+		await writeFile(stageOutputPath({ workspaceRoot, stageId: "transcription" }), "   \n  ");
 
 		await expect(createTranscriptStructuringStage().getInput(contextWith())).rejects.toThrow(
 			TranscriptStructuringError,
@@ -136,14 +126,16 @@ describe("createTranscriptStructuringStage", () => {
 
 		const sent = JSON.stringify(completionMock.mock.calls[0][0].messages);
 		expect(sent).toContain(TRANSCRIPT_TEXT);
-		expect(sent).toContain(PROVISIONAL_TITLE);
+		expect(sent).toContain(testLecture.title);
 	});
 
 	it("should extract the structured markdown when the model returns it", async () => {
 		const result = await runStage(contextWith());
 
-		expect(result.output.structuredTranscriptPath).toBe(join(workspaceRoot, STRUCTURED_ENTRY));
-		expect(result.filesWritten).toStrictEqual([STRUCTURED_ENTRY]);
+		expect(result.output.structuredTranscriptPath).toBe(
+			stageOutputPath({ workspaceRoot, stageId: "transcript-structuring" }),
+		);
+		expect(result.filesWritten).toStrictEqual([stageOutputEntry("transcript-structuring")]);
 	});
 
 	it("should record the cost of the call when the stage completes", async () => {
@@ -155,7 +147,7 @@ describe("createTranscriptStructuringStage", () => {
 	it("should keep the provisional title when the model judges it meaningful", async () => {
 		const result = await runStage(contextWith());
 
-		expect(result.output.lectureTitle).toBe(PROVISIONAL_TITLE);
+		expect(result.output.lectureTitle).toBe(testLecture.title);
 	});
 
 	it("should leave the workspace where it stands when the model judges the title meaningful", async () => {
@@ -167,31 +159,37 @@ describe("createTranscriptStructuringStage", () => {
 	it("should write no manifest when the model judges the title meaningful", async () => {
 		await runStage(contextWith());
 
-		expect(await pathExists(join(workspaceRoot, "manifest.json"))).toBe(false);
+		expect(await pathExists(manifestPath({ workspaceRoot }))).toBe(false);
 	});
 
 	describe("replacing a title the model judges not meaningful", () => {
 		beforeEach(() => {
-			stubReply({ provisionalTitleMeaningful: false, suggestedTitle: SUGGESTED_TITLE });
+			stubReply({ provisionalTitleMeaningful: false, suggestedTitle: aiDerivedLecture.title });
 		});
 
 		it("should store the suggested title as aiDerivedTitle when the provisional is not meaningful", async () => {
 			await runStage(contextWith());
 
-			expect((await readManifestAt(RENAMED_FOLDER)).aiDerivedTitle).toBe(SUGGESTED_TITLE);
+			expect((await readManifestAt(aiDerivedLecture.folderName)).aiDerivedTitle).toBe(
+				aiDerivedLecture.title,
+			);
 		});
 
 		it("should overwrite the lecture title when the provisional is not meaningful", async () => {
 			const result = await runStage(contextWith());
 
-			expect(result.output.lectureTitle).toBe(SUGGESTED_TITLE);
-			expect((await readManifestAt(RENAMED_FOLDER)).lectureTitle).toBe(SUGGESTED_TITLE);
+			expect(result.output.lectureTitle).toBe(aiDerivedLecture.title);
+			expect((await readManifestAt(aiDerivedLecture.folderName)).lectureTitle).toBe(
+				aiDerivedLecture.title,
+			);
 		});
 
 		it("should record the workspace's new folder name when the title is replaced", async () => {
 			await runStage(contextWith());
 
-			expect((await readManifestAt(RENAMED_FOLDER)).workspaceFolderName).toBe(RENAMED_FOLDER);
+			expect((await readManifestAt(aiDerivedLecture.folderName)).workspaceFolderName).toBe(
+				aiDerivedLecture.folderName,
+			);
 		});
 
 		it("should fail when the model proposes no title to replace it with", async () => {
@@ -213,29 +211,33 @@ describe("createTranscriptStructuringStage", () => {
 
 	describe("deferring to a title the user set", () => {
 		/** The lecture as `rename` leaves it: the user's title, already in force. */
-		const userNamed = { userTitle: USER_TITLE, lectureTitle: USER_TITLE };
+		const userNamed = { userTitle: userChosenTitle, lectureTitle: userChosenTitle };
 
 		beforeEach(() => {
-			stubReply({ provisionalTitleMeaningful: false, suggestedTitle: SUGGESTED_TITLE });
+			stubReply({ provisionalTitleMeaningful: false, suggestedTitle: aiDerivedLecture.title });
 		});
 
 		it("should keep the user's title as the lecture title when they have named it", async () => {
 			const result = await runStage(contextWith(userNamed));
 
-			expect(result.output.lectureTitle).toBe(USER_TITLE);
-			expect((await readManifestAt(WORKSPACE_FOLDER)).lectureTitle).toBe(USER_TITLE);
+			expect(result.output.lectureTitle).toBe(userChosenTitle);
+			expect((await readManifestAt(testLecture.folderName)).lectureTitle).toBe(userChosenTitle);
 		});
 
 		it("should still record what the model derived when the user has named it", async () => {
 			await runStage(contextWith(userNamed));
 
-			expect((await readManifestAt(WORKSPACE_FOLDER)).aiDerivedTitle).toBe(SUGGESTED_TITLE);
+			expect((await readManifestAt(testLecture.folderName)).aiDerivedTitle).toBe(
+				aiDerivedLecture.title,
+			);
 		});
 
 		it("should leave the workspace where it stands when the user has named it", async () => {
 			await runStage(contextWith(userNamed));
 
-			expect((await readManifestAt(WORKSPACE_FOLDER)).workspaceFolderName).toBe(WORKSPACE_FOLDER);
+			expect((await readManifestAt(testLecture.folderName)).workspaceFolderName).toBe(
+				testLecture.folderName,
+			);
 		});
 	});
 
