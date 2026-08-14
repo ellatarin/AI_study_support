@@ -1,5 +1,5 @@
 import { access, mkdir, readdir, readFile, rename, rm, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type {
 	PipelineConfig,
@@ -16,9 +16,19 @@ import {
 	makeManifest,
 	makeStubLogger,
 	makeTempDir,
+	otherModuleName,
 	pendingStages,
+	testModuleName,
 } from "./fixtures.js";
+import { moduleDirs, RUNS_DIR, stageOutputEntry, stageOutputPath } from "./layout.js";
+import { manifestPath } from "./manifest.js";
 import { PipelineRunner } from "./runner.js";
+
+// The runner never parses a workspace folder name — it is handed the path — so
+// this suite uses short synthetic names rather than {@link testLecture}'s, which
+// would only make the assertions harder to read.
+const LECTURE_FOLDER = "L1";
+const EMPTY_FOLDER = "L-empty";
 
 // The runner is driven through a single configured stage throughout, so the
 // stage entry is fixed here rather than restated at each construction site.
@@ -49,15 +59,39 @@ function makeStubStage(config: StubConfig): PipelineStage<unknown, unknown> {
 
 async function writeManifest(workspaceRoot: string, manifest: RunManifest): Promise<void> {
 	await mkdir(workspaceRoot, { recursive: true });
-	await writeFile(join(workspaceRoot, "manifest.json"), JSON.stringify(manifest));
+	await writeFile(manifestPath({ workspaceRoot }), JSON.stringify(manifest));
 }
 
 async function readManifest(workspaceRoot: string): Promise<RunManifest> {
-	return JSON.parse(await readFile(join(workspaceRoot, "manifest.json"), "utf8")) as RunManifest;
+	return JSON.parse(await readFile(manifestPath({ workspaceRoot }), "utf8")) as RunManifest;
 }
 
 async function readRunLog(workspaceRoot: string, runId: string): Promise<RunLog> {
-	return JSON.parse(await readFile(join(workspaceRoot, "runs", `${runId}.json`), "utf8")) as RunLog;
+	const path = join(workspaceRoot, RUNS_DIR, `${runId}.json`);
+	return JSON.parse(await readFile(path, "utf8")) as RunLog;
+}
+
+/**
+ * Writes a stage's declared output file where the layout says it belongs, as a
+ * real stage would, and returns the workspace-relative entry to record in
+ * `filesWritten` — so a stub stage never names the path at either end.
+ *
+ * @param args - Where to write.
+ * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args.stageId - The stage whose output to write.
+ * @returns The `filesWritten` entry for that output.
+ */
+async function writeStageOutput({
+	workspaceRoot,
+	stageId,
+}: {
+	readonly workspaceRoot: string;
+	readonly stageId: StageId;
+}): Promise<string> {
+	const path = stageOutputPath({ workspaceRoot, stageId });
+	await mkdir(dirname(path), { recursive: true });
+	await writeFile(path, "x");
+	return stageOutputEntry(stageId);
 }
 
 /**
@@ -81,8 +115,8 @@ describe("PipelineRunner integration", () => {
 
 	beforeEach(async () => {
 		tempDir = await makeTempDir({ prefix: "runner-" });
-		moduleRoot = join(tempDir, "Biology of Disease");
-		workspaceRoot = join(moduleRoot, "Pipeline processing", "L1");
+		moduleRoot = join(tempDir, testModuleName);
+		workspaceRoot = join(moduleDirs({ moduleRoot }).processing, LECTURE_FOLDER);
 		logged = makeStubLogger();
 	});
 
@@ -108,15 +142,16 @@ describe("PipelineRunner integration", () => {
 		it("should record a completed stage and its cost when the stage succeeds", async () => {
 			const stage = makeStubStage({
 				stageId: "audio-extraction",
-				run: async ({ context }) => {
-					await mkdir(join(context.workspaceRoot, "Audio"), { recursive: true });
-					await writeFile(join(context.workspaceRoot, "Audio", "audio.m4a"), "x");
-					return {
-						output: undefined,
-						cost: { promptTokens: 0, completionTokens: 0, callCount: 1, totalCostUsd: 0.5 },
-						filesWritten: ["Audio/audio.m4a"],
-					};
-				},
+				run: async ({ context }) => ({
+					output: undefined,
+					cost: { promptTokens: 0, completionTokens: 0, callCount: 1, totalCostUsd: 0.5 },
+					filesWritten: [
+						await writeStageOutput({
+							workspaceRoot: context.workspaceRoot,
+							stageId: "audio-extraction",
+						}),
+					],
+				}),
 			});
 
 			const summary = await makeRunner([stage]).runLecture({ workspaceRoot });
@@ -129,7 +164,9 @@ describe("PipelineRunner integration", () => {
 			const manifest = await readManifest(workspaceRoot);
 			const entry = manifest.stages["audio-extraction"];
 			expect(entry?.status).toBe("complete");
-			expect(entry?.status === "complete" && entry.filesWritten).toEqual(["Audio/audio.m4a"]);
+			expect(entry?.status === "complete" && entry.filesWritten).toEqual([
+				stageOutputEntry("audio-extraction"),
+			]);
 			const runLog = await readRunLog(workspaceRoot, summary.runId);
 			expect(runLog.stages["audio-extraction"]).toMatchObject({
 				action: "ran",
@@ -209,8 +246,7 @@ describe("PipelineRunner integration", () => {
 		});
 
 		it("should skip a stage and not run it when its output already exists", async () => {
-			await mkdir(join(workspaceRoot, "Audio"), { recursive: true });
-			await writeFile(join(workspaceRoot, "Audio", "audio.m4a"), "x");
+			const writtenEntry = await writeStageOutput({ workspaceRoot, stageId: "audio-extraction" });
 			await writeManifest(
 				workspaceRoot,
 				makeManifest({
@@ -221,7 +257,7 @@ describe("PipelineRunner integration", () => {
 							completedAt: "earlier",
 							configUsed: null,
 							cost: null,
-							filesWritten: ["Audio/audio.m4a"],
+							filesWritten: [writtenEntry],
 						},
 					} as RunManifest["stages"],
 				}),
@@ -328,7 +364,7 @@ describe("PipelineRunner integration", () => {
 			vi.setSystemTime(new Date("2025-10-10T09:00:05Z"));
 			const second = await runner.runLecture({ workspaceRoot });
 
-			const files = await readdir(join(workspaceRoot, "runs"));
+			const files = await readdir(join(workspaceRoot, RUNS_DIR));
 			expect(files).toHaveLength(2);
 			expect(files).toContain(`${first.runId}.json`);
 			expect(files).toContain(`${second.runId}.json`);
@@ -336,6 +372,19 @@ describe("PipelineRunner integration", () => {
 	});
 
 	describe("runLecture with --from-stage", () => {
+		// Three stages spread across the pipeline order, so a --from-stage at the
+		// middle one has something both upstream and downstream of it.
+		const ALREADY_RUN_STAGES = [
+			"audio-extraction",
+			"transcription",
+			"synthesis",
+		] as const satisfies readonly StageId[];
+
+		/** The workspace directory a stage's output lives in. */
+		function stageDir(stageId: StageId): string {
+			return dirname(stageOutputPath({ workspaceRoot, stageId }));
+		}
+
 		function mirrorIsComplete(stageId: StageId): (context: StageContext) => Promise<boolean> {
 			return async (context) => {
 				const entry = context.manifest.stages[stageId];
@@ -354,12 +403,6 @@ describe("PipelineRunner integration", () => {
 		}
 
 		beforeEach(async () => {
-			await mkdir(join(workspaceRoot, "Audio"), { recursive: true });
-			await mkdir(join(workspaceRoot, "Transcript"), { recursive: true });
-			await mkdir(join(workspaceRoot, "Synthesised notes"), { recursive: true });
-			await writeFile(join(workspaceRoot, "Audio", "audio.m4a"), "x");
-			await writeFile(join(workspaceRoot, "Transcript", "transcript.txt"), "x");
-			await writeFile(join(workspaceRoot, "Synthesised notes", "notes.md"), "x");
 			const complete = (files: readonly string[]): RunManifest["stages"][StageId] => ({
 				status: "complete",
 				completedAt: "earlier",
@@ -367,15 +410,14 @@ describe("PipelineRunner integration", () => {
 				cost: null,
 				filesWritten: files,
 			});
+			const stages: Record<string, RunManifest["stages"][StageId]> = {};
+			for (const stageId of ALREADY_RUN_STAGES) {
+				stages[stageId] = complete([await writeStageOutput({ workspaceRoot, stageId })]);
+			}
 			await writeManifest(
 				workspaceRoot,
 				makeManifest({
-					stages: {
-						...pendingStages(),
-						"audio-extraction": complete(["Audio/audio.m4a"]),
-						transcription: complete(["Transcript/transcript.txt"]),
-						synthesis: complete(["Synthesised notes/notes.md"]),
-					} as RunManifest["stages"],
+					stages: { ...pendingStages(), ...stages } as RunManifest["stages"],
 				}),
 			);
 		});
@@ -397,8 +439,8 @@ describe("PipelineRunner integration", () => {
 				options: { fromStage: "transcription" },
 			});
 
-			await expect(access(join(workspaceRoot, "Transcript"))).rejects.toThrow();
-			await expect(access(join(workspaceRoot, "Synthesised notes"))).rejects.toThrow();
+			await expect(access(stageDir("transcription"))).rejects.toThrow();
+			await expect(access(stageDir("synthesis"))).rejects.toThrow();
 			const runLog = await readRunLog(workspaceRoot, summary.runId);
 			expect(runLog.runType).toBe("experiment");
 			expect(runLog.fromStage).toBe("transcription");
@@ -410,7 +452,9 @@ describe("PipelineRunner integration", () => {
 				options: { fromStage: "transcription" },
 			});
 
-			await expect(access(join(workspaceRoot, "Audio", "audio.m4a"))).resolves.toBeUndefined();
+			await expect(
+				access(stageOutputPath({ workspaceRoot, stageId: "audio-extraction" })),
+			).resolves.toBeUndefined();
 			expect(summary.stageOutcomes[0]).toEqual({
 				stageId: "audio-extraction",
 				entry: { action: "skipped" },
@@ -424,15 +468,15 @@ describe("PipelineRunner integration", () => {
 		let moduleC: string;
 
 		beforeEach(async () => {
-			moduleA = join(tempDir, "Immunology");
+			moduleA = join(tempDir, otherModuleName);
 			moduleB = join(tempDir, "Pharmacology");
 			moduleC = join(tempDir, "Microbiology");
 			const write = async (root: string, folder: string, manifest: RunManifest): Promise<void> => {
-				await writeManifest(join(root, "Pipeline processing", folder), manifest);
+				await writeManifest(join(moduleDirs({ moduleRoot: root }).processing, folder), manifest);
 			};
 			await write(
 				moduleA,
-				"L1",
+				LECTURE_FOLDER,
 				makeManifest({ lectureNumber: 1, lectureDate: "2025-10-10", lectureTitle: "Cell Injury" }),
 			);
 			await write(
@@ -449,7 +493,9 @@ describe("PipelineRunner integration", () => {
 				"L3",
 				makeManifest({ lectureNumber: 3, lectureDate: "2025-10-10", lectureTitle: "Virology" }),
 			);
-			await mkdir(join(moduleA, "Pipeline processing", "L-empty"), { recursive: true });
+			await mkdir(join(moduleDirs({ moduleRoot: moduleA }).processing, EMPTY_FOLDER), {
+				recursive: true,
+			});
 			await mkdir(moduleC, { recursive: true });
 		});
 
@@ -500,15 +546,10 @@ describe("PipelineRunner integration", () => {
 		let moduleA: string;
 
 		beforeEach(async () => {
-			moduleA = join(tempDir, "Immunology");
-			await writeManifest(
-				join(moduleA, "Pipeline processing", "L1"),
-				makeManifest({ lectureNumber: 1 }),
-			);
-			await writeManifest(
-				join(moduleA, "Pipeline processing", "L2"),
-				makeManifest({ lectureNumber: 2 }),
-			);
+			moduleA = join(tempDir, otherModuleName);
+			const processing = moduleDirs({ moduleRoot: moduleA }).processing;
+			await writeManifest(join(processing, LECTURE_FOLDER), makeManifest({ lectureNumber: 1 }));
+			await writeManifest(join(processing, "L2"), makeManifest({ lectureNumber: 2 }));
 		});
 
 		function batchStage(): PipelineStage<unknown, unknown> {
@@ -557,7 +598,7 @@ describe("PipelineRunner integration", () => {
 			const moduleB = join(tempDir, "Chronology");
 			for (const { folder, lectureDate } of byDate) {
 				await writeManifest(
-					join(moduleB, "Pipeline processing", folder),
+					join(moduleDirs({ moduleRoot: moduleB }).processing, folder),
 					makeManifest({ lectureDate }),
 				);
 			}
@@ -628,16 +669,14 @@ describe("PipelineRunner integration", () => {
 				stages: {},
 				totalCostThisRun: 0.5,
 			};
-			await mkdir(join(workspaceRoot, "runs"), { recursive: true });
-			await writeFile(
-				join(workspaceRoot, "runs", "2025-10-10T09-00-00Z.json"),
-				JSON.stringify(runLog),
-			);
+			const runsDir = join(workspaceRoot, RUNS_DIR);
+			await mkdir(runsDir, { recursive: true });
+			await writeFile(join(runsDir, `${runLog.runId}.json`), JSON.stringify(runLog));
 			// A non-file entry in runs/, a corrupt run log, and a workspace without a
 			// manifest — all skipped by the reader.
-			await mkdir(join(workspaceRoot, "runs", "nested"), { recursive: true });
-			await writeFile(join(workspaceRoot, "runs", "corrupt.json"), "{ not json");
-			await mkdir(join(moduleRoot, "Pipeline processing", "L-empty"), { recursive: true });
+			await mkdir(join(runsDir, "nested"), { recursive: true });
+			await writeFile(join(runsDir, "corrupt.json"), "{ not json");
+			await mkdir(join(moduleDirs({ moduleRoot }).processing, EMPTY_FOLDER), { recursive: true });
 		});
 
 		afterEach(() => {
@@ -700,7 +739,7 @@ describe("PipelineRunner integration", () => {
 		}
 
 		beforeEach(async () => {
-			renamedWorkspaceRoot = join(moduleRoot, "Pipeline processing", RENAMED_FOLDER);
+			renamedWorkspaceRoot = join(moduleDirs({ moduleRoot }).processing, RENAMED_FOLDER);
 			await writeManifest(workspaceRoot, makeManifest());
 		});
 
