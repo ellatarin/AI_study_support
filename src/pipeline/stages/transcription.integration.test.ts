@@ -1,5 +1,5 @@
 import { mkdir, readFile, rm } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname } from "node:path";
 import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
@@ -13,10 +13,9 @@ import {
 	resetElevenLabsApi,
 	stubElevenLabsApi,
 } from "../fixtures.js";
+import { stageOutputEntry, stageOutputPath } from "../layout.js";
 import { createTranscriptionStage } from "./transcription.js";
 
-const AUDIO_ENTRY = join("Audio", "audio.m4a");
-const TRANSCRIPT_ENTRY = join("Transcript", "transcript.txt");
 const TRANSCRIPT_TEXT = "Today we are covering cell injury and the immune system.";
 const FIXTURE_SECONDS = 2;
 const SECONDS_PER_HOUR = 3600;
@@ -46,8 +45,9 @@ describe("createTranscriptionStage against real audio", () => {
 	beforeEach(async () => {
 		stubElevenLabsApi();
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "transcription-live-" }));
-		await mkdir(join(workspaceRoot, "Audio"), { recursive: true });
-		await renderFixtureAudio(join(workspaceRoot, AUDIO_ENTRY));
+		const audioPath = stageOutputPath({ workspaceRoot, stageId: "audio-extraction" });
+		await mkdir(dirname(audioPath), { recursive: true });
+		await renderFixtureAudio(audioPath);
 	});
 
 	afterEach(async () => {
@@ -80,8 +80,10 @@ describe("createTranscriptionStage against real audio", () => {
 
 		expect(scope.isDone()).toBe(true);
 		expect(uploadedBytes).toBeGreaterThan(0);
-		expect(await readFile(join(workspaceRoot, TRANSCRIPT_ENTRY), "utf8")).toBe(TRANSCRIPT_TEXT);
-		expect(result.filesWritten).toStrictEqual([TRANSCRIPT_ENTRY]);
+		expect(
+			await readFile(stageOutputPath({ workspaceRoot, stageId: "transcription" }), "utf8"),
+		).toBe(TRANSCRIPT_TEXT);
+		expect(result.filesWritten).toStrictEqual([stageOutputEntry("transcription")]);
 		expect(result.cost?.totalCostUsd).toBeCloseTo(
 			(FIXTURE_SECONDS / SECONDS_PER_HOUR) * exampleConfig.elevenLabs.costPerAudioHourUsd,
 			5,

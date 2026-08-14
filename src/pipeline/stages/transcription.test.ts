@@ -1,5 +1,5 @@
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { basename, dirname } from "node:path";
 import ffmpeg from "fluent-ffmpeg";
 import nock from "nock";
 import type { Mock } from "vitest";
@@ -21,6 +21,7 @@ import {
 	stagesWith,
 	stubElevenLabsApi,
 } from "../fixtures.js";
+import { stageOutputEntry, stageOutputPath } from "../layout.js";
 import type { TranscriptionOutput } from "./transcription.js";
 import { createTranscriptionStage, TranscriptionError } from "./transcription.js";
 
@@ -30,8 +31,6 @@ vi.mock("fluent-ffmpeg", () => ({
 
 const ffprobeMock = ffmpeg.ffprobe as unknown as Mock;
 
-const AUDIO_ENTRY = join("Audio", "audio.m4a");
-const TRANSCRIPT_ENTRY = join("Transcript", "transcript.txt");
 const TRANSCRIPT_TEXT = "Today we are covering cell injury.";
 const HALF_HOUR_SECONDS = 1800;
 
@@ -50,8 +49,8 @@ describe("createTranscriptionStage", () => {
 		capturedBody = "";
 		stubElevenLabsApi();
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "transcription-" }));
-		await mkdir(join(workspaceRoot, "Audio"), { recursive: true });
-		await writeFile(join(workspaceRoot, AUDIO_ENTRY), Buffer.alloc(4096, 7));
+		await mkdir(dirname(audioPath()), { recursive: true });
+		await writeFile(audioPath(), Buffer.alloc(4096, 7));
 		stubDuration(HALF_HOUR_SECONDS);
 	});
 
@@ -59,6 +58,16 @@ describe("createTranscriptionStage", () => {
 		resetElevenLabsApi();
 		await rm(moduleRoot, { recursive: true, force: true });
 	});
+
+	/** The audio Stage 1 is required to have left, for the workspace under test. */
+	function audioPath(): string {
+		return stageOutputPath({ workspaceRoot, stageId: "audio-extraction" });
+	}
+
+	/** Where this stage is required to leave its transcript. */
+	function transcriptPath(): string {
+		return stageOutputPath({ workspaceRoot, stageId: "transcription" });
+	}
 
 	function stubDuration(seconds: number): void {
 		ffprobeMock.mockImplementation(
@@ -118,15 +127,15 @@ describe("createTranscriptionStage", () => {
 	});
 
 	it("should skip transcription when output file exists and stage is complete", async () => {
-		await mkdir(join(workspaceRoot, "Transcript"), { recursive: true });
-		await writeFile(join(workspaceRoot, TRANSCRIPT_ENTRY), TRANSCRIPT_TEXT);
+		await mkdir(dirname(transcriptPath()), { recursive: true });
+		await writeFile(transcriptPath(), TRANSCRIPT_TEXT);
 		const context = contextWith({
 			entry: {
 				status: "complete",
 				completedAt: "2025-10-10T10:00:00.000Z",
 				configUsed: { modelId: "elevenlabs/scribe_v2" },
 				cost: null,
-				filesWritten: [TRANSCRIPT_ENTRY],
+				filesWritten: [stageOutputEntry("transcription")],
 			},
 		});
 
@@ -134,7 +143,7 @@ describe("createTranscriptionStage", () => {
 	});
 
 	it("should fail when the extracted audio is missing", async () => {
-		await rm(join(workspaceRoot, AUDIO_ENTRY));
+		await rm(audioPath());
 
 		await expect(createTranscriptionStage().getInput(contextWith())).rejects.toThrow(
 			TranscriptionError,
@@ -210,8 +219,8 @@ describe("createTranscriptionStage", () => {
 
 		await runStage(contextWith());
 
-		expect(await readFile(join(workspaceRoot, TRANSCRIPT_ENTRY), "utf8")).toBe(TRANSCRIPT_TEXT);
-		expect(await readdir(join(workspaceRoot, "Transcript"))).toStrictEqual(["transcript.txt"]);
+		expect(await readFile(transcriptPath(), "utf8")).toBe(TRANSCRIPT_TEXT);
+		expect(await readdir(dirname(transcriptPath()))).toStrictEqual([basename(transcriptPath())]);
 	});
 
 	it("should return correct filesWritten list when stage completes", async () => {
@@ -219,8 +228,8 @@ describe("createTranscriptionStage", () => {
 
 		const result = await runStage(contextWith());
 
-		expect(result.filesWritten).toStrictEqual([TRANSCRIPT_ENTRY]);
-		expect(result.output.transcriptPath).toBe(join(workspaceRoot, TRANSCRIPT_ENTRY));
+		expect(result.filesWritten).toStrictEqual([stageOutputEntry("transcription")]);
+		expect(result.output.transcriptPath).toBe(transcriptPath());
 	});
 
 	it("should record cost from audio duration and the configured rate when transcription completes", async () => {
@@ -272,8 +281,8 @@ describe("createTranscriptionStage", () => {
 
 		const result = await runStage(contextWith());
 
-		expect(result.filesWritten).toStrictEqual([TRANSCRIPT_ENTRY]);
-		expect(await readFile(join(workspaceRoot, TRANSCRIPT_ENTRY), "utf8")).toBe(TRANSCRIPT_TEXT);
+		expect(result.filesWritten).toStrictEqual([stageOutputEntry("transcription")]);
+		expect(await readFile(transcriptPath(), "utf8")).toBe(TRANSCRIPT_TEXT);
 	});
 
 	it("should fail when the response carries no transcript text", async () => {
