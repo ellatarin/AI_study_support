@@ -20,6 +20,51 @@ const COST_LOOKUP_MAX_RETRIES = 3;
  */
 export class ContextLengthError extends NamedError {}
 
+/**
+ * The shape a caller expects the model's reply to take. Stated on every call
+ * rather than defaulted, so a caller always declares what it is about to parse
+ * (technical-design.md §6).
+ */
+export type CompletionResponseFormat = "text" | "json";
+
+/**
+ * OpenRouter's own routing controls, which ride alongside the OpenAI-compatible
+ * request body. The SDK's parameter type has no knowledge of `provider`, so the
+ * extension is declared here rather than cast away at the call site.
+ */
+type OpenRouterRouting = {
+	readonly provider: { readonly require_parameters: true };
+};
+
+/** The request fields that put a call into JSON mode and keep it there. */
+type JsonModeFields = OpenRouterRouting & {
+	readonly response_format: { readonly type: "json_object" };
+};
+
+/**
+ * The request fields carrying the caller's expected response shape.
+ *
+ * JSON mode travels with `require_parameters` because OpenRouter honours
+ * `response_format` per endpoint: without it, a model whose providers cannot
+ * produce JSON is still called and the parameter is silently dropped, so the
+ * stage pays for a call and receives prose. Requiring it turns that into a
+ * routing failure, which names the real problem (technical-design.md §6).
+ *
+ * @param responseFormat - The shape the caller expects back.
+ * @returns The fields to merge into the request body; none, for a text call.
+ */
+function responseFormatFields(
+	responseFormat: CompletionResponseFormat,
+): JsonModeFields | Record<string, never> {
+	if (responseFormat === "text") {
+		return {};
+	}
+	return {
+		response_format: { type: "json_object" },
+		provider: { require_parameters: true },
+	};
+}
+
 /** A resolved cost, or a null cost carrying the reason the lookup failed. */
 type CostResolution =
 	| { readonly totalCostUsd: number }
@@ -83,14 +128,20 @@ async function createCompletion(options: {
 	readonly client: OpenAI;
 	readonly stageConfig: StageConfig;
 	readonly messages: readonly OpenAI.Chat.Completions.ChatCompletionMessageParam[];
+	readonly responseFormat: CompletionResponseFormat;
 }): Promise<OpenAI.Chat.Completions.ChatCompletion> {
+	// Annotated in two steps so the SDK still type-checks the fields it owns, while
+	// the assembled body's type openly carries OpenRouter's `provider` extension —
+	// spreading straight into an SDK-typed literal would hide it from both.
+	const openAiFields: OpenAI.Chat.Completions.ChatCompletionCreateParamsNonStreaming = {
+		model: options.stageConfig.modelId,
+		messages: [...options.messages],
+		temperature: options.stageConfig.temperature,
+		max_tokens: options.stageConfig.maxTokens,
+	};
+	const body = { ...openAiFields, ...responseFormatFields(options.responseFormat) };
 	try {
-		return await options.client.chat.completions.create({
-			model: options.stageConfig.modelId,
-			messages: [...options.messages],
-			temperature: options.stageConfig.temperature,
-			max_tokens: options.stageConfig.maxTokens,
-		});
+		return await options.client.chat.completions.create(body);
 	} catch (error: unknown) {
 		const contextError = toContextLengthError({ error, modelId: options.stageConfig.modelId });
 		if (contextError !== null) {
@@ -131,6 +182,8 @@ async function lookupCost(options: {
  * @param options.messages - The chat messages to send.
  * @param options.stageId - The pipeline stage whose model and parameters to use.
  * @param options.config - The validated pipeline config supplying the stage's model settings.
+ * @param options.responseFormat - The reply shape expected; `"json"` also restricts routing to
+ *   providers that honour it, and obliges the caller to ask for JSON in its messages too (§6).
  * @param options.client - An OpenAI client to use; defaults to the shared OpenRouter client.
  * @returns The completion text and its resolved cost.
  * @throws {ContextLengthError} If the prompt exceeds the model's context window.
@@ -140,11 +193,17 @@ export async function makeCompletionCall(options: {
 	readonly messages: readonly OpenAI.Chat.Completions.ChatCompletionMessageParam[];
 	readonly stageId: StageId;
 	readonly config: PipelineConfig;
+	readonly responseFormat: CompletionResponseFormat;
 	readonly client?: OpenAI;
 }): Promise<{ readonly content: string; readonly cost: StageCost }> {
 	const stageConfig = stageConfigFor({ config: options.config, stageId: options.stageId });
 	const client = options.client ?? getSharedClient();
-	const response = await createCompletion({ client, stageConfig, messages: options.messages });
+	const response = await createCompletion({
+		client,
+		stageConfig,
+		messages: options.messages,
+		responseFormat: options.responseFormat,
+	});
 	const usage = response.usage ?? { prompt_tokens: 0, completion_tokens: 0 };
 	const content = response.choices[0].message.content ?? "";
 	const costResolution = await lookupCost({ client, generationId: response.id });

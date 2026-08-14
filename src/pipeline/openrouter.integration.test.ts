@@ -48,7 +48,46 @@ function mockGeneration(): nock.Interceptor {
 function call(
 	overrides: Record<string, unknown> = {},
 ): Promise<{ content: string; cost: import("../types/pipeline.js").StageCost }> {
-	return makeCompletionCall({ messages, stageId: "transcript-structuring", config, ...overrides });
+	return makeCompletionCall({
+		messages,
+		stageId: "transcript-structuring",
+		config,
+		responseFormat: "text",
+		...overrides,
+	});
+}
+
+/** What one completion request carried, for tests asserting on what was sent. */
+type CapturedRequest = {
+	readonly body: Record<string, unknown>;
+	readonly headers: Record<string, unknown>;
+};
+
+/**
+ * Mocks a successful completion that records the request it was sent, plus its
+ * cost lookup, then makes the call — the arrange-and-act every test asserting on
+ * the outgoing request shares.
+ */
+async function callCapturingRequest(
+	overrides: Record<string, unknown> = {},
+): Promise<CapturedRequest> {
+	const captured: { body: Record<string, unknown>; headers: Record<string, unknown> } = {
+		body: {},
+		headers: {},
+	};
+	nock(OPENROUTER_HOST)
+		.post(COMPLETIONS_PATH)
+		// eslint-disable-next-line max-params -- nock's reply callback signature is fixed
+		.reply(function reply(_uri, body) {
+			captured.body = body as Record<string, unknown>;
+			captured.headers = this.req.headers as Record<string, unknown>;
+			return [200, completionBody()];
+		});
+	mockGeneration().reply(200, generationBody(0.0042));
+
+	await call(overrides);
+
+	return captured;
 }
 
 /**
@@ -84,23 +123,35 @@ describe("createOpenRouterClient", () => {
 
 describe("makeCompletionCall", () => {
 	it("should send the correct baseURL, headers, and model ID when makeCompletionCall is invoked", async () => {
-		let capturedBody: Record<string, unknown> = {};
-		let capturedHeaders: Record<string, unknown> = {};
-		nock(OPENROUTER_HOST)
-			.post(COMPLETIONS_PATH)
-			.reply(function reply(_uri, body) {
-				capturedBody = body as Record<string, unknown>;
-				capturedHeaders = this.req.headers as Record<string, unknown>;
-				return [200, completionBody()];
-			});
-		mockGeneration().reply(200, generationBody(0.0042));
+		const { body, headers } = await callCapturingRequest();
 
-		const result = await call();
+		expect(body.model).toBe("openai/gpt-4o");
+		expect(headers["x-title"]).toBe("Lecture Notes Pipeline");
+		expect(headers.authorization).toBe("Bearer test-key");
+	});
 
-		expect(capturedBody.model).toBe("openai/gpt-4o");
-		expect(capturedHeaders["x-title"]).toBe("Lecture Notes Pipeline");
-		expect(capturedHeaders.authorization).toBe("Bearer test-key");
-		expect(result.content).toBe("Structured notes.");
+	it("should request the json_object response format when responseFormat is json", async () => {
+		const { body } = await callCapturingRequest({ responseFormat: "json" });
+
+		expect(body.response_format).toEqual({ type: "json_object" });
+	});
+
+	it("should restrict routing to providers supporting the request when responseFormat is json", async () => {
+		const { body } = await callCapturingRequest({ responseFormat: "json" });
+
+		expect(body.provider).toEqual({ require_parameters: true });
+	});
+
+	it("should send no response format when responseFormat is text", async () => {
+		const { body } = await callCapturingRequest({ responseFormat: "text" });
+
+		expect(body.response_format).toBeUndefined();
+	});
+
+	it("should leave routing unrestricted when responseFormat is text", async () => {
+		const { body } = await callCapturingRequest({ responseFormat: "text" });
+
+		expect(body.provider).toBeUndefined();
 	});
 
 	it("should populate totalCostUsd and token counts when the generation endpoint returns cost", async () => {

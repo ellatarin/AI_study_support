@@ -947,11 +947,15 @@ createOpenRouterClient(): OpenAI
 makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; responseFormat: "text" | "json"; client?: OpenAI }):
   Promise<{ content: string; cost: StageCost }>
 // Wraps the SDK call and resolves cost from /api/v1/generation (§7). Throws ContextLengthError when the
-// model rejects the prompt for length. `responseFormat: "json"` sets the SDK's `response_format` to
-// `json_object`, which the stages returning structured data require; it is stated on every call rather than
-// defaulted so a caller always declares the shape it expects back. `client` is injected by tests; it
-// defaults to the shared instance.
+// model rejects the prompt for length. `responseFormat: "json"` sends `response_format: json_object` and
+// the provider routing that makes it stick (see "JSON mode is routed for" below), which the stages
+// returning structured data require; it is stated on every call rather than defaulted so a caller always
+// declares the shape it expects back. `client` is injected by tests; it defaults to the shared instance.
 ```
+
+**JSON mode is routed for, not merely asked for.** OpenRouter honours `response_format` per *endpoint* rather than per model: a model is served by several providers, and by default the parameter only steers routing towards those that support it — where none of a model's providers do, the request still goes through and the parameter is quietly dropped, handing the stage prose where it expected JSON. A `"json"` call therefore also sends `provider: { require_parameters: true }`, which restricts routing to endpoints supporting every parameter in the request, so a model that cannot do JSON fails the call outright instead of returning something unparseable. Failing is the better outcome here: a silently-dropped `response_format` costs a full billable call and surfaces as a parse error that names the wrong culprit, whereas a routing failure names the real one. The flag rides with `"json"` alone — a `"text"` call has nothing to require, and restricting its routing would narrow the model choice for no gain.
+
+Belt and braces, not belt alone: OpenRouter's own parameter reference states that JSON mode requires the prompt to ask for JSON as well, so a `"json"` caller instructs the model in its messages too, and still treats a reply that will not parse as a stage failure.
 
 **Model-ID resolution check.** At startup `loadConfig` fetches the model list once and asserts every configured `stages[*].modelId` appears in it, so placeholders left un-substituted, typos, and retired IDs are caught before any billable call. A miss throws a `ConfigError` naming the offending stages and linking to the models page. The result is cached in-process.
 
