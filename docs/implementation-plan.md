@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.19-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-08-13
+**Suite version:** 1.20-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-08-14
 **Status:** For review
 
 ---
@@ -285,26 +285,48 @@ The transcription integration test streams a real file through the real SDK but 
 
 ## Phase 6 — Stage 3: Transcript Structuring
 
-**Goal:** Single LLM call to structure the transcript and determine the lecture title; conditional source file rename.
+**Goal:** Single LLM call to structure the transcript and determine the lecture title; conditional rename of the lecture's files, which the runner learns to follow.
 
 **Deliverables:**
 
-`src/pipeline/stages/transcript-structuring.ts` **(TD Stage 3)** — a single JSON-mode LLM call that judges the lecturer's provisional title against the transcript and structures the transcript into markdown, then performs the conditional source/folder/PDF rename. Implement to TD Stage 3, which specifies the response contract, the prefer-the-original title judgement, the `aiDerivedTitle`/`lectureTitle` semantics, the rename rules, and the structuring rules (headings, filler removal, LaTeX, Q&A blockquotes, no added content). Output: `Structured transcript/structured-transcript.md`.
+`src/pipeline/lecture-files.ts` **(TD §4.7, "Moving a lecture's files")** — `findDatedFile` and `renameLectureFiles`, lifted out of the private helpers in `src/cli/lecture-identity.ts` so Stage 3 and `change-date` share one sweep rather than growing a second copy. `change-date` is rewritten onto it; the module sits under `src/pipeline/` because a stage may not import from `src/cli/`.
+
+`makeCompletionCall` gains `responseFormat` **(TD §6)** — `"text" | "json"`, stated on every call, setting the SDK's `response_format` to `json_object` for the stages that return structured data. Stage 3 is its first production caller.
+
+`PipelineRunner` follows a relocated workspace **(TD §4.7, "Following a relocated workspace" and `StageContext` assembly)** — `findLectureByDate` extracted from `resolveLecturesByDate`; new `resolveWorkspace`; `updateManifest` takes and returns the manifest rather than re-reading it; `runStage` returns `StageOutcome`; `#runStages` carries each stage's context on to the next; the run log and `RunSummary.workspaceRoot` use the resolved path.
+
+`src/pipeline/stages/transcript-structuring.ts` **(TD Stage 3)** — a single JSON-mode LLM call that judges the lecturer's provisional title against the transcript and structures the transcript into markdown, then performs the conditional rename in the documented order. Implement to TD Stage 3, which specifies the response contract, the prefer-the-original title judgement, the `aiDerivedTitle`/`lectureTitle` semantics, the `userTitle` precedence, the order of operations, and the structuring rules (headings, filler removal, LaTeX, Q&A blockquotes, no added content). Output: `Structured transcript/structured-transcript.md`. Added to `lectureStages` in `src/cli/run-cli.ts`, which is what makes it run.
 
 **Tests:**
 
-Unit tests (mock `makeCompletionCall`):
+Unit tests for the stage (mock `makeCompletionCall`):
 - `should extract structured markdown and keep the provisional title when LLM judges it meaningful`
 - `should store suggestedTitle as aiDerivedTitle when LLM judges the provisional not meaningful`
 - `should leave aiDerivedTitle null when LLM judges the provisional meaningful`
+- `should fail when the response is not the documented JSON object`
+- `should fail when the LLM judges the provisional not meaningful but proposes no title`
 
-Integration tests (real temp directory) — `test.each` across both `provisionalTitleMeaningful` verdicts:
+Unit tests for `makeCompletionCall`:
+- `should request the json_object response format when responseFormat is json`
+- `should send no response format when responseFormat is text`
+
+Integration tests for the stage (real temp directory) — `test.each` across both `provisionalTitleMeaningful` verdicts:
 - `should rename source video, slide, workspace folder, and update manifest when provisionalTitleMeaningful is false`
 - `should overwrite manifest.lectureTitle with aiDerivedTitle when provisionalTitleMeaningful is false`
 - `should leave manifest.lectureTitle unchanged (still equal to provisionalTitle) when provisionalTitleMeaningful is true`
 - `should leave all files unchanged when provisionalTitleMeaningful is true`
+- `should leave lectureTitle and every file unchanged when userTitle is set`
 
-**Acceptance:** Stage produces `structured-transcript.md`; renames files correctly per the conditional logic; runner context reflects updated `lectureTitle` for downstream stages.
+Integration tests for `lecture-files.ts`:
+- `should rename the video, the slide, the PDF, and the workspace onto the new base name`
+- `should skip the PDF when the lecture has none yet`
+
+Integration tests for the runner following the move:
+- `should record the completed stage in the manifest at its new path when a stage renames the workspace`
+- `should give a downstream stage the lectureTitle an earlier stage wrote`
+- `should write the run log to the renamed workspace`
+
+**Acceptance:** Stage produces `structured-transcript.md`; renames files correctly per the conditional logic; the runner records, logs, and reports against the workspace's post-rename path, and downstream stages see the updated `lectureTitle`.
 
 ---
 

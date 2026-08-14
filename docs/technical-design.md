@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.19-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-08-13
+**Suite version:** 1.20-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-08-14
 **Status:** For review
 
 ---
@@ -186,7 +186,7 @@ Because all other files inside the workspace use simple names, only the four ite
 
 ### 4.2 Stage Interface
 
-Every stage implements a common `PipelineStage<TInput, TOutput>` contract: an idempotency check `isComplete(context)`, an input step `getInput(context)`, and `run({ input, context })` returning a `StageResult`. Stages read an immutable `StageContext` — lecture identity, `workspaceRoot`, `moduleRoot`, the resolved `PipelineConfig`, and the current `RunManifest` — and never mutate it; all manifest changes flow through the runner.
+Every stage implements a common `PipelineStage<TInput, TOutput>` contract: an idempotency check `isComplete(context)`, an input step `getInput(context)`, and `run({ input, context })` returning a `StageResult`. Stages read an immutable `StageContext` — lecture identity, `workspaceRoot`, `moduleRoot`, the resolved `PipelineConfig`, and the current `RunManifest` — and never mutate it. A stage's own bookkeeping in the manifest — its status, cost, and `filesWritten` — is written by the runner, never by the stage. The manifest's *lecture identity* is a separate matter: Stage 3 writes it directly, being the stage that determines the title (§5, Stage 3), and it is the only per-lecture stage that does.
 
 **Authoritative types.** The exact shape of every pipeline contract — `PipelineStage`, `StageId`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, and the rest — lives in `src/types/pipeline.ts` with per-field documentation. That file is the single source of truth; this section describes intent and the invariants those types encode, not field lists:
 
@@ -279,7 +279,7 @@ One `manifest.json` per lecture, stored in the workspace root. All paths are rel
 
 The manifest tracks the **current pipeline state** and the cost of the most recent successful execution of each stage. Historical cost across multiple runs is the responsibility of the run logs (§4.6). Its TypeScript shape is `RunManifest` in `src/types/pipeline.ts` (single source of truth); the example below is illustrative, not the schema.
 
-Three separate callers touch it — Stage 0 creates and renumbers it, the runner patches a stage entry after every stage, and the CLI's identity commands rewrite a lecture's title or date — so where it lives and how it is written are stated once:
+Four separate callers touch it — Stage 0 creates and renumbers it, the runner patches a stage entry after every stage, Stage 3 replaces the lecture's title, and the CLI's identity commands rewrite a lecture's title or date — so where it lives and how it is written are stated once:
 
 ```typescript
 // src/pipeline/manifest.ts
@@ -448,10 +448,20 @@ type SourceNormalisationStage = { stageId: "source-normalisation"; normaliseModu
 deriveRunId(args: { instant: Date }): string                                   // filesystem-safe run id, e.g. 2025-10-10T09-00-00Z
 classifyRunType(args: { options: RunOptions; manifest: RunManifest }): RunType  // normal | experiment | error-recovery (§7)
 assembleContext(args: { workspaceRoot: string; manifest: RunManifest; config: PipelineConfig }): StageContext  // moduleRoot derived two levels up
-runStage(args: { stage: PipelineStage<unknown, unknown>; context: StageContext; config: PipelineConfig; timestamp: string; logger: Logger }): Promise<RunLogStageEntry>
+type StageOutcome = { entry: RunLogStageEntry; context: StageContext }
+runStage(args: { stage: PipelineStage<unknown, unknown>; context: StageContext; config: PipelineConfig; timestamp: string; logger: Logger }): Promise<StageOutcome>
 // Runs or skips one stage: marks it `running`, converts a throw into a failed entry (never throws), logs
-// any failure with its stack (§8), and writes the manifest at each transition.
-updateManifest(args: { workspaceRoot: string; stageId: StageId; entry: ManifestStageEntry; timestamp: string }): Promise<void>  // atomic per-stage manifest patch via manifest.ts (§4.5)
+// any failure with its stack (§8), and writes the manifest at each transition. Returns the run-log entry
+// together with the context the next stage runs against — see "Following a relocated workspace" below.
+updateManifest(args: { workspaceRoot: string; manifest: RunManifest; stageId: StageId; entry: ManifestStageEntry; timestamp: string }): Promise<RunManifest>
+// Atomic per-stage manifest patch via manifest.ts (§4.5). Takes the manifest to patch rather than reading it,
+// and returns what it wrote, so the caller rebuilds the stage context without a second read.
+resolveWorkspace(args: { workspaceRoot: string; moduleRoot: string; lectureDate: string }): Promise<{ workspaceRoot: string; manifest: RunManifest }>
+// Where the workspace is now, and what its manifest says. Returns the path given when its manifest still
+// reads; otherwise finds the lecture again by date (see "Following a relocated workspace").
+findLectureByDate(args: { moduleRoot: string; lectureDate: string }): Promise<{ workspaceRoot: string; manifest: RunManifest } | null>
+// Scans `moduleRoot/Pipeline processing/*/manifest.json` for the lecture carrying this date. Shared by
+// resolveWorkspace and resolveLecturesByDate, which apply the same identity rule to different ends.
 ```
 
 A `RunSummary` lists its stages as `RunStageOutcome` — the run-log entry *paired with the stage id it belongs to*. The run log keys entries by stage id, but a summary is an ordered list, and its consumer (the end-of-run summary, §7) has to name each stage it reports.
@@ -473,7 +483,11 @@ summariseOverallStatus(args: { statuses: readonly OverallStatus[] }): OverallSta
 
 **`resolveLecturesByDate`:** Scans every `moduleRoots[i]/Pipeline processing/*/manifest.json` and returns matches whose `lectureDate` equals the argument. Zero matches: caller decides (typically an error). One match: caller uses it directly. Multiple matches: caller (the CLI) prompts the user via `@inquirer/prompts` — checkbox list of matches (each labelled `<module name> — Lecture N — <title>`) with "All matches" and "Cancel" affordances. Interactive prompt lives in the CLI layer, not the runner.
 
-**`StageContext` assembly:** Before invoking any stage, the runner reads `manifest.json` at `workspaceRoot` and assembles a `StageContext` (via `assembleContext`). `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle`, and `workspaceRoot` are sourced from the manifest. `moduleRoot` (the containing module for this lecture) is derived from `workspaceRoot` two levels up (`moduleRoot/Pipeline processing/<folder>`); `config` comes from the runner's construction. The context is constructed once per lecture run, frozen, and passed unchanged to every stage; stages must not mutate it directly — all manifest updates go through `updateManifest()`.
+**`StageContext` assembly:** Before invoking any stage, the runner reads `manifest.json` at `workspaceRoot` and assembles a `StageContext` (via `assembleContext`). `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle`, and `workspaceRoot` are sourced from the manifest. `moduleRoot` (the containing module for this lecture) is derived from `workspaceRoot` two levels up (`moduleRoot/Pipeline processing/<folder>`); `config` comes from the runner's construction. Every context is frozen and no stage may mutate one; the per-stage manifest entries are the runner's to write, through `updateManifest()` (§4.2).
+
+The context is **rebuilt between stages** rather than assembled once for the run. It costs no extra reads: the runner already re-reads the manifest at every stage transition, so `updateManifest` hands back what it wrote and the next context is assembled from that. What it buys is that a stage's manifest changes reach the stages that follow — Stage 3 replaces `lectureTitle`, and Stage 8 names the PDF from it.
+
+**Following a relocated workspace.** Stage 3 renames the workspace folder when it replaces the lecture's title (§5, Stage 3), which invalidates the path the runner is holding mid-run. The runner is not told about the move: a result field reporting it would oblige every stage, present and future, to declare something only one of them ever does, against NFR-5.2. Instead it finds the lecture again by the identity this section already treats as canonical — `(moduleRoot, lectureDate)`. `resolveWorkspace` reads the manifest at the path it has and, failing that, falls back to `findLectureByDate`, which scans `Pipeline processing/` for the workspace whose manifest carries the date. The fallback is reachable only after a stage has moved the folder; every other transition costs exactly the read it always cost. The run log is written at the resolved path and `RunSummary.workspaceRoot` reports it, so a run that renames its own workspace still leaves its log beside the work.
 
 **Batch mode:** `runBatch({ moduleRoots })` normalises every listed module, then processes every lecture across them. The CLI passes an array of one for `batch <moduleRoot>` and the full `config.moduleRoots` for `batch` (no argument). Modules processed in the order given; lectures within a module in date order. Sequential by default; `--concurrency N` runs that many lectures at once, drawn from a single global queue rather than per module — with modules in order, a global queue keeps every worker busy where a per-module one would idle at each module boundary. Because lectures from different modules may therefore be in flight together, the per-module and cross-module summaries are printed once the batch completes rather than as each module finishes (§7).
 
@@ -493,6 +507,20 @@ Each mutation leaves the module in a state Stage 0 can finish, rather than doing
 - **`rename`** writes `userTitle` (and `lectureTitle`) to the manifest and stops there. The renaming of video, slide, workspace, and PDF falls out of the following Stage 0 pass, which names them from the manifest's current `lectureTitle` — the same code path that named them originally, so a rename cannot drift from a normalisation.
 - **`delete`** removes the video, the slide, the workspace, and the `Final output/` PDF, having first asked for confirmation. Removing the sources *and* the workspace together is what keeps the module consistent: a workspace left without sources is an orphan the next Stage 0 run would stop to ask about, and sources left without a workspace would simply be normalised back into one. Stage 0 then renumbers the lectures that follow.
 - **`change-date`** renames the video, slide, and PDF to the base name Stage 0 would give them at the new date, renames the workspace folder to match, and writes the new `lectureDate` and `workspaceFolderName` to the manifest — so the Stage 0 pass that follows has only renumbering left, and renames again if the new date changes the lecture's number. It refuses when a source file already carries the target date, since a rename would otherwise overwrite another lecture, and when the lecture's own video or slide is missing.
+
+**Moving a lecture's files.** `change-date` and Stage 3 both rename the same four things onto a new base name — the source video, the source slide, any `Final output/` PDF, and the workspace folder — so the sweep is stated once and shared. It lives under `src/pipeline/` rather than beside the CLI commands that were its first caller, because a stage may not import from the CLI layer.
+
+```typescript
+// src/pipeline/lecture-files.ts
+findDatedFile(args: { dir: string; lectureDate: string }): Promise<string | null>
+// The one file in a directory whose name carries this date. Sources are addressed by date rather than by
+// name because a lecture's name changes with its number and title, while its date is what identifies it (§3.2).
+renameLectureFiles(args: { dirs: ModuleDirs; workspaceRoot: string; lectureDate: string; baseName: string }): Promise<string>
+// Renames the video, the slide, any Final output/ PDF, and the workspace folder onto `baseName`, each keeping
+// the extension it carried, and returns the workspace's new path. Anything absent is skipped, so a lecture
+// with no PDF yet moves cleanly; a caller that requires a file to be present checks for it first, as
+// `change-date` does for the source pair.
+```
 
 #### CLI Structure
 
@@ -641,7 +669,7 @@ createTranscriptionStage(): PipelineStage<TranscriptionInput, TranscriptionOutpu
 
 **Input:** `Transcript/transcript.txt`
 **Output:** `Structured transcript/structured-transcript.md`
-**Conditional side effect:** Rename of source video, source slide, workspace folder, and `Final output/` PDF only when the LLM judges the provisional title not meaningful.
+**Conditional side effect:** Rename of source video, source slide, workspace folder, and `Final output/` PDF only when the LLM judges the provisional title not meaningful and the user has not named the lecture themselves.
 
 Stage 3 makes a single JSON-mode LLM call returning `{ provisionalTitleMeaningful: boolean; suggestedTitle: string | null; structuredMarkdown: string }` — a title judgement and the structured transcript markdown. The title is resolved first; everything else in the pipeline depends on it.
 
@@ -656,7 +684,21 @@ The rename is **conditional** on the LLM's judgement:
 | Provisional meaningful | `lectureTitle` already equals `provisionalTitle` from Stage 0 — left unchanged; `aiDerivedTitle` stays `null`. No renaming. |
 | Provisional not meaningful | `aiDerivedTitle` set to the proposed title and `lectureTitle` overwritten with it. Source video, source slide, workspace folder, and any existing `Final output/` PDF are renamed to include the AI-derived title. `workspaceFolderName` updated in manifest. |
 
+**A user title outranks the judgement.** When `userTitle` is non-null the user has already named the lecture through `rename`, and it wins the title precedence outright (§5, Stage 0). Stage 3 still records `aiDerivedTitle` when the LLM proposes one — it is a true record of what the model derived from the transcript, and it is what the title would fall back to were the user's ever cleared — but `lectureTitle` is left alone and nothing on disk is renamed.
+
 `context.lectureTitle` is always non-null (see §4.2) — Stage 0 seeds it, Stage 3 may overwrite it. Downstream stages consume it directly with no null check required.
+
+#### Order of Operations
+
+Stage 3 is the only per-lecture stage that moves its own workspace, and the runner reads the manifest there as soon as the stage returns (§4.7). The order is therefore fixed:
+
+1. Make the LLM call and parse the response.
+2. Write `Structured transcript/structured-transcript.md` atomically (§4.3).
+3. Stop when the provisional title stands — there is nothing to record and nothing to move. When `userTitle` is set, write `aiDerivedTitle` alone and stop there: the user's title holds, so no name on disk changes.
+4. Otherwise write the manifest **at the path the workspace still occupies**, setting `aiDerivedTitle`, `lectureTitle`, and `workspaceFolderName` to the base name `lectureBaseName` builds from the new title (§5, Stage 0).
+5. Rename the source video, the source slide, any `Final output/` PDF, and the workspace folder **last**, via `renameLectureFiles` (§4.7).
+
+Renaming the folder last is what makes steps 2–4 safe: each writes to a path that still exists. `filesWritten` is recorded relative to the workspace (§4.5), so the output path survives the move untouched, and the runner re-locates the workspace by `(moduleRoot, lectureDate)` before its own write (§4.7).
 
 #### Transcript Structuring
 
@@ -669,6 +711,16 @@ The same LLM call produces the structured markdown. The LLM:
 - Does not add content not present in the transcript
 
 **Context:** A 90-minute transcript is typically 15,000–30,000 tokens — a single call within any 128k-context model.
+
+```typescript
+// src/pipeline/stages/transcript-structuring.ts
+type TranscriptStructuringInput = { transcriptText: string }
+type TranscriptStructuringOutput = { structuredTranscriptPath: string; lectureTitle: string }
+createTranscriptStructuringStage(): PipelineStage<TranscriptStructuringInput, TranscriptStructuringOutput>
+// Throws TranscriptStructuringError when the transcript is missing or empty, when the response is not the
+// documented JSON object, or when the LLM judges the provisional title unusable yet proposes nothing in its
+// place. A failed cost lookup is not a failure (§7).
+```
 
 ---
 
@@ -892,10 +944,13 @@ loadConfig(args: { projectRoot: string; skipModelCheck?: boolean }): Promise<Pip
 createOpenRouterClient(): OpenAI
 // The configured client above, created lazily and reused in-process. Not exported as a live instance, so
 // importing the module never requires OPENROUTER_API_KEY.
-makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; client?: OpenAI }):
+makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; responseFormat: "text" | "json"; client?: OpenAI }):
   Promise<{ content: string; cost: StageCost }>
 // Wraps the SDK call and resolves cost from /api/v1/generation (§7). Throws ContextLengthError when the
-// model rejects the prompt for length. `client` is injected by tests; it defaults to the shared instance.
+// model rejects the prompt for length. `responseFormat: "json"` sets the SDK's `response_format` to
+// `json_object`, which the stages returning structured data require; it is stated on every call rather than
+// defaulted so a caller always declares the shape it expects back. `client` is injected by tests; it
+// defaults to the shared instance.
 ```
 
 **Model-ID resolution check.** At startup `loadConfig` fetches the model list once and asserts every configured `stages[*].modelId` appears in it, so placeholders left un-substituted, typos, and retired IDs are caught before any billable call. A miss throws a `ConfigError` naming the offending stages and linking to the models page. The result is cached in-process.
