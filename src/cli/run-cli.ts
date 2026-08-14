@@ -12,6 +12,7 @@ import { loadConfig } from "../pipeline/config.js";
 import { deriveRunId, PipelineRunner } from "../pipeline/runner.js";
 import { createAudioExtractionStage } from "../pipeline/stages/audio-extraction.js";
 import { createSourceNormalisationStage } from "../pipeline/stages/source-normalisation.js";
+import { createTranscriptStructuringStage } from "../pipeline/stages/transcript-structuring.js";
 import { createTranscriptionStage } from "../pipeline/stages/transcription.js";
 import { errorMessage } from "../utils/errors.js";
 import { createRootLogger } from "../utils/logger.js";
@@ -53,7 +54,11 @@ async function assembleDeps({
 		config,
 		sourceNormalisation: createSourceNormalisationStage({ logger, confirm: confirmPrompt }),
 		// Pipeline order; each further stage joins this list as it is built.
-		lectureStages: [createAudioExtractionStage(), createTranscriptionStage()],
+		lectureStages: [
+			createAudioExtractionStage(),
+			createTranscriptionStage(),
+			createTranscriptStructuringStage(),
+		],
 		logger,
 	});
 	return {
