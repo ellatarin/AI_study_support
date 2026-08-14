@@ -1,4 +1,4 @@
-import { access, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { access, mkdir, readdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type {
@@ -671,6 +671,99 @@ describe("PipelineRunner integration", () => {
 			});
 
 			expect(writeSpy).not.toHaveBeenCalled();
+		});
+	});
+
+	describe("following a relocated workspace", () => {
+		const RENAMED_FOLDER = "L1 - Innate Immune Response";
+		const NEW_TITLE = "Innate Immune Response";
+		let renamedWorkspaceRoot: string;
+
+		/**
+		 * A stage that does what Stage 3 does when it replaces a lecture's title:
+		 * writes the new identity to the manifest where the workspace still stands,
+		 * then moves the workspace out from under the runner.
+		 */
+		function makeRenamingStage(stageId: StageId): PipelineStage<unknown, unknown> {
+			return makeStubStage({
+				stageId,
+				run: async ({ context }) => {
+					await writeManifest(context.workspaceRoot, {
+						...context.manifest,
+						lectureTitle: NEW_TITLE,
+						workspaceFolderName: RENAMED_FOLDER,
+					});
+					await rename(context.workspaceRoot, renamedWorkspaceRoot);
+					return { output: undefined, cost: null, filesWritten: [] } as StageResult<unknown>;
+				},
+			});
+		}
+
+		beforeEach(async () => {
+			renamedWorkspaceRoot = join(moduleRoot, "Pipeline processing", RENAMED_FOLDER);
+			await writeManifest(workspaceRoot, makeManifest());
+		});
+
+		it("should record the completed stage in the manifest at its new path when a stage renames the workspace", async () => {
+			await makeRunner([makeRenamingStage("audio-extraction")]).runLecture({ workspaceRoot });
+
+			const manifest = await readManifest(renamedWorkspaceRoot);
+			expect(manifest.stages["audio-extraction"]?.status).toBe("complete");
+		});
+
+		// Both the title and the path are read off the rebuilt context, and both are
+		// expected values only the enclosing beforeEach knows — hence the thunks.
+		it.each([
+			{
+				what: "new lectureTitle",
+				read: (context: StageContext) => context.lectureTitle,
+				expected: () => NEW_TITLE,
+			},
+			{
+				what: "workspace's new path",
+				read: (context: StageContext) => context.workspaceRoot,
+				expected: () => renamedWorkspaceRoot,
+			},
+		])("should give a downstream stage the $what when an earlier stage renames the workspace", async ({
+			read,
+			expected,
+		}) => {
+			const seen: string[] = [];
+			const downstream = makeStubStage({
+				stageId: "transcription",
+				run: ({ context }) => {
+					seen.push(read(context));
+					return Promise.resolve({
+						output: undefined,
+						cost: null,
+						filesWritten: [],
+					} as StageResult<unknown>);
+				},
+			});
+
+			await makeRunner([makeRenamingStage("audio-extraction"), downstream]).runLecture({
+				workspaceRoot,
+			});
+
+			expect(seen).toEqual([expected()]);
+		});
+
+		it("should write the run log to the renamed workspace when a stage renames it", async () => {
+			const summary = await makeRunner([makeRenamingStage("audio-extraction")]).runLecture({
+				workspaceRoot,
+			});
+
+			await expect(readRunLog(renamedWorkspaceRoot, summary.runId)).resolves.toMatchObject({
+				runId: summary.runId,
+			});
+		});
+
+		it("should report the workspace's new path in the summary when a stage renames it", async () => {
+			const summary = await makeRunner([makeRenamingStage("audio-extraction")]).runLecture({
+				workspaceRoot,
+			});
+
+			expect(summary.workspaceRoot).toBe(renamedWorkspaceRoot);
 		});
 	});
 });

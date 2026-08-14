@@ -204,6 +204,82 @@ async function listWorkspacesByDate({ moduleRoot }: ModuleQuery): Promise<readon
 	);
 }
 
+/** A lecture workspace paired with the manifest that identifies it. */
+type LocatedWorkspace = {
+	readonly workspaceRoot: string;
+	readonly manifest: RunManifest;
+};
+
+/**
+ * Finds a module's lecture with the given date, by reading the manifests rather
+ * than the folder names — the folder is named for the lecture's number and
+ * title, both of which change, while the date is what identifies it.
+ *
+ * A module holds at most one lecture per date (Stage 0 guarantees it), so the
+ * first match is the match. Shared by {@link resolveWorkspace} and
+ * `resolveLecturesByDate`, which apply that same identity rule to different ends
+ * (technical-design.md §4.7).
+ *
+ * @param args - The module to search and the date to match.
+ * @param args.moduleRoot - Absolute path to the module directory.
+ * @param args.lectureDate - The `YYYY-MM-DD` date to match.
+ * @returns The workspace and its manifest, or `null` when the module holds no such lecture.
+ */
+async function findLectureByDate({
+	moduleRoot,
+	lectureDate,
+}: {
+	readonly moduleRoot: string;
+	readonly lectureDate: string;
+}): Promise<LocatedWorkspace | null> {
+	for (const workspaceRoot of await listWorkspaces({ moduleRoot })) {
+		const manifest = await readManifestSafe({ workspaceRoot });
+		if (manifest !== null && manifest.lectureDate === lectureDate) {
+			return { workspaceRoot, manifest };
+		}
+	}
+	return null;
+}
+
+/**
+ * Where a lecture's workspace is now, and what its manifest says.
+ *
+ * Normally the answer is the path already held, and this costs the one manifest
+ * read the caller needed anyway. But Stage 3 renames the workspace when it
+ * replaces the lecture's title, which invalidates that path mid-run — so a path
+ * with no readable manifest sends the runner to look the lecture up by date
+ * instead, rather than obliging every stage to report a move only one of them
+ * ever makes (technical-design.md §4.7).
+ *
+ * @param args - The lecture to locate.
+ * @param args.workspaceRoot - The workspace path last known to the runner.
+ * @param args.moduleRoot - Absolute path to the containing module.
+ * @param args.lectureDate - The lecture's `YYYY-MM-DD` date, which does not change mid-run.
+ * @returns The current workspace path and the manifest read from it.
+ * @throws {Error} If the workspace is gone and no workspace in the module carries the date.
+ */
+async function resolveWorkspace({
+	workspaceRoot,
+	moduleRoot,
+	lectureDate,
+}: {
+	readonly workspaceRoot: string;
+	readonly moduleRoot: string;
+	readonly lectureDate: string;
+}): Promise<LocatedWorkspace> {
+	const manifest = await readManifestSafe({ workspaceRoot });
+	if (manifest !== null) {
+		return { workspaceRoot, manifest };
+	}
+	const relocated = await findLectureByDate({ moduleRoot, lectureDate });
+	if (relocated === null) {
+		throw new Error(
+			`No manifest at ${workspaceRoot}, and no workspace under ${moduleRoot} carries the date ${lectureDate}`,
+		);
+	}
+	return relocated;
+}
+
 function resolveStageRunConfig({
 	config,
 	stageId,
@@ -268,18 +344,32 @@ async function writeJsonAtomic({
 	await writeFileAtomic({ path, content: JSON.stringify(value, null, 2) });
 }
 
+/**
+ * Patches one stage's entry into a manifest and writes it back, returning what
+ * it wrote so the caller can rebuild the stage context without a second read
+ * (technical-design.md §4.5).
+ *
+ * @param args - The write inputs.
+ * @param args.workspaceRoot - Absolute path to the workspace to write into.
+ * @param args.manifest - The manifest to patch, already read by the caller.
+ * @param args.stageId - The stage whose entry is being set.
+ * @param args.entry - The entry to record for that stage.
+ * @param args.timestamp - The instant to stamp the manifest with.
+ * @returns The manifest as written.
+ */
 async function updateManifest({
 	workspaceRoot,
+	manifest,
 	stageId,
 	entry,
 	timestamp,
 }: {
 	readonly workspaceRoot: string;
+	readonly manifest: RunManifest;
 	readonly stageId: StageId;
 	readonly entry: ManifestStageEntry;
 	readonly timestamp: string;
-}): Promise<void> {
-	const manifest = await readManifest({ workspaceRoot });
+}): Promise<RunManifest> {
 	const updated: RunManifest = {
 		...manifest,
 		stages: patchStages({ stages: manifest.stages, stageId, entry }),
@@ -287,6 +377,7 @@ async function updateManifest({
 		updatedAt: timestamp,
 	};
 	await writeManifest({ workspaceRoot, manifest: updated });
+	return updated;
 }
 
 function skippedEntry({
@@ -319,6 +410,16 @@ function runLogCost(cost: StageCost | null): {
 	return { totalCostUsd: cost.totalCostUsd, callCount: cost.callCount };
 }
 
+/**
+ * What one stage did, and the context the stage after it runs against. The two
+ * travel together because a stage may change the lecture the next one sees — its
+ * title, and with it the workspace path (technical-design.md §4.7).
+ */
+type StageOutcome = {
+	readonly entry: RunLogStageEntry;
+	readonly context: StageContext;
+};
+
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- PipelineStage and Logger carry method signatures; CLAUDE.md permits dropping readonly for such method-bearing types
 async function runStage({
 	stage,
@@ -332,16 +433,33 @@ async function runStage({
 	readonly config: PipelineConfig;
 	readonly timestamp: string;
 	readonly logger: Logger;
-}): Promise<RunLogStageEntry> {
+}): Promise<StageOutcome> {
 	const { stageId } = stage;
+	// The context the NEXT stage runs against. The stage itself is handed the one
+	// passed in, so it never sees its own entry change under it.
+	let nextContext = context;
 	// Every write in this function patches the same stage of the same manifest at
-	// the same instant; only the entry differs.
-	const record = (entry: ManifestStageEntry): Promise<void> =>
-		updateManifest({ workspaceRoot: context.workspaceRoot, stageId, entry, timestamp });
+	// the same instant; only the entry differs. Each locates the workspace first,
+	// since the stage may have moved it (§4.7).
+	const record = async (entry: ManifestStageEntry): Promise<void> => {
+		const located = await resolveWorkspace({
+			workspaceRoot: nextContext.workspaceRoot,
+			moduleRoot: nextContext.moduleRoot,
+			lectureDate: nextContext.lectureDate,
+		});
+		const manifest = await updateManifest({
+			workspaceRoot: located.workspaceRoot,
+			manifest: located.manifest,
+			stageId,
+			entry,
+			timestamp,
+		});
+		nextContext = assembleContext({ workspaceRoot: located.workspaceRoot, manifest, config });
+	};
 
 	if (await stage.isComplete(context)) {
 		await record(skippedEntry({ context, stageId, timestamp }));
-		return { action: "skipped" };
+		return { entry: { action: "skipped" }, context: nextContext };
 	}
 	const configUsed = resolveStageRunConfig({ config, stageId });
 	// Written before the stage begins, so a crash leaves `running` behind for the
@@ -357,7 +475,10 @@ async function runStage({
 			cost: result.cost,
 			filesWritten: result.filesWritten,
 		});
-		return { action: "ran", status: "complete", configUsed, cost: runLogCost(result.cost) };
+		return {
+			entry: { action: "ran", status: "complete", configUsed, cost: runLogCost(result.cost) },
+			context: nextContext,
+		};
 	} catch (error: unknown) {
 		const message = errorMessage(error);
 		// The message alone reaches the user; the stack goes to the debug log, which
@@ -372,11 +493,14 @@ async function runStage({
 			filesWritten: [],
 		});
 		return {
-			action: "ran",
-			status: "failed",
-			error: message,
-			configUsed,
-			cost: { totalCostUsd: null, callCount: 0 },
+			entry: {
+				action: "ran",
+				status: "failed",
+				error: message,
+				configUsed,
+				cost: { totalCostUsd: null, callCount: 0 },
+			},
+			context: nextContext,
 		};
 	}
 }
@@ -567,7 +691,7 @@ export class PipelineRunner {
 					});
 		const context = assembleContext({ workspaceRoot, manifest, config: this.#config });
 
-		const outcomes = await this.#runStages({ context, options });
+		const { outcomes, context: finalContext } = await this.#runStages({ context, options });
 		const endedIso = new Date().toISOString();
 		const runLog = buildRunLog({
 			runId,
@@ -577,9 +701,11 @@ export class PipelineRunner {
 			runType,
 			outcomes,
 		});
-		await writeRunLog({ workspaceRoot, runLog });
+		// Both address the workspace where it ended up, not where it began, so a run
+		// that renamed its own workspace still leaves its log beside the work (§4.7).
+		await writeRunLog({ workspaceRoot: finalContext.workspaceRoot, runLog });
 		return {
-			workspaceRoot,
+			workspaceRoot: finalContext.workspaceRoot,
 			runId,
 			startedAt: startedIso,
 			endedAt: endedIso,
@@ -595,27 +721,35 @@ export class PipelineRunner {
 	}: {
 		readonly context: StageContext;
 		readonly options: RunOptions;
-	}): Promise<readonly RunStageOutcome[]> {
+	}): Promise<{
+		readonly outcomes: readonly RunStageOutcome[];
+		readonly context: StageContext;
+	}> {
 		const outcomes: RunStageOutcome[] = [];
+		// Carried from stage to stage rather than assembled once, so a stage that
+		// rewrites the lecture's identity hands the next stage the lecture as it now
+		// stands — including a workspace it has moved (§4.7).
+		let current = context;
 		let halted = false;
 		for (const stage of this.#lectureStages) {
 			if (halted) {
 				outcomes.push({ stageId: stage.stageId, entry: { action: "not-reached" } });
 				continue;
 			}
-			const entry = await runStage({
+			const { entry, context: nextContext } = await runStage({
 				stage,
-				context,
+				context: current,
 				config: this.#config,
 				timestamp: new Date().toISOString(),
 				logger: this.#logger,
 			});
+			current = nextContext;
 			outcomes.push({ stageId: stage.stageId, entry });
 			if (entry.action === "ran" && entry.status === "failed" && options.continueOnError !== true) {
 				halted = true;
 			}
 		}
-		return outcomes;
+		return { outcomes, context: current };
 	}
 
 	/**
@@ -703,16 +837,13 @@ export class PipelineRunner {
 	}): Promise<readonly LectureMatch[]> {
 		const matches: LectureMatch[] = [];
 		for (const moduleRoot of moduleRoots) {
-			for (const workspaceRoot of await listWorkspaces({ moduleRoot })) {
-				const manifest = await readManifestSafe({ workspaceRoot });
-				if (manifest === null || manifest.lectureDate !== lectureDate) {
-					continue;
-				}
+			const found = await findLectureByDate({ moduleRoot, lectureDate });
+			if (found !== null) {
 				matches.push({
 					moduleRoot,
-					workspaceRoot,
-					lectureNumber: manifest.lectureNumber,
-					lectureTitle: manifest.lectureTitle,
+					workspaceRoot: found.workspaceRoot,
+					lectureNumber: found.manifest.lectureNumber,
+					lectureTitle: found.manifest.lectureTitle,
 				});
 			}
 		}
