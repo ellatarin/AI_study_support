@@ -1,18 +1,17 @@
 import { mkdir, readdir, rm } from "node:fs/promises";
-import { join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import type { FfprobeData } from "fluent-ffmpeg";
 import ffmpeg from "fluent-ffmpeg";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
-	makeManifest,
 	makeStageContext,
 	makeWorkspaceTree,
 	renderFixtureMedia,
+	testLecture,
 } from "../fixtures.js";
+import { moduleDirs, stageOutputEntry, stageOutputPath } from "../layout.js";
 import { createAudioExtractionStage } from "./audio-extraction.js";
 
-const FOLDER_NAME = "Lecture 1 - Cell Injury - 2025-10-10";
-const VIDEO_DIR = join("Source files", "Video files");
 const FIXTURE_SECONDS = 1;
 
 /** Renders a tiny H.264 + AAC test video, so the suite needs no binary fixture. */
@@ -53,11 +52,8 @@ describe("createAudioExtractionStage against real ffmpeg", () => {
 	let workspaceRoot: string;
 
 	beforeEach(async () => {
-		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({
-			prefix: "audio-extraction-live-",
-			folderName: FOLDER_NAME,
-		}));
-		await mkdir(join(moduleRoot, VIDEO_DIR), { recursive: true });
+		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "audio-extraction-live-" }));
+		await mkdir(moduleDirs({ moduleRoot }).video, { recursive: true });
 	});
 
 	afterEach(async () => {
@@ -65,18 +61,18 @@ describe("createAudioExtractionStage against real ffmpeg", () => {
 	});
 
 	it("should produce valid m4a output when extracting the audio track from a real video file", async () => {
-		await renderFixtureVideo(join(moduleRoot, VIDEO_DIR, `${FOLDER_NAME}.mp4`));
+		await renderFixtureVideo(
+			join(moduleDirs({ moduleRoot }).video, `${testLecture.folderName}.mp4`),
+		);
 		const stage = createAudioExtractionStage();
-		const context = makeStageContext({
-			workspaceRoot,
-			manifest: makeManifest({ workspaceFolderName: FOLDER_NAME }),
-		});
+		const context = makeStageContext({ workspaceRoot });
 
 		const input = await stage.getInput(context);
 		const result = await stage.run({ input, context });
 
-		expect(result.filesWritten).toStrictEqual([join("Audio", "audio.m4a")]);
-		expect(await readdir(join(workspaceRoot, "Audio"))).toStrictEqual(["audio.m4a"]);
+		const audioPath = stageOutputPath({ workspaceRoot, stageId: "audio-extraction" });
+		expect(result.filesWritten).toStrictEqual([stageOutputEntry("audio-extraction")]);
+		expect(await readdir(dirname(audioPath))).toStrictEqual([basename(audioPath)]);
 
 		const probed = await probe(result.output.audioPath);
 		expect(probed.streams.map((stream) => stream.codec_type)).toStrictEqual(["audio"]);

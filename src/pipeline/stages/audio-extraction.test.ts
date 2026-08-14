@@ -1,19 +1,22 @@
 import { access, mkdir, readdir, rm, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import ffmpeg from "fluent-ffmpeg";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ManifestStageEntry, StageContext, StageResult } from "../../types/pipeline.js";
-import { makeManifest, makeStageContext, makeWorkspaceTree, stagesWith } from "../fixtures.js";
+import {
+	makeManifest,
+	makeStageContext,
+	makeWorkspaceTree,
+	stagesWith,
+	testLecture,
+} from "../fixtures.js";
+import { moduleDirs, stageOutputEntry, stageOutputPath } from "../layout.js";
 import type { AudioExtractionOutput } from "./audio-extraction.js";
 import { AudioExtractionError, createAudioExtractionStage } from "./audio-extraction.js";
 
 vi.mock("fluent-ffmpeg", () => ({ default: vi.fn() }));
 
 const ffmpegMock = vi.mocked(ffmpeg);
-
-const FOLDER_NAME = "Lecture 1 - Cell Injury - 2025-10-10";
-const VIDEO_DIR = join("Source files", "Video files");
-const AUDIO_ENTRY = join("Audio", "audio.m4a");
 
 /** The listeners a stage registers on the ffmpeg command, keyed by event name. */
 type CommandListeners = Record<string, ((value?: unknown) => void) | undefined>;
@@ -42,11 +45,8 @@ describe("createAudioExtractionStage", () => {
 	beforeEach(async () => {
 		vi.clearAllMocks();
 		calls = [];
-		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({
-			prefix: "audio-extraction-",
-			folderName: FOLDER_NAME,
-		}));
-		videoDir = join(moduleRoot, VIDEO_DIR);
+		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "audio-extraction-" }));
+		videoDir = moduleDirs({ moduleRoot }).video;
 		await mkdir(videoDir, { recursive: true });
 	});
 
@@ -110,13 +110,20 @@ describe("createAudioExtractionStage", () => {
 	};
 
 	function contextWith(entry?: ManifestStageEntry): StageContext {
-		const manifest = makeManifest({
-			workspaceFolderName: FOLDER_NAME,
-			...(entry === undefined
-				? {}
-				: { stages: stagesWith({ stageId: "audio-extraction", entry }) }),
-		});
+		const manifest = makeManifest(
+			entry === undefined ? {} : { stages: stagesWith({ stageId: "audio-extraction", entry }) },
+		);
 		return makeStageContext({ workspaceRoot, manifest });
+	}
+
+	/** Where the stage is required to leave its audio, for the workspace under test. */
+	function audioPath(): string {
+		return stageOutputPath({ workspaceRoot, stageId: "audio-extraction" });
+	}
+
+	/** The directory that audio file sits in. */
+	function audioDir(): string {
+		return dirname(audioPath());
 	}
 
 	async function writeSourceVideo(name: string): Promise<void> {
@@ -140,13 +147,13 @@ describe("createAudioExtractionStage", () => {
 			completedAt: "2025-10-10T10:00:00.000Z",
 			configUsed: null,
 			cost: null,
-			filesWritten: [AUDIO_ENTRY],
+			filesWritten: [stageOutputEntry("audio-extraction")],
 		});
 	}
 
 	it("should skip audio extraction when output file exists and stage is complete", async () => {
-		await mkdir(join(workspaceRoot, "Audio"), { recursive: true });
-		await writeFile(join(workspaceRoot, AUDIO_ENTRY), "already extracted");
+		await mkdir(audioDir(), { recursive: true });
+		await writeFile(audioPath(), "already extracted");
 
 		expect(await createAudioExtractionStage().isComplete(completedContext())).toBe(true);
 	});
@@ -156,11 +163,11 @@ describe("createAudioExtractionStage", () => {
 	});
 
 	it("should locate the source video when its extension is not .mp4", async () => {
-		await writeSourceVideo(`${FOLDER_NAME}.mov`);
+		await writeSourceVideo(`${testLecture.folderName}.mov`);
 
 		const input = await createAudioExtractionStage().getInput(contextWith());
 
-		expect(input.sourceVideoPath).toBe(join(videoDir, `${FOLDER_NAME}.mov`));
+		expect(input.sourceVideoPath).toBe(join(videoDir, `${testLecture.folderName}.mov`));
 	});
 
 	it("should fail before invoking ffmpeg when the source video is missing", async () => {
@@ -171,8 +178,8 @@ describe("createAudioExtractionStage", () => {
 	});
 
 	it("should fail before invoking ffmpeg when two videos share the workspace base name", async () => {
-		await writeSourceVideo(`${FOLDER_NAME}.mp4`);
-		await writeSourceVideo(`${FOLDER_NAME}.mov`);
+		await writeSourceVideo(`${testLecture.folderName}.mp4`);
+		await writeSourceVideo(`${testLecture.folderName}.mov`);
 
 		await expect(createAudioExtractionStage().getInput(contextWith())).rejects.toThrow(
 			AudioExtractionError,
@@ -181,17 +188,17 @@ describe("createAudioExtractionStage", () => {
 	});
 
 	it("should return correct filesWritten list when stage completes", async () => {
-		await writeSourceVideo(`${FOLDER_NAME}.mp4`);
+		await writeSourceVideo(`${testLecture.folderName}.mp4`);
 		stubFfmpeg(succeed);
 
 		const result = await runStage();
 
-		expect(result.filesWritten).toStrictEqual([AUDIO_ENTRY]);
-		expect(result.output.audioPath).toBe(join(workspaceRoot, AUDIO_ENTRY));
+		expect(result.filesWritten).toStrictEqual([stageOutputEntry("audio-extraction")]);
+		expect(result.output.audioPath).toBe(audioPath());
 	});
 
 	it("should record no cost when the stage makes no billable call", async () => {
-		await writeSourceVideo(`${FOLDER_NAME}.mp4`);
+		await writeSourceVideo(`${testLecture.folderName}.mp4`);
 		stubFfmpeg(succeed);
 
 		const result = await runStage();
@@ -200,49 +207,49 @@ describe("createAudioExtractionStage", () => {
 	});
 
 	it("should copy the audio track without re-encoding when extracting", async () => {
-		await writeSourceVideo(`${FOLDER_NAME}.mp4`);
+		await writeSourceVideo(`${testLecture.folderName}.mp4`);
 		stubFfmpeg(succeed);
 
 		await runStage();
 
-		expect(calls[0].inputPath).toBe(join(videoDir, `${FOLDER_NAME}.mp4`));
+		expect(calls[0].inputPath).toBe(join(videoDir, `${testLecture.folderName}.mp4`));
 		expect(calls[0].audioCodecs).toStrictEqual(["copy"]);
 		expect(calls[0].noVideoCalled).toBe(true);
 	});
 
 	it("should write to a .tmp sibling and rename it when extraction succeeds", async () => {
-		await writeSourceVideo(`${FOLDER_NAME}.mp4`);
+		await writeSourceVideo(`${testLecture.folderName}.mp4`);
 		stubFfmpeg(succeed);
 
 		await runStage();
 
-		expect(calls[0].outputPath).toBe(join(workspaceRoot, `${AUDIO_ENTRY}.tmp`));
+		expect(calls[0].outputPath).toBe(`${audioPath()}.tmp`);
 		// The .tmp extension defeats container inference, so the muxer is explicit.
 		expect(calls[0].outputFormat).toBe("ipod");
-		await expect(access(join(workspaceRoot, AUDIO_ENTRY))).resolves.toBeUndefined();
-		expect(await readdir(join(workspaceRoot, "Audio"))).toStrictEqual(["audio.m4a"]);
+		await expect(access(audioPath())).resolves.toBeUndefined();
+		expect(await readdir(audioDir())).toStrictEqual([basename(audioPath())]);
 	});
 
 	it("should remove stale .tmp files when a previous run left them behind", async () => {
-		await writeSourceVideo(`${FOLDER_NAME}.mp4`);
-		await mkdir(join(workspaceRoot, "Audio"), { recursive: true });
-		await writeFile(join(workspaceRoot, "Audio", "audio.m4a.tmp"), "half-written");
-		await writeFile(join(workspaceRoot, "Audio", "stale.m4a.tmp"), "half-written");
+		await writeSourceVideo(`${testLecture.folderName}.mp4`);
+		await mkdir(audioDir(), { recursive: true });
+		await writeFile(`${audioPath()}.tmp`, "half-written");
+		await writeFile(join(audioDir(), "stale.m4a.tmp"), "half-written");
 		stubFfmpeg(succeed);
 
 		await runStage();
 
-		expect(await readdir(join(workspaceRoot, "Audio"))).toStrictEqual(["audio.m4a"]);
+		expect(await readdir(audioDir())).toStrictEqual([basename(audioPath())]);
 	});
 
 	it.each([
 		{ label: "an Error", failure: new Error("ffmpeg exited with code 1") },
 		{ label: "a bare string", failure: "ffmpeg exited with code 1" },
 	])("should reject and leave no audio file when ffmpeg fails with $label", async ({ failure }) => {
-		await writeSourceVideo(`${FOLDER_NAME}.mp4`);
+		await writeSourceVideo(`${testLecture.folderName}.mp4`);
 		stubFfmpeg(failWith(failure));
 
 		await expect(runStage()).rejects.toThrow(AudioExtractionError);
-		expect(await readdir(join(workspaceRoot, "Audio"))).toStrictEqual([]);
+		expect(await readdir(audioDir())).toStrictEqual([]);
 	});
 });
