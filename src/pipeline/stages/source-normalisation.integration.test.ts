@@ -130,7 +130,7 @@ describe("createSourceNormalisationStage", () => {
 
 	it("should assign sequential lecture numbers when videos are sorted by date", async () => {
 		await writeLecture("13 Oct 2025 BOD_Immunity to Infection.mp4", "2025-10-13 Immunity deck.pdf");
-		await writeLecture("2025-10-10 BOD_Cell Injury.mp4", "2025-10-10 Cell Injury deck.pdf");
+		await writeLecture(CELL_INJURY_VIDEO, CELL_INJURY_SLIDE);
 
 		await stage.normaliseModule({ moduleRoot });
 
@@ -138,14 +138,12 @@ describe("createSourceNormalisationStage", () => {
 			"Lecture 1 - Cell Injury - 2025-10-10",
 			"Lecture 2 - Immunity to Infection - 2025-10-13",
 		]);
-		const first = await readManifestIn(
-			join(processingDir(moduleRoot), "Lecture 1 - Cell Injury - 2025-10-10"),
-		);
+		const first = await readManifestIn(join(processingDir(moduleRoot), CELL_INJURY));
 		expect(first).toMatchObject({ lectureNumber: 1, lectureDate: "2025-10-10" });
 	});
 
 	it("should rename the source video and matched slide to canonical names when normalisation runs", async () => {
-		await writeLecture("2025-10-10 BOD_Cell Injury.mp4", "2025-10-10 Cell Injury deck.pdf");
+		await writeLecture(CELL_INJURY_VIDEO, CELL_INJURY_SLIDE);
 
 		await stage.normaliseModule({ moduleRoot });
 
@@ -180,10 +178,10 @@ describe("createSourceNormalisationStage", () => {
 	});
 
 	it("should name an existing lecture from its manifest lectureTitle when the title changed after Stage 0", async () => {
-		await writeLecture("2025-10-10 BOD_Cell Injury.mp4", "2025-10-10 Cell Injury deck.pdf");
+		await writeLecture(CELL_INJURY_VIDEO, CELL_INJURY_SLIDE);
 		await stage.normaliseModule({ moduleRoot });
 		await patchManifest({
-			folder: join(processingDir(moduleRoot), "Lecture 1 - Cell Injury - 2025-10-10"),
+			folder: join(processingDir(moduleRoot), CELL_INJURY),
 			patch: { lectureTitle: "Innate Immune Response" },
 		});
 
@@ -211,7 +209,7 @@ describe("createSourceNormalisationStage", () => {
 	});
 
 	it("should record actions on the run logger when normalisation succeeds", async () => {
-		await writeLecture("2025-10-10 BOD_Cell Injury.mp4", "2025-10-10 Cell Injury deck.pdf");
+		await writeLecture(CELL_INJURY_VIDEO, CELL_INJURY_SLIDE);
 
 		await stage.normaliseModule({ moduleRoot });
 
@@ -220,7 +218,7 @@ describe("createSourceNormalisationStage", () => {
 	});
 
 	it("should ignore dotfiles in the source directories when normalising", async () => {
-		await writeLecture("2025-10-10 BOD_Cell Injury.mp4", "2025-10-10 Cell Injury deck.pdf");
+		await writeLecture(CELL_INJURY_VIDEO, CELL_INJURY_SLIDE);
 		await writeInto(videoDir(moduleRoot), ".DS_Store");
 		await writeInto(slideDir(moduleRoot), ".DS_Store");
 
@@ -249,7 +247,7 @@ describe("createSourceNormalisationStage", () => {
 			{
 				scenario: "a video has no matching slide",
 				setup: async (): Promise<void> => {
-					await writeInto(videoDir(moduleRoot), "2025-10-10 BOD_Cell Injury.mp4");
+					await writeInto(videoDir(moduleRoot), CELL_INJURY_VIDEO);
 				},
 			},
 			{
@@ -261,7 +259,7 @@ describe("createSourceNormalisationStage", () => {
 			{
 				scenario: "two videos share a date",
 				setup: async (): Promise<void> => {
-					await writeInto(videoDir(moduleRoot), "2025-10-10 BOD_Cell Injury.mp4");
+					await writeInto(videoDir(moduleRoot), CELL_INJURY_VIDEO);
 					await writeInto(videoDir(moduleRoot), "2025-10-10 BOD_Immunity.mp4");
 					await writeInto(slideDir(moduleRoot), "2025-10-10 deck.pdf");
 				},
@@ -269,8 +267,8 @@ describe("createSourceNormalisationStage", () => {
 			{
 				scenario: "two slides share a date",
 				setup: async (): Promise<void> => {
-					await writeInto(videoDir(moduleRoot), "2025-10-10 BOD_Cell Injury.mp4");
-					await writeInto(slideDir(moduleRoot), "2025-10-10 Cell Injury deck.pdf");
+					await writeInto(videoDir(moduleRoot), CELL_INJURY_VIDEO);
+					await writeInto(slideDir(moduleRoot), CELL_INJURY_SLIDE);
 					await writeInto(slideDir(moduleRoot), "2025-10-10 Extra deck.pdf");
 				},
 			},
@@ -296,9 +294,9 @@ describe("createSourceNormalisationStage", () => {
 	});
 
 	it("should produce no filesystem changes when re-run on already-normalised sources", async () => {
-		await writeLecture("2025-10-10 BOD_Cell Injury.mp4", "2025-10-10 Cell Injury deck.pdf");
+		await writeLecture(CELL_INJURY_VIDEO, CELL_INJURY_SLIDE);
 		await stage.normaliseModule({ moduleRoot });
-		const folder = join(processingDir(moduleRoot), "Lecture 1 - Cell Injury - 2025-10-10");
+		const folder = join(processingDir(moduleRoot), CELL_INJURY);
 		const manifestAfterFirst = await readManifestIn(folder);
 		const videosAfterFirst = await listNames(videoDir(moduleRoot));
 		const slidesAfterFirst = await listNames(slideDir(moduleRoot));
@@ -314,7 +312,7 @@ describe("createSourceNormalisationStage", () => {
 	});
 
 	it("should renumber affected lectures when a new lecture is inserted between existing dates", async () => {
-		await writeLecture("2025-10-10 BOD_Cell Injury.mp4", "2025-10-10 Cell Injury deck.pdf");
+		await writeLecture(CELL_INJURY_VIDEO, CELL_INJURY_SLIDE);
 		await writeLecture("2025-10-17 BOD_Vaccination.mp4", "2025-10-17 Vaccination deck.pdf");
 		await stage.normaliseModule({ moduleRoot });
 		await writeLecture("2025-10-13 BOD_Immunity to Infection.mp4", "2025-10-13 Immunity deck.pdf");
@@ -337,7 +335,7 @@ describe("createSourceNormalisationStage", () => {
 	});
 
 	it("should leave an undateable file in Final output untouched when normalisation runs", async () => {
-		await writeLecture("2025-10-10 BOD_Cell Injury.mp4", "2025-10-10 Cell Injury deck.pdf");
+		await writeLecture(CELL_INJURY_VIDEO, CELL_INJURY_SLIDE);
 		await writeInto(finalOutputDir(moduleRoot), "Module handbook.pdf");
 
 		await stage.normaliseModule({ moduleRoot });
@@ -347,7 +345,7 @@ describe("createSourceNormalisationStage", () => {
 	});
 
 	it("should leave a workspace folder untouched when it has no readable manifest", async () => {
-		await writeLecture("2025-10-10 BOD_Cell Injury.mp4", "2025-10-10 Cell Injury deck.pdf");
+		await writeLecture(CELL_INJURY_VIDEO, CELL_INJURY_SLIDE);
 		await mkdir(join(processingDir(moduleRoot), "Notes I dropped in here"), { recursive: true });
 
 		await stage.normaliseModule({ moduleRoot });
