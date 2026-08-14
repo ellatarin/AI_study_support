@@ -244,6 +244,12 @@ export const testLecture = describeLecture({
 /** The module {@link testLecture} belongs to. */
 export const testModuleName = "Biology of Disease";
 
+/**
+ * The markdown Stage 3's model returns, shared by the two suites that stub the
+ * call — they assert the same body reaches disk, so it is one value.
+ */
+export const structuredMarkdown = "## The Innate Immune Response\n\nBarrier defences come first.";
+
 /** The title Stage 3's model proposes when it judges the lecturer's inadequate. */
 export const aiDerivedLecture = describeLecture({
 	number: testLecture.number,

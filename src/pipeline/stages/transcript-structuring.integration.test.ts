@@ -12,14 +12,13 @@ import {
 	makeStageContext,
 	openRouterCompletionBody,
 	openRouterUrls,
+	structuredMarkdown,
 	testLecture,
 	userChosenTitle,
 } from "../fixtures.js";
 import { type ModuleDirs, stageOutputPath } from "../layout.js";
 import { readManifest, writeManifest } from "../manifest.js";
 import { createTranscriptStructuringStage } from "./transcript-structuring.js";
-
-const STRUCTURED_MARKDOWN = "## The Innate Immune Response\n\nBarrier defences come first.";
 
 describe("transcript structuring against a real module tree", () => {
 	let tempDir: string;
@@ -46,7 +45,7 @@ describe("transcript structuring against a real module tree", () => {
 		return {
 			provisionalTitleMeaningful: meaningful,
 			suggestedTitle: meaningful ? null : aiDerivedLecture.title,
-			structuredMarkdown: STRUCTURED_MARKDOWN,
+			structuredMarkdown: structuredMarkdown,
 		};
 	}
 

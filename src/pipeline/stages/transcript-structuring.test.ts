@@ -11,6 +11,7 @@ import {
 	makeManifest,
 	makeStageContext,
 	makeWorkspaceTree,
+	structuredMarkdown,
 	testLecture,
 	userChosenTitle,
 } from "../fixtures.js";
@@ -33,7 +34,6 @@ vi.mock(import("../openrouter.js"), async (importOriginal) => ({
 const completionMock = makeCompletionCall as unknown as Mock;
 
 const TRANSCRIPT_TEXT = "Today we are covering the innate immune response.";
-const STRUCTURED_MARKDOWN = "## The Innate Immune Response\n\nBarrier defences come first.";
 const COST: StageCost = {
 	promptTokens: 1200,
 	completionTokens: 300,
@@ -47,7 +47,7 @@ function stubReply(overrides: Record<string, unknown> = {}): void {
 		content: JSON.stringify({
 			provisionalTitleMeaningful: true,
 			suggestedTitle: null,
-			structuredMarkdown: STRUCTURED_MARKDOWN,
+			structuredMarkdown: structuredMarkdown,
 			...overrides,
 		}),
 		cost: COST,
