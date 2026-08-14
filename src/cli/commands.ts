@@ -55,9 +55,10 @@ export type CliDeps = {
 	readonly write: (text: string) => void;
 };
 
-/** Process exit codes: anything the user asked for that could not be done is a failure. */
-const EXIT_SUCCESS = 0;
-const EXIT_FAILURE = 1;
+/** The exit code for a command that did everything the user asked for. */
+export const EXIT_SUCCESS = 0;
+/** The exit code for anything the user asked for that could not be done. */
+export const EXIT_FAILURE = 1;
 
 /**
  * What every command is handed: the invocation to carry out, and the world to

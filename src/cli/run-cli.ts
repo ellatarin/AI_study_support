@@ -18,11 +18,14 @@ import { createTranscriptionStage } from "../pipeline/stages/transcription.js";
 import { errorMessage } from "../utils/errors.js";
 import { createRootLogger } from "../utils/logger.js";
 import { CliUsageError, parseCliArgs, USAGE } from "./args.js";
-import { type CliDeps, executeCommand, type RunnableCliCommand } from "./commands.js";
+import {
+	type CliDeps,
+	EXIT_FAILURE,
+	EXIT_SUCCESS,
+	executeCommand,
+	type RunnableCliCommand,
+} from "./commands.js";
 import { confirmPrompt, selectLectureMatch, selectLectureMatches } from "./prompts.js";
-
-const EXIT_SUCCESS = 0;
-const EXIT_FAILURE = 1;
 
 /** Where the CLI's two streams of output go; replaced wholesale under test. */
 type CliOutput = {
