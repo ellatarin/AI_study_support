@@ -8,6 +8,7 @@ import {
 	otherModuleName,
 	testLecture,
 	testModuleName,
+	testRunId,
 	transcriptionModelId,
 	userChosenTitle,
 } from "../pipeline/fixtures.js";
@@ -52,7 +53,7 @@ describe("executeCommand", () => {
 	}): RunSummary {
 		return {
 			workspaceRoot: workspace,
-			runId: "2025-10-10T09-00-00Z",
+			runId: testRunId,
 			startedAt: "2025-10-10T09:00:00.000Z",
 			endedAt: "2025-10-10T09:30:00.000Z",
 			totalCostUsd: 0.2,

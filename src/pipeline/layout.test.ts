@@ -1,6 +1,7 @@
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { STAGE_IDS } from "../types/pipeline.js";
+import { testLecture, testModuleRoot } from "./fixtures.js";
 import {
 	MANIFEST_FILE,
 	moduleDirs,
@@ -10,12 +11,11 @@ import {
 	stageOutputPath,
 } from "./layout.js";
 
-const MODULE_ROOT = join("/modules", "Biology of Disease");
-const WORKSPACE_ROOT = join(
-	MODULE_ROOT,
-	"Pipeline processing",
-	"Lecture 1 - Cell Injury - 2025-10-10",
-);
+// The roots are arbitrary inputs — this suite asserts the *names* layout.ts
+// puts under them, and those stay written out below because verifying them
+// against layout.ts itself would prove nothing.
+const MODULE_ROOT = testModuleRoot;
+const WORKSPACE_ROOT = join(MODULE_ROOT, "Pipeline processing", testLecture.folderName);
 
 describe("moduleDirs", () => {
 	it.each([

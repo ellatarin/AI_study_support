@@ -79,7 +79,7 @@ describe("runCli", () => {
 		const code = await invoke(["cost-report"]);
 
 		expect(code).toBe(1);
-		expect(errors.join("")).toContain("pipeline-config.json");
+		expect(errors.join("")).toContain(CONFIG_FILENAME);
 		expect(errors.join("")).not.toContain("    at ");
 	});
 

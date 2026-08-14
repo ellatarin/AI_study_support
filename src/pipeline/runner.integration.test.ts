@@ -17,9 +17,12 @@ import {
 	makeManifest,
 	makeStubLogger,
 	makeTempDir,
+	otherLecture,
 	otherModuleName,
 	pendingStages,
+	testLecture,
 	testModuleName,
+	testRunId,
 } from "./fixtures.js";
 import { moduleDirs, RUNS_DIR, stageOutputEntry, stageOutputPath } from "./layout.js";
 import { manifestPath } from "./manifest.js";
@@ -464,6 +467,10 @@ describe("PipelineRunner integration", () => {
 	});
 
 	describe("resolveLecturesByDate", () => {
+		// A lecture in a second module sharing the test lecture's date, so a date
+		// can match across modules. Only this suite needs one, so it is named here.
+		const SHARED_DATE_LECTURE = { number: 3, title: "Virology" };
+
 		let moduleA: string;
 		let moduleB: string;
 		let moduleC: string;
@@ -475,24 +482,27 @@ describe("PipelineRunner integration", () => {
 			const write = async (root: string, folder: string, manifest: RunManifest): Promise<void> => {
 				await writeManifest(join(moduleDirs({ moduleRoot: root }).processing, folder), manifest);
 			};
-			await write(
-				moduleA,
-				LECTURE_FOLDER,
-				makeManifest({ lectureNumber: 1, lectureDate: "2025-10-10", lectureTitle: "Cell Injury" }),
-			);
+			// Three lectures, differing in the ways these tests turn on: the test
+			// lecture, another in the same module on its own date, and a third in a
+			// second module sharing the test lecture's date.
+			await write(moduleA, LECTURE_FOLDER, makeManifest());
 			await write(
 				moduleA,
 				"L2",
 				makeManifest({
-					lectureNumber: 2,
-					lectureDate: "2025-10-11",
-					lectureTitle: "Immunity to Infection",
+					lectureNumber: otherLecture.number,
+					lectureDate: otherLecture.date,
+					lectureTitle: otherLecture.title,
 				}),
 			);
 			await write(
 				moduleB,
 				"L3",
-				makeManifest({ lectureNumber: 3, lectureDate: "2025-10-10", lectureTitle: "Virology" }),
+				makeManifest({
+					lectureNumber: SHARED_DATE_LECTURE.number,
+					lectureDate: testLecture.date,
+					lectureTitle: SHARED_DATE_LECTURE.title,
+				}),
 			);
 			await mkdir(join(moduleDirs({ moduleRoot: moduleA }).processing, EMPTY_FOLDER), {
 				recursive: true,
@@ -516,22 +526,25 @@ describe("PipelineRunner integration", () => {
 		it("should return a single match when one lecture matches the date", async () => {
 			const matches = await resolver().resolveLecturesByDate({
 				moduleRoots: [moduleA, moduleB, moduleC],
-				lectureDate: "2025-10-11",
+				lectureDate: otherLecture.date,
 			});
 
 			expect(matches).toHaveLength(1);
-			expect(matches[0]).toMatchObject({ lectureNumber: 2, lectureTitle: "Immunity to Infection" });
+			expect(matches[0]).toMatchObject({
+				lectureNumber: otherLecture.number,
+				lectureTitle: otherLecture.title,
+			});
 		});
 
 		it("should return every matching lecture across modules when several match the date", async () => {
 			const matches = await resolver().resolveLecturesByDate({
 				moduleRoots: [moduleA, moduleB, moduleC],
-				lectureDate: "2025-10-10",
+				lectureDate: testLecture.date,
 			});
 
 			expect(matches).toHaveLength(2);
 			const titles = matches.map((match) => match.lectureTitle).sort();
-			expect(titles).toEqual(["Cell Injury", "Virology"]);
+			expect(titles).toEqual([testLecture.title, SHARED_DATE_LECTURE.title].sort());
 			for (const match of matches) {
 				expect(match).toMatchObject({
 					moduleRoot: expect.any(String),
@@ -661,7 +674,7 @@ describe("PipelineRunner integration", () => {
 				}),
 			);
 			const runLog: RunLog = {
-				runId: "2025-10-10T09-00-00Z",
+				runId: testRunId,
 				startedAt: "2025-10-10T09:00:00Z",
 				endedAt: "2025-10-10T09:00:01Z",
 				triggeredBy: "manual",
@@ -698,7 +711,7 @@ describe("PipelineRunner integration", () => {
 		it("should print a report when a lecture matches the requested date", async () => {
 			await makeRunner([]).costReport({
 				moduleRoots: [moduleRoot],
-				options: { lectureDate: "2025-10-10" },
+				options: { lectureDate: testLecture.date },
 			});
 
 			expect(output()).toContain("Current pipeline cost");

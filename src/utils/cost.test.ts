@@ -8,6 +8,7 @@ import {
 	testLecture,
 	testModuleName,
 	testModuleRoot,
+	testRunId,
 	transcriptionModelId,
 } from "../pipeline/fixtures.js";
 import { moduleDirs, stageOutputEntry } from "../pipeline/layout.js";
@@ -502,7 +503,7 @@ const lecture = ({
 	readonly totalCostUsd: number;
 }): RunSummary => ({
 	workspaceRoot: join(moduleDirs({ moduleRoot }).processing, folder),
-	runId: "2025-10-10T09-00-00Z",
+	runId: testRunId,
 	startedAt: "2025-10-10T09:00:00.000Z",
 	endedAt: "2025-10-10T09:30:00.000Z",
 	totalCostUsd,

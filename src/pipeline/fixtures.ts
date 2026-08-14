@@ -340,6 +340,12 @@ export const changedDate = "2025-10-24";
  */
 export const stageCompletedAt = `${testLecture.date}T10:00:00.000Z`;
 
+/**
+ * A run identifier in the form `deriveRunId` produces. Arbitrary like
+ * {@link stageCompletedAt}; the suite that checks the *form* derives its own.
+ */
+export const testRunId = `${testLecture.date}T09-00-00Z`;
+
 /** A second lecture in the same module, for "left untouched" assertions. */
 export const otherLecture = describeLecture({
 	number: 2,
