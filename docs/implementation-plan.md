@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.22-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.23-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -59,7 +59,8 @@ Cross-references to the technical design are noted as **(TD §N)**.
 **Deliverables:**
 
 - `src/types/pipeline.ts` — every shared type, and `STAGE_IDS`, the ordered stage list `StageId` is derived from **(TD §4.1, §4.2, §4.7)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, `StageStatus`), the persisted shapes (`RunManifest`, `ManifestStageEntry`, `RunLog`, `RunLogStageEntry`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaDeficienciesReport`), and the runner-facing `LectureMatch`, `RunOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, `BatchSummary`
-- `src/utils/files.ts` — `writeFileAtomic` and `cleanTmpFiles` **(TD §4.3)**; `workspacePath` and `resolveManifestPath` **(TD §4.4)**
+- `src/pipeline/layout.ts` — the filesystem vocabulary, declared once: `moduleDirs`, `MANIFEST_FILE`, `RUNS_DIR`, `STAGE_WORKSPACE`, `stageOutputEntry`, `stageOutputPath` **(TD §3.3, "The layout has one owner")**. Every stage, the runner, the CLI, and the fixtures take directory and file names from here; no other module states one as a literal
+- `src/utils/files.ts` — `writeFileAtomic`, `cleanTmpFiles`, and `pathExists` **(TD §4.3)**; `workspacePath` and `resolveManifestPath` **(TD §4.4)**
 - `src/utils/logger.ts` — `createRootLogger`, `createStageLogger` **(TD §10, Logging and Progress Helpers)**
 - `src/utils/date.ts` — `extractDate`, `formatDateISO` **(TD §3.2, Date and Naming Helpers)**
 - `src/utils/naming.ts` — `extractProvisionalTitle`, `lectureFolderName` **(TD §3.2)**; `filenameSafe` **(TD §4.4)**

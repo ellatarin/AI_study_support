@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.22-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.23-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -154,6 +154,36 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 ```
 
 `Output/notes.md` uses a simple name because it lives inside the named lecture folder. The full descriptive filename appears only on the PDF in `Final output/` (Stage 8).
+
+#### The layout has one owner
+
+Every name in the two trees above — the module's four directories, each stage's workspace directory and the file it writes, `runs/`, and `manifest.json` — is declared once, in `src/pipeline/layout.ts`. Nothing else states a directory or filename as a literal.
+
+This matters beyond tidiness, because the same name is relied on by parties that would otherwise each keep their own copy:
+
+- **A stage and the runner.** A stage writes into its directory; `--from-stage` deletes that directory (§4.7). Two copies of the name means a rename breaks the reset silently — it would delete a path that no longer exists, report success, and leave the stage skipping on a manifest that still says complete.
+- **A stage and the stage after it.** Stage 2 reads what Stage 1 wrote, Stage 3 reads what Stage 2 wrote. Declaring the path at both ends means the hand-off is stated twice and can drift in one place.
+- **Production and tests.** A suite asserting a stage's output existed restated the path; it now asks the same module the stage asks.
+
+```typescript
+// src/pipeline/layout.ts
+type ModuleDirs = { video: string; slide: string; processing: string; finalOutput: string }
+moduleDirs(args: { moduleRoot: string }): ModuleDirs      // the module layout of §3.1, stated once
+MANIFEST_FILE: string                                     // "manifest.json"
+RUNS_DIR: string                                          // "runs"
+
+type StageWorkspace = { directories: readonly string[]; outputFile: string | null }
+STAGE_WORKSPACE: Readonly<Record<StageId, StageWorkspace>>
+// What each stage owns inside the workspace: the directories `--from-stage` deletes, and the single file it
+// writes where it writes one. `outputFile` is null for source-normalisation (no workspace directory at all)
+// and for stages producing a set rather than a file (slide-conversion, image-extraction, qa-loop).
+
+stageOutputEntry(stageId: StageId): string
+// The stage's output path relative to the workspace, as recorded in `filesWritten` (§4.5).
+stageOutputPath(args: { workspaceRoot: string; stageId: StageId }): string
+// The same path, absolute. A stage uses it for its own output and for its upstream's input, so a hand-off
+// between two stages is stated once rather than at both ends.
+```
 
 ### 3.4 Re-numbering When New Lectures Are Added
 
@@ -474,6 +504,8 @@ summariseOverallStatus(args: { statuses: readonly OverallStatus[] }): OverallSta
 ```
 
 **Run outcome classification.** A `RunSummary.overallStatus` — and the aggregate `BatchSummary.overallStatus` across a batch's lectures — is `success` when every attempted stage completed, `partial` when one or more stages were skipped or not reached, and `failed` when at least one stage failed.
+
+**Pipeline order comes from `STAGE_IDS`.** `src/types/pipeline.ts` declares `STAGE_IDS` as the ordered stage list, and everything that walks the stages in order — the runner's `--from-stage` reset, the cost report's per-stage breakdown — iterates that array. Neither derives its own order from the keys of some other map: a map is a lookup keyed *by* stage, and using its key order as the pipeline order means a stage added to one map and not another silently changes or truncates the sequence.
 
 **`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes per-stage intermediate files for the stages being re-run (e.g. `Slide content/raw/*.md` when re-running Stage 4), so the re-run produces entirely fresh output. Upstream stages are untouched. Deletion targets hard-coded per-stage directories (see §4.4) — never `filesWritten` from the manifest.
 
@@ -928,15 +960,17 @@ The `openai` npm package is used with a custom `baseURL`:
 
 ```typescript
 const openrouter = new OpenAI({
-  apiKey: process.env.OPENROUTER_API_KEY,
-  baseURL: config.openRouter.baseUrl,     // configuration, never a literal in code — see below
+  apiKey: process.env.OPENROUTER_API_KEY,           // the one OpenRouter value that is a secret, so it alone is an env var
+  baseURL: config.openRouter.baseUrl,               // address, timeout, and retries are all configuration —
+  maxRetries: config.openRouter.completionMaxRetries,  // never literals in code (see below)
+  timeout: config.openRouter.completionTimeoutMs,
   defaultHeaders: {
     'X-Title': 'Lecture Notes Pipeline',   // display name shown on OpenRouter analytics; no URL header until there is a real public repo
   },
-  maxRetries: 5,
-  timeout: 120_000,
 });
 ```
+
+**How the pipeline talks to OpenRouter is configuration.** The whole `openRouter` section describes the service and how patiently to wait on it — address, timeouts, retry budgets — none of which is a fact about this codebase, and all of which an operator may need to change without a code edit. A slow gateway wants a longer completion timeout; a flaky one wants more retries; neither should require a release. The two timeouts differ deliberately: a completion is the expensive call worth waiting on, while the `/generation` cost lookup is telemetry that must never hold up a run, so it waits less and gives up sooner (§7).
 
 **The service address is configuration.** `openRouter.baseUrl` is the single place OpenRouter's address is stated; no source or test file holds the URL as a literal. It is configuration for the same reason a model ID is — it is an operational detail of the service being called, not a fact about this codebase — and keeping it in one place is what allows the pipeline to be pointed at a gateway, a regional endpoint, or a recording proxy without touching code.
 
@@ -967,10 +1001,10 @@ loadConfig(args: { projectRoot: string; skipModelCheck?: boolean }): Promise<Pip
 // or on a model ID the check below rejects. skipModelCheck exists for offline runs against a mocked SDK.
 
 // src/pipeline/openrouter.ts
-createOpenRouterClient(args: { baseUrl: string }): OpenAI
-// The configured client above. Reused in-process, keyed on the baseUrl it was built for, so a differently
-// configured run cannot be served a client pointed elsewhere. Not exported as a live instance, so importing
-// the module never requires OPENROUTER_API_KEY.
+createOpenRouterClient(args: { openRouter: PipelineConfig["openRouter"] }): OpenAI
+// The configured client above. Reused in-process, keyed on the settings it was built from, so a differently
+// configured run cannot be served a client pointed elsewhere or waiting to the wrong budget. Not exported as
+// a live instance, so importing the module never requires OPENROUTER_API_KEY.
 makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; responseFormat: "text" | "json"; client?: OpenAI }):
   Promise<{ content: string; cost: StageCost }>
 // Wraps the SDK call and resolves cost from /api/v1/generation (§7). Throws ContextLengthError when the
@@ -1001,7 +1035,10 @@ Belt and braces, not belt alone: OpenRouter's own parameter reference states tha
   ],
   "openRouter": {
     "baseUrl": "https://openrouter.ai/api/v1",   // every OpenRouter address is derived from this
-    "rateLimitRpm": 60
+    "completionTimeoutMs": 120000,               // per-attempt budget for a completion
+    "completionMaxRetries": 5,
+    "costLookupTimeoutMs": 30000,                // the /generation lookup is cheap; it waits less
+    "costLookupMaxRetries": 3
   },
   "elevenLabs": {
     "costPerAudioHourUsd": 0.22        // Scribe v2 list price; set from your current ElevenLabs plan
@@ -1314,9 +1351,11 @@ The pino file transport is configured with `sync: false` and routes only to the 
 ```typescript
 // src/utils/logger.ts — file-only; the user-facing messaging in the table above is emitted by the
 // CLI and runner, not by this logger.
-createRootLogger(args: { runTimestamp: string }): Logger
-// Writes newline-delimited JSON to runs/<runTimestamp>-debug.log (sync: false, mkdir). Takes the run
-// timestamp so the debug log shares it with the run log.
+createRootLogger(args: { runTimestamp: string; runsDir: string }): Logger
+// Writes newline-delimited JSON to <runsDir>/<runTimestamp>-debug.log (sync: false, mkdir). Takes the run
+// timestamp so the debug log shares it with the run log, and the directory from its caller rather than
+// naming it — `runs/` is declared in layout.ts (§3.3), and a utility must not reach up into the pipeline
+// to read it.
 createStageLogger(args: { logger: Logger; stageId: StageId }): Logger   // child logger with a { stage } binding
 
 // src/utils/progress.ts — the stdout progress bars from the table above.
