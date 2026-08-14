@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.20-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.21-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -569,6 +569,12 @@ Parsing is validated in full before anything runs: the command must exist, its p
 
 ## 5. Stage Designs
 
+**Where prompts live.** A stage that calls an LLM keeps its prompt in a sibling module, `<stage>.prompt.ts`, exporting the function that builds the messages. Only the five stages that make LLM calls have one; Stages 0, 1, 2, and 8 do not. Where a stage makes more than one kind of call, its single prompt module exports one builder per call — the QA loop's checker and reviser both belong to Stage 7.
+
+Prompts sit beside their stage rather than gathered into one shared file: a shared file would collect text each used by a single stage, and every prompt tweak would touch a module five other stages import (NFR-5.2). Splitting them out of the stage module itself keeps prompt changes legible — a prompt is the part iterated on hardest once real lectures run, and its diffs should not be buried among file renames and manifest writes.
+
+A prompt module has no test file of its own. Its builder is a pure assembly whose contract is that the stage's inputs reach the messages, and the stage's own tests verify that against the real builder. A separate suite could only assert that particular sentences are present, which would pin the wording down and make every prompt iteration a two-file edit — the opposite of what splitting them achieves.
+
 ### Stage 0 — Source Normalisation (Batch)
 
 **Runs across all lectures in the module at once, not per-lecture**, and is re-run over the module's life as new lectures are added (they arrive weekly). Each run is a full pass over whatever sources are currently present. Whole-module scope is required because lecture numbers are sequential by date across the module: a newly added, earlier-dated lecture shifts later numbers, so correct numbering and collision-safe renumbering are impossible lecture-in-isolation.
@@ -713,6 +719,12 @@ The same LLM call produces the structured markdown. The LLM:
 **Context:** A 90-minute transcript is typically 15,000–30,000 tokens — a single call within any 128k-context model.
 
 ```typescript
+// src/pipeline/stages/transcript-structuring.prompt.ts
+buildStructuringMessages(args: { transcriptText: string; provisionalTitle: string }):
+  readonly ChatCompletionMessageParam[]
+// The title judgement and the structuring rules above, stated as messages. Asks for the JSON object in the
+// prompt as well as through `responseFormat`, which JSON mode requires (§6).
+
 // src/pipeline/stages/transcript-structuring.ts
 type TranscriptStructuringInput = { transcriptText: string }
 type TranscriptStructuringOutput = { structuredTranscriptPath: string; lectureTitle: string }

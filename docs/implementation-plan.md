@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.20-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.21-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -294,6 +294,8 @@ The transcription integration test streams a real file through the real SDK but 
 `makeCompletionCall` gains `responseFormat` **(TD §6)** — `"text" | "json"`, stated on every call, setting the SDK's `response_format` to `json_object` for the stages that return structured data. Stage 3 is its first production caller.
 
 `PipelineRunner` follows a relocated workspace **(TD §4.7, "Following a relocated workspace" and `StageContext` assembly)** — `findLectureByDate` extracted from `resolveLecturesByDate`; new `resolveWorkspace`; `updateManifest` takes and returns the manifest rather than re-reading it; `runStage` returns `StageOutcome`; `#runStages` carries each stage's context on to the next; the run log and `RunSummary.workspaceRoot` use the resolved path.
+
+`src/pipeline/stages/transcript-structuring.prompt.ts` **(TD §5, "Where prompts live")** — `buildStructuringMessages`, the first of the per-stage prompt modules. No test file of its own; the stage's tests exercise it.
 
 `src/pipeline/stages/transcript-structuring.ts` **(TD Stage 3)** — a single JSON-mode LLM call that judges the lecturer's provisional title against the transcript and structures the transcript into markdown, then performs the conditional rename in the documented order. Implement to TD Stage 3, which specifies the response contract, the prefer-the-original title judgement, the `aiDerivedTitle`/`lectureTitle` semantics, the `userTitle` precedence, the order of operations, and the structuring rules (headings, filler removal, LaTeX, Q&A blockquotes, no added content). Output: `Structured transcript/structured-transcript.md`. Added to `lectureStages` in `src/cli/run-cli.ts`, which is what makes it run.
 
