@@ -244,9 +244,16 @@ for (const path of walk(ROOT).sort()) {
 	const raw = readFileSync(path, "utf8");
 	const { code, bare, strings } = scan(raw);
 
+	// Every pattern below reads comment-free text. Matching the raw file would
+	// let a TSDoc @example declare constants and set knobs that do not exist,
+	// and — worse, because it hides rather than invents — let an import written
+	// in a comment suppress a real string literal from the report.
+	// `bare` keeps string contents (a module specifier is one); `code` masks
+	// them, which is what the numeric and knob patterns want.
+
 	// Import targets are not constants anyone could extract.
 	const specifiers = new Set(
-		[...raw.matchAll(/(?:from|import|vi\.mock|require)\s*\(?\s*["'`]([^"'`]+)["'`]/g)].map(
+		[...bare.matchAll(/(?:from|import|vi\.mock|require)\s*\(?\s*"([^"]+)"/g)].map(
 			(match) => match[1],
 		),
 	);
@@ -254,7 +261,7 @@ for (const path of walk(ROOT).sort()) {
 		if (value.trim().length >= 2 && !specifiers.has(value)) record(stringLiterals, value, file);
 	}
 
-	for (const match of raw.matchAll(
+	for (const match of bare.matchAll(
 		/(?:^|\s)(?:export\s+)?const\s+([A-Z][A-Z0-9_]{2,})\s*(?::[^=]*)?=/g,
 	)) {
 		record(constNames, match[1], file);
@@ -264,7 +271,7 @@ for (const path of walk(ROOT).sort()) {
 		if (!TRIVIAL_NUMBERS.has(match[1])) record(numberLiterals, match[1], file);
 	}
 
-	for (const match of raw.matchAll(
+	for (const match of code.matchAll(
 		/(?<![\w$])([a-z][A-Za-z0-9_]*)\s*:\s*(-?\d[\d_]*(?:\.\d+)?|true|false)(?![\w])/g,
 	)) {
 		const [, key, value] = match;
