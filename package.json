@@ -8,6 +8,7 @@
     "test:coverage": "vitest --run --coverage",
     "typecheck": "tsc --noEmit",
     "lint": "biome check --write && eslint . && jscpd",
+    "audit:constants": "node scripts/audit-constants.mjs src",
     "setup": "./scripts/setup"
   },
   "dependencies": {
