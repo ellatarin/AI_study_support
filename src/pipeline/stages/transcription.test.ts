@@ -18,6 +18,7 @@ import {
 	makeStageContext,
 	makeWorkspaceTree,
 	resetElevenLabsApi,
+	stageCompletedAt,
 	stagesWith,
 	stubElevenLabsApi,
 	transcriptionModelId,
@@ -133,7 +134,7 @@ describe("createTranscriptionStage", () => {
 		const context = contextWith({
 			entry: {
 				status: "complete",
-				completedAt: "2025-10-10T10:00:00.000Z",
+				completedAt: stageCompletedAt,
 				configUsed: { modelId: transcriptionModelId },
 				cost: null,
 				filesWritten: [stageOutputEntry("transcription")],

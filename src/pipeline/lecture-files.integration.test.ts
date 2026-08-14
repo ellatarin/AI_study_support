@@ -34,7 +34,7 @@ describe("lecture files", () => {
 		it("should return the file carrying the lecture date when the directory holds one", async () => {
 			const found = await findDatedFile({ dir: dirs.video, lectureDate: testLecture.date });
 
-			expect(found).toBe(`${testLecture.folderName}.mp4`);
+			expect(found).toBe(testLecture.videoFile);
 		});
 
 		it("should return null when no file carries the lecture date", async () => {
@@ -90,7 +90,7 @@ describe("lecture files", () => {
 		});
 
 		it("should skip the final output PDF when the lecture has none yet", async () => {
-			await rm(join(dirs.finalOutput, `${testLecture.folderName}.pdf`));
+			await rm(join(dirs.finalOutput, testLecture.outputFile));
 
 			await renameToNewBase();
 
@@ -101,11 +101,11 @@ describe("lecture files", () => {
 		});
 
 		it("should leave another lecture's files untouched when one lecture moves", async () => {
-			await writeFile(join(dirs.video, `${otherLecture.folderName}.mp4`), "video");
+			await writeFile(join(dirs.video, otherLecture.videoFile), "video");
 
 			await renameToNewBase();
 
-			expect(await pathExists(join(dirs.video, `${otherLecture.folderName}.mp4`))).toBe(true);
+			expect(await pathExists(join(dirs.video, otherLecture.videoFile))).toBe(true);
 		});
 	});
 });

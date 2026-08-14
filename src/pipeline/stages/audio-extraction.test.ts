@@ -7,6 +7,7 @@ import {
 	makeManifest,
 	makeStageContext,
 	makeWorkspaceTree,
+	stageCompletedAt,
 	stagesWith,
 	testLecture,
 } from "../fixtures.js";
@@ -144,7 +145,7 @@ describe("createAudioExtractionStage", () => {
 	function completedContext(): StageContext {
 		return contextWith({
 			status: "complete",
-			completedAt: "2025-10-10T10:00:00.000Z",
+			completedAt: stageCompletedAt,
 			configUsed: null,
 			cost: null,
 			filesWritten: [stageOutputEntry("audio-extraction")],
@@ -178,7 +179,7 @@ describe("createAudioExtractionStage", () => {
 	});
 
 	it("should fail before invoking ffmpeg when two videos share the workspace base name", async () => {
-		await writeSourceVideo(`${testLecture.folderName}.mp4`);
+		await writeSourceVideo(testLecture.videoFile);
 		await writeSourceVideo(`${testLecture.folderName}.mov`);
 
 		await expect(createAudioExtractionStage().getInput(contextWith())).rejects.toThrow(
@@ -188,7 +189,7 @@ describe("createAudioExtractionStage", () => {
 	});
 
 	it("should return correct filesWritten list when stage completes", async () => {
-		await writeSourceVideo(`${testLecture.folderName}.mp4`);
+		await writeSourceVideo(testLecture.videoFile);
 		stubFfmpeg(succeed);
 
 		const result = await runStage();
@@ -198,7 +199,7 @@ describe("createAudioExtractionStage", () => {
 	});
 
 	it("should record no cost when the stage makes no billable call", async () => {
-		await writeSourceVideo(`${testLecture.folderName}.mp4`);
+		await writeSourceVideo(testLecture.videoFile);
 		stubFfmpeg(succeed);
 
 		const result = await runStage();
@@ -207,18 +208,18 @@ describe("createAudioExtractionStage", () => {
 	});
 
 	it("should copy the audio track without re-encoding when extracting", async () => {
-		await writeSourceVideo(`${testLecture.folderName}.mp4`);
+		await writeSourceVideo(testLecture.videoFile);
 		stubFfmpeg(succeed);
 
 		await runStage();
 
-		expect(calls[0].inputPath).toBe(join(videoDir, `${testLecture.folderName}.mp4`));
+		expect(calls[0].inputPath).toBe(join(videoDir, testLecture.videoFile));
 		expect(calls[0].audioCodecs).toStrictEqual(["copy"]);
 		expect(calls[0].noVideoCalled).toBe(true);
 	});
 
 	it("should write to a .tmp sibling and rename it when extraction succeeds", async () => {
-		await writeSourceVideo(`${testLecture.folderName}.mp4`);
+		await writeSourceVideo(testLecture.videoFile);
 		stubFfmpeg(succeed);
 
 		await runStage();
@@ -231,7 +232,7 @@ describe("createAudioExtractionStage", () => {
 	});
 
 	it("should remove stale .tmp files when a previous run left them behind", async () => {
-		await writeSourceVideo(`${testLecture.folderName}.mp4`);
+		await writeSourceVideo(testLecture.videoFile);
 		await mkdir(audioDir(), { recursive: true });
 		await writeFile(`${audioPath()}.tmp`, "half-written");
 		await writeFile(join(audioDir(), "stale.m4a.tmp"), "half-written");
@@ -246,7 +247,7 @@ describe("createAudioExtractionStage", () => {
 		{ label: "an Error", failure: new Error("ffmpeg exited with code 1") },
 		{ label: "a bare string", failure: "ffmpeg exited with code 1" },
 	])("should reject and leave no audio file when ffmpeg fails with $label", async ({ failure }) => {
-		await writeSourceVideo(`${testLecture.folderName}.mp4`);
+		await writeSourceVideo(testLecture.videoFile);
 		stubFfmpeg(failWith(failure));
 
 		await expect(runStage()).rejects.toThrow(AudioExtractionError);

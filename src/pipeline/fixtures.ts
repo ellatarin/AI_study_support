@@ -260,6 +260,12 @@ type TestLecture = {
 	readonly date: string;
 	readonly title: string;
 	readonly folderName: string;
+	/** The source video {@link makeLectureTree} writes for this lecture. */
+	readonly videoFile: string;
+	/** The source slide deck it writes alongside. */
+	readonly slideFile: string;
+	/** The finished PDF it leaves in `Final output`. */
+	readonly outputFile: string;
 };
 
 /**
@@ -267,17 +273,25 @@ type TestLecture = {
  * lecture the pipeline would not produce — a folder name that disagreed with its
  * own date would fail suites for a reason unrelated to what they test.
  *
+ * The source video, slide deck and finished PDF all share that folder name, as
+ * Stage 0 leaves them, so they are derived here too rather than reassembled from
+ * `${folderName}.mp4` wherever a suite happens to need one.
+ *
  * @param lecture - The lecture's number, date, and title.
- * @returns The lecture with its canonical folder name filled in.
+ * @returns The lecture with its canonical folder and file names filled in.
  */
-function describeLecture(lecture: Omit<TestLecture, "folderName">): TestLecture {
+function describeLecture(lecture: Pick<TestLecture, "number" | "date" | "title">): TestLecture {
+	const folderName = baseNameForLecture({
+		lectureNumber: lecture.number,
+		title: lecture.title,
+		lectureDate: lecture.date,
+	});
 	return {
 		...lecture,
-		folderName: baseNameForLecture({
-			lectureNumber: lecture.number,
-			title: lecture.title,
-			lectureDate: lecture.date,
-		}),
+		folderName,
+		videoFile: `${folderName}.mp4`,
+		slideFile: `${folderName}.pdf`,
+		outputFile: `${folderName}.pdf`,
 	};
 }
 
@@ -318,6 +332,13 @@ export const userChosenTitle = "Cell Injury and Death";
 
 /** The date the CLI's `change-date` command moves {@link testLecture} to. */
 export const changedDate = "2025-10-24";
+
+/**
+ * When a completed stage records that it finished. Any instant would do — no
+ * assertion depends on the value — so the suites share one rather than each
+ * inventing a timestamp that reads as though it mattered.
+ */
+export const stageCompletedAt = `${testLecture.date}T10:00:00.000Z`;
 
 /** A second lecture in the same module, for "left untouched" assertions. */
 export const otherLecture = describeLecture({

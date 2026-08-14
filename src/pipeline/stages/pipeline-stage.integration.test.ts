@@ -3,7 +3,13 @@ import { dirname, join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { ManifestStageEntry, StageContext, StageStatus } from "../../types/pipeline.js";
 import { ManifestPathError } from "../../utils/files.js";
-import { makeManifest, makeStageContext, makeWorkspaceTree, stagesWith } from "../fixtures.js";
+import {
+	makeManifest,
+	makeStageContext,
+	makeWorkspaceTree,
+	stageCompletedAt,
+	stagesWith,
+} from "../fixtures.js";
 import { stageOutputEntry, stageOutputPath } from "../layout.js";
 import { isStageComplete } from "./pipeline-stage.js";
 
@@ -14,7 +20,7 @@ const STAGE_ID = "audio-extraction";
 function completeEntry(filesWritten: readonly string[]): ManifestStageEntry {
 	return {
 		status: "complete",
-		completedAt: "2025-10-10T10:00:00.000Z",
+		completedAt: stageCompletedAt,
 		configUsed: null,
 		cost: null,
 		filesWritten,

@@ -61,9 +61,7 @@ describe("createAudioExtractionStage against real ffmpeg", () => {
 	});
 
 	it("should produce valid m4a output when extracting the audio track from a real video file", async () => {
-		await renderFixtureVideo(
-			join(moduleDirs({ moduleRoot }).video, `${testLecture.folderName}.mp4`),
-		);
+		await renderFixtureVideo(join(moduleDirs({ moduleRoot }).video, testLecture.videoFile));
 		const stage = createAudioExtractionStage();
 		const context = makeStageContext({ workspaceRoot });
 

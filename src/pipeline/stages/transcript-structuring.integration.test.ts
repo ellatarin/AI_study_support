@@ -159,12 +159,12 @@ describe("transcript structuring against a real module tree", () => {
 		const manifest = await manifestAt(testLecture.folderName);
 		expect(manifest.lectureTitle).toBe(userChosenTitle);
 		expect(manifest.aiDerivedTitle).toBe(aiDerivedLecture.title);
-		expect(await pathExists(join(dirs.video, `${testLecture.folderName}.mp4`))).toBe(true);
+		expect(await pathExists(join(dirs.video, testLecture.videoFile))).toBe(true);
 		expect(await pathExists(join(dirs.processing, aiDerivedLecture.folderName))).toBe(false);
 	});
 
 	it("should move a lecture that has produced no PDF yet when the title is replaced", async () => {
-		await rm(join(dirs.finalOutput, `${testLecture.folderName}.pdf`));
+		await rm(join(dirs.finalOutput, testLecture.outputFile));
 		mockModelReply(verdict(false));
 
 		await runStage(await prepareLecture());
