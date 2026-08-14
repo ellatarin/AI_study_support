@@ -2,7 +2,13 @@ import { mkdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { CONFIG_FILENAME } from "../pipeline/config.js";
-import { makeConfig, makeTempDir, testLecture, testModuleName } from "../pipeline/fixtures.js";
+import {
+	corruptJson,
+	makeConfig,
+	makeTempDir,
+	testLecture,
+	testModuleName,
+} from "../pipeline/fixtures.js";
 import { moduleDirs } from "../pipeline/layout.js";
 import { runCli } from "./run-cli.js";
 
@@ -78,7 +84,7 @@ describe("runCli", () => {
 	});
 
 	it("should report the problem plainly and fail when the config is malformed", async () => {
-		await writeFile(join(projectRoot, "pipeline-config.json"), "{ not json");
+		await writeFile(join(projectRoot, CONFIG_FILENAME), corruptJson);
 
 		const code = await invoke(["cost-report"]);
 

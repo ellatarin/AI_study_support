@@ -12,6 +12,7 @@ import {
 	renderFixtureMedia,
 	resetElevenLabsApi,
 	stubElevenLabsApi,
+	transcriptionModelId,
 } from "../fixtures.js";
 import { stageOutputEntry, stageOutputPath } from "../layout.js";
 import { createTranscriptionStage } from "./transcription.js";
@@ -72,7 +73,7 @@ describe("createTranscriptionStage against real audio", () => {
 		const context = makeStageContext({
 			workspaceRoot,
 			manifest: makeManifest(),
-			config: makeConfig({ stages: { transcription: { modelId: "elevenlabs/scribe_v2" } } }),
+			config: makeConfig({ stages: { transcription: { modelId: transcriptionModelId } } }),
 		});
 
 		const input = await stage.getInput(context);

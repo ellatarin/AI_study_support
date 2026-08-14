@@ -3,11 +3,19 @@ import { join } from "node:path";
 import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { CONFIG_FILENAME, ConfigError, clearModelIdCache, loadConfig } from "./config.js";
-import { captureError, makeConfig, makeTempDir, openRouterUrls } from "./fixtures.js";
+import {
+	captureError,
+	corruptJson,
+	makeConfig,
+	makeTempDir,
+	openRouterModelId,
+	openRouterUrls,
+	transcriptionModelId,
+} from "./fixtures.js";
 
 // Model IDs present in the mocked OpenRouter models response and used by the
 // structurally valid config the tests build on.
-const KNOWN_MODEL_IDS = ["openai/gpt-4o", "google/gemini-2.5-flash"] as const;
+const KNOWN_MODEL_IDS = [openRouterModelId, "google/gemini-2.5-flash"] as const;
 
 /**
  * A structurally valid config as a fresh mutable object each call, so a test can
@@ -26,7 +34,7 @@ function makeValidConfig(): Record<string, unknown> {
 				modelIdCheck: { exemptProviders: ["elevenlabs"] },
 				stages: {
 					"transcript-structuring": {
-						modelId: "openai/gpt-4o",
+						modelId: openRouterModelId,
 						temperature: 0.2,
 						maxTokens: 8192,
 					},
@@ -201,13 +209,13 @@ describe("loadConfig model-ID resolution check", () => {
 
 	it("should skip the OpenRouter check when a model ID names an exempt provider", async () => {
 		const config = makeValidConfig();
-		stageModelIds(config).transcription = { modelId: "elevenlabs/scribe_v2" };
+		stageModelIds(config).transcription = { modelId: transcriptionModelId };
 		await writeConfig(config);
 		mockModelsResponse(KNOWN_MODEL_IDS);
 
 		const loaded = await loadConfig({ projectRoot });
 
-		expect(loaded.stages.transcription?.modelId).toBe("elevenlabs/scribe_v2");
+		expect(loaded.stages.transcription?.modelId).toBe(transcriptionModelId);
 	});
 
 	it("should not fetch the OpenRouter model list when every configured provider is exempt", async () => {
@@ -217,7 +225,7 @@ describe("loadConfig model-ID resolution check", () => {
 
 		const loaded = await loadConfig({ projectRoot });
 
-		expect(loaded.stages["transcript-structuring"]?.modelId).toBe("openai/gpt-4o");
+		expect(loaded.stages["transcript-structuring"]?.modelId).toBe(openRouterModelId);
 	});
 
 	it("should accept the config when every stage modelId appears in the OpenRouter response", async () => {
@@ -227,7 +235,7 @@ describe("loadConfig model-ID resolution check", () => {
 		const config = await loadConfig({ projectRoot });
 
 		expect(config.version).toBe("1");
-		expect(config.stages["transcript-structuring"]?.modelId).toBe("openai/gpt-4o");
+		expect(config.stages["transcript-structuring"]?.modelId).toBe(openRouterModelId);
 		expect(config.stages["slide-conversion"]?.concurrency).toBe(3);
 	});
 
@@ -272,7 +280,7 @@ describe("loadConfig file handling", () => {
 	});
 
 	it("should throw ConfigError when the config file is not valid JSON", async () => {
-		await writeFile(join(projectRoot, CONFIG_FILENAME), "{ not valid json");
+		await writeFile(join(projectRoot, CONFIG_FILENAME), corruptJson);
 
 		const error = await captureError(loadConfig({ projectRoot, skipModelCheck: true }));
 
@@ -482,7 +490,7 @@ describe("loadConfig shape validation", () => {
 		{
 			name: "a stage param is not a number",
 			mutate: (config: Record<string, unknown>) => {
-				config.stages = { synthesis: { modelId: "openai/gpt-4o", temperature: "hot" } };
+				config.stages = { synthesis: { modelId: openRouterModelId, temperature: "hot" } };
 			},
 			match: /temperature/,
 		},

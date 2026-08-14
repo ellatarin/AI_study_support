@@ -7,15 +7,14 @@ import {
 	exampleConfig,
 	makeConfig,
 	openRouterCompletionBody,
+	openRouterModelId,
+	openRouterStageConfig,
 	openRouterUrls,
 } from "./fixtures.js";
 import { ContextLengthError, createOpenRouterClient, makeCompletionCall } from "./openrouter.js";
 
 const config: PipelineConfig = makeConfig({
-	moduleRoots: ["/absolute/path/to/Biology of Disease"],
-	stages: {
-		"transcript-structuring": { modelId: "openai/gpt-4o", temperature: 0.2, maxTokens: 8192 },
-	},
+	stages: { "transcript-structuring": openRouterStageConfig("transcript-structuring") },
 });
 
 const messages = [{ role: "user", content: "Structure this transcript." }] as const;
@@ -121,7 +120,7 @@ describe("makeCompletionCall", () => {
 	it("should send the correct baseURL, headers, and model ID when makeCompletionCall is invoked", async () => {
 		const { body, headers } = await callCapturingRequest();
 
-		expect(body.model).toBe("openai/gpt-4o");
+		expect(body.model).toBe(openRouterModelId);
 		expect(headers["x-title"]).toBe("Lecture Notes Pipeline");
 		expect(headers.authorization).toBe("Bearer test-key");
 	});

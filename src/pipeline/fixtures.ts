@@ -20,6 +20,7 @@ import type {
 	ManifestStageEntry,
 	PipelineConfig,
 	RunManifest,
+	StageConfig,
 	StageContext,
 	StageId,
 } from "../types/pipeline.js";
@@ -29,7 +30,7 @@ import { type ModuleDirs, moduleDirs } from "./layout.js";
 import { baseNameForLecture } from "./lecture-files.js";
 import { OPENROUTER_PATHS } from "./openrouter.js";
 import { assembleContext } from "./runner.js";
-import { ELEVENLABS_PATHS } from "./stages/transcription.js";
+import { API_KEY_VARIABLE, ELEVENLABS_PATHS } from "./stages/transcription.js";
 
 /**
  * Awaits a promise that a test expects to reject and returns the rejection, so
@@ -157,6 +158,61 @@ export const elevenLabsUrls = {
 	/** Path to the speech-to-text endpoint the transcription stage posts to. */
 	speechToText: ELEVENLABS_PATHS.speechToText,
 } as const;
+
+/**
+ * A model ID the shipped example configures for a stage.
+ *
+ * Read from the example rather than restated, so a suite exercising a stage
+ * names the same model its configuration does, and fails loudly if the example
+ * stops configuring it.
+ *
+ * @param stageId - The stage whose configured model to read.
+ * @returns The configured model ID.
+ * @throws {Error} If the example configures no model for that stage.
+ */
+function exampleModelId(stageId: StageId): string {
+	const modelId = exampleConfig.stages[stageId]?.modelId;
+	if (modelId === undefined) {
+		throw new Error(`pipeline-config.example.json configures no model for "${stageId}"`);
+	}
+	return modelId;
+}
+
+/** The Scribe model the example configures, provider-qualified as Stage 2 expects. */
+export const transcriptionModelId = exampleModelId("transcription");
+
+/**
+ * A concrete OpenRouter model for the suites that need one.
+ *
+ * Not taken from the example config: every OpenRouter stage there holds a
+ * capability-based placeholder (`<REASONING_MODEL>`) that would fail the
+ * model-ID check, so the suites must name a real routing string themselves.
+ */
+export const openRouterModelId = "openai/gpt-4o";
+
+/**
+ * A whole stage configuration as the example ships it — temperature, token
+ * budget and any other tuning — with only the placeholder model swapped for
+ * {@link openRouterModelId}.
+ *
+ * A stage's parameters belong with its model rather than beside it: a suite
+ * that stated `temperature` and `maxTokens` itself was restating the example's
+ * tuning, and would keep passing after that tuning changed.
+ *
+ * @param stageId - The stage whose configuration to take.
+ * @returns The stage config, ready to hand to {@link makeConfig}.
+ * @throws {Error} If the example configures no such stage.
+ */
+export function openRouterStageConfig(stageId: StageId): StageConfig {
+	const configured = exampleConfig.stages[stageId];
+	if (configured === undefined) {
+		throw new Error(`pipeline-config.example.json configures no stage "${stageId}"`);
+	}
+	return { ...configured, modelId: openRouterModelId };
+}
+
+/** Text that is not valid JSON, for the suites checking a corrupt file is reported. */
+export const corruptJson = "{ not json";
 
 /**
  * A well-formed OpenRouter chat-completion response body.
@@ -320,7 +376,7 @@ export function makeManifest(overrides: Partial<RunManifest> = {}): RunManifest 
 export function stubElevenLabsApi(): void {
 	nock.cleanAll();
 	nock.disableNetConnect();
-	vi.stubEnv("ELEVENLABS_API_KEY", "test-api-key");
+	vi.stubEnv(API_KEY_VARIABLE, "test-api-key");
 }
 
 /**

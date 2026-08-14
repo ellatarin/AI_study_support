@@ -11,6 +11,7 @@ import {
 	makeManifest,
 	makeStageContext,
 	openRouterCompletionBody,
+	openRouterStageConfig,
 	openRouterUrls,
 	structuredMarkdown,
 	testLecture,
@@ -74,7 +75,9 @@ describe("transcript structuring against a real module tree", () => {
 		return makeStageContext({
 			workspaceRoot,
 			manifest,
-			config: makeConfig({ stages: { "transcript-structuring": { modelId: "openai/gpt-4o" } } }),
+			config: makeConfig({
+				stages: { "transcript-structuring": openRouterStageConfig("transcript-structuring") },
+			}),
 		});
 	}
 

@@ -2,7 +2,7 @@ import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { RunManifest } from "../types/pipeline.js";
-import { captureError, makeManifest, makeTempDir, testLecture } from "./fixtures.js";
+import { captureError, corruptJson, makeManifest, makeTempDir, testLecture } from "./fixtures.js";
 import { MANIFEST_FILE, moduleDirs } from "./layout.js";
 import { manifestPath, readManifest, readManifestSafe, writeManifest } from "./manifest.js";
 
@@ -54,7 +54,7 @@ describe("manifest I/O", () => {
 
 		it.each([
 			{ scenario: "the manifest is missing", content: null },
-			{ scenario: "the manifest is malformed", content: "{ not json" },
+			{ scenario: "the manifest is malformed", content: corruptJson },
 		])("should return null when $scenario", async ({ content }) => {
 			if (content !== null) {
 				await writeRaw(content);

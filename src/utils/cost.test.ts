@@ -8,6 +8,7 @@ import {
 	testLecture,
 	testModuleName,
 	testModuleRoot,
+	transcriptionModelId,
 } from "../pipeline/fixtures.js";
 import { moduleDirs, stageOutputEntry } from "../pipeline/layout.js";
 import type {
@@ -176,7 +177,7 @@ const manifest: RunManifest = makeManifest({
 		// manifestStageMeta "—"/0 fallbacks within the complete branch.
 		"audio-extraction": completed({ filesWritten: [stageOutputEntry("audio-extraction")] }),
 		transcription: completed({
-			configUsed: { modelId: "elevenlabs/scribe_v2" },
+			configUsed: { modelId: transcriptionModelId },
 			cost: resolved({ callCount: 1, totalCostUsd: 0.042 }),
 			filesWritten: [stageOutputEntry("transcription")],
 		}),
@@ -461,7 +462,7 @@ describe("formatRunSummary", () => {
 			stages: {
 				...runManifest.stages,
 				transcription: completed({
-					configUsed: { modelId: "elevenlabs/scribe_v2" },
+					configUsed: { modelId: transcriptionModelId },
 					cost: {
 						promptTokens: 0,
 						completionTokens: 0,

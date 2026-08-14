@@ -8,6 +8,7 @@ import {
 	otherModuleName,
 	testLecture,
 	testModuleName,
+	transcriptionModelId,
 	userChosenTitle,
 } from "../pipeline/fixtures.js";
 import { moduleDirs, stageOutputEntry } from "../pipeline/layout.js";
@@ -61,7 +62,7 @@ describe("executeCommand", () => {
 					entry: {
 						action: "ran",
 						status: "complete",
-						configUsed: { modelId: "elevenlabs/scribe_v2" },
+						configUsed: { modelId: transcriptionModelId },
 						cost: { totalCostUsd: 0.2, callCount: 1 },
 					},
 				},
@@ -80,7 +81,7 @@ describe("executeCommand", () => {
 					transcription: {
 						status: "complete",
 						completedAt: "2025-10-10T09:05:00.000Z",
-						configUsed: { modelId: "elevenlabs/scribe_v2" },
+						configUsed: { modelId: transcriptionModelId },
 						cost: { promptTokens: 0, completionTokens: 0, callCount: 1, totalCostUsd: 0.2 },
 						filesWritten: [stageOutputEntry("transcription")],
 					},

@@ -20,10 +20,11 @@ import {
 	resetElevenLabsApi,
 	stagesWith,
 	stubElevenLabsApi,
+	transcriptionModelId,
 } from "../fixtures.js";
 import { stageOutputEntry, stageOutputPath } from "../layout.js";
 import type { TranscriptionOutput } from "./transcription.js";
-import { createTranscriptionStage, TranscriptionError } from "./transcription.js";
+import { API_KEY_VARIABLE, createTranscriptionStage, TranscriptionError } from "./transcription.js";
 
 vi.mock("fluent-ffmpeg", () => ({
 	default: Object.assign(vi.fn(), { ffprobe: vi.fn() }),
@@ -101,7 +102,7 @@ describe("createTranscriptionStage", () => {
 			readonly elevenLabs?: Partial<PipelineConfig["elevenLabs"]>;
 		} = {},
 	): StageContext {
-		const modelId = overrides.modelId === undefined ? "elevenlabs/scribe_v2" : overrides.modelId;
+		const modelId = overrides.modelId === undefined ? transcriptionModelId : overrides.modelId;
 		return makeStageContext({
 			workspaceRoot,
 			config: makeConfig({
@@ -133,7 +134,7 @@ describe("createTranscriptionStage", () => {
 			entry: {
 				status: "complete",
 				completedAt: "2025-10-10T10:00:00.000Z",
-				configUsed: { modelId: "elevenlabs/scribe_v2" },
+				configUsed: { modelId: transcriptionModelId },
 				cost: null,
 				filesWritten: [stageOutputEntry("transcription")],
 			},
@@ -154,7 +155,7 @@ describe("createTranscriptionStage", () => {
 		{ label: "unset", value: undefined },
 		{ label: "empty", value: "" },
 	])("should fail before uploading when ELEVENLABS_API_KEY is $label", async ({ value }) => {
-		vi.stubEnv("ELEVENLABS_API_KEY", value);
+		vi.stubEnv(API_KEY_VARIABLE, value);
 		const scope = interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
 
 		await expect(runStage(contextWith())).rejects.toThrow(TranscriptionError);
@@ -174,7 +175,7 @@ describe("createTranscriptionStage", () => {
 		await runStage(contextWith());
 
 		expect(capturedBody).toContain("scribe_v2");
-		expect(capturedBody).not.toContain("elevenlabs/scribe_v2");
+		expect(capturedBody).not.toContain(transcriptionModelId);
 	});
 
 	it("should send the model ID unchanged when it carries no provider prefix", async () => {

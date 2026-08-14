@@ -12,6 +12,7 @@ import type {
 	StageResult,
 } from "../types/pipeline.js";
 import {
+	corruptJson,
 	makeConfig,
 	makeManifest,
 	makeStubLogger,
@@ -675,7 +676,7 @@ describe("PipelineRunner integration", () => {
 			// A non-file entry in runs/, a corrupt run log, and a workspace without a
 			// manifest — all skipped by the reader.
 			await mkdir(join(runsDir, "nested"), { recursive: true });
-			await writeFile(join(runsDir, "corrupt.json"), "{ not json");
+			await writeFile(join(runsDir, "corrupt.json"), corruptJson);
 			await mkdir(join(moduleDirs({ moduleRoot }).processing, EMPTY_FOLDER), { recursive: true });
 		});
 

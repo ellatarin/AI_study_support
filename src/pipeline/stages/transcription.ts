@@ -60,8 +60,14 @@ export const ELEVENLABS_PATHS = {
 	speechToText: "/v1/speech-to-text",
 } as const;
 
+/**
+ * The environment variable holding the ElevenLabs API key. Exported because the
+ * suites that stub or unset it must name the same variable the stage reads; the
+ * key itself is a secret and never leaves the environment.
+ */
+export const API_KEY_VARIABLE = "ELEVENLABS_API_KEY";
+
 const STAGE_ID = "transcription";
-const API_KEY_VARIABLE = "ELEVENLABS_API_KEY";
 const PROVIDER_SEPARATOR = "/";
 const SECONDS_PER_HOUR = 3600;
 
