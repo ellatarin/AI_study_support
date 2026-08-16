@@ -5,8 +5,10 @@ import { testLecture, testModuleRoot } from "./fixtures.js";
 import {
 	MANIFEST_FILE,
 	moduleDirs,
+	moduleRootOf,
 	RUNS_DIR,
 	STAGE_WORKSPACE,
+	stageDirectoryPaths,
 	stageOutputEntry,
 	stageOutputPath,
 } from "./layout.js";
@@ -28,6 +30,12 @@ describe("moduleDirs", () => {
 	});
 });
 
+describe("moduleRootOf", () => {
+	it("should resolve back to the module when a workspace beneath it is given", () => {
+		expect(moduleRootOf({ workspaceRoot: WORKSPACE_ROOT })).toBe(MODULE_ROOT);
+	});
+});
+
 describe("STAGE_WORKSPACE", () => {
 	it("should describe every stage when the pipeline is enumerated", () => {
 		expect(Object.keys(STAGE_WORKSPACE).sort()).toStrictEqual([...STAGE_IDS].sort());
@@ -35,6 +43,36 @@ describe("STAGE_WORKSPACE", () => {
 
 	it("should give source-normalisation no workspace directory when it owns none", () => {
 		expect(STAGE_WORKSPACE["source-normalisation"].directories).toStrictEqual([]);
+	});
+
+	it("should root every directory but pdf-generation's in the workspace when ownership is read", () => {
+		const moduleRooted = STAGE_IDS.filter((stageId) =>
+			STAGE_WORKSPACE[stageId].directories.some((directory) => directory.root === "module"),
+		);
+
+		expect(moduleRooted).toStrictEqual(["pdf-generation"]);
+	});
+});
+
+describe("stageDirectoryPaths", () => {
+	it.each([
+		{
+			stageId: "qa-loop" as const,
+			scenario: "the quality-checked notes it writes alongside its iterations",
+			expected: [join(WORKSPACE_ROOT, "QA iterations"), join(WORKSPACE_ROOT, "QA checked")],
+		},
+		{
+			stageId: "pdf-generation" as const,
+			scenario: "the module directory its PDF is deposited in",
+			expected: [join(MODULE_ROOT, "Final output")],
+		},
+		{
+			stageId: "source-normalisation" as const,
+			scenario: "no directory at all",
+			expected: [],
+		},
+	])("should locate $scenario when $stageId owns it", ({ stageId, expected }) => {
+		expect(stageDirectoryPaths({ workspaceRoot: WORKSPACE_ROOT, stageId })).toStrictEqual(expected);
 	});
 });
 

@@ -1,5 +1,5 @@
 import { mkdir, readFile, rm } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import type { Logger } from "pino";
 import type {
 	BatchSummary,
@@ -28,7 +28,13 @@ import { formatCostReport } from "../utils/cost.js";
 import { errorMessage } from "../utils/errors.js";
 import { listSubdirectoryNames, readDirSafe, writeFileAtomic } from "../utils/files.js";
 import { createStageLogger } from "../utils/logger.js";
-import { moduleDirs, RUNS_DIR, STAGE_WORKSPACE, type StageInWorkspace } from "./layout.js";
+import {
+	moduleDirs,
+	moduleRootOf,
+	RUNS_DIR,
+	type StageInWorkspace,
+	stageDirectoryPaths,
+} from "./layout.js";
 import { readManifest, readManifestSafe, writeManifest } from "./manifest.js";
 import { stageOutcomeStatus, summariseOverallStatus } from "./run-status.js";
 
@@ -126,7 +132,7 @@ export function assembleContext({
 }): StageContext {
 	return Object.freeze({
 		workspaceRoot,
-		moduleRoot: resolve(workspaceRoot, "..", ".."),
+		moduleRoot: moduleRootOf({ workspaceRoot }),
 		config,
 		manifest,
 		lectureNumber: manifest.lectureNumber,
@@ -488,8 +494,8 @@ async function runStage({
 }
 
 async function deleteStageOutput({ workspaceRoot, stageId }: StageInWorkspace): Promise<void> {
-	for (const dir of STAGE_WORKSPACE[stageId].directories) {
-		await rm(join(workspaceRoot, dir), { recursive: true, force: true });
+	for (const path of stageDirectoryPaths({ workspaceRoot, stageId })) {
+		await rm(path, { recursive: true, force: true });
 	}
 }
 

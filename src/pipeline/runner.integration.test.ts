@@ -11,6 +11,7 @@ import type {
 	StageId,
 	StageResult,
 } from "../types/pipeline.js";
+import { pathExists } from "../utils/files.js";
 import {
 	corruptJson,
 	makeConfig,
@@ -24,7 +25,13 @@ import {
 	testModuleName,
 	testRunId,
 } from "./fixtures.js";
-import { moduleDirs, RUNS_DIR, stageOutputEntry, stageOutputPath } from "./layout.js";
+import {
+	moduleDirs,
+	RUNS_DIR,
+	stageDirectoryPaths,
+	stageOutputEntry,
+	stageOutputPath,
+} from "./layout.js";
 import { manifestPath } from "./manifest.js";
 import { PipelineRunner } from "./runner.js";
 
@@ -389,6 +396,33 @@ describe("PipelineRunner integration", () => {
 			return dirname(stageOutputPath({ workspaceRoot, stageId }));
 		}
 
+		/**
+		 * Fills every directory a stage owns, as a finished run would have left
+		 * them, and returns those directories. Used for the stages that write a set
+		 * rather than one named file, which {@link writeStageOutput} cannot serve.
+		 *
+		 * @param stageId - The stage whose directories to fill.
+		 * @returns The absolute paths that were filled.
+		 */
+		async function fillStageDirectories(stageId: StageId): Promise<readonly string[]> {
+			const paths = stageDirectoryPaths({ workspaceRoot, stageId });
+			for (const path of paths) {
+				await mkdir(path, { recursive: true });
+				await writeFile(join(path, "left-behind.txt"), "x");
+			}
+			return paths;
+		}
+
+		/**
+		 * Whether each path is still on disk, in the order given.
+		 *
+		 * @param paths - The absolute paths to test.
+		 * @returns One boolean per path.
+		 */
+		function existence(paths: readonly string[]): Promise<readonly boolean[]> {
+			return Promise.all(paths.map((path) => pathExists(path)));
+		}
+
 		function mirrorIsComplete(stageId: StageId): (context: StageContext) => Promise<boolean> {
 			return async (context) => {
 				const entry = context.manifest.stages[stageId];
@@ -463,6 +497,29 @@ describe("PipelineRunner integration", () => {
 				stageId: "audio-extraction",
 				entry: { action: "skipped" },
 			});
+		});
+
+		it("should clear only its own module directory when --from-stage pdf-generation is given", async () => {
+			const qaDirs = await fillStageDirectories("qa-loop");
+			const pdfDirs = await fillStageDirectories("pdf-generation");
+
+			await fromStageRunner().runLecture({
+				workspaceRoot,
+				options: { fromStage: "pdf-generation" },
+			});
+
+			expect(await existence(pdfDirs)).toStrictEqual([false]);
+			expect(await existence(qaDirs)).toStrictEqual([true, true]);
+		});
+
+		it("should clear the checked notes with the iterations that produced them when --from-stage qa-loop is given", async () => {
+			const qaDirs = await fillStageDirectories("qa-loop");
+			const pdfDirs = await fillStageDirectories("pdf-generation");
+
+			await fromStageRunner().runLecture({ workspaceRoot, options: { fromStage: "qa-loop" } });
+
+			expect(await existence(qaDirs)).toStrictEqual([false, false]);
+			expect(await existence(pdfDirs)).toStrictEqual([false]);
 		});
 	});
 
