@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.25-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.26-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -67,7 +67,26 @@ All pipeline artefacts for a lecture live inside a single named workspace folder
 
 #### Video files
 
-Source videos may have the date in any position and any format. Stage 0 extracts the date using `chrono-node`, assigns a lecture number by date order, and produces the provisional title by stripping the date, day names (Mon–Sun), module code prefixes (e.g. `BOD_`), any embedded lecture-number token (e.g. `Lecture 1`, which would otherwise duplicate the assigned number), and trailing artefacts (`co`, `copy`) from the original filename, then title-casing the result.
+Source videos may have the date in any position and any format. Stage 0 extracts the date, assigns a lecture number by date order, and produces the provisional title by stripping the date, day names (Mon–Sun), module code prefixes (e.g. `BOD_`), any embedded lecture-number token (e.g. `Lecture 1`, which would otherwise duplicate the assigned number), and trailing artefacts (`co`, `copy`) from the original filename, then title-casing the result.
+
+**Dates are read in British convention.** A four-digit component is the year; otherwise the day leads. Month-first is never read. All eight numeric forms are accepted:
+
+| Day first | Year first |
+|---|---|
+| `10112025` | `20251110` |
+| `10-11-2025` | `2025-11-10` |
+| `10.11.2025` | `2025.11.10` |
+| `10/11/2025` | `2025/11/10` |
+
+Each of those is the tenth of November. Single-digit day and month are accepted (`1/2/2025` is the first of February).
+
+A **two-digit year** is read only in the trailing position, and always as this century: `10-11-26` is the tenth of November 2026. A leading two-digit component is always the day, so `YY-MM-DD` is not a supported form — nothing in `26-11-10` distinguishes it from `DD-MM-YY`, and the year-first convention is written with four digits precisely because it sorts.
+
+`DDMMYY` — six bare digits — is tried **last**, only when the filename yields no date any other way, prose included. Six digits are as likely to be an identifier as a date, and unlike the eight-digit form there is no four-digit year to anchor the reading. Where a stray identifier does resolve, Stage 0's 1:1 video-to-slide date match is the backstop: an invented date will not have a matching slide deck, so the module is refused and the file named.
+
+The numeric forms are matched in `src/utils/date.ts` rather than delegated to `chrono-node`, because chrono reads `10/11/2025` as the eleventh of October — the American convention, and wrong here in every separated case. Chrono still handles dates written in words (`13 Oct 2025`, `Fri 10th Oct`), which carry no such ambiguity. Note that a prose date omitting the year is anchored to the current year, so a year-less filename dates itself to whenever it was processed.
+
+A date is recognised wherever it sits and whatever abuts it: the boundary is "not a digit", not a word boundary, so `BOD_10112025_Cell Injury.mp4` resolves. This matters because `_` is a word character, and underscore-separated exports (Panopto, Echo360, Zoom) would otherwise hide the date entirely. A bare eight-digit run is read as a date only when one end is a plausible year (2000–2099), so an eight-digit identifier is left alone; separated forms need no such bound, since position alone identifies the year. Combinations naming no real day — `31022025`, `2025-13-10` — are rejected rather than rolled over into March or quietly corrected. A span with a date's shape is claimed even when it names no day, so chrono cannot reinterpret it: left to chrono, `2025-13-10` comes back as a valid date with the month silently adjusted, which is worse than no date at all.
 
 | Pass | Example filename |
 |---|---|
@@ -91,9 +110,10 @@ Slide PDFs are supplied with the date at the very beginning of the filename (e.g
 
 ```typescript
 extractDate(filename: string): Date | null
-// chrono-node extraction; null when no date is found with sufficient confidence.
+// Numeric forms first, read in British convention; chrono for dates written in words.
+// null when no date is found with sufficient confidence.
 formatDateISO(date: Date): string                    // YYYY-MM-DD, in local time — the zone the date was read in
-stripDateTokens(text: string): string                // removes every date and weekday span chrono finds
+stripDateTokens(text: string): string                // removes every numeric date, and every date and weekday span chrono finds
 
 extractProvisionalTitle(filename: string): string
 // Best-effort title: strips whichever of the date, day names, module-code prefix (`BOD_`, `BOD `),
