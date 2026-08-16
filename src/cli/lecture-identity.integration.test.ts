@@ -72,9 +72,7 @@ describe("lecture identity commands", () => {
 			);
 
 			expect(error).toBeInstanceOf(LectureIdentityError);
-			expect(
-				await (await readManifest({ workspaceRoot: match.workspaceRoot })).userTitle,
-			).toBeNull();
+			expect((await readManifest({ workspaceRoot: match.workspaceRoot })).userTitle).toBeNull();
 		});
 	});
 
