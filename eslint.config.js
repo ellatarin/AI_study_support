@@ -199,6 +199,9 @@ export default [
 	},
 
 	{
-		ignores: ["node_modules/", "dist/", ".claude/"],
+		// coverage/ is generated output — linting it reports on files nobody edits,
+		// and its bundled scripts carry eslint-disable directives that surface as
+		// "unused directive" warnings against rules this config never enables.
+		ignores: ["node_modules/", "dist/", ".claude/", "coverage/"],
 	},
 ];
