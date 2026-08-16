@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.24-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.25-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -147,13 +147,15 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │   ├── qa-iteration-01-revised.md
 │   └── ...                                    # Stage 7
 │
-└── Output/
+└── QA checked/
     ├── notes.md                               # Stage 7 final — simple name
     └── images/
         └── slide-003-figure-01.png
 ```
 
-`Output/notes.md` uses a simple name because it lives inside the named lecture folder. The full descriptive filename appears only on the PDF in `Final output/` (Stage 8).
+`QA checked/notes.md` uses a simple name because it lives inside the named lecture folder. The full descriptive filename appears only on the PDF in `Final output/` (Stage 8).
+
+The directory is named for the stage that fills it, not for the pipeline's end: it holds Stage 7's quality-checked notes, and Stage 8 only reads it. Stage 8's own output is the PDF in the module's `Final output/` (§3.1) — the one directory a stage owns outside its workspace, and what `--from-stage pdf-generation` clears.
 
 #### The layout has one owner
 
@@ -171,12 +173,22 @@ type ModuleDirs = { video: string; slide: string; processing: string; finalOutpu
 moduleDirs(args: { moduleRoot: string }): ModuleDirs      // the module layout of §3.1, stated once
 MANIFEST_FILE: string                                     // "manifest.json"
 RUNS_DIR: string                                          // "runs"
+moduleRootOf(args: { workspaceRoot: string }): string
+// The module two levels up from a lecture workspace (`moduleRoot/Pipeline processing/<folder>`) — the inverse
+// of moduleDirs().processing, so the nesting is stated once. Used to assemble StageContext and to resolve the
+// one stage directory that sits outside the workspace.
 
-type StageWorkspace = { directories: readonly string[]; outputFile: string | null }
+type StageDirectoryName = string & { readonly [declaredInLayout]: true }   // branded; minted only in layout.ts
+type StageDirectory = { root: "workspace" | "module"; name: StageDirectoryName }
+// `name` is branded, and the two private constructors that mint it reject a widened `string`, so a value read
+// back from the manifest or an LLM response cannot reach this map. See §4.4, "Stage cleanup boundaries".
+type StageWorkspace = { directories: readonly StageDirectory[]; outputFile: string | null }
 STAGE_WORKSPACE: Readonly<Record<StageId, StageWorkspace>>
-// What each stage owns inside the workspace: the directories `--from-stage` deletes, and the single file it
-// writes where it writes one. `outputFile` is null for source-normalisation (no workspace directory at all)
-// and for stages producing a set rather than a file (slide-conversion, image-extraction, qa-loop).
+// What each stage owns: the directories `--from-stage` deletes, and the single file it writes where it writes
+// one. `root` says which root a directory hangs off — every stage but pdf-generation owns workspace
+// directories; pdf-generation owns the module's `Final output/`, where its PDF is deposited. `outputFile` is
+// null for source-normalisation (which owns no directory at all) and for stages producing a set rather than a
+// file (slide-conversion, image-extraction, qa-loop, pdf-generation).
 
 stageOutputEntry(stageId: StageId): string
 // The stage's output path relative to the workspace, as recorded in `filesWritten` (§4.5).
@@ -277,7 +289,9 @@ cleanTmpFiles(dir: string): Promise<void>                                 // del
 2. Resolve the parent directory (or file, if it exists) with `fs.promises.realpath(...)` to collapse any symlinks.
 3. Verify the resulting absolute path is a descendant of `moduleRoot`. Reject otherwise as a corrupt manifest.
 
-This is enforced in every place a path from `filesWritten` or the manifest is used: `isComplete()` existence checks, `--from-stage` cleanup considerations, `cost-report` file discovery, and PDF output resolution.
+This is enforced in every place a path from `filesWritten` or the manifest is used. Today that is one place — the `isComplete()` existence checks, via `recordedFileExists` — and it extends to `cost-report` file discovery and PDF output resolution as those are built.
+
+`--from-stage` cleanup is deliberately **not** on that list. It takes no manifest-derived path at all, so it has nothing to validate: it deletes the hard-coded `STAGE_WORKSPACE` directory set and never consults `filesWritten` (see "Stage cleanup boundaries" below). Eliminating the untrusted input is stronger than checking it — a boundary check is only as sound as its own symlink handling, whereas a path that never enters the function cannot be steered at all. `isComplete()` has no such option, since reading `filesWritten` is precisely its job. Running the check in cleanup would also be inert, passing unconditionally on names like `"Audio"`, and an assertion that cannot fail would misrepresent the input as untrusted to the next reader.
 
 ```typescript
 // src/utils/files.ts — the two path resolvers, deliberately distinct
@@ -299,7 +313,9 @@ resolveManifestPath(query: ManifestPathQuery): Promise<string>
 filenameSafe(title: string): string   // src/utils/naming.ts; throws when the result would be empty
 ```
 
-**Stage cleanup boundaries.** `--from-stage <stageId>` MUST NOT drive its cleanup off `filesWritten` from the manifest. Cleanup deletes files inside a per-stage, hard-coded set of workspace subdirectories (e.g. `Slide content/raw/` for Stage 4). This ensures a corrupt manifest cannot trigger deletion of unintended files.
+**Stage cleanup boundaries.** `--from-stage <stageId>` MUST NOT drive its cleanup off `filesWritten` from the manifest. Cleanup deletes files inside the per-stage, hard-coded directory set of `STAGE_WORKSPACE` (§3.3) — `Slide content/` for Stage 4, the module's `Final output/` for Stage 8. This ensures a corrupt manifest cannot trigger deletion of unintended files. Stage 8's directory is the sole one resolved against `moduleRoot` rather than the workspace, which widens what a mistake here could reach from one workspace to the whole module — so "hard-coded" is enforced by the type system rather than left to convention: `StageDirectory.name` is branded, and the two private constructors that mint it reject a widened `string` (§3.3). A `filesWritten` entry or LLM-supplied name reaching that map is a compile error.
+
+The delete target is anchored at the other end too: `workspaceRoot` is always built by `listWorkspaces` as `join(moduleDirs({ moduleRoot }).processing, <directory listing entry>)`, and the manifest is read only to match a lecture date, never to supply a path. So `moduleRootOf(workspaceRoot)` returns the same `moduleRoot` the caller passed in, and neither root nor name is manifest-derived.
 
 **No shell interpolation.** Every child-process invocation across the pipeline (fluent-ffmpeg in Stage 1, pandoc in Stage 8, any future subprocess call) MUST use `spawn(cmd, argv, opts)` with an explicit argv array — never `exec(shellString)` and never any variant that concatenates paths into a shell command. This eliminates the class of bug where folder names with spaces (`Final output/`, `Slide content/`, `QA iterations/`) or attacker-controlled title strings break out of an argument via unescaped shell metacharacters. Paths are passed verbatim as argv elements; no quoting is required or applied.
 

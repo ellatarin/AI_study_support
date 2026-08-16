@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.24-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.25-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -59,7 +59,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 **Deliverables:**
 
 - `src/types/pipeline.ts` — every shared type, and `STAGE_IDS`, the ordered stage list `StageId` is derived from **(TD §4.1, §4.2, §4.7)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, `StageStatus`), the persisted shapes (`RunManifest`, `ManifestStageEntry`, `RunLog`, `RunLogStageEntry`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaDeficienciesReport`), and the runner-facing `LectureMatch`, `RunOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, `BatchSummary`
-- `src/pipeline/layout.ts` — the filesystem vocabulary, declared once: `moduleDirs`, `MANIFEST_FILE`, `RUNS_DIR`, `STAGE_WORKSPACE`, `stageOutputEntry`, `stageOutputPath` **(TD §3.3, "The layout has one owner")**. Every stage, the runner, the CLI, and the fixtures take directory and file names from here; no other module states one as a literal
+- `src/pipeline/layout.ts` — the filesystem vocabulary, declared once: `moduleDirs`, `moduleRootOf`, `MANIFEST_FILE`, `RUNS_DIR`, `STAGE_WORKSPACE`, `stageOutputEntry`, `stageOutputPath` **(TD §3.3, "The layout has one owner")**. Every stage, the runner, the CLI, and the fixtures take directory and file names from here; no other module states one as a literal
 - `src/utils/files.ts` — `writeFileAtomic`, `cleanTmpFiles`, and `pathExists` **(TD §4.3)**; `workspacePath` and `resolveManifestPath` **(TD §4.4)**
 - `src/utils/logger.ts` — `createRootLogger`, `createStageLogger` **(TD §10, Logging and Progress Helpers)**
 - `src/utils/date.ts` — `extractDate`, `formatDateISO` **(TD §3.2, Date and Naming Helpers)**
@@ -403,11 +403,11 @@ Unit tests:
 
 ## Phase 10 — Stage 7: QA Loop
 
-**Goal:** Iterative quality check and revision cycle; writes the final `Output/notes.md`.
+**Goal:** Iterative quality check and revision cycle; writes the final `QA checked/notes.md`.
 
 **Deliverables:**
 
-`src/pipeline/stages/qa-loop.ts` — the whole of **TD Stage 7**: the two-prompt checker/reviser design and both prompts, the per-type reviser action table (including the NFR-1.3 prohibition on grounding an unsupported claim in a new source), the per-iteration files, all three loop-termination conditions, and the final `Output/` write.
+`src/pipeline/stages/qa-loop.ts` — the whole of **TD Stage 7**: the two-prompt checker/reviser design and both prompts, the per-type reviser action table (including the NFR-1.3 prohibition on grounding an unsupported claim in a new source), the per-iteration files, all three loop-termination conditions, and the final `QA checked/` write.
 
 **Tests:**
 
@@ -421,7 +421,7 @@ Unit tests (mock `makeCompletionCall` via `nock`) — `test.each` across all thr
 - `should explicitly forbid external grounding and restrict unsupported-claim remedies to removal in the reviser prompt` — grep the constructed prompt for the prohibition
 
 Integration tests (real temp directory):
-- `should write Output/notes.md and copy figures to Output/images/ on termination`
+- `should write QA checked/notes.md and copy figures to QA checked/images/ on termination`
 - `should write per-iteration deficiency and revised files atomically`
 
 **Acceptance:** Loop terminates correctly under all three conditions; final output written atomically; manifest reflects termination reason and iteration count.
@@ -430,7 +430,7 @@ Integration tests (real temp directory):
 
 ## Phase 11 — Stage 8: PDF Generation
 
-**Goal:** Convert `Output/notes.md` to PDF via pandoc and deposit in `Final output/`.
+**Goal:** Convert `QA checked/notes.md` to PDF via pandoc and deposit in `Final output/`, the module directory the stage owns.
 
 **Deliverables:**
 
