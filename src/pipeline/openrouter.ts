@@ -227,7 +227,17 @@ export async function makeCompletionCall(options: {
 		responseFormat: options.responseFormat,
 	});
 	const usage = response.usage ?? { prompt_tokens: 0, completion_tokens: 0 };
-	const content = response.choices[0].message.content ?? "";
+	// A provider can reply with no choices at all — content filtering, or an
+	// upstream error the SDK does not raise. Reading choices[0] blindly turns that
+	// into a TypeError naming nothing; failing here names the stage and the model.
+	// Empty content is a different matter and stays tolerated as "" below.
+	const [choice] = response.choices;
+	if (choice === undefined) {
+		throw new Error(
+			`Model "${stageConfig.modelId}" returned no choices for stage "${options.stageId}"`,
+		);
+	}
+	const content = choice.message.content ?? "";
 	const costResolution = await lookupCost({ client, generationId: response.id, openRouter });
 	return {
 		content,

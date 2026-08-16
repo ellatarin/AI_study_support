@@ -204,6 +204,15 @@ describe("makeCompletionCall", () => {
 		expect(result.content).toBe("");
 	});
 
+	it("should name the model and stage when the provider returns no choices", async () => {
+		mockCompletion().reply(200, completionBody({ choices: [] }));
+
+		const error = await captureError(call());
+
+		expect(error.message).toMatch(new RegExp(openRouterModelId));
+		expect(error.message).toMatch(/no choices/i);
+	});
+
 	it("should resolve with totalCostUsd null and costResolutionError set when the cost lookup fails after all retries", async () => {
 		mockCompletion().reply(200, completionBody());
 		mockGeneration().times(4).reply(500, {}, { "retry-after": "0" });
