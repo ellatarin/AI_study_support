@@ -46,8 +46,6 @@ describe("logger", () => {
 
 			const logPath = join(runsDir, `${runTimestamp}-debug.log`);
 			await waitForFile(logPath);
-			// split always yields at least one element, so the default only stands in
-			// for an empty log — which JSON.parse then rejects, as it should.
 			const [firstLine = ""] = readFileSync(logPath, "utf8").trim().split("\n");
 			const entry = JSON.parse(firstLine);
 

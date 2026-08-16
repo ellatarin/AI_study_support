@@ -7,7 +7,6 @@ import { pathExists } from "../../utils/files.js";
 import {
 	aiDerivedLecture,
 	captureError,
-	firstOrFail,
 	makeConfig,
 	makeManifest,
 	makeStageContext,
@@ -129,11 +128,7 @@ describe("createTranscriptStructuringStage", () => {
 	it("should send the transcript and the provisional title when the stage calls the model", async () => {
 		await runStage(contextWith());
 
-		const firstCall = firstOrFail({
-			items: completionMock.mock.calls,
-			label: "the stage to call the model",
-		});
-		const sent = JSON.stringify(firstCall[0].messages);
+		const sent = JSON.stringify(completionMock.mock.calls[0]?.[0].messages);
 		expect(sent).toContain(TRANSCRIPT_TEXT);
 		expect(sent).toContain(testLecture.title);
 	});

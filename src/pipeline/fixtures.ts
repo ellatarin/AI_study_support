@@ -56,36 +56,6 @@ export async function captureError(promise: Promise<unknown>): Promise<Error> {
 	throw new Error("Expected the promise to reject, but it resolved");
 }
 
-/**
- * The first item of a collection a test knows cannot be empty, failing by name
- * when it is.
- *
- * `noUncheckedIndexedAccess` widens every index read to `| undefined`, including
- * the ones a test has already established — the single recorded mock call, the
- * one matched file. Failing here says what was missing; the alternative is a
- * non-null assertion, or an assertion that reports a property mismatch against
- * nothing.
- *
- * @param args - The collection and what it was expected to hold.
- * @param args.items - The collection to take the first item of.
- * @param args.label - What a reader should be told was expected, e.g. "an ffmpeg invocation".
- * @returns The first item.
- * @throws {Error} When the collection is empty.
- */
-export function firstOrFail<TItem>({
-	items,
-	label,
-}: {
-	readonly items: readonly TItem[];
-	readonly label: string;
-}): TItem {
-	const [first] = items;
-	if (first === undefined) {
-		throw new Error(`Expected ${label}, but there was none`);
-	}
-	return first;
-}
-
 /** One `error` call made against {@link makeStubLogger}, with the bindings in force. */
 export type LoggedError = {
 	readonly bindings: Record<string, unknown>;

@@ -4,7 +4,6 @@ import ffmpeg from "fluent-ffmpeg";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ManifestStageEntry, StageContext, StageResult } from "../../types/pipeline.js";
 import {
-	firstOrFail,
 	makeManifest,
 	makeStageContext,
 	makeWorkspaceTree,
@@ -130,7 +129,11 @@ describe("createAudioExtractionStage", () => {
 
 	/** The ffmpeg invocation the stage recorded, failing when it made none. */
 	function extractionCall(): ExtractionCall {
-		return firstOrFail({ items: calls, label: "the stage to invoke ffmpeg" });
+		const [call] = calls;
+		if (call === undefined) {
+			throw new Error("Expected the stage to invoke ffmpeg, but it recorded no call");
+		}
+		return call;
 	}
 
 	async function writeSourceVideo(name: string): Promise<void> {
