@@ -53,13 +53,36 @@ Stage 0 validates the **whole module** before touching anything, and refuses to 
 <moduleRoot>/Source files/Lecture slides/<same date>.pdf
 ```
 
-### 2.3 Use a scratch module
+### 2.3 Filename dates
+
+Dates are read in **British convention**: a four-digit component is the year, otherwise the day leads. Month-first is never read. The date may sit anywhere in the filename, and anything may abut it — underscores, brackets, whatever the lecturer used.
+
+All of these are the tenth of November 2025:
+
+| Day first | Year first |
+|---|---|
+| `10112025` | `20251110` |
+| `10-11-2025` | `2025-11-10` |
+| `10.11.2025` | `2025.11.10` |
+| `10/11/2025` | `2025/11/10` |
+
+Also accepted: single-digit day and month (`1/2/2025` is the first of February), and a **trailing** two-digit year (`10-11-26` is the tenth of November 2026). A *leading* two-digit component is always the day, so `26-11-10` is the twenty-sixth of November 2010 — `YY-MM-DD` is not a supported form.
+
+`DDMMYY` — six bare digits — is read only when the filename yields no date any other way, since six digits are as likely to be an identifier as a date.
+
+Dates written in words still work (`13 Oct 2025`, `10 October 2025`). **One trap there:** a prose date with no year is anchored to the *current* year, so `Fri 10th Oct` dates itself to whenever it was processed. Numeric formats have no such behaviour — prefer them.
+
+**What is rejected** — and rejection is loud, not silent: a filename with no extractable date, and a date naming no real day (`31022025`, `2025-13-10`). Stage 0 refuses the whole module and names each offending file rather than guessing.
+
+If a run finds nothing, the `"Normalising module sources"` line in `<repo root>/runs/<timestamp>-debug.log` carries the video and slide counts it actually saw. `videos: 0` means the filenames were never read — check the directory names first (§2.2), then the dates.
+
+### 2.4 Use a scratch module
 
 **Stage 0 renames source files in place** to `Lecture N - Title - YYYY-MM-DD.ext`. Copy two or three lectures into a scratch module folder and point `moduleRoots` at that. Do not test against irreplaceable recordings.
 
 Include at least one **short** lecture (2–5 minutes) — most tests below only need one, and transcription is billed by audio length.
 
-### 2.4 Cost model
+### 2.5 Cost model
 
 - **Transcription** is reported at the configured `elevenLabs.costPerAudioHourUsd` (currently `0.22`), converted at `currency.gbpPerUsd` (currently `0.74`) — roughly **£0.16 per audio hour**, so a 5-minute lecture is about **£0.01**. The figure printed is derived from that configured rate, not from a bill; check it against the real invoice once.
 - **Stage 3** costs OpenRouter tokens for one call per lecture, reported from the live generation endpoint, so that figure is actual.
