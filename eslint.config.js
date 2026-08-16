@@ -45,6 +45,25 @@ export default [
 			// CLAUDE.md L39: MUST use typed catch blocks (catch (e: unknown))
 			"@typescript-eslint/use-unknown-in-catch-callback-variable": "error",
 
+			// CLAUDE.md L38, L40: MUST use async/await, and annotate async functions
+			// with Promise<T>. These three keep `await` meaning what it says.
+			//
+			// Enabled while all three report zero, so they carry no backlog and no
+			// suppressions: they pin the current standard rather than asking for a
+			// cleanup. Stages 4-8 are still to be built, all async over the
+			// filesystem and network, which is where a floating promise gets
+			// written. Type information is already computed for src/** by
+			// projectService above, so the marginal cost is ~0.5s on the lint.
+			//
+			// no-floating-promises is the one that catches a defect: an un-awaited
+			// promise races ahead of the code that needed it and its rejection goes
+			// unhandled. await-thenable catches the inverse — an await on a value
+			// that was never a promise, which reads as IO to the next person and
+			// dilutes the signal everywhere else.
+			"@typescript-eslint/await-thenable": "error",
+			"@typescript-eslint/no-floating-promises": "error",
+			"@typescript-eslint/return-await": "error",
+
 			// CLAUDE.md L21: MUST use descriptive generic names (TRequest, TResponse); NEVER T, K
 			"@typescript-eslint/naming-convention": [
 				"error",
