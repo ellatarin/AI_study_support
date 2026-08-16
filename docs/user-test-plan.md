@@ -33,12 +33,17 @@ Stages 4–8 (slide-conversion, image-extraction, synthesis, qa-loop, pdf-genera
 
 | # | What | Where | Status |
 |---|---|---|---|
-| 1 | `moduleRoots` still reads `/absolute/path/to/…` — point at the real module folder | `pipeline-config.json` | ☐ |
-| 2 | `transcript-structuring.modelId` is still `placeholder/<REASONING_MODEL>` — set a real reasoning model | `pipeline-config.json` | ☐ |
-| 3 | `OPENROUTER_API_KEY` present | `.env` | ☐ |
-| 4 | `ELEVENLABS_API_KEY` present | `.env` | ☐ |
+| 1 | `moduleRoots` points at the real module folders | `pipeline-config.json` | ☑ done |
+| 2 | `transcript-structuring.modelId` is a real model (`google/gemini-3.7-flash`) | `pipeline-config.json` | ☑ done |
+| 3 | `OPENROUTER_API_KEY` present | `.env` | ☑ added |
+| 4 | `ELEVENLABS_API_KEY` present | `.env` | ☑ added |
+| 5 | Lecture files copied into `Source files/` (§2.2, §2.3) | module folders | ☐ |
 
-**Blocker 2 is the expensive one to get wrong.** `placeholder` is listed in `modelIdCheck.exemptProviders`, so the config check waves the placeholder through, and Stage 3 then fails on a model OpenRouter does not have — *after* transcription has been paid for. Set a real model ID before any run that reaches Stage 3. Leave the `placeholder/` prefix on the four unbuilt stages and keep the exemption for them; strip each one as its stage is built.
+Blockers 1 and 2 were cleared and verified: `lecture-notes run 1999-01-01` loads the config and runs Stage 0 across both modules, and the model ID is genuinely checked — pointing it at a nonexistent `google/…` model is rejected before anything runs. Both module trees exist and were verified against `moduleDirs()`.
+
+Blockers 3 and 4 are recorded as added but **not verified**, and cannot be: `.env` is never read. The first run that reaches Stage 2 is what confirms them. A key present under a slightly wrong variable name reads identically to a missing one, so if either stage fails on authentication, check the name against §2.1 before the value.
+
+**Keep the `placeholder/` prefix on the four unbuilt stages, and the `placeholder` exemption alongside it.** It is what stops `loadConfig` rejecting a stage that has no real model yet. Strip each one as its stage is built — leaving it past that point disarms the check that exists to catch an un-substituted placeholder, and the failure then lands at that stage *after* the stages before it have been paid for. That is what nearly happened here with `transcript-structuring`.
 
 The two keys fail differently, which matters when reading an error: transcription checks its key first and fails with `ELEVENLABS_API_KEY is not set; cannot transcribe`. OpenRouter has no equivalent guard, so a missing key surfaces as a less obvious SDK error.
 
