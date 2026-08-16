@@ -291,7 +291,7 @@ function patchStages({
 	readonly stageId: StageId;
 	readonly entry: ManifestStageEntry;
 }): RunManifest["stages"] {
-	return { ...stages, [stageId]: entry } as RunManifest["stages"];
+	return { ...stages, [stageId]: entry };
 }
 
 function resolvedStageCost(entry: ManifestStageEntry): number | null {
@@ -550,7 +550,7 @@ function buildRunLog({
 		triggeredBy: options.fromStage === undefined ? "manual" : "from-stage",
 		runType,
 		fromStage: options.fromStage ?? null,
-		stages: stages as RunLog["stages"],
+		stages,
 		totalCostThisRun,
 	};
 }

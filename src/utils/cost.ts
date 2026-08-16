@@ -217,9 +217,7 @@ function ranStageEntries({
 		if (log.runType !== runType) {
 			continue;
 		}
-		// Object.entries widens the Partial<Record> value to `| undefined`, but never
-		// yields undefined at runtime; cast it away so there is no dead guard branch.
-		for (const [stageId, entry] of Object.entries(log.stages) as [string, RunLogStageEntry][]) {
+		for (const [stageId, entry] of Object.entries(log.stages)) {
 			if (entry.action === "ran") {
 				result.push({ log, stageId, entry });
 			}

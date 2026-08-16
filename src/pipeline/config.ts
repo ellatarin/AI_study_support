@@ -211,7 +211,7 @@ function requireStages(value: unknown): PipelineConfig["stages"] {
 			stageId,
 			requireStageConfig({ value: stageConfig, stageId }),
 		]),
-	) as PipelineConfig["stages"];
+	);
 }
 
 function requireOutput(value: unknown): PipelineConfig["output"] {
