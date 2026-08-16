@@ -109,6 +109,8 @@ Run `lecture-notes run 1999-01-01`, then inspect the module.
 
 - Source video and slides renamed to `Lecture N - Title - YYYY-MM-DD.ext`, numbering in date order
 - A workspace per lecture under `Pipeline processing/`, each with `manifest.json`
+- **Each workspace contains `manifest.json` and nothing else.** Stage 0 creates the workspace as a side effect of writing the manifest, and creates nothing inside it. `Audio/`, `Transcript/` and `Structured transcript/` appear only when their own stage runs; `runs/` appears when the runner writes its first run log. An otherwise-empty workspace here is correct, not a failure.
+- `Pipeline processing/` itself is created on demand, so it does not need to exist beforehand. **The only directories you must create by hand are the two under `Source files/`** (§2.2)
 - The manifest records lecture number, date, and provisional title
 - Re-run the same command: **no further changes** — Stage 0 is idempotent
 - Add a video with no matching slide deck, re-run: the whole module is refused with a message naming the mismatch, and **nothing is renamed**
@@ -138,12 +140,14 @@ From here each run bills real transcription. Use the short lecture.
 `lecture-notes run <date>` on the short lecture.
 
 - Progress is visible for extraction and transcription
+- The workspace gains a directory per stage as each one runs — `Audio/`, then `Transcript/`, then `Structured transcript/`, plus `runs/`. Each stage creates its own on the way past, so watching them appear is a reasonable progress check
 - `Audio/audio.m4a` exists and plays
 - `Transcript/transcript.txt` holds recognisable text from the recording
 - `Structured transcript/structured-transcript.md` is markdown with headings, filler removed, and no invented content
 - Title judgement: if the provisional title was already meaningful it is kept; if not, the lecture is renamed and files, workspace and manifest all follow
 - Cost summary printed, exit 0
-- `manifest.json` shows all four stages complete with costs; `runs/<runId>.json` exists
+- `manifest.json` shows the four built stages complete with costs; `runs/<runId>.json` exists
+- **The manifest also lists `slide-conversion`, `image-extraction`, `synthesis`, `qa-loop` and `pdf-generation` as `pending`, and always will.** It is written with every stage in `STAGE_IDS` set to pending, so it describes the whole pipeline rather than the built part of it. Those five are never attempted — see §1
 
 **Judge the output quality here, not just its presence** — this is the first sight of what the pipeline actually produces.
 
