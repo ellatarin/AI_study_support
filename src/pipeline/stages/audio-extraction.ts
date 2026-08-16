@@ -61,15 +61,16 @@ async function locateSourceVideo(context: StageContext): Promise<AudioExtraction
 		(name) => basename(name, extname(name)) === baseName,
 	);
 
-	if (matches.length === 0) {
+	const [sourceVideo, ...surplus] = matches;
+	if (sourceVideo === undefined) {
 		throw new AudioExtractionError(`No source video named "${baseName}" found in ${videoDir}`);
 	}
-	if (matches.length > 1) {
+	if (surplus.length > 0) {
 		throw new AudioExtractionError(
 			`Multiple source videos named "${baseName}" found in ${videoDir}: ${matches.join(", ")}`,
 		);
 	}
-	return { sourceVideoPath: join(videoDir, matches[0]) };
+	return { sourceVideoPath: join(videoDir, sourceVideo) };
 }
 
 /**

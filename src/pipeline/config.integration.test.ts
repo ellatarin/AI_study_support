@@ -89,6 +89,26 @@ function stageModelIds(config: Record<string, unknown>): Record<string, { modelI
 	return config.stages as Record<string, { modelId: string }>;
 }
 
+/**
+ * Retunes the structuring stage's model ID in place, keeping the rest of its
+ * tuning. The tests that do this exercise validation of the ID itself, so every
+ * other field has to stay valid — replacing the whole entry would drop the
+ * example's tuning and fail the loader for an unrelated reason.
+ */
+function setStructuringModelId({
+	config,
+	modelId,
+}: {
+	readonly config: Record<string, unknown>;
+	readonly modelId: string;
+}): void {
+	const stage = stageModelIds(config)["transcript-structuring"];
+	if (stage === undefined) {
+		throw new Error('Fixture has no "transcript-structuring" stage to retune');
+	}
+	stage.modelId = modelId;
+}
+
 function mockModelsResponse(ids: readonly string[]): void {
 	nock(openRouterUrls.origin)
 		.get(openRouterUrls.models)
@@ -199,7 +219,7 @@ describe("loadConfig model-ID resolution check", () => {
 
 	it("should throw ConfigError with a helpful hint when a placeholder like <REASONING_MODEL> is left un-substituted", async () => {
 		const config = makeValidConfig();
-		stageModelIds(config)["transcript-structuring"].modelId = "<REASONING_MODEL>";
+		setStructuringModelId({ config, modelId: "<REASONING_MODEL>" });
 		await writeConfig(config);
 		mockModelsResponse([SLIDE_MODEL_ID]);
 
@@ -244,7 +264,7 @@ describe("loadConfig model-ID resolution check", () => {
 
 	it("should skip the model-ID check when --skip-model-check is set", async () => {
 		const config = makeValidConfig();
-		stageModelIds(config)["transcript-structuring"].modelId = "totally/made-up-model";
+		setStructuringModelId({ config, modelId: "totally/made-up-model" });
 		await writeConfig(config);
 
 		const result = await loadConfig({ projectRoot, skipModelCheck: true });

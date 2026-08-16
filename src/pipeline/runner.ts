@@ -785,11 +785,17 @@ export class PipelineRunner {
 		const results: RunSummary[] = new Array(workspaces.length);
 		const limit = Math.max(1, options.concurrency ?? 1);
 		let next = 0;
+		// The claimed entry decides whether there was work, so the bound is read
+		// once rather than checked against the length and then read again.
 		const worker = async (): Promise<void> => {
-			while (next < workspaces.length) {
+			for (;;) {
 				const index = next;
 				next += 1;
-				results[index] = await this.runLecture({ workspaceRoot: workspaces[index], options });
+				const workspaceRoot = workspaces[index];
+				if (workspaceRoot === undefined) {
+					return;
+				}
+				results[index] = await this.runLecture({ workspaceRoot, options });
 			}
 		};
 		const workers: Promise<void>[] = [];

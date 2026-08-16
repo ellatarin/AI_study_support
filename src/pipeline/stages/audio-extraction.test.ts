@@ -4,6 +4,7 @@ import ffmpeg from "fluent-ffmpeg";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ManifestStageEntry, StageContext, StageResult } from "../../types/pipeline.js";
 import {
+	firstOrFail,
 	makeManifest,
 	makeStageContext,
 	makeWorkspaceTree,
@@ -127,6 +128,11 @@ describe("createAudioExtractionStage", () => {
 		return dirname(audioPath());
 	}
 
+	/** The ffmpeg invocation the stage recorded, failing when it made none. */
+	function extractionCall(): ExtractionCall {
+		return firstOrFail({ items: calls, label: "the stage to invoke ffmpeg" });
+	}
+
 	async function writeSourceVideo(name: string): Promise<void> {
 		await writeFile(join(videoDir, name), "video bytes");
 	}
@@ -213,9 +219,11 @@ describe("createAudioExtractionStage", () => {
 
 		await runStage();
 
-		expect(calls[0].inputPath).toBe(join(videoDir, testLecture.videoFile));
-		expect(calls[0].audioCodecs).toStrictEqual(["copy"]);
-		expect(calls[0].noVideoCalled).toBe(true);
+		const call = extractionCall();
+
+		expect(call.inputPath).toBe(join(videoDir, testLecture.videoFile));
+		expect(call.audioCodecs).toStrictEqual(["copy"]);
+		expect(call.noVideoCalled).toBe(true);
 	});
 
 	it("should write to a .tmp sibling and rename it when extraction succeeds", async () => {
@@ -224,9 +232,11 @@ describe("createAudioExtractionStage", () => {
 
 		await runStage();
 
-		expect(calls[0].outputPath).toBe(`${audioPath()}.tmp`);
+		const call = extractionCall();
+
+		expect(call.outputPath).toBe(`${audioPath()}.tmp`);
 		// The .tmp extension defeats container inference, so the muxer is explicit.
-		expect(calls[0].outputFormat).toBe("ipod");
+		expect(call.outputFormat).toBe("ipod");
 		await expect(access(audioPath())).resolves.toBeUndefined();
 		expect(await readdir(audioDir())).toStrictEqual([basename(audioPath())]);
 	});

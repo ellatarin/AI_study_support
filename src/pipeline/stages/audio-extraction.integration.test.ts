@@ -76,8 +76,9 @@ describe("createAudioExtractionStage against real ffmpeg", () => {
 			expect(await readdir(dirname(audioPath))).toStrictEqual([basename(audioPath)]);
 
 			const probed = await probe(result.output.audioPath);
+			const [audioStream] = probed.streams;
 			expect(probed.streams.map((stream) => stream.codec_type)).toStrictEqual(["audio"]);
-			expect(probed.streams[0].codec_name).toBe("aac");
+			expect(audioStream?.codec_name).toBe("aac");
 			expect(probed.format.duration).toBeCloseTo(FIXTURE_SECONDS, 0);
 		},
 		mediaTestTimeoutMs,
