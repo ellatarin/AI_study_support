@@ -117,7 +117,7 @@ and there are well over a hundred commits ahead of us.
 
 ## A9 — Config hygiene
 
-- [ ] **A9.1** `.env.example` lists only `ELEVENLABS_API_KEY`; `src/pipeline/openrouter.ts:91-93` reads `OPENROUTER_API_KEY`. Copying the example yields a pipeline that dies at Stage 3. (No real value leaks — that part is clean) — R2 §1.13
+- [x] **A9.1** `.env.example` lists only `ELEVENLABS_API_KEY`; `src/pipeline/openrouter.ts:91-93` reads `OPENROUTER_API_KEY`. Copying the example yields a pipeline that dies at Stage 3. (No real value leaks — that part is clean) — R2 §1.13. **Done: `OPENROUTER_API_KEY=` appended, with a comment naming the file that reads it and what a copy without it does. Appended blind — the global rule forbids reading any `.env` variant, so the entry was added to the end rather than placed among the existing ones.**
 - [ ] **A9.2** `.gitignore:3` ignores `.env` but no variants. Prefer `.env*` with `!.env.example` — R2 §1.14
 - [ ] **A9.3** `tsconfig.json:8` sets `outDir: "dist"` but `tsc` only ever runs `--noEmit`; `.gitignore`, `biome.json` and both jscpd configs carve out a directory nothing creates — R2 §1.16
 - [ ] **A9.4** Seventeen `CLAUDE.md L<n>` citations (16 in `eslint.config.js`, 1 at `vitest.config.ts:5`) are uniformly ~7 lines short since Rule Zero was prepended. `L68` lands on ".env in .gitignore"; `L79` lands in `## Code Search` — **and that one is embedded in the lint error message developers see** (`:201`, `:205`). CLAUDE.md is gitignored, so no clone can resolve them. Cite by section heading — R2 §1.9
