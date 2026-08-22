@@ -16,6 +16,8 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 **CLAUDE.md is the single source of truth for development conventions.** Every rule in `/CLAUDE.md` — TSDoc, `Promise<T>` return types, named exports, `type` aliases, typed catches, immutability, DRY, atomic commits, etc. — applies to every deliverable in this plan and MUST be applied during development, not left to the pre-commit checklist. Rules are not restated per phase.
 
+**Tooling that belongs to no phase.** `scripts/audit-constants.mjs` is a maintenance scanner, not a pipeline deliverable. It lexes the tree and tallies repeated string and numeric literals so a value living in two places can be found and given one, which is a whole-tree question no phase can answer for itself. It was written mid-project, is run on demand as `pnpm audit:constants` rather than by the gate, and carries its own two suites — the first tests in this repo to live outside `src/`.
+
 **Each fact has one home.** This plan owns build order, per-phase deliverables, acceptance criteria, and test intent. It does not restate design: stage behaviour, contracts, and data shapes live in the technical design (referenced as **(TD §N)**), and exact type definitions live in `src/types/*` once written — the TD references those too rather than reproducing them. A phase that needs a design detail links to it; it never copies it. Test names may echo the behaviour they verify — that is the executable spec following the design, not duplication.
 
 ---
@@ -30,22 +32,31 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `eslint.config.js` — architectural rules (no cross-feature imports, restricted imports)
 - `package.json` — all dependencies installed; scripts for `typecheck`, `lint`, `test`, `setup` (the last aliases `scripts/setup`)
 - Directory skeleton: `src/types/`, `src/pipeline/stages/`, `src/utils/`, `docs/`, `bin/`, `scripts/`
-- `pipeline-config.json` — initial config with placeholder model IDs **(TD §6)**
+- `pipeline-config.example.json` — the tracked template, carrying placeholder model IDs **(TD §6)**. The working `pipeline-config.json` is a copy of it that the user fills in, and is gitignored: it holds absolute paths to that user's module folders and the model IDs and rates they are actually paying for, none of which belongs to anybody else's clone
+- `vitest.config.ts` — test discovery, and the coverage thresholds the gate enforces
+- `.jscpd.json` and `.jscpd.tests.json` — the duplication gate, run as two passes because test code tolerates a lower token floor than production code
+- `.secretlintrc.json` — the secret scan the gate runs before anything else
+- `.npmrc` and `pnpm-workspace.yaml` — pnpm's install-time behaviour: no `packageManager` pin written on install, and the build approvals for the packages with native install steps
 - `.gitignore` updated to include `.env`, `.claude/`, `CLAUDE.md`, `*.log`, test output folders (`.claude/` and `CLAUDE.md` per CLAUDE.md §Version Control)
 - `bin/lecture-notes` — executable bash wrapper (`chmod +x`) that `cd`s to the repo root and `exec pnpm exec tsx src/index.ts "$@"`. Live TypeScript, no build step. Runs from any directory once the user's shell has the repo's `bin/` on `PATH`
 - `scripts/setup` — executable bash script (`chmod +x`) that performs two idempotent installs:
   1. Appends a PATH export to the user's shell config (`.zshrc` / `.bashrc` / `config.fish`) so `lecture-notes` is on `PATH`. Marker-comment skip on re-run; read-then-append only (never overwrites)
   2. Merges the hook block from `scripts/claude-hooks.json` into **`.claude/settings.local.json` inside the repo** (Claude Code's per-user, per-repo settings file — gitignored by default via the existing `.claude/` rule; hooks fire only for Claude Code sessions in this project, never globally). Existing keys preserved (deep merge — e.g. any `permissions.allow` already present is untouched); re-runs strip every hook whose command is one the template installs before re-inserting the template entries, so a human hand-editing the file to add unrelated hooks isn't clobbered. Dedupe is on the **command string** and never on a marker key of our own: Claude Code rewrites this file and drops keys it does not recognise, so a marker would not survive to be matched on the next run — and each re-run would append another copy of every hook. Uses `node -e '<merge script>'` (jq is not a hard dependency)
   Prints what was touched and the reload command. Users invoke it once via `./scripts/setup` or `pnpm setup`
-- `scripts/claude-hooks.json` — template describing this project's Claude Code hook configuration (committed to the repo — a normal file, not under `.claude/`, so unaffected by the gitignore rule). Two hooks:
-  - **PostToolUse matcher `Edit|Write`** → the hook command invokes `scripts/hooks/post-edit-biome`, which reads the tool-call JSON from stdin, extracts `.tool_input.file_path`, and runs `pnpm exec biome check --write <file>` on it. Fast fixup, no cross-file false positives (eslint deliberately omitted — its architectural rules only make sense against the whole tree)
-  - **PreToolUse matcher `Bash`** → the hook command invokes `scripts/hooks/pre-commit-check`, which reads `.tool_input.command` from stdin, no-ops unless the command contains `git commit`, then on a commit runs `biome check --error-on-warnings` (staged files), `tsc --noEmit` (whole-project — TS needs the graph), and `eslint` (staged `.ts`/`.tsx` files). Any failure → the script exits `2`, which Claude Code treats as a block-with-feedback (stderr is fed back into the conversation)
+- `scripts/claude-hooks.json` — template describing this project's Claude Code hook configuration (committed to the repo — a normal file, not under `.claude/`, so unaffected by the gitignore rule). Five hooks, two that check and three that block:
+  - **PostToolUse matcher `Edit|Write|MultiEdit`** → the hook command invokes `scripts/hooks/post-edit-biome`, which reads the tool-call JSON from stdin, extracts `.tool_input.file_path`, and runs `pnpm exec biome check --write <file>` on it. Fast fixup, no cross-file false positives (eslint deliberately omitted — its architectural rules only make sense against the whole tree)
+  - **PreToolUse matcher `Bash`** → the hook command invokes `scripts/hooks/pre-commit-check`, which reads `.tool_input.command` from stdin, no-ops unless the command is a `git commit`, then runs the gate: `check:secrets`, `check:format`, `check:types`, `check:lint`, `check:duplication`, `check:duplication:tests` and the suite with coverage, the file-based ones narrowed to what changed. Any failure → the script exits `2`, which Claude Code treats as a block-with-feedback (stderr is fed back into the conversation). Whether a command *is* a commit is decided by lexing it rather than by matching the substring `git commit`, so `git -C . commit` cannot slip past
+  - **PreToolUse matcher `Bash`** (second hook on the same matcher) → `scripts/hooks/block-bash-grep`, which refuses `grep`/`rg`/`ag` and their relatives over files in this repo, so code search goes through the Vera index (CLAUDE.md § Code Search)
+  - **PreToolUse matcher `Grep`** → `scripts/hooks/block-grep`, the same rule for the built-in tool
+  - **PreToolUse matcher `WebFetch|WebSearch`** → `scripts/hooks/block-webfetch`, so web lookups go through the configured MCP tools
+  - All three blocking hooks share one escape hatch, `scripts/hooks/lib/tool-override.mjs`: a one-line reason written to `.claude/tool-override` waives the next block, once, and stays in the transcript
 
 **How far the commit gate reaches — decided 2026-08-22.** Every check above is a Claude Code hook, installed into `.claude/settings.local.json`, so **the gate covers commits made from a Claude Code session in this repository and nothing else.** `.git/hooks/` holds only git's own `.sample` files and `core.hooksPath` is unset, so a commit made from a terminal, an IDE, or any other tool runs no checks at all. That is a decision, not an oversight: a real `.git/hooks/pre-commit` would make every hand-made commit pay the full suite — secretlint, Biome, `tsc`, ESLint, both jscpd passes and the whole vitest run with coverage — and would edit the developer's local git configuration to do it. The consequence to hold on to is that **a commit that did not come from a session has not been through the gate.** `pnpm check` runs the identical checks over the whole tree on demand, and is the way to find out what the gate would have said.
 
 **Dependencies installed:**
 - Runtime: `openai`, `@elevenlabs/elevenlabs-js`, `fluent-ffmpeg`, `pdfjs-dist`, `canvas`, `sharp`, `chrono-node`, `pino`, `cli-progress`, `@inquirer/prompts`, `dotenv`
-- Dev: `typescript`, `tsx`, `@biomejs/biome`, `eslint`, `typescript-eslint`, `vitest`, `nock`, `@types/node`, `@types/fluent-ffmpeg`
+- Dev: `typescript`, `tsx`, `@biomejs/biome`, `eslint`, `typescript-eslint`, `vitest`, `@vitest/coverage-v8`, `nock`, `@types/node`, `@types/fluent-ffmpeg`, `@types/cli-progress`
+- Dev, one per gate check that is not a compiler or a test runner: `secretlint` with `@secretlint/secretlint-rule-preset-recommend`, `jscpd`, and the ESLint plugins the architectural rules are written against — `eslint-plugin-import` with `eslint-import-resolver-typescript`, `eslint-plugin-jsdoc`, `@vitest/eslint-plugin`
 
 **Acceptance:**
 - `tsc --noEmit`, `biome check`, and `eslint .` all pass on the empty project skeleton
@@ -60,15 +71,16 @@ Cross-references to the technical design are noted as **(TD §N)**.
 **Deliverables:**
 
 - `src/types/pipeline.ts` — every shared type, and `STAGE_IDS`, the ordered stage list `StageId` is derived from **(TD §4.1, §4.2, §4.7)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, `StageStatus`), the persisted shapes (`RunManifest`, `ManifestStageEntry`, `RunLog`, `RunLogStageEntry`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaDeficienciesReport`), and the runner-facing `LectureMatch`, `RunOptions`, `BatchRunOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, `BatchSummary`, with `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`
-- `src/pipeline/layout.ts` — the filesystem vocabulary, declared once: `moduleDirs`, `moduleRootOf`, `MANIFEST_FILE`, `RUNS_DIR`, `STAGE_WORKSPACE`, `stageOutputEntry`, `stageOutputPath` **(TD §3.3, "The layout has one owner")**. Every stage, the runner, the CLI, and the fixtures take directory and file names from here; no other module states one as a literal
-- `src/utils/files.ts` — `writeFileAtomic`, `cleanTmpFiles`, and `pathExists` **(TD §4.3)**; `workspacePath` and `resolveManifestPath` **(TD §4.4)**
+- `src/pipeline/layout.ts` — the filesystem vocabulary, declared once: `moduleDirs`, `moduleRootOf`, `MANIFEST_FILE`, `RUNS_DIR`, `STAGE_WORKSPACE`, `stageOutputEntry`, `stageOutputPath`, `stageDirectoryPath`, `stageDirectoryPaths` **(TD §3.3, "The layout has one owner")**. Every stage, the runner, the CLI, and the fixtures take directory and file names from here; no other module states one as a literal
+- `src/utils/files.ts` — `writeFileAtomic`, `cleanTmpFiles`, `pathExists`, and the directory reads `readDirSafe`/`listFileNames`/`listSubdirectoryNames` **(TD §4.3)**; `workspacePath` and `resolveManifestPath` **(TD §4.4)**
 - `src/utils/logger.ts` — `createRootLogger`, `createStageLogger` **(TD §10, Logging and Progress Helpers)**
 - `src/utils/date.ts` — `extractDate`, `formatDateISO` **(TD §3.2, Date and Naming Helpers)**
-- `src/utils/naming.ts` — `extractProvisionalTitle`, `lectureFolderName` **(TD §3.2)**; `filenameSafe` **(TD §4.4)**
+- `src/utils/naming.ts` — `extractProvisionalTitle`, `lectureFolderName`, `lectureBaseName` **(TD §3.2)**; `filenameSafe` **(TD §4.4)**
 - `src/utils/progress.ts` — `createProgressBar`, `createUploadProgressStream`, `createParallelWorkBar` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`
 - `src/utils/cost.ts` — `accumulateCost`, `createMoneyFormatter`, `formatCostReport` **(TD §7, Cost Module)**
 - `src/pipeline/config.ts` — `loadConfig`, plus the model-ID resolution check and its provider exemptions **(TD §6)**
 - `src/pipeline/openrouter.ts` — `createOpenRouterClient`, `makeCompletionCall`, and the exported `ContextLengthError` **(TD §6)**
+- `src/pipeline/fixtures.ts` — the shared test vocabulary: the example lecture and its derived file names, the module tree builders, the stub logger, the manifest and stage-entry builders. It belongs to this phase because it is what stops each later phase's suites inventing their own lecture, but it is the one deliverable that keeps growing: a phase that needs a fixture the suites will share extends this module rather than restating the value. Production code never imports it, which `eslint.config.js` exempts it in order to allow — it is the one file under `src/pipeline/` permitted to import from `src/pipeline/stages/`
 
 **Tests:**
 
@@ -76,6 +88,15 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `should extract correct date when filename format is [format]` — parametrised across: `2025-10-10 BOD_...`, `10 Oct 2025 ...`, `Fri 10th Oct ...`, filename with no date (expect `null`)
 - `should extract provisional title when filename is [sample]` — parametrised across samples covering a full descriptive title, a module-code prefix, trailing artefacts, day names, and a minimal date-plus-number filename
 - `filenameSafe` — `test.each` covering path separators, `..`, `.`, null bytes, control chars, whitespace-only input, trailing dots, and empty result (expect throw)
+
+`layout.ts` — unit tests, since every answer is derived from a path and a stage id:
+- `should describe every stage when the pipeline is enumerated` — the map covers `STAGE_IDS` and no more
+- `should root every directory but pdf-generation's in the workspace when ownership is read`
+- `should resolve back to the module when a workspace beneath it is given` — `moduleRootOf` against `moduleDirs`
+- `should fail when the stage writes no single output file` — the stages whose `outputFile` is `null`
+
+`files.ts` — unit tests for the resolver that needs no filesystem:
+- `workspacePath` — `test.each` over segment lists, including the empty one
 
 `files.ts` — integration tests (real temp directory):
 - `should write file and remove .tmp when write succeeds`
@@ -86,6 +107,16 @@ Cross-references to the technical design are noted as **(TD §N)**.
 `cost.ts` — unit tests:
 - `accumulateCost` — `test.each` across combinations including zeros and nulls
 - `formatCostReport` — snapshot test (serialisation format regression only)
+
+`progress.ts` — unit tests driving the bar through its control methods:
+- `should list picked ids in the in-flight suffix when workers pick up items`
+- `should advance the value and drop the id from in-flight when an item completes`
+- `should highlight the id with a red control sequence when an item fails`
+- `should pass bytes through unchanged and advance the bar when data flows` — the upload stream
+
+`logger.ts` — integration tests, because the point of the module is a file on disk:
+- `should write a JSON debug log named for the timestamp when the root logger logs`
+- `should bind the stage id to every entry when a stage logger logs`
 
 `config.ts` — HTTP interceptor tests using `nock`:
 - `should throw ConfigError naming the offending stage when a configured modelId is not in the OpenRouter models response`
@@ -254,6 +285,10 @@ Config loader — integration tests:
 - `should skip the OpenRouter check when a model ID names an exempt provider`
 - `should still check a model ID when its provider is not exempt`
 - `should throw ConfigError when a required currency or ElevenLabs field is missing or not a number`
+
+Typed errors — unit tests:
+- `should take its name from the concrete subclass when constructed` — the `new.target` capture in `NamedError`
+- `should render $label when it is caught` — `test.each` over the values a `catch (e: unknown)` really receives: an `Error`, a `NamedError`, a string, a number, and `null`
 
 Cost reporting — unit tests:
 - `should render every total in pounds when the stored figures are in dollars`
