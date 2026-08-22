@@ -243,8 +243,8 @@ Because all other files inside the workspace use simple names, only the four ite
 | 4 | Slide Conversion | Per-lecture | Render PDF slides as images; extract content via vision LLM |
 | 5 | Image Extraction & Labelling | Per-lecture | Identify, label, and filter academic figures from slide images |
 | 6 | Synthesis | Per-lecture | Combine transcript, slide content, and figures into textbook-style notes |
-| 7 | QA Loop | Per-lecture | Iteratively check and revise notes; write final `Output/notes.md` |
-| 8 | PDF Generation | Per-lecture | Convert `Output/notes.md` to PDF via pandoc; deposit in `Final output/` |
+| 7 | QA Loop | Per-lecture | Iteratively check and revise notes; write final `QA checked/notes.md` |
+| 8 | PDF Generation | Per-lecture | Convert `QA checked/notes.md` to PDF via pandoc; deposit in `Final output/` |
 
 ### 4.2 Stage Interface
 
@@ -437,8 +437,8 @@ Each stage entry records `configUsed` — a `StageRunConfig` capturing the model
       "filesWritten": [
         "QA iterations/qa-iteration-01-deficiencies.json",
         "QA iterations/qa-iteration-01-revised.md",
-        "Output/notes.md",
-        "Output/images/slide-003-figure-01.png"
+        "QA checked/notes.md",
+        "QA checked/images/slide-003-figure-01.png"
       ]
     },
     "pdf-generation": {
@@ -940,7 +940,7 @@ Figures with `academicRelevance: 'exclude'` or `figureType` of `logo` or `decora
 }
 ```
 
-`outputRelativePath` is the path used in the final output markdown, relative to the `Output/` folder.
+`outputRelativePath` is the path used in the final output markdown, relative to the `QA checked/` folder.
 
 ---
 
@@ -973,7 +973,7 @@ Align transcript sections to slide sections by heading similarity to produce pai
 
 **Inputs:** All source materials + current synthesised notes draft.
 **Outputs (per iteration):** `QA iterations/qa-iteration-{02d}-deficiencies.json`, `QA iterations/qa-iteration-{02d}-revised.md`
-**Final output:** `Output/notes.md` and `Output/images/`
+**Final output:** `QA checked/notes.md` and `QA checked/images/`
 
 #### Two-Prompt Design
 
@@ -1004,21 +1004,21 @@ The loop exits when any one of the following is true:
 
 `terminationReason` in the manifest records which condition triggered the exit (`'qa-passed'`, `'max-iterations-reached'`, `'stalled'`).
 
-On successful exit, the final revised draft is written to `Output/notes.md` and all included figures are copied to `Output/images/`. Stage 8 then converts this to the final PDF.
+On successful exit, the final revised draft is written to `QA checked/notes.md` and all included figures are copied to `QA checked/images/`. Stage 8 then converts this to the final PDF.
 
 ---
 
 ### Stage 8 — PDF Generation
 
-**Input:** `Output/notes.md`, `Output/images/`
+**Input:** `QA checked/notes.md`, `QA checked/images/`
 **Output:** `Final output/Lecture N - [title] - YYYY-MM-DD.pdf` (at module level)
 
-Invokes `pandoc` as a child process to convert `Output/notes.md` to PDF, placing the result in `Final output/` with the full descriptive filename:
+Invokes `pandoc` as a child process to convert `QA checked/notes.md` to PDF, placing the result in `Final output/` with the full descriptive filename:
 
 ```typescript
 spawn('pandoc', [
-  'Output/notes.md',
-  '--resource-path', 'Output/images',
+  'QA checked/notes.md',
+  '--resource-path', 'QA checked/images',
   '--pdf-engine=xelatex',
   '--output', '../../Final output/Lecture N - [title] - YYYY-MM-DD.pdf',
 ], { cwd: workspaceRoot });
