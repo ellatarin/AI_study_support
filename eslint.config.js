@@ -11,36 +11,38 @@ const CODE_FILES = ["**/*.{ts,tsx,js,mjs,cjs}"];
 const TYPESCRIPT_FILES = ["**/*.{ts,tsx}"];
 const TEST_FILES = ["**/*.test.{ts,tsx,js,mjs}", "**/*.integration.test.{ts,tsx,js,mjs}"];
 
-// CLAUDE.md L79: MUST describe tests as `should [behaviour] when [condition]`.
 // The pattern is a raw regex string; the plugin compiles it and matches it
 // against the title argument. Both of vitest's title functions carry the same
-// requirement, so it is named once and mapped over rather than restated.
+// requirement, so it is named once and mapped over rather than restated. The
+// rule it enforces is stated once too — in the message below, which is the copy
+// a developer actually reads.
 const TEST_TITLE_REQUIREMENT = [
 	"^should [^\\s].* when [^\\s].*$",
-	"CLAUDE.md L79: MUST describe tests as `should [behaviour] when [condition]`",
+	"CLAUDE.md § Testing: MUST describe tests as `should [behaviour] when [condition]`",
 ];
 const TEST_TITLE_FUNCTIONS = ["it", "test"];
 
-// CLAUDE.md L27, L38: NEVER wildcard imports; MUST use async/await (no .then
-// chains). Flat config replaces a rule's options wholesale rather than merging
+// CLAUDE.md § TypeScript and § TypeScript: Functions: NEVER wildcard imports;
+// MUST use async/await (no .then chains).
+// Flat config replaces a rule's options wholesale rather than merging
 // them, so the barrel-file block below has to carry these two selectors as well
 // as its own. They are named here so both blocks spread one list.
 const GENERAL_SYNTAX_RESTRICTIONS = [
 	{
 		selector: "ImportNamespaceSpecifier",
 		message:
-			"Wildcard imports (`import * as X`) are forbidden unless namespacing is genuinely necessary — CLAUDE.md L27",
+			"Wildcard imports (`import * as X`) are forbidden unless namespacing is genuinely necessary — CLAUDE.md § TypeScript",
 	},
 	{
 		selector: "CallExpression[callee.type='MemberExpression'][callee.property.name='then']",
-		message: "Use async/await instead of .then() chains — CLAUDE.md L38",
+		message: "Use async/await instead of .then() chains — CLAUDE.md § TypeScript: Functions",
 	},
 ];
 
 export default [
 	...tseslint.configs.recommended,
 
-	// CLAUDE.md L68: architectural rules — use ESLint for cross-module concerns
+	// CLAUDE.md § Tooling: architectural rules — use ESLint for cross-module concerns
 	{
 		files: CODE_FILES,
 		plugins: { import: importPlugin },
@@ -91,11 +93,12 @@ export default [
 			},
 		},
 		rules: {
-			// CLAUDE.md L19: MUST use `type` for all type definitions
+			// CLAUDE.md § TypeScript: MUST use `type` for all type definitions
 			"@typescript-eslint/consistent-type-definitions": ["error", "type"],
 
-			// CLAUDE.md L38, L40: MUST use async/await, and annotate async functions
-			// with Promise<T>. These three keep `await` meaning what it says.
+			// CLAUDE.md § TypeScript: Functions: MUST use async/await, and annotate
+			// async functions with Promise<T>. These three keep `await` meaning what
+			// it says.
 			//
 			// Enabled while all three report zero, so they carry no backlog and no
 			// suppressions: they pin the current standard rather than asking for a
@@ -113,7 +116,7 @@ export default [
 			"@typescript-eslint/no-floating-promises": "error",
 			"@typescript-eslint/return-await": "error",
 
-			// CLAUDE.md L21: MUST use descriptive generic names (TRequest, TResponse); NEVER T, K
+			// CLAUDE.md § TypeScript: MUST use descriptive generic names (TRequest, TResponse); NEVER T, K
 			"@typescript-eslint/naming-convention": [
 				"error",
 				{
@@ -123,13 +126,13 @@ export default [
 				},
 			],
 
-			// CLAUDE.md L34-35: MUST use options object over multiple positional params (proxy: max 1)
+			// CLAUDE.md § TypeScript: Functions: MUST use options object over multiple positional params (proxy: max 1)
 			"max-params": ["error", 1],
 
-			// CLAUDE.md L36: Return early to reduce nesting
+			// CLAUDE.md § TypeScript: Functions: Return early to reduce nesting
 			"no-else-return": ["error", { allowElseIf: false }],
 
-			// CLAUDE.md L28: MUST use meaningful names; NEVER terse or ambiguous
+			// CLAUDE.md § TypeScript: MUST use meaningful names; NEVER terse or ambiguous
 			// Exceptions: `_` (throwaway), and common Node conventions (`fs`, `os`)
 			// where a longer name would fight ecosystem convention rather than clarify
 			"id-length": ["error", { min: 3, exceptions: ["_", "fs", "os"] }],
@@ -155,15 +158,16 @@ export default [
 	{
 		files: TYPESCRIPT_FILES,
 		rules: {
-			// CLAUDE.md L22, L40: MUST annotate return types on exported functions and async functions
+			// CLAUDE.md § TypeScript and § TypeScript: Functions: MUST annotate return
+			// types on exported functions and async functions
 			"@typescript-eslint/explicit-module-boundary-types": "error",
 
-			// CLAUDE.md L39: MUST use typed catch blocks (catch (e: unknown))
+			// CLAUDE.md § TypeScript: Functions: MUST use typed catch blocks (catch (e: unknown))
 			"@typescript-eslint/use-unknown-in-catch-callback-variable": "error",
 		},
 	},
 
-	// CLAUDE.md L45: MUST write TSDoc for all exported functions, classes, methods
+	// CLAUDE.md § Documentation: MUST write TSDoc for all exported functions, classes, methods
 	{
 		files: TYPESCRIPT_FILES,
 		ignores: TEST_FILES,
@@ -212,8 +216,8 @@ export default [
 		},
 	},
 
-	// CLAUDE.md L56: NEVER create barrel files (index.ts re-exports) inside
-	// feature folders; the CLI entry (src/index.ts) is fine.
+	// CLAUDE.md § File Organisation: NEVER create barrel files (index.ts
+	// re-exports) inside feature folders; the CLI entry (src/index.ts) is fine.
 	{
 		files: ["src/**/index.ts"],
 		ignores: ["src/index.ts"],
@@ -223,18 +227,20 @@ export default [
 				...GENERAL_SYNTAX_RESTRICTIONS,
 				{
 					selector: "ExportAllDeclaration",
-					message: "Barrel file (index.ts re-exports) forbidden in feature folders — CLAUDE.md L56",
+					message:
+						"Barrel file (index.ts re-exports) forbidden in feature folders — CLAUDE.md § File Organisation",
 				},
 				{
 					selector: "ExportNamedDeclaration[source]",
-					message: "Barrel file (index.ts re-exports) forbidden in feature folders — CLAUDE.md L56",
+					message:
+						"Barrel file (index.ts re-exports) forbidden in feature folders — CLAUDE.md § File Organisation",
 				},
 			],
 		},
 	},
 
-	// Test files: relax structural rules, enforce test-quality rules via @vitest/eslint-plugin.
-	// CLAUDE.md L79: MUST describe tests as `should [behaviour] when [condition]`
+	// Test files: relax structural rules, enforce test-quality rules via
+	// @vitest/eslint-plugin (CLAUDE.md § Testing).
 	{
 		files: TEST_FILES,
 		plugins: { vitest },

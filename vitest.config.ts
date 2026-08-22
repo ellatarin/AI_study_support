@@ -2,7 +2,8 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
 	test: {
-		// CLAUDE.md L53: `foo.test.ts` for unit, `foo.integration.test.ts` for integration.
+		// CLAUDE.md § File Organisation: `foo.test.ts` for unit,
+		// `foo.integration.test.ts` for integration.
 		// Brace expansion below yields *.test.ts and *.integration.test.ts (and .tsx variants).
 		// Not scoped to src/: a suite beside a script in scripts/ must run too.
 		include: ["**/*.{test,integration.test}.{ts,tsx,js,mjs}"],
