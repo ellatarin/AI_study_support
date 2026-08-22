@@ -4,6 +4,10 @@ Every finding from both whole-tree reviews of 2026-08-22, grouped and labelled. 
 `code-review-2026-08-22.md`, `R2` is `code-review-2026-08-22-run2.md`. **Where the two disagree, R1
 wins** — it cites every line.
 
+Two groups came from neither review, raised by the user while the work was being done: **C2.5** (the
+runner's test-only exports) and **C10** (the technical design's register). They carry no source
+citation for that reason.
+
 **Status key**
 
 | Marker | Meaning |
@@ -164,7 +168,7 @@ Code is right, doc is stale. Fixed in the same commit as any related code change
 - [ ] **A13.2** `date.ts:334-338` (and `:354-357`) — `extractDate`'s TSDoc says a span is accepted "only when chrono is certain of both the day and the month". Numeric spans and the compact-short fallback set `confident: true` unconditionally, never consulting chrono — R2 §4, R1
 - [ ] **A13.3** `progress.ts:147` — "used by Stages 4 and 5", which do not exist — R2 §4
 - [ ] **A13.4** `fixtures.ts:337-339` — the TSDoc explaining why files are derived rather than reassembled, contradicted at `:528-530` — R2 §4
-- [ ] **A13.5** `manifest.ts:6-8` — says "three separate callers"; the design doc says four, and Stage 3 does call `writeManifest` — R2 §4
+- [x] **A13.5** `manifest.ts:6-8` — says "three separate callers"; the design doc says four, and Stage 3 does call `writeManifest` — R2 §4. **Closed by C2.1**, which removed Stage 3's `writeManifest` call and amended TD §4.5 to say three. The TSDoc the finding names was already right; what was wrong was the code and the design doc around it, so nothing in `manifest.ts` needed editing.
 - [ ] **A13.6** `lecture-identity.ts:172` — `@throws … When a file **or workspace** already carries that date`, but `assertDateIsFree` checks only `[dirs.video, dirs.slide]`. The code is right per spec; the comment overclaims — and it matters, because `renameLectureFiles` moves the workspace with `rename()`, which overwrites silently — R2 §4
 - [ ] **A13.7** `bin/lecture-notes:8-9` — the header says it "runs from wherever the caller is", but the script `cd`s to the repo root, so relative path arguments resolve against the wrong directory — R2 §4
 
@@ -501,13 +505,56 @@ C1 and C2 which are settled early because A20 shares their seam.
 - [ ] **C9.4** `perFile` coverage thresholds, deferred from A8.2 until `run-cli.ts` has real tests and `src/index.ts` has a decision
 - [ ] **C9.5** Any jscpd threshold raise an A21 extraction turns out to need. **List what the new floor would hide before proposing it** — the real duplicate usually hides behind the one you cannot extract
 
+## C10 — The technical design's register
+
+> **Raised by the user on 2026-08-22, mid-C2, after rejecting three separate paragraphs.** This group
+> comes from neither review — **both put `docs/*.md` prose out of scope** (see "Not covered" below), so
+> nothing here is a carried finding. It is COLLAB because the line it polices is one I got wrong three
+> times in a single session, which is the evidence that I cannot reliably call it alone.
+>
+> **The rule.** The TD states what the system does and the properties that hold. Reasoning about *why
+> the design is as it is* **is welcome** — the user said so in as many words when asked directly. What
+> is not welcome is the adversarial register, in three forms:
+>
+> 1. **Arguing with a rejected alternative** — "a result field reporting it would oblige every stage,
+>    present and future, to declare something only one of them ever does, against NFR-5.2."
+> 2. **Narrating a defect** — "A stage writing `{ ...context.manifest, ...changes }` therefore writes a
+>    manifest that is already stale in the one field the runner most needs."
+> 3. **X-not-Y framing** — "The reason is staleness, not tidiness." "The manifest writes are not its
+>    own work." Also the counterfactual: "Writing the manifest first would only move the window."
+>
+> **The test to apply:** would the paragraph still read correctly to someone who had never seen a code
+> review? If a sentence only makes sense as an answer to a criticism, it belongs in *this file*, not in
+> the TD. The concessive and the counterfactual are the two reliable tells.
+>
+> **Content is not deleted, it is re-homed.** Most of these passages carry a real reason for a real
+> decision. The reason is restated plainly in the TD; the argument against the alternative moves to the
+> worklist item that settled it. Deleting the reasoning outright is the failure mode to avoid — the
+> first correction in this exchange was for trimming too much, not too little.
+
+- [x] **C10.1** §4.2 (stage interface), §4.5 (manifest callers), §4.7 (relocated workspace, runner
+  helper listing) and §5 Stage 3 (order of operations). **Done as part of C2** — these are the sections
+  C2.1, C2.2 and C2.5 touched, and they were fixed as each landed rather than left for the sweep
+- [ ] **C10.2** §4.4 (path validation) — at least one instance: "an assertion that cannot fail would
+  misrepresent the input as untrusted to the next reader", and the surrounding `--from-stage` paragraph
+  reads as a defence of a choice rather than a statement of it. Noticed while checking the manifest's
+  trust posture during C2.1; not swept
+- [ ] **C10.3** The rest of the TD — no pass has been made. §§1–3, 4.1, 4.3, 4.6, 5 (Stages 0–2, 4–8),
+  6–10 are all unread for register. **Do not assume the problem is confined to the sections C2
+  touched**; those are simply the ones that were being read when it was noticed
+- [ ] **C10.4** `docs/requirements.md` and `docs/implementation-plan.md` — same question, never asked
+  of either. Scope them before working C10.3, since a sweep of all three at once is one reading pass
+  rather than three
+
 ---
 
 ## Not covered by any of this
 
 Recorded so it is not mistaken for done:
 
-- **`pnpm-lock.yaml` and the `docs/*.md` prose** were deliberately out of scope in both reviews.
+- **`pnpm-lock.yaml` and the `docs/*.md` prose** were deliberately out of scope in both reviews. The
+  prose half is no longer wholly unexamined — **C10** opens it, but only on the one question of
+  register. Nothing has checked the docs for anything else.
 - **Nothing was executed.** No lecture processed, no stage invoked. This says nothing about whether
   ffmpeg works, the transcription contract holds, or the date parser survives real lecturer filenames —
   that is what the still-blocked user testing is for.
