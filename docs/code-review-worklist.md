@@ -409,9 +409,48 @@ C1 and C2 which are settled early because A20 shares their seam.
 > C2.1 both open anyway.
 
 - [x] **C2.1** Stage 3 writes back a stale whole manifest. TD §4.2: "a stage's own bookkeeping in the manifest … is written by the runner, never by the stage." `recordIdentity` writes `{ ...context.manifest, ...changes }` and the runner deliberately hands the stage the pre-`running` context, so Stage 3's write **reverts its own entry's status** and after a hard crash the `running` marker TD §4.2 relies on is gone — R2 Spec. **Done.** `recordIdentity` is deleted; `settleTitle` now returns a `LectureIdentityChanges` on `StageResult.identityChanges`, and `updateManifest` spreads it over the manifest in the same write that patches the stage entry. The field is **optional and carries no flag**: absent and `{}` are spread identically, so it selects no behaviour, and making it required would oblige every stage to declare it has no identity to settle — the objection TD §4.7 already raises against reporting a relocated workspace. Stage 3 supplies `{}` rather than omitting it, so the stage itself has no conditional field to build. **The rename still happens inside the stage and still goes last**, but the reason changed: it is now the structured-transcript write, not a manifest write, that needs the folder to stand still.
-- [ ] **C2.2** Half the documented runner surface is unexported. TD §4.7 names `runStage`, `updateManifest`, `resolveWorkspace` and `findLectureByDate` as module-level functions specifically "so the pure parts are unit-testable in isolation". All four are module-private. Export them, or amend the doc — R2 Spec
+- [x] **C2.2** Half the documented runner surface is unexported. TD §4.7 names `runStage`, `updateManifest`, `resolveWorkspace` and `findLectureByDate` as module-level functions specifically "so the pure parts are unit-testable in isolation". All four are module-private. Export them, or amend the doc — R2 Spec. **Done: the doc is amended, the functions stay private.** The promise that came out was "so the pure parts are unit-testable in isolation" — the clause that implied exports. §4.7 now names which functions are module-private and which are exported, so the next reader checks a list rather than inferring one. **Found while writing it:** of the three exported helpers only `deriveRunId` has a production consumer (`run-cli.ts`, for the log filename); `classifyRunType` and `assembleContext` are reached only from `runner.test.ts` and `fixtures.ts`. The C2.2 decision recorded that as "a separate question nobody has asked" — **the user asked it on 2026-08-22, so it is now C2.5.**
 - [ ] **C2.3** Optional fields that select runtime behaviour, which CLAUDE.md says should be discriminated unions: `StageParams:66-71` (`concurrency?` and `maxIterations?` each apply to exactly one stage); `RunOptions:536-553` (`continueOnError?` flips failure handling, `concurrency?` is batch-only). Both are contract types — R1, R2 carried §16
 - [x] **C2.4** `runner.ts:412-494` `runStage` mixes orchestration with manifest patching, workspace relocation, logging, error mapping and run-log construction across ~80 lines around a mutable `nextContext` closure — R1. **Done, in the same commit as C2.1.** The manifest half moved to `createStageRecorder`, which owns `nextContext` and exposes one method per transition — `skipped`, `running`, `complete`, `failed`, `context`. `runStage` keeps only the decisions (run, skip, map a throw to an entry, what to report) and constructs no manifest entry at all. The mutable variable did not go away — a stage can move the workspace, so something has to track where it is — but it is now inside the thing whose job that is rather than in the middle of the orchestration.
+
+> **C2.5 — SETTLED 2026-08-22 with the user. AGREED, NOT BUILT. This is the next piece of work.**
+>
+> C2.2 kept four functions private and recorded, as a consequence not to act on, that the same argument
+> points at the three `runner.ts` *does* export. The user asked the question, so it is settled here.
+> Do not re-litigate; build it.
+>
+> **The verdicts, and the evidence behind each:**
+>
+> - **`deriveRunId` stays exported.** `run-cli.ts` uses it for the debug-log filename — a real consumer
+>   in another module, not a test.
+> - **`classifyRunType` becomes module-private.** Its only caller outside `runner.ts` is
+>   `runner.test.ts`. Nothing is lost: `runLecture` stamps the classification onto the run log, and
+>   `runner.integration.test.ts` already asserts `runLog.runType` for the `experiment` case, so the
+>   behaviour is reachable through the public surface.
+> - **`assembleContext` moves to a new `src/pipeline/stage-context.ts` and is exported from there.**
+>   *Not* the same verdict, and the reason matters: its consumers are `runner.test.ts` **and**
+>   `fixtures.ts:makeStageContext`, a one-line wrapper every stage suite uses. Those suites are not
+>   reaching into the runner — they need a valid `StageContext`, and this is the only thing that builds
+>   one. Making it private forces `makeStageContext` to rebuild the body (the `moduleRootOf`
+>   derivation, the field copies, the freeze), which is the duplication Rule Zero forbids and a live
+>   drift risk between fixture and production. So the export is legitimate; what is wrong is its
+>   *address*. It is a bulge on the runner's surface when it is really the constructor for
+>   `StageContext`. Give it a module whose purpose is to be that constructor and the export is
+>   justified by what it is, not by who needs it. **It cannot live in `types/pipeline.ts`** — that file
+>   imports nothing (a C1 constraint) and `assembleContext` needs `moduleRootOf` from `layout.ts`.
+>
+> **The one trade the user accepted, with eyes open:** `classifyRunType`'s six pure-function unit tests
+> (`runner.test.ts:42-93`) become integration tests asserting `runLog.runType`, which is slower and
+> needs a workspace, a manifest and a run per case. The `--from-stage` suite already has that setup to
+> build on. Consistency was judged worth more than the test speed. **Recommended by me and accepted —
+> the alternative on the table was leaving `classifyRunType` exported and saying in the doc that it is
+> exported for its own unit tests, which is what C2.2 had just decided against.**
+>
+> **Also in scope:** the TD §4.7 sentence listing which runner functions are private and which are
+> exported was written by C2.2 to be true of the code *as it stood*. C2.5 changes that list, so the
+> sentence moves with it — same commit.
+
+- [ ] **C2.5** `runner.ts` exports `deriveRunId`, `classifyRunType` and `assembleContext`; two of the three have no consumer but the test suite. Same deep-module argument as C2.2, which recorded it and did not act — raised by the user on 2026-08-22 — see the block quote above for the settled shape
 
 ## C3 — Issue #2: module-wide deletion
 

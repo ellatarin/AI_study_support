@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.29-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.30-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -517,10 +517,12 @@ class PipelineRunner {
 // Stage 0's per-module contract (Phase 4 supplies the real implementation):
 type SourceNormalisationStage = { stageId: "source-normalisation"; normaliseModule(args: { moduleRoot: string }): Promise<void> }
 
-// The runner's supporting logic lives in module-level functions rather than private methods, so the pure
-// parts are unit-testable in isolation. Notably runStage returns a RunLogStageEntry (rather than void): the
-// caller collects the entries, decides whether to halt, and fills `not-reached` — so no shared mutable
-// run-log state exists and batch concurrency is safe.
+// The runner's supporting logic lives in module-level functions rather than private methods, so each has one
+// job and the class stays orchestration. runStage, createStageRecorder, updateManifest, resolveWorkspace and
+// findLectureByDate are module-private, reached only through PipelineRunner, which is the module's public
+// surface and the surface its tests drive; deriveRunId, classifyRunType and assembleContext are exported.
+// Notably runStage returns its outcome (rather than void): the caller collects the entries, decides whether
+// to halt, and fills `not-reached` — so no shared mutable run-log state exists and batch concurrency is safe.
 deriveRunId(args: { instant: Date }): string                                   // filesystem-safe run id, e.g. 2025-10-10T09-00-00Z
 classifyRunType(args: { options: RunOptions; manifest: RunManifest }): RunType  // normal | experiment | error-recovery (§7)
 assembleContext(args: { workspaceRoot: string; manifest: RunManifest; config: PipelineConfig }): StageContext  // moduleRoot derived two levels up
