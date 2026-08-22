@@ -17,15 +17,28 @@ import { formatBatchSummary, formatRunSummary, stageLabel } from "../utils/cost.
 import type { CliCommand } from "./args.js";
 import { changeLectureDate, deleteLecture, renameLecture } from "./lecture-identity.js";
 
+/** The runner operations the commands drive. */
+type RunnerOperation =
+	| "normaliseSources"
+	| "runLecture"
+	| "runBatch"
+	| "costReport"
+	| "resolveLecturesByDate";
+
 /**
  * The runner surface the commands drive. Declared structurally so a test can
  * stand in a stub without constructing a real {@link PipelineRunner} and its
  * stages.
+ *
+ * Mapped rather than `Pick`ed: `Pick` copies the class's *method* signatures,
+ * and a type carrying methods is not deeply readonly, so every function taking
+ * {@link CliDeps} was reported by `prefer-readonly-parameter-types`. A mapped
+ * type yields readonly properties whose type is the same function, which is
+ * what an injected dependency is.
  */
-export type PipelineRunnerFacade = Pick<
-	PipelineRunner,
-	"normaliseSources" | "runLecture" | "runBatch" | "costReport" | "resolveLecturesByDate"
->;
+export type PipelineRunnerFacade = {
+	readonly [TOperation in RunnerOperation]: PipelineRunner[TOperation];
+};
 
 /** What a picker is handed: the lectures a date turned out to name. */
 type MatchQuery = { readonly matches: readonly LectureMatch[] };

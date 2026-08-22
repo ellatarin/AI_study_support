@@ -43,7 +43,7 @@ function formatMegabytes(bytes: number): string {
  * @param type - Which token is being formatted.
  * @returns The formatted token string.
  */
-// eslint-disable-next-line max-params -- cli-progress ValueFormatter signature is fixed
+// eslint-disable-next-line max-params, @typescript-eslint/prefer-readonly-parameter-types -- cli-progress's ValueFormatter signature is fixed: three positional parameters, the second of them cli-progress's own mutable Options, which this ignores entirely (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 export function formatUploadValue(value: number, _options: Options, type: ValueType): string {
 	return type === "value" || type === "total" ? formatMegabytes(value) : String(value);
 }
@@ -88,7 +88,7 @@ export function createUploadProgressStream(totalBytes: number): {
 
 	let uploaded = 0;
 	const stream = new Transform({
-		// eslint-disable-next-line max-params -- Node stream Transform.transform signature is fixed
+		// eslint-disable-next-line max-params, @typescript-eslint/prefer-readonly-parameter-types -- Node's Transform.transform signature is fixed: three positional parameters, the first a Buffer, which is mutable through its index signature and is what Node hands us (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 		transform(chunk: Buffer, _encoding, callback) {
 			uploaded += chunk.length;
 			bar.update(uploaded);
@@ -121,7 +121,7 @@ export type ParallelWorkBar = {
 /**
  * Renders the in-flight suffix: active ids plainly, failed ids highlighted in red.
  *
- * @param args - The id sets to render.
+ * @param args - The ids to render.
  * @param args.active - Ids currently being processed.
  * @param args.failed - Ids that have failed.
  * @returns The comma-separated in-flight suffix.
@@ -130,11 +130,11 @@ function renderInFlight({
 	active,
 	failed,
 }: {
-	readonly active: ReadonlySet<number>;
-	readonly failed: ReadonlySet<number>;
+	readonly active: readonly number[];
+	readonly failed: readonly number[];
 }): string {
-	const activeLabels = [...active].map(String);
-	const failedLabels = [...failed].map((itemId) => inRed(String(itemId)));
+	const activeLabels = active.map(String);
+	const failedLabels = failed.map((itemId) => inRed(String(itemId)));
 	return [...activeLabels, ...failedLabels].join(", ");
 }
 
@@ -162,7 +162,7 @@ export function createParallelWorkBar({
 	let completed = 0;
 
 	function payload(): { readonly label: string; readonly inFlight: string } {
-		return { label, inFlight: renderInFlight({ active, failed }) };
+		return { label, inFlight: renderInFlight({ active: [...active], failed: [...failed] }) };
 	}
 
 	return {

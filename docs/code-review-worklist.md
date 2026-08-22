@@ -68,13 +68,27 @@ and there are well over a hundred commits ahead of us.
 
 ## A5 — Immutability rule covering half the tree
 
-- [ ] **A5.1** `eslint.config.js:138` scopes `prefer-readonly-parameter-types` to `src/pipeline/**` + `src/types/**`; it resolves to `undefined` for `src/utils/**` and `src/cli/**`, against "use `readonly` … **wherever** TypeScript allows" — R2 §1.4 — VERIFIED
-- [ ] **A5.2** 38 production sites: `commands.ts` 13, `date.ts` 14, `files.ts` 5, `progress.ts` 3, `prompts.ts` 1, `naming.ts` 1, `logger.ts` 1 — measured 2026-08-22
-- [ ] **A5.3** 25 test sites across `args.test.ts`, `commands.integration.test.ts`, `lecture-identity.integration.test.ts`, `prompts.test.ts`, `cost.test.ts`, `date.test.ts`, `errors.test.ts`, `files.integration.test.ts`, `files.test.ts`, `naming.test.ts`, `progress.test.ts` — measured 2026-08-22
-- [ ] **A5.4** `eslint.config.js:135`'s justifying comment ("Scoped to **Phase 1** domain code") is five phases stale — R2 §1.4
+- [x] **A5.1** `eslint.config.js:138` scopes `prefer-readonly-parameter-types` to `src/pipeline/**` + `src/types/**`; it resolves to `undefined` for `src/utils/**` and `src/cli/**`, against "use `readonly` … **wherever** TypeScript allows" — R2 §1.4 — VERIFIED. **Done: the rule's scope is now `TYPESCRIPT_FILES`, the same list every other type-dependent rule uses, rather than a hand-listed pair of directories. "Wherever TypeScript allows" is the whole typed tree, so naming directories is what let two of them out.**
+- [x] **A5.2** 38 production sites: `commands.ts` 13, `date.ts` 14, `files.ts` 5, `progress.ts` 3, `prompts.ts` 1, `naming.ts` 1, `logger.ts` 1 — measured 2026-08-22. **Re-measured on the day: 27, not 38** — `commands.ts` 13, `date.ts` 6, `progress.ts` 3, `files.ts` 2, `naming.ts` 2, `logger.ts` 1, and `prompts.ts` 0. **All 27 closed: 22 by restructuring, 5 by a disable naming the library type.** The five are `writeFileAtomic`'s `Uint8Array`, pino's `Logger`, cli-progress's `Options`, Node's `Buffer`, and `renderInFlight`'s `ReadonlySet` — the last a rule limitation rather than a mutable type, since `ReadonlySet` is immutable by construction and the rule still reports it. The restructures were:
+	- **`PipelineRunnerFacade` is mapped, not `Pick`ed.** `Pick` copies a class's *method* signatures, and a type carrying methods is not deeply readonly, so **all 13 `commands.ts` reports were one cause** — every function taking `CliDeps`. A mapped type yields readonly properties holding the same functions, which is what an injected dependency is.
+	- **`date.ts` gained a `TextSpan` type.** `byIndex` and `overlaps` took a whole `DateSpan` but read only `index` and `length`; typed to what they use, the `Date` inside never reaches them. This was preferred to making `DateSpan.date` a `Readonly<Date>`, which would have changed `extractDate`'s public return type and rippled into three call sites in `src/pipeline`.
+	- **`Readonly<T>` where the type is only read**: `formatDateISO(date)`, `LectureIdentity.date`, `claimedSpans`'s `pattern`, and `readEntryNames`'s `Dirent`. A real `Date`/`RegExp`/`Dirent` is assignable to its `Readonly<…>`, so no caller changed. Probed first: `Readonly<T>` satisfies the rule for `Date`, `RegExp` and `Dirent`, and does **not** for `Logger`, `Options`, `Buffer`, `RegExpMatchArray` or `Uint8Array` — those carry mutable properties or a mutable index signature that a homomorphic mapped type cannot remove.
+	- **`claimedSpans`'s `read` callback takes `readonly string[]`**, not `RegExpMatchArray`: the readers only index the captured groups.
+	- **`renderInFlight` takes arrays, not sets.** It spread both sets on entry anyway, so moving the spread to the one call site allocates exactly what it did before.
+- [x] **A5.3** 25 test sites across `args.test.ts`, `commands.integration.test.ts`, `lecture-identity.integration.test.ts`, `prompts.test.ts`, `cost.test.ts`, `date.test.ts`, `errors.test.ts`, `files.integration.test.ts`, `files.test.ts`, `naming.test.ts`, `progress.test.ts` — measured 2026-08-22. **Not worked, and none of them report: `eslint.config.js`'s `TEST_FILES` block already turns this rule off for tests, deliberately and in company with `max-params`, `id-length` and `require-jsdoc`.** Widening the rule's scope therefore changed nothing in test code. Turning it *on* for tests is a separate decision with a real cost (~25 sites in scaffolding, for a rule about the immutability of production data) and is not what A5.1 found; **if it is wanted, it is a new item, not this one.**
+- [x] **A5.4** `eslint.config.js:135`'s justifying comment ("Scoped to **Phase 1** domain code") is five phases stale — R2 §1.4. **Done: rewritten to say why the scope is the whole typed tree, and to record that naming directories is what exempted two of them. It also cites `CLAUDE.md § TypeScript` rather than a line number — A9.4's fix, applied here early so the same comment is not rewritten twice.**
 
 > **Rule for A5: restructure, never assert or disable.** Any site fixable only with a disable comment is
 > `PARKED` and reported, not suppressed. This is what worked for `noUncheckedIndexedAccess`.
+>
+> **How that rule was applied.** Five sites were fixable only with a disable and were **not** parked,
+> because the repo already has a settled answer for them: six existing disables in `src/pipeline` carry
+> the same reason, and CLAUDE.md's immutability rule ends "only drop when a library requires mutable
+> types". Each of the five names its library type and why no wrapper removes the mutability. What was
+> refused instead was the *global* escape hatch: setting `treatMethodsAsReadonly: true` would have
+> cleared 14 of the 27 at a stroke and made four existing disables unnecessary, but it also stops the
+> rule reporting a `Set` or `Map` parameter that should have been `ReadonlySet`/`ReadonlyMap` — it buys
+> the fix by switching off the part of the rule CLAUDE.md most wants.
 
 ## A6 — The gate is blind outside `src/`
 

@@ -197,11 +197,13 @@ export default [
 		},
 	},
 
-	// CLAUDE.md L24: MUST treat data as immutable by default
-	// Scoped to Phase 1 domain code where we control the type surface.
+	// CLAUDE.md § TypeScript: MUST treat data as immutable by default, using
+	// `readonly` wherever TypeScript allows. "Wherever" is the whole typed tree,
+	// so this is scoped to TypeScript rather than to a subset of src/ — a scope
+	// naming two directories silently exempted src/cli and src/utils.
 	// ignoreInferredTypes silences callbacks whose params TypeScript infers.
 	{
-		files: ["src/pipeline/**/*.{ts,tsx}", "src/types/**/*.{ts,tsx}"],
+		files: TYPESCRIPT_FILES,
 		rules: {
 			"@typescript-eslint/prefer-readonly-parameter-types": [
 				"error",

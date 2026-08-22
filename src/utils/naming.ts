@@ -172,7 +172,13 @@ export function filenameSafe(title: string): string {
 type LectureIdentity = {
 	readonly lectureNumber: number;
 	readonly title: string;
-	readonly date: Date;
+	/**
+	 * `Readonly<Date>` rather than `Date`: the name builders only read the
+	 * calendar day off it, and a bare `Date` carries mutating methods, so a
+	 * parameter holding one is not the immutable input CLAUDE.md asks for. A
+	 * real `Date` is assignable, so callers are unaffected.
+	 */
+	readonly date: Readonly<Date>;
 };
 
 /**

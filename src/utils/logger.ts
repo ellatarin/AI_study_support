@@ -48,6 +48,7 @@ export function createRootLogger({
  * @example
  * const stageLogger = createStageLogger({ logger, stageId: "transcription" });
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties (`level` among them) that a wrapper type cannot remove without losing `child`; it is only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 export function createStageLogger({
 	logger,
 	stageId,

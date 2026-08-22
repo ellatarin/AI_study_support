@@ -44,7 +44,7 @@ async function readEntryNames({
 	matches,
 }: {
 	readonly dir: string;
-	readonly matches: (entry: Dirent) => boolean;
+	readonly matches: (entry: Readonly<Dirent>) => boolean;
 }): Promise<readonly string[]> {
 	return (await readDirSafe(dir)).filter(matches).map((entry) => entry.name);
 }
@@ -93,6 +93,7 @@ export class ManifestPathError extends NamedError {}
  * @example
  * await writeFileAtomic({ path: "notes.md", content: "# Notes" });
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- Uint8Array is mutable through its index signature, which no wrapper type removes, and it is the byte payload node:fs itself asks for (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 export function writeFileAtomic({
 	path,
 	content,

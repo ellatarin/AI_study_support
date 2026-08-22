@@ -15,14 +15,22 @@ import type { ParsedResult } from "chrono-node";
 import { parse } from "chrono-node";
 
 /**
+ * Where a span sits in the text. Ordering spans and testing them for overlap
+ * are the whole of what {@link byIndex} and {@link overlaps} do, and neither
+ * looks at the date, so this is what they ask for.
+ */
+type TextSpan = {
+	readonly index: number;
+	readonly length: number;
+};
+
+/**
  * A span of text read as a date. `date` is `null` where the span has a date's
  * shape but names no real day: the span is still claimed, so chrono cannot
  * reinterpret it — left to chrono, `2025-13-10` comes back as a valid date with
  * the month quietly corrected.
  */
-type DateSpan = {
-	readonly index: number;
-	readonly length: number;
+type DateSpan = TextSpan & {
 	readonly date: Date | null;
 	/**
 	 * Whether the span names a day of the year. A bare weekday does not, yet is
@@ -132,7 +140,7 @@ function fromSeparated(parts: readonly [string, string, string]): Date | null {
  * @returns Negative, zero or positive, as `Array.prototype.sort` expects.
  */
 // eslint-disable-next-line max-params -- Array.prototype.sort's comparator is spec-defined
-function byIndex(left: DateSpan, right: DateSpan): number {
+function byIndex(left: TextSpan, right: TextSpan): number {
 	return left.index - right.index;
 }
 
@@ -150,7 +158,7 @@ function overlaps({
 	index,
 	length,
 }: {
-	readonly spans: readonly DateSpan[];
+	readonly spans: readonly TextSpan[];
 	readonly index: number;
 	readonly length: number;
 }): boolean {
@@ -238,8 +246,8 @@ function claimedSpans({
 	read,
 }: {
 	readonly text: string;
-	readonly pattern: RegExp;
-	readonly read: (match: RegExpMatchArray) => Date | null;
+	readonly pattern: Readonly<RegExp>;
+	readonly read: (match: readonly string[]) => Date | null;
 }): readonly DateSpan[] {
 	return [...text.matchAll(pattern)].map((match) => ({
 		index: match.index,
@@ -383,7 +391,7 @@ export function stripDateTokens(text: string): string {
  * @param date - The date to format.
  * @returns The ISO `YYYY-MM-DD` date string.
  */
-export function formatDateISO(date: Date): string {
+export function formatDateISO(date: Readonly<Date>): string {
 	const year = date.getFullYear();
 	const month = String(date.getMonth() + 1).padStart(2, "0");
 	const day = String(date.getDate()).padStart(2, "0");
