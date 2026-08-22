@@ -9,8 +9,8 @@
  */
 
 import { parseArgs } from "node:util";
-import type { RunOptions, StageId } from "../types/pipeline.js";
-import { STAGE_IDS } from "../types/pipeline.js";
+import type { BatchRunOptions, RunOptions, StageId } from "../types/pipeline.js";
+import { DEFAULT_BATCH_OPTIONS, DEFAULT_RUN_OPTIONS, STAGE_IDS } from "../types/pipeline.js";
 import { errorMessage, NamedError } from "../utils/errors.js";
 
 /**
@@ -32,7 +32,7 @@ export type CliCommand =
 			readonly command: "batch";
 			/** The single module to process, or `null` for every configured module. */
 			readonly moduleRoot: string | null;
-			readonly options: RunOptions;
+			readonly options: BatchRunOptions;
 	  }
 	| {
 			readonly command: "cost-report";
@@ -206,20 +206,35 @@ function parseConcurrency(value: string | undefined): number | undefined {
 }
 
 /**
- * Collects the run flags a `run` or `batch` invocation carried, omitting those
- * left unset so the runner applies its own defaults.
+ * Collects the run flags a `run` invocation carried, resolving each against the
+ * default it falls back to so the options say what will happen rather than what
+ * was typed.
  *
  * @param flags - The parsed flag values.
- * @returns The run options.
- * @throws {CliUsageError} When `--from-stage` or `--concurrency` is invalid.
+ * @returns The options for one lecture's run.
+ * @throws {CliUsageError} When `--from-stage` is invalid.
  */
 function toRunOptions(flags: ParsedFlags): RunOptions {
 	const fromStage = parseFromStage(flags["from-stage"]);
-	const concurrency = parseConcurrency(flags.concurrency);
 	return {
 		...(fromStage === undefined ? {} : { fromStage }),
-		...(concurrency === undefined ? {} : { concurrency }),
-		...(flags["continue-on-error"] === true ? { continueOnError: true } : {}),
+		onStageFailure:
+			flags["continue-on-error"] === true ? "continue" : DEFAULT_RUN_OPTIONS.onStageFailure,
+	};
+}
+
+/**
+ * The same, for a `batch` invocation, which additionally says how many lectures
+ * run at once.
+ *
+ * @param flags - The parsed flag values.
+ * @returns The options for a batch run.
+ * @throws {CliUsageError} When `--from-stage` or `--concurrency` is invalid.
+ */
+function toBatchOptions(flags: ParsedFlags): BatchRunOptions {
+	return {
+		...toRunOptions(flags),
+		concurrency: parseConcurrency(flags.concurrency) ?? DEFAULT_BATCH_OPTIONS.concurrency,
 	};
 }
 
@@ -344,7 +359,7 @@ function buildCommand({
 	rejectExtraPositionals({ positionals, limit: maxPositionals, usage });
 	rejectForeignFlags({ command, flags, spec });
 	if (command === "batch") {
-		return { command, moduleRoot: positionals[0] ?? null, options: toRunOptions(flags) };
+		return { command, moduleRoot: positionals[0] ?? null, options: toBatchOptions(flags) };
 	}
 	if (command === "cost-report") {
 		return {

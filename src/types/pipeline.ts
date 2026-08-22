@@ -551,25 +551,42 @@ export type LectureMatch = {
 };
 
 /**
- * Options controlling a single lecture or batch run (technical-design.md §4.7).
+ * Options controlling a single lecture run (technical-design.md §4.7).
  */
 export type RunOptions = {
 	readonly fromStage?: StageId; // reset this stage + all downstream to pending before running
 	/**
-	 * How many lectures `runBatch` processes at once, drawn from one queue across
-	 * every module in the batch. Defaults to 1, i.e. sequential. Only `batch`
-	 * offers it: `run` addresses a single lecture, so the CLI rejects
-	 * `--concurrency` there rather than accepting an option it would ignore
-	 * (technical-design.md §4.7). Distinct from `StageConfig.concurrency`, which
-	 * bounds the parallel API calls made *within* one stage.
+	 * What the runner does once a stage has failed: `halt` stops the run, leaving
+	 * the stages after it `not-reached`; `continue` logs the failure and moves on
+	 * to the next stage (technical-design.md §8, Stage Failure Protocol). Always
+	 * stated — the default is {@link DEFAULT_RUN_OPTIONS}, not the absence of a
+	 * value.
 	 */
-	readonly concurrency?: number;
+	readonly onStageFailure: "halt" | "continue";
+};
+
+/**
+ * Options controlling a batch run: everything a single lecture run takes, plus
+ * the one thing only a batch can say (technical-design.md §4.7).
+ */
+export type BatchRunOptions = RunOptions & {
 	/**
-	 * When `true`, a stage failure is logged and the runner moves to the next
-	 * stage rather than aborting the run; when unset (default), the run stops at
-	 * the first failed stage (technical-design.md §8, Stage Failure Protocol).
+	 * How many lectures `runBatch` processes at once, drawn from one queue across
+	 * every module in the batch. Absent from {@link RunOptions} because `run`
+	 * addresses a single lecture and could do nothing with it. Distinct from
+	 * `StageConfig.concurrency`, which bounds the parallel API calls made
+	 * *within* one stage.
 	 */
-	readonly continueOnError?: boolean;
+	readonly concurrency: number;
+};
+
+/** What a lecture run does when its caller expresses no preference. */
+export const DEFAULT_RUN_OPTIONS: RunOptions = { onStageFailure: "halt" };
+
+/** What a batch run does when its caller expresses no preference: one at a time. */
+export const DEFAULT_BATCH_OPTIONS: BatchRunOptions = {
+	...DEFAULT_RUN_OPTIONS,
+	concurrency: 1,
 };
 
 /**

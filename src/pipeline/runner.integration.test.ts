@@ -1,18 +1,21 @@
 import { access, mkdir, readdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type {
-	LectureIdentityChanges,
-	ManifestStageEntry,
-	PipelineConfig,
-	PipelineStage,
-	RunLog,
-	RunManifest,
-	RunType,
-	SourceNormalisationStage,
-	StageContext,
-	StageId,
-	StageResult,
+import {
+	DEFAULT_BATCH_OPTIONS,
+	DEFAULT_RUN_OPTIONS,
+	type LectureIdentityChanges,
+	type ManifestStageEntry,
+	type PipelineConfig,
+	type PipelineStage,
+	type RunLog,
+	type RunManifest,
+	type RunSummary,
+	type RunType,
+	type SourceNormalisationStage,
+	type StageContext,
+	type StageId,
+	type StageResult,
 } from "../types/pipeline.js";
 import { pathExists } from "../utils/files.js";
 import {
@@ -376,7 +379,7 @@ describe("PipelineRunner integration", () => {
 			expect(runLog.stages.synthesis).toEqual({ action: "not-reached" });
 		});
 
-		it("should continue past a failed stage when continueOnError is set", async () => {
+		it("should continue past a failed stage when onStageFailure is continue", async () => {
 			const failing = makeStubStage({
 				stageId: "audio-extraction",
 				run: () => Promise.reject(new Error("audio extraction failed")),
@@ -393,7 +396,7 @@ describe("PipelineRunner integration", () => {
 
 			const summary = await makeRunner([failing, later]).runLecture({
 				workspaceRoot,
-				options: { continueOnError: true },
+				options: { onStageFailure: "continue" },
 			});
 
 			expect(laterRun).toHaveBeenCalledTimes(1);
@@ -506,11 +509,23 @@ describe("PipelineRunner integration", () => {
 			]);
 		}
 
-		it("should delete the nominated stage and downstream output when --from-stage is given", async () => {
-			const summary = await fromStageRunner().runLecture({
+		/**
+		 * Restarts the lecture from the nominated stage, leaving every other option
+		 * at its default: this suite is about what `fromStage` resets, and says
+		 * nothing about how a failure would be handled.
+		 *
+		 * @param fromStage - The stage to run again, along with everything after it.
+		 * @returns The run summary.
+		 */
+		function runFromStage(fromStage: StageId): Promise<RunSummary> {
+			return fromStageRunner().runLecture({
 				workspaceRoot,
-				options: { fromStage: "transcription" },
+				options: { ...DEFAULT_RUN_OPTIONS, fromStage },
 			});
+		}
+
+		it("should delete the nominated stage and downstream output when --from-stage is given", async () => {
+			const summary = await runFromStage("transcription");
 
 			await expect(access(stageDir("transcription"))).rejects.toThrow();
 			await expect(access(stageDir("synthesis"))).rejects.toThrow();
@@ -520,10 +535,7 @@ describe("PipelineRunner integration", () => {
 		});
 
 		it("should leave upstream stages untouched when --from-stage is given", async () => {
-			const summary = await fromStageRunner().runLecture({
-				workspaceRoot,
-				options: { fromStage: "transcription" },
-			});
+			const summary = await runFromStage("transcription");
 
 			await expect(
 				access(stageOutputPath({ workspaceRoot, stageId: "audio-extraction" })),
@@ -538,10 +550,7 @@ describe("PipelineRunner integration", () => {
 			const qaDirs = await fillStageDirectories("qa-loop");
 			const pdfDirs = await fillStageDirectories("pdf-generation");
 
-			await fromStageRunner().runLecture({
-				workspaceRoot,
-				options: { fromStage: "pdf-generation" },
-			});
+			await runFromStage("pdf-generation");
 
 			expect(await existence(pdfDirs)).toStrictEqual([false]);
 			expect(await existence(qaDirs)).toStrictEqual([true, true]);
@@ -551,7 +560,7 @@ describe("PipelineRunner integration", () => {
 			const qaDirs = await fillStageDirectories("qa-loop");
 			const pdfDirs = await fillStageDirectories("pdf-generation");
 
-			await fromStageRunner().runLecture({ workspaceRoot, options: { fromStage: "qa-loop" } });
+			await runFromStage("qa-loop");
 
 			expect(await existence(qaDirs)).toStrictEqual([false, false]);
 			expect(await existence(pdfDirs)).toStrictEqual([false]);
@@ -670,12 +679,10 @@ describe("PipelineRunner integration", () => {
 		}
 
 		it.each([
-			{ concurrency: undefined },
-			{ concurrency: 1 },
-			{ concurrency: 2 },
-		])("should run every lecture and aggregate cost when concurrency is $concurrency", async ({
-			concurrency,
-		}) => {
+			{ scenario: "the caller asks for none", options: undefined },
+			{ scenario: "it is the default of one at a time", options: DEFAULT_BATCH_OPTIONS },
+			{ scenario: "it is two at a time", options: { ...DEFAULT_BATCH_OPTIONS, concurrency: 2 } },
+		])("should run every lecture and aggregate cost when $scenario", async ({ options }) => {
 			const normaliseModule = vi.fn(async () => undefined);
 			const runner = new PipelineRunner({
 				config: RUNNER_CONFIG,
@@ -684,7 +691,7 @@ describe("PipelineRunner integration", () => {
 				logger: logged.logger,
 			});
 
-			const summary = await runner.runBatch({ moduleRoots: [moduleA], options: { concurrency } });
+			const summary = await runner.runBatch({ moduleRoots: [moduleA], options });
 
 			expect(normaliseModule).toHaveBeenCalledWith({ moduleRoot: moduleA });
 			expect(summary.lectures).toHaveLength(2);
@@ -851,7 +858,7 @@ describe("PipelineRunner integration", () => {
 			const summary = await makeRunner([makeStubStage({ stageId: "audio-extraction" })]).runLecture(
 				{
 					workspaceRoot,
-					...(fromStage === null ? {} : { options: { fromStage } }),
+					...(fromStage === null ? {} : { options: { ...DEFAULT_RUN_OPTIONS, fromStage } }),
 				},
 			);
 			return (await readRunLog(workspaceRoot, summary.runId)).runType;

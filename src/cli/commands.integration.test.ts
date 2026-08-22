@@ -15,7 +15,14 @@ import {
 import { moduleDirs, stageOutputEntry } from "../pipeline/layout.js";
 import { baseNameForLecture } from "../pipeline/lecture-files.js";
 import { readManifest, writeManifest } from "../pipeline/manifest.js";
-import type { BatchSummary, LectureMatch, OverallStatus, RunSummary } from "../types/pipeline.js";
+import {
+	type BatchSummary,
+	DEFAULT_BATCH_OPTIONS,
+	DEFAULT_RUN_OPTIONS,
+	type LectureMatch,
+	type OverallStatus,
+	type RunSummary,
+} from "../types/pipeline.js";
 import {
 	type CliDeps,
 	executeCommand,
@@ -177,7 +184,7 @@ describe("executeCommand", () => {
 		const runCommand = {
 			command: "run",
 			lectureDate: testLecture.date,
-			options: {},
+			options: DEFAULT_RUN_OPTIONS,
 		} as const;
 
 		it("should normalise every configured module before looking for the lecture when running", async () => {
@@ -193,7 +200,10 @@ describe("executeCommand", () => {
 
 			expect(code).toBe(0);
 			expect(selectMatches).not.toHaveBeenCalled();
-			expect(runner.runLecture).toHaveBeenCalledWith({ workspaceRoot, options: {} });
+			expect(runner.runLecture).toHaveBeenCalledWith({
+				workspaceRoot,
+				options: DEFAULT_RUN_OPTIONS,
+			});
 		});
 
 		it("should print the end-of-run summary when a lecture has run", async () => {
@@ -206,15 +216,13 @@ describe("executeCommand", () => {
 		});
 
 		it("should pass the run options through when flags were given", async () => {
-			await executeCommand({
-				command: { ...runCommand, options: { fromStage: "transcription", continueOnError: true } },
-				deps: deps(),
-			});
+			// Any options that are not the default will do: what is under test is that
+			// the dispatcher hands the runner what it was given, whatever that is.
+			const flagged = { fromStage: "transcription", onStageFailure: "continue" } as const;
 
-			expect(runner.runLecture).toHaveBeenCalledWith({
-				workspaceRoot,
-				options: { fromStage: "transcription", continueOnError: true },
-			});
+			await executeCommand({ command: { ...runCommand, options: flagged }, deps: deps() });
+
+			expect(runner.runLecture).toHaveBeenCalledWith({ workspaceRoot, options: flagged });
 		});
 
 		it("should report a failure when the run failed", async () => {
@@ -287,6 +295,12 @@ describe("executeCommand", () => {
 	});
 
 	describe("batch", () => {
+		const batchCommand = {
+			command: "batch",
+			moduleRoot: null,
+			options: DEFAULT_BATCH_OPTIONS,
+		} as const;
+
 		function batchSummary(overallStatus: OverallStatus): BatchSummary {
 			return {
 				startedAt: "2025-10-10T09:00:00.000Z",
@@ -302,32 +316,34 @@ describe("executeCommand", () => {
 		});
 
 		it("should batch every configured module when none is named", async () => {
+			const parallel = { ...DEFAULT_BATCH_OPTIONS, concurrency: 2 };
+
 			const code = await executeCommand({
-				command: { command: "batch", moduleRoot: null, options: { concurrency: 2 } },
+				command: { ...batchCommand, options: parallel },
 				deps: deps(),
 			});
 
 			expect(code).toBe(0);
 			expect(runner.runBatch).toHaveBeenCalledWith({
 				moduleRoots: [moduleRoot, otherModuleRoot()],
-				options: { concurrency: 2 },
+				options: parallel,
 			});
 		});
 
 		it("should batch only the named module when one is given", async () => {
 			await executeCommand({
-				command: { command: "batch", moduleRoot, options: {} },
+				command: { ...batchCommand, moduleRoot },
 				deps: deps(),
 			});
 
-			expect(runner.runBatch).toHaveBeenCalledWith({ moduleRoots: [moduleRoot], options: {} });
+			expect(runner.runBatch).toHaveBeenCalledWith({
+				moduleRoots: [moduleRoot],
+				options: DEFAULT_BATCH_OPTIONS,
+			});
 		});
 
 		it("should print each lecture's summary and the batch total when the batch ends", async () => {
-			await executeCommand({
-				command: { command: "batch", moduleRoot: null, options: {} },
-				deps: deps(),
-			});
+			await executeCommand({ command: batchCommand, deps: deps() });
 
 			expect(output()).toContain("Run summary");
 			expect(output()).toContain("Batch summary");
@@ -337,10 +353,7 @@ describe("executeCommand", () => {
 		it("should report a failure when any lecture in the batch failed", async () => {
 			runner.runBatch.mockResolvedValue(batchSummary("failed"));
 
-			const code = await executeCommand({
-				command: { command: "batch", moduleRoot: null, options: {} },
-				deps: deps(),
-			});
+			const code = await executeCommand({ command: batchCommand, deps: deps() });
 
 			expect(code).toBe(1);
 		});

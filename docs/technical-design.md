@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.31-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.32-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -501,7 +501,11 @@ Each log records which stages were attempted, skipped, or re-run; cost and model
 
 ### 4.7 Pipeline Runner
 
-The runner-facing types — `LectureMatch`, `RunOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, and `BatchSummary` — are defined in `src/types/pipeline.ts` (single source of truth). The `PipelineRunner` surface:
+The runner-facing types — `LectureMatch`, `RunOptions`, `BatchRunOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, and `BatchSummary` — are defined in `src/types/pipeline.ts` (single source of truth).
+
+`RunOptions` carries what any run can be told: which stage to restart from, and `onStageFailure`, `'halt' | 'continue'`, which the caller always states. `BatchRunOptions` extends it with `concurrency`, how many lectures are in flight at once; only a batch has more than one lecture to place, so the option lives on the batch's type alone and a single-lecture run cannot express it. What a caller who states no preference gets is named once, as `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`: halt at the first failed stage, one lecture at a time.
+
+The `PipelineRunner` surface:
 
 ```typescript
 class PipelineRunner {
@@ -509,7 +513,7 @@ class PipelineRunner {
   constructor(deps: { config: PipelineConfig; sourceNormalisation: SourceNormalisationStage; lectureStages: readonly PipelineStage<unknown, unknown>[]; logger: Logger })
   async normaliseSources(args: { moduleRoots: readonly string[] }): Promise<void>          // Stage 0
   async runLecture(args: { workspaceRoot: string; options?: RunOptions }): Promise<RunSummary>
-  async runBatch(args: { moduleRoots: readonly string[]; options?: RunOptions }): Promise<BatchSummary>
+  async runBatch(args: { moduleRoots: readonly string[]; options?: BatchRunOptions }): Promise<BatchSummary>
   async costReport(args: { moduleRoots: readonly string[]; options?: ReportOptions }): Promise<void>
   async resolveLecturesByDate(args: { moduleRoots: readonly string[]; lectureDate: string }): Promise<readonly LectureMatch[]>
 }

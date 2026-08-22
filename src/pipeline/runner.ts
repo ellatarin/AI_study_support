@@ -2,6 +2,7 @@ import { mkdir, readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
 import type { Logger } from "pino";
 import type {
+	BatchRunOptions,
 	BatchSummary,
 	CurrentPipelineCost,
 	LectureIdentityChanges,
@@ -25,7 +26,7 @@ import type {
 	StageResult,
 	StageRunConfig,
 } from "../types/pipeline.js";
-import { STAGE_IDS } from "../types/pipeline.js";
+import { DEFAULT_BATCH_OPTIONS, DEFAULT_RUN_OPTIONS, STAGE_IDS } from "../types/pipeline.js";
 import { formatCostReport } from "../utils/cost.js";
 import { errorMessage } from "../utils/errors.js";
 import { listSubdirectoryNames, readDirSafe, writeFileAtomic } from "../utils/files.js";
@@ -682,20 +683,20 @@ export class PipelineRunner {
 
 	/**
 	 * Runs one lecture's stages in order against its workspace. Each stage is
-	 * skipped when its output already exists, run otherwise; a failure halts the
-	 * run (marking downstream stages `not-reached`) unless `continueOnError` is
-	 * set. A `--from-stage` option resets the nominated stage and everything
+	 * skipped when its output already exists, run otherwise; a failure ends the
+	 * run (marking downstream stages `not-reached`) unless `onStageFailure` says
+	 * to continue. A `fromStage` option resets the nominated stage and everything
 	 * downstream first. Writes a timestamped run log and returns the run summary
 	 * (technical-design.md §4.7).
 	 *
 	 * @param args - The run inputs.
 	 * @param args.workspaceRoot - Absolute path to the lecture workspace.
-	 * @param args.options - Options controlling the run (`fromStage`, `continueOnError`).
+	 * @param args.options - Options controlling the run; {@link DEFAULT_RUN_OPTIONS} when omitted.
 	 * @returns The summary of the lecture run.
 	 */
 	public async runLecture({
 		workspaceRoot,
-		options = {},
+		options = DEFAULT_RUN_OPTIONS,
 	}: {
 		readonly workspaceRoot: string;
 		readonly options?: RunOptions;
@@ -770,7 +771,11 @@ export class PipelineRunner {
 			});
 			current = nextContext;
 			outcomes.push({ stageId: stage.stageId, entry });
-			if (entry.action === "ran" && entry.status === "failed" && options.continueOnError !== true) {
+			if (
+				entry.action === "ran" &&
+				entry.status === "failed" &&
+				options.onStageFailure === "halt"
+			) {
 				halted = true;
 			}
 		}
@@ -784,13 +789,13 @@ export class PipelineRunner {
 	 *
 	 * @param args - The batch inputs.
 	 * @param args.moduleRoots - Absolute paths to the modules to run.
-	 * @param args.options - Options controlling the run, including `concurrency`.
+	 * @param args.options - Options controlling the run; {@link DEFAULT_BATCH_OPTIONS} when omitted.
 	 * @returns The aggregated batch summary.
 	 */
 	public async runBatch({
 		moduleRoots,
-		options = {},
-	}: ModuleScopedArgs<RunOptions>): Promise<BatchSummary> {
+		options = DEFAULT_BATCH_OPTIONS,
+	}: ModuleScopedArgs<BatchRunOptions>): Promise<BatchSummary> {
 		const startedAt = new Date().toISOString();
 		await this.normaliseSources({ moduleRoots });
 		const workspaces = await this.#collectWorkspaces(moduleRoots);
@@ -823,10 +828,12 @@ export class PipelineRunner {
 		options,
 	}: {
 		readonly workspaces: readonly string[];
-		readonly options: RunOptions;
+		readonly options: BatchRunOptions;
 	}): Promise<readonly RunSummary[]> {
 		const results: RunSummary[] = new Array(workspaces.length);
-		const limit = Math.max(1, options.concurrency ?? 1);
+		// Clamped rather than trusted: the CLI rejects anything below 1, but a
+		// programmatic caller is only held to the type, and 0 would start no workers.
+		const limit = Math.max(1, options.concurrency);
 		let next = 0;
 		// The claimed entry decides whether there was work, so the bound is read
 		// once rather than checked against the length and then read again.

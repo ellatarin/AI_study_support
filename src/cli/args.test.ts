@@ -7,6 +7,7 @@ import {
 	testModuleRoot,
 	userChosenTitle,
 } from "../pipeline/fixtures.js";
+import { DEFAULT_BATCH_OPTIONS, DEFAULT_RUN_OPTIONS } from "../types/pipeline.js";
 import { type CliCommand, CliUsageError, parseCliArgs, USAGE } from "./args.js";
 
 function parse(argv: readonly string[]): CliCommand {
@@ -49,7 +50,7 @@ describe("parseCliArgs", () => {
 			expect(parse(["run", testLecture.date])).toEqual({
 				command: "run",
 				lectureDate: testLecture.date,
-				options: {},
+				options: DEFAULT_RUN_OPTIONS,
 			});
 		});
 
@@ -59,7 +60,7 @@ describe("parseCliArgs", () => {
 			).toEqual({
 				command: "run",
 				lectureDate: testLecture.date,
-				options: { fromStage: "transcription", continueOnError: true },
+				options: { fromStage: "transcription", onStageFailure: "continue" },
 			});
 		});
 
@@ -91,14 +92,18 @@ describe("parseCliArgs", () => {
 
 	describe("batch", () => {
 		it("should target every configured module when no module is named", () => {
-			expect(parse(["batch"])).toEqual({ command: "batch", moduleRoot: null, options: {} });
+			expect(parse(["batch"])).toEqual({
+				command: "batch",
+				moduleRoot: null,
+				options: DEFAULT_BATCH_OPTIONS,
+			});
 		});
 
 		it("should target one module when a module root is named", () => {
 			expect(parse(["batch", testModuleRoot])).toEqual({
 				command: "batch",
 				moduleRoot: testModuleRoot,
-				options: {},
+				options: DEFAULT_BATCH_OPTIONS,
 			});
 		});
 
@@ -115,7 +120,7 @@ describe("parseCliArgs", () => {
 			).toEqual({
 				command: "batch",
 				moduleRoot: null,
-				options: { fromStage: "transcription", concurrency: 3, continueOnError: true },
+				options: { fromStage: "transcription", concurrency: 3, onStageFailure: "continue" },
 			});
 		});
 
