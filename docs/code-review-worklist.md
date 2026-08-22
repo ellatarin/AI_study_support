@@ -302,7 +302,7 @@ Worked module by module, one commit each, **last** of the auto work.
 
 ### A21.7 Misused suppressions
 
-- [ ] **A21.7a** `transcription.ts:24` disables `prefer-readonly-parameter-types` **file-wide**, justified by `StageContext`'s shape — but `transcript-structuring.ts` has helpers with the identical signature and needs no suppression. One of the two is wrong
+- [ ] **A21.7a** `transcription.ts:24` disables `prefer-readonly-parameter-types` **file-wide**, justified by `StageContext`'s shape — but `transcript-structuring.ts` has helpers with the identical signature and needs no suppression. One of the two is wrong — R1, R2. **EVIDENCE MOVED, 2026-08-22 (C1.1). Re-read the code, not this line, before working it — but the finding is now stronger, not weaker, and the direction is settled.** `transcript-structuring.ts` no longer "needs no suppression": it carries **three** targeted `disable-next-line`s (`:291`, `:341`, `:394`), each naming pino's `Logger` as its reason. That makes it the worked example rather than the counter-example — it proves a targeted disable is sufficient for these signatures, so **the file-wide disables are the wrong side of the contradiction.** There are **three** of them, not the one the review named: `transcription.ts:24`, `audio-extraction.ts:15` and `source-normalisation.ts:18`. `pipeline-stage.ts` (`:140`, `:150`) also uses targeted ones. The work is to replace the three file-wide disables with targeted ones and confirm nothing else in those files was quietly relying on the blanket
 - [ ] **A21.7b** Two `eslint-disable` comments in `runner.ts` (411, 615) misquote CLAUDE.md, which permits dropping `readonly` only "when a **library** requires mutable types"
 
 ### A21.8 Small modelling fixes
