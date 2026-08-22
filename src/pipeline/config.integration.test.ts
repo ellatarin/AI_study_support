@@ -262,7 +262,7 @@ describe("loadConfig model-ID resolution check", () => {
 		expect(config.stages["slide-conversion"]?.concurrency).toBe(3);
 	});
 
-	it("should skip the model-ID check when --skip-model-check is set", async () => {
+	it("should skip the model-ID check when skipModelCheck is set", async () => {
 		const config = makeValidConfig();
 		setStructuringModelId({ config, modelId: "totally/made-up-model" });
 		await writeConfig(config);

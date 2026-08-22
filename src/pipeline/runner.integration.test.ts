@@ -605,6 +605,9 @@ describe("PipelineRunner integration", () => {
 					lectureTitle: SHARED_DATE_LECTURE.title,
 				}),
 			);
+			// Two things the scan has to walk past: a workspace folder holding no
+			// manifest, and a module directory the pipeline has never processed, so
+			// it has no `Pipeline processing/` at all.
 			await mkdir(join(moduleDirs({ moduleRoot: moduleA }).processing, EMPTY_FOLDER), {
 				recursive: true,
 			});
@@ -635,6 +638,15 @@ describe("PipelineRunner integration", () => {
 				lectureNumber: otherLecture.number,
 				lectureTitle: otherLecture.title,
 			});
+		});
+
+		it("should skip the module when its directory holds no Pipeline processing folder", async () => {
+			const matches = await resolver().resolveLecturesByDate({
+				moduleRoots: [moduleC, moduleA],
+				lectureDate: otherLecture.date,
+			});
+
+			expect(matches.map((match) => match.lectureTitle)).toEqual([otherLecture.title]);
 		});
 
 		it("should return every matching lecture across modules when several match the date", async () => {

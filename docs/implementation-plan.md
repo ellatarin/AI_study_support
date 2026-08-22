@@ -122,7 +122,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `should throw ConfigError naming the offending stage when a configured modelId is not in the OpenRouter models response`
 - `should throw ConfigError with a helpful hint when a placeholder like <REASONING_MODEL> is left un-substituted`
 - `should accept the config when every stage modelId appears in the OpenRouter response`
-- `should skip the model-ID check when --skip-model-check is set` — for offline test runs
+- `should skip the model-ID check when skipModelCheck is set` — for offline test runs. It is a `loadConfig` parameter, not a CLI flag: nothing on the command line turns the check off, because a user who cannot reach OpenRouter cannot run the pipeline either
 
 `openrouter.ts` — HTTP interceptor tests using `nock`:
 - `should send correct baseURL, headers, and model ID when makeCompletionCall invoked`
@@ -135,8 +135,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `should throw after 120s when completion request times out`
 - `should time out cost lookup after 30s per attempt`
 
-`openrouter.integration.test.ts` — live tests against real OpenRouter (not run in CI):
-- `should complete a minimal prompt and return a fully-resolved non-zero cost when called with valid API key`
+`openrouter.integration.test.ts` intercepts with `nock` like the unit tests above, and there is no live-key variant of it. CLAUDE.md § Testing requires every external service to be mocked, and a suite that spends money when a key happens to be present is the one kind that cannot be run by everyone who clones this. Stage 2's integration test resolves the same tension the same way: a real file streamed through the real SDK, against a stubbed endpoint.
 
 **Acceptance:** All unit and integration tests pass; `tsc --noEmit` clean.
 
@@ -183,7 +182,7 @@ Runner lifecycle — integration tests (real temp directory with fixture manifes
 - `should return single match when only one module contains the date`
 - `should return all matches when the date appears in multiple modules`
 - `should include moduleRoot, workspaceRoot, lectureNumber, and lectureTitle in every match`
-- `should skip module directories that contain no Pipeline processing/ folder`
+- `should skip the module when its directory holds no Pipeline processing folder` — a module the pipeline has never run over is walked past, not an error
 
 Manifest I/O and run status — integration and unit tests:
 - `should return null when the manifest is missing` / `when the manifest is malformed`
@@ -341,7 +340,7 @@ The transcription integration test streams a real file through the real SDK but 
 Unit tests for the stage (mock `makeCompletionCall`):
 - `should extract structured markdown and keep the provisional title when LLM judges it meaningful`
 - `should store suggestedTitle as aiDerivedTitle when LLM judges the provisional not meaningful`
-- `should leave aiDerivedTitle null when LLM judges the provisional meaningful`
+- `should settle no identity when the model judges the title meaningful` — the stage returns no `identityChanges`, so the runner writes none and `aiDerivedTitle` stays as it was
 - `should fail when the response is not the documented JSON object`
 - `should fail when the LLM judges the provisional not meaningful but proposes no title`
 
