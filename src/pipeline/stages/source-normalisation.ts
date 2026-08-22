@@ -593,6 +593,23 @@ export function createSourceNormalisationStage({
 			slides: slides.dated,
 			existing: existingWorkspaces,
 		});
+		// One line per lecture, before anything is renamed: the date read off the
+		// filename, the number that date earned it, and the slide it was matched
+		// with. Between them they are the whole answer to "why is this Lecture 3?",
+		// which is otherwise reconstructable only by re-deriving the ordering by hand
+		// (technical-design.md §10).
+		for (const lecture of lectures) {
+			logger.debug(
+				{
+					lectureNumber: lecture.lectureNumber,
+					lectureDate: lecture.iso,
+					videoName: lecture.videoName,
+					slideName: lecture.slideName,
+					provisionalTitle: lecture.provisionalTitle,
+				},
+				"Resolved lecture",
+			);
+		}
 
 		const renames = planRenames({ lectures, dirs, existingWorkspaces, existingPdfs });
 		await executeRenames(renames);

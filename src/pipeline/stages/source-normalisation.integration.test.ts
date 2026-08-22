@@ -1,10 +1,10 @@
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { pino } from "pino";
 import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RunManifest } from "../../types/pipeline.js";
-import { makeTempDir } from "../fixtures.js";
+import type { LoggedEntry, LoggedLevel } from "../fixtures.js";
+import { loggedAt, makeStubLogger, makeTempDir } from "../fixtures.js";
 import { moduleDirs } from "../layout.js";
 import { manifestPath } from "../manifest.js";
 import {
@@ -71,23 +71,32 @@ async function patchManifest({
 describe("createSourceNormalisationStage", () => {
 	let tempDir: string;
 	let moduleRoot: string;
-	let info: ReturnType<typeof vi.fn>;
-	let error: ReturnType<typeof vi.fn>;
+	let logged: ReturnType<typeof makeStubLogger>;
 	let confirm: Mock<(args: { readonly message: string }) => Promise<boolean>>;
 	let stage: ReturnType<typeof createSourceNormalisationStage>;
 
 	beforeEach(async () => {
 		tempDir = await makeTempDir({ prefix: "stage0-" });
 		moduleRoot = join(tempDir, "Biology of Disease");
-		const logger = pino({ level: "silent" });
-		info = vi.fn();
-		error = vi.fn();
-		vi.spyOn(logger, "info").mockImplementation(info as never);
-		vi.spyOn(logger, "error").mockImplementation(error as never);
 		confirm = vi.fn<(args: { readonly message: string }) => Promise<boolean>>();
 		confirm.mockResolvedValue(true);
-		stage = createSourceNormalisationStage({ logger, confirm });
+		freshStage();
 	});
+
+	/**
+	 * Rebuilds the stage against an empty log. Called again by a test whose arrange
+	 * step already normalised the module, so its assertions see only what the run
+	 * under test logged.
+	 */
+	function freshStage(): void {
+		logged = makeStubLogger();
+		stage = createSourceNormalisationStage({ logger: logged.logger, confirm });
+	}
+
+	/** What the stage logged at one level. */
+	function logsAt(level: LoggedLevel): readonly LoggedEntry[] {
+		return loggedAt({ entries: logged.entries, level });
+	}
 
 	afterEach(async () => {
 		vi.restoreAllMocks();
@@ -120,7 +129,7 @@ describe("createSourceNormalisationStage", () => {
 	async function expectNormalisationToAbort(workspaces: readonly string[]): Promise<void> {
 		await expect(stage.normaliseModule({ moduleRoot })).rejects.toThrow(SourceNormalisationError);
 
-		expect(error).toHaveBeenCalled();
+		expect(logsAt("error")).not.toHaveLength(0);
 		expect(await listNames(processingDir(moduleRoot))).toEqual(workspaces);
 	}
 
@@ -213,8 +222,33 @@ describe("createSourceNormalisationStage", () => {
 
 		await stage.normaliseModule({ moduleRoot });
 
-		expect(info).toHaveBeenCalled();
-		expect(error).not.toHaveBeenCalled();
+		expect(logsAt("info")).not.toHaveLength(0);
+		expect(logsAt("error")).toHaveLength(0);
+	});
+
+	it("should record each lecture's date, number and matched sources when normalisation succeeds", async () => {
+		await normaliseTwoLectures();
+
+		expect(
+			logsAt("debug")
+				.filter((entry) => entry.message === "Resolved lecture")
+				.map((entry) => entry.payload),
+		).toStrictEqual([
+			{
+				lectureNumber: 1,
+				lectureDate: "2025-10-10",
+				videoName: CELL_INJURY_VIDEO,
+				slideName: CELL_INJURY_SLIDE,
+				provisionalTitle: "Cell Injury",
+			},
+			{
+				lectureNumber: 2,
+				lectureDate: "2025-10-17",
+				videoName: "2025-10-17 BOD_Vaccination.mp4",
+				slideName: "2025-10-17 Vaccination deck.pdf",
+				provisionalTitle: "Vaccination",
+			},
+		]);
 	});
 
 	it("should ignore dotfiles in the source directories when normalising", async () => {
@@ -224,7 +258,7 @@ describe("createSourceNormalisationStage", () => {
 
 		await stage.normaliseModule({ moduleRoot });
 
-		expect(error).not.toHaveBeenCalled();
+		expect(logsAt("error")).toHaveLength(0);
 		expect(await listNames(processingDir(moduleRoot))).toEqual([
 			"Lecture 1 - Cell Injury - 2025-10-10",
 		]);
@@ -340,7 +374,7 @@ describe("createSourceNormalisationStage", () => {
 
 		await stage.normaliseModule({ moduleRoot });
 
-		expect(error).not.toHaveBeenCalled();
+		expect(logsAt("error")).toHaveLength(0);
 		expect(await listNames(finalOutputDir(moduleRoot))).toEqual(["Module handbook.pdf"]);
 	});
 
@@ -375,7 +409,7 @@ describe("createSourceNormalisationStage", () => {
 				folder: join(processingDir(moduleRoot), CELL_INJURY),
 				patch: { currentPipelineCost: { totalCostUsd: 1.23, byStage: { transcription: 1.23 } } },
 			});
-			info.mockClear();
+			freshStage();
 			confirm.mockClear();
 		});
 
@@ -455,14 +489,13 @@ describe("createSourceNormalisationStage", () => {
 
 			await stage.normaliseModule({ moduleRoot });
 
-			expect(info).toHaveBeenCalledWith(
+			expect(logsAt("info").map((entry) => entry.payload)).toContainEqual(
 				expect.objectContaining({
 					lectureNumber: 1,
 					lectureTitle: "Cell Injury",
 					lectureDate: "2025-10-10",
 					totalCostUsd: 1.23,
 				}),
-				expect.any(String),
 			);
 		});
 
