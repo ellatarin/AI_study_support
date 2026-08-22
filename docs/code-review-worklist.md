@@ -35,8 +35,13 @@ Worked unattended, checkpointed per group cluster.
 
 ## A2 — Every hook installed twice
 
-- [ ] **A2.1** `.claude/settings.local.json` holds two identical `Bash`, `Grep` and `WebFetch` PreToolUse groups and two `Edit|Write` PostToolUse groups, so `pre-commit-check` (tsc, both jscpd passes, the whole `vitest --coverage` suite) runs twice per commit and `post-edit-biome` twice per edit. Cause: Claude Code re-serialises the file and drops the `__project` key `scripts/setup:96-98` dedupes on. Fix: dedupe on the command string — R2 §1.5 — VERIFIED
-- [ ] **A2.2** `scripts/setup:56-58` claims the template "carries a `__project` marker inside each hook entry". It does not; there is one top-level marker. This is the cause of A2.1 — R2 §4
+**Worked first, ahead of A1: the doubled gate is the largest single cost in the whole plan.**
+`pre-commit-check` ran the full `vitest --coverage` suite, tsc and both jscpd passes **twice per commit**,
+and there are well over a hundred commits ahead of us.
+
+- [x] **A2.1** `.claude/settings.local.json` held two identical `Bash`, `Grep` and `WebFetch` PreToolUse groups and two `Edit|Write` PostToolUse groups. **Deduped 2026-08-22 — one of each now, permissions untouched.** That file is gitignored, so this was a local edit with immediate effect and no commit — R2 §1.5 — VERIFIED
+- [ ] **A2.2** `scripts/setup:96-98` dedupes on a `__project` key that Claude Code strips when it re-serialises the settings file, so **every `pnpm setup` re-appends another copy** and undoes A2.1. Dedupe on the command string instead. *Until this lands, do not run `pnpm setup`* — R2 §1.5 — VERIFIED
+- [ ] **A2.3** `scripts/setup:56-58` claims the template "carries a `__project` marker inside each hook entry". It does not; there is one top-level marker. This is the cause of A2.2 — R2 §4
 
 ## A3 — Rules configured toothless
 
