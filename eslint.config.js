@@ -1,14 +1,48 @@
-import tseslint from "typescript-eslint";
-import jsdoc from "eslint-plugin-jsdoc";
-import importPlugin from "eslint-plugin-import";
 import vitest from "@vitest/eslint-plugin";
+import importPlugin from "eslint-plugin-import";
+import jsdoc from "eslint-plugin-jsdoc";
+import tseslint from "typescript-eslint";
+
+// The gate covers the whole tree, not just src/: eslint.config.js,
+// vitest.config.ts and scripts/*.mjs are code we rely on and had been lint-free
+// only because every rule block was scoped to src/**. The ignores block at the
+// foot of this file is what keeps generated and vendored trees out.
+const CODE_FILES = ["**/*.{ts,tsx,js,mjs,cjs}"];
+const TYPESCRIPT_FILES = ["**/*.{ts,tsx}"];
+const TEST_FILES = ["**/*.test.{ts,tsx,js,mjs}", "**/*.integration.test.{ts,tsx,js,mjs}"];
+
+// CLAUDE.md L79: MUST describe tests as `should [behaviour] when [condition]`.
+// The pattern is a raw regex string; the plugin compiles it and matches it
+// against the title argument. Both of vitest's title functions carry the same
+// requirement, so it is named once and mapped over rather than restated.
+const TEST_TITLE_REQUIREMENT = [
+	"^should [^\\s].* when [^\\s].*$",
+	"CLAUDE.md L79: MUST describe tests as `should [behaviour] when [condition]`",
+];
+const TEST_TITLE_FUNCTIONS = ["it", "test"];
+
+// CLAUDE.md L27, L38: NEVER wildcard imports; MUST use async/await (no .then
+// chains). Flat config replaces a rule's options wholesale rather than merging
+// them, so the barrel-file block below has to carry these two selectors as well
+// as its own. They are named here so both blocks spread one list.
+const GENERAL_SYNTAX_RESTRICTIONS = [
+	{
+		selector: "ImportNamespaceSpecifier",
+		message:
+			"Wildcard imports (`import * as X`) are forbidden unless namespacing is genuinely necessary — CLAUDE.md L27",
+	},
+	{
+		selector: "CallExpression[callee.type='MemberExpression'][callee.property.name='then']",
+		message: "Use async/await instead of .then() chains — CLAUDE.md L38",
+	},
+];
 
 export default [
 	...tseslint.configs.recommended,
 
 	// CLAUDE.md L68: architectural rules — use ESLint for cross-module concerns
 	{
-		files: ["src/**/*.{ts,tsx,js,mjs,cjs}"],
+		files: CODE_FILES,
 		plugins: { import: importPlugin },
 		settings: {
 			"import/resolver": {
@@ -27,23 +61,22 @@ export default [
 	},
 
 	{
-		files: ["src/**/*.{ts,tsx,js,mjs,cjs}"],
+		files: CODE_FILES,
 		languageOptions: {
 			parserOptions: {
 				// Needed for type-aware rules like use-unknown-in-catch-callback-variable
-				projectService: true,
+				projectService: {
+					// tsconfig.json covers src/ and vitest.config.ts. The remaining
+					// linted files are JS the compiler never sees, so the project
+					// service needs them listed by hand — the globs cannot use `**`.
+					allowDefaultProject: ["*.js", "scripts/*.mjs", "scripts/hooks/lib/*.mjs"],
+				},
 				tsconfigRootDir: import.meta.dirname,
 			},
 		},
 		rules: {
 			// CLAUDE.md L19: MUST use `type` for all type definitions
 			"@typescript-eslint/consistent-type-definitions": ["error", "type"],
-
-			// CLAUDE.md L22, L40: MUST annotate return types on exported functions and async functions
-			"@typescript-eslint/explicit-module-boundary-types": "error",
-
-			// CLAUDE.md L39: MUST use typed catch blocks (catch (e: unknown))
-			"@typescript-eslint/use-unknown-in-catch-callback-variable": "error",
 
 			// CLAUDE.md L38, L40: MUST use async/await, and annotate async functions
 			// with Promise<T>. These three keep `await` meaning what it says.
@@ -85,27 +118,28 @@ export default [
 			// where a longer name would fight ecosystem convention rather than clarify
 			"id-length": ["warn", { min: 3, exceptions: ["_", "fs", "os"] }],
 
-			// CLAUDE.md L27, L38: NEVER wildcard imports; MUST use async/await (no .then chains)
-			"no-restricted-syntax": [
-				"error",
-				{
-					selector: "ImportNamespaceSpecifier",
-					message:
-						"Wildcard imports (`import * as X`) are forbidden unless namespacing is genuinely necessary — CLAUDE.md L27",
-				},
-				{
-					selector:
-						"CallExpression[callee.type='MemberExpression'][callee.property.name='then']",
-					message: "Use async/await instead of .then() chains — CLAUDE.md L38",
-				},
-			],
+			"no-restricted-syntax": ["error", ...GENERAL_SYNTAX_RESTRICTIONS],
+		},
+	},
+
+	// Rules that require a type annotation to satisfy, so they can only be met in
+	// TypeScript. Asking them of eslint.config.js or scripts/*.mjs would demand
+	// syntax those files cannot carry.
+	{
+		files: TYPESCRIPT_FILES,
+		rules: {
+			// CLAUDE.md L22, L40: MUST annotate return types on exported functions and async functions
+			"@typescript-eslint/explicit-module-boundary-types": "error",
+
+			// CLAUDE.md L39: MUST use typed catch blocks (catch (e: unknown))
+			"@typescript-eslint/use-unknown-in-catch-callback-variable": "error",
 		},
 	},
 
 	// CLAUDE.md L45: MUST write TSDoc for all exported functions, classes, methods
 	{
-		files: ["src/**/*.{ts,tsx}"],
-		ignores: ["src/**/*.test.{ts,tsx}", "src/**/*.integration.test.{ts,tsx}"],
+		files: TYPESCRIPT_FILES,
+		ignores: TEST_FILES,
 		plugins: { jsdoc },
 		rules: {
 			"jsdoc/require-jsdoc": [
@@ -146,33 +180,20 @@ export default [
 
 	// CLAUDE.md L56: NEVER create barrel files (index.ts re-exports) inside
 	// feature folders; the CLI entry (src/index.ts) is fine.
-	// Restates the general no-restricted-syntax entries so the barrel-specific
-	// selectors add to them rather than replace them via flat-config precedence.
 	{
 		files: ["src/**/index.ts"],
 		ignores: ["src/index.ts"],
 		rules: {
 			"no-restricted-syntax": [
 				"error",
-				{
-					selector: "ImportNamespaceSpecifier",
-					message:
-						"Wildcard imports (`import * as X`) are forbidden unless namespacing is genuinely necessary — CLAUDE.md L27",
-				},
-				{
-					selector:
-						"CallExpression[callee.type='MemberExpression'][callee.property.name='then']",
-					message: "Use async/await instead of .then() chains — CLAUDE.md L38",
-				},
+				...GENERAL_SYNTAX_RESTRICTIONS,
 				{
 					selector: "ExportAllDeclaration",
-					message:
-						"Barrel file (index.ts re-exports) forbidden in feature folders — CLAUDE.md L56",
+					message: "Barrel file (index.ts re-exports) forbidden in feature folders — CLAUDE.md L56",
 				},
 				{
 					selector: "ExportNamedDeclaration[source]",
-					message:
-						"Barrel file (index.ts re-exports) forbidden in feature folders — CLAUDE.md L56",
+					message: "Barrel file (index.ts re-exports) forbidden in feature folders — CLAUDE.md L56",
 				},
 			],
 		},
@@ -181,7 +202,7 @@ export default [
 	// Test files: relax structural rules, enforce test-quality rules via @vitest/eslint-plugin.
 	// CLAUDE.md L79: MUST describe tests as `should [behaviour] when [condition]`
 	{
-		files: ["**/*.test.{ts,tsx}", "**/*.integration.test.{ts,tsx}"],
+		files: TEST_FILES,
 		plugins: { vitest },
 		rules: {
 			"max-params": "off",
@@ -189,22 +210,14 @@ export default [
 			"jsdoc/require-jsdoc": "off",
 			"@typescript-eslint/prefer-readonly-parameter-types": "off",
 
-			// Enforce `should [behaviour] when [condition]` title pattern.
-			// pattern is a raw regex string; the plugin compiles it and matches
-			// against the test/it title argument.
+			// Enforce the `should [behaviour] when [condition]` title pattern on
+			// every one of vitest's title functions.
 			"vitest/valid-title": [
 				"error",
 				{
-					mustMatch: {
-						it: [
-							"^should [^\\s].* when [^\\s].*$",
-							"CLAUDE.md L79: MUST describe tests as `should [behaviour] when [condition]`",
-						],
-						test: [
-							"^should [^\\s].* when [^\\s].*$",
-							"CLAUDE.md L79: MUST describe tests as `should [behaviour] when [condition]`",
-						],
-					},
+					mustMatch: Object.fromEntries(
+						TEST_TITLE_FUNCTIONS.map((titleFunction) => [titleFunction, TEST_TITLE_REQUIREMENT]),
+					),
 				},
 			],
 

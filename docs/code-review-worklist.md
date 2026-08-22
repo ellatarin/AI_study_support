@@ -67,11 +67,15 @@ and there are well over a hundred commits ahead of us.
 
 ## A6 — The gate is blind outside `src/`
 
-- [ ] **A6.1** Biome's `files.includes` is `["src/**/*"]`; `biome check vitest.config.ts eslint.config.js` reports both as "provided but ignored" — R2 §1.6 — VERIFIED
-- [ ] **A6.2** Every ESLint rule block is `files: ["src/**"]` — R2 §1.6
-- [ ] **A6.3** jscpd's pattern is `src/**` — R2 §1.6
-- [ ] **A6.4** vitest's `include` is `src/**`, so a test placed beside a script would not run — R2 §1.6, §1.17
-- [ ] **A6.5** The gate passes `--no-errors-on-unmatched`, so a miss becomes a success — R2 §1.6
+- [x] **A6.1** Biome's `files.includes` is `["src/**/*"]`; `biome check vitest.config.ts eslint.config.js` reports both as "provided but ignored" — R2 §1.6 — VERIFIED. **Done: `*.ts`, `*.js`, `*.json` and `scripts/**/*.mjs` added. `noDefaultExport` is `off` for `vitest.config.ts`/`eslint.config.js` in an override — both tools require a default export.**
+- [x] **A6.2** Every ESLint rule block is `files: ["src/**"]` — R2 §1.6. **Done: the three globs are named (`CODE_FILES`, `TYPESCRIPT_FILES`, `TEST_FILES`) and widened to the tree. `explicit-module-boundary-types` and `use-unknown-in-catch-callback-variable` moved to a TypeScript-only block — they can only be satisfied by an annotation, which `.mjs` cannot carry. `projectService.allowDefaultProject` lists the JS the compiler never sees; `tsconfig.json` gained `vitest.config.ts`, so tsc checks it now too.**
+- [x] **A6.3** jscpd's pattern is `src/**` — R2 §1.6. **Done: both configs widened to `**/*.{ts,tsx,js,mjs}` with `javascript` added to `format`. This immediately found two real clones — see A10.1 and the `no-restricted-syntax` block restated in `eslint.config.js`, both now extracted.**
+- [x] **A6.4** vitest's `include` is `src/**`, so a test placed beside a script would not run — R2 §1.6, §1.17. **Done: `**/*.{test,integration.test}.{ts,tsx,js,mjs}`. The first suites outside `src/` are A10.6's.**
+- [x] **A6.5** The gate passes `--no-errors-on-unmatched`, so a miss becomes a success — R2 §1.6. **Done: flag removed. The gate's file filter is split in two — biome's set (which excludes `.md`, since Biome does not read it and would fail the whole run) and eslint's, which now includes `.js`/`.mjs`/`.cjs` rather than TypeScript alone. With biome.json covering every path the filter can produce, "provided but ignored" now means a real hole and fails.**
+
+> **Still open from A6:** vitest's *coverage* `include` remains `src/**`, so `scripts/**` has tests but
+> no measured coverage. Widening it before `scripts/` is fully covered would sink the A8 ratchet, so it
+> is sequenced after A10 and recorded with **C9.4** (`perFile`).
 
 > Scope agreed: `.ts`/`.js`/`.mjs` outside `src/` now (`eslint.config.js`, `vitest.config.ts`,
 > `scripts/audit-constants.mjs`, `bin/`). Shell scripts are **C9** (shellcheck).

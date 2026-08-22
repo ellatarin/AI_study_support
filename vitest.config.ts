@@ -4,7 +4,8 @@ export default defineConfig({
 	test: {
 		// CLAUDE.md L53: `foo.test.ts` for unit, `foo.integration.test.ts` for integration.
 		// Brace expansion below yields *.test.ts and *.integration.test.ts (and .tsx variants).
-		include: ["src/**/*.{test,integration.test}.{ts,tsx}"],
+		// Not scoped to src/: a suite beside a script in scripts/ must run too.
+		include: ["**/*.{test,integration.test}.{ts,tsx,js,mjs}"],
 
 		// Coverage: v8 provider (native, fast). Thresholds enabled now that Phase 2
 		// has a real baseline (currently stmts/funcs/lines 100%, branches ~97%). Set

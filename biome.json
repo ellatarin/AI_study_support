@@ -7,7 +7,16 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["src/**/*", "!node_modules", "!dist", "!.claude"]
+		"includes": [
+			"src/**/*",
+			"*.ts",
+			"*.js",
+			"*.json",
+			"scripts/**/*.mjs",
+			"!node_modules",
+			"!dist",
+			"!.claude"
+		]
 	},
 	"formatter": {
 		"enabled": true,
@@ -37,6 +46,18 @@
 			"trailingCommas": "all"
 		}
 	},
+	"overrides": [
+		{
+			"includes": ["vitest.config.ts", "eslint.config.js"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noDefaultExport": "off"
+					}
+				}
+			}
+		}
+	],
 	"assist": {
 		"enabled": true,
 		"actions": {

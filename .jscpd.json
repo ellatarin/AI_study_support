@@ -4,17 +4,17 @@
 	"absolute": true,
 	"gitignore": true,
 	"ignore": [
-		"**/*.test.{ts,tsx}",
-		"**/*.integration.test.{ts,tsx}",
-		"**/fixtures.ts",
+		"**/*.test.{ts,tsx,js,mjs}",
+		"**/*.integration.test.{ts,tsx,js,mjs}",
+		"**/fixtures.{ts,js,mjs}",
 		"**/__fixtures__/**",
 		"**/__snapshots__/**",
 		"node_modules/**",
 		"dist/**",
 		".claude/**"
 	],
-	"pattern": "src/**/*.{ts,tsx}",
+	"pattern": "**/*.{ts,tsx,js,mjs}",
 	"minTokens": 20,
 	"minLines": 2,
-	"format": ["typescript", "tsx"]
+	"format": ["typescript", "tsx", "javascript"]
 }
