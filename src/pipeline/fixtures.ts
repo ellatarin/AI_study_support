@@ -531,18 +531,16 @@ export async function makeWorkspaceTree({
  * whatever else its stage reads (a transcript, a manifest) and removes
  * `tempDir` afterwards.
  *
+ * The lecture it lays out is {@link testLecture}, and each of the three files is
+ * named from that lecture rather than reassembled here: `describeLecture` is
+ * where a lecture's file names are derived, and deriving them twice is how the
+ * two spellings drift apart.
+ *
  * @param args - The layout inputs.
  * @param args.prefix - Prefix for the temporary directory name, identifying the suite.
- * @param args.folderName - The base name the workspace and the three files share; defaults to {@link testLecture}'s.
  * @returns The temp directory to clean up, the module root and its directories, and the workspace.
  */
-export async function makeLectureTree({
-	prefix,
-	folderName = testLecture.folderName,
-}: {
-	readonly prefix: string;
-	readonly folderName?: string;
-}): Promise<{
+export async function makeLectureTree({ prefix }: { readonly prefix: string }): Promise<{
 	readonly tempDir: string;
 	readonly moduleRoot: string;
 	readonly dirs: ModuleDirs;
@@ -551,14 +549,14 @@ export async function makeLectureTree({
 	const tempDir = await makeTempDir({ prefix });
 	const moduleRoot = join(tempDir, testModuleName);
 	const dirs = moduleDirs({ moduleRoot });
-	const workspaceRoot = join(dirs.processing, folderName);
+	const workspaceRoot = join(dirs.processing, testLecture.folderName);
 
 	for (const dir of [dirs.video, dirs.slide, dirs.finalOutput, workspaceRoot]) {
 		await mkdir(dir, { recursive: true });
 	}
-	await writeFile(join(dirs.video, `${folderName}.mp4`), "video");
-	await writeFile(join(dirs.slide, `${folderName}.pdf`), "slides");
-	await writeFile(join(dirs.finalOutput, `${folderName}.pdf`), "notes");
+	await writeFile(join(dirs.video, testLecture.videoFile), "video");
+	await writeFile(join(dirs.slide, testLecture.slideFile), "slides");
+	await writeFile(join(dirs.finalOutput, testLecture.outputFile), "notes");
 
 	return { tempDir, moduleRoot, dirs, workspaceRoot };
 }
