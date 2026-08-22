@@ -29,7 +29,7 @@ import { parseConfig } from "./config.js";
 import { type ModuleDirs, moduleDirs } from "./layout.js";
 import { baseNameForLecture } from "./lecture-files.js";
 import { OPENROUTER_PATHS } from "./openrouter.js";
-import { assembleContext } from "./runner.js";
+import { assembleContext } from "./stage-context.js";
 import { API_KEY_VARIABLE, ELEVENLABS_PATHS } from "./stages/transcription.js";
 
 /**

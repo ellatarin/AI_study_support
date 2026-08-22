@@ -30,15 +30,10 @@ import { formatCostReport } from "../utils/cost.js";
 import { errorMessage } from "../utils/errors.js";
 import { listSubdirectoryNames, readDirSafe, writeFileAtomic } from "../utils/files.js";
 import { createStageLogger } from "../utils/logger.js";
-import {
-	moduleDirs,
-	moduleRootOf,
-	RUNS_DIR,
-	type StageInWorkspace,
-	stageDirectoryPaths,
-} from "./layout.js";
+import { moduleDirs, RUNS_DIR, type StageInWorkspace, stageDirectoryPaths } from "./layout.js";
 import { readManifest, readManifestSafe, writeManifest } from "./manifest.js";
 import { stageOutcomeStatus, summariseOverallStatus } from "./run-status.js";
+import { assembleContext } from "./stage-context.js";
 
 /**
  * Constructor dependencies for {@link PipelineRunner}. Stages are injected so the
@@ -93,7 +88,7 @@ export function deriveRunId({ instant }: { readonly instant: Date }): string {
  * @param args.manifest - The manifest whose target-stage status is inspected.
  * @returns The run classification.
  */
-export function classifyRunType({
+function classifyRunType({
 	options,
 	manifest,
 }: {
@@ -109,39 +104,6 @@ export function classifyRunType({
 		return "experiment";
 	}
 	return "error-recovery";
-}
-
-/**
- * Builds the immutable {@link StageContext} for a lecture run from its manifest,
- * deriving `moduleRoot` two levels up from the workspace
- * (`moduleRoot/Pipeline processing/<folder>`) and freezing the result so no stage
- * can mutate shared run state (technical-design.md §4.7).
- *
- * @param args - The context inputs.
- * @param args.workspaceRoot - Absolute path to the lecture workspace folder.
- * @param args.manifest - The lecture's run manifest, the source of lecture identity.
- * @param args.config - The validated pipeline configuration.
- * @returns The frozen stage context shared by every stage in the run.
- */
-export function assembleContext({
-	workspaceRoot,
-	manifest,
-	config,
-}: {
-	readonly workspaceRoot: string;
-	readonly manifest: RunManifest;
-	readonly config: PipelineConfig;
-}): StageContext {
-	return Object.freeze({
-		workspaceRoot,
-		moduleRoot: moduleRootOf({ workspaceRoot }),
-		config,
-		manifest,
-		lectureNumber: manifest.lectureNumber,
-		lectureDate: manifest.lectureDate,
-		provisionalTitle: manifest.provisionalTitle,
-		lectureTitle: manifest.lectureTitle,
-	});
 }
 
 async function readJsonFile<TValue>(path: string): Promise<TValue | null> {

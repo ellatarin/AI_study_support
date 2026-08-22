@@ -413,7 +413,7 @@ C1 and C2 which are settled early because A20 shares their seam.
 - [ ] **C2.3** Optional fields that select runtime behaviour, which CLAUDE.md says should be discriminated unions: `StageParams:66-71` (`concurrency?` and `maxIterations?` each apply to exactly one stage); `RunOptions:536-553` (`continueOnError?` flips failure handling, `concurrency?` is batch-only). Both are contract types — R1, R2 carried §16
 - [x] **C2.4** `runner.ts:412-494` `runStage` mixes orchestration with manifest patching, workspace relocation, logging, error mapping and run-log construction across ~80 lines around a mutable `nextContext` closure — R1. **Done, in the same commit as C2.1.** The manifest half moved to `createStageRecorder`, which owns `nextContext` and exposes one method per transition — `skipped`, `running`, `complete`, `failed`, `context`. `runStage` keeps only the decisions (run, skip, map a throw to an entry, what to report) and constructs no manifest entry at all. The mutable variable did not go away — a stage can move the workspace, so something has to track where it is — but it is now inside the thing whose job that is rather than in the middle of the orchestration.
 
-> **C2.5 — SETTLED 2026-08-22 with the user. AGREED, NOT BUILT. This is the next piece of work.**
+> **C2.5 — SETTLED 2026-08-22 with the user, and BUILT the same day.**
 >
 > C2.2 kept four functions private and recorded, as a consequence not to act on, that the same argument
 > points at the three `runner.ts` *does* export. The user asked the question, so it is settled here.
@@ -450,7 +450,7 @@ C1 and C2 which are settled early because A20 shares their seam.
 > exported was written by C2.2 to be true of the code *as it stood*. C2.5 changes that list, so the
 > sentence moves with it — same commit.
 
-- [ ] **C2.5** `runner.ts` exports `deriveRunId`, `classifyRunType` and `assembleContext`; two of the three have no consumer but the test suite. Same deep-module argument as C2.2, which recorded it and did not act — raised by the user on 2026-08-22 — see the block quote above for the settled shape
+- [x] **C2.5** `runner.ts` exports `deriveRunId`, `classifyRunType` and `assembleContext`; two of the three have no consumer but the test suite. Same deep-module argument as C2.2, which recorded it and did not act — raised by the user on 2026-08-22 — see the block quote above for the settled shape. **Done.** `runner.ts` now exports `deriveRunId` and `PipelineRunner` and nothing else. The six `classifyRunType` unit tests became one `it.each` of five cases plus a `normal` case in `runner.integration.test.ts`, asserting `RunLog.runType` — the classification's only route to the outside world. Building that table needed a `complete` manifest entry the `--from-stage` suite already had buried in a `beforeEach`, so it was hoisted to a module-level `finishedEntry({ status, filesWritten })` covering `complete` and `skipped` and taking its instant from the `stageCompletedAt` fixture, which is what that fixture is for.
 
 ## C3 — Issue #2: module-wide deletion
 

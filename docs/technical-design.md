@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.30-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.31-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -518,14 +518,15 @@ class PipelineRunner {
 type SourceNormalisationStage = { stageId: "source-normalisation"; normaliseModule(args: { moduleRoot: string }): Promise<void> }
 
 // The runner's supporting logic lives in module-level functions rather than private methods, so each has one
-// job and the class stays orchestration. runStage, createStageRecorder, updateManifest, resolveWorkspace and
-// findLectureByDate are module-private, reached only through PipelineRunner, which is the module's public
-// surface and the surface its tests drive; deriveRunId, classifyRunType and assembleContext are exported.
-// Notably runStage returns its outcome (rather than void): the caller collects the entries, decides whether
-// to halt, and fills `not-reached` — so no shared mutable run-log state exists and batch concurrency is safe.
-deriveRunId(args: { instant: Date }): string                                   // filesystem-safe run id, e.g. 2025-10-10T09-00-00Z
+// job and the class stays orchestration. All of them are module-private but `deriveRunId`: `PipelineRunner`
+// is the module's surface, and the surface its own tests drive. Notably runStage returns its outcome (rather
+// than void): the caller collects the entries, decides whether to halt, and fills `not-reached` — so no
+// shared mutable run-log state exists and batch concurrency is safe.
+export deriveRunId(args: { instant: Date }): string     // filesystem-safe run id, e.g. 2025-10-10T09-00-00Z
+// Exported for the CLI, which names the run's debug log after the run it belongs to (§10).
 classifyRunType(args: { options: RunOptions; manifest: RunManifest }): RunType  // normal | experiment | error-recovery (§7)
-assembleContext(args: { workspaceRoot: string; manifest: RunManifest; config: PipelineConfig }): StageContext  // moduleRoot derived two levels up
+// Private. The classification reaches the outside world on `RunLog.runType`, which is where the cost report
+// reads it and where the runner's tests assert it.
 type StageOutcome = { entry: RunLogStageEntry; context: StageContext }
 runStage(args: { stage: PipelineStage<unknown, unknown>; context: StageContext; config: PipelineConfig; timestamp: string; logger: Logger }): Promise<StageOutcome>
 // Runs or skips one stage: marks it `running`, converts a throw into a failed entry (never throws), and logs
@@ -573,7 +574,15 @@ summariseOverallStatus(args: { statuses: readonly OverallStatus[] }): OverallSta
 
 **`resolveLecturesByDate`:** Scans every `moduleRoots[i]/Pipeline processing/*/manifest.json` and returns matches whose `lectureDate` equals the argument. Zero matches: caller decides (typically an error). One match: caller uses it directly. Multiple matches: caller (the CLI) prompts the user via `@inquirer/prompts` — checkbox list of matches (each labelled `<module name> — Lecture N — <title>`) with "All matches" and "Cancel" affordances. Interactive prompt lives in the CLI layer, not the runner.
 
-**`StageContext` assembly:** Before invoking any stage, the runner reads `manifest.json` at `workspaceRoot` and assembles a `StageContext` (via `assembleContext`). `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle`, and `workspaceRoot` are sourced from the manifest. `moduleRoot` (the containing module for this lecture) is derived from `workspaceRoot` two levels up (`moduleRoot/Pipeline processing/<folder>`); `config` comes from the runner's construction. Every context is frozen and no stage may mutate one; the per-stage manifest entries are the runner's to write, through `updateManifest()` (§4.2).
+**`StageContext` assembly:** Before invoking any stage, the runner reads `manifest.json` at `workspaceRoot` and assembles a `StageContext`. `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle`, and `workspaceRoot` are sourced from the manifest. `moduleRoot` (the containing module for this lecture) is derived from `workspaceRoot` two levels up (`moduleRoot/Pipeline processing/<folder>`); `config` comes from the runner's construction. Every context is frozen and no stage may mutate one; the per-stage manifest entries are the runner's to write, through `updateManifest()` (§4.2).
+
+The assembly lives in its own module rather than on the runner, because the runner is not its only caller: the stage test fixtures build a context for every stage suite, and building it here means a stage under test is handed one put together exactly as a real run puts it together.
+
+```typescript
+// src/pipeline/stage-context.ts
+assembleContext(args: { workspaceRoot: string; manifest: RunManifest; config: PipelineConfig }): StageContext
+// moduleRoot derived two levels up; the result is frozen.
+```
 
 The context is **rebuilt between stages** rather than assembled once for the run. It costs no extra reads: the runner already re-reads the manifest at every stage transition, so `updateManifest` hands back what it wrote and the next context is assembled from that. What it buys is that a stage's manifest changes reach the stages that follow — Stage 3 replaces `lectureTitle`, and Stage 8 names the PDF from it.
 
