@@ -99,12 +99,12 @@ and there are well over a hundred commits ahead of us.
 
 ## A10 — `scripts/audit-constants.mjs` is broken
 
-- [ ] **A10.1** Its "what a number looks like" regex is written three times (lines 270, 275, 290) and **line 270 omits the leading `-`**, so negative literals are recorded without their sign (`-1` → `1` → discarded as trivial) — R2 §1.18
-- [ ] **A10.2** No regex-literal handling: a regex containing a quote opens a phantom string and swallows the rest of the file — R2 §1.18
-- [ ] **A10.3** Escapes mishandled — `"a\nb"` is recorded as `anb` — R2 §1.18
-- [ ] **A10.4** Template literals captured whole, hiding every constant inside `${…}` — R2 §1.18
-- [ ] **A10.5** `walk` matches `.ts` only, including `.d.ts` and excluding `.tsx`/`.mjs`, though its TSDoc claims "Every TypeScript file" — R2 §1.18
-- [ ] **A10.6** Zero tests, for a 383-line source scanner — R2 §1.17. `block-bash-grep` is likewise a 273-line shell lexer with none
+- [x] **A10.1** Its "what a number looks like" regex is written three times (lines 270, 275, 290) and **line 270 omits the leading `-`**, so negative literals are recorded without their sign (`-1` → `1` → discarded as trivial) — R2 §1.18. **VERIFIED independently: the widened jscpd (A6.3) flagged the same two lines as a clone before the finding was read. Now one `NUMBER_SOURCE`, embedded in all three patterns; `-1` is recorded with its sign, and `total-1` still records `1` rather than `-1`. Both pinned by tests.**
+- [x] **A10.2** No regex-literal handling: a regex containing a quote opens a phantom string and swallows the rest of the file — R2 §1.18. **Done: the scanner recognises regex literals, including character classes (`/["']/` no longer opens a string) and escaped slashes, and distinguishes them from division by what precedes the slash.**
+- [x] **A10.3** Escapes mishandled — `"a\nb"` is recorded as `anb` — R2 §1.18. **Done: `readEscape` decodes the control escapes, `\uXXXX`, `\u{…}` and `\xXX`, and falls back to the character itself for `\\`, `\"` and `\'`.**
+- [x] **A10.4** Template literals captured whole, hiding every constant inside `${…}` — R2 §1.18. **Done: `scanSegment` recurses into each interpolation and scans it as code, so constants inside `${…}` are reported. Literal text either side is recorded as its own value. Nested templates work to any depth.**
+- [x] **A10.5** `walk` matches `.ts` only, including `.d.ts` and excluding `.tsx`/`.mjs`, though its TSDoc claims "Every TypeScript file" — R2 §1.18. **Done: walks `.ts/.tsx/.js/.mjs/.cjs` and skips `.d.ts`. Chosen to match the extensions A6 just brought into the gate rather than the doc's narrower "TypeScript"; the TSDoc now says what it does.**
+- [x] **A10.6** Zero tests, for a 383-line source scanner — R2 §1.17. **Done for this file: 31 tests over `scan`, `collectFromFile`, `objectLiterals` and `walk`, in the first two suites to live outside `src/`. They exist because A6.4 widened vitest's `include`.** `block-bash-grep` is likewise a 273-line shell lexer with none — **still open, and covered by A1.3, which extracts its lexer.**
 
 ## A11 — Run the two axes nobody has run
 

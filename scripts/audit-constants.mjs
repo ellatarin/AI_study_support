@@ -51,49 +51,181 @@
 
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
+import { pathToFileURL } from "node:url";
 
-const ROOT = process.argv[2] ?? "src";
+/** The directory audited when the command line names none. */
+const DEFAULT_ROOT = "src";
 
 /** Numbers too common to be worth reporting. */
 const TRIVIAL_NUMBERS = new Set(["0", "1", "2"]);
 
 /**
- * Every TypeScript file beneath a directory.
+ * What a numeric literal looks like, named once because three patterns embed it
+ * and they must agree. They did not: the bare-number pattern used to omit the
+ * sign, so `-1` was recorded as `1` and then discarded as trivial.
+ */
+const NUMBER_SOURCE = String.raw`-?\d[\d_]*(?:\.\d+)?`;
+
+/** The file extensions holding code this tool can read. */
+const CODE_EXTENSIONS = [".ts", ".tsx", ".js", ".mjs", ".cjs"];
+
+/**
+ * Escape sequences that denote a character other than the one written. Anything
+ * absent — `\\`, `\"`, `\'` — denotes itself.
+ */
+const STRING_ESCAPES = new Map([
+	["n", "\n"],
+	["t", "\t"],
+	["r", "\r"],
+	["b", "\b"],
+	["f", "\f"],
+	["v", "\v"],
+	["0", "\0"],
+]);
+
+/**
+ * Characters after which a `/` opens a regular expression rather than dividing.
+ * A value cannot precede a regex, so anything that ends an expression — a name,
+ * a number, `)`, `]` — is division.
+ */
+const REGEX_MAY_FOLLOW = new Set([
+	"(",
+	",",
+	"=",
+	":",
+	"[",
+	"!",
+	"&",
+	"|",
+	"?",
+	"{",
+	"}",
+	";",
+	"+",
+	"-",
+	"*",
+	"%",
+	"^",
+	"~",
+	"<",
+	">",
+]);
+
+/** Keywords after which a `/` opens a regular expression. */
+const REGEX_MAY_FOLLOW_KEYWORD =
+	/\b(?:return|typeof|instanceof|case|in|of|do|else|yield|await|new|delete|void|throw)$/;
+
+/**
+ * Every code file beneath a directory, declaration files excluded: a `.d.ts`
+ * describes types that exist elsewhere and declares no constant anyone could
+ * extract.
  *
  * @param {string} dir - The directory to walk.
  * @returns {string[]} The file paths found.
  */
-function walk(dir) {
+export function walk(dir) {
 	const found = [];
 	for (const name of readdirSync(dir)) {
 		const path = join(dir, name);
 		if (statSync(path).isDirectory()) {
 			found.push(...walk(path));
-		} else if (name.endsWith(".ts")) {
-			found.push(path);
+			continue;
 		}
+		if (name.endsWith(".d.ts")) continue;
+		if (CODE_EXTENSIONS.some((extension) => name.endsWith(extension))) found.push(path);
 	}
 	return found;
 }
 
 /**
- * Splits source into code with comments blanked out, and the string literals it
- * held. Done with a character scanner rather than a regex so that a `//` inside
- * a string is not mistaken for a comment, and a quote inside a comment does not
- * open a string.
+ * Whether a `/` at the end of the code scanned so far opens a regular
+ * expression rather than dividing.
  *
- * @param {string} source - The file contents.
- * @returns {{ code: string, bare: string, strings: string[] }} The code with strings
- *   masked, the same code with strings intact, and the strings themselves.
+ * @param {string} precedingCode - Everything emitted as code before the slash.
+ * @returns {boolean} True when a regex may start here.
  */
-function scan(source) {
+function startsRegex(precedingCode) {
+	const trimmed = precedingCode.trimEnd();
+	if (trimmed === "") return true;
+	if (REGEX_MAY_FOLLOW.has(trimmed[trimmed.length - 1])) return true;
+	return REGEX_MAY_FOLLOW_KEYWORD.test(trimmed);
+}
+
+/**
+ * Reads one backslash escape, so that `\n` is recorded as a newline rather than
+ * as the letter n — which used to make `"a\nb"` and `"anb"` the same value.
+ *
+ * @param {object} position - Where the escape starts.
+ * @param {string} position.source - The file contents.
+ * @param {number} position.index - The index of the backslash.
+ * @returns {{ value: string, next: number }} The character denoted, and the index after it.
+ */
+function readEscape({ source, index }) {
+	const escaped = source[index + 1];
+	/**
+	 * Decodes a hex code point, falling back to the raw text when it is malformed.
+	 *
+	 * @param {object} span - The digits to decode.
+	 * @param {string} span.digits - The hex digits.
+	 * @param {number} span.next - The index after the sequence.
+	 * @returns {{ value: string, next: number }} The character, and where to resume.
+	 */
+	const fromHex = ({ digits, next }) => {
+		const code = Number.parseInt(digits, 16);
+		if (Number.isNaN(code)) return { value: escaped, next: index + 2 };
+		return { value: String.fromCodePoint(code), next };
+	};
+	if (escaped === "u" && source[index + 2] === "{") {
+		const close = source.indexOf("}", index + 3);
+		if (close !== -1) {
+			return fromHex({ digits: source.slice(index + 3, close), next: close + 1 });
+		}
+	}
+	if (escaped === "u")
+		return fromHex({ digits: source.slice(index + 2, index + 6), next: index + 6 });
+	if (escaped === "x")
+		return fromHex({ digits: source.slice(index + 2, index + 4), next: index + 4 });
+	return { value: STRING_ESCAPES.get(escaped) ?? escaped, next: index + 2 };
+}
+
+/**
+ * Scans source from an index, optionally stopping at the `}` that closes a
+ * template interpolation. Done with a character scanner rather than a regex so
+ * that a `//` inside a string is not mistaken for a comment, a quote inside a
+ * comment or a regex character class does not open a string, and the expression
+ * inside `${…}` is read as the code it is rather than swallowed as prose.
+ *
+ * @param {object} span - The region to scan.
+ * @param {string} span.source - The file contents.
+ * @param {number} span.startIndex - Where to start.
+ * @param {boolean} span.stopAtUnmatchedBrace - Whether a `}` at depth zero ends the scan.
+ * @returns {{ code: string, bare: string, strings: string[], end: number }} The code with
+ *   strings masked, the same code with strings intact, the strings themselves, and the
+ *   index just past where the scan stopped.
+ */
+function scanSegment({ source, startIndex, stopAtUnmatchedBrace }) {
 	const strings = [];
 	let code = "";
 	let bare = "";
-	let index = 0;
+	let index = startIndex;
+	let braceDepth = 0;
+
+	/**
+	 * Records one completed string literal and leaves a marker in its place.
+	 *
+	 * @param {string} value - The literal's contents.
+	 * @returns {void}
+	 */
+	const pushString = (value) => {
+		strings.push(value);
+		code += '"<str>"';
+		bare += JSON.stringify(value);
+	};
+
 	while (index < source.length) {
 		const char = source[index];
 		const next = source[index + 1];
+
 		if (char === "/" && next === "/") {
 			while (index < source.length && source[index] !== "\n") index += 1;
 			continue;
@@ -106,29 +238,101 @@ function scan(source) {
 			index += 2;
 			continue;
 		}
+		if (char === "/" && startsRegex(code)) {
+			index += 1;
+			let inCharacterClass = false;
+			while (index < source.length && source[index] !== "\n") {
+				const inner = source[index];
+				if (inner === "\\") {
+					index += 2;
+					continue;
+				}
+				if (inner === "[") inCharacterClass = true;
+				else if (inner === "]") inCharacterClass = false;
+				else if (inner === "/" && !inCharacterClass) break;
+				index += 1;
+			}
+			index += 1;
+			while (index < source.length && /[a-z]/.test(source[index])) index += 1;
+			code += "/<re>/";
+			bare += "/<re>/";
+			continue;
+		}
+
 		if (char === '"' || char === "'" || char === "`") {
 			const quote = char;
+			const isTemplate = quote === "`";
 			let value = "";
+			let pushedAny = false;
 			index += 1;
 			while (index < source.length && source[index] !== quote) {
 				if (source[index] === "\\") {
-					value += source[index + 1];
-					index += 2;
+					const decoded = readEscape({ source, index });
+					value += decoded.value;
+					index = decoded.next;
+					continue;
+				}
+				if (isTemplate && source[index] === "$" && source[index + 1] === "{") {
+					// The literal text either side of an interpolation is a value in its
+					// own right; the expression between them is code, and is scanned as
+					// code so the constants inside it are not hidden.
+					if (value !== "") {
+						pushString(value);
+						pushedAny = true;
+						value = "";
+					}
+					const inner = scanSegment({
+						source,
+						startIndex: index + 2,
+						stopAtUnmatchedBrace: true,
+					});
+					code += inner.code;
+					bare += inner.bare;
+					strings.push(...inner.strings);
+					index = inner.end;
 					continue;
 				}
 				value += source[index];
 				index += 1;
 			}
 			index += 1;
-			strings.push(value);
-			code += '"<str>"';
-			bare += JSON.stringify(value);
+			// A template that ended on an interpolation has already contributed its
+			// text; anything else contributes exactly one value, empty or not, so the
+			// masked code keeps a marker where the literal stood.
+			if (!isTemplate || value !== "" || !pushedAny) pushString(value);
 			continue;
 		}
+
+		if (stopAtUnmatchedBrace) {
+			if (char === "{") {
+				braceDepth += 1;
+			} else if (char === "}") {
+				if (braceDepth === 0) return { code, bare, strings, end: index + 1 };
+				braceDepth -= 1;
+			}
+		}
+
 		code += char;
 		bare += char;
 		index += 1;
 	}
+	return { code, bare, strings, end: index };
+}
+
+/**
+ * Splits source into code with comments blanked out, and the string literals it
+ * held.
+ *
+ * @param {string} source - The file contents.
+ * @returns {{ code: string, bare: string, strings: string[] }} The code with strings
+ *   masked, the same code with strings intact, and the strings themselves.
+ */
+export function scan(source) {
+	const { code, bare, strings } = scanSegment({
+		source,
+		startIndex: 0,
+		stopAtUnmatchedBrace: false,
+	});
 	return { code, bare, strings };
 }
 
@@ -172,7 +376,7 @@ function maskedStringSpans(text) {
  * @param {string} text - Comment-free source with its strings intact.
  * @returns {string[]} The normalised literals found.
  */
-function objectLiterals(text) {
+export function objectLiterals(text) {
 	const found = [];
 	const quoted = maskedStringSpans(text);
 	for (let start = 0; start < text.length; start += 1) {
@@ -208,12 +412,13 @@ function objectLiterals(text) {
  * files, so a value used many times in one place is as visible as one spread
  * across several.
  *
- * @param {Map<string, Map<string, number>>} counts - The value-to-files tally to add to.
- * @param {string} value - The value seen.
- * @param {string} file - The file it was seen in.
+ * @param {object} sighting - The sighting to record.
+ * @param {Map<string, Map<string, number>>} sighting.counts - The value-to-files tally to add to.
+ * @param {string} sighting.value - The value seen.
+ * @param {string} sighting.file - The file it was seen in.
  * @returns {void}
  */
-function record(counts, value, file) {
+function record({ counts, value, file }) {
 	if (!counts.has(value)) counts.set(value, new Map());
 	const perFile = counts.get(value);
 	perFile.set(file, (perFile.get(file) ?? 0) + 1);
@@ -231,17 +436,58 @@ function totalSightings(perFile) {
 	return total;
 }
 
-const constNames = new Map();
-const stringLiterals = new Map();
-const numberLiterals = new Map();
-const objectShapes = new Map();
-const propertyKnobs = new Map();
-/** @type {{ file: string, name: string, value: string, exported: boolean }[]} */
-const sourceConstants = [];
+/**
+ * Records the first capture of every match of a pattern.
+ *
+ * @param {object} scanning - What to scan and where to put it.
+ * @param {string} scanning.text - The text to search.
+ * @param {string} scanning.pattern - The pattern source; captures the value in group 1.
+ * @param {Map<string, Map<string, number>>} scanning.counts - The tally to add to.
+ * @param {string} scanning.file - The file being scanned.
+ * @param {Set<string>} [scanning.skip] - Values not worth recording.
+ * @returns {void}
+ */
+function recordMatches({ text, pattern, counts, file, skip }) {
+	for (const match of text.matchAll(new RegExp(pattern, "g"))) {
+		if (skip?.has(match[1])) continue;
+		record({ counts, value: match[1], file });
+	}
+}
 
-for (const path of walk(ROOT).sort()) {
-	const file = relative(".", path);
-	const raw = readFileSync(path, "utf8");
+/**
+ * The empty tallies one audit fills, one per reported group.
+ *
+ * @returns {{
+ *   constNames: Map<string, Map<string, number>>,
+ *   stringLiterals: Map<string, Map<string, number>>,
+ *   numberLiterals: Map<string, Map<string, number>>,
+ *   objectShapes: Map<string, Map<string, number>>,
+ *   propertyKnobs: Map<string, Map<string, Map<string, number>>>,
+ *   sourceConstants: { file: string, name: string, value: string, exported: boolean }[],
+ * }} The tallies.
+ */
+export function createTallies() {
+	return {
+		constNames: new Map(),
+		stringLiterals: new Map(),
+		numberLiterals: new Map(),
+		objectShapes: new Map(),
+		propertyKnobs: new Map(),
+		sourceConstants: [],
+	};
+}
+
+/**
+ * Adds everything one file contributes to the tallies.
+ *
+ * @param {object} target - The file and the tallies to add to.
+ * @param {string} target.file - The file's path, as it should appear in the report.
+ * @param {string} target.raw - The file's contents.
+ * @param {ReturnType<typeof createTallies>} target.tallies - The tallies to fill.
+ * @returns {void}
+ */
+export function collectFromFile({ file, raw, tallies }) {
+	const { constNames, stringLiterals, numberLiterals, objectShapes, propertyKnobs } = tallies;
 	const { code, bare, strings } = scan(raw);
 
 	// Every pattern below reads comment-free text. Matching the raw file would
@@ -258,39 +504,51 @@ for (const path of walk(ROOT).sort()) {
 		),
 	);
 	for (const value of strings) {
-		if (value.trim().length >= 2 && !specifiers.has(value)) record(stringLiterals, value, file);
+		if (value.trim().length >= 2 && !specifiers.has(value))
+			record({ counts: stringLiterals, value, file });
 	}
 
-	for (const match of bare.matchAll(
-		/(?:^|\s)(?:export\s+)?const\s+([A-Z][A-Z0-9_]{2,})\s*(?::[^=]*)?=/g,
-	)) {
-		record(constNames, match[1], file);
-	}
+	recordMatches({
+		text: bare,
+		pattern: String.raw`(?:^|\s)(?:export\s+)?const\s+([A-Z][A-Z0-9_]{2,})\s*(?::[^=]*)?=`,
+		counts: constNames,
+		file,
+	});
 
-	for (const match of code.matchAll(/(?<![\w.])(\d[\d_]*(?:\.\d+)?)(?![\w.])/g)) {
-		if (!TRIVIAL_NUMBERS.has(match[1])) record(numberLiterals, match[1], file);
-	}
+	recordMatches({
+		text: code,
+		pattern: String.raw`(?<![\w.])(${NUMBER_SOURCE})(?![\w.])`,
+		counts: numberLiterals,
+		file,
+		skip: TRIVIAL_NUMBERS,
+	});
 
 	for (const match of code.matchAll(
-		/(?<![\w$])([a-z][A-Za-z0-9_]*)\s*:\s*(-?\d[\d_]*(?:\.\d+)?|true|false)(?![\w])/g,
+		new RegExp(
+			String.raw`(?<![\w$])([a-z][A-Za-z0-9_]*)\s*:\s*(${NUMBER_SOURCE}|true|false)(?![\w])`,
+			"g",
+		),
 	)) {
 		const [, key, value] = match;
 		if (!propertyKnobs.has(key)) propertyKnobs.set(key, new Map());
-		record(propertyKnobs.get(key), value, file);
+		record({ counts: propertyKnobs.get(key), value, file });
 	}
 
 	for (const shape of objectLiterals(bare)) {
-		record(objectShapes, shape, file);
+		record({ counts: objectShapes, value: shape, file });
 	}
 
 	// Group 6 asks a question about shipped code, so test scaffolding is not
 	// listed: a constant in a suite is that suite's own business.
 	if (!isTest(file)) {
 		for (const match of bare.matchAll(
-			/(?:^|\n)(export\s+)?const\s+([A-Za-z][A-Za-z0-9_]*)\s*(?::[^=\n]*)?=\s*("(?:[^"\\]|\\.)*"|-?\d[\d_]*(?:\.\d+)?)\s*;/g,
+			new RegExp(
+				String.raw`(?:^|\n)(export\s+)?const\s+([A-Za-z][A-Za-z0-9_]*)\s*(?::[^=\n]*)?=\s*("(?:[^"\\]|\\.)*"|${NUMBER_SOURCE})\s*;`,
+				"g",
+			),
 		)) {
 			const [, exported, name, value] = match;
-			sourceConstants.push({ file, name, value, exported: exported !== undefined });
+			tallies.sourceConstants.push({ file, name, value, exported: exported !== undefined });
 		}
 	}
 }
@@ -308,28 +566,32 @@ function isTest(file) {
 /** A value in one file is reported once it has been written out this many times. */
 const MIN_SIGHTINGS_IN_ONE_FILE = 4;
 
+/** A value spread across this many files is reported however often it appears. */
+const MIN_FILES_TO_REPORT = 2;
+
 /**
- * Prints one report section: every value in at least `minFiles` files, plus
- * every value concentrated in a single file but written out often enough to be
- * worth naming.
+ * Prints one report section: every value in at least `MIN_FILES_TO_REPORT`
+ * files, plus every value concentrated in a single file but written out often
+ * enough to be worth naming.
  *
- * @param {string} title - The section heading.
- * @param {Map<string, Map<string, number>>} counts - The values and their per-file tallies.
- * @param {number} minFiles - The number of files a value must appear in to be reported.
+ * @param {object} section - The section to print.
+ * @param {string} section.title - The section heading.
+ * @param {Map<string, Map<string, number>>} section.counts - The values and their per-file tallies.
  * @returns {void}
  */
-function report(title, counts, minFiles) {
+function report({ title, counts }) {
 	const rows = [...counts.entries()]
 		.filter(
 			([, perFile]) =>
-				perFile.size >= minFiles || totalSightings(perFile) >= MIN_SIGHTINGS_IN_ONE_FILE,
+				perFile.size >= MIN_FILES_TO_REPORT || totalSightings(perFile) >= MIN_SIGHTINGS_IN_ONE_FILE,
 		)
 		.sort(
+			// eslint-disable-next-line max-params -- Array.prototype.sort's comparator is spec-defined
 			(left, right) =>
 				right[1].size - left[1].size || totalSightings(right[1]) - totalSightings(left[1]),
 		);
 	console.log(
-		`\n${"=".repeat(78)}\n${title} — ${rows.length} in ≥${minFiles} files, or ≥${MIN_SIGHTINGS_IN_ONE_FILE} times in one\n${"=".repeat(78)}`,
+		`\n${"=".repeat(78)}\n${title} — ${rows.length} in ≥${MIN_FILES_TO_REPORT} files, or ≥${MIN_SIGHTINGS_IN_ONE_FILE} times in one\n${"=".repeat(78)}`,
 	);
 	for (const [value, perFile] of rows) {
 		const describe = (file) => {
@@ -339,45 +601,79 @@ function report(title, counts, minFiles) {
 		const all = [...perFile.keys()];
 		const source = all.filter((file) => !isTest(file)).map(describe);
 		const tests = all.filter(isTest).map(describe);
-		console.log(`\n[${perFile.size} file(s), ${totalSightings(perFile)}×] ${JSON.stringify(value)}`);
+		console.log(
+			`\n[${perFile.size} file(s), ${totalSightings(perFile)}×] ${JSON.stringify(value)}`,
+		);
 		if (source.length > 0) console.log(`    src : ${source.join(", ")}`);
 		if (tests.length > 0) console.log(`    test: ${tests.join(", ")}`);
 	}
 }
 
-report("NAMED CONSTANTS declared in several files", constNames, 2);
-report("STRING LITERALS", stringLiterals, 2);
-report("NUMERIC LITERALS", numberLiterals, 2);
-report("OBJECT SHAPES repeated verbatim", objectShapes, 2);
+/**
+ * Audits a directory and prints all six groups.
+ *
+ * @param {object} options - What to audit.
+ * @param {string} options.root - The directory to walk.
+ * @returns {void}
+ */
+function audit({ root }) {
+	const tallies = createTallies();
+	for (const path of walk(root).sort()) {
+		collectFromFile({ file: relative(".", path), raw: readFileSync(path, "utf8"), tallies });
+	}
+	const { constNames, stringLiterals, numberLiterals, objectShapes, propertyKnobs } = tallies;
 
-console.log(`\n${"=".repeat(78)}\nPROPERTY KNOBS given literal values\n${"=".repeat(78)}`);
-for (const [key, values] of [...propertyKnobs.entries()].sort()) {
-	const files = new Set([...values.values()].flatMap((perFile) => [...perFile.keys()]));
-	if (files.size < 2) continue;
-	console.log(`\n${key}:`);
-	for (const [value, perFile] of values) {
-		console.log(`    = ${value}  (${perFile.size} files)`);
+	report({ title: "NAMED CONSTANTS declared in several files", counts: constNames });
+	report({ title: "STRING LITERALS", counts: stringLiterals });
+	report({ title: "NUMERIC LITERALS", counts: numberLiterals });
+	report({ title: "OBJECT SHAPES repeated verbatim", counts: objectShapes });
+
+	console.log(`\n${"=".repeat(78)}\nPROPERTY KNOBS given literal values\n${"=".repeat(78)}`);
+	for (const [key, values] of [...propertyKnobs.entries()].sort()) {
+		const files = new Set([...values.values()].flatMap((perFile) => [...perFile.keys()]));
+		if (files.size < 2) continue;
+		console.log(`\n${key}:`);
+		for (const [value, perFile] of values) {
+			console.log(`    = ${value}  (${perFile.size} files)`);
+		}
+	}
+
+	printSingleHomeConstants(tallies.sourceConstants);
+}
+
+/**
+ * Prints group 6: every literal constant in shipped code, for a human to read.
+ *
+ * @param {{ file: string, name: string, value: string, exported: boolean }[]} sourceConstants -
+ *   The constants found, in file order.
+ * @returns {void}
+ */
+function printSingleHomeConstants(sourceConstants) {
+	console.log(
+		`\n${"=".repeat(78)}\nSINGLE-HOME CONSTANTS IN SOURCE — ${sourceConstants.length} to read\n${"=".repeat(78)}`,
+	);
+	console.log(
+		"\nNot duplication — no counting rule can reach these. For each, ask: is this a\n" +
+			"fact about this codebase, or about the service, the account, or the user's\n" +
+			"material? Only the second kind belongs in pipeline-config.json. Most of this\n" +
+			"list is expected to be fine.\n",
+	);
+	let lastFile = "";
+	for (const { file, name, value, exported } of sourceConstants) {
+		if (file !== lastFile) {
+			console.log(`\n${file}`);
+			lastFile = file;
+		}
+		// Long values are prose — usage text, prompts — and are never the answer to
+		// "should this be configuration?", so they are shown only far enough to
+		// recognise.
+		const shown = value.length > 72 ? `${value.slice(0, 69)}…` : value;
+		console.log(`    ${exported ? "export " : "       "}${name} = ${shown}`);
 	}
 }
 
-console.log(
-	`\n${"=".repeat(78)}\nSINGLE-HOME CONSTANTS IN SOURCE — ${sourceConstants.length} to read\n${"=".repeat(78)}`,
-);
-console.log(
-	"\nNot duplication — no counting rule can reach these. For each, ask: is this a\n" +
-		"fact about this codebase, or about the service, the account, or the user's\n" +
-		"material? Only the second kind belongs in pipeline-config.json. Most of this\n" +
-		"list is expected to be fine.\n",
-);
-let lastFile = "";
-for (const { file, name, value, exported } of sourceConstants) {
-	if (file !== lastFile) {
-		console.log(`\n${file}`);
-		lastFile = file;
-	}
-	// Long values are prose — usage text, prompts — and are never the answer to
-	// "should this be configuration?", so they are shown only far enough to
-	// recognise.
-	const shown = value.length > 72 ? `${value.slice(0, 69)}…` : value;
-	console.log(`    ${exported ? "export " : "       "}${name} = ${shown}`);
+// Importing this module — a test suite does — must not run an audit, so the
+// walk starts only when the file is the process entry point.
+if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href) {
+	audit({ root: process.argv[2] ?? DEFAULT_ROOT });
 }
