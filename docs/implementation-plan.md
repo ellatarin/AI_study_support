@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.26-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.27-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -40,6 +40,8 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `scripts/claude-hooks.json` — template describing this project's Claude Code hook configuration (committed to the repo — a normal file, not under `.claude/`, so unaffected by the gitignore rule). Two hooks:
   - **PostToolUse matcher `Edit|Write`** → the hook command invokes `scripts/hooks/post-edit-biome`, which reads the tool-call JSON from stdin, extracts `.tool_input.file_path`, and runs `pnpm exec biome check --write <file>` on it. Fast fixup, no cross-file false positives (eslint deliberately omitted — its architectural rules only make sense against the whole tree)
   - **PreToolUse matcher `Bash`** → the hook command invokes `scripts/hooks/pre-commit-check`, which reads `.tool_input.command` from stdin, no-ops unless the command contains `git commit`, then on a commit runs `biome check --error-on-warnings` (staged files), `tsc --noEmit` (whole-project — TS needs the graph), and `eslint` (staged `.ts`/`.tsx` files). Any failure → the script exits `2`, which Claude Code treats as a block-with-feedback (stderr is fed back into the conversation)
+
+**How far the commit gate reaches — decided 2026-08-22.** Every check above is a Claude Code hook, installed into `.claude/settings.local.json`, so **the gate covers commits made from a Claude Code session in this repository and nothing else.** `.git/hooks/` holds only git's own `.sample` files and `core.hooksPath` is unset, so a commit made from a terminal, an IDE, or any other tool runs no checks at all. That is a decision, not an oversight: a real `.git/hooks/pre-commit` would make every hand-made commit pay the full suite — secretlint, Biome, `tsc`, ESLint, both jscpd passes and the whole vitest run with coverage — and would edit the developer's local git configuration to do it. The consequence to hold on to is that **a commit that did not come from a session has not been through the gate.** `pnpm check` runs the identical checks over the whole tree on demand, and is the way to find out what the gate would have said.
 
 **Dependencies installed:**
 - Runtime: `openai`, `@elevenlabs/elevenlabs-js`, `fluent-ffmpeg`, `pdfjs-dist`, `canvas`, `sharp`, `chrono-node`, `pino`, `cli-progress`, `@inquirer/prompts`, `dotenv`
