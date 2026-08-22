@@ -112,8 +112,8 @@ and there are well over a hundred commits ahead of us.
 
 ## A8 — Coverage ratchet
 
-- [ ] **A8.1** `vitest.config.ts:28-33` sets 95/90/95/95 with a comment saying to raise them. Measured: 99.56 / 97.93 / 99.36 / 99.55. Ratchet to 99/97/99/99 — R2 §1.8 — *decided 2026-08-22*
-- [ ] **A8.2** No `perFile`, so `src/index.ts` sits at 0% statements and `run-cli.ts` at 60% functions / 71% branches, hidden by the average — R2 §1.8 — **FILED, see C9**
+- [x] **A8.1** `vitest.config.ts:28-33` sets 95/90/95/95 with a comment saying to raise them. Measured: 99.56 / 97.93 / 99.36 / 99.55. Ratchet to 99/97/99/99 — R2 §1.8 — *decided 2026-08-22*. **Done, and worked last of the gate cluster deliberately: the floor is measured against whatever A5 and A9 left behind. Re-measured after both landed and the figures are unmoved — 99.56 / 97.93 / 99.36 / 99.55, 581 tests. The justifying comment was stale in the same way A5.4's was ("now that Phase 2 has a real baseline"); it now carries the measurement and its date, so the next person raising the floor knows what the last one saw.**
+- [x] **A8.2** No `perFile`, so `src/index.ts` sits at 0% statements and `run-cli.ts` at 60% functions / 71% branches, hidden by the average — R2 §1.8 — **FILED, see C9**. **The filing is now written into `vitest.config.ts` beside the thresholds, naming C9.4 and both halves of it — `perFile`, and widening `include` past `src/**` so `scripts/**` is measured. Filed in the worklist alone, it was invisible to anyone reading the config and wondering why an average is the guard.**
 
 ## A9 — Config hygiene
 

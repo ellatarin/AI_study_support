@@ -8,12 +8,18 @@ export default defineConfig({
 		// Not scoped to src/: a suite beside a script in scripts/ must run too.
 		include: ["**/*.{test,integration.test}.{ts,tsx,js,mjs}"],
 
-		// Coverage: v8 provider (native, fast). Thresholds enabled now that Phase 2
-		// has a real baseline (currently stmts/funcs/lines 100%, branches ~97%). Set
-		// just below current as a ratchet floor — raise them as coverage climbs, do
-		// not lower. Branches sits a little lower than the rest to absorb the odd
-		// compiler-required guard for a nullable API that can't run at runtime. The
-		// pre-commit gate runs `vitest --coverage`, so these block any eroding commit.
+		// Coverage: v8 provider (native, fast). The thresholds are a ratchet floor,
+		// set just under the measurement of the day and raised as coverage climbs,
+		// never lowered. Measured 2026-08-22 through Stage 3: 99.56 statements /
+		// 97.93 branches / 99.36 functions / 99.55 lines. Branches sits a little
+		// lower than the rest to absorb the odd compiler-required guard for a
+		// nullable API that cannot run at runtime. The pre-commit gate runs
+		// `vitest --coverage`, so these block any eroding commit.
+		//
+		// These are whole-tree averages, which is what hides `src/index.ts` at 0%
+		// and `run-cli.ts` at 60% functions. A `perFile` threshold is the fix and
+		// is filed as C9.4, together with widening `include` past `src/**` so that
+		// `scripts/**` — 81 tests, no measured coverage — is counted too.
 		coverage: {
 			provider: "v8",
 			reporter: ["text", "html"],
@@ -28,10 +34,10 @@ export default defineConfig({
 				"src/**/fixtures.ts",
 			],
 			thresholds: {
-				statements: 95,
-				branches: 90,
-				functions: 95,
-				lines: 95,
+				statements: 99,
+				branches: 97,
+				functions: 99,
+				lines: 99,
 			},
 		},
 	},
