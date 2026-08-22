@@ -326,10 +326,64 @@ C1 and C2 which are settled early because A20 shares their seam.
 
 ## C1 — The logger seam *(settle before A20.2)*
 
+> **SETTLED 2026-08-22 with the user. Agreed, not yet built.**
+>
+> **The logger enters through `run`'s arguments, supplied by `runStage`.** Not on `StageContext` — that
+> is a data value (identity, paths, config, manifest) and a live logger is a capability, and every
+> `assembleContext` call site including the tests would have to produce one. Not at
+> `createPipelineStage` construction either — stages are injected into the runner as `lectureStages`,
+> so they are built before it.
+>
+> `runStage` already receives the run logger and already derives `createStageLogger({ logger, stageId })`
+> in its `catch`. **`createPipelineStage` derives that child once** so no stage repeats `.child()`.
+> `getInput` and `isComplete` are left alone — they log nothing.
+>
+> **`makeCompletionCall` takes a logger too**, rather than returning timing and token data for the
+> caller to log: it already measures the latency internally, and handing that back for someone else to
+> re-assemble is the more roundabout of the two.
+>
+> **A20.2 lands in the same commit** — stage-output directory prep is triplicated across the three
+> stages and its home is `pipeline-stage.ts`, the same seam. Opening that file twice is the thing this
+> sequencing exists to avoid.
+
 - [ ] **C1.1** Stages 1–3 do no logging at all. TD §10 requires `logger.child({ stage: stageId })` per stage and a debug line per LLM call (model, prompt tokens, latency). Only Stage 0 takes a logger. **`createPipelineStage` has no logger parameter and neither does `makeCompletionCall`'s documented signature** — the required logging has *no home in the designed API*, not merely no implementation — R1, R2 carried §2
 - [ ] **C1.2** Stage 0's logging is partial: discovery counts, renames, manifest writes and deletions are logged; per-file extracted dates, assigned numbers and video↔slide matches are not — exactly the three that explain *why* a lecture got the number it did. Follows from whatever C1.1 decides — R1, R2
 
 ## C2 — Stage↔runner contract
+
+> **SETTLED 2026-08-22 with the user. Agreed, not yet built.** Four decisions, one deferral.
+>
+> **C2.1 — the runner applies the identity changes, after it receives the `StageResult`.** Stage 3 stops
+> writing the manifest itself; the changes travel back on the result and the runner writes them with the
+> `complete` entry. This is the user's call and it is *not* what I recommended (I proposed a re-read
+> inside `recordIdentity` on the grounds that a lecture's title is not "stage bookkeeping"); **do not
+> re-litigate it.** It is the reading of TD §4.2 that takes "written by the runner, never by the stage"
+> literally, and it removes the write from the stage rather than making the stage's write safer.
+>
+> Two facts found while checking it, so they are not re-derived. **What makes this route work at all:**
+> `runStage`'s `record` helper re-locates the workspace by date before *every* write, precisely because
+> a stage may have moved it — so a runner write that lands after Stage 3 has renamed the folder still
+> finds it. The current ordering comment in Stage 3 ("the manifest is written while the workspace still
+> stands where it is, and the folder moves last") stops being the reason anything works, and must be
+> rewritten rather than left. **What to watch:** Stage 3 calls `recordIdentity` from *two* paths — the
+> adopt-title path, and the keep-the-provisional-title path that records `aiDerivedTitle` anyway
+> because it is "a true fact about the transcript". Both must survive as returned changes, and the
+> field carrying them on `StageResult` must not become an optional flag that selects behaviour.
+>
+> **C2.2 — amend the doc; the four functions stay private.** The user's reason, which is the general
+> one and outlives this item: **the better design is a deeper module with less public API surface.**
+> Exporting `runStage`, `updateManifest`, `resolveWorkspace` and `findLectureByDate` would add public
+> API whose only consumer is the test suite. `runner.ts` is at 99.47% statements through the public
+> surface, so nothing is untested. **Consequence worth noticing but NOT acting on here:** the same
+> argument points at `deriveRunId`, `classifyRunType` and `assembleContext`, which *are* exported from
+> the same file. That is a separate question and nobody has asked it.
+>
+> **C2.3 — `RunOptions` now, `StageParams` deferred.** `StageParams` is serialised into the manifest and
+> the run log, and Stages 4–8 do not exist yet to show what the discriminant should be; a union chosen
+> now would be guessed. Revisit when Stage 4 lands.
+>
+> **C2.4 — folded into the same work**, not run as its own pass: `runStage` is the function C1.1 and
+> C2.1 both open anyway.
 
 - [ ] **C2.1** Stage 3 writes back a stale whole manifest. TD §4.2: "a stage's own bookkeeping in the manifest … is written by the runner, never by the stage." `recordIdentity` writes `{ ...context.manifest, ...changes }` and the runner deliberately hands the stage the pre-`running` context, so Stage 3's write **reverts its own entry's status** and after a hard crash the `running` marker TD §4.2 relies on is gone — R2 Spec
 - [ ] **C2.2** Half the documented runner surface is unexported. TD §4.7 names `runStage`, `updateManifest`, `resolveWorkspace` and `findLectureByDate` as module-level functions specifically "so the pure parts are unit-testable in isolation". All four are module-private. Export them, or amend the doc — R2 Spec
