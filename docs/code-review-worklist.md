@@ -111,7 +111,10 @@ and there are well over a hundred commits ahead of us.
 - [ ] **A11.1** `/security-review` over the tree — path traversal, prompt injection, secret leakage. Never run — R2 "What this review did not establish"
 - [ ] **A11.2** A defect pass over the four built stages and the runner: races under `--concurrency`, off-by-ones, swallowed filesystem errors. **Neither review axis hunts defects** — the Fowler baseline is a refactoring vocabulary — R1/R2 both state this
 
-> Findings from A11 are appended to this worklist and labelled AUTO/COLLAB before any are worked.
+> **A11 runs last of everything, after C3–C8 and immediately before user testing** — moved there from
+> straight-after-the-gate on 2026-08-22. It is the only group that *generates* findings rather than
+> closing them, so running it early would label and work findings against code A15–A21 were about to
+> rewrite. Findings are appended to this worklist and labelled AUTO/COLLAB before any are worked.
 
 ## A12 — Design doc contradicts itself, settled cases
 
