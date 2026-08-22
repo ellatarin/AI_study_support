@@ -688,8 +688,9 @@ type PipelineRunnerFacade = { readonly [TOperation in RunnerOperation]: Pipeline
 // The runner as a command sees it: the five operations above, as readonly properties, so a suite stands a
 // stub in without constructing a real runner and its stages.
 type CliDeps = { runner: PipelineRunnerFacade; moduleRoots; gbpPerUsd; selectMatches; selectMatch; confirm; write }
-// Both pickers are dependencies, not one: `selectMatches` is the checkbox picker `run` and `cost-report` use,
-// `selectMatch` the single-choice one the identity mutations use ("A mutation acts on exactly one lecture").
+// Two pickers, because the two questions differ: `selectMatches` is the checkbox picker `run` and
+// `cost-report` use, `selectMatch` the single-choice one the identity mutations use ("A mutation acts on
+// exactly one lecture").
 type RunnableCliCommand = Exclude<CliCommand, { command: 'help' }>
 // `help` is answered before the configuration is read, so it never reaches a command that needs deps.
 executeCommand(args: { command: RunnableCliCommand; deps: CliDeps }): Promise<number>   // returns the exit code
@@ -1459,7 +1460,7 @@ src/
 
 ## 10. Logging
 
-`pino` is used for all structured logging. Each pipeline invocation creates one root logger, writing to a debug log named for the run's timestamp so it sits beside the run log that shares it — the timestamp names the file rather than binding anything onto the entries. The only binding is the stage's: every log entry a stage makes carries `{ stage: stageId }`, but a stage does not call `logger.child()` for itself: `createPipelineStage` binds the child once when the stage is built and hands that to `run` (§4.2). One binding site per stage means a stage cannot log against a stage it is not, and a stage that logs nothing still costs nothing.
+`pino` is used for all structured logging. Each pipeline invocation creates one root logger, writing to a debug log named for the run's timestamp so it sits beside the run log that shares it. One binding is added beneath that root, and it is the stage's: every log entry a stage makes carries `{ stage: stageId }`, but a stage does not call `logger.child()` for itself: `createPipelineStage` binds the child once when the stage is built and hands that to `run` (§4.2). One binding site per stage means a stage cannot log against a stage it is not, and a stage that logs nothing still costs nothing.
 
 Each per-lecture stage factory therefore takes `{ logger }` and passes it to `createPipelineStage`; Stage 0, which is not a `PipelineStage`, takes and binds its own. The runner keeps its own binding for the one thing it logs about a stage — the failure and its stack, which it must record for a stage that threw before it could log anything itself.
 

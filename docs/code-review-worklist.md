@@ -543,6 +543,14 @@ C1 and C2 which are settled early because A20 shares their seam.
   misrepresent the input as untrusted to the next reader", and the surrounding `--from-stage` paragraph
   reads as a defence of a choice rather than a statement of it. Noticed while checking the manifest's
   trust posture during C2.1; not swept
+> **Two more instances caught in the A12–A14 pass, both written that session and fixed in it** (§10's
+> opening, "the timestamp names the file rather than binding anything onto the entries"; §4.7's
+> `CliDeps`, "Both pickers are dependencies, not one"). Both were **X-not-Y correcting the sentence
+> being replaced** — the tell is that the negated half is the text the edit removed, so the sentence
+> only reads as an answer to the old one. Worth knowing for C10.3: **an edit that fixes a stale
+> statement is where this register gets written**, because the old statement is still in mind. Check
+> every replacement sentence for the ghost of what it replaced.
+
 - [ ] **C10.3** The rest of the TD — no pass has been made. §§1–3, 4.1, 4.3, 4.6, 5 (Stages 0–2, 4–8),
   6–10 are all unread for register. **Do not assume the problem is confined to the sections C2
   touched**; those are simply the ones that were being read when it was noticed
