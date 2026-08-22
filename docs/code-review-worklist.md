@@ -43,6 +43,7 @@ Worked unattended, checkpointed per group cluster.
 - [ ] **A3.1** Neither `package.json:10` nor the gate passes `--max-warnings 0`, so `pnpm exec eslint .` exits 0 with live violations. Biome is invoked with `--error-on-warnings`; ESLint is not — R2 §1.2 — VERIFIED
 - [ ] **A3.2** `eslint.config.js:86` sets `id-length` to `warn` against CLAUDE.md's "**MUST** use meaningful, descriptive names". Currently violated at `src/pipeline/fixtures.ts:275` — R2 §1.2 — VERIFIED
 - [ ] **A3.3** `eslint.config.js:130` sets `jsdoc/require-throws` to `warn` against "document … exceptions raised" — R2 §1.2 — VERIFIED
+- [ ] **A3.4** `require-jsdoc` exempts `ArrowFunctionExpression`, so **TSDoc on exported arrow functions is unenforced** against "MUST write TSDoc for all exported functions" — R2 §1 "Consequence"
 
 ## A4 — The architectural rule that does not exist
 
@@ -318,10 +319,11 @@ C1 and C2 which are settled early because A20 shares their seam.
 - [ ] **C6.2** ~90 of `progress.ts`'s 191 lines (`createParallelWorkBar` and its helpers) have no production consumer — only the test file imports them — against "**NEVER** add code beyond what is absolutely necessary" — R2 §4
 - [ ] **C6.3** `cost.test.ts:349,506,588` use `toMatchSnapshot()` on rendered report text. CLAUDE.md forbids snapshots for behaviour — **but all three functions exist to produce a fixed text layout, so there is a real argument they are the permitted serialisation-format case.** R1 records the counter-argument; R2 stated it flatly. Owner's call — R1, R2
 
-## C7 — User-visible naming behaviour
+## C7 — User-visible behaviour
 
 - [ ] **C7.1** Only `BOD_` is stripped as a module code. TD §3.2 asks Stage 0 to strip "module code prefixes (e.g. `BOD_`)" — a class, of which `BOD_` is an example. `MODULE_CODE_PREFIX` (`naming.ts:44`) implements exactly one, hardcoding one module's prefix inside a general utility, so any other module's code survives into the title. **Where does the list live — config or code?** — R2 Spec, R1
 - [ ] **C7.2** `titleCaseWord` lowercases the tail, so `DNA` → `Dna`, working against TD §3.2's "the lecturer's provisional title is authoritative". Low confidence — the spec asks only to "title-case the result" — R2 Spec
+- [ ] **C7.3** **The Stage 3 prompt hardcodes British English.** TD §5's structuring rules carry no language instruction — British English is scoped to the *synthesised notes* (FR-3.3, NFR-1.1) — and TD §6 makes `output.language` configurable. The stage has `context.config` and ignores it. *(One of the two places R2 is stricter than R1, which found "no scope creep in the four built stages")* — R2 "Not asked for"
 
 ## C8 — Blast-radius refactors
 
