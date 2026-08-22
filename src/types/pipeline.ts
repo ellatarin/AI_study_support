@@ -339,6 +339,16 @@ export type StageContext = LectureIdentity & {
 };
 
 /**
+ * The lecture-identity fields a stage may settle, for the runner to write into
+ * the manifest. Only Stage 3 ever settles any: it judges the lecturer's
+ * provisional title and, when it replaces it, renames the lecture's files onto
+ * a new base name (technical-design.md §4.2; §5, Stage 3).
+ */
+export type LectureIdentityChanges = Partial<
+	Pick<RunManifest, "lectureTitle" | "aiDerivedTitle" | "workspaceFolderName">
+>;
+
+/**
  * The result of a successful stage run.
  *
  * `filesWritten` entries are relative to `workspaceRoot` and MAY escape upward
@@ -352,6 +362,16 @@ export type StageResult<TOutput> = {
 	readonly output: TOutput;
 	readonly cost: StageCost | null;
 	readonly filesWritten: readonly string[];
+	/**
+	 * What the stage settled about the lecture's identity, written by the runner
+	 * with the stage's `complete` entry — no stage writes the manifest itself
+	 * (technical-design.md §4.2).
+	 *
+	 * Absent and `{}` both mean the stage settled nothing; the runner spreads it
+	 * either way. Only Stage 3 settles anything, which is why the field is
+	 * optional rather than required of every stage.
+	 */
+	readonly identityChanges?: LectureIdentityChanges;
 };
 
 /**

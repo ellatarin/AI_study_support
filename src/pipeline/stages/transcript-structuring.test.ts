@@ -20,7 +20,7 @@ import {
 	userChosenTitle,
 } from "../fixtures.js";
 import { stageOutputEntry, stageOutputPath } from "../layout.js";
-import { manifestPath, readManifest } from "../manifest.js";
+import { manifestPath } from "../manifest.js";
 import { makeCompletionCall } from "../openrouter.js";
 import type { TranscriptStructuringOutput } from "./transcript-structuring.js";
 import {
@@ -109,9 +109,15 @@ describe("createTranscriptStructuringStage", () => {
 		return stage.run({ input: await stage.getInput(context), context });
 	}
 
-	/** The manifest wherever the stage left the workspace. */
-	function readManifestAt(folderName: string): Promise<RunManifest> {
-		return readManifest({ workspaceRoot: join(dirname(workspaceRoot), folderName) });
+	/** Whether the stage left a manifest anywhere it might have written one. */
+	async function anyManifestWritten(): Promise<boolean> {
+		const folders = [testLecture.folderName, aiDerivedLecture.folderName];
+		const written = await Promise.all(
+			folders.map((folder) =>
+				pathExists(manifestPath({ workspaceRoot: join(dirname(workspaceRoot), folder) })),
+			),
+		);
+		return written.includes(true);
 	}
 
 	it("should name the stage transcript-structuring when the stage is created", () => {
@@ -167,16 +173,33 @@ describe("createTranscriptStructuringStage", () => {
 		expect(result.output.lectureTitle).toBe(testLecture.title);
 	});
 
+	it("should settle no identity when the model judges the title meaningful", async () => {
+		const result = await runStage(contextWith());
+
+		expect(result.identityChanges).toEqual({});
+	});
+
 	it("should leave the workspace where it stands when the model judges the title meaningful", async () => {
 		await runStage(contextWith());
 
 		expect(await pathExists(workspaceRoot)).toBe(true);
 	});
 
-	it("should write no manifest when the model judges the title meaningful", async () => {
+	// The runner hands a stage the context as it stood before the stage began, so a
+	// stage writing the manifest back reverts its own `running` entry (§4.2). Stage 3
+	// settles the lecture's identity and is the likeliest stage to try; it must not.
+	it.each([
+		{ what: "the provisional title stands", reply: { provisionalTitleMeaningful: true } },
+		{
+			what: "the title is replaced",
+			reply: { provisionalTitleMeaningful: false, suggestedTitle: aiDerivedLecture.title },
+		},
+	])("should write no manifest when $what", async ({ reply }) => {
+		stubReply(reply);
+
 		await runStage(contextWith());
 
-		expect(await pathExists(manifestPath({ workspaceRoot }))).toBe(false);
+		expect(await anyManifestWritten()).toBe(false);
 	});
 
 	describe("replacing a title the model judges not meaningful", () => {
@@ -184,29 +207,20 @@ describe("createTranscriptStructuringStage", () => {
 			stubReply({ provisionalTitleMeaningful: false, suggestedTitle: aiDerivedLecture.title });
 		});
 
-		it("should store the suggested title as aiDerivedTitle when the provisional is not meaningful", async () => {
-			await runStage(contextWith());
+		it("should settle the whole identity for the runner when the provisional is not meaningful", async () => {
+			const result = await runStage(contextWith());
 
-			expect((await readManifestAt(aiDerivedLecture.folderName)).aiDerivedTitle).toBe(
-				aiDerivedLecture.title,
-			);
+			expect(result.identityChanges).toEqual({
+				aiDerivedTitle: aiDerivedLecture.title,
+				lectureTitle: aiDerivedLecture.title,
+				workspaceFolderName: aiDerivedLecture.folderName,
+			});
 		});
 
 		it("should overwrite the lecture title when the provisional is not meaningful", async () => {
 			const result = await runStage(contextWith());
 
 			expect(result.output.lectureTitle).toBe(aiDerivedLecture.title);
-			expect((await readManifestAt(aiDerivedLecture.folderName)).lectureTitle).toBe(
-				aiDerivedLecture.title,
-			);
-		});
-
-		it("should record the workspace's new folder name when the title is replaced", async () => {
-			await runStage(contextWith());
-
-			expect((await readManifestAt(aiDerivedLecture.folderName)).workspaceFolderName).toBe(
-				aiDerivedLecture.folderName,
-			);
 		});
 
 		it("should fail when the model proposes no title to replace it with", async () => {
@@ -238,23 +252,21 @@ describe("createTranscriptStructuringStage", () => {
 			const result = await runStage(contextWith(userNamed));
 
 			expect(result.output.lectureTitle).toBe(userChosenTitle);
-			expect((await readManifestAt(testLecture.folderName)).lectureTitle).toBe(userChosenTitle);
 		});
 
-		it("should still record what the model derived when the user has named it", async () => {
-			await runStage(contextWith(userNamed));
+		// `aiDerivedTitle` alone: the user's title holds, so neither `lectureTitle`
+		// nor the base name on disk changes, and settling either would move files
+		// the user has already named.
+		it("should settle only what the model derived when the user has named it", async () => {
+			const result = await runStage(contextWith(userNamed));
 
-			expect((await readManifestAt(testLecture.folderName)).aiDerivedTitle).toBe(
-				aiDerivedLecture.title,
-			);
+			expect(result.identityChanges).toEqual({ aiDerivedTitle: aiDerivedLecture.title });
 		});
 
 		it("should leave the workspace where it stands when the user has named it", async () => {
 			await runStage(contextWith(userNamed));
 
-			expect((await readManifestAt(testLecture.folderName)).workspaceFolderName).toBe(
-				testLecture.folderName,
-			);
+			expect(await pathExists(workspaceRoot)).toBe(true);
 		});
 	});
 

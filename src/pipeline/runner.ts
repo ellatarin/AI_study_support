@@ -4,6 +4,7 @@ import type { Logger } from "pino";
 import type {
 	BatchSummary,
 	CurrentPipelineCost,
+	LectureIdentityChanges,
 	LectureMatch,
 	ManifestStageEntry,
 	OverallStatus,
@@ -21,6 +22,7 @@ import type {
 	StageContext,
 	StageCost,
 	StageId,
+	StageResult,
 	StageRunConfig,
 } from "../types/pipeline.js";
 import { STAGE_IDS } from "../types/pipeline.js";
@@ -333,15 +335,20 @@ async function writeJsonAtomic({
 }
 
 /**
- * Patches one stage's entry into a manifest and writes it back, returning what
- * it wrote so the caller can rebuild the stage context without a second read
- * (technical-design.md §4.5).
+ * Patches one stage's entry — and any lecture identity the stage settled — into
+ * a manifest and writes it back, returning what it wrote so the caller can
+ * rebuild the stage context without a second read (technical-design.md §4.5).
+ *
+ * A stage's entry and the identity it settled describe one moment in the run,
+ * and this is the only place either is written, so the two land in a single
+ * write (§4.2).
  *
  * @param args - The write inputs.
  * @param args.workspaceRoot - Absolute path to the workspace to write into.
  * @param args.manifest - The manifest to patch, already read by the caller.
  * @param args.stageId - The stage whose entry is being set.
  * @param args.entry - The entry to record for that stage.
+ * @param args.identityChanges - The lecture-identity fields the stage settled; empty for every stage but Stage 3.
  * @param args.timestamp - The instant to stamp the manifest with.
  * @returns The manifest as written.
  */
@@ -350,16 +357,19 @@ async function updateManifest({
 	manifest,
 	stageId,
 	entry,
+	identityChanges,
 	timestamp,
 }: {
 	readonly workspaceRoot: string;
 	readonly manifest: RunManifest;
 	readonly stageId: StageId;
 	readonly entry: ManifestStageEntry;
+	readonly identityChanges: LectureIdentityChanges;
 	readonly timestamp: string;
 }): Promise<RunManifest> {
 	const updated: RunManifest = {
 		...manifest,
+		...identityChanges,
 		stages: patchStages({ stages: manifest.stages, stageId, entry }),
 		currentPipelineCost: recomputeCost({ current: manifest.currentPipelineCost, stageId, entry }),
 		updatedAt: timestamp,
@@ -408,6 +418,112 @@ type StageOutcome = {
 	readonly context: StageContext;
 };
 
+/**
+ * One stage's manifest transitions, and the context that follows from the last
+ * of them (technical-design.md §4.7).
+ *
+ * Every transition patches the same stage of the same manifest at the same
+ * instant; only what is recorded differs. Each locates the workspace first,
+ * since the stage may have moved it, so the recorder is what tracks where the
+ * lecture currently stands.
+ */
+type StageRecorder = {
+	/** The stage's output already exists: keep the earlier completion's record of it. */
+	skipped(): Promise<void>;
+	/** Written before the stage begins, so a crash leaves `running` behind for the next launch to treat as failed rather than as never attempted (§4.5). */
+	running(): Promise<void>;
+	/** The stage returned: record what it produced, and any lecture identity it settled (§4.2). */
+	complete(args: {
+		readonly configUsed: StageRunConfig | null;
+		readonly result: StageResult<unknown>;
+	}): Promise<void>;
+	/** The stage threw: record the message the user will see. */
+	failed(args: {
+		readonly configUsed: StageRunConfig | null;
+		readonly error: string;
+	}): Promise<void>;
+	/** The context the next stage runs against, as of the last transition recorded. */
+	context(): StageContext;
+};
+
+/**
+ * Builds the {@link StageRecorder} for one stage of one lecture.
+ *
+ * @param args - The stage being recorded and the run it belongs to.
+ * @param args.stageId - The stage whose entry every write patches.
+ * @param args.context - The context the stage was invoked with.
+ * @param args.config - The validated pipeline configuration, for rebuilding the context.
+ * @param args.timestamp - The instant every write is stamped with.
+ * @returns The recorder.
+ */
+function createStageRecorder({
+	stageId,
+	context,
+	config,
+	timestamp,
+}: {
+	readonly stageId: StageId;
+	readonly context: StageContext;
+	readonly config: PipelineConfig;
+	readonly timestamp: string;
+}): StageRecorder {
+	// The context the NEXT stage runs against. The stage itself is handed the one
+	// passed in, so it never sees its own entry change under it.
+	let nextContext = context;
+	const write = async ({
+		entry,
+		identityChanges,
+	}: {
+		readonly entry: ManifestStageEntry;
+		readonly identityChanges: LectureIdentityChanges;
+	}): Promise<void> => {
+		const located = await resolveWorkspace({
+			workspaceRoot: nextContext.workspaceRoot,
+			moduleRoot: nextContext.moduleRoot,
+			lectureDate: nextContext.lectureDate,
+		});
+		const manifest = await updateManifest({
+			workspaceRoot: located.workspaceRoot,
+			manifest: located.manifest,
+			stageId,
+			entry,
+			identityChanges,
+			timestamp,
+		});
+		nextContext = assembleContext({ workspaceRoot: located.workspaceRoot, manifest, config });
+	};
+
+	return {
+		skipped: () =>
+			write({ entry: skippedEntry({ context, stageId, timestamp }), identityChanges: {} }),
+		running: () => write({ entry: { status: "running" }, identityChanges: {} }),
+		complete: ({ configUsed, result }) =>
+			write({
+				entry: {
+					status: "complete",
+					completedAt: timestamp,
+					configUsed,
+					cost: result.cost,
+					filesWritten: result.filesWritten,
+				},
+				identityChanges: result.identityChanges ?? {},
+			}),
+		failed: ({ configUsed, error }) =>
+			write({
+				entry: {
+					status: "failed",
+					failedAt: timestamp,
+					error,
+					configUsed,
+					cost: null,
+					filesWritten: [],
+				},
+				identityChanges: {},
+			}),
+		context: () => nextContext,
+	};
+}
+
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- PipelineStage and Logger carry method signatures; CLAUDE.md permits dropping readonly for such method-bearing types
 async function runStage({
 	stage,
@@ -423,63 +539,28 @@ async function runStage({
 	readonly logger: Logger;
 }): Promise<StageOutcome> {
 	const { stageId } = stage;
-	// The context the NEXT stage runs against. The stage itself is handed the one
-	// passed in, so it never sees its own entry change under it.
-	let nextContext = context;
-	// Every write in this function patches the same stage of the same manifest at
-	// the same instant; only the entry differs. Each locates the workspace first,
-	// since the stage may have moved it (§4.7).
-	const record = async (entry: ManifestStageEntry): Promise<void> => {
-		const located = await resolveWorkspace({
-			workspaceRoot: nextContext.workspaceRoot,
-			moduleRoot: nextContext.moduleRoot,
-			lectureDate: nextContext.lectureDate,
-		});
-		const manifest = await updateManifest({
-			workspaceRoot: located.workspaceRoot,
-			manifest: located.manifest,
-			stageId,
-			entry,
-			timestamp,
-		});
-		nextContext = assembleContext({ workspaceRoot: located.workspaceRoot, manifest, config });
-	};
+	const recorder = createStageRecorder({ stageId, context, config, timestamp });
 
 	if (await stage.isComplete(context)) {
-		await record(skippedEntry({ context, stageId, timestamp }));
-		return { entry: { action: "skipped" }, context: nextContext };
+		await recorder.skipped();
+		return { entry: { action: "skipped" }, context: recorder.context() };
 	}
 	const configUsed = resolveStageRunConfig({ config, stageId });
-	// Written before the stage begins, so a crash leaves `running` behind for the
-	// next launch to treat as failed rather than as never attempted (§4.5).
-	await record({ status: "running" });
+	await recorder.running();
 	try {
 		const input = await stage.getInput(context);
 		const result = await stage.run({ input, context });
-		await record({
-			status: "complete",
-			completedAt: timestamp,
-			configUsed,
-			cost: result.cost,
-			filesWritten: result.filesWritten,
-		});
+		await recorder.complete({ configUsed, result });
 		return {
 			entry: { action: "ran", status: "complete", configUsed, cost: runLogCost(result.cost) },
-			context: nextContext,
+			context: recorder.context(),
 		};
 	} catch (error: unknown) {
 		const message = errorMessage(error);
 		// The message alone reaches the user; the stack goes to the debug log, which
 		// is where an unanticipated failure is actually diagnosed (§8, §10).
 		createStageLogger({ logger, stageId }).error({ err: error }, "Stage failed");
-		await record({
-			status: "failed",
-			failedAt: timestamp,
-			error: message,
-			configUsed,
-			cost: null,
-			filesWritten: [],
-		});
+		await recorder.failed({ configUsed, error: message });
 		return {
 			entry: {
 				action: "ran",
@@ -488,7 +569,7 @@ async function runStage({
 				configUsed,
 				cost: { totalCostUsd: null, callCount: 0 },
 			},
-			context: nextContext,
+			context: recorder.context(),
 		};
 	}
 }

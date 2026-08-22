@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.28-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.29-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -248,13 +248,16 @@ Because all other files inside the workspace use simple names, only the four ite
 
 ### 4.2 Stage Interface
 
-Every stage implements a common `PipelineStage<TInput, TOutput>` contract: an idempotency check `isComplete(context)`, an input step `getInput(context)`, and `run({ input, context })` returning a `StageResult`. Stages read an immutable `StageContext` — lecture identity, `workspaceRoot`, `moduleRoot`, the resolved `PipelineConfig`, and the current `RunManifest` — and never mutate it. A stage's own bookkeeping in the manifest — its status, cost, and `filesWritten` — is written by the runner, never by the stage. The manifest's *lecture identity* is a separate matter: Stage 3 writes it directly, being the stage that determines the title (§5, Stage 3), and it is the only per-lecture stage that does.
+Every stage implements a common `PipelineStage<TInput, TOutput>` contract: an idempotency check `isComplete(context)`, an input step `getInput(context)`, and `run({ input, context })` returning a `StageResult`. Stages read an immutable `StageContext` — lecture identity, `workspaceRoot`, `moduleRoot`, the resolved `PipelineConfig`, and the current `RunManifest` — and never mutate it. A stage's own bookkeeping in the manifest — its status, cost, and `filesWritten` — is written by the runner, never by the stage, and so is the manifest's *lecture identity*. **No per-lecture stage writes `manifest.json`.** Stage 3 settles the lecture's title (§5, Stage 3) and is the only stage that changes anything about the lecture's identity; it reports what it settled on `StageResult.identityChanges` and the runner writes it with the stage's `complete` entry.
+
+A stage's context is assembled before its own entry is marked `running`, so the manifest copy it carries is out of date in that field for as long as the stage runs. The copy is a read model. The runner re-reads the manifest immediately before each write and is its only writer, so every write has a current base, and the `running` marker survives the stage it belongs to (§4.5). Current is not trusted: the manifest is untrusted input throughout, bounded by §4.4.
 
 **Authoritative types.** The exact shape of every pipeline contract — `PipelineStage`, `StageId`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, and the rest — lives in `src/types/pipeline.ts` with per-field documentation. That file is the single source of truth; this section describes intent and the invariants those types encode, not field lists:
 
 - `StageResult.cost` is `null` for stages that make no billable calls (audio-extraction, pdf-generation).
 - `StageResult.filesWritten` holds paths relative to `workspaceRoot`, and MAY escape upward with `..` (e.g. pdf-generation writes to `../../Final output/`) but MUST resolve under `moduleRoot` — enforced by §4.4.
 - `StageCost` is discriminated on `totalCostUsd`: a resolved cost is a `number`; a failed lookup is `null` paired with a `costResolutionError` (see §7).
+- `StageResult.identityChanges` holds the lecture-identity fields the stage settled — `lectureTitle`, `aiDerivedTitle`, `workspaceFolderName` — for the runner to write. Absent and `{}` both mean the stage settled nothing; only Stage 3 ever settles anything. `workspaceFolderName` is the lecture's canonical base name recorded in the manifest, not the runner's handle on the workspace — the runner locates that itself (§4.7).
 - `lectureTitle` is always non-null — seeded at Stage 0, possibly overwritten at Stage 3 (see §3.2, Stage 3).
 
 `isComplete()` checks two conditions: the manifest marks the stage `'complete'`, AND every path in `manifest.stages[stageId].filesWritten` exists on disk. Both must be true. This means a completed stage whose output was manually deleted returns `false` and re-runs automatically. A recorded path that cannot be resolved at all counts as absent rather than as an error, since deleting a stage's output usually removes its containing directory too; a path resolving *outside* `moduleRoot` is a different matter and always throws (§4.4).
@@ -352,7 +355,7 @@ One `manifest.json` per lecture, stored in the workspace root. All paths are rel
 
 The manifest tracks the **current pipeline state** and the cost of the most recent successful execution of each stage. Historical cost across multiple runs is the responsibility of the run logs (§4.6). Its TypeScript shape is `RunManifest` in `src/types/pipeline.ts` (single source of truth); the example below is illustrative, not the schema.
 
-Four separate callers touch it — Stage 0 creates and renumbers it, the runner patches a stage entry after every stage, Stage 3 replaces the lecture's title, and the CLI's identity commands rewrite a lecture's title or date — so where it lives and how it is written are stated once:
+Three separate callers touch it — Stage 0 creates and renumbers it, the runner patches a stage entry after every stage (and with it any lecture-identity change Stage 3 settled, §4.2), and the CLI's identity commands rewrite a lecture's title or date — so where it lives and how it is written are stated once:
 
 ```typescript
 // src/pipeline/manifest.ts
@@ -523,12 +526,22 @@ classifyRunType(args: { options: RunOptions; manifest: RunManifest }): RunType  
 assembleContext(args: { workspaceRoot: string; manifest: RunManifest; config: PipelineConfig }): StageContext  // moduleRoot derived two levels up
 type StageOutcome = { entry: RunLogStageEntry; context: StageContext }
 runStage(args: { stage: PipelineStage<unknown, unknown>; context: StageContext; config: PipelineConfig; timestamp: string; logger: Logger }): Promise<StageOutcome>
-// Runs or skips one stage: marks it `running`, converts a throw into a failed entry (never throws), logs
-// any failure with its stack (§8), and writes the manifest at each transition. Returns the run-log entry
-// together with the context the next stage runs against — see "Following a relocated workspace" below.
-updateManifest(args: { workspaceRoot: string; manifest: RunManifest; stageId: StageId; entry: ManifestStageEntry; timestamp: string }): Promise<RunManifest>
+// Runs or skips one stage: marks it `running`, converts a throw into a failed entry (never throws), and logs
+// any failure with its stack (§8). Returns the run-log entry together with the context the next stage runs
+// against — see "Following a relocated workspace" below. It owns the decisions — run, skip, map a throw to
+// an entry — and delegates every manifest transition to a recorder.
+createStageRecorder(args: { stageId: StageId; context: StageContext; config: PipelineConfig; timestamp: string }): StageRecorder
+type StageRecorder = { skipped(): Promise<void>; running(): Promise<void>
+                       complete(args: { configUsed: StageRunConfig | null; result: StageResult<unknown> }): Promise<void>
+                       failed(args: { configUsed: StageRunConfig | null; error: string }): Promise<void>
+                       context(): StageContext }
+// One stage's manifest transitions, and the context that follows from the last of them. Each write locates
+// the workspace first (the stage may have moved it), patches the entry through updateManifest, and rebuilds
+// the context from what was written. `complete` also carries the stage's `identityChanges` (§4.2).
+updateManifest(args: { workspaceRoot: string; manifest: RunManifest; stageId: StageId; entry: ManifestStageEntry; identityChanges: LectureIdentityChanges; timestamp: string }): Promise<RunManifest>
 // Atomic per-stage manifest patch via manifest.ts (§4.5). Takes the manifest to patch rather than reading it,
-// and returns what it wrote, so the caller rebuilds the stage context without a second read.
+// and returns what it wrote, so the caller rebuilds the stage context without a second read. It is the one
+// place a manifest gains a stage entry and a lecture-identity change, so the two always land in a single write.
 resolveWorkspace(args: { workspaceRoot: string; moduleRoot: string; lectureDate: string }): Promise<{ workspaceRoot: string; manifest: RunManifest }>
 // Where the workspace is now, and what its manifest says. Returns the path given when its manifest still
 // reads; otherwise finds the lecture again by date (see "Following a relocated workspace").
@@ -562,7 +575,7 @@ summariseOverallStatus(args: { statuses: readonly OverallStatus[] }): OverallSta
 
 The context is **rebuilt between stages** rather than assembled once for the run. It costs no extra reads: the runner already re-reads the manifest at every stage transition, so `updateManifest` hands back what it wrote and the next context is assembled from that. What it buys is that a stage's manifest changes reach the stages that follow — Stage 3 replaces `lectureTitle`, and Stage 8 names the PDF from it.
 
-**Following a relocated workspace.** Stage 3 renames the workspace folder when it replaces the lecture's title (§5, Stage 3), which invalidates the path the runner is holding mid-run. The runner is not told about the move: a result field reporting it would oblige every stage, present and future, to declare something only one of them ever does, against NFR-5.2. Instead it finds the lecture again by the identity this section already treats as canonical — `(moduleRoot, lectureDate)`. `resolveWorkspace` reads the manifest at the path it has and, failing that, falls back to `findLectureByDate`, which scans `Pipeline processing/` for the workspace whose manifest carries the date. The fallback is reachable only after a stage has moved the folder; every other transition costs exactly the read it always cost. The run log is written at the resolved path and `RunSummary.workspaceRoot` reports it, so a run that renames its own workspace still leaves its log beside the work.
+**Following a relocated workspace.** Stage 3 renames the workspace folder when it replaces the lecture's title (§5, Stage 3), which invalidates the path the runner is holding mid-run. Stages do not report the move; the runner re-locates the lecture by the identity this section treats as canonical — `(moduleRoot, lectureDate)`. `resolveWorkspace` reads the manifest at the path it has and, failing that, falls back to `findLectureByDate`, which scans `Pipeline processing/` for the workspace whose manifest carries the date. The fallback is reached only after a stage has moved the folder; every other transition costs the read it always cost. The run log is written at the resolved path and `RunSummary.workspaceRoot` reports it, so a run that renames its own workspace still leaves its log beside the work.
 
 **Batch mode:** `runBatch({ moduleRoots })` normalises every listed module, then processes every lecture across them. The CLI passes an array of one for `batch <moduleRoot>` and the full `config.moduleRoots` for `batch` (no argument). Modules processed in the order given; lectures within a module in date order. Sequential by default; `--concurrency N` runs that many lectures at once, drawn from a single global queue rather than per module — with modules in order, a global queue keeps every worker busy where a per-module one would idle at each module boundary. Because lectures from different modules may therefore be in flight together, the per-module and cross-module summaries are printed once the batch completes rather than as each module finishes (§7).
 
@@ -776,15 +789,17 @@ The rename is **conditional** on the LLM's judgement:
 
 #### Order of Operations
 
-Stage 3 is the only per-lecture stage that moves its own workspace, and the runner reads the manifest there as soon as the stage returns (§4.7). The order is therefore fixed:
+Stage 3 is the only per-lecture stage that moves its own workspace, and the runner writes the manifest there as soon as the stage returns (§4.7). The order is therefore fixed:
 
 1. Make the LLM call and parse the response.
 2. Write `Structured transcript/structured-transcript.md` atomically (§4.3).
-3. Stop when the provisional title stands — there is nothing to record and nothing to move. When `userTitle` is set, write `aiDerivedTitle` alone and stop there: the user's title holds, so no name on disk changes.
-4. Otherwise write the manifest **at the path the workspace still occupies**, setting `aiDerivedTitle`, `lectureTitle`, and `workspaceFolderName` to the base name `lectureBaseName` builds from the new title (§5, Stage 0).
-5. Rename the source video, the source slide, any `Final output/` PDF, and the workspace folder **last**, via `renameLectureFiles` (§4.7).
+3. Settle the title, which decides the identity changes the stage returns. The provisional title stands: no changes. `userTitle` is set: `aiDerivedTitle` alone, since the user's title holds and no name on disk changes. Otherwise: `aiDerivedTitle`, `lectureTitle`, and `workspaceFolderName`, the last being the base name `lectureBaseName` builds from the new title (§5, Stage 0).
+4. In that last case only, rename the source video, the source slide, any `Final output/` PDF, and the workspace folder via `renameLectureFiles` (§4.7).
+5. Return the changes on `StageResult.identityChanges`. The runner writes them into the manifest together with the stage's `complete` entry, re-locating the workspace by `(moduleRoot, lectureDate)` first (§4.2, §4.7).
 
-Renaming the folder last is what makes steps 2–4 safe: each writes to a path that still exists. `filesWritten` is recorded relative to the workspace (§4.5), so the output path survives the move untouched, and the runner re-locates the workspace by `(moduleRoot, lectureDate)` before its own write (§4.7).
+Stage 3 writes no manifest of its own (§4.2). From the rename in step 4 until the runner's write in step 5, the manifest names the folder the lecture previously occupied. The stage is marked `running` across that interval, so an interrupted launch re-runs Stage 3, which derives the same base name from the same transcript and records the identity.
+
+The rename is last within the stage because step 2 writes into the workspace, so the folder must still stand where the stage was told it is. `filesWritten` is recorded relative to the workspace (§4.5), so the output path survives the move untouched.
 
 #### Transcript Structuring
 

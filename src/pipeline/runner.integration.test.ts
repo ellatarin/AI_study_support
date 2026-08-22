@@ -2,6 +2,7 @@ import { access, mkdir, readdir, readFile, rename, rm, writeFile } from "node:fs
 import { dirname, join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type {
+	LectureIdentityChanges,
 	PipelineConfig,
 	PipelineStage,
 	RunLog,
@@ -13,6 +14,7 @@ import type {
 } from "../types/pipeline.js";
 import { pathExists } from "../utils/files.js";
 import {
+	aiDerivedLecture,
 	corruptJson,
 	loggedAt,
 	makeConfig,
@@ -41,6 +43,18 @@ import { PipelineRunner } from "./runner.js";
 // would only make the assertions harder to read.
 const LECTURE_FOLDER = "L1";
 const EMPTY_FOLDER = "L-empty";
+
+/** The folder a lecture moves to once Stage 3 has replaced its title. */
+const RENAMED_FOLDER = `${LECTURE_FOLDER} - ${aiDerivedLecture.title}`;
+
+// What Stage 3 settles when it replaces the lecture's title: the new title, the
+// record of what the model derived, and the base name the files move onto. Two
+// suites need it — one with the rename, one without — so it is stated here.
+const SETTLED_IDENTITY: LectureIdentityChanges = {
+	lectureTitle: aiDerivedLecture.title,
+	aiDerivedTitle: aiDerivedLecture.title,
+	workspaceFolderName: RENAMED_FOLDER,
+};
 
 // The runner is driven through a single configured stage throughout, so the
 // stage entry is fixed here rather than restated at each construction site.
@@ -786,27 +800,72 @@ describe("PipelineRunner integration", () => {
 		});
 	});
 
+	describe("identity a stage settles", () => {
+		beforeEach(async () => {
+			await writeManifest(workspaceRoot, makeManifest());
+		});
+
+		/** A stage that settles the given identity and writes nothing itself. */
+		function makeSettlingStage(
+			identityChanges: LectureIdentityChanges,
+		): PipelineStage<unknown, unknown> {
+			return makeStubStage({
+				stageId: "audio-extraction",
+				run: async () =>
+					({
+						output: undefined,
+						cost: null,
+						filesWritten: [],
+						identityChanges,
+					}) as StageResult<unknown>,
+			});
+		}
+
+		it("should write the identity a stage settled when the stage completes", async () => {
+			await makeRunner([makeSettlingStage(SETTLED_IDENTITY)]).runLecture({ workspaceRoot });
+
+			expect(await readManifest(workspaceRoot)).toMatchObject(SETTLED_IDENTITY);
+		});
+
+		it("should record the stage complete in the same write when a stage settles identity", async () => {
+			await makeRunner([makeSettlingStage(SETTLED_IDENTITY)]).runLecture({ workspaceRoot });
+
+			expect((await readManifest(workspaceRoot)).stages["audio-extraction"]?.status).toBe(
+				"complete",
+			);
+		});
+
+		it("should leave the lecture's identity alone when a stage settles nothing", async () => {
+			await makeRunner([makeStubStage({ stageId: "audio-extraction" })]).runLecture({
+				workspaceRoot,
+			});
+
+			expect(await readManifest(workspaceRoot)).toMatchObject({
+				lectureTitle: testLecture.title,
+				aiDerivedTitle: null,
+			});
+		});
+	});
+
 	describe("following a relocated workspace", () => {
-		const RENAMED_FOLDER = "L1 - Innate Immune Response";
-		const NEW_TITLE = "Innate Immune Response";
 		let renamedWorkspaceRoot: string;
 
 		/**
 		 * A stage that does what Stage 3 does when it replaces a lecture's title:
-		 * writes the new identity to the manifest where the workspace still stands,
-		 * then moves the workspace out from under the runner.
+		 * moves the workspace out from under the runner and reports the identity it
+		 * settled, leaving the manifest write to the runner.
 		 */
 		function makeRenamingStage(stageId: StageId): PipelineStage<unknown, unknown> {
 			return makeStubStage({
 				stageId,
 				run: async ({ context }) => {
-					await writeManifest(context.workspaceRoot, {
-						...context.manifest,
-						lectureTitle: NEW_TITLE,
-						workspaceFolderName: RENAMED_FOLDER,
-					});
 					await rename(context.workspaceRoot, renamedWorkspaceRoot);
-					return { output: undefined, cost: null, filesWritten: [] } as StageResult<unknown>;
+					return {
+						output: undefined,
+						cost: null,
+						filesWritten: [],
+						identityChanges: SETTLED_IDENTITY,
+					} as StageResult<unknown>;
 				},
 			});
 		}
@@ -829,7 +888,7 @@ describe("PipelineRunner integration", () => {
 			{
 				what: "new lectureTitle",
 				read: (context: StageContext) => context.lectureTitle,
-				expected: () => NEW_TITLE,
+				expected: () => aiDerivedLecture.title,
 			},
 			{
 				what: "workspace's new path",

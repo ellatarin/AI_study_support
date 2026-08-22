@@ -6,8 +6,8 @@
 import { readFile } from "node:fs/promises";
 import type { Logger } from "pino";
 import type {
+	LectureIdentityChanges,
 	PipelineStage,
-	RunManifest,
 	StageContext,
 	StageResult,
 } from "../../types/pipeline.js";
@@ -15,7 +15,6 @@ import { errorMessage, NamedError } from "../../utils/errors.js";
 import { writeFileAtomic } from "../../utils/files.js";
 import { moduleDirs, stageOutputEntry, stageOutputPath } from "../layout.js";
 import { baseNameForLecture, renameLectureFiles } from "../lecture-files.js";
-import { writeManifest } from "../manifest.js";
 import { makeCompletionCall } from "../openrouter.js";
 import { createPipelineStage } from "./pipeline-stage.js";
 import { buildStructuringMessages } from "./transcript-structuring.prompt.js";
@@ -170,10 +169,15 @@ function requireSuggestedTitle(suggestedTitle: string | null): string {
 	return suggestedTitle.trim();
 }
 
-/** Where the lecture stands once Stage 3 has settled its title. */
+/**
+ * Where the lecture stands once Stage 3 has settled its title: the title itself,
+ * the workspace's path (which the stage may just have moved), and the identity
+ * the runner is to write into the manifest (technical-design.md §4.2).
+ */
 type TitleResolution = {
 	readonly lectureTitle: string;
 	readonly workspaceRoot: string;
+	readonly identityChanges: LectureIdentityChanges;
 };
 
 /**
@@ -206,43 +210,18 @@ function deriveBaseName({
 }
 
 /**
- * Writes changed lecture identity back to the manifest, stamped with now.
+ * Adopts the model's title: moves the lecture's files onto the matching base
+ * name, and settles the identity the runner will record.
  *
- * Written where the workspace currently stands, which is what makes the order of
- * operations matter: the folder moves only after this (technical-design.md §5,
- * Stage 3).
- *
- * @param args - The lecture and what changed about it.
- * @param args.context - The current lecture run context.
- * @param args.changes - The identity fields to overwrite.
- * @returns A promise that resolves once the manifest is written.
- */
-async function recordIdentity({
-	context,
-	changes,
-}: {
-	readonly context: StageContext;
-	readonly changes: Partial<RunManifest>;
-}): Promise<void> {
-	await writeManifest({
-		workspaceRoot: context.workspaceRoot,
-		manifest: { ...context.manifest, ...changes, updatedAt: new Date().toISOString() },
-	});
-}
-
-/**
- * Adopts the model's title: records it in the manifest, then moves the lecture's
- * files onto the matching base name.
- *
- * The manifest is written while the workspace still stands where it is, and the
- * folder moves last, so every write lands at a path that exists — and the runner
- * finds the workspace again by date afterwards (technical-design.md §5, Stage 3;
- * §4.7).
+ * The rename comes after the structured transcript has been written, so that
+ * write lands at a path that still exists; the manifest is the runner's to write
+ * afterwards, and it re-locates the workspace by date to do it
+ * (technical-design.md §5, Stage 3; §4.2, §4.7).
  *
  * @param args - The lecture and the title to adopt.
  * @param args.context - The current lecture run context.
  * @param args.aiDerivedTitle - The title the model proposed.
- * @returns The adopted title and the workspace's new path.
+ * @returns The adopted title, the workspace's new path, and the identity settled.
  */
 async function adoptDerivedTitle({
 	context,
@@ -252,30 +231,30 @@ async function adoptDerivedTitle({
 	readonly aiDerivedTitle: string;
 }): Promise<TitleResolution> {
 	const baseName = deriveBaseName({ context, title: aiDerivedTitle });
-	await recordIdentity({
-		context,
-		changes: {
-			aiDerivedTitle,
-			lectureTitle: aiDerivedTitle,
-			workspaceFolderName: baseName,
-		},
-	});
 	const workspaceRoot = await renameLectureFiles({
 		dirs: moduleDirs({ moduleRoot: context.moduleRoot }),
 		workspaceRoot: context.workspaceRoot,
 		lectureDate: context.lectureDate,
 		baseName,
 	});
-	return { lectureTitle: aiDerivedTitle, workspaceRoot };
+	return {
+		lectureTitle: aiDerivedTitle,
+		workspaceRoot,
+		identityChanges: {
+			aiDerivedTitle,
+			lectureTitle: aiDerivedTitle,
+			workspaceFolderName: baseName,
+		},
+	};
 }
 
 /**
  * Settles the lecture's title on the model's judgement.
  *
- * Three outcomes: the lecturer's title stands and nothing is recorded; the user
+ * Three outcomes: the lecturer's title stands and nothing is settled; the user
  * has named the lecture themselves, so their title outranks the model's and only
- * `aiDerivedTitle` is recorded; or the model's title is adopted and the
- * lecture's files move with it (technical-design.md §5, Stage 3).
+ * `aiDerivedTitle` is settled; or the model's title is adopted and the lecture's
+ * files move with it (technical-design.md §5, Stage 3).
  *
  * Each outcome is logged, because which one happened is what explains the
  * lecture's name from here on: every later stage names its output from the title
@@ -285,11 +264,13 @@ async function adoptDerivedTitle({
  * @param args.reply - The model's parsed reply.
  * @param args.context - The current lecture run context.
  * @param args.logger - The stage's logger, which records which outcome was taken.
- * @returns The effective title and the workspace's path afterwards.
+ * @returns The effective title, the workspace's path afterwards, and the identity for the runner to record.
  * @throws {TranscriptStructuringError} If a replacement is called for but none was proposed.
  */
+// Only one of the three outcomes touches the disk; the other two resolve
+// immediately.
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
-async function settleTitle({
+function settleTitle({
 	reply,
 	context,
 	logger,
@@ -298,16 +279,25 @@ async function settleTitle({
 	readonly context: StageContext;
 	readonly logger: Logger;
 }): Promise<TitleResolution> {
-	const unchanged = {
-		lectureTitle: context.lectureTitle,
-		workspaceRoot: context.workspaceRoot,
-	};
+	/**
+	 * The lecture as it stands, with nothing on disk moved.
+	 *
+	 * @param identityChanges - The identity the runner is to record, if any.
+	 * @returns The resolution for an outcome that renames nothing.
+	 */
+	const whereItStands = (identityChanges: LectureIdentityChanges): Promise<TitleResolution> =>
+		Promise.resolve({
+			lectureTitle: context.lectureTitle,
+			workspaceRoot: context.workspaceRoot,
+			identityChanges,
+		});
+
 	if (reply.provisionalTitleMeaningful) {
 		logger.debug(
 			{ lectureTitle: context.lectureTitle, outcome: "kept-provisional" },
 			"Settled lecture title",
 		);
-		return unchanged;
+		return whereItStands({});
 	}
 	const aiDerivedTitle = requireSuggestedTitle(reply.suggestedTitle);
 	if (context.manifest.userTitle === null) {
@@ -321,8 +311,7 @@ async function settleTitle({
 		{ aiDerivedTitle, lectureTitle: context.lectureTitle, outcome: "kept-user-title" },
 		"Settled lecture title",
 	);
-	await recordIdentity({ context, changes: { aiDerivedTitle } });
-	return unchanged;
+	return whereItStands({ aiDerivedTitle });
 }
 
 /**
@@ -335,7 +324,7 @@ async function settleTitle({
  * @param args.input - The transcript to structure.
  * @param args.context - The current lecture run context.
  * @param args.logger - The run's logger, on which the model call is recorded.
- * @returns The structured transcript's path, the settled title, the call's cost, and the file written.
+ * @returns The structured transcript's path, the settled title, the identity for the runner to record, the call's cost, and the file written.
  * @throws {TranscriptStructuringError} If the reply is unusable or a needed title is missing.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
@@ -378,6 +367,7 @@ async function structureTranscript({
 		},
 		cost,
 		filesWritten: [stageOutputEntry(STAGE_ID)],
+		identityChanges: settled.identityChanges,
 	};
 }
 

@@ -2,7 +2,7 @@ import { mkdir, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { RunManifest, StageContext } from "../../types/pipeline.js";
+import type { LectureIdentityChanges, RunManifest, StageContext } from "../../types/pipeline.js";
 import { pathExists } from "../../utils/files.js";
 import {
 	aiDerivedLecture,
@@ -85,9 +85,10 @@ describe("transcript structuring against a real module tree", () => {
 		});
 	}
 
-	async function runStage(context: StageContext): Promise<void> {
+	async function runStage(context: StageContext): Promise<LectureIdentityChanges | undefined> {
 		const stage = createTranscriptStructuringStage({ logger: makeStubLogger().logger });
-		await stage.run({ input: await stage.getInput(context), context });
+		const result = await stage.run({ input: await stage.getInput(context), context });
+		return result.identityChanges;
 	}
 
 	function manifestAt(folderName: string): Promise<RunManifest> {
@@ -132,37 +133,47 @@ describe("transcript structuring against a real module tree", () => {
 	it.each([
 		{
 			meaningful: false,
-			folder: aiDerivedLecture.folderName,
-			title: aiDerivedLecture.title,
-			derived: aiDerivedLecture.title,
+			settled: {
+				aiDerivedTitle: aiDerivedLecture.title,
+				lectureTitle: aiDerivedLecture.title,
+				workspaceFolderName: aiDerivedLecture.folderName,
+			},
 		},
-		{ meaningful: true, folder: testLecture.folderName, title: testLecture.title, derived: null },
-	])("should record lectureTitle $title when provisionalTitleMeaningful is $meaningful", async ({
+		{ meaningful: true, settled: {} },
+	])("should settle $settled when provisionalTitleMeaningful is $meaningful", async ({
 		meaningful,
-		folder,
-		title,
-		derived,
+		settled,
 	}) => {
 		mockModelReply(verdict(meaningful));
 
-		await runStage(await prepareLecture());
+		expect(await runStage(await prepareLecture())).toEqual(settled);
+	});
 
-		const manifest = await manifestAt(folder);
-		expect(manifest.lectureTitle).toBe(title);
-		expect(manifest.aiDerivedTitle).toBe(derived);
-		expect(manifest.workspaceFolderName).toBe(folder);
+	// The lecture's own manifest is on disk throughout, so a stage that wrote one
+	// would be caught here rather than only in the unit suite (§4.2).
+	it.each([
+		{ meaningful: false },
+		{ meaningful: true },
+	])("should leave the manifest to the runner when provisionalTitleMeaningful is $meaningful", async ({
+		meaningful,
+	}) => {
+		mockModelReply(verdict(meaningful));
+		const context = await prepareLecture();
+
+		await runStage(context);
+
+		const folder = meaningful ? testLecture.folderName : aiDerivedLecture.folderName;
+		expect(await manifestAt(folder)).toEqual(context.manifest);
 	});
 
 	it("should leave the lecture's title and every file alone when the user has named it", async () => {
 		mockModelReply(verdict(false));
 
-		await runStage(
+		const settled = await runStage(
 			await prepareLecture({ userTitle: userChosenTitle, lectureTitle: userChosenTitle }),
 		);
 
-		const manifest = await manifestAt(testLecture.folderName);
-		expect(manifest.lectureTitle).toBe(userChosenTitle);
-		expect(manifest.aiDerivedTitle).toBe(aiDerivedLecture.title);
+		expect(settled).toEqual({ aiDerivedTitle: aiDerivedLecture.title });
 		expect(await pathExists(join(dirs.video, testLecture.videoFile))).toBe(true);
 		expect(await pathExists(join(dirs.processing, aiDerivedLecture.folderName))).toBe(false);
 	});
