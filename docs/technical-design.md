@@ -208,7 +208,8 @@ STAGE_WORKSPACE: Readonly<Record<StageId, StageWorkspace>>
 // one. `root` says which root a directory hangs off — every stage but pdf-generation owns workspace
 // directories; pdf-generation owns the module's `Final output/`, where its PDF is deposited. `outputFile` is
 // null for source-normalisation (which owns no directory at all) and for stages producing a set rather than a
-// file (slide-conversion, image-extraction, qa-loop, pdf-generation).
+// file (image-extraction, qa-loop, pdf-generation). slide-conversion produces a set too — one markdown file per
+// slide — but concatenates it into `Slide content/slides.md`, which is the single file the stage after it reads.
 
 stageOutputEntry(stageId: StageId): string
 // The stage's output path relative to the workspace, as recorded in `filesWritten` (§4.5).
@@ -695,7 +696,7 @@ A prompt module has no test file of its own. Its builder is a pure assembly whos
 
 **What it does** (once validation passes):
 
-1. **Date extraction:** Parse the date from each video filename using `chrono-node`. Dates may appear in any position and format (e.g. `2025-10-10`, `10 Oct 2025`, `Fri 10th Oct`).
+1. **Date extraction:** Parse the date from each video filename with `extractDate` (§3.2). Dates may appear in any position and format (e.g. `2025-10-10`, `10 Oct 2025`, `Fri 10th Oct`): the numeric forms are read in British convention by `src/utils/date.ts`, and `chrono-node` handles the ones written in words.
 
 2. **Lecture number assignment:** Sort all video files by extracted date. Assign sequential lecture numbers (`Lecture 1`, `Lecture 2`, …) in date order.
 
@@ -1357,10 +1358,10 @@ Each slide's extracted markdown is written to `Slide content/raw/slide-{003d}.md
 
 | Error | Handling |
 |---|---|
-| Rate limit (429) | Exponential backoff with jitter; SDK `maxRetries: 5` |
+| Rate limit (429) | Exponential backoff with jitter, up to the SDK's `maxRetries` — configured from `openRouter.completionMaxRetries` (§6) |
 | Context length exceeded | Stage fails with a message advising the user to switch to a larger-context model in config |
 | Model unavailable | Stage fails; model ID included in error message |
-| Network timeout | SDK `timeout: 120_000ms` (2 minutes) |
+| Network timeout | The SDK's per-attempt `timeout` — configured from `openRouter.completionTimeoutMs` (§6) |
 
 ---
 
@@ -1431,7 +1432,7 @@ The debug log is for human inspection when diagnosing failures. Its JSON format 
 |---|---|---|
 | Progress | stdout (cli-progress) | Real-time stage progress bars |
 | Info | stdout | Stage start/end messages, skipped-stage notices, run and batch summaries |
-| Warning | stderr | Unmatched source files (Stage 0), stalled QA loop, max-iterations reached |
+| Warning | stderr | Stalled QA loop, max-iterations reached |
 | Error | stdout | Each failed stage and its message, printed by the CLI after the run summary (§8) |
 | Error | stderr | Anything that ends the invocation: a usage error, an unreadable config, an escaped stage error |
 | Error | debug log | Every stage failure, with its stack — the runner logs it; nothing else sees a stack trace |
