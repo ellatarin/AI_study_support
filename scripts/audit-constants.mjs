@@ -51,7 +51,7 @@
 
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
-import { pathToFileURL } from "node:url";
+import { isEntryPoint } from "./lib/entry-point.mjs";
 
 /** The directory audited when the command line names none. */
 const DEFAULT_ROOT = "src";
@@ -674,6 +674,6 @@ function printSingleHomeConstants(sourceConstants) {
 
 // Importing this module — a test suite does — must not run an audit, so the
 // walk starts only when the file is the process entry point.
-if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (isEntryPoint(import.meta.url)) {
 	audit({ root: process.argv[2] ?? DEFAULT_ROOT });
 }

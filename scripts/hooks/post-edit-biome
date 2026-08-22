@@ -35,14 +35,11 @@ case "$file_path" in
   *) exit 0 ;;
 esac
 
-# Only handle extensions biome cares about.
-case "$file_path" in
-  *.ts|*.tsx|*.js|*.mjs|*.cjs|*.jsx|*.json|*.jsonc|*.md)
-    cd "$repo_root"
-    # biome writes fixes back to the file; we surface diagnostics to stderr but
-    # never block the tool call itself (formatting is best-effort in-session).
-    pnpm exec biome check --write "$file_path" >&2 || true
-    ;;
-esac
+# No list of extensions here on purpose: --files-ignore-unknown lets biome skip
+# what it cannot parse, so there is nothing to keep in step with biome.json.
+# biome writes fixes back to the file; diagnostics go to stderr but never block
+# the tool call itself (formatting is best-effort in-session).
+cd "$repo_root"
+pnpm exec biome check --write --files-ignore-unknown=true "$file_path" >&2 || true
 
 exit 0

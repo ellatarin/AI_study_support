@@ -1,14 +1,18 @@
-#!/bin/bash
-OVERRIDE_FILE=".claude/tool-override"
+#!/usr/bin/env bash
+# PreToolUse hook for WebFetch and WebSearch.
+# Both fetch whole pages and bloat context; tavily is the sanctioned route.
+set -euo pipefail
 
-if [ -f "$OVERRIDE_FILE" ]; then
-  reason=$(cat "$OVERRIDE_FILE")
-  rm "$OVERRIDE_FILE"
-  echo "Override accepted: $reason" >&2
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+
+# Resolved from the script's own location, not the working directory — the
+# relative path this used to use silently did nothing whenever a session ran
+# from anywhere but the repo root.
+if node "$repo_root/scripts/hooks/lib/tool-override.mjs"; then
   exit 0
 fi
 
-echo "BLOCKED: WebFetch fetches entire pages and bloats context. Use tavily MCP tools instead:" >&2
+echo "BLOCKED: WebFetch and WebSearch fetch entire pages and bloat context. Use tavily MCP tools instead:" >&2
 echo "  - tavily_search   → find information on the web" >&2
 echo "  - tavily_extract  → extract content from a specific URL" >&2
 echo "  - tavily_research → deep multi-step research" >&2

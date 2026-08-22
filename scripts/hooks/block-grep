@@ -1,4 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# PreToolUse hook for the Grep tool.
+# Blocks it outright: raw file matches lead to Read chains that bloat context.
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+
+# The same one-shot escape hatch the other blockers use. This hook had none,
+# which meant a legitimate case had no way through at all.
+if node "$repo_root/scripts/hooks/lib/tool-override.mjs"; then
+  exit 0
+fi
+
 echo "BLOCKED: The Grep tool returns raw file matches and leads to Read chains that bloat context." >&2
 echo "" >&2
 echo "Use vera instead:" >&2
@@ -6,4 +18,6 @@ echo "  - vera search \"describe behaviour\"  → semantic/conceptual queries" >
 echo "  - vera grep \"exact pattern\"         → regex, exact strings, imports, TODOs" >&2
 echo "" >&2
 echo "If the vera index is missing: run \`vera index .\` then retry." >&2
+echo "" >&2
+echo "To override: Write '.claude/tool-override' with your reason before this tool call." >&2
 exit 2

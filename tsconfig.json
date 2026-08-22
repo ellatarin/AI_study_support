@@ -8,7 +8,8 @@
 		"outDir": "dist",
 		"esModuleInterop": true,
 		"skipLibCheck": true,
-		"types": ["node"]
+		"types": ["node"],
+		"allowJs": true
 	},
-	"include": ["src", "vitest.config.ts"]
+	"include": ["src", "vitest.config.ts", "eslint.config.js", "scripts"]
 }

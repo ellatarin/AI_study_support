@@ -65,12 +65,10 @@ export default [
 		languageOptions: {
 			parserOptions: {
 				// Needed for type-aware rules like use-unknown-in-catch-callback-variable
-				projectService: {
-					// tsconfig.json covers src/ and vitest.config.ts. The remaining
-					// linted files are JS the compiler never sees, so the project
-					// service needs them listed by hand — the globs cannot use `**`.
-					allowDefaultProject: ["*.js", "scripts/*.mjs", "scripts/hooks/lib/*.mjs"],
-				},
+				// tsconfig.json covers every linted file — src/, vitest.config.ts,
+				// this file and scripts/, the last two via allowJs. Listing them in
+				// allowDefaultProject instead runs into its eight-file ceiling.
+				projectService: true,
 				tsconfigRootDir: import.meta.dirname,
 			},
 		},

@@ -19,26 +19,33 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
-# Parse tool input JSON, extract the bash command string.
-bash_command="$(node -e '
-  let s = "";
-  process.stdin.on("data", d => (s += d));
-  process.stdin.on("end", () => {
-    try {
-      const j = JSON.parse(s);
-      const c = j.tool_input?.command ?? "";
-      process.stdout.write(String(c));
-    } catch {
-      process.stdout.write("");
-    }
-  });
-' 2>/dev/null || echo "")"
+# Read the hook payload here, first thing, and pass it on explicitly. Leaving it
+# on stdin for the classifier to collect did not work: bash receives the payload
+# but the child process found stdin already empty, so every command looked
+# unclassifiable. The `-t 5` keeps a missing payload from hanging the tool call.
+payload=""
+IFS= read -r -d '' -t 5 payload || true
 
-# Only trigger on `git commit`. Anything else passes through unblocked.
-case "$bash_command" in
-  *"git commit"*) : ;;
-  *) exit 0 ;;
-esac
+# Only trigger on a commit; anything else passes through unblocked. The
+# classification is lib/is-git-commit.mjs, which parses the command rather than
+# looking for the substring "git commit" — that test let `git -C . commit` and
+# `git -c user.name=x commit` skip secretlint, Biome, tsc, ESLint, both jscpd
+# passes and the whole suite.
+#
+# Exit 10 means "not a commit". Any other non-zero means the classifier itself
+# failed, and the checks run regardless: a gate that waves commits through when
+# it cannot tell is the failure being fixed here, not an acceptable fallback.
+set +e
+printf '%s' "$payload" | node "$repo_root/scripts/hooks/lib/is-git-commit.mjs"
+trigger_status=$?
+set -e
+
+if [ "$trigger_status" -eq 10 ]; then
+  exit 0
+fi
+if [ "$trigger_status" -ne 0 ]; then
+  echo "pre-commit-check: could not classify this command (exit $trigger_status); running the checks anyway." >&2
+fi
 
 cd "$repo_root"
 
