@@ -1459,7 +1459,7 @@ src/
 
 ## 10. Logging
 
-`pino` is used for all structured logging. Each pipeline invocation creates a child logger bound to the run timestamp. Every log entry a stage makes carries `{ stage: stageId }`, but a stage does not call `logger.child()` for itself: `createPipelineStage` binds the child once when the stage is built and hands that to `run` (§4.2). One binding site per stage means a stage cannot log against a stage it is not, and a stage that logs nothing still costs nothing.
+`pino` is used for all structured logging. Each pipeline invocation creates one root logger, writing to a debug log named for the run's timestamp so it sits beside the run log that shares it — the timestamp names the file rather than binding anything onto the entries. The only binding is the stage's: every log entry a stage makes carries `{ stage: stageId }`, but a stage does not call `logger.child()` for itself: `createPipelineStage` binds the child once when the stage is built and hands that to `run` (§4.2). One binding site per stage means a stage cannot log against a stage it is not, and a stage that logs nothing still costs nothing.
 
 Each per-lecture stage factory therefore takes `{ logger }` and passes it to `createPipelineStage`; Stage 0, which is not a `PipelineStage`, takes and binds its own. The runner keeps its own binding for the one thing it logs about a stage — the failure and its stack, which it must record for a stage that threw before it could log anything itself.
 
