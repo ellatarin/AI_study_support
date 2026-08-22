@@ -124,6 +124,11 @@ extractProvisionalTitle(filename: string): string
 lectureFolderName(args: { lectureNumber: number; title: string; date: Date }): string
 // The canonical `Lecture N - <title> - YYYY-MM-DD` form shared by the folder, sources, and PDF. Takes the
 // parsed Date rather than a formatted string so the one place that formats a lecture date is formatDateISO.
+lectureBaseName(args: { lectureNumber: number; title: string; date: Date }): string
+// The same name, falling back to a bare `Lecture N - YYYY-MM-DD` when the title is empty — which a filename
+// carrying nothing but a date and a number leaves it. This is the name every caller that renames a lecture
+// asks for; lectureFolderName is the form beneath it. It lives here rather than in Stage 0, which first
+// needed it, because pipeline infrastructure may not depend on a stage (§9).
 filenameSafe(title: string): string                  // see §4.4 for the rules it enforces
 ```
 
@@ -211,11 +216,19 @@ STAGE_WORKSPACE: Readonly<Record<StageId, StageWorkspace>>
 // file (image-extraction, qa-loop, pdf-generation). slide-conversion produces a set too — one markdown file per
 // slide — but concatenates it into `Slide content/slides.md`, which is the single file the stage after it reads.
 
+type StageInWorkspace = { workspaceRoot: string; stageId: StageId }
+// One stage's work within one lecture, the pair every resolver below is addressed by.
 stageOutputEntry(stageId: StageId): string
 // The stage's output path relative to the workspace, as recorded in `filesWritten` (§4.5).
-stageOutputPath(args: { workspaceRoot: string; stageId: StageId }): string
+stageOutputPath(query: StageInWorkspace): string
 // The same path, absolute. A stage uses it for its own output and for its upstream's input, so a hand-off
 // between two stages is stated once rather than at both ends.
+stageDirectoryPath(args: { workspaceRoot: string; directory: StageDirectory }): string
+// One owned directory, resolved against whichever root it hangs off.
+stageDirectoryPaths(query: StageInWorkspace): readonly string[]
+// Every directory the stage owns, in declaration order; `[]` for a stage owning none. This is what the
+// factory prepares before a run (§4.3) and what `--from-stage` deletes (§4.7), so which root a directory
+// answers to is decided here rather than at each end.
 ```
 
 ### 3.4 Re-numbering When New Lectures Are Added
@@ -308,6 +321,20 @@ writeFileAtomic(args: { path: string; content: string | Uint8Array }): Promise<v
 produceFileAtomic(args: { path: string; produce: (tmpPath: string) => Promise<void> }): Promise<void>
 // the general form: the caller creates the file at the .tmp path it is given
 cleanTmpFiles(dir: string): Promise<void>                                 // deletes any .tmp files in a directory
+```
+
+The same module holds the reads, because a pipeline whose directories are created on demand asks about a
+directory that may not be there yet on nearly every path — a workspace with no `runs/`, a module with no
+`Final output/`, a lecture with no PDF. Each answers with an ordinary value rather than a throw, so no caller
+wraps a listing in a try/catch:
+
+```typescript
+readDirSafe(dir: string): Promise<readonly Dirent[]>          // `[]` when the directory does not exist
+pathExists(path: string): Promise<boolean>                    // whatever kind of entry it is
+listFileNames(dir: string): Promise<readonly string[]>        // real files only, dotfiles excluded
+listSubdirectoryNames(dir: string): Promise<readonly string[]>
+// The last is how `Pipeline processing/` is scanned for lectures (§4.7) and `listFileNames` how sources are
+// found by date (§4.7, "Moving a lecture's files").
 ```
 
 ### 4.4 Path Validation
@@ -616,6 +643,11 @@ Each mutation leaves the module in a state Stage 0 can finish, rather than doing
 
 ```typescript
 // src/pipeline/lecture-files.ts
+baseNameForLecture(args: { lectureNumber: number; title: string; lectureDate: string }): string
+// `lectureBaseName` (§3.2) for a caller holding the date as the `YYYY-MM-DD` string the manifest stores.
+// Both callers that move a lecture hold it in that form, so the conversion is made here rather than at each:
+// the string must be read as *local* midnight, matching how `formatDateISO` writes one, or the base name
+// lands a day early west of Greenwich.
 findDatedFile(args: { dir: string; lectureDate: string }): Promise<string | null>
 // The one file in a directory whose name carries this date. Sources are addressed by date rather than by
 // name because a lecture's name changes with its number and title, while its date is what identifies it (§3.2).
@@ -652,8 +684,18 @@ changeLectureDate(args: { match: LectureMatch; newLectureDate: string }): Promis
 // All three throw LectureIdentityError, having made no change (§8).
 
 // src/cli/commands.ts — carrying a command out
-type CliDeps = { runner; moduleRoots; gbpPerUsd; selectMatches; confirm; write }
+type PipelineRunnerFacade = { readonly [TOperation in RunnerOperation]: PipelineRunner[TOperation] }
+// The runner as a command sees it: the five operations above, as readonly properties, so a suite stands a
+// stub in without constructing a real runner and its stages.
+type CliDeps = { runner: PipelineRunnerFacade; moduleRoots; gbpPerUsd; selectMatches; selectMatch; confirm; write }
+// Both pickers are dependencies, not one: `selectMatches` is the checkbox picker `run` and `cost-report` use,
+// `selectMatch` the single-choice one the identity mutations use ("A mutation acts on exactly one lecture").
+type RunnableCliCommand = Exclude<CliCommand, { command: 'help' }>
+// `help` is answered before the configuration is read, so it never reaches a command that needs deps.
 executeCommand(args: { command: RunnableCliCommand; deps: CliDeps }): Promise<number>   // returns the exit code
+EXIT_SUCCESS: 0
+EXIT_FAILURE: 1
+// The two codes of "Exit codes" below, named once so the commands and their suites agree on them.
 
 // src/cli/run-cli.ts — composition root
 runCli(args: { argv; projectRoot?; write?; writeError? }): Promise<number>
@@ -721,14 +763,11 @@ createSourceNormalisationStage(args: { logger: Logger; confirm: ConfirmPrompt })
 // `confirm` is injected rather than imported so the stage never reaches for stdin: the CLI backs it with
 // @inquirer/prompts and tests stub it. Throws SourceNormalisationError on any validation failure or
 // declined confirmation, having made no filesystem changes.
-
-// Shared with the CLI's identity commands (§4.7), which move the same files this stage normalises:
-type ModuleDirs = { video: string; slide: string; processing: string; finalOutput: string }
-moduleDirs(args: { moduleRoot: string }): ModuleDirs        // the module layout of §3.1, stated once
-lectureBaseName(args: { lectureNumber: number; title: string; date: Date }): string
-// The canonical base name, falling back to `Lecture N - YYYY-MM-DD` when the title is empty — so
-// `change-date` names a moved lecture exactly as a normalisation would.
 ```
+
+The stage names and places nothing itself: it takes the module's directories from `moduleDirs` (§3.3) and
+every name it writes from `lectureBaseName` (§3.2), which is what lets the CLI's identity commands move the
+same files onto the same names a normalisation would give them (§4.7).
 
 ---
 
@@ -774,6 +813,10 @@ createTranscriptionStage(args: { logger: Logger }): PipelineStage<TranscriptionI
 
 ELEVENLABS_PATHS: { speechToText: "/v1/speech-to-text" }
 // The route the SDK appends to elevenLabs.baseUrl. Named here, not built here (§6).
+API_KEY_VARIABLE: "ELEVENLABS_API_KEY"
+// The environment variable the key is read from, named for the same reason the route is: a suite that stubs
+// or unsets it names the variable the stage reads rather than its own copy. The key itself never leaves the
+// environment (§2, Environment Variables).
 ```
 
 The `v1` in that route is the ElevenLabs **API** version, not the Scribe version: one endpoint serves every Scribe model, and which one runs is decided by the `model_id` in the request body. Moving to a later Scribe stays a config edit, as intended.
@@ -1325,7 +1368,7 @@ The tables above share one renderer and one money formatter, so a column of poun
 
 ### Typed Errors
 
-Each module that can fail in a way a caller must distinguish exports its own error class — `ConfigError`, `ManifestPathError`, `ContextLengthError`, `SourceNormalisationError`, `AudioExtractionError`, `TranscriptionError`, `CliUsageError`, `LectureIdentityError`. All extend a shared `NamedError` base that captures the concrete subclass name via `new.target`, so each stays a distinct `instanceof` type without repeating constructor boilerplate and reports its own name in logs.
+Each module that can fail in a way a caller must distinguish exports its own error class — `ConfigError`, `ManifestPathError`, `ContextLengthError`, `SourceNormalisationError`, `AudioExtractionError`, `TranscriptionError`, `TranscriptStructuringError`, `CliUsageError`, `LectureIdentityError`. Every stage built so far contributes one, so each stage still to come adds its own. All extend a shared `NamedError` base that captures the concrete subclass name via `new.target`, so each stays a distinct `instanceof` type without repeating constructor boilerplate and reports its own name in logs.
 
 A `catch` binding is typed `unknown`, because any value can be thrown. Every site that wants to report what went wrong therefore needs the same narrowing, so it lives in one place rather than at each catch.
 
@@ -1381,14 +1424,21 @@ src/
 │                                     # StageCost, RunManifest, QaDeficiency
 ├── pipeline/
 │   ├── runner.ts                     # Orchestrator, run log creation, batch mode, cost accumulation
+│   ├── layout.ts                     # Every directory and filename, declared once (§3.3)
 │   ├── manifest.ts                   # manifest.json location, reading, and atomic writing
+│   ├── stage-context.ts              # Assembling the StageContext a stage is handed (§4.7)
+│   ├── lecture-files.ts              # Moving the four files a lecture's identity is spread across (§4.7)
 │   ├── run-status.ts                 # Reducing stage and lecture outcomes to an OverallStatus
 │   ├── config.ts                     # Config file loader and validator
 │   ├── openrouter.ts                 # OpenAI SDK client configured for OpenRouter
+│   ├── fixtures.ts                   # The shared test fixtures — the example lecture, the stub logger,
+│   │                                 # the temp-directory trees. Production code never imports it
 │   └── stages/
+│       ├── pipeline-stage.ts         # The shared isComplete check and the stage factory (§4.2)
 │       ├── source-normalisation.ts   # Stage 0 — batch, date parsing, renaming
 │       ├── audio-extraction.ts       # Stage 1 — existing, refactored to implement PipelineStage
 │       ├── transcription.ts          # Stage 2 — existing, refactored to implement PipelineStage
+│       ├── transcript-structuring.prompt.ts  # Stage 3's messages — one prompt module per LLM stage (§5)
 │       ├── transcript-structuring.ts # Stage 3 — title determination + structuring
 │       ├── slide-conversion.ts       # Stage 4 — PDF render + per-slide vision LLM
 │       ├── image-extraction.ts       # Stage 5 — vision-guided crop + labelling
@@ -1398,9 +1448,10 @@ src/
 └── utils/
     ├── date.ts                       # Date extraction and normalisation (chrono-node)
     ├── naming.ts                     # Lecture folder and file naming helpers
-    ├── files.ts                      # Atomic write helpers (.tmp pattern), workspace path resolution
+    ├── files.ts                      # Atomic writes (.tmp pattern), directory reads, path resolution
     ├── progress.ts                   # Shared cli-progress bar helpers
     ├── cost.ts                       # Cost accumulation and report formatting
+    ├── errors.ts                     # NamedError, and the narrowing every catch site would repeat (§8)
     └── logger.ts                     # pino instance and child-logger factory
 ```
 
