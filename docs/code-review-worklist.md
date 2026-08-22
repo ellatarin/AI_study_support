@@ -223,7 +223,7 @@ legitimate manifest status. Two separate commits.
 ## A20 — Dependency direction and one-fact-two-homes (fix before Stage 4)
 
 - [x] **A20.1** `lecture-files.ts:22` imports `lectureBaseName` from `stages/source-normalisation.ts` — a shared pipeline module depending on a stage, against the direction the file's own header (`:11-13`) argues for. Every new stage deepens it; three consumers; home is `utils/naming.ts` or `lecture-files.ts`. **R1's worst Standards finding, flagged "fix before Stage 4"** — R1, R2 carried §1. **Done, brought forward from the A20 batch because A4.2's rule fails the build without it. `lectureBaseName` moved to `utils/naming.ts`, beside `lectureFolderName` it already delegated to; it depends on nothing but the other naming rules, so the stage was never its home. Stage 0 and `lecture-files.ts` both import it from there now, and the rule makes the old direction a lint error rather than a convention.**
-- [ ] **A20.2** Stage-output directory preparation is **triplicated**: `audio-extraction.ts:138-141`, `transcription.ts:264-270`, `transcript-structuring.ts:151-155` (`stageOutputPath` → `dirname` → `mkdir` → `cleanTmpFiles`). Home is `pipeline-stage.ts`, since every stage is built through `createPipelineStage`. **Sequence after C1** — same seam — R1, R2 carried §6
+- [x] **A20.2** Stage-output directory preparation is **triplicated**: `audio-extraction.ts:138-141`, `transcription.ts:264-270`, `transcript-structuring.ts:151-155` (`stageOutputPath` → `dirname` → `mkdir` → `cleanTmpFiles`). Home is `pipeline-stage.ts`, since every stage is built through `createPipelineStage`. **Sequence after C1** — same seam — R1, R2 carried §6. **Done, with C1.1.** `prepareStageDirectories` in `pipeline-stage.ts`, run before every `run`. It reads `stageDirectoryPaths` rather than `dirname(stageOutputPath(…))`, which the three copies used: same answer for these three stages, but it also covers a stage owning several directories (`qa-loop`) or one outside the workspace (`pdf-generation`), neither of which the old expression could express. TD §4.3 now says the factory does it.
 - [ ] **A20.3** `providerPrefixOf` (`config.ts:324-330`) and `PROVIDER_SEPARATOR` (`transcription.ts:71,138-139`) split a model ID on `/` in two modules, taking opposite halves — R1, R2 carried §4
 
 ## A21 — Rule Zero: the duplication sweep
@@ -346,7 +346,30 @@ C1 and C2 which are settled early because A20 shares their seam.
 > stages and its home is `pipeline-stage.ts`, the same seam. Opening that file twice is the thing this
 > sequencing exists to avoid.
 
-- [ ] **C1.1** Stages 1–3 do no logging at all. TD §10 requires `logger.child({ stage: stageId })` per stage and a debug line per LLM call (model, prompt tokens, latency). Only Stage 0 takes a logger. **`createPipelineStage` has no logger parameter and neither does `makeCompletionCall`'s documented signature** — the required logging has *no home in the designed API*, not merely no implementation — R1, R2 carried §2
+> **REVISED 2026-08-22 during the build, with the user. The seam moved from `run`'s arguments to the
+> stage factory's construction arguments.** What is built is:
+> `createPipelineStage({ stageId, logger, getInput, run })`, which derives `createStageLogger` **once, at
+> construction**, and hands the bound child to `run`. `PipelineStage.run` keeps `{ input, context }`;
+> the runner is unchanged; each per-lecture stage factory takes `{ logger }` exactly as
+> `createSourceNormalisationStage` already did.
+>
+> **Two facts overturned the original decision, both established by reading rather than argument:**
+>
+> 1. **The reason given for rejecting construction-time injection was wrong.** It said stages "are built
+>    before" the runner — true, but the logger is not the runner. `run-cli.ts:56` creates the logger and
+>    `:64` builds the stages eight lines below it, and Stage 0 on `:62` already takes its logger there.
+> 2. **Putting `logger` on `PipelineStage.run` forced `pino` into `src/types/pipeline.ts`**, a contract
+>    file that until then imported nothing, and derived the child on every invocation rather than once.
+>
+> **A third correction came from the user and matters more than either: every stage logs, not only the
+> ones that log today.** An intermediate design gave a logger only to Stage 3 — reasoning from what is
+> implemented (nothing logs) instead of from TD §10, whose "Stage implementations call
+> `logger.child({ stage: stageId })`" means all of them. Stage 2's Scribe upload is a billable model
+> call and belongs in the debug log beside Stage 3's; its ffprobe duration failure was being swallowed
+> into `costResolutionError` where nothing surfaced it. **Do not re-derive a design from what the code
+> currently does when the finding is that the code does too little.**
+
+- [x] **C1.1** Stages 1–3 do no logging at all. TD §10 requires `logger.child({ stage: stageId })` per stage and a debug line per LLM call (model, prompt tokens, latency). Only Stage 0 takes a logger. **`createPipelineStage` has no logger parameter and neither does `makeCompletionCall`'s documented signature** — the required logging has *no home in the designed API*, not merely no implementation — R1, R2 carried §2. **Done, but NOT by the seam the C1 block quote records — see the revision note below.**
 - [ ] **C1.2** Stage 0's logging is partial: discovery counts, renames, manifest writes and deletions are logged; per-file extracted dates, assigned numbers and video↔slide matches are not — exactly the three that explain *why* a lecture got the number it did. Follows from whatever C1.1 decides — R1, R2
 
 ## C2 — Stage↔runner contract

@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.27-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.28-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -261,14 +261,19 @@ Every stage implements a common `PipelineStage<TInput, TOutput>` contract: an id
 
 That check is identical for every stage, so stages are not assembled by hand: each is built through a shared factory that supplies `isComplete` for the given stage id, leaving a stage to define only the two things that genuinely differ — how it gathers its input, and what it does.
 
+The factory carries two further things every stage would otherwise restate. It prepares the stage's output directories before `run` begins (§4.3), and it binds the run's logger to the stage **once, at construction**, so `run` is handed a logger already stamping `{ stage }` (§10). Note where `logger` sits: on the factory, not on `PipelineStage.run`. The runner invokes a stage with the input and the context and nothing else, so the logging capability never travels through the stage contract — and `src/types/pipeline.ts` stays free of any dependency on the logging library.
+
 ```typescript
 // src/pipeline/stages/pipeline-stage.ts
 isStageComplete(args: { context: StageContext; stageId: StageId }): Promise<boolean>
 createPipelineStage<TInput, TOutput>(args: {
   stageId: StageId
+  logger: Logger                                        // the run's; bound to the stage here, once
   getInput: (context: StageContext) => Promise<TInput>
-  run: (args: { input: TInput; context: StageContext }) => Promise<StageResult<TOutput>>
+  run: (args: { input: TInput; context: StageContext; logger: Logger }) => Promise<StageResult<TOutput>>
 }): PipelineStage<TInput, TOutput>
+// `run`'s logger is the bound child, not the one passed in. Every per-lecture stage factory therefore takes
+// { logger } and forwards it, exactly as createSourceNormalisationStage already does for Stage 0.
 ```
 
 After a stage's `run()` succeeds, the runner writes the `filesWritten` list from `StageResult` to `manifest.stages[stageId].filesWritten` before marking the stage `complete`. These are exactly the paths `isComplete()` later verifies.
@@ -287,7 +292,9 @@ After a stage's `run()` succeeds, the runner writes the `filesWritten` list from
 
 ### 4.3 Atomic File Writes
 
-Every file is written to a `.tmp`-suffixed path first, then renamed on success. Any file that exists on disk without a `.tmp` suffix is guaranteed to be complete. At the start of every stage run, the stage scans its output directories and deletes any `.tmp` files left by a previous crashed run before beginning processing. This is automatic and requires no user intervention.
+Every file is written to a `.tmp`-suffixed path first, then renamed on success. Any file that exists on disk without a `.tmp` suffix is guaranteed to be complete. At the start of every stage run, the stage's output directories are created if absent and any `.tmp` files left by a previous crashed run are deleted, before processing begins. This is automatic and requires no user intervention.
+
+The stage does not do this for itself — `createPipelineStage` does it on every stage's behalf (§4.2), reading the directories from `STAGE_WORKSPACE` (§3.3) rather than from the stage's output file, so a stage owning several directories, or one outside the workspace as `pdf-generation` does, is prepared as completely as a stage owning a single one.
 
 Output a stage does not hold in memory — bytes written by a subprocess, such as Stage 1's ffmpeg extraction — goes through the same discipline via `produceFileAtomic`, which hands the producer the `.tmp` path and renames only once it resolves. One consequence is worth stating because it looks like an oversight otherwise: a `.tmp` suffix defeats the container inference ffmpeg does from the output extension, so any stage muxing to a temporary path must name its output format explicitly.
 
@@ -709,7 +716,7 @@ The source video is located by base name: the workspace folder name plus whateve
 // src/pipeline/stages/audio-extraction.ts
 type AudioExtractionInput = { sourceVideoPath: string }
 type AudioExtractionOutput = { audioPath: string }
-createAudioExtractionStage(): PipelineStage<AudioExtractionInput, AudioExtractionOutput>
+createAudioExtractionStage(args: { logger: Logger }): PipelineStage<AudioExtractionInput, AudioExtractionOutput>
 // Throws AudioExtractionError when the source video is missing or ambiguous, or when ffmpeg fails.
 ```
 
@@ -732,7 +739,7 @@ The SDK types `model_id` as the Scribe versions it shipped with, but the model i
 // src/pipeline/stages/transcription.ts
 type TranscriptionInput = { audioPath: string; sizeBytes: number }
 type TranscriptionOutput = { transcriptPath: string }
-createTranscriptionStage(): PipelineStage<TranscriptionInput, TranscriptionOutput>
+createTranscriptionStage(args: { logger: Logger }): PipelineStage<TranscriptionInput, TranscriptionOutput>
 // Throws TranscriptionError when the audio, the API key, or the configured model is missing,
 // or when the response carries no transcript text. A failed cost lookup is not a failure (§7).
 
@@ -801,7 +808,7 @@ buildStructuringMessages(args: { transcriptText: string; provisionalTitle: strin
 // src/pipeline/stages/transcript-structuring.ts
 type TranscriptStructuringInput = { transcriptText: string }
 type TranscriptStructuringOutput = { structuredTranscriptPath: string; lectureTitle: string }
-createTranscriptStructuringStage(): PipelineStage<TranscriptStructuringInput, TranscriptStructuringOutput>
+createTranscriptStructuringStage(args: { logger: Logger }): PipelineStage<TranscriptStructuringInput, TranscriptStructuringOutput>
 // Throws TranscriptStructuringError when the transcript is missing or empty, when the response is not the
 // documented JSON object, or when the LLM judges the provisional title unusable yet proposes nothing in its
 // place. A failed cost lookup is not a failure (§7).
@@ -1046,8 +1053,10 @@ createOpenRouterClient(args: { openRouter: PipelineConfig["openRouter"] }): Open
 // The configured client above. Reused in-process, keyed on the settings it was built from, so a differently
 // configured run cannot be served a client pointed elsewhere or waiting to the wrong budget. Not exported as
 // a live instance, so importing the module never requires OPENROUTER_API_KEY.
-makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; responseFormat: "text" | "json"; client?: OpenAI }):
+makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; responseFormat: "text" | "json"; logger: Logger; client?: OpenAI }):
   Promise<{ content: string; cost: StageCost }>
+// `logger` is the calling stage's, already bound to it by createPipelineStage; the call is recorded on it
+// at `debug` with the model, prompt token count, and latency (§10).
 // Wraps the SDK call and resolves cost from /api/v1/generation (§7). Throws ContextLengthError when the
 // model rejects the prompt for length. `responseFormat: "json"` sends `response_format: json_object` and
 // the provider routing that makes it stick (see "JSON mode is routed for" below), which the stages
@@ -1368,16 +1377,20 @@ src/
 
 ## 10. Logging
 
-`pino` is used for all structured logging. Each pipeline invocation creates a child logger bound to the run timestamp. Stage implementations call `logger.child({ stage: stageId })` to add per-stage context to every log entry automatically.
+`pino` is used for all structured logging. Each pipeline invocation creates a child logger bound to the run timestamp. Every log entry a stage makes carries `{ stage: stageId }`, but a stage does not call `logger.child()` for itself: `createPipelineStage` binds the child once when the stage is built and hands that to `run` (§4.2). One binding site per stage means a stage cannot log against a stage it is not, and a stage that logs nothing still costs nothing.
+
+Each per-lecture stage factory therefore takes `{ logger }` and passes it to `createPipelineStage`; Stage 0, which is not a `PipelineStage`, takes and binds its own. The runner keeps its own binding for the one thing it logs about a stage — the failure and its stack, which it must record for a stage that threw before it could log anything itself.
 
 ### Debug Log File
 
 The pino file transport writes newline-delimited JSON to `runs/<timestamp>-debug.log` alongside the structured run log. This file captures operational detail not stored in the run log:
 
-- Every LLM call: model, prompt token count, latency ms
+- Every billable model call: model, prompt token count, latency ms. Stage 2's Scribe upload counts — it is billed by audio duration rather than tokens, so it logs bytes uploaded in place of prompt tokens
 - Rate limit retries: attempt number, back-off delay, error message
 - Per-slide processing times (Stage 4)
 - File I/O errors: path and OS error code
+- **Decisions that name things downstream.** Which source video Stage 1 chose, since it selects by base name from whatever the video directory holds; and which of the three ways Stage 3 settled the lecture's title (§5, Stage 3), since every later stage names its output from it
+- **Failures the run survives**, at `warn` — chiefly Stage 2's audio-duration lookup, whose only other trace is a `null` in a cost report read days later
 - Every stage failure, with its stack, bound to the stage that raised it (§8)
 
 The debug log is for human inspection when diagnosing failures. Its JSON format also makes it trivially parseable if automated analysis is ever needed.

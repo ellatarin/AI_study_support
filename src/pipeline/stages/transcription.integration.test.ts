@@ -8,6 +8,7 @@ import {
 	makeConfig,
 	makeManifest,
 	makeStageContext,
+	makeStubLogger,
 	makeWorkspaceTree,
 	mediaTestTimeoutMs,
 	renderFixtureMedia,
@@ -68,7 +69,7 @@ describe("createTranscriptionStage against real audio", () => {
 					uploadedBytes = String(requestBody).length;
 					return scribeResponseBody({ text: TRANSCRIPT_TEXT });
 				});
-			const stage = createTranscriptionStage();
+			const stage = createTranscriptionStage({ logger: makeStubLogger().logger });
 			const context = makeStageContext({
 				workspaceRoot,
 				manifest: makeManifest(),

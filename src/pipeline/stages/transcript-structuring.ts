@@ -3,8 +3,8 @@
    nothing to extract: imports cannot be shared, and barrel files are forbidden
    (CLAUDE.md, File Organisation). Only the imports are exempt; the code below is
    checked as normal. */
-import { mkdir, readFile } from "node:fs/promises";
-import { dirname } from "node:path";
+import { readFile } from "node:fs/promises";
+import type { Logger } from "pino";
 import type {
 	PipelineStage,
 	RunManifest,
@@ -12,7 +12,7 @@ import type {
 	StageResult,
 } from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
-import { cleanTmpFiles, writeFileAtomic } from "../../utils/files.js";
+import { writeFileAtomic } from "../../utils/files.js";
 import { moduleDirs, stageOutputEntry, stageOutputPath } from "../layout.js";
 import { baseNameForLecture, renameLectureFiles } from "../lecture-files.js";
 import { writeManifest } from "../manifest.js";
@@ -133,8 +133,8 @@ function parseReply(content: string): StructuringReply {
 }
 
 /**
- * Writes the structured transcript atomically, clearing any partial file a
- * killed run left behind (technical-design.md §4.3).
+ * Writes the structured transcript atomically (technical-design.md §4.3); the
+ * directory it lands in is prepared by the stage factory before `run` begins.
  *
  * @param args - The write inputs.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
@@ -148,11 +148,10 @@ async function writeStructuredTranscript({
 	readonly workspaceRoot: string;
 	readonly markdown: string;
 }): Promise<void> {
-	const outputPath = stageOutputPath({ workspaceRoot, stageId: STAGE_ID });
-	const directory = dirname(outputPath);
-	await mkdir(directory, { recursive: true });
-	await cleanTmpFiles(directory);
-	await writeFileAtomic({ path: outputPath, content: markdown });
+	await writeFileAtomic({
+		path: stageOutputPath({ workspaceRoot, stageId: STAGE_ID }),
+		content: markdown,
+	});
 }
 
 /**
@@ -278,33 +277,50 @@ async function adoptDerivedTitle({
  * `aiDerivedTitle` is recorded; or the model's title is adopted and the
  * lecture's files move with it (technical-design.md §5, Stage 3).
  *
+ * Each outcome is logged, because which one happened is what explains the
+ * lecture's name from here on: every later stage names its output from the title
+ * settled here (technical-design.md §10).
+ *
  * @param args - The reply and the lecture it concerns.
  * @param args.reply - The model's parsed reply.
  * @param args.context - The current lecture run context.
+ * @param args.logger - The stage's logger, which records which outcome was taken.
  * @returns The effective title and the workspace's path afterwards.
  * @throws {TranscriptStructuringError} If a replacement is called for but none was proposed.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 async function settleTitle({
 	reply,
 	context,
+	logger,
 }: {
 	readonly reply: StructuringReply;
 	readonly context: StageContext;
+	readonly logger: Logger;
 }): Promise<TitleResolution> {
 	const unchanged = {
 		lectureTitle: context.lectureTitle,
 		workspaceRoot: context.workspaceRoot,
 	};
 	if (reply.provisionalTitleMeaningful) {
+		logger.debug(
+			{ lectureTitle: context.lectureTitle, outcome: "kept-provisional" },
+			"Settled lecture title",
+		);
 		return unchanged;
 	}
 	const aiDerivedTitle = requireSuggestedTitle(reply.suggestedTitle);
 	if (context.manifest.userTitle === null) {
+		logger.debug({ aiDerivedTitle, outcome: "adopted-derived" }, "Settled lecture title");
 		return adoptDerivedTitle({ context, aiDerivedTitle });
 	}
 	// The user named this lecture, which outranks anything the model derives. What
 	// it derived is still recorded — it is a true fact about the transcript, and
 	// what the title falls back to were the user's ever cleared.
+	logger.debug(
+		{ aiDerivedTitle, lectureTitle: context.lectureTitle, outcome: "kept-user-title" },
+		"Settled lecture title",
+	);
 	await recordIdentity({ context, changes: { aiDerivedTitle } });
 	return unchanged;
 }
@@ -318,15 +334,19 @@ async function settleTitle({
  * @param args - The run inputs.
  * @param args.input - The transcript to structure.
  * @param args.context - The current lecture run context.
+ * @param args.logger - The run's logger, on which the model call is recorded.
  * @returns The structured transcript's path, the settled title, the call's cost, and the file written.
  * @throws {TranscriptStructuringError} If the reply is unusable or a needed title is missing.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 async function structureTranscript({
 	input,
 	context,
+	logger,
 }: {
 	readonly input: TranscriptStructuringInput;
 	readonly context: StageContext;
+	readonly logger: Logger;
 }): Promise<StageResult<TranscriptStructuringOutput>> {
 	const { content, cost } = await makeCompletionCall({
 		messages: buildStructuringMessages({
@@ -336,6 +356,7 @@ async function structureTranscript({
 		stageId: STAGE_ID,
 		config: context.config,
 		responseFormat: "json",
+		logger,
 	});
 	const reply = parseReply(content);
 
@@ -343,7 +364,7 @@ async function structureTranscript({
 		workspaceRoot: context.workspaceRoot,
 		markdown: reply.structuredMarkdown,
 	});
-	const settled = await settleTitle({ reply, context });
+	const settled = await settleTitle({ reply, context, logger });
 
 	return {
 		output: {
@@ -366,14 +387,19 @@ async function structureTranscript({
  * title, renaming the lecture's files when it replaces one
  * (technical-design.md §5, Stage 3).
  *
+ * @param args - The stage's dependencies.
+ * @param args.logger - The run's logger; the factory binds it to this stage.
  * @returns The transcript-structuring stage.
  */
-export function createTranscriptStructuringStage(): PipelineStage<
-	TranscriptStructuringInput,
-	TranscriptStructuringOutput
-> {
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+export function createTranscriptStructuringStage({
+	logger,
+}: {
+	readonly logger: Logger;
+}): PipelineStage<TranscriptStructuringInput, TranscriptStructuringOutput> {
 	return createPipelineStage({
 		stageId: STAGE_ID,
+		logger,
 		getInput: readTranscript,
 		run: structureTranscript,
 	});

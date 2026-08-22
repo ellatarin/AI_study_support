@@ -1,9 +1,9 @@
 import { createReadStream } from "node:fs";
-import { mkdir, stat } from "node:fs/promises";
-import { dirname } from "node:path";
+import { stat } from "node:fs/promises";
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 import type { FfprobeData } from "fluent-ffmpeg";
 import ffmpeg from "fluent-ffmpeg";
+import type { Logger } from "pino";
 import type {
 	PipelineConfig,
 	PipelineStage,
@@ -12,7 +12,7 @@ import type {
 	StageResult,
 } from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
-import { cleanTmpFiles, writeFileAtomic } from "../../utils/files.js";
+import { writeFileAtomic } from "../../utils/files.js";
 import { createUploadProgressStream } from "../../utils/progress.js";
 import { stageOutputEntry, stageOutputPath } from "../layout.js";
 import { createPipelineStage } from "./pipeline-stage.js";
@@ -215,28 +215,33 @@ function readDurationSeconds(audioPath: string): Promise<number> {
  * succeeds, because cost telemetry must never gate pipeline progress
  * (technical-design.md §7).
  *
+ * A failed lookup is logged as well as recorded on the cost: the run carries on
+ * regardless, so without a log line the only trace of it is a `null` in a cost
+ * report read days later (technical-design.md §10).
+ *
  * @param args - The cost inputs.
  * @param args.audioPath - Absolute path to the transcribed audio.
  * @param args.costPerAudioHourUsd - The configured Scribe rate per audio hour.
+ * @param args.logger - The stage's logger, which records a failed duration lookup.
  * @returns The resolved cost, or a `null` cost with its `costResolutionError`.
  */
 async function deriveCost({
 	audioPath,
 	costPerAudioHourUsd,
+	logger,
 }: {
 	readonly audioPath: string;
 	readonly costPerAudioHourUsd: number;
+	readonly logger: Logger;
 }): Promise<StageCost> {
 	const base = { promptTokens: 0, completionTokens: 0, callCount: 1 };
 	try {
 		const seconds = await readDurationSeconds(audioPath);
 		return { ...base, totalCostUsd: (seconds / SECONDS_PER_HOUR) * costPerAudioHourUsd };
 	} catch (error: unknown) {
-		return {
-			...base,
-			totalCostUsd: null,
-			costResolutionError: `Audio duration lookup failed: ${errorMessage(error)}`,
-		};
+		const costResolutionError = `Audio duration lookup failed: ${errorMessage(error)}`;
+		logger.warn({ audioPath, err: error }, costResolutionError);
+		return { ...base, totalCostUsd: null, costResolutionError };
 	}
 }
 
@@ -245,18 +250,24 @@ async function deriveCost({
  * atomically. The API key and model are resolved before any upload begins, so a
  * misconfigured run fails without spending (technical-design.md §5, Stage 2).
  *
+ * The upload is a billable model call, so it is logged like one — the model, the
+ * bytes sent, and how long it took (technical-design.md §10).
+ *
  * @param args - The run inputs.
  * @param args.input - The located audio to upload.
  * @param args.context - The current lecture run context.
+ * @param args.logger - The stage's logger, which records the Scribe call.
  * @returns The transcript path, the duration-derived cost, and the file written.
  * @throws {TranscriptionError} If the key or model is missing, or no text is returned.
  */
 async function transcribeAudio({
 	input,
 	context,
+	logger,
 }: {
 	readonly input: TranscriptionInput;
 	readonly context: StageContext;
+	readonly logger: Logger;
 }): Promise<StageResult<TranscriptionOutput>> {
 	const apiKey = requireApiKey();
 	const modelId = resolveModelId(context);
@@ -265,21 +276,28 @@ async function transcribeAudio({
 		workspaceRoot: context.workspaceRoot,
 		stageId: STAGE_ID,
 	});
-	const transcriptDir = dirname(transcriptPath);
-	await mkdir(transcriptDir, { recursive: true });
-	await cleanTmpFiles(transcriptDir);
 
+	const startedAt = performance.now();
 	const text = await requestTranscript({
 		apiKey,
 		modelId,
 		input,
 		elevenLabs: context.config.elevenLabs,
 	});
+	logger.debug(
+		{
+			model: modelId,
+			uploadedBytes: input.sizeBytes,
+			latencyMs: Math.round(performance.now() - startedAt),
+		},
+		"Transcription call",
+	);
 	await writeFileAtomic({ path: transcriptPath, content: text });
 
 	const cost = await deriveCost({
 		audioPath: input.audioPath,
 		costPerAudioHourUsd: context.config.elevenLabs.costPerAudioHourUsd,
+		logger,
 	});
 	return { output: { transcriptPath }, cost, filesWritten: [stageOutputEntry(STAGE_ID)] };
 }
@@ -289,11 +307,18 @@ async function transcribeAudio({
  * writes the returned transcript to `Transcript/transcript.txt`
  * (technical-design.md §5, Stage 2).
  *
+ * @param args - The stage's dependencies.
+ * @param args.logger - The run's logger; the factory binds it to this stage.
  * @returns The transcription stage.
  */
-export function createTranscriptionStage(): PipelineStage<TranscriptionInput, TranscriptionOutput> {
+export function createTranscriptionStage({
+	logger,
+}: {
+	readonly logger: Logger;
+}): PipelineStage<TranscriptionInput, TranscriptionOutput> {
 	return createPipelineStage({
 		stageId: STAGE_ID,
+		logger,
 		getInput: locateAudio,
 		run: transcribeAudio,
 	});

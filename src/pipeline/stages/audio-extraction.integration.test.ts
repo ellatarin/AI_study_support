@@ -5,6 +5,7 @@ import ffmpeg from "fluent-ffmpeg";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
 	makeStageContext,
+	makeStubLogger,
 	makeWorkspaceTree,
 	mediaTestTimeoutMs,
 	renderFixtureMedia,
@@ -65,7 +66,7 @@ describe("createAudioExtractionStage against real ffmpeg", () => {
 		"should produce valid m4a output when extracting the audio track from a real video file",
 		async () => {
 			await renderFixtureVideo(join(moduleDirs({ moduleRoot }).video, testLecture.videoFile));
-			const stage = createAudioExtractionStage();
+			const stage = createAudioExtractionStage({ logger: makeStubLogger().logger });
 			const context = makeStageContext({ workspaceRoot });
 
 			const input = await stage.getInput(context);

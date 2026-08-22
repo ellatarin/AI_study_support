@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import type { Logger } from "pino";
 import type { PipelineConfig, StageConfig, StageCost, StageId } from "../types/pipeline.js";
 import { NamedError } from "../utils/errors.js";
 
@@ -205,28 +206,39 @@ async function lookupCost(options: {
  * @param options.config - The validated pipeline config supplying the stage's model settings.
  * @param options.responseFormat - The reply shape expected; `"json"` also restricts routing to
  *   providers that honour it, and obliges the caller to ask for JSON in its messages too (§6).
+ * @param options.logger - The calling stage's logger, already bound to it by the stage factory;
+ *   the call is recorded on it at `debug` (§10).
  * @param options.client - An OpenAI client to use; defaults to the shared OpenRouter client.
  * @returns The completion text and its resolved cost.
  * @throws {ContextLengthError} If the prompt exceeds the model's context window.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the OpenAI client and message-param types are library types that are not deeply readonly (CLAUDE.md permits dropping readonly when a library requires mutable types)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the OpenAI client, message-param and pino Logger types are library types that are not deeply readonly (CLAUDE.md permits dropping readonly when a library requires mutable types)
 export async function makeCompletionCall(options: {
 	readonly messages: readonly OpenAI.Chat.Completions.ChatCompletionMessageParam[];
 	readonly stageId: StageId;
 	readonly config: PipelineConfig;
 	readonly responseFormat: CompletionResponseFormat;
+	readonly logger: Logger;
 	readonly client?: OpenAI;
 }): Promise<{ readonly content: string; readonly cost: StageCost }> {
 	const stageConfig = stageConfigFor({ config: options.config, stageId: options.stageId });
 	const { openRouter } = options.config;
 	const client = options.client ?? getSharedClient(openRouter);
+	// Measured here rather than handed back for the caller to log: the latency of
+	// the call is only observable from inside it (§10).
+	const startedAt = performance.now();
 	const response = await createCompletion({
 		client,
 		stageConfig,
 		messages: options.messages,
 		responseFormat: options.responseFormat,
 	});
+	const latencyMs = Math.round(performance.now() - startedAt);
 	const usage = response.usage ?? { prompt_tokens: 0, completion_tokens: 0 };
+	options.logger.debug(
+		{ model: stageConfig.modelId, promptTokens: usage.prompt_tokens, latencyMs },
+		"Completion call",
+	);
 	// A provider can reply with no choices at all — content filtering, or an
 	// upstream error the SDK does not raise. Reading choices[0] blindly turns that
 	// into a TypeError naming nothing; failing here names the stage and the model.

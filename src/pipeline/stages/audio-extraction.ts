@@ -1,9 +1,9 @@
-import { mkdir } from "node:fs/promises";
-import { basename, dirname, extname, join } from "node:path";
+import { basename, extname, join } from "node:path";
 import ffmpeg from "fluent-ffmpeg";
+import type { Logger } from "pino";
 import type { PipelineStage, StageContext, StageResult } from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
-import { cleanTmpFiles, listFileNames, produceFileAtomic } from "../../utils/files.js";
+import { listFileNames, produceFileAtomic } from "../../utils/files.js";
 import { createProgressBar } from "../../utils/progress.js";
 import { moduleDirs, stageOutputEntry, stageOutputPath } from "../layout.js";
 import { createPipelineStage } from "./pipeline-stage.js";
@@ -122,24 +122,30 @@ function copyAudioTrack({
  * and renaming only on success so a killed run never leaves a truncated file a
  * later run would mistake for complete (technical-design.md §4.3).
  *
+ * The source video is logged with the extraction: this stage picks it by base
+ * name from whatever the module's video directory holds, so which file was
+ * chosen is a decision worth being able to check afterwards
+ * (technical-design.md §10).
+ *
  * @param args - The run inputs.
  * @param args.input - The located source video.
  * @param args.context - The current lecture run context.
+ * @param args.logger - The stage's logger, which records the extraction.
  * @returns The extracted audio path, a `null` cost, and the file written.
  * @throws {AudioExtractionError} If ffmpeg fails; the partial `.tmp` is removed first.
  */
 async function extractAudio({
 	input,
 	context,
+	logger,
 }: {
 	readonly input: AudioExtractionInput;
 	readonly context: StageContext;
+	readonly logger: Logger;
 }): Promise<StageResult<AudioExtractionOutput>> {
 	const audioPath = stageOutputPath({ workspaceRoot: context.workspaceRoot, stageId: STAGE_ID });
-	const audioDir = dirname(audioPath);
-	await mkdir(audioDir, { recursive: true });
-	await cleanTmpFiles(audioDir);
 
+	const startedAt = performance.now();
 	try {
 		await produceFileAtomic({
 			path: audioPath,
@@ -151,6 +157,14 @@ async function extractAudio({
 			`Audio extraction failed for ${input.sourceVideoPath}: ${errorMessage(error)}`,
 		);
 	}
+	logger.debug(
+		{
+			sourceVideoPath: input.sourceVideoPath,
+			audioPath,
+			latencyMs: Math.round(performance.now() - startedAt),
+		},
+		"Extracted audio track",
+	);
 
 	// No billable call is made, so this stage records no cost.
 	return { output: { audioPath }, cost: null, filesWritten: [stageOutputEntry(STAGE_ID)] };
@@ -161,14 +175,18 @@ async function extractAudio({
  * `Audio/audio.m4a` with `-acodec copy` — no re-encoding — and retains it for the
  * life of the workspace (technical-design.md §5, Stage 1).
  *
+ * @param args - The stage's dependencies.
+ * @param args.logger - The run's logger; the factory binds it to this stage.
  * @returns The audio-extraction stage.
  */
-export function createAudioExtractionStage(): PipelineStage<
-	AudioExtractionInput,
-	AudioExtractionOutput
-> {
+export function createAudioExtractionStage({
+	logger,
+}: {
+	readonly logger: Logger;
+}): PipelineStage<AudioExtractionInput, AudioExtractionOutput> {
 	return createPipelineStage({
 		stageId: STAGE_ID,
+		logger,
 		getInput: locateSourceVideo,
 		run: extractAudio,
 	});

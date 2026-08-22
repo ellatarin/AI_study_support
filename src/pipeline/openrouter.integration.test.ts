@@ -5,7 +5,9 @@ import type { PipelineConfig } from "../types/pipeline.js";
 import {
 	captureError,
 	exampleConfig,
+	loggedAt,
 	makeConfig,
+	makeStubLogger,
 	openRouterCompletionBody,
 	openRouterModelId,
 	openRouterStageConfig,
@@ -47,6 +49,9 @@ function mockGeneration(): nock.Interceptor {
 	return nock(openRouterUrls.origin).get(openRouterUrls.generation).query(true);
 }
 
+/** Recorded afresh per test, so a test can assert on what the call logged. */
+let logged: ReturnType<typeof makeStubLogger>;
+
 function call(
 	overrides: Record<string, unknown> = {},
 ): Promise<{ content: string; cost: import("../types/pipeline.js").StageCost }> {
@@ -55,6 +60,7 @@ function call(
 		stageId: "transcript-structuring",
 		config,
 		responseFormat: "text",
+		logger: logged.logger,
 		...overrides,
 	});
 }
@@ -102,6 +108,7 @@ function callWithResolvedCost(totalCost: number): ReturnType<typeof call> {
 beforeEach(() => {
 	process.env.OPENROUTER_API_KEY = "test-key";
 	nock.disableNetConnect();
+	logged = makeStubLogger();
 });
 
 afterEach(() => {
@@ -159,6 +166,18 @@ describe("makeCompletionCall", () => {
 		const { body } = await callCapturingRequest({ responseFormat: "text" });
 
 		expect(body.provider).toBeUndefined();
+	});
+
+	it("should record the model, prompt tokens and latency when a call completes", async () => {
+		await callWithResolvedCost(RESOLVED_COST_USD);
+
+		const [entry] = loggedAt({ entries: logged.entries, level: "debug" });
+		expect(entry?.message).toBe("Completion call");
+		expect(entry?.payload).toEqual({
+			model: openRouterModelId,
+			promptTokens: stubbedTokenUsage.promptTokens,
+			latencyMs: expect.any(Number),
+		});
 	});
 
 	it("should populate totalCostUsd and token counts when the generation endpoint returns cost", async () => {

@@ -7,9 +7,11 @@ import { pathExists } from "../../utils/files.js";
 import {
 	aiDerivedLecture,
 	captureError,
+	loggedAt,
 	makeConfig,
 	makeManifest,
 	makeStageContext,
+	makeStubLogger,
 	makeWorkspaceTree,
 	openRouterStageConfig,
 	structuredMarkdown,
@@ -59,9 +61,11 @@ function stubReply(overrides: Record<string, unknown> = {}): void {
 describe("createTranscriptStructuringStage", () => {
 	let moduleRoot: string;
 	let workspaceRoot: string;
+	let logged: ReturnType<typeof makeStubLogger>;
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
+		logged = makeStubLogger();
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "structuring-" }));
 		const transcriptPath = stageOutputPath({ workspaceRoot, stageId: "transcription" });
 		await mkdir(dirname(transcriptPath), { recursive: true });
@@ -85,10 +89,23 @@ describe("createTranscriptStructuringStage", () => {
 		});
 	}
 
+	/** The stage under test, logging into {@link logged}. */
+	function makeStage(): ReturnType<typeof createTranscriptStructuringStage> {
+		return createTranscriptStructuringStage({ logger: logged.logger });
+	}
+
+	/** The outcome the stage recorded for the lecture's title. */
+	function settledTitleOutcome(): unknown {
+		const [entry] = loggedAt({ entries: logged.entries, level: "debug" }).filter(
+			(logEntry) => logEntry.message === "Settled lecture title",
+		);
+		return entry?.payload.outcome;
+	}
+
 	async function runStage(
 		context: StageContext,
 	): Promise<StageResult<TranscriptStructuringOutput>> {
-		const stage = createTranscriptStructuringStage();
+		const stage = makeStage();
 		return stage.run({ input: await stage.getInput(context), context });
 	}
 
@@ -98,23 +115,19 @@ describe("createTranscriptStructuringStage", () => {
 	}
 
 	it("should name the stage transcript-structuring when the stage is created", () => {
-		expect(createTranscriptStructuringStage().stageId).toBe("transcript-structuring");
+		expect(makeStage().stageId).toBe("transcript-structuring");
 	});
 
 	it("should fail when the transcript is missing", async () => {
 		await rm(stageOutputPath({ workspaceRoot, stageId: "transcription" }));
 
-		await expect(createTranscriptStructuringStage().getInput(contextWith())).rejects.toThrow(
-			TranscriptStructuringError,
-		);
+		await expect(makeStage().getInput(contextWith())).rejects.toThrow(TranscriptStructuringError);
 	});
 
 	it("should fail when the transcript holds no text", async () => {
 		await writeFile(stageOutputPath({ workspaceRoot, stageId: "transcription" }), "   \n  ");
 
-		await expect(createTranscriptStructuringStage().getInput(contextWith())).rejects.toThrow(
-			TranscriptStructuringError,
-		);
+		await expect(makeStage().getInput(contextWith())).rejects.toThrow(TranscriptStructuringError);
 	});
 
 	it("should ask the model for JSON when the stage calls it", async () => {
@@ -242,6 +255,34 @@ describe("createTranscriptStructuringStage", () => {
 			expect((await readManifestAt(testLecture.folderName)).workspaceFolderName).toBe(
 				testLecture.folderName,
 			);
+		});
+	});
+
+	describe("recording which way the title was settled", () => {
+		// Every later stage names its output from the title settled here, so which
+		// branch ran is the fact the debug log has to carry (§10).
+		it.each([
+			{
+				outcome: "kept-provisional",
+				reply: { provisionalTitleMeaningful: true },
+				manifest: {},
+			},
+			{
+				outcome: "adopted-derived",
+				reply: { provisionalTitleMeaningful: false, suggestedTitle: aiDerivedLecture.title },
+				manifest: {},
+			},
+			{
+				outcome: "kept-user-title",
+				reply: { provisionalTitleMeaningful: false, suggestedTitle: aiDerivedLecture.title },
+				manifest: { userTitle: userChosenTitle, lectureTitle: userChosenTitle },
+			},
+		])("should record $outcome when that is how the title was settled", async (settled) => {
+			stubReply(settled.reply);
+
+			await runStage(contextWith(settled.manifest));
+
+			expect(settledTitleOutcome()).toBe(settled.outcome);
 		});
 	});
 

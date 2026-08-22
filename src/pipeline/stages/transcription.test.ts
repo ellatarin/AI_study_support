@@ -13,9 +13,11 @@ import type {
 import {
 	elevenLabsUrls,
 	exampleConfig,
+	loggedAt,
 	makeConfig,
 	makeManifest,
 	makeStageContext,
+	makeStubLogger,
 	makeWorkspaceTree,
 	resetElevenLabsApi,
 	scribeResponseBody,
@@ -46,10 +48,12 @@ describe("createTranscriptionStage", () => {
 	let moduleRoot: string;
 	let workspaceRoot: string;
 	let capturedBody: string;
+	let logged: ReturnType<typeof makeStubLogger>;
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
 		capturedBody = "";
+		logged = makeStubLogger();
 		stubElevenLabsApi();
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "transcription-" }));
 		await mkdir(dirname(audioPath()), { recursive: true });
@@ -119,14 +123,19 @@ describe("createTranscriptionStage", () => {
 		});
 	}
 
+	/** The stage under test, logging into {@link logged}. */
+	function makeStage(): ReturnType<typeof createTranscriptionStage> {
+		return createTranscriptionStage({ logger: logged.logger });
+	}
+
 	async function runStage(context: StageContext): Promise<StageResult<TranscriptionOutput>> {
-		const stage = createTranscriptionStage();
+		const stage = makeStage();
 		const input = await stage.getInput(context);
 		return stage.run({ input, context });
 	}
 
 	it("should name the stage transcription when the stage is created", () => {
-		expect(createTranscriptionStage().stageId).toBe("transcription");
+		expect(makeStage().stageId).toBe("transcription");
 	});
 
 	it("should skip transcription when output file exists and stage is complete", async () => {
@@ -142,15 +151,13 @@ describe("createTranscriptionStage", () => {
 			},
 		});
 
-		expect(await createTranscriptionStage().isComplete(context)).toBe(true);
+		expect(await makeStage().isComplete(context)).toBe(true);
 	});
 
 	it("should fail when the extracted audio is missing", async () => {
 		await rm(audioPath());
 
-		await expect(createTranscriptionStage().getInput(contextWith())).rejects.toThrow(
-			TranscriptionError,
-		);
+		await expect(makeStage().getInput(contextWith())).rejects.toThrow(TranscriptionError);
 	});
 
 	it.each([
@@ -260,6 +267,31 @@ describe("createTranscriptionStage", () => {
 			"costResolutionError",
 			expect.stringContaining("ffprobe could not read the container"),
 		);
+	});
+
+	it("should warn when the audio duration cannot be read, since the run carries on regardless", async () => {
+		stubDurationFailure("ffprobe could not read the container");
+		interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+
+		await runStage(contextWith());
+
+		const [warning] = loggedAt({ entries: logged.entries, level: "warn" });
+		expect(warning?.message).toContain("ffprobe could not read the container");
+		expect(warning?.bindings).toEqual({ stage: "transcription" });
+	});
+
+	it("should record the model, bytes uploaded and latency when the Scribe call completes", async () => {
+		interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+
+		await runStage(contextWith());
+
+		const [entry] = loggedAt({ entries: logged.entries, level: "debug" });
+		expect(entry?.message).toBe("Transcription call");
+		expect(entry?.payload).toEqual({
+			model: "scribe_v2",
+			uploadedBytes: expect.any(Number),
+			latencyMs: expect.any(Number),
+		});
 	});
 
 	it("should record a null cost when ffprobe reports no duration for the audio", async () => {

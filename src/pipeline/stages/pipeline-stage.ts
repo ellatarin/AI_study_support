@@ -1,6 +1,15 @@
+import { mkdir } from "node:fs/promises";
+import type { Logger } from "pino";
 import type { PipelineStage, StageContext, StageId, StageResult } from "../../types/pipeline.js";
 import type { ManifestPathQuery } from "../../utils/files.js";
-import { ManifestPathError, pathExists, resolveManifestPath } from "../../utils/files.js";
+import {
+	cleanTmpFiles,
+	ManifestPathError,
+	pathExists,
+	resolveManifestPath,
+} from "../../utils/files.js";
+import { createStageLogger } from "../../utils/logger.js";
+import { stageDirectoryPaths } from "../layout.js";
 
 /**
  * Whether one recorded `filesWritten` entry still exists, resolved through the
@@ -71,38 +80,88 @@ export async function isStageComplete({
 }
 
 /**
+ * Creates every directory the stage owns and clears any `.tmp` files a previous
+ * crashed run left in them, so a stage begins against directories that exist and
+ * hold nothing partial (technical-design.md §4.3).
+ *
+ * Asked of {@link stageDirectoryPaths} rather than derived from the stage's
+ * output file, so a stage owning several directories — or one outside the
+ * workspace, as `pdf-generation` does — is prepared as completely as a stage
+ * owning a single one.
+ *
+ * @param args - The workspace and the stage.
+ * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args.stageId - The stage whose directories to prepare.
+ * @returns A promise that resolves once every directory exists and is clear.
+ */
+async function prepareStageDirectories({
+	workspaceRoot,
+	stageId,
+}: {
+	readonly workspaceRoot: string;
+	readonly stageId: StageId;
+}): Promise<void> {
+	for (const directory of stageDirectoryPaths({ workspaceRoot, stageId })) {
+		await mkdir(directory, { recursive: true });
+		await cleanTmpFiles(directory);
+	}
+}
+
+/**
  * Assembles a per-lecture {@link PipelineStage} from the two parts that actually
  * differ between stages — how it gathers its input and what it does — and wires
  * the shared `isComplete` for the given stage id.
  *
- * Every stage's idempotency check is the same check against its own manifest
- * entry (technical-design.md §4.2), so building stages through here is what
- * guarantees they cannot drift apart or quietly skip the boundary validation.
+ * Three things every stage would otherwise repeat are done here instead. The
+ * idempotency check is the same check against the stage's own manifest entry
+ * (technical-design.md §4.2). The stage's output directories are created and
+ * cleared of `.tmp` leftovers before `run` begins (§4.3), which every stage
+ * writing output needs and none of them should state for itself. And the run's
+ * logger is bound to the stage **once, here**, so `run` receives a logger already
+ * stamping `{ stage }` and no stage writes `.child()` for itself (§10).
  *
- * @param args - The stage's identity and behaviour.
+ * Binding at construction rather than per invocation is why `logger` appears on
+ * this factory's `run` and not on {@link PipelineStage.run}: the runner calls a
+ * stage with the input and the context, exactly as before, and never carries a
+ * logger through the contract to do it.
+ *
+ * Building stages through here is what guarantees they cannot drift apart,
+ * quietly skip a step, or log against the wrong stage.
+ *
+ * @param args - The stage's identity, dependencies, and behaviour.
  * @param args.stageId - The stage this implements.
+ * @param args.logger - The run's logger, bound to this stage before `run` sees it.
  * @param args.getInput - Gathers and validates the stage's input.
- * @param args.run - Executes the stage.
+ * @param args.run - Executes the stage, against prepared directories and a bound logger.
  * @returns The assembled pipeline stage.
  * @typeParam TInput - The input `getInput` produces and `run` consumes.
  * @typeParam TOutput - The output `run` produces.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 export function createPipelineStage<TInput, TOutput>({
 	stageId,
+	logger,
 	getInput,
 	run,
 }: {
 	readonly stageId: StageId;
+	readonly logger: Logger;
 	readonly getInput: (context: StageContext) => Promise<TInput>;
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- reported again for the callback's own parameter; same pino Logger, same reason as above
 	readonly run: (args: {
 		readonly input: TInput;
 		readonly context: StageContext;
+		readonly logger: Logger;
 	}) => Promise<StageResult<TOutput>>;
 }): PipelineStage<TInput, TOutput> {
+	const stageLogger = createStageLogger({ logger, stageId });
 	return {
 		stageId,
 		isComplete: (context) => isStageComplete({ context, stageId }),
 		getInput,
-		run,
+		run: async ({ input, context }) => {
+			await prepareStageDirectories({ workspaceRoot: context.workspaceRoot, stageId });
+			return run({ input, context, logger: stageLogger });
+		},
 	};
 }

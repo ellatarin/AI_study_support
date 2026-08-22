@@ -10,6 +10,7 @@ import {
 	makeLectureTree,
 	makeManifest,
 	makeStageContext,
+	makeStubLogger,
 	openRouterCompletionBody,
 	openRouterStageConfig,
 	openRouterUrls,
@@ -85,7 +86,7 @@ describe("transcript structuring against a real module tree", () => {
 	}
 
 	async function runStage(context: StageContext): Promise<void> {
-		const stage = createTranscriptStructuringStage();
+		const stage = createTranscriptStructuringStage({ logger: makeStubLogger().logger });
 		await stage.run({ input: await stage.getInput(context), context });
 	}
 

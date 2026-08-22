@@ -14,6 +14,7 @@ import type {
 import { pathExists } from "../utils/files.js";
 import {
 	corruptJson,
+	loggedAt,
 	makeConfig,
 	makeManifest,
 	makeStubLogger,
@@ -210,8 +211,9 @@ describe("PipelineRunner integration", () => {
 
 			await makeRunner([stage]).runLecture({ workspaceRoot });
 
-			expect(logged.errors).toHaveLength(1);
-			const [entry] = logged.errors;
+			const errors = loggedAt({ entries: logged.entries, level: "error" });
+			expect(errors).toHaveLength(1);
+			const [entry] = errors;
 			expect(entry?.bindings).toEqual({ stage: "audio-extraction" });
 			expect(entry?.payload.err).toBe(failure);
 		});

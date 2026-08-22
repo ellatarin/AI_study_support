@@ -4,8 +4,10 @@ import ffmpeg from "fluent-ffmpeg";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ManifestStageEntry, StageContext, StageResult } from "../../types/pipeline.js";
 import {
+	loggedAt,
 	makeManifest,
 	makeStageContext,
+	makeStubLogger,
 	makeWorkspaceTree,
 	stageCompletedAt,
 	stagesWith,
@@ -42,10 +44,12 @@ describe("createAudioExtractionStage", () => {
 	let workspaceRoot: string;
 	let videoDir: string;
 	let calls: ExtractionCall[];
+	let logged: ReturnType<typeof makeStubLogger>;
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
 		calls = [];
+		logged = makeStubLogger();
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "audio-extraction-" }));
 		videoDir = moduleDirs({ moduleRoot }).video;
 		await mkdir(videoDir, { recursive: true });
@@ -140,15 +144,20 @@ describe("createAudioExtractionStage", () => {
 		await writeFile(join(videoDir, name), "video bytes");
 	}
 
+	/** The stage under test, logging into {@link logged}. */
+	function makeStage(): ReturnType<typeof createAudioExtractionStage> {
+		return createAudioExtractionStage({ logger: logged.logger });
+	}
+
 	async function runStage(): Promise<StageResult<AudioExtractionOutput>> {
-		const stage = createAudioExtractionStage();
+		const stage = makeStage();
 		const context = contextWith();
 		const input = await stage.getInput(context);
 		return stage.run({ input, context });
 	}
 
 	it("should name the stage audio-extraction when the stage is created", () => {
-		expect(createAudioExtractionStage().stageId).toBe("audio-extraction");
+		expect(makeStage().stageId).toBe("audio-extraction");
 	});
 
 	function completedContext(): StageContext {
@@ -165,25 +174,23 @@ describe("createAudioExtractionStage", () => {
 		await mkdir(audioDir(), { recursive: true });
 		await writeFile(audioPath(), "already extracted");
 
-		expect(await createAudioExtractionStage().isComplete(completedContext())).toBe(true);
+		expect(await makeStage().isComplete(completedContext())).toBe(true);
 	});
 
 	it("should re-run audio extraction when the recorded output has been deleted", async () => {
-		expect(await createAudioExtractionStage().isComplete(completedContext())).toBe(false);
+		expect(await makeStage().isComplete(completedContext())).toBe(false);
 	});
 
 	it("should locate the source video when its extension is not .mp4", async () => {
 		await writeSourceVideo(`${testLecture.folderName}.mov`);
 
-		const input = await createAudioExtractionStage().getInput(contextWith());
+		const input = await makeStage().getInput(contextWith());
 
 		expect(input.sourceVideoPath).toBe(join(videoDir, `${testLecture.folderName}.mov`));
 	});
 
 	it("should fail before invoking ffmpeg when the source video is missing", async () => {
-		await expect(createAudioExtractionStage().getInput(contextWith())).rejects.toThrow(
-			AudioExtractionError,
-		);
+		await expect(makeStage().getInput(contextWith())).rejects.toThrow(AudioExtractionError);
 		expect(ffmpegMock).not.toHaveBeenCalled();
 	});
 
@@ -191,9 +198,7 @@ describe("createAudioExtractionStage", () => {
 		await writeSourceVideo(testLecture.videoFile);
 		await writeSourceVideo(`${testLecture.folderName}.mov`);
 
-		await expect(createAudioExtractionStage().getInput(contextWith())).rejects.toThrow(
-			AudioExtractionError,
-		);
+		await expect(makeStage().getInput(contextWith())).rejects.toThrow(AudioExtractionError);
 		expect(ffmpegMock).not.toHaveBeenCalled();
 	});
 
@@ -205,6 +210,22 @@ describe("createAudioExtractionStage", () => {
 
 		expect(result.filesWritten).toStrictEqual([stageOutputEntry("audio-extraction")]);
 		expect(result.output.audioPath).toBe(audioPath());
+	});
+
+	it("should record which source video it chose when extraction completes", async () => {
+		await writeSourceVideo(testLecture.videoFile);
+		stubFfmpeg(succeed);
+
+		await runStage();
+
+		const [entry] = loggedAt({ entries: logged.entries, level: "debug" });
+		expect(entry?.message).toBe("Extracted audio track");
+		expect(entry?.bindings).toEqual({ stage: "audio-extraction" });
+		expect(entry?.payload).toEqual({
+			sourceVideoPath: join(videoDir, testLecture.videoFile),
+			audioPath: audioPath(),
+			latencyMs: expect.any(Number),
+		});
 	});
 
 	it("should record no cost when the stage makes no billable call", async () => {

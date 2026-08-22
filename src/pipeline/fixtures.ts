@@ -56,41 +56,71 @@ export async function captureError(promise: Promise<unknown>): Promise<Error> {
 	throw new Error("Expected the promise to reject, but it resolved");
 }
 
-/** One `error` call made against {@link makeStubLogger}, with the bindings in force. */
-export type LoggedError = {
-	readonly bindings: Record<string, unknown>;
-	readonly payload: Record<string, unknown>;
+/** The pino levels {@link makeStubLogger} records. */
+const LOGGED_LEVELS = ["debug", "info", "warn", "error"] as const;
+
+/** One level a stub logger records against. */
+export type LoggedLevel = (typeof LOGGED_LEVELS)[number];
+
+/** One call made against {@link makeStubLogger}, with the bindings in force. */
+export type LoggedEntry = {
+	readonly level: LoggedLevel;
+	readonly bindings: Readonly<Record<string, unknown>>;
+	readonly payload: Readonly<Record<string, unknown>>;
 	readonly message: string;
 };
 
 /**
- * A pino stand-in that records what was logged at `error` and swallows the rest.
+ * A pino stand-in that records every call made against it.
  *
- * The runner logs a stage failure through a child logger bound to the stage, so
- * a stub has to support `child()` and carry its bindings down — which is exactly
- * what a test asserting "the failure was logged, with its stack, against the
- * right stage" needs to see.
+ * Callers log through a child logger bound to the stage, so a stub has to
+ * support `child()` and carry its bindings down — which is exactly what a test
+ * asserting "this was logged against the right stage" needs to see. Every level
+ * is recorded rather than only `error`, because the same three facts are asked
+ * of a `debug` line as of a failure: what was logged, with what payload, under
+ * which bindings.
  *
- * @returns The logger to inject, and the errors it has recorded so far.
+ * @returns The logger to inject, and the entries it has recorded so far.
  */
 export function makeStubLogger(): {
 	readonly logger: Logger;
-	readonly errors: readonly LoggedError[];
+	readonly entries: readonly LoggedEntry[];
 } {
-	const errors: LoggedError[] = [];
-	const makeChild = (bindings: Readonly<Record<string, unknown>>): Logger =>
-		({
+	const entries: LoggedEntry[] = [];
+	const makeChild = (bindings: Readonly<Record<string, unknown>>): Logger => {
+		const record =
+			(level: LoggedLevel) =>
+			// eslint-disable-next-line max-params -- mirrors pino's own (payload, message) signature
+			(payload: Readonly<Record<string, unknown>>, message: string) => {
+				entries.push({ level, bindings, payload, message });
+			};
+		const levels = Object.fromEntries(LOGGED_LEVELS.map((level) => [level, record(level)]));
+		return {
+			...levels,
 			child: (childBindings: Readonly<Record<string, unknown>>) =>
 				makeChild({ ...bindings, ...childBindings }),
-			// eslint-disable-next-line max-params -- mirrors pino's own (payload, message) signature
-			error: (payload: Readonly<Record<string, unknown>>, message: string) => {
-				errors.push({ bindings, payload, message });
-			},
-			info: () => undefined,
-			warn: () => undefined,
-			debug: () => undefined,
-		}) as unknown as Logger;
-	return { logger: makeChild({}), errors };
+		} as unknown as Logger;
+	};
+	return { logger: makeChild({}), entries };
+}
+
+/**
+ * The entries a stub logger recorded at one level, in the order they were
+ * logged.
+ *
+ * @param args - The recording to filter.
+ * @param args.entries - Everything the stub logger recorded.
+ * @param args.level - The level to keep.
+ * @returns The matching entries.
+ */
+export function loggedAt({
+	entries,
+	level,
+}: {
+	readonly entries: readonly LoggedEntry[];
+	readonly level: LoggedLevel;
+}): readonly LoggedEntry[] {
+	return entries.filter((entry) => entry.level === level);
 }
 
 /**

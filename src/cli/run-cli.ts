@@ -62,9 +62,9 @@ async function assembleDeps({
 		sourceNormalisation: createSourceNormalisationStage({ logger, confirm: confirmPrompt }),
 		// Pipeline order; each further stage joins this list as it is built.
 		lectureStages: [
-			createAudioExtractionStage(),
-			createTranscriptionStage(),
-			createTranscriptStructuringStage(),
+			createAudioExtractionStage({ logger }),
+			createTranscriptionStage({ logger }),
+			createTranscriptStructuringStage({ logger }),
 		],
 		logger,
 	});
