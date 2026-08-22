@@ -10,7 +10,6 @@
 		"**/__fixtures__/**",
 		"**/__snapshots__/**",
 		"node_modules/**",
-		"dist/**",
 		".claude/**"
 	],
 	"pattern": "**/*.{ts,tsx,js,mjs}",

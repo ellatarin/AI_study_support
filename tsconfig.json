@@ -5,7 +5,7 @@
 		"moduleResolution": "bundler",
 		"strict": true,
 		"noUncheckedIndexedAccess": true,
-		"outDir": "dist",
+		"noEmit": true,
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"types": ["node"],

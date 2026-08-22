@@ -3,13 +3,7 @@
 	"reporters": ["console"],
 	"absolute": true,
 	"gitignore": true,
-	"ignore": [
-		"**/__fixtures__/**",
-		"**/__snapshots__/**",
-		"node_modules/**",
-		"dist/**",
-		".claude/**"
-	],
+	"ignore": ["**/__fixtures__/**", "**/__snapshots__/**", "node_modules/**", ".claude/**"],
 	"pattern": "**/{*.test,*.integration.test,fixtures}.{ts,tsx,js,mjs}",
 	"minTokens": 40,
 	"minLines": 2,
