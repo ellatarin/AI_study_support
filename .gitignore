@@ -1,6 +1,10 @@
 node_modules/
 dist/
-.env
+# Every .env variant, not just the bare name: .env.local and .env.production
+# are the ones that get created in a hurry. The example is the one file here
+# that carries no values, so it is the one exception.
+.env*
+!.env.example
 .claude/
 CLAUDE.md
 coverage/
