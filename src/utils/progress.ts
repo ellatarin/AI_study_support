@@ -141,8 +141,9 @@ function renderInFlight({
 /**
  * Creates a {@link ParallelWorkBar} for a concurrent stage. The returned control
  * methods keep the in-flight suffix and completed count in sync as workers pick
- * up, complete, and fail items (used by Stages 4 and 5). Non-TTY output falls
- * back to cli-progress defaults.
+ * up, complete, and fail items. It is the bar Stages 4 and 5 are specified to
+ * use (technical-design.md §5); neither is built yet, so nothing calls it in
+ * production today. Non-TTY output falls back to cli-progress defaults.
  *
  * @param args - The bar configuration.
  * @param args.label - The bar label.

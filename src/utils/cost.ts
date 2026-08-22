@@ -70,8 +70,12 @@ const STAGE_LABELS: Readonly<Record<StageId, string>> = {
 // (technical-design.md §4.7).
 
 /**
- * The human-readable name of a stage, as every report and message shows it.
- * Exported so the CLI names a stage the same way its summary table does.
+ * The human-readable name of a stage, as the two summary tables show it: the
+ * end-of-run summary and the cost report's current-pipeline section. The
+ * report's error-recovery and experiment sections name stages by their raw id
+ * instead, as technical-design.md §7's worked examples do.
+ *
+ * Exported so the CLI names a failed stage the same way those tables do.
  *
  * @param args - The stage to name.
  * @param args.stageId - The stage's canonical id.

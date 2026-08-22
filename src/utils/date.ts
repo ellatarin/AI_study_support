@@ -339,10 +339,18 @@ function allDateSpans(text: string): readonly DateSpan[] {
 /**
  * Extracts a recording date from a filename.
  *
- * A span is accepted only when chrono is certain of both the day and the month,
- * which rules out bare years, standalone weekdays, and incidental numbers that
- * would otherwise resolve to a spurious date. The year may be inferred (e.g.
- * `Fri 10th Oct`); chrono anchors it to the reference date.
+ * A span is accepted only when it is confident, and the two kinds of span earn
+ * that differently. A numeric span is confident by its form: the
+ * British-convention patterns in this module identify day, month and year by
+ * position, so a match needs no further judgement. A span chrono found — a date
+ * written in words — is confident only when chrono is certain of both the day
+ * and the month, which rules out bare years, standalone weekdays, and incidental
+ * numbers that would otherwise resolve to a spurious date. The year may be
+ * inferred (e.g. `Fri 10th Oct`); chrono anchors it to the reference date.
+ *
+ * The bare six-digit `DDMMYY` form is the exception at both ends: it is tried
+ * only when nothing else yielded a confident span, and it is confident whenever
+ * it names a real day (technical-design.md §3.2).
  *
  * @param filename - The filename to inspect (extension optional).
  * @returns The extracted {@link Date}, or `null` when no sufficiently confident

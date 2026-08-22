@@ -162,14 +162,18 @@ async function assertSourcePairPresent({
 }
 
 /**
- * Fails when anything already occupies the date being moved to, so a change can
- * never overwrite another lecture's files.
+ * Fails when a source file already sits on the date being moved to, so a change
+ * can never overwrite another lecture's sources (technical-design.md §4.7).
+ *
+ * The video and slide directories are the whole check. A lecture's date lives in
+ * its source filenames, so a date another lecture holds is a date one of those
+ * two directories already carries.
  *
  * @param args - The destination to check.
  * @param args.dirs - The module's directories.
  * @param args.newLectureDate - The date being moved to.
  * @returns Nothing.
- * @throws {LectureIdentityError} When a file or workspace already carries that date.
+ * @throws {LectureIdentityError} When a source video or slide already carries that date.
  */
 async function assertDateIsFree({
 	dirs,
