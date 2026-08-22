@@ -57,6 +57,24 @@ export default [
 			// maxDepth: Infinity — fully walks the graph. Slow on large trees;
 			// fine here. Revisit if lint times get painful.
 			"import/no-cycle": ["error", { maxDepth: Infinity, ignoreExternal: true }],
+
+			// The pipeline's dependency direction, which was a convention nothing
+			// checked: stages are built on the pipeline, so pipeline infrastructure
+			// must never import from one. lecture-files.ts had been importing a
+			// naming helper straight out of Stage 0.
+			"import/no-restricted-paths": [
+				"error",
+				{
+					zones: [
+						{
+							target: "./src/pipeline/*.ts",
+							from: "./src/pipeline/stages",
+							message:
+								"Pipeline infrastructure must not import from a stage — stages depend on the pipeline, not the other way round. Move the shared code into src/utils or src/pipeline.",
+						},
+					],
+				},
+			],
 		},
 	},
 
@@ -114,9 +132,20 @@ export default [
 			// CLAUDE.md L28: MUST use meaningful names; NEVER terse or ambiguous
 			// Exceptions: `_` (throwaway), and common Node conventions (`fs`, `os`)
 			// where a longer name would fight ecosystem convention rather than clarify
-			"id-length": ["warn", { min: 3, exceptions: ["_", "fs", "os"] }],
+			"id-length": ["error", { min: 3, exceptions: ["_", "fs", "os"] }],
 
 			"no-restricted-syntax": ["error", ...GENERAL_SYNTAX_RESTRICTIONS],
+		},
+	},
+
+	// fixtures.ts sits in src/pipeline but is test scaffolding, not pipeline
+	// infrastructure: it exists to serve the stages' own suites, so importing a
+	// stage is its job rather than an inverted dependency. Coverage and jscpd
+	// already carve it out on the same grounds.
+	{
+		files: ["src/pipeline/fixtures.ts"],
+		rules: {
+			"import/no-restricted-paths": "off",
 		},
 	},
 
@@ -148,7 +177,10 @@ export default [
 						FunctionDeclaration: true,
 						MethodDefinition: true,
 						ClassDeclaration: true,
-						ArrowFunctionExpression: false,
+						// CLAUDE.md asks for TSDoc on all exported functions, and an
+						// exported arrow function is one. Left off, the rule was silent
+						// on `export const foo = () => {}` entirely.
+						ArrowFunctionExpression: true,
 						FunctionExpression: false,
 					},
 					contexts: [
@@ -159,7 +191,9 @@ export default [
 			],
 			"jsdoc/require-param": "error",
 			"jsdoc/require-returns": "error",
-			"jsdoc/require-throws": "warn",
+			// "error", not "warn": CLAUDE.md's documentation rule says exceptions
+			// raised are documented, and a warning enforces nothing.
+			"jsdoc/require-throws": "error",
 		},
 	},
 

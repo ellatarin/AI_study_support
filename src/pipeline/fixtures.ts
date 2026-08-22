@@ -272,6 +272,7 @@ export function openRouterCompletionBody({
 	readonly content: string;
 }): Record<string, unknown> {
 	return {
+		// eslint-disable-next-line id-length -- OpenRouter's field name, not ours to choose
 		id: "gen-abc",
 		choices: [{ index: 0, message: { role: "assistant", content }, finish_reason: "stop" }],
 		usage: {

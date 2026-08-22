@@ -6,7 +6,7 @@ import { STAGE_IDS } from "../../types/pipeline.js";
 import { extractDate, formatDateISO } from "../../utils/date.js";
 import { NamedError } from "../../utils/errors.js";
 import { listFileNames, listSubdirectoryNames } from "../../utils/files.js";
-import { extractProvisionalTitle, lectureFolderName } from "../../utils/naming.js";
+import { extractProvisionalTitle, lectureBaseName } from "../../utils/naming.js";
 import { type ModuleDirs, moduleDirs } from "../layout.js";
 import { readManifest, readManifestSafe, writeManifest } from "../manifest.js";
 
@@ -147,33 +147,6 @@ function collectAnomalies({
 		}
 	}
 	return anomalies;
-}
-
-/**
- * The canonical `Lecture N - Title - YYYY-MM-DD` base name, falling back to
- * `Lecture N - YYYY-MM-DD` when the provisional title is empty. Exported because
- * the CLI's `change-date` command renames the same files to a new date and must
- * name them exactly as Stage 0 would (technical-design.md §3.2, §4.7).
- *
- * @param args - The lecture number, provisional title, and parsed date.
- * @param args.lectureNumber - The assigned lecture number.
- * @param args.title - The provisional title (may be empty).
- * @param args.date - The lecture's parsed date.
- * @returns The base name shared by the workspace folder and renamed source files.
- */
-export function lectureBaseName({
-	lectureNumber,
-	title,
-	date,
-}: {
-	readonly lectureNumber: number;
-	readonly title: string;
-	date: Date;
-}): string {
-	if (title === "") {
-		return `Lecture ${lectureNumber} - ${formatDateISO(date)}`;
-	}
-	return lectureFolderName({ lectureNumber, title, date });
 }
 
 /**

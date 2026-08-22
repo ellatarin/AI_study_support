@@ -18,8 +18,8 @@ import { rename } from "node:fs/promises";
 import { dirname, extname, join } from "node:path";
 import { extractDate, formatDateISO } from "../utils/date.js";
 import { listFileNames } from "../utils/files.js";
+import { lectureBaseName } from "../utils/naming.js";
 import type { ModuleDirs } from "./layout.js";
-import { lectureBaseName } from "./stages/source-normalisation.js";
 
 /**
  * The canonical base name for a lecture sitting on an ISO date.

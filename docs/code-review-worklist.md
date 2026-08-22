@@ -52,15 +52,19 @@ and there are well over a hundred commits ahead of us.
 
 ## A3 — Rules configured toothless
 
-- [ ] **A3.1** Neither `package.json:10` nor the gate passes `--max-warnings 0`, so `pnpm exec eslint .` exits 0 with live violations. Biome is invoked with `--error-on-warnings`; ESLint is not — R2 §1.2 — VERIFIED
-- [ ] **A3.2** `eslint.config.js:86` sets `id-length` to `warn` against CLAUDE.md's "**MUST** use meaningful, descriptive names". Currently violated at `src/pipeline/fixtures.ts:275` — R2 §1.2 — VERIFIED
-- [ ] **A3.3** `eslint.config.js:130` sets `jsdoc/require-throws` to `warn` against "document … exceptions raised" — R2 §1.2 — VERIFIED
-- [ ] **A3.4** `require-jsdoc` exempts `ArrowFunctionExpression`, so **TSDoc on exported arrow functions is unenforced** against "MUST write TSDoc for all exported functions" — R2 §1 "Consequence"
+- [x] **A3.1** Neither `package.json:10` nor the gate passes `--max-warnings 0`, so `pnpm exec eslint .` exits 0 with live violations. Biome is invoked with `--error-on-warnings`; ESLint is not — R2 §1.2 — VERIFIED. **Done: `--max-warnings 0` lives in the `check:lint` script, which is now the only way the gate or `pnpm check` invokes ESLint. Verified with a planted warning: `check:lint` exits 1 where bare `eslint` exits 0.**
+- [x] **A3.2** `eslint.config.js:86` sets `id-length` to `warn` against CLAUDE.md's "**MUST** use meaningful, descriptive names". Currently violated at `src/pipeline/fixtures.ts:275` — R2 §1.2 — VERIFIED. **Done: promoted to `error`. The one live violation is OpenRouter's own `id` response field, so it carries a one-line disable naming the reason rather than a rename we do not control.**
+- [x] **A3.3** `eslint.config.js:130` sets `jsdoc/require-throws` to `warn` against "document … exceptions raised" — R2 §1.2 — VERIFIED. **Done: promoted to `error`, zero violations.**
+- [x] **A3.4** `require-jsdoc` exempts `ArrowFunctionExpression`, so **TSDoc on exported arrow functions is unenforced** against "MUST write TSDoc for all exported functions" — R2 §1 "Consequence". **Done: `ArrowFunctionExpression: true`, zero violations.**
+
+> **Consequence of A3.1 worth knowing:** `vitest/no-disabled-tests` is a `warn`, so with `--max-warnings 0`
+> a `.skip` now fails the gate outright rather than printing a note. That is the intended direction, but
+> it is a stricter rule than it looks.
 
 ## A4 — The architectural rule that does not exist
 
-- [ ] **A4.1** `no-restricted-imports` and `import/no-restricted-paths` both resolve to `undefined`, though CLAUDE.md names architectural rules (cross-feature imports, restricted imports) as ESLint's whole purpose. `eslint-plugin-import` is already a devDependency — R2 §1.3 — VERIFIED
-- [ ] **A4.2** Add the rule forbidding `src/pipeline/*.ts` importing from `src/pipeline/stages/**`, which makes **A20.1** a lint error rather than a convention — R2 §1.3
+- [x] **A4.1** `no-restricted-imports` and `import/no-restricted-paths` both resolve to `undefined`, though CLAUDE.md names architectural rules (cross-feature imports, restricted imports) as ESLint's whole purpose. `eslint-plugin-import` is already a devDependency — R2 §1.3 — VERIFIED. **Done: `eslint --print-config src/utils/naming.ts` now shows the rule defined where it showed `undefined`.**
+- [x] **A4.2** Add the rule forbidding `src/pipeline/*.ts` importing from `src/pipeline/stages/**`, which makes **A20.1** a lint error rather than a convention — R2 §1.3. **Done — and it caught A20.1 the moment it was switched on, so that is closed here too (see A20.1). `fixtures.ts` is exempted by its own config block: it is test scaffolding serving the stages' suites, which coverage and jscpd already carve out on the same grounds. Negating a path inside the rule's `target` array does not work in this plugin version — the exemption has to be a separate config block.**
 
 ## A5 — Immutability rule covering half the tree
 
@@ -89,8 +93,8 @@ and there are well over a hundred commits ahead of us.
 
 ## A7 — Two competing definitions of "the checks"
 
-- [ ] **A7.1** `package.json:10` runs biome + eslint + jscpd, omitting `tsc --noEmit`, the tests and the `.jscpd.tests.json` pass. The full gate exists only inside the Claude Code hook — R2 §1.7
-- [ ] **A7.2** secretlint is a devDependency with a config and **no script at all** — R2 §1.7
+- [x] **A7.1** `package.json:10` runs biome + eslint + jscpd, omitting `tsc --noEmit`, the tests and the `.jscpd.tests.json` pass. The full gate exists only inside the Claude Code hook — R2 §1.7. **Done: each check is now one `check:*` script in `package.json`, and both `pnpm check` and the hook invoke those scripts rather than spelling out tools and flags. The two are the same gate; they differ only in scope, the hook narrowing the file-based checks to what changed. `pnpm lint` is an alias of `pnpm check`, and the old auto-fixing behaviour is now `pnpm format`.**
+- [x] **A7.2** secretlint is a devDependency with a config and **no script at all** — R2 §1.7. **Done: `check:secrets`, called by both the hook and `pnpm check`.**
 
 ## A8 — Coverage ratchet
 
@@ -204,7 +208,7 @@ legitimate manifest status. Two separate commits.
 
 ## A20 — Dependency direction and one-fact-two-homes (fix before Stage 4)
 
-- [ ] **A20.1** `lecture-files.ts:22` imports `lectureBaseName` from `stages/source-normalisation.ts` — a shared pipeline module depending on a stage, against the direction the file's own header (`:11-13`) argues for. Every new stage deepens it; three consumers; home is `utils/naming.ts` or `lecture-files.ts`. **R1's worst Standards finding, flagged "fix before Stage 4"** — R1, R2 carried §1
+- [x] **A20.1** `lecture-files.ts:22` imports `lectureBaseName` from `stages/source-normalisation.ts` — a shared pipeline module depending on a stage, against the direction the file's own header (`:11-13`) argues for. Every new stage deepens it; three consumers; home is `utils/naming.ts` or `lecture-files.ts`. **R1's worst Standards finding, flagged "fix before Stage 4"** — R1, R2 carried §1. **Done, brought forward from the A20 batch because A4.2's rule fails the build without it. `lectureBaseName` moved to `utils/naming.ts`, beside `lectureFolderName` it already delegated to; it depends on nothing but the other naming rules, so the stage was never its home. Stage 0 and `lecture-files.ts` both import it from there now, and the rule makes the old direction a lint error rather than a convention.**
 - [ ] **A20.2** Stage-output directory preparation is **triplicated**: `audio-extraction.ts:138-141`, `transcription.ts:264-270`, `transcript-structuring.ts:151-155` (`stageOutputPath` → `dirname` → `mkdir` → `cleanTmpFiles`). Home is `pipeline-stage.ts`, since every stage is built through `createPipelineStage`. **Sequence after C1** — same seam — R1, R2 carried §6
 - [ ] **A20.3** `providerPrefixOf` (`config.ts:324-330`) and `PROVIDER_SEPARATOR` (`transcription.ts:71,138-139`) split a model ID on `/` in two modules, taking opposite halves — R1, R2 carried §4
 

@@ -69,11 +69,16 @@ fail() {
   exit 2
 }
 
+# Every check below runs through its package.json script rather than spelling
+# out the tool and its flags here. That is what makes `pnpm check` and this hook
+# the same gate: they differ only in scope — the hook narrows the file-based
+# checks to what changed, and `pnpm check` runs them over the tree.
+
 # 0. secretlint — secret/credential detection on all changed files.
 # Runs first because a leaked secret is the one class of bug where remediation
 # after the commit lands is far more expensive than catching it here.
 if [ -n "$changed_any" ]; then
-  echo "$changed_any" | xargs pnpm exec secretlint \
+  echo "$changed_any" | xargs pnpm run --silent check:secrets \
     || fail "secretlint detected potential secrets in changed files. Review, redact, and re-commit. If it is a genuine false positive, add an allowlist entry to .secretlintrc.json."
 fi
 
@@ -82,24 +87,24 @@ fi
 # produce, so "provided but ignored" means the config has a hole, and the gate
 # should say so rather than report success.
 if [ -n "$changed_biome" ]; then
-  echo "$changed_biome" | xargs pnpm exec biome check --error-on-warnings \
+  echo "$changed_biome" | xargs pnpm run --silent check:format \
     || fail "biome check failed on changed files. Fix and re-commit."
 fi
 
 # 2. tsc — whole-project type check. Type errors span files, so no narrowing.
-pnpm exec tsc --noEmit \
+pnpm run --silent check:types \
   || fail "tsc --noEmit failed. Fix the type errors above and re-commit."
 
 # 3. eslint — architectural rules on changed code files.
 if [ -n "$changed_code" ]; then
-  echo "$changed_code" | xargs pnpm exec eslint \
+  echo "$changed_code" | xargs pnpm run --silent check:lint \
     || fail "eslint failed on changed code files. Fix and re-commit."
 fi
 
 # 4. jscpd — copy-paste detection across the whole src/ tree.
 # Whole-tree, not change-scoped: a new file may duplicate an existing one that
 # was not itself changed. Config lives in .jscpd.json.
-pnpm exec jscpd --silent \
+pnpm run --silent check:duplication \
   || fail "jscpd found duplicate code. See report above; extract into a shared helper and re-commit."
 
 # 4b. jscpd — the same check over test files, which .jscpd.json excludes.
@@ -108,12 +113,12 @@ pnpm exec jscpd --silent \
 # ~35 tokens, so a tighter floor would demand contorted tests. At 40 every hit
 # has been a real extraction — a shared helper, a `beforeEach`, or a `test.each`.
 # Raise minTokens in .jscpd.tests.json if it ever starts asking otherwise.
-pnpm exec jscpd --silent --config .jscpd.tests.json \
+pnpm run --silent check:duplication:tests \
   || fail "jscpd found duplicate code in tests. Extract a helper, a beforeEach, or a test.each and re-commit."
 
 # 5. vitest — full test suite with coverage, enforcing the thresholds in
 # vitest.config.ts. --passWithNoTests avoids blocking if tests are ever absent.
-pnpm exec vitest --run --coverage --passWithNoTests \
+pnpm run --silent check:tests \
   || fail "Tests failed or coverage dropped below threshold. Fix and re-commit."
 
 # All checks passed; allow the commit to proceed.

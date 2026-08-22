@@ -194,3 +194,28 @@ export function lectureFolderName(identity: LectureIdentity): string {
 	const { lectureNumber, title, date } = identity;
 	return `Lecture ${lectureNumber} - ${filenameSafe(title)} - ${formatDateISO(date)}`;
 }
+
+/**
+ * The canonical `Lecture N - Title - YYYY-MM-DD` base name, falling back to
+ * `Lecture N - YYYY-MM-DD` when the provisional title is empty
+ * (technical-design.md §3.2, §4.7).
+ *
+ * Lives here rather than in Stage 0, which is where it began: `lecture-files.ts`
+ * needs it, and pipeline infrastructure importing from a stage inverts the
+ * dependency the pipeline is built on. It is a naming rule and depends on
+ * nothing but the other naming rules.
+ *
+ * @param identity - The lecture number, provisional title (may be empty), and date.
+ * @returns The base name shared by the workspace folder and the renamed source files.
+ *
+ * @example
+ * lectureBaseName({ lectureNumber: 2, title: "", date });
+ * // → "Lecture 2 - 2025-10-17"
+ */
+export function lectureBaseName(identity: LectureIdentity): string {
+	const { lectureNumber, title, date } = identity;
+	if (title === "") {
+		return `Lecture ${lectureNumber} - ${formatDateISO(date)}`;
+	}
+	return lectureFolderName(identity);
+}
