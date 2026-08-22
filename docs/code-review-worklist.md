@@ -40,8 +40,8 @@ Worked unattended, checkpointed per group cluster.
 and there are well over a hundred commits ahead of us.
 
 - [x] **A2.1** `.claude/settings.local.json` held two identical `Bash`, `Grep` and `WebFetch` PreToolUse groups and two `Edit|Write` PostToolUse groups. **Deduped 2026-08-22 — one of each now, permissions untouched.** That file is gitignored, so this was a local edit with immediate effect and no commit — R2 §1.5 — VERIFIED
-- [ ] **A2.2** `scripts/setup:96-98` dedupes on a `__project` key that Claude Code strips when it re-serialises the settings file, so **every `pnpm setup` re-appends another copy** and undoes A2.1. Dedupe on the command string instead. *Until this lands, do not run `pnpm setup`* — R2 §1.5 — VERIFIED
-- [ ] **A2.3** `scripts/setup:56-58` claims the template "carries a `__project` marker inside each hook entry". It does not; there is one top-level marker. This is the cause of A2.2 — R2 §4
+- [x] **A2.2** `scripts/setup:96-98` dedupes on a `__project` key that Claude Code strips when it re-serialises the settings file, so **every `pnpm setup` re-appends another copy** and undoes A2.1. Dedupe on the command string instead. *Until this lands, do not run `pnpm setup`* — R2 §1.5 — VERIFIED. **Done: dedupe is now on the command string and depends on no marker at all; three consecutive runs against a throwaway repo leave one copy of each hook, with a hand-added hook and `permissions.allow` untouched. `pnpm setup` is safe to run again.**
+- [x] **A2.3** `scripts/setup:56-58` claims the template "carries a `__project` marker inside each hook entry". It does not; there is one top-level marker. This is the cause of A2.2 — R2 §4. **Done: comment rewritten to describe the command-string dedupe and why a marker cannot work; the unused top-level marker deleted from `claude-hooks.json`, and the two places `implementation-plan.md` documented the marker mechanism reduced to one corrected description.**
 
 ## A3 — Rules configured toothless
 

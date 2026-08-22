@@ -11,7 +11,6 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 bin_dir="$repo_root/bin"
 hooks_template="$repo_root/scripts/claude-hooks.json"
-project_marker="lecture-notes-generator"
 
 # ------------------------------------------------------------------
 # 1. PATH export in shell config
@@ -52,11 +51,12 @@ fi
 # file — gitignored by default (via the existing .claude/ ignore rule).
 # Hooks installed here fire only for Claude Code sessions in this project.
 #
-# The template at $hooks_template carries a "__project" marker inside each
-# hook entry. When we merge, we FIRST strip any hook entries that carry OUR
-# marker (from a previous install), THEN insert the template entries — so
-# re-running is idempotent and does not disturb unrelated hooks a human may
-# have added by hand.
+# Merging is idempotent: we FIRST strip every hook whose command is one the
+# template installs (left over from a previous run), THEN insert the template
+# entries. Dedupe is on the command string, not on a marker key we add,
+# because Claude Code rewrites this file and drops keys it does not recognise
+# — so a marker never survives to be matched on the next run. Hooks a human
+# added by hand invoke different commands and are left untouched.
 
 settings_dir="$repo_root/.claude"
 settings_file="$settings_dir/settings.local.json"
@@ -68,13 +68,11 @@ else
 
   HOOK_TEMPLATE="$hooks_template" \
   SETTINGS_FILE="$settings_file" \
-  PROJECT_MARKER="$project_marker" \
   node -e '
     const fs = require("fs");
 
     const templatePath = process.env.HOOK_TEMPLATE;
     const settingsPath = process.env.SETTINGS_FILE;
-    const marker       = process.env.PROJECT_MARKER;
 
     const template = JSON.parse(fs.readFileSync(templatePath, "utf8"));
 
@@ -92,13 +90,16 @@ else
     settings.hooks = settings.hooks || {};
 
     for (const [event, entries] of Object.entries(template.hooks || {})) {
-      settings.hooks[event] = settings.hooks[event] || [];
-      settings.hooks[event] = settings.hooks[event].filter(
-        (e) => e.__project !== marker
+      const ourCommands = new Set(
+        entries.flatMap((entry) => (entry.hooks || []).map((hook) => hook.command))
       );
-      for (const entry of entries) {
-        settings.hooks[event].push({ ...entry, __project: marker });
-      }
+      settings.hooks[event] = (settings.hooks[event] || [])
+        .map((entry) => ({
+          ...entry,
+          hooks: (entry.hooks || []).filter((hook) => !ourCommands.has(hook.command)),
+        }))
+        .filter((entry) => entry.hooks.length > 0)
+        .concat(entries);
     }
 
     const tmp = settingsPath + ".tmp";

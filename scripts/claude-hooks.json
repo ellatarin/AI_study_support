@@ -1,5 +1,4 @@
 {
-  "__project": "lecture-notes-generator",
   "hooks": {
     "PostToolUse": [
       {
