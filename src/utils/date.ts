@@ -326,13 +326,14 @@ function allDateSpans(text: string): readonly DateSpan[] {
 		return found.sort(byIndex);
 	}
 
-	const fallback: DateSpan[] = [];
-	for (const match of text.matchAll(COMPACT_SHORT_DATE)) {
-		const date = fromCompactShort(match[1] as string);
-		if (date !== null && !overlaps({ spans: found, index: match.index, length: match[0].length })) {
-			fallback.push({ index: match.index, length: match[0].length, date, confident: true });
-		}
-	}
+	const fallback = claimedSpans({
+		text,
+		pattern: COMPACT_SHORT_DATE,
+		read: (match) => fromCompactShort(match[1] as string),
+	}).filter(
+		(span) =>
+			span.date !== null && !overlaps({ spans: found, index: span.index, length: span.length }),
+	);
 	return [...found, ...fallback].sort(byIndex);
 }
 
