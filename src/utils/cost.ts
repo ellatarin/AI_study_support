@@ -1,4 +1,5 @@
-import { basename, resolve } from "node:path";
+import { basename } from "node:path";
+import { moduleRootOf } from "../pipeline/layout.js";
 import { summariseOverallStatus } from "../pipeline/run-status.js";
 import type {
 	BatchSummary,
@@ -686,30 +687,23 @@ const BATCH_SUMMARY_RULE_WIDTH =
 	COST_WIDTH;
 
 /**
- * The module a lecture belongs to, derived from its workspace two levels up
- * (`moduleRoot/Pipeline processing/<folder>`) exactly as the runner derives it.
- *
- * @param workspaceRoot - Absolute path to the lecture workspace.
- * @returns The module directory's name.
- */
-function moduleNameOf(workspaceRoot: string): string {
-	return basename(resolve(workspaceRoot, "..", ".."));
-}
-
-/**
  * Groups a batch's lectures by the module they belong to, preserving the order
  * the modules were first encountered so the report follows the run.
  *
+ * Grouped by the module's path rather than its name: a batch can be given two
+ * module directories that share a leaf name, and they are two modules with two
+ * sets of lectures and two amounts spent.
+ *
  * @param lectures - Every lecture the batch attempted.
- * @returns The lectures grouped by module name.
+ * @returns The lectures grouped by module root.
  */
 function lecturesByModule(
 	lectures: readonly RunSummary[],
 ): ReadonlyMap<string, readonly RunSummary[]> {
 	const grouped = new Map<string, RunSummary[]>();
 	for (const lecture of lectures) {
-		const moduleName = moduleNameOf(lecture.workspaceRoot);
-		grouped.set(moduleName, [...(grouped.get(moduleName) ?? []), lecture]);
+		const moduleRoot = moduleRootOf({ workspaceRoot: lecture.workspaceRoot });
+		grouped.set(moduleRoot, [...(grouped.get(moduleRoot) ?? []), lecture]);
 	}
 	return grouped;
 }
@@ -730,12 +724,12 @@ export function formatBatchSummary({
 }: PresentedAt<{ readonly batch: BatchSummary }>): string {
 	const formatMoney = createMoneyFormatter({ gbpPerUsd });
 	const rows: (readonly Cell[])[] = [];
-	for (const [moduleName, lectures] of lecturesByModule(batch.lectures)) {
+	for (const [moduleRoot, lectures] of lecturesByModule(batch.lectures)) {
 		const status: OverallStatus = summariseOverallStatus({
 			statuses: lectures.map((lecture) => lecture.overallStatus),
 		});
 		rows.push([
-			[moduleName, BATCH_SUMMARY_WIDTHS.module, "left"],
+			[basename(moduleRoot), BATCH_SUMMARY_WIDTHS.module, "left"],
 			[String(lectures.length), BATCH_SUMMARY_WIDTHS.lectures, "right"],
 			[status, BATCH_SUMMARY_WIDTHS.status, "right"],
 			costCell({ amount: totalLectureCost({ lectures }), formatMoney }),

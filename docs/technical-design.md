@@ -1372,7 +1372,8 @@ formatRunSummary(args: { outcomes: readonly RunStageOutcome[]; manifest: RunMani
 
 formatBatchSummary(args: { batch: BatchSummary; gbpPerUsd: number }): string
 // One row per module — lectures attempted, combined status, spend — closed by a cross-module total. A
-// lecture's module is derived from its workspace two levels up, exactly as the runner derives moduleRoot. A
+// lecture's module comes from moduleRootOf (§3.3), and the rows are grouped by that path: two module
+// directories that share a leaf name are two modules, with two sets of lectures and two amounts spent. A
 // module holding a lecture whose spend is unknown shows `n/a`, and so does the total below it.
 
 stageLabel(args: { stageId: StageId }): string

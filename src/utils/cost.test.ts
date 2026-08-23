@@ -651,6 +651,28 @@ describe("formatBatchSummary", () => {
 		expect(summary).toMatch(/All modules\s+3\s+failed\s+£0\.444/);
 	});
 
+	it("should keep two modules apart when their directories carry the same name", () => {
+		// A second module of the same name, filed somewhere else — two rows, since
+		// the two hold different lectures and cost different amounts.
+		const namesake = lecture({
+			moduleRoot: join(otherModuleRoot, testModuleName),
+			folder: otherLecture.folderName,
+			overallStatus: "success",
+			totalCostUsd: 0.5,
+		});
+
+		const summary = formatBatchSummary({
+			batch: { ...batch, lectures: [succeededLecture, namesake] },
+			gbpPerUsd: GBP_PER_USD,
+		});
+
+		const rows = summary.split("\n").filter((line) => line.startsWith(testModuleName));
+		expect(rows).toHaveLength(2);
+		// 0.2 and 0.5 USD at 0.74, each still its own module's spend.
+		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+1\\s+success\\s+£0\\.148`));
+		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+1\\s+success\\s+£0\\.370`));
+	});
+
 	it("should render both the module's spend and the batch total as unknown when one lecture's cost is unresolved", () => {
 		const summary = formatBatchSummary({
 			batch: {
