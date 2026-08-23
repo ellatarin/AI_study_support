@@ -39,6 +39,17 @@ const GENERAL_SYNTAX_RESTRICTIONS = [
 	},
 ];
 
+// Two syntaxes say the same thing — `export * from` and `export { x } from` —
+// so the two selectors report it in the same words rather than each carrying
+// their own copy of the sentence.
+const BARREL_RESTRICTIONS = ["ExportAllDeclaration", "ExportNamedDeclaration[source]"].map(
+	(selector) => ({
+		selector,
+		message:
+			"Barrel file (index.ts re-exports) forbidden in feature folders — CLAUDE.md § File Organisation",
+	}),
+);
+
 export default [
 	...tseslint.configs.recommended,
 
@@ -229,20 +240,7 @@ export default [
 		files: ["src/**/index.ts"],
 		ignores: ["src/index.ts"],
 		rules: {
-			"no-restricted-syntax": [
-				"error",
-				...GENERAL_SYNTAX_RESTRICTIONS,
-				{
-					selector: "ExportAllDeclaration",
-					message:
-						"Barrel file (index.ts re-exports) forbidden in feature folders — CLAUDE.md § File Organisation",
-				},
-				{
-					selector: "ExportNamedDeclaration[source]",
-					message:
-						"Barrel file (index.ts re-exports) forbidden in feature folders — CLAUDE.md § File Organisation",
-				},
-			],
+			"no-restricted-syntax": ["error", ...GENERAL_SYNTAX_RESTRICTIONS, ...BARREL_RESTRICTIONS],
 		},
 	},
 
