@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.33-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.34-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -478,20 +478,11 @@ Each stage entry records `configUsed` — a `StageRunConfig` capturing the model
       "cost": null,
       "filesWritten": ["../../Final output/Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10.pdf"]
     }
-  },
-  "currentPipelineCost": {
-    "totalCostUsd": 0.912,
-    "byStage": {
-      "transcription": 0.042,
-      "transcript-structuring": 0.081,
-      "slide-conversion": 0.034,
-      "image-extraction": 0.038,
-      "synthesis": 0.312,
-      "qa-loop": 0.405
-    }
   }
 }
 ```
+
+Each stage's `cost` is the only record of what that stage cost, and the manifest holds no roll-up of them. A reader that wants a stage's spend reads that stage's entry; nothing has to be kept in step with anything else, and a stage reset by `--from-stage` takes its cost with it when its entry goes back to `pending` (NFR-2.2).
 
 **`running` status is written before a stage begins.** A crash mid-stage leaves `running` in the manifest, which is treated as `failed` on next launch — the stage re-runs from scratch.
 
@@ -524,10 +515,11 @@ Each log records which stages were attempted, skipped, or re-run; cost and model
     "synthesis":         { "action": "not-reached" },
     "qa-loop":           { "action": "not-reached" },
     "pdf-generation":    { "action": "not-reached" }
-  },
-  "totalCostThisRun": 0.021        // null if any stage that ran recorded a cost it could not resolve (§7)
+  }
 }
 ```
+
+A run log records what each stage of that run cost and stops there — no figure for the run as a whole (NFR-2.2).
 
 ### 4.7 Pipeline Runner
 
@@ -757,19 +749,17 @@ A prompt module has no test file of its own. Its builder is a pure assembly whos
 
 The temporary suffix sits outside the `.tmp` convention of §4.3, because the two name opposite things: a `.tmp` file is a partial write and is deleted at stage start, while a Stage 0 temporary holds a complete item — the only copy of a source video, or a whole lecture workspace — between leaving one name and reaching the next. A run therefore begins by finishing any rename its predecessor was interrupted partway through: every temporary entry across the module's four directories is moved on to its target before anything is read, so an interrupted run costs the next one nothing. Where a target name is occupied, the run stops and names those entries, leaving every one of them where it stands.
 
-**Orphan handling (direct-deletion guard).** If a workspace's date has **no source pair present** (both its video and slide are gone — a partial loss is already a 1:1 validation error), the sources were deleted directly rather than via the CLI, which can leave the pipeline inconsistent. Stage 0 neither silently deletes work nor silently proceeds. For **each** orphaned workspace it prompts the user — via an injected `confirm` callback the CLI backs with `@inquirer/prompts` — showing the lecture's number, title, date, and the cost already spent, and asks whether to delete the workspace and its outputs. Only if **every** orphan is approved does a final "are you sure?" confirm the irreversible deletion; then the workspaces and their `Final output/` PDFs are deleted (their manifests go with them), the module is renumbered, and each deletion is logged with its prior state. If **any** orphan is declined, or the final confirmation is declined, Stage 0 aborts with an informative error and makes **no changes** — protecting against, e.g., the whole source folder being moved by mistake.
+**Orphan handling (direct-deletion guard).** If a workspace's date has **no source pair present** (both its video and slide are gone — a partial loss is already a 1:1 validation error), the sources were deleted directly rather than via the CLI, which can leave the pipeline inconsistent. Stage 0 neither silently deletes work nor silently proceeds. For **each** orphaned workspace it prompts the user — via an injected `confirm` callback the CLI backs with `@inquirer/prompts` — showing the lecture's number, title and date, and asks whether to delete the workspace and its outputs. The prompt quotes no figure: what a lecture has cost is the sum of its stages, and stage costs are not summed (NFR-2.2). What was spent on it is in its own cost report, which `cost-report` will still print until the workspace goes. Only if **every** orphan is approved does a final "are you sure?" confirm the irreversible deletion; then the workspaces and their `Final output/` PDFs are deleted (their manifests go with them), the module is renumbered, and each deletion is logged with its prior state. If **any** orphan is declined, or the final confirmation is declined, Stage 0 aborts with an informative error and makes **no changes** — protecting against, e.g., the whole source folder being moved by mistake.
 
-**Logging:** Every action — files discovered, dates extracted, numbers assigned, matches, each rename, each workspace/manifest write, each renumber, each approved deletion (with its prior number/title/date/cost) — is recorded at `info` on the run's pino logger; validation and orphan-abort failures are recorded at `error` before the throw.
+**Logging:** Every action — files discovered, dates extracted, numbers assigned, matches, each rename, each workspace/manifest write, each renumber, each approved deletion (with its prior number/title/date) — is recorded at `info` on the run's pino logger; validation and orphan-abort failures are recorded at `error` before the throw.
 
 ```typescript
 // src/pipeline/stages/source-normalisation.ts
 type ConfirmPrompt = (args: { message: string }) => Promise<boolean>
-createSourceNormalisationStage(args: { logger: Logger; confirm: ConfirmPrompt; formatMoney: MoneyFormatter }): SourceNormalisationStage
+createSourceNormalisationStage(args: { logger: Logger; confirm: ConfirmPrompt }): SourceNormalisationStage
 // `confirm` is injected rather than imported so the stage never reaches for stdin: the CLI backs it with
-// @inquirer/prompts and tests stub it. `formatMoney` arrives the same way, bound to the configured rate by
-// the composition root (§7), because the orphan prompt quotes what the lecture has cost. Throws
-// SourceNormalisationError on any validation failure or declined confirmation, having made no filesystem
-// changes.
+// @inquirer/prompts and tests stub it. Throws SourceNormalisationError on any validation failure or declined
+// confirmation, having made no filesystem changes.
 ```
 
 The stage names and places nothing itself: it takes the module's directories from `moduleDirs` (§3.3) and
@@ -1242,7 +1232,7 @@ ElevenLabs returns no price with a transcript, so Stage 2 derives transcription 
 
 ### Currency
 
-Providers bill in US dollars, so **USD is the stored currency and GBP is the presented one**. Every persisted figure — `manifest.currentPipelineCost`, each stage entry's `cost`, and every run-log entry — records the dollar amount actually charged, which is why those fields are named `…Usd`. Conversion happens in the reporting layer alone, at `currency.gbpPerUsd` (§6): the end-of-run summary, all three sections of `cost-report`, and any other user-facing total render pounds and the `£` symbol.
+Providers bill in US dollars, so **USD is the stored currency and GBP is the presented one**. Every persisted figure — each manifest stage entry's `cost`, and every run-log entry — records the dollar amount actually charged, which is why those fields are named `…Usd`. Conversion happens in the reporting layer alone, at `currency.gbpPerUsd` (§6): the end-of-run summary, all three sections of `cost-report`, and any other user-facing figure render pounds and the `£` symbol.
 
 Keeping the conversion at the edge means a stale or corrected rate never invalidates stored data — re-running a report applies the current rate to the full history at once. Storing pounds instead would freeze each figure at whatever rate happened to be configured when it was written, leaving a single manifest holding amounts converted at several different rates and no way to restate them.
 
@@ -1250,8 +1240,10 @@ Keeping the conversion at the edge means a stale or corrected rate never invalid
 
 | Level | Location | What it tracks |
 |---|---|---|
-| Current pipeline | `manifest.json` → `currentPipelineCost` | Cost of the outputs currently on disk |
+| Current pipeline | `manifest.json` → each stage's `cost` | What each output currently on disk cost to produce |
 | All-time expenditure | `runs/*.json` | Every API call ever made, including failures and experiments |
+
+Both levels are read a stage at a time. Neither stores a figure spanning stages, runs, lectures or modules: a stage's cost is compared against the same stage's cost under a different model, which is the comparison the two levels exist to serve, and a sum across stages answers no question the pipeline is asked (NFR-2.2).
 
 ### Run Classification
 
@@ -1276,10 +1268,11 @@ Stage                   Model                         Calls    Tokens (in / out)
 Slide conversion        google/gemini-2.5-flash          24     41,000 /   8,100    £0.025
 Image extraction        openai/gpt-4.1                   12          0 /   2,400    £0.028
 Synthesis               anthropic/claude-sonnet-4.6       1     65,000 /  14,200    £0.231
-QA loop                 anthropic/claude-sonnet-4.6       4     68,000 /  15,800    £0.300
+QA loop                 anthropic/claude-sonnet-4.6       4     68,000 /  15,800       n/a
 ──────────────────────────────────────────────────────────────────────────────────────────
-This run                                                 41    174,000 /  40,500    £0.584
 ```
+
+The table closes on its last stage; no line sums the run (NFR-2.2). A stage whose cost lookup failed shows `n/a`, as QA loop does above — its tokens and call count are known, its price is not. A stage that makes no billable call has no row at all, since the summary shows what each stage's models cost and such a stage has none.
 
 Any stage that failed is named underneath with the message recorded for it (§8).
 
@@ -1287,13 +1280,15 @@ A batch closes with one further table, per module and then across all of them (�
 
 ```
 Batch summary
-Module                          Lectures    Status      Cost
-────────────────────────────────────────────────────────────
-Biology of Disease                     2    failed    £0.222
-Immunology                             1   partial    £0.222
-────────────────────────────────────────────────────────────
-All modules                            3    failed    £0.444
+Module                          Lectures    Status
+──────────────────────────────────────────────────
+Biology of Disease                     2    failed
+Immunology                             1   partial
+──────────────────────────────────────────────────
+All modules                            3    failed
 ```
+
+It carries no money: what a module or a batch spent is a sum across lectures, and the figures are kept per stage (NFR-2.2). The rows are what ran and how it went, and each lecture's own summary above says what its stages cost. Modules are grouped by their directory path, so two module directories that share a leaf name are two rows.
 
 ### Cost Report Command
 
@@ -1310,10 +1305,11 @@ Transcript structuring   claude-sonnet-4.6         1    £0.060
 Slide conversion         gemini-2.5-flash         24    £0.025
 Image extraction         gpt-4.1                   12    £0.028
 Synthesis                claude-sonnet-4.6         1    £0.231
-QA loop                  claude-sonnet-4.6         4    £0.300
+QA loop                  claude-sonnet-4.6         4       n/a
 ──────────────────────────────────────────────────────────────
-                                                         £0.675
 ```
+
+One row per stage that made a billable call and reached a terminal state, taken from that stage's own manifest entry. A stage whose cost lookup failed shows `n/a`, as QA loop does here; a stage that made no billable call — audio extraction, PDF generation — has no row, since there is no model spend of its to compare. Nothing is summed beneath (NFR-2.2).
 
 **2 — Error recovery cost** (spend from failed runs and retries):
 ```
@@ -1322,10 +1318,9 @@ Run                    Stage                  Status    Cost
 2025-10-10T09:00Z      slide-conversion       failed   £0.016
 2025-10-10T10:30Z      slide-conversion       retry    £0.025
 ────────────────────────────────────────────────────────────
-Wasted on failures                                     £0.016
 ```
 
-A row is any stage that failed, under whatever classification its run carried, together with every stage of a run started to recover from one. The run that first meets a failure is classified `normal` — as the 09:00 run above is — and the spend that failure cost belongs to this section, which is why a row is selected by what became of the stage as well as by the run's type. "Wasted on failures" totals the failed rows alone: the retry below them bought the output that is on disk.
+A row is any stage that failed, under whatever classification its run carried, together with every stage of a run started to recover from one. The run that first meets a failure is classified `normal` — as the 09:00 run above is — and the spend that failure cost belongs to this section, which is why a row is selected by what became of the stage as well as by the run's type. The rows stand on their own: what a failure cost is read against the retry underneath it, one stage at a time (NFR-2.2).
 
 **3 — Experiment cost** (deliberate model re-runs, grouped for comparison):
 ```
@@ -1336,24 +1331,9 @@ Stage: synthesis
 
 ### Cost Module
 
-`src/utils/cost.ts` holds the cost helpers the runner and CLI call. The data types they operate on (`StageCost`, `CurrentPipelineCost`) are defined in `src/types/pipeline.ts` (single source of truth).
+`src/utils/cost.ts` holds the cost helpers the runner and CLI call. `StageCost`, the type they operate on, is defined in `src/types/pipeline.ts` (single source of truth). None of them adds two costs together: the module renders what each stage recorded and nothing else (NFR-2.2).
 
 ```typescript
-accumulateCost(args: { current: StageCost; incoming: StageCost }): StageCost
-// Sums tokens, call counts, and cost at full precision — rounding is a display concern. The merged cost is
-// resolved only when both inputs resolved; if either is null the result is null and the errors are joined.
-// Takes no rate and does no formatting: it works entirely in stored USD, which is what keeps it unaffected
-// by the presentation currency.
-
-addCost(args: { current: number | null; incoming: number | null }): number | null
-// Adds two stored USD amounts, either of which may be unresolved — the rule accumulateCost applies to a whole
-// StageCost, for the totals that carry an amount alone. The sum is a figure only when both are, so one stage's
-// failed lookup carries through to the run's total, its module's and the batch's, each of which reads `n/a`.
-
-totalLectureCost(args: { lectures: readonly RunSummary[] }): number | null
-// What a set of lecture runs spent between them, by the rule above. The batch's total and each module's row
-// are that sum over different selections of the same lectures, so both are taken from here.
-
 type MoneyFormatter = (amount: number | null) => string
 createMoneyFormatter(args: { gbpPerUsd: number }): MoneyFormatter
 // The one place a money amount becomes a string: converts a stored USD figure to pounds, or renders `n/a`
@@ -1365,22 +1345,21 @@ formatCostReport(args: { runLogs: readonly RunLog[]; manifest: RunManifest; gbpP
 
 formatRunSummary(args: { outcomes: readonly RunStageOutcome[]; manifest: RunManifest; gbpPerUsd: number }): string
 // The end-of-run summary above. The outcomes say which stages this invocation executed; the manifest, read
-// after the run, says what each one used and cost — tokens live there and not in the run log. A stage that
-// recorded no cost (one making no billable call, or one that failed before it made any) shows `n/a` and adds
-// nothing to the total; a stage whose cost lookup failed leaves the total itself `n/a`, since the run's real
-// spend is then unknown.
+// after the run, says what each one used and cost — tokens live there and not in the run log. A stage whose
+// cost lookup failed shows `n/a`; a stage that made no billable call has no row. The table ends at its last
+// stage.
 
-formatBatchSummary(args: { batch: BatchSummary; gbpPerUsd: number }): string
-// One row per module — lectures attempted, combined status, spend — closed by a cross-module total. A
-// lecture's module comes from moduleRootOf (§3.3), and the rows are grouped by that path: two module
-// directories that share a leaf name are two modules, with two sets of lectures and two amounts spent. A
-// module holding a lecture whose spend is unknown shows `n/a`, and so does the total below it.
+formatBatchSummary(args: { batch: BatchSummary }): string
+// One row per module — lectures attempted and combined status — closed by a row across all of them. Takes no
+// rate, because it shows no money. A lecture's module comes from moduleRootOf (§3.3), and the rows are
+// grouped by that path: two module directories that share a leaf name are two modules with two sets of
+// lectures.
 
 stageLabel(args: { stageId: StageId }): string
 // A stage's display name. Exported so the CLI names a failed stage exactly as the summary table above does.
 ```
 
-The tables above share one renderer and one money formatter, so a column of pounds looks the same wherever it appears. The Model column is one width across every table that carries one, wide enough for the longest model id §4.5 records, and a value that would still overrun its column is shortened to end in `…` — a column is one character wider than the value it expects, and a shortened value keeps that separating space, so the columns after it stay under their headings whatever a provider names a model.
+The tables above share one renderer and one money formatter, so a column of pounds looks the same wherever it appears. The renderer closes every table with a rule and adds no footer of its own; the batch summary, the one table with a line beneath that rule, appends it itself. The Model column is one width across every table that carries one, wide enough for the longest model id §4.5 records, and a value that would still overrun its column is shortened to end in `…` — a column is one character wider than the value it expects, and a shortened value keeps that separating space, so the columns after it stay under their headings whatever a provider names a model.
 
 ---
 

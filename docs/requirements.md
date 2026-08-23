@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Requirements Specification
 
-**Suite version:** 1.33-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.34-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -104,7 +104,7 @@ The system shall take a set of lecture recordings (video files) and accompanying
 
 **NFR-2.1** The system shall enable cost-optimised model selection by allowing lighter or cheaper models to be assigned to less demanding stages and more capable models to stages requiring higher reasoning or synthesis quality.
 
-**NFR-2.2** The system shall report the API cost incurred at each stage and in total for each pipeline run.
+**NFR-2.2** The system shall report the API cost incurred at each stage of each pipeline run, and shall report a stage whose cost could not be established as unknown rather than as nothing. Stage costs are reported one stage at a time, since what the figures are for is comparing a stage's models against each other; the system totals them nowhere.
 
 **NFR-2.3** The system shall present all costs to the user in pounds sterling, converted at a configurable rate from the US dollar amounts providers charge.
 

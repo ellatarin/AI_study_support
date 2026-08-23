@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.33-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.34-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -77,7 +77,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `src/utils/date.ts` — `extractDate`, `formatDateISO` **(TD §3.2, Date and Naming Helpers)**
 - `src/utils/naming.ts` — `extractProvisionalTitle`, `lectureFolderName`, `lectureBaseName` **(TD §3.2)**; `filenameSafe` **(TD §4.4)**
 - `src/utils/progress.ts` — `createProgressBar`, `createUploadProgressStream`, `createParallelWorkBar` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`
-- `src/utils/cost.ts` — `accumulateCost`, `createMoneyFormatter`, `formatCostReport` **(TD §7, Cost Module)**
+- `src/utils/cost.ts` — `createMoneyFormatter`, `formatCostReport` **(TD §7, Cost Module)**
 - `src/pipeline/config.ts` — `loadConfig`, plus the model-ID resolution check and its provider exemptions **(TD §6)**
 - `src/pipeline/openrouter.ts` — `createOpenRouterClient`, `makeCompletionCall`, and the exported `ContextLengthError` **(TD §6)**
 - `src/pipeline/fixtures.ts` — the shared test vocabulary: the example lecture and its derived file names, the module tree builders, the stub logger, the manifest and stage-entry builders. It belongs to this phase because it is what stops each later phase's suites inventing their own lecture, but it is the one deliverable that keeps growing: a phase that needs a fixture the suites will share extends this module rather than restating the value. Production code never imports it, which `eslint.config.js` exempts it in order to allow — it is the one file under `src/pipeline/` permitted to import from `src/pipeline/stages/`
@@ -105,7 +105,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `resolveManifestPath` — `test.each` covering: in-workspace path (accepted), `..` escape into `Final output/` under moduleRoot (accepted), `..` escape outside moduleRoot (rejected), symlink pointing outside moduleRoot (rejected after realpath), absolute path (rejected)
 
 `cost.ts` — unit tests:
-- `accumulateCost` — `test.each` across combinations including zeros and nulls
+- `should render a stage's cost as n/a when its lookup failed` — and `should leave a stage out when it made no billable call`, the two rules every section applies
 - `formatCostReport` — snapshot test (serialisation format regression only)
 
 `progress.ts` — unit tests driving the bar through its control methods:
@@ -159,7 +159,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - The identity-mutation commands (`rename`, `delete`, `change-date`) land with this deliverable too
 - Behaviour of each — the module layout, the multi-match picker, batch scope, what `--from-stage` resets and deletes, exit codes, and how each mutation leaves the module for Stage 0 to finish — is specified in **TD §4.7**
 
-`formatRunSummary` and `formatBatchSummary` in `src/utils/cost.ts` — the end-of-run and batch summaries the CLI prints (**TD §7**). `addCost` and `totalLectureCost` land there with them: the run's total, the module's row and the batch's are all sums that stay unresolved while any part of them is (**TD §7**).
+`formatRunSummary` and `formatBatchSummary` in `src/utils/cost.ts` — the end-of-run and batch summaries the CLI prints (**TD §7**). Neither sums anything: the run summary ends at its last stage row, and the batch table shows lecture counts and status without a money column.
 
 **Tests:**
 
@@ -248,7 +248,7 @@ Integration tests (real temp directory with fixture source files):
 - `should name an existing lecture from its manifest lectureTitle when the title changed after Stage 0`
 - `should produce no filesystem changes when Stage 0 re-run on already-normalised sources`
 - `should delete the workspace and its Final output PDF when an orphaned lecture is approved` — `test.each` for one orphan and for several orphans all approved
-- `should renumber the remaining lectures and log the prior number, title, date, and cost when an orphan is deleted`
+- `should renumber the remaining lectures and log the prior number, title, and date when an orphan is deleted`
 - `should abort without filesystem changes when a confirmation is declined` — `test.each` for: an orphan declined, the final confirmation declined
 - `should not prompt when every workspace still has its source pair`
 - `should restore a temporary source file to its target name when a previous run was interrupted` — and the same for a workspace folder
@@ -292,7 +292,7 @@ Typed errors — unit tests:
 - `should render $label when it is caught` — `test.each` over the values a `catch (e: unknown)` really receives: an `Error`, a `NamedError`, a string, a number, and `null`
 
 Cost reporting — unit tests:
-- `should render every total in pounds when the stored figures are in dollars`
+- `should render every figure in pounds when the stored figures are in dollars`
 - `should convert at the configured rate when given $scenario` — `test.each` across the standard rate, a corrected higher rate, and parity
 - `should render n/a when the cost could not be resolved`
 
