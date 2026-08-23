@@ -22,7 +22,9 @@ import type {
 	RunManifest,
 	StageConfig,
 	StageContext,
+	StageCost,
 	StageId,
+	StageRunConfig,
 } from "../types/pipeline.js";
 import { STAGE_IDS } from "../types/pipeline.js";
 import { parseConfig } from "./config.js";
@@ -442,22 +444,37 @@ export const testRunId = `${testLecture.date}T09-00-00Z`;
  * A finished stage's manifest entry, in either of the two ways a stage finishes.
  * `complete` and `skipped` carry the same fields and mean the same thing about
  * the disk — the stage's output is there — which is what the suites asserting on
- * either of them need to say. The instant is arbitrary, so it comes from
- * {@link stageCompletedAt}.
+ * either of them need to say.
  *
- * @param args - What the stage did.
- * @param args.status - Whether the stage ran to completion or was skipped.
+ * Every field defaults, because most suites care about one of them and had been
+ * restating the other four to reach it: a stage suite wants the output it
+ * recorded, the cost report wants the model and the money, and the runner's
+ * skip cases want an instant earlier than the run under way. The default
+ * instant is arbitrary and comes from {@link stageCompletedAt}, so a suite that
+ * states one is saying the value matters.
+ *
+ * @param args - What the stage did; every field optional.
+ * @param args.status - Whether the stage ran to completion or was skipped; complete by default.
+ * @param args.completedAt - When it finished; {@link stageCompletedAt} by default.
+ * @param args.configUsed - The model and tuning it resolved; none by default.
+ * @param args.cost - What the stage cost; none by default.
  * @param args.filesWritten - The workspace-relative outputs it recorded; none by default.
  * @returns The manifest entry.
  */
 export function finishedEntry({
-	status,
+	status = "complete",
+	completedAt = stageCompletedAt,
+	configUsed = null,
+	cost = null,
 	filesWritten = [],
 }: {
-	readonly status: "complete" | "skipped";
+	readonly status?: "complete" | "skipped";
+	readonly completedAt?: string;
+	readonly configUsed?: StageRunConfig | null;
+	readonly cost?: StageCost | null;
 	readonly filesWritten?: readonly string[];
-}): ManifestStageEntry {
-	return { status, completedAt: stageCompletedAt, configUsed: null, cost: null, filesWritten };
+} = {}): ManifestStageEntry {
+	return { status, completedAt, configUsed, cost, filesWritten };
 }
 
 /**

@@ -52,6 +52,12 @@ import { isStageComplete } from "./stages/pipeline-stage.js";
 const LECTURE_FOLDER = "L1";
 const EMPTY_FOLDER = "L-empty";
 
+// The instant a stage finished on some run before the one under test. Not an ISO
+// timestamp on purpose: nothing parses it, and the cases that seed it are
+// asserting that the runner carried the *prior* completion forward rather than
+// stamping its own, which a value that could plausibly be either would hide.
+const BEFORE_THIS_RUN = "earlier";
+
 /** The folder a lecture moves to once Stage 3 has replaced its title. */
 const RENAMED_FOLDER = `${LECTURE_FOLDER} - ${aiDerivedLecture.title}`;
 
@@ -368,13 +374,10 @@ describe("PipelineRunner integration", () => {
 				makeManifest({
 					stages: {
 						...pendingStages(),
-						"audio-extraction": {
-							status: "complete",
-							completedAt: "earlier",
-							configUsed: null,
-							cost: null,
+						"audio-extraction": finishedEntry({
+							completedAt: BEFORE_THIS_RUN,
 							filesWritten: [writtenEntry],
-						},
+						}),
 					} as RunManifest["stages"],
 				}),
 			);
@@ -403,7 +406,7 @@ describe("PipelineRunner integration", () => {
 			const manifest = await readManifest(workspaceRoot);
 			const entry = manifest.stages["audio-extraction"];
 			expect(entry?.status).toBe("skipped");
-			expect(entry?.status === "skipped" && entry.completedAt).toBe("earlier");
+			expect(entry?.status === "skipped" && entry.completedAt).toBe(BEFORE_THIS_RUN);
 		});
 
 		it("should mark downstream stages not-reached when an upstream stage fails", async () => {
@@ -829,13 +832,11 @@ describe("PipelineRunner integration", () => {
 				makeManifest({
 					stages: {
 						...pendingStages(),
-						"audio-extraction": {
-							status: "complete",
-							completedAt: "earlier",
+						"audio-extraction": finishedEntry({
+							completedAt: BEFORE_THIS_RUN,
 							configUsed: { modelId: "openrouter/model-a" },
 							cost: { promptTokens: 1, completionTokens: 1, callCount: 1, costUsd: 0.5 },
-							filesWritten: [],
-						},
+						}),
 					} as RunManifest["stages"],
 				}),
 			);

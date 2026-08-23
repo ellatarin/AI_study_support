@@ -4,12 +4,12 @@ import ffmpeg from "fluent-ffmpeg";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ManifestStageEntry, StageContext, StageResult } from "../../types/pipeline.js";
 import {
+	finishedEntry,
 	loggedAt,
 	makeManifest,
 	makeStageContext,
 	makeStubLogger,
 	makeWorkspaceTree,
-	stageCompletedAt,
 	stagesWith,
 	testLecture,
 } from "../fixtures.js";
@@ -161,13 +161,7 @@ describe("createAudioExtractionStage", () => {
 	});
 
 	function completedContext(): StageContext {
-		return contextWith({
-			status: "complete",
-			completedAt: stageCompletedAt,
-			configUsed: null,
-			cost: null,
-			filesWritten: [stageOutputEntry("audio-extraction")],
-		});
+		return contextWith(finishedEntry({ filesWritten: [stageOutputEntry("audio-extraction")] }));
 	}
 
 	it("should skip audio extraction when output file exists and stage is complete", async () => {

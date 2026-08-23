@@ -14,6 +14,7 @@ import { CONFIG_FILENAME } from "../../types/pipeline.js";
 import {
 	elevenLabsUrls,
 	exampleConfig,
+	finishedEntry,
 	loggedAt,
 	makeConfig,
 	makeManifest,
@@ -22,7 +23,6 @@ import {
 	makeWorkspaceTree,
 	resetElevenLabsApi,
 	scribeResponseBody,
-	stageCompletedAt,
 	stagesWith,
 	stubElevenLabsApi,
 	transcriptionModelId,
@@ -143,13 +143,10 @@ describe("createTranscriptionStage", () => {
 		await mkdir(dirname(transcriptPath()), { recursive: true });
 		await writeFile(transcriptPath(), TRANSCRIPT_TEXT);
 		const context = contextWith({
-			entry: {
-				status: "complete",
-				completedAt: stageCompletedAt,
+			entry: finishedEntry({
 				configUsed: { modelId: transcriptionModelId },
-				cost: null,
 				filesWritten: [stageOutputEntry("transcription")],
-			},
+			}),
 		});
 
 		expect(await makeStage().isComplete(context)).toBe(true);

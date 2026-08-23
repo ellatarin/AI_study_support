@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 import {
 	changedDate,
+	finishedEntry,
 	makeLectureTree,
 	makeManifest,
 	otherModuleName,
@@ -91,13 +92,11 @@ describe("executeCommand", () => {
 			manifest: makeManifest({
 				...(folder === undefined ? {} : { workspaceFolderName: folder }),
 				stages: {
-					transcription: {
-						status: "complete",
-						completedAt: "2025-10-10T09:05:00.000Z",
+					transcription: finishedEntry({
 						configUsed: { modelId: transcriptionModelId },
 						cost: { promptTokens: 0, completionTokens: 0, callCount: 1, costUsd: 0.2 },
 						filesWritten: [stageOutputEntry("transcription")],
-					},
+					}),
 				} as ReturnType<typeof makeManifest>["stages"],
 			}),
 		});

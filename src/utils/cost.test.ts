@@ -1,6 +1,7 @@
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
+	finishedEntry,
 	GBP_PER_USD,
 	makeManifest,
 	otherLecture,
@@ -15,6 +16,7 @@ import {
 import { moduleDirs, stageOutputEntry } from "../pipeline/layout.js";
 import type {
 	BatchSummary,
+	ManifestStageEntry,
 	OverallStatus,
 	RunLog,
 	RunLogStageEntry,
@@ -157,36 +159,24 @@ const resolved = ({
 	costUsd,
 });
 
-/**
- * A completed stage entry. What a report draws on is the model and the cost; the
- * timestamp is shared across entries because no report prints it.
- */
-const completed = ({
-	configUsed = null,
-	cost = null,
-	filesWritten = [],
-}: {
-	readonly configUsed?: StageRunConfig | null;
-	readonly cost?: StageCost | null;
-	readonly filesWritten?: readonly string[];
-}) => ({
-	status: "complete" as const,
-	completedAt: "2025-10-10T09:05:00.000Z",
-	configUsed,
-	cost,
-	filesWritten,
-});
-
 // A model id past any column's width, for the rows that have to survive one.
 const OVERLONG_MODEL_ID = "openrouter/an-extravagantly-long-model-identifier";
 
-// The longest model id technical-design.md §4.5 records, at 27 characters — the
-// one the Model column has to hold without moving the columns after it.
-const synthesisEntry = completed({
-	configUsed: { modelId: "anthropic/claude-sonnet-4.6", maxTokens: 8192 },
-	cost: resolved({ callCount: 1, costUsd: 0.312 }),
-	filesWritten: [stageOutputEntry("synthesis")],
-});
+/**
+ * The synthesis row, taking whichever model it is asked about: at its default it
+ * carries the longest model id technical-design.md §4.5 records, at 27
+ * characters — the one the Model column has to hold without moving the columns
+ * after it — and the width cases ask for one past any column's width.
+ */
+function synthesisEntryFor(modelId = "anthropic/claude-sonnet-4.6"): ManifestStageEntry {
+	return finishedEntry({
+		configUsed: { modelId, maxTokens: 8192 },
+		cost: resolved({ callCount: 1, costUsd: 0.312 }),
+		filesWritten: [stageOutputEntry("synthesis")],
+	});
+}
+
+const synthesisEntry = synthesisEntryFor();
 
 const IMAGE_EXTRACTION_MODEL_ID = "openai/gpt-4.1";
 
@@ -194,9 +184,9 @@ const manifest: RunManifest = makeManifest({
 	stages: {
 		// Completed, and names no model: it makes no model call, so no table gives
 		// it a row however it finished.
-		"audio-extraction": completed({ filesWritten: [stageOutputEntry("audio-extraction")] }),
+		"audio-extraction": finishedEntry({ filesWritten: [stageOutputEntry("audio-extraction")] }),
 		// Names a model, and its cost lookup failed: a row, reading n/a.
-		"image-extraction": completed({
+		"image-extraction": finishedEntry({
 			configUsed: { modelId: IMAGE_EXTRACTION_MODEL_ID },
 			cost: {
 				promptTokens: 0,
@@ -206,12 +196,12 @@ const manifest: RunManifest = makeManifest({
 				costResolutionError: "the generation endpoint timed out",
 			},
 		}),
-		transcription: completed({
+		transcription: finishedEntry({
 			configUsed: { modelId: transcriptionModelId },
 			cost: resolved({ callCount: 1, costUsd: 0.042 }),
 			filesWritten: [stageOutputEntry("transcription")],
 		}),
-		"slide-conversion": completed({
+		"slide-conversion": finishedEntry({
 			configUsed: SLIDE_CONVERSION_CONFIG,
 			cost: resolved({
 				callCount: SLIDE_CONVERSION_CALLS,
@@ -383,7 +373,7 @@ describe("formatCostReport", () => {
 		const overlong = makeManifest({
 			stages: {
 				...manifest.stages,
-				synthesis: { ...synthesisEntry, configUsed: { modelId: OVERLONG_MODEL_ID } },
+				synthesis: synthesisEntryFor(OVERLONG_MODEL_ID),
 			},
 		});
 
@@ -485,13 +475,13 @@ const runOutcomes: readonly RunStageOutcome[] = [
 const runManifest: RunManifest = {
 	...manifest,
 	stages: {
-		"audio-extraction": {
-			...completed({ filesWritten: [stageOutputEntry("audio-extraction")] }),
+		"audio-extraction": finishedEntry({
 			status: "skipped",
-		},
+			filesWritten: [stageOutputEntry("audio-extraction")],
+		}),
 		// The same transcription entry the report fixture uses: one call, no tokens.
 		transcription: manifest.stages.transcription,
-		"slide-conversion": completed({
+		"slide-conversion": finishedEntry({
 			configUsed: SLIDE_CONVERSION_CONFIG,
 			cost: {
 				promptTokens: 41_000,
