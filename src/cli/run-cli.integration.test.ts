@@ -1,7 +1,6 @@
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { CONFIG_FILENAME } from "../pipeline/config.js";
 import {
 	corruptJson,
 	makeConfig,
@@ -10,6 +9,7 @@ import {
 	testModuleName,
 } from "../pipeline/fixtures.js";
 import { moduleDirs } from "../pipeline/layout.js";
+import { CONFIG_FILENAME } from "../types/pipeline.js";
 import { runCli } from "./run-cli.js";
 
 describe("runCli", () => {

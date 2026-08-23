@@ -1134,6 +1134,8 @@ Located in the project root. Specifies model and parameters per stage independen
 
 Model IDs below are **capability-based placeholders**, not real OpenRouter routing strings. Before running the pipeline, replace each `<...>` with a concrete model ID looked up on `https://openrouter.ai/models`. The config loader checks every configured ID at startup — see **Model-ID resolution check** below.
 
+The filename is stated once, in `src/types/pipeline.ts` as `CONFIG_FILENAME`, and not in the loader: the parties that name the file are not all downstream of the loader. Stage 2 and the OpenRouter client both tell the user to edit it when a stage's configuration is missing or its model rejects the request, and `config.ts` imports from `openrouter.ts`, so a stage importing back would cycle. `types/pipeline.ts` imports nothing, so every layer can reach it.
+
 The loader and the client surface:
 
 ```typescript

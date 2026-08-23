@@ -10,6 +10,7 @@ import type {
 	StageContext,
 	StageResult,
 } from "../../types/pipeline.js";
+import { CONFIG_FILENAME } from "../../types/pipeline.js";
 import {
 	elevenLabsUrls,
 	exampleConfig,
@@ -175,6 +176,8 @@ describe("createTranscriptionStage", () => {
 		const scope = interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
 
 		await expect(runStage(contextWith({ modelId: null }))).rejects.toThrow(TranscriptionError);
+		// The remedy is an edit to the config file, so the failure has to name it.
+		await expect(runStage(contextWith({ modelId: null }))).rejects.toThrow(CONFIG_FILENAME);
 		expect(scope.isDone()).toBe(false);
 	});
 

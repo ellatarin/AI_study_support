@@ -1,7 +1,7 @@
 import nock from "nock";
 import OpenAI from "openai";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { PipelineConfig } from "../types/pipeline.js";
+import { CONFIG_FILENAME, type PipelineConfig } from "../types/pipeline.js";
 import {
 	captureError,
 	exampleConfig,
@@ -296,6 +296,7 @@ describe("makeCompletionCall", () => {
 
 		expect(error).toBeInstanceOf(ContextLengthError);
 		expect(error.message).toMatch(/context length/i);
+		expect(error.message).toContain(CONFIG_FILENAME);
 	});
 
 	it.each([
@@ -370,5 +371,6 @@ describe("makeCompletionCall", () => {
 		const error = await captureError(call({ stageId: "synthesis" }));
 
 		expect(error.message).toMatch(/synthesis/);
+		expect(error.message).toContain(CONFIG_FILENAME);
 	});
 });

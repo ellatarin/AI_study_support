@@ -1,6 +1,12 @@
 import OpenAI from "openai";
 import type { Logger } from "pino";
-import type { PipelineConfig, StageConfig, StageCost, StageId } from "../types/pipeline.js";
+import {
+	CONFIG_FILENAME,
+	type PipelineConfig,
+	type StageConfig,
+	type StageCost,
+	type StageId,
+} from "../types/pipeline.js";
 import { NamedError } from "../utils/errors.js";
 
 const OPENROUTER_APP_TITLE = "Lecture Notes Pipeline";
@@ -133,9 +139,7 @@ function stageConfigFor(options: {
 }): StageConfig {
 	const stageConfig = options.config.stages[options.stageId];
 	if (stageConfig === undefined) {
-		throw new Error(
-			`No configuration found for stage "${options.stageId}" in pipeline-config.json`,
-		);
+		throw new Error(`No configuration found for stage "${options.stageId}" in ${CONFIG_FILENAME}`);
 	}
 	return stageConfig;
 }
@@ -165,7 +169,7 @@ function toCompletionError(options: {
 	}
 	if (options.error.code === CONTEXT_LENGTH_CODE) {
 		return new ContextLengthError(
-			`Model "${options.modelId}" rejected the request: context length exceeded. Configure a larger-context model for this stage in pipeline-config.json.`,
+			`Model "${options.modelId}" rejected the request: context length exceeded. Configure a larger-context model for this stage in ${CONFIG_FILENAME}.`,
 		);
 	}
 	return new Error(

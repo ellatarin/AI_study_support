@@ -1,17 +1,15 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import type { PipelineConfig, StageConfig, StageId } from "../types/pipeline.js";
+import {
+	CONFIG_FILENAME,
+	type PipelineConfig,
+	type StageConfig,
+	type StageId,
+} from "../types/pipeline.js";
 import { NamedError } from "../utils/errors.js";
 import { splitModelId } from "../utils/model-id.js";
 import { isStageId, unknownStageMessage } from "../utils/stage-id.js";
 import { OPENROUTER_PATHS } from "./openrouter.js";
-
-/**
- * The configuration file's name within the project root. Exported because the
- * suites that write one for the CLI to read must name the same file the loader
- * looks for.
- */
-export const CONFIG_FILENAME = "pipeline-config.json";
 
 /**
  * Thrown when `pipeline-config.json` cannot be read, is malformed, or names a

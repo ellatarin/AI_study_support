@@ -1,6 +1,8 @@
 /**
- * Shared type contracts for the lecture-notes pipeline, plus the one runtime
- * constant the contracts are derived from ({@link STAGE_IDS}).
+ * Shared type contracts for the lecture-notes pipeline, plus the two runtime
+ * constants every layer names: the stage list the contracts are derived from
+ * ({@link STAGE_IDS}) and the configuration file they are configured by
+ * ({@link CONFIG_FILENAME}).
  *
  * Every stage, the runner, the config loader, and the cost tooling depend on
  * these definitions. All data types are declared `readonly` throughout: the
@@ -12,11 +14,22 @@
  */
 
 /**
+ * The configuration file's name within the project root.
+ *
+ * It sits with the contracts rather than with the loader that reads it because
+ * the parties that name the file are not all downstream of the loader: two stages
+ * tell the user to edit it when their configuration is wrong, and the suites write
+ * one for the CLI to find. `config.ts` imports from `openrouter.ts`, so a stage
+ * importing back from `config.ts` would cycle; this module imports nothing, so
+ * everyone can reach it (technical-design.md §6).
+ */
+export const CONFIG_FILENAME = "pipeline-config.json";
+
+/**
  * Every pipeline stage, in execution order (technical-design.md §4.1).
  *
- * This is the one runtime value in an otherwise type-only module, and it is the
- * source of truth for {@link StageId}: the union is derived from it, so a stage
- * cannot be added to one and forgotten in the other.
+ * It is the source of truth for {@link StageId}: the union is derived from it, so
+ * a stage cannot be added to one and forgotten in the other.
  */
 export const STAGE_IDS = [
 	"source-normalisation",

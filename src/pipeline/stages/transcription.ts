@@ -4,12 +4,13 @@ import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 import type { FfprobeData } from "fluent-ffmpeg";
 import ffmpeg from "fluent-ffmpeg";
 import type { Logger } from "pino";
-import type {
-	PipelineConfig,
-	PipelineStage,
-	StageContext,
-	StageCost,
-	StageResult,
+import {
+	CONFIG_FILENAME,
+	type PipelineConfig,
+	type PipelineStage,
+	type StageContext,
+	type StageCost,
+	type StageResult,
 } from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
 import { writeFileAtomic } from "../../utils/files.js";
@@ -132,7 +133,7 @@ function resolveModelId(context: StageContext): string {
 	const configured = context.config.stages[STAGE_ID]?.modelId;
 	if (configured === undefined) {
 		throw new TranscriptionError(
-			`No model configured for stage "${STAGE_ID}" in pipeline-config.json`,
+			`No model configured for stage "${STAGE_ID}" in ${CONFIG_FILENAME}`,
 		);
 	}
 	return splitModelId(configured).name;
