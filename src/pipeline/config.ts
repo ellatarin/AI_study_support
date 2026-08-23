@@ -69,6 +69,15 @@ function requireOptionalNumber(args: {
 }
 
 /**
+ * The schemes a configured address may use. Parsing alone does not narrow this:
+ * the URL standard accepts any scheme, so a mistyped `htp://openrouter.ai` is a
+ * perfectly valid URL — one whose `origin` is the string `"null"`, because only
+ * these schemes have an origin at all. Restricting to them is what makes
+ * {@link modelsPageFor} able to derive an address worth printing.
+ */
+const ADDRESSABLE_SCHEMES: ReadonlySet<string> = new Set(["http:", "https:"]);
+
+/**
  * Reads a required absolute URL. Checked at load rather than at first use, so a
  * mistyped address fails at startup instead of at the first billable call
  * (technical-design.md §6).
@@ -77,12 +86,15 @@ function requireOptionalNumber(args: {
  * @param args.value - The raw config value.
  * @param args.label - The config key, for the error message.
  * @returns The URL, with any trailing slash removed so paths append cleanly.
- * @throws {ConfigError} If the value is not a string, or does not parse as an absolute URL.
+ * @throws {ConfigError} If the value is not a string, or is not an absolute `http`/`https` URL.
  */
 function requireUrl(args: { readonly value: unknown; readonly label: string }): string {
 	const url = requireString(args);
-	if (!URL.canParse(url)) {
-		throw new ConfigError(`${args.label} must be an absolute URL, e.g. https://example.com/api/v1`);
+	const parsed = URL.parse(url);
+	if (parsed === null || !ADDRESSABLE_SCHEMES.has(parsed.protocol)) {
+		throw new ConfigError(
+			`${args.label} must be an absolute http:// or https:// URL, e.g. https://example.com/api/v1`,
+		);
 	}
 	return url.replace(/\/+$/, "");
 }

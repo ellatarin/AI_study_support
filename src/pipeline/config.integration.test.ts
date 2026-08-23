@@ -379,6 +379,16 @@ describe("loadConfig shape validation", () => {
 			match: /baseUrl/,
 		},
 		{
+			// The typo class the check exists to reject: every scheme parses, so
+			// `htp://` is accepted as a URL and only reveals itself later, as the
+			// literal "null" origin printed into the error meant to help.
+			name: "baseUrl's scheme is mistyped",
+			mutate: (config: Record<string, unknown>) => {
+				config.openRouter = openRouterSection({ baseUrl: "htp://openrouter.ai/api/v1" });
+			},
+			match: /baseUrl/,
+		},
+		{
 			name: "completionTimeoutMs is missing",
 			mutate: (config: Record<string, unknown>) => {
 				config.openRouter = openRouterSection({ completionTimeoutMs: undefined });

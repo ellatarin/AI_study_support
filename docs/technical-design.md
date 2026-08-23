@@ -1103,7 +1103,7 @@ Everything that addresses OpenRouter derives from it:
 
 The last is a human-facing link rather than an API call, and taking it from the origin assumes the host serving the API also serves that page. That holds for OpenRouter, and a second config field for a documentation link would be more surface than the assumption is worth — but a gateway deployment may want to correct the link it prints.
 
-Validation treats it like any other required field, with one addition: it must parse as an absolute URL, so a typo is a `ConfigError` at startup rather than an obscure failure at the first billable call.
+Validation treats it like any other required field, with one addition: it must be an absolute `http` or `https` URL, so a typo is a `ConfigError` at startup rather than an obscure failure at the first billable call. Those two schemes are the ones that have an origin, which is what the table above derives the models-page link from.
 
 ### `pipeline-config.json`
 
