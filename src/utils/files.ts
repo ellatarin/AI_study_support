@@ -104,6 +104,19 @@ export function writeFileAtomic({
 	return produceFileAtomic({ path, produce: (tmpPath) => writeFile(tmpPath, content) });
 }
 
+/**
+ * The suffix an in-progress write carries until it is renamed into place.
+ *
+ * The atomic write and the sweep that clears what a crash left behind are the
+ * two halves of one convention, and only agreement between them makes it work: a
+ * writer using a suffix the sweep does not recognise leaves its debris for ever,
+ * and a sweep recognising one the writer does not use deletes nothing. Stage 0's
+ * rename uses a suffix of its own deliberately, and says why — a `.tmp` there
+ * would name a complete file mid-move rather than a partial one, and this sweep
+ * would delete it (technical-design.md §4.3, §5 Stage 0).
+ */
+const TMP_SUFFIX = ".tmp";
+
 /** Indentation applied to every JSON file the pipeline writes, so they stay diff-friendly. */
 const JSON_INDENT = 2;
 
@@ -159,7 +172,7 @@ export async function produceFileAtomic({
 	readonly path: string;
 	readonly produce: (tmpPath: string) => Promise<void>;
 }): Promise<void> {
-	const tmpPath = `${path}.tmp`;
+	const tmpPath = `${path}${TMP_SUFFIX}`;
 	try {
 		await produce(tmpPath);
 		await rename(tmpPath, path);
@@ -229,7 +242,7 @@ export async function readJsonSafe(path: string): Promise<unknown> {
  */
 export async function cleanTmpFiles(dir: string): Promise<void> {
 	const entries = await readdir(dir);
-	const tmpFiles = entries.filter((name) => name.endsWith(".tmp"));
+	const tmpFiles = entries.filter((name) => name.endsWith(TMP_SUFFIX));
 	await Promise.all(tmpFiles.map((name) => rm(join(dir, name), { force: true })));
 }
 
@@ -301,24 +314,17 @@ export type ManifestPathQuery = {
  * within `moduleRoot`, collapsing symlinks first so a symlinked escape is caught
  * (technical-design.md §4.4).
  *
- * @param args - The resolution inputs.
- * @param args.workspaceRoot - The workspace root the entry is relative to.
- * @param args.moduleRoot - The module root that bounds all pipeline output.
- * @param args.entry - The untrusted `filesWritten` entry to resolve.
+ * @param query - The path to resolve and the roots that bound it, as {@link ManifestPathQuery} describes them.
  * @returns The absolute, symlink-collapsed path, guaranteed under `moduleRoot`.
  * @throws {@link ManifestPathError} when the entry resolves outside `moduleRoot`.
  */
-export async function resolveManifestPath({
-	workspaceRoot,
-	moduleRoot,
-	entry,
-}: ManifestPathQuery): Promise<string> {
-	const candidate = resolve(workspaceRoot, entry);
+export async function resolveManifestPath(query: ManifestPathQuery): Promise<string> {
+	const candidate = resolve(query.workspaceRoot, query.entry);
 	const resolved = await realpathResolved(candidate);
-	const moduleRootReal = await realpath(moduleRoot);
+	const moduleRootReal = await realpath(query.moduleRoot);
 
 	if (!isDescendant({ ancestor: moduleRootReal, target: resolved })) {
-		throw new ManifestPathError(`Manifest path "${entry}" resolves outside the module root`);
+		throw new ManifestPathError(`Manifest path "${query.entry}" resolves outside the module root`);
 	}
 	return resolved;
 }
