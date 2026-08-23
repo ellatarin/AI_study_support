@@ -13,6 +13,7 @@
 
 import type { ParsedResult } from "chrono-node";
 import { parse } from "chrono-node";
+import { collapseWhitespace } from "./text.js";
 
 /**
  * Where a span sits in the text. Ordering spans and testing them for overlap
@@ -412,7 +413,7 @@ export function stripDateTokens(text: string): string {
 	for (const span of [...spans].reverse()) {
 		withoutDates = `${withoutDates.slice(0, span.index)} ${withoutDates.slice(span.index + span.length)}`;
 	}
-	return withoutDates.replace(/\s+/g, " ").trim();
+	return collapseWhitespace(withoutDates);
 }
 
 /**

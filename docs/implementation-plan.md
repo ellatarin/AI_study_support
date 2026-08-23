@@ -81,6 +81,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `src/utils/stage-id.ts` — `isStageId`, `unknownStageMessage`: recognising a stage name and reporting one that is not, for `--from-stage` and the config keys alike **(TD §6)**
 - `src/utils/model-id.ts` — `splitModelId`: a model ID's provider and its name, read by the provider exemption and by Stage 2, which want opposite halves **(TD §6; §5, Stage 2)**
 - `src/utils/record.ts` — `isRecord`: whether a parsed value has fields to read, shared by every check over something parsed from outside the pipeline — the config file, a manifest, a model's reply **(TD §6; §4.4; §7)**
+- `src/utils/text.ts` — `collapseWhitespace`: closing up the gaps that removing a fragment leaves, which both the naming rules and the date reader end by doing **(TD §3)**
 - `src/pipeline/config.ts` — `loadConfig`, plus the model-ID resolution check and its provider exemptions **(TD §6)**
 - `src/pipeline/openrouter.ts` — `createOpenRouterClient`, `makeCompletionCall`, and the exported `ContextLengthError` **(TD §6)**
 - `src/pipeline/fixtures.ts` — the shared test vocabulary: the example lecture and its derived file names, the module tree builders, the stub logger, the manifest and stage-entry builders. It belongs to this phase because it is what stops each later phase's suites inventing their own lecture, but it is the one deliverable that keeps growing: a phase that needs a fixture the suites will share extends this module rather than restating the value. Production code never imports it, which `eslint.config.js` exempts it in order to allow — it is the one file under `src/pipeline/` permitted to import from `src/pipeline/stages/`
@@ -106,6 +107,9 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 `record.ts` — unit tests:
 - `should accept the value when $scenario` / `should reject the value when $scenario` — `test.each` over an object with fields and one without, against `null`, an array, a string, a number, a boolean and an absent value
+
+`text.ts` — unit tests:
+- `should read $expected when $scenario` — `test.each` over a run of spaces, whitespace that is not a space, whitespace at either end, the gap a removal leaves, text already correctly spaced, and text that is nothing but whitespace
 
 `files.ts` — unit tests for the resolver that needs no filesystem:
 - `workspacePath` — `test.each` over segment lists, including the empty one

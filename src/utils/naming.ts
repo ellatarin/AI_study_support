@@ -14,6 +14,7 @@
  */
 
 import { formatDateISO, stripDateTokens } from "./date.js";
+import { collapseWhitespace } from "./text.js";
 
 /** Words kept lowercase by {@link toTitleCase} unless they lead the title. */
 const MINOR_WORDS: ReadonlySet<string> = new Set([
@@ -143,7 +144,7 @@ export function extractProvisionalTitle(filename: string): string {
 		.replace(MODULE_CODE_PREFIX, " ")
 		.replace(LECTURE_NUMBER_TOKEN, " ")
 		.replace(/_/g, " ");
-	const normalised = withoutNoise.replace(/\s+/g, " ").trim();
+	const normalised = collapseWhitespace(withoutNoise);
 	const withoutEdges = normalised.replace(EDGE_SEPARATORS, "");
 	const withoutArtefacts = withoutEdges.replace(TRAILING_ARTEFACTS, "").trim();
 	return toTitleCase(withoutArtefacts);
@@ -173,9 +174,7 @@ export function filenameSafe(title: string): string {
 		.split(/\s+/)
 		.filter((segment) => segment !== "." && segment !== "..")
 		.join(" ");
-	const result = withoutTraversal
-		.replace(/\s+/g, " ")
-		.trim()
+	const result = collapseWhitespace(withoutTraversal)
 		.replace(/^\.+|\.+$/g, "")
 		.trim();
 	if (result === "") {
