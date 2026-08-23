@@ -11,6 +11,7 @@ import {
 	makeStageContext,
 	makeStubLogger,
 	makeWorkspaceTree,
+	seedStageOutput,
 	stagesWith,
 	testLecture,
 } from "../fixtures.js";
@@ -163,8 +164,11 @@ describe("createAudioExtractionStage", () => {
 	}
 
 	it("should skip audio extraction when output file exists and stage is complete", async () => {
-		await mkdir(audioDir(), { recursive: true });
-		await writeFile(audioPath(), "already extracted");
+		await seedStageOutput({
+			workspaceRoot,
+			stageId: "audio-extraction",
+			contents: "already extracted",
+		});
 
 		expect(await makeStage().isComplete(completedContext())).toBe(true);
 	});

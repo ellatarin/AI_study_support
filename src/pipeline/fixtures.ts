@@ -12,7 +12,7 @@ import { spawn } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import nock from "nock";
 import type { Logger } from "pino";
 import { vi } from "vitest";
@@ -30,7 +30,14 @@ import type {
 } from "../types/pipeline.js";
 import { STAGE_IDS } from "../types/pipeline.js";
 import { parseConfig } from "./config.js";
-import { datedFileDirs, type ModuleDirs, moduleDirs, workspaceRootFor } from "./layout.js";
+import {
+	datedFileDirs,
+	type ModuleDirs,
+	moduleDirs,
+	stageOutputEntry,
+	stageOutputPath,
+	workspaceRootFor,
+} from "./layout.js";
 import { baseNameForLecture } from "./lecture-files.js";
 import { MANIFEST_VERSION } from "./manifest.js";
 import { API_KEY_VARIABLE as OPENROUTER_KEY_VARIABLE, OPENROUTER_PATHS } from "./openrouter.js";
@@ -826,6 +833,39 @@ export function makeStageContext({
 	readonly config?: PipelineConfig;
 }): StageContext {
 	return assembleContext({ workspaceRoot, manifest, config });
+}
+
+/**
+ * Puts a stage's declared output file where the layout says it belongs, as a
+ * finished run would have left it, and returns the workspace-relative entry to
+ * record in `filesWritten` — so a suite standing up a workspace, or depending on
+ * an earlier stage's output, never names that path at either end.
+ *
+ * Seeds rather than writes, and named for it: production's `writeStageOutput`
+ * writes what a stage just produced into a directory the stage factory has
+ * already prepared, whereas this is setting up a workspace that no run has
+ * touched, so it makes the directory itself.
+ *
+ * @param args - Which output to write, and what to put in it.
+ * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args.stageId - The stage whose output to write.
+ * @param args.contents - The file's text; defaults to a byte no test reads, for
+ * the suites that need the output only to exist.
+ * @returns The `filesWritten` entry for that output.
+ */
+export async function seedStageOutput({
+	workspaceRoot,
+	stageId,
+	contents = "x",
+}: {
+	readonly workspaceRoot: string;
+	readonly stageId: StageId;
+	readonly contents?: string;
+}): Promise<string> {
+	const path = stageOutputPath({ workspaceRoot, stageId });
+	await mkdir(dirname(path), { recursive: true });
+	await writeFile(path, contents);
+	return stageOutputEntry(stageId);
 }
 
 /**

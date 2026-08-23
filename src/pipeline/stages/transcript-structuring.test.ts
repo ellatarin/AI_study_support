@@ -1,4 +1,4 @@
-import { mkdir, rm, writeFile } from "node:fs/promises";
+import { rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -14,6 +14,7 @@ import {
 	makeStageContext,
 	makeStubLogger,
 	makeWorkspaceTree,
+	seedStageOutput,
 	structuredMarkdown,
 	stubbedCostUsd,
 	testLecture,
@@ -67,9 +68,7 @@ describe("createTranscriptStructuringStage", () => {
 		vi.clearAllMocks();
 		logged = makeStubLogger();
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "structuring-" }));
-		const transcriptPath = stageOutputPath({ workspaceRoot, stageId: "transcription" });
-		await mkdir(dirname(transcriptPath), { recursive: true });
-		await writeFile(transcriptPath, TRANSCRIPT_TEXT);
+		await seedStageOutput({ workspaceRoot, stageId: "transcription", contents: TRANSCRIPT_TEXT });
 		stubReply();
 	});
 

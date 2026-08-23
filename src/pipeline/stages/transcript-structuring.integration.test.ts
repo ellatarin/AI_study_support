@@ -1,5 +1,5 @@
-import { mkdir, rm, writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { rm } from "node:fs/promises";
+import { join } from "node:path";
 import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { LectureIdentityChanges, RunManifest, StageContext } from "../../types/pipeline.js";
@@ -15,6 +15,7 @@ import {
 	openRouterCompletionBody,
 	openRouterUrls,
 	resetStubbedApi,
+	seedStageOutput,
 	structuredMarkdown,
 	stubbedCostUsd,
 	stubOpenRouterApi,
@@ -66,9 +67,11 @@ describe("transcript structuring against a real module tree", () => {
 		({ tempDir, moduleRoot, dirs, workspaceRoot } = await makeLectureTree({
 			prefix: "structuring-int-",
 		}));
-		const transcriptPath = stageOutputPath({ workspaceRoot, stageId: "transcription" });
-		await mkdir(dirname(transcriptPath), { recursive: true });
-		await writeFile(transcriptPath, "The lecture text.");
+		await seedStageOutput({
+			workspaceRoot,
+			stageId: "transcription",
+			contents: "The lecture text.",
+		});
 	});
 
 	afterEach(async () => {

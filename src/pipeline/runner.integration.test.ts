@@ -31,6 +31,7 @@ import {
 	otherLecture,
 	otherModuleName,
 	pendingStages,
+	seedStageOutput,
 	stageCompletedAt,
 	stagesWith,
 	testLecture,
@@ -161,34 +162,6 @@ function realIsComplete(stageId: StageId): (context: StageContext) => Promise<bo
 async function readRunLog(workspaceRoot: string, runId: string): Promise<RunLog> {
 	const path = join(runsDirPath({ workspaceRoot }), `${runId}.json`);
 	return JSON.parse(await readFile(path, "utf8")) as RunLog;
-}
-
-/**
- * Puts a stage's declared output file where the layout says it belongs, as a
- * real stage would have left it, and returns the workspace-relative entry to
- * record in `filesWritten` — so a stub stage never names the path at either end.
- *
- * Seeds rather than writes, and named for it: production's `writeStageOutput`
- * writes what a stage just produced into a directory the stage factory has
- * already prepared, whereas this is setting up a workspace that no run has
- * touched, so it makes the directory itself.
- *
- * @param args - Where to write.
- * @param args.workspaceRoot - Absolute path to the lecture workspace.
- * @param args.stageId - The stage whose output to write.
- * @returns The `filesWritten` entry for that output.
- */
-async function seedStageOutput({
-	workspaceRoot,
-	stageId,
-}: {
-	readonly workspaceRoot: string;
-	readonly stageId: StageId;
-}): Promise<string> {
-	const path = stageOutputPath({ workspaceRoot, stageId });
-	await mkdir(dirname(path), { recursive: true });
-	await writeFile(path, "x");
-	return stageOutputEntry(stageId);
 }
 
 /**
