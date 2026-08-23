@@ -29,7 +29,7 @@ Run                       Stage                   Status      Cost
 2025-10-10T10:30:00.000Z  slide-conversion         retry    £0.025
 2025-10-10T11:00:00.000Z  image-extraction        failed       n/a
 ──────────────────────────────────────────────────────────────────
-Wasted on failures                                          £0.016
+Wasted on failures                                             n/a
 
 Experiment cost
 Stage: synthesis

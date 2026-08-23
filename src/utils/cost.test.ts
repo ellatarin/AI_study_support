@@ -276,7 +276,7 @@ const runLogs: readonly RunLog[] = [
 		runType: "error-recovery",
 		fromStage: "image-extraction",
 		stages: {
-			// null cost → the section-2 "n/a" (costCell null) and the wasted-sum null guard.
+			// null cost → the section-2 "n/a" for the row, and the unresolved wasted total.
 			"image-extraction": {
 				action: "ran",
 				status: "failed",
@@ -287,7 +287,7 @@ const runLogs: readonly RunLog[] = [
 			// non-"ran" entry → the ranStageEntries skip branch.
 			"audio-extraction": { action: "skipped" },
 		},
-		totalCostThisRun: 0,
+		totalCostThisRun: null,
 	},
 	{
 		runId: "2025-10-11T16:00:00Z-1",
@@ -305,7 +305,7 @@ const runLogs: readonly RunLog[] = [
 				cost: { totalCostUsd: null, callCount: 1 },
 			},
 		},
-		totalCostThisRun: 0,
+		totalCostThisRun: null,
 	},
 ];
 
@@ -340,6 +340,12 @@ describe("createMoneyFormatter", () => {
 describe("formatCostReport", () => {
 	it("should render the three-section report when given a manifest and run logs", () => {
 		expect(formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD })).toMatchSnapshot();
+	});
+
+	it("should leave the wasted total unresolved when a failed run's cost could not be looked up", () => {
+		const report = formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD });
+
+		expect(report).toMatch(/Wasted on failures\s+n\/a/);
 	});
 
 	it("should render every total in pounds when the stored figures are in dollars", () => {
@@ -520,31 +526,33 @@ const lecture = ({
 	overallStatus,
 });
 
+const succeededLecture = lecture({
+	moduleRoot: testModuleRoot,
+	folder: testLecture.folderName,
+	overallStatus: "success",
+	totalCostUsd: 0.2,
+});
+
+const failedLecture = lecture({
+	moduleRoot: testModuleRoot,
+	folder: otherLecture.folderName,
+	overallStatus: "failed",
+	totalCostUsd: 0.1,
+});
+
+// A third lecture, in the second module, so the table has a module whose status
+// differs from the first's. Its own identity is not shared.
+const otherModuleLecture = lecture({
+	moduleRoot: otherModuleRoot,
+	folder: "Lecture 1 - Antigens - 2025-10-11",
+	overallStatus: "partial",
+	totalCostUsd: 0.3,
+});
+
 const batch: BatchSummary = {
 	startedAt: "2025-10-10T09:00:00.000Z",
 	endedAt: "2025-10-10T10:00:00.000Z",
-	lectures: [
-		lecture({
-			moduleRoot: testModuleRoot,
-			folder: testLecture.folderName,
-			overallStatus: "success",
-			totalCostUsd: 0.2,
-		}),
-		lecture({
-			moduleRoot: testModuleRoot,
-			folder: otherLecture.folderName,
-			overallStatus: "failed",
-			totalCostUsd: 0.1,
-		}),
-		// A third lecture, in the second module, so the table has a module whose
-		// status differs from the first's. Its own identity is not shared.
-		lecture({
-			moduleRoot: otherModuleRoot,
-			folder: "Lecture 1 - Antigens - 2025-10-11",
-			overallStatus: "partial",
-			totalCostUsd: 0.3,
-		}),
-	],
+	lectures: [succeededLecture, failedLecture, otherModuleLecture],
 	totalCostUsd: 0.6,
 	overallStatus: "failed",
 };
@@ -575,6 +583,20 @@ describe("formatBatchSummary", () => {
 
 		// 0.6 USD at 0.74 = 0.444.
 		expect(summary).toMatch(/All modules\s+3\s+failed\s+£0\.444/);
+	});
+
+	it("should render both the module's spend and the batch total as unknown when one lecture's cost is unresolved", () => {
+		const summary = formatBatchSummary({
+			batch: {
+				...batch,
+				lectures: [{ ...succeededLecture, totalCostUsd: null }, failedLecture, otherModuleLecture],
+				totalCostUsd: null,
+			},
+			gbpPerUsd: GBP_PER_USD,
+		});
+
+		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+2\\s+failed\\s+n/a`));
+		expect(summary).toMatch(/All modules\s+3\s+failed\s+n\/a/);
 	});
 
 	it("should render the whole batch table when given a batch summary", () => {

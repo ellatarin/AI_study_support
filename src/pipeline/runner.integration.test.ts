@@ -226,6 +226,29 @@ describe("PipelineRunner integration", () => {
 			});
 		});
 
+		it("should leave the run's total unresolved when a stage's cost lookup failed", async () => {
+			const stage = makeStubStage({
+				stageId: "audio-extraction",
+				run: async () => ({
+					output: undefined,
+					cost: {
+						promptTokens: 10,
+						completionTokens: 20,
+						callCount: 1,
+						totalCostUsd: null,
+						costResolutionError: "the generation endpoint timed out",
+					},
+					filesWritten: [],
+				}),
+			});
+
+			const summary = await makeRunner([stage]).runLecture({ workspaceRoot });
+
+			expect(summary.totalCostUsd).toBeNull();
+			const runLog = await readRunLog(workspaceRoot, summary.runId);
+			expect(runLog.totalCostThisRun).toBeNull();
+		});
+
 		it("should mark the stage running on disk before it begins when a stage runs", async () => {
 			let statusDuringRun: string | undefined;
 			const stage = makeStubStage({

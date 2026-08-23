@@ -529,7 +529,12 @@ export type RunLog = {
 	readonly runType: RunType;
 	readonly fromStage: StageId | null;
 	readonly stages: Readonly<Partial<Record<StageId, RunLogStageEntry>>>;
-	readonly totalCostThisRun: number;
+	/**
+	 * What the run spent, summed across the stages that ran, and `null` when any
+	 * of them recorded a cost it could not resolve, since the run's real spend is
+	 * then unknown (technical-design.md §7).
+	 */
+	readonly totalCostThisRun: number | null;
 };
 
 /**
@@ -616,7 +621,7 @@ export type RunSummary = {
 	readonly runId: string; // matches the run log created for this run
 	readonly startedAt: string; // ISO 8601
 	readonly endedAt: string; // ISO 8601
-	readonly totalCostUsd: number;
+	readonly totalCostUsd: number | null; // the run log's totalCostThisRun, unresolved on the same terms
 	readonly stageOutcomes: readonly RunStageOutcome[]; // in execution order
 	readonly overallStatus: OverallStatus;
 };
@@ -629,6 +634,6 @@ export type BatchSummary = {
 	readonly startedAt: string;
 	readonly endedAt: string;
 	readonly lectures: readonly RunSummary[]; // one entry per lecture attempted, in the order they ran
-	readonly totalCostUsd: number;
+	readonly totalCostUsd: number | null; // summed across the lectures, unresolved when any one of them is
 	readonly overallStatus: OverallStatus;
 };

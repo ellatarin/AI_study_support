@@ -525,7 +525,7 @@ Each log records which stages were attempted, skipped, or re-run; cost and model
     "qa-loop":           { "action": "not-reached" },
     "pdf-generation":    { "action": "not-reached" }
   },
-  "totalCostThisRun": 0.021
+  "totalCostThisRun": 0.021        // null if any stage that ran recorded a cost it could not resolve (§7)
 }
 ```
 
@@ -1343,6 +1343,15 @@ accumulateCost(args: { current: StageCost; incoming: StageCost }): StageCost
 // Takes no rate and does no formatting: it works entirely in stored USD, which is what keeps it unaffected
 // by the presentation currency.
 
+addCost(args: { current: number | null; incoming: number | null }): number | null
+// Adds two stored USD amounts, either of which may be unresolved — the rule accumulateCost applies to a whole
+// StageCost, for the totals that carry an amount alone. The sum is a figure only when both are, so one stage's
+// failed lookup carries through to the run's total, its module's and the batch's, each of which reads `n/a`.
+
+totalLectureCost(args: { lectures: readonly RunSummary[] }): number | null
+// What a set of lecture runs spent between them, by the rule above. The batch's total and each module's row
+// are that sum over different selections of the same lectures, so both are taken from here.
+
 type MoneyFormatter = (amount: number | null) => string
 createMoneyFormatter(args: { gbpPerUsd: number }): MoneyFormatter
 // The one place a money amount becomes a string: converts a stored USD figure to pounds, or renders `n/a`
@@ -1361,7 +1370,8 @@ formatRunSummary(args: { outcomes: readonly RunStageOutcome[]; manifest: RunMani
 
 formatBatchSummary(args: { batch: BatchSummary; gbpPerUsd: number }): string
 // One row per module — lectures attempted, combined status, spend — closed by a cross-module total. A
-// lecture's module is derived from its workspace two levels up, exactly as the runner derives moduleRoot.
+// lecture's module is derived from its workspace two levels up, exactly as the runner derives moduleRoot. A
+// module holding a lecture whose spend is unknown shows `n/a`, and so does the total below it.
 
 stageLabel(args: { stageId: StageId }): string
 // A stage's display name. Exported so the CLI names a failed stage exactly as the summary table above does.

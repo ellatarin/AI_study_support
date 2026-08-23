@@ -27,7 +27,7 @@ import type {
 	StageRunConfig,
 } from "../types/pipeline.js";
 import { DEFAULT_BATCH_OPTIONS, DEFAULT_RUN_OPTIONS, STAGE_IDS } from "../types/pipeline.js";
-import { formatCostReport } from "../utils/cost.js";
+import { addCost, formatCostReport, totalLectureCost } from "../utils/cost.js";
 import { errorMessage } from "../utils/errors.js";
 import { listSubdirectoryNames, readDirSafe, writeFileAtomic } from "../utils/files.js";
 import { createStageLogger } from "../utils/logger.js";
@@ -577,11 +577,11 @@ function buildRunLog({
 	readonly outcomes: readonly RunStageOutcome[];
 }): RunLog {
 	const stages: Record<string, RunLogStageEntry> = {};
-	let totalCostThisRun = 0;
+	let totalCostThisRun: number | null = 0;
 	for (const { stageId, entry } of outcomes) {
 		stages[stageId] = entry;
-		if (entry.action === "ran" && entry.cost.totalCostUsd !== null) {
-			totalCostThisRun += entry.cost.totalCostUsd;
+		if (entry.action === "ran") {
+			totalCostThisRun = addCost({ current: totalCostThisRun, incoming: entry.cost.totalCostUsd });
 		}
 	}
 	return {
@@ -800,15 +800,11 @@ export class PipelineRunner {
 		);
 		const lectures = await this.#runLecturesConcurrently({ workspaces, options });
 		const endedAt = new Date().toISOString();
-		let totalCostUsd = 0;
-		for (const lecture of lectures) {
-			totalCostUsd += lecture.totalCostUsd;
-		}
 		return {
 			startedAt,
 			endedAt,
 			lectures,
-			totalCostUsd,
+			totalCostUsd: totalLectureCost({ lectures }),
 			overallStatus: aggregateStatus(lectures),
 		};
 	}

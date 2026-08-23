@@ -50,6 +50,52 @@ export function accumulateCost({
 	return { ...base, totalCostUsd: current.totalCostUsd + incoming.totalCostUsd };
 }
 
+/**
+ * Adds two stored USD amounts, either of which may be unresolved. The sum is a
+ * figure only when both are, since an unresolved part leaves the whole unknown
+ * (technical-design.md §7).
+ *
+ * The rule {@link accumulateCost} applies to a whole `StageCost`, for the totals
+ * that carry an amount alone — a run's, a module's, a batch's.
+ *
+ * @param args - The two amounts to add.
+ * @param args.current - The running total, or `null` if it is already unresolved.
+ * @param args.incoming - The amount to add, or `null` if its lookup failed.
+ * @returns The combined amount, or `null` if either side is unresolved.
+ */
+export function addCost({
+	current,
+	incoming,
+}: {
+	readonly current: number | null;
+	readonly incoming: number | null;
+}): number | null {
+	if (current === null || incoming === null) {
+		return null;
+	}
+	return current + incoming;
+}
+
+/**
+ * What a set of lecture runs spent between them: the batch total, and each
+ * module's row within it, are the same sum over different selections.
+ *
+ * @param args - The lectures to total.
+ * @param args.lectures - The run summaries to add up.
+ * @returns Their combined spend, or `null` if any one of them is unresolved.
+ */
+export function totalLectureCost({
+	lectures,
+}: {
+	readonly lectures: readonly RunSummary[];
+}): number | null {
+	let total: number | null = 0;
+	for (const lecture of lectures) {
+		total = addCost({ current: total, incoming: lecture.totalCostUsd });
+	}
+	return total;
+}
+
 /** Human-readable label for each stage, in pipeline order (technical-design.md §4.1). */
 const STAGE_LABELS: Readonly<Record<StageId, string>> = {
 	"source-normalisation": "Source normalisation",
@@ -337,10 +383,10 @@ function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs):
  */
 function errorRecoverySection({ runLogs, formatMoney }: RunLogSectionArgs): readonly string[] {
 	const rows: Cell[][] = [];
-	let wasted = 0;
+	let wasted: number | null = 0;
 	for (const { log, stageId, entry } of ranStageEntries({ runLogs, runType: "error-recovery" })) {
-		if (entry.status === "failed" && entry.cost.totalCostUsd !== null) {
-			wasted += entry.cost.totalCostUsd;
+		if (entry.status === "failed") {
+			wasted = addCost({ current: wasted, incoming: entry.cost.totalCostUsd });
 		}
 		const status = entry.status === "failed" ? "failed" : "retry";
 		rows.push([
@@ -611,15 +657,11 @@ export function formatBatchSummary({
 		const status: OverallStatus = summariseOverallStatus({
 			statuses: lectures.map((lecture) => lecture.overallStatus),
 		});
-		let spent = 0;
-		for (const lecture of lectures) {
-			spent += lecture.totalCostUsd;
-		}
 		rows.push([
 			[moduleName, BATCH_SUMMARY_WIDTHS.module, "left"],
 			[String(lectures.length), BATCH_SUMMARY_WIDTHS.lectures, "right"],
 			[status, BATCH_SUMMARY_WIDTHS.status, "right"],
-			costCell({ amount: spent, formatMoney }),
+			costCell({ amount: totalLectureCost({ lectures }), formatMoney }),
 		]);
 	}
 	return renderCostTable({

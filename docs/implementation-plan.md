@@ -159,7 +159,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - The identity-mutation commands (`rename`, `delete`, `change-date`) land with this deliverable too
 - Behaviour of each — the module layout, the multi-match picker, batch scope, what `--from-stage` resets and deletes, exit codes, and how each mutation leaves the module for Stage 0 to finish — is specified in **TD §4.7**
 
-`formatRunSummary` and `formatBatchSummary` in `src/utils/cost.ts` — the end-of-run and batch summaries the CLI prints (**TD §7**).
+`formatRunSummary` and `formatBatchSummary` in `src/utils/cost.ts` — the end-of-run and batch summaries the CLI prints (**TD §7**). `addCost` and `totalLectureCost` land there with them: the run's total, the module's row and the batch's are all sums that stay unresolved while any part of them is (**TD §7**).
 
 **Tests:**
 
