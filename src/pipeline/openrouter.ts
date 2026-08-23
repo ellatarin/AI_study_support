@@ -198,6 +198,30 @@ async function createCompletion(options: {
 	}
 }
 
+/** The one field the pipeline reads from a `/generation` reply. */
+type GenerationCostReply = { readonly data: { readonly total_cost: number } };
+
+/**
+ * Whether a `/generation` reply carries a usable cost.
+ *
+ * Worth checking rather than trusting: a reply that omits `total_cost`, or sends
+ * it as a string, would otherwise be read as a `number` that is nothing of the
+ * kind and recorded as this stage's cost (technical-design.md §7).
+ *
+ * @param value - The parsed reply body.
+ * @returns `true` when the body carries a numeric `data.total_cost`.
+ */
+function isGenerationCostReply(value: unknown): value is GenerationCostReply {
+	if (typeof value !== "object" || value === null) {
+		return false;
+	}
+	const { data } = value as { readonly data?: unknown };
+	if (typeof data !== "object" || data === null) {
+		return false;
+	}
+	return typeof (data as { readonly total_cost?: unknown }).total_cost === "number";
+}
+
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the OpenAI client is a library type that is not deeply readonly (CLAUDE.md permits dropping readonly when a library requires mutable types)
 async function lookupCost(options: {
 	readonly client: OpenAI;
@@ -205,12 +229,18 @@ async function lookupCost(options: {
 	readonly openRouter: OpenRouterSettings;
 }): Promise<CostResolution> {
 	try {
-		const body = (await options.client.get(OPENROUTER_PATHS.generation, {
+		const body: unknown = await options.client.get(OPENROUTER_PATHS.generation, {
 			// eslint-disable-next-line id-length -- "id" is OpenRouter's generation-endpoint query parameter name
 			query: { id: options.generationId },
 			timeout: options.openRouter.costLookupTimeoutMs,
 			maxRetries: options.openRouter.costLookupMaxRetries,
-		})) as { readonly data: { readonly total_cost: number } };
+		});
+		if (!isGenerationCostReply(body)) {
+			return {
+				costUsd: null,
+				costResolutionError: "Cost lookup returned no numeric data.total_cost",
+			};
+		}
 		return { costUsd: body.data.total_cost };
 	} catch (error: unknown) {
 		return { costUsd: null, costResolutionError: `Cost lookup failed: ${String(error)}` };

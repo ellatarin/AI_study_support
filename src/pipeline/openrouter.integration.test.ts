@@ -245,6 +245,24 @@ describe("makeCompletionCall", () => {
 		}
 	});
 
+	it.each([
+		{ scenario: "the reply carries no cost", body: { data: { tokens_prompt: 12 } } },
+		{ scenario: "the cost is not a number", body: { data: { total_cost: "0.004" } } },
+		{ scenario: "the reply carries no data", body: {} },
+		{ scenario: "the reply is an array", body: [] },
+		{ scenario: "the reply is not an object at all", body: "0.004" },
+	])("should report the cost as unresolved when $scenario", async ({ body }) => {
+		mockCompletion().reply(200, completionBody());
+		mockGeneration().reply(200, body);
+
+		const result = await call();
+
+		expect(result.cost.costUsd).toBeNull();
+		if (result.cost.costUsd === null) {
+			expect(result.cost.costResolutionError).toMatch(/./);
+		}
+	});
+
 	it("should retry the cost lookup with backoff and resolve the cost when a transient failure recovers", async () => {
 		mockCompletion().reply(200, completionBody());
 		mockGeneration().reply(500, {}, { "retry-after": "0" });
@@ -298,6 +316,15 @@ describe("makeCompletionCall", () => {
 
 		expect(error.message).toContain(openRouterModelId);
 		expect(error.message).toContain("transcript-structuring");
+	});
+
+	it("should propagate the failure unchanged when it did not come from the API", async () => {
+		const client = createOpenRouterClient({ openRouter: config.openRouter });
+		vi.spyOn(client.chat.completions, "create").mockRejectedValue(new Error("socket exploded"));
+
+		const error = await captureError(call({ client }));
+
+		expect(error.message).toBe("socket exploded");
 	});
 
 	it("should keep the provider's own explanation when a rejected request is reported", async () => {
