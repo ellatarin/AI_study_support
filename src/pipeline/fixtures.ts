@@ -482,6 +482,35 @@ export const aiDerivedLecture = describeLecture({
 	title: "Innate Immune Response",
 });
 
+/** The model's verdict when it judges the lecturer's provisional title good enough. */
+export const titleKept = { provisionalTitleMeaningful: true, suggestedTitle: null };
+
+/**
+ * The model's verdict when it rejects the provisional title and proposes
+ * {@link aiDerivedLecture}'s in its place — the case both Stage 3 suites write
+ * every title test across.
+ */
+export const titleRejected = {
+	provisionalTitleMeaningful: false,
+	suggestedTitle: aiDerivedLecture.title,
+};
+
+/**
+ * A well-formed Stage 3 reply: the model's verdict on the provisional title and
+ * the markdown it structured. The shape is the stage's documented contract
+ * rather than either suite's business, so both state it through here and
+ * override only the field the test at hand is about.
+ *
+ * @param overrides - The fields this test's behaviour depends on; defaults to
+ * {@link titleKept}.
+ * @returns The reply, ready to be serialised as the model's content.
+ */
+export function structuringReply(
+	overrides: Readonly<Record<string, unknown>> = {},
+): Record<string, unknown> {
+	return { ...titleKept, structuredMarkdown, ...overrides };
+}
+
 /** The title a user sets through the CLI's `rename` command. */
 export const userChosenTitle = "Cell Injury and Death";
 

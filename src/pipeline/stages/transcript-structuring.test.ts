@@ -15,9 +15,11 @@ import {
 	makeStubLogger,
 	makeWorkspaceTree,
 	seedStageOutput,
-	structuredMarkdown,
+	structuringReply,
 	stubbedCostUsd,
 	testLecture,
+	titleKept,
+	titleRejected,
 	userChosenTitle,
 } from "../fixtures.js";
 import { stageOutputEntry, stageOutputPath } from "../layout.js";
@@ -39,6 +41,9 @@ vi.mock(import("../openrouter.js"), async (importOriginal) => ({
 const completionMock = makeCompletionCall as unknown as Mock;
 
 const TRANSCRIPT_TEXT = "Today we are covering the innate immune response.";
+
+/** The lecture as `rename` leaves it: the user's title, already in force. */
+const userNamed = { userTitle: userChosenTitle, lectureTitle: userChosenTitle };
 const COST: StageCost = {
 	promptTokens: 1200,
 	completionTokens: 300,
@@ -47,14 +52,9 @@ const COST: StageCost = {
 };
 
 /** A well-formed model reply, with the fields a test cares about overridden. */
-function stubReply(overrides: Record<string, unknown> = {}): void {
+function stubReply(overrides: Readonly<Record<string, unknown>> = {}): void {
 	completionMock.mockResolvedValue({
-		content: JSON.stringify({
-			provisionalTitleMeaningful: true,
-			suggestedTitle: null,
-			structuredMarkdown: structuredMarkdown,
-			...overrides,
-		}),
+		content: JSON.stringify(structuringReply(overrides)),
 		cost: COST,
 	});
 }
@@ -181,11 +181,8 @@ describe("createTranscriptStructuringStage", () => {
 	// stage writing the manifest back reverts its own `running` entry (§4.2). Stage 3
 	// settles the lecture's identity and is the likeliest stage to try; it must not.
 	it.each([
-		{ what: "the provisional title stands", reply: { provisionalTitleMeaningful: true } },
-		{
-			what: "the title is replaced",
-			reply: { provisionalTitleMeaningful: false, suggestedTitle: aiDerivedLecture.title },
-		},
+		{ what: "the provisional title stands", reply: titleKept },
+		{ what: "the title is replaced", reply: titleRejected },
 	])("should write no manifest when $what", async ({ reply }) => {
 		stubReply(reply);
 
@@ -196,7 +193,7 @@ describe("createTranscriptStructuringStage", () => {
 
 	describe("replacing a title the model judges not meaningful", () => {
 		beforeEach(() => {
-			stubReply({ provisionalTitleMeaningful: false, suggestedTitle: aiDerivedLecture.title });
+			stubReply(titleRejected);
 		});
 
 		it("should settle the whole identity for the runner when the provisional is not meaningful", async () => {
@@ -216,7 +213,7 @@ describe("createTranscriptStructuringStage", () => {
 		});
 
 		it("should fail when the model proposes no title to replace it with", async () => {
-			stubReply({ provisionalTitleMeaningful: false, suggestedTitle: null });
+			stubReply({ ...titleRejected, suggestedTitle: null });
 
 			const error = await captureError(runStage(contextWith()));
 
@@ -224,7 +221,7 @@ describe("createTranscriptStructuringStage", () => {
 		});
 
 		it("should fail when the proposed title has no characters usable in a filename", async () => {
-			stubReply({ provisionalTitleMeaningful: false, suggestedTitle: ".." });
+			stubReply({ ...titleRejected, suggestedTitle: ".." });
 
 			const error = await captureError(runStage(contextWith()));
 
@@ -233,11 +230,8 @@ describe("createTranscriptStructuringStage", () => {
 	});
 
 	describe("deferring to a title the user set", () => {
-		/** The lecture as `rename` leaves it: the user's title, already in force. */
-		const userNamed = { userTitle: userChosenTitle, lectureTitle: userChosenTitle };
-
 		beforeEach(() => {
-			stubReply({ provisionalTitleMeaningful: false, suggestedTitle: aiDerivedLecture.title });
+			stubReply(titleRejected);
 		});
 
 		it("should keep the user's title as the lecture title when they have named it", async () => {
@@ -266,21 +260,9 @@ describe("createTranscriptStructuringStage", () => {
 		// Every later stage names its output from the title settled here, so which
 		// branch ran is the fact the debug log has to carry (§10).
 		it.each([
-			{
-				outcome: "kept-provisional",
-				reply: { provisionalTitleMeaningful: true },
-				manifest: {},
-			},
-			{
-				outcome: "adopted-derived",
-				reply: { provisionalTitleMeaningful: false, suggestedTitle: aiDerivedLecture.title },
-				manifest: {},
-			},
-			{
-				outcome: "kept-user-title",
-				reply: { provisionalTitleMeaningful: false, suggestedTitle: aiDerivedLecture.title },
-				manifest: { userTitle: userChosenTitle, lectureTitle: userChosenTitle },
-			},
+			{ outcome: "kept-provisional", reply: titleKept, manifest: {} },
+			{ outcome: "adopted-derived", reply: titleRejected, manifest: {} },
+			{ outcome: "kept-user-title", reply: titleRejected, manifest: userNamed },
 		])("should record $outcome when that is how the title was settled", async (settled) => {
 			stubReply(settled.reply);
 

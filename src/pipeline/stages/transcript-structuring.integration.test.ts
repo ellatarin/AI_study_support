@@ -16,10 +16,12 @@ import {
 	openRouterUrls,
 	resetStubbedApi,
 	seedStageOutput,
-	structuredMarkdown,
+	structuringReply,
 	stubbedCostUsd,
 	stubOpenRouterApi,
 	testLecture,
+	titleKept,
+	titleRejected,
 	userChosenTitle,
 } from "../fixtures.js";
 import { type ModuleDirs, stageOutputPath, workspaceRootFor } from "../layout.js";
@@ -53,11 +55,7 @@ describe("transcript structuring against a real module tree", () => {
 
 	/** The model's verdict, as the two cases every title test is written across. */
 	function verdict(meaningful: boolean): Record<string, unknown> {
-		return {
-			provisionalTitleMeaningful: meaningful,
-			suggestedTitle: meaningful ? null : aiDerivedLecture.title,
-			structuredMarkdown: structuredMarkdown,
-		};
+		return structuringReply(meaningful ? titleKept : titleRejected);
 	}
 
 	beforeEach(async () => {
