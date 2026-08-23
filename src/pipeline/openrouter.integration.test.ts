@@ -280,6 +280,34 @@ describe("makeCompletionCall", () => {
 		expect(error.message).toMatch(/context length/i);
 	});
 
+	it.each([
+		{
+			scenario: "the configured model is unavailable",
+			status: 404,
+			body: { error: { message: "No endpoints found for this model.", code: 404 } },
+		},
+		{
+			scenario: "the request is rejected for a reason the pipeline does not special-case",
+			status: 400,
+			body: { error: { message: "Provider returned error", code: "invalid_request_error" } },
+		},
+	])("should name the model and the stage when $scenario", async ({ status, body }) => {
+		mockCompletion().reply(status, body);
+
+		const error = await captureError(call());
+
+		expect(error.message).toContain(openRouterModelId);
+		expect(error.message).toContain("transcript-structuring");
+	});
+
+	it("should keep the provider's own explanation when a rejected request is reported", async () => {
+		mockCompletion().reply(404, { error: { message: "No endpoints found for this model." } });
+
+		const error = await captureError(call());
+
+		expect(error.message).toContain("No endpoints found for this model.");
+	});
+
 	it("should throw when the completion request times out before a response arrives", async () => {
 		const client = new OpenAI({
 			apiKey: "test-key",

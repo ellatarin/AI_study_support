@@ -132,21 +132,43 @@ function stageConfigFor(options: {
 	return stageConfig;
 }
 
-function toContextLengthError(options: {
+/**
+ * Renders a rejected completion as an error that names the model and the stage.
+ *
+ * Every SDK failure arrives as an `APIError` carrying the provider's own words
+ * and nothing else, so the model that was called has to be added here — it is
+ * the fact the reader needs to act, whether the model is unavailable, refuses
+ * the request, or is unreachable (technical-design.md §8). Context length keeps
+ * its own type on top of that, because it has a specific remedy.
+ *
+ * @param options - The failure and what was being attempted.
+ * @param options.error - The caught value.
+ * @param options.stageId - The stage the call was made for.
+ * @param options.modelId - The model the stage is configured to use.
+ * @returns The error to throw, or `null` when the failure did not come from the API.
+ */
+function toCompletionError(options: {
 	readonly error: unknown;
+	readonly stageId: StageId;
 	readonly modelId: string;
-}): ContextLengthError | null {
-	if (options.error instanceof OpenAI.APIError && options.error.code === CONTEXT_LENGTH_CODE) {
+}): Error | null {
+	if (!(options.error instanceof OpenAI.APIError)) {
+		return null;
+	}
+	if (options.error.code === CONTEXT_LENGTH_CODE) {
 		return new ContextLengthError(
 			`Model "${options.modelId}" rejected the request: context length exceeded. Configure a larger-context model for this stage in pipeline-config.json.`,
 		);
 	}
-	return null;
+	return new Error(
+		`Model "${options.modelId}" rejected the request for stage "${options.stageId}": ${options.error.message}`,
+	);
 }
 
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the OpenAI client and message-param types are library types that are not deeply readonly (CLAUDE.md permits dropping readonly when a library requires mutable types)
 async function createCompletion(options: {
 	readonly client: OpenAI;
+	readonly stageId: StageId;
 	readonly stageConfig: StageConfig;
 	readonly messages: readonly OpenAI.Chat.Completions.ChatCompletionMessageParam[];
 	readonly responseFormat: CompletionResponseFormat;
@@ -164,9 +186,13 @@ async function createCompletion(options: {
 	try {
 		return await options.client.chat.completions.create(body);
 	} catch (error: unknown) {
-		const contextError = toContextLengthError({ error, modelId: options.stageConfig.modelId });
-		if (contextError !== null) {
-			throw contextError;
+		const completionError = toCompletionError({
+			error,
+			stageId: options.stageId,
+			modelId: options.stageConfig.modelId,
+		});
+		if (completionError !== null) {
+			throw completionError;
 		}
 		throw error;
 	}
@@ -211,6 +237,8 @@ async function lookupCost(options: {
  * @param options.client - An OpenAI client to use; defaults to the shared OpenRouter client.
  * @returns The completion text and its resolved cost.
  * @throws {ContextLengthError} If the prompt exceeds the model's context window.
+ * @throws {Error} If the API rejects the call for any other reason, or the model returns no choices;
+ *   either way the message names the model and the stage (§8).
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the OpenAI client, message-param and pino Logger types are library types that are not deeply readonly (CLAUDE.md permits dropping readonly when a library requires mutable types)
 export async function makeCompletionCall(options: {
@@ -229,6 +257,7 @@ export async function makeCompletionCall(options: {
 	const startedAt = performance.now();
 	const response = await createCompletion({
 		client,
+		stageId: options.stageId,
 		stageConfig,
 		messages: options.messages,
 		responseFormat: options.responseFormat,
