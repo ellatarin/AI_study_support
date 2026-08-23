@@ -47,6 +47,21 @@ function mockGeneration(): nock.Interceptor {
 	return nock(openRouterUrls.origin).get(openRouterUrls.generation).query(true);
 }
 
+/**
+ * Mocks one completion returning the well-formed body, with the fields a test
+ * is about replaced.
+ *
+ * @param overrides - Fields to replace in the completion body; none by default.
+ */
+function mockCompletionReturning(overrides: Record<string, unknown> = {}): void {
+	mockCompletion().reply(200, completionBody(overrides));
+}
+
+/** Mocks the cost lookup resolving, to the figure the suite prices everything at. */
+function mockCostResolving(): void {
+	mockGeneration().reply(200, generationBody(RESOLVED_COST_USD));
+}
+
 /** Recorded afresh per test, so a test can assert on what the call logged. */
 let logged: ReturnType<typeof makeStubLogger>;
 
@@ -86,7 +101,7 @@ async function callCapturingRequest(
 		captured.headers = this.req.headers as Record<string, unknown>;
 		return [200, completionBody()];
 	});
-	mockGeneration().reply(200, generationBody(RESOLVED_COST_USD));
+	mockCostResolving();
 
 	await call(overrides);
 
@@ -94,12 +109,15 @@ async function callCapturingRequest(
 }
 
 /**
- * Mocks a successful completion plus its cost lookup, then makes the call —
- * the arrange-and-act every resolved-cost test shares.
+ * Mocks a completion plus a cost lookup that resolves, then makes the call —
+ * the arrange-and-act every test about a successful round trip shares.
+ *
+ * @param overrides - Fields to replace in the completion body; none by default.
+ * @returns What the call resolved with.
  */
-function callWithResolvedCost(totalCost: number): ReturnType<typeof call> {
-	mockCompletion().reply(200, completionBody());
-	mockGeneration().reply(200, generationBody(totalCost));
+function callSucceeding(overrides: Record<string, unknown> = {}): ReturnType<typeof call> {
+	mockCompletionReturning(overrides);
+	mockCostResolving();
 	return call();
 }
 
@@ -165,7 +183,7 @@ describe("makeCompletionCall", () => {
 	});
 
 	it("should record the model, prompt tokens and latency when a call completes", async () => {
-		await callWithResolvedCost(RESOLVED_COST_USD);
+		await callSucceeding();
 
 		const [entry] = loggedAt({ entries: logged.entries, level: "debug" });
 		expect(entry?.message).toBe("Completion call");
@@ -177,7 +195,7 @@ describe("makeCompletionCall", () => {
 	});
 
 	it("should populate costUsd and token counts when the generation endpoint returns cost", async () => {
-		const result = await callWithResolvedCost(RESOLVED_COST_USD);
+		const result = await callSucceeding();
 
 		expect(result.cost).toEqual({
 			...stubbedTokenUsage,
@@ -187,40 +205,29 @@ describe("makeCompletionCall", () => {
 	});
 
 	it("should resolve with a fully-resolved cost when the promise settles after the cost lookup", async () => {
-		const result = await callWithResolvedCost(RESOLVED_COST_USD);
+		const result = await callSucceeding();
 
 		expect(typeof result.cost.costUsd).toBe("number");
 		expect(nock.isDone()).toBe(true);
 	});
 
 	it("should default token counts to zero when the completion response omits usage", async () => {
-		mockCompletion().reply(200, completionBody({ usage: undefined }));
-		mockGeneration().reply(200, generationBody(RESOLVED_COST_USD));
-
-		const result = await call();
+		const result = await callSucceeding({ usage: undefined });
 
 		expect(result.cost.promptTokens).toBe(0);
 		expect(result.cost.completionTokens).toBe(0);
 	});
 
 	it("should return empty content when the model returns null content", async () => {
-		mockCompletion().reply(
-			200,
-			completionBody({
-				choices: [
-					{ index: 0, message: { role: "assistant", content: null }, finish_reason: "stop" },
-				],
-			}),
-		);
-		mockGeneration().reply(200, generationBody(RESOLVED_COST_USD));
-
-		const result = await call();
+		const result = await callSucceeding({
+			choices: [{ index: 0, message: { role: "assistant", content: null }, finish_reason: "stop" }],
+		});
 
 		expect(result.content).toBe("");
 	});
 
 	it("should name the model and stage when the provider returns no choices", async () => {
-		mockCompletion().reply(200, completionBody({ choices: [] }));
+		mockCompletionReturning({ choices: [] });
 
 		const error = await captureError(call());
 
@@ -229,7 +236,7 @@ describe("makeCompletionCall", () => {
 	});
 
 	it("should resolve with costUsd null and costResolutionError set when the cost lookup fails after all retries", async () => {
-		mockCompletion().reply(200, completionBody());
+		mockCompletionReturning();
 		mockGeneration().times(4).reply(500, {}, { "retry-after": "0" });
 
 		const result = await call();
@@ -248,7 +255,7 @@ describe("makeCompletionCall", () => {
 		{ scenario: "the reply is an array", body: [] },
 		{ scenario: "the reply is not an object at all", body: "0.004" },
 	])("should report the cost as unresolved when $scenario", async ({ body }) => {
-		mockCompletion().reply(200, completionBody());
+		mockCompletionReturning();
 		mockGeneration().reply(200, body);
 
 		const result = await call();
@@ -260,7 +267,7 @@ describe("makeCompletionCall", () => {
 	});
 
 	it("should retry the cost lookup with backoff and resolve the cost when a transient failure recovers", async () => {
-		mockCompletion().reply(200, completionBody());
+		mockCompletionReturning();
 		mockGeneration().reply(500, {}, { "retry-after": "0" });
 		mockGeneration().reply(200, generationBody(0.01));
 
@@ -271,10 +278,8 @@ describe("makeCompletionCall", () => {
 
 	it("should retry the completion call with backoff and succeed when the first response is a 429", async () => {
 		mockCompletion().reply(429, {}, { "retry-after": "0" });
-		mockCompletion().reply(200, completionBody());
-		mockGeneration().reply(200, generationBody(RESOLVED_COST_USD));
 
-		const result = await call();
+		const result = await callSucceeding();
 
 		expect(result.content).toBe("Structured notes.");
 	});
@@ -349,7 +354,7 @@ describe("makeCompletionCall", () => {
 	it("should apply the configured per-attempt timeout and retries when the cost lookup runs", async () => {
 		const client = createOpenRouterClient({ openRouter: config.openRouter });
 		const getSpy = vi.spyOn(client, "get");
-		mockCompletion().reply(200, completionBody());
+		mockCompletionReturning();
 		mockGeneration().reply(200, generationBody(RESOLVED_COST_USD));
 
 		await call({ client });
