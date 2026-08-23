@@ -118,6 +118,17 @@ function duplicateIsos(files: readonly SourceRef[]): readonly string[] {
  * @param args.slides - The classified slide files.
  * @returns A human-readable description of every anomaly found (empty when valid).
  */
+/**
+ * The dates a listing's dateable files carry, for asking what the other side
+ * matched.
+ *
+ * @param listing - One source directory's classified files.
+ * @returns The `YYYY-MM-DD` dates present in it.
+ */
+function datedIsos(listing: DatedListing): ReadonlySet<string> {
+	return new Set(listing.dated.map((file) => file.iso));
+}
+
 function collectAnomalies({
 	videos,
 	slides,
@@ -125,29 +136,30 @@ function collectAnomalies({
 	readonly videos: DatedListing;
 	readonly slides: DatedListing;
 }): readonly string[] {
+	// Each rule holds of both kinds of source, and the report keeps the rules in
+	// order rather than the kinds, so the reader meets every undateable file
+	// before the first missing match.
+	const sides = [
+		{ kind: "video", counterpart: "slide", listing: videos, matched: datedIsos(slides) },
+		{ kind: "slide", counterpart: "video", listing: slides, matched: datedIsos(videos) },
+	] as const;
+
 	const anomalies: string[] = [];
-	for (const name of videos.undateable) {
-		anomalies.push(`video "${name}" has no extractable date`);
-	}
-	for (const name of slides.undateable) {
-		anomalies.push(`slide "${name}" has no extractable date`);
-	}
-	for (const iso of duplicateIsos(videos.dated)) {
-		anomalies.push(`two or more videos share the date ${iso}`);
-	}
-	for (const iso of duplicateIsos(slides.dated)) {
-		anomalies.push(`two or more slides share the date ${iso}`);
-	}
-	const slideIsos = new Set(slides.dated.map((slide) => slide.iso));
-	const videoIsos = new Set(videos.dated.map((video) => video.iso));
-	for (const video of videos.dated) {
-		if (!slideIsos.has(video.iso)) {
-			anomalies.push(`video "${video.name}" has no matching slide (date ${video.iso})`);
+	for (const { kind, listing } of sides) {
+		for (const name of listing.undateable) {
+			anomalies.push(`${kind} "${name}" has no extractable date`);
 		}
 	}
-	for (const slide of slides.dated) {
-		if (!videoIsos.has(slide.iso)) {
-			anomalies.push(`slide "${slide.name}" has no matching video (date ${slide.iso})`);
+	for (const { kind, listing } of sides) {
+		for (const iso of duplicateIsos(listing.dated)) {
+			anomalies.push(`two or more ${kind}s share the date ${iso}`);
+		}
+	}
+	for (const { kind, counterpart, listing, matched } of sides) {
+		for (const file of listing.dated) {
+			if (!matched.has(file.iso)) {
+				anomalies.push(`${kind} "${file.name}" has no matching ${counterpart} (date ${file.iso})`);
+			}
 		}
 	}
 	return anomalies;
@@ -350,6 +362,36 @@ async function discoverFinalOutput(
 }
 
 /**
+ * One item's rename, or `null` when there is nothing to do: the item is absent,
+ * or it already sits at the name the numbering wants.
+ *
+ * The four things a lecture is spread across each ask this same question, and a
+ * fifth would too, so it is asked in one place — the absent case and the
+ * already-there case being the same answer is what each of the four was
+ * spelling out for itself.
+ *
+ * @param args - The item and where it should end up.
+ * @param args.dir - The directory the item sits in.
+ * @param args.source - Its current name, or `undefined` when there is no such item.
+ * @param args.target - The name the target numbering gives it.
+ * @returns The rename to apply, or `null` when none is needed.
+ */
+function renameIfMoved({
+	dir,
+	source,
+	target,
+}: {
+	readonly dir: string;
+	readonly source: string | undefined;
+	readonly target: string;
+}): RenameOp | null {
+	if (source === undefined || source === target) {
+		return null;
+	}
+	return { dir, source, target };
+}
+
+/**
  * Plans every rename needed to bring the module to its target numbering: source
  * video, matched slide, existing workspace folder, and existing `Final output/`
  * PDF. Items already at their target are omitted (so a re-run is a no-op).
@@ -376,27 +418,44 @@ function planRenames({
 	readonly existingWorkspaces: ReadonlyMap<string, ExistingWorkspace>;
 	readonly existingPdfs: ReadonlyMap<string, string>;
 }): readonly RenameOp[] {
-	const renames: RenameOp[] = [];
-	for (const lecture of lectures) {
-		const videoTarget = `${lecture.baseName}${extname(lecture.videoName)}`;
-		if (lecture.videoName !== videoTarget) {
-			renames.push({ dir: dirs.video, source: lecture.videoName, target: videoTarget });
-		}
-		const slideTarget = `${lecture.baseName}${extname(lecture.slideName)}`;
-		if (lecture.slideName !== slideTarget) {
-			renames.push({ dir: dirs.slide, source: lecture.slideName, target: slideTarget });
-		}
-		const oldFolder = existingWorkspaces.get(lecture.iso)?.folder;
-		if (oldFolder !== undefined && oldFolder !== lecture.baseName) {
-			renames.push({ dir: dirs.processing, source: oldFolder, target: lecture.baseName });
-		}
-		const oldPdf = existingPdfs.get(lecture.iso);
-		const pdfTarget = `${lecture.baseName}.pdf`;
-		if (oldPdf !== undefined && oldPdf !== pdfTarget) {
-			renames.push({ dir: dirs.finalOutput, source: oldPdf, target: pdfTarget });
-		}
-	}
-	return renames;
+	return lectures.flatMap((lecture) =>
+		[
+			renameIfMoved({
+				dir: dirs.video,
+				source: lecture.videoName,
+				target: `${lecture.baseName}${extname(lecture.videoName)}`,
+			}),
+			renameIfMoved({
+				dir: dirs.slide,
+				source: lecture.slideName,
+				target: `${lecture.baseName}${extname(lecture.slideName)}`,
+			}),
+			renameIfMoved({
+				dir: dirs.processing,
+				source: existingWorkspaces.get(lecture.iso)?.folder,
+				target: lecture.baseName,
+			}),
+			renameIfMoved({
+				dir: dirs.finalOutput,
+				source: existingPdfs.get(lecture.iso),
+				target: `${lecture.baseName}.pdf`,
+			}),
+		].filter((operation) => operation !== null),
+	);
+}
+
+/**
+ * Where an item waits between the two phases of a rename: at its target name,
+ * under the temporary suffix. Written once because the two phases address it
+ * from opposite ends — one renames onto it, the next renames off it — and a
+ * crash between them leaves it there for the sweep at the start of the next run
+ * to find.
+ *
+ * @param operation - The rename being applied.
+ * @returns The absolute path the item is staged at.
+ */
+function stagingPath(operation: RenameOp): string {
+	return join(operation.dir, `${operation.target}${TEMP_SUFFIX}`);
 }
 
 /**
@@ -408,16 +467,10 @@ function planRenames({
  */
 async function executeRenames(renames: readonly RenameOp[]): Promise<void> {
 	for (const operation of renames) {
-		await rename(
-			join(operation.dir, operation.source),
-			join(operation.dir, `${operation.target}${TEMP_SUFFIX}`),
-		);
+		await rename(join(operation.dir, operation.source), stagingPath(operation));
 	}
 	for (const operation of renames) {
-		await rename(
-			join(operation.dir, `${operation.target}${TEMP_SUFFIX}`),
-			join(operation.dir, operation.target),
-		);
+		await rename(stagingPath(operation), join(operation.dir, operation.target));
 	}
 }
 
