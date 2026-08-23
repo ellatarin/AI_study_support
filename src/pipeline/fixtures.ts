@@ -480,6 +480,19 @@ export const stageCompletedAt = `${testLecture.date}T10:00:00.000Z`;
 export const testRunId = `${testLecture.date}T09-00-00Z`;
 
 /**
+ * When a run began and ended, where neither instant is what a suite is checking.
+ *
+ * `RunSummary` and `BatchSummary` both require the pair, so a suite stubbing one
+ * has to fill it in whether or not it cares — and each was inventing a half-hour
+ * of its own. Arbitrary for the same reason {@link stageCompletedAt} is: a suite
+ * that states a span is saying the span matters.
+ */
+export const testRunSpan = {
+	startedAt: `${testLecture.date}T09:00:00.000Z`,
+	endedAt: `${testLecture.date}T09:30:00.000Z`,
+} as const;
+
+/**
  * A finished stage's manifest entry, in either of the two ways a stage finishes.
  * `complete` and `skipped` carry the same fields and mean the same thing about
  * the disk — the stage's output is there — which is what the suites asserting on

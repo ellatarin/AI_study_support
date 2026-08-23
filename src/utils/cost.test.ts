@@ -213,13 +213,34 @@ const manifest: RunManifest = makeManifest({
 	},
 });
 
+/**
+ * A run's identity and span, from the two instants that bound it.
+ *
+ * The id is derived rather than invented per run. Nothing reads it — no
+ * assertion, and section 2 shows a run by its start instant — so five ids
+ * written by hand were five values claiming to matter, and none of them was even
+ * in the form `deriveRunId` produces.
+ *
+ * @param span - When the run began and ended.
+ * @param span.startedAt - The instant the run began; the one section 2 prints.
+ * @param span.endedAt - The instant it finished.
+ * @returns The three fields every run log opens with.
+ */
+function ranFrom({
+	startedAt,
+	endedAt,
+}: {
+	readonly startedAt: string;
+	readonly endedAt: string;
+}): Pick<RunLog, "runId" | "startedAt" | "endedAt"> {
+	return { runId: `run-at-${startedAt}`, startedAt, endedAt };
+}
+
 // The original failure, as technical-design.md §7's worked example has it: an
 // ordinary run that no --from-stage preceded, so the classifier types it
 // `normal`. Section 2 reaches it through the failure, not through the run's type.
 const originalFailure: RunLog = {
-	runId: "2025-10-10T09:00:00Z-1",
-	startedAt: "2025-10-10T09:00:00.000Z",
-	endedAt: "2025-10-10T09:02:00.000Z",
+	...ranFrom({ startedAt: "2025-10-10T09:00:00.000Z", endedAt: "2025-10-10T09:02:00.000Z" }),
 	triggeredBy: "manual",
 	runType: "normal",
 	fromStage: null,
@@ -237,9 +258,7 @@ const originalFailure: RunLog = {
 const runLogs: readonly RunLog[] = [
 	originalFailure,
 	{
-		runId: "2025-10-10T10:30:00Z-1",
-		startedAt: "2025-10-10T10:30:00.000Z",
-		endedAt: "2025-10-10T10:33:00.000Z",
+		...ranFrom({ startedAt: "2025-10-10T10:30:00.000Z", endedAt: "2025-10-10T10:33:00.000Z" }),
 		triggeredBy: "from-stage",
 		runType: "error-recovery",
 		fromStage: "slide-conversion",
@@ -256,9 +275,7 @@ const runLogs: readonly RunLog[] = [
 		},
 	},
 	{
-		runId: "2025-10-11T14:00:00Z-1",
-		startedAt: "2025-10-11T14:00:00.000Z",
-		endedAt: "2025-10-11T14:05:00.000Z",
+		...ranFrom({ startedAt: "2025-10-11T14:00:00.000Z", endedAt: "2025-10-11T14:05:00.000Z" }),
 		triggeredBy: "from-stage",
 		runType: "experiment",
 		fromStage: "synthesis",
@@ -272,9 +289,7 @@ const runLogs: readonly RunLog[] = [
 		},
 	},
 	{
-		runId: "2025-10-10T11:00:00Z-1",
-		startedAt: "2025-10-10T11:00:00.000Z",
-		endedAt: "2025-10-10T11:01:00.000Z",
+		...ranFrom({ startedAt: "2025-10-10T11:00:00.000Z", endedAt: "2025-10-10T11:01:00.000Z" }),
 		triggeredBy: "from-stage",
 		runType: "error-recovery",
 		fromStage: "image-extraction",
@@ -292,9 +307,7 @@ const runLogs: readonly RunLog[] = [
 		},
 	},
 	{
-		runId: "2025-10-11T16:00:00Z-1",
-		startedAt: "2025-10-11T16:00:00.000Z",
-		endedAt: "2025-10-11T16:02:00.000Z",
+		...ranFrom({ startedAt: "2025-10-11T16:00:00.000Z", endedAt: "2025-10-11T16:02:00.000Z" }),
 		triggeredBy: "from-stage",
 		runType: "experiment",
 		fromStage: "synthesis",
