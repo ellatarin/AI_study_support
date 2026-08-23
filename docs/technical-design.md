@@ -1325,6 +1325,8 @@ Run                    Stage                  Status    Cost
 Wasted on failures                                     £0.016
 ```
 
+A row is any stage that failed, under whatever classification its run carried, together with every stage of a run started to recover from one. The run that first meets a failure is classified `normal` — as the 09:00 run above is — and the spend that failure cost belongs to this section, which is why a row is selected by what became of the stage as well as by the run's type. "Wasted on failures" totals the failed rows alone: the retry below them bought the output that is on disk.
+
 **3 — Experiment cost** (deliberate model re-runs, grouped for comparison):
 ```
 Stage: synthesis

@@ -10,7 +10,6 @@ import type {
 	RunManifest,
 	RunStageOutcome,
 	RunSummary,
-	RunType,
 	StageCost,
 	StageId,
 } from "../types/pipeline.js";
@@ -242,21 +241,29 @@ function renderCostTable({
 
 type RanStageEntry = Extract<RunLogStageEntry, { readonly action: "ran" }>;
 
+/** Whether a section wants a given stage entry, judged from it and the run it belongs to. */
+type StageEntrySelector = (args: {
+	readonly log: RunLog;
+	readonly entry: RanStageEntry;
+}) => boolean;
+
 /**
- * Flattens the run logs of a given classification into their executed stage
- * entries, so the report sections iterate results rather than re-walking logs.
+ * Flattens the run logs into the executed stage entries a section asks for, so
+ * the sections iterate results rather than re-walking logs. Each brings its own
+ * rule: a run's classification says why it was started and a stage entry says
+ * what came of it, and the sections divide on both.
  *
  * @param args - The selection inputs.
  * @param args.runLogs - The lecture's run logs.
- * @param args.runType - The run classification to select.
- * @returns Each executed stage entry with the log and stage id it came from.
+ * @param args.selects - Whether the section wants a given entry.
+ * @returns Each selected stage entry with the log and stage id it came from.
  */
 function ranStageEntries({
 	runLogs,
-	runType,
+	selects,
 }: {
 	readonly runLogs: readonly RunLog[];
-	readonly runType: RunType;
+	readonly selects: StageEntrySelector;
 }): readonly { readonly log: RunLog; readonly stageId: string; readonly entry: RanStageEntry }[] {
 	const result: {
 		readonly log: RunLog;
@@ -264,17 +271,37 @@ function ranStageEntries({
 		readonly entry: RanStageEntry;
 	}[] = [];
 	for (const log of runLogs) {
-		if (log.runType !== runType) {
-			continue;
-		}
 		for (const [stageId, entry] of Object.entries(log.stages)) {
-			if (entry.action === "ran") {
+			if (entry.action === "ran" && selects({ log, entry })) {
 				result.push({ log, stageId, entry });
 			}
 		}
 	}
 	return result;
 }
+
+/**
+ * Section 2's rule: a stage that failed, wherever it failed, and every stage of
+ * a run started to recover from one. The run that first meets a failure is
+ * classified `normal`, so the original failure — the spend the section exists to
+ * price — is reached through the failure itself (technical-design.md §7).
+ *
+ * @param args - The entry being judged.
+ * @param args.log - The run log the entry belongs to.
+ * @param args.entry - The executed stage entry.
+ * @returns Whether section 2 wants this entry.
+ */
+const wasSpentOnFailure: StageEntrySelector = ({ log, entry }) =>
+	entry.status === "failed" || log.runType === "error-recovery";
+
+/**
+ * Section 3's rule: the deliberate re-runs, whatever became of them.
+ *
+ * @param args - The entry being judged.
+ * @param args.log - The run log the entry belongs to.
+ * @returns Whether section 3 wants this entry.
+ */
+const wasAnExperiment: StageEntrySelector = ({ log }) => log.runType === "experiment";
 
 /**
  * Extracts the model and cost a manifest stage entry recorded. A stage that has
@@ -384,7 +411,10 @@ function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs):
 function errorRecoverySection({ runLogs, formatMoney }: RunLogSectionArgs): readonly string[] {
 	const rows: Cell[][] = [];
 	let wasted: number | null = 0;
-	for (const { log, stageId, entry } of ranStageEntries({ runLogs, runType: "error-recovery" })) {
+	for (const { log, stageId, entry } of ranStageEntries({
+		runLogs,
+		selects: wasSpentOnFailure,
+	})) {
 		if (entry.status === "failed") {
 			wasted = addCost({ current: wasted, incoming: entry.cost.totalCostUsd });
 		}
@@ -415,7 +445,7 @@ function errorRecoverySection({ runLogs, formatMoney }: RunLogSectionArgs): read
  */
 function experimentSection({ runLogs, formatMoney }: RunLogSectionArgs): readonly string[] {
 	const byStage = new Map<string, string[]>();
-	for (const { log, stageId, entry } of ranStageEntries({ runLogs, runType: "experiment" })) {
+	for (const { log, stageId, entry } of ranStageEntries({ runLogs, selects: wasAnExperiment })) {
 		const model = (entry.configUsed?.modelId ?? "—").padEnd(26);
 		const cost = formatMoney(entry.cost.totalCostUsd).padStart(COST_WIDTH);
 		byStage.set(stageId, [

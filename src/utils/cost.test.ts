@@ -212,25 +212,30 @@ const manifest: RunManifest = makeManifest({
 	},
 });
 
-const runLogs: readonly RunLog[] = [
-	{
-		runId: "2025-10-10T09:00:00Z-1",
-		startedAt: "2025-10-10T09:00:00.000Z",
-		endedAt: "2025-10-10T09:02:00.000Z",
-		triggeredBy: "from-stage",
-		runType: "error-recovery",
-		fromStage: "slide-conversion",
-		stages: {
-			"slide-conversion": {
-				action: "ran",
-				status: "failed",
-				configUsed: SLIDE_CONVERSION_CONFIG,
-				cost: { totalCostUsd: 0.021, callCount: 5 },
-				error: "Slide 17 conversion failed: 429 rate limit",
-			},
+// The original failure, as technical-design.md §7's worked example has it: an
+// ordinary run that no --from-stage preceded, so the classifier types it
+// `normal`. Section 2 reaches it through the failure, not through the run's type.
+const originalFailure: RunLog = {
+	runId: "2025-10-10T09:00:00Z-1",
+	startedAt: "2025-10-10T09:00:00.000Z",
+	endedAt: "2025-10-10T09:02:00.000Z",
+	triggeredBy: "manual",
+	runType: "normal",
+	fromStage: null,
+	stages: {
+		"slide-conversion": {
+			action: "ran",
+			status: "failed",
+			configUsed: SLIDE_CONVERSION_CONFIG,
+			cost: { totalCostUsd: 0.021, callCount: 5 },
+			error: "Slide 17 conversion failed: 429 rate limit",
 		},
-		totalCostThisRun: 0.021,
 	},
+	totalCostThisRun: 0.021,
+};
+
+const runLogs: readonly RunLog[] = [
+	originalFailure,
 	{
 		runId: "2025-10-10T10:30:00Z-1",
 		startedAt: "2025-10-10T10:30:00.000Z",
@@ -340,6 +345,18 @@ describe("createMoneyFormatter", () => {
 describe("formatCostReport", () => {
 	it("should render the three-section report when given a manifest and run logs", () => {
 		expect(formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD })).toMatchSnapshot();
+	});
+
+	it("should count a failed stage as wasted when the run that failed was an ordinary one", () => {
+		const report = formatCostReport({
+			runLogs: [originalFailure],
+			manifest,
+			gbpPerUsd: GBP_PER_USD,
+		});
+
+		// 0.021 USD at 0.74 = 0.01554.
+		expect(report).toMatch(/slide-conversion\s+failed\s+£0\.016/);
+		expect(report).toMatch(/Wasted on failures\s+£0\.016/);
 	});
 
 	it("should leave the wasted total unresolved when a failed run's cost could not be looked up", () => {
