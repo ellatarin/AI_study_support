@@ -35,34 +35,49 @@ export function clearModelIdCache(): void {
 	cachedModelIds = null;
 }
 
-function requireRecord(args: {
-	readonly value: unknown;
-	readonly label: string;
-}): Record<string, unknown> {
+/**
+ * A raw config value together with the key it reports against, which is what
+ * every reader below needs and all a reader needs: the value to check, and the
+ * name to blame when it is wrong.
+ */
+type LabelledValue = { readonly value: unknown; readonly label: string };
+
+/**
+ * The fault every reader raises: a config key holding something other than what
+ * it must hold. One sentence, so the five readers below differ only in what they
+ * were looking for rather than in how they say so.
+ *
+ * @param args - What was wanted, and where.
+ * @param args.label - The config key at fault.
+ * @param args.expected - What the key must hold, as it should read after "must be".
+ * @returns The error to throw.
+ */
+function configFault(args: { readonly label: string; readonly expected: string }): ConfigError {
+	return new ConfigError(`${args.label} must be ${args.expected}`);
+}
+
+function requireRecord(args: LabelledValue): Record<string, unknown> {
 	if (!isRecord(args.value)) {
-		throw new ConfigError(`${args.label} must be an object`);
+		throw configFault({ ...args, expected: "an object" });
 	}
 	return args.value;
 }
 
-function requireString(args: { readonly value: unknown; readonly label: string }): string {
+function requireString(args: LabelledValue): string {
 	if (typeof args.value !== "string") {
-		throw new ConfigError(`${args.label} must be a string`);
+		throw configFault({ ...args, expected: "a string" });
 	}
 	return args.value;
 }
 
-function requireNumber(args: { readonly value: unknown; readonly label: string }): number {
+function requireNumber(args: LabelledValue): number {
 	if (typeof args.value !== "number") {
-		throw new ConfigError(`${args.label} must be a number`);
+		throw configFault({ ...args, expected: "a number" });
 	}
 	return args.value;
 }
 
-function requireOptionalNumber(args: {
-	readonly value: unknown;
-	readonly label: string;
-}): number | undefined {
+function requireOptionalNumber(args: LabelledValue): number | undefined {
 	if (args.value === undefined) {
 		return undefined;
 	}
@@ -89,23 +104,21 @@ const ADDRESSABLE_SCHEMES: ReadonlySet<string> = new Set(["http:", "https:"]);
  * @returns The URL, with any trailing slash removed so paths append cleanly.
  * @throws {ConfigError} If the value is not a string, or is not an absolute `http`/`https` URL.
  */
-function requireUrl(args: { readonly value: unknown; readonly label: string }): string {
+function requireUrl(args: LabelledValue): string {
 	const url = requireString(args);
 	const parsed = URL.parse(url);
 	if (parsed === null || !ADDRESSABLE_SCHEMES.has(parsed.protocol)) {
-		throw new ConfigError(
-			`${args.label} must be an absolute http:// or https:// URL, e.g. https://example.com/api/v1`,
-		);
+		throw configFault({
+			...args,
+			expected: "an absolute http:// or https:// URL, e.g. https://example.com/api/v1",
+		});
 	}
 	return url.replace(/\/+$/, "");
 }
 
-function requireStringArray(args: {
-	readonly value: unknown;
-	readonly label: string;
-}): readonly string[] {
+function requireStringArray(args: LabelledValue): readonly string[] {
 	if (!Array.isArray(args.value)) {
-		throw new ConfigError(`${args.label} must be an array of strings`);
+		throw configFault({ ...args, expected: "an array of strings" });
 	}
 	return Array.from(args.value.entries(), ([index, entry]) =>
 		requireString({ value: entry, label: `${args.label}[${index}]` }),
@@ -113,27 +126,56 @@ function requireStringArray(args: {
 }
 
 /**
- * Reads a required number from a config section that must itself be an object,
- * so a missing section and a mistyped field within it each report against their
- * own label.
+ * A config section's fields, read by name.
  *
- * @param args - The section to read from and the labels to report against.
- * @param args.value - The raw section value, expected to be an object.
- * @param args.sectionLabel - The section's config key, e.g. `currency`.
- * @param args.field - The field to read within the section.
- * @returns The field's value.
- * @throws {ConfigError} If the section is not an object or the field is not a number.
+ * A field reports against `section.field`, derived from the section it was read
+ * from rather than written out beside the read — so every key in the file has
+ * one place it is spelt, and a section gains a field without anything else
+ * having to know. A field the section does not carry is a missing field, so a
+ * section and a mistyped field within it each blame their own key.
  */
-function requireSectionNumber(args: {
-	readonly value: unknown;
-	readonly sectionLabel: string;
-	readonly field: string;
-}): number {
-	const record = requireRecord({ value: args.value, label: args.sectionLabel });
-	return requireNumber({
-		value: record[args.field],
-		label: `${args.sectionLabel}.${args.field}`,
-	});
+type ConfigSection = {
+	readonly string: (field: string) => string;
+	readonly number: (field: string) => number;
+	readonly optionalNumber: (field: string) => number | undefined;
+	readonly url: (field: string) => string;
+	readonly stringArray: (field: string) => readonly string[];
+};
+
+/**
+ * Opens a config section for reading, having checked it is an object at all.
+ *
+ * @param args - The raw section and the key it reports against.
+ * @param args.value - The raw section value, expected to be an object.
+ * @param args.label - The section's config key, e.g. `openRouter`.
+ * @returns The section's fields, each reader labelling what it reads.
+ * @throws {ConfigError} If the section is not an object.
+ */
+function requireSection(args: LabelledValue): ConfigSection {
+	const record = requireRecord(args);
+	/**
+	 * Reads one field through the reader that knows the type it must hold.
+	 *
+	 * @param readArgs - The field to read and how.
+	 * @param readArgs.field - The field's name within the section.
+	 * @param readArgs.require - The reader for the type the field must hold.
+	 * @returns The field's value.
+	 */
+	const read = <TValue>(readArgs: {
+		readonly field: string;
+		readonly require: (labelled: LabelledValue) => TValue;
+	}): TValue =>
+		readArgs.require({
+			value: record[readArgs.field],
+			label: `${args.label}.${readArgs.field}`,
+		});
+	return {
+		string: (field) => read({ field, require: requireString }),
+		number: (field) => read({ field, require: requireNumber }),
+		optionalNumber: (field) => read({ field, require: requireOptionalNumber }),
+		url: (field) => read({ field, require: requireUrl }),
+		stringArray: (field) => read({ field, require: requireStringArray }),
+	};
 }
 
 /**
@@ -147,15 +189,13 @@ function requireSectionNumber(args: {
  * @throws {ConfigError} If the section is not an object, or any field is missing or mistyped.
  */
 function requireOpenRouter(value: unknown): PipelineConfig["openRouter"] {
-	const record = requireRecord({ value, label: "openRouter" });
-	const requireField = (field: keyof PipelineConfig["openRouter"]): number =>
-		requireNumber({ value: record[field], label: `openRouter.${field}` });
+	const openRouter = requireSection({ value, label: "openRouter" });
 	return {
-		baseUrl: requireUrl({ value: record.baseUrl, label: "openRouter.baseUrl" }),
-		completionTimeoutMs: requireField("completionTimeoutMs"),
-		completionMaxRetries: requireField("completionMaxRetries"),
-		costLookupTimeoutMs: requireField("costLookupTimeoutMs"),
-		costLookupMaxRetries: requireField("costLookupMaxRetries"),
+		baseUrl: openRouter.url("baseUrl"),
+		completionTimeoutMs: openRouter.number("completionTimeoutMs"),
+		completionMaxRetries: openRouter.number("completionMaxRetries"),
+		costLookupTimeoutMs: openRouter.number("costLookupTimeoutMs"),
+		costLookupMaxRetries: openRouter.number("costLookupMaxRetries"),
 	};
 }
 
@@ -170,50 +210,30 @@ function requireOpenRouter(value: unknown): PipelineConfig["openRouter"] {
  * @throws {ConfigError} If the section is not an object, or any field is missing or mistyped.
  */
 function requireElevenLabs(value: unknown): PipelineConfig["elevenLabs"] {
-	const record = requireRecord({ value, label: "elevenLabs" });
+	const elevenLabs = requireSection({ value, label: "elevenLabs" });
 	return {
-		baseUrl: requireUrl({ value: record.baseUrl, label: "elevenLabs.baseUrl" }),
-		languageCode: requireString({ value: record.languageCode, label: "elevenLabs.languageCode" }),
-		costPerAudioHourUsd: requireNumber({
-			value: record.costPerAudioHourUsd,
-			label: "elevenLabs.costPerAudioHourUsd",
-		}),
+		baseUrl: elevenLabs.url("baseUrl"),
+		languageCode: elevenLabs.string("languageCode"),
+		costPerAudioHourUsd: elevenLabs.number("costPerAudioHourUsd"),
 	};
 }
 
 function requireModelIdCheck(value: unknown): PipelineConfig["modelIdCheck"] {
-	const record = requireRecord({ value, label: "modelIdCheck" });
-	return {
-		exemptProviders: requireStringArray({
-			value: record.exemptProviders,
-			label: "modelIdCheck.exemptProviders",
-		}),
-	};
+	const modelIdCheck = requireSection({ value, label: "modelIdCheck" });
+	return { exemptProviders: modelIdCheck.stringArray("exemptProviders") };
 }
 
 function requireStageConfig(args: {
 	readonly value: unknown;
 	readonly stageId: string;
 }): StageConfig {
-	const record = requireRecord({ value: args.value, label: `stages.${args.stageId}` });
+	const stage = requireSection({ value: args.value, label: `stages.${args.stageId}` });
 	return {
-		modelId: requireString({ value: record.modelId, label: `stages.${args.stageId}.modelId` }),
-		temperature: requireOptionalNumber({
-			value: record.temperature,
-			label: `stages.${args.stageId}.temperature`,
-		}),
-		maxTokens: requireOptionalNumber({
-			value: record.maxTokens,
-			label: `stages.${args.stageId}.maxTokens`,
-		}),
-		concurrency: requireOptionalNumber({
-			value: record.concurrency,
-			label: `stages.${args.stageId}.concurrency`,
-		}),
-		maxIterations: requireOptionalNumber({
-			value: record.maxIterations,
-			label: `stages.${args.stageId}.maxIterations`,
-		}),
+		modelId: stage.string("modelId"),
+		temperature: stage.optionalNumber("temperature"),
+		maxTokens: stage.optionalNumber("maxTokens"),
+		concurrency: stage.optionalNumber("concurrency"),
+		maxIterations: stage.optionalNumber("maxIterations"),
 	};
 }
 
@@ -240,10 +260,10 @@ function requireStages(value: unknown): PipelineConfig["stages"] {
 }
 
 function requireOutput(value: unknown): PipelineConfig["output"] {
-	const record = requireRecord({ value, label: "output" });
+	const output = requireSection({ value, label: "output" });
 	return {
-		language: requireString({ value: record.language, label: "output.language" }),
-		pandocEngine: requireString({ value: record.pandocEngine, label: "output.pandocEngine" }),
+		language: output.string("language"),
+		pandocEngine: output.string("pandocEngine"),
 	};
 }
 
@@ -267,11 +287,7 @@ export function parseConfig(raw: unknown): PipelineConfig {
 		openRouter: requireOpenRouter(root.openRouter),
 		elevenLabs: requireElevenLabs(root.elevenLabs),
 		currency: {
-			gbpPerUsd: requireSectionNumber({
-				value: root.currency,
-				sectionLabel: "currency",
-				field: "gbpPerUsd",
-			}),
+			gbpPerUsd: requireSection({ value: root.currency, label: "currency" }).number("gbpPerUsd"),
 		},
 		modelIdCheck: requireModelIdCheck(root.modelIdCheck),
 		stages: requireStages(root.stages),
