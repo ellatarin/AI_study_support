@@ -13,6 +13,7 @@ import type {
 } from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
 import { writeFileAtomic } from "../../utils/files.js";
+import { splitModelId } from "../../utils/model-id.js";
 import { createUploadProgressStream } from "../../utils/progress.js";
 import { stageOutputEntry, stageOutputPath } from "../layout.js";
 import { createPipelineStage } from "./pipeline-stage.js";
@@ -68,7 +69,6 @@ export const ELEVENLABS_PATHS = {
 export const API_KEY_VARIABLE = "ELEVENLABS_API_KEY";
 
 const STAGE_ID = "transcription";
-const PROVIDER_SEPARATOR = "/";
 const SECONDS_PER_HOUR = 3600;
 
 /**
@@ -135,8 +135,7 @@ function resolveModelId(context: StageContext): string {
 			`No model configured for stage "${STAGE_ID}" in pipeline-config.json`,
 		);
 	}
-	const separator = configured.indexOf(PROVIDER_SEPARATOR);
-	return separator === -1 ? configured : configured.slice(separator + 1);
+	return splitModelId(configured).name;
 }
 
 /**

@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { PipelineConfig, StageConfig, StageId } from "../types/pipeline.js";
 import { NamedError } from "../utils/errors.js";
+import { splitModelId } from "../utils/model-id.js";
 import { isStageId, unknownStageMessage } from "../utils/stage-id.js";
 import { OPENROUTER_PATHS } from "./openrouter.js";
 
@@ -339,26 +340,34 @@ function formatModelIdError(args: {
 }
 
 /**
- * The provider segment of a model ID — the part before the first `/`. A bare ID
- * carrying no prefix yields the empty string, so it can never match an exempt
- * provider and is always checked (technical-design.md §6).
+ * Whether a model ID is excused the OpenRouter check because the provider it
+ * names is one of the exempt ones. An ID naming no provider is never excused —
+ * it has no prefix to opt out with (technical-design.md §6).
  *
- * @param modelId - The configured model ID.
- * @returns The provider prefix, or the empty string when the ID carries none.
+ * @param args - The check inputs.
+ * @param args.modelId - The configured model ID.
+ * @param args.exemptProviders - The providers the check skips, as configured.
+ * @returns `true` when the ID's provider is exempt.
  */
-function providerPrefixOf(modelId: string): string {
-	const separatorIndex = modelId.indexOf("/");
-	if (separatorIndex === -1) {
-		return "";
-	}
-	return modelId.slice(0, separatorIndex);
+function isExemptFromModelIdCheck({
+	modelId,
+	exemptProviders,
+}: {
+	readonly modelId: string;
+	readonly exemptProviders: readonly string[];
+}): boolean {
+	const { provider } = splitModelId(modelId);
+	return provider !== null && exemptProviders.includes(provider);
 }
 
 async function assertModelIdsResolvable(config: PipelineConfig): Promise<void> {
-	const exemptProviders = new Set(config.modelIdCheck.exemptProviders);
+	const { exemptProviders } = config.modelIdCheck;
 	const entries = (
 		Object.entries(config.stages) as ReadonlyArray<readonly [StageId, StageConfig]>
-	).filter(([, stageConfig]) => !exemptProviders.has(providerPrefixOf(stageConfig.modelId)));
+	).filter(
+		([, stageConfig]) =>
+			!isExemptFromModelIdCheck({ modelId: stageConfig.modelId, exemptProviders }),
+	);
 	if (entries.length === 0) {
 		return;
 	}

@@ -808,7 +808,7 @@ createAudioExtractionStage(args: { logger: Logger }): PipelineStage<AudioExtract
 
 Uploads the audio to ElevenLabs Scribe v2 with a streaming upload progress bar (bytes sent vs total). Parameters: `languageCode` from `elevenLabs.languageCode` (§6), and `noVerbatim: true` — the latter is supported only on `scribe_v2`, so it travels with that model ID.
 
-**Model ID and the provider prefix.** Config holds `stages.transcription.modelId = "elevenlabs/scribe_v2"`, but the ElevenLabs API takes a bare `model_id` of `scribe_v2` with no provider prefix. The prefix therefore exists purely to serve this codebase: `modelIdCheck.exemptProviders` matches on the segment before the `/` (§6), so a model can only be exempted from the OpenRouter check if it is provider-qualified — a bare `scribe_v2` would have no prefix to match and no way to opt out of a check it must fail. The stage strips the prefix before the call, so config keeps the qualified form the exemption and the cost report need, and ElevenLabs receives the form it expects.
+**Model ID and the provider prefix.** Config holds `stages.transcription.modelId = "elevenlabs/scribe_v2"`, but the ElevenLabs API takes a bare `model_id` of `scribe_v2` with no provider prefix. The prefix therefore exists purely to serve this codebase: `modelIdCheck.exemptProviders` matches on the segment before the `/` (§6), so a model can only be exempted from the OpenRouter check if it is provider-qualified — a bare `scribe_v2` would have no prefix to match and no way to opt out of a check it must fail. The stage strips the prefix before the call, so config keeps the qualified form the exemption and the cost report need, and ElevenLabs receives the form it expects. It takes the name from `splitModelId` (§6), the same reader the exemption asks for the provider.
 
 The client is pointed at `elevenLabs.baseUrl` (§6) rather than left on the SDK's default host. The API key comes from `ELEVENLABS_API_KEY`; its absence is a stage failure raised before any upload begins, as is an unconfigured model — neither costs anything to detect, so both are checked before the file is opened. Cost is derived from audio duration as described in §7. The transcript is written atomically (§4.3).
 
@@ -1163,6 +1163,8 @@ Belt and braces, not belt alone: OpenRouter's own parameter reference states tha
 
 **Exempting non-OpenRouter providers.** Not every stage calls OpenRouter — Stage 2 transcribes through ElevenLabs — so checking its model ID against OpenRouter's list would always fail. `modelIdCheck.exemptProviders` lists provider prefixes (the part of a model ID before the `/`) that the check skips, so a stage on any non-OpenRouter provider can still declare its model in config and have it recorded in the manifest and cost report. The mechanism is general: it is not specific to ElevenLabs, and a stage whose provider is not exempt is always checked. Exempting a provider trades away the typo protection for its IDs, so keep the list to providers that genuinely sit outside OpenRouter.
 
+Both halves of a model ID are read through `splitModelId` in `src/utils/model-id.ts`, which this check and Stage 2 share: the check reads the provider, Stage 2 reads the name (§5, Stage 2). One reader is what fixes what separates the halves, so the two cannot come to disagree about it. An ID that names no provider yields a `null` provider, which no exemption list can hold, so such an ID is always checked.
+
 **Currency.** Every provider bills in US dollars, so costs are stored in USD and converted to pounds only for presentation (§7). `currency.gbpPerUsd` is the rate applied. Because it converts at display time rather than at write time, correcting a stale rate re-renders every historical report consistently — no stored figure is ever rewritten, and none silently mixes rates.
 
 **The ElevenLabs address is configuration too.** `elevenLabs.baseUrl` is the single place ElevenLabs' address is stated, and it is passed to the SDK's own `baseUrl` option so every Scribe call is made against it. The reasoning is the same as for `openRouter.baseUrl` above, and so is the validation — it must parse as an absolute URL or startup fails. It matters more here than the shared reasoning suggests: ElevenLabs serves the same API from several regional residency hosts, and which one an account must use is a fact about that account, not about this codebase. Left to the SDK's default the pipeline would always reach for the global host, and moving to a regional one would be a code edit.
@@ -1483,6 +1485,7 @@ src/
     ├── progress.ts                   # Shared cli-progress bar helpers
     ├── cost.ts                       # Cost accumulation and report formatting
     ├── stage-id.ts                   # Recognising a stage name, for --from-stage and the config keys (§6)
+    ├── model-id.ts                   # Reading a model ID's provider and name, for the exemption and Stage 2 (§6)
     ├── errors.ts                     # NamedError, and the narrowing every catch site would repeat (§8)
     └── logger.ts                     # pino instance and child-logger factory
 ```
