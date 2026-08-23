@@ -1,13 +1,45 @@
 /**
- * Reducing what happened during a run to a single {@link OverallStatus}.
+ * Reading what a run and its stages amount to.
  *
- * The same three-way rule applies at every level — a stage within a lecture, a
+ * Reducing what happened during a run to a single {@link OverallStatus}: the
+ * same three-way rule applies at every level — a stage within a lecture, a
  * lecture within a module, a module within a batch — so it is stated once here
  * and applied by the runner (which summarises a lecture and a batch) and by the
  * cost reporting that prints those summaries (technical-design.md §4.7).
+ *
+ * And reading a manifest stage entry for the one question three unrelated
+ * callers ask of it — {@link hasSettledOutput} — which belongs beside the above
+ * for the same reason: interpreting a status is one job with one home.
  */
 
-import type { OverallStatus, RunLogStageEntry } from "../types/pipeline.js";
+import type {
+	ManifestStageEntry,
+	OverallStatus,
+	QaManifestStageEntry,
+	RunLogStageEntry,
+	SettledStageEntry,
+} from "../types/pipeline.js";
+
+/**
+ * Whether a stage's manifest entry means its output is on disk.
+ *
+ * `complete` and `skipped` both say so: the first is the run that did the work,
+ * the second is every run after it, which finds the output already there and
+ * records that it did not repeat it (technical-design.md §4.2). Treating only
+ * `complete` as finished makes the second run erase the record that the work was
+ * done, and the third pay for it again.
+ *
+ * A type guard rather than a boolean, so a caller that has checked can read the
+ * entry's `filesWritten` without asserting.
+ *
+ * @param entry - The manifest entry, or `undefined` for a stage with none.
+ * @returns `true` when the entry is a completed or skipped one.
+ */
+export function hasSettledOutput(
+	entry: ManifestStageEntry | QaManifestStageEntry | undefined,
+): entry is SettledStageEntry {
+	return entry?.status === "complete" || entry?.status === "skipped";
+}
 
 /**
  * The status one stage contributes to its run: a failure outright, a skipped or

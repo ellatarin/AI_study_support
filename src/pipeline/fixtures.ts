@@ -434,6 +434,52 @@ export const stageCompletedAt = `${testLecture.date}T10:00:00.000Z`;
  */
 export const testRunId = `${testLecture.date}T09-00-00Z`;
 
+/**
+ * A finished stage's manifest entry, in either of the two ways a stage finishes.
+ * `complete` and `skipped` carry the same fields and mean the same thing about
+ * the disk — the stage's output is there — which is what the suites asserting on
+ * either of them need to say. The instant is arbitrary, so it comes from
+ * {@link stageCompletedAt}.
+ *
+ * @param args - What the stage did.
+ * @param args.status - Whether the stage ran to completion or was skipped.
+ * @param args.filesWritten - The workspace-relative outputs it recorded; none by default.
+ * @returns The manifest entry.
+ */
+export function finishedEntry({
+	status,
+	filesWritten = [],
+}: {
+	readonly status: "complete" | "skipped";
+	readonly filesWritten?: readonly string[];
+}): ManifestStageEntry {
+	return { status, completedAt: stageCompletedAt, configUsed: null, cost: null, filesWritten };
+}
+
+/**
+ * A failed stage's manifest entry. Structurally complete, so a suite asserting
+ * how a failed stage is treated does so against data a real run could produce
+ * rather than a cast-away partial object.
+ *
+ * @param args - What the stage recorded before it failed.
+ * @param args.filesWritten - Any workspace-relative outputs it left behind; none by default.
+ * @returns The manifest entry.
+ */
+export function failedEntry({
+	filesWritten = [],
+}: {
+	readonly filesWritten?: readonly string[];
+} = {}): ManifestStageEntry {
+	return {
+		status: "failed",
+		failedAt: stageCompletedAt,
+		error: "the stage threw",
+		configUsed: null,
+		cost: null,
+		filesWritten,
+	};
+}
+
 /** A second lecture in the same module, for "left untouched" assertions. */
 export const otherLecture = describeLecture({
 	number: 2,

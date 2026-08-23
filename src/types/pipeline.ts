@@ -242,6 +242,21 @@ type SharedStageEntry =
 	| StageEntryFailed;
 
 /**
+ * A stage entry whose output stands on disk: the stage either ran to completion,
+ * or was skipped because a prior run had already completed it. Both carry the
+ * same {@link CompletedStageData}, and both mean the same thing to a later run —
+ * the work is done and does not need paying for again (technical-design.md §4.2).
+ *
+ * Exported so the predicate that tests for it can be a type guard: a caller that
+ * has checked goes on to read `filesWritten`, which a plain boolean would leave
+ * it unable to reach without a cast.
+ *
+ * `qa-loop`'s completed entry extends {@link StageEntryComplete}, so it is a
+ * member of this union and narrowing preserves its extra fields.
+ */
+export type SettledStageEntry = StageEntryComplete | StageEntrySkipped;
+
+/**
  * A stage's entry in the run manifest, discriminated by `status` so that
  * status-specific fields (`completedAt`, `failedAt`, `error`) are present only
  * when they are meaningful. Applies to every stage except `qa-loop`, which
@@ -381,8 +396,8 @@ export type PipelineStage<TInput, TOutput> = {
 	/**
 	 * Whether the stage's work already exists on disk and need not re-run.
 	 * @param context - The current lecture run context.
-	 * @returns `true` when the manifest marks the stage complete and every
-	 * recorded output file exists.
+	 * @returns `true` when the manifest marks the stage complete or skipped (see
+	 * {@link SettledStageEntry}) and every recorded output file exists.
 	 */
 	isComplete(context: StageContext): Promise<boolean>;
 

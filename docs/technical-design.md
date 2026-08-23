@@ -8,7 +8,7 @@
 
 ## 1. System Overview
 
-The system is a TypeScript/Node.js CLI tool with nine stages (Stage 0 through Stage 8). Stage 0 is a batch normalisation step across all lectures in a module. Stages 1–8 run per lecture, orchestrated by a pipeline runner that reads and writes a per-lecture run manifest. Every stage is idempotent — if its output exists and the manifest marks it complete, it is skipped.
+The system is a TypeScript/Node.js CLI tool with nine stages (Stage 0 through Stage 8). Stage 0 is a batch normalisation step across all lectures in a module. Stages 1–8 run per lecture, orchestrated by a pipeline runner that reads and writes a per-lecture run manifest. Every stage is idempotent — if its output exists and the manifest marks it complete or skipped, it is skipped.
 
 ---
 
@@ -276,7 +276,7 @@ A stage's context is assembled before its own entry is marked `running`, so the 
 - `StageResult.identityChanges` holds the lecture-identity fields the stage settled — `lectureTitle`, `aiDerivedTitle`, `workspaceFolderName` — for the runner to write. Absent and `{}` both mean the stage settled nothing; only Stage 3 ever settles anything. `workspaceFolderName` is the lecture's canonical base name recorded in the manifest, not the runner's handle on the workspace — the runner locates that itself (§4.7).
 - `lectureTitle` is always non-null — seeded at Stage 0, possibly overwritten at Stage 3 (see §3.2, Stage 3).
 
-`isComplete()` checks two conditions: the manifest marks the stage `'complete'`, AND every path in `manifest.stages[stageId].filesWritten` exists on disk. Both must be true. This means a completed stage whose output was manually deleted returns `false` and re-runs automatically. A recorded path that cannot be resolved at all counts as absent rather than as an error, since deleting a stage's output usually removes its containing directory too; a path resolving *outside* `moduleRoot` is a different matter and always throws (§4.4).
+`isComplete()` checks two conditions: the manifest marks the stage `'complete'` or `'skipped'`, AND every path in `manifest.stages[stageId].filesWritten` exists on disk. Both must be true. The two statuses count alike because a run that honours this check records `skipped` in place of the `complete` it read, so from the next run's point of view they describe the same disk — the work is done and does not need paying for again. This means a completed stage whose output was manually deleted returns `false` and re-runs automatically. A recorded path that cannot be resolved at all counts as absent rather than as an error, since deleting a stage's output usually removes its containing directory too; a path resolving *outside* `moduleRoot` is a different matter and always throws (§4.4).
 
 That check is identical for every stage, so stages are not assembled by hand: each is built through a shared factory that supplies `isComplete` for the given stage id, leaving a stage to define only the two things that genuinely differ — how it gathers its input, and what it does.
 
@@ -590,6 +590,10 @@ A `RunSummary` lists its stages as `RunStageOutcome` — the run-log entry *pair
 ```typescript
 stageOutcomeStatus(entry: RunLogStageEntry): OverallStatus            // failed | partial (skipped/not-reached) | success
 summariseOverallStatus(args: { statuses: readonly OverallStatus[] }): OverallStatus  // any failure wins, then any partial
+hasSettledOutput(entry: ManifestStageEntry | QaManifestStageEntry | undefined): entry is SettledStageEntry
+// Whether a *manifest* entry means the stage's output is on disk — `complete` or `skipped` (§4.2). Three
+// unrelated callers ask it: the shared `isComplete`, the run classifier, and the cost report's current-pipeline
+// section. A type guard rather than a boolean, so a caller that has checked can read `filesWritten` without a cast.
 ```
 
 **Run outcome classification.** A `RunSummary.overallStatus` — and the aggregate `BatchSummary.overallStatus` across a batch's lectures — is `success` when every attempted stage completed, `partial` when one or more stages were skipped or not reached, and `failed` when at least one stage failed.
@@ -1445,7 +1449,8 @@ src/
 │   ├── manifest.ts                   # manifest.json location, reading, and atomic writing
 │   ├── stage-context.ts              # Assembling the StageContext a stage is handed (§4.7)
 │   ├── lecture-files.ts              # Moving the four files a lecture's identity is spread across (§4.7)
-│   ├── run-status.ts                 # Reducing stage and lecture outcomes to an OverallStatus
+│   ├── run-status.ts                 # Reducing stage and lecture outcomes to an OverallStatus, and
+│   │                                 # reading a stage entry for settled output (§4.2)
 │   ├── config.ts                     # Config file loader and validator
 │   ├── openrouter.ts                 # OpenAI SDK client configured for OpenRouter
 │   ├── fixtures.ts                   # The shared test fixtures — the example lecture, the stub logger,

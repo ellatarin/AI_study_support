@@ -10,6 +10,7 @@ import {
 } from "../../utils/files.js";
 import { createStageLogger } from "../../utils/logger.js";
 import { stageDirectoryPaths } from "../layout.js";
+import { hasSettledOutput } from "../run-status.js";
 
 /**
  * Whether one recorded `filesWritten` entry still exists, resolved through the
@@ -40,9 +41,13 @@ async function recordedFileExists(query: ManifestPathQuery): Promise<boolean> {
 /**
  * The shared idempotency check every per-lecture stage uses for
  * `PipelineStage.isComplete`: the stage is complete only when its manifest entry
- * says `complete` AND every file it recorded in `filesWritten` is still on disk.
- * A completed stage whose output was deleted therefore re-runs automatically
- * (technical-design.md §4.2).
+ * has settled output — `complete` or `skipped` — AND every file it recorded in
+ * `filesWritten` is still on disk. A completed stage whose output was deleted
+ * therefore re-runs automatically (technical-design.md §4.2).
+ *
+ * Both statuses count because the runner writes `skipped` over `complete` the
+ * moment it honours this check, so accepting only `complete` would make every
+ * third run repeat the billable work (§4.2, stage status semantics).
  *
  * The manifest is untrusted input, so each recorded entry is resolved through
  * {@link resolveManifestPath} before it is touched — an entry that points outside
@@ -63,7 +68,7 @@ export async function isStageComplete({
 	readonly stageId: StageId;
 }): Promise<boolean> {
 	const entry = context.manifest.stages[stageId];
-	if (entry?.status !== "complete") {
+	if (!hasSettledOutput(entry)) {
 		return false;
 	}
 	for (const written of entry.filesWritten) {

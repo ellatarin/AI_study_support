@@ -1,6 +1,6 @@
 import { basename } from "node:path";
 import { moduleRootOf } from "../pipeline/layout.js";
-import { summariseOverallStatus } from "../pipeline/run-status.js";
+import { hasSettledOutput, summariseOverallStatus } from "../pipeline/run-status.js";
 import type {
 	BatchSummary,
 	ManifestStageEntry,
@@ -385,7 +385,7 @@ function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs):
 		const entry = manifest.stages[stageId];
 		// What the outputs on disk cost: a stage that failed left none behind, and
 		// what it spent getting there is section 2's to report.
-		if (entry?.status !== "complete" && entry?.status !== "skipped") {
+		if (!hasSettledOutput(entry)) {
 			continue;
 		}
 		const row = stageCostRow(entry);

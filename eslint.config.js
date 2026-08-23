@@ -145,8 +145,15 @@ export default [
 	// infrastructure: it exists to serve the stages' own suites, so importing a
 	// stage is its job rather than an inverted dependency. Coverage and jscpd
 	// already carve it out on the same grounds.
+	//
+	// The suites beside it are exempt for the same reason, and the rule loses
+	// nothing by it: what the zone protects is the direction production code
+	// depends in, and a suite is not depended on. The runner's own suite drives
+	// stub stages through the real `isStageComplete` precisely so its assertions
+	// about re-running cannot pass against a stand-in that has drifted from it —
+	// which a test-local copy of that check had let happen.
 	{
-		files: ["src/pipeline/fixtures.ts"],
+		files: ["src/pipeline/fixtures.ts", "src/pipeline/*.test.ts"],
 		rules: {
 			"import/no-restricted-paths": "off",
 		},

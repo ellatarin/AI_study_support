@@ -21,6 +21,7 @@ import { pathExists } from "../utils/files.js";
 import {
 	aiDerivedLecture,
 	corruptJson,
+	finishedEntry,
 	loggedAt,
 	makeConfig,
 	makeManifest,
@@ -43,6 +44,7 @@ import {
 } from "./layout.js";
 import { manifestPath } from "./manifest.js";
 import { PipelineRunner } from "./runner.js";
+import { isStageComplete } from "./stages/pipeline-stage.js";
 
 // The runner never parses a workspace folder name — it is handed the path — so
 // this suite uses short synthetic names rather than {@link testLecture}'s, which
@@ -89,6 +91,20 @@ function makeStubStage(config: StubConfig): PipelineStage<unknown, unknown> {
 	};
 }
 
+/**
+ * Drives a stub stage through the **real** idempotency check.
+ *
+ * A stand-in written here could agree with `isStageComplete` today and drift
+ * from it tomorrow, and the behaviour these tests are about — what a second and
+ * third run do with a stage the first one finished — lives entirely inside it.
+ *
+ * @param stageId - The stage the stub implements.
+ * @returns The `isComplete` a stub stage is built with.
+ */
+function realIsComplete(stageId: StageId): (context: StageContext) => Promise<boolean> {
+	return (context) => isStageComplete({ context, stageId });
+}
+
 async function writeManifest(workspaceRoot: string, manifest: RunManifest): Promise<void> {
 	await mkdir(workspaceRoot, { recursive: true });
 	await writeFile(manifestPath({ workspaceRoot }), JSON.stringify(manifest));
@@ -124,26 +140,6 @@ async function writeStageOutput({
 	await mkdir(dirname(path), { recursive: true });
 	await writeFile(path, "x");
 	return stageOutputEntry(stageId);
-}
-
-/**
- * A finished stage's manifest entry, in either of the two ways a stage finishes.
- * The instant is arbitrary — no assertion turns on it — so it comes from the
- * shared fixture rather than being invented here.
- *
- * @param args - What the stage did.
- * @param args.status - Whether the stage ran to completion or was skipped.
- * @param args.filesWritten - The workspace-relative outputs it recorded.
- * @returns The manifest entry.
- */
-function finishedEntry({
-	status,
-	filesWritten = [],
-}: {
-	readonly status: "complete" | "skipped";
-	readonly filesWritten?: readonly string[];
-}): ManifestStageEntry {
-	return { status, completedAt: stageCompletedAt, configUsed: null, cost: null, filesWritten };
 }
 
 /**
@@ -189,6 +185,35 @@ describe("PipelineRunner integration", () => {
 	describe("runLecture lifecycle", () => {
 		beforeEach(async () => {
 			await writeManifest(workspaceRoot, makeManifest());
+		});
+
+		it("should execute the stage once when the same lecture is run three times", async () => {
+			// Three, not two: the second run is what rewrites the stage's entry from
+			// `complete` to `skipped`, and the third is what reads that entry back
+			// and decides whether to pay for the work again.
+			const run = vi.fn(async ({ context }: { readonly context: StageContext }) => ({
+				output: undefined,
+				cost: null,
+				filesWritten: [
+					await writeStageOutput({
+						workspaceRoot: context.workspaceRoot,
+						stageId: "audio-extraction",
+					}),
+				],
+			}));
+			const stage = makeStubStage({
+				stageId: "audio-extraction",
+				isComplete: realIsComplete("audio-extraction"),
+				run,
+			});
+			const runner = makeRunner([stage]);
+
+			await runner.runLecture({ workspaceRoot });
+			await runner.runLecture({ workspaceRoot });
+			const third = await runner.runLecture({ workspaceRoot });
+
+			expect(run).toHaveBeenCalledTimes(1);
+			expect(third.stageOutcomes).toEqual([outcome("audio-extraction", { action: "skipped" })]);
 		});
 
 		it("should record a completed stage and its cost when the stage succeeds", async () => {
@@ -503,23 +528,6 @@ describe("PipelineRunner integration", () => {
 			return Promise.all(paths.map((path) => pathExists(path)));
 		}
 
-		function mirrorIsComplete(stageId: StageId): (context: StageContext) => Promise<boolean> {
-			return async (context) => {
-				const entry = context.manifest.stages[stageId];
-				if (entry?.status !== "complete") {
-					return false;
-				}
-				for (const relativePath of entry.filesWritten) {
-					try {
-						await access(join(context.workspaceRoot, relativePath));
-					} catch {
-						return false;
-					}
-				}
-				return true;
-			};
-		}
-
 		beforeEach(async () => {
 			const stages: Record<string, RunManifest["stages"][StageId]> = {};
 			for (const stageId of ALREADY_RUN_STAGES) {
@@ -540,10 +548,10 @@ describe("PipelineRunner integration", () => {
 			return makeRunner([
 				makeStubStage({
 					stageId: "audio-extraction",
-					isComplete: mirrorIsComplete("audio-extraction"),
+					isComplete: realIsComplete("audio-extraction"),
 				}),
-				makeStubStage({ stageId: "transcription", isComplete: mirrorIsComplete("transcription") }),
-				makeStubStage({ stageId: "synthesis", isComplete: mirrorIsComplete("synthesis") }),
+				makeStubStage({ stageId: "transcription", isComplete: realIsComplete("transcription") }),
+				makeStubStage({ stageId: "synthesis", isComplete: realIsComplete("synthesis") }),
 			]);
 		}
 

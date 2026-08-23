@@ -32,7 +32,7 @@ import { listSubdirectoryNames, readDirSafe, writeFileAtomic } from "../utils/fi
 import { createStageLogger } from "../utils/logger.js";
 import { moduleDirs, RUNS_DIR, type StageInWorkspace, stageDirectoryPaths } from "./layout.js";
 import { readManifest, readManifestSafe, writeManifest } from "./manifest.js";
-import { stageOutcomeStatus, summariseOverallStatus } from "./run-status.js";
+import { hasSettledOutput, stageOutcomeStatus, summariseOverallStatus } from "./run-status.js";
 import { assembleContext } from "./stage-context.js";
 
 /**
@@ -99,8 +99,7 @@ function classifyRunType({
 	if (fromStage === undefined) {
 		return "normal";
 	}
-	const status = manifest.stages[fromStage]?.status;
-	if (status === "complete" || status === "skipped") {
+	if (hasSettledOutput(manifest.stages[fromStage])) {
 		return "experiment";
 	}
 	return "error-recovery";
