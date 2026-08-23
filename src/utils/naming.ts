@@ -63,6 +63,18 @@ const TRAILING_ARTEFACTS = /(?:[\s-]+(?:copy|co|v\d+))+$/i;
 /** A file extension of 1–5 alphanumeric characters. */
 const FILE_EXTENSION = /\.[A-Za-z0-9]{1,5}$/;
 
+/** Underscores, which source filenames use where a title would use a space. */
+const UNDERSCORES = /_/g;
+
+/** Either platform's path separator, which no filename component may contain. */
+const PATH_SEPARATORS = /[/\\]/g;
+
+/**
+ * Dots at either end of a name. A leading one hides the file on Unix and a
+ * trailing one is refused on Windows, so neither survives sanitisation.
+ */
+const EDGE_DOTS = /^\.+|\.+$/g;
+
 /** Upper bound (inclusive) of the ASCII C0 control range; DEL is `0x7f`. */
 const LAST_C0_CONTROL_CODE = 0x1f;
 const DELETE_CODE = 0x7f;
@@ -143,7 +155,7 @@ export function extractProvisionalTitle(filename: string): string {
 	const withoutNoise = withoutDates
 		.replace(MODULE_CODE_PREFIX, " ")
 		.replace(LECTURE_NUMBER_TOKEN, " ")
-		.replace(/_/g, " ");
+		.replace(UNDERSCORES, " ");
 	const normalised = collapseWhitespace(withoutNoise);
 	const withoutEdges = normalised.replace(EDGE_SEPARATORS, "");
 	const withoutArtefacts = withoutEdges.replace(TRAILING_ARTEFACTS, "").trim();
@@ -169,13 +181,15 @@ export function extractProvisionalTitle(filename: string): string {
  * filenameSafe("..");            // → throws
  */
 export function filenameSafe(title: string): string {
-	const withoutSeparators = stripControlChars(title).replace(/[/\\]/g, " ");
-	const withoutTraversal = withoutSeparators
-		.split(/\s+/)
+	const withoutSeparators = stripControlChars(title).replace(PATH_SEPARATORS, " ");
+	// Collapsed first, so a segment is whatever sits between single spaces and
+	// this reads what counts as whitespace off one definition rather than a
+	// second pattern of its own.
+	const result = collapseWhitespace(withoutSeparators)
+		.split(" ")
 		.filter((segment) => segment !== "." && segment !== "..")
-		.join(" ");
-	const result = collapseWhitespace(withoutTraversal)
-		.replace(/^\.+|\.+$/g, "")
+		.join(" ")
+		.replace(EDGE_DOTS, "")
 		.trim();
 	if (result === "") {
 		throw new Error(`filenameSafe produced an empty name from input: ${JSON.stringify(title)}`);
