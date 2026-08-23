@@ -1268,8 +1268,10 @@ The pipeline runner classifies each run automatically by inspecting the manifest
 | Condition | Classification |
 |---|---|
 | Normal run, no `--from-stage` | `normal` |
-| `--from-stage` targets a stage that was `failed` or `running` | `error-recovery` |
-| `--from-stage` targets a stage that was `complete` | `experiment` |
+| `--from-stage` targets a stage whose output stands — `complete` or `skipped` | `experiment` |
+| `--from-stage` targets a stage in any other state — `failed`, `running`, `pending`, or with no entry at all | `error-recovery` |
+
+The two `--from-stage` rows divide on whether the target's output is already on disk, which is the same `complete`-or-`skipped` reading §4.2 gives stage idempotency. Where it stands, the run produces that output a second time under whatever the configuration now names, and the two figures are there to be compared — an experiment. Where it does not, the output the run is after does not exist yet.
 
 This classification is stored in the run log as `runType` and drives the layout of the cost report.
 

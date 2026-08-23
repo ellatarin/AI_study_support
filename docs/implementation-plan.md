@@ -177,6 +177,9 @@ Runner lifecycle — integration tests (real temp directory with fixture manifes
 - `should reset nominated stage and all downstream stages to pending when --from-stage invoked`
 - `should leave upstream stages untouched when --from-stage invoked`
 - `should create timestamped run log file in runs/ for each invocation`
+- `should classify the run as $expected when from-stage targets a stage $state` — parametrised across
+  every state the target can be in, so the run log's `runType` and TD §7's classification table stay
+  exhaustive against each other
 
 `assembleContext` — unit test:
 - `should assemble StageContext from manifest fields and CLI options`

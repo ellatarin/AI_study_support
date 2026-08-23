@@ -957,6 +957,11 @@ describe("PipelineRunner integration", () => {
 				entry: { status: "pending" } satisfies ManifestStageEntry,
 				expected: "error-recovery",
 			},
+			{
+				state: "running",
+				entry: { status: "running" } satisfies ManifestStageEntry,
+				expected: "error-recovery",
+			},
 			{ state: "absent from the manifest", entry: null, expected: "error-recovery" },
 		])("should classify the run as $expected when from-stage targets a stage $state", async ({
 			entry,
