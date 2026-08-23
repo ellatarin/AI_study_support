@@ -1,6 +1,6 @@
 import { access, mkdir, readdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 import {
 	DEFAULT_BATCH_OPTIONS,
 	DEFAULT_RUN_OPTIONS,
@@ -14,6 +14,7 @@ import {
 	type RunType,
 	type SourceNormalisationStage,
 	type StageContext,
+	type StageCost,
 	type StageId,
 	type StageResult,
 } from "../types/pipeline.js";
@@ -77,6 +78,18 @@ const RUNNER_CONFIG: PipelineConfig = makeConfig({
 	stages: { "audio-extraction": { modelId: "openrouter/model-a" } },
 });
 
+// What a stub stage returns when the test is about whether the stage ran at all
+// rather than about what it produced: no output, no cost, no files.
+const PRODUCED_NOTHING: StageResult<unknown> = {
+	output: undefined,
+	cost: null,
+	filesWritten: [],
+};
+
+// The message a stub audio-extraction stage throws. Five tests state it: four to
+// make the stage fail, and one to assert the message reaches the run summary.
+const AUDIO_EXTRACTION_FAILURE = "audio extraction failed";
+
 type StubConfig = {
 	stageId: StageId;
 	isComplete?: (context: StageContext) => Promise<boolean>;
@@ -92,10 +105,43 @@ function makeStubStage(config: StubConfig): PipelineStage<unknown, unknown> {
 		stageId: config.stageId,
 		isComplete: config.isComplete ?? (async () => false),
 		getInput: config.getInput ?? (async () => undefined),
-		run:
-			config.run ??
-			(async () => ({ output: undefined, cost: null, filesWritten: [] }) as StageResult<unknown>),
+		run: config.run ?? (() => Promise.resolve(PRODUCED_NOTHING)),
 	};
+}
+
+/**
+ * A stage `run` that produces nothing, as a spy — so a test can assert whether
+ * the runner reached the stage at all. {@link makeStubStage}'s own default does
+ * the same work, but a test asserting on the call needs the spy in its hand.
+ *
+ * @returns The spy.
+ */
+function spyingRun(): Mock<() => Promise<StageResult<unknown>>> {
+	return vi.fn(() => Promise.resolve(PRODUCED_NOTHING));
+}
+
+/**
+ * A stub audio-extraction stage that always fails with
+ * {@link AUDIO_EXTRACTION_FAILURE}.
+ *
+ * @returns The stage.
+ */
+function failingAudioStage(): PipelineStage<unknown, unknown> {
+	return makeStubStage({
+		stageId: "audio-extraction",
+		run: () => Promise.reject(new Error(AUDIO_EXTRACTION_FAILURE)),
+	});
+}
+
+/**
+ * The cost of a stage that made one API call, priced only by what it charged:
+ * the token counts are not what any test stating a cost here is about.
+ *
+ * @param costUsd - What the call cost.
+ * @returns The stage cost.
+ */
+function oneCallCosting(costUsd: number): StageCost {
+	return { promptTokens: 0, completionTokens: 0, callCount: 1, costUsd };
 }
 
 /**
@@ -153,22 +199,23 @@ function outcome(stageId: StageId, entry: Record<string, unknown>): unknown {
 	return { stageId, entry: expect.objectContaining(entry) };
 }
 
-const noopSourceNormalisation: SourceNormalisationStage = {
-	stageId: "source-normalisation",
-	normaliseModule: async () => undefined,
-};
-
 describe("PipelineRunner integration", () => {
 	let tempDir: string;
 	let moduleRoot: string;
 	let workspaceRoot: string;
 	let logged: ReturnType<typeof makeStubLogger>;
+	// Source normalisation does nothing in this suite — the runner is the subject,
+	// not the stage. It is a spy rather than a bare no-op so that the one test
+	// asserting the batch normalises its module can read the call off it, instead
+	// of standing up a second runner to inject a spy of its own.
+	let normaliseModule: Mock<() => Promise<undefined>>;
 
 	beforeEach(async () => {
 		tempDir = await makeTempDir({ prefix: "runner-" });
 		moduleRoot = join(tempDir, testModuleName);
 		workspaceRoot = workspaceRootFor({ moduleRoot, folderName: LECTURE_FOLDER });
 		logged = makeStubLogger();
+		normaliseModule = vi.fn(() => Promise.resolve(undefined));
 	});
 
 	afterEach(async () => {
@@ -177,9 +224,13 @@ describe("PipelineRunner integration", () => {
 	});
 
 	function makeRunner(lectureStages: readonly PipelineStage<unknown, unknown>[]): PipelineRunner {
+		const sourceNormalisation: SourceNormalisationStage = {
+			stageId: "source-normalisation",
+			normaliseModule,
+		};
 		return new PipelineRunner({
 			config: RUNNER_CONFIG,
-			sourceNormalisation: noopSourceNormalisation,
+			sourceNormalisation,
 			lectureStages,
 			logger: logged.logger,
 		});
@@ -224,7 +275,7 @@ describe("PipelineRunner integration", () => {
 				stageId: "audio-extraction",
 				run: async ({ context }) => ({
 					output: undefined,
-					cost: { promptTokens: 0, completionTokens: 0, callCount: 1, costUsd: 0.5 },
+					cost: oneCallCosting(0.5),
 					filesWritten: [
 						await seedStageOutput({
 							workspaceRoot: context.workspaceRoot,
@@ -299,7 +350,7 @@ describe("PipelineRunner integration", () => {
 				run: async ({ context }) => {
 					const current = await readManifest({ workspaceRoot: context.workspaceRoot });
 					statusDuringRun = current.stages["audio-extraction"]?.status;
-					return { output: undefined, cost: null, filesWritten: [] };
+					return PRODUCED_NOTHING;
 				},
 			});
 
@@ -309,7 +360,7 @@ describe("PipelineRunner integration", () => {
 		});
 
 		it("should log the failure with its stack against the stage when a stage throws", async () => {
-			const failure = new Error("audio extraction failed");
+			const failure = new Error(AUDIO_EXTRACTION_FAILURE);
 			const stage = makeStubStage({
 				stageId: "audio-extraction",
 				run: () => Promise.reject(failure),
@@ -325,19 +376,14 @@ describe("PipelineRunner integration", () => {
 		});
 
 		it("should record a failed stage when the stage throws", async () => {
-			const stage = makeStubStage({
-				stageId: "audio-extraction",
-				run: () => Promise.reject(new Error("audio extraction failed")),
-			});
-
-			const summary = await makeRunner([stage]).runLecture({ workspaceRoot });
+			const summary = await makeRunner([failingAudioStage()]).runLecture({ workspaceRoot });
 
 			expect(summary.overallStatus).toBe("failed");
 			expect(summary.stageOutcomes).toEqual([
 				outcome("audio-extraction", {
 					action: "ran",
 					status: "failed",
-					error: "audio extraction failed",
+					error: AUDIO_EXTRACTION_FAILURE,
 				}),
 			]);
 			const manifest = await readManifest({ workspaceRoot });
@@ -378,14 +424,7 @@ describe("PipelineRunner integration", () => {
 					}),
 				}),
 			});
-			const run = vi.fn(
-				async () =>
-					({
-						output: undefined,
-						cost: null,
-						filesWritten: [],
-					}) as StageResult<unknown>,
-			);
+			const run = spyingRun();
 			const stage = makeStubStage({
 				stageId: "audio-extraction",
 				isComplete: async (context) =>
@@ -409,24 +448,13 @@ describe("PipelineRunner integration", () => {
 		it("should mark downstream stages not-reached when an upstream stage fails", async () => {
 			const first = makeStubStage({
 				stageId: "audio-extraction",
-				run: async () => ({
-					output: undefined,
-					cost: { promptTokens: 0, completionTokens: 0, callCount: 1, costUsd: 0.1 },
-					filesWritten: [],
-				}),
+				run: () => Promise.resolve({ ...PRODUCED_NOTHING, cost: oneCallCosting(0.1) }),
 			});
 			const second = makeStubStage({
 				stageId: "transcription",
 				run: () => Promise.reject(new Error("transcription request failed")),
 			});
-			const thirdRun = vi.fn(
-				async () =>
-					({
-						output: undefined,
-						cost: null,
-						filesWritten: [],
-					}) as StageResult<unknown>,
-			);
+			const thirdRun = spyingRun();
 			const third = makeStubStage({ stageId: "synthesis", run: thirdRun });
 
 			const summary = await makeRunner([first, second, third]).runLecture({ workspaceRoot });
@@ -443,21 +471,10 @@ describe("PipelineRunner integration", () => {
 		});
 
 		it("should continue past a failed stage when onStageFailure is continue", async () => {
-			const failing = makeStubStage({
-				stageId: "audio-extraction",
-				run: () => Promise.reject(new Error("audio extraction failed")),
-			});
-			const laterRun = vi.fn(
-				async () =>
-					({
-						output: undefined,
-						cost: null,
-						filesWritten: [],
-					}) as StageResult<unknown>,
-			);
+			const laterRun = spyingRun();
 			const later = makeStubStage({ stageId: "transcription", run: laterRun });
 
-			const summary = await makeRunner([failing, later]).runLecture({
+			const summary = await makeRunner([failingAudioStage(), later]).runLecture({
 				workspaceRoot,
 				options: { onStageFailure: "continue" },
 			});
@@ -738,11 +755,7 @@ describe("PipelineRunner integration", () => {
 		function batchStage(): PipelineStage<unknown, unknown> {
 			return makeStubStage({
 				stageId: "audio-extraction",
-				run: async () => ({
-					output: undefined,
-					cost: { promptTokens: 0, completionTokens: 0, callCount: 1, costUsd: 0.25 },
-					filesWritten: [],
-				}),
+				run: () => Promise.resolve({ ...PRODUCED_NOTHING, cost: oneCallCosting(0.25) }),
 			});
 		}
 
@@ -751,15 +764,10 @@ describe("PipelineRunner integration", () => {
 			{ scenario: "it is the default of one at a time", options: DEFAULT_BATCH_OPTIONS },
 			{ scenario: "it is two at a time", options: { ...DEFAULT_BATCH_OPTIONS, concurrency: 2 } },
 		])("should run every lecture in the module when $scenario", async ({ options }) => {
-			const normaliseModule = vi.fn(async () => undefined);
-			const runner = new PipelineRunner({
-				config: RUNNER_CONFIG,
-				sourceNormalisation: { stageId: "source-normalisation", normaliseModule },
-				lectureStages: [batchStage()],
-				logger: logged.logger,
+			const summary = await makeRunner([batchStage()]).runBatch({
+				moduleRoots: [moduleA],
+				options,
 			});
-
-			const summary = await runner.runBatch({ moduleRoots: [moduleA], options });
 
 			expect(normaliseModule).toHaveBeenCalledWith({ moduleRoot: moduleA });
 			expect(summary.lectures).toHaveLength(2);
@@ -787,7 +795,7 @@ describe("PipelineRunner integration", () => {
 				stageId: "audio-extraction",
 				run: ({ context }) => {
 					ran.push(context.lectureDate);
-					return Promise.resolve({ output: undefined, cost: null, filesWritten: [] });
+					return Promise.resolve(PRODUCED_NOTHING);
 				},
 			});
 
@@ -808,11 +816,7 @@ describe("PipelineRunner integration", () => {
 		});
 
 		it("should report a failed batch when any lecture fails", async () => {
-			const failing = makeStubStage({
-				stageId: "audio-extraction",
-				run: () => Promise.reject(new Error("audio extraction failed")),
-			});
-			const runner = makeRunner([failing]);
+			const runner = makeRunner([failingAudioStage()]);
 
 			const summary = await runner.runBatch({ moduleRoots: [moduleA] });
 
