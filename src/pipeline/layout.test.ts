@@ -1,10 +1,11 @@
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { STAGE_IDS } from "../types/pipeline.js";
-import { testLecture, testModuleRoot } from "./fixtures.js";
+import { testLecture, testModuleName, testModuleRoot } from "./fixtures.js";
 import {
 	MANIFEST_FILE,
 	moduleDirs,
+	moduleName,
 	moduleRootOf,
 	RUNS_DIR,
 	STAGE_WORKSPACE,
@@ -33,6 +34,12 @@ describe("moduleDirs", () => {
 describe("moduleRootOf", () => {
 	it("should resolve back to the module when a workspace beneath it is given", () => {
 		expect(moduleRootOf({ workspaceRoot: WORKSPACE_ROOT })).toBe(MODULE_ROOT);
+	});
+});
+
+describe("moduleName", () => {
+	it("should name a module by its directory leaf when its root is given", () => {
+		expect(moduleName({ moduleRoot: MODULE_ROOT })).toBe(testModuleName);
 	});
 });
 

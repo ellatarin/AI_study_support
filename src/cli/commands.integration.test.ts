@@ -265,7 +265,16 @@ describe("executeCommand", () => {
 
 			expect(code).toBe(1);
 			expect(output()).toContain(testLecture.date);
+			expect(output()).toContain("the configured modules");
 			expect(runner.runLecture).not.toHaveBeenCalled();
+		});
+
+		it("should offer to add the lecture's sources when no lecture carries the date", async () => {
+			runner.resolveLecturesByDate.mockResolvedValue([]);
+
+			await invoke(runCommand);
+
+			expect(output()).toContain("add its video and slides and run the pipeline again");
 		});
 
 		it("should ask which lectures to run when several share the date", async () => {
@@ -403,6 +412,32 @@ describe("executeCommand", () => {
 
 			expect(code).toBe(1);
 			expect(runner.costReport).not.toHaveBeenCalled();
+		});
+
+		it("should name only the module it searched when --module narrowed it and nothing matched", async () => {
+			runner.resolveLecturesByDate.mockResolvedValue([]);
+
+			await invoke({ command: "cost-report", lectureDate: testLecture.date, moduleRoot });
+
+			expect(runner.resolveLecturesByDate).toHaveBeenCalledWith({
+				moduleRoots: [moduleRoot],
+				lectureDate: testLecture.date,
+			});
+			expect(output()).toContain(testModuleName);
+			expect(output()).not.toContain("the configured modules");
+		});
+
+		it("should not offer to run the pipeline again when no lecture carries the date", async () => {
+			runner.resolveLecturesByDate.mockResolvedValue([]);
+
+			await invoke({
+				command: "cost-report",
+				lectureDate: testLecture.date,
+				moduleRoot: null,
+			});
+
+			expect(output()).toContain("the configured modules");
+			expect(output()).not.toContain("run the pipeline again");
 		});
 
 		it("should report on nothing when the user cancels the choice", async () => {

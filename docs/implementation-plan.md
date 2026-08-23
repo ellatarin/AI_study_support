@@ -216,6 +216,8 @@ Command dispatch — integration tests (real manifests, stubbed runner and promp
 - `should ask which lectures to run when several share the date`
 - `should ask for one lecture only when $command.command is given the date` — parametrised across all three identity mutations
 - `should report that nothing matched when no lecture carries the date`
+- `should name only the module it searched when --module narrowed it and nothing matched` — the message reports the scope the search actually used, not the whole configuration
+- `should not offer to run the pipeline again when no lecture carries the date` — `cost-report` only reads what has already run, so it offers no remedy that would spend
 - `should name each failed stage and its error when a stage failed`
 - `should leave the lecture in place when the deletion is declined`
 

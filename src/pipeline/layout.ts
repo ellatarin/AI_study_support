@@ -12,7 +12,7 @@
  * one (technical-design.md §3.3, "The layout has one owner").
  */
 
-import { join, resolve } from "node:path";
+import { basename, join, resolve } from "node:path";
 import type { StageId } from "../types/pipeline.js";
 
 const SOURCE_DIR = "Source files";
@@ -71,6 +71,21 @@ export function moduleDirs({ moduleRoot }: { readonly moduleRoot: string }): Mod
  */
 export function moduleRootOf({ workspaceRoot }: { readonly workspaceRoot: string }): string {
 	return resolve(workspaceRoot, "..", "..");
+}
+
+/**
+ * What a module is called when it is shown to the user: the leaf of its root
+ * directory, since a module has no name of its own beyond the folder it is.
+ *
+ * The batch summary's module column and the CLI's "nothing matched" message both
+ * name a module, so the derivation lives here rather than at each of them.
+ *
+ * @param args - The module to name.
+ * @param args.moduleRoot - Absolute path to the module root.
+ * @returns The module's directory name.
+ */
+export function moduleName({ moduleRoot }: { readonly moduleRoot: string }): string {
+	return basename(moduleRoot);
 }
 
 declare const declaredInLayout: unique symbol;

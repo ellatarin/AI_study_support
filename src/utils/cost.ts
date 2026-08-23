@@ -1,5 +1,4 @@
-import { basename } from "node:path";
-import { moduleRootOf } from "../pipeline/layout.js";
+import { moduleName, moduleRootOf } from "../pipeline/layout.js";
 import { hasSettledOutput, summariseOverallStatus } from "../pipeline/run-status.js";
 import type {
 	BatchSummary,
@@ -662,7 +661,7 @@ export function formatBatchSummary({ batch }: { readonly batch: BatchSummary }):
 			statuses: lectures.map((lecture) => lecture.overallStatus),
 		});
 		rows.push([
-			[basename(moduleRoot), BATCH_SUMMARY_WIDTHS.module, "left"],
+			[moduleName({ moduleRoot }), BATCH_SUMMARY_WIDTHS.module, "left"],
 			[String(lectures.length), BATCH_SUMMARY_WIDTHS.lectures, "right"],
 			[status, BATCH_SUMMARY_WIDTHS.status, "right"],
 		]);

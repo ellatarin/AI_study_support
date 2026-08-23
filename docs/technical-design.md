@@ -204,6 +204,9 @@ moduleRootOf(args: { workspaceRoot: string }): string
 // The module two levels up from a lecture workspace (`moduleRoot/Pipeline processing/<folder>`) — the inverse
 // of moduleDirs().processing, so the nesting is stated once. Used to assemble StageContext and to resolve the
 // one stage directory that sits outside the workspace.
+moduleName(args: { moduleRoot: string }): string
+// What a module is called when it is shown to the user: its directory leaf, since a module has no name beyond
+// the folder it is. Read by the batch summary's module column and by the CLI's "nothing matched" message.
 
 type StageDirectoryName = string & { readonly [declaredInLayout]: true }   // branded; minted only in layout.ts
 type StageDirectory = { root: "workspace" | "module"; name: StageDirectoryName }

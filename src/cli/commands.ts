@@ -9,6 +9,7 @@
  * (technical-design.md §4.7).
  */
 
+import { moduleName } from "../pipeline/layout.js";
 import { readManifest } from "../pipeline/manifest.js";
 import type { PipelineRunner } from "../pipeline/runner.js";
 import type { ConfirmPrompt } from "../pipeline/stages/source-normalisation.js";
@@ -124,7 +125,8 @@ function chooseOneLecture(deps: CliDeps): LecturePicker {
  * @param args.lectureDate - The date the command was given.
  * @param args.act - What to do with the resolved lectures.
  * @param args.choose - Which picker settles a date matching several lectures.
- * @param args.moduleRoots - The modules to search; defaults to every configured module.
+ * @param args.moduleRoot - The module the command narrowed to, or `null` to search every configured one.
+ * @param args.alsoTry - The second remedy to offer when the date matches nothing.
  * @returns The action's exit code, or the code for an unmatched or cancelled choice.
  */
 async function withResolvedLectures({
@@ -132,22 +134,23 @@ async function withResolvedLectures({
 	lectureDate,
 	act,
 	choose,
-	moduleRoots = undefined,
+	moduleRoot,
+	alsoTry,
 }: {
 	readonly deps: CliDeps;
 	readonly lectureDate: string;
 	readonly act: (matches: ChosenLectures) => Promise<number>;
 	readonly choose: LecturePicker;
-	readonly moduleRoots?: readonly string[];
+	readonly moduleRoot: string | null;
+	readonly alsoTry: string;
 }): Promise<number> {
-	const searched = moduleRoots ?? deps.moduleRoots;
 	const matches = await deps.runner.resolveLecturesByDate({
-		moduleRoots: searched,
+		moduleRoots: scopedModuleRoots({ moduleRoot, deps }),
 		lectureDate,
 	});
 	if (matches.length === 0) {
 		deps.write(
-			`No lecture is dated ${lectureDate} in the configured modules. Check the date, or add its video and slides and run the pipeline again.\n`,
+			`No lecture is dated ${lectureDate} ${searchScope({ moduleRoot })}. Check the date${alsoTry}.\n`,
 		);
 		return EXIT_FAILURE;
 	}
@@ -177,6 +180,37 @@ function scopedModuleRoots({
 }): readonly string[] {
 	return moduleRoot === null ? deps.moduleRoots : [moduleRoot];
 }
+
+/**
+ * Where a lecture search looked, as the "nothing matched" message names it, so
+ * a user who narrowed the search with `--module` is not told the whole
+ * configuration was read.
+ *
+ * @param args - The scope inputs.
+ * @param args.moduleRoot - The module the command named, or `null` for all of them.
+ * @returns The phrase naming what was searched.
+ */
+function searchScope({ moduleRoot }: { readonly moduleRoot: string | null }): string {
+	return moduleRoot === null ? "in the configured modules" : `in ${moduleName({ moduleRoot })}`;
+}
+
+/**
+ * How every command but `cost-report` resolves a date: across the whole
+ * configuration, since none of them takes `--module`; and where the date names
+ * no lecture, offering to add its sources, because a run over them would bring
+ * the lecture into being.
+ */
+const ACROSS_EVERY_MODULE = {
+	moduleRoot: null,
+	alsoTry: ", or add its video and slides and run the pipeline again",
+} as const;
+
+/**
+ * No second remedy, for a command that only reads what has already run.
+ * `cost-report` offers none: running the pipeline would spend money rather than
+ * uncover the spending the report could not find.
+ */
+const NO_SECOND_REMEDY = "";
 
 /**
  * Prints the end-of-run summary for one lecture, reading the manifest the run
@@ -274,6 +308,7 @@ async function runCommand({
 	return withResolvedLectures({
 		deps,
 		lectureDate: command.lectureDate,
+		...ACROSS_EVERY_MODULE,
 		choose: deps.selectMatches,
 		act: (matches) => runLectures({ deps, matches, options: command.options }),
 	});
@@ -316,15 +351,18 @@ async function costReportCommand({
 	command,
 	deps,
 }: CommandArgs<Extract<CliCommand, { command: "cost-report" }>>): Promise<number> {
-	const moduleRoots = scopedModuleRoots({ moduleRoot: command.moduleRoot, deps });
-	const { lectureDate } = command;
+	const { lectureDate, moduleRoot } = command;
 	if (lectureDate === null) {
-		await deps.runner.costReport({ moduleRoots, options: {} });
+		await deps.runner.costReport({
+			moduleRoots: scopedModuleRoots({ moduleRoot, deps }),
+			options: {},
+		});
 		return EXIT_SUCCESS;
 	}
 	return withResolvedLectures({
 		deps,
-		moduleRoots,
+		moduleRoot,
+		alsoTry: NO_SECOND_REMEDY,
 		lectureDate,
 		choose: deps.selectMatches,
 		act: async (matches) => {
@@ -420,6 +458,7 @@ function mutationCommand({ command, deps }: CommandArgs<MutationCommand>): Promi
 	return withResolvedLectures({
 		deps,
 		lectureDate: command.lectureDate,
+		...ACROSS_EVERY_MODULE,
 		choose: chooseOneLecture(deps),
 		act: ([lectureMatch]) => mutateLecture({ command, deps, lectureMatch }),
 	});
