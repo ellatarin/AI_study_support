@@ -170,6 +170,9 @@ Runner lifecycle — integration tests (real temp directory with fixture manifes
 - `should mark the stage running on disk before it begins when a stage runs`
 - `should log the failure with its stack against the stage when a stage throws`
 - `should mark stage skipped when isComplete returns true before run`
+- `should execute the stage once when the same lecture is run three times` — driven through the real
+  `isStageComplete` rather than a stub, and three runs rather than two: the second run is what records
+  `skipped` over `complete`, and the third is what reads that back and decides whether to pay again
 - `should record not-reached in run log when upstream stage fails`
 - `should reset nominated stage and all downstream stages to pending when --from-stage invoked`
 - `should leave upstream stages untouched when --from-stage invoked`
@@ -307,9 +310,15 @@ Stages — unit tests (mock ffmpeg and ffprobe via `vi.mock`; mock ElevenLabs vi
 - `should record cost from audio duration and the configured rate when transcription completes`
 - `should record a null cost with costResolutionError when the audio duration cannot be read`
 
-Shared stage helper — integration tests (real filesystem):
-- `should report incomplete when the manifest status is $status`
-- `should report incomplete when a recorded output file has been deleted`
+Shared stage helper — integration tests (real filesystem). Every case about a finished stage runs
+twice, once for each of the two statuses that mean the output is on disk (**TD §4.2**) — a check that
+accepted only `complete` would make a third run repeat the work, so the equivalence is asserted rather
+than assumed:
+- `should report incomplete when the stage $scenario` — has not run, is still running, failed
+- `should report complete when a $status stage's every recorded file exists`
+- `should report incomplete when a $status stage's recorded output file has been deleted`
+- `should report incomplete when only some of a $status stage's recorded files exist`
+- `should report complete when a $status stage recorded no output files`
 - `should throw ManifestPathError when a recorded path escapes the module root`
 
 Integration tests (`.integration.test.ts`) against a real audio/video fixture the test renders itself with ffmpeg, so no binary is committed:
