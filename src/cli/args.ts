@@ -51,36 +51,6 @@ export type CliCommand =
 	  }
 	| { readonly command: "help" };
 
-/** The usage text printed for `--help` and after any usage error. */
-export const USAGE = `lecture-notes — turn lecture recordings and slides into study notes
-
-Usage:
-  lecture-notes run <date> [--from-stage <stage>] [--continue-on-error]
-  lecture-notes batch [<moduleRoot>] [--concurrency <n>] [--from-stage <stage>] [--continue-on-error]
-  lecture-notes cost-report [--date <YYYY-MM-DD>] [--module <moduleRoot>]
-  lecture-notes rename <date> "<new title>"
-  lecture-notes delete <date>
-  lecture-notes change-date <date> <new date>
-
-Commands:
-  run           Run one lecture, identified by its date (YYYY-MM-DD), through the pipeline.
-  batch         Run every lecture in one module, or in every configured module.
-  cost-report   Report what has been spent, by run and by stage.
-  rename        Give a lecture a new title, renaming its files, workspace, and output.
-  delete        Remove a lecture and renumber the ones that follow it.
-  change-date   Move a lecture to another date and renumber.
-
-Options:
-  --from-stage <stage>   Re-run from this stage, discarding it and everything downstream.
-  --concurrency <n>      Process n lectures at once (batch only). Defaults to 1.
-  --continue-on-error    Carry on to the next stage when one fails, rather than halting.
-  --date <date>          Narrow a cost report to one lecture date.
-  --module <path>        Narrow a cost report to one module.
-  -h, --help             Show this message.
-
-Dates are ISO 8601 (YYYY-MM-DD). A date matching lectures in several modules
-prompts for which of them to act on.`;
-
 /** The flags every command draws from; each command consumes the ones it documents. */
 const OPTION_SPEC = {
 	"from-stage": { type: "string" },
@@ -99,6 +69,48 @@ type ParsedFlags = {
 	readonly date?: string;
 	readonly module?: string;
 	readonly help?: boolean;
+};
+
+/** The flag names a command can declare, matching the keys of {@link OPTION_SPEC}. */
+type FlagName = Exclude<keyof ParsedFlags, "help">;
+
+/** How one flag is written on a usage line, and what it does. */
+type FlagSpec = {
+	/** The flag with its argument, as a usage line and the options list both write it. */
+	readonly form: string;
+	/** The one-line description in the usage text's options list. */
+	readonly summary: string;
+};
+
+/**
+ * Every flag the CLI offers, described once.
+ *
+ * Both halves of the usage text are rendered from this: a command's usage line
+ * names the flags that command declares, and the options list explains each of
+ * them. Written out at each of those, `--module` was `<moduleRoot>` on one line
+ * and `<path>` on the other.
+ */
+const FLAG_SPECS: Readonly<Record<FlagName, FlagSpec>> = {
+	"from-stage": {
+		form: "--from-stage <stage>",
+		summary: "Re-run from this stage, discarding it and everything downstream.",
+	},
+	concurrency: {
+		form: "--concurrency <n>",
+		summary: "Process n lectures at once (batch only). Defaults to 1.",
+	},
+	"continue-on-error": {
+		form: "--continue-on-error",
+		summary: "Carry on to the next stage when one fails, rather than halting.",
+	},
+	date: {
+		form: "--date <YYYY-MM-DD>",
+		summary: "Narrow a cost report to one lecture date.",
+	},
+	module: {
+		form: "--module <moduleRoot>",
+		summary: "Narrow a cost report to one module.",
+	},
 };
 
 /**
@@ -143,6 +155,29 @@ function requireDate({
 		throw new CliUsageError(`"${value}" is not a date. Dates are written YYYY-MM-DD: ${usage}`);
 	}
 	return value;
+}
+
+/**
+ * Returns the new title a `rename` was given, or fails with its usage line.
+ *
+ * @param args - The invocation to read it from.
+ * @param args.positionals - The command's positional arguments.
+ * @param args.usage - The command's usage line, shown when no title was given.
+ * @returns The trimmed title.
+ * @throws {CliUsageError} When the title is missing or is only whitespace.
+ */
+function requireTitle({
+	positionals,
+	usage,
+}: {
+	readonly positionals: readonly string[];
+	readonly usage: string;
+}): string {
+	const title = (positionals[1] ?? "").trim();
+	if (title === "") {
+		throw new CliUsageError(`Expected a new title: ${usage}`);
+	}
+	return title;
 }
 
 /**
@@ -261,39 +296,173 @@ function splitArgv(argv: readonly string[]): {
 	}
 }
 
-/** The flag names a command can declare, matching the keys of {@link OPTION_SPEC}. */
-type FlagName = Exclude<keyof ParsedFlags, "help">;
-
-/** What a command looks like: how it is written, and what it accepts. */
-type CommandSpec = {
-	/** The usage line, quoted back when the command's arguments do not fit. */
+/** What a command's builder is handed, once the invocation has passed its spec. */
+type CommandInput = {
+	/** The positional arguments that followed the command word. */
+	readonly positionals: readonly string[];
+	/** The parsed flag values. */
+	readonly flags: ParsedFlags;
+	/** The command's invocation form, quoted back when an argument does not fit. */
 	readonly usage: string;
+	/**
+	 * The lecture date the command addresses, from its first positional. Taken on
+	 * demand rather than supplied, because `batch` and `cost-report` address no one
+	 * lecture and would fail on a date they never asked for.
+	 */
+	readonly lectureDate: () => string;
+};
+
+/** What a command looks like: how it is written, what it accepts, and what it builds. */
+type CommandSpec = {
+	/** The positional arguments, as they follow the command word on a usage line. */
+	readonly positionals: string;
 	/** How many positional arguments the command accepts. */
 	readonly maxPositionals: number;
 	/** The flags this command acts on; any other is a usage error rather than a silent no-op. */
 	readonly flags: readonly FlagName[];
+	/** The one-line description in the usage text's command list. */
+	readonly summary: string;
+	/** Builds the parsed command from an invocation already checked against this spec. */
+	readonly build: (input: CommandInput) => CliCommand;
 };
 
+/**
+ * Every command the CLI offers, described once.
+ *
+ * The usage text is rendered from this and so is each command's own usage line,
+ * and `build` is what the parser dispatches to — so a command is written down in
+ * one place rather than in a usage line, a spec, and a cascade of command words
+ * that nothing cross-checked against either.
+ */
 const COMMAND_SPECS: Readonly<Record<string, CommandSpec>> = {
 	run: {
-		usage: "run <date>",
+		positionals: "<date>",
 		maxPositionals: 1,
 		flags: ["from-stage", "continue-on-error"],
+		summary: "Run one lecture, identified by its date (YYYY-MM-DD), through the pipeline.",
+		build: (input) => ({
+			command: "run",
+			lectureDate: input.lectureDate(),
+			options: toRunOptions(input.flags),
+		}),
 	},
 	batch: {
-		usage: "batch [<moduleRoot>]",
+		positionals: "[<moduleRoot>]",
 		maxPositionals: 1,
 		flags: ["concurrency", "from-stage", "continue-on-error"],
+		summary: "Run every lecture in one module, or in every configured module.",
+		build: (input) => ({
+			command: "batch",
+			moduleRoot: input.positionals[0] ?? null,
+			options: toBatchOptions(input.flags),
+		}),
 	},
 	"cost-report": {
-		usage: "cost-report [--date <YYYY-MM-DD>] [--module <moduleRoot>]",
+		positionals: "",
 		maxPositionals: 0,
 		flags: ["date", "module"],
+		summary: "Report what has been spent, by run and by stage.",
+		build: (input) => ({
+			command: "cost-report",
+			lectureDate:
+				input.flags.date === undefined
+					? null
+					: requireDate({ value: input.flags.date, usage: input.usage }),
+			moduleRoot: input.flags.module ?? null,
+		}),
 	},
-	rename: { usage: 'rename <date> "<new title>"', maxPositionals: 2, flags: [] },
-	delete: { usage: "delete <date>", maxPositionals: 1, flags: [] },
-	"change-date": { usage: "change-date <date> <new date>", maxPositionals: 2, flags: [] },
+	rename: {
+		positionals: '<date> "<new title>"',
+		maxPositionals: 2,
+		flags: [],
+		summary: "Give a lecture a new title, renaming its files, workspace, and output.",
+		build: (input) => ({
+			command: "rename",
+			lectureDate: input.lectureDate(),
+			title: requireTitle(input),
+		}),
+	},
+	delete: {
+		positionals: "<date>",
+		maxPositionals: 1,
+		flags: [],
+		summary: "Remove a lecture and renumber the ones that follow it.",
+		build: (input) => ({ command: "delete", lectureDate: input.lectureDate() }),
+	},
+	"change-date": {
+		positionals: "<date> <new date>",
+		maxPositionals: 2,
+		flags: [],
+		summary: "Move a lecture to another date and renumber.",
+		build: (input) => ({
+			command: "change-date",
+			lectureDate: input.lectureDate(),
+			newLectureDate: requireDate({ value: input.positionals[1], usage: input.usage }),
+		}),
+	},
 };
+
+/**
+ * How a command is written out in full: the command word, whatever positional
+ * arguments it takes, then each flag it declares.
+ *
+ * @param args - The command to write out.
+ * @param args.command - The command word.
+ * @param args.spec - Its specification.
+ * @returns The invocation form, without the program name.
+ */
+function invocationForm({
+	command,
+	spec,
+}: {
+	readonly command: string;
+	readonly spec: CommandSpec;
+}): string {
+	const flagForms = spec.flags.map((name) => `[${FLAG_SPECS[name].form}]`);
+	return [command, spec.positionals, ...flagForms].filter((part) => part !== "").join(" ");
+}
+
+/** Spaces between the widest label in a usage-text list and the descriptions. */
+const LABEL_GAP = 3;
+
+/**
+ * One list in the usage text: a label per line with its description, indented
+ * and padded so the descriptions line up under each other.
+ *
+ * @param entries - The labels and what each of them means.
+ * @returns The rendered lines.
+ */
+function describedLines(
+	entries: readonly { readonly label: string; readonly summary: string }[],
+): string {
+	const width = Math.max(...entries.map((entry) => entry.label.length)) + LABEL_GAP;
+	return entries.map((entry) => `  ${entry.label.padEnd(width)}${entry.summary}`).join("\n");
+}
+
+/** The usage text printed for `--help` and after any usage error. */
+export const USAGE = `lecture-notes — turn lecture recordings and slides into study notes
+
+Usage:
+${Object.entries(COMMAND_SPECS)
+	.map(([command, spec]) => `  lecture-notes ${invocationForm({ command, spec })}`)
+	.join("\n")}
+
+Commands:
+${describedLines(
+	Object.entries(COMMAND_SPECS).map(([command, spec]) => ({
+		label: command,
+		summary: spec.summary,
+	})),
+)}
+
+Options:
+${describedLines([
+	...Object.values(FLAG_SPECS).map((spec) => ({ label: spec.form, summary: spec.summary })),
+	{ label: "-h, --help", summary: "Show this message." },
+])}
+
+Dates are ISO 8601 (YYYY-MM-DD). A date matching lectures in several modules
+prompts for which of them to act on.`;
 
 /**
  * Fails when a command was given a flag it does not act on.
@@ -307,6 +476,7 @@ const COMMAND_SPECS: Readonly<Record<string, CommandSpec>> = {
  * @param args.command - The command word.
  * @param args.flags - The parsed flag values.
  * @param args.spec - The command's specification.
+ * @param args.usage - The command's invocation form, quoted back with the complaint.
  * @returns Nothing.
  * @throws {CliUsageError} When a flag outside the command's own set was supplied.
  */
@@ -314,10 +484,12 @@ function rejectForeignFlags({
 	command,
 	flags,
 	spec,
+	usage,
 }: {
 	readonly command: string;
 	readonly flags: ParsedFlags;
 	readonly spec: CommandSpec;
+	readonly usage: string;
 }): void {
 	const supplied = Object.keys(flags).filter((name): name is FlagName => name !== "help");
 	const foreign = supplied.filter((name) => !spec.flags.includes(name));
@@ -329,64 +501,42 @@ function rejectForeignFlags({
 			? "it takes no options"
 			: `it takes ${spec.flags.map((name) => `--${name}`).join(", ")}`;
 	throw new CliUsageError(
-		`--${foreign[0]} is not an option for ${command}: ${accepted}. Usage: ${spec.usage}`,
+		`--${foreign[0]} is not an option for ${command}: ${accepted}. Usage: ${usage}`,
 	);
 }
 
 /**
- * Builds the command for an invocation whose command word is already known to be
- * one the CLI offers.
+ * Checks an invocation against its command's spec and hands it to that command
+ * to build.
  *
- * @param args - The command word and the rest of the invocation.
+ * @param args - The command and the rest of the invocation.
  * @param args.command - The command word.
- * @param args.positionals - The positional arguments that followed it.
+ * @param args.spec - The command's specification, already looked up.
+ * @param args.positionals - The positional arguments that followed the command word.
  * @param args.flags - The parsed flag values.
  * @returns The parsed command.
  * @throws {CliUsageError} When the command's arguments are missing, surplus, or malformed.
  */
 function buildCommand({
 	command,
+	spec,
 	positionals,
 	flags,
 }: {
 	readonly command: string;
+	readonly spec: CommandSpec;
 	readonly positionals: readonly string[];
 	readonly flags: ParsedFlags;
 }): CliCommand {
-	const spec = COMMAND_SPECS[command] as CommandSpec;
-	const { usage, maxPositionals } = spec;
-	rejectExtraPositionals({ positionals, limit: maxPositionals, usage });
-	rejectForeignFlags({ command, flags, spec });
-	if (command === "batch") {
-		return { command, moduleRoot: positionals[0] ?? null, options: toBatchOptions(flags) };
-	}
-	if (command === "cost-report") {
-		return {
-			command,
-			lectureDate: flags.date === undefined ? null : requireDate({ value: flags.date, usage }),
-			moduleRoot: flags.module ?? null,
-		};
-	}
-	// Every remaining command addresses a lecture by date as its first argument.
-	const lectureDate = requireDate({ value: positionals[0], usage });
-	if (command === "rename") {
-		const title = (positionals[1] ?? "").trim();
-		if (title === "") {
-			throw new CliUsageError(`Expected a new title: ${usage}`);
-		}
-		return { command, lectureDate, title };
-	}
-	if (command === "change-date") {
-		return {
-			command,
-			lectureDate,
-			newLectureDate: requireDate({ value: positionals[1], usage }),
-		};
-	}
-	if (command === "delete") {
-		return { command, lectureDate };
-	}
-	return { command: "run", lectureDate, options: toRunOptions(flags) };
+	const usage = invocationForm({ command, spec });
+	rejectExtraPositionals({ positionals, limit: spec.maxPositionals, usage });
+	rejectForeignFlags({ command, flags, spec, usage });
+	return spec.build({
+		positionals,
+		flags,
+		usage,
+		lectureDate: () => requireDate({ value: positionals[0], usage }),
+	});
 }
 
 /**
@@ -413,10 +563,11 @@ export function parseCliArgs({ argv }: { readonly argv: readonly string[] }): Cl
 		return { command: "help" };
 	}
 	const [command, ...rest] = positionals;
-	if (command === undefined || COMMAND_SPECS[command] === undefined) {
+	const spec = command === undefined ? undefined : COMMAND_SPECS[command];
+	if (command === undefined || spec === undefined) {
 		throw new CliUsageError(
 			`Unknown command "${command ?? ""}". Commands are: ${Object.keys(COMMAND_SPECS).join(", ")}`,
 		);
 	}
-	return buildCommand({ command, positionals: rest, flags });
+	return buildCommand({ command, spec, positionals: rest, flags });
 }
