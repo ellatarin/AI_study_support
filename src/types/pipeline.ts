@@ -206,11 +206,24 @@ export type QaIterationSummary = {
  */
 export type TerminationReason = "qa-passed" | "max-iterations-reached" | "stalled";
 
-/** Output-related fields common to every terminal stage entry. */
-type StageOutputData = {
-	readonly configUsed: StageRunConfig | null;
+/**
+ * What one run of a stage produced: what the work cost, and what it left on
+ * disk.
+ *
+ * Declared once because these two travel together from the stage to the
+ * manifest — the runner reads both off {@link StageResult} and writes both into
+ * the stage's entry, unchanged. `configUsed` is not among them: the runner
+ * supplies that from the configuration it resolved, so it belongs to the entry
+ * rather than to what the stage handed back (technical-design.md §4.2).
+ */
+type StageRunRecord = {
 	readonly cost: StageCost | null;
 	readonly filesWritten: readonly string[];
+};
+
+/** Output-related fields common to every terminal stage entry. */
+type StageOutputData = StageRunRecord & {
+	readonly configUsed: StageRunConfig | null;
 };
 
 /** Fields carried by a successfully completed or skipped stage entry. */
@@ -381,10 +394,8 @@ export type LectureIdentityChanges = Partial<
  *
  * @typeParam TOutput - The stage-specific output payload.
  */
-export type StageResult<TOutput> = {
+export type StageResult<TOutput> = StageRunRecord & {
 	readonly output: TOutput;
-	readonly cost: StageCost | null;
-	readonly filesWritten: readonly string[];
 	/**
 	 * What the stage settled about the lecture's identity, written by the runner
 	 * with the stage's `complete` entry — no stage writes the manifest itself
@@ -540,14 +551,25 @@ export type RunLogStageEntry =
 	| (RanStageBase & { readonly status: "failed"; readonly error: string });
 
 /**
+ * When a piece of work began and finished, both ISO 8601.
+ *
+ * A run log, a lecture's summary and a batch's summary each span a period, and
+ * each said so for itself — three declarations of the same pair, which is three
+ * places to correct should the pair ever gain a third member or change its
+ * format.
+ */
+type TimeSpan = {
+	readonly startedAt: string;
+	readonly endedAt: string;
+};
+
+/**
  * A single append-only run log written to `runs/<timestamp>.json`. Records the
  * complete financial audit trail for one pipeline invocation, including failed
  * attempts (technical-design.md §4.6).
  */
-export type RunLog = {
+export type RunLog = TimeSpan & {
 	readonly runId: string;
-	readonly startedAt: string;
-	readonly endedAt: string;
 	readonly triggeredBy: RunTrigger;
 	readonly runType: RunType;
 	readonly fromStage: StageId | null;
@@ -634,11 +656,9 @@ export type RunStageOutcome = {
 /**
  * The outcome of running one lecture through the pipeline (technical-design.md §4.7).
  */
-export type RunSummary = {
+export type RunSummary = TimeSpan & {
 	readonly workspaceRoot: string;
 	readonly runId: string; // matches the run log created for this run
-	readonly startedAt: string; // ISO 8601
-	readonly endedAt: string; // ISO 8601
 	readonly stageOutcomes: readonly RunStageOutcome[]; // in execution order
 	readonly overallStatus: OverallStatus;
 };
@@ -647,9 +667,7 @@ export type RunSummary = {
  * The outcome of running a batch of lectures across one or more modules
  * (technical-design.md §4.7).
  */
-export type BatchSummary = {
-	readonly startedAt: string;
-	readonly endedAt: string;
+export type BatchSummary = TimeSpan & {
 	readonly lectures: readonly RunSummary[]; // one entry per lecture attempted, in the order they ran
 	readonly overallStatus: OverallStatus;
 };
