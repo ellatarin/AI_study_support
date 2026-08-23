@@ -1,12 +1,15 @@
 import { Transform } from "node:stream";
 import { SingleBar, type ValueType } from "cli-progress";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
 	createParallelWorkBar,
 	createProgressBar,
 	createUploadProgressStream,
 	formatUploadValue,
 } from "./progress.js";
+
+/** ESC control character, built at runtime so no literal control byte enters this file. */
+const ESC = String.fromCharCode(27);
 
 describe("createProgressBar", () => {
 	it("should return a configured SingleBar when only a format is given", () => {
@@ -43,6 +46,15 @@ describe("createUploadProgressStream", () => {
 
 describe("createParallelWorkBar", () => {
 	const label = "Slide conversion";
+	let realIsTTY: boolean;
+
+	beforeEach(() => {
+		realIsTTY = process.stderr.isTTY;
+	});
+
+	afterEach(() => {
+		process.stderr.isTTY = realIsTTY;
+	});
 
 	it("should start the bar with an empty in-flight suffix when started", () => {
 		const work = createParallelWorkBar({ label, total: 24 });
@@ -76,7 +88,21 @@ describe("createParallelWorkBar", () => {
 		expect(updateSpy).toHaveBeenLastCalledWith(1, { label, inFlight: "17" });
 	});
 
-	it("should highlight the id with a red control sequence when an item fails", () => {
+	const failureCases: readonly {
+		readonly renders: string;
+		readonly outputIs: string;
+		readonly isTTY: boolean;
+		readonly expected: string;
+	}[] = [
+		{ renders: "in red", outputIs: "a terminal", isTTY: true, expected: `${ESC}[31m16${ESC}[0m` },
+		{ renders: "plainly", outputIs: "a captured log", isTTY: false, expected: "16" },
+	];
+
+	it.each(failureCases)("should render a failed id $renders when the output is $outputIs", ({
+		isTTY,
+		expected,
+	}) => {
+		process.stderr.isTTY = isTTY;
 		const work = createParallelWorkBar({ label, total: 24 });
 		work.start();
 		work.pick(16);
@@ -88,8 +114,7 @@ describe("createParallelWorkBar", () => {
 			number,
 			{ readonly inFlight: string },
 		];
-		expect(lastCall[1].inFlight).toContain("16");
-		expect(lastCall[1].inFlight).toContain(String.fromCharCode(27));
+		expect(lastCall[1].inFlight).toBe(expected);
 	});
 
 	it("should stop the underlying bar when stopped", () => {

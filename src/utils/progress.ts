@@ -15,13 +15,25 @@ const PARALLEL_WORK_FORMAT =
 const ESC = String.fromCharCode(27);
 
 /**
- * ANSI-red wrapper used to highlight a failed item's id in the in-flight suffix.
- *
- * @param text - The text to wrap in the red control sequence.
- * @returns The text wrapped in ANSI red.
+ * The stream every progress bar renders to — cli-progress's own default, stated
+ * here so {@link highlightFailure} reads the TTY-ness of the stream the bars
+ * actually draw on rather than assuming which one that is.
  */
-function inRed(text: string): string {
-	return `${ESC}[31m${text}${ESC}[0m`;
+const PROGRESS_STREAM = process.stderr;
+
+/**
+ * Highlights a failed item's id in the in-flight suffix: ANSI red on a terminal,
+ * the text unchanged anywhere else.
+ *
+ * Off a terminal the bar renders as plain status lines, so a control sequence
+ * would reach a captured log as raw escape bytes rather than as colour
+ * (technical-design.md §5, non-TTY output).
+ *
+ * @param text - The failed item's id as it should read.
+ * @returns The text, in ANSI red where the output supports it.
+ */
+function highlightFailure(text: string): string {
+	return PROGRESS_STREAM.isTTY ? `${ESC}[31m${text}${ESC}[0m` : text;
 }
 
 /**
@@ -65,7 +77,10 @@ export function createProgressBar({
 	readonly format: string;
 	readonly formatValue?: ValueFormatter;
 }): SingleBar {
-	return new SingleBar({ format, formatValue, hideCursor: true }, Presets.shades_classic);
+	return new SingleBar(
+		{ format, formatValue, hideCursor: true, stream: PROGRESS_STREAM },
+		Presets.shades_classic,
+	);
 }
 
 /**
@@ -134,7 +149,7 @@ function renderInFlight({
 	readonly failed: readonly number[];
 }): string {
 	const activeLabels = active.map(String);
-	const failedLabels = failed.map((itemId) => inRed(String(itemId)));
+	const failedLabels = failed.map((itemId) => highlightFailure(String(itemId)));
 	return [...activeLabels, ...failedLabels].join(", ");
 }
 
@@ -143,7 +158,8 @@ function renderInFlight({
  * methods keep the in-flight suffix and completed count in sync as workers pick
  * up, complete, and fail items. It is the bar Stages 4 and 5 are specified to
  * use (technical-design.md §5); neither is built yet, so nothing calls it in
- * production today. Non-TTY output falls back to cli-progress defaults.
+ * production today. Off a terminal the bar falls back to cli-progress's plain
+ * status lines and the failed-id highlight goes with it (§5).
  *
  * @param args - The bar configuration.
  * @param args.label - The bar label.
