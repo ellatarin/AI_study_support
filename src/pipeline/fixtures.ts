@@ -10,12 +10,12 @@
 
 import { spawn } from "node:child_process";
 import { readFileSync } from "node:fs";
-import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import nock from "nock";
 import type { Logger } from "pino";
-import { vi } from "vitest";
+import { afterEach, beforeEach, vi } from "vitest";
 import type {
 	ManifestStageEntry,
 	PipelineConfig,
@@ -665,17 +665,30 @@ export function makeManifest(overrides: Partial<RunManifest> = {}): RunManifest 
 export const stubbedApiKey = "test-key";
 
 /**
- * Arms a test to exercise a billable API without reaching it: clears any
- * leftover interceptors, blocks all outbound connections so a request the test
- * forgot to intercept fails loudly instead of reaching the real service, and
- * supplies a dummy key.
+ * Clears any leftover interceptors and blocks all outbound connections, so a
+ * request a test forgot to intercept fails loudly instead of reaching the real
+ * service.
+ *
+ * Everything arming a stubbed API does apart from supplying a key — which is
+ * all a suite needs when the code under test sends none. Undone by
+ * {@link resetStubbedApi}.
+ *
+ * @returns Nothing.
+ */
+export function blockNetwork(): void {
+	nock.cleanAll();
+	nock.disableNetConnect();
+}
+
+/**
+ * Arms a test to exercise a billable API without reaching it: blocks the
+ * network as {@link blockNetwork} does, and supplies a dummy key.
  *
  * @param apiKeyVariable - The environment variable that service reads its key from.
  * @returns Nothing.
  */
 function stubApi(apiKeyVariable: string): void {
-	nock.cleanAll();
-	nock.disableNetConnect();
+	blockNetwork();
 	vi.stubEnv(apiKeyVariable, stubbedApiKey);
 }
 
@@ -689,8 +702,9 @@ export function stubOpenRouterApi(): void {
 }
 
 /**
- * Undoes {@link stubOpenRouterApi} or {@link stubElevenLabsApi}, restoring real
- * network access and the real environment for any suite that follows.
+ * Undoes {@link blockNetwork}, {@link stubOpenRouterApi} or
+ * {@link stubElevenLabsApi}, restoring real network access and the real
+ * environment for any suite that follows.
  *
  * One function rather than one per service: nothing it does is particular to
  * either, and `vi.unstubAllEnvs` was already clearing both suites' keys whichever
@@ -798,6 +812,43 @@ export function makeTempDir({ prefix }: { readonly prefix: string }): Promise<st
 }
 
 /**
+ * Gives a suite a temporary directory of its own, made before each test and
+ * removed after it, so the two halves cannot be written apart.
+ *
+ * For a suite whose setup is the directory and nothing else. A suite that also
+ * builds a module tree inside it is stating a different setup and keeps its own
+ * hooks — the duplicate this replaces is the bare create-and-destroy pair.
+ *
+ * Returns a reader rather than the path, because the path does not exist until
+ * the hook has run. Reads like the `audioPath()` and `stageDir()` accessors the
+ * stage suites already use.
+ *
+ * @param args - How to name it.
+ * @param args.prefix - The prefix handed to {@link makeTempDir}.
+ * @returns A function giving the current test's temporary directory.
+ */
+export function useTempDir({ prefix }: { readonly prefix: string }): () => string {
+	let tempDir: string | null = null;
+
+	beforeEach(async () => {
+		tempDir = await makeTempDir({ prefix });
+	});
+
+	afterEach(async () => {
+		if (tempDir !== null) {
+			await rm(tempDir, { recursive: true, force: true });
+		}
+	});
+
+	return () => {
+		if (tempDir === null) {
+			throw new Error("The temporary directory is only available inside a test");
+		}
+		return tempDir;
+	};
+}
+
+/**
  * Renders a media fixture by invoking the `ffmpeg` binary directly, so an
  * integration test can generate its own audio or video rather than commit a
  * binary file. Invoked directly rather than through fluent-ffmpeg because
@@ -826,6 +877,31 @@ export function renderFixtureMedia({
 			reject(new Error(`ffmpeg exited with code ${String(code)} rendering a fixture`));
 		});
 	});
+}
+
+/**
+ * Names one of ffmpeg's synthetic `lavfi` sources as an input, which is the
+ * three-argument incantation the media suites would otherwise each write out.
+ *
+ * @param source - The lavfi source string, such as `sine=frequency=440:duration=2`.
+ * @returns The argv fragment naming that input.
+ */
+export function lavfiInput(source: string): readonly string[] {
+	return ["-f", "lavfi", "-i", source];
+}
+
+/**
+ * A synthetic audio track of a given length: a plain 440 Hz tone. Both suites
+ * that render real media need one and neither asserts on the pitch — only that
+ * the file holds genuine audio ffprobe can read — so the frequency is one fact
+ * while the duration stays each suite's own.
+ *
+ * @param args - How long the tone should run.
+ * @param args.seconds - The track's duration.
+ * @returns The argv fragment naming that input.
+ */
+export function toneInput({ seconds }: { readonly seconds: number }): readonly string[] {
+	return lavfiInput(`sine=frequency=440:duration=${String(seconds)}`);
 }
 
 /**

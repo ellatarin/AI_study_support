@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { CONFIG_FILENAME } from "../types/pipeline.js";
 import { ConfigError, clearModelIdCache, loadConfig } from "./config.js";
 import {
+	blockNetwork,
 	captureError,
 	corruptJson,
 	exampleConfig,
@@ -13,6 +14,7 @@ import {
 	openRouterModelId,
 	openRouterStageConfig,
 	openRouterUrls,
+	resetStubbedApi,
 	transcriptionModelId,
 } from "./fixtures.js";
 
@@ -135,13 +137,13 @@ async function writeConfigAtGateway(): Promise<void> {
 
 beforeEach(async () => {
 	clearModelIdCache();
-	nock.disableNetConnect();
+	// The network half only: nothing here sends a key, so there is none to stub.
+	blockNetwork();
 	projectRoot = await makeTempDir({ prefix: "config-test-" });
 });
 
 afterEach(async () => {
-	nock.cleanAll();
-	nock.enableNetConnect();
+	resetStubbedApi();
 	await rm(projectRoot, { recursive: true, force: true });
 });
 

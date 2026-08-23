@@ -1,7 +1,7 @@
-import { access, mkdir, readFile, realpath, rm, symlink, writeFile } from "node:fs/promises";
+import { access, mkdir, readFile, realpath, symlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { makeTempDir, testModuleName } from "../pipeline/fixtures.js";
+import { beforeEach, describe, expect, it } from "vitest";
+import { testModuleName, useTempDir } from "../pipeline/fixtures.js";
 import {
 	cleanTmpFiles,
 	ManifestPathError,
@@ -13,19 +13,11 @@ import {
 } from "./files.js";
 
 describe("files utilities", () => {
-	let tempDir: string;
-
-	beforeEach(async () => {
-		tempDir = await makeTempDir({ prefix: "files-" });
-	});
-
-	afterEach(async () => {
-		await rm(tempDir, { recursive: true, force: true });
-	});
+	const tempDir = useTempDir({ prefix: "files-" });
 
 	describe("writeFileAtomic and cleanTmpFiles", () => {
 		it("should write the file and remove the .tmp when the write succeeds", async () => {
-			const target = join(tempDir, "notes.md");
+			const target = join(tempDir(), "notes.md");
 
 			await writeFileAtomic({ path: target, content: "hello" });
 
@@ -34,21 +26,21 @@ describe("files utilities", () => {
 		});
 
 		it("should delete every .tmp file when cleanTmpFiles runs", async () => {
-			await writeFile(join(tempDir, "a.tmp"), "");
-			await writeFile(join(tempDir, "b.tmp"), "");
-			await writeFile(join(tempDir, "keep.md"), "content");
+			await writeFile(join(tempDir(), "a.tmp"), "");
+			await writeFile(join(tempDir(), "b.tmp"), "");
+			await writeFile(join(tempDir(), "keep.md"), "content");
 
-			await cleanTmpFiles(tempDir);
+			await cleanTmpFiles(tempDir());
 
-			await expect(access(join(tempDir, "a.tmp"))).rejects.toThrow();
-			await expect(access(join(tempDir, "b.tmp"))).rejects.toThrow();
-			await expect(access(join(tempDir, "keep.md"))).resolves.toBeUndefined();
+			await expect(access(join(tempDir(), "a.tmp"))).rejects.toThrow();
+			await expect(access(join(tempDir(), "b.tmp"))).rejects.toThrow();
+			await expect(access(join(tempDir(), "keep.md"))).resolves.toBeUndefined();
 		});
 	});
 
 	describe("writeJsonAtomic", () => {
 		it("should write the value as indented JSON when a value is given", async () => {
-			const target = join(tempDir, "record.json");
+			const target = join(tempDir(), "record.json");
 
 			await writeJsonAtomic({ path: target, value: { version: "1", stages: {} } });
 
@@ -67,7 +59,7 @@ describe("files utilities", () => {
 			},
 			{ writer: "writeJsonAtomic", write: (path: string) => writeJsonAtomic({ path, value: {} }) },
 		])("should leave no file behind when a $writer write fails", async ({ write }) => {
-			const target = join(tempDir, "missing-subdir", "notes.md");
+			const target = join(tempDir(), "missing-subdir", "notes.md");
 
 			await expect(write(target)).rejects.toThrow();
 
@@ -78,7 +70,7 @@ describe("files utilities", () => {
 
 	describe("readJsonSafe", () => {
 		it("should return the parsed value when the file holds JSON", async () => {
-			const target = join(tempDir, "record.json");
+			const target = join(tempDir(), "record.json");
 			await writeJsonAtomic({ path: target, value: { runId: "a-run" } });
 
 			expect(await readJsonSafe(target)).toEqual({ runId: "a-run" });
@@ -88,7 +80,7 @@ describe("files utilities", () => {
 			{ scenario: "the file is not there", content: null },
 			{ scenario: "the file is not JSON", content: "{ not json" },
 		])("should return null when $scenario", async ({ content }) => {
-			const target = join(tempDir, "record.json");
+			const target = join(tempDir(), "record.json");
 			if (content !== null) {
 				await writeFile(target, content);
 			}
@@ -99,18 +91,18 @@ describe("files utilities", () => {
 
 	describe("pathExists", () => {
 		it("should report the path as present when a file is on disk", async () => {
-			const target = join(tempDir, "notes.md");
+			const target = join(tempDir(), "notes.md");
 			await writeFile(target, "content");
 
 			expect(await pathExists(target)).toBe(true);
 		});
 
 		it("should report the path as present when a directory is on disk", async () => {
-			expect(await pathExists(tempDir)).toBe(true);
+			expect(await pathExists(tempDir())).toBe(true);
 		});
 
 		it("should report the path as absent when nothing is on disk", async () => {
-			expect(await pathExists(join(tempDir, "never-written.md"))).toBe(false);
+			expect(await pathExists(join(tempDir(), "never-written.md"))).toBe(false);
 		});
 	});
 
@@ -120,9 +112,9 @@ describe("files utilities", () => {
 		let outsideDir: string;
 
 		beforeEach(async () => {
-			moduleRoot = join(tempDir, testModuleName);
+			moduleRoot = join(tempDir(), testModuleName);
 			workspaceRoot = join(moduleRoot, "Lecture 1");
-			outsideDir = join(tempDir, "outside");
+			outsideDir = join(tempDir(), "outside");
 
 			// resolveManifestPath is layout-agnostic — it only decides whether an
 			// entry stays under moduleRoot — so the directories below are sample

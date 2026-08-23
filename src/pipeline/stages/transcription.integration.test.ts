@@ -15,6 +15,7 @@ import {
 	resetStubbedApi,
 	scribeResponseBody,
 	stubElevenLabsApi,
+	toneInput,
 	transcriptionModelId,
 	transcriptText,
 } from "../fixtures.js";
@@ -30,15 +31,7 @@ const SECONDS_PER_HOUR = 3600;
  */
 function renderFixtureAudio(outputPath: string): Promise<void> {
 	return renderFixtureMedia({
-		ffmpegArgs: [
-			"-f",
-			"lavfi",
-			"-i",
-			`sine=frequency=440:duration=${FIXTURE_SECONDS}`,
-			"-c:a",
-			"aac",
-			outputPath,
-		],
+		ffmpegArgs: [...toneInput({ seconds: FIXTURE_SECONDS }), "-c:a", "aac", outputPath],
 	});
 }
 

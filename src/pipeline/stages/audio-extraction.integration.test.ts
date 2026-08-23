@@ -5,12 +5,14 @@ import ffmpeg from "fluent-ffmpeg";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
 	driveStage,
+	lavfiInput,
 	makeStageContext,
 	makeStubLogger,
 	makeWorkspaceTree,
 	mediaTestTimeoutMs,
 	renderFixtureMedia,
 	testLecture,
+	toneInput,
 } from "../fixtures.js";
 import { moduleDirs, stageOutputEntry, stageOutputPath } from "../layout.js";
 import { createAudioExtractionStage } from "./audio-extraction.js";
@@ -21,14 +23,8 @@ const FIXTURE_SECONDS = 1;
 function renderFixtureVideo(outputPath: string): Promise<void> {
 	return renderFixtureMedia({
 		ffmpegArgs: [
-			"-f",
-			"lavfi",
-			"-i",
-			`testsrc=duration=${FIXTURE_SECONDS}:size=160x120:rate=10`,
-			"-f",
-			"lavfi",
-			"-i",
-			`sine=frequency=440:duration=${FIXTURE_SECONDS}`,
+			...lavfiInput(`testsrc=duration=${String(FIXTURE_SECONDS)}:size=160x120:rate=10`),
+			...toneInput({ seconds: FIXTURE_SECONDS }),
 			"-c:v",
 			"libx264",
 			"-c:a",
