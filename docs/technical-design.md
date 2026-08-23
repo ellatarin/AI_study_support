@@ -1272,7 +1272,7 @@ QA loop                 anthropic/claude-sonnet-4.6       4     68,000 /  15,800
 ──────────────────────────────────────────────────────────────────────────────────────────
 ```
 
-The table closes on its last stage; no line sums the run (NFR-2.2). A stage whose cost lookup failed shows `n/a`, as QA loop does above — its tokens and call count are known, its price is not. A stage that makes no billable call has no row at all, since the summary shows what each stage's models cost and such a stage has none.
+The table closes on its last stage; no line sums the run (NFR-2.2). One row per stage this invocation ran that names a model, on the same rule the report's first section applies: the cost cell reads `n/a` wherever no figure was resolved — a lookup that failed, as QA loop's did above, or a stage that failed before it called anything — and a stage naming no model has no row, having no model spend to show. A stage that failed is named beneath the table either way, with its message.
 
 Any stage that failed is named underneath with the message recorded for it (§8).
 
@@ -1309,7 +1309,7 @@ QA loop                  claude-sonnet-4.6         4       n/a
 ──────────────────────────────────────────────────────────────
 ```
 
-One row per stage that made a billable call and reached a terminal state, taken from that stage's own manifest entry. A stage whose cost lookup failed shows `n/a`, as QA loop does here; a stage that made no billable call — audio extraction, PDF generation — has no row, since there is no model spend of its to compare. Nothing is summed beneath (NFR-2.2).
+One row per stage that names a model and whose output stands on disk — `complete` or `skipped` — taken from that stage's own manifest entry. The cost cell shows `n/a` wherever no figure was resolved: a lookup that failed, as QA loop's did here, or a stage that recorded no cost at all. A stage that names no model — audio extraction, PDF generation — has no row, since it has no model spend to compare. Nothing is summed beneath (NFR-2.2).
 
 **2 — Error recovery cost** (spend from failed runs and retries):
 ```
@@ -1345,9 +1345,9 @@ formatCostReport(args: { runLogs: readonly RunLog[]; manifest: RunManifest; gbpP
 
 formatRunSummary(args: { outcomes: readonly RunStageOutcome[]; manifest: RunManifest; gbpPerUsd: number }): string
 // The end-of-run summary above. The outcomes say which stages this invocation executed; the manifest, read
-// after the run, says what each one used and cost — tokens live there and not in the run log. A stage whose
-// cost lookup failed shows `n/a`; a stage that made no billable call has no row. The table ends at its last
-// stage.
+// after the run, says what each one used and cost — tokens live there and not in the run log. A stage that
+// names a model gets a row, its cost cell `n/a` wherever no figure resolved; a stage naming none gets none.
+// The table ends at its last stage.
 
 formatBatchSummary(args: { batch: BatchSummary }): string
 // One row per module — lectures attempted and combined status — closed by a row across all of them. Takes no

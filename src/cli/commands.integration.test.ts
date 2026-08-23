@@ -69,7 +69,6 @@ describe("executeCommand", () => {
 			runId: testRunId,
 			startedAt: "2025-10-10T09:00:00.000Z",
 			endedAt: "2025-10-10T09:30:00.000Z",
-			totalCostUsd: 0.2,
 			stageOutcomes: [
 				{
 					stageId: "transcription",
@@ -306,7 +305,6 @@ describe("executeCommand", () => {
 				startedAt: "2025-10-10T09:00:00.000Z",
 				endedAt: "2025-10-10T10:00:00.000Z",
 				lectures: [runSummaryFor({ workspace: workspaceRoot })],
-				totalCostUsd: 0.2,
 				overallStatus,
 			};
 		}

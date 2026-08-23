@@ -3,7 +3,6 @@ import { extname, join } from "node:path";
 import type { Logger } from "pino";
 import type { RunManifest, SourceNormalisationStage } from "../../types/pipeline.js";
 import { STAGE_IDS } from "../../types/pipeline.js";
-import type { MoneyFormatter } from "../../utils/cost.js";
 import { extractDate, formatDateISO } from "../../utils/date.js";
 import { NamedError } from "../../utils/errors.js";
 import {
@@ -447,28 +446,20 @@ function findOrphans({
 }
 
 /**
- * The per-orphan prompt: which lecture it is and what its work has cost, so the
- * user can judge the deletion rather than answer blind.
+ * The per-orphan prompt: which lecture it is, so the user can judge the deletion
+ * rather than answer blind.
  *
- * The spend is presented in pounds, as every user-facing total is: this is the
- * figure a deletion that cannot be undone is weighed against (technical-design.md
- * §7).
+ * It quotes no figure. What a lecture has cost is the sum of its stages, and
+ * stage costs are summed nowhere (NFR-2.2); `cost-report` still has the
+ * per-stage figures for as long as the workspace stands.
  *
- * @param args - The lecture and how to present its cost.
+ * @param args - The lecture being asked about.
  * @param args.manifest - The orphaned lecture's manifest.
- * @param args.formatMoney - Renders a stored USD amount in the presented currency.
  * @returns The question put to the user.
  */
-function orphanPrompt({
-	manifest,
-	formatMoney,
-}: {
-	readonly manifest: RunManifest;
-	readonly formatMoney: MoneyFormatter;
-}): string {
+function orphanPrompt({ manifest }: { readonly manifest: RunManifest }): string {
 	const title = manifest.lectureTitle === "" ? "(untitled)" : manifest.lectureTitle;
-	const spent = formatMoney(manifest.currentPipelineCost.totalCostUsd);
-	return `Lecture ${manifest.lectureNumber} "${title}" (${manifest.lectureDate}) has no source video or slide left. ${spent} has been spent on it. Delete its workspace and any final output?`;
+	return `Lecture ${manifest.lectureNumber} "${title}" (${manifest.lectureDate}) has no source video or slide left. Delete its workspace and any final output?`;
 }
 
 /**
@@ -537,7 +528,6 @@ async function deleteOrphan({
 			lectureNumber: manifest.lectureNumber,
 			lectureTitle: manifest.lectureTitle,
 			lectureDate: manifest.lectureDate,
-			totalCostUsd: manifest.currentPipelineCost.totalCostUsd,
 		},
 		"Deleted orphaned lecture workspace",
 	);
@@ -559,7 +549,6 @@ async function deleteOrphan({
  * @param args.existingPdfs - Existing `Final output/` PDFs keyed by date.
  * @param args.logger - The run logger.
  * @param args.confirm - The user prompt.
- * @param args.formatMoney - Renders a stored USD amount in the presented currency.
  * @returns A promise that resolves once every orphan has been deleted.
  * @throws {@link SourceNormalisationError} when any prompt is declined.
  */
@@ -570,12 +559,10 @@ async function resolveOrphans({
 	existingPdfs,
 	logger,
 	confirm,
-	formatMoney,
 }: {
 	readonly orphans: readonly ExistingWorkspace[];
 	readonly moduleRoot: string;
 	readonly confirm: ConfirmPrompt;
-	readonly formatMoney: MoneyFormatter;
 } & OrphanContext): Promise<void> {
 	logger.info(
 		{ moduleRoot, orphans: orphans.map((orphan) => orphan.folder) },
@@ -583,7 +570,7 @@ async function resolveOrphans({
 	);
 
 	for (const orphan of orphans) {
-		if (!(await confirm({ message: orphanPrompt({ manifest: orphan.manifest, formatMoney }) }))) {
+		if (!(await confirm({ message: orphanPrompt({ manifest: orphan.manifest }) }))) {
 			abortOrphanHandling({
 				logger,
 				moduleRoot,
@@ -627,7 +614,6 @@ function initialManifest(lecture: Lecture): RunManifest {
 		createdAt: now,
 		updatedAt: now,
 		stages,
-		currentPipelineCost: { totalCostUsd: 0, byStage: {} },
 	};
 }
 
@@ -682,17 +668,14 @@ async function reconcileManifest({
  * @param args - The stage dependencies.
  * @param args.logger - The pino logger that records every action and any failure.
  * @param args.confirm - The prompt asked before any irreversible deletion.
- * @param args.formatMoney - Renders a stored USD amount in the presented currency.
  * @returns A {@link SourceNormalisationStage} the runner drives once per module.
  */
 export function createSourceNormalisationStage({
 	logger,
 	confirm,
-	formatMoney,
 }: {
 	readonly logger: Logger;
 	readonly confirm: ConfirmPrompt;
-	readonly formatMoney: MoneyFormatter;
 }): SourceNormalisationStage {
 	async function normaliseModule({ moduleRoot }: { readonly moduleRoot: string }): Promise<void> {
 		const dirs = moduleDirs({ moduleRoot });
@@ -718,15 +701,7 @@ export function createSourceNormalisationStage({
 			presentIsos: new Set(videos.dated.map((video) => video.iso)),
 		});
 		if (orphans.length > 0) {
-			await resolveOrphans({
-				orphans,
-				moduleRoot,
-				dirs,
-				existingPdfs,
-				logger,
-				confirm,
-				formatMoney,
-			});
+			await resolveOrphans({ orphans, moduleRoot, dirs, existingPdfs, logger, confirm });
 		}
 
 		const lectures = orderLectures({

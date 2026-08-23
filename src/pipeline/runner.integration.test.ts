@@ -209,13 +209,13 @@ describe("PipelineRunner integration", () => {
 			const summary = await makeRunner([stage]).runLecture({ workspaceRoot });
 
 			expect(summary.overallStatus).toBe("success");
-			expect(summary.totalCostUsd).toBe(0.5);
 			expect(summary.stageOutcomes).toEqual([
 				outcome("audio-extraction", { action: "ran", status: "complete" }),
 			]);
 			const manifest = await readManifest(workspaceRoot);
 			const entry = manifest.stages["audio-extraction"];
 			expect(entry?.status).toBe("complete");
+			expect(entry?.status === "complete" && entry.cost?.totalCostUsd).toBe(0.5);
 			expect(entry?.status === "complete" && entry.filesWritten).toEqual([
 				stageOutputEntry("audio-extraction"),
 			]);
@@ -226,7 +226,8 @@ describe("PipelineRunner integration", () => {
 			});
 		});
 
-		it("should leave the run's total unresolved when a stage's cost lookup failed", async () => {
+		it("should record the unresolved cost and its reason when a stage's cost lookup failed", async () => {
+			const costResolutionError = "the generation endpoint timed out";
 			const stage = makeStubStage({
 				stageId: "audio-extraction",
 				run: async () => ({
@@ -236,7 +237,7 @@ describe("PipelineRunner integration", () => {
 						completionTokens: 20,
 						callCount: 1,
 						totalCostUsd: null,
-						costResolutionError: "the generation endpoint timed out",
+						costResolutionError,
 					},
 					filesWritten: [],
 				}),
@@ -244,9 +245,23 @@ describe("PipelineRunner integration", () => {
 
 			const summary = await makeRunner([stage]).runLecture({ workspaceRoot });
 
-			expect(summary.totalCostUsd).toBeNull();
+			// The stage's own entry is the only record of what it cost, so an
+			// unresolved lookup has to survive there for the report to show `n/a`.
+			const manifest = await readManifest(workspaceRoot);
+			const entry = manifest.stages["audio-extraction"];
+			expect(entry?.status === "complete" && entry.cost).toEqual({
+				promptTokens: 10,
+				completionTokens: 20,
+				callCount: 1,
+				totalCostUsd: null,
+				costResolutionError,
+			});
+			// The run log records the unresolved cost but not why: `RunLogCost` is the
+			// amount and the call count, and the reason stays on the manifest entry.
 			const runLog = await readRunLog(workspaceRoot, summary.runId);
-			expect(runLog.totalCostThisRun).toBeNull();
+			expect(runLog.stages["audio-extraction"]).toMatchObject({
+				cost: { totalCostUsd: null, callCount: 1 },
+			});
 		});
 
 		it("should mark the stage running on disk before it begins when a stage runs", async () => {
@@ -717,7 +732,7 @@ describe("PipelineRunner integration", () => {
 			{ scenario: "the caller asks for none", options: undefined },
 			{ scenario: "it is the default of one at a time", options: DEFAULT_BATCH_OPTIONS },
 			{ scenario: "it is two at a time", options: { ...DEFAULT_BATCH_OPTIONS, concurrency: 2 } },
-		])("should run every lecture and aggregate cost when $scenario", async ({ options }) => {
+		])("should run every lecture in the module when $scenario", async ({ options }) => {
 			const normaliseModule = vi.fn(async () => undefined);
 			const runner = new PipelineRunner({
 				config: RUNNER_CONFIG,
@@ -731,7 +746,6 @@ describe("PipelineRunner integration", () => {
 			expect(normaliseModule).toHaveBeenCalledWith({ moduleRoot: moduleA });
 			expect(summary.lectures).toHaveLength(2);
 			expect(summary.overallStatus).toBe("success");
-			expect(summary.totalCostUsd).toBeCloseTo(0.5);
 		});
 
 		it("should run the lectures in date order when the batch starts", async () => {
@@ -805,7 +819,6 @@ describe("PipelineRunner integration", () => {
 			await writeManifest(
 				workspaceRoot,
 				makeManifest({
-					currentPipelineCost: { totalCostUsd: 0.5, byStage: { "audio-extraction": 0.5 } },
 					stages: {
 						...pendingStages(),
 						"audio-extraction": {
@@ -826,7 +839,6 @@ describe("PipelineRunner integration", () => {
 				runType: "normal",
 				fromStage: null,
 				stages: {},
-				totalCostThisRun: 0.5,
 			};
 			const runsDir = join(workspaceRoot, RUNS_DIR);
 			await mkdir(runsDir, { recursive: true });

@@ -2,25 +2,23 @@
 
 exports[`formatBatchSummary > should render the whole batch table when given a batch summary 1`] = `
 "Batch summary
-Module                          Lectures    Status      Cost
-────────────────────────────────────────────────────────────
-Biology of Disease                     2    failed    £0.222
-Immunology                             1   partial    £0.222
-────────────────────────────────────────────────────────────
-All modules                            3    failed    £0.444"
+Module                          Lectures    Status
+──────────────────────────────────────────────────
+Biology of Disease                     2    failed
+Immunology                             1   partial
+──────────────────────────────────────────────────
+All modules                            3    failed"
 `;
 
 exports[`formatCostReport > should render the three-section report when given a manifest and run logs 1`] = `
 "Current pipeline cost
 Stage                   Model                         Calls      Cost
 ─────────────────────────────────────────────────────────────────────
-Audio extraction        —                                 0    £0.000
 Transcription           elevenlabs/scribe_v2              1    £0.031
 Slide conversion        google/gemini-2.5-flash          24    £0.025
+Image extraction        openai/gpt-4.1                   12       n/a
 Synthesis               anthropic/claude-sonnet-4.6       1    £0.231
-PDF generation          —                                 0    £0.004
 ─────────────────────────────────────────────────────────────────────
-                                                               £0.291
 
 Error recovery cost
 Run                       Stage                   Status      Cost
@@ -29,7 +27,6 @@ Run                       Stage                   Status      Cost
 2025-10-10T10:30:00.000Z  slide-conversion         retry    £0.025
 2025-10-10T11:00:00.000Z  image-extraction        failed       n/a
 ──────────────────────────────────────────────────────────────────
-Wasted on failures                                             n/a
 
 Experiment cost
 Stage: synthesis
@@ -44,6 +41,5 @@ Stage                   Model                         Calls    Tokens (in / out)
 Transcription           elevenlabs/scribe_v2              1          0 /       0    £0.031
 Slide conversion        google/gemini-2.5-flash          24     41,000 /   8,100    £0.025
 Synthesis               anthropic/claude-sonnet-4.6       0          0 /       0       n/a
-──────────────────────────────────────────────────────────────────────────────────────────
-This run                                                 25     41,000 /   8,100    £0.056"
+──────────────────────────────────────────────────────────────────────────────────────────"
 `;

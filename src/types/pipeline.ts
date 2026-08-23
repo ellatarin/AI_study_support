@@ -193,15 +193,6 @@ export type QaIterationSummary = {
  */
 export type TerminationReason = "qa-passed" | "max-iterations-reached" | "stalled";
 
-/**
- * The overall cost of the outputs currently on disk for a lecture, broken down
- * by stage. Mirrors `manifest.currentPipelineCost` (technical-design.md §4.5).
- */
-export type CurrentPipelineCost = {
-	readonly totalCostUsd: number;
-	readonly byStage: Readonly<Partial<Record<StageId, number>>>;
-};
-
 /** Output-related fields common to every terminal stage entry. */
 type StageOutputData = {
 	readonly configUsed: StageRunConfig | null;
@@ -322,8 +313,12 @@ export type RunManifest = {
 		readonly workspaceFolderName: string;
 		readonly createdAt: string;
 		readonly updatedAt: string;
+		/**
+		 * Every stage's state, and with it the only record of what each stage cost.
+		 * No roll-up sits beside them: stage costs are read one stage at a time and
+		 * summed nowhere (NFR-2.2, technical-design.md §4.5).
+		 */
 		readonly stages: ManifestStages;
-		readonly currentPipelineCost: CurrentPipelineCost;
 	};
 
 /**
@@ -528,13 +523,8 @@ export type RunLog = {
 	readonly triggeredBy: RunTrigger;
 	readonly runType: RunType;
 	readonly fromStage: StageId | null;
+	/** What each stage of this run did and cost. The run itself carries no figure (NFR-2.2). */
 	readonly stages: Readonly<Partial<Record<StageId, RunLogStageEntry>>>;
-	/**
-	 * What the run spent, summed across the stages that ran, and `null` when any
-	 * of them recorded a cost it could not resolve, since the run's real spend is
-	 * then unknown (technical-design.md §7).
-	 */
-	readonly totalCostThisRun: number | null;
 };
 
 /**
@@ -621,7 +611,6 @@ export type RunSummary = {
 	readonly runId: string; // matches the run log created for this run
 	readonly startedAt: string; // ISO 8601
 	readonly endedAt: string; // ISO 8601
-	readonly totalCostUsd: number | null; // the run log's totalCostThisRun, unresolved on the same terms
 	readonly stageOutcomes: readonly RunStageOutcome[]; // in execution order
 	readonly overallStatus: OverallStatus;
 };
@@ -634,6 +623,5 @@ export type BatchSummary = {
 	readonly startedAt: string;
 	readonly endedAt: string;
 	readonly lectures: readonly RunSummary[]; // one entry per lecture attempted, in the order they ran
-	readonly totalCostUsd: number | null; // summed across the lectures, unresolved when any one of them is
 	readonly overallStatus: OverallStatus;
 };

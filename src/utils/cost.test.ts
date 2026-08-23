@@ -25,7 +25,6 @@ import type {
 	StageRunConfig,
 } from "../types/pipeline.js";
 import {
-	accumulateCost,
 	createMoneyFormatter,
 	formatBatchSummary,
 	formatCostReport,
@@ -41,106 +40,6 @@ const SLIDE_CONVERSION_CONFIG: StageRunConfig = {
 };
 const SLIDE_CONVERSION_CALLS = 24;
 const SLIDE_CONVERSION_COST_USD = 0.034;
-
-describe("accumulateCost", () => {
-	it.each([
-		{
-			name: "two resolved costs",
-			current: { promptTokens: 100, completionTokens: 50, callCount: 1, totalCostUsd: 0.02 },
-			incoming: { promptTokens: 200, completionTokens: 80, callCount: 2, totalCostUsd: 0.03 },
-			expectedTokens: { promptTokens: 300, completionTokens: 130, callCount: 3 },
-			expectedCost: 0.05,
-		},
-		{
-			name: "a zero accumulator and a resolved cost",
-			current: { promptTokens: 0, completionTokens: 0, callCount: 0, totalCostUsd: 0 },
-			incoming: { promptTokens: 200, completionTokens: 80, callCount: 2, totalCostUsd: 0.03 },
-			expectedTokens: { promptTokens: 200, completionTokens: 80, callCount: 2 },
-			expectedCost: 0.03,
-		},
-	])("should sum tokens, calls, and cost when merging $name", ({
-		current,
-		incoming,
-		expectedTokens,
-		expectedCost,
-	}) => {
-		const result = accumulateCost({ current, incoming });
-
-		expect(result.promptTokens).toBe(expectedTokens.promptTokens);
-		expect(result.completionTokens).toBe(expectedTokens.completionTokens);
-		expect(result.callCount).toBe(expectedTokens.callCount);
-		expect(result.totalCostUsd).toBeCloseTo(expectedCost);
-	});
-
-	it("should carry the error and null the cost when the incoming cost is unresolved", () => {
-		const result = accumulateCost({
-			current: { promptTokens: 100, completionTokens: 50, callCount: 1, totalCostUsd: 0.02 },
-			incoming: {
-				promptTokens: 200,
-				completionTokens: 80,
-				callCount: 2,
-				totalCostUsd: null,
-				costResolutionError: "cost lookup timed out",
-			},
-		});
-
-		expect(result).toEqual({
-			promptTokens: 300,
-			completionTokens: 130,
-			callCount: 3,
-			totalCostUsd: null,
-			costResolutionError: "cost lookup timed out",
-		});
-	});
-
-	it("should carry the error and null the cost when the current cost is unresolved", () => {
-		const result = accumulateCost({
-			current: {
-				promptTokens: 100,
-				completionTokens: 50,
-				callCount: 1,
-				totalCostUsd: null,
-				costResolutionError: "generation lookup returned 503",
-			},
-			incoming: { promptTokens: 200, completionTokens: 80, callCount: 2, totalCostUsd: 0.03 },
-		});
-
-		expect(result).toEqual({
-			promptTokens: 300,
-			completionTokens: 130,
-			callCount: 3,
-			totalCostUsd: null,
-			costResolutionError: "generation lookup returned 503",
-		});
-	});
-
-	it("should join both errors when current and incoming are both unresolved", () => {
-		const result = accumulateCost({
-			current: {
-				promptTokens: 100,
-				completionTokens: 50,
-				callCount: 1,
-				totalCostUsd: null,
-				costResolutionError: "prompt-cost lookup failed",
-			},
-			incoming: {
-				promptTokens: 200,
-				completionTokens: 80,
-				callCount: 2,
-				totalCostUsd: null,
-				costResolutionError: "completion-cost lookup failed",
-			},
-		});
-
-		expect(result).toEqual({
-			promptTokens: 300,
-			completionTokens: 130,
-			callCount: 3,
-			totalCostUsd: null,
-			costResolutionError: "prompt-cost lookup failed; completion-cost lookup failed",
-		});
-	});
-});
 
 const resolved = ({
 	callCount,
@@ -186,11 +85,24 @@ const synthesisEntry = completed({
 	filesWritten: [stageOutputEntry("synthesis")],
 });
 
+const IMAGE_EXTRACTION_MODEL_ID = "openai/gpt-4.1";
+
 const manifest: RunManifest = makeManifest({
 	stages: {
-		// Completed non-LLM stage: null config and null cost exercise the
-		// manifestStageMeta "—"/0 fallbacks within the complete branch.
+		// Completed, and names no model: it makes no model call, so no table gives
+		// it a row however it finished.
 		"audio-extraction": completed({ filesWritten: [stageOutputEntry("audio-extraction")] }),
+		// Names a model, and its cost lookup failed: a row, reading n/a.
+		"image-extraction": completed({
+			configUsed: { modelId: IMAGE_EXTRACTION_MODEL_ID },
+			cost: {
+				promptTokens: 0,
+				completionTokens: 2400,
+				callCount: 12,
+				totalCostUsd: null,
+				costResolutionError: "the generation endpoint timed out",
+			},
+		}),
 		transcription: completed({
 			configUsed: { modelId: transcriptionModelId },
 			cost: resolved({ callCount: 1, totalCostUsd: 0.042 }),
@@ -205,17 +117,6 @@ const manifest: RunManifest = makeManifest({
 			filesWritten: [stageOutputEntry("slide-conversion")],
 		}),
 		synthesis: synthesisEntry,
-	},
-	currentPipelineCost: {
-		totalCostUsd: 0.393,
-		byStage: {
-			"audio-extraction": 0,
-			transcription: 0.042,
-			"slide-conversion": SLIDE_CONVERSION_COST_USD,
-			synthesis: 0.312,
-			// In byStage but absent from `stages` — exercises the manifestStageMeta fallback.
-			"pdf-generation": 0.005,
-		},
 	},
 });
 
@@ -238,7 +139,6 @@ const originalFailure: RunLog = {
 			error: "Slide 17 conversion failed: 429 rate limit",
 		},
 	},
-	totalCostThisRun: 0.021,
 };
 
 const runLogs: readonly RunLog[] = [
@@ -261,7 +161,6 @@ const runLogs: readonly RunLog[] = [
 				},
 			},
 		},
-		totalCostThisRun: SLIDE_CONVERSION_COST_USD,
 	},
 	{
 		runId: "2025-10-11T14:00:00Z-1",
@@ -278,7 +177,6 @@ const runLogs: readonly RunLog[] = [
 				cost: { totalCostUsd: 0.89, callCount: 1 },
 			},
 		},
-		totalCostThisRun: 0.89,
 	},
 	{
 		runId: "2025-10-10T11:00:00Z-1",
@@ -299,7 +197,6 @@ const runLogs: readonly RunLog[] = [
 			// non-"ran" entry → the ranStageEntries skip branch.
 			"audio-extraction": { action: "skipped" },
 		},
-		totalCostThisRun: null,
 	},
 	{
 		runId: "2025-10-11T16:00:00Z-1",
@@ -317,7 +214,6 @@ const runLogs: readonly RunLog[] = [
 				cost: { totalCostUsd: null, callCount: 1 },
 			},
 		},
-		totalCostThisRun: null,
 	},
 ];
 
@@ -386,7 +282,6 @@ describe("formatCostReport", () => {
 				...manifest.stages,
 				synthesis: { ...synthesisEntry, configUsed: { modelId: OVERLONG_MODEL_ID } },
 			},
-			currentPipelineCost: manifest.currentPipelineCost,
 		});
 
 		const report = formatCostReport({ runLogs, manifest: overlong, gbpPerUsd: GBP_PER_USD });
@@ -396,7 +291,7 @@ describe("formatCostReport", () => {
 		expect(report).toContain("…");
 	});
 
-	it("should count a failed stage as wasted when the run that failed was an ordinary one", () => {
+	it("should give a failed stage a row when the run that failed was an ordinary one", () => {
 		const report = formatCostReport({
 			runLogs: [originalFailure],
 			manifest,
@@ -405,20 +300,60 @@ describe("formatCostReport", () => {
 
 		// 0.021 USD at 0.74 = 0.01554.
 		expect(report).toMatch(/slide-conversion\s+failed\s+£0\.016/);
-		expect(report).toMatch(/Wasted on failures\s+£0\.016/);
 	});
 
-	it("should leave the wasted total unresolved when a failed run's cost could not be looked up", () => {
+	it("should render a stage's cost as n/a when its lookup failed", () => {
 		const report = formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD });
 
-		expect(report).toMatch(/Wasted on failures\s+n\/a/);
+		expect(report).toMatch(/Image extraction\s+openai\/gpt-4\.1\s+12\s+n\/a/);
 	});
 
-	it("should render every total in pounds when the stored figures are in dollars", () => {
+	it("should leave a stage out when it names no model", () => {
 		const report = formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD });
 
-		// 0.393 USD is the manifest's stored total; 0.393 * 0.74 = 0.29082.
-		expect(report).toContain("£0.291");
+		expect(report).not.toContain("Audio extraction");
+	});
+
+	it("should leave a stage out when its output is not on disk", () => {
+		const failedSynthesis = makeManifest({
+			stages: {
+				...manifest.stages,
+				synthesis: {
+					status: "failed",
+					failedAt: "2025-10-10T09:40:00.000Z",
+					error: "synthesis failed",
+					configUsed: { modelId: "anthropic/claude-sonnet-4.6" },
+					cost: null,
+					filesWritten: [],
+				},
+			},
+		});
+
+		const report = formatCostReport({
+			runLogs,
+			manifest: failedSynthesis,
+			gbpPerUsd: GBP_PER_USD,
+		});
+
+		// Section 1 prices the outputs that stand on disk, and a failed stage left
+		// none. Its spend is section 2's to report.
+		expect(report).not.toMatch(/^Synthesis/m);
+	});
+
+	it("should sum nothing beneath its sections when the report is rendered", () => {
+		const report = formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD });
+
+		expect(report).not.toContain("Wasted on failures");
+		// 0.042 + 0.034 + 0.312 USD at 0.74, the total the first section used to
+		// close with.
+		expect(report).not.toContain("£0.287");
+	});
+
+	it("should render every figure in pounds when the stored figures are in dollars", () => {
+		const report = formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD });
+
+		// 0.312 USD is what synthesis cost; 0.312 * 0.74 = 0.23088.
+		expect(report).toContain("£0.231");
 		expect(report).not.toContain("$");
 	});
 });
@@ -523,46 +458,35 @@ describe("formatRunSummary", () => {
 			gbpPerUsd: GBP_PER_USD,
 		});
 
-		expect(summary).toContain("n/a");
+		// Synthesis names a model and failed before it charged anything, so it keeps
+		// its row and its cost is unknown rather than nothing.
+		expect(summary).toMatch(/Synthesis\s+anthropic\/claude-sonnet-4\.6\s+0\s+0 \/\s+0\s+n\/a/);
 	});
 
-	it("should total the calls, tokens, and cost of every stage that ran when the run ends", () => {
+	it("should leave a stage out when it names no model", () => {
+		const summary = formatRunSummary({
+			outcomes: [
+				{ stageId: "audio-extraction", entry: ran("complete") },
+				{ stageId: "transcription", entry: ran("complete") },
+			],
+			manifest: runManifest,
+			gbpPerUsd: GBP_PER_USD,
+		});
+
+		expect(summary).not.toContain("Audio extraction");
+		expect(summary).toContain("Transcription");
+	});
+
+	it("should sum nothing beneath the table when the run ends", () => {
 		const summary = formatRunSummary({
 			outcomes: runOutcomes,
 			manifest: runManifest,
 			gbpPerUsd: GBP_PER_USD,
 		});
 
-		// 1 + 24 calls; 0.042 + 0.034 USD at 0.74 = 0.05624; the failed stage adds nothing.
-		expect(summary).toContain("This run");
-		expect(summary).toMatch(/This run\s+25\s+41,000 \/\s+8,100\s+£0\.056/);
-	});
-
-	it("should render the total as n/a when a stage's cost lookup did not resolve", () => {
-		const unresolved: RunManifest = {
-			...runManifest,
-			stages: {
-				...runManifest.stages,
-				transcription: completed({
-					configUsed: { modelId: transcriptionModelId },
-					cost: {
-						promptTokens: 0,
-						completionTokens: 0,
-						callCount: 1,
-						totalCostUsd: null,
-						costResolutionError: "duration lookup failed",
-					},
-				}),
-			},
-		};
-
-		const summary = formatRunSummary({
-			outcomes: [{ stageId: "transcription", entry: ran("complete") }],
-			manifest: unresolved,
-			gbpPerUsd: GBP_PER_USD,
-		});
-
-		expect(summary).toMatch(/This run\s+1\s+0 \/\s+0\s+n\/a/);
+		expect(summary).not.toContain("This run");
+		// 1 + 24 calls, and 0.042 + 0.034 USD at 0.74 — what the closing line read.
+		expect(summary).not.toContain("£0.056");
 	});
 
 	it("should render the whole summary table when given a run's outcomes", () => {
@@ -576,18 +500,15 @@ const lecture = ({
 	moduleRoot,
 	folder,
 	overallStatus,
-	totalCostUsd,
 }: {
 	readonly moduleRoot: string;
 	readonly folder: string;
 	readonly overallStatus: OverallStatus;
-	readonly totalCostUsd: number;
 }): RunSummary => ({
 	workspaceRoot: join(moduleDirs({ moduleRoot }).processing, folder),
 	runId: testRunId,
 	startedAt: "2025-10-10T09:00:00.000Z",
 	endedAt: "2025-10-10T09:30:00.000Z",
-	totalCostUsd,
 	stageOutcomes: [],
 	overallStatus,
 });
@@ -596,14 +517,12 @@ const succeededLecture = lecture({
 	moduleRoot: testModuleRoot,
 	folder: testLecture.folderName,
 	overallStatus: "success",
-	totalCostUsd: 0.2,
 });
 
 const failedLecture = lecture({
 	moduleRoot: testModuleRoot,
 	folder: otherLecture.folderName,
 	overallStatus: "failed",
-	totalCostUsd: 0.1,
 });
 
 // A third lecture, in the second module, so the table has a module whose status
@@ -612,82 +531,70 @@ const otherModuleLecture = lecture({
 	moduleRoot: otherModuleRoot,
 	folder: "Lecture 1 - Antigens - 2025-10-11",
 	overallStatus: "partial",
-	totalCostUsd: 0.3,
 });
 
 const batch: BatchSummary = {
 	startedAt: "2025-10-10T09:00:00.000Z",
 	endedAt: "2025-10-10T10:00:00.000Z",
 	lectures: [succeededLecture, failedLecture, otherModuleLecture],
-	totalCostUsd: 0.6,
 	overallStatus: "failed",
 };
 
 describe("formatBatchSummary", () => {
 	it("should render one row per module when the batch spanned several modules", () => {
-		const summary = formatBatchSummary({ batch, gbpPerUsd: GBP_PER_USD });
+		const summary = formatBatchSummary({ batch });
 
 		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+2\\s`));
 		expect(summary).toMatch(new RegExp(`${otherModuleName}\\s+1\\s`));
 	});
 
 	it("should report a module as failed when one of its lectures failed", () => {
-		const summary = formatBatchSummary({ batch, gbpPerUsd: GBP_PER_USD });
+		const summary = formatBatchSummary({ batch });
 
-		// 0.2 + 0.1 USD at 0.74 = 0.222.
-		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+2\\s+failed\\s+£0\\.222`));
+		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+2\\s+failed`));
 	});
 
 	it("should carry a module's own status when none of its lectures failed", () => {
-		const summary = formatBatchSummary({ batch, gbpPerUsd: GBP_PER_USD });
+		const summary = formatBatchSummary({ batch });
 
-		expect(summary).toMatch(new RegExp(`${otherModuleName}\\s+1\\s+partial\\s+£0\\.222`));
+		expect(summary).toMatch(new RegExp(`${otherModuleName}\\s+1\\s+partial`));
 	});
 
-	it("should total every lecture in an all-modules row when the batch ends", () => {
-		const summary = formatBatchSummary({ batch, gbpPerUsd: GBP_PER_USD });
+	it("should count every lecture in an all-modules row when the batch ends", () => {
+		const summary = formatBatchSummary({ batch });
 
-		// 0.6 USD at 0.74 = 0.444.
-		expect(summary).toMatch(/All modules\s+3\s+failed\s+£0\.444/);
+		expect(summary).toMatch(/All modules\s+3\s+failed/);
+	});
+
+	it("should show no money at all when the batch table is rendered", () => {
+		// What a module or a batch spent is a sum across lectures, and the figures
+		// are kept per stage (NFR-2.2). Each lecture's own summary carries them.
+		const summary = formatBatchSummary({ batch });
+
+		expect(summary).not.toContain("£");
+		expect(summary).not.toContain("Cost");
 	});
 
 	it("should keep two modules apart when their directories carry the same name", () => {
 		// A second module of the same name, filed somewhere else — two rows, since
-		// the two hold different lectures and cost different amounts.
+		// the two hold different lectures.
 		const namesake = lecture({
 			moduleRoot: join(otherModuleRoot, testModuleName),
 			folder: otherLecture.folderName,
-			overallStatus: "success",
-			totalCostUsd: 0.5,
+			overallStatus: "partial",
 		});
 
 		const summary = formatBatchSummary({
 			batch: { ...batch, lectures: [succeededLecture, namesake] },
-			gbpPerUsd: GBP_PER_USD,
 		});
 
 		const rows = summary.split("\n").filter((line) => line.startsWith(testModuleName));
 		expect(rows).toHaveLength(2);
-		// 0.2 and 0.5 USD at 0.74, each still its own module's spend.
-		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+1\\s+success\\s+£0\\.148`));
-		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+1\\s+success\\s+£0\\.370`));
-	});
-
-	it("should render both the module's spend and the batch total as unknown when one lecture's cost is unresolved", () => {
-		const summary = formatBatchSummary({
-			batch: {
-				...batch,
-				lectures: [{ ...succeededLecture, totalCostUsd: null }, failedLecture, otherModuleLecture],
-				totalCostUsd: null,
-			},
-			gbpPerUsd: GBP_PER_USD,
-		});
-
-		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+2\\s+failed\\s+n/a`));
-		expect(summary).toMatch(/All modules\s+3\s+failed\s+n\/a/);
+		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+1\\s+success`));
+		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+1\\s+partial`));
 	});
 
 	it("should render the whole batch table when given a batch summary", () => {
-		expect(formatBatchSummary({ batch, gbpPerUsd: GBP_PER_USD })).toMatchSnapshot();
+		expect(formatBatchSummary({ batch })).toMatchSnapshot();
 	});
 });

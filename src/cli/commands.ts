@@ -298,7 +298,7 @@ async function batchCommand({
 	for (const summary of batch.lectures) {
 		await printRunSummary({ deps, summary });
 	}
-	deps.write(`${formatBatchSummary({ batch, gbpPerUsd: deps.gbpPerUsd })}\n`);
+	deps.write(`${formatBatchSummary({ batch })}\n`);
 	return batch.overallStatus === "failed" ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 

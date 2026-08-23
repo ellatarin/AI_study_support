@@ -16,86 +16,6 @@ import type {
 } from "../types/pipeline.js";
 import { STAGE_IDS } from "../types/pipeline.js";
 
-/**
- * Merges two `StageCost` accumulators, summing tokens, call counts, and cost.
- * Cost is kept at full precision (rounding is a display concern) — the result is
- * a resolved cost only when both inputs resolved; if either is `null` the merged
- * cost is `null` and the unresolved errors are joined (technical-design.md §7).
- *
- * @param args - The two costs to combine.
- * @param args.current - The running accumulator.
- * @param args.incoming - The cost to fold in.
- * @returns A new `StageCost` with the combined totals.
- */
-export function accumulateCost({
-	current,
-	incoming,
-}: {
-	readonly current: StageCost;
-	readonly incoming: StageCost;
-}): StageCost {
-	const base = {
-		promptTokens: current.promptTokens + incoming.promptTokens,
-		completionTokens: current.completionTokens + incoming.completionTokens,
-		callCount: current.callCount + incoming.callCount,
-	};
-
-	if (current.totalCostUsd === null || incoming.totalCostUsd === null) {
-		const errors = [
-			current.totalCostUsd === null ? current.costResolutionError : null,
-			incoming.totalCostUsd === null ? incoming.costResolutionError : null,
-		].filter((message): message is string => message !== null);
-		return { ...base, totalCostUsd: null, costResolutionError: errors.join("; ") };
-	}
-	return { ...base, totalCostUsd: current.totalCostUsd + incoming.totalCostUsd };
-}
-
-/**
- * Adds two stored USD amounts, either of which may be unresolved. The sum is a
- * figure only when both are, since an unresolved part leaves the whole unknown
- * (technical-design.md §7).
- *
- * The rule {@link accumulateCost} applies to a whole `StageCost`, for the totals
- * that carry an amount alone — a run's, a module's, a batch's.
- *
- * @param args - The two amounts to add.
- * @param args.current - The running total, or `null` if it is already unresolved.
- * @param args.incoming - The amount to add, or `null` if its lookup failed.
- * @returns The combined amount, or `null` if either side is unresolved.
- */
-export function addCost({
-	current,
-	incoming,
-}: {
-	readonly current: number | null;
-	readonly incoming: number | null;
-}): number | null {
-	if (current === null || incoming === null) {
-		return null;
-	}
-	return current + incoming;
-}
-
-/**
- * What a set of lecture runs spent between them: the batch total, and each
- * module's row within it, are the same sum over different selections.
- *
- * @param args - The lectures to total.
- * @param args.lectures - The run summaries to add up.
- * @returns Their combined spend, or `null` if any one of them is unresolved.
- */
-export function totalLectureCost({
-	lectures,
-}: {
-	readonly lectures: readonly RunSummary[];
-}): number | null {
-	let total: number | null = 0;
-	for (const lecture of lectures) {
-		total = addCost({ current: total, incoming: lecture.totalCostUsd });
-	}
-	return total;
-}
-
 /** Human-readable label for each stage, in pipeline order (technical-design.md §4.1). */
 const STAGE_LABELS: Readonly<Record<StageId, string>> = {
 	"source-normalisation": "Source normalisation",
@@ -240,11 +160,15 @@ function formatCells(cells: readonly Cell[]): string {
 /**
  * Assembles a titled, ruled table from its parts, shared by the report sections.
  *
+ * The table closes on the rule under its last row and adds nothing beneath it,
+ * since no table sums its rows (NFR-2.2). A caller with a line to put there —
+ * the batch summary's cross-module row, which counts lectures rather than adding
+ * money — appends it to what this returns.
+ *
  * @param args - The table parts.
  * @param args.title - The section title printed above the table.
  * @param args.columns - The header cells.
  * @param args.rows - The body rows, each a list of cells.
- * @param args.footer - The total/summary cells printed below the rule.
  * @param args.width - The width of the horizontal rules, in characters.
  * @returns The table as an array of lines.
  */
@@ -252,13 +176,11 @@ function renderCostTable({
 	title,
 	columns,
 	rows,
-	footer,
 	width,
 }: {
 	readonly title: string;
 	readonly columns: readonly Cell[];
 	readonly rows: readonly (readonly Cell[])[];
-	readonly footer: readonly Cell[];
 	readonly width: number;
 }): readonly string[] {
 	return [
@@ -267,7 +189,6 @@ function renderCostTable({
 		RULE.repeat(width),
 		...rows.map(formatCells),
 		RULE.repeat(width),
-		formatCells(footer),
 	];
 }
 
@@ -336,35 +257,37 @@ const wasSpentOnFailure: StageEntrySelector = ({ log, entry }) =>
 const wasAnExperiment: StageEntrySelector = ({ log }) => log.runType === "experiment";
 
 /**
- * Extracts the model and cost a manifest stage entry recorded. A stage that has
- * not reached a terminal state carries neither, and a stage that made no billable
- * call carries no cost, so both are reported as absent.
- *
- * @param entry - The manifest stage entry, or `undefined` if the stage never ran.
- * @returns The model id (a placeholder when unavailable) and the recorded cost.
- */
-function manifestStageOutput(entry: ManifestStageEntry | QaManifestStageEntry | undefined): {
+/** What a cost table shows for one stage: the model it used and what it recorded. */
+type StageCostRow = {
 	readonly model: string;
 	readonly cost: StageCost | null;
-} {
-	if (entry === undefined || entry.status === "pending" || entry.status === "running") {
-		return { model: "—", cost: null };
-	}
-	return { model: entry.configUsed?.modelId ?? "—", cost: entry.cost };
-}
+};
 
 /**
- * Extracts the model and call count recorded for a manifest stage entry.
+ * The row a stage earns in a cost table, or `null` where it earns none.
+ *
+ * A stage earns one by naming a model. One that names none makes no model call —
+ * audio extraction, PDF generation — so it has no spend to set against another
+ * model's, which is what these tables are read for (NFR-2.2). A stage that has
+ * not reached a terminal state has recorded nothing yet.
+ *
+ * The `cost` it carries may still be absent or unresolved; that is the
+ * difference between a row and no row, and `n/a` is how a row says it.
  *
  * @param entry - The manifest stage entry, or `undefined` if the stage never ran.
- * @returns The model id and call count, with placeholders when unavailable.
+ * @returns The stage's model and recorded cost, or `null` if it earns no row.
  */
-function manifestStageMeta(entry: ManifestStageEntry | QaManifestStageEntry | undefined): {
-	readonly model: string;
-	readonly calls: number;
-} {
-	const { model, cost } = manifestStageOutput(entry);
-	return { model, calls: cost?.callCount ?? 0 };
+function stageCostRow(
+	entry: ManifestStageEntry | QaManifestStageEntry | undefined,
+): StageCostRow | null {
+	if (entry === undefined || entry.status === "pending" || entry.status === "running") {
+		return null;
+	}
+	const model = entry.configUsed?.modelId;
+	if (model === undefined || model === null) {
+		return null;
+	}
+	return { model, cost: entry.cost };
 }
 
 /**
@@ -400,10 +323,11 @@ type RunLogSectionArgs = {
 /** Column widths of the current-pipeline section, shared by its header, rows, and total. */
 const CURRENT_PIPELINE_WIDTHS = { stage: 24, model: MODEL_WIDTH, calls: 7 } as const;
 
-const CURRENT_PIPELINE_LABEL_WIDTH =
-	CURRENT_PIPELINE_WIDTHS.stage + CURRENT_PIPELINE_WIDTHS.model + CURRENT_PIPELINE_WIDTHS.calls;
-
-const CURRENT_PIPELINE_RULE_WIDTH = CURRENT_PIPELINE_LABEL_WIDTH + COST_WIDTH;
+const CURRENT_PIPELINE_RULE_WIDTH =
+	CURRENT_PIPELINE_WIDTHS.stage +
+	CURRENT_PIPELINE_WIDTHS.model +
+	CURRENT_PIPELINE_WIDTHS.calls +
+	COST_WIDTH;
 
 /**
  * Section 1: what the outputs currently on disk cost to produce.
@@ -416,16 +340,21 @@ const CURRENT_PIPELINE_RULE_WIDTH = CURRENT_PIPELINE_LABEL_WIDTH + COST_WIDTH;
 function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs): readonly string[] {
 	const rows: Cell[][] = [];
 	for (const stageId of STAGE_IDS) {
-		const cost = manifest.currentPipelineCost.byStage[stageId];
-		if (cost === undefined) {
+		const entry = manifest.stages[stageId];
+		// What the outputs on disk cost: a stage that failed left none behind, and
+		// what it spent getting there is section 2's to report.
+		if (entry?.status !== "complete" && entry?.status !== "skipped") {
 			continue;
 		}
-		const { model, calls } = manifestStageMeta(manifest.stages[stageId]);
+		const row = stageCostRow(entry);
+		if (row === null) {
+			continue;
+		}
 		rows.push([
 			[STAGE_LABELS[stageId], CURRENT_PIPELINE_WIDTHS.stage, "left"],
-			[model, CURRENT_PIPELINE_WIDTHS.model, "left"],
-			[String(calls), CURRENT_PIPELINE_WIDTHS.calls, "right"],
-			costCell({ amount: cost, formatMoney }),
+			[row.model, CURRENT_PIPELINE_WIDTHS.model, "left"],
+			[String(row.cost?.callCount ?? 0), CURRENT_PIPELINE_WIDTHS.calls, "right"],
+			costCell({ amount: row.cost?.totalCostUsd ?? null, formatMoney }),
 		]);
 	}
 	return renderCostTable({
@@ -437,10 +366,6 @@ function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs):
 			COST_HEADER,
 		],
 		rows,
-		footer: [
-			["", CURRENT_PIPELINE_LABEL_WIDTH, "left"],
-			costCell({ amount: manifest.currentPipelineCost.totalCostUsd, formatMoney }),
-		],
 		width: CURRENT_PIPELINE_RULE_WIDTH,
 	});
 }
@@ -454,28 +379,18 @@ function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs):
  * @returns The section's lines.
  */
 function errorRecoverySection({ runLogs, formatMoney }: RunLogSectionArgs): readonly string[] {
-	const rows: Cell[][] = [];
-	let wasted: number | null = 0;
-	for (const { log, stageId, entry } of ranStageEntries({
-		runLogs,
-		selects: wasSpentOnFailure,
-	})) {
-		if (entry.status === "failed") {
-			wasted = addCost({ current: wasted, incoming: entry.cost.totalCostUsd });
-		}
-		const status = entry.status === "failed" ? "failed" : "retry";
-		rows.push([
+	const rows = ranStageEntries({ runLogs, selects: wasSpentOnFailure }).map(
+		({ log, stageId, entry }): readonly Cell[] => [
 			[log.startedAt, 26, "left"],
 			[stageId, 22, "left"],
-			[status, 8, "right"],
+			[entry.status === "failed" ? "failed" : "retry", 8, "right"],
 			costCell({ amount: entry.cost.totalCostUsd, formatMoney }),
-		]);
-	}
+		],
+	);
 	return renderCostTable({
 		title: "Error recovery cost",
 		columns: [["Run", 26, "left"], ["Stage", 22, "left"], ["Status", 8, "right"], COST_HEADER],
 		rows,
-		footer: [["Wasted on failures", 56, "left"], costCell({ amount: wasted, formatMoney })],
 		width: 66,
 	});
 }
@@ -535,15 +450,7 @@ export function formatCostReport({
 	].join("\n");
 }
 
-/** A zero accumulator, so a run with no billable stage still totals cleanly. */
-const NO_COST: StageCost = {
-	promptTokens: 0,
-	completionTokens: 0,
-	callCount: 0,
-	totalCostUsd: 0,
-};
-
-/** Column widths of the end-of-run summary, shared by its header, rows, and total. */
+/** Column widths of the end-of-run summary, shared by its header and its rows. */
 const RUN_SUMMARY_WIDTHS = {
 	stage: 24,
 	model: MODEL_WIDTH,
@@ -592,14 +499,15 @@ function tokensCell(cost: StageCost | null): Cell {
 }
 
 /**
- * The stages this invocation actually executed, paired with what the manifest
- * recorded for each. Skipped and not-reached stages are left out: the summary
- * reports the work the run did, not the work it declined to repeat.
+ * The stages this invocation executed that have a model's cost to show, paired
+ * with what the manifest recorded for each. Skipped and not-reached stages are
+ * left out — the summary reports the work the run did, not the work it declined
+ * to repeat — and so is any stage that names no model.
  *
  * @param args - The run's outcomes and the manifest they were recorded in.
  * @param args.outcomes - Every stage's outcome, in execution order.
  * @param args.manifest - The lecture's manifest, holding each stage's model and cost.
- * @returns The executed stages with their recorded model and cost.
+ * @returns The executed stages that earn a row, with their model and recorded cost.
  */
 function executedStages({
 	outcomes,
@@ -607,29 +515,28 @@ function executedStages({
 }: {
 	readonly outcomes: readonly RunStageOutcome[];
 	readonly manifest: RunManifest;
-}): readonly {
-	readonly stageId: StageId;
-	readonly model: string;
-	readonly cost: StageCost | null;
-}[] {
-	return outcomes
-		.filter((outcome) => outcome.entry.action === "ran")
-		.map((outcome) => ({
-			stageId: outcome.stageId,
-			...manifestStageOutput(manifest.stages[outcome.stageId]),
-		}));
+}): readonly (StageCostRow & { readonly stageId: StageId })[] {
+	const stages: (StageCostRow & { readonly stageId: StageId })[] = [];
+	for (const outcome of outcomes) {
+		if (outcome.entry.action !== "ran") {
+			continue;
+		}
+		const row = stageCostRow(manifest.stages[outcome.stageId]);
+		if (row !== null) {
+			stages.push({ stageId: outcome.stageId, ...row });
+		}
+	}
+	return stages;
 }
 
 /**
- * Renders the end-of-run summary: one row per stage this invocation executed,
- * showing the model it used, its call and token counts, and its cost, closed by a
- * `This run` total. Costs are stored in USD and presented in pounds
- * (technical-design.md §7).
+ * Renders the end-of-run summary: one row per stage this invocation executed
+ * that names a model, showing the model, its call and token counts, and its
+ * cost. Costs are stored in USD and presented in pounds (technical-design.md §7).
  *
- * A stage that recorded no cost — one that makes no billable call, or one that
- * failed before it made one — shows `n/a` and contributes nothing to the total;
- * a stage whose cost lookup failed outright leaves the total itself unresolved,
- * since the run's real spend is then unknown.
+ * The table ends at its last stage — nothing sums the run (NFR-2.2). A stage's
+ * cost reads `n/a` wherever no figure was resolved, whether its lookup failed or
+ * it failed before it charged anything.
  *
  * @param args - The summary inputs.
  * @param args.outcomes - Every stage's outcome for this run, in execution order.
@@ -643,20 +550,15 @@ export function formatRunSummary({
 	gbpPerUsd,
 }: ManifestReport<{ readonly outcomes: readonly RunStageOutcome[] }>): string {
 	const formatMoney = createMoneyFormatter({ gbpPerUsd });
-	const stages = executedStages({ outcomes, manifest });
-	let total: StageCost = NO_COST;
-	const rows = stages.map(({ stageId, model, cost }) => {
-		if (cost !== null) {
-			total = accumulateCost({ current: total, incoming: cost });
-		}
-		return [
+	const rows = executedStages({ outcomes, manifest }).map(
+		({ stageId, model, cost }): readonly Cell[] => [
 			[STAGE_LABELS[stageId], RUN_SUMMARY_WIDTHS.stage, "left"],
 			[model, RUN_SUMMARY_WIDTHS.model, "left"],
 			[String(cost?.callCount ?? 0), RUN_SUMMARY_WIDTHS.calls, "right"],
 			tokensCell(cost),
 			costCell({ amount: cost?.totalCostUsd ?? null, formatMoney }),
-		] as readonly Cell[];
-	});
+		],
+	);
 	return renderCostTable({
 		title: `Run summary — Lecture ${manifest.lectureNumber}: ${manifest.lectureTitle} (${manifest.lectureDate})`,
 		columns: [
@@ -667,24 +569,15 @@ export function formatRunSummary({
 			COST_HEADER,
 		],
 		rows,
-		footer: [
-			["This run", RUN_SUMMARY_WIDTHS.stage + RUN_SUMMARY_WIDTHS.model, "left"],
-			[String(total.callCount), RUN_SUMMARY_WIDTHS.calls, "right"],
-			tokensCell(total),
-			costCell({ amount: total.totalCostUsd, formatMoney }),
-		],
 		width: RUN_SUMMARY_RULE_WIDTH,
 	}).join("\n");
 }
 
-/** Column widths of the batch summary, shared by its header, rows, and total. */
+/** Column widths of the batch summary, shared by its header, rows, and closing row. */
 const BATCH_SUMMARY_WIDTHS = { module: 30, lectures: 10, status: 10 } as const;
 
 const BATCH_SUMMARY_RULE_WIDTH =
-	BATCH_SUMMARY_WIDTHS.module +
-	BATCH_SUMMARY_WIDTHS.lectures +
-	BATCH_SUMMARY_WIDTHS.status +
-	COST_WIDTH;
+	BATCH_SUMMARY_WIDTHS.module + BATCH_SUMMARY_WIDTHS.lectures + BATCH_SUMMARY_WIDTHS.status;
 
 /**
  * Groups a batch's lectures by the module they belong to, preserving the order
@@ -692,7 +585,7 @@ const BATCH_SUMMARY_RULE_WIDTH =
  *
  * Grouped by the module's path rather than its name: a batch can be given two
  * module directories that share a leaf name, and they are two modules with two
- * sets of lectures and two amounts spent.
+ * sets of lectures.
  *
  * @param lectures - Every lecture the batch attempted.
  * @returns The lectures grouped by module root.
@@ -709,20 +602,18 @@ function lecturesByModule(
 }
 
 /**
- * Renders the batch summary: one row per module giving its lecture count, its
- * combined status, and what it spent, closed by a cross-module total
- * (technical-design.md §4.7).
+ * Renders the batch summary: one row per module giving its lecture count and its
+ * combined status, closed by a row across all of them (technical-design.md §4.7).
+ *
+ * It shows no money and takes no rate. What a module or a batch spent is a sum
+ * across lectures, and cost is kept per stage (NFR-2.2) — each lecture's own
+ * end-of-run summary carries its figures.
  *
  * @param args - The summary inputs.
  * @param args.batch - The completed batch's summary.
- * @param args.gbpPerUsd - Pounds per US dollar, from `currency.gbpPerUsd`.
  * @returns The formatted batch table.
  */
-export function formatBatchSummary({
-	batch,
-	gbpPerUsd,
-}: PresentedAt<{ readonly batch: BatchSummary }>): string {
-	const formatMoney = createMoneyFormatter({ gbpPerUsd });
+export function formatBatchSummary({ batch }: { readonly batch: BatchSummary }): string {
 	const rows: (readonly Cell[])[] = [];
 	for (const [moduleRoot, lectures] of lecturesByModule(batch.lectures)) {
 		const status: OverallStatus = summariseOverallStatus({
@@ -732,24 +623,24 @@ export function formatBatchSummary({
 			[basename(moduleRoot), BATCH_SUMMARY_WIDTHS.module, "left"],
 			[String(lectures.length), BATCH_SUMMARY_WIDTHS.lectures, "right"],
 			[status, BATCH_SUMMARY_WIDTHS.status, "right"],
-			costCell({ amount: totalLectureCost({ lectures }), formatMoney }),
 		]);
 	}
-	return renderCostTable({
-		title: "Batch summary",
-		columns: [
-			["Module", BATCH_SUMMARY_WIDTHS.module, "left"],
-			["Lectures", BATCH_SUMMARY_WIDTHS.lectures, "right"],
-			["Status", BATCH_SUMMARY_WIDTHS.status, "right"],
-			COST_HEADER,
-		],
-		rows,
-		footer: [
-			["All modules", BATCH_SUMMARY_WIDTHS.module, "left"],
-			[String(batch.lectures.length), BATCH_SUMMARY_WIDTHS.lectures, "right"],
-			[batch.overallStatus, BATCH_SUMMARY_WIDTHS.status, "right"],
-			costCell({ amount: batch.totalCostUsd, formatMoney }),
-		],
-		width: BATCH_SUMMARY_RULE_WIDTH,
-	}).join("\n");
+	const acrossModules: readonly Cell[] = [
+		["All modules", BATCH_SUMMARY_WIDTHS.module, "left"],
+		[String(batch.lectures.length), BATCH_SUMMARY_WIDTHS.lectures, "right"],
+		[batch.overallStatus, BATCH_SUMMARY_WIDTHS.status, "right"],
+	];
+	return [
+		...renderCostTable({
+			title: "Batch summary",
+			columns: [
+				["Module", BATCH_SUMMARY_WIDTHS.module, "left"],
+				["Lectures", BATCH_SUMMARY_WIDTHS.lectures, "right"],
+				["Status", BATCH_SUMMARY_WIDTHS.status, "right"],
+			],
+			rows,
+			width: BATCH_SUMMARY_RULE_WIDTH,
+		}),
+		formatCells(acrossModules),
+	].join("\n");
 }

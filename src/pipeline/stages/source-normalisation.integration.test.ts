@@ -3,9 +3,8 @@ import { join } from "node:path";
 import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RunManifest } from "../../types/pipeline.js";
-import { createMoneyFormatter } from "../../utils/cost.js";
 import type { LoggedEntry, LoggedLevel } from "../fixtures.js";
-import { GBP_PER_USD, loggedAt, makeStubLogger, makeTempDir } from "../fixtures.js";
+import { loggedAt, makeStubLogger, makeTempDir } from "../fixtures.js";
 import { moduleDirs } from "../layout.js";
 import { manifestPath } from "../manifest.js";
 import {
@@ -95,11 +94,7 @@ describe("createSourceNormalisationStage", () => {
 	 */
 	function freshStage(): void {
 		logged = makeStubLogger();
-		stage = createSourceNormalisationStage({
-			logger: logged.logger,
-			confirm,
-			formatMoney: createMoneyFormatter({ gbpPerUsd: GBP_PER_USD }),
-		});
+		stage = createSourceNormalisationStage({ logger: logged.logger, confirm });
 	}
 
 	/** What the stage logged at one level. */
@@ -184,7 +179,6 @@ describe("createSourceNormalisationStage", () => {
 		});
 		expect(manifest.stages["audio-extraction"]).toEqual({ status: "pending" });
 		expect(manifest.stages["pdf-generation"]).toEqual({ status: "pending" });
-		expect(manifest.currentPipelineCost).toEqual({ totalCostUsd: 0, byStage: {} });
 	});
 
 	it("should seed lectureTitle equal to provisionalTitle and leave userTitle and aiDerivedTitle null when a lecture is new", async () => {
@@ -457,10 +451,6 @@ describe("createSourceNormalisationStage", () => {
 			await normaliseTwoLectures();
 			await writeInto(finalOutputDir(moduleRoot), `${CELL_INJURY}.pdf`);
 			await writeInto(finalOutputDir(moduleRoot), `${VACCINATION}.pdf`);
-			await patchManifest({
-				folder: join(processingDir(moduleRoot), CELL_INJURY),
-				patch: { currentPipelineCost: { totalCostUsd: 1.23, byStage: { transcription: 1.23 } } },
-			});
 			freshStage();
 			confirm.mockClear();
 		});
@@ -475,10 +465,6 @@ describe("createSourceNormalisationStage", () => {
 			{ detail: "the lecture number", fragment: "Lecture 1" },
 			{ detail: "the title", fragment: "Cell Injury" },
 			{ detail: "the date", fragment: "2025-10-10" },
-			// The spend is stored in dollars and shown in pounds: 1.23 USD at the
-			// suites' rate. Anything a user weighs a deletion against is presented
-			// currency (TD §7, NFR-2.3).
-			{ detail: "the cost already spent", fragment: "£0.910" },
 		])("should show $detail in the orphan prompt when a lecture's sources are gone", async ({
 			fragment,
 		}) => {
@@ -487,6 +473,19 @@ describe("createSourceNormalisationStage", () => {
 			await stage.normaliseModule({ moduleRoot });
 
 			expect(promptMessages()).toContainEqual(expect.stringContaining(fragment));
+		});
+
+		it("should quote no figure in the orphan prompt when a lecture's sources are gone", async () => {
+			// What a lecture has cost is the sum of its stages, and stage costs are
+			// not summed (NFR-2.2). `cost-report` still has the per-stage figures for
+			// as long as the workspace stands.
+			await removeSourcePair(CELL_INJURY);
+
+			await stage.normaliseModule({ moduleRoot });
+
+			for (const message of promptMessages()) {
+				expect(message).not.toContain("£");
+			}
 		});
 
 		it("should delete the workspace and its Final output PDF and renumber the remainder when an orphan is approved", async () => {
@@ -539,7 +538,7 @@ describe("createSourceNormalisationStage", () => {
 			]);
 		});
 
-		it("should log the prior number, title, date, and cost when an orphan is deleted", async () => {
+		it("should log the prior number, title, and date when an orphan is deleted", async () => {
 			await removeSourcePair(CELL_INJURY);
 
 			await stage.normaliseModule({ moduleRoot });
@@ -549,7 +548,6 @@ describe("createSourceNormalisationStage", () => {
 					lectureNumber: 1,
 					lectureTitle: "Cell Injury",
 					lectureDate: "2025-10-10",
-					totalCostUsd: 1.23,
 				}),
 			);
 		});

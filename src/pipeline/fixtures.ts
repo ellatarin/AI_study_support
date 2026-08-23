@@ -475,7 +475,6 @@ export function makeManifest(overrides: Partial<RunManifest> = {}): RunManifest 
 		createdAt: `${testLecture.date}T00:00:00.000Z`,
 		updatedAt: `${testLecture.date}T00:00:00.000Z`,
 		stages: pendingStages(),
-		currentPipelineCost: { totalCostUsd: 0, byStage: {} },
 		...overrides,
 	};
 }

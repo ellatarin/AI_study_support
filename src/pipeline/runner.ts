@@ -4,7 +4,6 @@ import type { Logger } from "pino";
 import type {
 	BatchRunOptions,
 	BatchSummary,
-	CurrentPipelineCost,
 	LectureIdentityChanges,
 	LectureMatch,
 	ManifestStageEntry,
@@ -27,7 +26,7 @@ import type {
 	StageRunConfig,
 } from "../types/pipeline.js";
 import { DEFAULT_BATCH_OPTIONS, DEFAULT_RUN_OPTIONS, STAGE_IDS } from "../types/pipeline.js";
-import { addCost, formatCostReport, totalLectureCost } from "../utils/cost.js";
+import { formatCostReport } from "../utils/cost.js";
 import { errorMessage } from "../utils/errors.js";
 import { listSubdirectoryNames, readDirSafe, writeFileAtomic } from "../utils/files.js";
 import { createStageLogger } from "../utils/logger.js";
@@ -256,34 +255,6 @@ function patchStages({
 	return { ...stages, [stageId]: entry };
 }
 
-function resolvedStageCost(entry: ManifestStageEntry): number | null {
-	if (entry.status !== "complete" && entry.status !== "skipped") {
-		return null;
-	}
-	return entry.cost?.totalCostUsd ?? null;
-}
-
-function recomputeCost({
-	current,
-	stageId,
-	entry,
-}: {
-	readonly current: CurrentPipelineCost;
-	readonly stageId: StageId;
-	readonly entry: ManifestStageEntry;
-}): CurrentPipelineCost {
-	const stageCost = resolvedStageCost(entry);
-	if (stageCost === null) {
-		return current;
-	}
-	const byStage = { ...current.byStage, [stageId]: stageCost };
-	let total = 0;
-	for (const value of Object.values(byStage) as readonly number[]) {
-		total += value;
-	}
-	return { totalCostUsd: total, byStage };
-}
-
 async function writeJsonAtomic({
 	path,
 	value,
@@ -331,7 +302,6 @@ async function updateManifest({
 		...manifest,
 		...identityChanges,
 		stages: patchStages({ stages: manifest.stages, stageId, entry }),
-		currentPipelineCost: recomputeCost({ current: manifest.currentPipelineCost, stageId, entry }),
 		updatedAt: timestamp,
 	};
 	await writeManifest({ workspaceRoot, manifest: updated });
@@ -577,12 +547,8 @@ function buildRunLog({
 	readonly outcomes: readonly RunStageOutcome[];
 }): RunLog {
 	const stages: Record<string, RunLogStageEntry> = {};
-	let totalCostThisRun: number | null = 0;
 	for (const { stageId, entry } of outcomes) {
 		stages[stageId] = entry;
-		if (entry.action === "ran") {
-			totalCostThisRun = addCost({ current: totalCostThisRun, incoming: entry.cost.totalCostUsd });
-		}
 	}
 	return {
 		runId,
@@ -592,7 +558,6 @@ function buildRunLog({
 		runType,
 		fromStage: options.fromStage ?? null,
 		stages,
-		totalCostThisRun,
 	};
 }
 
@@ -732,7 +697,6 @@ export class PipelineRunner {
 			runId,
 			startedAt: startedIso,
 			endedAt: endedIso,
-			totalCostUsd: runLog.totalCostThisRun,
 			stageOutcomes: outcomes,
 			overallStatus: overallStatus(outcomes),
 		};
@@ -800,13 +764,7 @@ export class PipelineRunner {
 		);
 		const lectures = await this.#runLecturesConcurrently({ workspaces, options });
 		const endedAt = new Date().toISOString();
-		return {
-			startedAt,
-			endedAt,
-			lectures,
-			totalCostUsd: totalLectureCost({ lectures }),
-			overallStatus: aggregateStatus(lectures),
-		};
+		return { startedAt, endedAt, lectures, overallStatus: aggregateStatus(lectures) };
 	}
 
 	// Modules in the order given, and each module's lectures in date order.
