@@ -77,7 +77,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `src/utils/date.ts` — `extractDate`, `formatDateISO` **(TD §3.2, Date and Naming Helpers)**
 - `src/utils/naming.ts` — `extractProvisionalTitle`, `lectureFolderName`, `lectureBaseName` **(TD §3.2)**; `filenameSafe` **(TD §4.4)**
 - `src/utils/progress.ts` — `createProgressBar`, `createUploadProgressStream`, `createParallelWorkBar` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`
-- `src/utils/cost.ts` — `createMoneyFormatter`, `formatCostReport` **(TD §7, Cost Module)**
+- `src/utils/cost.ts` — `accumulateCost`, `createMoneyFormatter`, `formatCostReport` **(TD §7, Cost Module)**
 - `src/pipeline/config.ts` — `loadConfig`, plus the model-ID resolution check and its provider exemptions **(TD §6)**
 - `src/pipeline/openrouter.ts` — `createOpenRouterClient`, `makeCompletionCall`, and the exported `ContextLengthError` **(TD §6)**
 - `src/pipeline/fixtures.ts` — the shared test vocabulary: the example lecture and its derived file names, the module tree builders, the stub logger, the manifest and stage-entry builders. It belongs to this phase because it is what stops each later phase's suites inventing their own lecture, but it is the one deliverable that keeps growing: a phase that needs a fixture the suites will share extends this module rather than restating the value. Production code never imports it, which `eslint.config.js` exempts it in order to allow — it is the one file under `src/pipeline/` permitted to import from `src/pipeline/stages/`
@@ -105,7 +105,8 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `resolveManifestPath` — `test.each` covering: in-workspace path (accepted), `..` escape into `Final output/` under moduleRoot (accepted), `..` escape outside moduleRoot (rejected), symlink pointing outside moduleRoot (rejected after realpath), absolute path (rejected)
 
 `cost.ts` — unit tests:
-- `should render a stage's cost as n/a when its lookup failed` — and `should leave a stage out when it made no billable call`, the two rules every section applies
+- `should render a stage's cost as n/a when its lookup failed` — and `should leave a stage out when it names no model`, the two rules every section applies
+- `accumulateCost` — `test.each` across combinations including zeros and unresolved costs
 - `formatCostReport` — snapshot test (serialisation format regression only)
 
 `progress.ts` — unit tests driving the bar through its control methods:

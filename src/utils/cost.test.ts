@@ -25,6 +25,7 @@ import type {
 	StageRunConfig,
 } from "../types/pipeline.js";
 import {
+	accumulateCost,
 	createMoneyFormatter,
 	formatBatchSummary,
 	formatCostReport,
@@ -32,14 +33,116 @@ import {
 } from "./cost.js";
 
 // Slide conversion is the stage these tables are built around: it is the one
-// with a per-call model, a concurrency, and enough calls for the totals to be
-// worth checking. Every fixture below records the same run of it.
+// with a per-call model, a concurrency, and enough calls for its own figure to
+// be worth checking. Every fixture below records the same run of it.
 const SLIDE_CONVERSION_CONFIG: StageRunConfig = {
 	modelId: "google/gemini-2.5-flash",
 	concurrency: 3,
 };
 const SLIDE_CONVERSION_CALLS = 24;
 const SLIDE_CONVERSION_COST_USD = 0.034;
+
+describe("accumulateCost", () => {
+	it.each([
+		{
+			name: "two resolved calls",
+			current: { promptTokens: 100, completionTokens: 50, callCount: 1, costUsd: 0.02 },
+			incoming: { promptTokens: 200, completionTokens: 80, callCount: 2, costUsd: 0.03 },
+			expectedTokens: { promptTokens: 300, completionTokens: 130, callCount: 3 },
+			expectedCost: 0.05,
+		},
+		{
+			name: "a zero accumulator and a resolved call",
+			current: { promptTokens: 0, completionTokens: 0, callCount: 0, costUsd: 0 },
+			incoming: { promptTokens: 200, completionTokens: 80, callCount: 2, costUsd: 0.03 },
+			expectedTokens: { promptTokens: 200, completionTokens: 80, callCount: 2 },
+			expectedCost: 0.03,
+		},
+	])("should sum tokens, calls, and cost when folding in $name", ({
+		current,
+		incoming,
+		expectedTokens,
+		expectedCost,
+	}) => {
+		const result = accumulateCost({ current, incoming });
+
+		expect(result.promptTokens).toBe(expectedTokens.promptTokens);
+		expect(result.completionTokens).toBe(expectedTokens.completionTokens);
+		expect(result.callCount).toBe(expectedTokens.callCount);
+		expect(result.costUsd).toBeCloseTo(expectedCost);
+	});
+
+	it("should carry the error and null the cost when the incoming call is unresolved", () => {
+		const result = accumulateCost({
+			current: { promptTokens: 100, completionTokens: 50, callCount: 1, costUsd: 0.02 },
+			incoming: {
+				promptTokens: 200,
+				completionTokens: 80,
+				callCount: 2,
+				costUsd: null,
+				costResolutionError: "cost lookup timed out",
+			},
+		});
+
+		// One call's price unknown leaves the stage's own figure unknown: reporting
+		// the calls that did resolve would name a price the stage was not charged.
+		expect(result).toEqual({
+			promptTokens: 300,
+			completionTokens: 130,
+			callCount: 3,
+			costUsd: null,
+			costResolutionError: "cost lookup timed out",
+		});
+	});
+
+	it("should carry the error and null the cost when the running total is unresolved", () => {
+		const result = accumulateCost({
+			current: {
+				promptTokens: 100,
+				completionTokens: 50,
+				callCount: 1,
+				costUsd: null,
+				costResolutionError: "generation lookup returned 503",
+			},
+			incoming: { promptTokens: 200, completionTokens: 80, callCount: 2, costUsd: 0.03 },
+		});
+
+		expect(result).toEqual({
+			promptTokens: 300,
+			completionTokens: 130,
+			callCount: 3,
+			costUsd: null,
+			costResolutionError: "generation lookup returned 503",
+		});
+	});
+
+	it("should join both errors when the running total and the incoming call are both unresolved", () => {
+		const result = accumulateCost({
+			current: {
+				promptTokens: 100,
+				completionTokens: 50,
+				callCount: 1,
+				costUsd: null,
+				costResolutionError: "slide 3 lookup failed",
+			},
+			incoming: {
+				promptTokens: 200,
+				completionTokens: 80,
+				callCount: 2,
+				costUsd: null,
+				costResolutionError: "slide 7 lookup failed",
+			},
+		});
+
+		expect(result).toEqual({
+			promptTokens: 300,
+			completionTokens: 130,
+			callCount: 3,
+			costUsd: null,
+			costResolutionError: "slide 3 lookup failed; slide 7 lookup failed",
+		});
+	});
+});
 
 const resolved = ({
 	callCount,

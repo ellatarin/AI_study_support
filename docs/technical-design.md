@@ -1331,9 +1331,18 @@ Stage: synthesis
 
 ### Cost Module
 
-`src/utils/cost.ts` holds the cost helpers the runner and CLI call. `StageCost`, the type they operate on, is defined in `src/types/pipeline.ts` (single source of truth). None of them adds two costs together: the module renders what each stage recorded and nothing else (NFR-2.2).
+`src/utils/cost.ts` holds the cost helpers the runner and CLI call. `StageCost`, the type they operate on, is defined in `src/types/pipeline.ts` (single source of truth). Nothing here adds one stage to another; the reporting functions render what each stage recorded and nothing else (NFR-2.2).
 
 ```typescript
+accumulateCost(args: { current: StageCost; incoming: StageCost }): StageCost
+// Folds the calls a single stage made into that stage's one StageCost, summing tokens, call counts and cost
+// at full precision (rounding is a display concern). Slide conversion issues one call per slide and image
+// extraction one per image, and each has a single figure to record — this is how they reach it, and it stays
+// inside one stage. The merged cost is resolved only when both inputs resolved; if either is null the result
+// is null and the errors are joined, so a stage whose lookup failed for one call reports `n/a` rather than
+// the part that happened to come back. Takes no rate and does no formatting: it works entirely in stored USD,
+// which is what keeps it unaffected by the presentation currency.
+
 type MoneyFormatter = (amount: number | null) => string
 createMoneyFormatter(args: { gbpPerUsd: number }): MoneyFormatter
 // The one place a money amount becomes a string: converts a stored USD figure to pounds, or renders `n/a`
