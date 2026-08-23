@@ -14,6 +14,7 @@ import {
 	openRouterModelId,
 	openRouterStageConfig,
 	openRouterUrls,
+	openRouterUrlsAt,
 	resetStubbedApi,
 	transcriptionModelId,
 } from "./fixtures.js";
@@ -56,8 +57,11 @@ function makeValidConfig(): Record<string, unknown> {
 	) as Record<string, unknown>;
 }
 
-const GATEWAY_ORIGIN = "https://gateway.example.test";
-const GATEWAY_BASE_URL = `${GATEWAY_ORIGIN}/openrouter/v1`;
+// An address that is not the default, and is not a bare host either: the
+// derived-address tests prove the loader reads the configured base URL rather
+// than a constant, which a gateway with a path of its own is what shows.
+const GATEWAY_BASE_URL = "https://gateway.example.test/openrouter/v1";
+const gatewayUrls = openRouterUrlsAt(GATEWAY_BASE_URL);
 
 /**
  * Builds a corrupter for one config section: it returns that section as raw
@@ -125,14 +129,26 @@ async function writeConfig(config: unknown): Promise<void> {
 }
 
 /**
- * Writes a valid config addressing OpenRouter somewhere other than the default,
- * which is how the derived-address tests prove the loader reads the config
- * rather than a constant.
+ * Puts a config the loader will accept on disk, with one adjustment applied
+ * first. Every test here starts from the same valid config and changes the one
+ * thing its branch is about, so building it, changing it and writing it is one
+ * step rather than three restated per test.
+ *
+ * @param adjust - Applied to the config before it is written; nothing by default.
  */
-async function writeConfigAtGateway(): Promise<void> {
+async function writeValidConfig(
+	adjust: (config: Record<string, unknown>) => void = () => undefined,
+): Promise<void> {
 	const config = makeValidConfig();
-	config.openRouter = openRouterSection({ baseUrl: GATEWAY_BASE_URL });
+	adjust(config);
 	await writeConfig(config);
+}
+
+/** Writes a valid config addressing OpenRouter at {@link GATEWAY_BASE_URL}. */
+function writeConfigAtGateway(): Promise<void> {
+	return writeValidConfig((config) => {
+		config.openRouter = openRouterSection({ baseUrl: GATEWAY_BASE_URL });
+	});
 }
 
 beforeEach(async () => {
@@ -163,9 +179,9 @@ describe("loadConfig model-ID resolution check", () => {
 		stageId,
 		modelId,
 	}) => {
-		const config = makeValidConfig();
-		stageModelIds(config)[stageId] = { modelId };
-		await writeConfig(config);
+		await writeValidConfig((config) => {
+			stageModelIds(config)[stageId] = { modelId };
+		});
 		mockModelsResponse(KNOWN_MODEL_IDS);
 
 		const error = await captureError(loadConfig({ projectRoot }));
@@ -178,8 +194,8 @@ describe("loadConfig model-ID resolution check", () => {
 
 	it("should fetch the model list from the configured base URL when the check runs", async () => {
 		await writeConfigAtGateway();
-		const scope = nock(GATEWAY_ORIGIN)
-			.get("/openrouter/v1/models")
+		const scope = nock(gatewayUrls.origin)
+			.get(gatewayUrls.models)
 			.reply(200, { data: KNOWN_MODEL_IDS.map((id) => ({ id })) });
 
 		await loadConfig({ projectRoot });
@@ -190,9 +206,7 @@ describe("loadConfig model-ID resolution check", () => {
 	it.each([
 		{
 			address: "the default address",
-			write: async () => {
-				await writeConfig(makeValidConfig());
-			},
+			write: writeValidConfig,
 			origin: openRouterUrls.origin,
 			path: openRouterUrls.models,
 			page: openRouterUrls.modelsPage,
@@ -200,9 +214,9 @@ describe("loadConfig model-ID resolution check", () => {
 		{
 			address: "a configured gateway",
 			write: writeConfigAtGateway,
-			origin: GATEWAY_ORIGIN,
-			path: `${new URL(GATEWAY_BASE_URL).pathname}/models`,
-			page: `${GATEWAY_ORIGIN}/models`,
+			origin: gatewayUrls.origin,
+			path: gatewayUrls.models,
+			page: gatewayUrls.modelsPage,
 		},
 	])("should fail naming that host's models page when the model list cannot be fetched from $address", async ({
 		write,
@@ -221,9 +235,9 @@ describe("loadConfig model-ID resolution check", () => {
 	});
 
 	it("should throw ConfigError with a helpful hint when a placeholder like <REASONING_MODEL> is left un-substituted", async () => {
-		const config = makeValidConfig();
-		setStructuringModelId({ config, modelId: "<REASONING_MODEL>" });
-		await writeConfig(config);
+		await writeValidConfig((config) => {
+			setStructuringModelId({ config, modelId: "<REASONING_MODEL>" });
+		});
 		mockModelsResponse([SLIDE_MODEL_ID]);
 
 		const error = await captureError(loadConfig({ projectRoot }));
@@ -234,9 +248,9 @@ describe("loadConfig model-ID resolution check", () => {
 	});
 
 	it("should skip the OpenRouter check when a model ID names an exempt provider", async () => {
-		const config = makeValidConfig();
-		stageModelIds(config).transcription = { modelId: transcriptionModelId };
-		await writeConfig(config);
+		await writeValidConfig((config) => {
+			stageModelIds(config).transcription = { modelId: transcriptionModelId };
+		});
 		mockModelsResponse(KNOWN_MODEL_IDS);
 
 		const loaded = await loadConfig({ projectRoot });
@@ -245,9 +259,11 @@ describe("loadConfig model-ID resolution check", () => {
 	});
 
 	it("should not fetch the OpenRouter model list when every configured provider is exempt", async () => {
-		const config = makeValidConfig();
-		config.modelIdCheck = { exemptProviders: ["openai", "google"] };
-		await writeConfig(config);
+		// No mocked model list on purpose: with the network blocked, a fetch the
+		// exemptions should have prevented fails the test rather than passing it.
+		await writeValidConfig((config) => {
+			config.modelIdCheck = { exemptProviders: ["openai", "google"] };
+		});
 
 		const loaded = await loadConfig({ projectRoot });
 
@@ -255,7 +271,7 @@ describe("loadConfig model-ID resolution check", () => {
 	});
 
 	it("should accept the config when every stage modelId appears in the OpenRouter response", async () => {
-		await writeConfig(makeValidConfig());
+		await writeValidConfig();
 		mockModelsResponse(KNOWN_MODEL_IDS);
 
 		const config = await loadConfig({ projectRoot });
@@ -276,7 +292,7 @@ describe("loadConfig model-ID resolution check", () => {
 	});
 
 	it("should fetch the OpenRouter model list only once when loadConfig is called repeatedly", async () => {
-		await writeConfig(makeValidConfig());
+		await writeValidConfig();
 		mockModelsResponse(KNOWN_MODEL_IDS);
 
 		await loadConfig({ projectRoot });

@@ -213,33 +213,40 @@ function configuredAddress(baseUrl: string): ServiceAddress {
 	return { origin: address.origin, pathTo: (endpoint) => `${basePath}${endpoint}` };
 }
 
-/** The configured OpenRouter address, which {@link openRouterUrls} is built from. */
-const openRouterAddress = configuredAddress(exampleConfig.openRouter.baseUrl);
-
 /**
- * Where a suite intercepting OpenRouter should point nock: the configured
- * address split into the origin and full paths nock wants.
+ * Where a suite intercepting OpenRouter at a given address should point nock:
+ * that address split into the origin and full paths nock wants.
  *
- * Assembled once, from the configured base URL and the endpoint paths the
- * production code calls, so a suite mocking OpenRouter neither restates the URL
- * nor knows an endpoint independently of the code under test — if either moves,
- * the mocks move with it.
+ * Assembled from the base URL and the endpoint paths the production code calls,
+ * so a suite mocking OpenRouter neither restates the URL nor knows an endpoint
+ * independently of the code under test — if either moves, the mocks move with
+ * it. Takes the address rather than reading the example's, because the config
+ * suite points the loader at a gateway to prove it reads the configuration.
+ *
+ * @param baseUrl - The configured OpenRouter base URL.
+ * @returns The origin, the endpoint paths, and the human-facing models page.
  */
-export const openRouterUrls = {
-	/** The scheme and host, as nock's scope. */
-	origin: openRouterAddress.origin,
-	/** Full path to the chat completions endpoint. */
-	completions: openRouterAddress.pathTo(OPENROUTER_PATHS.completions),
-	/** Full path to the generation (cost lookup) endpoint. */
-	generation: openRouterAddress.pathTo(OPENROUTER_PATHS.generation),
-	/** Full path to the model-list endpoint. */
-	models: openRouterAddress.pathTo(OPENROUTER_PATHS.models),
-	/**
-	 * The human-facing models page a failed model-ID check links to. Off the
-	 * origin rather than the API's base path, as the production code derives it.
-	 */
-	modelsPage: `${openRouterAddress.origin}${OPENROUTER_PATHS.models}`,
-} as const;
+export function openRouterUrlsAt(baseUrl: string): {
+	readonly origin: string;
+	readonly completions: string;
+	readonly generation: string;
+	readonly models: string;
+	readonly modelsPage: string;
+} {
+	const address = configuredAddress(baseUrl);
+	return {
+		origin: address.origin,
+		completions: address.pathTo(OPENROUTER_PATHS.completions),
+		generation: address.pathTo(OPENROUTER_PATHS.generation),
+		models: address.pathTo(OPENROUTER_PATHS.models),
+		// The human-facing models page a failed model-ID check links to. Off the
+		// origin rather than the API's base path, as the production code derives it.
+		modelsPage: `${address.origin}${OPENROUTER_PATHS.models}`,
+	};
+}
+
+/** Where a suite intercepting the *configured* OpenRouter should point nock. */
+export const openRouterUrls = openRouterUrlsAt(exampleConfig.openRouter.baseUrl);
 
 /** The ElevenLabs counterpart to {@link openRouterAddress}. */
 const elevenLabsAddress = configuredAddress(exampleConfig.elevenLabs.baseUrl);
