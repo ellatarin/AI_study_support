@@ -28,7 +28,7 @@ import type {
 } from "../types/pipeline.js";
 import { STAGE_IDS } from "../types/pipeline.js";
 import { parseConfig } from "./config.js";
-import { datedFileDirs, type ModuleDirs, moduleDirs } from "./layout.js";
+import { datedFileDirs, type ModuleDirs, moduleDirs, workspaceRootFor } from "./layout.js";
 import { baseNameForLecture } from "./lecture-files.js";
 import { MANIFEST_VERSION } from "./manifest.js";
 import { API_KEY_VARIABLE as OPENROUTER_KEY_VARIABLE, OPENROUTER_PATHS } from "./openrouter.js";
@@ -619,7 +619,7 @@ export async function makeWorkspaceTree({
 	readonly folderName?: string;
 }): Promise<{ readonly moduleRoot: string; readonly workspaceRoot: string }> {
 	const moduleRoot = await makeTempDir({ prefix });
-	const workspaceRoot = join(moduleDirs({ moduleRoot }).processing, folderName);
+	const workspaceRoot = workspaceRootFor({ moduleRoot, folderName });
 	await mkdir(workspaceRoot, { recursive: true });
 	return { moduleRoot, workspaceRoot };
 }
@@ -653,7 +653,7 @@ export async function makeLectureTree({ prefix }: { readonly prefix: string }): 
 	const tempDir = await makeTempDir({ prefix });
 	const moduleRoot = join(tempDir, testModuleName);
 	const dirs = moduleDirs({ moduleRoot });
-	const workspaceRoot = join(dirs.processing, testLecture.folderName);
+	const workspaceRoot = workspaceRootFor({ moduleRoot, folderName: testLecture.folderName });
 
 	for (const dir of [...datedFileDirs({ dirs }), workspaceRoot]) {
 		await mkdir(dir, { recursive: true });

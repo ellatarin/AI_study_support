@@ -1,12 +1,12 @@
-import { join, resolve } from "node:path";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { makeConfig, makeManifest, testModuleName } from "./fixtures.js";
-import { moduleDirs } from "./layout.js";
+import { workspaceRootFor } from "./layout.js";
 import { assembleContext } from "./stage-context.js";
 
 describe("assembleContext", () => {
 	const moduleRoot = resolve("/base", testModuleName);
-	const workspaceRoot = join(moduleDirs({ moduleRoot }).processing, "L1");
+	const workspaceRoot = workspaceRootFor({ moduleRoot, folderName: "L1" });
 
 	it("should derive moduleRoot two levels up and attach config and manifest when assembling a context", () => {
 		const manifest = makeManifest({ lectureNumber: 3, lectureTitle: "Cellular Respiration" });

@@ -13,7 +13,7 @@ import {
 	transcriptionModelId,
 	userChosenTitle,
 } from "../pipeline/fixtures.js";
-import { moduleDirs, stageOutputEntry } from "../pipeline/layout.js";
+import { stageOutputEntry, workspaceRootFor } from "../pipeline/layout.js";
 import { baseNameForLecture } from "../pipeline/lecture-files.js";
 import { readManifest, writeManifest } from "../pipeline/manifest.js";
 import {
@@ -104,7 +104,7 @@ describe("executeCommand", () => {
 
 	/** A second workspace in the same module, for the multi-match cases. */
 	async function makeLectureWorkspace(folder: string): Promise<string> {
-		const workspace = join(moduleDirs({ moduleRoot }).processing, folder);
+		const workspace = workspaceRootFor({ moduleRoot, folderName: folder });
 		await writeLectureManifest(workspace, folder);
 		return workspace;
 	}
@@ -398,7 +398,7 @@ describe("executeCommand", () => {
 		it("should narrow to the chosen lectures when the date matches several modules", async () => {
 			const other: LectureMatch = {
 				moduleRoot: otherModuleRoot(),
-				workspaceRoot: join(moduleDirs({ moduleRoot: otherModuleRoot() }).processing, "L1"),
+				workspaceRoot: workspaceRootFor({ moduleRoot: otherModuleRoot(), folderName: "L1" }),
 				lectureNumber: 1,
 				lectureTitle: "Antigens",
 			};
@@ -557,7 +557,7 @@ describe("executeCommand", () => {
 				title: testLecture.title,
 				lectureDate: changedDate,
 			});
-			const moved = join(moduleDirs({ moduleRoot }).processing, movedFolder);
+			const moved = workspaceRootFor({ moduleRoot, folderName: movedFolder });
 			expect((await readManifest({ workspaceRoot: moved })).lectureDate).toBe(changedDate);
 		});
 

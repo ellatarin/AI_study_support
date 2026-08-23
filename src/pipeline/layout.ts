@@ -93,11 +93,35 @@ export function runsDirPath({ workspaceRoot }: { readonly workspaceRoot: string 
 }
 
 /**
+ * Where one lecture's workspace sits: a folder named after the lecture, inside
+ * the module's processing directory.
+ *
+ * The forward direction of {@link moduleRootOf}. Both exist so the nesting
+ * between a module and its workspaces is written in one place — every stage, the
+ * runner, the CLI and every suite that lays a lecture out had been rebuilding it,
+ * which is what {@link moduleRootOf}'s inverse was only half preventing.
+ *
+ * @param args - The module and the lecture's folder.
+ * @param args.moduleRoot - Absolute path to the module directory.
+ * @param args.folderName - The lecture's workspace folder name.
+ * @returns The absolute path to that lecture's workspace.
+ */
+export function workspaceRootFor({
+	moduleRoot,
+	folderName,
+}: {
+	readonly moduleRoot: string;
+	readonly folderName: string;
+}): string {
+	return join(moduleDirs({ moduleRoot }).processing, folderName);
+}
+
+/**
  * Resolves the module a lecture workspace belongs to, two levels up from it
  * (`moduleRoot/Pipeline processing/<folder>`).
  *
- * The inverse of {@link moduleDirs}'s `processing`, so the nesting between a
- * module and its workspaces is stated once rather than at both ends.
+ * The inverse of {@link workspaceRootFor}, so the nesting between a module and
+ * its workspaces is stated once rather than at both ends.
  *
  * @param args - The workspace to resolve from.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.

@@ -10,7 +10,7 @@ import {
 	testLecture,
 	userChosenTitle,
 } from "../pipeline/fixtures.js";
-import type { ModuleDirs } from "../pipeline/layout.js";
+import { type ModuleDirs, workspaceRootFor } from "../pipeline/layout.js";
 import { baseNameForLecture } from "../pipeline/lecture-files.js";
 import { readManifest, writeManifest } from "../pipeline/manifest.js";
 import type { LectureMatch } from "../types/pipeline.js";
@@ -120,12 +120,14 @@ describe("lecture identity commands", () => {
 			lectureDate: changedDate,
 		});
 
+		/** Where that folder sits, once the module the lecture is in is known. */
+		const movedWorkspaceRoot = (): string =>
+			workspaceRootFor({ moduleRoot: match.moduleRoot, folderName: MOVED_FOLDER });
+
 		it("should record the new date in the manifest when changing the date", async () => {
 			await changeLectureDate({ match, newLectureDate: changedDate });
 
-			const manifest = await readManifest({
-				workspaceRoot: join(dirs.processing, MOVED_FOLDER),
-			});
+			const manifest = await readManifest({ workspaceRoot: movedWorkspaceRoot() });
 			expect(manifest.lectureDate).toBe(changedDate);
 			expect(manifest.workspaceFolderName).toBe(MOVED_FOLDER);
 		});
@@ -141,7 +143,7 @@ describe("lecture identity commands", () => {
 		it("should rename the workspace to the new date when changing the date", async () => {
 			await changeLectureDate({ match, newLectureDate: changedDate });
 
-			expect(await pathExists(join(dirs.processing, MOVED_FOLDER, "notes.md"))).toBe(true);
+			expect(await pathExists(join(movedWorkspaceRoot(), "notes.md"))).toBe(true);
 			expect(await pathExists(match.workspaceRoot)).toBe(false);
 		});
 

@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { RunManifest } from "../types/pipeline.js";
 import { captureError, corruptJson, makeManifest, makeTempDir, testLecture } from "./fixtures.js";
-import { MANIFEST_FILE, moduleDirs } from "./layout.js";
+import { MANIFEST_FILE, workspaceRootFor } from "./layout.js";
 import {
 	MANIFEST_VERSION,
 	manifestPath,
@@ -118,10 +118,10 @@ describe("manifest I/O", () => {
 		it("should create the workspace directory when it does not yet exist", async () => {
 			// Nested as deeply as a real workspace, so the test exercises the depth
 			// writeManifest actually has to create.
-			const nested = join(
-				moduleDirs({ moduleRoot: workspaceRoot }).processing,
-				testLecture.folderName,
-			);
+			const nested = workspaceRootFor({
+				moduleRoot: workspaceRoot,
+				folderName: testLecture.folderName,
+			});
 
 			await writeManifest({ workspaceRoot: nested, manifest: makeManifest() });
 

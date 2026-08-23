@@ -21,15 +21,20 @@ import {
 	testLecture,
 	userChosenTitle,
 } from "../fixtures.js";
-import { type ModuleDirs, stageOutputPath } from "../layout.js";
+import { type ModuleDirs, stageOutputPath, workspaceRootFor } from "../layout.js";
 import { readManifest, writeManifest } from "../manifest.js";
 import { createTranscriptStructuringStage } from "./transcript-structuring.js";
 
 describe("transcript structuring against a real module tree", () => {
 	let tempDir: string;
+	let moduleRoot: string;
 	let dirs: ModuleDirs;
 	let workspaceRoot: string;
 	let capturedBody: Record<string, unknown>;
+
+	/** The workspace a lecture named `folderName` occupies in this module. */
+	const workspaceNamed = (folderName: string): string =>
+		workspaceRootFor({ moduleRoot, folderName });
 
 	/** Mocks the completion and its cost lookup, capturing what was sent. */
 	function mockModelReply(reply: Record<string, unknown>): void {
@@ -58,7 +63,9 @@ describe("transcript structuring against a real module tree", () => {
 		stubOpenRouterApi();
 		capturedBody = {};
 
-		({ tempDir, dirs, workspaceRoot } = await makeLectureTree({ prefix: "structuring-int-" }));
+		({ tempDir, moduleRoot, dirs, workspaceRoot } = await makeLectureTree({
+			prefix: "structuring-int-",
+		}));
 		const transcriptPath = stageOutputPath({ workspaceRoot, stageId: "transcription" });
 		await mkdir(dirname(transcriptPath), { recursive: true });
 		await writeFile(transcriptPath, "The lecture text.");
@@ -91,7 +98,7 @@ describe("transcript structuring against a real module tree", () => {
 	}
 
 	function manifestAt(folderName: string): Promise<RunManifest> {
-		return readManifest({ workspaceRoot: join(dirs.processing, folderName) });
+		return readManifest({ workspaceRoot: workspaceNamed(folderName) });
 	}
 
 	it("should ask OpenRouter for JSON when the stage calls the model", async () => {
@@ -121,7 +128,7 @@ describe("transcript structuring against a real module tree", () => {
 		expect(
 			await pathExists(
 				stageOutputPath({
-					workspaceRoot: join(dirs.processing, folder),
+					workspaceRoot: workspaceNamed(folder),
 					stageId: "transcript-structuring",
 				}),
 			),
@@ -174,7 +181,7 @@ describe("transcript structuring against a real module tree", () => {
 
 		expect(settled).toEqual({ aiDerivedTitle: aiDerivedLecture.title });
 		expect(await pathExists(join(dirs.video, testLecture.videoFile))).toBe(true);
-		expect(await pathExists(join(dirs.processing, aiDerivedLecture.folderName))).toBe(false);
+		expect(await pathExists(workspaceNamed(aiDerivedLecture.folderName))).toBe(false);
 	});
 
 	it("should move a lecture that has produced no PDF yet when the title is replaced", async () => {
@@ -183,7 +190,7 @@ describe("transcript structuring against a real module tree", () => {
 
 		await runStage(await prepareLecture());
 
-		expect(await pathExists(join(dirs.processing, aiDerivedLecture.folderName))).toBe(true);
+		expect(await pathExists(workspaceNamed(aiDerivedLecture.folderName))).toBe(true);
 		expect(await pathExists(join(dirs.finalOutput, `${aiDerivedLecture.folderName}.pdf`))).toBe(
 			false,
 		);

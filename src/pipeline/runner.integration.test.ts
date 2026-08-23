@@ -36,11 +36,11 @@ import {
 	testRunId,
 } from "./fixtures.js";
 import {
-	moduleDirs,
 	runsDirPath,
 	stageDirectoryPaths,
 	stageOutputEntry,
 	stageOutputPath,
+	workspaceRootFor,
 } from "./layout.js";
 import { manifestPath } from "./manifest.js";
 import { PipelineRunner } from "./runner.js";
@@ -170,7 +170,7 @@ describe("PipelineRunner integration", () => {
 	beforeEach(async () => {
 		tempDir = await makeTempDir({ prefix: "runner-" });
 		moduleRoot = join(tempDir, testModuleName);
-		workspaceRoot = join(moduleDirs({ moduleRoot }).processing, LECTURE_FOLDER);
+		workspaceRoot = workspaceRootFor({ moduleRoot, folderName: LECTURE_FOLDER });
 		logged = makeStubLogger();
 	});
 
@@ -630,7 +630,7 @@ describe("PipelineRunner integration", () => {
 			moduleB = join(tempDir, "Pharmacology");
 			moduleC = join(tempDir, "Microbiology");
 			const write = async (root: string, folder: string, manifest: RunManifest): Promise<void> => {
-				await writeManifest(join(moduleDirs({ moduleRoot: root }).processing, folder), manifest);
+				await writeManifest(workspaceRootFor({ moduleRoot: root, folderName: folder }), manifest);
 			};
 			// Three lectures, differing in the ways these tests turn on: the test
 			// lecture, another in the same module on its own date, and a third in a
@@ -657,7 +657,7 @@ describe("PipelineRunner integration", () => {
 			// Two things the scan has to walk past: a workspace folder holding no
 			// manifest, and a module directory the pipeline has never processed, so
 			// it has no `Pipeline processing/` at all.
-			await mkdir(join(moduleDirs({ moduleRoot: moduleA }).processing, EMPTY_FOLDER), {
+			await mkdir(workspaceRootFor({ moduleRoot: moduleA, folderName: EMPTY_FOLDER }), {
 				recursive: true,
 			});
 			await mkdir(moduleC, { recursive: true });
@@ -723,9 +723,10 @@ describe("PipelineRunner integration", () => {
 
 		beforeEach(async () => {
 			moduleA = join(tempDir, otherModuleName);
-			const processing = moduleDirs({ moduleRoot: moduleA }).processing;
-			await writeManifest(join(processing, LECTURE_FOLDER), makeManifest({ lectureNumber: 1 }));
-			await writeManifest(join(processing, "L2"), makeManifest({ lectureNumber: 2 }));
+			const workspaceIn = (folderName: string): string =>
+				workspaceRootFor({ moduleRoot: moduleA, folderName });
+			await writeManifest(workspaceIn(LECTURE_FOLDER), makeManifest({ lectureNumber: 1 }));
+			await writeManifest(workspaceIn("L2"), makeManifest({ lectureNumber: 2 }));
 		});
 
 		function batchStage(): PipelineStage<unknown, unknown> {
@@ -771,7 +772,7 @@ describe("PipelineRunner integration", () => {
 			const moduleB = join(tempDir, "Chronology");
 			for (const { folder, lectureDate } of byDate) {
 				await writeManifest(
-					join(moduleDirs({ moduleRoot: moduleB }).processing, folder),
+					workspaceRootFor({ moduleRoot: moduleB, folderName: folder }),
 					makeManifest({ lectureDate }),
 				);
 			}
@@ -790,7 +791,7 @@ describe("PipelineRunner integration", () => {
 		});
 
 		it("should run every lecture and skip the folder when one holds no manifest", async () => {
-			await mkdir(join(moduleDirs({ moduleRoot: moduleA }).processing, EMPTY_FOLDER), {
+			await mkdir(workspaceRootFor({ moduleRoot: moduleA, folderName: EMPTY_FOLDER }), {
 				recursive: true,
 			});
 
@@ -856,7 +857,7 @@ describe("PipelineRunner integration", () => {
 			// manifest — all skipped by the reader.
 			await mkdir(join(runsDir, "nested"), { recursive: true });
 			await writeFile(join(runsDir, "corrupt.json"), corruptJson);
-			await mkdir(join(moduleDirs({ moduleRoot }).processing, EMPTY_FOLDER), { recursive: true });
+			await mkdir(workspaceRootFor({ moduleRoot, folderName: EMPTY_FOLDER }), { recursive: true });
 		});
 
 		afterEach(() => {
@@ -1045,7 +1046,7 @@ describe("PipelineRunner integration", () => {
 		}
 
 		beforeEach(async () => {
-			renamedWorkspaceRoot = join(moduleDirs({ moduleRoot }).processing, RENAMED_FOLDER);
+			renamedWorkspaceRoot = workspaceRootFor({ moduleRoot, folderName: RENAMED_FOLDER });
 			await writeManifest(workspaceRoot, makeManifest());
 		});
 

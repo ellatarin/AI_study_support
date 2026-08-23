@@ -1,8 +1,7 @@
-import { join } from "node:path";
 import { checkbox, confirm, select } from "@inquirer/prompts";
 import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 import { otherModuleRoot, testLecture, testModuleRoot } from "../pipeline/fixtures.js";
-import { moduleDirs } from "../pipeline/layout.js";
+import { workspaceRootFor } from "../pipeline/layout.js";
 import type { LectureMatch } from "../types/pipeline.js";
 import { confirmPrompt, selectLectureMatch, selectLectureMatches } from "./prompts.js";
 
@@ -38,10 +37,10 @@ function matchIn({
 }): LectureMatch {
 	return {
 		moduleRoot,
-		workspaceRoot: join(
-			moduleDirs({ moduleRoot }).processing,
-			`Lecture ${String(lectureNumber)} - ${lectureTitle}`,
-		),
+		workspaceRoot: workspaceRootFor({
+			moduleRoot,
+			folderName: `Lecture ${String(lectureNumber)} - ${lectureTitle}`,
+		}),
 		lectureNumber,
 		lectureTitle,
 	};

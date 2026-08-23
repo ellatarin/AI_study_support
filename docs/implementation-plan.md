@@ -71,7 +71,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 **Deliverables:**
 
 - `src/types/pipeline.ts` — every shared type, `STAGE_IDS`, the ordered stage list `StageId` is derived from, and `CONFIG_FILENAME`, the configuration file every layer names **(TD §4.1, §4.2, §4.7, §6)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, `StageStatus`), the persisted shapes (`RunManifest`, `ManifestStageEntry`, `RunLog`, `RunLogStageEntry`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaDeficienciesReport`), and the runner-facing `LectureMatch`, `RunOptions`, `BatchRunOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, `BatchSummary`, with `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`
-- `src/pipeline/layout.ts` — the filesystem vocabulary, declared once: `moduleDirs`, `datedFileDirs`, `moduleRootOf`, `moduleName`, `MANIFEST_FILE`, `RUNS_DIR`, `runsDirPath`, `STAGE_WORKSPACE`, `stageOutputEntry`, `stageOutputPath`, `stageDirectoryPath`, `stageDirectoryPaths` **(TD §3.3, "The layout has one owner")**. Every stage, the runner, the CLI, and the fixtures take directory and file names from here; no other module states one as a literal
+- `src/pipeline/layout.ts` — the filesystem vocabulary, declared once: `moduleDirs`, `datedFileDirs`, `workspaceRootFor`, `moduleRootOf`, `moduleName`, `MANIFEST_FILE`, `RUNS_DIR`, `runsDirPath`, `STAGE_WORKSPACE`, `stageOutputEntry`, `stageOutputPath`, `stageDirectoryPath`, `stageDirectoryPaths` **(TD §3.3, "The layout has one owner")**. Every stage, the runner, the CLI, and the fixtures take directory and file names from here; no other module states one as a literal
 - `src/utils/files.ts` — `writeFileAtomic`, `writeJsonAtomic`, `readJsonSafe`, `cleanTmpFiles`, `pathExists`, and the directory reads `readDirSafe`/`listFileNames`/`listSubdirectoryNames` **(TD §4.3)**; `workspacePath` and `resolveManifestPath` **(TD §4.4)**
 - `src/utils/logger.ts` — `createRootLogger`, `createStageLogger` **(TD §10, Logging and Progress Helpers)**
 - `src/utils/date.ts` — `extractDate`, `formatDateISO` **(TD §3.2, Date and Naming Helpers)**
@@ -94,7 +94,8 @@ Cross-references to the technical design are noted as **(TD §N)**.
 `layout.ts` — unit tests, since every answer is derived from a path and a stage id:
 - `should describe every stage when the pipeline is enumerated` — the map covers `STAGE_IDS` and no more
 - `should root every directory but pdf-generation's in the workspace when ownership is read`
-- `should resolve back to the module when a workspace beneath it is given` — `moduleRootOf` against `moduleDirs`
+- `should resolve back to the module when a workspace beneath it is given` — `moduleRootOf` against `moduleDirs`, and `should invert workspaceRootFor when a workspace it built is given`
+- `should place a lecture's workspace under the module's processing directory when it is named` — `workspaceRootFor`
 - `should give the directories a lecture's own files sit in when a module is given` — `datedFileDirs` names three of the four, the workspace excluded
 - `should resolve the run logs under the workspace when a workspace is given` — `runsDirPath`
 - `should fail when the stage writes no single output file` — the stages whose `outputFile` is `null`

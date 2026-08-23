@@ -14,6 +14,7 @@ import {
 	stageDirectoryPaths,
 	stageOutputEntry,
 	stageOutputPath,
+	workspaceRootFor,
 } from "./layout.js";
 
 // The roots are arbitrary inputs — this suite asserts the *names* layout.ts
@@ -54,9 +55,26 @@ describe("runsDirPath", () => {
 	});
 });
 
+describe("workspaceRootFor", () => {
+	it("should place a lecture's workspace under the module's processing directory when it is named", () => {
+		expect(workspaceRootFor({ moduleRoot: MODULE_ROOT, folderName: testLecture.folderName })).toBe(
+			WORKSPACE_ROOT,
+		);
+	});
+});
+
 describe("moduleRootOf", () => {
 	it("should resolve back to the module when a workspace beneath it is given", () => {
 		expect(moduleRootOf({ workspaceRoot: WORKSPACE_ROOT })).toBe(MODULE_ROOT);
+	});
+
+	it("should invert workspaceRootFor when a workspace it built is given", () => {
+		const workspaceRoot = workspaceRootFor({
+			moduleRoot: MODULE_ROOT,
+			folderName: testLecture.folderName,
+		});
+
+		expect(moduleRootOf({ workspaceRoot })).toBe(MODULE_ROOT);
 	});
 });
 

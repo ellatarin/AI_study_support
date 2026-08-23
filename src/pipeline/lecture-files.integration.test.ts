@@ -3,14 +3,19 @@ import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { pathExists } from "../utils/files.js";
 import { aiDerivedLecture, makeLectureTree, otherLecture, testLecture } from "./fixtures.js";
-import type { ModuleDirs } from "./layout.js";
+import { type ModuleDirs, workspaceRootFor } from "./layout.js";
 import { findDatedFile, renameLectureFiles } from "./lecture-files.js";
 import { manifestPath } from "./manifest.js";
 
 describe("lecture files", () => {
 	let tempDir: string;
+	let moduleRoot: string;
 	let dirs: ModuleDirs;
 	let workspaceRoot: string;
+
+	/** Where the lecture's workspace lands once it has been renamed. */
+	const renamedWorkspaceRoot = (): string =>
+		workspaceRootFor({ moduleRoot, folderName: aiDerivedLecture.folderName });
 
 	/** Moves the lecture laid out in `beforeEach` onto the AI-derived name. */
 	const renameToNewBase = (): Promise<string> =>
@@ -22,7 +27,9 @@ describe("lecture files", () => {
 		});
 
 	beforeEach(async () => {
-		({ tempDir, dirs, workspaceRoot } = await makeLectureTree({ prefix: "lecture-files-" }));
+		({ tempDir, moduleRoot, dirs, workspaceRoot } = await makeLectureTree({
+			prefix: "lecture-files-",
+		}));
 		await writeFile(manifestPath({ workspaceRoot }), "{}");
 	});
 
@@ -87,18 +94,14 @@ describe("lecture files", () => {
 		it("should move the workspace and everything in it when the lecture moves", async () => {
 			await renameToNewBase();
 
-			expect(
-				await pathExists(
-					manifestPath({ workspaceRoot: join(dirs.processing, aiDerivedLecture.folderName) }),
-				),
-			).toBe(true);
+			expect(await pathExists(manifestPath({ workspaceRoot: renamedWorkspaceRoot() }))).toBe(true);
 			expect(await pathExists(workspaceRoot)).toBe(false);
 		});
 
 		it("should return the workspace's new path when the lecture moves", async () => {
 			const movedTo = await renameToNewBase();
 
-			expect(movedTo).toBe(join(dirs.processing, aiDerivedLecture.folderName));
+			expect(movedTo).toBe(renamedWorkspaceRoot());
 		});
 
 		it("should skip the final output PDF when the lecture has none yet", async () => {

@@ -203,10 +203,13 @@ RUNS_DIR: string                                          // "runs"
 runsDirPath(args: { workspaceRoot: string }): string
 // That directory within one workspace. The runner writes a log into it and reads every log back out of it,
 // and the suites look for what it wrote, so the three address it through one name rather than rebuilding it.
+workspaceRootFor(args: { moduleRoot: string; folderName: string }): string
+// Where one lecture's workspace sits: a folder named after the lecture, inside the module's processing
+// directory. Every stage, the runner, the CLI and every suite that lays a lecture out was rebuilding this.
 moduleRootOf(args: { workspaceRoot: string }): string
 // The module two levels up from a lecture workspace (`moduleRoot/Pipeline processing/<folder>`) — the inverse
-// of moduleDirs().processing, so the nesting is stated once. Used to assemble StageContext and to resolve the
-// one stage directory that sits outside the workspace.
+// of the above, so the nesting is stated once. Used to assemble StageContext and to resolve the one stage
+// directory that sits outside the workspace.
 moduleName(args: { moduleRoot: string }): string
 // What a module is called when it is shown to the user: its directory leaf, since a module has no name beyond
 // the folder it is. Read by the batch summary's module column and by the CLI's "nothing matched" message.

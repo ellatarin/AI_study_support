@@ -13,7 +13,7 @@ import {
 	testRunId,
 	transcriptionModelId,
 } from "../pipeline/fixtures.js";
-import { moduleDirs, stageOutputEntry } from "../pipeline/layout.js";
+import { stageOutputEntry, workspaceRootFor } from "../pipeline/layout.js";
 import type {
 	BatchSummary,
 	ManifestStageEntry,
@@ -598,7 +598,7 @@ const lecture = ({
 	readonly folder: string;
 	readonly overallStatus: OverallStatus;
 }): RunSummary => ({
-	workspaceRoot: join(moduleDirs({ moduleRoot }).processing, folder),
+	workspaceRoot: workspaceRootFor({ moduleRoot, folderName: folder }),
 	runId: testRunId,
 	startedAt: "2025-10-10T09:00:00.000Z",
 	endedAt: "2025-10-10T09:30:00.000Z",

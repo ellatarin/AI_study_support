@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RunManifest } from "../../types/pipeline.js";
 import type { LoggedEntry, LoggedLevel } from "../fixtures.js";
 import { loggedAt, makeStubLogger, makeTempDir } from "../fixtures.js";
-import { moduleDirs } from "../layout.js";
+import { moduleDirs, workspaceRootFor } from "../layout.js";
 import { manifestPath, writeManifest } from "../manifest.js";
 import {
 	createSourceNormalisationStage,
@@ -113,7 +113,7 @@ describe("createSourceNormalisationStage", () => {
 	async function normaliseNewLecture(): Promise<RunManifest> {
 		await writeLecture(CELL_INJURY_VIDEO, CELL_INJURY_SLIDE);
 		await stage.normaliseModule({ moduleRoot });
-		return readManifestIn(join(processingDir(moduleRoot), CELL_INJURY));
+		return readManifestIn(workspaceRootFor({ moduleRoot, folderName: CELL_INJURY }));
 	}
 
 	/** Normalises a two-lecture module, the starting point for renumbering cases. */
@@ -148,7 +148,7 @@ describe("createSourceNormalisationStage", () => {
 			"Lecture 1 - Cell Injury - 2025-10-10",
 			"Lecture 2 - Immunity to Infection - 2025-10-13",
 		]);
-		const first = await readManifestIn(join(processingDir(moduleRoot), CELL_INJURY));
+		const first = await readManifestIn(workspaceRootFor({ moduleRoot, folderName: CELL_INJURY }));
 		expect(first).toMatchObject({ lectureNumber: 1, lectureDate: "2025-10-10" });
 	});
 
@@ -190,7 +190,7 @@ describe("createSourceNormalisationStage", () => {
 		await writeLecture(CELL_INJURY_VIDEO, CELL_INJURY_SLIDE);
 		await stage.normaliseModule({ moduleRoot });
 		await patchManifest({
-			folder: join(processingDir(moduleRoot), CELL_INJURY),
+			folder: workspaceRootFor({ moduleRoot, folderName: CELL_INJURY }),
 			patch: { lectureTitle: "Innate Immune Response" },
 		});
 
@@ -211,7 +211,7 @@ describe("createSourceNormalisationStage", () => {
 
 		expect(await listNames(processingDir(moduleRoot))).toEqual(["Lecture 1 - 2025-10-10"]);
 		const manifest = await readManifestIn(
-			join(processingDir(moduleRoot), "Lecture 1 - 2025-10-10"),
+			workspaceRootFor({ moduleRoot, folderName: "Lecture 1 - 2025-10-10" }),
 		);
 		expect(manifest.provisionalTitle).toBe("");
 		expect(manifest.lectureTitle).toBe("");
@@ -330,7 +330,7 @@ describe("createSourceNormalisationStage", () => {
 	it("should produce no filesystem changes when re-run on already-normalised sources", async () => {
 		await writeLecture(CELL_INJURY_VIDEO, CELL_INJURY_SLIDE);
 		await stage.normaliseModule({ moduleRoot });
-		const folder = join(processingDir(moduleRoot), CELL_INJURY);
+		const folder = workspaceRootFor({ moduleRoot, folderName: CELL_INJURY });
 		const manifestAfterFirst = await readManifestIn(folder);
 		const videosAfterFirst = await listNames(videoDir(moduleRoot));
 		const slidesAfterFirst = await listNames(slideDir(moduleRoot));
@@ -359,7 +359,7 @@ describe("createSourceNormalisationStage", () => {
 			"Lecture 3 - Vaccination - 2025-10-17",
 		]);
 		const renumbered = await readManifestIn(
-			join(processingDir(moduleRoot), "Lecture 3 - Vaccination - 2025-10-17"),
+			workspaceRootFor({ moduleRoot, folderName: "Lecture 3 - Vaccination - 2025-10-17" }),
 		);
 		expect(renumbered.lectureNumber).toBe(3);
 		expect(renumbered.workspaceFolderName).toBe("Lecture 3 - Vaccination - 2025-10-17");
@@ -380,7 +380,9 @@ describe("createSourceNormalisationStage", () => {
 
 	it("should leave a workspace folder untouched when it has no readable manifest", async () => {
 		await writeLecture(CELL_INJURY_VIDEO, CELL_INJURY_SLIDE);
-		await mkdir(join(processingDir(moduleRoot), "Notes I dropped in here"), { recursive: true });
+		await mkdir(workspaceRootFor({ moduleRoot, folderName: "Notes I dropped in here" }), {
+			recursive: true,
+		});
 
 		await stage.normaliseModule({ moduleRoot });
 
@@ -514,7 +516,7 @@ describe("createSourceNormalisationStage", () => {
 
 		it("should describe an orphan as untitled when its manifest carries no title", async () => {
 			await patchManifest({
-				folder: join(processingDir(moduleRoot), CELL_INJURY),
+				folder: workspaceRootFor({ moduleRoot, folderName: CELL_INJURY }),
 				patch: { lectureTitle: "" },
 			});
 			await removeSourcePair(CELL_INJURY);
