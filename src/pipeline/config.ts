@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { PipelineConfig, StageConfig, StageId } from "../types/pipeline.js";
 import { NamedError } from "../utils/errors.js";
+import { isStageId, unknownStageMessage } from "../utils/stage-id.js";
 import { OPENROUTER_PATHS } from "./openrouter.js";
 
 /**
@@ -216,13 +217,25 @@ function requireStageConfig(args: {
 	};
 }
 
+/**
+ * Validates the `stages` section, keys included. A key that names no stage is
+ * rejected here: it would otherwise be validated in full and have its model ID
+ * checked, while the stage it was meant to configure silently had none — which
+ * is the typo case the startup check exists for (technical-design.md §6).
+ *
+ * @param value - The raw `stages` section.
+ * @returns The validated section.
+ * @throws {ConfigError} If the section is not an object, a key names no stage, or any stage's config is invalid.
+ */
 function requireStages(value: unknown): PipelineConfig["stages"] {
 	const record = requireRecord({ value, label: "stages" });
 	return Object.fromEntries(
-		Object.entries(record).map(([stageId, stageConfig]) => [
-			stageId,
-			requireStageConfig({ value: stageConfig, stageId }),
-		]),
+		Object.entries(record).map(([stageId, stageConfig]) => {
+			if (!isStageId(stageId)) {
+				throw new ConfigError(unknownStageMessage({ subject: `stages."${stageId}"` }));
+			}
+			return [stageId, requireStageConfig({ value: stageConfig, stageId })];
+		}),
 	);
 }
 

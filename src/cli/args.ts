@@ -10,8 +10,9 @@
 
 import { parseArgs } from "node:util";
 import type { BatchRunOptions, RunOptions, StageId } from "../types/pipeline.js";
-import { DEFAULT_BATCH_OPTIONS, DEFAULT_RUN_OPTIONS, STAGE_IDS } from "../types/pipeline.js";
+import { DEFAULT_BATCH_OPTIONS, DEFAULT_RUN_OPTIONS } from "../types/pipeline.js";
 import { errorMessage, NamedError } from "../utils/errors.js";
+import { isStageId, unknownStageMessage } from "../utils/stage-id.js";
 
 /**
  * Thrown when a command line cannot be understood: an unknown command or option,
@@ -179,12 +180,10 @@ function parseFromStage(value: string | undefined): StageId | undefined {
 	if (value === undefined) {
 		return undefined;
 	}
-	if (!(STAGE_IDS as readonly string[]).includes(value)) {
-		throw new CliUsageError(
-			`"${value}" is not a pipeline stage. Stages are: ${STAGE_IDS.join(", ")}`,
-		);
+	if (!isStageId(value)) {
+		throw new CliUsageError(unknownStageMessage({ subject: `"${value}"` }));
 	}
-	return value as StageId;
+	return value;
 }
 
 /**

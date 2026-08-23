@@ -500,6 +500,15 @@ describe("loadConfig shape validation", () => {
 			match: /stages/,
 		},
 		{
+			// A mistyped key otherwise validates in full — model ID check included —
+			// while the stage it was meant to configure silently has no config.
+			name: "a stage key names no pipeline stage",
+			mutate: (config: Record<string, unknown>) => {
+				config.stages = { "transcript-strucuring": { modelId: openRouterModelId } };
+			},
+			match: /transcript-strucuring/,
+		},
+		{
 			name: "a stage is not an object",
 			mutate: (config: Record<string, unknown>) => {
 				config.stages = { synthesis: "gpt" };

@@ -1139,6 +1139,8 @@ makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; r
 
 Belt and braces, not belt alone: OpenRouter's own parameter reference states that JSON mode requires the prompt to ask for JSON as well, so a `"json"` caller instructs the model in its messages too, and still treats a reply that will not parse as a stage failure.
 
+**A stage key names a stage.** Every key of the `stages` section is checked against the stage IDs, and one that names no stage is a `ConfigError` at startup listing the stages it could have named. Configuration reaches a stage by its key alone, so this check is what makes "the stage is configured" and "the config file mentions the stage" the same statement.
+
 **Model-ID resolution check.** At startup `loadConfig` fetches the model list once from `${openRouter.baseUrl}/models` and asserts every configured `stages[*].modelId` appears in it, so placeholders left un-substituted, typos, and retired IDs are caught before any billable call. A miss throws a `ConfigError` naming the offending stages and linking to the models page. The result is cached in-process.
 
 **Exempting non-OpenRouter providers.** Not every stage calls OpenRouter — Stage 2 transcribes through ElevenLabs — so checking its model ID against OpenRouter's list would always fail. `modelIdCheck.exemptProviders` lists provider prefixes (the part of a model ID before the `/`) that the check skips, so a stage on any non-OpenRouter provider can still declare its model in config and have it recorded in the manifest and cost report. The mechanism is general: it is not specific to ElevenLabs, and a stage whose provider is not exempt is always checked. Exempting a provider trades away the typo protection for its IDs, so keep the list to providers that genuinely sit outside OpenRouter.
@@ -1459,6 +1461,7 @@ src/
     ├── files.ts                      # Atomic writes (.tmp pattern), directory reads, path resolution
     ├── progress.ts                   # Shared cli-progress bar helpers
     ├── cost.ts                       # Cost accumulation and report formatting
+    ├── stage-id.ts                   # Recognising a stage name, for --from-stage and the config keys (§6)
     ├── errors.ts                     # NamedError, and the narrowing every catch site would repeat (§8)
     └── logger.ts                     # pino instance and child-logger factory
 ```
