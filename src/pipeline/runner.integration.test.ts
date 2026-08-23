@@ -31,6 +31,7 @@ import {
 	otherModuleName,
 	pendingStages,
 	stageCompletedAt,
+	stagesWith,
 	testLecture,
 	testModuleName,
 	testRunId,
@@ -368,13 +369,13 @@ describe("PipelineRunner integration", () => {
 			await writeManifest({
 				workspaceRoot,
 				manifest: makeManifest({
-					stages: {
-						...pendingStages(),
-						"audio-extraction": finishedEntry({
+					stages: stagesWith({
+						stageId: "audio-extraction",
+						entry: finishedEntry({
 							completedAt: BEFORE_THIS_RUN,
 							filesWritten: [writtenEntry],
 						}),
-					} as RunManifest["stages"],
+					}),
 				}),
 			});
 			const run = vi.fn(
@@ -836,14 +837,14 @@ describe("PipelineRunner integration", () => {
 			await writeManifest({
 				workspaceRoot,
 				manifest: makeManifest({
-					stages: {
-						...pendingStages(),
-						"audio-extraction": finishedEntry({
+					stages: stagesWith({
+						stageId: "audio-extraction",
+						entry: finishedEntry({
 							completedAt: BEFORE_THIS_RUN,
 							configUsed: { modelId: "openrouter/model-a" },
 							cost: { promptTokens: 1, completionTokens: 1, callCount: 1, costUsd: 0.5 },
 						}),
-					} as RunManifest["stages"],
+					}),
 				}),
 			});
 			const runLog: RunLog = {
@@ -906,6 +907,20 @@ describe("PipelineRunner integration", () => {
 		const TARGET_STAGE = "transcription" as const satisfies StageId;
 
 		/**
+		 * The mirror of {@link stagesWith}: the stage map of a manifest that has no
+		 * record of one stage at all — every other stage pending, and that stage's
+		 * key absent rather than present with a status.
+		 *
+		 * @param stageId - The stage to leave out of the map.
+		 * @returns The stage map.
+		 */
+		function stagesWithout(stageId: StageId): RunManifest["stages"] {
+			const stages = pendingStages();
+			delete (stages as Record<string, ManifestStageEntry>)[stageId];
+			return stages;
+		}
+
+		/**
 		 * Runs a lecture whose target stage is in the given state, and reports how
 		 * the run log classified the run.
 		 *
@@ -921,12 +936,8 @@ describe("PipelineRunner integration", () => {
 			readonly entry: ManifestStageEntry | null;
 			readonly fromStage: StageId | null;
 		}): Promise<RunType> {
-			const stages = pendingStages();
-			if (entry !== null) {
-				(stages as Record<string, ManifestStageEntry>)[TARGET_STAGE] = entry;
-			} else {
-				delete (stages as Record<string, ManifestStageEntry>)[TARGET_STAGE];
-			}
+			const stages =
+				entry === null ? stagesWithout(TARGET_STAGE) : stagesWith({ stageId: TARGET_STAGE, entry });
 			await writeManifest({ workspaceRoot, manifest: makeManifest({ stages }) });
 			const summary = await makeRunner([makeStubStage({ stageId: "audio-extraction" })]).runLecture(
 				{
