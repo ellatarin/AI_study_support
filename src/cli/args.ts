@@ -181,7 +181,7 @@ function parseFromStage(value: string | undefined): StageId | undefined {
 		return undefined;
 	}
 	if (!isStageId(value)) {
-		throw new CliUsageError(unknownStageMessage({ subject: `"${value}"` }));
+		throw new CliUsageError(unknownStageMessage({ subject: `--from-stage "${value}"` }));
 	}
 	return value;
 }

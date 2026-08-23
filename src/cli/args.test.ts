@@ -232,6 +232,7 @@ describe("parseCliArgs", () => {
 			const error = usageError(["run", testLecture.date, "--from-stage", "summarising"]);
 
 			expect(error).toBeInstanceOf(CliUsageError);
+			expect(error.message).toContain("--from-stage");
 			expect(error.message).toContain("summarising");
 		});
 

@@ -29,11 +29,11 @@ export function isStageId(value: string): value is StageId {
  * have named.
  *
  * @param args - What to report against.
- * @param args.subject - The offending value as it should appear in the message, already quoted or labelled by the caller.
+ * @param args.subject - The offending value as it should appear in the message, already quoted and labelled by the caller with the flag or config key it came from.
  * @returns The message.
  * @example
- * unknownStageMessage({ subject: '"synthesise"' });
- * // '"synthesise" is not a pipeline stage. Stages are: source-normalisation, …'
+ * unknownStageMessage({ subject: '--from-stage "synthesise"' });
+ * // '--from-stage "synthesise" is not a pipeline stage. Stages are: source-normalisation, …'
  */
 export function unknownStageMessage(args: { readonly subject: string }): string {
 	return `${args.subject} is not a pipeline stage. Stages are: ${STAGE_IDS.join(", ")}`;
