@@ -764,10 +764,12 @@ The temporary suffix sits outside the `.tmp` convention of §4.3, because the tw
 ```typescript
 // src/pipeline/stages/source-normalisation.ts
 type ConfirmPrompt = (args: { message: string }) => Promise<boolean>
-createSourceNormalisationStage(args: { logger: Logger; confirm: ConfirmPrompt }): SourceNormalisationStage
+createSourceNormalisationStage(args: { logger: Logger; confirm: ConfirmPrompt; formatMoney: MoneyFormatter }): SourceNormalisationStage
 // `confirm` is injected rather than imported so the stage never reaches for stdin: the CLI backs it with
-// @inquirer/prompts and tests stub it. Throws SourceNormalisationError on any validation failure or
-// declined confirmation, having made no filesystem changes.
+// @inquirer/prompts and tests stub it. `formatMoney` arrives the same way, bound to the configured rate by
+// the composition root (§7), because the orphan prompt quotes what the lecture has cost. Throws
+// SourceNormalisationError on any validation failure or declined confirmation, having made no filesystem
+// changes.
 ```
 
 The stage names and places nothing itself: it takes the module's directories from `moduleDirs` (§3.3) and

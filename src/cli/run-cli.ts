@@ -15,6 +15,7 @@ import { createAudioExtractionStage } from "../pipeline/stages/audio-extraction.
 import { createSourceNormalisationStage } from "../pipeline/stages/source-normalisation.js";
 import { createTranscriptStructuringStage } from "../pipeline/stages/transcript-structuring.js";
 import { createTranscriptionStage } from "../pipeline/stages/transcription.js";
+import { createMoneyFormatter } from "../utils/cost.js";
 import { errorMessage } from "../utils/errors.js";
 import { createRootLogger } from "../utils/logger.js";
 import { CliUsageError, parseCliArgs, USAGE } from "./args.js";
@@ -57,9 +58,14 @@ async function assembleDeps({
 		runTimestamp: deriveRunId({ instant: new Date() }),
 		runsDir: RUNS_DIR,
 	});
+	const { gbpPerUsd } = config.currency;
 	const runner = new PipelineRunner({
 		config,
-		sourceNormalisation: createSourceNormalisationStage({ logger, confirm: confirmPrompt }),
+		sourceNormalisation: createSourceNormalisationStage({
+			logger,
+			confirm: confirmPrompt,
+			formatMoney: createMoneyFormatter({ gbpPerUsd }),
+		}),
 		// Pipeline order; each further stage joins this list as it is built.
 		lectureStages: [
 			createAudioExtractionStage({ logger }),
@@ -71,7 +77,7 @@ async function assembleDeps({
 	return {
 		runner,
 		moduleRoots: config.moduleRoots,
-		gbpPerUsd: config.currency.gbpPerUsd,
+		gbpPerUsd,
 		selectMatches: selectLectureMatches,
 		selectMatch: selectLectureMatch,
 		confirm: confirmPrompt,

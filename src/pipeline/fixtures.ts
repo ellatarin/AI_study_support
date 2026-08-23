@@ -153,6 +153,18 @@ export const exampleConfig: PipelineConfig = parseConfig(
 );
 
 /**
+ * The rate the suites present money at, fixed here and deliberately **not**
+ * taken from `currency.gbpPerUsd`.
+ *
+ * Every expected pounds figure in a suite is worked out by hand at this rate, so
+ * reading it from the config would make an unrelated config edit fail those
+ * assertions with "expected £0.148, got £0.170" — blaming the formatter for a
+ * change in the rate. Deriving the expectations instead would multiply by the
+ * same rate the code under test does, and prove nothing.
+ */
+export const GBP_PER_USD = 0.74;
+
+/**
  * Where a suite intercepting OpenRouter should point nock: the configured
  * address split into the origin and full paths nock wants.
  *

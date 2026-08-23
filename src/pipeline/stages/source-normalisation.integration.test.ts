@@ -3,8 +3,9 @@ import { join } from "node:path";
 import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RunManifest } from "../../types/pipeline.js";
+import { createMoneyFormatter } from "../../utils/cost.js";
 import type { LoggedEntry, LoggedLevel } from "../fixtures.js";
-import { loggedAt, makeStubLogger, makeTempDir } from "../fixtures.js";
+import { GBP_PER_USD, loggedAt, makeStubLogger, makeTempDir } from "../fixtures.js";
 import { moduleDirs } from "../layout.js";
 import { manifestPath } from "../manifest.js";
 import {
@@ -94,7 +95,11 @@ describe("createSourceNormalisationStage", () => {
 	 */
 	function freshStage(): void {
 		logged = makeStubLogger();
-		stage = createSourceNormalisationStage({ logger: logged.logger, confirm });
+		stage = createSourceNormalisationStage({
+			logger: logged.logger,
+			confirm,
+			formatMoney: createMoneyFormatter({ gbpPerUsd: GBP_PER_USD }),
+		});
 	}
 
 	/** What the stage logged at one level. */
@@ -470,7 +475,10 @@ describe("createSourceNormalisationStage", () => {
 			{ detail: "the lecture number", fragment: "Lecture 1" },
 			{ detail: "the title", fragment: "Cell Injury" },
 			{ detail: "the date", fragment: "2025-10-10" },
-			{ detail: "the cost already spent", fragment: "1.23" },
+			// The spend is stored in dollars and shown in pounds: 1.23 USD at the
+			// suites' rate. Anything a user weighs a deletion against is presented
+			// currency (TD §7, NFR-2.3).
+			{ detail: "the cost already spent", fragment: "£0.910" },
 		])("should show $detail in the orphan prompt when a lecture's sources are gone", async ({
 			fragment,
 		}) => {

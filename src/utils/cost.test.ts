@@ -1,6 +1,7 @@
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
+	GBP_PER_USD,
 	makeManifest,
 	otherLecture,
 	otherModuleName,
@@ -30,14 +31,6 @@ import {
 	formatCostReport,
 	formatRunSummary,
 } from "./cost.js";
-
-// A rate this suite fixes for itself, deliberately NOT `currency.gbpPerUsd`.
-// Every expected figure below is a pounds amount worked out by hand at this
-// rate, so taking it from config would make an unrelated config edit fail eight
-// assertions with "expected £0.148, got £0.170" — blaming the formatter for a
-// change in the rate. Deriving the expectations instead would multiply by the
-// same rate the code under test does, and prove nothing.
-const GBP_PER_USD = 0.74;
 
 // Slide conversion is the stage these tables are built around: it is the one
 // with a per-call model, a concurrency, and enough calls for the totals to be
