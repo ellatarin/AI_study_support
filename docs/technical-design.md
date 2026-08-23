@@ -1138,6 +1138,10 @@ createOpenRouterClient(args: { openRouter: PipelineConfig["openRouter"] }): Open
 // The configured client above. Reused in-process, keyed on the settings it was built from, so a differently
 // configured run cannot be served a client pointed elsewhere or waiting to the wrong budget. Not exported as
 // a live instance, so importing the module never requires OPENROUTER_API_KEY.
+API_KEY_VARIABLE: "OPENROUTER_API_KEY"
+// The environment variable the key is read from, named for the same reason the routes are: a suite that stubs
+// it names the variable this module reads rather than its own copy. The key itself never leaves the
+// environment (§2, Environment Variables). Stage 2 names its own the same way (§5, Stage 2).
 makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; responseFormat: "text" | "json"; logger: Logger; client?: OpenAI }):
   Promise<{ content: string; cost: StageCost }>
 // `logger` is the calling stage's, already bound to it by createPipelineStage; the call is recorded on it

@@ -28,9 +28,12 @@ import { STAGE_IDS } from "../types/pipeline.js";
 import { parseConfig } from "./config.js";
 import { type ModuleDirs, moduleDirs } from "./layout.js";
 import { baseNameForLecture } from "./lecture-files.js";
-import { OPENROUTER_PATHS } from "./openrouter.js";
+import { API_KEY_VARIABLE as OPENROUTER_KEY_VARIABLE, OPENROUTER_PATHS } from "./openrouter.js";
 import { assembleContext } from "./stage-context.js";
-import { API_KEY_VARIABLE, ELEVENLABS_PATHS } from "./stages/transcription.js";
+import {
+	API_KEY_VARIABLE as ELEVENLABS_KEY_VARIABLE,
+	ELEVENLABS_PATHS,
+} from "./stages/transcription.js";
 
 /**
  * Awaits a promise that a test expects to reject and returns the rejection, so
@@ -526,6 +529,32 @@ export function makeManifest(overrides: Partial<RunManifest> = {}): RunManifest 
 }
 
 /**
+ * Arms a test to exercise an OpenRouter call without reaching OpenRouter:
+ * clears any leftover interceptors, blocks all outbound connections so a request
+ * the test forgot to intercept fails loudly instead of hitting the real
+ * (billable) API, and supplies a dummy `OPENROUTER_API_KEY`.
+ *
+ * @returns Nothing.
+ */
+export function stubOpenRouterApi(): void {
+	nock.cleanAll();
+	nock.disableNetConnect();
+	vi.stubEnv(OPENROUTER_KEY_VARIABLE, "test-key");
+}
+
+/**
+ * Undoes {@link stubOpenRouterApi}, restoring real network access and the real
+ * environment for any suite that follows.
+ *
+ * @returns Nothing.
+ */
+export function resetOpenRouterApi(): void {
+	nock.cleanAll();
+	nock.enableNetConnect();
+	vi.unstubAllEnvs();
+}
+
+/**
  * Arms a test to exercise the transcription stage without reaching ElevenLabs:
  * clears any leftover interceptors, blocks all outbound connections so a request
  * the test forgot to intercept fails loudly instead of hitting the real
@@ -536,7 +565,7 @@ export function makeManifest(overrides: Partial<RunManifest> = {}): RunManifest 
 export function stubElevenLabsApi(): void {
 	nock.cleanAll();
 	nock.disableNetConnect();
-	vi.stubEnv(API_KEY_VARIABLE, "test-api-key");
+	vi.stubEnv(ELEVENLABS_KEY_VARIABLE, "test-api-key");
 }
 
 /**

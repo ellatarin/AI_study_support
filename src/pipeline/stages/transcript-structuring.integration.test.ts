@@ -14,8 +14,10 @@ import {
 	openRouterCompletionBody,
 	openRouterStageConfig,
 	openRouterUrls,
+	resetOpenRouterApi,
 	structuredMarkdown,
 	stubbedCostUsd,
+	stubOpenRouterApi,
 	testLecture,
 	userChosenTitle,
 } from "../fixtures.js";
@@ -53,9 +55,7 @@ describe("transcript structuring against a real module tree", () => {
 	}
 
 	beforeEach(async () => {
-		process.env.OPENROUTER_API_KEY = "test-key";
-		nock.cleanAll();
-		nock.disableNetConnect();
+		stubOpenRouterApi();
 		capturedBody = {};
 
 		({ tempDir, dirs, workspaceRoot } = await makeLectureTree({ prefix: "structuring-int-" }));
@@ -65,8 +65,7 @@ describe("transcript structuring against a real module tree", () => {
 	});
 
 	afterEach(async () => {
-		nock.cleanAll();
-		nock.enableNetConnect();
+		resetOpenRouterApi();
 		await rm(tempDir, { recursive: true, force: true });
 	});
 

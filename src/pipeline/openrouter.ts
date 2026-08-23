@@ -21,6 +21,14 @@ export const OPENROUTER_PATHS = {
 	models: "/models",
 } as const;
 
+/**
+ * The environment variable the OpenRouter key is read from, named for the same
+ * reason the routes above are: a suite that stubs it names the variable this
+ * module reads rather than its own copy. The key itself never leaves the
+ * environment (§2, Environment Variables).
+ */
+export const API_KEY_VARIABLE = "OPENROUTER_API_KEY";
+
 /** Where OpenRouter is and how patiently to wait on it, all from config (§6). */
 type OpenRouterSettings = PipelineConfig["openRouter"];
 
@@ -103,7 +111,7 @@ export function createOpenRouterClient({
 	readonly openRouter: OpenRouterSettings;
 }): OpenAI {
 	return new OpenAI({
-		apiKey: process.env.OPENROUTER_API_KEY,
+		apiKey: process.env[API_KEY_VARIABLE],
 		baseURL: openRouter.baseUrl,
 		defaultHeaders: { "X-Title": OPENROUTER_APP_TITLE },
 		maxRetries: openRouter.completionMaxRetries,

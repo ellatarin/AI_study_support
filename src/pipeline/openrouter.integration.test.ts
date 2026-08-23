@@ -12,7 +12,9 @@ import {
 	openRouterModelId,
 	openRouterStageConfig,
 	openRouterUrls,
+	resetOpenRouterApi,
 	stubbedTokenUsage,
+	stubOpenRouterApi,
 } from "./fixtures.js";
 import { ContextLengthError, createOpenRouterClient, makeCompletionCall } from "./openrouter.js";
 
@@ -106,14 +108,12 @@ function callWithResolvedCost(totalCost: number): ReturnType<typeof call> {
 }
 
 beforeEach(() => {
-	process.env.OPENROUTER_API_KEY = "test-key";
-	nock.disableNetConnect();
+	stubOpenRouterApi();
 	logged = makeStubLogger();
 });
 
 afterEach(() => {
-	nock.cleanAll();
-	nock.enableNetConnect();
+	resetOpenRouterApi();
 	vi.restoreAllMocks();
 });
 
