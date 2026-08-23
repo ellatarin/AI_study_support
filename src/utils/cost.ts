@@ -138,6 +138,13 @@ type Cell = readonly [text: string, width: number, align: "left" | "right"];
 /** Width of the cost column, shared by the header, the cells, and the free-form rows. */
 const COST_WIDTH = 10;
 
+/**
+ * Width of the model column, shared by the two tables that carry one. Holds the
+ * 27 characters of the longest model id technical-design.md §4.5 records, plus
+ * the space that separates it from the column after it.
+ */
+const MODEL_WIDTH = 28;
+
 /** The shared cost-column header, reused by every table so it is declared once. */
 const COST_HEADER: Cell = ["Cost", COST_WIDTH, "right"];
 
@@ -193,6 +200,27 @@ function costCell({
 	return [formatMoney(amount), COST_WIDTH, "right"];
 }
 
+/** The mark left in place of the characters a cell was too narrow to show. */
+const ELLIPSIS = "…";
+
+/**
+ * Cuts a cell's text down to its column, ending it in an ellipsis so the reader
+ * can see the value continues. A column is one character wider than the longest
+ * value it expects, and a shortened value keeps that separating space, so the
+ * columns after it stay where the header puts them however long the value is.
+ *
+ * @param args - The text and the column it has to fit.
+ * @param args.text - The cell's full text.
+ * @param args.width - The column's width.
+ * @returns The text, shortened only if it was too wide.
+ */
+function fitToColumn({ text, width }: { readonly text: string; readonly width: number }): string {
+	if (text.length < width) {
+		return text;
+	}
+	return `${text.slice(0, width - 2)}${ELLIPSIS}`;
+}
+
 /**
  * Joins fixed-width cells into a single aligned row.
  *
@@ -201,7 +229,10 @@ function costCell({
  */
 function formatCells(cells: readonly Cell[]): string {
 	return cells
-		.map(([text, width, align]) => (align === "right" ? text.padStart(width) : text.padEnd(width)))
+		.map(([text, width, align]) => {
+			const fitted = fitToColumn({ text, width });
+			return align === "right" ? fitted.padStart(width) : fitted.padEnd(width);
+		})
 		.join("");
 }
 
@@ -365,6 +396,14 @@ type RunLogSectionArgs = {
 	readonly formatMoney: MoneyFormatter;
 };
 
+/** Column widths of the current-pipeline section, shared by its header, rows, and total. */
+const CURRENT_PIPELINE_WIDTHS = { stage: 24, model: MODEL_WIDTH, calls: 7 } as const;
+
+const CURRENT_PIPELINE_LABEL_WIDTH =
+	CURRENT_PIPELINE_WIDTHS.stage + CURRENT_PIPELINE_WIDTHS.model + CURRENT_PIPELINE_WIDTHS.calls;
+
+const CURRENT_PIPELINE_RULE_WIDTH = CURRENT_PIPELINE_LABEL_WIDTH + COST_WIDTH;
+
 /**
  * Section 1: what the outputs currently on disk cost to produce.
  *
@@ -382,21 +421,26 @@ function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs):
 		}
 		const { model, calls } = manifestStageMeta(manifest.stages[stageId]);
 		rows.push([
-			[STAGE_LABELS[stageId], 24, "left"],
-			[model, 26, "left"],
-			[String(calls), 7, "right"],
+			[STAGE_LABELS[stageId], CURRENT_PIPELINE_WIDTHS.stage, "left"],
+			[model, CURRENT_PIPELINE_WIDTHS.model, "left"],
+			[String(calls), CURRENT_PIPELINE_WIDTHS.calls, "right"],
 			costCell({ amount: cost, formatMoney }),
 		]);
 	}
 	return renderCostTable({
 		title: "Current pipeline cost",
-		columns: [["Stage", 24, "left"], ["Model", 26, "left"], ["Calls", 7, "right"], COST_HEADER],
+		columns: [
+			["Stage", CURRENT_PIPELINE_WIDTHS.stage, "left"],
+			["Model", CURRENT_PIPELINE_WIDTHS.model, "left"],
+			["Calls", CURRENT_PIPELINE_WIDTHS.calls, "right"],
+			COST_HEADER,
+		],
 		rows,
 		footer: [
-			["", 57, "left"],
+			["", CURRENT_PIPELINE_LABEL_WIDTH, "left"],
 			costCell({ amount: manifest.currentPipelineCost.totalCostUsd, formatMoney }),
 		],
-		width: 67,
+		width: CURRENT_PIPELINE_RULE_WIDTH,
 	});
 }
 
@@ -446,7 +490,10 @@ function errorRecoverySection({ runLogs, formatMoney }: RunLogSectionArgs): read
 function experimentSection({ runLogs, formatMoney }: RunLogSectionArgs): readonly string[] {
 	const byStage = new Map<string, string[]>();
 	for (const { log, stageId, entry } of ranStageEntries({ runLogs, selects: wasAnExperiment })) {
-		const model = (entry.configUsed?.modelId ?? "—").padEnd(26);
+		const model = fitToColumn({
+			text: entry.configUsed?.modelId ?? "—",
+			width: MODEL_WIDTH,
+		}).padEnd(MODEL_WIDTH);
 		const cost = formatMoney(entry.cost.totalCostUsd).padStart(COST_WIDTH);
 		byStage.set(stageId, [
 			...(byStage.get(stageId) ?? []),
@@ -498,7 +545,7 @@ const NO_COST: StageCost = {
 /** Column widths of the end-of-run summary, shared by its header, rows, and total. */
 const RUN_SUMMARY_WIDTHS = {
 	stage: 24,
-	model: 28,
+	model: MODEL_WIDTH,
 	calls: 7,
 	tokens: 21,
 	promptTokens: 9,

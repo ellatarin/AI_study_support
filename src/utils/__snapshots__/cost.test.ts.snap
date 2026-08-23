@@ -12,15 +12,15 @@ All modules                            3    failed    £0.444"
 
 exports[`formatCostReport > should render the three-section report when given a manifest and run logs 1`] = `
 "Current pipeline cost
-Stage                   Model                       Calls      Cost
-───────────────────────────────────────────────────────────────────
-Audio extraction        —                               0    £0.000
-Transcription           elevenlabs/scribe_v2            1    £0.031
-Slide conversion        google/gemini-2.5-flash        24    £0.025
-Synthesis               anthropic/claude-sonnet-4.6      1    £0.231
-PDF generation          —                               0    £0.004
-───────────────────────────────────────────────────────────────────
-                                                             £0.291
+Stage                   Model                         Calls      Cost
+─────────────────────────────────────────────────────────────────────
+Audio extraction        —                                 0    £0.000
+Transcription           elevenlabs/scribe_v2              1    £0.031
+Slide conversion        google/gemini-2.5-flash          24    £0.025
+Synthesis               anthropic/claude-sonnet-4.6       1    £0.231
+PDF generation          —                                 0    £0.004
+─────────────────────────────────────────────────────────────────────
+                                                               £0.291
 
 Error recovery cost
 Run                       Stage                   Status      Cost
@@ -33,8 +33,8 @@ Wasted on failures                                             n/a
 
 Experiment cost
 Stage: synthesis
-  Run 2025-10-11T14:00:00.000Z    anthropic/claude-opus-4.1     £0.659
-  Run 2025-10-11T16:00:00.000Z    meta-llama/llama-3.1-405b        n/a"
+  Run 2025-10-11T14:00:00.000Z    anthropic/claude-opus-4.1       £0.659
+  Run 2025-10-11T16:00:00.000Z    meta-llama/llama-3.1-405b          n/a"
 `;
 
 exports[`formatRunSummary > should render the whole summary table when given a run's outcomes 1`] = `

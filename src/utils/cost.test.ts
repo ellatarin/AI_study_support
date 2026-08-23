@@ -175,6 +175,17 @@ const completed = ({
 	filesWritten,
 });
 
+// A model id past any column's width, for the rows that have to survive one.
+const OVERLONG_MODEL_ID = "openrouter/an-extravagantly-long-model-identifier";
+
+// The longest model id technical-design.md §4.5 records, at 27 characters — the
+// one the Model column has to hold without moving the columns after it.
+const synthesisEntry = completed({
+	configUsed: { modelId: "anthropic/claude-sonnet-4.6", maxTokens: 8192 },
+	cost: resolved({ callCount: 1, totalCostUsd: 0.312 }),
+	filesWritten: [stageOutputEntry("synthesis")],
+});
+
 const manifest: RunManifest = makeManifest({
 	stages: {
 		// Completed non-LLM stage: null config and null cost exercise the
@@ -193,11 +204,7 @@ const manifest: RunManifest = makeManifest({
 			}),
 			filesWritten: [stageOutputEntry("slide-conversion")],
 		}),
-		synthesis: completed({
-			configUsed: { modelId: "anthropic/claude-sonnet-4.6", maxTokens: 8192 },
-			cost: resolved({ callCount: 1, totalCostUsd: 0.312 }),
-			filesWritten: [stageOutputEntry("synthesis")],
-		}),
+		synthesis: synthesisEntry,
 	},
 	currentPipelineCost: {
 		totalCostUsd: 0.393,
@@ -345,6 +352,48 @@ describe("createMoneyFormatter", () => {
 describe("formatCostReport", () => {
 	it("should render the three-section report when given a manifest and run logs", () => {
 		expect(formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD })).toMatchSnapshot();
+	});
+
+	// The table is aligned by padding alone, so a row that has kept its columns is
+	// exactly as wide as the rule above it, and one that has pushed them along is
+	// wider.
+	const widthOf = ({
+		report,
+		rowLabel,
+	}: {
+		readonly report: string;
+		readonly rowLabel: string;
+	}): { readonly row: number; readonly rule: number } => {
+		const lines = report.split("\n");
+		return {
+			row: (lines.find((line) => line.startsWith(rowLabel)) ?? "").length,
+			rule: (lines.find((line) => line.startsWith("─")) ?? "").length,
+		};
+	};
+
+	it("should hold the columns in place when a model id is the longest the design records", () => {
+		const { row, rule } = widthOf({
+			report: formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD }),
+			rowLabel: "Synthesis",
+		});
+
+		expect(row).toBe(rule);
+	});
+
+	it("should shorten a model id when it is wider than the column it is given", () => {
+		const overlong = makeManifest({
+			stages: {
+				...manifest.stages,
+				synthesis: { ...synthesisEntry, configUsed: { modelId: OVERLONG_MODEL_ID } },
+			},
+			currentPipelineCost: manifest.currentPipelineCost,
+		});
+
+		const report = formatCostReport({ runLogs, manifest: overlong, gbpPerUsd: GBP_PER_USD });
+		const { row, rule } = widthOf({ report, rowLabel: "Synthesis" });
+
+		expect(row).toBe(rule);
+		expect(report).toContain("…");
 	});
 
 	it("should count a failed stage as wasted when the run that failed was an ordinary one", () => {

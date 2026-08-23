@@ -1379,7 +1379,7 @@ stageLabel(args: { stageId: StageId }): string
 // A stage's display name. Exported so the CLI names a failed stage exactly as the summary table above does.
 ```
 
-The tables above share one renderer and one money formatter, so a column of pounds looks the same wherever it appears.
+The tables above share one renderer and one money formatter, so a column of pounds looks the same wherever it appears. The Model column is one width across every table that carries one, wide enough for the longest model id §4.5 records, and a value that would still overrun its column is shortened to end in `…` — a column is one character wider than the value it expects, and a shortened value keeps that separating space, so the columns after it stay under their headings whatever a provider names a model.
 
 ---
 
