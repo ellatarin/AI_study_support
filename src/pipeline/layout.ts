@@ -237,6 +237,32 @@ function inModule<TName extends string>(name: TName & LiteralName<TName>): Stage
 }
 
 /**
+ * A stage that owns one workspace directory and writes one file into it, which
+ * is most of them.
+ *
+ * The directory is named once and the output path is built from it, because the
+ * two are one fact: a stage's file sits in the stage's directory. Written out at
+ * both ends — as the directory owned and again as the first segment of the
+ * output path — the two could change apart, and the stage would then clear one
+ * directory on a re-run while recording its output in another.
+ *
+ * @param args - What the stage owns and what it writes.
+ * @param args.directory - The workspace directory's name, as a literal.
+ * @param args.file - The file's name within that directory.
+ * @returns The stage's workspace.
+ */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- string literal types, which have nothing to mutate; the rule cannot see through the unresolved LiteralName conditional
+function writesInto<TName extends string>(args: {
+	readonly directory: TName & LiteralName<TName>;
+	readonly file: string;
+}): StageWorkspace {
+	return {
+		directories: [inWorkspace<TName>(args.directory)],
+		outputFile: join(args.directory, args.file),
+	};
+}
+
+/**
  * What each stage owns, in pipeline order (technical-design.md §3.3).
  *
  * `qa-loop` owns `QA checked/` — the quality-checked notes are its output, and
@@ -247,27 +273,15 @@ function inModule<TName extends string>(name: TName & LiteralName<TName>): Stage
  */
 export const STAGE_WORKSPACE: Readonly<Record<StageId, StageWorkspace>> = {
 	"source-normalisation": { directories: [], outputFile: null },
-	"audio-extraction": {
-		directories: [inWorkspace("Audio")],
-		outputFile: join("Audio", "audio.m4a"),
-	},
-	transcription: {
-		directories: [inWorkspace("Transcript")],
-		outputFile: join("Transcript", "transcript.txt"),
-	},
-	"transcript-structuring": {
-		directories: [inWorkspace("Structured transcript")],
-		outputFile: join("Structured transcript", "structured-transcript.md"),
-	},
-	"slide-conversion": {
-		directories: [inWorkspace("Slide content")],
-		outputFile: join("Slide content", "slides.md"),
-	},
+	"audio-extraction": writesInto({ directory: "Audio", file: "audio.m4a" }),
+	transcription: writesInto({ directory: "Transcript", file: "transcript.txt" }),
+	"transcript-structuring": writesInto({
+		directory: "Structured transcript",
+		file: "structured-transcript.md",
+	}),
+	"slide-conversion": writesInto({ directory: "Slide content", file: "slides.md" }),
 	"image-extraction": { directories: [inWorkspace("Slide images")], outputFile: null },
-	synthesis: {
-		directories: [inWorkspace("Synthesised notes")],
-		outputFile: join("Synthesised notes", "synthesised-notes.md"),
-	},
+	synthesis: writesInto({ directory: "Synthesised notes", file: "synthesised-notes.md" }),
 	"qa-loop": {
 		directories: [inWorkspace("QA iterations"), inWorkspace("QA checked")],
 		outputFile: null,
