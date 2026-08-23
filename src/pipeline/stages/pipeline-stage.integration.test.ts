@@ -5,6 +5,8 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { ManifestStageEntry, StageContext } from "../../types/pipeline.js";
 import { ManifestPathError, pathExists } from "../../utils/files.js";
 import {
+	contextWithEntry,
+	contextWithOutput,
 	driveStage,
 	failedEntry,
 	finishedEntry,
@@ -12,7 +14,6 @@ import {
 	makeStageContext,
 	makeStubLogger,
 	makeWorkspaceTree,
-	stagesWith,
 } from "../fixtures.js";
 import { stageDirectoryPaths, stageOutputEntry, stageOutputPath } from "../layout.js";
 import { createPipelineStage, isStageComplete } from "./pipeline-stage.js";
@@ -40,22 +41,18 @@ describe("isStageComplete", () => {
 	});
 
 	function contextWith(entry: ManifestStageEntry): StageContext {
-		return makeStageContext({
-			workspaceRoot,
-			manifest: makeManifest({ stages: stagesWith({ stageId: STAGE_ID, entry }) }),
-		});
+		return contextWithEntry({ workspaceRoot, stageId: STAGE_ID, entry });
 	}
 
 	/**
-	 * A context whose manifest records the stage as finished, having written the
-	 * one output file the layout gives it. Whether that file is actually on disk
-	 * is left to each test — which is the difference the tests below turn on.
+	 * The context as it stands once the stage has finished and recorded its
+	 * output, for the workspace under test.
 	 *
 	 * @param status - Which of the two finished statuses the entry carries.
 	 * @returns The stage context.
 	 */
 	function contextRecordingOutput(status: "complete" | "skipped"): StageContext {
-		return contextWith(finishedEntry({ status, filesWritten: [stageOutputEntry(STAGE_ID)] }));
+		return contextWithOutput({ workspaceRoot, stageId: STAGE_ID, status });
 	}
 
 	/** Where the chosen stage is required to leave its output. */

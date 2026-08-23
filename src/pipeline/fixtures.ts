@@ -865,6 +865,60 @@ export function makeStageContext({
 }
 
 /**
+ * A stage context whose manifest records one entry against one stage and leaves
+ * every other stage pending — what a suite exercising a single stage builds
+ * whenever the behaviour under test turns on that stage's recorded state.
+ *
+ * @param args - The workspace, and the entry to record in it.
+ * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args.stageId - The stage the entry belongs to.
+ * @param args.entry - The entry to record for it.
+ * @returns The stage context.
+ */
+export function contextWithEntry({
+	workspaceRoot,
+	stageId,
+	entry,
+}: {
+	readonly workspaceRoot: string;
+	readonly stageId: StageId;
+	readonly entry: ManifestStageEntry;
+}): StageContext {
+	return makeStageContext({
+		workspaceRoot,
+		manifest: makeManifest({ stages: stagesWith({ stageId, entry }) }),
+	});
+}
+
+/**
+ * A stage context whose manifest records the stage as finished, having written
+ * the one output file the layout gives it. Whether that file is actually on
+ * disk is left to the caller — which is the difference the idempotency tests
+ * turn on.
+ *
+ * @param args - The workspace, the stage, and how it finished.
+ * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args.stageId - The stage that finished.
+ * @param args.status - Which of the two finished statuses it carries; complete by default.
+ * @returns The stage context.
+ */
+export function contextWithOutput({
+	workspaceRoot,
+	stageId,
+	status = "complete",
+}: {
+	readonly workspaceRoot: string;
+	readonly stageId: StageId;
+	readonly status?: "complete" | "skipped";
+}): StageContext {
+	return contextWithEntry({
+		workspaceRoot,
+		stageId,
+		entry: finishedEntry({ status, filesWritten: [stageOutputEntry(stageId)] }),
+	});
+}
+
+/**
  * Puts a stage's declared output file where the layout says it belongs, as a
  * finished run would have left it, and returns the workspace-relative entry to
  * record in `filesWritten` — so a suite standing up a workspace, or depending on
