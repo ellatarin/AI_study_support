@@ -41,15 +41,30 @@ export type PipelineRunnerFacade = {
 	readonly [TOperation in RunnerOperation]: PipelineRunner[TOperation];
 };
 
-/** What a picker is handed: the lectures a date turned out to name. */
-type MatchQuery = { readonly matches: readonly LectureMatch[] };
+/**
+ * What a picker is handed: the lectures a date turned out to name.
+ *
+ * Declared here rather than in `prompts.ts` for the same reason `ConfirmPrompt`
+ * is declared by the stage that asks it: the layer with a question to ask states
+ * its shape, and the terminal module implements it.
+ */
+export type MatchQuery = { readonly matches: readonly LectureMatch[] };
 
 /**
  * Settles a date that names several lectures, returning those to act on and an
  * empty list when the user cancels. Which picker a command uses depends on
  * whether acting on several at once means anything for it.
  */
-type LecturePicker = (args: MatchQuery) => Promise<readonly LectureMatch[]>;
+export type LecturePicker = (args: MatchQuery) => Promise<readonly LectureMatch[]>;
+
+/**
+ * The same, where acting on several at once would be meaningless: one lecture,
+ * or `null` when the user cancels.
+ */
+export type SingleLecturePicker = (args: MatchQuery) => Promise<LectureMatch | null>;
+
+/** Where user-facing text goes: one line of output, already terminated. */
+export type WriteText = (text: string) => void;
 
 /** Everything a command needs from the world outside it. */
 export type CliDeps = {
@@ -62,11 +77,11 @@ export type CliDeps = {
 	/** Asks which lectures to act on when a date matches several. */
 	readonly selectMatches: LecturePicker;
 	/** Asks which single lecture to act on, where acting on several would be meaningless. */
-	readonly selectMatch: (args: MatchQuery) => Promise<LectureMatch | null>;
+	readonly selectMatch: SingleLecturePicker;
 	/** Asks the user to approve an irreversible action. */
 	readonly confirm: ConfirmPrompt;
 	/** Where user-facing output goes. */
-	readonly write: (text: string) => void;
+	readonly write: WriteText;
 };
 
 /** The exit code for a command that did everything the user asked for. */

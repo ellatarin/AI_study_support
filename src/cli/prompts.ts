@@ -12,6 +12,7 @@ import { basename } from "node:path";
 import { checkbox, confirm, select } from "@inquirer/prompts";
 import type { ConfirmPrompt } from "../pipeline/stages/source-normalisation.js";
 import type { LectureMatch } from "../types/pipeline.js";
+import type { LecturePicker, SingleLecturePicker } from "./commands.js";
 
 /** The choice values standing for "every match" and "none of them". */
 const ALL_MATCHES = "all-matches";
@@ -31,9 +32,6 @@ const CANCEL_CHOICE = { name: "Cancel", value: CANCEL } as const;
  * which is the only part of the two that differs.
  */
 const SEVERAL_LECTURES = "Several lectures share that date.";
-
-/** What either picker is handed: the lectures a date turned out to name. */
-type MatchQuery = { readonly matches: readonly LectureMatch[] };
 
 /**
  * One choice per lecture, labelled by module, number, and title, and carrying
@@ -77,9 +75,7 @@ export const confirmPrompt: ConfirmPrompt = ({ message }) => confirm({ message, 
  * @param args.matches - The lectures sharing the requested date.
  * @returns The chosen lectures, empty when the user cancels or chooses none.
  */
-export async function selectLectureMatches({
-	matches,
-}: MatchQuery): Promise<readonly LectureMatch[]> {
+export const selectLectureMatches: LecturePicker = async ({ matches }) => {
 	const chosen = await checkbox<MultipleChoice>({
 		message: `${SEVERAL_LECTURES} Which do you mean?`,
 		choices: [
@@ -95,7 +91,7 @@ export async function selectLectureMatches({
 		return matches;
 	}
 	return chosen.filter((choice): choice is LectureMatch => typeof choice !== "string");
-}
+};
 
 /**
  * Asks which one of several same-dated lectures to act on.
@@ -109,10 +105,10 @@ export async function selectLectureMatches({
  * @param args.matches - The lectures sharing the requested date.
  * @returns The chosen lecture, or `null` when the user cancels.
  */
-export async function selectLectureMatch({ matches }: MatchQuery): Promise<LectureMatch | null> {
+export const selectLectureMatch: SingleLecturePicker = async ({ matches }) => {
 	const chosen = await select<SingleChoice>({
 		message: `${SEVERAL_LECTURES} Which one do you mean?`,
 		choices: [...lectureChoices(matches), CANCEL_CHOICE],
 	});
 	return chosen === CANCEL ? null : chosen;
-}
+};

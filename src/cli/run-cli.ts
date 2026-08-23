@@ -24,15 +24,16 @@ import {
 	EXIT_SUCCESS,
 	executeCommand,
 	type RunnableCliCommand,
+	type WriteText,
 } from "./commands.js";
 import { confirmPrompt, selectLectureMatch, selectLectureMatches } from "./prompts.js";
 
 /** Where the CLI's two streams of output go; replaced wholesale under test. */
 type CliOutput = {
 	/** Receives everything the user asked to see. */
-	readonly write: (text: string) => void;
+	readonly write: WriteText;
 	/** Receives anything that went wrong. */
-	readonly writeError: (text: string) => void;
+	readonly writeError: WriteText;
 };
 
 /**
@@ -50,7 +51,7 @@ async function assembleDeps({
 	write,
 }: {
 	readonly projectRoot: string;
-	readonly write: (text: string) => void;
+	readonly write: WriteText;
 }): Promise<CliDeps> {
 	const config = await loadConfig({ projectRoot });
 	const logger = createRootLogger({
@@ -134,8 +135,8 @@ export async function runCli({
 }: {
 	readonly argv: readonly string[];
 	readonly projectRoot?: string;
-	readonly write?: (text: string) => void;
-	readonly writeError?: (text: string) => void;
+	readonly write?: WriteText;
+	readonly writeError?: WriteText;
 }): Promise<number> {
 	const output: CliOutput = { write, writeError };
 	try {
