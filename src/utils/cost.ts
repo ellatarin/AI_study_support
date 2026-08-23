@@ -1,5 +1,5 @@
 import { moduleName, moduleRootOf } from "../pipeline/layout.js";
-import { hasSettledOutput, summariseOverallStatus } from "../pipeline/run-status.js";
+import { hasSettledOutput, summariseLectures } from "../pipeline/run-status.js";
 import type {
 	BatchSummary,
 	ManifestStageEntry,
@@ -657,9 +657,7 @@ function lecturesByModule(
 export function formatBatchSummary({ batch }: { readonly batch: BatchSummary }): string {
 	const rows: (readonly Cell[])[] = [];
 	for (const [moduleRoot, lectures] of lecturesByModule(batch.lectures)) {
-		const status: OverallStatus = summariseOverallStatus({
-			statuses: lectures.map((lecture) => lecture.overallStatus),
-		});
+		const status: OverallStatus = summariseLectures({ lectures });
 		rows.push([
 			[moduleName({ moduleRoot }), BATCH_SUMMARY_WIDTHS.module, "left"],
 			[String(lectures.length), BATCH_SUMMARY_WIDTHS.lectures, "right"],

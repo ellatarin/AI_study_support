@@ -200,6 +200,9 @@ type ModuleDirs = { video: string; slide: string; processing: string; finalOutpu
 moduleDirs(args: { moduleRoot: string }): ModuleDirs      // the module layout of §3.1, stated once
 MANIFEST_FILE: string                                     // "manifest.json"
 RUNS_DIR: string                                          // "runs"
+runsDirPath(args: { workspaceRoot: string }): string
+// That directory within one workspace. The runner writes a log into it and reads every log back out of it,
+// and the suites look for what it wrote, so the three address it through one name rather than rebuilding it.
 moduleRootOf(args: { workspaceRoot: string }): string
 // The module two levels up from a lecture workspace (`moduleRoot/Pipeline processing/<folder>`) — the inverse
 // of moduleDirs().processing, so the nesting is stated once. Used to assemble StageContext and to resolve the
@@ -329,6 +332,11 @@ Output a stage does not hold in memory — bytes written by a subprocess, such a
 writeFileAtomic(args: { path: string; content: string | Uint8Array }): Promise<void>   // writes .tmp, renames on success
 produceFileAtomic(args: { path: string; produce: (tmpPath: string) => Promise<void> }): Promise<void>
 // the general form: the caller creates the file at the .tmp path it is given
+readJsonSafe(path: string): Promise<unknown>
+// The read half: the parsed value, or null when the file is missing, unreadable, or not JSON. Answers with a
+// value rather than a throw because both callers scan speculatively — the runner over whatever `runs/` holds,
+// `readManifestSafe` over a folder that may not be a lecture. The value is `unknown`: what the file was
+// supposed to hold is the caller's claim, and a parse cannot check it.
 writeJsonAtomic(args: { path: string; value: unknown }): Promise<void>
 // the same, for a value serialised as JSON. Every JSON file the pipeline persists — the lecture manifest
 // (§4.5) and the run logs (§4.6) — is read by a human before anything else reads it, so they are indented
@@ -606,6 +614,10 @@ A `RunSummary` lists its stages as `RunStageOutcome` — the run-log entry *pair
 ```typescript
 stageOutcomeStatus(entry: RunLogStageEntry): OverallStatus            // failed | partial (skipped/not-reached) | success
 summariseOverallStatus(args: { statuses: readonly OverallStatus[] }): OverallStatus  // any failure wins, then any partial
+summariseLectures(args: { lectures: readonly { overallStatus: OverallStatus }[] }): OverallStatus
+// The same rule over lectures, which carry their own status: the runner folds a whole batch this way and the
+// batch table folds each module's rows, and both were writing the projection out. The parameter asks for the
+// status alone rather than a whole RunSummary, because that is all the rule reads.
 hasSettledOutput(entry: ManifestStageEntry | QaManifestStageEntry | undefined): entry is SettledStageEntry
 // Whether a *manifest* entry means the stage's output is on disk — `complete` or `skipped` (§4.2). Three
 // unrelated callers ask it: the shared `isComplete`, the run classifier, and the cost report's current-pipeline

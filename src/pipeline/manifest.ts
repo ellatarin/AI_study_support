@@ -13,7 +13,7 @@
 import { mkdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import type { RunManifest } from "../types/pipeline.js";
-import { writeJsonAtomic } from "../utils/files.js";
+import { readJsonSafe, writeJsonAtomic } from "../utils/files.js";
 import { MANIFEST_FILE } from "./layout.js";
 
 /**
@@ -101,12 +101,7 @@ export async function readManifestSafe({
 }: {
 	readonly workspaceRoot: string;
 }): Promise<RunManifest | null> {
-	let parsed: RunManifest;
-	try {
-		parsed = await readManifest({ workspaceRoot });
-	} catch {
-		return null;
-	}
+	const parsed = await readJsonSafe(manifestPath({ workspaceRoot }));
 	return isRunManifest(parsed) ? parsed : null;
 }
 

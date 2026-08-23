@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { OverallStatus, RunLogStageEntry } from "../types/pipeline.js";
-import { stageOutcomeStatus, summariseOverallStatus } from "./run-status.js";
+import { stageOutcomeStatus, summariseLectures, summariseOverallStatus } from "./run-status.js";
 
 describe("stageOutcomeStatus", () => {
 	it.each([
@@ -65,5 +65,13 @@ describe("summariseOverallStatus", () => {
 		},
 	])("should report $expected when $scenario", ({ statuses, expected }) => {
 		expect(summariseOverallStatus({ statuses })).toBe<OverallStatus>(expected);
+	});
+});
+
+describe("summariseLectures", () => {
+	it("should apply the same rule when lectures carry their own status", () => {
+		const lectures = [{ overallStatus: "success" }, { overallStatus: "failed" }] as const;
+
+		expect(summariseLectures({ lectures })).toBe<OverallStatus>("failed");
 	});
 });

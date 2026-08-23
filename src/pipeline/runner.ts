@@ -1,4 +1,4 @@
-import { mkdir, readFile, rm } from "node:fs/promises";
+import { mkdir, rm } from "node:fs/promises";
 import { join } from "node:path";
 import type { Logger } from "pino";
 import type {
@@ -7,7 +7,6 @@ import type {
 	LectureIdentityChanges,
 	LectureMatch,
 	ManifestStageEntry,
-	OverallStatus,
 	PipelineConfig,
 	PipelineStage,
 	ReportOptions,
@@ -28,11 +27,21 @@ import type {
 import { DEFAULT_BATCH_OPTIONS, DEFAULT_RUN_OPTIONS, STAGE_IDS } from "../types/pipeline.js";
 import { formatCostReport } from "../utils/cost.js";
 import { errorMessage } from "../utils/errors.js";
-import { listSubdirectoryNames, readDirSafe, writeJsonAtomic } from "../utils/files.js";
+import {
+	listSubdirectoryNames,
+	readDirSafe,
+	readJsonSafe,
+	writeJsonAtomic,
+} from "../utils/files.js";
 import { createStageLogger } from "../utils/logger.js";
-import { moduleDirs, RUNS_DIR, type StageInWorkspace, stageDirectoryPaths } from "./layout.js";
+import { moduleDirs, runsDirPath, type StageInWorkspace, stageDirectoryPaths } from "./layout.js";
 import { readManifest, readManifestSafe, writeManifest } from "./manifest.js";
-import { hasSettledOutput, stageOutcomeStatus, summariseOverallStatus } from "./run-status.js";
+import {
+	hasSettledOutput,
+	stageOutcomeStatus,
+	summariseLectures,
+	summariseOverallStatus,
+} from "./run-status.js";
 import { assembleContext } from "./stage-context.js";
 
 /**
@@ -103,14 +112,6 @@ function classifyRunType({
 		return "experiment";
 	}
 	return "error-recovery";
-}
-
-async function readJsonFile<TValue>(path: string): Promise<TValue | null> {
-	try {
-		return JSON.parse(await readFile(path, "utf8")) as TValue;
-	} catch {
-		return null;
-	}
 }
 
 /** A single module, addressed by the root directory that contains it. */
@@ -486,7 +487,7 @@ async function runStage({
 				status: "failed",
 				error: message,
 				configUsed,
-				cost: { costUsd: null, callCount: 0 },
+				cost: runLogCost(null),
 			},
 			context: recorder.context(),
 		};
@@ -550,16 +551,6 @@ function buildRunLog({
 	};
 }
 
-function overallStatus(outcomes: readonly RunStageOutcome[]): OverallStatus {
-	return summariseOverallStatus({
-		statuses: outcomes.map(({ entry }) => stageOutcomeStatus(entry)),
-	});
-}
-
-function aggregateStatus(lectures: readonly RunSummary[]): OverallStatus {
-	return summariseOverallStatus({ statuses: lectures.map((lecture) => lecture.overallStatus) });
-}
-
 async function writeRunLog({
 	workspaceRoot,
 	runLog,
@@ -567,21 +558,21 @@ async function writeRunLog({
 	readonly workspaceRoot: string;
 	readonly runLog: RunLog;
 }): Promise<void> {
-	const runsDir = join(workspaceRoot, RUNS_DIR);
+	const runsDir = runsDirPath({ workspaceRoot });
 	await mkdir(runsDir, { recursive: true });
 	await writeJsonAtomic({ path: join(runsDir, `${runLog.runId}.json`), value: runLog });
 }
 
 async function readRunLogs(workspaceRoot: string): Promise<readonly RunLog[]> {
-	const runsDir = join(workspaceRoot, RUNS_DIR);
+	const runsDir = runsDirPath({ workspaceRoot });
 	const logs: RunLog[] = [];
 	for (const entry of await readDirSafe(runsDir)) {
 		if (!entry.isFile()) {
 			continue;
 		}
-		const log = await readJsonFile<RunLog>(join(runsDir, entry.name));
+		const log = await readJsonSafe(join(runsDir, entry.name));
 		if (log !== null) {
-			logs.push(log);
+			logs.push(log as RunLog);
 		}
 	}
 	return logs;
@@ -687,7 +678,9 @@ export class PipelineRunner {
 			startedAt: startedIso,
 			endedAt: endedIso,
 			stageOutcomes: outcomes,
-			overallStatus: overallStatus(outcomes),
+			overallStatus: summariseOverallStatus({
+				statuses: outcomes.map(({ entry }) => stageOutcomeStatus(entry)),
+			}),
 		};
 	}
 
@@ -753,7 +746,7 @@ export class PipelineRunner {
 		);
 		const lectures = await this.#runLecturesConcurrently({ workspaces, options });
 		const endedAt = new Date().toISOString();
-		return { startedAt, endedAt, lectures, overallStatus: aggregateStatus(lectures) };
+		return { startedAt, endedAt, lectures, overallStatus: summariseLectures({ lectures }) };
 	}
 
 	// Modules in the order given, and each module's lectures in date order.

@@ -78,3 +78,27 @@ export function summariseOverallStatus({
 	}
 	return "success";
 }
+
+/**
+ * The same rule applied to a set of lectures.
+ *
+ * A lecture already carries its own {@link OverallStatus}, so combining a set of
+ * them is a projection and a fold — which two callers were each writing out: the
+ * runner across a whole batch, and the batch table for each module's rows within
+ * it. Written once, the two cannot come to disagree about what a module of
+ * half-failed lectures amounts to.
+ *
+ * The parameter asks for the status alone rather than for a whole `RunSummary`,
+ * because that is all the rule reads; a `RunSummary` satisfies it.
+ *
+ * @param args - The lectures to combine.
+ * @param args.lectures - Each lecture's settled status, in any order.
+ * @returns The status of the set.
+ */
+export function summariseLectures({
+	lectures,
+}: {
+	readonly lectures: readonly { readonly overallStatus: OverallStatus }[];
+}): OverallStatus {
+	return summariseOverallStatus({ statuses: lectures.map((lecture) => lecture.overallStatus) });
+}

@@ -6,6 +6,7 @@ import {
 	cleanTmpFiles,
 	ManifestPathError,
 	pathExists,
+	readJsonSafe,
 	resolveManifestPath,
 	writeFileAtomic,
 	writeJsonAtomic,
@@ -72,6 +73,27 @@ describe("files utilities", () => {
 
 			await expect(access(target)).rejects.toThrow();
 			await expect(access(`${target}.tmp`)).rejects.toThrow();
+		});
+	});
+
+	describe("readJsonSafe", () => {
+		it("should return the parsed value when the file holds JSON", async () => {
+			const target = join(tempDir, "record.json");
+			await writeJsonAtomic({ path: target, value: { runId: "a-run" } });
+
+			expect(await readJsonSafe(target)).toEqual({ runId: "a-run" });
+		});
+
+		it.each([
+			{ scenario: "the file is not there", content: null },
+			{ scenario: "the file is not JSON", content: "{ not json" },
+		])("should return null when $scenario", async ({ content }) => {
+			const target = join(tempDir, "record.json");
+			if (content !== null) {
+				await writeFile(target, content);
+			}
+
+			expect(await readJsonSafe(target)).toBeNull();
 		});
 	});
 

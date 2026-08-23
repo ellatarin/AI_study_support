@@ -37,7 +37,7 @@ import {
 } from "./fixtures.js";
 import {
 	moduleDirs,
-	RUNS_DIR,
+	runsDirPath,
 	stageDirectoryPaths,
 	stageOutputEntry,
 	stageOutputPath,
@@ -121,7 +121,7 @@ async function readManifest(workspaceRoot: string): Promise<RunManifest> {
 }
 
 async function readRunLog(workspaceRoot: string, runId: string): Promise<RunLog> {
-	const path = join(workspaceRoot, RUNS_DIR, `${runId}.json`);
+	const path = join(runsDirPath({ workspaceRoot }), `${runId}.json`);
 	return JSON.parse(await readFile(path, "utf8")) as RunLog;
 }
 
@@ -483,7 +483,7 @@ describe("PipelineRunner integration", () => {
 			vi.setSystemTime(new Date("2025-10-10T09:00:05Z"));
 			const second = await runner.runLecture({ workspaceRoot });
 
-			const files = await readdir(join(workspaceRoot, RUNS_DIR));
+			const files = await readdir(runsDirPath({ workspaceRoot }));
 			expect(files).toHaveLength(2);
 			expect(files).toContain(`${first.runId}.json`);
 			expect(files).toContain(`${second.runId}.json`);
@@ -849,7 +849,7 @@ describe("PipelineRunner integration", () => {
 				fromStage: null,
 				stages: {},
 			};
-			const runsDir = join(workspaceRoot, RUNS_DIR);
+			const runsDir = runsDirPath({ workspaceRoot });
 			await mkdir(runsDir, { recursive: true });
 			await writeFile(join(runsDir, `${runLog.runId}.json`), JSON.stringify(runLog));
 			// A non-file entry in runs/, a corrupt run log, and a workspace without a

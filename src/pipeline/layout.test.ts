@@ -9,6 +9,7 @@ import {
 	moduleName,
 	moduleRootOf,
 	RUNS_DIR,
+	runsDirPath,
 	STAGE_WORKSPACE,
 	stageDirectoryPaths,
 	stageOutputEntry,
@@ -44,6 +45,12 @@ describe("datedFileDirs", () => {
 			SLIDE_DIR,
 			FINAL_OUTPUT_DIR,
 		]);
+	});
+});
+
+describe("runsDirPath", () => {
+	it("should resolve the run logs under the workspace when a workspace is given", () => {
+		expect(runsDirPath({ workspaceRoot: WORKSPACE_ROOT })).toBe(join(WORKSPACE_ROOT, "runs"));
 	});
 });
 

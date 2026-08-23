@@ -77,6 +77,22 @@ export function datedFileDirs({ dirs }: { readonly dirs: ModuleDirs }): readonly
 }
 
 /**
+ * A workspace's run-log directory.
+ *
+ * Named here for the reason every other path is: the runner writes a log into it
+ * and reads every log back out of it, and the suites look for what it wrote, so
+ * three parties addressed the same directory by rebuilding it (technical-design.md
+ * §4.6).
+ *
+ * @param args - The workspace to locate it in.
+ * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @returns The absolute path to that workspace's run logs.
+ */
+export function runsDirPath({ workspaceRoot }: { readonly workspaceRoot: string }): string {
+	return join(workspaceRoot, RUNS_DIR);
+}
+
+/**
  * Resolves the module a lecture workspace belongs to, two levels up from it
  * (`moduleRoot/Pipeline processing/<folder>`).
  *

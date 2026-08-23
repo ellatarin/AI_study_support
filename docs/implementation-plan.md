@@ -71,8 +71,8 @@ Cross-references to the technical design are noted as **(TD §N)**.
 **Deliverables:**
 
 - `src/types/pipeline.ts` — every shared type, `STAGE_IDS`, the ordered stage list `StageId` is derived from, and `CONFIG_FILENAME`, the configuration file every layer names **(TD §4.1, §4.2, §4.7, §6)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, `StageStatus`), the persisted shapes (`RunManifest`, `ManifestStageEntry`, `RunLog`, `RunLogStageEntry`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaDeficienciesReport`), and the runner-facing `LectureMatch`, `RunOptions`, `BatchRunOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, `BatchSummary`, with `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`
-- `src/pipeline/layout.ts` — the filesystem vocabulary, declared once: `moduleDirs`, `datedFileDirs`, `moduleRootOf`, `moduleName`, `MANIFEST_FILE`, `RUNS_DIR`, `STAGE_WORKSPACE`, `stageOutputEntry`, `stageOutputPath`, `stageDirectoryPath`, `stageDirectoryPaths` **(TD §3.3, "The layout has one owner")**. Every stage, the runner, the CLI, and the fixtures take directory and file names from here; no other module states one as a literal
-- `src/utils/files.ts` — `writeFileAtomic`, `writeJsonAtomic`, `cleanTmpFiles`, `pathExists`, and the directory reads `readDirSafe`/`listFileNames`/`listSubdirectoryNames` **(TD §4.3)**; `workspacePath` and `resolveManifestPath` **(TD §4.4)**
+- `src/pipeline/layout.ts` — the filesystem vocabulary, declared once: `moduleDirs`, `datedFileDirs`, `moduleRootOf`, `moduleName`, `MANIFEST_FILE`, `RUNS_DIR`, `runsDirPath`, `STAGE_WORKSPACE`, `stageOutputEntry`, `stageOutputPath`, `stageDirectoryPath`, `stageDirectoryPaths` **(TD §3.3, "The layout has one owner")**. Every stage, the runner, the CLI, and the fixtures take directory and file names from here; no other module states one as a literal
+- `src/utils/files.ts` — `writeFileAtomic`, `writeJsonAtomic`, `readJsonSafe`, `cleanTmpFiles`, `pathExists`, and the directory reads `readDirSafe`/`listFileNames`/`listSubdirectoryNames` **(TD §4.3)**; `workspacePath` and `resolveManifestPath` **(TD §4.4)**
 - `src/utils/logger.ts` — `createRootLogger`, `createStageLogger` **(TD §10, Logging and Progress Helpers)**
 - `src/utils/date.ts` — `extractDate`, `formatDateISO` **(TD §3.2, Date and Naming Helpers)**
 - `src/utils/naming.ts` — `extractProvisionalTitle`, `lectureFolderName`, `lectureBaseName` **(TD §3.2)**; `filenameSafe` **(TD §4.4)**
@@ -96,6 +96,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `should root every directory but pdf-generation's in the workspace when ownership is read`
 - `should resolve back to the module when a workspace beneath it is given` — `moduleRootOf` against `moduleDirs`
 - `should give the directories a lecture's own files sit in when a module is given` — `datedFileDirs` names three of the four, the workspace excluded
+- `should resolve the run logs under the workspace when a workspace is given` — `runsDirPath`
 - `should fail when the stage writes no single output file` — the stages whose `outputFile` is `null`
 
 `model-id.ts` — unit tests:
@@ -109,6 +110,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `should leave no partial file when write fails`
 - `should delete all .tmp files when cleanTmpFiles called`
 - `should write the value as indented JSON when a value is given` — and the same no-partial-file rule for `writeJsonAtomic`
+- `readJsonSafe` — the parsed value, and `null` for a file that is absent and one that is not JSON
 - `resolveManifestPath` — `test.each` covering: in-workspace path (accepted), `..` escape into `Final output/` under moduleRoot (accepted), `..` escape outside moduleRoot (rejected), symlink pointing outside moduleRoot (rejected after realpath), absolute path (rejected)
 
 `cost.ts` — unit tests:
@@ -159,7 +161,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 `src/pipeline/manifest.ts` — where `manifest.json` lives, how it is read and atomically written, and the schema version it is stamped with: `MANIFEST_VERSION`, `manifestPath`, `readManifest`, `readManifestSafe`, `writeManifest`. Extracted because Stage 0, the runner, and the CLI all touch it (**TD §4.5**).
 
-`src/pipeline/run-status.ts` — the shared rule reducing stage and lecture outcomes to an `OverallStatus` (**TD §4.7**).
+`src/pipeline/run-status.ts` — the shared rule reducing stage and lecture outcomes to an `OverallStatus`: `stageOutcomeStatus`, `summariseOverallStatus`, `summariseLectures`, `hasSettledOutput` (**TD §4.7**).
 
 `src/index.ts` and `src/cli/` — the CLI. Invoked in docs and examples as `lecture-notes <cmd>` via the `bin/lecture-notes` wrapper installed by `scripts/setup`. During dev without the wrapper, equivalent to `pnpm exec tsx src/index.ts <cmd>`.
 - Commands: `run <date>`, `batch [<moduleRoot>]`, `cost-report [--date <YYYY-MM-DD>] [--module <moduleRoot>]`

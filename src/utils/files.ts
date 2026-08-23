@@ -1,5 +1,5 @@
 import type { Dirent } from "node:fs";
-import { access, readdir, realpath, rename, rm, writeFile } from "node:fs/promises";
+import { access, readdir, readFile, realpath, rename, rm, writeFile } from "node:fs/promises";
 import { basename, dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { NamedError } from "./errors.js";
 
@@ -191,6 +191,33 @@ export function workspacePath({
 	readonly segments: readonly string[];
 }): string {
 	return join(workspaceRoot, ...segments);
+}
+
+/**
+ * Reads and parses a JSON file, answering `null` when it is missing, unreadable,
+ * or not JSON at all.
+ *
+ * The read half of {@link writeJsonAtomic}, and it answers with a value rather
+ * than a throw for the same reason the directory reads below do: both callers
+ * are scanning speculatively — the runner over whatever `runs/` happens to hold,
+ * the manifest reader over a folder that may not be a lecture — and neither has
+ * anything to say about a file it cannot read beyond skipping it.
+ *
+ * The parsed value is `unknown`: what the file was supposed to hold is the
+ * caller's claim to make, and it is one a parse cannot check.
+ *
+ * @param path - Absolute path to the file to read.
+ * @returns The parsed value, or `null` when there is none to be had.
+ * @example
+ * const parsed = await readJsonSafe(runLogPath);
+ */
+export async function readJsonSafe(path: string): Promise<unknown> {
+	try {
+		const parsed: unknown = JSON.parse(await readFile(path, "utf8"));
+		return parsed;
+	} catch {
+		return null;
+	}
 }
 
 /**
