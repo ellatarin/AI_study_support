@@ -14,28 +14,44 @@ import type { ConfirmPrompt } from "../pipeline/stages/source-normalisation.js";
 import type { LectureMatch } from "../types/pipeline.js";
 
 /** The choice values standing for "every match" and "none of them". */
-const ALL_MATCHES = -1;
-const CANCEL = -2;
+const ALL_MATCHES = "all-matches";
+const CANCEL = "cancel";
+
+/** What a choice stands for where one lecture is being picked. */
+type SingleChoice = LectureMatch | typeof CANCEL;
+
+/** The same, where several may be picked at once. */
+type MultipleChoice = SingleChoice | typeof ALL_MATCHES;
 
 /** The way out of either picker, offered last in both. */
-const CANCEL_CHOICE = { name: "Cancel", value: CANCEL };
+const CANCEL_CHOICE = { name: "Cancel", value: CANCEL } as const;
+
+/**
+ * What both pickers open with. Each adds the question its own answer shape asks,
+ * which is the only part of the two that differs.
+ */
+const SEVERAL_LECTURES = "Several lectures share that date.";
 
 /** What either picker is handed: the lectures a date turned out to name. */
 type MatchQuery = { readonly matches: readonly LectureMatch[] };
 
 /**
- * One choice per lecture, labelled by module, number, and title, and valued by
- * its position in the list both pickers were given.
+ * One choice per lecture, labelled by module, number, and title, and carrying
+ * the lecture itself as its value.
+ *
+ * The lecture rather than its position, so that reading an answer back is not a
+ * second lookup into the list the choices were built from — a lookup whose index
+ * is in range by construction and which nothing but an assertion could say so.
  *
  * @param matches - The lectures sharing the requested date.
  * @returns The choices to offer.
  */
 function lectureChoices(
 	matches: readonly LectureMatch[],
-): readonly { readonly name: string; readonly value: number }[] {
-	return Array.from(matches.entries(), ([index, match]) => ({
+): readonly { readonly name: string; readonly value: LectureMatch }[] {
+	return matches.map((match) => ({
 		name: `${basename(match.moduleRoot)} — Lecture ${match.lectureNumber} — ${match.lectureTitle}`,
-		value: index,
+		value: match,
 	}));
 }
 
@@ -64,8 +80,8 @@ export const confirmPrompt: ConfirmPrompt = ({ message }) => confirm({ message, 
 export async function selectLectureMatches({
 	matches,
 }: MatchQuery): Promise<readonly LectureMatch[]> {
-	const chosen = await checkbox({
-		message: "Several lectures share that date. Which do you mean?",
+	const chosen = await checkbox<MultipleChoice>({
+		message: `${SEVERAL_LECTURES} Which do you mean?`,
 		choices: [
 			{ name: "All matches", value: ALL_MATCHES },
 			...lectureChoices(matches),
@@ -78,7 +94,7 @@ export async function selectLectureMatches({
 	if (chosen.includes(ALL_MATCHES)) {
 		return matches;
 	}
-	return chosen.map((index) => matches[index] as LectureMatch);
+	return chosen.filter((choice): choice is LectureMatch => typeof choice !== "string");
 }
 
 /**
@@ -94,9 +110,9 @@ export async function selectLectureMatches({
  * @returns The chosen lecture, or `null` when the user cancels.
  */
 export async function selectLectureMatch({ matches }: MatchQuery): Promise<LectureMatch | null> {
-	const chosen = await select({
-		message: "Several lectures share that date. Which one do you mean?",
+	const chosen = await select<SingleChoice>({
+		message: `${SEVERAL_LECTURES} Which one do you mean?`,
 		choices: [...lectureChoices(matches), CANCEL_CHOICE],
 	});
-	return chosen === CANCEL ? null : (matches[chosen] as LectureMatch);
+	return chosen === CANCEL ? null : chosen;
 }
