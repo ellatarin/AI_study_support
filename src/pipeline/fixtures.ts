@@ -586,55 +586,59 @@ export function makeManifest(overrides: Partial<RunManifest> = {}): RunManifest 
 }
 
 /**
- * Arms a test to exercise an OpenRouter call without reaching OpenRouter:
- * clears any leftover interceptors, blocks all outbound connections so a request
- * the test forgot to intercept fails loudly instead of hitting the real
- * (billable) API, and supplies a dummy `OPENROUTER_API_KEY`.
+ * The key a stubbed service is armed with. One value, because a suite asserting
+ * the key reached the wire is checking for the same key the fixture put in the
+ * environment — two spellings would let that assertion pass against nothing.
+ */
+export const stubbedApiKey = "test-key";
+
+/**
+ * Arms a test to exercise a billable API without reaching it: clears any
+ * leftover interceptors, blocks all outbound connections so a request the test
+ * forgot to intercept fails loudly instead of reaching the real service, and
+ * supplies a dummy key.
+ *
+ * @param apiKeyVariable - The environment variable that service reads its key from.
+ * @returns Nothing.
+ */
+function stubApi(apiKeyVariable: string): void {
+	nock.cleanAll();
+	nock.disableNetConnect();
+	vi.stubEnv(apiKeyVariable, stubbedApiKey);
+}
+
+/**
+ * Arms a test to exercise an OpenRouter call without reaching OpenRouter.
  *
  * @returns Nothing.
  */
 export function stubOpenRouterApi(): void {
-	nock.cleanAll();
-	nock.disableNetConnect();
-	vi.stubEnv(OPENROUTER_KEY_VARIABLE, "test-key");
+	stubApi(OPENROUTER_KEY_VARIABLE);
 }
 
 /**
- * Undoes {@link stubOpenRouterApi}, restoring real network access and the real
- * environment for any suite that follows.
+ * Undoes {@link stubOpenRouterApi} or {@link stubElevenLabsApi}, restoring real
+ * network access and the real environment for any suite that follows.
+ *
+ * One function rather than one per service: nothing it does is particular to
+ * either, and `vi.unstubAllEnvs` was already clearing both suites' keys whichever
+ * of the two a suite called.
  *
  * @returns Nothing.
  */
-export function resetOpenRouterApi(): void {
+export function resetStubbedApi(): void {
 	nock.cleanAll();
 	nock.enableNetConnect();
 	vi.unstubAllEnvs();
 }
 
 /**
- * Arms a test to exercise the transcription stage without reaching ElevenLabs:
- * clears any leftover interceptors, blocks all outbound connections so a request
- * the test forgot to intercept fails loudly instead of hitting the real
- * (billable) API, and supplies a dummy `ELEVENLABS_API_KEY`.
+ * Arms a test to exercise the transcription stage without reaching ElevenLabs.
  *
  * @returns Nothing.
  */
 export function stubElevenLabsApi(): void {
-	nock.cleanAll();
-	nock.disableNetConnect();
-	vi.stubEnv(ELEVENLABS_KEY_VARIABLE, "test-api-key");
-}
-
-/**
- * Undoes {@link stubElevenLabsApi}, restoring real network access and the real
- * environment for any suite that follows.
- *
- * @returns Nothing.
- */
-export function resetElevenLabsApi(): void {
-	nock.cleanAll();
-	nock.enableNetConnect();
-	vi.unstubAllEnvs();
+	stubApi(ELEVENLABS_KEY_VARIABLE);
 }
 
 /**

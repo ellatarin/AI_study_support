@@ -21,7 +21,7 @@ import {
 	makeStageContext,
 	makeStubLogger,
 	makeWorkspaceTree,
-	resetElevenLabsApi,
+	resetStubbedApi,
 	scribeResponseBody,
 	stagesWith,
 	stubElevenLabsApi,
@@ -63,7 +63,7 @@ describe("createTranscriptionStage", () => {
 	});
 
 	afterEach(async () => {
-		resetElevenLabsApi();
+		resetStubbedApi();
 		await rm(moduleRoot, { recursive: true, force: true });
 	});
 

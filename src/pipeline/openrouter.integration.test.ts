@@ -12,7 +12,8 @@ import {
 	openRouterModelId,
 	openRouterStageConfig,
 	openRouterUrls,
-	resetOpenRouterApi,
+	resetStubbedApi,
+	stubbedApiKey,
 	stubbedTokenUsage,
 	stubOpenRouterApi,
 } from "./fixtures.js";
@@ -113,7 +114,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-	resetOpenRouterApi();
+	resetStubbedApi();
 	vi.restoreAllMocks();
 });
 
@@ -141,7 +142,7 @@ describe("makeCompletionCall", () => {
 
 		expect(body.model).toBe(openRouterModelId);
 		expect(headers["x-title"]).toBe("Lecture Notes Pipeline");
-		expect(headers.authorization).toBe("Bearer test-key");
+		expect(headers.authorization).toBe(`Bearer ${stubbedApiKey}`);
 	});
 
 	it("should request the json_object response format when responseFormat is json", async () => {
@@ -338,7 +339,7 @@ describe("makeCompletionCall", () => {
 
 	it("should throw when the completion request times out before a response arrives", async () => {
 		const client = new OpenAI({
-			apiKey: "test-key",
+			apiKey: stubbedApiKey,
 			baseURL: exampleConfig.openRouter.baseUrl,
 			timeout: 20,
 			maxRetries: 0,

@@ -14,7 +14,7 @@ import {
 	openRouterCompletionBody,
 	openRouterStageConfig,
 	openRouterUrls,
-	resetOpenRouterApi,
+	resetStubbedApi,
 	structuredMarkdown,
 	stubbedCostUsd,
 	stubOpenRouterApi,
@@ -72,7 +72,7 @@ describe("transcript structuring against a real module tree", () => {
 	});
 
 	afterEach(async () => {
-		resetOpenRouterApi();
+		resetStubbedApi();
 		await rm(tempDir, { recursive: true, force: true });
 	});
 

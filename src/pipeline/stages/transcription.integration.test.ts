@@ -12,7 +12,7 @@ import {
 	makeWorkspaceTree,
 	mediaTestTimeoutMs,
 	renderFixtureMedia,
-	resetElevenLabsApi,
+	resetStubbedApi,
 	scribeResponseBody,
 	stubElevenLabsApi,
 	transcriptionModelId,
@@ -55,7 +55,7 @@ describe("createTranscriptionStage against real audio", () => {
 	});
 
 	afterEach(async () => {
-		resetElevenLabsApi();
+		resetStubbedApi();
 		await rm(moduleRoot, { recursive: true, force: true });
 	});
 
