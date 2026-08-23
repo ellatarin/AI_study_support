@@ -12,7 +12,7 @@
 
 import { rm } from "node:fs/promises";
 import { join } from "node:path";
-import { type ModuleDirs, moduleDirs } from "../pipeline/layout.js";
+import { datedFileDirs, type ModuleDirs, moduleDirs } from "../pipeline/layout.js";
 import {
 	baseNameForLecture,
 	findDatedFile,
@@ -128,7 +128,7 @@ export async function deleteLecture({ match }: { readonly match: LectureMatch })
 		dirs,
 		manifest: { lectureDate },
 	} = await openLecture(match);
-	for (const dir of [dirs.video, dirs.slide, dirs.finalOutput]) {
+	for (const dir of datedFileDirs({ dirs })) {
 		await removeIfPresent({ dir, name: await findDatedFile({ dir, lectureDate }) });
 	}
 	await rm(match.workspaceRoot, { recursive: true, force: true });

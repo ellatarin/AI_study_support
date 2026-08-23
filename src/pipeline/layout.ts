@@ -59,6 +59,24 @@ export function moduleDirs({ moduleRoot }: { readonly moduleRoot: string }): Mod
 }
 
 /**
+ * The module directories a lecture keeps a file of its own in: its source video,
+ * its source slides, and its finished PDF.
+ *
+ * The workspace directory is not among them, because a lecture's workspace is a
+ * *folder* named after the lecture while these three hold a *file* named after
+ * it — which is what lets all three be addressed by the lecture's date. Renaming
+ * a lecture, deleting one, and laying one out in a fixture each walk exactly this
+ * set, so which directories belong to it is decided here rather than at all three.
+ *
+ * @param args - The module to select from.
+ * @param args.dirs - The module's four directories.
+ * @returns The three directories, in video, slide, output order.
+ */
+export function datedFileDirs({ dirs }: { readonly dirs: ModuleDirs }): readonly string[] {
+	return [dirs.video, dirs.slide, dirs.finalOutput];
+}
+
+/**
  * Resolves the module a lecture workspace belongs to, two levels up from it
  * (`moduleRoot/Pipeline processing/<folder>`).
  *

@@ -207,6 +207,10 @@ moduleRootOf(args: { workspaceRoot: string }): string
 moduleName(args: { moduleRoot: string }): string
 // What a module is called when it is shown to the user: its directory leaf, since a module has no name beyond
 // the folder it is. Read by the batch summary's module column and by the CLI's "nothing matched" message.
+datedFileDirs(args: { dirs: ModuleDirs }): readonly string[]
+// The three directories holding a file of the lecture's own — video, slides, finished PDF — and so the three a
+// lecture is addressed in by its date (§4.7). `processing` is excluded because a workspace is a folder named
+// after the lecture rather than a file. Walked by `renameLectureFiles`, by `delete`, and by the fixtures.
 
 type StageDirectoryName = string & { readonly [declaredInLayout]: true }   // branded; minted only in layout.ts
 type StageDirectory = { root: "workspace" | "module"; name: StageDirectoryName }

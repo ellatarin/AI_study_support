@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { STAGE_IDS } from "../types/pipeline.js";
 import { testLecture, testModuleName, testModuleRoot } from "./fixtures.js";
 import {
+	datedFileDirs,
 	MANIFEST_FILE,
 	moduleDirs,
 	moduleName,
@@ -16,18 +17,33 @@ import {
 
 // The roots are arbitrary inputs — this suite asserts the *names* layout.ts
 // puts under them, and those stay written out below because verifying them
-// against layout.ts itself would prove nothing.
+// against layout.ts itself would prove nothing. Each name is written out once
+// here and read by every case that expects it.
 const MODULE_ROOT = testModuleRoot;
-const WORKSPACE_ROOT = join(MODULE_ROOT, "Pipeline processing", testLecture.folderName);
+const VIDEO_DIR = join(MODULE_ROOT, "Source files", "Video files");
+const SLIDE_DIR = join(MODULE_ROOT, "Source files", "Lecture slides");
+const PROCESSING_DIR = join(MODULE_ROOT, "Pipeline processing");
+const FINAL_OUTPUT_DIR = join(MODULE_ROOT, "Final output");
+const WORKSPACE_ROOT = join(PROCESSING_DIR, testLecture.folderName);
 
 describe("moduleDirs", () => {
 	it.each([
-		{ key: "video" as const, expected: join("Source files", "Video files") },
-		{ key: "slide" as const, expected: join("Source files", "Lecture slides") },
-		{ key: "processing" as const, expected: "Pipeline processing" },
-		{ key: "finalOutput" as const, expected: "Final output" },
+		{ key: "video" as const, expected: VIDEO_DIR },
+		{ key: "slide" as const, expected: SLIDE_DIR },
+		{ key: "processing" as const, expected: PROCESSING_DIR },
+		{ key: "finalOutput" as const, expected: FINAL_OUTPUT_DIR },
 	])("should place $key under the module root when the module is resolved", ({ key, expected }) => {
-		expect(moduleDirs({ moduleRoot: MODULE_ROOT })[key]).toBe(join(MODULE_ROOT, expected));
+		expect(moduleDirs({ moduleRoot: MODULE_ROOT })[key]).toBe(expected);
+	});
+});
+
+describe("datedFileDirs", () => {
+	it("should give the directories a lecture's own files sit in when a module is given", () => {
+		expect(datedFileDirs({ dirs: moduleDirs({ moduleRoot: MODULE_ROOT }) })).toStrictEqual([
+			VIDEO_DIR,
+			SLIDE_DIR,
+			FINAL_OUTPUT_DIR,
+		]);
 	});
 });
 
@@ -71,7 +87,7 @@ describe("stageDirectoryPaths", () => {
 		{
 			stageId: "pdf-generation" as const,
 			scenario: "the module directory its PDF is deposited in",
-			expected: [join(MODULE_ROOT, "Final output")],
+			expected: [FINAL_OUTPUT_DIR],
 		},
 		{
 			stageId: "source-normalisation" as const,

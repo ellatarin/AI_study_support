@@ -19,7 +19,7 @@ import { dirname, extname, join } from "node:path";
 import { extractDates, formatDateISO } from "../utils/date.js";
 import { listFileNames } from "../utils/files.js";
 import { lectureBaseName } from "../utils/naming.js";
-import type { ModuleDirs } from "./layout.js";
+import { datedFileDirs, type ModuleDirs } from "./layout.js";
 
 /**
  * The canonical base name for a lecture sitting on an ISO date.
@@ -137,7 +137,7 @@ export async function renameLectureFiles({
 	readonly lectureDate: string;
 	readonly baseName: string;
 }): Promise<string> {
-	for (const dir of [dirs.video, dirs.slide, dirs.finalOutput]) {
+	for (const dir of datedFileDirs({ dirs })) {
 		await renameToBase({ dir, name: await findDatedFile({ dir, lectureDate }), baseName });
 	}
 	const movedTo = join(dirname(workspaceRoot), baseName);

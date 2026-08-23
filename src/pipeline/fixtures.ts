@@ -26,7 +26,7 @@ import type {
 } from "../types/pipeline.js";
 import { STAGE_IDS } from "../types/pipeline.js";
 import { parseConfig } from "./config.js";
-import { type ModuleDirs, moduleDirs } from "./layout.js";
+import { datedFileDirs, type ModuleDirs, moduleDirs } from "./layout.js";
 import { baseNameForLecture } from "./lecture-files.js";
 import { API_KEY_VARIABLE as OPENROUTER_KEY_VARIABLE, OPENROUTER_PATHS } from "./openrouter.js";
 import { assembleContext } from "./stage-context.js";
@@ -637,7 +637,7 @@ export async function makeLectureTree({ prefix }: { readonly prefix: string }): 
 	const dirs = moduleDirs({ moduleRoot });
 	const workspaceRoot = join(dirs.processing, testLecture.folderName);
 
-	for (const dir of [dirs.video, dirs.slide, dirs.finalOutput, workspaceRoot]) {
+	for (const dir of [...datedFileDirs({ dirs }), workspaceRoot]) {
 		await mkdir(dir, { recursive: true });
 	}
 	await writeFile(join(dirs.video, testLecture.videoFile), "video");
