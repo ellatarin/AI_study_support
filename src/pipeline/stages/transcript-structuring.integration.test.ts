@@ -6,6 +6,7 @@ import type { LectureIdentityChanges, RunManifest, StageContext } from "../../ty
 import { pathExists } from "../../utils/files.js";
 import {
 	aiDerivedLecture,
+	driveStage,
 	makeConfig,
 	makeLectureTree,
 	makeManifest,
@@ -93,7 +94,7 @@ describe("transcript structuring against a real module tree", () => {
 
 	async function runStage(context: StageContext): Promise<LectureIdentityChanges | undefined> {
 		const stage = createTranscriptStructuringStage({ logger: makeStubLogger().logger });
-		const result = await stage.run({ input: await stage.getInput(context), context });
+		const result = await driveStage({ stage, context });
 		return result.identityChanges;
 	}
 

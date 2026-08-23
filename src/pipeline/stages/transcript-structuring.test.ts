@@ -7,6 +7,7 @@ import { pathExists } from "../../utils/files.js";
 import {
 	aiDerivedLecture,
 	captureError,
+	driveStage,
 	loggedAt,
 	makeConfig,
 	makeManifest,
@@ -102,11 +103,8 @@ describe("createTranscriptStructuringStage", () => {
 		return entry?.payload.outcome;
 	}
 
-	async function runStage(
-		context: StageContext,
-	): Promise<StageResult<TranscriptStructuringOutput>> {
-		const stage = makeStage();
-		return stage.run({ input: await stage.getInput(context), context });
+	function runStage(context: StageContext): Promise<StageResult<TranscriptStructuringOutput>> {
+		return driveStage({ stage: makeStage(), context });
 	}
 
 	/** Whether the stage left a manifest anywhere it might have written one. */

@@ -19,11 +19,13 @@ import { vi } from "vitest";
 import type {
 	ManifestStageEntry,
 	PipelineConfig,
+	PipelineStage,
 	RunManifest,
 	StageConfig,
 	StageContext,
 	StageCost,
 	StageId,
+	StageResult,
 	StageRunConfig,
 } from "../types/pipeline.js";
 import { STAGE_IDS } from "../types/pipeline.js";
@@ -811,4 +813,28 @@ export function makeStageContext({
 	readonly config?: PipelineConfig;
 }): StageContext {
 	return assembleContext({ workspaceRoot, manifest, config });
+}
+
+/**
+ * Drives a stage end to end the way the runner does — the stage's own
+ * `getInput`, then its `run` with what that produced — so a suite exercising a
+ * stage cannot drift from the order the pipeline really invokes it in.
+ *
+ * The stage is `Readonly` for the reason `PipelineRunnerFacade` is a mapped
+ * type, stated there: a type carrying methods is not deeply readonly, so
+ * `prefer-readonly-parameter-types` reports every function taking one.
+ *
+ * @param args - The stage and what to run it against.
+ * @param args.stage - The stage under test.
+ * @param args.context - The context the runner would have assembled for it.
+ * @returns The stage's result.
+ */
+export async function driveStage<TInput, TOutput>({
+	stage,
+	context,
+}: {
+	readonly stage: Readonly<PipelineStage<TInput, TOutput>>;
+	readonly context: StageContext;
+}): Promise<StageResult<TOutput>> {
+	return stage.run({ input: await stage.getInput(context), context });
 }

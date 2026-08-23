@@ -4,6 +4,7 @@ import ffmpeg from "fluent-ffmpeg";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ManifestStageEntry, StageContext, StageResult } from "../../types/pipeline.js";
 import {
+	driveStage,
 	finishedEntry,
 	loggedAt,
 	makeManifest,
@@ -149,11 +150,8 @@ describe("createAudioExtractionStage", () => {
 		return createAudioExtractionStage({ logger: logged.logger });
 	}
 
-	async function runStage(): Promise<StageResult<AudioExtractionOutput>> {
-		const stage = makeStage();
-		const context = contextWith();
-		const input = await stage.getInput(context);
-		return stage.run({ input, context });
+	function runStage(): Promise<StageResult<AudioExtractionOutput>> {
+		return driveStage({ stage: makeStage(), context: contextWith() });
 	}
 
 	it("should name the stage audio-extraction when the stage is created", () => {

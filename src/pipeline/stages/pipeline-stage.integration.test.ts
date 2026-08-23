@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { ManifestStageEntry, StageContext } from "../../types/pipeline.js";
 import { ManifestPathError, pathExists } from "../../utils/files.js";
 import {
+	driveStage,
 	failedEntry,
 	finishedEntry,
 	makeManifest,
@@ -175,7 +176,7 @@ describe("createPipelineStage", () => {
 			},
 		});
 		const context = makeStageContext({ workspaceRoot, manifest: makeManifest() });
-		await stage.run({ input: await stage.getInput(context), context });
+		await driveStage({ stage, context });
 		if (observed === null) {
 			throw new Error("Expected the stage's run to have been invoked");
 		}

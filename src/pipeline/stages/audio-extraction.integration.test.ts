@@ -4,6 +4,7 @@ import type { FfprobeData } from "fluent-ffmpeg";
 import ffmpeg from "fluent-ffmpeg";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
+	driveStage,
 	makeStageContext,
 	makeStubLogger,
 	makeWorkspaceTree,
@@ -69,8 +70,7 @@ describe("createAudioExtractionStage against real ffmpeg", () => {
 			const stage = createAudioExtractionStage({ logger: makeStubLogger().logger });
 			const context = makeStageContext({ workspaceRoot });
 
-			const input = await stage.getInput(context);
-			const result = await stage.run({ input, context });
+			const result = await driveStage({ stage, context });
 
 			const audioPath = stageOutputPath({ workspaceRoot, stageId: "audio-extraction" });
 			expect(result.filesWritten).toStrictEqual([stageOutputEntry("audio-extraction")]);
