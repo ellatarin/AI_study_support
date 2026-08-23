@@ -251,26 +251,26 @@ export const elevenLabsUrls = {
 } as const;
 
 /**
- * A model ID the shipped example configures for a stage.
+ * A stage's configuration, as the shipped example holds it.
  *
  * Read from the example rather than restated, so a suite exercising a stage
- * names the same model its configuration does, and fails loudly if the example
- * stops configuring it.
+ * takes the same model and tuning its configuration does, and fails loudly if
+ * the example stops configuring it.
  *
- * @param stageId - The stage whose configured model to read.
- * @returns The configured model ID.
- * @throws {Error} If the example configures no model for that stage.
+ * @param stageId - The stage whose configuration to read.
+ * @returns The configured stage.
+ * @throws {Error} If the example configures no such stage.
  */
-function exampleModelId(stageId: StageId): string {
-	const modelId = exampleConfig.stages[stageId]?.modelId;
-	if (modelId === undefined) {
-		throw new Error(`pipeline-config.example.json configures no model for "${stageId}"`);
+function exampleStageConfig(stageId: StageId): StageConfig {
+	const configured = exampleConfig.stages[stageId];
+	if (configured === undefined) {
+		throw new Error(`pipeline-config.example.json configures no stage "${stageId}"`);
 	}
-	return modelId;
+	return configured;
 }
 
 /** The Scribe model the example configures, provider-qualified as Stage 2 expects. */
-export const transcriptionModelId = exampleModelId("transcription");
+export const transcriptionModelId = exampleStageConfig("transcription").modelId;
 
 /**
  * A concrete OpenRouter model for the suites that need one.
@@ -322,11 +322,7 @@ export function openRouterStageConfig({
 	readonly stageId: StageId;
 	readonly modelId?: string;
 }): StageConfig {
-	const configured = exampleConfig.stages[stageId];
-	if (configured === undefined) {
-		throw new Error(`pipeline-config.example.json configures no stage "${stageId}"`);
-	}
-	return { ...configured, modelId };
+	return { ...exampleStageConfig(stageId), modelId };
 }
 
 /** Text that is not valid JSON, for the suites checking a corrupt file is reported. */
