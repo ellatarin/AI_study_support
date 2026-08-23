@@ -42,7 +42,7 @@ import {
 	stageOutputPath,
 	workspaceRootFor,
 } from "./layout.js";
-import { manifestPath } from "./manifest.js";
+import { readManifest, writeManifest } from "./manifest.js";
 import { PipelineRunner } from "./runner.js";
 import { isStageComplete } from "./stages/pipeline-stage.js";
 
@@ -111,31 +111,27 @@ function realIsComplete(stageId: StageId): (context: StageContext) => Promise<bo
 	return (context) => isStageComplete({ context, stageId });
 }
 
-async function writeManifest(workspaceRoot: string, manifest: RunManifest): Promise<void> {
-	await mkdir(workspaceRoot, { recursive: true });
-	await writeFile(manifestPath({ workspaceRoot }), JSON.stringify(manifest));
-}
-
-async function readManifest(workspaceRoot: string): Promise<RunManifest> {
-	return JSON.parse(await readFile(manifestPath({ workspaceRoot }), "utf8")) as RunManifest;
-}
-
 async function readRunLog(workspaceRoot: string, runId: string): Promise<RunLog> {
 	const path = join(runsDirPath({ workspaceRoot }), `${runId}.json`);
 	return JSON.parse(await readFile(path, "utf8")) as RunLog;
 }
 
 /**
- * Writes a stage's declared output file where the layout says it belongs, as a
- * real stage would, and returns the workspace-relative entry to record in
- * `filesWritten` — so a stub stage never names the path at either end.
+ * Puts a stage's declared output file where the layout says it belongs, as a
+ * real stage would have left it, and returns the workspace-relative entry to
+ * record in `filesWritten` — so a stub stage never names the path at either end.
+ *
+ * Seeds rather than writes, and named for it: production's `writeStageOutput`
+ * writes what a stage just produced into a directory the stage factory has
+ * already prepared, whereas this is setting up a workspace that no run has
+ * touched, so it makes the directory itself.
  *
  * @param args - Where to write.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
  * @param args.stageId - The stage whose output to write.
  * @returns The `filesWritten` entry for that output.
  */
-async function writeStageOutput({
+async function seedStageOutput({
 	workspaceRoot,
 	stageId,
 }: {
@@ -190,7 +186,7 @@ describe("PipelineRunner integration", () => {
 
 	describe("runLecture lifecycle", () => {
 		beforeEach(async () => {
-			await writeManifest(workspaceRoot, makeManifest());
+			await writeManifest({ workspaceRoot, manifest: makeManifest() });
 		});
 
 		it("should execute the stage once when the same lecture is run three times", async () => {
@@ -201,7 +197,7 @@ describe("PipelineRunner integration", () => {
 				output: undefined,
 				cost: null,
 				filesWritten: [
-					await writeStageOutput({
+					await seedStageOutput({
 						workspaceRoot: context.workspaceRoot,
 						stageId: "audio-extraction",
 					}),
@@ -229,7 +225,7 @@ describe("PipelineRunner integration", () => {
 					output: undefined,
 					cost: { promptTokens: 0, completionTokens: 0, callCount: 1, costUsd: 0.5 },
 					filesWritten: [
-						await writeStageOutput({
+						await seedStageOutput({
 							workspaceRoot: context.workspaceRoot,
 							stageId: "audio-extraction",
 						}),
@@ -243,7 +239,7 @@ describe("PipelineRunner integration", () => {
 			expect(summary.stageOutcomes).toEqual([
 				outcome("audio-extraction", { action: "ran", status: "complete" }),
 			]);
-			const manifest = await readManifest(workspaceRoot);
+			const manifest = await readManifest({ workspaceRoot });
 			const entry = manifest.stages["audio-extraction"];
 			expect(entry?.status).toBe("complete");
 			expect(entry?.status === "complete" && entry.cost?.costUsd).toBe(0.5);
@@ -278,7 +274,7 @@ describe("PipelineRunner integration", () => {
 
 			// The stage's own entry is the only record of what it cost, so an
 			// unresolved lookup has to survive there for the report to show `n/a`.
-			const manifest = await readManifest(workspaceRoot);
+			const manifest = await readManifest({ workspaceRoot });
 			const entry = manifest.stages["audio-extraction"];
 			expect(entry?.status === "complete" && entry.cost).toEqual({
 				promptTokens: 10,
@@ -300,7 +296,7 @@ describe("PipelineRunner integration", () => {
 			const stage = makeStubStage({
 				stageId: "audio-extraction",
 				run: async ({ context }) => {
-					const current = await readManifest(context.workspaceRoot);
+					const current = await readManifest({ workspaceRoot: context.workspaceRoot });
 					statusDuringRun = current.stages["audio-extraction"]?.status;
 					return { output: undefined, cost: null, filesWritten: [] };
 				},
@@ -343,7 +339,7 @@ describe("PipelineRunner integration", () => {
 					error: "audio extraction failed",
 				}),
 			]);
-			const manifest = await readManifest(workspaceRoot);
+			const manifest = await readManifest({ workspaceRoot });
 			expect(manifest.stages["audio-extraction"]?.status).toBe("failed");
 		});
 
@@ -368,10 +364,10 @@ describe("PipelineRunner integration", () => {
 		});
 
 		it("should skip a stage and not run it when its output already exists", async () => {
-			const writtenEntry = await writeStageOutput({ workspaceRoot, stageId: "audio-extraction" });
-			await writeManifest(
+			const writtenEntry = await seedStageOutput({ workspaceRoot, stageId: "audio-extraction" });
+			await writeManifest({
 				workspaceRoot,
-				makeManifest({
+				manifest: makeManifest({
 					stages: {
 						...pendingStages(),
 						"audio-extraction": finishedEntry({
@@ -380,7 +376,7 @@ describe("PipelineRunner integration", () => {
 						}),
 					} as RunManifest["stages"],
 				}),
-			);
+			});
 			const run = vi.fn(
 				async () =>
 					({
@@ -403,7 +399,7 @@ describe("PipelineRunner integration", () => {
 			expect(summary.stageOutcomes).toEqual([
 				{ stageId: "audio-extraction", entry: { action: "skipped" } },
 			]);
-			const manifest = await readManifest(workspaceRoot);
+			const manifest = await readManifest({ workspaceRoot });
 			const entry = manifest.stages["audio-extraction"];
 			expect(entry?.status).toBe("skipped");
 			expect(entry?.status === "skipped" && entry.completedAt).toBe(BEFORE_THIS_RUN);
@@ -536,15 +532,15 @@ describe("PipelineRunner integration", () => {
 			for (const stageId of ALREADY_RUN_STAGES) {
 				stages[stageId] = finishedEntry({
 					status: "complete",
-					filesWritten: [await writeStageOutput({ workspaceRoot, stageId })],
+					filesWritten: [await seedStageOutput({ workspaceRoot, stageId })],
 				});
 			}
-			await writeManifest(
+			await writeManifest({
 				workspaceRoot,
-				makeManifest({
+				manifest: makeManifest({
 					stages: { ...pendingStages(), ...stages } as RunManifest["stages"],
 				}),
-			);
+			});
 		});
 
 		function fromStageRunner(): PipelineRunner {
@@ -630,7 +626,10 @@ describe("PipelineRunner integration", () => {
 			moduleB = join(tempDir, "Pharmacology");
 			moduleC = join(tempDir, "Microbiology");
 			const write = async (root: string, folder: string, manifest: RunManifest): Promise<void> => {
-				await writeManifest(workspaceRootFor({ moduleRoot: root, folderName: folder }), manifest);
+				await writeManifest({
+					workspaceRoot: workspaceRootFor({ moduleRoot: root, folderName: folder }),
+					manifest,
+				});
 			};
 			// Three lectures, differing in the ways these tests turn on: the test
 			// lecture, another in the same module on its own date, and a third in a
@@ -725,8 +724,14 @@ describe("PipelineRunner integration", () => {
 			moduleA = join(tempDir, otherModuleName);
 			const workspaceIn = (folderName: string): string =>
 				workspaceRootFor({ moduleRoot: moduleA, folderName });
-			await writeManifest(workspaceIn(LECTURE_FOLDER), makeManifest({ lectureNumber: 1 }));
-			await writeManifest(workspaceIn("L2"), makeManifest({ lectureNumber: 2 }));
+			await writeManifest({
+				workspaceRoot: workspaceIn(LECTURE_FOLDER),
+				manifest: makeManifest({ lectureNumber: 1 }),
+			});
+			await writeManifest({
+				workspaceRoot: workspaceIn("L2"),
+				manifest: makeManifest({ lectureNumber: 2 }),
+			});
 		});
 
 		function batchStage(): PipelineStage<unknown, unknown> {
@@ -771,10 +776,10 @@ describe("PipelineRunner integration", () => {
 			];
 			const moduleB = join(tempDir, "Chronology");
 			for (const { folder, lectureDate } of byDate) {
-				await writeManifest(
-					workspaceRootFor({ moduleRoot: moduleB, folderName: folder }),
-					makeManifest({ lectureDate }),
-				);
+				await writeManifest({
+					workspaceRoot: workspaceRootFor({ moduleRoot: moduleB, folderName: folder }),
+					manifest: makeManifest({ lectureDate }),
+				});
 			}
 			const ran: string[] = [];
 			const recordingStage = makeStubStage({
@@ -828,9 +833,9 @@ describe("PipelineRunner integration", () => {
 
 		beforeEach(async () => {
 			writeSpy = vi.spyOn(process.stdout, "write").mockImplementation(() => true);
-			await writeManifest(
+			await writeManifest({
 				workspaceRoot,
-				makeManifest({
+				manifest: makeManifest({
 					stages: {
 						...pendingStages(),
 						"audio-extraction": finishedEntry({
@@ -840,7 +845,7 @@ describe("PipelineRunner integration", () => {
 						}),
 					} as RunManifest["stages"],
 				}),
-			);
+			});
 			const runLog: RunLog = {
 				runId: testRunId,
 				startedAt: "2025-10-10T09:00:00Z",
@@ -922,7 +927,7 @@ describe("PipelineRunner integration", () => {
 			} else {
 				delete (stages as Record<string, ManifestStageEntry>)[TARGET_STAGE];
 			}
-			await writeManifest(workspaceRoot, makeManifest({ stages }));
+			await writeManifest({ workspaceRoot, manifest: makeManifest({ stages }) });
 			const summary = await makeRunner([makeStubStage({ stageId: "audio-extraction" })]).runLecture(
 				{
 					workspaceRoot,
@@ -977,7 +982,7 @@ describe("PipelineRunner integration", () => {
 
 	describe("identity a stage settles", () => {
 		beforeEach(async () => {
-			await writeManifest(workspaceRoot, makeManifest());
+			await writeManifest({ workspaceRoot, manifest: makeManifest() });
 		});
 
 		/** A stage that settles the given identity and writes nothing itself. */
@@ -999,13 +1004,13 @@ describe("PipelineRunner integration", () => {
 		it("should write the identity a stage settled when the stage completes", async () => {
 			await makeRunner([makeSettlingStage(SETTLED_IDENTITY)]).runLecture({ workspaceRoot });
 
-			expect(await readManifest(workspaceRoot)).toMatchObject(SETTLED_IDENTITY);
+			expect(await readManifest({ workspaceRoot })).toMatchObject(SETTLED_IDENTITY);
 		});
 
 		it("should record the stage complete in the same write when a stage settles identity", async () => {
 			await makeRunner([makeSettlingStage(SETTLED_IDENTITY)]).runLecture({ workspaceRoot });
 
-			expect((await readManifest(workspaceRoot)).stages["audio-extraction"]?.status).toBe(
+			expect((await readManifest({ workspaceRoot })).stages["audio-extraction"]?.status).toBe(
 				"complete",
 			);
 		});
@@ -1015,7 +1020,7 @@ describe("PipelineRunner integration", () => {
 				workspaceRoot,
 			});
 
-			expect(await readManifest(workspaceRoot)).toMatchObject({
+			expect(await readManifest({ workspaceRoot })).toMatchObject({
 				lectureTitle: testLecture.title,
 				aiDerivedTitle: null,
 			});
@@ -1047,13 +1052,13 @@ describe("PipelineRunner integration", () => {
 
 		beforeEach(async () => {
 			renamedWorkspaceRoot = workspaceRootFor({ moduleRoot, folderName: RENAMED_FOLDER });
-			await writeManifest(workspaceRoot, makeManifest());
+			await writeManifest({ workspaceRoot, manifest: makeManifest() });
 		});
 
 		it("should record the completed stage in the manifest at its new path when a stage renames the workspace", async () => {
 			await makeRunner([makeRenamingStage("audio-extraction")]).runLecture({ workspaceRoot });
 
-			const manifest = await readManifest(renamedWorkspaceRoot);
+			const manifest = await readManifest({ workspaceRoot: renamedWorkspaceRoot });
 			expect(manifest.stages["audio-extraction"]?.status).toBe("complete");
 		});
 

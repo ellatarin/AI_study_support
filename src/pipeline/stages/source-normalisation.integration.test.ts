@@ -1,12 +1,12 @@
-import { mkdir, readdir, readFile, rename, rm, writeFile } from "node:fs/promises";
+import { mkdir, readdir, rename, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RunManifest } from "../../types/pipeline.js";
 import type { LoggedEntry, LoggedLevel } from "../fixtures.js";
-import { loggedAt, makeStubLogger, makeTempDir } from "../fixtures.js";
+import { loggedAt, makeStubLogger, makeTempDir, stageCompletedAt } from "../fixtures.js";
 import { moduleDirs, workspaceRootFor } from "../layout.js";
-import { manifestPath, writeManifest } from "../manifest.js";
+import { patchManifest, readManifest } from "../manifest.js";
 import {
 	createSourceNormalisationStage,
 	SourceNormalisationError,
@@ -54,19 +54,24 @@ async function listNames(dir: string): Promise<readonly string[]> {
 	}
 }
 
-async function readManifestIn(folder: string): Promise<RunManifest> {
-	return JSON.parse(await readFile(manifestPath({ workspaceRoot: folder }), "utf8")) as RunManifest;
+/** This suite's folders are workspace roots; naming that once keeps the reads short. */
+function readManifestIn(folder: string): Promise<RunManifest> {
+	return readManifest({ workspaceRoot: folder });
 }
 
-async function patchManifest({
+async function amendManifestIn({
 	folder,
 	patch,
 }: {
 	readonly folder: string;
 	readonly patch: Partial<RunManifest>;
 }): Promise<void> {
-	const manifest = await readManifestIn(folder);
-	await writeManifest({ workspaceRoot: folder, manifest: { ...manifest, ...patch } });
+	await patchManifest({
+		workspaceRoot: folder,
+		manifest: await readManifestIn(folder),
+		changes: patch,
+		updatedAt: stageCompletedAt,
+	});
 }
 
 describe("createSourceNormalisationStage", () => {
@@ -189,7 +194,7 @@ describe("createSourceNormalisationStage", () => {
 	it("should name an existing lecture from its manifest lectureTitle when the title changed after Stage 0", async () => {
 		await writeLecture(CELL_INJURY_VIDEO, CELL_INJURY_SLIDE);
 		await stage.normaliseModule({ moduleRoot });
-		await patchManifest({
+		await amendManifestIn({
 			folder: workspaceRootFor({ moduleRoot, folderName: CELL_INJURY }),
 			patch: { lectureTitle: "Innate Immune Response" },
 		});
@@ -515,7 +520,7 @@ describe("createSourceNormalisationStage", () => {
 		});
 
 		it("should describe an orphan as untitled when its manifest carries no title", async () => {
-			await patchManifest({
+			await amendManifestIn({
 				folder: workspaceRootFor({ moduleRoot, folderName: CELL_INJURY }),
 				patch: { lectureTitle: "" },
 			});
