@@ -44,9 +44,14 @@
  * service, the account, or the user's material? Only the second kind is
  * configuration. Expect most of the list to be fine; that is the point.
  *
- * A shared *name* is not a duplicate. `STAGE_ID`, `TRANSCRIPT_TEXT` and
- * `FIXTURE_SECONDS` each hold a different value in every file that declares
- * them. Group 1 reports names; check the values before changing anything.
+ * A shared *name* is not a duplicate. `STAGE_ID` and `FIXTURE_SECONDS` each hold
+ * a different value in every file that declares them, and each of those values
+ * is asserted on where it stands. Group 1 reports names; check the values before
+ * changing anything.
+ *
+ * The check is "is this one fact?", not "is this one value?", and it can come
+ * out the other way: `TRANSCRIPT_TEXT` was three names holding three sentences,
+ * and no assertion anywhere read the words. It is one fixture now.
  */
 
 import { readdirSync, readFileSync, statSync } from "node:fs";

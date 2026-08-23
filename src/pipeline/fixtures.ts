@@ -475,6 +475,14 @@ export const testModuleName = "Biology of Disease";
  */
 export const structuredMarkdown = "## The Innate Immune Response\n\nBarrier defences come first.";
 
+/**
+ * What a transcript says. Four suites need one — the two that produce a
+ * transcript and the two that consume one — and no assertion anywhere reads the
+ * words: each only checks that the text it put in is the text that came out. So
+ * it is one value, and a suite that states its own is claiming otherwise.
+ */
+export const transcriptText = "Today we are covering cell injury and the immune system.";
+
 /** The title Stage 3's model proposes when it judges the lecturer's inadequate. */
 export const aiDerivedLecture = describeLecture({
 	number: testLecture.number,

@@ -16,11 +16,11 @@ import {
 	scribeResponseBody,
 	stubElevenLabsApi,
 	transcriptionModelId,
+	transcriptText,
 } from "../fixtures.js";
 import { stageOutputEntry, stageOutputPath } from "../layout.js";
 import { createTranscriptionStage } from "./transcription.js";
 
-const TRANSCRIPT_TEXT = "Today we are covering cell injury and the immune system.";
 const FIXTURE_SECONDS = 2;
 const SECONDS_PER_HOUR = 3600;
 
@@ -67,7 +67,7 @@ describe("createTranscriptionStage against real audio", () => {
 				.post(elevenLabsUrls.speechToText)
 				.reply(200, (_uri: string, requestBody: nock.Body) => {
 					uploadedBytes = String(requestBody).length;
-					return scribeResponseBody({ text: TRANSCRIPT_TEXT });
+					return scribeResponseBody({ text: transcriptText });
 				});
 			const stage = createTranscriptionStage({ logger: makeStubLogger().logger });
 			const context = makeStageContext({
@@ -83,7 +83,7 @@ describe("createTranscriptionStage against real audio", () => {
 			expect(uploadedBytes).toBeGreaterThan(0);
 			expect(
 				await readFile(stageOutputPath({ workspaceRoot, stageId: "transcription" }), "utf8"),
-			).toBe(TRANSCRIPT_TEXT);
+			).toBe(transcriptText);
 			expect(result.filesWritten).toStrictEqual([stageOutputEntry("transcription")]);
 			expect(result.cost?.costUsd).toBeCloseTo(
 				(FIXTURE_SECONDS / SECONDS_PER_HOUR) * exampleConfig.elevenLabs.costPerAudioHourUsd,

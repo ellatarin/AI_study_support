@@ -20,6 +20,7 @@ import {
 	testLecture,
 	titleKept,
 	titleRejected,
+	transcriptText,
 	userChosenTitle,
 } from "../fixtures.js";
 import { stageOutputEntry, stageOutputPath } from "../layout.js";
@@ -39,8 +40,6 @@ vi.mock(import("../openrouter.js"), async (importOriginal) => ({
 }));
 
 const completionMock = makeCompletionCall as unknown as Mock;
-
-const TRANSCRIPT_TEXT = "Today we are covering the innate immune response.";
 
 /** The lecture as `rename` leaves it: the user's title, already in force. */
 const userNamed = { userTitle: userChosenTitle, lectureTitle: userChosenTitle };
@@ -68,7 +67,7 @@ describe("createTranscriptStructuringStage", () => {
 		vi.clearAllMocks();
 		logged = makeStubLogger();
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "structuring-" }));
-		await seedStageOutput({ workspaceRoot, stageId: "transcription", contents: TRANSCRIPT_TEXT });
+		await seedStageOutput({ workspaceRoot, stageId: "transcription", contents: transcriptText });
 		stubReply();
 	});
 
@@ -140,7 +139,7 @@ describe("createTranscriptStructuringStage", () => {
 		await runStage(contextWith());
 
 		const sent = JSON.stringify(completionMock.mock.calls[0]?.[0].messages);
-		expect(sent).toContain(TRANSCRIPT_TEXT);
+		expect(sent).toContain(transcriptText);
 		expect(sent).toContain(testLecture.title);
 	});
 

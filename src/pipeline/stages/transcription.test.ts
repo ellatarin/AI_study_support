@@ -26,6 +26,7 @@ import {
 	stagesWith,
 	stubElevenLabsApi,
 	transcriptionModelId,
+	transcriptText,
 } from "../fixtures.js";
 import { stageOutputEntry, stageOutputPath } from "../layout.js";
 import type { TranscriptionOutput } from "./transcription.js";
@@ -37,7 +38,6 @@ vi.mock("fluent-ffmpeg", () => ({
 
 const ffprobeMock = ffmpeg.ffprobe as unknown as Mock;
 
-const TRANSCRIPT_TEXT = "Today we are covering cell injury.";
 const HALF_HOUR_SECONDS = 1800;
 
 /** The shared Scribe body, taking the text positionally as this suite reads best. */
@@ -141,7 +141,7 @@ describe("createTranscriptionStage", () => {
 
 	it("should skip transcription when output file exists and stage is complete", async () => {
 		await mkdir(dirname(transcriptPath()), { recursive: true });
-		await writeFile(transcriptPath(), TRANSCRIPT_TEXT);
+		await writeFile(transcriptPath(), transcriptText);
 		const context = contextWith({
 			entry: finishedEntry({
 				configUsed: { modelId: transcriptionModelId },
@@ -163,14 +163,14 @@ describe("createTranscriptionStage", () => {
 		{ label: "empty", value: "" },
 	])("should fail before uploading when ELEVENLABS_API_KEY is $label", async ({ value }) => {
 		vi.stubEnv(API_KEY_VARIABLE, value);
-		const scope = interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+		const scope = interceptTranscription(scribeResponse(transcriptText));
 
 		await expect(runStage(contextWith())).rejects.toThrow(TranscriptionError);
 		expect(scope.isDone()).toBe(false);
 	});
 
 	it("should fail before uploading when the transcription stage has no configured model", async () => {
-		const scope = interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+		const scope = interceptTranscription(scribeResponse(transcriptText));
 
 		await expect(runStage(contextWith({ modelId: null }))).rejects.toThrow(TranscriptionError);
 		// The remedy is an edit to the config file, so the failure has to name it.
@@ -179,7 +179,7 @@ describe("createTranscriptionStage", () => {
 	});
 
 	it("should strip the provider prefix when sending the model ID to ElevenLabs", async () => {
-		interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+		interceptTranscription(scribeResponse(transcriptText));
 
 		await runStage(contextWith());
 
@@ -188,7 +188,7 @@ describe("createTranscriptionStage", () => {
 	});
 
 	it("should send the model ID unchanged when it carries no provider prefix", async () => {
-		interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+		interceptTranscription(scribeResponse(transcriptText));
 
 		await runStage(contextWith({ modelId: "scribe_v2" }));
 
@@ -196,7 +196,7 @@ describe("createTranscriptionStage", () => {
 	});
 
 	it("should request a non-verbatim transcript when calling Scribe", async () => {
-		interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+		interceptTranscription(scribeResponse(transcriptText));
 
 		await runStage(contextWith());
 
@@ -206,7 +206,7 @@ describe("createTranscriptionStage", () => {
 	// A different language from the example config's, so passing could not come
 	// from the stage having kept a hardcoded default that happens to match.
 	it("should tell Scribe the configured spoken language when uploading", async () => {
-		interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+		interceptTranscription(scribeResponse(transcriptText));
 
 		await runStage(contextWith({ elevenLabs: { languageCode: "fra" } }));
 
@@ -217,7 +217,7 @@ describe("createTranscriptionStage", () => {
 		const residencyOrigin = "https://api.eu.residency.elevenlabs.test";
 		const scope = nock(residencyOrigin)
 			.post(elevenLabsUrls.speechToText)
-			.reply(200, scribeResponse(TRANSCRIPT_TEXT));
+			.reply(200, scribeResponse(transcriptText));
 
 		await runStage(contextWith({ elevenLabs: { baseUrl: residencyOrigin } }));
 
@@ -225,16 +225,16 @@ describe("createTranscriptionStage", () => {
 	});
 
 	it("should write the transcript with no .tmp left behind when the API returns text", async () => {
-		interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+		interceptTranscription(scribeResponse(transcriptText));
 
 		await runStage(contextWith());
 
-		expect(await readFile(transcriptPath(), "utf8")).toBe(TRANSCRIPT_TEXT);
+		expect(await readFile(transcriptPath(), "utf8")).toBe(transcriptText);
 		expect(await readdir(dirname(transcriptPath()))).toStrictEqual([basename(transcriptPath())]);
 	});
 
 	it("should return correct filesWritten list when stage completes", async () => {
-		interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+		interceptTranscription(scribeResponse(transcriptText));
 
 		const result = await runStage(contextWith());
 
@@ -243,7 +243,7 @@ describe("createTranscriptionStage", () => {
 	});
 
 	it("should record cost from audio duration and the configured rate when transcription completes", async () => {
-		interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+		interceptTranscription(scribeResponse(transcriptText));
 
 		const result = await runStage(contextWith());
 
@@ -258,7 +258,7 @@ describe("createTranscriptionStage", () => {
 
 	it("should record a null cost with costResolutionError when the audio duration cannot be read", async () => {
 		stubDurationFailure("ffprobe could not read the container");
-		interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+		interceptTranscription(scribeResponse(transcriptText));
 
 		const result = await runStage(contextWith());
 
@@ -271,7 +271,7 @@ describe("createTranscriptionStage", () => {
 
 	it("should warn when the audio duration cannot be read, since the run carries on regardless", async () => {
 		stubDurationFailure("ffprobe could not read the container");
-		interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+		interceptTranscription(scribeResponse(transcriptText));
 
 		await runStage(contextWith());
 
@@ -281,7 +281,7 @@ describe("createTranscriptionStage", () => {
 	});
 
 	it("should record the model, bytes uploaded and latency when the Scribe call completes", async () => {
-		interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+		interceptTranscription(scribeResponse(transcriptText));
 
 		await runStage(contextWith());
 
@@ -300,7 +300,7 @@ describe("createTranscriptionStage", () => {
 				callback(null, { format: {} });
 			},
 		);
-		interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+		interceptTranscription(scribeResponse(transcriptText));
 
 		const result = await runStage(contextWith());
 
@@ -312,12 +312,12 @@ describe("createTranscriptionStage", () => {
 
 	it("should still write the transcript when the audio duration cannot be read", async () => {
 		stubDurationFailure("ffprobe could not read the container");
-		interceptTranscription(scribeResponse(TRANSCRIPT_TEXT));
+		interceptTranscription(scribeResponse(transcriptText));
 
 		const result = await runStage(contextWith());
 
 		expect(result.filesWritten).toStrictEqual([stageOutputEntry("transcription")]);
-		expect(await readFile(transcriptPath(), "utf8")).toBe(TRANSCRIPT_TEXT);
+		expect(await readFile(transcriptPath(), "utf8")).toBe(transcriptText);
 	});
 
 	it("should fail when the response carries no transcript text", async () => {

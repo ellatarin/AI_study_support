@@ -22,6 +22,7 @@ import {
 	testLecture,
 	titleKept,
 	titleRejected,
+	transcriptText,
 	userChosenTitle,
 } from "../fixtures.js";
 import { type ModuleDirs, stageOutputPath, workspaceRootFor } from "../layout.js";
@@ -65,11 +66,7 @@ describe("transcript structuring against a real module tree", () => {
 		({ tempDir, moduleRoot, dirs, workspaceRoot } = await makeLectureTree({
 			prefix: "structuring-int-",
 		}));
-		await seedStageOutput({
-			workspaceRoot,
-			stageId: "transcription",
-			contents: "The lecture text.",
-		});
+		await seedStageOutput({ workspaceRoot, stageId: "transcription", contents: transcriptText });
 	});
 
 	afterEach(async () => {
