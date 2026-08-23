@@ -170,6 +170,43 @@ export const exampleConfig: PipelineConfig = parseConfig(
  */
 export const GBP_PER_USD = 0.74;
 
+/** A configured service address, split into the two halves nock asks for. */
+type ServiceAddress = {
+	/** The scheme and host, as nock's scope. */
+	readonly origin: string;
+	/**
+	 * The full path to one of the service's endpoints: its route beneath the
+	 * configured base path, which is what an interceptor matches on.
+	 *
+	 * @param endpoint - The service's own route, as the production code names it.
+	 * @returns The path to intercept.
+	 */
+	readonly pathTo: (endpoint: string) => string;
+};
+
+/**
+ * Reads a configured base URL the way a suite intercepting that service needs
+ * it.
+ *
+ * Parsed once here rather than at each field below, so every address a suite
+ * mocks comes from one reading of the configuration: a base URL that moves takes
+ * the interceptors with it, and the origin a scope is opened on cannot come to
+ * disagree with the path it then matches.
+ *
+ * @param baseUrl - The service's configured address.
+ * @returns Its origin, and how its endpoints hang off it.
+ */
+function configuredAddress(baseUrl: string): ServiceAddress {
+	const address = new URL(baseUrl);
+	// A base URL that is a bare host parses to a "/" path, which would double the
+	// separator the endpoint already carries.
+	const basePath = address.pathname.replace(/\/$/, "");
+	return { origin: address.origin, pathTo: (endpoint) => `${basePath}${endpoint}` };
+}
+
+/** The configured OpenRouter address, which {@link openRouterUrls} is built from. */
+const openRouterAddress = configuredAddress(exampleConfig.openRouter.baseUrl);
+
 /**
  * Where a suite intercepting OpenRouter should point nock: the configured
  * address split into the origin and full paths nock wants.
@@ -181,16 +218,22 @@ export const GBP_PER_USD = 0.74;
  */
 export const openRouterUrls = {
 	/** The scheme and host, as nock's scope. */
-	origin: new URL(exampleConfig.openRouter.baseUrl).origin,
+	origin: openRouterAddress.origin,
 	/** Full path to the chat completions endpoint. */
-	completions: `${new URL(exampleConfig.openRouter.baseUrl).pathname}${OPENROUTER_PATHS.completions}`,
+	completions: openRouterAddress.pathTo(OPENROUTER_PATHS.completions),
 	/** Full path to the generation (cost lookup) endpoint. */
-	generation: `${new URL(exampleConfig.openRouter.baseUrl).pathname}${OPENROUTER_PATHS.generation}`,
+	generation: openRouterAddress.pathTo(OPENROUTER_PATHS.generation),
 	/** Full path to the model-list endpoint. */
-	models: `${new URL(exampleConfig.openRouter.baseUrl).pathname}${OPENROUTER_PATHS.models}`,
-	/** The human-facing models page a failed model-ID check links to. */
-	modelsPage: `${new URL(exampleConfig.openRouter.baseUrl).origin}${OPENROUTER_PATHS.models}`,
+	models: openRouterAddress.pathTo(OPENROUTER_PATHS.models),
+	/**
+	 * The human-facing models page a failed model-ID check links to. Off the
+	 * origin rather than the API's base path, as the production code derives it.
+	 */
+	modelsPage: `${openRouterAddress.origin}${OPENROUTER_PATHS.models}`,
 } as const;
+
+/** The ElevenLabs counterpart to {@link openRouterAddress}. */
+const elevenLabsAddress = configuredAddress(exampleConfig.elevenLabs.baseUrl);
 
 /**
  * Where a suite intercepting ElevenLabs should point nock: the configured
@@ -202,9 +245,9 @@ export const openRouterUrls = {
  */
 export const elevenLabsUrls = {
 	/** The scheme and host, as nock's scope. */
-	origin: new URL(exampleConfig.elevenLabs.baseUrl).origin,
+	origin: elevenLabsAddress.origin,
 	/** Path to the speech-to-text endpoint the transcription stage posts to. */
-	speechToText: ELEVENLABS_PATHS.speechToText,
+	speechToText: elevenLabsAddress.pathTo(ELEVENLABS_PATHS.speechToText),
 } as const;
 
 /**
