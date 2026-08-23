@@ -104,6 +104,36 @@ export function writeFileAtomic({
 	return produceFileAtomic({ path, produce: (tmpPath) => writeFile(tmpPath, content) });
 }
 
+/** Indentation applied to every JSON file the pipeline writes, so they stay diff-friendly. */
+const JSON_INDENT = 2;
+
+/**
+ * Writes a value as indented JSON, atomically.
+ *
+ * Every JSON file the pipeline persists — the lecture manifest and the run logs —
+ * is read by a human before it is read by anything else, so they are all
+ * formatted the same way. Both writers went through {@link writeFileAtomic} and
+ * each stated the indentation for itself, which is the one thing about the format
+ * neither of them owns; it is settled here instead (technical-design.md §4.3).
+ *
+ * @param args - The destination and the value.
+ * @param args.path - The final path to write to; the `.tmp` sibling is derived from it.
+ * @param args.value - The value to serialise.
+ * @returns A promise that resolves once the file is in place.
+ * @throws Rethrows any filesystem error after removing the partial `.tmp` file.
+ * @example
+ * await writeJsonAtomic({ path: manifestPath, value: manifest });
+ */
+export function writeJsonAtomic({
+	path,
+	value,
+}: {
+	readonly path: string;
+	readonly value: unknown;
+}): Promise<void> {
+	return writeFileAtomic({ path, content: JSON.stringify(value, null, JSON_INDENT) });
+}
+
 /**
  * The general form of {@link writeFileAtomic}, for output a caller produces
  * rather than supplies: `produce` is handed the `.tmp` path to create, and the

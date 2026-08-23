@@ -6,7 +6,7 @@ import type { RunManifest } from "../../types/pipeline.js";
 import type { LoggedEntry, LoggedLevel } from "../fixtures.js";
 import { loggedAt, makeStubLogger, makeTempDir } from "../fixtures.js";
 import { moduleDirs } from "../layout.js";
-import { manifestPath } from "../manifest.js";
+import { manifestPath, writeManifest } from "../manifest.js";
 import {
 	createSourceNormalisationStage,
 	SourceNormalisationError,
@@ -66,10 +66,7 @@ async function patchManifest({
 	readonly patch: Partial<RunManifest>;
 }): Promise<void> {
 	const manifest = await readManifestIn(folder);
-	await writeFile(
-		manifestPath({ workspaceRoot: folder }),
-		JSON.stringify({ ...manifest, ...patch }, null, 2),
-	);
+	await writeManifest({ workspaceRoot: folder, manifest: { ...manifest, ...patch } });
 }
 
 describe("createSourceNormalisationStage", () => {

@@ -28,7 +28,7 @@ import type {
 import { DEFAULT_BATCH_OPTIONS, DEFAULT_RUN_OPTIONS, STAGE_IDS } from "../types/pipeline.js";
 import { formatCostReport } from "../utils/cost.js";
 import { errorMessage } from "../utils/errors.js";
-import { listSubdirectoryNames, readDirSafe, writeFileAtomic } from "../utils/files.js";
+import { listSubdirectoryNames, readDirSafe, writeJsonAtomic } from "../utils/files.js";
 import { createStageLogger } from "../utils/logger.js";
 import { moduleDirs, RUNS_DIR, type StageInWorkspace, stageDirectoryPaths } from "./layout.js";
 import { readManifest, readManifestSafe, writeManifest } from "./manifest.js";
@@ -252,16 +252,6 @@ function patchStages({
 	readonly entry: ManifestStageEntry;
 }): RunManifest["stages"] {
 	return { ...stages, [stageId]: entry };
-}
-
-async function writeJsonAtomic({
-	path,
-	value,
-}: {
-	readonly path: string;
-	readonly value: unknown;
-}): Promise<void> {
-	await writeFileAtomic({ path, content: JSON.stringify(value, null, 2) });
 }
 
 /**

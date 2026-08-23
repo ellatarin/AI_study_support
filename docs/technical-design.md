@@ -329,6 +329,10 @@ Output a stage does not hold in memory — bytes written by a subprocess, such a
 writeFileAtomic(args: { path: string; content: string | Uint8Array }): Promise<void>   // writes .tmp, renames on success
 produceFileAtomic(args: { path: string; produce: (tmpPath: string) => Promise<void> }): Promise<void>
 // the general form: the caller creates the file at the .tmp path it is given
+writeJsonAtomic(args: { path: string; value: unknown }): Promise<void>
+// the same, for a value serialised as JSON. Every JSON file the pipeline persists — the lecture manifest
+// (§4.5) and the run logs (§4.6) — is read by a human before anything else reads it, so they are indented
+// alike; the indentation is the one part of the format neither writer owns, and is settled here.
 cleanTmpFiles(dir: string): Promise<void>                                 // deletes any .tmp files in a directory
 ```
 

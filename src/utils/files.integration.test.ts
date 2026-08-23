@@ -8,6 +8,7 @@ import {
 	pathExists,
 	resolveManifestPath,
 	writeFileAtomic,
+	writeJsonAtomic,
 } from "./files.js";
 
 describe("files utilities", () => {
@@ -31,15 +32,6 @@ describe("files utilities", () => {
 			await expect(access(`${target}.tmp`)).rejects.toThrow();
 		});
 
-		it("should leave no file behind when the write fails", async () => {
-			const target = join(tempDir, "missing-subdir", "notes.md");
-
-			await expect(writeFileAtomic({ path: target, content: "data" })).rejects.toThrow();
-
-			await expect(access(target)).rejects.toThrow();
-			await expect(access(`${target}.tmp`)).rejects.toThrow();
-		});
-
 		it("should delete every .tmp file when cleanTmpFiles runs", async () => {
 			await writeFile(join(tempDir, "a.tmp"), "");
 			await writeFile(join(tempDir, "b.tmp"), "");
@@ -50,6 +42,36 @@ describe("files utilities", () => {
 			await expect(access(join(tempDir, "a.tmp"))).rejects.toThrow();
 			await expect(access(join(tempDir, "b.tmp"))).rejects.toThrow();
 			await expect(access(join(tempDir, "keep.md"))).resolves.toBeUndefined();
+		});
+	});
+
+	describe("writeJsonAtomic", () => {
+		it("should write the value as indented JSON when a value is given", async () => {
+			const target = join(tempDir, "record.json");
+
+			await writeJsonAtomic({ path: target, value: { version: "1", stages: {} } });
+
+			expect(await readFile(target, "utf8")).toBe('{\n  "version": "1",\n  "stages": {}\n}');
+		});
+	});
+
+	// One rule, and it is the reason both writers exist: the real path never
+	// holds partial output. Each writer is driven at a path whose parent
+	// directory is absent, which is what makes the underlying write fail.
+	describe("the atomic writers", () => {
+		it.each([
+			{
+				writer: "writeFileAtomic",
+				write: (path: string) => writeFileAtomic({ path, content: "data" }),
+			},
+			{ writer: "writeJsonAtomic", write: (path: string) => writeJsonAtomic({ path, value: {} }) },
+		])("should leave no file behind when a $writer write fails", async ({ write }) => {
+			const target = join(tempDir, "missing-subdir", "notes.md");
+
+			await expect(write(target)).rejects.toThrow();
+
+			await expect(access(target)).rejects.toThrow();
+			await expect(access(`${target}.tmp`)).rejects.toThrow();
 		});
 	});
 

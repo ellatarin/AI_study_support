@@ -13,7 +13,7 @@
 import { mkdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import type { RunManifest } from "../types/pipeline.js";
-import { writeFileAtomic } from "../utils/files.js";
+import { writeJsonAtomic } from "../utils/files.js";
 import { MANIFEST_FILE } from "./layout.js";
 
 /**
@@ -27,9 +27,6 @@ import { MANIFEST_FILE } from "./layout.js";
  * against the version it is migrating from (technical-design.md §4.5).
  */
 export const MANIFEST_VERSION = "1";
-
-/** Indentation applied to the persisted manifest, so it stays diff-friendly. */
-const JSON_INDENT = 2;
 
 /**
  * The absolute path of a workspace's manifest.
@@ -132,5 +129,5 @@ export async function writeManifest({
 }): Promise<void> {
 	const path = manifestPath({ workspaceRoot });
 	await mkdir(dirname(path), { recursive: true });
-	await writeFileAtomic({ path, content: JSON.stringify(manifest, null, JSON_INDENT) });
+	await writeJsonAtomic({ path, value: manifest });
 }
