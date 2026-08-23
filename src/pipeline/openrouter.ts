@@ -8,6 +8,7 @@ import {
 	type StageId,
 } from "../types/pipeline.js";
 import { NamedError } from "../utils/errors.js";
+import { isRecord } from "../utils/record.js";
 
 const OPENROUTER_APP_TITLE = "Lecture Notes Pipeline";
 const CONTEXT_LENGTH_CODE = "context_length_exceeded";
@@ -224,14 +225,11 @@ type GenerationCostReply = { readonly data: { readonly total_cost: number } };
  * @returns `true` when the body carries a numeric `data.total_cost`.
  */
 function isGenerationCostReply(value: unknown): value is GenerationCostReply {
-	if (typeof value !== "object" || value === null) {
+	if (!isRecord(value)) {
 		return false;
 	}
-	const { data } = value as { readonly data?: unknown };
-	if (typeof data !== "object" || data === null) {
-		return false;
-	}
-	return typeof (data as { readonly total_cost?: unknown }).total_cost === "number";
+	const { data } = value;
+	return isRecord(data) && typeof data.total_cost === "number";
 }
 
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the OpenAI client is a library type that is not deeply readonly (CLAUDE.md permits dropping readonly when a library requires mutable types)

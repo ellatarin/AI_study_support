@@ -1516,6 +1516,7 @@ src/
     ├── cost.ts                       # Cost accumulation and report formatting
     ├── stage-id.ts                   # Recognising a stage name, for --from-stage and the config keys (§6)
     ├── model-id.ts                   # Reading a model ID's provider and name, for the exemption and Stage 2 (§6)
+    ├── record.ts                      # Recognising a parsed value as one with fields to read (§4.4, §6, §7)
     ├── errors.ts                     # NamedError, and the narrowing every catch site would repeat (§8)
     └── logger.ts                     # pino instance and child-logger factory
 ```

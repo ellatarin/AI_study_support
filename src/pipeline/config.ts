@@ -8,6 +8,7 @@ import {
 } from "../types/pipeline.js";
 import { NamedError } from "../utils/errors.js";
 import { splitModelId } from "../utils/model-id.js";
+import { isRecord } from "../utils/record.js";
 import { isStageId, unknownStageMessage } from "../utils/stage-id.js";
 import { OPENROUTER_PATHS } from "./openrouter.js";
 
@@ -38,10 +39,10 @@ function requireRecord(args: {
 	readonly value: unknown;
 	readonly label: string;
 }): Record<string, unknown> {
-	if (typeof args.value !== "object" || args.value === null || Array.isArray(args.value)) {
+	if (!isRecord(args.value)) {
 		throw new ConfigError(`${args.label} must be an object`);
 	}
-	return args.value as Record<string, unknown>;
+	return args.value;
 }
 
 function requireString(args: { readonly value: unknown; readonly label: string }): string {

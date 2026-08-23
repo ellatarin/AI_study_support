@@ -13,6 +13,7 @@ import type {
 } from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
 import { writeFileAtomic } from "../../utils/files.js";
+import { isRecord } from "../../utils/record.js";
 import { moduleDirs, stageOutputEntry, stageOutputPath } from "../layout.js";
 import { baseNameForLecture, renameLectureFiles } from "../lecture-files.js";
 import { makeCompletionCall } from "../openrouter.js";
@@ -91,14 +92,13 @@ async function readTranscript(context: StageContext): Promise<TranscriptStructur
  * @returns `true` when the value is a usable {@link StructuringReply}.
  */
 function isStructuringReply(value: unknown): value is StructuringReply {
-	if (typeof value !== "object" || value === null) {
+	if (!isRecord(value)) {
 		return false;
 	}
-	const candidate = value as Partial<Record<keyof StructuringReply, unknown>>;
-	const { suggestedTitle } = candidate;
+	const { suggestedTitle } = value;
 	return (
-		typeof candidate.provisionalTitleMeaningful === "boolean" &&
-		typeof candidate.structuredMarkdown === "string" &&
+		typeof value.provisionalTitleMeaningful === "boolean" &&
+		typeof value.structuredMarkdown === "string" &&
 		(suggestedTitle === null || suggestedTitle === undefined || typeof suggestedTitle === "string")
 	);
 }

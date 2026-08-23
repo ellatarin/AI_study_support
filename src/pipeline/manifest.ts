@@ -14,6 +14,7 @@ import { mkdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import type { RunManifest } from "../types/pipeline.js";
 import { readJsonSafe, writeJsonAtomic } from "../utils/files.js";
+import { isRecord } from "../utils/record.js";
 import { MANIFEST_FILE } from "./layout.js";
 
 /**
@@ -70,15 +71,13 @@ export async function readManifest({
  * @returns `true` when the value identifies a lecture.
  */
 function isRunManifest(value: unknown): value is RunManifest {
-	if (typeof value !== "object" || value === null || Array.isArray(value)) {
+	if (!isRecord(value)) {
 		return false;
 	}
-	const candidate = value as Partial<Record<keyof RunManifest, unknown>>;
 	return (
-		typeof candidate.lectureNumber === "number" &&
-		typeof candidate.lectureDate === "string" &&
-		typeof candidate.stages === "object" &&
-		candidate.stages !== null
+		typeof value.lectureNumber === "number" &&
+		typeof value.lectureDate === "string" &&
+		isRecord(value.stages)
 	);
 }
 
