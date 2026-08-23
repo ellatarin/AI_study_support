@@ -272,7 +272,7 @@ A stage's context is assembled before its own entry is marked `running`, so the 
 
 - `StageResult.cost` is `null` for stages that make no billable calls (audio-extraction, pdf-generation).
 - `StageResult.filesWritten` holds paths relative to `workspaceRoot`, and MAY escape upward with `..` (e.g. pdf-generation writes to `../../Final output/`) but MUST resolve under `moduleRoot` — enforced by §4.4.
-- `StageCost` is discriminated on `totalCostUsd`: a resolved cost is a `number`; a failed lookup is `null` paired with a `costResolutionError` (see §7).
+- `StageCost` is discriminated on `costUsd`: a resolved cost is a `number`; a failed lookup is `null` paired with a `costResolutionError` (see §7).
 - `StageResult.identityChanges` holds the lecture-identity fields the stage settled — `lectureTitle`, `aiDerivedTitle`, `workspaceFolderName` — for the runner to write. Absent and `{}` both mean the stage settled nothing; only Stage 3 ever settles anything. `workspaceFolderName` is the lecture's canonical base name recorded in the manifest, not the runner's handle on the workspace — the runner locates that itself (§4.7).
 - `lectureTitle` is always non-null — seeded at Stage 0, possibly overwritten at Stage 3 (see §3.2, Stage 3).
 
@@ -423,42 +423,42 @@ Each stage entry records `configUsed` — a `StageRunConfig` capturing the model
       "status": "complete",
       "completedAt": "...",
       "configUsed": { "modelId": "elevenlabs/scribe_v2" },
-      "cost": { "promptTokens": 0, "completionTokens": 0, "totalCostUsd": 0.042, "callCount": 1 },
+      "cost": { "promptTokens": 0, "completionTokens": 0, "costUsd": 0.042, "callCount": 1 },
       "filesWritten": ["Transcript/transcript.txt"]
     },
     "transcript-structuring": {
       "status": "complete",
       "completedAt": "...",
       "configUsed": { "modelId": "anthropic/claude-sonnet-4.6", "temperature": 0.2, "maxTokens": 8192 },
-      "cost": { "promptTokens": 18400, "completionTokens": 3200, "totalCostUsd": 0.081, "callCount": 1 },
+      "cost": { "promptTokens": 18400, "completionTokens": 3200, "costUsd": 0.081, "callCount": 1 },
       "filesWritten": ["Structured transcript/structured-transcript.md"]
     },
     "slide-conversion": {
       "status": "complete",
       "completedAt": "...",
       "configUsed": { "modelId": "google/gemini-2.5-flash", "temperature": 0.1, "maxTokens": 4096, "concurrency": 3 },
-      "cost": { "promptTokens": 41000, "completionTokens": 8100, "totalCostUsd": 0.034, "callCount": 24 },
+      "cost": { "promptTokens": 41000, "completionTokens": 8100, "costUsd": 0.034, "callCount": 24 },
       "filesWritten": ["Slide content/slides.md"]
     },
     "image-extraction": {
       "status": "complete",
       "completedAt": "...",
       "configUsed": { "modelId": "openai/gpt-4.1", "temperature": 0.0, "maxTokens": 2048, "concurrency": 2 },
-      "cost": { "promptTokens": 0, "completionTokens": 2400, "totalCostUsd": 0.038, "callCount": 12 },
+      "cost": { "promptTokens": 0, "completionTokens": 2400, "costUsd": 0.038, "callCount": 12 },
       "filesWritten": ["Slide images/images-manifest.json"]
     },
     "synthesis": {
       "status": "complete",
       "completedAt": "...",
       "configUsed": { "modelId": "anthropic/claude-sonnet-4.6", "temperature": 0.3, "maxTokens": 16384 },
-      "cost": { "promptTokens": 65000, "completionTokens": 14200, "totalCostUsd": 0.312, "callCount": 1 },
+      "cost": { "promptTokens": 65000, "completionTokens": 14200, "costUsd": 0.312, "callCount": 1 },
       "filesWritten": ["Synthesised notes/synthesised-notes.md"]
     },
     "qa-loop": {
       "status": "complete",
       "completedAt": "...",
       "configUsed": { "modelId": "anthropic/claude-sonnet-4.6", "temperature": 0.1, "maxTokens": 8192, "maxIterations": 3 },
-      "cost": { "promptTokens": 68000, "completionTokens": 15800, "totalCostUsd": 0.405, "callCount": 4 },
+      "cost": { "promptTokens": 68000, "completionTokens": 15800, "costUsd": 0.405, "callCount": 4 },
       "qaIterations": [
         { "iteration": 1, "verdict": "fail", "deficiencyCount": 7, "criticalCount": 2, "costUsd": 0.200 },
         { "iteration": 2, "verdict": "pass", "deficiencyCount": 0, "criticalCount": 0, "costUsd": 0.205 }
@@ -509,7 +509,7 @@ Each log records which stages were attempted, skipped, or re-run; cost and model
       "status": "failed",
       "configUsed": { "modelId": "google/gemini-2.5-flash", "temperature": 0.1, "maxTokens": 4096, "concurrency": 3 },
       "error": "Rate limit exceeded after 3 retries on slide 14",
-      "cost": { "totalCostUsd": 0.021, "callCount": 13 }
+      "cost": { "costUsd": 0.021, "callCount": 13 }
     },
     "image-extraction":  { "action": "not-reached" },
     "synthesis":         { "action": "not-reached" },
@@ -1226,9 +1226,9 @@ Unlike OpenRouter's, this base URL carries no path — the SDK appends the versi
 
 OpenRouter exposes cost via the `/api/v1/generation?id={response.id}` endpoint. After each LLM call, `response.usage.prompt_tokens` and `response.usage.completion_tokens` are captured synchronously, then `makeCompletionCall` awaits the cost lookup before its own promise resolves — its return value already includes a fully-resolved `StageCost`. Stages that issue multiple completions in parallel therefore get their concurrency naturally: cost lookups fan out with the completions. The stage's `run()` awaits every completion promise before returning, so **the stage is never marked `complete` while a cost lookup is still outstanding**. This eliminates the race where a process exit or crash silently drops cost data.
 
-Each cost lookup has a 30-second timeout and up to 3 exponential-backoff retries (the generation endpoint is briefly eventually-consistent after completion). If a lookup ultimately fails, the stage still succeeds — cost telemetry MUST NOT gate pipeline progress. The manifest and run-log entries record `cost.totalCostUsd = null` along with `cost.costResolutionError` describing why. Tokens and `callCount` are always populated regardless.
+Each cost lookup has a 30-second timeout and up to 3 exponential-backoff retries (the generation endpoint is briefly eventually-consistent after completion). If a lookup ultimately fails, the stage still succeeds — cost telemetry MUST NOT gate pipeline progress. The manifest and run-log entries record `cost.costUsd = null` along with `cost.costResolutionError` describing why. Tokens and `callCount` are always populated regardless.
 
-ElevenLabs returns no price with a transcript, so Stage 2 derives transcription cost from the audio's duration (read with `ffprobe`) multiplied by the configured `elevenLabs.costPerAudioHourUsd` (§6). The result is recorded as a normal `StageCost` with `callCount: 1` and zero token counts — Scribe is billed by audio duration, not tokens. If the duration cannot be read, the stage still succeeds and records `totalCostUsd: null` with `costResolutionError`, exactly as a failed OpenRouter cost lookup does: cost telemetry MUST NOT gate pipeline progress.
+ElevenLabs returns no price with a transcript, so Stage 2 derives transcription cost from the audio's duration (read with `ffprobe`) multiplied by the configured `elevenLabs.costPerAudioHourUsd` (§6). The result is recorded as a normal `StageCost` with `callCount: 1` and zero token counts — Scribe is billed by audio duration, not tokens. If the duration cannot be read, the stage still succeeds and records `costUsd: null` with `costResolutionError`, exactly as a failed OpenRouter cost lookup does: cost telemetry MUST NOT gate pipeline progress.
 
 ### Currency
 

@@ -354,7 +354,7 @@ function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs):
 			[STAGE_LABELS[stageId], CURRENT_PIPELINE_WIDTHS.stage, "left"],
 			[row.model, CURRENT_PIPELINE_WIDTHS.model, "left"],
 			[String(row.cost?.callCount ?? 0), CURRENT_PIPELINE_WIDTHS.calls, "right"],
-			costCell({ amount: row.cost?.totalCostUsd ?? null, formatMoney }),
+			costCell({ amount: row.cost?.costUsd ?? null, formatMoney }),
 		]);
 	}
 	return renderCostTable({
@@ -384,7 +384,7 @@ function errorRecoverySection({ runLogs, formatMoney }: RunLogSectionArgs): read
 			[log.startedAt, 26, "left"],
 			[stageId, 22, "left"],
 			[entry.status === "failed" ? "failed" : "retry", 8, "right"],
-			costCell({ amount: entry.cost.totalCostUsd, formatMoney }),
+			costCell({ amount: entry.cost.costUsd, formatMoney }),
 		],
 	);
 	return renderCostTable({
@@ -410,7 +410,7 @@ function experimentSection({ runLogs, formatMoney }: RunLogSectionArgs): readonl
 			text: entry.configUsed?.modelId ?? "—",
 			width: MODEL_WIDTH,
 		}).padEnd(MODEL_WIDTH);
-		const cost = formatMoney(entry.cost.totalCostUsd).padStart(COST_WIDTH);
+		const cost = formatMoney(entry.cost.costUsd).padStart(COST_WIDTH);
 		byStage.set(stageId, [
 			...(byStage.get(stageId) ?? []),
 			`  Run ${log.startedAt}    ${model}${cost}`,
@@ -556,7 +556,7 @@ export function formatRunSummary({
 			[model, RUN_SUMMARY_WIDTHS.model, "left"],
 			[String(cost?.callCount ?? 0), RUN_SUMMARY_WIDTHS.calls, "right"],
 			tokensCell(cost),
-			costCell({ amount: cost?.totalCostUsd ?? null, formatMoney }),
+			costCell({ amount: cost?.costUsd ?? null, formatMoney }),
 		],
 	);
 	return renderCostTable({

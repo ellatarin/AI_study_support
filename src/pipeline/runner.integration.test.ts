@@ -196,7 +196,7 @@ describe("PipelineRunner integration", () => {
 				stageId: "audio-extraction",
 				run: async ({ context }) => ({
 					output: undefined,
-					cost: { promptTokens: 0, completionTokens: 0, callCount: 1, totalCostUsd: 0.5 },
+					cost: { promptTokens: 0, completionTokens: 0, callCount: 1, costUsd: 0.5 },
 					filesWritten: [
 						await writeStageOutput({
 							workspaceRoot: context.workspaceRoot,
@@ -215,7 +215,7 @@ describe("PipelineRunner integration", () => {
 			const manifest = await readManifest(workspaceRoot);
 			const entry = manifest.stages["audio-extraction"];
 			expect(entry?.status).toBe("complete");
-			expect(entry?.status === "complete" && entry.cost?.totalCostUsd).toBe(0.5);
+			expect(entry?.status === "complete" && entry.cost?.costUsd).toBe(0.5);
 			expect(entry?.status === "complete" && entry.filesWritten).toEqual([
 				stageOutputEntry("audio-extraction"),
 			]);
@@ -236,7 +236,7 @@ describe("PipelineRunner integration", () => {
 						promptTokens: 10,
 						completionTokens: 20,
 						callCount: 1,
-						totalCostUsd: null,
+						costUsd: null,
 						costResolutionError,
 					},
 					filesWritten: [],
@@ -253,14 +253,14 @@ describe("PipelineRunner integration", () => {
 				promptTokens: 10,
 				completionTokens: 20,
 				callCount: 1,
-				totalCostUsd: null,
+				costUsd: null,
 				costResolutionError,
 			});
 			// The run log records the unresolved cost but not why: `RunLogCost` is the
 			// amount and the call count, and the reason stays on the manifest entry.
 			const runLog = await readRunLog(workspaceRoot, summary.runId);
 			expect(runLog.stages["audio-extraction"]).toMatchObject({
-				cost: { totalCostUsd: null, callCount: 1 },
+				cost: { costUsd: null, callCount: 1 },
 			});
 		});
 
@@ -386,7 +386,7 @@ describe("PipelineRunner integration", () => {
 				stageId: "audio-extraction",
 				run: async () => ({
 					output: undefined,
-					cost: { promptTokens: 0, completionTokens: 0, callCount: 1, totalCostUsd: 0.1 },
+					cost: { promptTokens: 0, completionTokens: 0, callCount: 1, costUsd: 0.1 },
 					filesWritten: [],
 				}),
 			});
@@ -722,7 +722,7 @@ describe("PipelineRunner integration", () => {
 				stageId: "audio-extraction",
 				run: async () => ({
 					output: undefined,
-					cost: { promptTokens: 0, completionTokens: 0, callCount: 1, totalCostUsd: 0.25 },
+					cost: { promptTokens: 0, completionTokens: 0, callCount: 1, costUsd: 0.25 },
 					filesWritten: [],
 				}),
 			});
@@ -825,7 +825,7 @@ describe("PipelineRunner integration", () => {
 							status: "complete",
 							completedAt: "earlier",
 							configUsed: { modelId: "openrouter/model-a" },
-							cost: { promptTokens: 1, completionTokens: 1, callCount: 1, totalCostUsd: 0.5 },
+							cost: { promptTokens: 1, completionTokens: 1, callCount: 1, costUsd: 0.5 },
 							filesWritten: [],
 						},
 					} as RunManifest["stages"],

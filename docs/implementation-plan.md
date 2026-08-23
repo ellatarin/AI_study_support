@@ -127,8 +127,8 @@ Cross-references to the technical design are noted as **(TD §N)**.
 `openrouter.ts` — HTTP interceptor tests using `nock`:
 - `should send correct baseURL, headers, and model ID when makeCompletionCall invoked`
 - `should await cost lookup before makeCompletionCall promise resolves` — verify no unresolved cost promise leaks
-- `should populate totalCostUsd when generation endpoint returns cost`
-- `should resolve with totalCostUsd null and costResolutionError set when cost lookup fails after all retries`
+- `should populate costUsd when generation endpoint returns cost`
+- `should resolve with costUsd null and costResolutionError set when cost lookup fails after all retries`
 - `should retry cost lookup with exponential backoff on transient failure`
 - `should retry completion call with exponential backoff when response is 429`
 - `should throw typed ContextLengthError when model returns context length exceeded`

@@ -85,7 +85,7 @@ describe("createTranscriptionStage against real audio", () => {
 				await readFile(stageOutputPath({ workspaceRoot, stageId: "transcription" }), "utf8"),
 			).toBe(TRANSCRIPT_TEXT);
 			expect(result.filesWritten).toStrictEqual([stageOutputEntry("transcription")]);
-			expect(result.cost?.totalCostUsd).toBeCloseTo(
+			expect(result.cost?.costUsd).toBeCloseTo(
 				(FIXTURE_SECONDS / SECONDS_PER_HOUR) * exampleConfig.elevenLabs.costPerAudioHourUsd,
 				5,
 			);

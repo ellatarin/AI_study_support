@@ -237,11 +237,11 @@ async function deriveCost({
 	const base = { promptTokens: 0, completionTokens: 0, callCount: 1 };
 	try {
 		const seconds = await readDurationSeconds(audioPath);
-		return { ...base, totalCostUsd: (seconds / SECONDS_PER_HOUR) * costPerAudioHourUsd };
+		return { ...base, costUsd: (seconds / SECONDS_PER_HOUR) * costPerAudioHourUsd };
 	} catch (error: unknown) {
 		const costResolutionError = `Audio duration lookup failed: ${errorMessage(error)}`;
 		logger.warn({ audioPath, err: error }, costResolutionError);
-		return { ...base, totalCostUsd: null, costResolutionError };
+		return { ...base, costUsd: null, costResolutionError };
 	}
 }
 

@@ -42,7 +42,7 @@ const COST: StageCost = {
 	promptTokens: 1200,
 	completionTokens: 300,
 	callCount: 1,
-	totalCostUsd: stubbedCostUsd,
+	costUsd: stubbedCostUsd,
 };
 
 /** A well-formed model reply, with the fields a test cares about overridden. */

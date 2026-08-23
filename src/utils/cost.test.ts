@@ -43,15 +43,15 @@ const SLIDE_CONVERSION_COST_USD = 0.034;
 
 const resolved = ({
 	callCount,
-	totalCostUsd,
+	costUsd,
 }: {
 	readonly callCount: number;
-	readonly totalCostUsd: number;
+	readonly costUsd: number;
 }): StageCost => ({
 	promptTokens: 0,
 	completionTokens: 0,
 	callCount,
-	totalCostUsd,
+	costUsd,
 });
 
 /**
@@ -81,7 +81,7 @@ const OVERLONG_MODEL_ID = "openrouter/an-extravagantly-long-model-identifier";
 // one the Model column has to hold without moving the columns after it.
 const synthesisEntry = completed({
 	configUsed: { modelId: "anthropic/claude-sonnet-4.6", maxTokens: 8192 },
-	cost: resolved({ callCount: 1, totalCostUsd: 0.312 }),
+	cost: resolved({ callCount: 1, costUsd: 0.312 }),
 	filesWritten: [stageOutputEntry("synthesis")],
 });
 
@@ -99,20 +99,20 @@ const manifest: RunManifest = makeManifest({
 				promptTokens: 0,
 				completionTokens: 2400,
 				callCount: 12,
-				totalCostUsd: null,
+				costUsd: null,
 				costResolutionError: "the generation endpoint timed out",
 			},
 		}),
 		transcription: completed({
 			configUsed: { modelId: transcriptionModelId },
-			cost: resolved({ callCount: 1, totalCostUsd: 0.042 }),
+			cost: resolved({ callCount: 1, costUsd: 0.042 }),
 			filesWritten: [stageOutputEntry("transcription")],
 		}),
 		"slide-conversion": completed({
 			configUsed: SLIDE_CONVERSION_CONFIG,
 			cost: resolved({
 				callCount: SLIDE_CONVERSION_CALLS,
-				totalCostUsd: SLIDE_CONVERSION_COST_USD,
+				costUsd: SLIDE_CONVERSION_COST_USD,
 			}),
 			filesWritten: [stageOutputEntry("slide-conversion")],
 		}),
@@ -135,7 +135,7 @@ const originalFailure: RunLog = {
 			action: "ran",
 			status: "failed",
 			configUsed: SLIDE_CONVERSION_CONFIG,
-			cost: { totalCostUsd: 0.021, callCount: 5 },
+			cost: { costUsd: 0.021, callCount: 5 },
 			error: "Slide 17 conversion failed: 429 rate limit",
 		},
 	},
@@ -156,7 +156,7 @@ const runLogs: readonly RunLog[] = [
 				status: "complete",
 				configUsed: SLIDE_CONVERSION_CONFIG,
 				cost: {
-					totalCostUsd: SLIDE_CONVERSION_COST_USD,
+					costUsd: SLIDE_CONVERSION_COST_USD,
 					callCount: SLIDE_CONVERSION_CALLS,
 				},
 			},
@@ -174,7 +174,7 @@ const runLogs: readonly RunLog[] = [
 				action: "ran",
 				status: "complete",
 				configUsed: { modelId: "anthropic/claude-opus-4.1" },
-				cost: { totalCostUsd: 0.89, callCount: 1 },
+				cost: { costUsd: 0.89, callCount: 1 },
 			},
 		},
 	},
@@ -191,7 +191,7 @@ const runLogs: readonly RunLog[] = [
 				action: "ran",
 				status: "failed",
 				configUsed: { modelId: "openai/gpt-4.1" },
-				cost: { totalCostUsd: null, callCount: 2 },
+				cost: { costUsd: null, callCount: 2 },
 				error: "cost lookup timed out",
 			},
 			// non-"ran" entry → the ranStageEntries skip branch.
@@ -211,7 +211,7 @@ const runLogs: readonly RunLog[] = [
 				action: "ran",
 				status: "complete",
 				configUsed: { modelId: "meta-llama/llama-3.1-405b" },
-				cost: { totalCostUsd: null, callCount: 1 },
+				cost: { costUsd: null, callCount: 1 },
 			},
 		},
 	},
@@ -360,13 +360,13 @@ describe("formatCostReport", () => {
 
 const ran = (status: "complete" | "failed"): RunLogStageEntry =>
 	status === "complete"
-		? { action: "ran", status, configUsed: null, cost: { totalCostUsd: 0.1, callCount: 1 } }
+		? { action: "ran", status, configUsed: null, cost: { costUsd: 0.1, callCount: 1 } }
 		: {
 				action: "ran",
 				status,
 				error: "synthesis failed",
 				configUsed: null,
-				cost: { totalCostUsd: null, callCount: 0 },
+				cost: { costUsd: null, callCount: 0 },
 			};
 
 // The stages this run touched: two that completed, one that failed, one skipped
@@ -394,7 +394,7 @@ const runManifest: RunManifest = {
 				promptTokens: 41_000,
 				completionTokens: 8100,
 				callCount: SLIDE_CONVERSION_CALLS,
-				totalCostUsd: SLIDE_CONVERSION_COST_USD,
+				costUsd: SLIDE_CONVERSION_COST_USD,
 			},
 			filesWritten: [stageOutputEntry("slide-conversion")],
 		}),

@@ -48,7 +48,7 @@ export type StageStatus = "pending" | "running" | "complete" | "failed" | "skipp
 /**
  * Token counts and resolved cost for the billable calls a stage made.
  *
- * Modelled as a discriminated union on `totalCostUsd`: a resolved cost carries
+ * Modelled as a discriminated union on `costUsd`: a resolved cost carries
  * a number; a failed lookup carries `null` together with the
  * `costResolutionError` explaining why (every retry of the OpenRouter
  * generation lookup failed). Tokens and `callCount` are always populated (technical-design.md §7).
@@ -58,8 +58,8 @@ export type StageCost = {
 	readonly completionTokens: number;
 	readonly callCount: number;
 } & (
-	| { readonly totalCostUsd: number }
-	| { readonly totalCostUsd: null; readonly costResolutionError: string }
+	| { readonly costUsd: number }
+	| { readonly costUsd: null; readonly costResolutionError: string }
 );
 
 /** Optional model tuning parameters shared by resolved and configured stage configs. */
@@ -485,7 +485,7 @@ export type RunType = "normal" | "error-recovery" | "experiment";
 
 /** Cost fields recorded per stage in a run log. */
 type RunLogCost = {
-	readonly totalCostUsd: number | null;
+	readonly costUsd: number | null;
 	readonly callCount: number;
 };
 

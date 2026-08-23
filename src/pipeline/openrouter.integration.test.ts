@@ -180,20 +180,20 @@ describe("makeCompletionCall", () => {
 		});
 	});
 
-	it("should populate totalCostUsd and token counts when the generation endpoint returns cost", async () => {
+	it("should populate costUsd and token counts when the generation endpoint returns cost", async () => {
 		const result = await callWithResolvedCost(RESOLVED_COST_USD);
 
 		expect(result.cost).toEqual({
 			...stubbedTokenUsage,
 			callCount: 1,
-			totalCostUsd: RESOLVED_COST_USD,
+			costUsd: RESOLVED_COST_USD,
 		});
 	});
 
 	it("should resolve with a fully-resolved cost when the promise settles after the cost lookup", async () => {
 		const result = await callWithResolvedCost(RESOLVED_COST_USD);
 
-		expect(typeof result.cost.totalCostUsd).toBe("number");
+		expect(typeof result.cost.costUsd).toBe("number");
 		expect(nock.isDone()).toBe(true);
 	});
 
@@ -232,15 +232,15 @@ describe("makeCompletionCall", () => {
 		expect(error.message).toMatch(/no choices/i);
 	});
 
-	it("should resolve with totalCostUsd null and costResolutionError set when the cost lookup fails after all retries", async () => {
+	it("should resolve with costUsd null and costResolutionError set when the cost lookup fails after all retries", async () => {
 		mockCompletion().reply(200, completionBody());
 		mockGeneration().times(4).reply(500, {}, { "retry-after": "0" });
 
 		const result = await call();
 
-		expect(result.cost.totalCostUsd).toBeNull();
+		expect(result.cost.costUsd).toBeNull();
 		expect(result.cost).toMatchObject({ ...stubbedTokenUsage, callCount: 1 });
-		if (result.cost.totalCostUsd === null) {
+		if (result.cost.costUsd === null) {
 			expect(result.cost.costResolutionError).toMatch(/./);
 		}
 	});
@@ -252,7 +252,7 @@ describe("makeCompletionCall", () => {
 
 		const result = await call();
 
-		expect(result.cost.totalCostUsd).toBe(0.01);
+		expect(result.cost.costUsd).toBe(0.01);
 	});
 
 	it("should retry the completion call with backoff and succeed when the first response is a 429", async () => {

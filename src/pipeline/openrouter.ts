@@ -79,8 +79,8 @@ function responseFormatFields(
 
 /** A resolved cost, or a null cost carrying the reason the lookup failed. */
 type CostResolution =
-	| { readonly totalCostUsd: number }
-	| { readonly totalCostUsd: null; readonly costResolutionError: string };
+	| { readonly costUsd: number }
+	| { readonly costUsd: null; readonly costResolutionError: string };
 
 // One client is reused across calls, remembering the settings it was built from
 // so a differently configured run is never served a client pointed elsewhere or
@@ -185,9 +185,9 @@ async function lookupCost(options: {
 			timeout: options.openRouter.costLookupTimeoutMs,
 			maxRetries: options.openRouter.costLookupMaxRetries,
 		})) as { readonly data: { readonly total_cost: number } };
-		return { totalCostUsd: body.data.total_cost };
+		return { costUsd: body.data.total_cost };
 	} catch (error: unknown) {
-		return { totalCostUsd: null, costResolutionError: `Cost lookup failed: ${String(error)}` };
+		return { costUsd: null, costResolutionError: `Cost lookup failed: ${String(error)}` };
 	}
 }
 
@@ -197,7 +197,7 @@ async function lookupCost(options: {
  * response; the dollar cost is fetched from OpenRouter's generation endpoint and
  * awaited before this promise settles, so the caller never observes a stage as
  * complete while a cost lookup is still outstanding. A failed cost lookup does
- * not fail the call — it yields `totalCostUsd: null` with a `costResolutionError`
+ * not fail the call — it yields `costUsd: null` with a `costResolutionError`
  * (technical-design.md §6, §7).
  *
  * @param options - Call options.

@@ -252,7 +252,7 @@ describe("createTranscriptionStage", () => {
 			completionTokens: 0,
 			callCount: 1,
 			// The stubbed duration is half an hour, so half the configured hourly rate.
-			totalCostUsd: expect.closeTo(exampleConfig.elevenLabs.costPerAudioHourUsd / 2, 6),
+			costUsd: expect.closeTo(exampleConfig.elevenLabs.costPerAudioHourUsd / 2, 6),
 		});
 	});
 
@@ -262,7 +262,7 @@ describe("createTranscriptionStage", () => {
 
 		const result = await runStage(contextWith());
 
-		expect(result.cost).toMatchObject({ callCount: 1, totalCostUsd: null });
+		expect(result.cost).toMatchObject({ callCount: 1, costUsd: null });
 		expect(result.cost).toHaveProperty(
 			"costResolutionError",
 			expect.stringContaining("ffprobe could not read the container"),

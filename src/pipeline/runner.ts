@@ -329,13 +329,13 @@ function skippedEntry({
 }
 
 function runLogCost(cost: StageCost | null): {
-	readonly totalCostUsd: number | null;
+	readonly costUsd: number | null;
 	readonly callCount: number;
 } {
 	if (cost === null) {
-		return { totalCostUsd: null, callCount: 0 };
+		return { costUsd: null, callCount: 0 };
 	}
-	return { totalCostUsd: cost.totalCostUsd, callCount: cost.callCount };
+	return { costUsd: cost.costUsd, callCount: cost.callCount };
 }
 
 /**
@@ -497,7 +497,7 @@ async function runStage({
 				status: "failed",
 				error: message,
 				configUsed,
-				cost: { totalCostUsd: null, callCount: 0 },
+				cost: { costUsd: null, callCount: 0 },
 			},
 			context: recorder.context(),
 		};
