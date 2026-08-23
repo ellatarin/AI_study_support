@@ -9,7 +9,7 @@
 
 set -euo pipefail
 
-repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+source "$(dirname "${BASH_SOURCE[0]}")/../lib/repo-root.sh"
 
 # Parse the tool input JSON from stdin, extract file_path.
 file_path="$(node -e '

@@ -12,6 +12,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { gitSubcommandOf, parseCommands, stripPrefixes } from "./bash-command.mjs";
+import { OVERRIDE_HINT, VERA_ALTERNATIVES } from "./search-guidance.mjs";
 
 const libDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(libDir, "..", "..", "..");
@@ -157,12 +158,10 @@ export function blockMessage() {
 	return [
 		"BLOCKED: searching files inside this repo with grep/rg/git grep bypasses the Vera index.",
 		"",
-		"Use Vera instead:",
-		'  - vera search "describe behaviour"   → semantic/conceptual queries',
-		'  - vera grep "exact pattern"          → regex, exact strings, imports, TODOs',
+		...VERA_ALTERNATIVES,
 		"",
 		"Piped searches (`... | grep`) and targets OUTSIDE the repo are allowed.",
-		"For a genuine in-repo case Vera cannot cover (e.g. a non-indexed file type),",
-		"write '.claude/tool-override' with a one-line reason before the command.",
+		"For a genuine in-repo case Vera cannot cover (e.g. a non-indexed file type):",
+		OVERRIDE_HINT,
 	].join("\n");
 }

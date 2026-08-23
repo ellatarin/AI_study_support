@@ -17,7 +17,7 @@
 
 set -euo pipefail
 
-repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+source "$(dirname "${BASH_SOURCE[0]}")/../lib/repo-root.sh"
 
 # Read the hook payload here, first thing, and pass it on explicitly. Leaving it
 # on stdin for the classifier to collect did not work: bash receives the payload

@@ -1,23 +1,32 @@
-#!/usr/bin/env bash
-# PreToolUse hook for the Grep tool.
-# Blocks it outright: raw file matches lead to Read chains that bloat context.
-set -euo pipefail
+#!/usr/bin/env node
+/*
+ * PreToolUse hook for the Grep tool.
+ *
+ * Blocks it outright: raw file matches lead to Read chains that bloat context.
+ *
+ * Node rather than bash, following block-bash-grep: what this prints has to be
+ * the same guidance the Bash blocker prints, and the only way two hooks say one
+ * thing is by reading it from one place — lib/search-guidance.mjs. Being node
+ * also means it reaches lib/tool-override.mjs by import rather than by spawning
+ * it, so this file needs no notion of where the repo root is.
+ */
 
-repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+import { OVERRIDE_HINT, VERA_ALTERNATIVES } from "./lib/search-guidance.mjs";
+import { acceptOverride } from "./lib/tool-override.mjs";
 
-# The same one-shot escape hatch the other blockers use. This hook had none,
-# which meant a legitimate case had no way through at all.
-if node "$repo_root/scripts/hooks/lib/tool-override.mjs"; then
-  exit 0
-fi
+if (acceptOverride()) {
+	process.exit(0);
+}
 
-echo "BLOCKED: The Grep tool returns raw file matches and leads to Read chains that bloat context." >&2
-echo "" >&2
-echo "Use vera instead:" >&2
-echo "  - vera search \"describe behaviour\"  → semantic/conceptual queries" >&2
-echo "  - vera grep \"exact pattern\"         → regex, exact strings, imports, TODOs" >&2
-echo "" >&2
-echo "If the vera index is missing: run \`vera index .\` then retry." >&2
-echo "" >&2
-echo "To override: Write '.claude/tool-override' with your reason before this tool call." >&2
-exit 2
+const message = [
+	"BLOCKED: The Grep tool returns raw file matches and leads to Read chains that bloat context.",
+	"",
+	...VERA_ALTERNATIVES,
+	"",
+	"If the Vera index is missing: run `vera index .` then retry.",
+	"",
+	OVERRIDE_HINT,
+].join("\n");
+
+process.stderr.write(`${message}\n`);
+process.exit(2);

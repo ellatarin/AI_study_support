@@ -8,7 +8,7 @@
 
 set -euo pipefail
 
-repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$(dirname "${BASH_SOURCE[0]}")/lib/repo-root.sh"
 bin_dir="$repo_root/bin"
 hooks_template="$repo_root/scripts/claude-hooks.json"
 
@@ -18,14 +18,19 @@ hooks_template="$repo_root/scripts/claude-hooks.json"
 
 marker="# lecture-notes (auto-added by scripts/setup)"
 
+# The line every POSIX-ish shell takes, written once: two shells have it added
+# for them and a third asks the user to add it by hand, and three copies is
+# three places for the quoting to be got wrong.
+posix_path_line="export PATH=\"$bin_dir:\$PATH\""
+
 shell_name="$(basename "${SHELL:-unknown}")"
 case "$shell_name" in
-  zsh)   config_file="$HOME/.zshrc"                   ; export_line="export PATH=\"$bin_dir:\$PATH\"" ;;
-  bash)  config_file="$HOME/.bashrc"                  ; export_line="export PATH=\"$bin_dir:\$PATH\"" ;;
-  fish)  config_file="$HOME/.config/fish/config.fish" ; export_line="fish_add_path $bin_dir"          ;;
+  zsh)   config_file="$HOME/.zshrc"                   ; export_line="$posix_path_line"       ;;
+  bash)  config_file="$HOME/.bashrc"                  ; export_line="$posix_path_line"       ;;
+  fish)  config_file="$HOME/.config/fish/config.fish" ; export_line="fish_add_path $bin_dir" ;;
   *)
     echo "Unrecognised shell ($shell_name). Add this line to your shell config manually:"
-    echo "  export PATH=\"$bin_dir:\$PATH\""
+    echo "  $posix_path_line"
     ;;
 esac
 

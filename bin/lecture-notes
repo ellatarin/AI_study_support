@@ -9,6 +9,6 @@
 
 set -euo pipefail
 
-repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$(dirname "${BASH_SOURCE[0]}")/../scripts/lib/repo-root.sh"
 cd "$repo_root"
 exec pnpm exec tsx src/index.ts "$@"

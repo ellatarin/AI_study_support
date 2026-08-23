@@ -1,25 +1,33 @@
-#!/usr/bin/env bash
-# PreToolUse hook for WebFetch and WebSearch.
-# Both fetch whole pages and bloat context; tavily is the sanctioned route.
-set -euo pipefail
+#!/usr/bin/env node
+/*
+ * PreToolUse hook for WebFetch and WebSearch.
+ *
+ * Both fetch whole pages and bloat context; tavily is the sanctioned route.
+ *
+ * Node rather than bash for the same reason block-grep is: the sentence telling
+ * the reader how to override a block is one instruction, so it is read from
+ * lib/search-guidance.mjs rather than written out here as well.
+ */
 
-repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+import { OVERRIDE_HINT } from "./lib/search-guidance.mjs";
+import { acceptOverride } from "./lib/tool-override.mjs";
 
-# Resolved from the script's own location, not the working directory — the
-# relative path this used to use silently did nothing whenever a session ran
-# from anywhere but the repo root.
-if node "$repo_root/scripts/hooks/lib/tool-override.mjs"; then
-  exit 0
-fi
+if (acceptOverride()) {
+	process.exit(0);
+}
 
-echo "BLOCKED: WebFetch and WebSearch fetch entire pages and bloat context. Use tavily MCP tools instead:" >&2
-echo "  - tavily_search   → find information on the web" >&2
-echo "  - tavily_extract  → extract content from a specific URL" >&2
-echo "  - tavily_research → deep multi-step research" >&2
-echo "" >&2
-echo "Override is legitimate when:" >&2
-echo "  - The URL is not a webpage (e.g. raw JSON/YAML spec, binary, non-crawlable resource)" >&2
-echo "  - tavily_extract already failed on this URL" >&2
-echo "" >&2
-echo "To override: Write '.claude/tool-override' with your reason before this tool call." >&2
-exit 2
+const message = [
+	"BLOCKED: WebFetch and WebSearch fetch entire pages and bloat context. Use tavily MCP tools instead:",
+	"  - tavily_search   → find information on the web",
+	"  - tavily_extract  → extract content from a specific URL",
+	"  - tavily_research → deep multi-step research",
+	"",
+	"Override is legitimate when:",
+	"  - The URL is not a webpage (e.g. raw JSON/YAML spec, binary, non-crawlable resource)",
+	"  - tavily_extract already failed on this URL",
+	"",
+	OVERRIDE_HINT,
+].join("\n");
+
+process.stderr.write(`${message}\n`);
+process.exit(2);
