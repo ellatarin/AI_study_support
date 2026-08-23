@@ -1523,6 +1523,7 @@ src/
     ├── model-id.ts                   # Reading a model ID's provider and name, for the exemption and Stage 2 (§6)
     ├── record.ts                      # Recognising a parsed value as one with fields to read (§4.4, §6, §7)
     ├── text.ts                        # Closing up the whitespace a removal leaves behind (§3)
+    ├── stage-config.ts                # Finding a stage's entry in the config, and reporting its absence (§6)
     ├── errors.ts                     # NamedError, and the narrowing every catch site would repeat (§8)
     └── logger.ts                     # pino instance and child-logger factory
 ```

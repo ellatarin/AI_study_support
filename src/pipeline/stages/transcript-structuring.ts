@@ -12,12 +12,11 @@ import type {
 	StageResult,
 } from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
-import { writeFileAtomic } from "../../utils/files.js";
 import { isRecord } from "../../utils/record.js";
-import { moduleDirs, stageOutputEntry, stageOutputPath } from "../layout.js";
+import { moduleDirs, stageOutputPath } from "../layout.js";
 import { baseNameForLecture, renameLectureFiles } from "../lecture-files.js";
 import { makeCompletionCall } from "../openrouter.js";
-import { createPipelineStage } from "./pipeline-stage.js";
+import { createPipelineStage, writeStageOutput } from "./pipeline-stage.js";
 import { buildStructuringMessages } from "./transcript-structuring.prompt.js";
 /* jscpd:ignore-end */
 
@@ -61,8 +60,6 @@ type StructuringReply = {
  * @throws {TranscriptStructuringError} If the transcript is missing or holds no text.
  */
 async function readTranscript(context: StageContext): Promise<TranscriptStructuringInput> {
-	// Asked of the layout rather than restated here, so this stage and the stage
-	// that wrote the transcript cannot disagree about where it is (§3.3).
 	const transcriptPath = stageOutputPath({
 		workspaceRoot: context.workspaceRoot,
 		stageId: "transcription",
@@ -129,28 +126,6 @@ function parseReply(content: string): StructuringReply {
 		);
 	}
 	return { ...parsed, suggestedTitle: parsed.suggestedTitle ?? null };
-}
-
-/**
- * Writes the structured transcript atomically (technical-design.md §4.3); the
- * directory it lands in is prepared by the stage factory before `run` begins.
- *
- * @param args - The write inputs.
- * @param args.workspaceRoot - Absolute path to the lecture workspace.
- * @param args.markdown - The structured markdown to write.
- * @returns A promise that resolves once the file is in place.
- */
-async function writeStructuredTranscript({
-	workspaceRoot,
-	markdown,
-}: {
-	readonly workspaceRoot: string;
-	readonly markdown: string;
-}): Promise<void> {
-	await writeFileAtomic({
-		path: stageOutputPath({ workspaceRoot, stageId: STAGE_ID }),
-		content: markdown,
-	});
 }
 
 /**
@@ -349,9 +324,10 @@ async function structureTranscript({
 	});
 	const reply = parseReply(content);
 
-	await writeStructuredTranscript({
+	const { filesWritten } = await writeStageOutput({
+		stageId: STAGE_ID,
 		workspaceRoot: context.workspaceRoot,
-		markdown: reply.structuredMarkdown,
+		content: reply.structuredMarkdown,
 	});
 	const settled = await settleTitle({ reply, context, logger });
 
@@ -366,7 +342,7 @@ async function structureTranscript({
 			lectureTitle: settled.lectureTitle,
 		},
 		cost,
-		filesWritten: [stageOutputEntry(STAGE_ID)],
+		filesWritten,
 		identityChanges: settled.identityChanges,
 	};
 }

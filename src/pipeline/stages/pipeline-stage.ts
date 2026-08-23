@@ -7,9 +7,10 @@ import {
 	ManifestPathError,
 	pathExists,
 	resolveManifestPath,
+	writeFileAtomic,
 } from "../../utils/files.js";
 import { createStageLogger } from "../../utils/logger.js";
-import { stageDirectoryPaths } from "../layout.js";
+import { stageDirectoryPaths, stageOutputEntry, stageOutputPath } from "../layout.js";
 import { hasSettledOutput } from "../run-status.js";
 
 /**
@@ -110,6 +111,39 @@ async function prepareStageDirectories({
 		await mkdir(directory, { recursive: true });
 		await cleanTmpFiles(directory);
 	}
+}
+
+/**
+ * Writes the single file a stage owns, and names it as `filesWritten` records
+ * it.
+ *
+ * Writing the output and recording that it was written are one act with two
+ * halves, and a stage that did both for itself could do the second about a file
+ * it had not written to the path named in the first. Here the path and the entry
+ * are derived from the same stage id, so a `filesWritten` entry always names the
+ * file that was just put in place (technical-design.md §4.3, §4.5).
+ *
+ * Stages whose bytes come from a subprocess write through `produceFileAtomic`
+ * instead and record their entry themselves; there is no content to hand over.
+ *
+ * @param args - The stage, the workspace, and the content.
+ * @param args.stageId - The stage whose output this is.
+ * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args.content - The text to write.
+ * @returns The absolute path written, and the `filesWritten` naming it.
+ */
+export async function writeStageOutput({
+	stageId,
+	workspaceRoot,
+	content,
+}: {
+	readonly stageId: StageId;
+	readonly workspaceRoot: string;
+	readonly content: string;
+}): Promise<{ readonly path: string; readonly filesWritten: readonly string[] }> {
+	const path = stageOutputPath({ workspaceRoot, stageId });
+	await writeFileAtomic({ path, content });
+	return { path, filesWritten: [stageOutputEntry(stageId)] };
 }
 
 /**

@@ -2,6 +2,7 @@ import OpenAI from "openai";
 import type { Logger } from "pino";
 import {
 	CONFIG_FILENAME,
+	type CostResolution,
 	type PipelineConfig,
 	type StageConfig,
 	type StageCost,
@@ -9,6 +10,7 @@ import {
 } from "../types/pipeline.js";
 import { NamedError } from "../utils/errors.js";
 import { isRecord } from "../utils/record.js";
+import { configuredStage, unconfiguredStageMessage } from "../utils/stage-config.js";
 
 const OPENROUTER_APP_TITLE = "Lecture Notes Pipeline";
 const CONTEXT_LENGTH_CODE = "context_length_exceeded";
@@ -92,11 +94,6 @@ function responseFormatFields(
 	};
 }
 
-/** A resolved cost, or a null cost carrying the reason the lookup failed. */
-type CostResolution =
-	| { readonly costUsd: number }
-	| { readonly costUsd: null; readonly costResolutionError: string };
-
 // One client is reused across calls, remembering the settings it was built from
 // so a differently configured run is never served a client pointed elsewhere or
 // waiting to the wrong budget. Tests inject their own client instead.
@@ -138,9 +135,9 @@ function stageConfigFor(options: {
 	readonly config: PipelineConfig;
 	readonly stageId: StageId;
 }): StageConfig {
-	const stageConfig = options.config.stages[options.stageId];
-	if (stageConfig === undefined) {
-		throw new Error(`No configuration found for stage "${options.stageId}" in ${CONFIG_FILENAME}`);
+	const stageConfig = configuredStage(options);
+	if (stageConfig === null) {
+		throw new Error(unconfiguredStageMessage(options));
 	}
 	return stageConfig;
 }

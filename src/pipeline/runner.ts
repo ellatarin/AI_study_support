@@ -34,6 +34,7 @@ import {
 	writeJsonAtomic,
 } from "../utils/files.js";
 import { createStageLogger } from "../utils/logger.js";
+import { configuredStage } from "../utils/stage-config.js";
 import { moduleDirs, runsDirPath, type StageInWorkspace, stageDirectoryPaths } from "./layout.js";
 import { patchManifest, readManifest, readManifestSafe, writeManifest } from "./manifest.js";
 import {
@@ -229,18 +230,12 @@ async function resolveWorkspace({
 	return relocated;
 }
 
-function resolveStageRunConfig({
-	config,
-	stageId,
-}: {
+function resolveStageRunConfig(args: {
 	readonly config: PipelineConfig;
 	readonly stageId: StageId;
 }): StageRunConfig | null {
-	const stageConfig = config.stages[stageId];
-	if (stageConfig === undefined) {
-		return null;
-	}
-	return { ...stageConfig };
+	const stageConfig = configuredStage(args);
+	return stageConfig === null ? null : { ...stageConfig };
 }
 
 function patchStages({

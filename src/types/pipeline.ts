@@ -59,21 +59,32 @@ export type StageId = (typeof STAGE_IDS)[number];
 export type StageStatus = "pending" | "running" | "complete" | "failed" | "skipped";
 
 /**
+ * What establishing a call's cost came to.
+ *
+ * A discriminated union on `costUsd`: a resolved cost carries a number; a failed
+ * lookup carries `null` together with the `costResolutionError` explaining why.
+ * Never zero for an unestablished cost, and never simply absent — a cost that
+ * could not be established is reported as unknown (NFR-2.2).
+ *
+ * Declared apart from {@link StageCost} because the two parties that establish a
+ * cost answer in exactly this shape before any token count joins it: the
+ * OpenRouter generation lookup, and Stage 2's reading of the audio's duration.
+ */
+export type CostResolution =
+	| { readonly costUsd: number }
+	| { readonly costUsd: null; readonly costResolutionError: string };
+
+/**
  * Token counts and resolved cost for the billable calls a stage made.
  *
- * Modelled as a discriminated union on `costUsd`: a resolved cost carries
- * a number; a failed lookup carries `null` together with the
- * `costResolutionError` explaining why (every retry of the OpenRouter
- * generation lookup failed). Tokens and `callCount` are always populated (technical-design.md §7).
+ * Tokens and `callCount` are always populated; what the calls cost is a
+ * {@link CostResolution} (technical-design.md §7).
  */
 export type StageCost = {
 	readonly promptTokens: number;
 	readonly completionTokens: number;
 	readonly callCount: number;
-} & (
-	| { readonly costUsd: number }
-	| { readonly costUsd: null; readonly costResolutionError: string }
-);
+} & CostResolution;
 
 /** Optional model tuning parameters shared by resolved and configured stage configs. */
 type StageParams = {
