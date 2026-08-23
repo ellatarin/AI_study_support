@@ -184,8 +184,16 @@ export function filenameSafe(title: string): string {
 	return result;
 }
 
-/** The identity of a lecture, used to build its canonical folder/file name. */
-type LectureIdentity = {
+/**
+ * The three things a lecture's canonical folder/file name is built from.
+ *
+ * Not the lecture's identity, which is what `types/pipeline.ts` records and is a
+ * wider thing: a recorded identity carries an ISO date string and both a
+ * provisional and a settled title, and a name is built from exactly one title
+ * and a real `Date`. The two were both called `LectureIdentity`, which read as
+ * one type declared twice.
+ */
+type LectureNameParts = {
 	readonly lectureNumber: number;
 	readonly title: string;
 	/**
@@ -204,7 +212,7 @@ type LectureIdentity = {
  * The title is passed through {@link filenameSafe} so the assembled name is
  * always filesystem-safe.
  *
- * @param identity - The lecture number, title, and date.
+ * @param parts - The lecture number, title, and date.
  * @returns The canonical folder/file name (without extension).
  * @throws Error when the title sanitises to empty (see {@link filenameSafe}).
  *
@@ -212,8 +220,8 @@ type LectureIdentity = {
  * lectureFolderName({ lectureNumber: 1, title: "Immune System", date });
  * // → "Lecture 1 - Immune System - 2025-10-10"
  */
-export function lectureFolderName(identity: LectureIdentity): string {
-	const { lectureNumber, title, date } = identity;
+export function lectureFolderName(parts: LectureNameParts): string {
+	const { lectureNumber, title, date } = parts;
 	return `Lecture ${lectureNumber} - ${filenameSafe(title)} - ${formatDateISO(date)}`;
 }
 
@@ -227,17 +235,17 @@ export function lectureFolderName(identity: LectureIdentity): string {
  * dependency the pipeline is built on. It is a naming rule and depends on
  * nothing but the other naming rules.
  *
- * @param identity - The lecture number, provisional title (may be empty), and date.
+ * @param parts - The lecture number, provisional title (may be empty), and date.
  * @returns The base name shared by the workspace folder and the renamed source files.
  *
  * @example
  * lectureBaseName({ lectureNumber: 2, title: "", date });
  * // → "Lecture 2 - 2025-10-17"
  */
-export function lectureBaseName(identity: LectureIdentity): string {
-	const { lectureNumber, title, date } = identity;
+export function lectureBaseName(parts: LectureNameParts): string {
+	const { lectureNumber, title, date } = parts;
 	if (title === "") {
 		return `Lecture ${lectureNumber} - ${formatDateISO(date)}`;
 	}
-	return lectureFolderName(identity);
+	return lectureFolderName(parts);
 }
