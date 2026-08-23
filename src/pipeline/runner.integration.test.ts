@@ -741,6 +741,17 @@ describe("PipelineRunner integration", () => {
 			expect(ran).toEqual(["2025-09-01", "2025-11-20", "2025-12-05"]);
 		});
 
+		it("should run every lecture and skip the folder when one holds no manifest", async () => {
+			await mkdir(join(moduleDirs({ moduleRoot: moduleA }).processing, EMPTY_FOLDER), {
+				recursive: true,
+			});
+
+			const summary = await makeRunner([batchStage()]).runBatch({ moduleRoots: [moduleA] });
+
+			expect(summary.lectures).toHaveLength(2);
+			expect(summary.overallStatus).toBe("success");
+		});
+
 		it("should report a failed batch when any lecture fails", async () => {
 			const failing = makeStubStage({
 				stageId: "audio-extraction",

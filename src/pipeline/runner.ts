@@ -124,44 +124,46 @@ async function listWorkspaces({ moduleRoot }: ModuleQuery): Promise<readonly str
 	return names.map((name) => join(processingRoot, name));
 }
 
+/** A lecture workspace paired with the manifest that identifies it. */
+type LocatedWorkspace = {
+	readonly workspaceRoot: string;
+	readonly manifest: RunManifest;
+};
+
 /**
- * A module's lecture workspaces in date order (technical-design.md §4.7).
+ * A module's lectures in date order: every folder under its
+ * `Pipeline processing/` that holds a readable manifest, paired with it
+ * (technical-design.md §4.7).
+ *
+ * A folder without one is passed over. Both Stage 0 and the runner scan those
+ * folders speculatively, so anything else the user has left in there is not a
+ * lecture rather than a fault (technical-design.md §4.5).
  *
  * The directory listing they come from is in whatever order the filesystem
  * chooses, and their names cannot stand in for the date either — `Lecture 10`
  * precedes `Lecture 2` lexicographically. So the order comes from the manifests,
  * whose `lectureDate` is ISO and therefore sorts chronologically as text.
  *
- * A folder with no readable manifest keeps its place at the end rather than
- * being dropped: it will fail when it is run, which is the right way to hear
- * about a corrupt workspace — ordering is not the place to start hiding one.
- *
  * @param args - The module to list.
  * @param args.moduleRoot - Absolute path to the module directory.
- * @returns The workspace paths, earliest lecture first.
+ * @returns The module's lectures, earliest first.
  */
-async function listWorkspacesByDate({ moduleRoot }: ModuleQuery): Promise<readonly string[]> {
-	const dated = await Promise.all(
-		(await listWorkspaces({ moduleRoot })).map(async (workspaceRoot) => ({
-			workspaceRoot,
-			lectureDate: (await readManifestSafe({ workspaceRoot }))?.lectureDate ?? null,
-		})),
-	);
-	const withDate = dated.filter((entry) => entry.lectureDate !== null);
+async function listLecturesByDate({
+	moduleRoot,
+}: ModuleQuery): Promise<readonly LocatedWorkspace[]> {
+	const located: LocatedWorkspace[] = [];
+	for (const workspaceRoot of await listWorkspaces({ moduleRoot })) {
+		const manifest = await readManifestSafe({ workspaceRoot });
+		if (manifest !== null) {
+			located.push({ workspaceRoot, manifest });
+		}
+	}
 	// eslint-disable-next-line max-params -- Array.prototype.sort's comparator is spec-defined
-	withDate.sort((left, right) =>
-		(left.lectureDate as string).localeCompare(right.lectureDate as string),
+	located.sort((left, right) =>
+		left.manifest.lectureDate.localeCompare(right.manifest.lectureDate),
 	);
-	return [...withDate, ...dated.filter((entry) => entry.lectureDate === null)].map(
-		(entry) => entry.workspaceRoot,
-	);
+	return located;
 }
-
-/** A lecture workspace paired with the manifest that identifies it. */
-type LocatedWorkspace = {
-	readonly workspaceRoot: string;
-	readonly manifest: RunManifest;
-};
 
 /**
  * Finds a module's lecture with the given date, by reading the manifests rather
@@ -185,13 +187,8 @@ async function findLectureByDate({
 	readonly moduleRoot: string;
 	readonly lectureDate: string;
 }): Promise<LocatedWorkspace | null> {
-	for (const workspaceRoot of await listWorkspaces({ moduleRoot })) {
-		const manifest = await readManifestSafe({ workspaceRoot });
-		if (manifest !== null && manifest.lectureDate === lectureDate) {
-			return { workspaceRoot, manifest };
-		}
-	}
-	return null;
+	const located = await listLecturesByDate({ moduleRoot });
+	return located.find((entry) => entry.manifest.lectureDate === lectureDate) ?? null;
 }
 
 /**
@@ -798,7 +795,9 @@ export class PipelineRunner {
 	}: ModuleScopedArgs<BatchRunOptions>): Promise<BatchSummary> {
 		const startedAt = new Date().toISOString();
 		await this.normaliseSources({ moduleRoots });
-		const workspaces = await this.#collectWorkspaces(moduleRoots);
+		const workspaces = (await this.#collectLectures(moduleRoots)).map(
+			(lecture) => lecture.workspaceRoot,
+		);
 		const lectures = await this.#runLecturesConcurrently({ workspaces, options });
 		const endedAt = new Date().toISOString();
 		let totalCostUsd = 0;
@@ -815,12 +814,12 @@ export class PipelineRunner {
 	}
 
 	// Modules in the order given, and each module's lectures in date order.
-	async #collectWorkspaces(moduleRoots: readonly string[]): Promise<readonly string[]> {
-		const workspaces: string[] = [];
+	async #collectLectures(moduleRoots: readonly string[]): Promise<readonly LocatedWorkspace[]> {
+		const lectures: LocatedWorkspace[] = [];
 		for (const moduleRoot of moduleRoots) {
-			workspaces.push(...(await listWorkspacesByDate({ moduleRoot })));
+			lectures.push(...(await listLecturesByDate({ moduleRoot })));
 		}
-		return workspaces;
+		return lectures;
 	}
 
 	async #runLecturesConcurrently({
@@ -902,17 +901,12 @@ export class PipelineRunner {
 		moduleRoots,
 		options = {},
 	}: ModuleScopedArgs<ReportOptions>): Promise<void> {
-		const workspaces =
+		const lectures = await this.#collectLectures(moduleRoots);
+		const reported =
 			options.lectureDate === undefined
-				? await this.#collectWorkspaces(moduleRoots)
-				: (await this.resolveLecturesByDate({ moduleRoots, lectureDate: options.lectureDate })).map(
-						(match) => match.workspaceRoot,
-					);
-		for (const workspaceRoot of workspaces) {
-			const manifest = await readManifestSafe({ workspaceRoot });
-			if (manifest === null) {
-				continue;
-			}
+				? lectures
+				: lectures.filter((lecture) => lecture.manifest.lectureDate === options.lectureDate);
+		for (const { workspaceRoot, manifest } of reported) {
 			const runLogs = await readRunLogs(workspaceRoot);
 			const { gbpPerUsd } = this.#config.currency;
 			process.stdout.write(`${formatCostReport({ runLogs, manifest, gbpPerUsd })}\n`);
