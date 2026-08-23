@@ -67,7 +67,7 @@ All pipeline artefacts for a lecture live inside a single named workspace folder
 
 #### Video files
 
-Source videos may have the date in any position and any format. Stage 0 extracts the date, assigns a lecture number by date order, and produces the provisional title by stripping the date, day names (Mon–Sun), module code prefixes (e.g. `BOD_`), any embedded lecture-number token (e.g. `Lecture 1`, which would otherwise duplicate the assigned number), and trailing artefacts (`co`, `copy`) from the original filename, then title-casing the result.
+Source videos may have the date in any position and any format. Stage 0 extracts the date, assigns a lecture number by date order, and produces the provisional title by stripping the date, day names (Mon–Sun), module code prefixes (e.g. `BOD_`), any embedded lecture-number token (e.g. `Lecture 1`, which would otherwise duplicate the assigned number), and trailing artefacts (`co`, `copy`) from the original filename, then title-casing the result. The separators left behind by those removals go too, so a name Stage 0 itself produced reads back as the title it was built from: `Lecture 1 - Cell Injury - 2025-10-10.mp4` gives `Cell Injury`, which is how a lecture renamed by a run that stopped before writing its manifest keeps its title on the next one.
 
 **Dates are read in British convention.** A four-digit component is the year; otherwise the day leads. Month-first is never read. All eight numeric forms are accepted:
 
@@ -117,8 +117,10 @@ stripDateTokens(text: string): string                // removes every numeric da
 
 extractProvisionalTitle(filename: string): string
 // Best-effort title: strips whichever of the date, day names, module-code prefix (`BOD_`, `BOD `),
-// embedded lecture-number token (e.g. `Lecture 1`, which would duplicate the assigned number), and
-// trailing artefacts (`co`, `copy`, `v2`) are present, then title-cases the result. A thin or empty
+// embedded lecture-number token (e.g. `Lecture 1`, which would duplicate the assigned number),
+// separator debris at either end, and trailing artefacts (`co`, `copy`, `v2`) are present, then
+// title-cases the result. The separator strip is what lets a name this module built read back as the
+// title it was built from: `Lecture 1 - Cell Injury - 2025-10-10.mp4` gives `Cell Injury`. A thin or empty
 // result is acceptable — a date-plus-number filename leaves nothing — and Stage 3 judges the title
 // once the transcript exists.
 lectureFolderName(args: { lectureNumber: number; title: string; date: Date }): string
@@ -752,6 +754,8 @@ A prompt module has no test file of its own. Its builder is a pure assembly whos
 6. **Workspace + manifest:** Create `Pipeline processing/Lecture N - <title> - YYYY-MM-DD/` for any lecture that does not already have one, writing an initial `manifest.json` with `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle = provisionalTitle`, `userTitle = null`, `aiDerivedTitle = null`, and all stage statuses `pending`. For an existing lecture whose number or folder changed, update `lectureNumber` and `workspaceFolderName` in its manifest, preserving everything else.
 
 **Collision-safe renaming.** When the sequence changes, all renames (source files, workspace folders, `Final output/` PDFs) are applied in two phases — each item to a temporary name, then each temporary to its target — so shifting lecture numbers never collide mid-rename. Items already correct are skipped, so a re-run with no changes touches nothing.
+
+The temporary suffix sits outside the `.tmp` convention of §4.3, because the two name opposite things: a `.tmp` file is a partial write and is deleted at stage start, while a Stage 0 temporary holds a complete item — the only copy of a source video, or a whole lecture workspace — between leaving one name and reaching the next. A run therefore begins by finishing any rename its predecessor was interrupted partway through: every temporary entry across the module's four directories is moved on to its target before anything is read, so an interrupted run costs the next one nothing. Where a target name is occupied, the run stops and names those entries, leaving every one of them where it stands.
 
 **Orphan handling (direct-deletion guard).** If a workspace's date has **no source pair present** (both its video and slide are gone — a partial loss is already a 1:1 validation error), the sources were deleted directly rather than via the CLI, which can leave the pipeline inconsistent. Stage 0 neither silently deletes work nor silently proceeds. For **each** orphaned workspace it prompts the user — via an injected `confirm` callback the CLI backs with `@inquirer/prompts` — showing the lecture's number, title, date, and the cost already spent, and asks whether to delete the workspace and its outputs. Only if **every** orphan is approved does a final "are you sure?" confirm the irreversible deletion; then the workspaces and their `Final output/` PDFs are deleted (their manifests go with them), the module is renumbered, and each deletion is logged with its prior state. If **any** orphan is declined, or the final confirmation is declined, Stage 0 aborts with an informative error and makes **no changes** — protecting against, e.g., the whole source folder being moved by mistake.
 

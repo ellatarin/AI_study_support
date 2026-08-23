@@ -16,12 +16,18 @@ describe("extractProvisionalTitle", () => {
 		},
 		{ filename: "Fri 10th Oct Immune System copy.mp4", expected: "Immune System" },
 		{ filename: "BOD_Virology 1.mp4", expected: "Virology 1" },
+		// A file Stage 0 has already renamed, re-read because its lecture has no
+		// manifest yet: the title it yields must be the one the name was built from.
+		{ filename: "Lecture 1 - Cell Injury - 2025-10-10.mp4", expected: "Cell Injury" },
 	])("should extract provisional title when filename is $filename", ({ filename, expected }) => {
 		expect(extractProvisionalTitle(filename)).toBe(expected);
 	});
 
-	it("should return an empty string when the filename has only a date and lecture number", () => {
-		expect(extractProvisionalTitle("2025-10-10 Lecture 5.mp4")).toBe("");
+	it.each([
+		{ filename: "2025-10-10 Lecture 5.mp4", remainder: "a date and lecture number" },
+		{ filename: "Lecture 1 - 2025-10-10.mp4", remainder: "a canonical untitled name" },
+	])("should return an empty string when the filename holds only $remainder", ({ filename }) => {
+		expect(extractProvisionalTitle(filename)).toBe("");
 	});
 });
 

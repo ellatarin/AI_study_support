@@ -1,4 +1,4 @@
-import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -20,6 +20,10 @@ const CELL_INJURY = "Lecture 1 - Cell Injury - 2025-10-10";
 const VACCINATION = "Lecture 2 - Vaccination - 2025-10-17";
 const CELL_INJURY_VIDEO = "2025-10-10 BOD_Cell Injury.mp4";
 const CELL_INJURY_SLIDE = "2025-10-10 Cell Injury deck.pdf";
+// The suffix Stage 0 renames through, written out for the same reason as the
+// names above: these tests arrange the on-disk state a crash mid-rename leaves,
+// so taking the suffix from the stage would assert it against itself.
+const TEMP_SUFFIX = ".stage0-tmp";
 
 function videoDir(moduleRoot: string): string {
 	return moduleDirs({ moduleRoot }).video;
@@ -389,6 +393,49 @@ describe("createSourceNormalisationStage", () => {
 			"Lecture 1 - Cell Injury - 2025-10-10",
 			"Notes I dropped in here",
 		]);
+	});
+
+	describe("interrupted renames", () => {
+		it("should restore a temporary source file to its target name when a previous run was interrupted", async () => {
+			await writeInto(videoDir(moduleRoot), `${CELL_INJURY}.mp4${TEMP_SUFFIX}`);
+			await writeInto(slideDir(moduleRoot), `${CELL_INJURY}.pdf${TEMP_SUFFIX}`);
+
+			await stage.normaliseModule({ moduleRoot });
+
+			expect(await listNames(videoDir(moduleRoot))).toEqual([`${CELL_INJURY}.mp4`]);
+			expect(await listNames(slideDir(moduleRoot))).toEqual([`${CELL_INJURY}.pdf`]);
+			expect(await listNames(processingDir(moduleRoot))).toEqual([CELL_INJURY]);
+		});
+
+		it("should restore a temporary workspace folder to its target name when a previous run was interrupted", async () => {
+			await normaliseNewLecture();
+			const processing = processingDir(moduleRoot);
+			await rename(join(processing, CELL_INJURY), join(processing, `${CELL_INJURY}${TEMP_SUFFIX}`));
+			freshStage();
+
+			await stage.normaliseModule({ moduleRoot });
+
+			expect(await listNames(processing)).toEqual([CELL_INJURY]);
+			expect(logsAt("error")).toHaveLength(0);
+		});
+
+		it("should abort without filesystem changes when a temporary file's target name is taken", async () => {
+			await writeInto(videoDir(moduleRoot), `${CELL_INJURY}.mp4`);
+			await writeInto(videoDir(moduleRoot), `${CELL_INJURY}.mp4${TEMP_SUFFIX}`);
+			await writeInto(slideDir(moduleRoot), `${CELL_INJURY}.pdf`);
+
+			await expectNormalisationToAbort([]);
+
+			expect(logsAt("error").map((entry) => entry.payload)).toContainEqual(
+				expect.objectContaining({
+					anomalies: [expect.stringContaining(`${CELL_INJURY}.mp4${TEMP_SUFFIX}`)],
+				}),
+			);
+			expect(await listNames(videoDir(moduleRoot))).toEqual([
+				`${CELL_INJURY}.mp4`,
+				`${CELL_INJURY}.mp4${TEMP_SUFFIX}`,
+			]);
+		});
 	});
 
 	describe("orphan handling", () => {

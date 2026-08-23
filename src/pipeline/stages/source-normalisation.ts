@@ -5,7 +5,12 @@ import type { RunManifest, SourceNormalisationStage } from "../../types/pipeline
 import { STAGE_IDS } from "../../types/pipeline.js";
 import { extractDate, formatDateISO } from "../../utils/date.js";
 import { NamedError } from "../../utils/errors.js";
-import { listFileNames, listSubdirectoryNames } from "../../utils/files.js";
+import {
+	listFileNames,
+	listSubdirectoryNames,
+	pathExists,
+	readDirSafe,
+} from "../../utils/files.js";
 import { extractProvisionalTitle, lectureBaseName } from "../../utils/naming.js";
 import { type ModuleDirs, moduleDirs } from "../layout.js";
 import { readManifest, readManifestSafe, writeManifest } from "../manifest.js";
@@ -147,6 +152,117 @@ function collectAnomalies({
 		}
 	}
 	return anomalies;
+}
+
+/**
+ * Aborts the run before anything is applied: logs every problem found at `error`
+ * and throws, having made no filesystem change (technical-design.md §5, Stage 0).
+ *
+ * @param args - The abort context.
+ * @param args.logger - The run logger.
+ * @param args.moduleRoot - The module being normalised.
+ * @param args.anomalies - Every problem found, one human-readable line each.
+ * @param args.reason - The class of problem, for the log message.
+ * @throws {@link SourceNormalisationError} always — this function never returns.
+ */
+function abortNormalisation({
+	logger,
+	moduleRoot,
+	anomalies,
+	reason,
+}: {
+	readonly logger: Logger;
+	readonly moduleRoot: string;
+	readonly anomalies: readonly string[];
+	readonly reason: string;
+}): never {
+	logger.error({ moduleRoot, anomalies }, `Source normalisation aborted: ${reason}`);
+	throw new SourceNormalisationError(
+		`Source normalisation failed for ${moduleRoot}:\n- ${anomalies.join("\n- ")}`,
+	);
+}
+
+/** A temporary entry left by an interrupted run, and the name it was moving to. */
+type PendingRename = { readonly dir: string; readonly temp: string; readonly target: string };
+
+/**
+ * Finds every temporary entry an interrupted run left across the module's four
+ * directories, of whatever kind — a source file, a workspace folder, or a
+ * `Final output/` PDF all pass through the same temporary name.
+ *
+ * @param dirs - The module's directories.
+ * @returns The temporary entries found, each paired with the name it was moving to.
+ */
+async function findPendingRenames(dirs: ModuleDirs): Promise<readonly PendingRename[]> {
+	const pending: PendingRename[] = [];
+	for (const dir of Object.values(dirs)) {
+		for (const entry of await readDirSafe(dir)) {
+			if (entry.name.endsWith(TEMP_SUFFIX)) {
+				pending.push({
+					dir,
+					temp: entry.name,
+					target: entry.name.slice(0, -TEMP_SUFFIX.length),
+				});
+			}
+		}
+	}
+	return pending;
+}
+
+/**
+ * Finishes the second phase of a rename an earlier run was interrupted partway
+ * through, before anything is read.
+ *
+ * A temporary entry holds a *complete* item that has left its old name and not
+ * yet reached its new one — the sole copy of a source video, or a whole lecture
+ * workspace — so the run that finds one moves it on to its target rather than
+ * treating it as the discardable partial output §4.3 sweeps up. Left in place it
+ * is read as a second video on its lecture's date, which validation then refuses
+ * as a duplicate for as long as it sits there.
+ *
+ * A target name that is already taken cannot be resolved this way, so the run
+ * aborts and names the entries, leaving every one of them where it is.
+ *
+ * @param args - The module and its directories.
+ * @param args.dirs - The module's directories.
+ * @param args.moduleRoot - The module being normalised.
+ * @param args.logger - The run logger.
+ * @returns A promise that resolves once every interrupted rename is complete.
+ * @throws {@link SourceNormalisationError} when a temporary entry's target name is taken.
+ */
+async function completeInterruptedRenames({
+	dirs,
+	moduleRoot,
+	logger,
+}: {
+	readonly dirs: ModuleDirs;
+	readonly moduleRoot: string;
+	readonly logger: Logger;
+}): Promise<void> {
+	const pending = await findPendingRenames(dirs);
+	const blocked: string[] = [];
+	for (const operation of pending) {
+		if (await pathExists(join(operation.dir, operation.target))) {
+			blocked.push(
+				`"${operation.temp}" was left by an interrupted run and "${operation.target}" is already taken`,
+			);
+		}
+	}
+	if (blocked.length > 0) {
+		abortNormalisation({
+			logger,
+			moduleRoot,
+			anomalies: blocked,
+			reason: "interrupted renames cannot be completed",
+		});
+	}
+	for (const operation of pending) {
+		await rename(join(operation.dir, operation.temp), join(operation.dir, operation.target));
+		logger.info(
+			{ source: operation.temp, target: operation.target },
+			"Completed interrupted rename",
+		);
+	}
 }
 
 /**
@@ -561,6 +677,7 @@ export function createSourceNormalisationStage({
 }): SourceNormalisationStage {
 	async function normaliseModule({ moduleRoot }: { readonly moduleRoot: string }): Promise<void> {
 		const dirs = moduleDirs({ moduleRoot });
+		await completeInterruptedRenames({ dirs, moduleRoot, logger });
 
 		const videos = toDatedFiles(await listFileNames(dirs.video));
 		const slides = toDatedFiles(await listFileNames(dirs.slide));
@@ -571,10 +688,7 @@ export function createSourceNormalisationStage({
 
 		const anomalies = collectAnomalies({ videos, slides });
 		if (anomalies.length > 0) {
-			logger.error({ moduleRoot, anomalies }, "Source normalisation aborted: source anomalies");
-			throw new SourceNormalisationError(
-				`Source normalisation failed for ${moduleRoot}:\n- ${anomalies.join("\n- ")}`,
-			);
+			abortNormalisation({ logger, moduleRoot, anomalies, reason: "source anomalies" });
 		}
 
 		const existingWorkspaces = await discoverWorkspaces(dirs.processing);

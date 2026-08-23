@@ -49,6 +49,13 @@ const MODULE_CODE_PREFIX = /\bBOD[_ ]+/g;
  */
 const LECTURE_NUMBER_TOKEN = /\bLectures?\s*\d+\b/gi;
 
+/**
+ * Separator debris at either end, left where a stripped token used to be: a
+ * canonical `Lecture 1 - Cell Injury - 2025-10-10` loses its number and date and
+ * comes back as `- Cell Injury -`.
+ */
+const EDGE_SEPARATORS = /^[\s-]+|[\s-]+$/g;
+
 /** Trailing artefacts appended by recording/export tools (`copy`, `co`, `v2`). */
 const TRAILING_ARTEFACTS = /(?:[\s-]+(?:copy|co|v\d+))+$/i;
 
@@ -106,11 +113,17 @@ function stripControlChars(text: string): string {
  * Derives a best-effort provisional lecture title from a source filename.
  *
  * Strips the file extension, all date and weekday tokens, the module-code
- * prefix, any embedded lecture-number token, underscores, and trailing
- * artefacts, then title-cases what remains. Filenames vary: a rich filename
- * yields a full title, while a `date + Lecture N` filename yields an **empty
- * string**. Callers must fall back (e.g. to the bare `Lecture N` name) on an
- * empty result; Stage 3's LLM later judges whether the title is meaningful.
+ * prefix, any embedded lecture-number token, underscores, separator debris at
+ * either end, and trailing artefacts, then title-cases what remains. Filenames
+ * vary: a rich filename yields a full title, while a `date + Lecture N` filename
+ * yields an **empty string**. Callers must fall back (e.g. to the bare
+ * `Lecture N` name) on an empty result; Stage 3's LLM later judges whether the
+ * title is meaningful.
+ *
+ * The separator strip is what lets a name this module built be read back: a
+ * lecture whose sources were renamed by a run that then stopped before writing
+ * its manifest is re-read from its canonical filename on the next run, and must
+ * yield the title that name was built from (technical-design.md §3.2).
  *
  * @param filename - The user-supplied source filename.
  * @returns The cleaned, title-cased provisional title, possibly empty.
@@ -118,6 +131,8 @@ function stripControlChars(text: string): string {
  * @example
  * extractProvisionalTitle("2025-10-10 BOD_Disease cell injury Fri co.mp4");
  * // → "Disease Cell Injury"
+ * extractProvisionalTitle("Lecture 1 - Cell Injury - 2025-10-10.mp4");
+ * // → "Cell Injury"
  * extractProvisionalTitle("2025-10-10 Lecture 5.mp4");
  * // → ""
  */
@@ -129,7 +144,8 @@ export function extractProvisionalTitle(filename: string): string {
 		.replace(LECTURE_NUMBER_TOKEN, " ")
 		.replace(/_/g, " ");
 	const normalised = withoutNoise.replace(/\s+/g, " ").trim();
-	const withoutArtefacts = normalised.replace(TRAILING_ARTEFACTS, "").trim();
+	const withoutEdges = normalised.replace(EDGE_SEPARATORS, "");
+	const withoutArtefacts = withoutEdges.replace(TRAILING_ARTEFACTS, "").trim();
 	return toTitleCase(withoutArtefacts);
 }
 

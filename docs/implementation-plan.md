@@ -251,6 +251,8 @@ Integration tests (real temp directory with fixture source files):
 - `should renumber the remaining lectures and log the prior number, title, date, and cost when an orphan is deleted`
 - `should abort without filesystem changes when a confirmation is declined` — `test.each` for: an orphan declined, the final confirmation declined
 - `should not prompt when every workspace still has its source pair`
+- `should restore a temporary source file to its target name when a previous run was interrupted` — and the same for a workspace folder
+- `should abort without filesystem changes when a temporary file's target name is taken`
 
 **Acceptance:** Given a folder of raw video and slide files, Stage 0 produces correct workspace folders, manifests, renamed source files, and handles mid-sequence insertion correctly.
 
