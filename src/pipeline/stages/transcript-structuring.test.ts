@@ -7,14 +7,13 @@ import { pathExists } from "../../utils/files.js";
 import {
 	aiDerivedLecture,
 	captureError,
+	configuringStage,
 	driveStage,
 	loggedAt,
-	makeConfig,
 	makeManifest,
 	makeStageContext,
 	makeStubLogger,
 	makeWorkspaceTree,
-	openRouterStageConfig,
 	structuredMarkdown,
 	stubbedCostUsd,
 	testLecture,
@@ -81,11 +80,7 @@ describe("createTranscriptStructuringStage", () => {
 	function contextWith(manifestOverrides: Partial<RunManifest> = {}): StageContext {
 		return makeStageContext({
 			workspaceRoot,
-			config: makeConfig({
-				stages: {
-					"transcript-structuring": openRouterStageConfig({ stageId: "transcript-structuring" }),
-				},
-			}),
+			config: configuringStage({ stageId: "transcript-structuring" }),
 			manifest: makeManifest(manifestOverrides),
 		});
 	}

@@ -6,14 +6,13 @@ import type { LectureIdentityChanges, RunManifest, StageContext } from "../../ty
 import { pathExists } from "../../utils/files.js";
 import {
 	aiDerivedLecture,
+	configuringStage,
 	driveStage,
-	makeConfig,
 	makeLectureTree,
 	makeManifest,
 	makeStageContext,
 	makeStubLogger,
 	openRouterCompletionBody,
-	openRouterStageConfig,
 	openRouterUrls,
 	resetStubbedApi,
 	structuredMarkdown,
@@ -84,11 +83,7 @@ describe("transcript structuring against a real module tree", () => {
 		return makeStageContext({
 			workspaceRoot,
 			manifest,
-			config: makeConfig({
-				stages: {
-					"transcript-structuring": openRouterStageConfig({ stageId: "transcript-structuring" }),
-				},
-			}),
+			config: configuringStage({ stageId: "transcript-structuring" }),
 		});
 	}
 

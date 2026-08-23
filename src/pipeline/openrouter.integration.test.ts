@@ -4,13 +4,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CONFIG_FILENAME, type PipelineConfig } from "../types/pipeline.js";
 import {
 	captureError,
+	configuringStage,
 	exampleConfig,
 	loggedAt,
-	makeConfig,
 	makeStubLogger,
 	openRouterCompletionBody,
 	openRouterModelId,
-	openRouterStageConfig,
 	openRouterUrls,
 	resetStubbedApi,
 	stubbedApiKey,
@@ -19,11 +18,7 @@ import {
 } from "./fixtures.js";
 import { ContextLengthError, createOpenRouterClient, makeCompletionCall } from "./openrouter.js";
 
-const config: PipelineConfig = makeConfig({
-	stages: {
-		"transcript-structuring": openRouterStageConfig({ stageId: "transcript-structuring" }),
-	},
-});
+const config: PipelineConfig = configuringStage({ stageId: "transcript-structuring" });
 
 /** What the stubbed `/generation` lookup reports this call cost. */
 const RESOLVED_COST_USD = 0.0042;

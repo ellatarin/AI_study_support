@@ -386,6 +386,19 @@ export function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineCon
 	return { ...exampleConfig, moduleRoots: [], stages: {}, ...overrides };
 }
 
+/**
+ * A configuration that configures exactly one stage, on {@link
+ * openRouterModelId} — what a suite exercising a single stage needs, and the
+ * shape {@link makeConfig}'s emptied stage list is there to be filled with.
+ *
+ * @param args - Which stage to configure.
+ * @param args.stageId - The stage to configure.
+ * @returns The config.
+ */
+export function configuringStage({ stageId }: { readonly stageId: StageId }): PipelineConfig {
+	return { ...makeConfig(), stages: { [stageId]: openRouterStageConfig({ stageId }) } };
+}
+
 /** The imaginary directory {@link testModuleRoot} and its sibling sit under. */
 const SYNTHETIC_MODULES_DIR = "/modules";
 
