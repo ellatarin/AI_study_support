@@ -184,6 +184,35 @@ function fitToColumn({ text, width }: { readonly text: string; readonly width: n
 }
 
 /**
+ * Groups items under a key derived from each, in the order the keys were first
+ * seen.
+ *
+ * Two sections of this report group: the experiment table by the stage a run
+ * re-ran, and the batch summary by the module a lecture belongs to. Both want
+ * first-seen order — the report follows the run rather than sorting it — which
+ * is what a `Map` gives and what makes the two the same operation.
+ *
+ * @param args - The items and how to key them.
+ * @param args.items - The items to group.
+ * @param args.keyOf - The key an item belongs under.
+ * @returns The items by key, keys in first-seen order.
+ */
+function groupBy<TItem>({
+	items,
+	keyOf,
+}: {
+	readonly items: readonly TItem[];
+	readonly keyOf: (item: TItem) => string;
+}): ReadonlyMap<string, readonly TItem[]> {
+	const grouped = new Map<string, TItem[]>();
+	for (const item of items) {
+		const key = keyOf(item);
+		grouped.set(key, [...(grouped.get(key) ?? []), item]);
+	}
+	return grouped;
+}
+
+/**
  * Joins fixed-width cells into a single aligned row.
  *
  * @param cells - The cells to render, in column order.
@@ -206,31 +235,30 @@ function formatCells(cells: readonly Cell[]): string {
  * the batch summary's cross-module row, which counts lectures rather than adding
  * money — appends it to what this returns.
  *
+ * The rules span the columns, which is what makes them rules, so their width is
+ * read off the header rather than passed in: each of the three sections was
+ * adding its own column widths up by hand, and a column added to one of them
+ * without its sum being edited would have left the table's rules short.
+ *
  * @param args - The table parts.
  * @param args.title - The section title printed above the table.
  * @param args.columns - The header cells.
  * @param args.rows - The body rows, each a list of cells.
- * @param args.width - The width of the horizontal rules, in characters.
  * @returns The table as an array of lines.
  */
 function renderCostTable({
 	title,
 	columns,
 	rows,
-	width,
 }: {
 	readonly title: string;
 	readonly columns: readonly Cell[];
 	readonly rows: readonly (readonly Cell[])[];
-	readonly width: number;
 }): readonly string[] {
-	return [
-		title,
-		formatCells(columns),
-		RULE.repeat(width),
-		...rows.map(formatCells),
-		RULE.repeat(width),
-	];
+	// eslint-disable-next-line max-params -- Array.prototype.reduce's reducer is spec-defined
+	const ruleWidth = columns.reduce((total, [, width]) => total + width, 0);
+	const rule = RULE.repeat(ruleWidth);
+	return [title, formatCells(columns), rule, ...rows.map(formatCells), rule];
 }
 
 type RanStageEntry = Extract<RunLogStageEntry, { readonly action: "ran" }>;
@@ -364,12 +392,6 @@ type RunLogSectionArgs = {
 /** Column widths of the current-pipeline section, shared by its header, rows, and total. */
 const CURRENT_PIPELINE_WIDTHS = { stage: 24, model: MODEL_WIDTH, calls: 7 } as const;
 
-const CURRENT_PIPELINE_RULE_WIDTH =
-	CURRENT_PIPELINE_WIDTHS.stage +
-	CURRENT_PIPELINE_WIDTHS.model +
-	CURRENT_PIPELINE_WIDTHS.calls +
-	COST_WIDTH;
-
 /**
  * Section 1: what the outputs currently on disk cost to produce.
  *
@@ -407,9 +429,11 @@ function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs):
 			COST_HEADER,
 		],
 		rows,
-		width: CURRENT_PIPELINE_RULE_WIDTH,
 	});
 }
+
+/** Column widths of the error-recovery section, shared by its header and its rows. */
+const ERROR_RECOVERY_WIDTHS = { run: 26, stage: 22, status: 8 } as const;
 
 /**
  * Section 2: spend from failed runs and their retries.
@@ -422,17 +446,21 @@ function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs):
 function errorRecoverySection({ runLogs, formatMoney }: RunLogSectionArgs): readonly string[] {
 	const rows = ranStageEntries({ runLogs, selects: wasSpentOnFailure }).map(
 		({ log, stageId, entry }): readonly Cell[] => [
-			[log.startedAt, 26, "left"],
-			[stageId, 22, "left"],
-			[entry.status === "failed" ? "failed" : "retry", 8, "right"],
+			[log.startedAt, ERROR_RECOVERY_WIDTHS.run, "left"],
+			[stageId, ERROR_RECOVERY_WIDTHS.stage, "left"],
+			[entry.status === "failed" ? "failed" : "retry", ERROR_RECOVERY_WIDTHS.status, "right"],
 			costCell({ amount: entry.cost.costUsd, formatMoney }),
 		],
 	);
 	return renderCostTable({
 		title: "Error recovery cost",
-		columns: [["Run", 26, "left"], ["Stage", 22, "left"], ["Status", 8, "right"], COST_HEADER],
+		columns: [
+			["Run", ERROR_RECOVERY_WIDTHS.run, "left"],
+			["Stage", ERROR_RECOVERY_WIDTHS.stage, "left"],
+			["Status", ERROR_RECOVERY_WIDTHS.status, "right"],
+			COST_HEADER,
+		],
 		rows,
-		width: 66,
 	});
 }
 
@@ -445,21 +473,23 @@ function errorRecoverySection({ runLogs, formatMoney }: RunLogSectionArgs): read
  * @returns The section's lines.
  */
 function experimentSection({ runLogs, formatMoney }: RunLogSectionArgs): readonly string[] {
-	const byStage = new Map<string, string[]>();
-	for (const { log, stageId, entry } of ranStageEntries({ runLogs, selects: wasAnExperiment })) {
-		const model = fitToColumn({
-			text: entry.configUsed?.modelId ?? "—",
-			width: MODEL_WIDTH,
-		}).padEnd(MODEL_WIDTH);
-		const cost = formatMoney(entry.cost.costUsd).padStart(COST_WIDTH);
-		byStage.set(stageId, [
-			...(byStage.get(stageId) ?? []),
-			`  Run ${log.startedAt}    ${model}${cost}`,
-		]);
-	}
+	const byStage = groupBy({
+		items: ranStageEntries({ runLogs, selects: wasAnExperiment }),
+		keyOf: ({ stageId }) => stageId,
+	});
 	const lines: string[] = ["Experiment cost"];
-	for (const [stageId, runLines] of byStage) {
-		lines.push(`Stage: ${stageId}`, ...runLines);
+	for (const [stageId, entries] of byStage) {
+		lines.push(
+			`Stage: ${stageId}`,
+			...entries.map(({ log, entry }) => {
+				const model = fitToColumn({
+					text: entry.configUsed?.modelId ?? "—",
+					width: MODEL_WIDTH,
+				}).padEnd(MODEL_WIDTH);
+				const cost = formatMoney(entry.cost.costUsd).padStart(COST_WIDTH);
+				return `  Run ${log.startedAt}    ${model}${cost}`;
+			}),
+		);
 	}
 	return lines;
 }
@@ -500,13 +530,6 @@ const RUN_SUMMARY_WIDTHS = {
 	promptTokens: 9,
 	completionTokens: 7,
 } as const;
-
-const RUN_SUMMARY_RULE_WIDTH =
-	RUN_SUMMARY_WIDTHS.stage +
-	RUN_SUMMARY_WIDTHS.model +
-	RUN_SUMMARY_WIDTHS.calls +
-	RUN_SUMMARY_WIDTHS.tokens +
-	COST_WIDTH;
 
 /**
  * Formats a token count with thousands separators, padded so the `in / out` pair
@@ -610,15 +633,11 @@ export function formatRunSummary({
 			COST_HEADER,
 		],
 		rows,
-		width: RUN_SUMMARY_RULE_WIDTH,
 	}).join("\n");
 }
 
 /** Column widths of the batch summary, shared by its header, rows, and closing row. */
 const BATCH_SUMMARY_WIDTHS = { module: 30, lectures: 10, status: 10 } as const;
-
-const BATCH_SUMMARY_RULE_WIDTH =
-	BATCH_SUMMARY_WIDTHS.module + BATCH_SUMMARY_WIDTHS.lectures + BATCH_SUMMARY_WIDTHS.status;
 
 /**
  * Groups a batch's lectures by the module they belong to, preserving the order
@@ -634,12 +653,10 @@ const BATCH_SUMMARY_RULE_WIDTH =
 function lecturesByModule(
 	lectures: readonly RunSummary[],
 ): ReadonlyMap<string, readonly RunSummary[]> {
-	const grouped = new Map<string, RunSummary[]>();
-	for (const lecture of lectures) {
-		const moduleRoot = moduleRootOf({ workspaceRoot: lecture.workspaceRoot });
-		grouped.set(moduleRoot, [...(grouped.get(moduleRoot) ?? []), lecture]);
-	}
-	return grouped;
+	return groupBy({
+		items: lectures,
+		keyOf: (lecture) => moduleRootOf({ workspaceRoot: lecture.workspaceRoot }),
+	});
 }
 
 /**
@@ -678,7 +695,6 @@ export function formatBatchSummary({ batch }: { readonly batch: BatchSummary }):
 				["Status", BATCH_SUMMARY_WIDTHS.status, "right"],
 			],
 			rows,
-			width: BATCH_SUMMARY_RULE_WIDTH,
 		}),
 		formatCells(acrossModules),
 	].join("\n");
