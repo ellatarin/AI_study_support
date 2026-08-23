@@ -292,6 +292,19 @@ Worked module by module, one commit each, **last** of the auto work.
     - **`export PATH`.** `posix_path_line`, stated once and used by the two shells that get it written for them and the message asking the user to write it themselves.
     - **Every changed script was run, not just linted**: both blockers (exit 2, right message), `bin/lecture-notes --help` from `/` (proving the sourced root resolves off the cwd), `pre-commit-check` with a non-commit payload (exit 0), and `post-edit-biome` with a real payload (biome ran). The 81 `scripts/` tests, `eslint .`, `biome check` and both jscpd passes are green.
 
+> **A21.2 is complete — all seventeen, `a` through `q`.** Four of them turned out to be partly or
+> wholly closed already, each verified against the code rather than taken on trust: A21.2e's
+> processing-directory clause (by `workspaceRootFor`), A21.2n's `/\s+/g` clause (by A21.2f), and both
+> of A21.2p's and two of A21.2q's clauses (by A6 and by earlier hook work). **That is now five
+> A-group items found already-closed across this review — A19.4, A18.7, A21.2p and two clauses each
+> in A21.2e/q — so re-locating a finding before planning around it is not an occasional precaution.**
+>
+> Seven extractions the worklist does not name came out of working these items, all committed
+> separately: `isRecord`, `collapseWhitespace`, `stubApi`/`resetStubbedApi`/`stubbedApiKey`, the
+> runner's fourth copy of the stage-config lookup (found by jscpd, not by reading), the barrel-file
+> message, `posix_path_line`, and the shared override sentence. **Two were found by tooling rather
+> than by the review or by me** — run `npx jscpd` after an extraction, not only before a commit.
+
 ### A21.3 Test suites
 
 - [ ] **A21.3a** `stageCompletedAt` exists in `fixtures.ts` and its TSDoc says the suites share one — `commands.integration.test.ts` invents four, `cost.test.ts` invents fourteen, `runner.test.ts` restates one three times, `runner.integration.test.ts` uses the non-ISO `"earlier"` four times
