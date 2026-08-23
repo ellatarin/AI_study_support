@@ -141,6 +141,11 @@ describe("executeCommand", () => {
 		return executeCommand({ command, deps: deps() });
 	}
 
+	/** Puts the runner in the state every unmatched-date case shares: the date names nothing. */
+	function noLectureCarriesTheDate(): void {
+		runner.resolveLecturesByDate.mockResolvedValue([]);
+	}
+
 	/** A second lecture sharing the first one's date, for the multi-match cases. */
 	async function makeSecondLecture(): Promise<LectureMatch> {
 		return {
@@ -259,7 +264,7 @@ describe("executeCommand", () => {
 		});
 
 		it("should report that nothing matched when no lecture carries the date", async () => {
-			runner.resolveLecturesByDate.mockResolvedValue([]);
+			noLectureCarriesTheDate();
 
 			const code = await invoke(runCommand);
 
@@ -270,7 +275,7 @@ describe("executeCommand", () => {
 		});
 
 		it("should offer to add the lecture's sources when no lecture carries the date", async () => {
-			runner.resolveLecturesByDate.mockResolvedValue([]);
+			noLectureCarriesTheDate();
 
 			await invoke(runCommand);
 
@@ -367,8 +372,16 @@ describe("executeCommand", () => {
 	});
 
 	describe("cost-report", () => {
+		/** The `cost-report` command, narrowed the way each case below narrows it. */
+		function costReport(narrowing: {
+			readonly lectureDate: string | null;
+			readonly moduleRoot: string | null;
+		}): RunnableCliCommand {
+			return { command: "cost-report", ...narrowing };
+		}
+
 		it("should report across every configured module when nothing narrows it", async () => {
-			const code = await invoke({ command: "cost-report", lectureDate: null, moduleRoot: null });
+			const code = await invoke(costReport({ lectureDate: null, moduleRoot: null }));
 
 			expect(code).toBe(0);
 			expect(runner.costReport).toHaveBeenCalledWith({
@@ -378,7 +391,7 @@ describe("executeCommand", () => {
 		});
 
 		it("should report on one module only when --module narrows it", async () => {
-			await invoke({ command: "cost-report", lectureDate: null, moduleRoot });
+			await invoke(costReport({ lectureDate: null, moduleRoot }));
 
 			expect(runner.costReport).toHaveBeenCalledWith({ moduleRoots: [moduleRoot], options: {} });
 		});
@@ -393,7 +406,7 @@ describe("executeCommand", () => {
 			runner.resolveLecturesByDate.mockResolvedValue([match, other]);
 			selectMatches.mockResolvedValue([other]);
 
-			await invoke({ command: "cost-report", lectureDate: testLecture.date, moduleRoot: null });
+			await invoke(costReport({ lectureDate: testLecture.date, moduleRoot: null }));
 
 			expect(runner.costReport).toHaveBeenCalledWith({
 				moduleRoots: [other.moduleRoot],
@@ -402,22 +415,18 @@ describe("executeCommand", () => {
 		});
 
 		it("should report that nothing matched when no lecture carries the date", async () => {
-			runner.resolveLecturesByDate.mockResolvedValue([]);
+			noLectureCarriesTheDate();
 
-			const code = await invoke({
-				command: "cost-report",
-				lectureDate: testLecture.date,
-				moduleRoot: null,
-			});
+			const code = await invoke(costReport({ lectureDate: testLecture.date, moduleRoot: null }));
 
 			expect(code).toBe(1);
 			expect(runner.costReport).not.toHaveBeenCalled();
 		});
 
 		it("should name only the module it searched when --module narrowed it and nothing matched", async () => {
-			runner.resolveLecturesByDate.mockResolvedValue([]);
+			noLectureCarriesTheDate();
 
-			await invoke({ command: "cost-report", lectureDate: testLecture.date, moduleRoot });
+			await invoke(costReport({ lectureDate: testLecture.date, moduleRoot }));
 
 			expect(runner.resolveLecturesByDate).toHaveBeenCalledWith({
 				moduleRoots: [moduleRoot],
@@ -428,13 +437,9 @@ describe("executeCommand", () => {
 		});
 
 		it("should not offer to run the pipeline again when no lecture carries the date", async () => {
-			runner.resolveLecturesByDate.mockResolvedValue([]);
+			noLectureCarriesTheDate();
 
-			await invoke({
-				command: "cost-report",
-				lectureDate: testLecture.date,
-				moduleRoot: null,
-			});
+			await invoke(costReport({ lectureDate: testLecture.date, moduleRoot: null }));
 
 			expect(output()).toContain("the configured modules");
 			expect(output()).not.toContain("run the pipeline again");
@@ -444,11 +449,7 @@ describe("executeCommand", () => {
 			runner.resolveLecturesByDate.mockResolvedValue([match, match]);
 			selectMatches.mockResolvedValue([]);
 
-			const code = await invoke({
-				command: "cost-report",
-				lectureDate: testLecture.date,
-				moduleRoot: null,
-			});
+			const code = await invoke(costReport({ lectureDate: testLecture.date, moduleRoot: null }));
 
 			expect(code).toBe(0);
 			expect(runner.costReport).not.toHaveBeenCalled();
@@ -476,7 +477,7 @@ describe("executeCommand", () => {
 		});
 
 		it("should report that nothing matched when no lecture carries the date", async () => {
-			runner.resolveLecturesByDate.mockResolvedValue([]);
+			noLectureCarriesTheDate();
 
 			const code = await invoke(renameCommand);
 
