@@ -4,7 +4,13 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { RunManifest } from "../types/pipeline.js";
 import { captureError, corruptJson, makeManifest, makeTempDir, testLecture } from "./fixtures.js";
 import { MANIFEST_FILE, moduleDirs } from "./layout.js";
-import { manifestPath, readManifest, readManifestSafe, writeManifest } from "./manifest.js";
+import {
+	MANIFEST_VERSION,
+	manifestPath,
+	readManifest,
+	readManifestSafe,
+	writeManifest,
+} from "./manifest.js";
 
 describe("manifest I/O", () => {
 	let workspaceRoot: string;
@@ -20,6 +26,14 @@ describe("manifest I/O", () => {
 	async function writeRaw(content: string): Promise<void> {
 		await writeFile(manifestPath({ workspaceRoot }), content);
 	}
+
+	describe("MANIFEST_VERSION", () => {
+		// The other assertion that must state its value: everything else in the
+		// repo now reads it from here, so nothing else could notice a change to it.
+		it("should declare the schema version a manifest is stamped with when the format is read", () => {
+			expect(MANIFEST_VERSION).toBe("1");
+		});
+	});
 
 	describe("manifestPath", () => {
 		// The one assertion here that must state the filename: it is what the

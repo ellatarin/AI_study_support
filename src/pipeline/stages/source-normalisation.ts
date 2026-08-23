@@ -13,7 +13,7 @@ import {
 } from "../../utils/files.js";
 import { extractProvisionalTitle, lectureBaseName } from "../../utils/naming.js";
 import { type ModuleDirs, moduleDirs } from "../layout.js";
-import { readManifest, readManifestSafe, writeManifest } from "../manifest.js";
+import { MANIFEST_VERSION, readManifest, readManifestSafe, writeManifest } from "../manifest.js";
 
 // prefer-readonly-parameter-types is disabled file-wide: this stage's helpers take
 // a pino Logger and a Date (library/built-in types carrying methods) and the
@@ -38,7 +38,6 @@ export class SourceNormalisationError extends NamedError {}
  */
 export type ConfirmPrompt = (args: { readonly message: string }) => Promise<boolean>;
 
-const MANIFEST_VERSION = "1";
 const TEMP_SUFFIX = ".stage0-tmp";
 
 /** A source file identified only by its name and extracted `YYYY-MM-DD` date. */

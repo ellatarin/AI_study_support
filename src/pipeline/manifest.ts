@@ -16,6 +16,18 @@ import type { RunManifest } from "../types/pipeline.js";
 import { writeFileAtomic } from "../utils/files.js";
 import { MANIFEST_FILE } from "./layout.js";
 
+/**
+ * The schema version stamped into every manifest this pipeline writes.
+ *
+ * It belongs beside the read and write it describes, because the two parties that
+ * put a version into a manifest — Stage 0, which creates one, and the fixtures,
+ * which seed one for every suite — would otherwise each hold their own copy, and
+ * nothing reads `version` back to notice they had diverged. Bumping it here bumps
+ * what the suites seed, which is the only way a future migration gets tested
+ * against the version it is migrating from (technical-design.md §4.5).
+ */
+export const MANIFEST_VERSION = "1";
+
 /** Indentation applied to the persisted manifest, so it stays diff-friendly. */
 const JSON_INDENT = 2;
 

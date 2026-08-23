@@ -28,6 +28,7 @@ import { STAGE_IDS } from "../types/pipeline.js";
 import { parseConfig } from "./config.js";
 import { datedFileDirs, type ModuleDirs, moduleDirs } from "./layout.js";
 import { baseNameForLecture } from "./lecture-files.js";
+import { MANIFEST_VERSION } from "./manifest.js";
 import { API_KEY_VARIABLE as OPENROUTER_KEY_VARIABLE, OPENROUTER_PATHS } from "./openrouter.js";
 import { assembleContext } from "./stage-context.js";
 import {
@@ -513,7 +514,7 @@ export const otherModuleRoot = join(SYNTHETIC_MODULES_DIR, otherModuleName);
  */
 export function makeManifest(overrides: Partial<RunManifest> = {}): RunManifest {
 	return {
-		version: "1",
+		version: MANIFEST_VERSION,
 		lectureNumber: testLecture.number,
 		lectureDate: testLecture.date,
 		provisionalTitle: testLecture.title,

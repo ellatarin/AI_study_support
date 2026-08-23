@@ -396,6 +396,11 @@ Three separate callers touch it — Stage 0 creates and renumbers it, the runner
 
 ```typescript
 // src/pipeline/manifest.ts
+MANIFEST_VERSION: string   // "1" — the schema version stamped into every manifest the pipeline writes
+// Declared beside the format it versions, because both parties that write a version — Stage 0, which creates a
+// manifest, and the fixtures, which seed one per suite — would otherwise hold their own, and nothing reads
+// `version` back to notice. Bumping it here bumps what the suites seed, so a migration is tested against the
+// version it migrates from.
 manifestPath(args: { workspaceRoot: string }): string
 readManifest(args: { workspaceRoot: string }): Promise<RunManifest>        // throws when missing or malformed
 readManifestSafe(args: { workspaceRoot: string }): Promise<RunManifest | null>
