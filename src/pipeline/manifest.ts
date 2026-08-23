@@ -125,3 +125,40 @@ export async function writeManifest({
 	await mkdir(dirname(path), { recursive: true });
 	await writeJsonAtomic({ path, value: manifest });
 }
+
+/**
+ * Lays changes over a lecture's manifest, records when they were made, and
+ * writes the result.
+ *
+ * Every party that edits a manifest does the same three things — spread what is
+ * there, lay the changes over it, stamp `updatedAt` — and the runner after each
+ * stage, the CLI's `rename` and its `change-date` each did all three for
+ * themselves. An editor that forgot the third would leave a manifest claiming
+ * nothing had happened to it (technical-design.md §4.5).
+ *
+ * The instant is the caller's to give rather than read here, because the runner's
+ * is not simply "now": it stamps the same instant it writes into the stage entry,
+ * so the manifest and the entry inside it name one moment.
+ *
+ * @param args - The manifest, what to change about it, and when.
+ * @param args.workspaceRoot - Absolute path to the lecture workspace folder.
+ * @param args.manifest - The manifest as it currently stands.
+ * @param args.changes - The fields to lay over it.
+ * @param args.updatedAt - The instant the change was made, ISO 8601.
+ * @returns The manifest as written.
+ */
+export async function patchManifest({
+	workspaceRoot,
+	manifest,
+	changes,
+	updatedAt,
+}: {
+	readonly workspaceRoot: string;
+	readonly manifest: RunManifest;
+	readonly changes: Partial<RunManifest>;
+	readonly updatedAt: string;
+}): Promise<RunManifest> {
+	const updated: RunManifest = { ...manifest, ...changes, updatedAt };
+	await writeManifest({ workspaceRoot, manifest: updated });
+	return updated;
+}

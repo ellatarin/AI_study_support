@@ -426,6 +426,11 @@ readManifestSafe(args: { workspaceRoot: string }): Promise<RunManifest | null>
 // goes on to read — `lectureNumber`, `lectureDate`, `stages` — so a manifest with imperfect stage entries
 // still describes a lecture and reaches the caller that reads them.
 writeManifest(args: { workspaceRoot: string; manifest: RunManifest }): Promise<void>   // atomic (§4.3); creates the workspace if absent
+patchManifest(args: { workspaceRoot: string; manifest: RunManifest; changes: Partial<RunManifest>; updatedAt: string }): Promise<RunManifest>
+// Lays changes over the manifest, stamps `updatedAt`, and writes the result. All three callers do exactly
+// that, so an edit cannot leave a manifest claiming nothing happened to it. The instant is given rather than
+// read here because the runner's is not simply "now": it stamps the same instant it writes into the stage
+// entry, so the manifest and the entry inside it name one moment.
 ```
 
 Each stage entry records `configUsed` — a `StageRunConfig` capturing the model ID and tuning parameters (temperature, max tokens, concurrency, max QA iterations) actually resolved for that run, or `null` for stages that make no LLM calls. This lets spend be attributed to a specific model and configuration and lets model experiments be compared (NFR-3.2). The run logs (§4.6) record the same `configUsed` per attempt.

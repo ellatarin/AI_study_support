@@ -18,7 +18,7 @@ import {
 	findDatedFile,
 	renameLectureFiles,
 } from "../pipeline/lecture-files.js";
-import { readManifest, writeManifest } from "../pipeline/manifest.js";
+import { patchManifest, readManifest } from "../pipeline/manifest.js";
 import type { LectureMatch, RunManifest } from "../types/pipeline.js";
 import { errorMessage, NamedError } from "../utils/errors.js";
 import { filenameSafe } from "../utils/naming.js";
@@ -98,14 +98,11 @@ export async function renameLecture({
 		);
 	}
 	const manifest = await readManifest({ workspaceRoot });
-	await writeManifest({
+	await patchManifest({
 		workspaceRoot,
-		manifest: {
-			...manifest,
-			userTitle: title,
-			lectureTitle: title,
-			updatedAt: new Date().toISOString(),
-		},
+		manifest,
+		changes: { userTitle: title, lectureTitle: title },
+		updatedAt: new Date().toISOString(),
 	});
 }
 
@@ -224,14 +221,11 @@ export async function changeLectureDate({
 		lectureDate: newLectureDate,
 	});
 
-	await writeManifest({
+	await patchManifest({
 		workspaceRoot: match.workspaceRoot,
-		manifest: {
-			...manifest,
-			lectureDate: newLectureDate,
-			workspaceFolderName: baseName,
-			updatedAt: new Date().toISOString(),
-		},
+		manifest,
+		changes: { lectureDate: newLectureDate, workspaceFolderName: baseName },
+		updatedAt: new Date().toISOString(),
 	});
 	await renameLectureFiles({
 		dirs,

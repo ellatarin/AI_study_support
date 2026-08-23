@@ -168,7 +168,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 `src/pipeline/runner.ts` — the `PipelineRunner` class and its supporting module-level functions (`runStage`, `assembleContext`, `updateManifest`, `deriveRunId`, `classifyRunType`). Full surface and behaviour in **TD §4.7**.
 
-`src/pipeline/manifest.ts` — where `manifest.json` lives, how it is read and atomically written, and the schema version it is stamped with: `MANIFEST_VERSION`, `manifestPath`, `readManifest`, `readManifestSafe`, `writeManifest`. Extracted because Stage 0, the runner, and the CLI all touch it (**TD §4.5**).
+`src/pipeline/manifest.ts` — where `manifest.json` lives, how it is read and atomically written, and the schema version it is stamped with: `MANIFEST_VERSION`, `manifestPath`, `readManifest`, `readManifestSafe`, `writeManifest`, `patchManifest`. Extracted because Stage 0, the runner, and the CLI all touch it (**TD §4.5**).
 
 `src/pipeline/run-status.ts` — the shared rule reducing stage and lecture outcomes to an `OverallStatus`: `stageOutcomeStatus`, `summariseOverallStatus`, `summariseLectures`, `hasSettledOutput` (**TD §4.7**).
 

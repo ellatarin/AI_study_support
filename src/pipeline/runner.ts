@@ -35,7 +35,7 @@ import {
 } from "../utils/files.js";
 import { createStageLogger } from "../utils/logger.js";
 import { moduleDirs, runsDirPath, type StageInWorkspace, stageDirectoryPaths } from "./layout.js";
-import { readManifest, readManifestSafe, writeManifest } from "./manifest.js";
+import { patchManifest, readManifest, readManifestSafe, writeManifest } from "./manifest.js";
 import {
 	hasSettledOutput,
 	stageOutcomeStatus,
@@ -273,7 +273,7 @@ function patchStages({
  * @param args.timestamp - The instant to stamp the manifest with.
  * @returns The manifest as written.
  */
-async function updateManifest({
+function updateManifest({
 	workspaceRoot,
 	manifest,
 	stageId,
@@ -288,14 +288,15 @@ async function updateManifest({
 	readonly identityChanges: LectureIdentityChanges;
 	readonly timestamp: string;
 }): Promise<RunManifest> {
-	const updated: RunManifest = {
-		...manifest,
-		...identityChanges,
-		stages: patchStages({ stages: manifest.stages, stageId, entry }),
+	return patchManifest({
+		workspaceRoot,
+		manifest,
+		changes: {
+			...identityChanges,
+			stages: patchStages({ stages: manifest.stages, stageId, entry }),
+		},
 		updatedAt: timestamp,
-	};
-	await writeManifest({ workspaceRoot, manifest: updated });
-	return updated;
+	});
 }
 
 function skippedEntry({
