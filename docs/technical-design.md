@@ -394,6 +394,10 @@ readManifest(args: { workspaceRoot: string }): Promise<RunManifest>        // th
 readManifestSafe(args: { workspaceRoot: string }): Promise<RunManifest | null>
 // null instead: a folder under `Pipeline processing/` with no readable manifest is not a lecture, which is a
 // fact to skip over rather than an error, since both Stage 0 and the runner scan those folders speculatively.
+// "Readable" is judged on the parsed value, not on whether parsing threw: a `manifest.json` holding `{}` or
+// `[]` parses perfectly and still identifies no lecture. The check is the three fields every scanning caller
+// goes on to read — `lectureNumber`, `lectureDate`, `stages` — so a manifest with imperfect stage entries
+// still describes a lecture and reaches the caller that reads them.
 writeManifest(args: { workspaceRoot: string; manifest: RunManifest }): Promise<void>   // atomic (§4.3); creates the workspace if absent
 ```
 

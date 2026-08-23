@@ -55,6 +55,20 @@ describe("manifest I/O", () => {
 		it.each([
 			{ scenario: "the manifest is missing", content: null },
 			{ scenario: "the manifest is malformed", content: corruptJson },
+			// Parsing succeeds for all of these, so nothing throws — and a folder
+			// holding one of them is still not a lecture.
+			{ scenario: "the manifest holds an empty object", content: "{}" },
+			{ scenario: "the manifest holds an array", content: "[]" },
+			{ scenario: "the manifest holds null", content: "null" },
+			{ scenario: "the manifest holds a bare number", content: "42" },
+			{
+				scenario: "the manifest carries no lecture date",
+				content: JSON.stringify({ ...makeManifest(), lectureDate: undefined }),
+			},
+			{
+				scenario: "the manifest carries no stages",
+				content: JSON.stringify({ ...makeManifest(), stages: undefined }),
+			},
 		])("should return null when $scenario", async ({ content }) => {
 			if (content !== null) {
 				await writeRaw(content);

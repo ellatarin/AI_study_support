@@ -49,25 +49,56 @@ export async function readManifest({
 }
 
 /**
- * Reads a workspace's manifest, returning `null` when it is missing or
- * malformed. Used where directories are scanned speculatively — a folder under
- * `Pipeline processing/` that holds no readable manifest is simply not a lecture,
- * which is a fact to skip over rather than an error to raise.
+ * Whether a parsed `manifest.json` is a lecture's manifest.
+ *
+ * Deliberately shallow: it answers the question a speculative scan is asking —
+ * *is this folder a lecture?* — from the three fields every scanning caller then
+ * reads. A file that parses as JSON but carries none of them (`{}`, `[]`, a bare
+ * number) is not a manifest, whereas one whose stage entries are imperfect still
+ * describes a lecture and is left to the caller reading them.
+ *
+ * @param value - The parsed file contents.
+ * @returns `true` when the value identifies a lecture.
+ */
+function isRunManifest(value: unknown): value is RunManifest {
+	if (typeof value !== "object" || value === null || Array.isArray(value)) {
+		return false;
+	}
+	const candidate = value as Partial<Record<keyof RunManifest, unknown>>;
+	return (
+		typeof candidate.lectureNumber === "number" &&
+		typeof candidate.lectureDate === "string" &&
+		typeof candidate.stages === "object" &&
+		candidate.stages !== null
+	);
+}
+
+/**
+ * Reads a workspace's manifest, returning `null` when it is missing, malformed,
+ * or not a manifest at all. Used where directories are scanned speculatively — a
+ * folder under `Pipeline processing/` that holds no readable manifest is simply
+ * not a lecture, which is a fact to skip over rather than an error to raise.
+ *
+ * Malformed covers more than a parse failure: a `manifest.json` holding `{}` or
+ * `[]` parses perfectly and is still not a lecture, so the parsed value is put
+ * through {@link isRunManifest} before it is handed back as one.
  *
  * @param args - The workspace to read.
  * @param args.workspaceRoot - Absolute path to the candidate workspace folder.
- * @returns The parsed manifest, or `null` when it cannot be read.
+ * @returns The parsed manifest, or `null` when the folder is not a lecture.
  */
 export async function readManifestSafe({
 	workspaceRoot,
 }: {
 	readonly workspaceRoot: string;
 }): Promise<RunManifest | null> {
+	let parsed: RunManifest;
 	try {
-		return await readManifest({ workspaceRoot });
+		parsed = await readManifest({ workspaceRoot });
 	} catch {
 		return null;
 	}
+	return isRunManifest(parsed) ? parsed : null;
 }
 
 /**
