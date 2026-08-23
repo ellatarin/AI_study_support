@@ -645,6 +645,9 @@ baseNameForLecture(args: { lectureNumber: number; title: string; lectureDate: st
 findDatedFile(args: { dir: string; lectureDate: string }): Promise<string | null>
 // The one file in a directory whose name carries this date. Sources are addressed by date rather than by
 // name because a lecture's name changes with its number and title, while its date is what identifies it (§3.2).
+// The *last* date in the name is the one compared: these directories hold names Stage 0 has normalised, and
+// `lectureBaseName` puts the title before the date, so a title naming a date of its own — a cohort, a study,
+// a historical event — precedes the lecture's own.
 renameLectureFiles(args: { dirs: ModuleDirs; workspaceRoot: string; lectureDate: string; baseName: string }): Promise<string>
 // Renames the video, the slide, any Final output/ PDF, and the workspace folder onto `baseName`, each keeping
 // the extension it carried, and returns the workspace's new path. Anything absent is skipped, so a lecture

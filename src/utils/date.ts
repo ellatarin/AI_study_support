@@ -361,7 +361,32 @@ function allDateSpans(text: string): readonly DateSpan[] {
  * extractDate("Lecture 5 chapter 3.mp4");        // → null
  */
 export function extractDate(filename: string): Date | null {
-	return allDateSpans(filename).find((span) => span.date !== null && span.confident)?.date ?? null;
+	return extractDates(filename)[0] ?? null;
+}
+
+/**
+ * Extracts every date a filename carries, in the order they appear.
+ *
+ * A filename can name more than one: a canonical lecture name puts its title
+ * before its date, and titles come from lecturer filenames or from Stage 3's
+ * model, either of which may name a date of its own. A caller that must know
+ * *which* date it is looking at needs them all rather than the first
+ * (technical-design.md §3.2, §4.7).
+ *
+ * Confidence is judged exactly as {@link extractDate} judges it — the two read
+ * the same spans, and `extractDate` is the first of these.
+ *
+ * @param filename - The filename to inspect (extension optional).
+ * @returns Every sufficiently confident {@link Date}, in the order they appear.
+ *
+ * @example
+ * extractDates("Lecture 4 - Cohort 01-02-2019 - 2025-12-05.mp4");
+ * // → [Date for 2019-02-01, Date for 2025-12-05]
+ */
+export function extractDates(filename: string): readonly Date[] {
+	return allDateSpans(filename).flatMap((span) =>
+		span.date !== null && span.confident ? [span.date] : [],
+	);
 }
 
 /**

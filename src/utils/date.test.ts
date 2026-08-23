@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { extractDate, formatDateISO, stripDateTokens } from "./date.js";
+import { extractDate, extractDates, formatDateISO, stripDateTokens } from "./date.js";
 
 // This suite tests the date derivation itself, so it keeps its own literals
 // rather than importing the shared lecture fixture: asserting a derived value
@@ -112,6 +112,24 @@ describe("extractDate", () => {
 		{ filename: "Lecture 5 chapter 3.mp4" },
 	])("should return null when filename has no date ($filename)", ({ filename }) => {
 		expect(extractDate(filename)).toBeNull();
+	});
+});
+
+describe("extractDates", () => {
+	it("should return every date in the order it appears when a filename carries more than one", () => {
+		const found = extractDates(`Cohort 01-02-2019 ${SUBJECT} ${TENTH_OF_OCTOBER}.mp4`);
+
+		expect(found.map(formatDateISO)).toEqual(["2019-02-01", TENTH_OF_OCTOBER]);
+	});
+
+	it("should return the one date when a filename carries a single date", () => {
+		const found = extractDates(`${TENTH_OF_OCTOBER} ${SUBJECT}.mp4`);
+
+		expect(found.map(formatDateISO)).toEqual([TENTH_OF_OCTOBER]);
+	});
+
+	it("should return nothing when a filename carries no date", () => {
+		expect(extractDates("Lecture 5 chapter 3.mp4")).toEqual([]);
 	});
 });
 

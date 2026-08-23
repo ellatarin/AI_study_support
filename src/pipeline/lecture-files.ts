@@ -16,7 +16,7 @@
 
 import { rename } from "node:fs/promises";
 import { dirname, extname, join } from "node:path";
-import { extractDate, formatDateISO } from "../utils/date.js";
+import { extractDates, formatDateISO } from "../utils/date.js";
 import { listFileNames } from "../utils/files.js";
 import { lectureBaseName } from "../utils/naming.js";
 import type { ModuleDirs } from "./layout.js";
@@ -60,6 +60,11 @@ export function baseNameForLecture({
  * changes with its number and title, while its date is what identifies it
  * (technical-design.md §3.2).
  *
+ * The **last** date in the name is the one compared. These directories hold
+ * names Stage 0 has normalised, and {@link lectureBaseName} puts the title
+ * before the date — so a title naming a date of its own (a cohort, a study, a
+ * historical event) precedes the lecture's own date and the last one is it.
+ *
  * @param args - Where to look and what date to look for.
  * @param args.dir - The directory to scan; a directory that does not exist holds none.
  * @param args.lectureDate - The `YYYY-MM-DD` date to match.
@@ -73,8 +78,8 @@ export async function findDatedFile({
 	readonly lectureDate: string;
 }): Promise<string | null> {
 	for (const name of await listFileNames(dir)) {
-		const date = extractDate(name);
-		if (date !== null && formatDateISO(date) === lectureDate) {
+		const date = extractDates(name).at(-1);
+		if (date !== undefined && formatDateISO(date) === lectureDate) {
 			return name;
 		}
 	}

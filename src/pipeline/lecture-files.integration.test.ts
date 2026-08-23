@@ -43,6 +43,18 @@ describe("lecture files", () => {
 			expect(found).toBeNull();
 		});
 
+		it("should return the file when its title carries a date of its own", async () => {
+			// A canonical name puts the title before the date, and titles come from
+			// lecturer filenames or Stage 3's LLM — so one can name a date too.
+			const lectureDate = "2025-12-05";
+			const named = `Lecture 4 - Cohort 01-02-2019 Results - ${lectureDate}.mp4`;
+			await writeFile(join(dirs.video, named), "");
+
+			const found = await findDatedFile({ dir: dirs.video, lectureDate });
+
+			expect(found).toBe(named);
+		});
+
 		it("should return null when the directory does not exist", async () => {
 			const found = await findDatedFile({
 				dir: join(tempDir, "no-such-directory"),
