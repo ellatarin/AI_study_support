@@ -1,6 +1,12 @@
 import { checkbox, confirm, select } from "@inquirer/prompts";
 import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
-import { otherModuleRoot, testLecture, testModuleRoot } from "../pipeline/fixtures.js";
+import {
+	otherLecture,
+	otherModuleRoot,
+	type TestLecture,
+	testLecture,
+	testModuleRoot,
+} from "../pipeline/fixtures.js";
 import { workspaceRootFor } from "../pipeline/layout.js";
 import type { LectureMatch } from "../types/pipeline.js";
 import { confirmPrompt, selectLectureMatch, selectLectureMatches } from "./prompts.js";
@@ -31,37 +37,24 @@ const askSelect = select as unknown as Mock<
 /** A match in the given module, with a workspace laid out as the pipeline would. */
 function matchIn({
 	moduleRoot,
-	lectureNumber,
-	lectureTitle,
+	lecture,
 }: {
 	readonly moduleRoot: string;
-	readonly lectureNumber: number;
-	readonly lectureTitle: string;
+	readonly lecture: TestLecture;
 }): LectureMatch {
 	return {
 		moduleRoot,
-		workspaceRoot: workspaceRootFor({
-			moduleRoot,
-			folderName: `Lecture ${String(lectureNumber)} - ${lectureTitle}`,
-		}),
-		lectureNumber,
-		lectureTitle,
+		workspaceRoot: workspaceRootFor({ moduleRoot, folderName: lecture.folderName }),
+		lectureNumber: lecture.number,
+		lectureTitle: lecture.title,
 	};
 }
 
-const cellInjuryMatch = matchIn({
-	moduleRoot: testModuleRoot,
-	lectureNumber: testLecture.number,
-	lectureTitle: testLecture.title,
-});
+const cellInjuryMatch = matchIn({ moduleRoot: testModuleRoot, lecture: testLecture });
 
-const antigensMatch = matchIn({
-	moduleRoot: otherModuleRoot,
-	lectureNumber: 3,
-	lectureTitle: "Antigens",
-});
+const inflammationMatch = matchIn({ moduleRoot: otherModuleRoot, lecture: otherLecture });
 
-const matches: readonly LectureMatch[] = [cellInjuryMatch, antigensMatch];
+const matches: readonly LectureMatch[] = [cellInjuryMatch, inflammationMatch];
 
 /** Either prompt double, seen only as the calls it recorded. */
 type PromptDouble = { readonly mock: { readonly calls: readonly unknown[] } };
@@ -111,7 +104,7 @@ describe("selectLectureMatches", () => {
 
 		const labels = offeredChoices().map((choice) => choice.name);
 		expect(labels).toContain("Biology of Disease — Lecture 1 — Cell Injury");
-		expect(labels).toContain("Immunology — Lecture 3 — Antigens");
+		expect(labels).toContain("Immunology — Lecture 2 — Inflammation");
 	});
 
 	it("should offer an all-matches and a cancel choice when prompting", async () => {
@@ -135,9 +128,9 @@ describe("selectLectureMatches", () => {
 	});
 
 	it("should return only the chosen lectures when the user picks some of them", async () => {
-		askCheckbox.mockImplementation(async () => [choiceValueFor("Antigens")]);
+		askCheckbox.mockImplementation(async () => [choiceValueFor("Inflammation")]);
 
-		expect(await selectLectureMatches({ matches })).toEqual([antigensMatch]);
+		expect(await selectLectureMatches({ matches })).toEqual([inflammationMatch]);
 	});
 
 	it("should return nothing when the user chooses no lecture at all", async () => {
@@ -158,7 +151,7 @@ describe("selectLectureMatch", () => {
 		const labels = offeredChoices(askSelect).map((choice) => choice.name);
 		expect(labels).toEqual([
 			"Biology of Disease — Lecture 1 — Cell Injury",
-			"Immunology — Lecture 3 — Antigens",
+			"Immunology — Lecture 2 — Inflammation",
 			"Cancel",
 		]);
 	});
@@ -171,9 +164,9 @@ describe("selectLectureMatch", () => {
 	});
 
 	it("should return the single lecture chosen when the user picks one", async () => {
-		askSelect.mockImplementation(async () => choiceValueFor("Antigens", askSelect));
+		askSelect.mockImplementation(async () => choiceValueFor("Inflammation", askSelect));
 
-		expect(await selectLectureMatch({ matches })).toEqual(antigensMatch);
+		expect(await selectLectureMatch({ matches })).toEqual(inflammationMatch);
 	});
 
 	it("should return nothing when the user cancels", async () => {

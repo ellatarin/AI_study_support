@@ -447,7 +447,7 @@ export function configuringStage({ stageId }: { readonly stageId: StageId }): Pi
 const SYNTHETIC_MODULES_DIR = "/modules";
 
 /** One lecture's identity, as the suites refer to it. */
-type TestLecture = {
+export type TestLecture = {
 	readonly number: number;
 	readonly date: string;
 	readonly title: string;
@@ -694,11 +694,29 @@ export function failedEntry({
 	};
 }
 
-/** A second lecture in the same module, for "left untouched" assertions. */
+/**
+ * A second lecture, differing from {@link testLecture} in number, date and title.
+ * For "left untouched" assertions, and for the second choice a picker offers.
+ * Which module it is taken to sit in is the caller's to say.
+ */
 export const otherLecture = describeLecture({
 	number: 2,
 	date: "2025-10-17",
 	title: "Inflammation",
+});
+
+/**
+ * A second lecture carrying {@link testLecture}'s own date, for the cases where a
+ * date names more than one lecture and the CLI has to ask which is meant.
+ *
+ * Distinct from {@link otherLecture} precisely in the field those cases turn on:
+ * a sibling on a *different* date would be a lecture the pipeline never produced,
+ * because the manifest written beside it records this one.
+ */
+export const sameDateLecture = describeLecture({
+	number: 2,
+	date: testLecture.date,
+	title: "Antigens",
 });
 
 /** A second module, for the cases where a date matches across modules. */

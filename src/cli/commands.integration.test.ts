@@ -7,6 +7,7 @@ import {
 	makeLectureTree,
 	makeManifest,
 	otherModuleName,
+	sameDateLecture,
 	testLecture,
 	testModuleName,
 	testRunId,
@@ -149,9 +150,9 @@ describe("executeCommand", () => {
 	async function makeSecondLecture(): Promise<LectureMatch> {
 		return {
 			moduleRoot,
-			workspaceRoot: await makeLectureWorkspace(`Lecture 2 - Antigens - ${testLecture.date}`),
-			lectureNumber: 2,
-			lectureTitle: "Antigens",
+			workspaceRoot: await makeLectureWorkspace(sameDateLecture.folderName),
+			lectureNumber: sameDateLecture.number,
+			lectureTitle: sameDateLecture.title,
 		};
 	}
 
@@ -391,9 +392,12 @@ describe("executeCommand", () => {
 		it("should narrow to the chosen lectures when the date matches several modules", async () => {
 			const other: LectureMatch = {
 				moduleRoot: otherModuleRoot(),
-				workspaceRoot: workspaceRootFor({ moduleRoot: otherModuleRoot(), folderName: "L1" }),
-				lectureNumber: 1,
-				lectureTitle: "Antigens",
+				workspaceRoot: workspaceRootFor({
+					moduleRoot: otherModuleRoot(),
+					folderName: sameDateLecture.folderName,
+				}),
+				lectureNumber: sameDateLecture.number,
+				lectureTitle: sameDateLecture.title,
 			};
 			runner.resolveLecturesByDate.mockResolvedValue([match, other]);
 			selectMatches.mockResolvedValue([other]);
