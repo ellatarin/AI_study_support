@@ -85,6 +85,12 @@ export type LoggedEntry = {
 	readonly message: string;
 };
 
+/** A logger to inject, and the entries it has recorded so far. */
+export type StubLogger = {
+	readonly logger: Logger;
+	readonly entries: readonly LoggedEntry[];
+};
+
 /**
  * A pino stand-in that records every call made against it.
  *
@@ -97,10 +103,7 @@ export type LoggedEntry = {
  *
  * @returns The logger to inject, and the entries it has recorded so far.
  */
-export function makeStubLogger(): {
-	readonly logger: Logger;
-	readonly entries: readonly LoggedEntry[];
-} {
+export function makeStubLogger(): StubLogger {
 	const entries: LoggedEntry[] = [];
 	const makeChild = (bindings: Readonly<Record<string, unknown>>): Logger => {
 		const record =
@@ -117,6 +120,33 @@ export function makeStubLogger(): {
 		} as unknown as Logger;
 	};
 	return { logger: makeChild({}), entries };
+}
+
+/**
+ * Gives a suite a stub logger of its own, made afresh before each test, so a
+ * test asserting on what was logged never reads an earlier test's entries.
+ *
+ * Every suite that reads its logs back wants exactly this and nothing more, so
+ * it is stated here rather than as a `let` and a hook in each of them.
+ *
+ * Returns a reader rather than the logger, because it does not exist until the
+ * hook has run — the shape {@link useTempDir} already establishes here.
+ *
+ * @returns A function giving the current test's stub logger.
+ */
+export function useStubLogger(): () => StubLogger {
+	let stubLogger: StubLogger | null = null;
+
+	beforeEach(() => {
+		stubLogger = makeStubLogger();
+	});
+
+	return () => {
+		if (stubLogger === null) {
+			throw new Error("The stub logger is only available inside a test");
+		}
+		return stubLogger;
+	};
 }
 
 /**

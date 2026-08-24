@@ -26,7 +26,6 @@ import {
 	loggedAt,
 	makeConfig,
 	makeManifest,
-	makeStubLogger,
 	makeTempDir,
 	otherLecture,
 	otherModuleName,
@@ -37,6 +36,7 @@ import {
 	testLecture,
 	testModuleName,
 	testRunId,
+	useStubLogger,
 } from "./fixtures.js";
 import {
 	runsDirPath,
@@ -176,7 +176,7 @@ describe("PipelineRunner integration", () => {
 	let tempDir: string;
 	let moduleRoot: string;
 	let workspaceRoot: string;
-	let logged: ReturnType<typeof makeStubLogger>;
+	const logged = useStubLogger();
 	// Source normalisation does nothing in this suite — the runner is the subject,
 	// not the stage. It is a spy rather than a bare no-op so that the one test
 	// asserting the batch normalises its module can read the call off it, instead
@@ -187,7 +187,6 @@ describe("PipelineRunner integration", () => {
 		tempDir = await makeTempDir({ prefix: "runner-" });
 		moduleRoot = join(tempDir, testModuleName);
 		workspaceRoot = workspaceRootFor({ moduleRoot, folderName: LECTURE_FOLDER });
-		logged = makeStubLogger();
 		normaliseModule = vi.fn(() => Promise.resolve(undefined));
 	});
 
@@ -205,7 +204,7 @@ describe("PipelineRunner integration", () => {
 			config: RUNNER_CONFIG,
 			sourceNormalisation,
 			lectureStages,
-			logger: logged.logger,
+			logger: logged().logger,
 		});
 	}
 
@@ -341,7 +340,7 @@ describe("PipelineRunner integration", () => {
 
 			await makeRunner([stage]).runLecture({ workspaceRoot });
 
-			const errors = loggedAt({ entries: logged.entries, level: "error" });
+			const errors = loggedAt({ entries: logged().entries, level: "error" });
 			expect(errors).toHaveLength(1);
 			const [entry] = errors;
 			expect(entry?.bindings).toEqual({ stage: "audio-extraction" });

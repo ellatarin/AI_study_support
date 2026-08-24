@@ -9,10 +9,10 @@ import {
 	driveStage,
 	loggedAt,
 	makeStageContext,
-	makeStubLogger,
 	makeWorkspaceTree,
 	seedStageOutput,
 	testLecture,
+	useStubLogger,
 } from "../fixtures.js";
 import { moduleDirs, stageOutputEntry, stageOutputPath } from "../layout.js";
 import type { AudioExtractionOutput } from "./audio-extraction.js";
@@ -45,12 +45,11 @@ describe("createAudioExtractionStage", () => {
 	let workspaceRoot: string;
 	let videoDir: string;
 	let calls: ExtractionCall[];
-	let logged: ReturnType<typeof makeStubLogger>;
+	const logged = useStubLogger();
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
 		calls = [];
-		logged = makeStubLogger();
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "audio-extraction-" }));
 		videoDir = moduleDirs({ moduleRoot }).video;
 		await mkdir(videoDir, { recursive: true });
@@ -146,7 +145,7 @@ describe("createAudioExtractionStage", () => {
 
 	/** The stage under test, logging into {@link logged}. */
 	function makeStage(): ReturnType<typeof createAudioExtractionStage> {
-		return createAudioExtractionStage({ logger: logged.logger });
+		return createAudioExtractionStage({ logger: logged().logger });
 	}
 
 	function runStage(): Promise<StageResult<AudioExtractionOutput>> {
@@ -212,7 +211,7 @@ describe("createAudioExtractionStage", () => {
 
 		await runStage();
 
-		const [entry] = loggedAt({ entries: logged.entries, level: "debug" });
+		const [entry] = loggedAt({ entries: logged().entries, level: "debug" });
 		expect(entry?.message).toBe("Extracted audio track");
 		expect(entry?.bindings).toEqual({ stage: "audio-extraction" });
 		expect(entry?.payload).toEqual({

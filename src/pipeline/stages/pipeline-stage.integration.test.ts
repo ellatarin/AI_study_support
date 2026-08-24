@@ -12,8 +12,8 @@ import {
 	finishedEntry,
 	makeManifest,
 	makeStageContext,
-	makeStubLogger,
 	makeWorkspaceTree,
+	useStubLogger,
 } from "../fixtures.js";
 import { stageDirectoryPaths, stageOutputEntry, stageOutputPath } from "../layout.js";
 import { createPipelineStage, isStageComplete } from "./pipeline-stage.js";
@@ -132,11 +132,10 @@ describe("isStageComplete", () => {
 describe("createPipelineStage", () => {
 	let moduleRoot: string;
 	let workspaceRoot: string;
-	let logged: ReturnType<typeof makeStubLogger>;
+	const logged = useStubLogger();
 
 	beforeEach(async () => {
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "pipeline-stage-" }));
-		logged = makeStubLogger();
 	});
 
 	afterEach(async () => {
@@ -165,7 +164,7 @@ describe("createPipelineStage", () => {
 		let observed: { logger: Logger; namesOnEntry: readonly string[] } | null = null;
 		const stage = createPipelineStage({
 			stageId: STAGE_ID,
-			logger: logged.logger,
+			logger: logged().logger,
 			getInput: async () => undefined,
 			run: async ({ logger }) => {
 				observed = { logger, namesOnEntry: await readdir(stageDir()) };
@@ -202,7 +201,7 @@ describe("createPipelineStage", () => {
 
 		logger.debug({ detail: 1 }, "from inside the stage");
 
-		expect(logged.entries).toStrictEqual([
+		expect(logged().entries).toStrictEqual([
 			{
 				level: "debug",
 				bindings: { stage: STAGE_ID },

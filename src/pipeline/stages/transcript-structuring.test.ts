@@ -12,7 +12,6 @@ import {
 	loggedAt,
 	makeManifest,
 	makeStageContext,
-	makeStubLogger,
 	makeWorkspaceTree,
 	seedStageOutput,
 	structuringReply,
@@ -22,6 +21,7 @@ import {
 	titleRejected,
 	transcriptText,
 	userChosenTitle,
+	useStubLogger,
 } from "../fixtures.js";
 import { stageOutputEntry, stageOutputPath } from "../layout.js";
 import { manifestPath } from "../manifest.js";
@@ -61,11 +61,10 @@ function stubReply(overrides: Readonly<Record<string, unknown>> = {}): void {
 describe("createTranscriptStructuringStage", () => {
 	let moduleRoot: string;
 	let workspaceRoot: string;
-	let logged: ReturnType<typeof makeStubLogger>;
+	const logged = useStubLogger();
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
-		logged = makeStubLogger();
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "structuring-" }));
 		await seedStageOutput({ workspaceRoot, stageId: "transcription", contents: transcriptText });
 		stubReply();
@@ -85,12 +84,12 @@ describe("createTranscriptStructuringStage", () => {
 
 	/** The stage under test, logging into {@link logged}. */
 	function makeStage(): ReturnType<typeof createTranscriptStructuringStage> {
-		return createTranscriptStructuringStage({ logger: logged.logger });
+		return createTranscriptStructuringStage({ logger: logged().logger });
 	}
 
 	/** The outcome the stage recorded for the lecture's title. */
 	function settledTitleOutcome(): unknown {
-		const [entry] = loggedAt({ entries: logged.entries, level: "debug" }).filter(
+		const [entry] = loggedAt({ entries: logged().entries, level: "debug" }).filter(
 			(logEntry) => logEntry.message === "Settled lecture title",
 		);
 		return entry?.payload.outcome;

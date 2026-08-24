@@ -7,7 +7,6 @@ import {
 	configuringStage,
 	exampleConfig,
 	loggedAt,
-	makeStubLogger,
 	openRouterCompletionBody,
 	openRouterModelId,
 	openRouterUrls,
@@ -15,6 +14,7 @@ import {
 	stubbedApiKey,
 	stubbedTokenUsage,
 	stubOpenRouterApi,
+	useStubLogger,
 } from "./fixtures.js";
 import { ContextLengthError, createOpenRouterClient, makeCompletionCall } from "./openrouter.js";
 
@@ -62,8 +62,7 @@ function mockCostResolving(): void {
 	mockGeneration().reply(200, generationBody(RESOLVED_COST_USD));
 }
 
-/** Recorded afresh per test, so a test can assert on what the call logged. */
-let logged: ReturnType<typeof makeStubLogger>;
+const logged = useStubLogger();
 
 function call(
 	overrides: Record<string, unknown> = {},
@@ -73,7 +72,7 @@ function call(
 		stageId: "transcript-structuring",
 		config,
 		responseFormat: "text",
-		logger: logged.logger,
+		logger: logged().logger,
 		...overrides,
 	});
 }
@@ -123,7 +122,6 @@ function callSucceeding(overrides: Record<string, unknown> = {}): ReturnType<typ
 
 beforeEach(() => {
 	stubOpenRouterApi();
-	logged = makeStubLogger();
 });
 
 afterEach(() => {
@@ -185,7 +183,7 @@ describe("makeCompletionCall", () => {
 	it("should record the model, prompt tokens and latency when a call completes", async () => {
 		await callSucceeding();
 
-		const [entry] = loggedAt({ entries: logged.entries, level: "debug" });
+		const [entry] = loggedAt({ entries: logged().entries, level: "debug" });
 		expect(entry?.message).toBe("Completion call");
 		expect(entry?.payload).toEqual({
 			model: openRouterModelId,

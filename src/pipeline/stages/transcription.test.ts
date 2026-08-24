@@ -19,7 +19,6 @@ import {
 	makeConfig,
 	makeManifest,
 	makeStageContext,
-	makeStubLogger,
 	makeWorkspaceTree,
 	resetStubbedApi,
 	scribeResponseBody,
@@ -27,6 +26,7 @@ import {
 	stubElevenLabsApi,
 	transcriptionModelId,
 	transcriptText,
+	useStubLogger,
 } from "../fixtures.js";
 import { stageOutputEntry, stageOutputPath } from "../layout.js";
 import type { TranscriptionOutput } from "./transcription.js";
@@ -49,12 +49,11 @@ describe("createTranscriptionStage", () => {
 	let moduleRoot: string;
 	let workspaceRoot: string;
 	let capturedBody: string;
-	let logged: ReturnType<typeof makeStubLogger>;
+	const logged = useStubLogger();
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
 		capturedBody = "";
-		logged = makeStubLogger();
 		stubElevenLabsApi();
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "transcription-" }));
 		await mkdir(dirname(audioPath()), { recursive: true });
@@ -126,7 +125,7 @@ describe("createTranscriptionStage", () => {
 
 	/** The stage under test, logging into {@link logged}. */
 	function makeStage(): ReturnType<typeof createTranscriptionStage> {
-		return createTranscriptionStage({ logger: logged.logger });
+		return createTranscriptionStage({ logger: logged().logger });
 	}
 
 	async function runStage(context: StageContext): Promise<StageResult<TranscriptionOutput>> {
@@ -275,7 +274,7 @@ describe("createTranscriptionStage", () => {
 
 		await runStage(contextWith());
 
-		const [warning] = loggedAt({ entries: logged.entries, level: "warn" });
+		const [warning] = loggedAt({ entries: logged().entries, level: "warn" });
 		expect(warning?.message).toContain("ffprobe could not read the container");
 		expect(warning?.bindings).toEqual({ stage: "transcription" });
 	});
@@ -285,7 +284,7 @@ describe("createTranscriptionStage", () => {
 
 		await runStage(contextWith());
 
-		const [entry] = loggedAt({ entries: logged.entries, level: "debug" });
+		const [entry] = loggedAt({ entries: logged().entries, level: "debug" });
 		expect(entry?.message).toBe("Transcription call");
 		expect(entry?.payload).toEqual({
 			model: "scribe_v2",
