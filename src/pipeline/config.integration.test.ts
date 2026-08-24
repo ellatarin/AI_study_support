@@ -92,7 +92,13 @@ function sectionCorrupter(
 const openRouterSection = sectionCorrupter("openRouter");
 const elevenLabsSection = sectionCorrupter("elevenLabs");
 
-function stageModelIds(config: Record<string, unknown>): Record<string, { modelId: string }> {
+/**
+ * The config's stages record, typed to the one field these tests read off it.
+ *
+ * @param config - The raw config being corrupted or inspected.
+ * @returns Its stages, keyed by stage id.
+ */
+function configuredStages(config: Record<string, unknown>): Record<string, { modelId: string }> {
 	return config.stages as Record<string, { modelId: string }>;
 }
 
@@ -109,7 +115,7 @@ function setStructuringModelId({
 	readonly config: Record<string, unknown>;
 	readonly modelId: string;
 }): void {
-	const stage = stageModelIds(config)["transcript-structuring"];
+	const stage = configuredStages(config)["transcript-structuring"];
 	if (stage === undefined) {
 		throw new Error('Fixture has no "transcript-structuring" stage to retune');
 	}
@@ -197,7 +203,7 @@ describe("loadConfig model-ID resolution check", () => {
 		modelId,
 	}) => {
 		await writeValidConfig((config) => {
-			stageModelIds(config)[stageId] = { modelId };
+			configuredStages(config)[stageId] = { modelId };
 		});
 		mockModelsResponse(KNOWN_MODEL_IDS);
 
@@ -266,7 +272,7 @@ describe("loadConfig model-ID resolution check", () => {
 
 	it("should skip the OpenRouter check when a model ID names an exempt provider", async () => {
 		await writeValidConfig((config) => {
-			stageModelIds(config).transcription = { modelId: transcriptionModelId };
+			configuredStages(config).transcription = { modelId: transcriptionModelId };
 		});
 		mockModelsResponse(KNOWN_MODEL_IDS);
 

@@ -167,10 +167,21 @@ async function readRunLog(workspaceRoot: string, runId: string): Promise<RunLog>
 }
 
 /**
- * The shape every stage-outcome assertion takes: the stage, and the part of its
- * run-log entry the test actually cares about.
+ * A matcher for one stage outcome — the stage, and the part of its run-log entry
+ * the test actually cares about. Named for what it is rather than what it
+ * describes: it never holds an outcome, only the shape one has to have.
+ *
+ * The entry's fields sit beside `stageId` rather than nested under a key of
+ * their own, because one outcome is one description and reads as one.
+ *
+ * @param args - What the outcome must look like: the stage, then the run-log entry fields that must be present.
+ * @param args.stageId - The stage the outcome belongs to.
+ * @returns The matcher, for use inside an `expect(...).toEqual`.
  */
-function outcome(stageId: StageId, entry: Record<string, unknown>): unknown {
+function outcomeMatching({
+	stageId,
+	...entry
+}: { readonly stageId: StageId } & Readonly<Record<string, unknown>>): unknown {
 	return { stageId, entry: expect.objectContaining(entry) };
 }
 
@@ -241,7 +252,9 @@ describe("PipelineRunner integration", () => {
 			const third = await runner.runLecture({ workspaceRoot });
 
 			expect(run).toHaveBeenCalledTimes(1);
-			expect(third.stageOutcomes).toEqual([outcome("audio-extraction", { action: "skipped" })]);
+			expect(third.stageOutcomes).toEqual([
+				outcomeMatching({ stageId: "audio-extraction", action: "skipped" }),
+			]);
 		});
 
 		it("should record a completed stage and its cost when the stage succeeds", async () => {
@@ -263,7 +276,7 @@ describe("PipelineRunner integration", () => {
 
 			expect(summary.overallStatus).toBe("success");
 			expect(summary.stageOutcomes).toEqual([
-				outcome("audio-extraction", { action: "ran", status: "complete" }),
+				outcomeMatching({ stageId: "audio-extraction", action: "ran", status: "complete" }),
 			]);
 			const manifest = await readManifest({ workspaceRoot });
 			const entry = manifest.stages["audio-extraction"];
@@ -354,7 +367,8 @@ describe("PipelineRunner integration", () => {
 
 			expect(summary.overallStatus).toBe("failed");
 			expect(summary.stageOutcomes).toEqual([
-				outcome("audio-extraction", {
+				outcomeMatching({
+					stageId: "audio-extraction",
 					action: "ran",
 					status: "failed",
 					error: AUDIO_EXTRACTION_FAILURE,
@@ -376,7 +390,8 @@ describe("PipelineRunner integration", () => {
 			const summary = await makeRunner([stage]).runLecture({ workspaceRoot });
 
 			expect(summary.stageOutcomes).toEqual([
-				outcome("audio-extraction", {
+				outcomeMatching({
+					stageId: "audio-extraction",
 					action: "ran",
 					status: "failed",
 					error: "ffmpeg exited unexpectedly",
@@ -436,8 +451,8 @@ describe("PipelineRunner integration", () => {
 			expect(thirdRun).not.toHaveBeenCalled();
 			expect(summary.overallStatus).toBe("failed");
 			expect(summary.stageOutcomes).toEqual([
-				outcome("audio-extraction", { action: "ran", status: "complete" }),
-				outcome("transcription", { action: "ran", status: "failed" }),
+				outcomeMatching({ stageId: "audio-extraction", action: "ran", status: "complete" }),
+				outcomeMatching({ stageId: "transcription", action: "ran", status: "failed" }),
 				{ stageId: "synthesis", entry: { action: "not-reached" } },
 			]);
 			const runLog = await readRunLog(workspaceRoot, summary.runId);
@@ -456,8 +471,8 @@ describe("PipelineRunner integration", () => {
 			expect(laterRun).toHaveBeenCalledTimes(1);
 			expect(summary.overallStatus).toBe("failed");
 			expect(summary.stageOutcomes).toEqual([
-				outcome("audio-extraction", { action: "ran", status: "failed" }),
-				outcome("transcription", { action: "ran", status: "complete" }),
+				outcomeMatching({ stageId: "audio-extraction", action: "ran", status: "failed" }),
+				outcomeMatching({ stageId: "transcription", action: "ran", status: "complete" }),
 			]);
 		});
 
@@ -518,7 +533,7 @@ describe("PipelineRunner integration", () => {
 		 * @param paths - The absolute paths to test.
 		 * @returns One boolean per path.
 		 */
-		function existence(paths: readonly string[]): Promise<readonly boolean[]> {
+		function whichExist(paths: readonly string[]): Promise<readonly boolean[]> {
 			return Promise.all(paths.map((path) => pathExists(path)));
 		}
 
@@ -618,8 +633,8 @@ describe("PipelineRunner integration", () => {
 
 			await runFromStage(fromStage);
 
-			expect(await existence(qaDirs)).toStrictEqual(qaSurvives);
-			expect(await existence(pdfDirs)).toStrictEqual(pdfSurvives);
+			expect(await whichExist(qaDirs)).toStrictEqual(qaSurvives);
+			expect(await whichExist(pdfDirs)).toStrictEqual(pdfSurvives);
 		});
 	});
 
@@ -856,7 +871,7 @@ describe("PipelineRunner integration", () => {
 			writeSpy.mockRestore();
 		});
 
-		function output(): string {
+		function printed(): string {
 			return writeSpy.mock.calls.map((call: readonly unknown[]) => String(call[0])).join("");
 		}
 
@@ -864,7 +879,7 @@ describe("PipelineRunner integration", () => {
 			await makeRunner([]).costReport({ moduleRoots: [moduleRoot] });
 
 			expect(writeSpy).toHaveBeenCalled();
-			expect(output()).toContain("Current pipeline cost");
+			expect(printed()).toContain("Current pipeline cost");
 		});
 
 		it("should print a report when a lecture matches the requested date", async () => {
@@ -873,7 +888,7 @@ describe("PipelineRunner integration", () => {
 				options: { lectureDate: testLecture.date },
 			});
 
-			expect(output()).toContain("Current pipeline cost");
+			expect(printed()).toContain("Current pipeline cost");
 		});
 
 		it("should print nothing when no lecture matches the requested date", async () => {

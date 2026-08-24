@@ -113,15 +113,20 @@ describe("executeCommand", () => {
 	/**
 	 * A second configured module. Only ever a path in `moduleRoots` — nothing is
 	 * laid out under it — so it is derived rather than stored.
+	 *
+	 * Not `otherModuleRoot`: `fixtures.ts` exports that name for a synthetic path
+	 * no suite writes to, and this one lives under the temporary tree. Two
+	 * different values under one name is how a test comes to assert against a
+	 * directory it never made.
 	 */
-	function otherModuleRoot(): string {
+	function secondModuleRoot(): string {
 		return join(tempDir, otherModuleName);
 	}
 
 	function deps(): CliDeps {
 		return {
 			runner: runner as unknown as PipelineRunnerFacade,
-			moduleRoots: [moduleRoot, otherModuleRoot()],
+			moduleRoots: [moduleRoot, secondModuleRoot()],
 			gbpPerUsd: GBP_PER_USD,
 			selectMatches,
 			selectMatch,
@@ -132,7 +137,7 @@ describe("executeCommand", () => {
 		};
 	}
 
-	function output(): string {
+	function printed(): string {
 		return written.join("");
 	}
 
@@ -195,7 +200,7 @@ describe("executeCommand", () => {
 			await invoke(runCommand);
 
 			expect(runner.normaliseSources).toHaveBeenCalledWith({
-				moduleRoots: [moduleRoot, otherModuleRoot()],
+				moduleRoots: [moduleRoot, secondModuleRoot()],
 			});
 		});
 
@@ -213,10 +218,10 @@ describe("executeCommand", () => {
 		it("should print the end-of-run summary when a lecture has run", async () => {
 			await invoke(runCommand);
 
-			expect(output()).toContain("Run summary");
-			expect(output()).toContain("Transcription");
+			expect(printed()).toContain("Run summary");
+			expect(printed()).toContain("Transcription");
 			// 0.2 USD at 0.74 = 0.148.
-			expect(output()).toContain("£0.148");
+			expect(printed()).toContain("£0.148");
 		});
 
 		it("should pass the run options through when flags were given", async () => {
@@ -259,8 +264,8 @@ describe("executeCommand", () => {
 
 			await invoke(runCommand);
 
-			expect(output()).toContain("Transcription failed: ELEVENLABS_API_KEY is not set");
-			expect(output()).toContain("runs/");
+			expect(printed()).toContain("Transcription failed: ELEVENLABS_API_KEY is not set");
+			expect(printed()).toContain("runs/");
 		});
 
 		it("should report that nothing matched when no lecture carries the date", async () => {
@@ -269,8 +274,8 @@ describe("executeCommand", () => {
 			const code = await invoke(runCommand);
 
 			expect(code).toBe(1);
-			expect(output()).toContain(testLecture.date);
-			expect(output()).toContain("the configured modules");
+			expect(printed()).toContain(testLecture.date);
+			expect(printed()).toContain("the configured modules");
 			expect(runner.runLecture).not.toHaveBeenCalled();
 		});
 
@@ -279,7 +284,7 @@ describe("executeCommand", () => {
 
 			await invoke(runCommand);
 
-			expect(output()).toContain("add its video and slides and run the pipeline again");
+			expect(printed()).toContain("add its video and slides and run the pipeline again");
 		});
 
 		it("should ask which lectures to run when several share the date", async () => {
@@ -333,7 +338,7 @@ describe("executeCommand", () => {
 
 			expect(code).toBe(0);
 			expect(runner.runBatch).toHaveBeenCalledWith({
-				moduleRoots: [moduleRoot, otherModuleRoot()],
+				moduleRoots: [moduleRoot, secondModuleRoot()],
 				options: parallel,
 			});
 		});
@@ -350,9 +355,9 @@ describe("executeCommand", () => {
 		it("should print each lecture's summary and the batch total when the batch ends", async () => {
 			await invoke(batchCommand);
 
-			expect(output()).toContain("Run summary");
-			expect(output()).toContain("Batch summary");
-			expect(output()).toContain(testModuleName);
+			expect(printed()).toContain("Run summary");
+			expect(printed()).toContain("Batch summary");
+			expect(printed()).toContain(testModuleName);
 		});
 
 		it("should report a failure when any lecture in the batch failed", async () => {
@@ -378,7 +383,7 @@ describe("executeCommand", () => {
 
 			expect(code).toBe(0);
 			expect(runner.costReport).toHaveBeenCalledWith({
-				moduleRoots: [moduleRoot, otherModuleRoot()],
+				moduleRoots: [moduleRoot, secondModuleRoot()],
 				options: {},
 			});
 		});
@@ -391,9 +396,9 @@ describe("executeCommand", () => {
 
 		it("should narrow to the chosen lectures when the date matches several modules", async () => {
 			const other: LectureMatch = {
-				moduleRoot: otherModuleRoot(),
+				moduleRoot: secondModuleRoot(),
 				workspaceRoot: workspaceRootFor({
-					moduleRoot: otherModuleRoot(),
+					moduleRoot: secondModuleRoot(),
 					folderName: sameDateLecture.folderName,
 				}),
 				lectureNumber: sameDateLecture.number,
@@ -428,8 +433,8 @@ describe("executeCommand", () => {
 				moduleRoots: [moduleRoot],
 				lectureDate: testLecture.date,
 			});
-			expect(output()).toContain(testModuleName);
-			expect(output()).not.toContain("the configured modules");
+			expect(printed()).toContain(testModuleName);
+			expect(printed()).not.toContain("the configured modules");
 		});
 
 		it("should not offer to run the pipeline again when no lecture carries the date", async () => {
@@ -437,8 +442,8 @@ describe("executeCommand", () => {
 
 			await invoke(costReport({ lectureDate: testLecture.date, moduleRoot: null }));
 
-			expect(output()).toContain("the configured modules");
-			expect(output()).not.toContain("run the pipeline again");
+			expect(printed()).toContain("the configured modules");
+			expect(printed()).not.toContain("run the pipeline again");
 		});
 
 		it("should report on nothing when the user cancels the choice", async () => {
