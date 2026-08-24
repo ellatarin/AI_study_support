@@ -19,12 +19,6 @@ import { configuredStage, unconfiguredStageMessage } from "../../utils/stage-con
 import { stageOutputPath } from "../layout.js";
 import { createPipelineStage, writeStageOutput } from "./pipeline-stage.js";
 
-// prefer-readonly-parameter-types is disabled file-wide: every helper here takes
-// the StageContext, whose RunManifest is a large intersection the rule cannot
-// verify as deeply readonly. None of them mutate it; CLAUDE.md permits dropping
-// readonly for such types.
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
-
 /**
  * Thrown when transcription cannot proceed or cannot produce a transcript: the
  * extracted audio is missing, `ELEVENLABS_API_KEY` is unset, the stage has no
@@ -187,7 +181,7 @@ async function requestTranscript({
 function readDurationSeconds(audioPath: string): Promise<number> {
 	// eslint-disable-next-line max-params -- Promise executor signature is spec-defined
 	return new Promise((resolve, reject) => {
-		// eslint-disable-next-line max-params -- ffprobe's callback signature is fixed by fluent-ffmpeg
+		// eslint-disable-next-line max-params, @typescript-eslint/prefer-readonly-parameter-types -- fluent-ffmpeg fixes ffprobe's callback signature, both its arity and its parameter types; both parameters are only read here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 		ffmpeg.ffprobe(audioPath, (error: Error | null, data: FfprobeData) => {
 			if (error) {
 				reject(error);
@@ -221,6 +215,7 @@ type AudioPricing = {
  * @param args - The pricing inputs, as {@link priceAudio} describes them.
  * @returns The stage's cost.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- AudioPricing carries pino's Logger, which has mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 async function deriveCost(args: AudioPricing): Promise<StageCost> {
 	return { promptTokens: 0, completionTokens: 0, callCount: 1, ...(await priceAudio(args)) };
 }
@@ -241,6 +236,7 @@ async function deriveCost(args: AudioPricing): Promise<StageCost> {
  * @param args.logger - The stage's logger, which records a failed duration lookup.
  * @returns The cost, or `null` with the reason it could not be read.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- AudioPricing carries pino's Logger, which has mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 async function priceAudio({
 	audioPath,
 	costPerAudioHourUsd,
@@ -271,6 +267,7 @@ async function priceAudio({
  * @returns The transcript path, the duration-derived cost, and the file written.
  * @throws {TranscriptionError} If the key or model is missing, or no text is returned.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 async function transcribeAudio({
 	input,
 	context,
@@ -321,6 +318,7 @@ async function transcribeAudio({
  * @param args.logger - The run's logger; the factory binds it to this stage.
  * @returns The transcription stage.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 export function createTranscriptionStage({
 	logger,
 }: {

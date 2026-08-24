@@ -20,13 +20,6 @@ import {
 	writeManifest,
 } from "../manifest.js";
 
-// prefer-readonly-parameter-types is disabled file-wide: this stage's helpers take
-// a pino Logger and a Date (library/built-in types carrying methods) and the
-// RunManifest (a large intersection type the rule cannot verify as deeply
-// readonly). None of them mutate their arguments; CLAUDE.md permits dropping
-// readonly for such types.
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
-
 /**
  * Thrown when a module's raw sources cannot be normalised: an undateable video or
  * slide, a video or slide with no 1:1 date match, or a duplicate video or slide
@@ -136,6 +129,7 @@ function duplicateIsos(files: readonly SourceRef[]): readonly string[] {
  * @param listing - One source directory's classified files.
  * @returns The `YYYY-MM-DD` dates present in it.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- DatedFile carries a parsed Date, whose mutators leave it un-readonly to this rule however it is declared; it is only read here
 function datedIsos(listing: DatedListing): ReadonlySet<string> {
 	return new Set(listing.dated.map((file) => file.iso));
 }
@@ -171,6 +165,7 @@ function missingCounterpart({
  * @param args.slides - The classified slide files.
  * @returns Every anomaly found, or the matched pairs when there are none.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- DatedFile carries a parsed Date, whose mutators leave it un-readonly to this rule however it is declared; both listings are only read here
 function checkSources({
 	videos,
 	slides,
@@ -232,6 +227,7 @@ function checkSources({
  * @param args.reason - The class of problem, for the log message.
  * @throws {@link SourceNormalisationError} always — this function never returns.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 function abortNormalisation({
 	logger,
 	moduleRoot,
@@ -297,6 +293,7 @@ async function findPendingRenames(dirs: ModuleDirs): Promise<readonly PendingRen
  * @returns A promise that resolves once every interrupted rename is complete.
  * @throws {@link SourceNormalisationError} when a temporary entry's target name is taken.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 async function completeInterruptedRenames({
 	dirs,
 	moduleRoot,
@@ -344,6 +341,7 @@ async function completeInterruptedRenames({
  * @param args.existing - Existing workspaces keyed by date, for title continuity.
  * @returns The lectures in date order, numbered from 1.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- PairedSources carries a parsed Date, and a ReadonlyMap is already the readonly form the rule declines to recognise; both are only read here
 function orderLectures({
 	pairs,
 	existing,
@@ -463,6 +461,7 @@ function renameIfMoved({
  * @param args.existingPdfs - Existing `Final output/` PDFs keyed by date.
  * @returns The rename operations to apply, collision-safely.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a ReadonlyMap is already the readonly form; the rule does not recognise the built-in collection interfaces as deeply readonly, and both maps are only read here
 function planRenames({
 	lectures,
 	dirs,
@@ -540,6 +539,7 @@ async function executeRenames(renames: readonly RenameOp[]): Promise<void> {
  * @param args.presentIsos - The ISO dates that still have a video and slide.
  * @returns The orphaned workspaces, in date order.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a ReadonlyMap and a ReadonlySet are already the readonly form; the rule does not recognise the built-in collection interfaces as deeply readonly, and both are only read here
 function findOrphans({
 	workspaces,
 	presentIsos,
@@ -581,6 +581,7 @@ function orphanPrompt({ manifest }: { readonly manifest: RunManifest }): string 
  * @param args.reason - What the user declined.
  * @throws {@link SourceNormalisationError} always — this function never returns.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 function abortOrphanHandling({
 	logger,
 	moduleRoot,
@@ -618,6 +619,7 @@ type OrphanContext = {
  * @param args.logger - The run logger.
  * @returns A promise that resolves once the workspace and PDF are gone.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- OrphanContext carries pino's Logger and a ReadonlyMap: the first has mutable properties the rule cannot see past, the second is already the readonly form it declines to recognise (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 async function deleteOrphan({
 	orphan,
 	dirs,
@@ -660,6 +662,7 @@ async function deleteOrphan({
  * @returns A promise that resolves once every orphan has been deleted.
  * @throws {@link SourceNormalisationError} when any prompt is declined.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- OrphanContext carries pino's Logger and a ReadonlyMap: the first has mutable properties the rule cannot see past, the second is already the readonly form it declines to recognise (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 async function resolveOrphans({
 	orphans,
 	moduleRoot,
@@ -776,6 +779,7 @@ async function reconcileManifest({
  * @param args.confirm - The prompt asked before any irreversible deletion.
  * @returns A {@link SourceNormalisationStage} the runner drives once per module.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 export function createSourceNormalisationStage({
 	logger,
 	confirm,

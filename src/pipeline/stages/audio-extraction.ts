@@ -8,12 +8,6 @@ import { createProgressBar } from "../../utils/progress.js";
 import { moduleDirs, stageOutputEntry, stageOutputPath } from "../layout.js";
 import { createPipelineStage } from "./pipeline-stage.js";
 
-// prefer-readonly-parameter-types is disabled file-wide: every helper here takes
-// the StageContext, whose RunManifest is a large intersection the rule cannot
-// verify as deeply readonly. None of them mutate it; CLAUDE.md permits dropping
-// readonly for such types.
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
-
 /**
  * Thrown when the lecture's source video cannot be located unambiguously, or
  * when ffmpeg fails to extract its audio track. Either way no `audio.m4a` is
@@ -109,6 +103,7 @@ function copyAudioTrack({
 				bar.stop();
 				resolve();
 			})
+			// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- fluent-ffmpeg declares the error handler's parameter; it is only rejected with here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 			.on("error", (error: Error) => {
 				bar.stop();
 				reject(error);
@@ -134,6 +129,7 @@ function copyAudioTrack({
  * @returns The extracted audio path, a `null` cost, and the file written.
  * @throws {AudioExtractionError} If ffmpeg fails; the partial `.tmp` is removed first.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 async function extractAudio({
 	input,
 	context,
@@ -179,6 +175,7 @@ async function extractAudio({
  * @param args.logger - The run's logger; the factory binds it to this stage.
  * @returns The audio-extraction stage.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 export function createAudioExtractionStage({
 	logger,
 }: {
