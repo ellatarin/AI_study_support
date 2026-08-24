@@ -583,24 +583,40 @@ describe("PipelineRunner integration", () => {
 			});
 		});
 
-		it("should clear only its own module directory when --from-stage pdf-generation is given", async () => {
+		// The last two stages own several directories between them, so what each
+		// --from-stage clears is asserted as the survival of both stages' sets.
+		const clearingCases: readonly {
+			readonly clears: string;
+			readonly fromStage: StageId;
+			readonly qaSurvives: readonly boolean[];
+			readonly pdfSurvives: readonly boolean[];
+		}[] = [
+			{
+				clears: "only its own module directory",
+				fromStage: "pdf-generation",
+				qaSurvives: [true, true],
+				pdfSurvives: [false],
+			},
+			{
+				clears: "the checked notes with the iterations that produced them",
+				fromStage: "qa-loop",
+				qaSurvives: [false, false],
+				pdfSurvives: [false],
+			},
+		];
+
+		it.each(clearingCases)("should clear $clears when --from-stage $fromStage is given", async ({
+			fromStage,
+			qaSurvives,
+			pdfSurvives,
+		}) => {
 			const qaDirs = await fillStageDirectories("qa-loop");
 			const pdfDirs = await fillStageDirectories("pdf-generation");
 
-			await runFromStage("pdf-generation");
+			await runFromStage(fromStage);
 
-			expect(await existence(pdfDirs)).toStrictEqual([false]);
-			expect(await existence(qaDirs)).toStrictEqual([true, true]);
-		});
-
-		it("should clear the checked notes with the iterations that produced them when --from-stage qa-loop is given", async () => {
-			const qaDirs = await fillStageDirectories("qa-loop");
-			const pdfDirs = await fillStageDirectories("pdf-generation");
-
-			await runFromStage("qa-loop");
-
-			expect(await existence(qaDirs)).toStrictEqual([false, false]);
-			expect(await existence(pdfDirs)).toStrictEqual([false]);
+			expect(await existence(qaDirs)).toStrictEqual(qaSurvives);
+			expect(await existence(pdfDirs)).toStrictEqual(pdfSurvives);
 		});
 	});
 

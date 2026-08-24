@@ -156,28 +156,31 @@ describe("makeCompletionCall", () => {
 		expect(headers.authorization).toBe(`Bearer ${stubbedApiKey}`);
 	});
 
-	it("should request the json_object response format when responseFormat is json", async () => {
-		const { body } = await callCapturingRequest({ responseFormat: "json" });
+	// The format asked for and the routing restriction are one decision: a JSON
+	// reply is only obtainable from a provider that honours the parameter, so both
+	// are read off the same request rather than by sending it twice.
+	it.each([
+		{
+			responseFormat: "json",
+			asks: "the json_object format and only providers that support it",
+			expectedFormat: { type: "json_object" },
+			expectedProvider: { require_parameters: true },
+		},
+		{
+			responseFormat: "text",
+			asks: "no format and unrestricted routing",
+			expectedFormat: undefined,
+			expectedProvider: undefined,
+		},
+	])("should request $asks when responseFormat is $responseFormat", async ({
+		responseFormat,
+		expectedFormat,
+		expectedProvider,
+	}) => {
+		const { body } = await callCapturingRequest({ responseFormat });
 
-		expect(body.response_format).toEqual({ type: "json_object" });
-	});
-
-	it("should restrict routing to providers supporting the request when responseFormat is json", async () => {
-		const { body } = await callCapturingRequest({ responseFormat: "json" });
-
-		expect(body.provider).toEqual({ require_parameters: true });
-	});
-
-	it("should send no response format when responseFormat is text", async () => {
-		const { body } = await callCapturingRequest({ responseFormat: "text" });
-
-		expect(body.response_format).toBeUndefined();
-	});
-
-	it("should leave routing unrestricted when responseFormat is text", async () => {
-		const { body } = await callCapturingRequest({ responseFormat: "text" });
-
-		expect(body.provider).toBeUndefined();
+		expect(body.response_format).toEqual(expectedFormat);
+		expect(body.provider).toEqual(expectedProvider);
 	});
 
 	it("should record the model, prompt tokens and latency when a call completes", async () => {

@@ -77,23 +77,17 @@ describe("lecture identity commands", () => {
 	});
 
 	describe("deleteLecture", () => {
-		it("should remove the source video and slide when deleting", async () => {
+		// Thunks, because every path here is built from state the enclosing
+		// beforeEach assigns, long after this table is read.
+		it.each([
+			{ what: "the source video", path: () => join(dirs.video, testLecture.videoFile) },
+			{ what: "the source slide", path: () => join(dirs.slide, testLecture.slideFile) },
+			{ what: "the workspace and everything in it", path: () => match.workspaceRoot },
+			{ what: "the final output", path: () => join(dirs.finalOutput, testLecture.outputFile) },
+		])("should remove $what when deleting", async ({ path }) => {
 			await deleteLecture({ match });
 
-			expect(await pathExists(join(dirs.video, testLecture.videoFile))).toBe(false);
-			expect(await pathExists(join(dirs.slide, testLecture.slideFile))).toBe(false);
-		});
-
-		it("should remove the workspace and everything in it when deleting", async () => {
-			await deleteLecture({ match });
-
-			expect(await pathExists(match.workspaceRoot)).toBe(false);
-		});
-
-		it("should remove the final output when deleting", async () => {
-			await deleteLecture({ match });
-
-			expect(await pathExists(join(dirs.finalOutput, testLecture.outputFile))).toBe(false);
+			expect(await pathExists(path())).toBe(false);
 		});
 
 		it("should leave other lectures untouched when deleting", async () => {
@@ -137,26 +131,35 @@ describe("lecture identity commands", () => {
 			expect(manifest.workspaceFolderName).toBe(MOVED_FOLDER);
 		});
 
-		it("should rename the source video and slide to the new date when changing the date", async () => {
+		// Each of the four things a lecture is on disk moves, and the name it left
+		// stops existing. The workspace is checked through a file inside it, which
+		// is what shows the contents moved rather than just the folder.
+		it.each([
+			{
+				what: "the source video",
+				moved: () => join(dirs.video, `${MOVED_FOLDER}.mp4`),
+				left: () => join(dirs.video, testLecture.videoFile),
+			},
+			{
+				what: "the source slide",
+				moved: () => join(dirs.slide, `${MOVED_FOLDER}.pdf`),
+				left: () => join(dirs.slide, testLecture.slideFile),
+			},
+			{
+				what: "the workspace",
+				moved: () => join(movedWorkspaceRoot(), "notes.md"),
+				left: () => match.workspaceRoot,
+			},
+			{
+				what: "the final output",
+				moved: () => join(dirs.finalOutput, `${MOVED_FOLDER}.pdf`),
+				left: () => join(dirs.finalOutput, testLecture.outputFile),
+			},
+		])("should rename $what to the new date when changing the date", async ({ moved, left }) => {
 			await changeDate();
 
-			expect(await pathExists(join(dirs.video, `${MOVED_FOLDER}.mp4`))).toBe(true);
-			expect(await pathExists(join(dirs.slide, `${MOVED_FOLDER}.pdf`))).toBe(true);
-			expect(await pathExists(join(dirs.video, testLecture.videoFile))).toBe(false);
-		});
-
-		it("should rename the workspace to the new date when changing the date", async () => {
-			await changeDate();
-
-			expect(await pathExists(join(movedWorkspaceRoot(), "notes.md"))).toBe(true);
-			expect(await pathExists(match.workspaceRoot)).toBe(false);
-		});
-
-		it("should rename the final output to the new date when changing the date", async () => {
-			await changeDate();
-
-			expect(await pathExists(join(dirs.finalOutput, `${MOVED_FOLDER}.pdf`))).toBe(true);
-			expect(await pathExists(join(dirs.finalOutput, testLecture.outputFile))).toBe(false);
+			expect(await pathExists(moved())).toBe(true);
+			expect(await pathExists(left())).toBe(false);
 		});
 
 		it("should succeed when the lecture has produced no final output yet", async () => {

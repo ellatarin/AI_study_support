@@ -210,16 +210,14 @@ describe("createTranscriptStructuringStage", () => {
 			expect(result.output.lectureTitle).toBe(aiDerivedLecture.title);
 		});
 
-		it("should fail when the model proposes no title to replace it with", async () => {
-			stubReply({ ...titleRejected, suggestedTitle: null });
-
-			const error = await captureError(runStage(contextWith()));
-
-			expect(error).toBeInstanceOf(TranscriptStructuringError);
-		});
-
-		it("should fail when the proposed title has no characters usable in a filename", async () => {
-			stubReply({ ...titleRejected, suggestedTitle: ".." });
+		it.each([
+			{ scenario: "the model proposes no title to replace it with", suggestedTitle: null },
+			{
+				scenario: "the proposed title has no characters usable in a filename",
+				suggestedTitle: "..",
+			},
+		])("should fail when $scenario", async ({ suggestedTitle }) => {
+			stubReply({ ...titleRejected, suggestedTitle });
 
 			const error = await captureError(runStage(contextWith()));
 
