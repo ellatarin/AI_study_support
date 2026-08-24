@@ -1,9 +1,10 @@
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { STAGE_IDS } from "../types/pipeline.js";
-import { testLecture, testModuleName, testModuleRoot } from "./fixtures.js";
+import { testLecture, testModuleName, testModuleRoot, testRunId } from "./fixtures.js";
 import {
 	datedFileDirs,
+	debugLogPath,
 	MANIFEST_FILE,
 	moduleDirs,
 	moduleName,
@@ -54,6 +55,16 @@ describe("datedFileDirs", () => {
 describe("runsDirPath", () => {
 	it("should resolve the run logs under the workspace when a workspace is given", () => {
 		expect(runsDirPath({ workspaceRoot: WORKSPACE_ROOT })).toBe(join(WORKSPACE_ROOT, "runs"));
+	});
+});
+
+describe("debugLogPath", () => {
+	// Anchored to the project, not the workspace: one invocation writes one debug
+	// log and may run many lectures, so no single workspace could hold it.
+	it("should place the invocation's debug log under the project root when a run is identified", () => {
+		expect(debugLogPath({ projectRoot: MODULE_ROOT, runId: testRunId })).toBe(
+			join(MODULE_ROOT, "runs", `${testRunId}-debug.log`),
+		);
 	});
 });
 

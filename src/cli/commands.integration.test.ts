@@ -48,6 +48,10 @@ const RESET_FROM = "synthesis";
 // code that prints it would assert nothing.
 const NOTHING_WAS_RUN = "Nothing was run";
 
+// Where this invocation put its debug log. Any path will do — what is under test
+// is that the CLI tells the user the one it was given.
+const DEBUG_LOG_PATH = join("/tmp", "project", "runs", `${testRunId}-debug.log`);
+
 describe("executeCommand", () => {
 	let tempDir: string;
 	let moduleRoot: string;
@@ -141,6 +145,7 @@ describe("executeCommand", () => {
 			selectMatches,
 			selectMatch,
 			confirm,
+			debugLogPath: DEBUG_LOG_PATH,
 			write: (text: string) => {
 				written.push(text);
 			},
@@ -316,7 +321,9 @@ describe("executeCommand", () => {
 			await invoke(runCommand);
 
 			expect(printed()).toContain("Transcription failed: ELEVENLABS_API_KEY is not set");
-			expect(printed()).toContain("runs/");
+			// The path itself, not the bare directory name: the log does not sit
+			// anywhere the user can guess from the workspace paths printed above it.
+			expect(printed()).toContain(DEBUG_LOG_PATH);
 		});
 
 		it("should report that nothing matched when no lecture carries the date", async () => {

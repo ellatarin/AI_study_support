@@ -8,14 +8,14 @@ import {
 	testLecture,
 	testModuleName,
 } from "../pipeline/fixtures.js";
-import { moduleDirs } from "../pipeline/layout.js";
+import { moduleDirs, RUNS_DIR } from "../pipeline/layout.js";
 import { CONFIG_FILENAME } from "../types/pipeline.js";
+import { listFileNames } from "../utils/files.js";
 import { runCli } from "./run-cli.js";
 
 describe("runCli", () => {
 	let projectRoot: string;
 	let moduleRoot: string;
-	let previousCwd: string;
 	let out: string[];
 	let errors: string[];
 
@@ -42,10 +42,6 @@ describe("runCli", () => {
 	beforeEach(async () => {
 		projectRoot = await makeTempDir({ prefix: "run-cli-" });
 		moduleRoot = join(projectRoot, testModuleName);
-		// The debug log is written relative to the working directory, so the suite
-		// runs from the temporary project rather than scattering logs in the repo.
-		previousCwd = process.cwd();
-		process.chdir(projectRoot);
 		const { video, slide } = moduleDirs({ moduleRoot });
 		for (const dir of [video, slide]) {
 			await mkdir(dir, { recursive: true });
@@ -55,7 +51,6 @@ describe("runCli", () => {
 	});
 
 	afterEach(async () => {
-		process.chdir(previousCwd);
 		await rm(projectRoot, { recursive: true, force: true });
 	});
 
@@ -108,5 +103,17 @@ describe("runCli", () => {
 
 		expect(code).toBe(1);
 		expect(out.join("")).toContain(testLecture.date);
+	});
+
+	// The suite never changes directory, so this fails if the log is placed
+	// relative to wherever the process happens to be running — which would
+	// scatter a user's logs across whatever directory they invoked from.
+	it("should write the debug log under the project root when a command runs", async () => {
+		await writeConfig([moduleRoot]);
+
+		await invoke(["run", testLecture.date]);
+
+		const logs = await listFileNames(join(projectRoot, RUNS_DIR));
+		expect(logs.filter((name) => name.endsWith("-debug.log"))).toHaveLength(1);
 	});
 });

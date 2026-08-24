@@ -494,6 +494,23 @@ describe("PipelineRunner integration", () => {
 			expect(files).toContain(`${first.runId}.json`);
 			expect(files).toContain(`${second.runId}.json`);
 		});
+
+		// One invocation writes one debug log and may run many lectures, so the
+		// debug log cannot be named for a run. Naming each run inside it is what
+		// lets a reader get from a run log back to the debug output that produced
+		// it, and it has to be written before the first stage does anything.
+		it("should record which run it is in the debug log when a run starts", async () => {
+			const summary = await makeRunner([makeStubStage({ stageId: "audio-extraction" })]).runLecture(
+				{ workspaceRoot },
+			);
+
+			expect(logged().entries).toContainEqual(
+				expect.objectContaining({
+					level: "debug",
+					payload: expect.objectContaining({ runId: summary.runId, workspaceRoot }),
+				}),
+			);
+		});
 	});
 
 	describe("runLecture with --from-stage", () => {

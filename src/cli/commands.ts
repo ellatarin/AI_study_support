@@ -81,6 +81,8 @@ export type CliDeps = {
 	readonly selectMatch: SingleLecturePicker;
 	/** Asks the user to approve an irreversible action. */
 	readonly confirm: ConfirmPrompt;
+	/** Where this invocation is writing its debug log, for pointing the user at it. */
+	readonly debugLogPath: string;
 	/** Where user-facing output goes. */
 	readonly write: WriteText;
 };
@@ -275,7 +277,7 @@ function reportFailures({ deps, summary }: LectureReport): void {
 	for (const { stageId, error } of failures) {
 		deps.write(`${stageLabel({ stageId })} failed: ${error}\n`);
 	}
-	deps.write("The full stack for each is in this run's debug log under runs/.\n\n");
+	deps.write(`The full stack for each is in ${deps.debugLogPath}.\n\n`);
 }
 
 /**

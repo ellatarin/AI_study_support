@@ -683,6 +683,10 @@ export class PipelineRunner {
 		const startedAt = new Date();
 		const runId = deriveRunId({ instant: startedAt });
 		const startedIso = startedAt.toISOString();
+		// One invocation writes one debug log and may run many lectures, so the log
+		// cannot be named for a run. Naming each run inside it is what gets a reader
+		// from a run log back to the debug output that produced it (§10).
+		this.#logger.debug({ runId, workspaceRoot }, "Lecture run started");
 		const initialManifest = await readManifest({ workspaceRoot });
 		const runType = classifyRunType({ options, manifest: initialManifest });
 		const manifest =

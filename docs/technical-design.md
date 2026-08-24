@@ -204,6 +204,11 @@ RUNS_DIR: string                                          // "runs"
 runsDirPath(args: { workspaceRoot: string }): string
 // That directory within one workspace. The runner writes a log into it and reads every log back out of it,
 // and the suites look for what it wrote, so the three address it through one name rather than rebuilding it.
+debugLogPath(args: { projectRoot: string; runId: string }): string
+// One invocation's debug log, at <projectRoot>/runs/<runId>-debug.log. Anchored to the project because an
+// invocation is wider than a lecture run — a batch spans every configured module, and Stage 0's work happens
+// before any lecture is chosen — and because a relative path would follow the directory the user invoked
+// from (§10).
 workspaceRootFor(args: { moduleRoot: string; folderName: string }): string
 // Where one lecture's workspace sits: a folder named after the lecture, inside the module's processing
 // directory. Every stage, the runner, the CLI and every suite that lays a lecture out was rebuilding this.
@@ -1583,13 +1588,13 @@ src/
 
 ## 10. Logging
 
-`pino` is used for all structured logging. Each pipeline invocation creates one root logger, writing to a debug log named for the run's timestamp so it sits beside the run log that shares it. One binding is added beneath that root, and it is the stage's: every log entry a stage makes carries `{ stage: stageId }`, but a stage does not call `logger.child()` for itself: `createPipelineStage` binds the child once when the stage is built and hands that to `run` (§4.2). One binding site per stage means a stage cannot log against a stage it is not, and a stage that logs nothing still costs nothing.
+`pino` is used for all structured logging. Each pipeline invocation creates one root logger, writing to a debug log named for the instant the invocation began. One binding is added beneath that root, and it is the stage's: every log entry a stage makes carries `{ stage: stageId }`, but a stage does not call `logger.child()` for itself: `createPipelineStage` binds the child once when the stage is built and hands that to `run` (§4.2). One binding site per stage means a stage cannot log against a stage it is not, and a stage that logs nothing still costs nothing.
 
 Each per-lecture stage factory therefore takes `{ logger }` and passes it to `createPipelineStage`; Stage 0, which is not a `PipelineStage`, takes and binds its own. The runner keeps its own binding for the one thing it logs about a stage — the failure and its stack, which it must record for a stage that threw before it could log anything itself.
 
 ### Debug Log File
 
-The pino file transport writes newline-delimited JSON to `runs/<timestamp>-debug.log` alongside the structured run log. This file captures operational detail not stored in the run log:
+The pino file transport writes newline-delimited JSON to `<projectRoot>/runs/<timestamp>-debug.log`, the path named by `debugLogPath` (§3.3). This file captures operational detail not stored in the run log:
 
 - Every billable model call: model, prompt token count, latency ms. Stage 2's Scribe upload counts — it is billed by audio duration rather than tokens, so it logs bytes uploaded in place of prompt tokens
 - Rate limit retries: attempt number, back-off delay, error message
@@ -1600,6 +1605,10 @@ The pino file transport writes newline-delimited JSON to `runs/<timestamp>-debug
 - Every stage failure, with its stack, bound to the stage that raised it (§8)
 
 The debug log is for human inspection when diagnosing failures. Its JSON format also makes it trivially parseable if automated analysis is ever needed.
+
+**A debug log belongs to an invocation; a run log belongs to one lecture run.** They are different scopes and cannot share an identity: `batch` runs many lectures against one root logger, so one debug log faces as many run logs as there were lectures. The two are tied together from the other end instead — the runner writes a `debug` entry carrying `{ runId, workspaceRoot }` as each lecture run starts, before any stage does anything, so a reader holding a run log can find the debug output that produced it and a reader holding the debug log can see which runs are in it.
+
+The project root is what the log is anchored to, rather than a workspace or the process's working directory. Stage 0's work over a module happens before any lecture has been chosen, and a batch spans every configured module, so no single workspace could hold the record of an invocation; and a relative path would put the log wherever the user happened to be standing when they typed the command.
 
 ### Output Streams
 
@@ -1619,10 +1628,10 @@ The pino file transport is configured with `sync: false` and routes only to the 
 ```typescript
 // src/utils/logger.ts — file-only; the user-facing messaging in the table above is emitted by the
 // CLI and runner, not by this logger.
-createRootLogger(args: { runTimestamp: string; runsDir: string }): Logger
-// Writes newline-delimited JSON to <runsDir>/<runTimestamp>-debug.log (sync: false, mkdir). Takes the run
-// timestamp so the debug log shares it with the run log, and the directory from its caller rather than
-// naming it — `runs/` is declared in layout.ts (§3.3), and a utility must not reach up into the pipeline
+createRootLogger(args: { logFile: string }): Logger
+// Writes newline-delimited JSON to logFile (sync: false, mkdir). Takes the whole path from its caller rather
+// than assembling one: every directory and filename is declared in layout.ts (§3.3), and a utility must not
+// reach up into the pipeline
 // to read it.
 createStageLogger(args: { logger: Logger; stageId: StageId }): Logger   // child logger with a { stage } binding
 

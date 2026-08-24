@@ -1,39 +1,26 @@
-import { join } from "node:path";
 import { destination, type Logger, pino } from "pino";
 import type { StageId } from "../types/pipeline.js";
 
 /**
- * Creates the root logger for a single pipeline invocation. All structured
- * output is written as newline-delimited JSON to
- * `<runsDir>/<runTimestamp>-debug.log`, alongside the run log that shares the
- * same timestamp. The destination is asynchronous (`sync: false`) and file-only,
- * so debug output never reaches stdout or stderr and cannot interfere with the
- * cli-progress bars (technical-design.md §10).
+ * Creates the root logger for a single pipeline invocation, writing structured
+ * output as newline-delimited JSON to the given file. The destination is
+ * asynchronous (`sync: false`) and file-only, so debug output never reaches
+ * stdout or stderr and cannot interfere with the cli-progress bars
+ * (technical-design.md §10).
  *
- * The directory is taken from the caller rather than named here: `runs/` is
- * declared in the pipeline's layout module (technical-design.md §3.3), and a
- * utility should not reach up into the pipeline to read it.
+ * The whole path is taken from the caller rather than assembled here. Every
+ * directory and filename the pipeline uses is declared in its layout module
+ * (technical-design.md §3.3), and a utility should not reach up into the
+ * pipeline to read one — nor name a file of its own that nothing else can find.
  *
- * @param args - The invocation identity and destination.
- * @param args.runTimestamp - The run timestamp; names the log file and is shared with the run log.
- * @param args.runsDir - The directory to write the debug log into.
- * @returns A pino logger writing at `debug` level to the run's debug log file.
+ * @param args - Where the invocation's debug output goes.
+ * @param args.logFile - Absolute path to write the debug log at; its directory is created.
+ * @returns A pino logger writing at `debug` level to that file.
  * @example
- * const logger = createRootLogger({ runTimestamp: "2025-10-10T09-00-00Z", runsDir: RUNS_DIR });
+ * const logger = createRootLogger({ logFile: debugLogPath({ projectRoot, runId }) });
  */
-export function createRootLogger({
-	runTimestamp,
-	runsDir,
-}: {
-	readonly runTimestamp: string;
-	readonly runsDir: string;
-}): Logger {
-	const debugLog = destination({
-		dest: join(runsDir, `${runTimestamp}-debug.log`),
-		sync: false,
-		mkdir: true,
-	});
-	return pino({ level: "debug" }, debugLog);
+export function createRootLogger({ logFile }: { readonly logFile: string }): Logger {
+	return pino({ level: "debug" }, destination({ dest: logFile, sync: false, mkdir: true }));
 }
 
 /**

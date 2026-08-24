@@ -26,17 +26,16 @@ describe("logger", () => {
 	const tempDir = useTempDir({ prefix: "logger-" });
 
 	describe("createRootLogger", () => {
-		it("should write a JSON debug log named for the timestamp when the root logger logs", async () => {
-			const runTimestamp = "2025-10-10T09-00-00-000Z";
-			// The directory is a parameter, so the log lands where the test says rather
-			// than relative to the working directory — no chdir needed to contain it.
-			const runsDir = join(tempDir(), "runs");
+		it("should write a JSON debug log at the given path when the root logger logs", async () => {
+			// The whole path is a parameter, so the log lands where the caller says
+			// rather than relative to the working directory, and the directory it names
+			// is created rather than having to exist.
+			const logPath = join(tempDir(), "runs", "2025-10-10T09-00-00-000Z-debug.log");
 
-			const logger = createRootLogger({ runTimestamp, runsDir });
+			const logger = createRootLogger({ logFile: logPath });
 			logger.info("pipeline started");
 			logger.flush();
 
-			const logPath = join(runsDir, `${runTimestamp}-debug.log`);
 			await waitForFile(logPath);
 			const [firstLine = ""] = readFileSync(logPath, "utf8").trim().split("\n");
 			const entry = JSON.parse(firstLine);

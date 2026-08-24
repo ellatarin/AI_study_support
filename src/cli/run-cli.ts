@@ -9,7 +9,7 @@
  */
 
 import { loadConfig } from "../pipeline/config.js";
-import { RUNS_DIR } from "../pipeline/layout.js";
+import { debugLogPath } from "../pipeline/layout.js";
 import { deriveRunId, PipelineRunner } from "../pipeline/runner.js";
 import { createAudioExtractionStage } from "../pipeline/stages/audio-extraction.js";
 import { createSourceNormalisationStage } from "../pipeline/stages/source-normalisation.js";
@@ -53,10 +53,8 @@ async function assembleDeps({
 	readonly write: WriteText;
 }): Promise<CliDeps> {
 	const config = await loadConfig({ projectRoot });
-	const logger = createRootLogger({
-		runTimestamp: deriveRunId({ instant: new Date() }),
-		runsDir: RUNS_DIR,
-	});
+	const logFile = debugLogPath({ projectRoot, runId: deriveRunId({ instant: new Date() }) });
+	const logger = createRootLogger({ logFile });
 	const { gbpPerUsd } = config.currency;
 	const runner = new PipelineRunner({
 		config,
@@ -76,6 +74,7 @@ async function assembleDeps({
 		selectMatches: selectLectureMatches,
 		selectMatch: selectLectureMatch,
 		confirm: confirmPrompt,
+		debugLogPath: logFile,
 		write,
 	};
 }
