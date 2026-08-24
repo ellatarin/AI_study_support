@@ -421,6 +421,9 @@ pendingStages(): RunManifest["stages"]   // every stage `pending`, as Stage 0 wr
 // been building its own. Nothing reads the map back in a way that would notice the two drifting apart.
 manifestPath(args: { workspaceRoot: string }): string
 readManifest(args: { workspaceRoot: string }): Promise<RunManifest>        // throws when missing or malformed
+// "Malformed" is judged the same way both readers judge it, on the parsed value rather than on whether parsing
+// threw. `{}`, `[]` and `null` all parse and none describes a lecture. The two readers differ only in what they
+// do about it: this one throws, `readManifestSafe` answers `null`.
 readManifestSafe(args: { workspaceRoot: string }): Promise<RunManifest | null>
 // null instead: a folder under `Pipeline processing/` with no readable manifest is not a lecture, which is a
 // fact to skip over rather than an error, since both Stage 0 and the runner scan those folders speculatively.
@@ -530,6 +533,8 @@ Each stage's `cost` is the only record of what that stage cost, and the manifest
 Every pipeline invocation creates a new log file in `runs/` named by ISO timestamp (e.g. `runs/2025-10-10T09-00-00Z.json`). Run logs are append-only and never modified after creation.
 
 Each log records which stages were attempted, skipped, or re-run; cost and model per stage; and whether each stage succeeded or failed. This provides a complete financial audit trail including failed attempts and model experiments.
+
+`runs/` is read by scanning it, not from an index, so the cost report is offered every file that sits there — including one the pipeline never wrote, such as a debug log dropped alongside them (§10). Parsing as JSON is not enough to be a run: a file is taken as one only if it carries the `runId` it is filed under and the stage map the report iterates. Anything else is skipped, the same judgement `readManifestSafe` makes about a folder that is not a lecture (§4.5).
 
 ```jsonc
 {

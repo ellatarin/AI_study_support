@@ -34,6 +34,7 @@ import {
 	writeJsonAtomic,
 } from "../utils/files.js";
 import { createStageLogger } from "../utils/logger.js";
+import { isRecord } from "../utils/record.js";
 import { configuredStage } from "../utils/stage-config.js";
 import { moduleDirs, runsDirPath, type StageInWorkspace, stageDirectoryPaths } from "./layout.js";
 import { patchManifest, readManifest, readManifestSafe, writeManifest } from "./manifest.js";
@@ -559,6 +560,23 @@ async function writeRunLog({
 	await writeJsonAtomic({ path: join(runsDir, `${runLog.runId}.json`), value: runLog });
 }
 
+/**
+ * Whether a parsed file from `runs/` is a run log.
+ *
+ * `runs/` is scanned rather than indexed, so whatever lands in it is offered to
+ * this reader, and parsing as JSON is not the same as being a run. Shallow for
+ * the reason the manifest reader's own guard is: it checks what every consumer reads —
+ * the id a run is filed under, and the stage map the cost report iterates — and
+ * no more, so a log written by an older version is not discarded over a field it
+ * predates.
+ *
+ * @param value - The parsed file contents.
+ * @returns `true` when the value is a run log.
+ */
+function isRunLog(value: unknown): value is RunLog {
+	return isRecord(value) && typeof value.runId === "string" && isRecord(value.stages);
+}
+
 async function readRunLogs(workspaceRoot: string): Promise<readonly RunLog[]> {
 	const runsDir = runsDirPath({ workspaceRoot });
 	const logs: RunLog[] = [];
@@ -567,8 +585,8 @@ async function readRunLogs(workspaceRoot: string): Promise<readonly RunLog[]> {
 			continue;
 		}
 		const log = await readJsonSafe(join(runsDir, entry.name));
-		if (log !== null) {
-			logs.push(log as RunLog);
+		if (isRunLog(log)) {
+			logs.push(log);
 		}
 	}
 	return logs;

@@ -56,6 +56,25 @@ describe("manifest I/O", () => {
 
 			expect(error.message).toContain(MANIFEST_FILE);
 		});
+
+		// The values readManifestSafe skips over, asked of the reader that is meant
+		// to fail loudly: each parses, so nothing throws of its own accord, and each
+		// still is not a lecture's manifest.
+		it.each([
+			{ scenario: "holds an empty object", content: "{}" },
+			{ scenario: "holds an array", content: "[]" },
+			{ scenario: "holds null", content: "null" },
+			{
+				scenario: "carries no lecture date",
+				content: JSON.stringify({ ...makeManifest(), lectureDate: undefined }),
+			},
+		])("should reject when the manifest $scenario", async ({ content }) => {
+			await writeRaw(content);
+
+			const error = await captureError(readManifest({ workspaceRoot }));
+
+			expect(error.message).toContain(MANIFEST_FILE);
+		});
 	});
 
 	describe("readManifestSafe", () => {

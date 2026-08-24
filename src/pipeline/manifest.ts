@@ -65,17 +65,32 @@ export function manifestPath({ workspaceRoot }: { readonly workspaceRoot: string
  * where the manifest's absence means the caller was handed a path that is not a
  * lecture workspace at all.
  *
+ * Parsing is not the same as being a manifest: `{}`, `[]` and `null` all parse
+ * and none of them describes a lecture. The parsed value goes through the same
+ * {@link isRunManifest} that {@link readManifestSafe} uses, so the two readers
+ * agree on what a manifest is and differ only in what they do about its absence.
+ *
+ * The throw is a bare `Error` rather than a named one on purpose: this reader's
+ * other two failures are the platform's own — a filesystem error and a
+ * `SyntaxError` — and no caller discriminates between the three, so a class
+ * covering one of them would suggest a distinction that is not there.
+ *
  * @param args - The workspace to read.
  * @param args.workspaceRoot - Absolute path to the lecture workspace folder.
  * @returns The parsed manifest.
- * @throws Rethrows the filesystem error when the manifest is missing or unreadable, and the parse error when it is malformed.
+ * @throws Rethrows the filesystem error when the manifest is missing or unreadable, the parse error when it is malformed, and throws when the file parses but describes no lecture.
  */
 export async function readManifest({
 	workspaceRoot,
 }: {
 	readonly workspaceRoot: string;
 }): Promise<RunManifest> {
-	return JSON.parse(await readFile(manifestPath({ workspaceRoot }), "utf8")) as RunManifest;
+	const path = manifestPath({ workspaceRoot });
+	const parsed: unknown = JSON.parse(await readFile(path, "utf8"));
+	if (!isRunManifest(parsed)) {
+		throw new Error(`${path} is not a lecture manifest`);
+	}
+	return parsed;
 }
 
 /**

@@ -890,6 +890,19 @@ describe("PipelineRunner integration", () => {
 			expect(printed()).toContain("Current pipeline cost");
 		});
 
+		// runs/ is scanned, not indexed, so anything that lands in it is offered to
+		// the reader. Parsing is not the same as being a run log.
+		it("should ignore a file in runs/ when it parses but is not a run log", async () => {
+			await writeFile(
+				join(runsDirPath({ workspaceRoot }), "debug.json"),
+				JSON.stringify({ note: "not a run log" }),
+			);
+
+			await makeRunner([]).costReport({ moduleRoots: [moduleRoot] });
+
+			expect(printed()).toContain("Current pipeline cost");
+		});
+
 		it("should print nothing when no lecture matches the requested date", async () => {
 			await makeRunner([]).costReport({
 				moduleRoots: [moduleRoot],
