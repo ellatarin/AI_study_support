@@ -520,6 +520,51 @@ export const structuredMarkdown = "## The Innate Immune Response\n\nBarrier defe
  */
 export const transcriptText = "Today we are covering cell injury and the immune system.";
 
+/** A Scribe upload a suite has intercepted, and what the stage sent with it. */
+export type ScribeUpload = {
+	/** The nock scope, for asserting the upload was or was not made. */
+	readonly scope: nock.Scope;
+	/**
+	 * The request body ElevenLabs received, or `""` if no upload was made. A
+	 * function because the upload happens while the stage runs, long after the
+	 * caller has taken this record.
+	 */
+	readonly uploadedBody: () => string;
+};
+
+/**
+ * Intercepts the speech-to-text upload the transcription stage makes, answers
+ * it with a transcript, and records what was sent.
+ *
+ * Both transcription suites arm this before running the stage, and almost every
+ * one of them wants the same well-formed reply from the configured host — so
+ * the host and the reply are defaulted here rather than restated at every call
+ * site. Overriding `origin` intercepts another residency host instead;
+ * overriding `body` answers with a reply the stage should reject.
+ *
+ * @param args - What Scribe should appear to be, and to say.
+ * @param args.origin - Host to intercept; defaults to the configured one.
+ * @param args.body - Response body to reply with; defaults to a transcript of {@link transcriptText}.
+ * @returns The intercepted upload.
+ */
+export function interceptScribeUpload({
+	origin = elevenLabsUrls.origin,
+	body = scribeResponseBody({ text: transcriptText }),
+}: {
+	readonly origin?: string;
+	readonly body?: Record<string, unknown>;
+} = {}): ScribeUpload {
+	let uploaded = "";
+	const scope = nock(origin)
+		.post(elevenLabsUrls.speechToText)
+		// eslint-disable-next-line max-params, @typescript-eslint/prefer-readonly-parameter-types -- nock defines this reply signature: two positional parameters, the second a library type carrying mutable properties the rule cannot see past. It is only read here.
+		.reply(200, (_uri: string, requestBody: nock.Body) => {
+			uploaded = typeof requestBody === "string" ? requestBody : JSON.stringify(requestBody);
+			return body;
+		});
+	return { scope, uploadedBody: () => uploaded };
+}
+
 /** The title Stage 3's model proposes when it judges the lecturer's inadequate. */
 export const aiDerivedLecture = describeLecture({
 	number: testLecture.number,

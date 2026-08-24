@@ -1,7 +1,6 @@
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { basename, dirname } from "node:path";
 import ffmpeg from "fluent-ffmpeg";
-import nock from "nock";
 import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type {
@@ -12,9 +11,9 @@ import type {
 } from "../../types/pipeline.js";
 import { CONFIG_FILENAME } from "../../types/pipeline.js";
 import {
-	elevenLabsUrls,
 	exampleConfig,
 	finishedEntry,
+	interceptScribeUpload,
 	loggedAt,
 	makeConfig,
 	makeManifest,
@@ -40,20 +39,13 @@ const ffprobeMock = ffmpeg.ffprobe as unknown as Mock;
 
 const HALF_HOUR_SECONDS = 1800;
 
-/** The shared Scribe body, taking the text positionally as this suite reads best. */
-function scribeResponse(text: string): Record<string, unknown> {
-	return scribeResponseBody({ text });
-}
-
 describe("createTranscriptionStage", () => {
 	let moduleRoot: string;
 	let workspaceRoot: string;
-	let capturedBody: string;
 	const logged = useStubLogger();
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
-		capturedBody = "";
 		stubElevenLabsApi();
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "transcription-" }));
 		await mkdir(dirname(audioPath()), { recursive: true });
@@ -90,15 +82,6 @@ describe("createTranscriptionStage", () => {
 				callback(new Error(message), null);
 			},
 		);
-	}
-
-	function interceptTranscription(body: Record<string, unknown>): nock.Scope {
-		return nock(elevenLabsUrls.origin)
-			.post(elevenLabsUrls.speechToText)
-			.reply(200, (_uri: string, requestBody: nock.Body) => {
-				capturedBody = typeof requestBody === "string" ? requestBody : JSON.stringify(requestBody);
-				return body;
-			});
 	}
 
 	function contextWith(
@@ -162,14 +145,14 @@ describe("createTranscriptionStage", () => {
 		{ label: "empty", value: "" },
 	])("should fail before uploading when ELEVENLABS_API_KEY is $label", async ({ value }) => {
 		vi.stubEnv(API_KEY_VARIABLE, value);
-		const scope = interceptTranscription(scribeResponse(transcriptText));
+		const { scope } = interceptScribeUpload();
 
 		await expect(runStage(contextWith())).rejects.toThrow(TranscriptionError);
 		expect(scope.isDone()).toBe(false);
 	});
 
 	it("should fail before uploading when the transcription stage has no configured model", async () => {
-		const scope = interceptTranscription(scribeResponse(transcriptText));
+		const { scope } = interceptScribeUpload();
 
 		await expect(runStage(contextWith({ modelId: null }))).rejects.toThrow(TranscriptionError);
 		// The remedy is an edit to the config file, so the failure has to name it.
@@ -178,45 +161,43 @@ describe("createTranscriptionStage", () => {
 	});
 
 	it("should strip the provider prefix when sending the model ID to ElevenLabs", async () => {
-		interceptTranscription(scribeResponse(transcriptText));
+		const upload = interceptScribeUpload();
 
 		await runStage(contextWith());
 
-		expect(capturedBody).toContain("scribe_v2");
-		expect(capturedBody).not.toContain(transcriptionModelId);
+		expect(upload.uploadedBody()).toContain("scribe_v2");
+		expect(upload.uploadedBody()).not.toContain(transcriptionModelId);
 	});
 
 	it("should send the model ID unchanged when it carries no provider prefix", async () => {
-		interceptTranscription(scribeResponse(transcriptText));
+		const upload = interceptScribeUpload();
 
 		await runStage(contextWith({ modelId: "scribe_v2" }));
 
-		expect(capturedBody).toContain("scribe_v2");
+		expect(upload.uploadedBody()).toContain("scribe_v2");
 	});
 
 	it("should request a non-verbatim transcript when calling Scribe", async () => {
-		interceptTranscription(scribeResponse(transcriptText));
+		const upload = interceptScribeUpload();
 
 		await runStage(contextWith());
 
-		expect(capturedBody).toContain("no_verbatim");
+		expect(upload.uploadedBody()).toContain("no_verbatim");
 	});
 
 	// A different language from the example config's, so passing could not come
 	// from the stage having kept a hardcoded default that happens to match.
 	it("should tell Scribe the configured spoken language when uploading", async () => {
-		interceptTranscription(scribeResponse(transcriptText));
+		const upload = interceptScribeUpload();
 
 		await runStage(contextWith({ elevenLabs: { languageCode: "fra" } }));
 
-		expect(capturedBody).toContain("fra");
+		expect(upload.uploadedBody()).toContain("fra");
 	});
 
 	it("should upload to the configured host when elevenLabs.baseUrl names another endpoint", async () => {
 		const residencyOrigin = "https://api.eu.residency.elevenlabs.test";
-		const scope = nock(residencyOrigin)
-			.post(elevenLabsUrls.speechToText)
-			.reply(200, scribeResponse(transcriptText));
+		const { scope } = interceptScribeUpload({ origin: residencyOrigin });
 
 		await runStage(contextWith({ elevenLabs: { baseUrl: residencyOrigin } }));
 
@@ -224,7 +205,7 @@ describe("createTranscriptionStage", () => {
 	});
 
 	it("should write the transcript with no .tmp left behind when the API returns text", async () => {
-		interceptTranscription(scribeResponse(transcriptText));
+		interceptScribeUpload();
 
 		await runStage(contextWith());
 
@@ -233,7 +214,7 @@ describe("createTranscriptionStage", () => {
 	});
 
 	it("should return correct filesWritten list when stage completes", async () => {
-		interceptTranscription(scribeResponse(transcriptText));
+		interceptScribeUpload();
 
 		const result = await runStage(contextWith());
 
@@ -242,7 +223,7 @@ describe("createTranscriptionStage", () => {
 	});
 
 	it("should record cost from audio duration and the configured rate when transcription completes", async () => {
-		interceptTranscription(scribeResponse(transcriptText));
+		interceptScribeUpload();
 
 		const result = await runStage(contextWith());
 
@@ -257,7 +238,7 @@ describe("createTranscriptionStage", () => {
 
 	it("should record a null cost with costResolutionError when the audio duration cannot be read", async () => {
 		stubDurationFailure("ffprobe could not read the container");
-		interceptTranscription(scribeResponse(transcriptText));
+		interceptScribeUpload();
 
 		const result = await runStage(contextWith());
 
@@ -270,7 +251,7 @@ describe("createTranscriptionStage", () => {
 
 	it("should warn when the audio duration cannot be read, since the run carries on regardless", async () => {
 		stubDurationFailure("ffprobe could not read the container");
-		interceptTranscription(scribeResponse(transcriptText));
+		interceptScribeUpload();
 
 		await runStage(contextWith());
 
@@ -280,7 +261,7 @@ describe("createTranscriptionStage", () => {
 	});
 
 	it("should record the model, bytes uploaded and latency when the Scribe call completes", async () => {
-		interceptTranscription(scribeResponse(transcriptText));
+		interceptScribeUpload();
 
 		await runStage(contextWith());
 
@@ -299,7 +280,7 @@ describe("createTranscriptionStage", () => {
 				callback(null, { format: {} });
 			},
 		);
-		interceptTranscription(scribeResponse(transcriptText));
+		interceptScribeUpload();
 
 		const result = await runStage(contextWith());
 
@@ -311,7 +292,7 @@ describe("createTranscriptionStage", () => {
 
 	it("should still write the transcript when the audio duration cannot be read", async () => {
 		stubDurationFailure("ffprobe could not read the container");
-		interceptTranscription(scribeResponse(transcriptText));
+		interceptScribeUpload();
 
 		const result = await runStage(contextWith());
 
@@ -322,9 +303,9 @@ describe("createTranscriptionStage", () => {
 	it("should fail when the response carries no transcript text", async () => {
 		// A well-formed Scribe body with the one field under test removed. `text:
 		// undefined` drops out when nock serialises the reply as JSON.
-		nock(elevenLabsUrls.origin)
-			.post(elevenLabsUrls.speechToText)
-			.reply(200, { ...scribeResponseBody({ text: "" }), text: undefined, transcripts: [] });
+		interceptScribeUpload({
+			body: { ...scribeResponseBody({ text: "" }), text: undefined, transcripts: [] },
+		});
 
 		await expect(runStage(contextWith())).rejects.toThrow(TranscriptionError);
 	});

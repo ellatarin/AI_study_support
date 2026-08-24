@@ -1,10 +1,9 @@
 import { mkdir, readFile, rm } from "node:fs/promises";
 import { dirname } from "node:path";
-import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
-	elevenLabsUrls,
 	exampleConfig,
+	interceptScribeUpload,
 	makeConfig,
 	makeManifest,
 	makeStageContext,
@@ -13,7 +12,6 @@ import {
 	mediaTestTimeoutMs,
 	renderFixtureMedia,
 	resetStubbedApi,
-	scribeResponseBody,
 	stubElevenLabsApi,
 	toneInput,
 	transcriptionModelId,
@@ -55,13 +53,7 @@ describe("createTranscriptionStage against real audio", () => {
 	it(
 		"should return transcript text when audio file uploaded to ElevenLabs",
 		async () => {
-			let uploadedBytes = 0;
-			const scope = nock(elevenLabsUrls.origin)
-				.post(elevenLabsUrls.speechToText)
-				.reply(200, (_uri: string, requestBody: nock.Body) => {
-					uploadedBytes = String(requestBody).length;
-					return scribeResponseBody({ text: transcriptText });
-				});
+			const upload = interceptScribeUpload();
 			const stage = createTranscriptionStage({ logger: makeStubLogger().logger });
 			const context = makeStageContext({
 				workspaceRoot,
@@ -72,8 +64,8 @@ describe("createTranscriptionStage against real audio", () => {
 			const input = await stage.getInput(context);
 			const result = await stage.run({ input, context });
 
-			expect(scope.isDone()).toBe(true);
-			expect(uploadedBytes).toBeGreaterThan(0);
+			expect(upload.scope.isDone()).toBe(true);
+			expect(upload.uploadedBody().length).toBeGreaterThan(0);
 			expect(
 				await readFile(stageOutputPath({ workspaceRoot, stageId: "transcription" }), "utf8"),
 			).toBe(transcriptText);
