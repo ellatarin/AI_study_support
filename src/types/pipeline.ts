@@ -535,12 +535,17 @@ export type RunType = "normal" | "error-recovery" | "experiment";
 
 /**
  * Cost fields recorded per stage in a run log: what the stage spent and how many
- * calls it took (technical-design.md §4.6).
+ * calls it took, and deliberately no more (technical-design.md §4.6).
  *
  * Narrower than {@link StageCost}, which also carries token counts and, for a
- * cost that could not be established, the reason. It is also the shape that can
- * describe a stage making no billable calls at all, which `StageCost` cannot:
- * its `costUsd: null` arm requires a `costResolutionError`, and no lookup failed.
+ * cost that could not be established, the reason. Keeping the history slim is
+ * the intent rather than an oversight: the cost report reads these two fields
+ * and nothing else, and the manifest is where a stage's full cost detail lives.
+ *
+ * It is also the only one of the two shapes that can describe a stage making no
+ * billable calls at all. `StageCost`'s `costUsd: null` arm requires a
+ * `costResolutionError`, and a stage that never called anything had no lookup
+ * fail — so unifying the two would mean inventing a reason where there is none.
  */
 export type RunLogCost = {
 	readonly costUsd: number | null;
