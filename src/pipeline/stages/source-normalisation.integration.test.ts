@@ -172,8 +172,13 @@ describe("createSourceNormalisationStage", () => {
 	}
 
 	/**
-	 * Asserts that normalisation aborts: it throws, logs the failure, and leaves
-	 * exactly the given workspaces behind.
+	 * Runs normalisation and asserts that it aborts: it throws, logs the failure,
+	 * and leaves exactly the given workspaces behind.
+	 *
+	 * This is the act as well as the assertion, which is why every caller puts it
+	 * in the act position. A rejection cannot be acted on and then asserted
+	 * separately — `expect(...).rejects` is what handles it — so splitting the two
+	 * apart would mean catching the error by hand to re-assert it later.
 	 */
 	async function expectNormalisationToAbort(workspaces: readonly string[]): Promise<void> {
 		await expect(stage.normaliseModule({ moduleRoot })).rejects.toThrow(SourceNormalisationError);

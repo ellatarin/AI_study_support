@@ -466,6 +466,9 @@ describe("PipelineRunner integration", () => {
 			const stage = makeStubStage({ stageId: "audio-extraction" });
 			const runner = makeRunner([stage]);
 
+			// Two acts, each needing the clock somewhere the previous one has already
+			// been: the second instant cannot be set before the first run, so this
+			// interleaving is what the test is, not a lapse in its arrangement.
 			vi.setSystemTime(new Date("2025-10-10T09:00:00Z"));
 			const first = await runner.runLecture({ workspaceRoot });
 			vi.setSystemTime(new Date("2025-10-10T09:00:05Z"));
