@@ -34,6 +34,17 @@ import {
 	formatRunSummary,
 } from "./cost.js";
 
+// Three tests below capture a whole rendered report as a snapshot, and they are
+// the sanctioned exception to CLAUDE.md's rule, not a lapse from it. The rule
+// forbids snapshots for behaviour and permits them for serialisation-format
+// regression, and what these three functions produce IS a format: column
+// alignment, padding, section order and headings, all of which exist to be read
+// by a person and none of which any single assertion is watching. Every figure
+// and every word inside them is asserted explicitly by the tests around each
+// snapshot, so the snapshot adds the one thing those cannot — that the layout
+// as a whole did not move. Settled with the owner during the 2026-08-24 review;
+// do not replace them with assertions on the strength of the rule alone.
+
 // Slide conversion is the stage these tables are built around: it is the one
 // with a per-call model, a concurrency, and enough calls for its own figure to
 // be worth checking. Every fixture below records the same run of it.
@@ -373,6 +384,7 @@ function costReport(overrides: Partial<Parameters<typeof formatCostReport>[0]> =
 }
 
 describe("formatCostReport", () => {
+	// The format snapshot; see the note at the top of this file.
 	it("should render the three-section report when given a manifest and run logs", () => {
 		expect(costReport()).toMatchSnapshot();
 	});
@@ -584,6 +596,7 @@ describe("formatRunSummary", () => {
 		expect(summary).not.toContain("£0.056");
 	});
 
+	// The format snapshot; see the note at the top of this file.
 	it("should render the whole summary table when given a run's outcomes", () => {
 		expect(runSummary()).toMatchSnapshot();
 	});
@@ -695,6 +708,7 @@ describe("formatBatchSummary", () => {
 		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+1\\s+partial`));
 	});
 
+	// The format snapshot; see the note at the top of this file.
 	it("should render the whole batch table when given a batch summary", () => {
 		expect(batchSummary()).toMatchSnapshot();
 	});
