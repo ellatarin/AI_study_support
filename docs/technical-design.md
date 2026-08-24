@@ -1645,5 +1645,6 @@ createParallelWorkBar(args: { label: string; total: number }): {
 }
 // The in-flight-suffix bar from Stage 4. pick(id) adds an id to the in-flight set, complete(id) removes it
 // and ticks, fail(id) marks the item red in the final render. Used by Stages 4 and 5; non-TTY behaviour is
-// delegated to cli-progress defaults.
+// delegated to cli-progress defaults. **Built with Stage 4** — the two stages that need it shape what it has
+// to do, and a version written ahead of them could only be checked against a guess at that.
 ```

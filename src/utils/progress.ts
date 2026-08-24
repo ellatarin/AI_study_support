@@ -7,37 +7,16 @@ import {
 	type ValueType,
 } from "cli-progress";
 
-/** cli-progress format for the parallel-work bar's in-flight suffix (technical-design.md Stage 4). */
-const PARALLEL_WORK_FORMAT =
-	"{label}  [{bar}] {value}/{total}  ETA {eta_formatted}  | in flight: {inFlight}";
-
 /** cli-progress format for the upload bar, whose value and total render as megabytes. */
 const UPLOAD_FORMAT = "Uploading    |{bar}| {percentage}%  {value} / {total}";
 
-/** ESC control character, built at runtime to avoid embedding a literal control byte in source. */
-const ESC = String.fromCharCode(27);
-
 /**
- * The stream every progress bar renders to — cli-progress's own default, stated
- * here so {@link highlightFailure} reads the TTY-ness of the stream the bars
- * actually draw on rather than assuming which one that is.
+ * The stream every progress bar renders to. It is cli-progress's own default,
+ * named here so the bars draw somewhere this module states rather than somewhere
+ * the library happens to pick, and so stdout stays free for the output the user
+ * asked for (technical-design.md §10).
  */
 const PROGRESS_STREAM = process.stderr;
-
-/**
- * Highlights a failed item's id in the in-flight suffix: ANSI red on a terminal,
- * the text unchanged anywhere else.
- *
- * Off a terminal the bar renders as plain status lines, so a control sequence
- * would reach a captured log as raw escape bytes rather than as colour
- * (technical-design.md §5, non-TTY output).
- *
- * @param text - The failed item's id as it should read.
- * @returns The text, in ANSI red where the output supports it.
- */
-function highlightFailure(text: string): string {
-	return PROGRESS_STREAM.isTTY ? `${ESC}[31m${text}${ESC}[0m` : text;
-}
 
 /**
  * Formats a byte count as megabytes for the upload bar's value display.
@@ -113,96 +92,4 @@ export function createUploadProgressStream(totalBytes: number): {
 
 	bar.start(totalBytes, 0);
 	return { stream, bar };
-}
-
-/**
- * A progress bar for a stage that processes many items concurrently, tracking
- * which item ids are in flight and advancing as each completes (technical-design.md Stage 4).
- */
-export type ParallelWorkBar = {
-	readonly bar: SingleBar;
-	/** Starts the bar with an empty in-flight suffix. */
-	start(): void;
-	/** Records that a worker has picked up `itemId` and added it to the in-flight set. */
-	pick(itemId: number): void;
-	/** Marks `itemId` done: removes it from the in-flight set and advances the bar. */
-	complete(itemId: number): void;
-	/** Marks `itemId` failed: removes it from in-flight and highlights it in red. */
-	fail(itemId: number): void;
-	/** Stops the bar and moves to the next line. */
-	stop(): void;
-};
-
-/**
- * Renders the in-flight suffix: active ids plainly, failed ids highlighted in red.
- *
- * @param args - The ids to render.
- * @param args.active - Ids currently being processed.
- * @param args.failed - Ids that have failed.
- * @returns The comma-separated in-flight suffix.
- */
-function renderInFlight({
-	active,
-	failed,
-}: {
-	readonly active: readonly number[];
-	readonly failed: readonly number[];
-}): string {
-	const activeLabels = active.map(String);
-	const failedLabels = failed.map((itemId) => highlightFailure(String(itemId)));
-	return [...activeLabels, ...failedLabels].join(", ");
-}
-
-/**
- * Creates a {@link ParallelWorkBar} for a concurrent stage. The returned control
- * methods keep the in-flight suffix and completed count in sync as workers pick
- * up, complete, and fail items. It is the bar Stages 4 and 5 are specified to
- * use (technical-design.md §5); neither is built yet, so nothing calls it in
- * production today. Off a terminal the bar falls back to cli-progress's plain
- * status lines and the failed-id highlight goes with it (§5).
- *
- * @param args - The bar configuration.
- * @param args.label - The bar label.
- * @param args.total - The total number of items to process.
- * @returns The bar and its `start`/`pick`/`complete`/`fail`/`stop` controls.
- */
-export function createParallelWorkBar({
-	label,
-	total,
-}: {
-	readonly label: string;
-	readonly total: number;
-}): ParallelWorkBar {
-	const bar = createProgressBar({ format: PARALLEL_WORK_FORMAT });
-	const active = new Set<number>();
-	const failed = new Set<number>();
-	let completed = 0;
-
-	function payload(): { readonly label: string; readonly inFlight: string } {
-		return { label, inFlight: renderInFlight({ active: [...active], failed: [...failed] }) };
-	}
-
-	return {
-		bar,
-		start(): void {
-			bar.start(total, 0, payload());
-		},
-		pick(itemId: number): void {
-			active.add(itemId);
-			bar.update(completed, payload());
-		},
-		complete(itemId: number): void {
-			active.delete(itemId);
-			completed += 1;
-			bar.update(completed, payload());
-		},
-		fail(itemId: number): void {
-			active.delete(itemId);
-			failed.add(itemId);
-			bar.update(completed, payload());
-		},
-		stop(): void {
-			bar.stop();
-		},
-	};
 }

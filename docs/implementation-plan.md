@@ -76,7 +76,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `src/utils/logger.ts` — `createRootLogger`, `createStageLogger` **(TD §10, Logging and Progress Helpers)**
 - `src/utils/date.ts` — `extractDate`, `formatDateISO` **(TD §3.2, Date and Naming Helpers)**
 - `src/utils/naming.ts` — `extractProvisionalTitle`, `lectureFolderName`, `lectureBaseName` **(TD §3.2)**; `filenameSafe` and the `EmptyNameError` it raises **(TD §4.4)**
-- `src/utils/progress.ts` — `createProgressBar`, `createUploadProgressStream`, `createParallelWorkBar` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`
+- `src/utils/progress.ts` — `createProgressBar` and `createUploadProgressStream` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`. `createParallelWorkBar` is specified in TD §10 but built in Phase 7, with the first stage that calls it
 - `src/utils/cost.ts` — `accumulateCost`, `createMoneyFormatter`, `formatCostReport` **(TD §7, Cost Module)**
 - `src/utils/stage-id.ts` — `isStageId`, `unknownStageMessage`: recognising a stage name and reporting one that is not, for `--from-stage` and the config keys alike **(TD §6)**
 - `src/utils/model-id.ts` — `splitModelId`: a model ID's provider and its name, read by the provider exemption and by Stage 2, which want opposite halves **(TD §6; §5, Stage 2)**
@@ -419,6 +419,8 @@ Integration tests for the runner following the move:
 **Deliverables:**
 
 `src/pipeline/stages/slide-conversion.ts` — the whole of **TD Stage 4**: PDF-to-PNG rendering, the per-slide vision call and its prompt, intra-stage resumability, bounded concurrency, the in-flight progress bar, concatenation, and `--from-stage` cleanup.
+
+`createParallelWorkBar` in `src/utils/progress.ts` **(TD §10)** — the in-flight-suffix bar, built here rather than in Phase 2 because this stage and Stage 5 are what it has to serve.
 
 **Tests:**
 
