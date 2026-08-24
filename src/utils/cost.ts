@@ -263,6 +263,17 @@ function renderCostTable({
 
 type RanStageEntry = Extract<RunLogStageEntry, { readonly action: "ran" }>;
 
+/**
+ * A stage entry a section selected, carrying the run it came from. The stage id
+ * is a `StageId` because the stages are walked in pipeline order from
+ * {@link STAGE_IDS}, which is the definition of what a stage key may be.
+ */
+type SelectedStageEntry = {
+	readonly log: RunLog;
+	readonly stageId: StageId;
+	readonly entry: RanStageEntry;
+};
+
 /** Whether a section wants a given stage entry, judged from it and the run it belongs to. */
 type StageEntrySelector = (args: {
 	readonly log: RunLog;
@@ -286,20 +297,13 @@ function ranStageEntries({
 }: {
 	readonly runLogs: readonly RunLog[];
 	readonly selects: StageEntrySelector;
-}): readonly { readonly log: RunLog; readonly stageId: string; readonly entry: RanStageEntry }[] {
-	const result: {
-		readonly log: RunLog;
-		readonly stageId: string;
-		readonly entry: RanStageEntry;
-	}[] = [];
-	for (const log of runLogs) {
-		for (const [stageId, entry] of Object.entries(log.stages)) {
-			if (entry.action === "ran" && selects({ log, entry })) {
-				result.push({ log, stageId, entry });
-			}
-		}
-	}
-	return result;
+}): readonly SelectedStageEntry[] {
+	return runLogs.flatMap((log) =>
+		STAGE_IDS.flatMap((stageId): readonly SelectedStageEntry[] => {
+			const entry = log.stages[stageId];
+			return entry?.action === "ran" && selects({ log, entry }) ? [{ log, stageId, entry }] : [];
+		}),
+	);
 }
 
 /**
@@ -401,25 +405,26 @@ const CURRENT_PIPELINE_WIDTHS = { stage: 24, model: MODEL_WIDTH, calls: 7 } as c
  * @returns The section's lines.
  */
 function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs): readonly string[] {
-	const rows: Cell[][] = [];
-	for (const stageId of STAGE_IDS) {
+	const rows = STAGE_IDS.flatMap((stageId): readonly (readonly Cell[])[] => {
 		const entry = manifest.stages[stageId];
 		// What the outputs on disk cost: a stage that failed left none behind, and
 		// what it spent getting there is section 2's to report.
 		if (!hasSettledOutput(entry)) {
-			continue;
+			return [];
 		}
 		const row = stageCostRow(entry);
 		if (row === null) {
-			continue;
+			return [];
 		}
-		rows.push([
-			[STAGE_LABELS[stageId], CURRENT_PIPELINE_WIDTHS.stage, "left"],
-			[row.model, CURRENT_PIPELINE_WIDTHS.model, "left"],
-			[String(row.cost?.callCount ?? 0), CURRENT_PIPELINE_WIDTHS.calls, "right"],
-			costCell({ amount: row.cost?.costUsd ?? null, formatMoney }),
-		]);
-	}
+		return [
+			[
+				[stageLabel({ stageId }), CURRENT_PIPELINE_WIDTHS.stage, "left"],
+				[row.model, CURRENT_PIPELINE_WIDTHS.model, "left"],
+				[String(row.cost?.callCount ?? 0), CURRENT_PIPELINE_WIDTHS.calls, "right"],
+				costCell({ amount: row.cost?.costUsd ?? null, formatMoney }),
+			],
+		];
+	});
 	return renderCostTable({
 		title: "Current pipeline cost",
 		columns: [
@@ -477,9 +482,9 @@ function experimentSection({ runLogs, formatMoney }: RunLogSectionArgs): readonl
 		items: ranStageEntries({ runLogs, selects: wasAnExperiment }),
 		keyOf: ({ stageId }) => stageId,
 	});
-	const lines: string[] = ["Experiment cost"];
-	for (const [stageId, entries] of byStage) {
-		lines.push(
+	return [
+		"Experiment cost",
+		...[...byStage].flatMap(([stageId, entries]) => [
 			`Stage: ${stageId}`,
 			...entries.map(({ log, entry }) => {
 				const model = fitToColumn({
@@ -489,9 +494,8 @@ function experimentSection({ runLogs, formatMoney }: RunLogSectionArgs): readonl
 				const cost = formatMoney(entry.cost.costUsd).padStart(COST_WIDTH);
 				return `  Run ${log.startedAt}    ${model}${cost}`;
 			}),
-		);
-	}
-	return lines;
+		]),
+	];
 }
 
 /**
@@ -616,7 +620,7 @@ export function formatRunSummary({
 	const formatMoney = createMoneyFormatter({ gbpPerUsd });
 	const rows = executedStages({ outcomes, manifest }).map(
 		({ stageId, model, cost }): readonly Cell[] => [
-			[STAGE_LABELS[stageId], RUN_SUMMARY_WIDTHS.stage, "left"],
+			[stageLabel({ stageId }), RUN_SUMMARY_WIDTHS.stage, "left"],
 			[model, RUN_SUMMARY_WIDTHS.model, "left"],
 			[String(cost?.callCount ?? 0), RUN_SUMMARY_WIDTHS.calls, "right"],
 			tokensCell(cost),
