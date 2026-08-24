@@ -372,9 +372,23 @@ describe("createMoneyFormatter", () => {
 	});
 });
 
+/**
+ * The report this suite's fixtures produce, with any of them replaced.
+ *
+ * Most tests here vary nothing at all and read one line out of the report, so
+ * the shared run logs, manifest and rate are stated here rather than at each of
+ * them.
+ *
+ * @param overrides - Whichever inputs this test needs different.
+ * @returns The formatted report.
+ */
+function costReport(overrides: Partial<Parameters<typeof formatCostReport>[0]> = {}): string {
+	return formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD, ...overrides });
+}
+
 describe("formatCostReport", () => {
 	it("should render the three-section report when given a manifest and run logs", () => {
-		expect(formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD })).toMatchSnapshot();
+		expect(costReport()).toMatchSnapshot();
 	});
 
 	// The table is aligned by padding alone, so a row that has kept its columns is
@@ -395,10 +409,7 @@ describe("formatCostReport", () => {
 	};
 
 	it("should hold the columns in place when a model id is the longest the design records", () => {
-		const { row, rule } = widthOf({
-			report: formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD }),
-			rowLabel: "Synthesis",
-		});
+		const { row, rule } = widthOf({ report: costReport(), rowLabel: "Synthesis" });
 
 		expect(row).toBe(rule);
 	});
@@ -411,7 +422,7 @@ describe("formatCostReport", () => {
 			},
 		});
 
-		const report = formatCostReport({ runLogs, manifest: overlong, gbpPerUsd: GBP_PER_USD });
+		const report = costReport({ manifest: overlong });
 		const { row, rule } = widthOf({ report, rowLabel: "Synthesis" });
 
 		expect(row).toBe(rule);
@@ -419,24 +430,20 @@ describe("formatCostReport", () => {
 	});
 
 	it("should give a failed stage a row when the run that failed was an ordinary one", () => {
-		const report = formatCostReport({
-			runLogs: [originalFailure],
-			manifest,
-			gbpPerUsd: GBP_PER_USD,
-		});
+		const report = costReport({ runLogs: [originalFailure] });
 
 		// 0.021 USD at 0.74 = 0.01554.
 		expect(report).toMatch(/slide-conversion\s+failed\s+£0\.016/);
 	});
 
 	it("should render a stage's cost as n/a when its lookup failed", () => {
-		const report = formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD });
+		const report = costReport();
 
 		expect(report).toMatch(/Image extraction\s+openai\/gpt-4\.1\s+12\s+n\/a/);
 	});
 
 	it("should leave a stage out when it names no model", () => {
-		const report = formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD });
+		const report = costReport();
 
 		expect(report).not.toContain("Audio extraction");
 	});
@@ -446,11 +453,7 @@ describe("formatCostReport", () => {
 			stages: { ...manifest.stages, synthesis: failedSynthesisEntry },
 		});
 
-		const report = formatCostReport({
-			runLogs,
-			manifest: failedSynthesis,
-			gbpPerUsd: GBP_PER_USD,
-		});
+		const report = costReport({ manifest: failedSynthesis });
 
 		// Section 1 prices the outputs that stand on disk, and a failed stage left
 		// none. Its spend is section 2's to report.
@@ -458,7 +461,7 @@ describe("formatCostReport", () => {
 	});
 
 	it("should sum nothing beneath its sections when the report is rendered", () => {
-		const report = formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD });
+		const report = costReport();
 
 		expect(report).not.toContain("Wasted on failures");
 		// 0.042 + 0.034 + 0.312 USD at 0.74, the total the first section used to
@@ -467,7 +470,7 @@ describe("formatCostReport", () => {
 	});
 
 	it("should render every figure in pounds when the stored figures are in dollars", () => {
-		const report = formatCostReport({ runLogs, manifest, gbpPerUsd: GBP_PER_USD });
+		const report = costReport();
 
 		// 0.312 USD is what synthesis cost; 0.312 * 0.74 = 0.23088.
 		expect(report).toContain("£0.231");
@@ -519,13 +522,24 @@ const runManifest: RunManifest = {
 	},
 };
 
+/**
+ * The summary this suite's run produces, with any of its inputs replaced.
+ *
+ * @param overrides - Whichever inputs this test needs different.
+ * @returns The formatted summary table.
+ */
+function runSummary(overrides: Partial<Parameters<typeof formatRunSummary>[0]> = {}): string {
+	return formatRunSummary({
+		outcomes: runOutcomes,
+		manifest: runManifest,
+		gbpPerUsd: GBP_PER_USD,
+		...overrides,
+	});
+}
+
 describe("formatRunSummary", () => {
 	it("should list only the stages that ran when others were skipped or not reached", () => {
-		const summary = formatRunSummary({
-			outcomes: runOutcomes,
-			manifest: runManifest,
-			gbpPerUsd: GBP_PER_USD,
-		});
+		const summary = runSummary();
 
 		expect(summary).toContain("Transcription");
 		expect(summary).toContain("Slide conversion");
@@ -535,11 +549,7 @@ describe("formatRunSummary", () => {
 	});
 
 	it("should show the model, calls, and token counts recorded for a stage when it ran", () => {
-		const summary = formatRunSummary({
-			outcomes: runOutcomes,
-			manifest: runManifest,
-			gbpPerUsd: GBP_PER_USD,
-		});
+		const summary = runSummary();
 
 		expect(summary).toContain(SLIDE_CONVERSION_CONFIG.modelId);
 		expect(summary).toContain("41,000");
@@ -549,11 +559,7 @@ describe("formatRunSummary", () => {
 	});
 
 	it("should identify the lecture in its heading when summarising a run", () => {
-		const summary = formatRunSummary({
-			outcomes: runOutcomes,
-			manifest: runManifest,
-			gbpPerUsd: GBP_PER_USD,
-		});
+		const summary = runSummary();
 
 		expect(summary).toContain(`Lecture ${String(testLecture.number)}`);
 		expect(summary).toContain(testLecture.title);
@@ -561,11 +567,7 @@ describe("formatRunSummary", () => {
 	});
 
 	it("should render a stage's cost as n/a when the manifest recorded none", () => {
-		const summary = formatRunSummary({
-			outcomes: [{ stageId: "synthesis", entry: ran("failed") }],
-			manifest: runManifest,
-			gbpPerUsd: GBP_PER_USD,
-		});
+		const summary = runSummary({ outcomes: [{ stageId: "synthesis", entry: ran("failed") }] });
 
 		// Synthesis names a model and failed before it charged anything, so it keeps
 		// its row and its cost is unknown rather than nothing. The `.` in the model
@@ -577,13 +579,11 @@ describe("formatRunSummary", () => {
 	});
 
 	it("should leave a stage out when it names no model", () => {
-		const summary = formatRunSummary({
+		const summary = runSummary({
 			outcomes: [
 				{ stageId: "audio-extraction", entry: ran("complete") },
 				{ stageId: "transcription", entry: ran("complete") },
 			],
-			manifest: runManifest,
-			gbpPerUsd: GBP_PER_USD,
 		});
 
 		expect(summary).not.toContain("Audio extraction");
@@ -591,11 +591,7 @@ describe("formatRunSummary", () => {
 	});
 
 	it("should sum nothing beneath the table when the run ends", () => {
-		const summary = formatRunSummary({
-			outcomes: runOutcomes,
-			manifest: runManifest,
-			gbpPerUsd: GBP_PER_USD,
-		});
+		const summary = runSummary();
 
 		expect(summary).not.toContain("This run");
 		// 1 + 24 calls, and 0.042 + 0.034 USD at 0.74 — what the closing line read.
@@ -603,9 +599,7 @@ describe("formatRunSummary", () => {
 	});
 
 	it("should render the whole summary table when given a run's outcomes", () => {
-		expect(
-			formatRunSummary({ outcomes: runOutcomes, manifest: runManifest, gbpPerUsd: GBP_PER_USD }),
-		).toMatchSnapshot();
+		expect(runSummary()).toMatchSnapshot();
 	});
 });
 
@@ -653,28 +647,38 @@ const batch: BatchSummary = {
 	overallStatus: "failed",
 };
 
+/**
+ * The table this suite's batch produces, with any of its fields replaced.
+ *
+ * @param overrides - Whichever fields of the batch this test needs different.
+ * @returns The formatted batch table.
+ */
+function batchSummary(overrides: Partial<BatchSummary> = {}): string {
+	return formatBatchSummary({ batch: { ...batch, ...overrides } });
+}
+
 describe("formatBatchSummary", () => {
 	it("should render one row per module when the batch spanned several modules", () => {
-		const summary = formatBatchSummary({ batch });
+		const summary = batchSummary();
 
 		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+2\\s`));
 		expect(summary).toMatch(new RegExp(`${otherModuleName}\\s+1\\s`));
 	});
 
 	it("should report a module as failed when one of its lectures failed", () => {
-		const summary = formatBatchSummary({ batch });
+		const summary = batchSummary();
 
 		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+2\\s+failed`));
 	});
 
 	it("should carry a module's own status when none of its lectures failed", () => {
-		const summary = formatBatchSummary({ batch });
+		const summary = batchSummary();
 
 		expect(summary).toMatch(new RegExp(`${otherModuleName}\\s+1\\s+partial`));
 	});
 
 	it("should count every lecture in an all-modules row when the batch ends", () => {
-		const summary = formatBatchSummary({ batch });
+		const summary = batchSummary();
 
 		expect(summary).toMatch(/All modules\s+3\s+failed/);
 	});
@@ -682,7 +686,7 @@ describe("formatBatchSummary", () => {
 	it("should show no money at all when the batch table is rendered", () => {
 		// What a module or a batch spent is a sum across lectures, and the figures
 		// are kept per stage (NFR-2.2). Each lecture's own summary carries them.
-		const summary = formatBatchSummary({ batch });
+		const summary = batchSummary();
 
 		expect(summary).not.toContain("£");
 		expect(summary).not.toContain("Cost");
@@ -697,9 +701,7 @@ describe("formatBatchSummary", () => {
 			overallStatus: "partial",
 		});
 
-		const summary = formatBatchSummary({
-			batch: { ...batch, lectures: [succeededLecture, namesake] },
-		});
+		const summary = batchSummary({ lectures: [succeededLecture, namesake] });
 
 		const rows = summary.split("\n").filter((line) => line.startsWith(testModuleName));
 		expect(rows).toHaveLength(2);
@@ -708,6 +710,6 @@ describe("formatBatchSummary", () => {
 	});
 
 	it("should render the whole batch table when given a batch summary", () => {
-		expect(formatBatchSummary({ batch })).toMatchSnapshot();
+		expect(batchSummary()).toMatchSnapshot();
 	});
 });
