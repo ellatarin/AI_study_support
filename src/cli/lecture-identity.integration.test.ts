@@ -124,8 +124,13 @@ describe("lecture identity commands", () => {
 		const movedWorkspaceRoot = (): string =>
 			workspaceRootFor({ moduleRoot: match.moduleRoot, folderName: MOVED_FOLDER });
 
+		/** The act every case here performs: move the lecture onto {@link changedDate}. */
+		function changeDate(): Promise<void> {
+			return changeLectureDate({ match, newLectureDate: changedDate });
+		}
+
 		it("should record the new date in the manifest when changing the date", async () => {
-			await changeLectureDate({ match, newLectureDate: changedDate });
+			await changeDate();
 
 			const manifest = await readManifest({ workspaceRoot: movedWorkspaceRoot() });
 			expect(manifest.lectureDate).toBe(changedDate);
@@ -133,7 +138,7 @@ describe("lecture identity commands", () => {
 		});
 
 		it("should rename the source video and slide to the new date when changing the date", async () => {
-			await changeLectureDate({ match, newLectureDate: changedDate });
+			await changeDate();
 
 			expect(await pathExists(join(dirs.video, `${MOVED_FOLDER}.mp4`))).toBe(true);
 			expect(await pathExists(join(dirs.slide, `${MOVED_FOLDER}.pdf`))).toBe(true);
@@ -141,14 +146,14 @@ describe("lecture identity commands", () => {
 		});
 
 		it("should rename the workspace to the new date when changing the date", async () => {
-			await changeLectureDate({ match, newLectureDate: changedDate });
+			await changeDate();
 
 			expect(await pathExists(join(movedWorkspaceRoot(), "notes.md"))).toBe(true);
 			expect(await pathExists(match.workspaceRoot)).toBe(false);
 		});
 
 		it("should rename the final output to the new date when changing the date", async () => {
-			await changeLectureDate({ match, newLectureDate: changedDate });
+			await changeDate();
 
 			expect(await pathExists(join(dirs.finalOutput, `${MOVED_FOLDER}.pdf`))).toBe(true);
 			expect(await pathExists(join(dirs.finalOutput, testLecture.outputFile))).toBe(false);
@@ -157,35 +162,37 @@ describe("lecture identity commands", () => {
 		it("should succeed when the lecture has produced no final output yet", async () => {
 			await rm(join(dirs.finalOutput, testLecture.outputFile));
 
-			await changeLectureDate({ match, newLectureDate: changedDate });
+			await changeDate();
 
 			expect(await pathExists(join(dirs.video, `${MOVED_FOLDER}.mp4`))).toBe(true);
 		});
 
-		it("should reject the change when a source file already sits at the new date", async () => {
-			await writeFile(join(dirs.video, `${MOVED_FOLDER}.mp4`), "another lecture");
+		describe("with another lecture's file at the new date", () => {
+			beforeEach(async () => {
+				await writeFile(join(dirs.video, `${MOVED_FOLDER}.mp4`), "another lecture");
+			});
 
-			const error = await captureError(changeLectureDate({ match, newLectureDate: changedDate }));
+			it("should reject the change when the move would overwrite it", async () => {
+				const error = await captureError(changeDate());
 
-			expect(error).toBeInstanceOf(LectureIdentityError);
-			expect(error.message).toContain(changedDate);
-		});
+				expect(error).toBeInstanceOf(LectureIdentityError);
+				expect(error.message).toContain(changedDate);
+			});
 
-		it("should leave the lecture untouched when the change is rejected", async () => {
-			await writeFile(join(dirs.video, `${MOVED_FOLDER}.mp4`), "another lecture");
+			it("should leave the lecture untouched when the change is rejected", async () => {
+				await captureError(changeDate());
 
-			await captureError(changeLectureDate({ match, newLectureDate: changedDate }));
-
-			expect(await pathExists(join(dirs.video, testLecture.videoFile))).toBe(true);
-			expect((await readManifest({ workspaceRoot: match.workspaceRoot })).lectureDate).toBe(
-				testLecture.date,
-			);
+				expect(await pathExists(join(dirs.video, testLecture.videoFile))).toBe(true);
+				expect((await readManifest({ workspaceRoot: match.workspaceRoot })).lectureDate).toBe(
+					testLecture.date,
+				);
+			});
 		});
 
 		it("should reject the change when the lecture's source video is missing", async () => {
 			await rm(join(dirs.video, testLecture.videoFile));
 
-			const error = await captureError(changeLectureDate({ match, newLectureDate: changedDate }));
+			const error = await captureError(changeDate());
 
 			expect(error).toBeInstanceOf(LectureIdentityError);
 		});

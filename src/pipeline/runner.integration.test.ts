@@ -1008,14 +1008,18 @@ describe("PipelineRunner integration", () => {
 	describe("following a relocated workspace", () => {
 		let renamedWorkspaceRoot: string;
 
+		// Which stage does the renaming does not matter, so long as it runs before
+		// the downstream one below. Both the pipeline and the assertions name this.
+		const RENAMING_STAGE = "audio-extraction";
+
 		/**
 		 * A stage that does what Stage 3 does when it replaces a lecture's title:
 		 * moves the workspace out from under the runner and reports the identity it
 		 * settled, leaving the manifest write to the runner.
 		 */
-		function makeRenamingStage(stageId: StageId): PipelineStage<unknown, unknown> {
+		function makeRenamingStage(): PipelineStage<unknown, unknown> {
 			return makeStubStage({
-				stageId,
+				stageId: RENAMING_STAGE,
 				run: async ({ context }) => {
 					await rename(context.workspaceRoot, renamedWorkspaceRoot);
 					return {
@@ -1028,16 +1032,21 @@ describe("PipelineRunner integration", () => {
 			});
 		}
 
+		/** Runs a pipeline that is nothing but the renaming stage. */
+		function runRenamingWorkspace(): Promise<RunSummary> {
+			return makeRunner([makeRenamingStage()]).runLecture({ workspaceRoot });
+		}
+
 		beforeEach(async () => {
 			renamedWorkspaceRoot = workspaceRootFor({ moduleRoot, folderName: RENAMED_FOLDER });
 			await writeManifest({ workspaceRoot, manifest: makeManifest() });
 		});
 
 		it("should record the completed stage in the manifest at its new path when a stage renames the workspace", async () => {
-			await makeRunner([makeRenamingStage("audio-extraction")]).runLecture({ workspaceRoot });
+			await runRenamingWorkspace();
 
 			const manifest = await readManifest({ workspaceRoot: renamedWorkspaceRoot });
-			expect(manifest.stages["audio-extraction"]?.status).toBe("complete");
+			expect(manifest.stages[RENAMING_STAGE]?.status).toBe("complete");
 		});
 
 		// Both the title and the path are read off the rebuilt context, and both are
@@ -1070,17 +1079,13 @@ describe("PipelineRunner integration", () => {
 				},
 			});
 
-			await makeRunner([makeRenamingStage("audio-extraction"), downstream]).runLecture({
-				workspaceRoot,
-			});
+			await makeRunner([makeRenamingStage(), downstream]).runLecture({ workspaceRoot });
 
 			expect(seen).toEqual([expected()]);
 		});
 
 		it("should write the run log to the renamed workspace when a stage renames it", async () => {
-			const summary = await makeRunner([makeRenamingStage("audio-extraction")]).runLecture({
-				workspaceRoot,
-			});
+			const summary = await runRenamingWorkspace();
 
 			await expect(readRunLog(renamedWorkspaceRoot, summary.runId)).resolves.toMatchObject({
 				runId: summary.runId,
@@ -1088,9 +1093,7 @@ describe("PipelineRunner integration", () => {
 		});
 
 		it("should report the workspace's new path in the summary when a stage renames it", async () => {
-			const summary = await makeRunner([makeRenamingStage("audio-extraction")]).runLecture({
-				workspaceRoot,
-			});
+			const summary = await runRenamingWorkspace();
 
 			expect(summary.workspaceRoot).toBe(renamedWorkspaceRoot);
 		});

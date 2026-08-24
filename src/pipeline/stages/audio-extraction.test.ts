@@ -195,81 +195,73 @@ describe("createAudioExtractionStage", () => {
 		expect(ffmpegMock).not.toHaveBeenCalled();
 	});
 
-	it("should return correct filesWritten list when stage completes", async () => {
-		await writeSourceVideo(testLecture.videoFile);
-		stubFfmpeg(succeed);
+	describe("once the source video is in place and ffmpeg succeeds", () => {
+		beforeEach(async () => {
+			await writeSourceVideo(testLecture.videoFile);
+			stubFfmpeg(succeed);
+		});
 
-		const result = await runStage();
+		it("should return correct filesWritten list when stage completes", async () => {
+			const result = await runStage();
 
-		expect(result.filesWritten).toStrictEqual([stageOutputEntry("audio-extraction")]);
-		expect(result.output.audioPath).toBe(audioPath());
-	});
+			expect(result.filesWritten).toStrictEqual([stageOutputEntry("audio-extraction")]);
+			expect(result.output.audioPath).toBe(audioPath());
+		});
 
-	it("should record which source video it chose when extraction completes", async () => {
-		await writeSourceVideo(testLecture.videoFile);
-		stubFfmpeg(succeed);
+		it("should record which source video it chose when extraction completes", async () => {
+			await runStage();
 
-		await runStage();
+			const [entry] = loggedAt({ entries: logged().entries, level: "debug" });
+			expect(entry?.message).toBe("Extracted audio track");
+			expect(entry?.bindings).toEqual({ stage: "audio-extraction" });
+			expect(entry?.payload).toEqual({
+				sourceVideoPath: join(videoDir, testLecture.videoFile),
+				audioPath: audioPath(),
+				latencyMs: expect.any(Number),
+			});
+		});
 
-		const [entry] = loggedAt({ entries: logged().entries, level: "debug" });
-		expect(entry?.message).toBe("Extracted audio track");
-		expect(entry?.bindings).toEqual({ stage: "audio-extraction" });
-		expect(entry?.payload).toEqual({
-			sourceVideoPath: join(videoDir, testLecture.videoFile),
-			audioPath: audioPath(),
-			latencyMs: expect.any(Number),
+		it("should record no cost when the stage makes no billable call", async () => {
+			const result = await runStage();
+
+			expect(result.cost).toBeNull();
+		});
+
+		it("should copy the audio track without re-encoding when extracting", async () => {
+			await runStage();
+
+			const call = extractionCall();
+
+			expect(call.inputPath).toBe(join(videoDir, testLecture.videoFile));
+			expect(call.audioCodecs).toStrictEqual(["copy"]);
+			expect(call.noVideoCalled).toBe(true);
+		});
+
+		it("should write to a .tmp sibling and rename it when extraction succeeds", async () => {
+			await runStage();
+
+			const call = extractionCall();
+
+			expect(call.outputPath).toBe(`${audioPath()}.tmp`);
+			// The .tmp extension defeats container inference, so the muxer is explicit.
+			expect(call.outputFormat).toBe("ipod");
+			await expect(access(audioPath())).resolves.toBeUndefined();
+			expect(await readdir(audioDir())).toStrictEqual([basename(audioPath())]);
+		});
+
+		it("should remove stale .tmp files when a previous run left them behind", async () => {
+			await mkdir(audioDir(), { recursive: true });
+			await writeFile(`${audioPath()}.tmp`, "half-written");
+			await writeFile(join(audioDir(), "stale.m4a.tmp"), "half-written");
+
+			await runStage();
+
+			expect(await readdir(audioDir())).toStrictEqual([basename(audioPath())]);
 		});
 	});
 
-	it("should record no cost when the stage makes no billable call", async () => {
-		await writeSourceVideo(testLecture.videoFile);
-		stubFfmpeg(succeed);
-
-		const result = await runStage();
-
-		expect(result.cost).toBeNull();
-	});
-
-	it("should copy the audio track without re-encoding when extracting", async () => {
-		await writeSourceVideo(testLecture.videoFile);
-		stubFfmpeg(succeed);
-
-		await runStage();
-
-		const call = extractionCall();
-
-		expect(call.inputPath).toBe(join(videoDir, testLecture.videoFile));
-		expect(call.audioCodecs).toStrictEqual(["copy"]);
-		expect(call.noVideoCalled).toBe(true);
-	});
-
-	it("should write to a .tmp sibling and rename it when extraction succeeds", async () => {
-		await writeSourceVideo(testLecture.videoFile);
-		stubFfmpeg(succeed);
-
-		await runStage();
-
-		const call = extractionCall();
-
-		expect(call.outputPath).toBe(`${audioPath()}.tmp`);
-		// The .tmp extension defeats container inference, so the muxer is explicit.
-		expect(call.outputFormat).toBe("ipod");
-		await expect(access(audioPath())).resolves.toBeUndefined();
-		expect(await readdir(audioDir())).toStrictEqual([basename(audioPath())]);
-	});
-
-	it("should remove stale .tmp files when a previous run left them behind", async () => {
-		await writeSourceVideo(testLecture.videoFile);
-		await mkdir(audioDir(), { recursive: true });
-		await writeFile(`${audioPath()}.tmp`, "half-written");
-		await writeFile(join(audioDir(), "stale.m4a.tmp"), "half-written");
-		stubFfmpeg(succeed);
-
-		await runStage();
-
-		expect(await readdir(audioDir())).toStrictEqual([basename(audioPath())]);
-	});
-
+	// Outside that block deliberately: what these rows arrange is ffmpeg *failing*,
+	// so arming the succeeding stub first and replacing it would say the opposite.
 	it.each([
 		{ label: "an Error", failure: new Error("ffmpeg exited with code 1") },
 		{ label: "a bare string", failure: "ffmpeg exited with code 1" },
