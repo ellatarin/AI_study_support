@@ -44,20 +44,27 @@ const SLIDE_CONVERSION_CONFIG: StageRunConfig = {
 const SLIDE_CONVERSION_CALLS = 24;
 const SLIDE_CONVERSION_COST_USD = 0.034;
 
+// The two operands every fold below is made of, and what they come to. Only
+// their prices vary from test to test, so the tokens and call counts are stated
+// here and each test supplies its own CostResolution.
+const RUNNING_TOTAL = { promptTokens: 100, completionTokens: 50, callCount: 1 } as const;
+const INCOMING_CALL = { promptTokens: 200, completionTokens: 80, callCount: 2 } as const;
+const FOLDED = { promptTokens: 300, completionTokens: 130, callCount: 3 } as const;
+
 describe("accumulateCost", () => {
 	it.each([
 		{
 			name: "two resolved calls",
-			current: { promptTokens: 100, completionTokens: 50, callCount: 1, costUsd: 0.02 },
-			incoming: { promptTokens: 200, completionTokens: 80, callCount: 2, costUsd: 0.03 },
-			expectedTokens: { promptTokens: 300, completionTokens: 130, callCount: 3 },
+			current: { ...RUNNING_TOTAL, costUsd: 0.02 },
+			incoming: { ...INCOMING_CALL, costUsd: 0.03 },
+			expectedTokens: FOLDED,
 			expectedCost: 0.05,
 		},
 		{
 			name: "a zero accumulator and a resolved call",
 			current: { promptTokens: 0, completionTokens: 0, callCount: 0, costUsd: 0 },
-			incoming: { promptTokens: 200, completionTokens: 80, callCount: 2, costUsd: 0.03 },
-			expectedTokens: { promptTokens: 200, completionTokens: 80, callCount: 2 },
+			incoming: { ...INCOMING_CALL, costUsd: 0.03 },
+			expectedTokens: INCOMING_CALL,
 			expectedCost: 0.03,
 		},
 	])("should sum tokens, calls, and cost when folding in $name", ({
@@ -76,11 +83,9 @@ describe("accumulateCost", () => {
 
 	it("should carry the error and null the cost when the incoming call is unresolved", () => {
 		const result = accumulateCost({
-			current: { promptTokens: 100, completionTokens: 50, callCount: 1, costUsd: 0.02 },
+			current: { ...RUNNING_TOTAL, costUsd: 0.02 },
 			incoming: {
-				promptTokens: 200,
-				completionTokens: 80,
-				callCount: 2,
+				...INCOMING_CALL,
 				costUsd: null,
 				costResolutionError: "cost lookup timed out",
 			},
@@ -89,9 +94,7 @@ describe("accumulateCost", () => {
 		// One call's price unknown leaves the stage's own figure unknown: reporting
 		// the calls that did resolve would name a price the stage was not charged.
 		expect(result).toEqual({
-			promptTokens: 300,
-			completionTokens: 130,
-			callCount: 3,
+			...FOLDED,
 			costUsd: null,
 			costResolutionError: "cost lookup timed out",
 		});
@@ -100,19 +103,15 @@ describe("accumulateCost", () => {
 	it("should carry the error and null the cost when the running total is unresolved", () => {
 		const result = accumulateCost({
 			current: {
-				promptTokens: 100,
-				completionTokens: 50,
-				callCount: 1,
+				...RUNNING_TOTAL,
 				costUsd: null,
 				costResolutionError: "generation lookup returned 503",
 			},
-			incoming: { promptTokens: 200, completionTokens: 80, callCount: 2, costUsd: 0.03 },
+			incoming: { ...INCOMING_CALL, costUsd: 0.03 },
 		});
 
 		expect(result).toEqual({
-			promptTokens: 300,
-			completionTokens: 130,
-			callCount: 3,
+			...FOLDED,
 			costUsd: null,
 			costResolutionError: "generation lookup returned 503",
 		});
@@ -121,25 +120,19 @@ describe("accumulateCost", () => {
 	it("should join both errors when the running total and the incoming call are both unresolved", () => {
 		const result = accumulateCost({
 			current: {
-				promptTokens: 100,
-				completionTokens: 50,
-				callCount: 1,
+				...RUNNING_TOTAL,
 				costUsd: null,
 				costResolutionError: "slide 3 lookup failed",
 			},
 			incoming: {
-				promptTokens: 200,
-				completionTokens: 80,
-				callCount: 2,
+				...INCOMING_CALL,
 				costUsd: null,
 				costResolutionError: "slide 7 lookup failed",
 			},
 		});
 
 		expect(result).toEqual({
-			promptTokens: 300,
-			completionTokens: 130,
-			callCount: 3,
+			...FOLDED,
 			costUsd: null,
 			costResolutionError: "slide 3 lookup failed; slide 7 lookup failed",
 		});
