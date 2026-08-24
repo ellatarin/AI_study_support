@@ -14,7 +14,16 @@
  */
 
 import { formatDateISO, stripDateTokens } from "./date.js";
+import { NamedError } from "./errors.js";
 import { collapseWhitespace } from "./text.js";
+
+/**
+ * Thrown when sanitising a title leaves nothing to name a file with — the whole
+ * of the input was unsafe characters, traversal segments, or whitespace. The
+ * caller falls back to a provisional title or a stage-defined default
+ * (technical-design.md §3, §4.4).
+ */
+export class EmptyNameError extends NamedError {}
 
 /** Words kept lowercase by {@link toTitleCase} unless they lead the title. */
 const MINOR_WORDS: ReadonlySet<string> = new Set([
@@ -173,8 +182,8 @@ export function extractProvisionalTitle(filename: string): string {
  *
  * @param title - The raw title to sanitise.
  * @returns The sanitised name, guaranteed non-empty.
- * @throws Error when sanitisation leaves an empty string; the caller must fall
- *   back to a provisional title or a stage-defined default.
+ * @throws {EmptyNameError} When sanitisation leaves an empty string; the caller
+ *   must fall back to a provisional title or a stage-defined default.
  *
  * @example
  * filenameSafe("../etc/passwd"); // → "etc passwd"
@@ -192,7 +201,9 @@ export function filenameSafe(title: string): string {
 		.replace(EDGE_DOTS, "")
 		.trim();
 	if (result === "") {
-		throw new Error(`filenameSafe produced an empty name from input: ${JSON.stringify(title)}`);
+		throw new EmptyNameError(
+			`filenameSafe produced an empty name from input: ${JSON.stringify(title)}`,
+		);
 	}
 	return result;
 }

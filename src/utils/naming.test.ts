@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { extractProvisionalTitle, filenameSafe, lectureFolderName } from "./naming.js";
+import {
+	EmptyNameError,
+	extractProvisionalTitle,
+	filenameSafe,
+	lectureFolderName,
+} from "./naming.js";
 
 const NULL_BYTE = String.fromCharCode(0);
 const CONTROL_CHAR = String.fromCharCode(1);
@@ -50,8 +55,8 @@ describe("filenameSafe", () => {
 		{ input: "." },
 		{ input: "   " },
 		{ input: " " },
-	])("should throw when sanitisation leaves nothing ($input)", ({ input }) => {
-		expect(() => filenameSafe(input)).toThrow();
+	])("should throw EmptyNameError when sanitisation leaves nothing ($input)", ({ input }) => {
+		expect(() => filenameSafe(input)).toThrow(EmptyNameError);
 	});
 });
 

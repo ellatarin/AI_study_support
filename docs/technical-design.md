@@ -132,6 +132,7 @@ lectureBaseName(args: { lectureNumber: number; title: string; date: Date }): str
 // asks for; lectureFolderName is the form beneath it. It lives here rather than in Stage 0, which first
 // needed it, because pipeline infrastructure may not depend on a stage (§9).
 filenameSafe(title: string): string                  // see §4.4 for the rules it enforces
+class EmptyNameError extends NamedError              // sanitising left nothing to name a file with
 ```
 
 ### 3.3 Pipeline Processing — Per-Lecture Workspace
@@ -1455,7 +1456,7 @@ The tables above share one renderer and one money formatter, so a column of poun
 
 ### Typed Errors
 
-Every way a module can fail raises an error class of its own, the failures the platform raises included — `ConfigError`, `ManifestPathError`, `ManifestUnreadableError`, `ManifestNotJsonError`, `ManifestShapeError`, `UnconfiguredStageError`, `ContextLengthError`, `CompletionRejectedError`, `NoCompletionChoicesError`, `SourceNormalisationError`, `AudioExtractionError`, `TranscriptionError`, `TranscriptStructuringError`, `CliUsageError`, `LectureIdentityError`. A caught failure names what happened from its type, so a module with three ways to fail declares three classes; a filesystem error or a `SyntaxError` on its way out through one of them is caught and rethrown as the module's own, its message carried into the new one. Every stage built so far contributes at least one, so each stage still to come adds its own. All extend a shared `NamedError` base that captures the concrete subclass name via `new.target`, so each stays a distinct `instanceof` type without repeating constructor boilerplate and reports its own name in logs.
+Every way a module can fail raises an error class of its own, the failures the platform raises included — `ConfigError`, `ManifestPathError`, `ManifestUnreadableError`, `ManifestNotJsonError`, `ManifestShapeError`, `UnconfiguredStageError`, `ContextLengthError`, `CompletionRejectedError`, `NoCompletionChoicesError`, `EmptyNameError`, `SourceNormalisationError`, `AudioExtractionError`, `TranscriptionError`, `TranscriptStructuringError`, `CliUsageError`, `LectureIdentityError`. A caught failure names what happened from its type, so a module with three ways to fail declares three classes; a filesystem error or a `SyntaxError` on its way out through one of them is caught and rethrown as the module's own, its message carried into the new one. Every stage built so far contributes at least one, so each stage still to come adds its own. All extend a shared `NamedError` base that captures the concrete subclass name via `new.target`, so each stays a distinct `instanceof` type without repeating constructor boilerplate and reports its own name in logs.
 
 A `catch` binding is typed `unknown`, because any value can be thrown. Every site that wants to report what went wrong therefore needs the same narrowing, so it lives in one place rather than at each catch.
 

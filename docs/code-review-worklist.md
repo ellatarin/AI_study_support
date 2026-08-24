@@ -352,7 +352,7 @@ Worked module by module, one commit each, **last** of the auto work.
 
 ### A21.8 Small modelling fixes
 
-- [ ] **A21.8a** `naming.ts:166` throws a bare `Error` where `errors.ts:7` `NamedError` exists
+- [x] **A21.8a** `naming.ts:166` throws a bare `Error` where `errors.ts:7` `NamedError` exists. **Done: `EmptyNameError`, named for the failure rather than the module, because that is the one way this module fails and "the sanitised name came out empty" is what a caller catches it for.** A21.6e's answer reaching one more site. **The suite could not go red on this**: its case table asserted `toThrow()` with no argument, and `toThrow(EmptyNameError)` with the class still unimported is `toThrow(undefined)`, which matches any throw — so the table passed against the bare `Error` it was meant to reject. **`tsc` is what went red**, on the missing export. Worth remembering the shape: a test that names a type it has not yet imported is not a failing test
 - [ ] **A21.8b** `cost.ts` — exported `stageLabel` bypassed by its own file (`:308`, `:525` index `STAGE_LABELS` directly); `experimentSection` (366-381) hand-builds padded lines instead of using `renderCostTable`; `manifestStageMeta` (253-259) only reshapes `manifestStageOutput` and has one caller; `stageId: string` from `Object.entries` loses `StageId`; accumulators mutated inside `.map`/loops (`:520-531`, `:336`, `:611`)
 - [ ] **A21.8c** `files.ts:185` uses `(error as {code?: unknown}).code` rather than `in` narrowing; `:42` `readEntryNames` is the file's only undocumented private function
 - [ ] **A21.8d** `progress.ts:85` inlines an upload format while `:11` names the parallel one; `:47` `formatUploadValue` is exported only for its test
