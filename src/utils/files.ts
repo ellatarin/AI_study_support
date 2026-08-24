@@ -39,6 +39,16 @@ export async function pathExists(path: string): Promise<boolean> {
 	}
 }
 
+/**
+ * The names of a directory's entries that a listing wants, or `[]` when the
+ * directory is missing. The two public listings below differ only in which
+ * entries they keep, so the read and the mapping to names are stated once here.
+ *
+ * @param args - Where to look, and which entries to keep.
+ * @param args.dir - Absolute path to the directory to list.
+ * @param args.matches - Whether a directory entry belongs in the listing.
+ * @returns The matching entries' names.
+ */
 async function readEntryNames({
 	dir,
 	matches,
@@ -253,7 +263,7 @@ export async function cleanTmpFiles(dir: string): Promise<void> {
  * @returns `true` when the error is a Node `ENOENT` error.
  */
 function isNotFoundError(error: unknown): boolean {
-	return error instanceof Error && (error as { readonly code?: unknown }).code === "ENOENT";
+	return error instanceof Error && "code" in error && error.code === "ENOENT";
 }
 
 /**
