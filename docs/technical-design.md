@@ -420,6 +420,12 @@ pendingStages(): RunManifest["stages"]   // every stage `pending`, as Stage 0 wr
 // Beside the version and for the same reason: Stage 0 writes this map and the fixtures seed one, and each had
 // been building its own. Nothing reads the map back in a way that would notice the two drifting apart.
 manifestPath(args: { workspaceRoot: string }): string
+class ManifestUnreadableError extends NamedError   // missing, or the filesystem refused it
+class ManifestNotJsonError extends NamedError      // read, but does not parse as JSON
+class ManifestShapeError extends NamedError        // parses, but describes no lecture
+// One class per way `readManifest` fails, the two the platform raises included: a caught failure names which
+// of the three happened from its type, and a raw `ENOENT` or `SyntaxError` reaching a caller says only that
+// something below went wrong.
 readManifest(args: { workspaceRoot: string }): Promise<RunManifest>        // throws when missing or malformed
 // "Malformed" is judged the same way both readers judge it, on the parsed value rather than on whether parsing
 // threw. `{}`, `[]` and `null` all parse and none describes a lecture. The two readers differ only in what they

@@ -13,9 +13,30 @@
 import { mkdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { type RunManifest, STAGE_IDS } from "../types/pipeline.js";
+import { errorMessage, NamedError } from "../utils/errors.js";
 import { readJsonSafe, writeJsonAtomic } from "../utils/files.js";
 import { isRecord } from "../utils/record.js";
 import { MANIFEST_FILE } from "./layout.js";
+
+/**
+ * The manifest file could not be read at all — it is missing, or the filesystem
+ * refused it. Raised by {@link readManifest}, where the caller was handed a path
+ * that is not a lecture workspace (technical-design.md §4.5).
+ */
+export class ManifestUnreadableError extends NamedError {}
+
+/**
+ * The manifest file was read but does not parse as JSON. Raised by
+ * {@link readManifest} (technical-design.md §4.5).
+ */
+export class ManifestNotJsonError extends NamedError {}
+
+/**
+ * The manifest file parses but describes no lecture — `{}`, `[]` and `null` all
+ * parse and none of them is a manifest. Raised by {@link readManifest}
+ * (technical-design.md §4.5).
+ */
+export class ManifestShapeError extends NamedError {}
 
 /**
  * The schema version stamped into every manifest this pipeline writes.
@@ -70,15 +91,17 @@ export function manifestPath({ workspaceRoot }: { readonly workspaceRoot: string
  * {@link isRunManifest} that {@link readManifestSafe} uses, so the two readers
  * agree on what a manifest is and differ only in what they do about its absence.
  *
- * The throw is a bare `Error` rather than a named one on purpose: this reader's
- * other two failures are the platform's own — a filesystem error and a
- * `SyntaxError` — and no caller discriminates between the three, so a class
- * covering one of them would suggest a distinction that is not there.
+ * Each of the three ways this fails raises a named error of its own, the two the
+ * platform raises included: a caught failure should say which of them happened
+ * from its type alone, and a raw `ENOENT` or `SyntaxError` reaching a caller
+ * says only that something below went wrong.
  *
  * @param args - The workspace to read.
  * @param args.workspaceRoot - Absolute path to the lecture workspace folder.
  * @returns The parsed manifest.
- * @throws Rethrows the filesystem error when the manifest is missing or unreadable, the parse error when it is malformed, and throws when the file parses but describes no lecture.
+ * @throws {ManifestUnreadableError} When the manifest is missing or the filesystem refuses it.
+ * @throws {ManifestNotJsonError} When the file does not parse as JSON.
+ * @throws {ManifestShapeError} When the file parses but describes no lecture.
  */
 export async function readManifest({
 	workspaceRoot,
@@ -86,11 +109,49 @@ export async function readManifest({
 	readonly workspaceRoot: string;
 }): Promise<RunManifest> {
 	const path = manifestPath({ workspaceRoot });
-	const parsed: unknown = JSON.parse(await readFile(path, "utf8"));
+	const parsed = parseManifest({ path, contents: await readManifestFile(path) });
 	if (!isRunManifest(parsed)) {
-		throw new Error(`${path} is not a lecture manifest`);
+		throw new ManifestShapeError(`${path} is not a lecture manifest`);
 	}
 	return parsed;
+}
+
+/**
+ * Reads the manifest file's text, naming the read as what failed.
+ *
+ * @param path - Absolute path to the manifest file.
+ * @returns The file's contents.
+ * @throws {ManifestUnreadableError} When the file cannot be read.
+ */
+async function readManifestFile(path: string): Promise<string> {
+	try {
+		return await readFile(path, "utf8");
+	} catch (error: unknown) {
+		throw new ManifestUnreadableError(`${path} could not be read: ${errorMessage(error)}`);
+	}
+}
+
+/**
+ * Parses the manifest file's text, naming the parse as what failed.
+ *
+ * @param args - The file and its contents.
+ * @param args.path - Absolute path to the manifest file, for the message.
+ * @param args.contents - The text read from it.
+ * @returns The parsed value, which is not yet known to be a manifest.
+ * @throws {ManifestNotJsonError} When the text does not parse as JSON.
+ */
+function parseManifest({
+	path,
+	contents,
+}: {
+	readonly path: string;
+	readonly contents: string;
+}): unknown {
+	try {
+		return JSON.parse(contents);
+	} catch (error: unknown) {
+		throw new ManifestNotJsonError(`${path} is not valid JSON: ${errorMessage(error)}`);
+	}
 }
 
 /**

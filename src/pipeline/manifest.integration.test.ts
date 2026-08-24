@@ -6,6 +6,9 @@ import { captureError, corruptJson, makeManifest, makeTempDir, testLecture } fro
 import { MANIFEST_FILE, workspaceRootFor } from "./layout.js";
 import {
 	MANIFEST_VERSION,
+	ManifestNotJsonError,
+	ManifestShapeError,
+	ManifestUnreadableError,
 	manifestPath,
 	readManifest,
 	readManifestSafe,
@@ -51,28 +54,34 @@ describe("manifest I/O", () => {
 			expect(await readManifest({ workspaceRoot })).toEqual(manifest);
 		});
 
-		it("should reject when the manifest is missing", async () => {
-			const error = await captureError(readManifest({ workspaceRoot }));
-
-			expect(error.message).toContain(MANIFEST_FILE);
-		});
-
-		// The values readManifestSafe skips over, asked of the reader that is meant
-		// to fail loudly: each parses, so nothing throws of its own accord, and each
-		// still is not a lecture's manifest.
+		// Every way this reader fails, and the type each one raises: which failure
+		// happened is the fact the type carries, so the table asserts it rather than
+		// leaving all three indistinguishable behind one message check. The last four
+		// are the values readManifestSafe skips over, asked of the reader that is
+		// meant to fail loudly: each parses, so nothing throws of its own accord, and
+		// each still is not a lecture's manifest.
 		it.each([
-			{ scenario: "holds an empty object", content: "{}" },
-			{ scenario: "holds an array", content: "[]" },
-			{ scenario: "holds null", content: "null" },
+			{ scenario: "is missing", content: null, expected: ManifestUnreadableError },
+			{ scenario: "is not JSON", content: corruptJson, expected: ManifestNotJsonError },
+			{ scenario: "holds an empty object", content: "{}", expected: ManifestShapeError },
+			{ scenario: "holds an array", content: "[]", expected: ManifestShapeError },
+			{ scenario: "holds null", content: "null", expected: ManifestShapeError },
 			{
 				scenario: "carries no lecture date",
 				content: JSON.stringify({ ...makeManifest(), lectureDate: undefined }),
+				expected: ManifestShapeError,
 			},
-		])("should reject when the manifest $scenario", async ({ content }) => {
-			await writeRaw(content);
+		])("should reject with $expected.name when the manifest $scenario", async ({
+			content,
+			expected,
+		}) => {
+			if (content !== null) {
+				await writeRaw(content);
+			}
 
 			const error = await captureError(readManifest({ workspaceRoot }));
 
+			expect(error).toBeInstanceOf(expected);
 			expect(error.message).toContain(MANIFEST_FILE);
 		});
 	});
