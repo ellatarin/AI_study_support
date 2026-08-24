@@ -50,6 +50,30 @@ type OpenRouterSettings = PipelineConfig["openRouter"];
 export class ContextLengthError extends NamedError {}
 
 /**
+ * Thrown when the configuration holds no entry for the stage a completion was
+ * asked for, so there is no model to call. Named separately from the rejections
+ * below because it is settled before the request is made: nothing was sent, and
+ * the remedy is an edit to the config file (technical-design.md §6, §8).
+ */
+export class UnconfiguredStageError extends NamedError {}
+
+/**
+ * Thrown when the provider rejects a completion request for any reason the
+ * pipeline does not treat specially — an unavailable model, a refused request,
+ * an unreachable endpoint. {@link ContextLengthError} is the one rejection with a
+ * remedy of its own and keeps its own type (technical-design.md §8).
+ */
+export class CompletionRejectedError extends NamedError {}
+
+/**
+ * Thrown when a completion is accepted but carries no choices at all, which
+ * leaves nothing to read. Distinct from a model answering with empty content,
+ * which is a legitimate reply this module hands back as `""`
+ * (technical-design.md §8).
+ */
+export class NoCompletionChoicesError extends NamedError {}
+
+/**
  * The shape a caller expects the model's reply to take. Stated on every call
  * rather than defaulted, so a caller always declares what it is about to parse
  * (technical-design.md §6).
@@ -137,7 +161,7 @@ function stageConfigFor(options: {
 }): StageConfig {
 	const stageConfig = configuredStage(options);
 	if (stageConfig === null) {
-		throw new Error(unconfiguredStageMessage(options));
+		throw new UnconfiguredStageError(unconfiguredStageMessage(options));
 	}
 	return stageConfig;
 }
@@ -161,7 +185,7 @@ function toCompletionError(options: {
 	readonly error: unknown;
 	readonly stageId: StageId;
 	readonly modelId: string;
-}): Error | null {
+}): ContextLengthError | CompletionRejectedError | null {
 	if (!(options.error instanceof OpenAI.APIError)) {
 		return null;
 	}
@@ -170,7 +194,7 @@ function toCompletionError(options: {
 			`Model "${options.modelId}" rejected the request: context length exceeded. Configure a larger-context model for this stage in ${CONFIG_FILENAME}.`,
 		);
 	}
-	return new Error(
+	return new CompletionRejectedError(
 		`Model "${options.modelId}" rejected the request for stage "${options.stageId}": ${options.error.message}`,
 	);
 }
@@ -273,9 +297,11 @@ async function lookupCost(options: {
  *   the call is recorded on it at `debug` (§10).
  * @param options.client - An OpenAI client to use; defaults to the shared OpenRouter client.
  * @returns The completion text and its resolved cost.
+ * @throws {UnconfiguredStageError} If the configuration holds no entry for the stage.
  * @throws {ContextLengthError} If the prompt exceeds the model's context window.
- * @throws {Error} If the API rejects the call for any other reason, or the model returns no choices;
- *   either way the message names the model and the stage (§8).
+ * @throws {CompletionRejectedError} If the API rejects the call for any other reason.
+ * @throws {NoCompletionChoicesError} If the call is accepted but the model returns no choices.
+ *   Every one of these names the model and the stage in its message (§8).
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the OpenAI client, message-param and pino Logger types are library types that are not deeply readonly (CLAUDE.md permits dropping readonly when a library requires mutable types)
 export async function makeCompletionCall(options: {
@@ -311,7 +337,7 @@ export async function makeCompletionCall(options: {
 	// Empty content is a different matter and stays tolerated as "" below.
 	const [choice] = response.choices;
 	if (choice === undefined) {
-		throw new Error(
+		throw new NoCompletionChoicesError(
 			`Model "${stageConfig.modelId}" returned no choices for stage "${options.stageId}"`,
 		);
 	}

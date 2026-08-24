@@ -84,7 +84,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `src/utils/text.ts` — `collapseWhitespace`: closing up the gaps that removing a fragment leaves, which both the naming rules and the date reader end by doing **(TD §3)**
 - `src/utils/stage-config.ts` — `configuredStage`, `unconfiguredStageMessage`: a stage's entry in the config file and the sentence reporting its absence, for the OpenRouter client, Stage 2 and the runner alike **(TD §6)**
 - `src/pipeline/config.ts` — `loadConfig`, plus the model-ID resolution check and its provider exemptions **(TD §6)**
-- `src/pipeline/openrouter.ts` — `createOpenRouterClient`, `makeCompletionCall`, and the exported `ContextLengthError` **(TD §6)**
+- `src/pipeline/openrouter.ts` — `createOpenRouterClient`, `makeCompletionCall`, and the exported `UnconfiguredStageError`, `ContextLengthError`, `CompletionRejectedError` and `NoCompletionChoicesError` **(TD §6)**
 - `src/pipeline/fixtures.ts` — the shared test vocabulary: the example lecture and its derived file names, the module tree builders, the stub logger, the manifest and stage-entry builders. It belongs to this phase because it is what stops each later phase's suites inventing their own lecture, but it is the one deliverable that keeps growing: a phase that needs a fixture the suites will share extends this module rather than restating the value. Production code never imports it, which `eslint.config.js` exempts it in order to allow — it is the one file under `src/pipeline/` permitted to import from `src/pipeline/stages/`
 
 **Tests:**

@@ -16,7 +16,14 @@ import {
 	stubOpenRouterApi,
 	useStubLogger,
 } from "./fixtures.js";
-import { ContextLengthError, createOpenRouterClient, makeCompletionCall } from "./openrouter.js";
+import {
+	CompletionRejectedError,
+	ContextLengthError,
+	createOpenRouterClient,
+	makeCompletionCall,
+	NoCompletionChoicesError,
+	UnconfiguredStageError,
+} from "./openrouter.js";
 
 const config: PipelineConfig = configuringStage({ stageId: "transcript-structuring" });
 
@@ -232,6 +239,7 @@ describe("makeCompletionCall", () => {
 
 		const error = await captureError(call());
 
+		expect(error).toBeInstanceOf(NoCompletionChoicesError);
 		expect(error.message).toMatch(new RegExp(openRouterModelId));
 		expect(error.message).toMatch(/no choices/i);
 	});
@@ -317,6 +325,7 @@ describe("makeCompletionCall", () => {
 
 		const error = await captureError(call());
 
+		expect(error).toBeInstanceOf(CompletionRejectedError);
 		expect(error.message).toContain(openRouterModelId);
 		expect(error.message).toContain("transcript-structuring");
 	});
@@ -372,6 +381,7 @@ describe("makeCompletionCall", () => {
 	it("should throw when the requested stage is not present in the config", async () => {
 		const error = await captureError(call({ stageId: "synthesis" }));
 
+		expect(error).toBeInstanceOf(UnconfiguredStageError);
 		expect(error.message).toMatch(/synthesis/);
 		expect(error.message).toContain(CONFIG_FILENAME);
 	});

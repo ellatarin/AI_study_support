@@ -1191,12 +1191,18 @@ API_KEY_VARIABLE: "OPENROUTER_API_KEY"
 // The environment variable the key is read from, named for the same reason the routes are: a suite that stubs
 // it names the variable this module reads rather than its own copy. The key itself never leaves the
 // environment (§2, Environment Variables). Stage 2 names its own the same way (§5, Stage 2).
+class UnconfiguredStageError extends NamedError    // the config holds no entry for the stage; nothing was sent
+class ContextLengthError extends NamedError       // the prompt exceeds the model's context window
+class CompletionRejectedError extends NamedError  // the provider rejected the request for any other reason
+class NoCompletionChoicesError extends NamedError // the call was accepted and carries no choices to read
+// One class per way a completion call fails. Context length keeps its own because it has a remedy of its own —
+// configure a larger-context model — and no choices is distinct from a model answering with empty content,
+// which is a legitimate reply handed back as "".
 makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; responseFormat: "text" | "json"; logger: Logger; client?: OpenAI }):
   Promise<{ content: string; cost: StageCost }>
 // `logger` is the calling stage's, already bound to it by createPipelineStage; the call is recorded on it
 // at `debug` with the model, prompt token count, and latency (§10).
-// Wraps the SDK call and resolves cost from /api/v1/generation (§7). Throws ContextLengthError when the
-// model rejects the prompt for length. `responseFormat: "json"` sends `response_format: json_object` and
+// Wraps the SDK call and resolves cost from /api/v1/generation (§7). `responseFormat: "json"` sends `response_format: json_object` and
 // the provider routing that makes it stick (see "JSON mode is routed for" below), which the stages
 // returning structured data require; it is stated on every call rather than defaulted so a caller always
 // declares the shape it expects back. `client` is injected by tests; it defaults to the shared instance.
@@ -1449,7 +1455,7 @@ The tables above share one renderer and one money formatter, so a column of poun
 
 ### Typed Errors
 
-Each module that can fail in a way a caller must distinguish exports its own error class — `ConfigError`, `ManifestPathError`, `ContextLengthError`, `SourceNormalisationError`, `AudioExtractionError`, `TranscriptionError`, `TranscriptStructuringError`, `CliUsageError`, `LectureIdentityError`. Every stage built so far contributes one, so each stage still to come adds its own. All extend a shared `NamedError` base that captures the concrete subclass name via `new.target`, so each stays a distinct `instanceof` type without repeating constructor boilerplate and reports its own name in logs.
+Every way a module can fail raises an error class of its own, the failures the platform raises included — `ConfigError`, `ManifestPathError`, `ManifestUnreadableError`, `ManifestNotJsonError`, `ManifestShapeError`, `UnconfiguredStageError`, `ContextLengthError`, `CompletionRejectedError`, `NoCompletionChoicesError`, `SourceNormalisationError`, `AudioExtractionError`, `TranscriptionError`, `TranscriptStructuringError`, `CliUsageError`, `LectureIdentityError`. A caught failure names what happened from its type, so a module with three ways to fail declares three classes; a filesystem error or a `SyntaxError` on its way out through one of them is caught and rethrown as the module's own, its message carried into the new one. Every stage built so far contributes at least one, so each stage still to come adds its own. All extend a shared `NamedError` base that captures the concrete subclass name via `new.target`, so each stays a distinct `instanceof` type without repeating constructor boilerplate and reports its own name in logs.
 
 A `catch` binding is typed `unknown`, because any value can be thrown. Every site that wants to report what went wrong therefore needs the same narrowing, so it lives in one place rather than at each catch.
 
