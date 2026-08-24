@@ -1,11 +1,10 @@
 import { Transform } from "node:stream";
-import { SingleBar, type ValueType } from "cli-progress";
+import { SingleBar } from "cli-progress";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
 	createParallelWorkBar,
 	createProgressBar,
 	createUploadProgressStream,
-	formatUploadValue,
 	type ParallelWorkBar,
 } from "./progress.js";
 
@@ -157,21 +156,47 @@ describe("createParallelWorkBar", () => {
 	});
 });
 
-describe("formatUploadValue", () => {
-	const byteCases: readonly { type: ValueType; input: number; expected: string }[] = [
-		{ type: "value", input: 1_048_576, expected: "1.0 MB" },
-		{ type: "total", input: 2_621_440, expected: "2.5 MB" },
-	];
+describe("the upload bar's value display", () => {
+	// Driven through the bar rather than by calling the formatter, because the
+	// formatter is cli-progress's to call: what this suite has to show is that an
+	// upload reports itself in megabytes, and that the percentage beside them is
+	// left alone rather than being read as a byte count too.
+	function renderUploadBar({
+		uploaded,
+		total,
+	}: {
+		readonly uploaded: number;
+		readonly total: number;
+	}): string {
+		// A bar renders nothing off a terminal, so the stream is told it is one for
+		// the duration of the render, exactly as the in-flight suffix's ANSI test does.
+		const realIsTTY = process.stderr.isTTY;
+		process.stderr.isTTY = true;
+		const written: string[] = [];
+		const writeSpy = vi
+			.spyOn(process.stderr, "write")
+			.mockImplementation((chunk: string | Uint8Array): boolean => {
+				written.push(String(chunk));
+				return true;
+			});
+		const { bar } = createUploadProgressStream(total);
+		bar.start(total, uploaded);
+		bar.stop();
+		writeSpy.mockRestore();
+		process.stderr.isTTY = realIsTTY;
+		return written.join("");
+	}
 
-	it.each(byteCases)("should render bytes as MB when the token is $type", ({
-		type,
-		input,
-		expected,
-	}) => {
-		expect(formatUploadValue(input, {}, type)).toBe(expected);
+	it("should report the bytes moved and the upload's size in megabytes when the bar renders", () => {
+		const rendered = renderUploadBar({ uploaded: 1_048_576, total: 2_621_440 });
+
+		expect(rendered).toContain("1.0 MB");
+		expect(rendered).toContain("2.5 MB");
 	});
 
-	it("should stringify the value unchanged when the token is not a byte column", () => {
-		expect(formatUploadValue(42, {}, "percentage")).toBe("42");
+	it("should leave the percentage as a number when the bar renders", () => {
+		const rendered = renderUploadBar({ uploaded: 1_048_576, total: 2_097_152 });
+
+		expect(rendered).toContain("50%");
 	});
 });

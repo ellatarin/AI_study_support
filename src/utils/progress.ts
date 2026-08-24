@@ -11,6 +11,9 @@ import {
 const PARALLEL_WORK_FORMAT =
 	"{label}  [{bar}] {value}/{total}  ETA {eta_formatted}  | in flight: {inFlight}";
 
+/** cli-progress format for the upload bar, whose value and total render as megabytes. */
+const UPLOAD_FORMAT = "Uploading    |{bar}| {percentage}%  {value} / {total}";
+
 /** ESC control character, built at runtime to avoid embedding a literal control byte in source. */
 const ESC = String.fromCharCode(27);
 
@@ -56,7 +59,7 @@ function formatMegabytes(bytes: number): string {
  * @returns The formatted token string.
  */
 // eslint-disable-next-line max-params, @typescript-eslint/prefer-readonly-parameter-types -- cli-progress's ValueFormatter signature is fixed: three positional parameters, the second of them cli-progress's own mutable Options, which this ignores entirely (CLAUDE.md permits dropping readonly where a library requires a mutable type)
-export function formatUploadValue(value: number, _options: Options, type: ValueType): string {
+function formatUploadValue(value: number, _options: Options, type: ValueType): string {
 	return type === "value" || type === "total" ? formatMegabytes(value) : String(value);
 }
 
@@ -96,10 +99,7 @@ export function createUploadProgressStream(totalBytes: number): {
 	readonly stream: Transform;
 	readonly bar: SingleBar;
 } {
-	const bar = createProgressBar({
-		format: "Uploading    |{bar}| {percentage}%  {value} / {total}",
-		formatValue: formatUploadValue,
-	});
+	const bar = createProgressBar({ format: UPLOAD_FORMAT, formatValue: formatUploadValue });
 
 	let uploaded = 0;
 	const stream = new Transform({
