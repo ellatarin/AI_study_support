@@ -81,44 +81,32 @@ describe("accumulateCost", () => {
 		expect(result.costUsd).toBeCloseTo(expectedCost);
 	});
 
-	it("should carry the error and null the cost when the incoming call is unresolved", () => {
-		const result = accumulateCost({
+	// One call's price unknown leaves the stage's own figure unknown, whichever
+	// operand it was: reporting the calls that did resolve would name a price the
+	// stage was not charged. Two unknowns carry both reasons, joined.
+	it.each([
+		{
+			name: "the incoming call is unresolved",
 			current: { ...RUNNING_TOTAL, costUsd: 0.02 },
 			incoming: {
 				...INCOMING_CALL,
 				costUsd: null,
 				costResolutionError: "cost lookup timed out",
 			},
-		});
-
-		// One call's price unknown leaves the stage's own figure unknown: reporting
-		// the calls that did resolve would name a price the stage was not charged.
-		expect(result).toEqual({
-			...FOLDED,
-			costUsd: null,
-			costResolutionError: "cost lookup timed out",
-		});
-	});
-
-	it("should carry the error and null the cost when the running total is unresolved", () => {
-		const result = accumulateCost({
+			expectedError: "cost lookup timed out",
+		},
+		{
+			name: "the running total is unresolved",
 			current: {
 				...RUNNING_TOTAL,
 				costUsd: null,
 				costResolutionError: "generation lookup returned 503",
 			},
 			incoming: { ...INCOMING_CALL, costUsd: 0.03 },
-		});
-
-		expect(result).toEqual({
-			...FOLDED,
-			costUsd: null,
-			costResolutionError: "generation lookup returned 503",
-		});
-	});
-
-	it("should join both errors when the running total and the incoming call are both unresolved", () => {
-		const result = accumulateCost({
+			expectedError: "generation lookup returned 503",
+		},
+		{
+			name: "both the running total and the incoming call are unresolved",
 			current: {
 				...RUNNING_TOTAL,
 				costUsd: null,
@@ -129,13 +117,16 @@ describe("accumulateCost", () => {
 				costUsd: null,
 				costResolutionError: "slide 7 lookup failed",
 			},
-		});
+			expectedError: "slide 3 lookup failed; slide 7 lookup failed",
+		},
+	])("should carry the error and null the cost when $name", ({
+		current,
+		incoming,
+		expectedError,
+	}) => {
+		const result = accumulateCost({ current, incoming });
 
-		expect(result).toEqual({
-			...FOLDED,
-			costUsd: null,
-			costResolutionError: "slide 3 lookup failed; slide 7 lookup failed",
-		});
+		expect(result).toEqual({ ...FOLDED, costUsd: null, costResolutionError: expectedError });
 	});
 });
 

@@ -129,6 +129,23 @@ async function writeConfig(config: unknown): Promise<void> {
 }
 
 /**
+ * Loads the config expecting it to be rejected, and hands back what it threw.
+ * Every rejection case here differs in how the config was made bad, never in how
+ * the failure is asked for, so only that difference is written out per test.
+ *
+ * @param args - How to load it.
+ * @param args.skipModelCheck - Whether to load without consulting OpenRouter's model list.
+ * @returns The error the load threw.
+ */
+function configRejection({
+	skipModelCheck = false,
+}: {
+	readonly skipModelCheck?: boolean;
+} = {}): Promise<Error> {
+	return captureError(loadConfig({ projectRoot, skipModelCheck }));
+}
+
+/**
  * Puts a config the loader will accept on disk, with one adjustment applied
  * first. Every test here starts from the same valid config and changes the one
  * thing its branch is about, so building it, changing it and writing it is one
@@ -184,7 +201,7 @@ describe("loadConfig model-ID resolution check", () => {
 		});
 		mockModelsResponse(KNOWN_MODEL_IDS);
 
-		const error = await captureError(loadConfig({ projectRoot }));
+		const error = await configRejection();
 
 		expect(error).toBeInstanceOf(ConfigError);
 		expect(error.message).toContain(stageId);
@@ -227,7 +244,7 @@ describe("loadConfig model-ID resolution check", () => {
 		await write();
 		nock(origin).get(path).reply(500, {});
 
-		const error = await captureError(loadConfig({ projectRoot }));
+		const error = await configRejection();
 
 		expect(error).toBeInstanceOf(ConfigError);
 		expect(error.message).toMatch(/model list/i);
@@ -240,7 +257,7 @@ describe("loadConfig model-ID resolution check", () => {
 		});
 		mockModelsResponse([SLIDE_MODEL_ID]);
 
-		const error = await captureError(loadConfig({ projectRoot }));
+		const error = await configRejection();
 
 		expect(error).toBeInstanceOf(ConfigError);
 		expect(error.message).toContain("<REASONING_MODEL>");
@@ -313,273 +330,295 @@ describe("loadConfig model-ID resolution check", () => {
 	});
 });
 
-describe("loadConfig file handling", () => {
-	it("should throw ConfigError when the config file is missing", async () => {
-		const error = await captureError(loadConfig({ projectRoot, skipModelCheck: true }));
+/**
+ * The two ways the file itself is unusable, before its shape is ever in
+ * question. The missing case seeds nothing, which is what makes it the missing
+ * case.
+ */
+const fileCases: readonly {
+	readonly name: string;
+	readonly seed: () => Promise<unknown>;
+	readonly match: RegExp;
+}[] = [
+	{ name: "the config file is missing", seed: () => Promise.resolve(), match: /read/i },
+	{
+		name: "the config file is not valid JSON",
+		seed: () => writeFile(join(projectRoot, CONFIG_FILENAME), corruptJson),
+		match: /json/i,
+	},
+];
 
-		expect(error).toBeInstanceOf(ConfigError);
-		expect(error.message).toMatch(/read/i);
-	});
+/**
+ * Every way a structurally invalid config is written: start from one the loader
+ * accepts, break the single field the case is about, and put it on disk.
+ */
+const shapeCases: readonly {
+	readonly name: string;
+	readonly mutate: (config: Record<string, unknown>) => void;
+	readonly match: RegExp;
+}[] = [
+	{
+		name: "version is missing",
+		mutate: (config: Record<string, unknown>) => delete config.version,
+		match: /version/,
+	},
+	{
+		name: "version is not a string",
+		mutate: (config: Record<string, unknown>) => {
+			config.version = 1;
+		},
+		match: /version/,
+	},
+	{
+		name: "moduleRoots is missing",
+		mutate: (config: Record<string, unknown>) => delete config.moduleRoots,
+		match: /moduleRoots/,
+	},
+	{
+		name: "moduleRoots is not an array",
+		mutate: (config: Record<string, unknown>) => {
+			config.moduleRoots = "not-an-array";
+		},
+		match: /moduleRoots/,
+	},
+	{
+		name: "a moduleRoots entry is not a string",
+		mutate: (config: Record<string, unknown>) => {
+			config.moduleRoots = [42];
+		},
+		match: /moduleRoots/,
+	},
+	{
+		name: "openRouter is missing",
+		mutate: (config: Record<string, unknown>) => delete config.openRouter,
+		match: /openRouter/,
+	},
+	{
+		name: "openRouter is null",
+		mutate: (config: Record<string, unknown>) => {
+			config.openRouter = null;
+		},
+		match: /openRouter/,
+	},
+	{
+		name: "baseUrl is missing",
+		mutate: (config: Record<string, unknown>) => {
+			config.openRouter = openRouterSection({ baseUrl: undefined });
+		},
+		match: /baseUrl/,
+	},
+	{
+		name: "baseUrl is not a string",
+		mutate: (config: Record<string, unknown>) => {
+			config.openRouter = openRouterSection({ baseUrl: 443 });
+		},
+		match: /baseUrl/,
+	},
+	{
+		name: "baseUrl is not an absolute URL",
+		mutate: (config: Record<string, unknown>) => {
+			config.openRouter = openRouterSection({ baseUrl: "/api/v1" });
+		},
+		match: /baseUrl/,
+	},
+	{
+		// The typo class the check exists to reject: every scheme parses, so
+		// `htp://` is accepted as a URL and only reveals itself later, as the
+		// literal "null" origin printed into the error meant to help.
+		name: "baseUrl's scheme is mistyped",
+		mutate: (config: Record<string, unknown>) => {
+			config.openRouter = openRouterSection({ baseUrl: "htp://openrouter.ai/api/v1" });
+		},
+		match: /baseUrl/,
+	},
+	{
+		name: "completionTimeoutMs is missing",
+		mutate: (config: Record<string, unknown>) => {
+			config.openRouter = openRouterSection({ completionTimeoutMs: undefined });
+		},
+		match: /completionTimeoutMs/,
+	},
+	{
+		name: "completionMaxRetries is not a number",
+		mutate: (config: Record<string, unknown>) => {
+			config.openRouter = openRouterSection({ completionMaxRetries: "lots" });
+		},
+		match: /completionMaxRetries/,
+	},
+	{
+		name: "costLookupTimeoutMs is missing",
+		mutate: (config: Record<string, unknown>) => {
+			config.openRouter = openRouterSection({ costLookupTimeoutMs: undefined });
+		},
+		match: /costLookupTimeoutMs/,
+	},
+	{
+		name: "costLookupMaxRetries is not a number",
+		mutate: (config: Record<string, unknown>) => {
+			config.openRouter = openRouterSection({ costLookupMaxRetries: null });
+		},
+		match: /costLookupMaxRetries/,
+	},
+	{
+		name: "elevenLabs is missing",
+		mutate: (config: Record<string, unknown>) => delete config.elevenLabs,
+		match: /elevenLabs/,
+	},
+	{
+		name: "elevenLabs.baseUrl is missing",
+		mutate: (config: Record<string, unknown>) => {
+			config.elevenLabs = elevenLabsSection({ baseUrl: undefined });
+		},
+		match: /elevenLabs\.baseUrl/,
+	},
+	{
+		name: "elevenLabs.baseUrl is not an absolute URL",
+		mutate: (config: Record<string, unknown>) => {
+			config.elevenLabs = elevenLabsSection({ baseUrl: "/v1" });
+		},
+		match: /elevenLabs\.baseUrl/,
+	},
+	{
+		name: "languageCode is missing",
+		mutate: (config: Record<string, unknown>) => {
+			config.elevenLabs = elevenLabsSection({ languageCode: undefined });
+		},
+		match: /languageCode/,
+	},
+	{
+		name: "languageCode is not a string",
+		mutate: (config: Record<string, unknown>) => {
+			config.elevenLabs = elevenLabsSection({ languageCode: 3 });
+		},
+		match: /languageCode/,
+	},
+	{
+		name: "costPerAudioHourUsd is not a number",
+		mutate: (config: Record<string, unknown>) => {
+			config.elevenLabs = elevenLabsSection({ costPerAudioHourUsd: "0.22" });
+		},
+		match: /costPerAudioHourUsd/,
+	},
+	{
+		name: "currency is missing",
+		mutate: (config: Record<string, unknown>) => delete config.currency,
+		match: /currency/,
+	},
+	{
+		name: "gbpPerUsd is not a number",
+		mutate: (config: Record<string, unknown>) => {
+			config.currency = { gbpPerUsd: "0.74" };
+		},
+		match: /gbpPerUsd/,
+	},
+	{
+		name: "modelIdCheck is missing",
+		mutate: (config: Record<string, unknown>) => delete config.modelIdCheck,
+		match: /modelIdCheck/,
+	},
+	{
+		name: "exemptProviders is not an array",
+		mutate: (config: Record<string, unknown>) => {
+			config.modelIdCheck = { exemptProviders: "elevenlabs" };
+		},
+		match: /exemptProviders/,
+	},
+	{
+		name: "an exemptProviders entry is not a string",
+		mutate: (config: Record<string, unknown>) => {
+			config.modelIdCheck = { exemptProviders: [42] };
+		},
+		match: /exemptProviders/,
+	},
+	{
+		name: "stages is missing",
+		mutate: (config: Record<string, unknown>) => delete config.stages,
+		match: /stages/,
+	},
+	{
+		name: "stages is an array",
+		mutate: (config: Record<string, unknown>) => {
+			config.stages = [];
+		},
+		match: /stages/,
+	},
+	{
+		// A mistyped key otherwise validates in full — model ID check included —
+		// while the stage it was meant to configure silently has no config.
+		name: "a stage key names no pipeline stage",
+		mutate: (config: Record<string, unknown>) => {
+			config.stages = { "transcript-strucuring": { modelId: openRouterModelId } };
+		},
+		match: /transcript-strucuring/,
+	},
+	{
+		name: "a stage is not an object",
+		mutate: (config: Record<string, unknown>) => {
+			config.stages = { synthesis: "gpt" };
+		},
+		match: /synthesis/,
+	},
+	{
+		name: "a stage modelId is missing",
+		mutate: (config: Record<string, unknown>) => {
+			config.stages = { synthesis: {} };
+		},
+		match: /modelId/,
+	},
+	{
+		name: "a stage modelId is not a string",
+		mutate: (config: Record<string, unknown>) => {
+			config.stages = { synthesis: { modelId: 5 } };
+		},
+		match: /modelId/,
+	},
+	{
+		name: "a stage param is not a number",
+		mutate: (config: Record<string, unknown>) => {
+			config.stages = { synthesis: { modelId: openRouterModelId, temperature: "hot" } };
+		},
+		match: /temperature/,
+	},
+	{
+		name: "output is missing",
+		mutate: (config: Record<string, unknown>) => delete config.output,
+		match: /output/,
+	},
+	{
+		name: "output.language is not a string",
+		mutate: (config: Record<string, unknown>) => {
+			config.output = { language: 1, pandocEngine: "xelatex" };
+		},
+		match: /language/,
+	},
+	{
+		name: "output.pandocEngine is not a string",
+		mutate: (config: Record<string, unknown>) => {
+			config.output = { language: "en-GB", pandocEngine: 9 };
+		},
+		match: /pandocEngine/,
+	},
+];
 
-	it("should throw ConfigError when the config file is not valid JSON", async () => {
-		await writeFile(join(projectRoot, CONFIG_FILENAME), corruptJson);
-
-		const error = await captureError(loadConfig({ projectRoot, skipModelCheck: true }));
-
-		expect(error).toBeInstanceOf(ConfigError);
-		expect(error.message).toMatch(/json/i);
-	});
-});
-
-describe("loadConfig shape validation", () => {
+describe("loadConfig rejections", () => {
+	// One table, because an unusable file and an invalid shape are rejected the
+	// same way and asserted the same way. Only the seeding differs, so only the
+	// seeding is written per case.
 	it.each([
-		{
-			name: "version is missing",
-			mutate: (config: Record<string, unknown>) => delete config.version,
-			match: /version/,
-		},
-		{
-			name: "version is not a string",
-			mutate: (config: Record<string, unknown>) => {
-				config.version = 1;
+		...fileCases,
+		...shapeCases.map(({ name, mutate, match }) => ({
+			name,
+			seed: async (): Promise<void> => {
+				const config = makeValidConfig();
+				mutate(config);
+				await writeConfig(config);
 			},
-			match: /version/,
-		},
-		{
-			name: "moduleRoots is missing",
-			mutate: (config: Record<string, unknown>) => delete config.moduleRoots,
-			match: /moduleRoots/,
-		},
-		{
-			name: "moduleRoots is not an array",
-			mutate: (config: Record<string, unknown>) => {
-				config.moduleRoots = "not-an-array";
-			},
-			match: /moduleRoots/,
-		},
-		{
-			name: "a moduleRoots entry is not a string",
-			mutate: (config: Record<string, unknown>) => {
-				config.moduleRoots = [42];
-			},
-			match: /moduleRoots/,
-		},
-		{
-			name: "openRouter is missing",
-			mutate: (config: Record<string, unknown>) => delete config.openRouter,
-			match: /openRouter/,
-		},
-		{
-			name: "openRouter is null",
-			mutate: (config: Record<string, unknown>) => {
-				config.openRouter = null;
-			},
-			match: /openRouter/,
-		},
-		{
-			name: "baseUrl is missing",
-			mutate: (config: Record<string, unknown>) => {
-				config.openRouter = openRouterSection({ baseUrl: undefined });
-			},
-			match: /baseUrl/,
-		},
-		{
-			name: "baseUrl is not a string",
-			mutate: (config: Record<string, unknown>) => {
-				config.openRouter = openRouterSection({ baseUrl: 443 });
-			},
-			match: /baseUrl/,
-		},
-		{
-			name: "baseUrl is not an absolute URL",
-			mutate: (config: Record<string, unknown>) => {
-				config.openRouter = openRouterSection({ baseUrl: "/api/v1" });
-			},
-			match: /baseUrl/,
-		},
-		{
-			// The typo class the check exists to reject: every scheme parses, so
-			// `htp://` is accepted as a URL and only reveals itself later, as the
-			// literal "null" origin printed into the error meant to help.
-			name: "baseUrl's scheme is mistyped",
-			mutate: (config: Record<string, unknown>) => {
-				config.openRouter = openRouterSection({ baseUrl: "htp://openrouter.ai/api/v1" });
-			},
-			match: /baseUrl/,
-		},
-		{
-			name: "completionTimeoutMs is missing",
-			mutate: (config: Record<string, unknown>) => {
-				config.openRouter = openRouterSection({ completionTimeoutMs: undefined });
-			},
-			match: /completionTimeoutMs/,
-		},
-		{
-			name: "completionMaxRetries is not a number",
-			mutate: (config: Record<string, unknown>) => {
-				config.openRouter = openRouterSection({ completionMaxRetries: "lots" });
-			},
-			match: /completionMaxRetries/,
-		},
-		{
-			name: "costLookupTimeoutMs is missing",
-			mutate: (config: Record<string, unknown>) => {
-				config.openRouter = openRouterSection({ costLookupTimeoutMs: undefined });
-			},
-			match: /costLookupTimeoutMs/,
-		},
-		{
-			name: "costLookupMaxRetries is not a number",
-			mutate: (config: Record<string, unknown>) => {
-				config.openRouter = openRouterSection({ costLookupMaxRetries: null });
-			},
-			match: /costLookupMaxRetries/,
-		},
-		{
-			name: "elevenLabs is missing",
-			mutate: (config: Record<string, unknown>) => delete config.elevenLabs,
-			match: /elevenLabs/,
-		},
-		{
-			name: "elevenLabs.baseUrl is missing",
-			mutate: (config: Record<string, unknown>) => {
-				config.elevenLabs = elevenLabsSection({ baseUrl: undefined });
-			},
-			match: /elevenLabs\.baseUrl/,
-		},
-		{
-			name: "elevenLabs.baseUrl is not an absolute URL",
-			mutate: (config: Record<string, unknown>) => {
-				config.elevenLabs = elevenLabsSection({ baseUrl: "/v1" });
-			},
-			match: /elevenLabs\.baseUrl/,
-		},
-		{
-			name: "languageCode is missing",
-			mutate: (config: Record<string, unknown>) => {
-				config.elevenLabs = elevenLabsSection({ languageCode: undefined });
-			},
-			match: /languageCode/,
-		},
-		{
-			name: "languageCode is not a string",
-			mutate: (config: Record<string, unknown>) => {
-				config.elevenLabs = elevenLabsSection({ languageCode: 3 });
-			},
-			match: /languageCode/,
-		},
-		{
-			name: "costPerAudioHourUsd is not a number",
-			mutate: (config: Record<string, unknown>) => {
-				config.elevenLabs = elevenLabsSection({ costPerAudioHourUsd: "0.22" });
-			},
-			match: /costPerAudioHourUsd/,
-		},
-		{
-			name: "currency is missing",
-			mutate: (config: Record<string, unknown>) => delete config.currency,
-			match: /currency/,
-		},
-		{
-			name: "gbpPerUsd is not a number",
-			mutate: (config: Record<string, unknown>) => {
-				config.currency = { gbpPerUsd: "0.74" };
-			},
-			match: /gbpPerUsd/,
-		},
-		{
-			name: "modelIdCheck is missing",
-			mutate: (config: Record<string, unknown>) => delete config.modelIdCheck,
-			match: /modelIdCheck/,
-		},
-		{
-			name: "exemptProviders is not an array",
-			mutate: (config: Record<string, unknown>) => {
-				config.modelIdCheck = { exemptProviders: "elevenlabs" };
-			},
-			match: /exemptProviders/,
-		},
-		{
-			name: "an exemptProviders entry is not a string",
-			mutate: (config: Record<string, unknown>) => {
-				config.modelIdCheck = { exemptProviders: [42] };
-			},
-			match: /exemptProviders/,
-		},
-		{
-			name: "stages is missing",
-			mutate: (config: Record<string, unknown>) => delete config.stages,
-			match: /stages/,
-		},
-		{
-			name: "stages is an array",
-			mutate: (config: Record<string, unknown>) => {
-				config.stages = [];
-			},
-			match: /stages/,
-		},
-		{
-			// A mistyped key otherwise validates in full — model ID check included —
-			// while the stage it was meant to configure silently has no config.
-			name: "a stage key names no pipeline stage",
-			mutate: (config: Record<string, unknown>) => {
-				config.stages = { "transcript-strucuring": { modelId: openRouterModelId } };
-			},
-			match: /transcript-strucuring/,
-		},
-		{
-			name: "a stage is not an object",
-			mutate: (config: Record<string, unknown>) => {
-				config.stages = { synthesis: "gpt" };
-			},
-			match: /synthesis/,
-		},
-		{
-			name: "a stage modelId is missing",
-			mutate: (config: Record<string, unknown>) => {
-				config.stages = { synthesis: {} };
-			},
-			match: /modelId/,
-		},
-		{
-			name: "a stage modelId is not a string",
-			mutate: (config: Record<string, unknown>) => {
-				config.stages = { synthesis: { modelId: 5 } };
-			},
-			match: /modelId/,
-		},
-		{
-			name: "a stage param is not a number",
-			mutate: (config: Record<string, unknown>) => {
-				config.stages = { synthesis: { modelId: openRouterModelId, temperature: "hot" } };
-			},
-			match: /temperature/,
-		},
-		{
-			name: "output is missing",
-			mutate: (config: Record<string, unknown>) => delete config.output,
-			match: /output/,
-		},
-		{
-			name: "output.language is not a string",
-			mutate: (config: Record<string, unknown>) => {
-				config.output = { language: 1, pandocEngine: "xelatex" };
-			},
-			match: /language/,
-		},
-		{
-			name: "output.pandocEngine is not a string",
-			mutate: (config: Record<string, unknown>) => {
-				config.output = { language: "en-GB", pandocEngine: 9 };
-			},
-			match: /pandocEngine/,
-		},
-	])("should throw ConfigError when $name", async ({ mutate, match }) => {
-		const config = makeValidConfig();
-		mutate(config);
-		await writeConfig(config);
+			match,
+		})),
+	])("should throw ConfigError when $name", async ({ seed, match }) => {
+		await seed();
 
-		const error = await captureError(loadConfig({ projectRoot, skipModelCheck: true }));
+		const error = await configRejection({ skipModelCheck: true });
 
 		expect(error).toBeInstanceOf(ConfigError);
 		expect(error.message).toMatch(match);

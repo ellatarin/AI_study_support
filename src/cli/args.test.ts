@@ -132,12 +132,6 @@ describe("parseCliArgs", () => {
 				options: { fromStage: "transcription", concurrency: 3, onStageFailure: "continue" },
 			});
 		});
-
-		it("should reject the invocation when more than one module is named", () => {
-			const error = usageError(["batch", testModuleRoot, otherModuleRoot]);
-
-			expect(error).toBeInstanceOf(CliUsageError);
-		});
 	});
 
 	describe("cost-report", () => {
@@ -164,12 +158,6 @@ describe("parseCliArgs", () => {
 				moduleRoot: otherModuleRoot,
 			});
 		});
-
-		it("should reject the invocation when --date is not a real date", () => {
-			const error = usageError(["cost-report", "--date", "2025-99-99"]);
-
-			expect(error).toBeInstanceOf(CliUsageError);
-		});
 	});
 
 	describe("identity mutations", () => {
@@ -179,19 +167,6 @@ describe("parseCliArgs", () => {
 				lectureDate: testLecture.date,
 				title: userChosenTitle,
 			});
-		});
-
-		it("should reject the invocation when rename is given no title", () => {
-			const error = usageError(["rename", testLecture.date]);
-
-			expect(error).toBeInstanceOf(CliUsageError);
-			expect(error.message).toContain("rename");
-		});
-
-		it("should reject the invocation when the new title is blank", () => {
-			const error = usageError(["rename", testLecture.date, "   "]);
-
-			expect(error).toBeInstanceOf(CliUsageError);
 		});
 
 		it("should address the lecture on the given date when delete is invoked", () => {
@@ -208,35 +183,47 @@ describe("parseCliArgs", () => {
 				newLectureDate: changedDate,
 			});
 		});
-
-		it("should reject the invocation when change-date is given only one date", () => {
-			const error = usageError(["change-date", testLecture.date]);
-
-			expect(error).toBeInstanceOf(CliUsageError);
-			expect(error.message).toContain("change-date");
-		});
-
-		it("should reject the invocation when the new date is not a real date", () => {
-			const error = usageError(["change-date", testLecture.date, "not-a-date"]);
-
-			expect(error).toBeInstanceOf(CliUsageError);
-		});
 	});
 
 	describe("invalid invocations", () => {
-		it("should reject the invocation when the command is unknown", () => {
-			const error = usageError(["publish", testLecture.date]);
-
-			expect(error).toBeInstanceOf(CliUsageError);
-			expect(error.message).toContain("publish");
+		// Rejections gather here rather than under the command each names, as the
+		// flag tables below already do: what they have in common is the outcome.
+		it.each([
+			{
+				scenario: "batch is given more than one module",
+				argv: ["batch", testModuleRoot, otherModuleRoot],
+			},
+			{
+				scenario: "cost-report's --date is not a real date",
+				argv: ["cost-report", "--date", "2025-99-99"],
+			},
+			{ scenario: "rename's new title is blank", argv: ["rename", testLecture.date, "   "] },
+			{
+				scenario: "change-date's new date is not a real date",
+				argv: ["change-date", testLecture.date, "not-a-date"],
+			},
+			{ scenario: "an option is unknown", argv: ["run", testLecture.date, "--dry-run"] },
+		])("should reject the invocation when $scenario", ({ argv }) => {
+			expect(usageError(argv)).toBeInstanceOf(CliUsageError);
 		});
 
-		it("should reject the invocation when an option is unknown", () => {
-			const error = usageError(["run", testLecture.date, "--dry-run"]);
+		it.each([
+			{ scenario: "rename is given no title", argv: ["rename", testLecture.date], names: "rename" },
+			{
+				scenario: "change-date is given only one date",
+				argv: ["change-date", testLecture.date],
+				names: "change-date",
+			},
+			{ scenario: "the command is unknown", argv: ["publish", testLecture.date], names: "publish" },
+		])("should name $names in the error when $scenario", ({ argv, names }) => {
+			const error = usageError(argv);
 
 			expect(error).toBeInstanceOf(CliUsageError);
+			expect(error.message).toContain(names);
 		});
 
+		// Its own case, because this message has to name both the flag and the value
+		// it was given — one row asserting one substring could not say that.
 		it("should reject the invocation when --from-stage names no known stage", () => {
 			const error = usageError(["run", testLecture.date, "--from-stage", "summarising"]);
 

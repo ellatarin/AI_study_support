@@ -3,16 +3,22 @@ import { makeConfig, makeStubLogger, otherModuleRoot, testModuleRoot } from "./f
 import { deriveRunId, PipelineRunner } from "./runner.js";
 
 describe("deriveRunId", () => {
-	it("should strip milliseconds and replace colons with hyphens when given a date", () => {
-		expect(deriveRunId({ instant: new Date("2025-10-10T09:00:00.123Z") })).toBe(
-			"2025-10-10T09-00-00Z",
-		);
-	});
-
-	it("should produce a filename-safe id when the date is midnight", () => {
-		expect(deriveRunId({ instant: new Date("2025-01-02T00:00:00.000Z") })).toBe(
-			"2025-01-02T00-00-00Z",
-		);
+	it.each([
+		{
+			scenario: "the instant carries milliseconds",
+			instant: "2025-10-10T09:00:00.123Z",
+			expected: "2025-10-10T09-00-00Z",
+		},
+		{
+			scenario: "the instant is midnight",
+			instant: "2025-01-02T00:00:00.000Z",
+			expected: "2025-01-02T00-00-00Z",
+		},
+	])("should strip milliseconds and replace colons with hyphens when $scenario", ({
+		instant,
+		expected,
+	}) => {
+		expect(deriveRunId({ instant: new Date(instant) })).toBe(expected);
 	});
 });
 

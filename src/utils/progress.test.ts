@@ -19,17 +19,22 @@ import {
 const ESC = String.fromCharCode(27);
 
 describe("createProgressBar", () => {
-	it("should return a configured SingleBar when only a format is given", () => {
-		expect(createProgressBar({ format: "Task |{bar}| {percentage}%" })).toBeInstanceOf(SingleBar);
-	});
+	const barCases: readonly {
+		readonly scenario: string;
+		readonly options: Parameters<typeof createProgressBar>[0];
+	}[] = [
+		{ scenario: "only a format is given", options: { format: "Task |{bar}| {percentage}%" } },
+		{
+			scenario: "a value formatter is also provided",
+			options: {
+				format: "Task |{bar}| {value}",
+				formatValue: (value, _options, type) => (type === "value" ? `${value}b` : String(value)),
+			},
+		},
+	];
 
-	it("should return a SingleBar when a value formatter is also provided", () => {
-		const bar = createProgressBar({
-			format: "Task |{bar}| {value}",
-			formatValue: (value, _options, type) => (type === "value" ? `${value}b` : String(value)),
-		});
-
-		expect(bar).toBeInstanceOf(SingleBar);
+	it.each(barCases)("should return a configured SingleBar when $scenario", ({ options }) => {
+		expect(createProgressBar(options)).toBeInstanceOf(SingleBar);
 	});
 });
 

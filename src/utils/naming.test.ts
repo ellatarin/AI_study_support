@@ -56,23 +56,27 @@ describe("filenameSafe", () => {
 });
 
 describe("lectureFolderName", () => {
-	it("should build the canonical name when given number, title, and date", () => {
-		const result = lectureFolderName({
+	it.each([
+		{
+			scenario: "given a number, a title, and a date",
 			lectureNumber: 1,
 			title: "Immune System",
 			date: new Date(2025, 9, 10, 12, 0, 0),
-		});
-
-		expect(result).toBe("Lecture 1 - Immune System - 2025-10-10");
-	});
-
-	it("should sanitise the title when it contains a path separator", () => {
-		const result = lectureFolderName({
+			expected: "Lecture 1 - Immune System - 2025-10-10",
+		},
+		{
+			scenario: "the title contains a path separator",
 			lectureNumber: 2,
 			title: "Cell/Injury",
 			date: new Date(2025, 9, 13, 12, 0, 0),
-		});
-
-		expect(result).toBe("Lecture 2 - Cell Injury - 2025-10-13");
+			expected: "Lecture 2 - Cell Injury - 2025-10-13",
+		},
+	])("should build the canonical name when $scenario", ({
+		lectureNumber,
+		title,
+		date,
+		expected,
+	}) => {
+		expect(lectureFolderName({ lectureNumber, title, date })).toBe(expected);
 	});
 });
