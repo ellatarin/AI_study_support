@@ -533,8 +533,16 @@ export type RunTrigger = "manual" | "from-stage";
  */
 export type RunType = "normal" | "error-recovery" | "experiment";
 
-/** Cost fields recorded per stage in a run log. */
-type RunLogCost = {
+/**
+ * Cost fields recorded per stage in a run log: what the stage spent and how many
+ * calls it took (technical-design.md §4.6).
+ *
+ * Narrower than {@link StageCost}, which also carries token counts and, for a
+ * cost that could not be established, the reason. It is also the shape that can
+ * describe a stage making no billable calls at all, which `StageCost` cannot:
+ * its `costUsd: null` arm requires a `costResolutionError`, and no lookup failed.
+ */
+export type RunLogCost = {
 	readonly costUsd: number | null;
 	readonly callCount: number;
 };

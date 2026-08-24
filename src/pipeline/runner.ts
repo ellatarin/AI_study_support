@@ -11,6 +11,7 @@ import type {
 	PipelineStage,
 	ReportOptions,
 	RunLog,
+	RunLogCost,
 	RunLogStageEntry,
 	RunManifest,
 	RunOptions,
@@ -315,10 +316,7 @@ function skippedEntry({
 	};
 }
 
-function runLogCost(cost: StageCost | null): {
-	readonly costUsd: number | null;
-	readonly callCount: number;
-} {
+function runLogCost(cost: StageCost | null): RunLogCost {
 	if (cost === null) {
 		return { costUsd: null, callCount: 0 };
 	}
