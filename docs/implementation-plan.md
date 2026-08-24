@@ -213,6 +213,10 @@ Runner lifecycle — integration tests (real temp directory with fixture manifes
 - `should include moduleRoot, workspaceRoot, lectureNumber, and lectureTitle in every match`
 - `should skip the module when its directory holds no Pipeline processing folder` — a module the pipeline has never run over is walked past, not an error
 
+`countLectures` — integration tests, over the same module trees:
+- `should count the lectures a batch would cover when the modules are measured` — one count covers both things the scan walks past, the manifest-less folder and the unprocessed module
+- `should count none when the modules hold no lecture`
+
 Manifest I/O and run status — integration and unit tests:
 - `should return null when the manifest is missing` / `when the manifest is malformed`
 - `should leave no temporary file behind when the write succeeds`

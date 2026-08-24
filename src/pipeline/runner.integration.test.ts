@@ -660,7 +660,7 @@ describe("PipelineRunner integration", () => {
 		});
 	});
 
-	describe("resolveLecturesByDate", () => {
+	describe("scanning the configured modules", () => {
 		let moduleA: string;
 		let moduleB: string;
 		let moduleC: string;
@@ -751,6 +751,21 @@ describe("PipelineRunner integration", () => {
 					lectureTitle: expect.any(String),
 				});
 			}
+		});
+
+		// One count covers both things a scan has to walk past: the folder holding no
+		// manifest is not a lecture, and the module with no processing directory has
+		// none. Three lectures stand across these modules; only they are counted.
+		it("should count the lectures a batch would cover when the modules are measured", async () => {
+			const count = await resolver().countLectures({ moduleRoots: [moduleA, moduleB, moduleC] });
+
+			expect(count).toBe(3);
+		});
+
+		it("should count none when the modules hold no lecture", async () => {
+			const count = await resolver().countLectures({ moduleRoots: [moduleC] });
+
+			expect(count).toBe(0);
 		});
 	});
 

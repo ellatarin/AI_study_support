@@ -39,6 +39,15 @@ import {
 // formatter. Same reasoning as cost.test.ts.
 const GBP_PER_USD = 0.74;
 
+// A stage with work both before and after it, so a reset from here is worth
+// warning about. Which stage it is does not matter — only that it is named back.
+const RESET_FROM = "synthesis";
+
+// What the user is told when they turn a reset down. Written out rather than
+// imported: the point is that this wording reaches them, and taking it from the
+// code that prints it would assert nothing.
+const NOTHING_WAS_RUN = "Nothing was run";
+
 describe("executeCommand", () => {
 	let tempDir: string;
 	let moduleRoot: string;
@@ -51,6 +60,7 @@ describe("executeCommand", () => {
 		readonly runBatch: ReturnType<typeof vi.fn>;
 		readonly costReport: ReturnType<typeof vi.fn>;
 		readonly resolveLecturesByDate: ReturnType<typeof vi.fn>;
+		readonly countLectures: ReturnType<typeof vi.fn>;
 	};
 	let selectMatches: Mock<
 		(args: { readonly matches: readonly LectureMatch[] }) => Promise<readonly LectureMatch[]>
@@ -141,6 +151,46 @@ describe("executeCommand", () => {
 		return written.join("");
 	}
 
+	/** The wording of the last question the user was asked. */
+	function asked(): string {
+		return confirm.mock.calls.at(-1)?.[0].message ?? "";
+	}
+
+	/**
+	 * The answer to the reset question settles the same two things whichever
+	 * route asked it — approving does the work, declining does none of it and
+	 * says so — so the rule is stated here and applied to the runner call each
+	 * route makes.
+	 *
+	 * @param args - The route under test.
+	 * @param args.resetCommand - The command carrying the `--from-stage` option.
+	 * @param args.runsThrough - The runner call that route makes when it goes ahead.
+	 */
+	function itHonoursTheResetAnswer({
+		resetCommand,
+		runsThrough,
+	}: {
+		readonly resetCommand: RunnableCliCommand;
+		readonly runsThrough: () => ReturnType<typeof vi.fn>;
+	}): void {
+		it("should do the work when the reset is approved", async () => {
+			const code = await invoke(resetCommand);
+
+			expect(code).toBe(0);
+			expect(runsThrough()).toHaveBeenCalledTimes(1);
+		});
+
+		it("should run nothing at all when the reset is declined", async () => {
+			confirm.mockResolvedValue(false);
+
+			const code = await invoke(resetCommand);
+
+			expect(code).toBe(0);
+			expect(runsThrough()).not.toHaveBeenCalled();
+			expect(printed()).toContain(NOTHING_WAS_RUN);
+		});
+	}
+
 	/** Carries a command out against freshly built dependencies, as the CLI does. */
 	function invoke(command: RunnableCliCommand): Promise<number> {
 		return executeCommand({ command, deps: deps() });
@@ -179,6 +229,7 @@ describe("executeCommand", () => {
 			runBatch: vi.fn(),
 			costReport: vi.fn(async () => undefined),
 			resolveLecturesByDate: vi.fn(async () => [match]),
+			countLectures: vi.fn(async () => 1),
 		};
 		selectMatches = vi.fn(async () => [match]);
 		selectMatch = vi.fn(async () => match);
@@ -310,6 +361,41 @@ describe("executeCommand", () => {
 			expect(code).toBe(0);
 			expect(runner.runLecture).not.toHaveBeenCalled();
 		});
+
+		it("should ask nothing when the run deletes no earlier work", async () => {
+			await invoke(runCommand);
+
+			expect(confirm).not.toHaveBeenCalled();
+		});
+
+		describe("--from-stage", () => {
+			const resetCommand = {
+				...runCommand,
+				options: { ...DEFAULT_RUN_OPTIONS, fromStage: RESET_FROM },
+			} as const;
+
+			it("should name the stage and how many lectures lose work when asking", async () => {
+				await invoke(resetCommand);
+
+				expect(asked()).toContain(RESET_FROM);
+				expect(asked()).toContain("1 lecture");
+			});
+
+			// The count is what the user is being asked about, so it has to follow the
+			// choice they just made rather than the matches the date turned up.
+			it("should count every lecture chosen when the date matches several", async () => {
+				const other = await makeSecondLecture();
+				runner.resolveLecturesByDate.mockResolvedValue([match, other]);
+				selectMatches.mockResolvedValue([match, other]);
+
+				await invoke(resetCommand);
+
+				expect(confirm).toHaveBeenCalledTimes(1);
+				expect(asked()).toContain("2 lectures");
+			});
+
+			itHonoursTheResetAnswer({ resetCommand, runsThrough: () => runner.runLecture });
+		});
 	});
 
 	describe("batch", () => {
@@ -366,6 +452,45 @@ describe("executeCommand", () => {
 			const code = await invoke(batchCommand);
 
 			expect(code).toBe(1);
+		});
+
+		it("should ask nothing when the batch deletes no earlier work", async () => {
+			await invoke(batchCommand);
+
+			expect(confirm).not.toHaveBeenCalled();
+		});
+
+		describe("--from-stage", () => {
+			const resetCommand = {
+				...batchCommand,
+				options: { ...DEFAULT_BATCH_OPTIONS, fromStage: RESET_FROM },
+			} as const;
+
+			beforeEach(() => {
+				runner.countLectures.mockResolvedValue(12);
+			});
+
+			// The number is the whole point of asking: nothing the user typed says how
+			// many lectures a batch covers.
+			it("should name the stage and how many lectures lose work when asking", async () => {
+				await invoke(resetCommand);
+
+				expect(asked()).toContain(RESET_FROM);
+				expect(asked()).toContain("12 lectures");
+			});
+
+			// Sources are normalised first, so a lecture whose video and slides were
+			// only just added is one of the lectures counted.
+			it("should count the lectures the batch covers after normalising when asking", async () => {
+				await invoke(resetCommand);
+
+				expect(runner.normaliseSources).toHaveBeenCalledBefore(runner.countLectures);
+				expect(runner.countLectures).toHaveBeenCalledWith({
+					moduleRoots: [moduleRoot, secondModuleRoot()],
+				});
+			});
+
+			itHonoursTheResetAnswer({ resetCommand, runsThrough: () => runner.runBatch });
 		});
 	});
 
@@ -518,9 +643,7 @@ describe("executeCommand", () => {
 			await invoke(deleteCommand);
 
 			expect(confirm).toHaveBeenCalledTimes(1);
-			expect(String((confirm.mock.calls[0] as [{ message: string }])[0].message)).toContain(
-				testLecture.title,
-			);
+			expect(asked()).toContain(testLecture.title);
 		});
 
 		it("should remove the lecture and renormalise when the deletion is approved", async () => {

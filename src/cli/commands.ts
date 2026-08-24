@@ -13,7 +13,7 @@ import { moduleName } from "../pipeline/layout.js";
 import { readManifest } from "../pipeline/manifest.js";
 import type { PipelineRunner } from "../pipeline/runner.js";
 import type { ConfirmPrompt } from "../pipeline/stages/source-normalisation.js";
-import type { LectureMatch, RunOptions, RunSummary } from "../types/pipeline.js";
+import type { LectureMatch, RunOptions, RunSummary, StageId } from "../types/pipeline.js";
 import { formatBatchSummary, formatRunSummary, stageLabel } from "../utils/cost.js";
 import type { CliCommand } from "./args.js";
 import { changeLectureDate, deleteLecture, renameLecture } from "./lecture-identity.js";
@@ -24,7 +24,8 @@ type RunnerOperation =
 	| "runLecture"
 	| "runBatch"
 	| "costReport"
-	| "resolveLecturesByDate";
+	| "resolveLecturesByDate"
+	| "countLectures";
 
 /**
  * The runner surface the commands drive. Declared structurally so a test can
@@ -295,6 +296,14 @@ async function runLectures({
 	readonly matches: readonly LectureMatch[];
 	readonly options: RunOptions;
 }): Promise<number> {
+	const proceed = await confirmReset({
+		deps,
+		fromStage: options.fromStage,
+		countLectures: () => Promise.resolve(matches.length),
+	});
+	if (!proceed) {
+		return EXIT_SUCCESS;
+	}
 	let failed = false;
 	for (const lectureMatch of matches) {
 		const summary = await deps.runner.runLecture({
@@ -343,10 +352,21 @@ async function batchCommand({
 	command,
 	deps,
 }: CommandArgs<Extract<CliCommand, { command: "batch" }>>): Promise<number> {
-	const batch = await deps.runner.runBatch({
-		moduleRoots: scopedModuleRoots({ moduleRoot: command.moduleRoot, deps }),
-		options: command.options,
+	const moduleRoots = scopedModuleRoots({ moduleRoot: command.moduleRoot, deps });
+	const proceed = await confirmReset({
+		deps,
+		fromStage: command.options.fromStage,
+		// Normalised first, so a lecture whose sources were only just added is one
+		// of the lectures counted — the batch is about to run it either way.
+		countLectures: async () => {
+			await deps.runner.normaliseSources({ moduleRoots });
+			return deps.runner.countLectures({ moduleRoots });
+		},
 	});
+	if (!proceed) {
+		return EXIT_SUCCESS;
+	}
+	const batch = await deps.runner.runBatch({ moduleRoots, options: command.options });
 	for (const summary of batch.lectures) {
 		await printRunSummary({ deps, summary });
 	}
@@ -400,6 +420,54 @@ async function costReportCommand({
  */
 function deletionPrompt(lectureMatch: LectureMatch): string {
 	return `Permanently delete Lecture ${lectureMatch.lectureNumber} "${lectureMatch.lectureTitle}" — its video, slides, workspace, and final output? This cannot be undone.`;
+}
+
+/**
+ * Asks before a re-run discards finished work, and says so when it is refused.
+ *
+ * `--from-stage` deletes the nominated stage's output and every later stage's,
+ * for every lecture the command covers. How many that is never appears in what
+ * the user typed: a date can match lectures in several modules, and a batch
+ * covers every lecture in every configured module. So the count leads the
+ * question, which is what makes it worth reading (NFR-4.3). Refusing runs
+ * nothing at all, rather than running without the reset.
+ *
+ * A run that nominates no stage destroys nothing and is never questioned; nor is
+ * one with no lectures to act on, since there is nothing to delete.
+ *
+ * The count is taken lazily because establishing it costs a scan of every
+ * configured module, which an ordinary run must not pay for.
+ *
+ * @param args - What the run would clear.
+ * @param args.deps - The command dependencies.
+ * @param args.fromStage - The stage the run restarts from; `undefined` for an ordinary run.
+ * @param args.countLectures - Establishes how many lectures the run covers.
+ * @returns Whether to go ahead.
+ */
+async function confirmReset({
+	deps,
+	fromStage,
+	countLectures,
+}: {
+	readonly deps: CliDeps;
+	readonly fromStage: StageId | undefined;
+	readonly countLectures: () => Promise<number>;
+}): Promise<boolean> {
+	if (fromStage === undefined) {
+		return true;
+	}
+	const count = await countLectures();
+	if (count === 0) {
+		return true;
+	}
+	const lectures = count === 1 ? "1 lecture" : `${count} lectures`;
+	const approved = await deps.confirm({
+		message: `Re-running from "${fromStage}" will delete that stage's output and every later stage's, for ${lectures}. This cannot be undone.`,
+	});
+	if (!approved) {
+		deps.write("Nothing was run.\n");
+	}
+	return approved;
 }
 
 /**

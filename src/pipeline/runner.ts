@@ -62,8 +62,13 @@ export type PipelineRunnerDeps = {
 };
 
 // Inputs addressing a set of modules with optional run- or report-specific options.
-type ModuleScopedArgs<TOptions> = {
-	readonly moduleRoots: readonly string[];
+/**
+ * The modules a call is scoped to — every public operation on the runner is
+ * addressed by a set of module roots, whatever else it also takes.
+ */
+type ModuleScope = { readonly moduleRoots: readonly string[] };
+
+type ModuleScopedArgs<TOptions> = ModuleScope & {
 	readonly options?: TOptions;
 };
 
@@ -649,11 +654,7 @@ export class PipelineRunner {
 	 * @param args.moduleRoots - Absolute paths to the module directories.
 	 * @returns A promise that resolves once every module is normalised.
 	 */
-	public async normaliseSources({
-		moduleRoots,
-	}: {
-		readonly moduleRoots: readonly string[];
-	}): Promise<void> {
+	public async normaliseSources({ moduleRoots }: ModuleScope): Promise<void> {
 		for (const moduleRoot of moduleRoots) {
 			await this.#sourceNormalisation.normaliseModule({ moduleRoot });
 		}
@@ -762,6 +763,26 @@ export class PipelineRunner {
 	}
 
 	/**
+	 * How many lectures a batch over these modules would cover.
+	 *
+	 * Nothing the user types says how wide a batch is, so the CLI asks before it
+	 * warns them that a `--from-stage` batch is about to discard work — the
+	 * warning has to carry the number to be worth reading (§4.7, NFR-4.3). A
+	 * folder holding no manifest is not a lecture, and a module the pipeline has
+	 * never processed holds none, so neither is counted.
+	 *
+	 * Sources should be normalised first: a lecture whose video and slides were
+	 * only just added has no workspace until they are, and so would go uncounted.
+	 *
+	 * @param args - The scope to measure.
+	 * @param args.moduleRoots - Absolute paths to the modules a batch would cover.
+	 * @returns The number of lectures standing across those modules.
+	 */
+	public async countLectures({ moduleRoots }: ModuleScope): Promise<number> {
+		return (await this.#collectLectures(moduleRoots)).length;
+	}
+
+	/**
 	 * Normalises every module then runs all their lectures with bounded
 	 * concurrency, aggregating each lecture's summary into a batch summary
 	 * (technical-design.md §4.7).
@@ -840,10 +861,7 @@ export class PipelineRunner {
 	public async resolveLecturesByDate({
 		moduleRoots,
 		lectureDate,
-	}: {
-		readonly moduleRoots: readonly string[];
-		readonly lectureDate: string;
-	}): Promise<readonly LectureMatch[]> {
+	}: ModuleScope & { readonly lectureDate: string }): Promise<readonly LectureMatch[]> {
 		const matches: LectureMatch[] = [];
 		for (const moduleRoot of moduleRoots) {
 			const found = await findLectureByDate({ moduleRoot, lectureDate });
