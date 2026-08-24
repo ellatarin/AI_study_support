@@ -163,12 +163,20 @@ const resolved = ({
 const OVERLONG_MODEL_ID = "openrouter/an-extravagantly-long-model-identifier";
 
 /**
- * The synthesis row, taking whichever model it is asked about: at its default it
- * carries the longest model id technical-design.md §4.5 records, at 27
- * characters — the one the Model column has to hold without moving the columns
- * after it — and the width cases ask for one past any column's width.
+ * The longest model id technical-design.md §4.5 records, at 27 characters — the
+ * one the Model column has to hold without moving the columns after it.
  */
-function synthesisEntryFor(modelId = "anthropic/claude-sonnet-4.6"): ManifestStageEntry {
+const SYNTHESIS_MODEL_ID = "anthropic/claude-sonnet-4.6";
+
+/** How synthesis failed, wherever this suite has it fail. */
+const SYNTHESIS_FAILURE = "synthesis failed";
+
+/**
+ * The synthesis row, taking whichever model it is asked about: at its default it
+ * carries {@link SYNTHESIS_MODEL_ID}, and the width cases ask for one past any
+ * column's width.
+ */
+function synthesisEntryFor(modelId = SYNTHESIS_MODEL_ID): ManifestStageEntry {
 	return finishedEntry({
 		configUsed: { modelId, maxTokens: 8192 },
 		cost: resolved({ callCount: 1, costUsd: 0.312 }),
@@ -177,6 +185,19 @@ function synthesisEntryFor(modelId = "anthropic/claude-sonnet-4.6"): ManifestSta
 }
 
 const synthesisEntry = synthesisEntryFor();
+
+/**
+ * Synthesis as a stage that failed: it names a model, so it keeps a row, and it
+ * left no output and recorded no cost, so there is nothing for that row to price.
+ */
+const failedSynthesisEntry: ManifestStageEntry = {
+	status: "failed",
+	failedAt: "2025-10-10T09:40:00.000Z",
+	error: SYNTHESIS_FAILURE,
+	configUsed: { modelId: SYNTHESIS_MODEL_ID },
+	cost: null,
+	filesWritten: [],
+};
 
 const IMAGE_EXTRACTION_MODEL_ID = "openai/gpt-4.1";
 
@@ -422,17 +443,7 @@ describe("formatCostReport", () => {
 
 	it("should leave a stage out when its output is not on disk", () => {
 		const failedSynthesis = makeManifest({
-			stages: {
-				...manifest.stages,
-				synthesis: {
-					status: "failed",
-					failedAt: "2025-10-10T09:40:00.000Z",
-					error: "synthesis failed",
-					configUsed: { modelId: "anthropic/claude-sonnet-4.6" },
-					cost: null,
-					filesWritten: [],
-				},
-			},
+			stages: { ...manifest.stages, synthesis: failedSynthesisEntry },
 		});
 
 		const report = formatCostReport({
@@ -470,7 +481,7 @@ const ran = (status: "complete" | "failed"): RunLogStageEntry =>
 		: {
 				action: "ran",
 				status,
-				error: "synthesis failed",
+				error: SYNTHESIS_FAILURE,
 				configUsed: null,
 				cost: { costUsd: null, callCount: 0 },
 			};
@@ -504,15 +515,7 @@ const runManifest: RunManifest = {
 			},
 			filesWritten: [stageOutputEntry("slide-conversion")],
 		}),
-		// A failed stage records no cost at all, so its row has nothing to show.
-		synthesis: {
-			status: "failed",
-			failedAt: "2025-10-10T09:40:00.000Z",
-			error: "synthesis failed",
-			configUsed: { modelId: "anthropic/claude-sonnet-4.6" },
-			cost: null,
-			filesWritten: [],
-		},
+		synthesis: failedSynthesisEntry,
 	},
 };
 
@@ -565,8 +568,12 @@ describe("formatRunSummary", () => {
 		});
 
 		// Synthesis names a model and failed before it charged anything, so it keeps
-		// its row and its cost is unknown rather than nothing.
-		expect(summary).toMatch(/Synthesis\s+anthropic\/claude-sonnet-4\.6\s+0\s+0 \/\s+0\s+n\/a/);
+		// its row and its cost is unknown rather than nothing. The `.` in the model
+		// id goes into the pattern unescaped: it sits between two runs of padding,
+		// where nothing else in the row could stand in for it.
+		expect(summary).toMatch(
+			new RegExp(`Synthesis\\s+${SYNTHESIS_MODEL_ID}\\s+0\\s+0 /\\s+0\\s+n/a`),
+		);
 	});
 
 	it("should leave a stage out when it names no model", () => {
