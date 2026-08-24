@@ -52,6 +52,22 @@ type DatedListing = {
 	readonly undateable: readonly string[];
 };
 
+/** A dated video and the slide sharing its date. */
+type PairedSources = { readonly video: DatedFile; readonly slideName: string };
+
+/**
+ * What checking a module's sources concluded: either the problems that stop the
+ * run, or the video/slide pairs the check proved are there.
+ *
+ * The pairs are carried out of the check rather than looked up again afterwards.
+ * The 1:1 date match is established by the check and nowhere else, so anything
+ * that re-derives it from the two listings has to assert an invariant it cannot
+ * see — which is what a cast here used to do.
+ */
+type SourceCheck =
+	| { readonly state: "anomalies"; readonly anomalies: readonly string[] }
+	| { readonly state: "matched"; readonly pairs: readonly PairedSources[] };
+
 /** A fully-resolved lecture: its number, date, title, and current source names. */
 type Lecture = {
 	readonly lectureNumber: number;
@@ -109,16 +125,6 @@ function duplicateIsos(files: readonly SourceRef[]): readonly string[] {
 }
 
 /**
- * Collects every source anomaly that must stop the run: undateable files,
- * duplicate dates within videos or slides, and any video/slide without a 1:1
- * date match.
- *
- * @param args - The dated video and slide listings.
- * @param args.videos - The classified video files.
- * @param args.slides - The classified slide files.
- * @returns A human-readable description of every anomaly found (empty when valid).
- */
-/**
  * The dates a listing's dateable files carry, for asking what the other side
  * matched.
  *
@@ -129,19 +135,50 @@ function datedIsos(listing: DatedListing): ReadonlySet<string> {
 	return new Set(listing.dated.map((file) => file.iso));
 }
 
-function collectAnomalies({
+/**
+ * The one sentence reporting a source with nothing on the other side to match.
+ *
+ * @param args - Which source is unmatched.
+ * @param args.kind - The kind of source that is unmatched.
+ * @param args.counterpart - The kind it should have been matched with.
+ * @param args.file - The unmatched file.
+ * @returns The anomaly line.
+ */
+function missingCounterpart({
+	kind,
+	counterpart,
+	file,
+}: {
+	readonly kind: string;
+	readonly counterpart: string;
+	readonly file: SourceRef;
+}): string {
+	return `${kind} "${file.name}" has no matching ${counterpart} (date ${file.iso})`;
+}
+
+/**
+ * Checks every source rule that must stop the run — undateable files, duplicate
+ * dates within videos or slides, and any video or slide without a 1:1 date match
+ * — and, when they all hold, hands back the video/slide pairs it matched.
+ *
+ * @param args - The dated video and slide listings.
+ * @param args.videos - The classified video files.
+ * @param args.slides - The classified slide files.
+ * @returns Every anomaly found, or the matched pairs when there are none.
+ */
+function checkSources({
 	videos,
 	slides,
 }: {
 	readonly videos: DatedListing;
 	readonly slides: DatedListing;
-}): readonly string[] {
-	// Each rule holds of both kinds of source, and the report keeps the rules in
-	// order rather than the kinds, so the reader meets every undateable file
-	// before the first missing match.
+}): SourceCheck {
+	// The first two rules hold of both kinds of source, and the report keeps the
+	// rules in order rather than the kinds, so the reader meets every undateable
+	// file before the first missing match.
 	const sides = [
-		{ kind: "video", counterpart: "slide", listing: videos, matched: datedIsos(slides) },
-		{ kind: "slide", counterpart: "video", listing: slides, matched: datedIsos(videos) },
+		{ kind: "video", listing: videos },
+		{ kind: "slide", listing: slides },
 	] as const;
 
 	const anomalies: string[] = [];
@@ -155,14 +192,28 @@ function collectAnomalies({
 			anomalies.push(`two or more ${kind}s share the date ${iso}`);
 		}
 	}
-	for (const { kind, counterpart, listing, matched } of sides) {
-		for (const file of listing.dated) {
-			if (!matched.has(file.iso)) {
-				anomalies.push(`${kind} "${file.name}" has no matching ${counterpart} (date ${file.iso})`);
-			}
+
+	// The matching rule is written out per side rather than shared, because the
+	// video side has something to keep: the slide it just found. Its order is the
+	// same as the loops above, every video before the first slide.
+	const slideNameByIso = new Map(slides.dated.map((slide) => [slide.iso, slide.name] as const));
+	const pairs: PairedSources[] = [];
+	for (const video of videos.dated) {
+		const slideName = slideNameByIso.get(video.iso);
+		if (slideName === undefined) {
+			anomalies.push(missingCounterpart({ kind: "video", counterpart: "slide", file: video }));
+			continue;
+		}
+		pairs.push({ video, slideName });
+	}
+	const videoIsos = datedIsos(videos);
+	for (const slide of slides.dated) {
+		if (!videoIsos.has(slide.iso)) {
+			anomalies.push(missingCounterpart({ kind: "slide", counterpart: "video", file: slide }));
 		}
 	}
-	return anomalies;
+
+	return anomalies.length > 0 ? { state: "anomalies", anomalies } : { state: "matched", pairs };
 }
 
 /**
@@ -283,26 +334,26 @@ async function completeInterruptedRenames({
  * from its manifest, so a re-run neither re-parses an already-canonical filename
  * (which would corrupt the title) nor reverts a Stage 3 AI-derived rename.
  *
- * @param args - The valid, dated videos and slides, and existing workspaces.
- * @param args.videos - The dated video files (unique dates guaranteed by validation).
- * @param args.slides - The dated slide files, matched to videos by date.
+ * @param args - The matched sources, and the existing workspaces.
+ * @param args.pairs - Each video with the slide {@link checkSources} matched to it.
  * @param args.existing - Existing workspaces keyed by date, for title continuity.
  * @returns The lectures in date order, numbered from 1.
  */
 function orderLectures({
-	videos,
-	slides,
+	pairs,
 	existing,
 }: {
-	videos: readonly DatedFile[];
-	readonly slides: readonly SourceRef[];
+	readonly pairs: readonly PairedSources[];
 	readonly existing: ReadonlyMap<string, ExistingWorkspace>;
 }): readonly Lecture[] {
-	const videoByIso = new Map(videos.map((video) => [video.iso, video] as const));
-	const slideByIso = new Map(slides.map((slide) => [slide.iso, slide.name] as const));
-	const orderedIsos = [...videoByIso.keys()].sort();
-	return Array.from(orderedIsos.entries(), ([index, iso]) => {
-		const video = videoByIso.get(iso) as DatedFile;
+	// `YYYY-MM-DD` sorts lexicographically into date order, which is why the isos
+	// are what is compared rather than the parsed dates beside them.
+	const ordered = [...pairs].sort(
+		// eslint-disable-next-line max-params -- Array.prototype.sort defines this comparator's signature: two positional arguments
+		(left, right) => left.video.iso.localeCompare(right.video.iso),
+	);
+	return Array.from(ordered.entries(), ([index, { video, slideName }]) => {
+		const iso = video.iso;
 		const priorManifest = existing.get(iso)?.manifest;
 		const provisionalTitle = priorManifest?.provisionalTitle ?? extractProvisionalTitle(video.name);
 		const title = priorManifest?.lectureTitle ?? provisionalTitle;
@@ -313,7 +364,7 @@ function orderLectures({
 			provisionalTitle,
 			baseName: lectureBaseName({ lectureNumber, title, date: video.date }),
 			videoName: video.name,
-			slideName: slideByIso.get(iso) as string,
+			slideName,
 		};
 	});
 }
@@ -740,9 +791,14 @@ export function createSourceNormalisationStage({
 			"Normalising module sources",
 		);
 
-		const anomalies = collectAnomalies({ videos, slides });
-		if (anomalies.length > 0) {
-			abortNormalisation({ logger, moduleRoot, anomalies, reason: "source anomalies" });
+		const checked = checkSources({ videos, slides });
+		if (checked.state === "anomalies") {
+			abortNormalisation({
+				logger,
+				moduleRoot,
+				anomalies: checked.anomalies,
+				reason: "source anomalies",
+			});
 		}
 
 		const existingWorkspaces = await discoverWorkspaces(dirs.processing);
@@ -756,11 +812,7 @@ export function createSourceNormalisationStage({
 			await resolveOrphans({ orphans, moduleRoot, dirs, existingPdfs, logger, confirm });
 		}
 
-		const lectures = orderLectures({
-			videos: videos.dated,
-			slides: slides.dated,
-			existing: existingWorkspaces,
-		});
+		const lectures = orderLectures({ pairs: checked.pairs, existing: existingWorkspaces });
 		// One line per lecture, before anything is renamed: the date read off the
 		// filename, the number that date earned it, and the slide it was matched
 		// with. Between them they are the whole answer to "why is this Lecture 3?",

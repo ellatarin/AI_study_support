@@ -170,12 +170,14 @@ async function withResolvedLectures({
 		return EXIT_FAILURE;
 	}
 	const chosen = matches.length === 1 ? matches : await choose({ matches });
-	if (chosen.length === 0) {
+	// Destructured rather than length-tested, because taking the head is what
+	// narrows: `[first, ...rest]` *is* the non-empty tuple, so an action working on
+	// exactly one lecture can take the first without a second emptiness check.
+	const [first, ...rest] = chosen;
+	if (first === undefined) {
 		return EXIT_SUCCESS;
 	}
-	// The guard above is what makes this true, and it lets an action that works on
-	// exactly one lecture take the first without a second emptiness check.
-	return act(chosen as ChosenLectures);
+	return act([first, ...rest]);
 }
 
 /**

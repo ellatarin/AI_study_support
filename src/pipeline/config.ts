@@ -1,11 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import {
-	CONFIG_FILENAME,
-	type PipelineConfig,
-	type StageConfig,
-	type StageId,
-} from "../types/pipeline.js";
+import { CONFIG_FILENAME, type PipelineConfig, type StageConfig } from "../types/pipeline.js";
 import { NamedError } from "../utils/errors.js";
 import { splitModelId } from "../utils/model-id.js";
 import { isRecord } from "../utils/record.js";
@@ -377,9 +372,16 @@ function isExemptFromModelIdCheck({
 
 async function assertModelIdsResolvable(config: PipelineConfig): Promise<void> {
 	const { exemptProviders } = config.modelIdCheck;
-	const entries = (
-		Object.entries(config.stages) as ReadonlyArray<readonly [StageId, StageConfig]>
-	).filter(
+	// `stages` is a partial record — not every stage need be configured — so its
+	// entries type as possibly absent. A key is only ever present with a value,
+	// and the config is parsed from JSON, which has no way to express an undefined
+	// one, so a runtime check here would be a branch nothing could ever take. The
+	// assertion says that and nothing else: the keys stay `string`, which is all
+	// the error message reads them as.
+	const stageEntries = Object.entries(config.stages) as ReadonlyArray<
+		readonly [string, StageConfig]
+	>;
+	const entries = stageEntries.filter(
 		([, stageConfig]) =>
 			!isExemptFromModelIdCheck({ modelId: stageConfig.modelId, exemptProviders }),
 	);
