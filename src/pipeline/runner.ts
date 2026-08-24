@@ -53,8 +53,8 @@ import { assembleContext } from "./stage-context.js";
  */
 export type PipelineRunnerDeps = {
 	readonly config: PipelineConfig;
-	readonly sourceNormalisation: SourceNormalisationStage;
-	readonly lectureStages: readonly PipelineStage<unknown, unknown>[];
+	readonly sourceNormalisation: Readonly<SourceNormalisationStage>;
+	readonly lectureStages: readonly Readonly<PipelineStage<unknown, unknown>>[];
 	/** The run's logger; a stage failure is recorded on it with its stack (technical-design.md §8, §10). */
 	readonly logger: Logger;
 };
@@ -441,7 +441,7 @@ function createStageRecorder({
 	};
 }
 
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- PipelineStage and Logger carry method signatures; CLAUDE.md permits dropping readonly for such method-bearing types
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 async function runStage({
 	stage,
 	context,
@@ -449,7 +449,7 @@ async function runStage({
 	timestamp,
 	logger,
 }: {
-	readonly stage: PipelineStage<unknown, unknown>;
+	readonly stage: Readonly<PipelineStage<unknown, unknown>>;
 	readonly context: StageContext;
 	readonly config: PipelineConfig;
 	readonly timestamp: string;
@@ -601,8 +601,8 @@ async function readRunLogs(workspaceRoot: string): Promise<readonly RunLog[]> {
  */
 export class PipelineRunner {
 	readonly #config: PipelineConfig;
-	readonly #sourceNormalisation: SourceNormalisationStage;
-	readonly #lectureStages: readonly PipelineStage<unknown, unknown>[];
+	readonly #sourceNormalisation: Readonly<SourceNormalisationStage>;
+	readonly #lectureStages: readonly Readonly<PipelineStage<unknown, unknown>>[];
 	readonly #logger: Logger;
 
 	/**
@@ -612,7 +612,7 @@ export class PipelineRunner {
 	 * @param deps.lectureStages - The per-lecture stages, in execution order.
 	 * @param deps.logger - The run's logger, which records each stage failure with its stack.
 	 */
-	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- lectureStages holds method-bearing PipelineStage values; CLAUDE.md permits dropping readonly
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- PipelineRunnerDeps carries pino's Logger, which has mutable properties the rule cannot see past; it is only logged to (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 	public constructor(deps: PipelineRunnerDeps) {
 		this.#config = deps.config;
 		this.#sourceNormalisation = deps.sourceNormalisation;

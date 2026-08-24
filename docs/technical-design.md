@@ -582,7 +582,7 @@ The `PipelineRunner` surface:
 ```typescript
 class PipelineRunner {
   // Stages are injected so the runner is driven by stub stages under test and real stages in production.
-  constructor(deps: { config: PipelineConfig; sourceNormalisation: SourceNormalisationStage; lectureStages: readonly PipelineStage<unknown, unknown>[]; logger: Logger })
+  constructor(deps: { config: PipelineConfig; sourceNormalisation: Readonly<SourceNormalisationStage>; lectureStages: readonly Readonly<PipelineStage<unknown, unknown>>[]; logger: Logger })
   async normaliseSources(args: { moduleRoots: readonly string[] }): Promise<void>          // Stage 0
   async runLecture(args: { workspaceRoot: string; options?: RunOptions }): Promise<RunSummary>
   async runBatch(args: { moduleRoots: readonly string[]; options?: BatchRunOptions }): Promise<BatchSummary>
