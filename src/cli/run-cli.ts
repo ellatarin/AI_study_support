@@ -23,7 +23,6 @@ import {
 	EXIT_FAILURE,
 	EXIT_SUCCESS,
 	executeCommand,
-	type RunnableCliCommand,
 	type WriteText,
 } from "./commands.js";
 import { confirmPrompt, selectLectureMatch, selectLectureMatches } from "./prompts.js";
@@ -146,7 +145,7 @@ export async function runCli({
 			return EXIT_SUCCESS;
 		}
 		const deps = await assembleDeps({ projectRoot, write });
-		return await executeCommand({ command: command satisfies RunnableCliCommand, deps });
+		return await executeCommand({ command, deps });
 	} catch (error: unknown) {
 		return reportFailure({ error, output });
 	}
