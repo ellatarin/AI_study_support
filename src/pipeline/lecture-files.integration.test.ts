@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { pathExists } from "../utils/files.js";
 import { aiDerivedLecture, makeLectureTree, otherLecture, testLecture } from "./fixtures.js";
 import { type ModuleDirs, workspaceRootFor } from "./layout.js";
-import { findDatedFile, renameLectureFiles } from "./lecture-files.js";
+import { findDatedFile, removeDatedFile, renameLectureFiles } from "./lecture-files.js";
 import { manifestPath } from "./manifest.js";
 
 describe("lecture files", () => {
@@ -69,6 +69,25 @@ describe("lecture files", () => {
 			});
 
 			expect(found).toBeNull();
+		});
+	});
+
+	describe("removeDatedFile", () => {
+		beforeEach(async () => {
+			await writeFile(join(dirs.video, otherLecture.videoFile), "video");
+		});
+
+		it.each([
+			{ given: "the lecture's own date", lectureDate: testLecture.date, remains: false },
+			{ given: "a date no file carries", lectureDate: "2025-11-21", remains: true },
+		])("should take only the file carrying the date when $given is passed", async ({
+			lectureDate,
+			remains,
+		}) => {
+			await removeDatedFile({ dir: dirs.video, lectureDate });
+
+			expect(await pathExists(join(dirs.video, testLecture.videoFile))).toBe(remains);
+			expect(await pathExists(join(dirs.video, otherLecture.videoFile))).toBe(true);
 		});
 	});
 

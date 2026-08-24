@@ -364,7 +364,7 @@ The transcription integration test streams a real file through the real SDK but 
 
 **Deliverables:**
 
-`src/pipeline/lecture-files.ts` **(TD §4.7, "Moving a lecture's files")** — `findDatedFile` and `renameLectureFiles`, lifted out of the private helpers in `src/cli/lecture-identity.ts` so Stage 3 and `change-date` share one sweep rather than growing a second copy. `change-date` is rewritten onto it; the module sits under `src/pipeline/` because a stage may not import from `src/cli/`.
+`src/pipeline/lecture-files.ts` **(TD §4.7, "Moving a lecture's files")** — `baseNameForLecture`, `findDatedFile`, `removeDatedFile` and `renameLectureFiles`, lifted out of the private helpers in `src/cli/lecture-identity.ts` so Stage 3 and `change-date` share one sweep rather than growing a second copy. `change-date` is rewritten onto it; the module sits under `src/pipeline/` because a stage may not import from `src/cli/`.
 
 `makeCompletionCall` gains `responseFormat` **(TD §6)** — `"text" | "json"`, stated on every call, setting the SDK's `response_format` to `json_object` for the stages that return structured data. Stage 3 is its first production caller.
 

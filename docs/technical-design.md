@@ -694,6 +694,8 @@ Each mutation leaves the module in a state Stage 0 can finish, rather than doing
 
 **Moving a lecture's files.** `change-date` and Stage 3 both rename the same four things onto a new base name — the source video, the source slide, any `Final output/` PDF, and the workspace folder — so the sweep is stated once and shared. It lives under `src/pipeline/` rather than beside the CLI commands that were its first caller, because a stage may not import from the CLI layer.
 
+Removing one lecture's file lives here for the same reason. Every directory a lecture's own files sit in is shared with every other lecture in the module, so `delete` and a `--from-stage` re-run at or before Stage 8 both have to take one file rather than sweep a directory, and both find it the way everything else here does — by the date it carries.
+
 ```typescript
 // src/pipeline/lecture-files.ts
 baseNameForLecture(args: { lectureNumber: number; title: string; lectureDate: string }): string
@@ -707,6 +709,10 @@ findDatedFile(args: { dir: string; lectureDate: string }): Promise<string | null
 // The *last* date in the name is the one compared: these directories hold names Stage 0 has normalised, and
 // `lectureBaseName` puts the title before the date, so a title naming a date of its own — a cohort, a study,
 // a historical event — precedes the lecture's own.
+removeDatedFile(args: { dir: string; lectureDate: string }): Promise<void>
+// Removes the one file in a directory carrying this date, where there is one. Used by `delete` across all
+// three of a lecture's directories, and by `--from-stage` for the PDF in the module-wide `Final output/`.
+// Neither may sweep the directory it clears from: all three hold every lecture in the module.
 renameLectureFiles(args: { dirs: ModuleDirs; workspaceRoot: string; lectureDate: string; baseName: string }): Promise<string>
 // Renames the video, the slide, any Final output/ PDF, and the workspace folder onto `baseName`, each keeping
 // the extension it carried, and returns the workspace's new path. Anything absent is skipped, so a lecture
@@ -1515,7 +1521,7 @@ src/
 │   ├── layout.ts                     # Every directory and filename, declared once (§3.3)
 │   ├── manifest.ts                   # manifest.json location, reading, and atomic writing
 │   ├── stage-context.ts              # Assembling the StageContext a stage is handed (§4.7)
-│   ├── lecture-files.ts              # Moving the four files a lecture's identity is spread across (§4.7)
+│   ├── lecture-files.ts              # Moving and removing the files a lecture's identity is spread across (§4.7)
 │   ├── run-status.ts                 # Reducing stage and lecture outcomes to an OverallStatus, and
 │   │                                 # reading a stage entry for settled output (§4.2)
 │   ├── config.ts                     # Config file loader and validator

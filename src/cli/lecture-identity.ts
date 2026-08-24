@@ -11,11 +11,11 @@
  */
 
 import { rm } from "node:fs/promises";
-import { join } from "node:path";
 import { datedFileDirs, type ModuleDirs, moduleDirs } from "../pipeline/layout.js";
 import {
 	baseNameForLecture,
 	findDatedFile,
+	removeDatedFile,
 	renameLectureFiles,
 } from "../pipeline/lecture-files.js";
 import { patchManifest, readManifest } from "../pipeline/manifest.js";
@@ -46,26 +46,6 @@ async function openLecture(match: LectureMatch): Promise<{
 		dirs: moduleDirs({ moduleRoot: match.moduleRoot }),
 		manifest: await readManifest({ workspaceRoot: match.workspaceRoot }),
 	};
-}
-
-/**
- * Removes a file, if it is there at all.
- *
- * @param args - What to remove and where from.
- * @param args.dir - The directory holding the file.
- * @param args.name - The file name, or `null` when there is nothing to remove.
- * @returns A promise that resolves once the file is gone.
- */
-async function removeIfPresent({
-	dir,
-	name,
-}: {
-	readonly dir: string;
-	readonly name: string | null;
-}): Promise<void> {
-	if (name !== null) {
-		await rm(join(dir, name), { force: true });
-	}
 }
 
 /**
@@ -126,7 +106,7 @@ export async function deleteLecture({ match }: { readonly match: LectureMatch })
 		manifest: { lectureDate },
 	} = await openLecture(match);
 	for (const dir of datedFileDirs({ dirs })) {
-		await removeIfPresent({ dir, name: await findDatedFile({ dir, lectureDate }) });
+		await removeDatedFile({ dir, lectureDate });
 	}
 	await rm(match.workspaceRoot, { recursive: true, force: true });
 }
