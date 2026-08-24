@@ -169,30 +169,27 @@ describe("createTranscriptionStage", () => {
 		expect(upload.uploadedBody()).not.toContain(transcriptionModelId);
 	});
 
-	it("should send the model ID unchanged when it carries no provider prefix", async () => {
+	it.each([
+		{
+			sent: "an unprefixed model ID unchanged",
+			overrides: { modelId: "scribe_v2" },
+			carries: "scribe_v2",
+		},
+		{ sent: "a non-verbatim request", overrides: {}, carries: "no_verbatim" },
+		{
+			// A different language from the example config's, so passing could not
+			// come from the stage having kept a hardcoded default that happens to
+			// match.
+			sent: "the configured spoken language",
+			overrides: { elevenLabs: { languageCode: "fra" } },
+			carries: "fra",
+		},
+	])("should send $sent when uploading to Scribe", async ({ overrides, carries }) => {
 		const upload = interceptScribeUpload();
 
-		await runStage(contextWith({ modelId: "scribe_v2" }));
+		await runStage(contextWith(overrides));
 
-		expect(upload.uploadedBody()).toContain("scribe_v2");
-	});
-
-	it("should request a non-verbatim transcript when calling Scribe", async () => {
-		const upload = interceptScribeUpload();
-
-		await runStage(contextWith());
-
-		expect(upload.uploadedBody()).toContain("no_verbatim");
-	});
-
-	// A different language from the example config's, so passing could not come
-	// from the stage having kept a hardcoded default that happens to match.
-	it("should tell Scribe the configured spoken language when uploading", async () => {
-		const upload = interceptScribeUpload();
-
-		await runStage(contextWith({ elevenLabs: { languageCode: "fra" } }));
-
-		expect(upload.uploadedBody()).toContain("fra");
+		expect(upload.uploadedBody()).toContain(carries);
 	});
 
 	it("should upload to the configured host when elevenLabs.baseUrl names another endpoint", async () => {
