@@ -6,9 +6,16 @@ import {
 	createProgressBar,
 	createUploadProgressStream,
 	formatUploadValue,
+	type ParallelWorkBar,
 } from "./progress.js";
 
-/** ESC control character, built at runtime so no literal control byte enters this file. */
+/**
+ * ESC control character, built at runtime so no literal control byte enters this file.
+ *
+ * Written out here rather than shared with the module under test: the expectation
+ * states the escape sequence a terminal should receive, and deriving it from the
+ * code that produces it would assert that code against itself.
+ */
 const ESC = String.fromCharCode(27);
 
 describe("createProgressBar", () => {
@@ -46,10 +53,17 @@ describe("createUploadProgressStream", () => {
 
 describe("createParallelWorkBar", () => {
 	const label = "Slide conversion";
+	/** The item count every bar in this suite is built for, and the total `start` is asserted to carry. */
+	const TOTAL_ITEMS = 24;
+	/** Two item ids, named in the order the in-flight suffix lists them. */
+	const FIRST_PICKED = 16;
+	const SECOND_PICKED = 17;
 	let realIsTTY: boolean;
+	let work: ParallelWorkBar;
 
 	beforeEach(() => {
 		realIsTTY = process.stderr.isTTY;
+		work = createParallelWorkBar({ label, total: TOTAL_ITEMS });
 	});
 
 	afterEach(() => {
@@ -57,74 +71,84 @@ describe("createParallelWorkBar", () => {
 	});
 
 	it("should start the bar with an empty in-flight suffix when started", () => {
-		const work = createParallelWorkBar({ label, total: 24 });
 		const startSpy = vi.spyOn(work.bar, "start");
 
 		work.start();
 
-		expect(startSpy).toHaveBeenCalledWith(24, 0, { label, inFlight: "" });
+		expect(startSpy).toHaveBeenCalledWith(TOTAL_ITEMS, 0, { label, inFlight: "" });
 	});
 
-	it("should list picked ids in the in-flight suffix when workers pick up items", () => {
-		const work = createParallelWorkBar({ label, total: 24 });
-		work.start();
-		const updateSpy = vi.spyOn(work.bar, "update");
+	describe("once started", () => {
+		beforeEach(() => {
+			work.start();
+		});
 
-		work.pick(16);
-		work.pick(17);
+		it("should list picked ids in the in-flight suffix when workers pick up items", () => {
+			const updateSpy = vi.spyOn(work.bar, "update");
 
-		expect(updateSpy).toHaveBeenLastCalledWith(0, { label, inFlight: "16, 17" });
-	});
+			work.pick(FIRST_PICKED);
+			work.pick(SECOND_PICKED);
 
-	it("should advance the value and drop the id from in-flight when an item completes", () => {
-		const work = createParallelWorkBar({ label, total: 24 });
-		work.start();
-		work.pick(16);
-		work.pick(17);
-		const updateSpy = vi.spyOn(work.bar, "update");
+			expect(updateSpy).toHaveBeenLastCalledWith(0, {
+				label,
+				inFlight: `${FIRST_PICKED}, ${SECOND_PICKED}`,
+			});
+		});
 
-		work.complete(16);
+		it("should advance the value and drop the id from in-flight when an item completes", () => {
+			work.pick(FIRST_PICKED);
+			work.pick(SECOND_PICKED);
+			const updateSpy = vi.spyOn(work.bar, "update");
 
-		expect(updateSpy).toHaveBeenLastCalledWith(1, { label, inFlight: "17" });
-	});
+			work.complete(FIRST_PICKED);
 
-	const failureCases: readonly {
-		readonly renders: string;
-		readonly outputIs: string;
-		readonly isTTY: boolean;
-		readonly expected: string;
-	}[] = [
-		{ renders: "in red", outputIs: "a terminal", isTTY: true, expected: `${ESC}[31m16${ESC}[0m` },
-		{ renders: "plainly", outputIs: "a captured log", isTTY: false, expected: "16" },
-	];
+			expect(updateSpy).toHaveBeenLastCalledWith(1, { label, inFlight: String(SECOND_PICKED) });
+		});
 
-	it.each(failureCases)("should render a failed id $renders when the output is $outputIs", ({
-		isTTY,
-		expected,
-	}) => {
-		process.stderr.isTTY = isTTY;
-		const work = createParallelWorkBar({ label, total: 24 });
-		work.start();
-		work.pick(16);
-		const updateSpy = vi.spyOn(work.bar, "update");
-
-		work.fail(16);
-
-		const lastCall = updateSpy.mock.lastCall as unknown as readonly [
-			number,
-			{ readonly inFlight: string },
+		const failureCases: readonly {
+			readonly renders: string;
+			readonly outputIs: string;
+			readonly isTTY: boolean;
+			readonly expected: string;
+		}[] = [
+			{
+				renders: "in red",
+				outputIs: "a terminal",
+				isTTY: true,
+				expected: `${ESC}[31m${FIRST_PICKED}${ESC}[0m`,
+			},
+			{
+				renders: "plainly",
+				outputIs: "a captured log",
+				isTTY: false,
+				expected: String(FIRST_PICKED),
+			},
 		];
-		expect(lastCall[1].inFlight).toBe(expected);
-	});
 
-	it("should stop the underlying bar when stopped", () => {
-		const work = createParallelWorkBar({ label, total: 24 });
-		work.start();
-		const stopSpy = vi.spyOn(work.bar, "stop");
+		it.each(failureCases)("should render a failed id $renders when the output is $outputIs", ({
+			isTTY,
+			expected,
+		}) => {
+			process.stderr.isTTY = isTTY;
+			work.pick(FIRST_PICKED);
+			const updateSpy = vi.spyOn(work.bar, "update");
 
-		work.stop();
+			work.fail(FIRST_PICKED);
 
-		expect(stopSpy).toHaveBeenCalled();
+			const lastCall = updateSpy.mock.lastCall as unknown as readonly [
+				number,
+				{ readonly inFlight: string },
+			];
+			expect(lastCall[1].inFlight).toBe(expected);
+		});
+
+		it("should stop the underlying bar when stopped", () => {
+			const stopSpy = vi.spyOn(work.bar, "stop");
+
+			work.stop();
+
+			expect(stopSpy).toHaveBeenCalled();
+		});
 	});
 });
 
