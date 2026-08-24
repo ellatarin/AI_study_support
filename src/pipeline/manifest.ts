@@ -12,7 +12,7 @@
 
 import { mkdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import type { RunManifest } from "../types/pipeline.js";
+import { type RunManifest, STAGE_IDS } from "../types/pipeline.js";
 import { readJsonSafe, writeJsonAtomic } from "../utils/files.js";
 import { isRecord } from "../utils/record.js";
 import { MANIFEST_FILE } from "./layout.js";
@@ -28,6 +28,26 @@ import { MANIFEST_FILE } from "./layout.js";
  * against the version it is migrating from (technical-design.md §4.5).
  */
 export const MANIFEST_VERSION = "1";
+
+/**
+ * A manifest stage map with every stage `pending`, as Stage 0 writes it for a
+ * newly created lecture workspace.
+ *
+ * Here for the reason {@link MANIFEST_VERSION} is here: Stage 0 writes this map
+ * and the fixtures seed it, and each had been building its own. The two were
+ * identical down to the assertion below, and nothing reads the map back in a way
+ * that would have caught them diverging.
+ *
+ * The assertion is `Object.fromEntries`, which widens the keys it is handed back
+ * to `string` whatever it was given. The keys come from `STAGE_IDS`, which is the
+ * definition of what a stage key may be, so there is nothing left to check.
+ *
+ * @returns A fresh stage map, safe for the caller to spread over.
+ */
+export function pendingStages(): RunManifest["stages"] {
+	const entries = STAGE_IDS.map((stageId) => [stageId, { status: "pending" }] as const);
+	return Object.fromEntries(entries) as RunManifest["stages"];
+}
 
 /**
  * The absolute path of a workspace's manifest.

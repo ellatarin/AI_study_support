@@ -28,7 +28,6 @@ import type {
 	StageResult,
 	StageRunConfig,
 } from "../types/pipeline.js";
-import { STAGE_IDS } from "../types/pipeline.js";
 import { parseConfig } from "./config.js";
 import {
 	datedFileDirs,
@@ -39,7 +38,7 @@ import {
 	workspaceRootFor,
 } from "./layout.js";
 import { baseNameForLecture } from "./lecture-files.js";
-import { MANIFEST_VERSION } from "./manifest.js";
+import { MANIFEST_VERSION, pendingStages } from "./manifest.js";
 import { API_KEY_VARIABLE as OPENROUTER_KEY_VARIABLE, OPENROUTER_PATHS } from "./openrouter.js";
 import { assembleContext } from "./stage-context.js";
 import {
@@ -166,17 +165,6 @@ export function loggedAt({
 	readonly level: LoggedLevel;
 }): readonly LoggedEntry[] {
 	return entries.filter((entry) => entry.level === level);
-}
-
-/**
- * A manifest stage map with every stage `pending`, as Stage 0 writes it for a
- * newly created lecture workspace.
- *
- * @returns A fresh stage map, safe for a test to spread over.
- */
-export function pendingStages(): RunManifest["stages"] {
-	const entries = STAGE_IDS.map((stageId) => [stageId, { status: "pending" }] as const);
-	return Object.fromEntries(entries) as RunManifest["stages"];
 }
 
 /**

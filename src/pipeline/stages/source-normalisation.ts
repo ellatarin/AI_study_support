@@ -2,7 +2,6 @@ import { rename, rm } from "node:fs/promises";
 import { extname, join } from "node:path";
 import type { Logger } from "pino";
 import type { RunManifest, SourceNormalisationStage } from "../../types/pipeline.js";
-import { STAGE_IDS } from "../../types/pipeline.js";
 import { extractDate, formatDateISO } from "../../utils/date.js";
 import { NamedError } from "../../utils/errors.js";
 import {
@@ -13,7 +12,13 @@ import {
 } from "../../utils/files.js";
 import { extractProvisionalTitle, lectureBaseName } from "../../utils/naming.js";
 import { type ModuleDirs, moduleDirs } from "../layout.js";
-import { MANIFEST_VERSION, readManifest, readManifestSafe, writeManifest } from "../manifest.js";
+import {
+	MANIFEST_VERSION,
+	pendingStages,
+	readManifest,
+	readManifestSafe,
+	writeManifest,
+} from "../manifest.js";
 
 // prefer-readonly-parameter-types is disabled file-wide: this stage's helpers take
 // a pino Logger and a Date (library/built-in types carrying methods) and the
@@ -702,9 +707,7 @@ async function resolveOrphans({
  */
 function initialManifest(lecture: Lecture): RunManifest {
 	const now = new Date().toISOString();
-	const stages = Object.fromEntries(
-		STAGE_IDS.map((stageId) => [stageId, { status: "pending" }]),
-	) as RunManifest["stages"];
+	const stages = pendingStages();
 	return {
 		version: MANIFEST_VERSION,
 		lectureNumber: lecture.lectureNumber,

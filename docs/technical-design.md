@@ -416,6 +416,9 @@ MANIFEST_VERSION: string   // "1" — the schema version stamped into every mani
 // manifest, and the fixtures, which seed one per suite — would otherwise hold their own, and nothing reads
 // `version` back to notice. Bumping it here bumps what the suites seed, so a migration is tested against the
 // version it migrates from.
+pendingStages(): RunManifest["stages"]   // every stage `pending`, as Stage 0 writes it for a new workspace
+// Beside the version and for the same reason: Stage 0 writes this map and the fixtures seed one, and each had
+// been building its own. Nothing reads the map back in a way that would notice the two drifting apart.
 manifestPath(args: { workspaceRoot: string }): string
 readManifest(args: { workspaceRoot: string }): Promise<RunManifest>        // throws when missing or malformed
 readManifestSafe(args: { workspaceRoot: string }): Promise<RunManifest | null>

@@ -29,7 +29,6 @@ import {
 	makeTempDir,
 	otherLecture,
 	otherModuleName,
-	pendingStages,
 	sameDateLecture,
 	seedStageOutput,
 	stageCompletedAt,
@@ -47,7 +46,7 @@ import {
 	stageOutputPath,
 	workspaceRootFor,
 } from "./layout.js";
-import { readManifest, writeManifest } from "./manifest.js";
+import { pendingStages, readManifest, writeManifest } from "./manifest.js";
 import { PipelineRunner } from "./runner.js";
 import { isStageComplete } from "./stages/pipeline-stage.js";
 
