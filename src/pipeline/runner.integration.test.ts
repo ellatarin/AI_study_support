@@ -30,9 +30,11 @@ import {
 	otherLecture,
 	otherModuleName,
 	pendingStages,
+	sameDateLecture,
 	seedStageOutput,
 	stageCompletedAt,
 	stagesWith,
+	type TestLecture,
 	testLecture,
 	testModuleName,
 	testRunId,
@@ -603,13 +605,18 @@ describe("PipelineRunner integration", () => {
 	});
 
 	describe("resolveLecturesByDate", () => {
-		// A lecture in a second module sharing the test lecture's date, so a date
-		// can match across modules. Only this suite needs one, so it is named here.
-		const SHARED_DATE_LECTURE = { number: 3, title: "Virology" };
-
 		let moduleA: string;
 		let moduleB: string;
 		let moduleC: string;
+
+		/** A manifest recording the given lecture's identity, as a scan reads it back. */
+		function manifestFor(lecture: TestLecture): RunManifest {
+			return makeManifest({
+				lectureNumber: lecture.number,
+				lectureDate: lecture.date,
+				lectureTitle: lecture.title,
+			});
+		}
 
 		beforeEach(async () => {
 			moduleA = join(tempDir, otherModuleName);
@@ -624,25 +631,9 @@ describe("PipelineRunner integration", () => {
 			// Three lectures, differing in the ways these tests turn on: the test
 			// lecture, another in the same module on its own date, and a third in a
 			// second module sharing the test lecture's date.
-			await write(moduleA, LECTURE_FOLDER, makeManifest());
-			await write(
-				moduleA,
-				"L2",
-				makeManifest({
-					lectureNumber: otherLecture.number,
-					lectureDate: otherLecture.date,
-					lectureTitle: otherLecture.title,
-				}),
-			);
-			await write(
-				moduleB,
-				"L3",
-				makeManifest({
-					lectureNumber: SHARED_DATE_LECTURE.number,
-					lectureDate: testLecture.date,
-					lectureTitle: SHARED_DATE_LECTURE.title,
-				}),
-			);
+			await write(moduleA, LECTURE_FOLDER, manifestFor(testLecture));
+			await write(moduleA, "L2", manifestFor(otherLecture));
+			await write(moduleB, "L3", manifestFor(sameDateLecture));
 			// Two things the scan has to walk past: a workspace folder holding no
 			// manifest, and a module directory the pipeline has never processed, so
 			// it has no `Pipeline processing/` at all.
@@ -695,7 +686,7 @@ describe("PipelineRunner integration", () => {
 
 			expect(matches).toHaveLength(2);
 			const titles = matches.map((match) => match.lectureTitle).sort();
-			expect(titles).toEqual([testLecture.title, SHARED_DATE_LECTURE.title].sort());
+			expect(titles).toEqual([testLecture.title, sameDateLecture.title].sort());
 			for (const match of matches) {
 				expect(match).toMatchObject({
 					moduleRoot: expect.any(String),
