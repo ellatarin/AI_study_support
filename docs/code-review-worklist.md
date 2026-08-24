@@ -360,7 +360,7 @@ Worked module by module, one commit each, **last** of the auto work.
 
 ### A21.9 Untested exports
 
-- [ ] **A21.9a** `files.ts:15,59,70,124` — `readDirSafe`, `listFileNames`, `listSubdirectoryNames` and **`produceFileAtomic`** have no unit tests, against "MUST write unit tests for all new functions and modules". R2 reports the first three as a docs gap; **R1 is right that it is a Standards violation**, and R2 omits `produceFileAtomic` entirely
+- [x] **A21.9a** `files.ts:15,59,70,124` — `readDirSafe`, `listFileNames`, `listSubdirectoryNames` and **`produceFileAtomic`** have no unit tests, against "MUST write unit tests for all new functions and modules". R2 reports the first three as a docs gap; **R1 is right that it is a Standards violation**, and R2 omits `produceFileAtomic` entirely. **Done, and the gap was real — verified by listing what `files.integration.test.ts` actually ran, not by trusting the finding.** **`produceFileAtomic` is a row in the existing atomic-writers table rather than a suite of its own**: "the real path never holds partial output" is one rule, the table already stated it for the other two writers, and a producer that cannot write is exactly how this writer fails. Its success path is its own test, because what it has to show is different — that the producer is handed the `.tmp` path and that the result is renamed onto the target. **The three listings share a rule too** — a missing directory is `[]`, not a throw — so that is one table over all three, and the populated-directory cases share one `beforeEach` holding a file, a dotfile and a subdirectory, which is the whole of what distinguishes the three listings from each other
 
 ---
 

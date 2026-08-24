@@ -1,11 +1,15 @@
 import { access, mkdir, readFile, realpath, symlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { testModuleName, useTempDir } from "../pipeline/fixtures.js";
 import {
 	cleanTmpFiles,
+	listFileNames,
+	listSubdirectoryNames,
 	ManifestPathError,
 	pathExists,
+	produceFileAtomic,
+	readDirSafe,
 	readJsonSafe,
 	resolveManifestPath,
 	writeFileAtomic,
@@ -48,9 +52,11 @@ describe("files utilities", () => {
 		});
 	});
 
-	// One rule, and it is the reason both writers exist: the real path never
+	// One rule, and it is the reason all three writers exist: the real path never
 	// holds partial output. Each writer is driven at a path whose parent
-	// directory is absent, which is what makes the underlying write fail.
+	// directory is absent, which is what makes the underlying write fail — for
+	// produceFileAtomic that failure arrives from the producer, which is the only
+	// way it can fail.
 	describe("the atomic writers", () => {
 		it.each([
 			{
@@ -58,6 +64,11 @@ describe("files utilities", () => {
 				write: (path: string) => writeFileAtomic({ path, content: "data" }),
 			},
 			{ writer: "writeJsonAtomic", write: (path: string) => writeJsonAtomic({ path, value: {} }) },
+			{
+				writer: "produceFileAtomic",
+				write: (path: string) =>
+					produceFileAtomic({ path, produce: (tmpPath) => writeFile(tmpPath, "data") }),
+			},
 		])("should leave no file behind when a $writer write fails", async ({ write }) => {
 			const target = join(tempDir(), "missing-subdir", "notes.md");
 
@@ -65,6 +76,65 @@ describe("files utilities", () => {
 
 			await expect(access(target)).rejects.toThrow();
 			await expect(access(`${target}.tmp`)).rejects.toThrow();
+		});
+	});
+
+	describe("produceFileAtomic", () => {
+		it("should hand the producer the tmp path and rename it onto the target when the producer succeeds", async () => {
+			const target = join(tempDir(), "audio.m4a");
+			const produce = vi.fn((tmpPath: string) => writeFile(tmpPath, "bytes"));
+
+			await produceFileAtomic({ path: target, produce });
+
+			expect(produce).toHaveBeenCalledWith(`${target}.tmp`);
+			expect(await readFile(target, "utf8")).toBe("bytes");
+			await expect(access(`${target}.tmp`)).rejects.toThrow();
+		});
+	});
+
+	// One rule shared by all three: a directory that is not there is not an error
+	// to raise, because every caller is scanning somewhere optional.
+	describe("the directory listings", () => {
+		it.each([
+			{ listing: "readDirSafe", list: readDirSafe },
+			{ listing: "listFileNames", list: listFileNames },
+			{ listing: "listSubdirectoryNames", list: listSubdirectoryNames },
+		])("should return nothing when $listing is given a missing directory", async ({ list }) => {
+			expect(await list(join(tempDir(), "absent"))).toEqual([]);
+		});
+
+		describe("over a directory holding a file, a dotfile and a subdirectory", () => {
+			const FILE_NAME = "notes.md";
+			const DOTFILE_NAME = ".DS_Store";
+			const SUBDIRECTORY_NAME = "Audio";
+
+			beforeEach(async () => {
+				await writeFile(join(tempDir(), FILE_NAME), "");
+				await writeFile(join(tempDir(), DOTFILE_NAME), "");
+				await mkdir(join(tempDir(), SUBDIRECTORY_NAME));
+			});
+
+			it("should list the files, leaving out the dotfile and the subdirectory, when listFileNames runs", async () => {
+				expect(await listFileNames(tempDir())).toEqual([FILE_NAME]);
+			});
+
+			it("should list only the subdirectory when listSubdirectoryNames runs", async () => {
+				expect(await listSubdirectoryNames(tempDir())).toEqual([SUBDIRECTORY_NAME]);
+			});
+
+			it("should report every entry with its kind when readDirSafe reads the directory", async () => {
+				const entries = await readDirSafe(tempDir());
+
+				expect(
+					entries
+						.filter((entry) => entry.isFile())
+						.map((entry) => entry.name)
+						.sort(),
+				).toEqual([DOTFILE_NAME, FILE_NAME]);
+				expect(entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name)).toEqual([
+					SUBDIRECTORY_NAME,
+				]);
+			});
 		});
 	});
 
