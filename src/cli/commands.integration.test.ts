@@ -223,7 +223,7 @@ describe("executeCommand", () => {
 			// the dispatcher hands the runner what it was given, whatever that is.
 			const flagged = { fromStage: "transcription", onStageFailure: "continue" } as const;
 
-			await executeCommand({ command: { ...runCommand, options: flagged }, deps: deps() });
+			await invoke({ ...runCommand, options: flagged });
 
 			expect(runner.runLecture).toHaveBeenCalledWith({ workspaceRoot, options: flagged });
 		});
@@ -328,10 +328,7 @@ describe("executeCommand", () => {
 		it("should batch every configured module when none is named", async () => {
 			const parallel = { ...DEFAULT_BATCH_OPTIONS, concurrency: 2 };
 
-			const code = await executeCommand({
-				command: { ...batchCommand, options: parallel },
-				deps: deps(),
-			});
+			const code = await invoke({ ...batchCommand, options: parallel });
 
 			expect(code).toBe(0);
 			expect(runner.runBatch).toHaveBeenCalledWith({
@@ -341,10 +338,7 @@ describe("executeCommand", () => {
 		});
 
 		it("should batch only the named module when one is given", async () => {
-			await executeCommand({
-				command: { ...batchCommand, moduleRoot },
-				deps: deps(),
-			});
+			await invoke({ ...batchCommand, moduleRoot });
 
 			expect(runner.runBatch).toHaveBeenCalledWith({
 				moduleRoots: [moduleRoot],
@@ -353,7 +347,7 @@ describe("executeCommand", () => {
 		});
 
 		it("should print each lecture's summary and the batch total when the batch ends", async () => {
-			await executeCommand({ command: batchCommand, deps: deps() });
+			await invoke(batchCommand);
 
 			expect(output()).toContain("Run summary");
 			expect(output()).toContain("Batch summary");
@@ -363,7 +357,7 @@ describe("executeCommand", () => {
 		it("should report a failure when any lecture in the batch failed", async () => {
 			runner.runBatch.mockResolvedValue(batchSummary("failed"));
 
-			const code = await executeCommand({ command: batchCommand, deps: deps() });
+			const code = await invoke(batchCommand);
 
 			expect(code).toBe(1);
 		});

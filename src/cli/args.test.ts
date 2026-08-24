@@ -38,10 +38,19 @@ describe("parseCliArgs", () => {
 			expect(parse(argv)).toEqual({ command: "help" });
 		});
 
-		it("should describe every command when the usage text is read", () => {
-			for (const command of ["run", "batch", "cost-report", "rename", "delete", "change-date"]) {
-				expect(USAGE).toContain(command);
-			}
+		// The command words are written out here, not taken from the table the usage
+		// text is rendered from: what this asserts is the vocabulary a user types, and
+		// reading it off that table would check the renderer against its own input.
+		// The same call as the expected paths in files.test.ts.
+		it.each([
+			"run",
+			"batch",
+			"cost-report",
+			"rename",
+			"delete",
+			"change-date",
+		])("should describe %s when the usage text is read", (command) => {
+			expect(USAGE).toContain(command);
 		});
 	});
 
