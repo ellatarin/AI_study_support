@@ -472,6 +472,14 @@ function errorRecoverySection({ runLogs, formatMoney }: RunLogSectionArgs): read
 /**
  * Section 3: deliberate model re-runs, grouped by stage for comparison.
  *
+ * The one section that pads its own columns rather than going through
+ * {@link renderCostTable}, and it is meant to. What this section is for is
+ * comparing models *within* a stage, so the stage is a heading with its runs
+ * indented under it; `renderCostTable` renders one flat table, which would mean
+ * repeating the stage on every row and losing the grouping that is the point.
+ * The difference in shape is deliberate and was confirmed as such — it is not an
+ * unfinished migration to the shared helper.
+ *
  * @param args - The section inputs.
  * @param args.runLogs - The lecture's run logs.
  * @param args.formatMoney - The report's money formatter.
