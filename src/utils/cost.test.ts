@@ -341,11 +341,13 @@ describe("createMoneyFormatter", () => {
 	it.each([
 		{
 			scenario: "a whole dollar at the standard rate",
-			gbpPerUsd: 0.74,
+			gbpPerUsd: GBP_PER_USD,
 			usd: 1,
 			expected: "£0.740",
 		},
-		{ scenario: "a fractional amount", gbpPerUsd: 0.74, usd: 0.042, expected: "£0.031" },
+		{ scenario: "a fractional amount", gbpPerUsd: GBP_PER_USD, usd: 0.042, expected: "£0.031" },
+		// The last two rates are deliberately not the standard one: what they prove
+		// is that the formatter converts at whatever rate it was built with.
 		{ scenario: "a corrected, higher rate", gbpPerUsd: 0.8, usd: 0.042, expected: "£0.034" },
 		{ scenario: "a rate of parity", gbpPerUsd: 1, usd: 0.042, expected: "£0.042" },
 	])("should convert at the configured rate when given $scenario", ({
