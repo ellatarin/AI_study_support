@@ -9,6 +9,7 @@ import {
 	moduleName,
 	moduleRootOf,
 	RUNS_DIR,
+	resolveStageOutput,
 	runsDirPath,
 	STAGE_WORKSPACE,
 	stageDirectoryPaths,
@@ -27,6 +28,7 @@ const SLIDE_DIR = join(MODULE_ROOT, "Source files", "Lecture slides");
 const PROCESSING_DIR = join(MODULE_ROOT, "Pipeline processing");
 const FINAL_OUTPUT_DIR = join(MODULE_ROOT, "Final output");
 const WORKSPACE_ROOT = join(PROCESSING_DIR, testLecture.folderName);
+const QA_DIRS = [join(WORKSPACE_ROOT, "QA iterations"), join(WORKSPACE_ROOT, "QA checked")];
 
 describe("moduleDirs", () => {
 	it.each([
@@ -90,15 +92,37 @@ describe("STAGE_WORKSPACE", () => {
 	});
 
 	it("should give source-normalisation no workspace directory when it owns none", () => {
-		expect(STAGE_WORKSPACE["source-normalisation"].directories).toStrictEqual([]);
+		expect(STAGE_WORKSPACE["source-normalisation"].outputLocation).toStrictEqual({
+			root: "workspace",
+			directories: [],
+		});
 	});
 
-	it("should root every directory but pdf-generation's in the workspace when ownership is read", () => {
-		const moduleRooted = STAGE_IDS.filter((stageId) =>
-			STAGE_WORKSPACE[stageId].directories.some((directory) => directory.root === "module"),
+	it("should keep every stage but pdf-generation inside the workspace when ownership is read", () => {
+		const moduleRooted = STAGE_IDS.filter(
+			(stageId) => STAGE_WORKSPACE[stageId].outputLocation.root === "module",
 		);
 
 		expect(moduleRooted).toStrictEqual(["pdf-generation"]);
+	});
+});
+
+describe("resolveStageOutput", () => {
+	it("should give the workspace directories it owns when a stage works inside the workspace", () => {
+		expect(resolveStageOutput({ workspaceRoot: WORKSPACE_ROOT, stageId: "qa-loop" })).toStrictEqual(
+			{
+				root: "workspace",
+				directories: QA_DIRS,
+			},
+		);
+	});
+
+	// The one place a reset must not sweep: `Final output/` holds every lecture in
+	// the module, so what comes back names the directory rather than a set to clear.
+	it("should give the module directory it deposits into when pdf-generation is resolved", () => {
+		expect(
+			resolveStageOutput({ workspaceRoot: WORKSPACE_ROOT, stageId: "pdf-generation" }),
+		).toStrictEqual({ root: "module", directory: FINAL_OUTPUT_DIR });
 	});
 });
 
@@ -107,7 +131,7 @@ describe("stageDirectoryPaths", () => {
 		{
 			stageId: "qa-loop" as const,
 			scenario: "the quality-checked notes it writes alongside its iterations",
-			expected: [join(WORKSPACE_ROOT, "QA iterations"), join(WORKSPACE_ROOT, "QA checked")],
+			expected: QA_DIRS,
 		},
 		{
 			stageId: "pdf-generation" as const,

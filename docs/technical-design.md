@@ -183,7 +183,7 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 
 `QA checked/notes.md` uses a simple name because it lives inside the named lecture folder. The full descriptive filename appears only on the PDF in `Final output/` (Stage 8).
 
-The directory is named for the stage that fills it, not for the pipeline's end: it holds Stage 7's quality-checked notes, and Stage 8 only reads it. Stage 8's own output is the PDF in the module's `Final output/` (§3.1) — the one directory a stage owns outside its workspace, and what `--from-stage pdf-generation` clears.
+The directory is named for the stage that fills it, not for the pipeline's end: it holds Stage 7's quality-checked notes, and Stage 8 only reads it. Stage 8's own output is the PDF in the module's `Final output/` (§3.1) — the one place a stage writes outside its workspace, and the one a re-run cannot clear by emptying, because every lecture's PDF is in it. `--from-stage pdf-generation` takes this lecture's PDF and leaves the rest (§4.4).
 
 #### The layout has one owner
 
@@ -191,7 +191,7 @@ Every name in the two trees above — the module's four directories, each stage'
 
 This matters beyond tidiness, because the same name is relied on by parties that would otherwise each keep their own copy:
 
-- **A stage and the runner.** A stage writes into its directory; `--from-stage` deletes that directory (§4.7). Two copies of the name means a rename breaks the reset silently — it would delete a path that no longer exists, report success, and leave the stage skipping on a manifest that still says complete.
+- **A stage and the runner.** A stage writes into its directory; `--from-stage` clears the stage's work there (§4.7). Two copies of the name means a rename breaks the reset silently — it would clear a path that no longer exists, report success, and leave the stage skipping on a manifest that still says complete.
 - **A stage and the stage after it.** Stage 2 reads what Stage 1 wrote, Stage 3 reads what Stage 2 wrote. Declaring the path at both ends means the hand-off is stated twice and can drift in one place.
 - **Production and tests.** A suite asserting a stage's output existed restated the path; it now asks the same module the stage asks.
 
@@ -220,17 +220,25 @@ datedFileDirs(args: { dirs: ModuleDirs }): readonly string[]
 // after the lecture rather than a file. Walked by `renameLectureFiles`, by `delete`, and by the fixtures.
 
 type StageDirectoryName = string & { readonly [declaredInLayout]: true }   // branded; minted only in layout.ts
-type StageDirectory = { root: "workspace" | "module"; name: StageDirectoryName }
-// `name` is branded, and the two private constructors that mint it reject a widened `string`, so a value read
-// back from the manifest or an LLM response cannot reach this map. See §4.4, "Stage cleanup boundaries".
-type StageWorkspace = { directories: readonly StageDirectory[]; outputFile: string | null }
+// Branded, and the private constructor that mints it rejects a widened `string`, so a value read back from the
+// manifest or an LLM response cannot reach this map. See §4.4, "Stage cleanup boundaries".
+type StageOutputLocation =
+  | { root: "workspace"; directories: readonly StageDirectoryName[] }
+  | { root: "module"; directory: StageDirectoryName }
+// Where a stage's work sits, and so what a reset may take. The two variants are not two spellings of one thing.
+// A workspace directory holds one lecture's work and nothing else, so a reset takes the directory. The module's
+// `Final output/` holds every lecture in the module, so a reset there takes only the file belonging to the
+// lecture being reset — which is why that variant names a directory *deposited into* rather than a set owned.
+// A stage cannot declare that it owns a module-wide directory, so no reset can sweep one (§4.7).
+type StageWorkspace = { outputLocation: StageOutputLocation; outputFile: string | null }
 STAGE_WORKSPACE: Readonly<Record<StageId, StageWorkspace>>
-// What each stage owns: the directories `--from-stage` deletes, and the single file it writes where it writes
-// one. `root` says which root a directory hangs off — every stage but pdf-generation owns workspace
-// directories; pdf-generation owns the module's `Final output/`, where its PDF is deposited. `outputFile` is
-// null for source-normalisation (which owns no directory at all) and for stages producing a set rather than a
-// file (image-extraction, qa-loop, pdf-generation). slide-conversion produces a set too — one markdown file per
-// slide — but concatenates it into `Slide content/slides.md`, which is the single file the stage after it reads.
+// What each stage owns: where its work sits, and the single file it writes where it writes one. Every stage but
+// pdf-generation works in workspace directories; pdf-generation deposits its PDF in the module's `Final
+// output/`. `outputFile` is null for source-normalisation (which writes nothing of its own), for the stages
+// producing a set rather than a file (image-extraction, qa-loop), and for pdf-generation, whose one file lands
+// outside the workspace where a workspace-relative path cannot reach it. slide-conversion produces a set too —
+// one markdown file per slide — but concatenates it into `Slide content/slides.md`, which is the single file
+// the stage after it reads.
 
 type StageInWorkspace = { workspaceRoot: string; stageId: StageId }
 // One stage's work within one lecture, the pair every resolver below is addressed by.
@@ -239,12 +247,19 @@ stageOutputEntry(stageId: StageId): string
 stageOutputPath(query: StageInWorkspace): string
 // The same path, absolute. A stage uses it for its own output and for its upstream's input, so a hand-off
 // between two stages is stated once rather than at both ends.
-stageDirectoryPath(args: { workspaceRoot: string; directory: StageDirectory }): string
-// One owned directory, resolved against whichever root it hangs off.
+type ResolvedStageOutput =
+  | { root: "workspace"; directories: readonly string[] }
+  | { root: "module"; directory: string }
+resolveStageOutput(query: StageInWorkspace): ResolvedStageOutput
+// Where the stage's work sits for one lecture, as absolute paths, resolved against whichever root it hangs
+// off — decided here rather than at each end, so a directory that moved between roots cannot be written in one
+// place and looked for in another. The variant comes through with the paths because it is what tells a reset
+// whether it may take the directory (§4.7).
 stageDirectoryPaths(query: StageInWorkspace): readonly string[]
-// Every directory the stage owns, in declaration order; `[]` for a stage owning none. This is what the
-// factory prepares before a run (§4.3) and what `--from-stage` deletes (§4.7), so which root a directory
-// answers to is decided here rather than at each end.
+// Every directory the stage works in, in declaration order; `[]` for a stage working in none. This is what the
+// factory creates and clears of leftovers before a run (§4.3). It is deliberately *not* what a reset deletes:
+// the module directory pdf-generation deposits into appears here, because it must exist before pandoc writes
+// into it, and a reset taking this list at face value would remove every lecture's PDF.
 ```
 
 ### 3.4 Re-numbering When New Lectures Are Added
@@ -374,7 +389,7 @@ listSubdirectoryNames(dir: string): Promise<readonly string[]>
 
 This is enforced in every place a path from `filesWritten` or the manifest is used. Today that is one place — the `isComplete()` existence checks, via `recordedFileExists` — and it extends to `cost-report` file discovery and PDF output resolution as those are built.
 
-`--from-stage` cleanup is deliberately **not** on that list. It takes no manifest-derived path at all, so it has nothing to validate: it deletes the hard-coded `STAGE_WORKSPACE` directory set and never consults `filesWritten` (see "Stage cleanup boundaries" below). Eliminating the untrusted input is stronger than checking it — a boundary check is only as sound as its own symlink handling, whereas a path that never enters the function cannot be steered at all. `isComplete()` has no such option, since reading `filesWritten` is precisely its job. Running the check in cleanup would also be inert, passing unconditionally on names like `"Audio"`, and an assertion that cannot fail would misrepresent the input as untrusted to the next reader.
+`--from-stage` cleanup is deliberately **not** on that list. It takes no manifest-derived path at all, so it has nothing to validate: every directory it works in comes from the hard-coded `STAGE_WORKSPACE`, and it never consults `filesWritten` (see "Stage cleanup boundaries" below). Eliminating the untrusted input is stronger than checking it — a boundary check is only as sound as its own symlink handling, whereas a path that never enters the function cannot be steered at all. `isComplete()` has no such option, since reading `filesWritten` is precisely its job. Running the check in cleanup would also be inert, passing unconditionally on names like `"Audio"`, and an assertion that cannot fail would misrepresent the input as untrusted to the next reader.
 
 ```typescript
 // src/utils/files.ts — the two path resolvers, deliberately distinct
@@ -396,7 +411,9 @@ resolveManifestPath(query: ManifestPathQuery): Promise<string>
 filenameSafe(title: string): string   // src/utils/naming.ts; throws when the result would be empty
 ```
 
-**Stage cleanup boundaries.** `--from-stage <stageId>` MUST NOT drive its cleanup off `filesWritten` from the manifest. Cleanup deletes files inside the per-stage, hard-coded directory set of `STAGE_WORKSPACE` (§3.3) — `Slide content/` for Stage 4, the module's `Final output/` for Stage 8. This ensures a corrupt manifest cannot trigger deletion of unintended files. Stage 8's directory is the sole one resolved against `moduleRoot` rather than the workspace, which widens what a mistake here could reach from one workspace to the whole module — so "hard-coded" is enforced by the type system rather than left to convention: `StageDirectory.name` is branded, and the two private constructors that mint it reject a widened `string` (§3.3). A `filesWritten` entry or LLM-supplied name reaching that map is a compile error.
+**Stage cleanup boundaries.** `--from-stage <stageId>` MUST NOT drive its cleanup off `filesWritten` from the manifest. Cleanup works from the per-stage, hard-coded `STAGE_WORKSPACE` (§3.3) — `Slide content/` for Stage 4, the module's `Final output/` for Stage 8 — so a corrupt manifest cannot trigger deletion of unintended files. "Hard-coded" is enforced by the type system rather than left to convention: a stage directory name is branded, and the private constructor that mints it rejects a widened `string` (§3.3). A `filesWritten` entry or LLM-supplied name reaching that map is a compile error.
+
+Stage 8's directory is the sole one resolved against `moduleRoot` rather than the workspace, and it holds every lecture in the module. What a stage declares is therefore a `StageOutputLocation` (§3.3), and the variant decides how cleanup proceeds. Its `workspace` variant carries directories, which cleanup takes whole, since each holds one lecture's work and nothing else. Its `module` variant carries the directory the stage deposits into, where cleanup removes the single file carrying the reset lecture's date and leaves the directory and every other lecture's PDF standing. A stage has no way to declare that it owns a module-wide directory, so the reach of a reset is bounded by the type rather than by the care taken at each call site.
 
 The delete target is anchored at the other end too: `workspaceRoot` is always built by `listWorkspaces` as `join(moduleDirs({ moduleRoot }).processing, <directory listing entry>)`, and the manifest is read only to match a lecture date, never to supply a path. So `moduleRootOf(workspaceRoot)` returns the same `moduleRoot` the caller passed in, and neither root nor name is manifest-derived.
 
@@ -651,7 +668,7 @@ hasSettledOutput(entry: ManifestStageEntry | QaManifestStageEntry | undefined): 
 
 **Pipeline order comes from `STAGE_IDS`.** `src/types/pipeline.ts` declares `STAGE_IDS` as the ordered stage list, and everything that walks the stages in order — the runner's `--from-stage` reset, the cost report's per-stage breakdown — iterates that array. Neither derives its own order from the keys of some other map: a map is a lookup keyed *by* stage, and using its key order as the pipeline order means a stage added to one map and not another silently changes or truncates the sequence.
 
-**`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes per-stage intermediate files for the stages being re-run (e.g. `Slide content/raw/*.md` when re-running Stage 4), so the re-run produces entirely fresh output. Upstream stages are untouched. Deletion targets hard-coded per-stage directories (see §4.4) — never `filesWritten` from the manifest.
+**`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes per-stage intermediate files for the stages being re-run (e.g. `Slide content/raw/*.md` when re-running Stage 4), so the re-run produces entirely fresh output. Upstream stages are untouched. Deletion targets hard-coded per-stage directories (see §4.4) — never `filesWritten` from the manifest — and in the module's `Final output/`, which is shared, it takes only this lecture's PDF.
 
 **Natural restart after failure:** Does not clear intermediate files — per-slide markdown files from Stage 4 are preserved for resumability, allowing a failed run to pick up at the slide where it stopped.
 

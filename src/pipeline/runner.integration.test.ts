@@ -40,6 +40,7 @@ import {
 	useStubLogger,
 } from "./fixtures.js";
 import {
+	moduleDirs,
 	runsDirPath,
 	stageDirectoryPaths,
 	stageOutputEntry,
@@ -600,40 +601,62 @@ describe("PipelineRunner integration", () => {
 			});
 		});
 
-		// The last two stages own several directories between them, so what each
-		// --from-stage clears is asserted as the survival of both stages' sets.
+		// qa-loop owns two directories, so what each --from-stage clears is asserted
+		// as the survival of both.
 		const clearingCases: readonly {
 			readonly clears: string;
 			readonly fromStage: StageId;
 			readonly qaSurvives: readonly boolean[];
-			readonly pdfSurvives: readonly boolean[];
 		}[] = [
 			{
-				clears: "only its own module directory",
+				clears: "nothing of the stage before it",
 				fromStage: "pdf-generation",
 				qaSurvives: [true, true],
-				pdfSurvives: [false],
 			},
 			{
 				clears: "the checked notes with the iterations that produced them",
 				fromStage: "qa-loop",
 				qaSurvives: [false, false],
-				pdfSurvives: [false],
 			},
 		];
 
 		it.each(clearingCases)("should clear $clears when --from-stage $fromStage is given", async ({
 			fromStage,
 			qaSurvives,
-			pdfSurvives,
 		}) => {
 			const qaDirs = await fillStageDirectories("qa-loop");
-			const pdfDirs = await fillStageDirectories("pdf-generation");
 
 			await runFromStage(fromStage);
 
 			expect(await whichExist(qaDirs)).toStrictEqual(qaSurvives);
-			expect(await whichExist(pdfDirs)).toStrictEqual(pdfSurvives);
+		});
+
+		// `Final output/` belongs to the module, not to this lecture: every lecture's
+		// finished PDF sits in it. A reset that cleared the directory would take all
+		// of them, so it takes the one file carrying this lecture's date.
+		describe("the module's shared Final output", () => {
+			let finalOutput: string;
+
+			beforeEach(async () => {
+				finalOutput = moduleDirs({ moduleRoot }).finalOutput;
+				await mkdir(finalOutput, { recursive: true });
+				for (const lecture of [testLecture, otherLecture]) {
+					await writeFile(join(finalOutput, lecture.outputFile), "pdf");
+				}
+			});
+
+			// Every --from-stage at or before Stage 8 sweeps through it, so each is a
+			// route to the same directory.
+			it.each([
+				"pdf-generation",
+				"qa-loop",
+				"synthesis",
+			] as const satisfies readonly StageId[])("should take this lecture's PDF and leave the module's other lectures alone when --from-stage %s is given", async (fromStage) => {
+				await runFromStage(fromStage);
+
+				expect(await pathExists(join(finalOutput, testLecture.outputFile))).toBe(false);
+				expect(await pathExists(join(finalOutput, otherLecture.outputFile))).toBe(true);
+			});
 		});
 	});
 

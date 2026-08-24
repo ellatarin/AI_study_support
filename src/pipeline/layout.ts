@@ -151,12 +151,12 @@ declare const declaredInLayout: unique symbol;
 /**
  * A directory name written as a literal in this module.
  *
- * The runner deletes these directories outright, and `pdf-generation`'s resolves
+ * The runner deletes inside these directories, and `pdf-generation`'s resolves
  * against the module root rather than a workspace, so a value that reached this
- * map from the manifest or an LLM response could delete across the whole module.
+ * map from the manifest or an LLM response could reach across the whole module.
  * The brand makes that a compile error rather than a convention: only
- * {@link inWorkspace} and {@link inModule} mint the type, and both refuse a
- * widened `string` (technical-design.md §4.4, "Stage cleanup boundaries").
+ * {@link declaredName} mints the type, and it refuses a widened `string`
+ * (technical-design.md §4.4, "Stage cleanup boundaries").
  */
 type StageDirectoryName = string & { readonly [declaredInLayout]: true };
 
@@ -170,32 +170,51 @@ type StageDirectoryName = string & { readonly [declaredInLayout]: true };
 type LiteralName<TName extends string> = string extends TName ? never : TName;
 
 /**
- * One directory a stage owns, and which root it hangs off.
+ * Where a stage's work sits, and so what a `--from-stage` re-run may remove.
  *
- * Almost every stage works inside the lecture workspace; `pdf-generation` alone
- * deposits its PDF in the module's `Final output/`, so the root is named rather
- * than assumed (technical-design.md §3.3).
+ * The two variants are not two ways of saying the same thing. A workspace
+ * directory holds one lecture's work and nothing else, so a reset takes the
+ * whole directory. The module's `Final output/` holds every lecture in the
+ * module, so a reset there can only ever take the one file belonging to the
+ * lecture being reset — which is why this variant names a single directory
+ * deposited *into* rather than a set of directories owned. A stage cannot
+ * declare that it owns a module-wide directory, so no reset can sweep one
+ * (technical-design.md §3.3, §4.7).
+ *
+ * @typeParam TName - How a directory is spelled: declared names here, absolute paths once resolved.
  */
-export type StageDirectory = {
-	/** Which root `name` is relative to. */
-	readonly root: "workspace" | "module";
-	/** The directory's name, relative to that root. */
-	readonly name: StageDirectoryName;
-};
+type OutputLocation<TName extends string> =
+	| {
+			readonly root: "workspace";
+			/** Every directory the stage owns inside the lecture's workspace. */
+			readonly directories: readonly TName[];
+	  }
+	| {
+			readonly root: "module";
+			/** The module-wide directory the stage deposits this lecture's file into. */
+			readonly directory: TName;
+	  };
+
+/** Where a stage's work sits, as declared in {@link STAGE_WORKSPACE}. */
+export type StageOutputLocation = OutputLocation<StageDirectoryName>;
+
+/** The same, resolved against a lecture's workspace into absolute paths. */
+export type ResolvedStageOutput = OutputLocation<string>;
 
 /** What one stage owns on disk. */
 export type StageWorkspace = {
 	/**
-	 * The directories the stage owns. A `--from-stage` re-run deletes exactly
-	 * these for the nominated stage and everything downstream
-	 * (technical-design.md §4.7).
+	 * Where the stage's work sits, and what a `--from-stage` re-run clears for
+	 * the nominated stage and everything downstream (technical-design.md §4.7).
 	 */
-	readonly directories: readonly StageDirectory[];
+	readonly outputLocation: StageOutputLocation;
 	/**
-	 * The single file the stage writes, relative to the workspace root. `null`
-	 * where there is no such file: `source-normalisation` owns no workspace
-	 * directory at all, and the stages producing a set rather than a document
-	 * have no one path to name.
+	 * The single file the stage writes **within the lecture's workspace**, and so
+	 * the one `filesWritten` records. `null` where there is none:
+	 * `source-normalisation` writes nothing of its own, the stages producing a
+	 * set rather than a document have no one path to name, and
+	 * `pdf-generation`'s one file is deposited outside the workspace, where a
+	 * workspace-relative path cannot reach it.
 	 */
 	readonly outputFile: string | null;
 };
@@ -203,37 +222,30 @@ export type StageWorkspace = {
 /**
  * Applies the brand, in the one place it is applied.
  *
- * Private to this module and reached only through {@link inWorkspace} and
- * {@link inModule}, which are what enforce that the name is a literal; this
- * function exists so the assertion those two share is written once.
+ * Private to this module, and the only route to the type: it refuses a widened
+ * `string`, so nothing read back from the manifest, an LLM response, or the
+ * filesystem can name a directory the runner acts on.
  *
  * @param name - A directory name written as a literal above.
  * @returns The same string, branded as declared here.
  */
-function declaredName(name: string): StageDirectoryName {
-	return name as StageDirectoryName;
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a string literal type, which has nothing to mutate; the rule cannot see through the unresolved LiteralName conditional
+function declaredName<TName extends string>(name: TName & LiteralName<TName>): StageDirectoryName {
+	// Widened first: the brand goes on the string, while the signature above is
+	// what refuses a name that was a widened string to begin with.
+	const declared: string = name;
+	return declared as StageDirectoryName;
 }
 
 /**
- * Names a directory the stage owns inside the lecture workspace.
+ * Names the directories a stage owns inside the lecture workspace.
  *
- * @param name - The directory's name as a literal, relative to the workspace root.
- * @returns The directory, tagged with the root it hangs off.
+ * @param names - The directory names, each a literal, relative to the workspace root.
+ * @returns Where the stage's work sits.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a string literal type, which has nothing to mutate; the rule cannot see through the unresolved LiteralName conditional
-function inWorkspace<TName extends string>(name: TName & LiteralName<TName>): StageDirectory {
-	return { root: "workspace", name: declaredName(name) };
-}
-
-/**
- * Names a directory the stage owns inside the module, outside any workspace.
- *
- * @param name - The directory's name as a literal, relative to the module root.
- * @returns The directory, tagged with the root it hangs off.
- */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a string literal type, which has nothing to mutate; the rule cannot see through the unresolved LiteralName conditional
-function inModule<TName extends string>(name: TName & LiteralName<TName>): StageDirectory {
-	return { root: "module", name: declaredName(name) };
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a branded string: the rule reads the phantom property in the intersection as a mutable object, though it marks a string and is itself readonly. Readonly<> does not help — it strips the value back to an object and the brand stops typechecking
+function inWorkspace(names: readonly StageDirectoryName[]): StageOutputLocation {
+	return { root: "workspace", directories: names };
 }
 
 /**
@@ -257,7 +269,7 @@ function writesInto<TName extends string>(args: {
 	readonly file: string;
 }): StageWorkspace {
 	return {
-		directories: [inWorkspace<TName>(args.directory)],
+		outputLocation: inWorkspace([declaredName<TName>(args.directory)]),
 		outputFile: join(args.directory, args.file),
 	};
 }
@@ -266,13 +278,13 @@ function writesInto<TName extends string>(args: {
  * What each stage owns, in pipeline order (technical-design.md §3.3).
  *
  * `qa-loop` owns `QA checked/` — the quality-checked notes are its output, and
- * `pdf-generation` only reads them. `pdf-generation` owns the module's
- * `Final output/`, where its PDF is deposited: the one directory a stage owns
- * outside its workspace, so a re-run from either stage clears that stage's own
- * work and nothing upstream of it.
+ * `pdf-generation` only reads them. `pdf-generation` is the one stage whose
+ * output lands outside the lecture's workspace: its PDF is deposited in the
+ * module's `Final output/`, alongside every other lecture's, which is why it
+ * deposits into that directory rather than owning it.
  */
 export const STAGE_WORKSPACE: Readonly<Record<StageId, StageWorkspace>> = {
-	"source-normalisation": { directories: [], outputFile: null },
+	"source-normalisation": { outputLocation: inWorkspace([]), outputFile: null },
 	"audio-extraction": writesInto({ directory: "Audio", file: "audio.m4a" }),
 	transcription: writesInto({ directory: "Transcript", file: "transcript.txt" }),
 	"transcript-structuring": writesInto({
@@ -280,13 +292,19 @@ export const STAGE_WORKSPACE: Readonly<Record<StageId, StageWorkspace>> = {
 		file: "structured-transcript.md",
 	}),
 	"slide-conversion": writesInto({ directory: "Slide content", file: "slides.md" }),
-	"image-extraction": { directories: [inWorkspace("Slide images")], outputFile: null },
-	synthesis: writesInto({ directory: "Synthesised notes", file: "synthesised-notes.md" }),
-	"qa-loop": {
-		directories: [inWorkspace("QA iterations"), inWorkspace("QA checked")],
+	"image-extraction": {
+		outputLocation: inWorkspace([declaredName("Slide images")]),
 		outputFile: null,
 	},
-	"pdf-generation": { directories: [inModule(FINAL_OUTPUT_DIR)], outputFile: null },
+	synthesis: writesInto({ directory: "Synthesised notes", file: "synthesised-notes.md" }),
+	"qa-loop": {
+		outputLocation: inWorkspace([declaredName("QA iterations"), declaredName("QA checked")]),
+		outputFile: null,
+	},
+	"pdf-generation": {
+		outputLocation: { root: "module", directory: declaredName(FINAL_OUTPUT_DIR) },
+		outputFile: null,
+	},
 };
 
 /**
@@ -333,44 +351,56 @@ export function stageOutputPath({ workspaceRoot, stageId }: StageInWorkspace): s
 }
 
 /**
- * A directory a stage owns, as an absolute path, resolved against whichever root
- * it hangs off.
+ * Where a stage's work sits for one lecture, as absolute paths.
  *
- * The runner clears these on `--from-stage` and the suites assert on them, so
- * which root a directory answers to is decided here rather than at each end — a
- * directory that moved between roots would otherwise be deleted from one place
- * and looked for in another.
+ * Which root a directory answers to is decided here rather than at each end — a
+ * directory that moved between roots would otherwise be written in one place and
+ * looked for in another. The variant comes through with the paths because it is
+ * what tells a caller clearing the stage whether it may take the directory: only
+ * the workspace variant holds this lecture's work and nothing else
+ * (technical-design.md §4.7).
  *
- * @param args - The workspace and the directory to resolve.
+ * @param args - The workspace and the stage.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
- * @param args.directory - The stage-owned directory, from {@link STAGE_WORKSPACE}.
- * @returns The absolute path to that directory.
+ * @param args.stageId - The stage whose work to locate.
+ * @returns The stage's workspace directories, or the module directory it deposits into.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- StageDirectory's fields are readonly; the rule reads the brand on `name` as a mutable object, though it marks a string
-export function stageDirectoryPath({
+export function resolveStageOutput({
 	workspaceRoot,
-	directory,
-}: {
-	readonly workspaceRoot: string;
-	readonly directory: StageDirectory;
-}): string {
-	const base = directory.root === "module" ? moduleRootOf({ workspaceRoot }) : workspaceRoot;
-	return join(base, directory.name);
+	stageId,
+}: StageInWorkspace): ResolvedStageOutput {
+	const location = STAGE_WORKSPACE[stageId].outputLocation;
+	if (location.root === "module") {
+		return {
+			root: "module",
+			directory: join(moduleRootOf({ workspaceRoot }), location.directory),
+		};
+	}
+	return {
+		root: "workspace",
+		directories: location.directories.map((name) => join(workspaceRoot, name)),
+	};
 }
 
 /**
- * Every directory a stage owns, as absolute paths.
+ * Every directory a stage works in, as absolute paths.
+ *
+ * This is what the stage factory creates and clears of leftovers before a run
+ * (technical-design.md §4.3). It is deliberately not what a reset deletes: the
+ * module directory `pdf-generation` deposits into appears here, because the
+ * directory must exist before pandoc writes into it, and a reset that took this
+ * list at face value would remove every lecture's PDF. A reset asks
+ * {@link resolveStageOutput} instead.
  *
  * @param args - The workspace and the stage.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
  * @param args.stageId - The stage whose directories to locate.
- * @returns The absolute paths, in declaration order; `[]` for a stage owning none.
+ * @returns The absolute paths, in declaration order; `[]` for a stage working in none.
  */
 export function stageDirectoryPaths({
 	workspaceRoot,
 	stageId,
 }: StageInWorkspace): readonly string[] {
-	return STAGE_WORKSPACE[stageId].directories.map((directory) =>
-		stageDirectoryPath({ workspaceRoot, directory }),
-	);
+	const output = resolveStageOutput({ workspaceRoot, stageId });
+	return output.root === "module" ? [output.directory] : output.directories;
 }
