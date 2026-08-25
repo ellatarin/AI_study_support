@@ -25,31 +25,6 @@ import { collapseWhitespace } from "./text.js";
  */
 export class EmptyNameError extends NamedError {}
 
-/** Words kept lowercase by {@link toTitleCase} unless they lead the title. */
-const MINOR_WORDS: ReadonlySet<string> = new Set([
-	"a",
-	"an",
-	"and",
-	"as",
-	"at",
-	"but",
-	"by",
-	"for",
-	"if",
-	"in",
-	"nor",
-	"of",
-	"on",
-	"or",
-	"per",
-	"the",
-	"to",
-	"up",
-	"via",
-	"vs",
-	"with",
-]);
-
 /**
  * Characters carrying meaning inside a pattern. Module codes come from the
  * config file, so each is escaped before it is built into one — a code is text
@@ -111,54 +86,6 @@ const LAST_C0_CONTROL_CODE = 0x1f;
 const DELETE_CODE = 0x7f;
 
 /**
- * Whether a word is written wholly in capitals — an acronym such as `DNA`, or a
- * code such as `COVID-19`. Digits and punctuation carry no case, so the test is
- * that the word holds a capital and no lower-case letter at all.
- *
- * @param word - The word to inspect.
- * @returns `true` when the word has capitals and no lower-case letters.
- */
-function isAllCapitals(word: string): boolean {
-	return word !== word.toLowerCase() && word === word.toUpperCase();
-}
-
-/**
- * Title-cases a single word: first letter upper, remainder lower. A word
- * already written wholly in capitals is returned untouched, because the title
- * becomes the workspace folder name and the final PDF name, and lowercasing an
- * acronym's tail would misspell the subject in both. The cost is that a
- * filename typed wholly in capitals cannot be told from one made of acronyms
- * and is left as the lecturer typed it.
- *
- * @param word - The word to transform (may be empty).
- * @returns The title-cased word, or the word unchanged when it is all capitals.
- */
-function titleCaseWord(word: string): string {
-	if (isAllCapitals(word)) {
-		return word;
-	}
-	return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-}
-
-/**
- * Title-cases text, keeping {@link MINOR_WORDS} lowercase unless first.
- *
- * @param text - Whitespace-separated words.
- * @returns The title-cased text.
- */
-function toTitleCase(text: string): string {
-	if (text.length === 0) {
-		return text;
-	}
-	const [first = "", ...rest] = text.split(" ").map((word) => {
-		const lower = word.toLowerCase();
-		return MINOR_WORDS.has(lower) ? lower : titleCaseWord(word);
-	});
-	// The leading word is always capitalised, even when it is a minor word.
-	return [titleCaseWord(first), ...rest].join(" ");
-}
-
-/**
  * Removes null bytes and ASCII control characters from text.
  *
  * @param text - The text to clean.
@@ -178,11 +105,17 @@ function stripControlChars(text: string): string {
  *
  * Strips the file extension, all date and weekday tokens, any configured
  * module code, any embedded lecture-number token, underscores, separator debris
- * at either end, and trailing artefacts, then title-cases what remains. Filenames
- * vary: a rich filename yields a full title, while a `date + Lecture N` filename
- * yields an **empty string**. Callers must fall back (e.g. to the bare
- * `Lecture N` name) on an empty result; Stage 3's LLM later judges whether the
- * title is meaningful.
+ * at either end, and trailing artefacts. Filenames vary: a rich filename yields
+ * a full title, while a `date + Lecture N` filename yields an **empty string**.
+ * Callers must fall back (e.g. to the bare `Lecture N` name) on an empty result;
+ * Stage 3's LLM later judges whether the title is meaningful.
+ *
+ * **The lecturer's capitalisation is kept exactly as they typed it.** The title
+ * becomes the workspace folder name and the final PDF name, so re-casing it
+ * misspells the subject in both — and no rule can tell `mRNA` from an ordinary
+ * word, since either may mix cases. The cost is that a filename typed in lower
+ * case yields a lower-case title: names are exactly as consistent as the
+ * filenames are, and this function never invents a spelling of its own.
  *
  * The separator strip is what lets a name this module built be read back: a
  * lecture whose sources were renamed by a run that then stopped before writing
@@ -192,19 +125,19 @@ function stripControlChars(text: string): string {
  * @param args - The filename to read, and what counts as a module code.
  * @param args.filename - The user-supplied source filename.
  * @param args.moduleCodes - The configured module codes; a code is stripped only where it prefixes a name, and an empty list strips none.
- * @returns The cleaned, title-cased provisional title, possibly empty.
+ * @returns The cleaned provisional title, possibly empty.
  *
  * @example
  * extractProvisionalTitle({
  *   filename: "2025-10-10 BOD_Disease cell injury Fri co.mp4",
  *   moduleCodes: ["BOD"],
  * });
- * // → "Disease Cell Injury"
+ * // → "Disease cell injury"
  * extractProvisionalTitle({
- *   filename: "Lecture 1 - Cell Injury - 2025-10-10.mp4",
+ *   filename: "2025-10-10 BOD_mRNA processing.mp4",
  *   moduleCodes: ["BOD"],
  * });
- * // → "Cell Injury"
+ * // → "mRNA processing"
  * extractProvisionalTitle({ filename: "2025-10-10 Lecture 5.mp4", moduleCodes: ["BOD"] });
  * // → ""
  */
@@ -223,8 +156,7 @@ export function extractProvisionalTitle({
 	const withoutNoise = withoutCodes.replace(LECTURE_NUMBER_TOKEN, " ").replace(UNDERSCORES, " ");
 	const normalised = collapseWhitespace(withoutNoise);
 	const withoutEdges = normalised.replace(EDGE_SEPARATORS, "");
-	const withoutArtefacts = withoutEdges.replace(TRAILING_ARTEFACTS, "").trim();
-	return toTitleCase(withoutArtefacts);
+	return withoutEdges.replace(TRAILING_ARTEFACTS, "").trim();
 }
 
 /**

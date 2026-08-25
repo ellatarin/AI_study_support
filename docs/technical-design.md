@@ -118,13 +118,13 @@ stripDateTokens(text: string): string                // removes every numeric da
 extractProvisionalTitle(args: { filename: string; moduleCodes: readonly string[] }): string
 // Best-effort title: strips whichever of the date, day names, a configured module code (`BOD_`, `BOD `),
 // embedded lecture-number token (e.g. `Lecture 1`, which would duplicate the assigned number),
-// separator debris at either end, and trailing artefacts (`co`, `copy`, `v2`) are present, then
-// title-cases the result. The separator strip is what lets a name this module built read back as the
-// title it was built from: `Lecture 1 - Cell Injury - 2025-10-10.mp4` gives `Cell Injury`. A word already
-// written wholly in capitals is left as it stands, so `DNA replication` gives `DNA Replication` rather than
-// `Dna Replication`: the title becomes the workspace folder and the final PDF name, and an acronym
-// lowercased there is a misspelling of the subject in every name the run produces. The cost is that a
-// filename typed wholly in capitals cannot be told from one made of acronyms and keeps its capitals.
+// separator debris at either end, and trailing artefacts (`co`, `copy`, `v2`) are present. The separator
+// strip is what lets a name this module built read back as the title it was built from:
+// `Lecture 1 - Cell Injury - 2025-10-10.mp4` gives `Cell Injury`. The lecturer's capitalisation is kept
+// exactly as typed — the title becomes the workspace folder and the final PDF name, so re-casing it
+// misspells the subject in both, and no rule can tell `mRNA` from an ordinary word since either may mix
+// cases. The cost is that a filename typed in lower case yields a lower-case title: names are exactly as
+// consistent as the filenames are, and nothing here invents a spelling of its own.
 // A thin or empty result is acceptable — a date-plus-number filename leaves nothing — and Stage 3 judges
 // the title once the transcript exists. The codes come from `naming.moduleCodes` (§6) rather than being
 // written here: a code names a module, and the pipeline is pointed at several. Each is matched literally,
@@ -840,7 +840,7 @@ A prompt module has no test file of its own. Its builder is a pure assembly whos
 
 3. **Slide matching:** Parse the date from each slide PDF (date always at the beginning of the filename) and match it to the video with the same date (validation has already guaranteed a 1:1 match).
 
-4. **Title resolution:** For a **new** lecture, extract a provisional title from the video filename — strip whichever of the date, day names (Mon–Sun), a configured module code (e.g. `BOD_`, `BOD `; see `naming.moduleCodes`, §6), embedded lecture-number token (e.g. `Lecture 1`), and trailing artefacts (`co`, `copy`, `v2`) are present, then title-case what remains. A filename with nothing beyond a date and lecture number yields an **empty** provisional title, and the lecture falls back to a bare `Lecture N` name. Whether the title is meaningful is **not** judged here; Stage 3 makes that call. For an **existing** lecture, the title is taken from its manifest (`lectureTitle`), never re-extracted — so a CLI `rename` and a Stage 3 rename are both preserved.
+4. **Title resolution:** For a **new** lecture, extract a provisional title from the video filename — strip whichever of the date, day names (Mon–Sun), a configured module code (e.g. `BOD_`, `BOD `; see `naming.moduleCodes`, §6), embedded lecture-number token (e.g. `Lecture 1`), and trailing artefacts (`co`, `copy`, `v2`) are present, keeping the lecturer's capitalisation exactly as typed (§3.2). A filename with nothing beyond a date and lecture number yields an **empty** provisional title, and the lecture falls back to a bare `Lecture N` name. Whether the title is meaningful is **not** judged here; Stage 3 makes that call. For an **existing** lecture, the title is taken from its manifest (`lectureTitle`), never re-extracted — so a CLI `rename` and a Stage 3 rename are both preserved.
 
 5. **Canonical naming:** Rename the source video and its matched slide, the workspace folder, and any `Final output/` PDF to the shared base name `Lecture N - <title> - YYYY-MM-DD` (bare `Lecture N - YYYY-MM-DD` when the title is empty). Items already at their target are left untouched.
 
