@@ -356,6 +356,20 @@ createPipelineStage<TInput, TOutput>(args: {
 
 After a stage's `run()` succeeds, the runner writes the `filesWritten` list from `StageResult` to `manifest.stages[stageId].filesWritten` before marking the stage `complete`. These are exactly the paths `isComplete()` later verifies.
 
+A stage does not name its own output file and then record it separately: putting the file in place and naming it as `filesWritten` records it are one act, and a stage doing the halves for itself could record a path it had not written to. Both halves are derived from the one stage id, in one place, and the two writers below differ only in how the bytes arrive:
+
+```typescript
+// src/pipeline/stages/pipeline-stage.ts
+type RecordedStageOutput = { path: string; filesWritten: readonly string[] }
+type StageOutputSource = { content: string } | { produce: ProduceFile }
+writeStageOutput(args: { stageId: StageWithOutputFile; workspaceRoot: string } & StageOutputSource): Promise<RecordedStageOutput>
+// Where the bytes come from is the one thing that varies, so it is a union rather than a second writer: a
+// stage either hands over content or produces it into the `.tmp` sibling — Stage 1 has ffmpeg write the audio
+// track that way (§4.3). Written as one function because the pairing it protects is one fact.
+// It takes a stage that writes one file (§3.3); a stage producing a set builds its own `filesWritten`, and
+// pdf-generation names a file outside the workspace, so neither is served by this.
+```
+
 **Stage status semantics:**
 
 | Status | Meaning |
@@ -374,12 +388,15 @@ Every file is written to a `.tmp`-suffixed path first, then renamed on success. 
 
 The stage does not do this for itself — `createPipelineStage` does it on every stage's behalf (§4.2), reading the directories from `STAGE_WORKSPACE` (§3.3) rather than from the stage's output file, so a stage owning several directories, or one outside the workspace as `pdf-generation` does, is prepared as completely as a stage owning a single one.
 
-Output a stage does not hold in memory — bytes written by a subprocess, such as Stage 1's ffmpeg extraction — goes through the same discipline via `produceFileAtomic`, which hands the producer the `.tmp` path and renames only once it resolves. This has one consequence for a stage that muxes: a `.tmp` suffix defeats the container inference ffmpeg does from the output extension, so a stage writing through a temporary path names its output format explicitly.
+Output a stage does not hold in memory — bytes written by a subprocess, such as Stage 1's ffmpeg extraction — goes through the same discipline via `produceFileAtomic`, which hands the producer the `.tmp` path and renames only once it resolves. A stage reaches it through `writeStageOutput` (§4.2) rather than directly, so the path it writes and the entry recording it still come from one place. This has one consequence for a stage that muxes: a `.tmp` suffix defeats the container inference ffmpeg does from the output extension, so a stage writing through a temporary path names its output format explicitly.
 
 ```typescript
 // src/utils/files.ts
 writeFileAtomic(args: { path: string; content: string | Uint8Array }): Promise<void>   // writes .tmp, renames on success
-produceFileAtomic(args: { path: string; produce: (tmpPath: string) => Promise<void> }): Promise<void>
+type ProduceFile = (tmpPath: string) => Promise<void>
+// Named because both ends of the convention state it — this module and the stage-level writer that reaches it
+// (§4.2) — and a signature written at each end can change at one.
+produceFileAtomic(args: { path: string; produce: ProduceFile }): Promise<void>
 // the general form: the caller creates the file at the .tmp path it is given
 readJsonSafe(path: string): Promise<unknown>
 // The read half: the parsed value, or null when the file is missing, unreadable, or not JSON. Answers with a

@@ -3,10 +3,10 @@ import ffmpeg from "fluent-ffmpeg";
 import type { Logger } from "pino";
 import type { PipelineStage, StageContext, StageResult } from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
-import { listFileNames, produceFileAtomic } from "../../utils/files.js";
+import { listFileNames } from "../../utils/files.js";
 import { createProgressBar } from "../../utils/progress.js";
-import { moduleDirs, stageOutputEntry, stageOutputPath } from "../layout.js";
-import { createPipelineStage } from "./pipeline-stage.js";
+import { moduleDirs } from "../layout.js";
+import { createPipelineStage, writeStageOutput } from "./pipeline-stage.js";
 
 /**
  * Thrown when the lecture's source video cannot be located unambiguously, or
@@ -139,12 +139,12 @@ async function extractAudio({
 	readonly context: StageContext;
 	readonly logger: Logger;
 }): Promise<StageResult<AudioExtractionOutput>> {
-	const audioPath = stageOutputPath({ workspaceRoot: context.workspaceRoot, stageId: STAGE_ID });
-
 	const startedAt = performance.now();
+	let written: { readonly path: string; readonly filesWritten: readonly string[] };
 	try {
-		await produceFileAtomic({
-			path: audioPath,
+		written = await writeStageOutput({
+			stageId: STAGE_ID,
+			workspaceRoot: context.workspaceRoot,
 			produce: (tmpPath) =>
 				copyAudioTrack({ inputPath: input.sourceVideoPath, outputPath: tmpPath }),
 		});
@@ -156,14 +156,18 @@ async function extractAudio({
 	logger.debug(
 		{
 			sourceVideoPath: input.sourceVideoPath,
-			audioPath,
+			audioPath: written.path,
 			latencyMs: Math.round(performance.now() - startedAt),
 		},
 		"Extracted audio track",
 	);
 
 	// No billable call is made, so this stage records no cost.
-	return { output: { audioPath }, cost: null, filesWritten: [stageOutputEntry(STAGE_ID)] };
+	return {
+		output: { audioPath: written.path },
+		cost: null,
+		filesWritten: written.filesWritten,
+	};
 }
 
 /**

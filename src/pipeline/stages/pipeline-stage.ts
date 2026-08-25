@@ -5,7 +5,9 @@ import type { ManifestPathQuery } from "../../utils/files.js";
 import {
 	cleanTmpFiles,
 	ManifestPathError,
+	type ProduceFile,
 	pathExists,
+	produceFileAtomic,
 	resolveManifestPath,
 	writeFileAtomic,
 } from "../../utils/files.js";
@@ -118,37 +120,73 @@ async function prepareStageDirectories({
 	}
 }
 
+/** Where a stage's single output ended up, and the entry `filesWritten` records for it. */
+type RecordedStageOutput = {
+	/** The absolute path the file was written to. */
+	readonly path: string;
+	/** The workspace-relative entry naming that file. */
+	readonly filesWritten: readonly string[];
+};
+
 /**
- * Writes the single file a stage owns, and names it as `filesWritten` records
- * it.
+ * Whose single output is being put in place: the stage that owns it, and the
+ * lecture it belongs to. Named because all three writers below are addressed by
+ * this same pair and differ only in what they add to it.
+ */
+type StageOutputTarget = {
+	/** The stage whose output this is; only a stage that writes one file. */
+	readonly stageId: StageWithOutputFile;
+	/** Absolute path to the lecture workspace. */
+	readonly workspaceRoot: string;
+};
+
+/**
+ * The two ways a stage's single output reaches disk: content the stage holds,
+ * and content a subprocess produces into the `.tmp` sibling. A stage supplies
+ * one or the other, never both and never neither, so they are a union rather
+ * than two optional fields (CLAUDE.md § TypeScript).
+ */
+type StageOutputSource =
+	| {
+			/** The text to write. */
+			readonly content: string;
+	  }
+	| {
+			/** Creates the file at the `.tmp` path it is given. */
+			readonly produce: ProduceFile;
+	  };
+
+/**
+ * Writes the single file a stage owns and names it as `filesWritten` records it.
  *
- * Writing the output and recording that it was written are one act with two
- * halves, and a stage that did both for itself could do the second about a file
- * it had not written to the path named in the first. Here the path and the entry
- * are derived from the same stage id, so a `filesWritten` entry always names the
- * file that was just put in place (technical-design.md §4.3, §4.5).
+ * Putting the output in place and recording that it was written are one act with
+ * two halves, and a stage doing the halves for itself could record a path it had
+ * not written to. Both are derived here from the same stage id, so a
+ * `filesWritten` entry always names the file that was just put there
+ * (technical-design.md §4.3, §4.5).
  *
- * Stages whose bytes come from a subprocess write through `produceFileAtomic`
- * instead and record their entry themselves; there is no content to hand over.
+ * Where the bytes come from is the one thing that varies and the reason this
+ * takes a {@link StageOutputSource}: Stage 1 has ffmpeg write the audio track,
+ * so its output is produced rather than handed over, and it would otherwise have
+ * to name the file at one end and record it at the other.
  *
- * @param args - The stage, the workspace, and the content.
+ * @param args - The stage, the workspace, and where the bytes come from.
  * @param args.stageId - The stage whose output this is; only a stage that writes one file.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
- * @param args.content - The text to write.
  * @returns The absolute path written, and the `filesWritten` naming it.
+ * @throws Rethrows whatever a producer raised, after removing the partial `.tmp` file.
+ * @example
+ * await writeStageOutput({ stageId, workspaceRoot, content: markdown });
+ * await writeStageOutput({ stageId, workspaceRoot, produce: (tmp) => extractTo(tmp) });
  */
-export async function writeStageOutput({
-	stageId,
-	workspaceRoot,
-	content,
-}: {
-	readonly stageId: StageWithOutputFile;
-	readonly workspaceRoot: string;
-	readonly content: string;
-}): Promise<{ readonly path: string; readonly filesWritten: readonly string[] }> {
-	const path = stageOutputPath({ workspaceRoot, stageId });
-	await writeFileAtomic({ path, content });
-	return { path, filesWritten: [stageOutputEntry(stageId)] };
+export async function writeStageOutput(
+	args: StageOutputTarget & StageOutputSource,
+): Promise<RecordedStageOutput> {
+	const path = stageOutputPath({ workspaceRoot: args.workspaceRoot, stageId: args.stageId });
+	await ("content" in args
+		? writeFileAtomic({ path, content: args.content })
+		: produceFileAtomic({ path, produce: args.produce }));
+	return { path, filesWritten: [stageOutputEntry(args.stageId)] };
 }
 
 /**

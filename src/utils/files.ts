@@ -158,6 +158,16 @@ export function writeJsonAtomic({
 }
 
 /**
+ * Fills the `.tmp` path it is given. The file is renamed onto its real target
+ * once this resolves, so a producer that rejects leaves nothing behind.
+ *
+ * Named because both parties to the convention state it — {@link
+ * produceFileAtomic} here, and the stage-level writer that reaches it — and a
+ * signature written at each end can change at one.
+ */
+export type ProduceFile = (tmpPath: string) => Promise<void>;
+
+/**
  * The general form of {@link writeFileAtomic}, for output a caller produces
  * rather than supplies: `produce` is handed the `.tmp` path to create, and the
  * result is renamed onto the target only once it resolves. A failure removes the
@@ -180,7 +190,7 @@ export async function produceFileAtomic({
 	produce,
 }: {
 	readonly path: string;
-	readonly produce: (tmpPath: string) => Promise<void>;
+	readonly produce: ProduceFile;
 }): Promise<void> {
 	const tmpPath = `${path}${TMP_SUFFIX}`;
 	try {

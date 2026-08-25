@@ -1,4 +1,4 @@
-import { mkdir, readdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import type { Logger } from "pino";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
@@ -16,7 +16,7 @@ import {
 	useStubLogger,
 } from "../fixtures.js";
 import { stageDirectoryPaths, stageOutputEntry, stageOutputPath } from "../layout.js";
-import { createPipelineStage, isStageComplete } from "./pipeline-stage.js";
+import { createPipelineStage, isStageComplete, writeStageOutput } from "./pipeline-stage.js";
 
 // Any stage with a single output file would do; Stage 1's is the simplest.
 const STAGE_ID = "audio-extraction";
@@ -209,5 +209,75 @@ describe("createPipelineStage", () => {
 				message: "from inside the stage",
 			},
 		]);
+	});
+});
+
+// The two ways a stage's single output reaches disk: content it holds, and
+// content a subprocess produces. Both answer with the entry `filesWritten`
+// records, and the point of both is that the entry names the file that was just
+// put in place — which is what these assert, by resolving the entry the way the
+// next run's completeness check resolves it rather than by rebuilding the path
+// (technical-design.md §4.3, §4.5).
+describe("recording a stage's single output", () => {
+	let moduleRoot: string;
+	let workspaceRoot: string;
+
+	beforeEach(async () => {
+		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "stage-output-" }));
+		await mkdir(dirname(stageOutputPath({ workspaceRoot, stageId: STAGE_ID })), {
+			recursive: true,
+		});
+	});
+
+	afterEach(async () => {
+		await rm(moduleRoot, { recursive: true, force: true });
+	});
+
+	/**
+	 * Where a returned `filesWritten` entry points, resolved against the
+	 * workspace as the completeness check resolves it.
+	 *
+	 * @param filesWritten - The entries the writer handed back.
+	 * @returns The absolute path the single entry names.
+	 */
+	function recordedPath(filesWritten: readonly string[]): string {
+		const [entry] = filesWritten;
+		if (entry === undefined) {
+			throw new Error("Expected exactly one recorded entry");
+		}
+		return join(workspaceRoot, entry);
+	}
+
+	it("should record the file it just wrote when a stage hands over its content", async () => {
+		const { path, filesWritten } = await writeStageOutput({
+			stageId: STAGE_ID,
+			workspaceRoot,
+			content: "audio bytes",
+		});
+
+		expect(recordedPath(filesWritten)).toBe(path);
+		expect(await readFile(recordedPath(filesWritten), "utf8")).toBe("audio bytes");
+	});
+
+	it("should record the file it just wrote when a subprocess produces the content", async () => {
+		const { path, filesWritten } = await writeStageOutput({
+			stageId: STAGE_ID,
+			workspaceRoot,
+			produce: (tmpPath) => writeFile(tmpPath, "produced bytes"),
+		});
+
+		expect(recordedPath(filesWritten)).toBe(path);
+		expect(await readFile(recordedPath(filesWritten), "utf8")).toBe("produced bytes");
+	});
+
+	it("should leave nothing at the output path when the producer fails", async () => {
+		const failing = writeStageOutput({
+			stageId: STAGE_ID,
+			workspaceRoot,
+			produce: () => Promise.reject(new Error("ffmpeg failed")),
+		});
+
+		await expect(failing).rejects.toThrow("ffmpeg failed");
+		expect(await pathExists(stageOutputPath({ workspaceRoot, stageId: STAGE_ID }))).toBe(false);
 	});
 });
