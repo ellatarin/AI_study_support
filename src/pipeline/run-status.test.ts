@@ -26,9 +26,9 @@ describe("stageOutcomeStatus", () => {
 			expected: "failed" as const,
 		},
 		{
-			scenario: "the stage was skipped",
+			scenario: "the stage was skipped because its output already stood",
 			entry: { action: "skipped" } as RunLogStageEntry,
-			expected: "partial" as const,
+			expected: "success" as const,
 		},
 		{
 			scenario: "the stage was not reached",

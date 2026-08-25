@@ -676,7 +676,11 @@ A `RunSummary` lists its stages as `RunStageOutcome` — the run-log entry *pair
 **Reducing outcomes to a status.** The same three-way rule applies at every level — a stage within a lecture, a lecture within a module, a module within a batch — so it is stated once in `src/pipeline/run-status.ts` and applied by both the runner and the reporting that prints its summaries:
 
 ```typescript
-stageOutcomeStatus(entry: RunLogStageEntry): OverallStatus            // failed | partial (skipped/not-reached) | success
+stageOutcomeStatus(entry: RunLogStageEntry): OverallStatus            // failed | partial (not-reached) | success
+// A skipped stage counts as a success, on the same reading `hasSettledOutput` gives it: its output is on disk,
+// and a run declining to produce it a second time is the pipeline working. Counted as work not done, it made
+// the commonest run of all — a re-run of a finished lecture, which repeats every stage's skip — report
+// `partial`, of a lecture that is complete.
 summariseOverallStatus(args: { statuses: readonly OverallStatus[] }): OverallStatus  // any failure wins, then any partial
 summariseLectures(args: { lectures: readonly { overallStatus: OverallStatus }[] }): OverallStatus
 // The same rule over lectures, which carry their own status: the runner folds a whole batch this way and the
@@ -1430,7 +1434,7 @@ Batch summary
 Module                          Lectures    Status
 ──────────────────────────────────────────────────
 Biology of Disease                     2    failed
-Immunology                             1   partial
+Immunology                             1   success
 ──────────────────────────────────────────────────
 All modules                            3    failed
 ```

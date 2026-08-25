@@ -650,9 +650,10 @@ export type RunLog = TimeSpan & {
 };
 
 /**
- * The overall outcome of a run or batch: every attempted stage complete
- * (`success`), some skipped or not reached (`partial`), or at least one failure
- * (`failed`) (technical-design.md §4.7).
+ * The overall outcome of a run or batch: every stage's output standing, whether
+ * this run produced it or found it already there (`success`), a stage the run
+ * never reached (`partial`), or at least one failure (`failed`)
+ * (technical-design.md §4.7).
  */
 export type OverallStatus = "success" | "partial" | "failed";
 

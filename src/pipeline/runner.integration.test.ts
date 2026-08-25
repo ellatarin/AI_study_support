@@ -424,7 +424,9 @@ describe("PipelineRunner integration", () => {
 			const summary = await makeRunner([stage]).runLecture({ workspaceRoot });
 
 			expect(run).not.toHaveBeenCalled();
-			expect(summary.overallStatus).toBe("partial");
+			// A lecture whose work already stands is finished, not half-finished: the
+			// commonest run of all is the one that repeats nothing.
+			expect(summary.overallStatus).toBe("success");
 			expect(summary.stageOutcomes).toEqual([
 				{ stageId: "audio-extraction", entry: { action: "skipped" } },
 			]);
@@ -874,13 +876,13 @@ describe("PipelineRunner integration", () => {
 			expect(summary.overallStatus).toBe("failed");
 		});
 
-		it("should report a partial batch when every lecture only skips stages", async () => {
+		it("should report a successful batch when every lecture only skips stages", async () => {
 			const skipping = makeStubStage({ stageId: "audio-extraction", isComplete: async () => true });
 			const runner = makeRunner([skipping]);
 
 			const summary = await runner.runBatch({ moduleRoots: [moduleA] });
 
-			expect(summary.overallStatus).toBe("partial");
+			expect(summary.overallStatus).toBe("success");
 		});
 	});
 

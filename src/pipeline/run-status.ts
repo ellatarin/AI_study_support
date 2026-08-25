@@ -42,16 +42,25 @@ export function hasSettledOutput(
 }
 
 /**
- * The status one stage contributes to its run: a failure outright, a skipped or
- * unreached stage as `partial` (work the run did not do), and a completed stage
- * as `success`.
+ * The status one stage contributes to its run: a failure outright, a stage never
+ * reached as `partial`, and both a completed stage and a skipped one as
+ * `success`.
+ *
+ * A skipped stage counts as a success on the same reading {@link hasSettledOutput}
+ * gives it: its output is on disk, and the run declining to produce it a second
+ * time is the pipeline working. Counting it as work not done made the commonest
+ * run of all — a re-run of a finished lecture, which repeats nothing — report
+ * `partial`, as though something had gone wrong with a lecture that is complete.
  *
  * @param entry - The stage's run-log entry.
  * @returns The status that stage contributes.
  */
 export function stageOutcomeStatus(entry: RunLogStageEntry): OverallStatus {
-	if (entry.action === "skipped" || entry.action === "not-reached") {
+	if (entry.action === "not-reached") {
 		return "partial";
+	}
+	if (entry.action === "skipped") {
+		return "success";
 	}
 	return entry.status === "failed" ? "failed" : "success";
 }
