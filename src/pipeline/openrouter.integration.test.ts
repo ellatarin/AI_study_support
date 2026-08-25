@@ -10,6 +10,7 @@ import {
 	openRouterCompletionBody,
 	openRouterModelId,
 	openRouterUrls,
+	openRouterUrlsAt,
 	resetStubbedApi,
 	stubbedApiKey,
 	stubbedTokenUsage,
@@ -29,6 +30,9 @@ const config: PipelineConfig = configuringStage({ stageId: "transcript-structuri
 
 /** What the stubbed `/generation` lookup reports this call cost. */
 const RESOLVED_COST_USD = 0.0042;
+
+/** A second address, for the case where a run is configured to reach OpenRouter elsewhere. */
+const GATEWAY_BASE_URL = "https://gateway.example.test/openrouter/v1";
 
 const messages = [{ role: "user", content: "Structure this transcript." }] as const;
 
@@ -188,6 +192,25 @@ describe("makeCompletionCall", () => {
 
 		expect(body.response_format).toEqual(expectedFormat);
 		expect(body.provider).toEqual(expectedProvider);
+	});
+
+	// The client is built once and reused, so the settings it was built from are
+	// remembered alongside it. This is the contract that reuse rests on: a run
+	// configured to reach OpenRouter elsewhere must not be served the client the
+	// previous address built.
+	it("should reach the new address when the configured address changes between calls", async () => {
+		await callSucceeding();
+		const gateway = openRouterUrlsAt(GATEWAY_BASE_URL);
+		const gatewayCompletion = nock(gateway.origin)
+			.post(gateway.completions)
+			.reply(200, completionBody());
+		nock(gateway.origin).get(gateway.generation).query(true).reply(200, generationBody(0));
+
+		await call({
+			config: { ...config, openRouter: { ...config.openRouter, baseUrl: GATEWAY_BASE_URL } },
+		});
+
+		expect(gatewayCompletion.isDone()).toBe(true);
 	});
 
 	it("should record the model, prompt tokens and latency when a call completes", async () => {

@@ -121,7 +121,7 @@ function responseFormatFields(
 // One client is reused across calls, remembering the settings it was built from
 // so a differently configured run is never served a client pointed elsewhere or
 // waiting to the wrong budget. Tests inject their own client instead.
-let sharedClient: { readonly key: string; readonly client: OpenAI } | null = null;
+let sharedClient: { readonly builtFrom: ClientSettings; readonly client: OpenAI } | null = null;
 
 /**
  * Builds an OpenAI SDK client pointed at OpenRouter, with the app title header
@@ -147,12 +147,73 @@ export function createOpenRouterClient({
 	});
 }
 
+/**
+ * The settings a client is actually built from, and so the settings that decide
+ * whether a cached one can be reused. A narrower thing than the whole
+ * `openRouter` section: the cost-lookup budget lives there too but is applied
+ * per request, so a run differing only in that can share a client.
+ */
+type ClientSettings = Pick<
+	OpenRouterSettings,
+	"baseUrl" | "completionMaxRetries" | "completionTimeoutMs"
+>;
+
+/**
+ * Reads the settings {@link createOpenRouterClient} builds a client from.
+ *
+ * @param openRouter - The validated `openRouter` config section.
+ * @returns Just the fields the client is constructed with.
+ */
+function clientSettings(openRouter: OpenRouterSettings): ClientSettings {
+	return {
+		baseUrl: openRouter.baseUrl,
+		completionMaxRetries: openRouter.completionMaxRetries,
+		completionTimeoutMs: openRouter.completionTimeoutMs,
+	};
+}
+
+/**
+ * The shared client for these settings, building one if the settings differ from
+ * whatever the cached client was built with.
+ *
+ * The settings are compared field by field rather than by serialising them,
+ * because a serialised comparison also depends on the order the fields happen to
+ * be written in, which is not part of what identifies a client.
+ *
+ * @param openRouter - The validated `openRouter` config section.
+ * @returns The cached client, or a newly built one.
+ */
 function getSharedClient(openRouter: OpenRouterSettings): OpenAI {
-	const key = JSON.stringify(openRouter);
-	if (sharedClient === null || sharedClient.key !== key) {
-		sharedClient = { key, client: createOpenRouterClient({ openRouter }) };
+	const wanted = clientSettings(openRouter);
+	if (
+		sharedClient === null ||
+		!sameClientSettings({ left: sharedClient.builtFrom, right: wanted })
+	) {
+		sharedClient = { builtFrom: wanted, client: createOpenRouterClient({ openRouter }) };
 	}
 	return sharedClient.client;
+}
+
+/**
+ * Whether two sets of client settings would build the same client.
+ *
+ * @param args - The two settings to compare.
+ * @param args.left - The settings a client was built from.
+ * @param args.right - The settings now being asked for.
+ * @returns `true` when every field matches.
+ */
+function sameClientSettings({
+	left,
+	right,
+}: {
+	readonly left: ClientSettings;
+	readonly right: ClientSettings;
+}): boolean {
+	return (
+		left.baseUrl === right.baseUrl &&
+		left.completionMaxRetries === right.completionMaxRetries &&
+		left.completionTimeoutMs === right.completionTimeoutMs
+	);
 }
 
 function stageConfigFor(options: {
