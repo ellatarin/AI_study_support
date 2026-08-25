@@ -50,6 +50,33 @@ export const STAGE_IDS = [
 export type StageId = (typeof STAGE_IDS)[number];
 
 /**
+ * Every language the pipeline can be configured to write, as a BCP-47 tag
+ * mapped to the name a prompt calls it by.
+ *
+ * A tag identifies the language, and the name beside it is what an LLM is
+ * actually told — "Write in en-GB" is not an instruction a model can follow
+ * reliably, so the two are declared together and neither can be added without
+ * the other. Regional variants are the whole point of the setting: the language
+ * every prose stage writes differs from the language spoken in the lectures,
+ * which is the transcriber's concern and takes a different form entirely
+ * ({@link PipelineConfig.elevenLabs.languageCode}).
+ *
+ * It is the source of truth for {@link OutputLanguage}, so a language cannot be
+ * offered in config without a name for the prompts to use
+ * (technical-design.md §6).
+ */
+export const OUTPUT_LANGUAGES = {
+	"en-GB": "British English",
+	"en-US": "American English",
+} as const;
+
+/**
+ * The configured language every prose stage writes in
+ * (technical-design.md §6). Derived from {@link OUTPUT_LANGUAGES}.
+ */
+export type OutputLanguage = keyof typeof OUTPUT_LANGUAGES;
+
+/**
  * Lifecycle status of a stage as recorded in the run manifest.
  *
  * `running` is written before a stage begins; a crash therefore leaves
@@ -190,7 +217,14 @@ export type PipelineConfig = {
 	};
 	readonly stages: Readonly<Partial<Record<StageId, StageConfig>>>;
 	readonly output: {
-		readonly language: string;
+		/**
+		 * The language every stage that produces prose is told to write in. A
+		 * regional variant, because that is the part a lecturer notices: the
+		 * transcriber cannot be asked for one (its own `languageCode` names a
+		 * language and nothing more), so the first point in the pipeline at which
+		 * the spelling can be chosen at all is the first LLM call.
+		 */
+		readonly language: OutputLanguage;
 		readonly pandocEngine: string;
 	};
 };

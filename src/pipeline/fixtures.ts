@@ -18,6 +18,7 @@ import type { Logger } from "pino";
 import { afterEach, beforeEach, vi } from "vitest";
 import type {
 	ManifestStageEntry,
+	OutputLanguage,
 	PipelineConfig,
 	PipelineStage,
 	RunManifest,
@@ -423,12 +424,24 @@ export function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineCon
  * openRouterModelId} — what a suite exercising a single stage needs, and the
  * shape {@link makeConfig}'s emptied stage list is there to be filled with.
  *
- * @param args - Which stage to configure.
+ * @param args - Which stage to configure, and how it should write.
  * @param args.stageId - The stage to configure.
+ * @param args.language - The language the prose stages are told to write in; the example config's when omitted.
  * @returns The config.
  */
-export function configuringStage({ stageId }: { readonly stageId: StageId }): PipelineConfig {
-	return { ...makeConfig(), stages: { [stageId]: openRouterStageConfig({ stageId }) } };
+export function configuringStage({
+	stageId,
+	language,
+}: {
+	readonly stageId: StageId;
+	readonly language?: OutputLanguage;
+}): PipelineConfig {
+	const config = makeConfig();
+	return {
+		...config,
+		output: language === undefined ? config.output : { ...config.output, language },
+		stages: { [stageId]: openRouterStageConfig({ stageId }) },
+	};
 }
 
 /** The imaginary directory {@link testModuleRoot} and its sibling sit under. */

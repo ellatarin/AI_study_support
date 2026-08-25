@@ -316,6 +316,7 @@ async function structureTranscript({
 		messages: buildStructuringMessages({
 			transcriptText: input.transcriptText,
 			provisionalTitle: context.provisionalTitle,
+			language: context.config.output.language,
 		}),
 		stageId: STAGE_ID,
 		config: context.config,

@@ -91,6 +91,7 @@ function sectionCorrupter(
 
 const openRouterSection = sectionCorrupter("openRouter");
 const elevenLabsSection = sectionCorrupter("elevenLabs");
+const outputSection = sectionCorrupter("output");
 
 /**
  * The config's stages record, typed to the one field these tests read off it.
@@ -593,14 +594,21 @@ const shapeCases: readonly {
 	{
 		name: "output.language is not a string",
 		mutate: (config: Record<string, unknown>) => {
-			config.output = { language: 1, pandocEngine: "xelatex" };
+			config.output = outputSection({ language: 1 });
 		},
 		match: /language/,
 	},
 	{
+		name: "output.language names no language the pipeline can write",
+		mutate: (config: Record<string, unknown>) => {
+			config.output = outputSection({ language: "en-AU" });
+		},
+		match: /en-AU/,
+	},
+	{
 		name: "output.pandocEngine is not a string",
 		mutate: (config: Record<string, unknown>) => {
-			config.output = { language: "en-GB", pandocEngine: 9 };
+			config.output = outputSection({ pandocEngine: 9 });
 		},
 		match: /pandocEngine/,
 	},

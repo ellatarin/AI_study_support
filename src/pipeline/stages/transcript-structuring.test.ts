@@ -2,7 +2,13 @@ import { rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { RunManifest, StageContext, StageCost, StageResult } from "../../types/pipeline.js";
+import type {
+	OutputLanguage,
+	RunManifest,
+	StageContext,
+	StageCost,
+	StageResult,
+} from "../../types/pipeline.js";
 import { pathExists } from "../../utils/files.js";
 import {
 	aiDerivedLecture,
@@ -74,11 +80,17 @@ describe("createTranscriptStructuringStage", () => {
 		await rm(moduleRoot, { recursive: true, force: true });
 	});
 
-	function contextWith(manifestOverrides: Partial<RunManifest> = {}): StageContext {
+	function contextWith({
+		manifest = {},
+		language,
+	}: {
+		readonly manifest?: Partial<RunManifest>;
+		readonly language?: OutputLanguage;
+	} = {}): StageContext {
 		return makeStageContext({
 			workspaceRoot,
-			config: configuringStage({ stageId: "transcript-structuring" }),
-			manifest: makeManifest(manifestOverrides),
+			config: configuringStage({ stageId: "transcript-structuring", language }),
+			manifest: makeManifest(manifest),
 		});
 	}
 
@@ -140,6 +152,22 @@ describe("createTranscriptStructuringStage", () => {
 		const sent = JSON.stringify(completionMock.mock.calls[0]?.[0].messages);
 		expect(sent).toContain(transcriptText);
 		expect(sent).toContain(testLecture.title);
+	});
+
+	// The transcript's spelling is the transcriber's, not the lecturer's, so this
+	// is the first point in the pipeline where the output's language is chosen at
+	// all. Both rows matter: one language would leave the config setting unproven.
+	it.each([
+		{ language: "en-GB", instruction: "British English" },
+		{ language: "en-US", instruction: "American English" },
+	] as const)("should tell the model to write in $instruction when the configured language is $language", async ({
+		language,
+		instruction,
+	}) => {
+		await runStage(contextWith({ language }));
+
+		const sent = JSON.stringify(completionMock.mock.calls[0]?.[0].messages);
+		expect(sent).toContain(`Write in ${instruction}`);
 	});
 
 	it("should extract the structured markdown when the model returns it", async () => {
@@ -231,7 +259,7 @@ describe("createTranscriptStructuringStage", () => {
 		});
 
 		it("should keep the user's title as the lecture title when they have named it", async () => {
-			const result = await runStage(contextWith(userNamed));
+			const result = await runStage(contextWith({ manifest: userNamed }));
 
 			expect(result.output.lectureTitle).toBe(userChosenTitle);
 		});
@@ -240,13 +268,13 @@ describe("createTranscriptStructuringStage", () => {
 		// nor the base name on disk changes, and settling either would move files
 		// the user has already named.
 		it("should settle only what the model derived when the user has named it", async () => {
-			const result = await runStage(contextWith(userNamed));
+			const result = await runStage(contextWith({ manifest: userNamed }));
 
 			expect(result.identityChanges).toEqual({ aiDerivedTitle: aiDerivedLecture.title });
 		});
 
 		it("should leave the workspace where it stands when the user has named it", async () => {
-			await runStage(contextWith(userNamed));
+			await runStage(contextWith({ manifest: userNamed }));
 
 			expect(await pathExists(workspaceRoot)).toBe(true);
 		});
@@ -262,7 +290,7 @@ describe("createTranscriptStructuringStage", () => {
 		])("should record $outcome when that is how the title was settled", async (settled) => {
 			stubReply(settled.reply);
 
-			await runStage(contextWith(settled.manifest));
+			await runStage(contextWith({ manifest: settled.manifest }));
 
 			expect(settledTitleOutcome()).toBe(settled.outcome);
 		});

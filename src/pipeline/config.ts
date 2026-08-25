@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { CONFIG_FILENAME, type PipelineConfig, type StageConfig } from "../types/pipeline.js";
 import { NamedError } from "../utils/errors.js";
+import { isOutputLanguage, unknownLanguageMessage } from "../utils/language.js";
 import { splitModelId } from "../utils/model-id.js";
 import { isRecord } from "../utils/record.js";
 import { isStageId, unknownStageMessage } from "../utils/stage-id.js";
@@ -254,10 +255,28 @@ function requireStages(value: unknown): PipelineConfig["stages"] {
 	);
 }
 
+/**
+ * Validates the `output` section: which language the prose stages write, and
+ * which engine renders the PDF.
+ *
+ * The language is checked against the set the pipeline has prompt wording for,
+ * rather than merely being required to be a string. A tag with no wording would
+ * otherwise reach a prompt as an instruction no model can follow, and the first
+ * sign of it would be notes in the wrong language — so it is refused at startup,
+ * naming the languages it could have been (technical-design.md §6).
+ *
+ * @param value - The raw `output` section.
+ * @returns The validated section.
+ * @throws {ConfigError} If the section is not an object, either field is missing or mistyped, or the language is one the pipeline cannot write.
+ */
 function requireOutput(value: unknown): PipelineConfig["output"] {
 	const output = requireSection({ value, label: "output" });
+	const language = output.string("language");
+	if (!isOutputLanguage(language)) {
+		throw new ConfigError(unknownLanguageMessage({ subject: `output.language "${language}"` }));
+	}
 	return {
-		language: output.string("language"),
+		language,
 		pandocEngine: output.string("pandocEngine"),
 	};
 }

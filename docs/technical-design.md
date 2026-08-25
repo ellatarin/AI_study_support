@@ -965,13 +965,16 @@ The same LLM call produces the structured markdown. The LLM:
 - Converts spoken mathematics to LaTeX where detectable
 - Marks Q&A sections as `> **Q&A:**` blockquote
 - Does not add content not present in the transcript
+- Writes in the configured `output.language` (§6)
+
+The last rule is a correction, not an addition, so it does not contradict the one above it. Speech carries no spelling: the transcript's spelling is the transcriber's, and Stage 2 cannot influence it — ElevenLabs' `languageCode` takes an ISO-639-1 or ISO-639-3 code, neither of which can express a regional variant, so `eng` names English and nothing more. An LLM call is therefore the first point in the pipeline at which the output's language can be chosen at all, and Stage 3 is the first such call. The rule is worded by `languageRule` (§6) rather than written into this prompt, so that every prose stage instructs the model identically.
 
 **Context:** A 90-minute transcript is typically 15,000–30,000 tokens — a single call within any 128k-context model.
 
 ```typescript
 // src/pipeline/stages/transcript-structuring.prompt.ts
-buildStructuringMessages(args: { transcriptText: string; provisionalTitle: string }):
-  readonly ChatCompletionMessageParam[]
+buildStructuringMessages(args: { transcriptText: string; provisionalTitle: string;
+  language: OutputLanguage }): readonly ChatCompletionMessageParam[]
 // The title judgement and the structuring rules above, stated as messages. Asks for the JSON object in the
 // prompt as well as through `responseFormat`, which JSON mode requires (§6).
 
@@ -1268,6 +1271,8 @@ Unlike OpenRouter's, this base URL carries no path — the SDK appends the versi
 
 **The spoken language is configuration, and it is not `output.language`.** `elevenLabs.languageCode` is the language Scribe is told to expect in the audio; `output.language` is the language the notes are written in (§6, Output). They are deliberately separate fields: a lecture delivered in one language may want notes in another, and collapsing them would make that impossible to express. They also take different forms — Scribe wants an ISO-639-3 code (`eng`), while the notes language is a BCP-47 tag carrying a regional spelling convention (`en-GB`) — so neither can be derived from the other without losing something.
 
+**`output.language` is a closed set, and every stage that writes prose obeys it.** The tag is checked at load against `OUTPUT_LANGUAGES`, which maps each tag to the name a prompt calls it by; a tag with no name is refused at startup, listing the ones it could have been. The pairing is the point — "Write in en-GB" is not an instruction a model can follow, so a language cannot be offered in config without wording for the prompts to use. `languageRule` in `src/utils/language.ts` builds that sentence, and every prose stage's prompt includes it rather than wording the rule itself, so the stages cannot drift into instructing the model differently. Stage 3 is the only such stage built; Stages 4, 5, 6, and 7 join it as they are.
+
 **ElevenLabs cost rate.** The Scribe API returns no price with a transcript, so `elevenLabs.costPerAudioHourUsd` supplies the rate Stage 2 multiplies by the audio's duration to attribute transcription spend (§7). Set it from the ElevenLabs plan in force; it is a billing figure that changes independently of this codebase, which is why it is configuration rather than a constant. The single rate is accurate for the call this pipeline makes — batch Scribe v2 with no diarization, entity detection, or keyterm prompting, each of which ElevenLabs bills as a surcharge on top of the base hourly rate. Enabling any of those later means revisiting this figure, since one number can no longer describe the call.
 
 ```jsonc
@@ -1329,7 +1334,7 @@ Unlike OpenRouter's, this base URL carries no path — the SDK appends the versi
     }
   },
   "output": {
-    "language": "en-GB",               // language the NOTES are written in; not elevenLabs.languageCode above
+    "language": "en-GB",               // language the NOTES are written in (en-GB | en-US); not elevenLabs.languageCode above
     "pandocEngine": "xelatex"
   }
 }
@@ -1580,6 +1585,7 @@ src/
     ├── progress.ts                   # Shared cli-progress bar helpers
     ├── cost.ts                       # Cost accumulation and report formatting
     ├── stage-id.ts                   # Recognising a stage name, for --from-stage and the config keys (§6)
+    ├── language.ts                   # Recognising a configured language, and wording it for every prose prompt (§6)
     ├── model-id.ts                   # Reading a model ID's provider and name, for the exemption and Stage 2 (§6)
     ├── record.ts                      # Recognising a parsed value as one with fields to read (§4.4, §6, §7)
     ├── text.ts                        # Closing up the whitespace a removal leaves behind (§3)
