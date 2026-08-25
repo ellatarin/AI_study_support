@@ -9,8 +9,8 @@ import {
 const NULL_BYTE = String.fromCharCode(0);
 const CONTROL_CHAR = String.fromCharCode(1);
 
-/** The codes a run is configured with, unless a case is about a different set. */
-const MODULE_CODES = ["BOD", "ANA"];
+/** The prefixes a run is configured with, unless a case is about a different set. */
+const MODULE_PREFIXES = ["BOD", "ANA"];
 
 describe("extractProvisionalTitle", () => {
 	it.each([
@@ -38,44 +38,61 @@ describe("extractProvisionalTitle", () => {
 		// typed in lower case yields a lower-case title, where title-casing used to
 		// tidy it. Names are now exactly as consistent as the filenames are.
 		{ filename: "2025-10-10 BOD_cell injury.mp4", expected: "cell injury" },
-		// Every configured code is stripped, not just the first: a second module's
-		// lectures would otherwise carry its code into every title.
+		// Every configured prefix is stripped, not just the first: a second module's
+		// lectures would otherwise carry its prefix into every title.
 		{ filename: "2025-10-10 ANA_Skeletal system.mp4", expected: "Skeletal system" },
 		{ filename: "ANA Muscles of the Arm 2025-10-10.mp4", expected: "Muscles of the Arm" },
-		// A code that names no configured module is part of the title. Stripping
+		// A prefix that names no configured module is part of the title. Stripping
 		// any capitals-then-underscore run would eat this.
 		{ filename: "2025-10-10 XYZ_Cell injury.mp4", expected: "XYZ Cell injury" },
+		// Lecturers do not case their own module's prefix consistently, so how a
+		// filename happens to write it says nothing about whether it is one.
+		{ filename: "2025-10-10 bod_Cell injury.mp4", expected: "Cell injury" },
+		{ filename: "2025-10-10 Bod Cell injury.mp4", expected: "Cell injury" },
 	])("should extract provisional title when filename is $filename", ({ filename, expected }) => {
-		expect(extractProvisionalTitle({ filename, moduleCodes: MODULE_CODES })).toBe(expected);
+		expect(extractProvisionalTitle({ filename, modulePrefixes: MODULE_PREFIXES })).toBe(expected);
 	});
 
-	it("should leave a module code in place when no codes are configured", () => {
+	// A module is not always abbreviated — some lecturers write it out in full,
+	// so a configured prefix may be several words rather than a code.
+	it.each([
+		{ scenario: "an underscore", filename: "Biology of Disease_Cell injury 2025-10-10.mp4" },
+		{ scenario: "a dash", filename: "biology of disease - Cell injury 2025-10-10.mp4" },
+	])("should strip a spelled-out module name when the filename separates it with $scenario", ({
+		filename,
+	}) => {
+		expect(extractProvisionalTitle({ filename, modulePrefixes: ["Biology of Disease"] })).toBe(
+			"Cell injury",
+		);
+	});
+
+	it("should leave a module prefix in place when none are configured", () => {
 		expect(
-			extractProvisionalTitle({ filename: "2025-10-10 BOD_Cell injury.mp4", moduleCodes: [] }),
+			extractProvisionalTitle({ filename: "2025-10-10 BOD_Cell injury.mp4", modulePrefixes: [] }),
 		).toBe("BOD Cell injury");
 	});
 
-	// Codes come from the config file, so a character with meaning inside a
+	// Prefixes come from the config file, so a character with meaning inside a
 	// pattern must match itself rather than being interpreted.
 	it.each([
-		{ scenario: "the code itself", filename: "B.D_Cell injury.mp4", expected: "Cell injury" },
+		{ scenario: "the prefix itself", filename: "B.D_Cell injury.mp4", expected: "Cell injury" },
 		{
-			scenario: "a name the code would match only as a pattern",
+			scenario: "a name the prefix would match only as a pattern",
 			filename: "BXD_Cell injury.mp4",
 			expected: "BXD Cell injury",
 		},
-	])("should treat a module code as literal text when the filename holds $scenario", ({
+	])("should treat a module prefix as literal text when the filename holds $scenario", ({
 		filename,
 		expected,
 	}) => {
-		expect(extractProvisionalTitle({ filename, moduleCodes: ["B.D"] })).toBe(expected);
+		expect(extractProvisionalTitle({ filename, modulePrefixes: ["B.D"] })).toBe(expected);
 	});
 
 	it.each([
 		{ filename: "2025-10-10 Lecture 5.mp4", remainder: "a date and lecture number" },
 		{ filename: "Lecture 1 - 2025-10-10.mp4", remainder: "a canonical untitled name" },
 	])("should return an empty string when the filename holds only $remainder", ({ filename }) => {
-		expect(extractProvisionalTitle({ filename, moduleCodes: MODULE_CODES })).toBe("");
+		expect(extractProvisionalTitle({ filename, modulePrefixes: MODULE_PREFIXES })).toBe("");
 	});
 });
 

@@ -336,21 +336,21 @@ async function completeInterruptedRenames({
  * from its manifest, so a re-run neither re-parses an already-canonical filename
  * (which would corrupt the title) nor reverts a Stage 3 AI-derived rename.
  *
- * @param args - The matched sources, the existing workspaces, and what counts as a module code.
+ * @param args - The matched sources, the existing workspaces, and what counts as a module prefix.
  * @param args.pairs - Each video with the slide {@link checkSources} matched to it.
  * @param args.existing - Existing workspaces keyed by date, for title continuity.
- * @param args.moduleCodes - The configured module codes, stripped from a freshly extracted title.
+ * @param args.modulePrefixes - The configured module prefixes, stripped from a freshly extracted title.
  * @returns The lectures in date order, numbered from 1.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- PairedSources carries a parsed Date, and a ReadonlyMap is already the readonly form the rule declines to recognise; both are only read here
 function orderLectures({
 	pairs,
 	existing,
-	moduleCodes,
+	modulePrefixes,
 }: {
 	readonly pairs: readonly PairedSources[];
 	readonly existing: ReadonlyMap<string, ExistingWorkspace>;
-	readonly moduleCodes: readonly string[];
+	readonly modulePrefixes: readonly string[];
 }): readonly Lecture[] {
 	// `YYYY-MM-DD` sorts lexicographically into date order, which is why the isos
 	// are what is compared rather than the parsed dates beside them.
@@ -363,7 +363,7 @@ function orderLectures({
 		const priorManifest = existing.get(iso)?.manifest;
 		const provisionalTitle =
 			priorManifest?.provisionalTitle ??
-			extractProvisionalTitle({ filename: video.name, moduleCodes });
+			extractProvisionalTitle({ filename: video.name, modulePrefixes });
 		const title = priorManifest?.lectureTitle ?? provisionalTitle;
 		const lectureNumber = index + 1;
 		return {
@@ -782,18 +782,18 @@ async function reconcileManifest({
  * @param args - The stage dependencies.
  * @param args.logger - The pino logger that records every action and any failure.
  * @param args.confirm - The prompt asked before any irreversible deletion.
- * @param args.moduleCodes - The configured module codes, stripped from a filename before it becomes a title.
+ * @param args.modulePrefixes - The configured module prefixes, stripped from a filename before it becomes a title.
  * @returns A {@link SourceNormalisationStage} the runner drives once per module.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 export function createSourceNormalisationStage({
 	logger,
 	confirm,
-	moduleCodes,
+	modulePrefixes,
 }: {
 	readonly logger: Logger;
 	readonly confirm: ConfirmPrompt;
-	readonly moduleCodes: readonly string[];
+	readonly modulePrefixes: readonly string[];
 }): SourceNormalisationStage {
 	async function normaliseModule({ moduleRoot }: { readonly moduleRoot: string }): Promise<void> {
 		const dirs = moduleDirs({ moduleRoot });
@@ -830,7 +830,7 @@ export function createSourceNormalisationStage({
 		const lectures = orderLectures({
 			pairs: checked.pairs,
 			existing: existingWorkspaces,
-			moduleCodes,
+			modulePrefixes,
 		});
 		// One line per lecture, before anything is renamed: the date read off the
 		// filename, the number that date earned it, and the slide it was matched

@@ -217,14 +217,17 @@ export type PipelineConfig = {
 	};
 	readonly naming: {
 		/**
-		 * The codes a lecturer prefixes their filenames with (`BOD_Cell injury`),
-		 * stripped from the title Stage 0 derives. Configuration rather than a
-		 * constant because a code describes a module rather than this codebase,
-		 * and the pipeline is pointed at more than one: an unlisted code survives
-		 * into the workspace folder name and the final PDF for every lecture of
-		 * that module (technical-design.md §3.2).
+		 * How a lecturer names their module at the front of a filename, stripped
+		 * from the title Stage 0 derives. Either a code (`BOD_Cell injury`) or the
+		 * module written out (`Biology of Disease - Cell injury`), since lecturers
+		 * do both, and matched without regard to case for the same reason.
+		 *
+		 * Configuration rather than a constant because a module prefix describes a
+		 * module rather than this codebase, and the pipeline is pointed at more
+		 * than one: an unlisted prefix survives into the workspace folder name and
+		 * the final PDF for every lecture of that module (technical-design.md §3.2).
 		 */
-		readonly moduleCodes: readonly string[];
+		readonly modulePrefixes: readonly string[];
 	};
 	readonly stages: Readonly<Partial<Record<StageId, StageConfig>>>;
 	readonly output: {

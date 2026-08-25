@@ -67,7 +67,7 @@ All pipeline artefacts for a lecture live inside a single named workspace folder
 
 #### Video files
 
-Source videos may have the date in any position and any format. Stage 0 extracts the date, assigns a lecture number by date order, and produces the provisional title by stripping the date, day names (Mon–Sun), module code prefixes (e.g. `BOD_`), any embedded lecture-number token (e.g. `Lecture 1`, which would otherwise duplicate the assigned number), and trailing artefacts (`co`, `copy`) from the original filename, then title-casing the result. The separators left behind by those removals go too, so a name Stage 0 itself produced reads back as the title it was built from: `Lecture 1 - Cell Injury - 2025-10-10.mp4` gives `Cell Injury`, which is how a lecture renamed by a run that stopped before writing its manifest keeps its title on the next one.
+Source videos may have the date in any position and any format. Stage 0 extracts the date, assigns a lecture number by date order, and produces the provisional title by stripping the date, day names (Mon–Sun), configured module prefixes (e.g. `BOD_`, `Biology of Disease -`), any embedded lecture-number token (e.g. `Lecture 1`, which would otherwise duplicate the assigned number), and trailing artefacts (`co`, `copy`) from the original filename, keeping the lecturer's capitalisation as typed. The separators left behind by those removals go too, so a name Stage 0 itself produced reads back as the title it was built from: `Lecture 1 - Cell Injury - 2025-10-10.mp4` gives `Cell Injury`, which is how a lecture renamed by a run that stopped before writing its manifest keeps its title on the next one.
 
 **Dates are read in British convention.** A four-digit component is the year; otherwise the day leads. Month-first is never read. All eight numeric forms are accepted:
 
@@ -115,8 +115,8 @@ extractDate(filename: string): Date | null
 formatDateISO(date: Date): string                    // YYYY-MM-DD, in local time — the zone the date was read in
 stripDateTokens(text: string): string                // removes every numeric date, and every date and weekday span chrono finds
 
-extractProvisionalTitle(args: { filename: string; moduleCodes: readonly string[] }): string
-// Best-effort title: strips whichever of the date, day names, a configured module code (`BOD_`, `BOD `),
+extractProvisionalTitle(args: { filename: string; modulePrefixes: readonly string[] }): string
+// Best-effort title: strips whichever of the date, day names, a configured module prefix (`BOD_`, `BOD `),
 // embedded lecture-number token (e.g. `Lecture 1`, which would duplicate the assigned number),
 // separator debris at either end, and trailing artefacts (`co`, `copy`, `v2`) are present. The separator
 // strip is what lets a name this module built read back as the title it was built from:
@@ -126,9 +126,10 @@ extractProvisionalTitle(args: { filename: string; moduleCodes: readonly string[]
 // cases. The cost is that a filename typed in lower case yields a lower-case title: names are exactly as
 // consistent as the filenames are, and nothing here invents a spelling of its own.
 // A thin or empty result is acceptable — a date-plus-number filename leaves nothing — and Stage 3 judges
-// the title once the transcript exists. The codes come from `naming.moduleCodes` (§6) rather than being
-// written here: a code names a module, and the pipeline is pointed at several. Each is matched literally,
-// so a code carrying a pattern character means itself, and an empty list strips nothing.
+// the title once the transcript exists. The prefixes come from `naming.modulePrefixes` (§6) rather than
+// being written here: a prefix names a module, and the pipeline is pointed at several. Each is matched
+// literally and without regard to case, so one carrying a pattern character means itself, and an empty
+// list strips nothing.
 lectureFolderName(args: { lectureNumber: number; title: string; date: Date }): string
 // The canonical `Lecture N - <title> - YYYY-MM-DD` form shared by the folder, sources, and PDF. Takes the
 // parsed Date rather than a formatted string so the one place that formats a lecture date is formatDateISO.
@@ -840,7 +841,7 @@ A prompt module has no test file of its own. Its builder is a pure assembly whos
 
 3. **Slide matching:** Parse the date from each slide PDF (date always at the beginning of the filename) and match it to the video with the same date (validation has already guaranteed a 1:1 match).
 
-4. **Title resolution:** For a **new** lecture, extract a provisional title from the video filename — strip whichever of the date, day names (Mon–Sun), a configured module code (e.g. `BOD_`, `BOD `; see `naming.moduleCodes`, §6), embedded lecture-number token (e.g. `Lecture 1`), and trailing artefacts (`co`, `copy`, `v2`) are present, keeping the lecturer's capitalisation exactly as typed (§3.2). A filename with nothing beyond a date and lecture number yields an **empty** provisional title, and the lecture falls back to a bare `Lecture N` name. Whether the title is meaningful is **not** judged here; Stage 3 makes that call. For an **existing** lecture, the title is taken from its manifest (`lectureTitle`), never re-extracted — so a CLI `rename` and a Stage 3 rename are both preserved.
+4. **Title resolution:** For a **new** lecture, extract a provisional title from the video filename — strip whichever of the date, day names (Mon–Sun), a configured module prefix (e.g. `BOD_`, `Biology of Disease -`; see `naming.modulePrefixes`, §6), embedded lecture-number token (e.g. `Lecture 1`), and trailing artefacts (`co`, `copy`, `v2`) are present, keeping the lecturer's capitalisation exactly as typed (§3.2). A filename with nothing beyond a date and lecture number yields an **empty** provisional title, and the lecture falls back to a bare `Lecture N` name. Whether the title is meaningful is **not** judged here; Stage 3 makes that call. For an **existing** lecture, the title is taken from its manifest (`lectureTitle`), never re-extracted — so a CLI `rename` and a Stage 3 rename are both preserved.
 
 5. **Canonical naming:** Rename the source video and its matched slide, the workspace folder, and any `Final output/` PDF to the shared base name `Lecture N - <title> - YYYY-MM-DD` (bare `Lecture N - YYYY-MM-DD` when the title is empty). Items already at their target are left untouched.
 
@@ -1273,7 +1274,9 @@ Unlike OpenRouter's, this base URL carries no path — the SDK appends the versi
 
 **The spoken language is configuration, and it is not `output.language`.** `elevenLabs.languageCode` is the language Scribe is told to expect in the audio; `output.language` is the language the notes are written in (§6, Output). They are deliberately separate fields: a lecture delivered in one language may want notes in another, and collapsing them would make that impossible to express. They also take different forms — Scribe wants an ISO-639-3 code (`eng`), while the notes language is a BCP-47 tag carrying a regional spelling convention (`en-GB`) — so neither can be derived from the other without losing something.
 
-**Module codes are configuration because a code describes a module, not this codebase.** Lecturers prefix their recordings with the module's code (`BOD_Cell injury`), which is noise in a title: the module is already the folder the lecture sits in. `naming.moduleCodes` lists the codes to strip, and it is a list rather than one value because the pipeline is pointed at several modules at once — a code absent from it survives into the workspace folder name and the final PDF for every lecture of that module. Each code is matched literally, so one carrying a pattern character means itself; a blank code is refused at load, since it would otherwise match any run of underscores or spaces and take apart every title the run produces. The alternative of stripping any capitals-then-underscore run was rejected: it cannot tell a module code from a lecture that opens with an acronym, and `DNA_replication` would lose its subject.
+**Module prefixes are configuration because a prefix describes a module, not this codebase.** Lecturers put the module at the front of a recording's filename, which is noise in a title: the module is already the folder the lecture sits in. `naming.modulePrefixes` lists what to strip, and it is a list rather than one value for two reasons — the pipeline is pointed at several modules at once, and **one module may be written more than one way**. A lecturer abbreviates it in some filenames (`BOD_Cell injury`) and writes it out in others (`Biology of Disease - Cell injury`), so both forms are listed. Matching ignores case for the same reason: how a filename happens to write a module says nothing about whether it is one. A prefix absent from the list survives into the workspace folder name and the final PDF for every lecture that carries it.
+
+Each prefix is matched literally, so one carrying a pattern character means itself; a blank prefix is refused at load, since it would otherwise match any run of underscores or spaces and take apart every title the run produces. The alternative of stripping any capitals-then-underscore run was rejected: it cannot tell a module prefix from a lecture that opens with an acronym, and `DNA_replication` would lose its subject — and it could never have handled a spelled-out module name at all.
 
 **`output.language` is a closed set, and every stage that writes prose obeys it.** The tag is checked at load against `OUTPUT_LANGUAGES`, which maps each tag to the name a prompt calls it by; a tag with no name is refused at startup, listing the ones it could have been. The pairing is the point — "Write in en-GB" is not an instruction a model can follow, so a language cannot be offered in config without wording for the prompts to use. `languageRule` in `src/utils/language.ts` builds that sentence, and every prose stage's prompt includes it rather than wording the rule itself, so the stages cannot drift into instructing the model differently. Stage 3 is the only such stage built; Stages 4, 5, 6, and 7 join it as they are.
 
@@ -1338,7 +1341,9 @@ Unlike OpenRouter's, this base URL carries no path — the SDK appends the versi
     }
   },
   "naming": {
-    "moduleCodes": ["BOD", "ANA"]      // prefixes stripped from a filename before it becomes a title (§3.2)
+    // stripped from a filename before it becomes a title; one module may be listed more than once,
+    // abbreviated and written out, and matching ignores case (§3.2)
+    "modulePrefixes": ["BOD", "Biology of Disease", "ANA"]
   },
   "output": {
     "language": "en-GB",               // language the NOTES are written in (en-GB | en-US); not elevenLabs.languageCode above

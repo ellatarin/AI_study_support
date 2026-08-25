@@ -129,7 +129,7 @@ describe("createSourceNormalisationStage", () => {
 		stage = createSourceNormalisationStage({
 			logger: logged.logger,
 			confirm,
-			moduleCodes: exampleConfig.naming.moduleCodes,
+			modulePrefixes: exampleConfig.naming.modulePrefixes,
 		});
 	}
 

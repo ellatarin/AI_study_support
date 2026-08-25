@@ -26,28 +26,31 @@ import { collapseWhitespace } from "./text.js";
 export class EmptyNameError extends NamedError {}
 
 /**
- * Characters carrying meaning inside a pattern. Module codes come from the
- * config file, so each is escaped before it is built into one — a code is text
+ * Characters carrying meaning inside a pattern. Module prefixes come from the
+ * config file, so each is escaped before it is built into one — a prefix is text
  * to match literally, never a pattern the user wrote.
  */
 const PATTERN_METACHARACTERS = /[.*+?^${}()|[\]\\]/g;
 
 /**
- * The pattern matching any configured module code where it prefixes a name
- * (`BOD_`, `BOD `), or `null` when no codes are configured and nothing is to be
- * stripped.
+ * The pattern matching any configured module prefix followed by a separator
+ * (`BOD_`, `BOD `, `Biology of Disease_`), or `null` when none are configured
+ * and nothing is to be stripped.
  *
- * @param moduleCodes - The codes the modules' filenames are prefixed with.
+ * Matched case-insensitively: how a lecturer happens to write their own
+ * module's name in a filename says nothing about whether it is one.
+ *
+ * @param modulePrefixes - The codes or names the modules' filenames are prefixed with.
  * @returns The pattern, or `null` when the list is empty.
  */
-function moduleCodePrefixes(moduleCodes: readonly string[]): RegExp | null {
-	if (moduleCodes.length === 0) {
+function modulePrefixPattern(modulePrefixes: readonly string[]): RegExp | null {
+	if (modulePrefixes.length === 0) {
 		return null;
 	}
-	const alternatives = moduleCodes
-		.map((code) => code.replace(PATTERN_METACHARACTERS, "\\$&"))
+	const alternatives = modulePrefixes
+		.map((prefix) => prefix.replace(PATTERN_METACHARACTERS, "\\$&"))
 		.join("|");
-	return new RegExp(`\\b(?:${alternatives})[_ ]+`, "g");
+	return new RegExp(`\\b(?:${alternatives})[_ ]+`, "gi");
 }
 
 /**
@@ -104,8 +107,8 @@ function stripControlChars(text: string): string {
  * Derives a best-effort provisional lecture title from a source filename.
  *
  * Strips the file extension, all date and weekday tokens, any configured
- * module code, any embedded lecture-number token, underscores, separator debris
- * at either end, and trailing artefacts. Filenames vary: a rich filename yields
+ * module prefix, any embedded lecture-number token, underscores, separator
+ * debris at either end, and trailing artefacts. Filenames vary: a rich filename yields
  * a full title, while a `date + Lecture N` filename yields an **empty string**.
  * Callers must fall back (e.g. to the bare `Lecture N` name) on an empty result;
  * Stage 3's LLM later judges whether the title is meaningful.
@@ -122,38 +125,37 @@ function stripControlChars(text: string): string {
  * its manifest is re-read from its canonical filename on the next run, and must
  * yield the title that name was built from (technical-design.md §3.2).
  *
- * @param args - The filename to read, and what counts as a module code.
+ * @param args - The filename to read, and what counts as a module prefix.
+ * @param args.modulePrefixes - The configured module prefixes, matched case-insensitively wherever one is followed by a separator; an empty list strips none.
  * @param args.filename - The user-supplied source filename.
- * @param args.moduleCodes - The configured module codes; a code is stripped only where it prefixes a name, and an empty list strips none.
  * @returns The cleaned provisional title, possibly empty.
  *
  * @example
  * extractProvisionalTitle({
- *   filename: "2025-10-10 BOD_Disease cell injury Fri co.mp4",
- *   moduleCodes: ["BOD"],
- * });
- * // → "Disease cell injury"
- * extractProvisionalTitle({
  *   filename: "2025-10-10 BOD_mRNA processing.mp4",
- *   moduleCodes: ["BOD"],
+ *   modulePrefixes: ["BOD"],
  * });
  * // → "mRNA processing"
- * extractProvisionalTitle({ filename: "2025-10-10 Lecture 5.mp4", moduleCodes: ["BOD"] });
+ * extractProvisionalTitle({
+ *   filename: "biology of disease - Cell injury 2025-10-10.mp4",
+ *   modulePrefixes: ["Biology of Disease"],
+ * });
+ * // → "Cell injury"
+ * extractProvisionalTitle({ filename: "2025-10-10 Lecture 5.mp4", modulePrefixes: ["BOD"] });
  * // → ""
  */
 export function extractProvisionalTitle({
 	filename,
-	moduleCodes,
+	modulePrefixes,
 }: {
 	readonly filename: string;
-	readonly moduleCodes: readonly string[];
+	readonly modulePrefixes: readonly string[];
 }): string {
-	const codePrefixes = moduleCodePrefixes(moduleCodes);
+	const prefixes = modulePrefixPattern(modulePrefixes);
 	const withoutExtension = filename.replace(FILE_EXTENSION, "");
 	const withoutDates = stripDateTokens(withoutExtension);
-	const withoutCodes =
-		codePrefixes === null ? withoutDates : withoutDates.replace(codePrefixes, " ");
-	const withoutNoise = withoutCodes.replace(LECTURE_NUMBER_TOKEN, " ").replace(UNDERSCORES, " ");
+	const withoutPrefixes = prefixes === null ? withoutDates : withoutDates.replace(prefixes, " ");
+	const withoutNoise = withoutPrefixes.replace(LECTURE_NUMBER_TOKEN, " ").replace(UNDERSCORES, " ");
 	const normalised = collapseWhitespace(withoutNoise);
 	const withoutEdges = normalised.replace(EDGE_SEPARATORS, "");
 	return withoutEdges.replace(TRAILING_ARTEFACTS, "").trim();

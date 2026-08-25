@@ -61,7 +61,7 @@ async function assembleDeps({
 		sourceNormalisation: createSourceNormalisationStage({
 			logger,
 			confirm: confirmPrompt,
-			moduleCodes: config.naming.moduleCodes,
+			modulePrefixes: config.naming.modulePrefixes,
 		}),
 		// Pipeline order; each further stage joins this list as it is built.
 		lectureStages: [

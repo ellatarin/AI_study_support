@@ -220,25 +220,25 @@ function requireModelIdCheck(value: unknown): PipelineConfig["modelIdCheck"] {
 }
 
 /**
- * Validates the `naming` section: the module codes stripped from a derived
+ * Validates the `naming` section: the module prefixes stripped from a derived
  * lecture title.
  *
- * A code that is empty or only whitespace is refused. It would otherwise build a
- * pattern matching any run of underscores or spaces, which would take apart
- * every title the run produces rather than merely failing to strip a code
+ * A prefix that is empty or only whitespace is refused. It would otherwise build
+ * a pattern matching any run of underscores or spaces, which would take apart
+ * every title the run produces rather than merely failing to strip a prefix
  * (technical-design.md §3.2).
  *
  * @param value - The raw `naming` section.
  * @returns The validated section.
- * @throws {ConfigError} If the section is not an object, `moduleCodes` is not an array of strings, or any code is blank.
+ * @throws {ConfigError} If the section is not an object, `modulePrefixes` is not an array of strings, or any prefix is blank.
  */
 function requireNaming(value: unknown): PipelineConfig["naming"] {
 	const naming = requireSection({ value, label: "naming" });
-	const moduleCodes = naming.stringArray("moduleCodes");
-	if (moduleCodes.some((code) => code.trim() === "")) {
-		throw new ConfigError("naming.moduleCodes must not contain a blank module code");
+	const modulePrefixes = naming.stringArray("modulePrefixes");
+	if (modulePrefixes.some((prefix) => prefix.trim() === "")) {
+		throw new ConfigError("naming.modulePrefixes must not contain a blank module prefix");
 	}
-	return { moduleCodes };
+	return { modulePrefixes };
 }
 
 function requireStageConfig(args: {

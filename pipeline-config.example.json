@@ -20,7 +20,7 @@
 		"exemptProviders": ["elevenlabs"]
 	},
 	"naming": {
-		"moduleCodes": ["BOD", "ANA"]
+		"modulePrefixes": ["BOD", "Biology of Disease", "ANA"]
 	},
 	"stages": {
 		"transcription": {

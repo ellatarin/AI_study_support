@@ -593,21 +593,21 @@ const shapeCases: readonly {
 		match: /naming/,
 	},
 	{
-		name: "naming.moduleCodes is not an array of strings",
+		name: "naming.modulePrefixes is not an array of strings",
 		mutate: (config: Record<string, unknown>) => {
-			config.naming = namingSection({ moduleCodes: ["BOD", 7] });
+			config.naming = namingSection({ modulePrefixes: ["BOD", 7] });
 		},
-		match: /moduleCodes/,
+		match: /modulePrefixes/,
 	},
 	{
 		// An empty code would build a pattern matching any run of underscores or
 		// spaces, taking the whole title apart, so it is refused rather than
 		// quietly dropped.
-		name: "naming.moduleCodes holds a code that is nothing but whitespace",
+		name: "naming.modulePrefixes holds a code that is nothing but whitespace",
 		mutate: (config: Record<string, unknown>) => {
-			config.naming = namingSection({ moduleCodes: ["BOD", "  "] });
+			config.naming = namingSection({ modulePrefixes: ["BOD", "  "] });
 		},
-		match: /moduleCodes/,
+		match: /modulePrefixes/,
 	},
 	{
 		name: "output is missing",
