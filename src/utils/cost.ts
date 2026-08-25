@@ -364,22 +364,18 @@ function stageCostRow(
 }
 
 /**
- * The arguments of anything rendered for the user: what is being rendered, plus
- * the rate it is rendered at. Every exported formatter takes this shape, since
- * costs are stored in USD and converted only at the point of display
- * (technical-design.md §7).
+ * What the two reports drawn from one lecture's manifest both need: the manifest,
+ * and the rate to render its money at. Costs are stored in USD and converted only
+ * at the point of display (technical-design.md §7), so the rate arrives with the
+ * subject rather than being held anywhere.
  *
- * @typeParam TSubject - The data the formatter renders.
+ * Each report intersects this with the one further thing it draws on. `formatBatchSummary`
+ * is not among them — it shows no money and takes no rate.
  */
-type PresentedAt<TSubject> = TSubject & { readonly gbpPerUsd: number };
-
-/**
- * The arguments of a report rendered from one lecture's manifest — the manifest
- * itself, whatever else the report draws on, and the rate it is rendered at.
- *
- * @typeParam TSubject - What the report draws on besides the manifest.
- */
-type ManifestReport<TSubject> = PresentedAt<TSubject & { readonly manifest: RunManifest }>;
+type ManifestAtRate = {
+	readonly manifest: RunManifest;
+	readonly gbpPerUsd: number;
+};
 
 /** Inputs for the section driven by the manifest, plus the shared formatter. */
 type ManifestSectionArgs = {
@@ -522,7 +518,7 @@ export function formatCostReport({
 	runLogs,
 	manifest,
 	gbpPerUsd,
-}: ManifestReport<{ readonly runLogs: readonly RunLog[] }>): string {
+}: ManifestAtRate & { readonly runLogs: readonly RunLog[] }): string {
 	const formatMoney = createMoneyFormatter({ gbpPerUsd });
 	return [
 		...currentPipelineSection({ manifest, formatMoney }),
@@ -624,7 +620,7 @@ export function formatRunSummary({
 	outcomes,
 	manifest,
 	gbpPerUsd,
-}: ManifestReport<{ readonly outcomes: readonly RunStageOutcome[] }>): string {
+}: ManifestAtRate & { readonly outcomes: readonly RunStageOutcome[] }): string {
 	const formatMoney = createMoneyFormatter({ gbpPerUsd });
 	const rows = executedStages({ outcomes, manifest }).map(
 		({ stageId, model, cost }): readonly Cell[] => [
