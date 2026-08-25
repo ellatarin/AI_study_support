@@ -26,6 +26,7 @@ import {
 	type WriteText,
 } from "./commands.js";
 import { confirmPrompt, selectLectureMatch, selectLectureMatches } from "./prompts.js";
+import { createRunReporter } from "./run-reporter.js";
 
 /** Where the CLI's two streams of output go; replaced wholesale under test. */
 type CliOutput = {
@@ -70,6 +71,7 @@ async function assembleDeps({
 			createTranscriptStructuringStage({ logger }),
 		],
 		logger,
+		reporter: createRunReporter({ write, gbpPerUsd }),
 	});
 	return {
 		runner,

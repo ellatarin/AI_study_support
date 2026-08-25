@@ -178,6 +178,8 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 `src/pipeline/run-status.ts` — the shared rule reducing stage and lecture outcomes to an `OverallStatus`: `stageOutcomeStatus`, `summariseOverallStatus`, `summariseLectures`, `hasSettledOutput` (**TD §4.7**).
 
+`src/cli/run-reporter.ts` — `createRunReporter`: the wording of the notices a run writes as it goes, one per stage, built over the `RunEvent`s the runner reports (**TD §10**).
+
 `src/index.ts` and `src/cli/` — the CLI. Invoked in docs and examples as `lecture-notes <cmd>` via the `bin/lecture-notes` wrapper installed by `scripts/setup`. During dev without the wrapper, equivalent to `pnpm exec tsx src/index.ts <cmd>`.
 - Commands: `run <date>`, `batch [<moduleRoot>]`, `cost-report [--date <YYYY-MM-DD>] [--module <moduleRoot>]`
 - Flags: `--from-stage <stageId>`, `--concurrency N`, `--continue-on-error`

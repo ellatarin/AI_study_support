@@ -744,3 +744,33 @@ export type BatchSummary = TimeSpan & {
 	readonly lectures: readonly RunSummary[]; // one entry per lecture attempted, in the order they ran
 	readonly overallStatus: OverallStatus;
 };
+
+/**
+ * Something worth telling the user about, at the moment it happens
+ * (technical-design.md §10).
+ *
+ * A run summary describes a run that has finished. These describe one that is
+ * still going, which is the only way a user learns what a long run is doing —
+ * and, for a run that repeats nothing, the only way they learn it did anything
+ * at all.
+ *
+ * They carry facts rather than sentences: the wording is the CLI's, which is
+ * what keeps the runner out of the business of writing to a user (§8).
+ */
+export type RunEvent =
+	| { readonly event: "lecture-started"; readonly manifest: RunManifest }
+	| { readonly event: "stage-started"; readonly stageId: StageId }
+	| { readonly event: "stage-skipped"; readonly stageId: StageId }
+	| {
+			readonly event: "stage-completed";
+			readonly stageId: StageId;
+			readonly cost: StageCost | null;
+	  }
+	| { readonly event: "stage-failed"; readonly stageId: StageId };
+
+/**
+ * Where a run's events are told to. The runner is given one the way it is given
+ * a logger; the CLI supplies one that writes to the stream it owns
+ * (technical-design.md §10).
+ */
+export type RunReporter = (event: RunEvent) => void;

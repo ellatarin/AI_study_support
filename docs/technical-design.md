@@ -620,7 +620,9 @@ The `PipelineRunner` surface:
 ```typescript
 class PipelineRunner {
   // Stages are injected so the runner is driven by stub stages under test and real stages in production.
-  constructor(deps: { config: PipelineConfig; sourceNormalisation: Readonly<SourceNormalisationStage>; lectureStages: readonly Readonly<PipelineStage<unknown, unknown>>[]; logger: Logger })
+  constructor(deps: { config: PipelineConfig; sourceNormalisation: Readonly<SourceNormalisationStage>; lectureStages: readonly Readonly<PipelineStage<unknown, unknown>>[]; logger: Logger; reporter: RunReporter })
+  // `reporter` is where the run says what it is doing as it happens (§10). Injected like the logger and for
+  // the same reason: the runner states the facts, and the CLI decides how — and whether — a user sees them.
   async normaliseSources(args: { moduleRoots: readonly string[] }): Promise<void>          // Stage 0
   async runLecture(args: { workspaceRoot: string; options?: RunOptions }): Promise<RunSummary>
   async runBatch(args: { moduleRoots: readonly string[]; options?: BatchRunOptions }): Promise<BatchSummary>
@@ -1500,6 +1502,12 @@ createMoneyFormatter(args: { gbpPerUsd: number }): MoneyFormatter
 // when cost resolution failed. The rate is bound once and the resulting function passed down to each
 // section, so no section knows about rates or currency at all (see Currency above).
 
+lectureHeading(args: { manifest: RunManifest }): string
+// How a lecture is named at the head of anything written about it — "Lecture 1: Cell Injury (2025-10-10)".
+// Three places name a lecture this way: the end-of-run summary, the cost report, and the notice the CLI
+// writes as a run starts (§10). A batch shows several one after another, so two of them identifying a
+// lecture differently would read as two lectures.
+
 formatCostReport(args: { runLogs: readonly RunLog[]; manifest: RunManifest; gbpPerUsd: number }): string
 // The three sections above, rendered as a single string.
 
@@ -1577,6 +1585,7 @@ src/
 │   ├── prompts.ts                    # The only terminal I/O: confirm, multi-match picker
 │   ├── lecture-identity.ts           # rename/delete/change-date on the filesystem
 │   ├── commands.ts                   # Carrying a parsed command out; exit codes
+│   ├── run-reporter.ts               # The wording of the notices a run writes as it goes (§10)
 │   └── run-cli.ts                    # Composition root: config, logger, runner, stages, prompts
 ├── types/
 │   └── pipeline.ts                   # All shared types: StageId, StageContext, StageResult,
@@ -1659,6 +1668,32 @@ The project root is what the log is anchored to, rather than a workspace or the 
 | Error | debug log | Every stage failure, with its stack — the runner logs it; nothing else sees a stack trace |
 
 The pino file transport is configured with `sync: false` and routes only to the debug log file — no debug output reaches stdout or stderr during normal operation, so it does not interfere with cli-progress bars.
+
+### Stage Notices
+
+The runner tells the user what it is doing, one stage at a time, through a `RunReporter` it is given the way it is given a logger. A run summary describes a run that has finished; these describe one still going, and for a run that repeats nothing they are the only sign it did anything at all.
+
+```typescript
+type RunEvent =
+  | { event: "lecture-started"; manifest: RunManifest }
+  | { event: "stage-started"; stageId: StageId }
+  | { event: "stage-skipped"; stageId: StageId }
+  | { event: "stage-completed"; stageId: StageId; cost: StageCost | null }
+  | { event: "stage-failed"; stageId: StageId }
+type RunReporter = (event: RunEvent) => void
+// Facts, not sentences. The wording is `src/cli/run-reporter.ts`'s, which is what keeps the runner out of the
+// business of writing to a user (§8) while still letting it speak at the moment there is something to say.
+```
+
+```
+Lecture 1: Cell Injury (2025-10-10)
+▶ Transcription…
+✔ Transcription — 1 call, £0.031
+− Slide conversion — output already present, skipping
+✖ Synthesis — failed
+```
+
+A completed stage that bought nothing — audio extraction, PDF generation — is named with no tail rather than one reading zero. A failed stage is marked but its message is not repeated here: the message and the pointer to the debug log follow the run summary (§8), and this line exists so that a stage announced as started is not left hanging. The lecture is named from `lectureHeading` (§7), the same way the end-of-run summary and the cost report name it, so a batch's notices cannot identify one lecture two ways.
 
 ### Logging and Progress Helpers
 

@@ -15,6 +15,7 @@ import type {
 	RunLogStageEntry,
 	RunManifest,
 	RunOptions,
+	RunReporter,
 	RunStageOutcome,
 	RunSummary,
 	RunType,
@@ -59,6 +60,12 @@ export type PipelineRunnerDeps = {
 	readonly lectureStages: readonly Readonly<PipelineStage<unknown, unknown>>[];
 	/** The run's logger; a stage failure is recorded on it with its stack (technical-design.md §8, §10). */
 	readonly logger: Logger;
+	/**
+	 * Where the run says what it is doing, stage by stage, as it happens. Injected
+	 * like the logger and for the same reason: the runner reports the facts and the
+	 * CLI decides how — and whether — a user sees them (technical-design.md §10).
+	 */
+	readonly reporter: RunReporter;
 };
 
 // Inputs addressing a set of modules with optional run- or report-specific options.
@@ -452,26 +459,31 @@ async function runStage({
 	config,
 	timestamp,
 	logger,
+	reporter,
 }: {
 	readonly stage: Readonly<PipelineStage<unknown, unknown>>;
 	readonly context: StageContext;
 	readonly config: PipelineConfig;
 	readonly timestamp: string;
 	readonly logger: Logger;
+	readonly reporter: RunReporter;
 }): Promise<StageOutcome> {
 	const { stageId } = stage;
 	const recorder = createStageRecorder({ stageId, context, config, timestamp });
 
 	if (await stage.isComplete(context)) {
+		reporter({ event: "stage-skipped", stageId });
 		await recorder.skipped();
 		return { entry: { action: "skipped" }, context: recorder.context() };
 	}
 	const configUsed = resolveStageRunConfig({ config, stageId });
+	reporter({ event: "stage-started", stageId });
 	await recorder.running();
 	try {
 		const input = await stage.getInput(context);
 		const result = await stage.run({ input, context });
 		await recorder.complete({ configUsed, result });
+		reporter({ event: "stage-completed", stageId, cost: result.cost });
 		return {
 			entry: { action: "ran", status: "complete", configUsed, cost: runLogCost(result.cost) },
 			context: recorder.context(),
@@ -481,6 +493,7 @@ async function runStage({
 		// The message alone reaches the user; the stack goes to the debug log, which
 		// is where an unanticipated failure is actually diagnosed (§8, §10).
 		createStageLogger({ logger, stageId }).error({ err: error }, "Stage failed");
+		reporter({ event: "stage-failed", stageId });
 		await recorder.failed({ configUsed, error: message });
 		return {
 			entry: {
@@ -631,6 +644,7 @@ export class PipelineRunner {
 	readonly #sourceNormalisation: Readonly<SourceNormalisationStage>;
 	readonly #lectureStages: readonly Readonly<PipelineStage<unknown, unknown>>[];
 	readonly #logger: Logger;
+	readonly #reporter: RunReporter;
 
 	/**
 	 * @param deps - The runner's injected configuration and stages.
@@ -645,6 +659,7 @@ export class PipelineRunner {
 		this.#sourceNormalisation = deps.sourceNormalisation;
 		this.#lectureStages = deps.lectureStages;
 		this.#logger = deps.logger;
+		this.#reporter = deps.reporter;
 	}
 
 	/**
@@ -688,6 +703,9 @@ export class PipelineRunner {
 		// from a run log back to the debug output that produced it (§10).
 		this.#logger.debug({ runId, workspaceRoot }, "Lecture run started");
 		const initialManifest = await readManifest({ workspaceRoot });
+		// After the manifest is read, because naming the lecture is the point of the
+		// notice, and before anything is reset: what follows belongs under this name.
+		this.#reporter({ event: "lecture-started", manifest: initialManifest });
 		const runType = classifyRunType({ options, manifest: initialManifest });
 		const manifest =
 			options.fromStage === undefined
@@ -752,6 +770,7 @@ export class PipelineRunner {
 				config: this.#config,
 				timestamp: new Date().toISOString(),
 				logger: this.#logger,
+				reporter: this.#reporter,
 			});
 			current = nextContext;
 			outcomes.push({ stageId: stage.stageId, entry });

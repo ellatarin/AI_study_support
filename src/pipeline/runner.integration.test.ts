@@ -8,6 +8,7 @@ import {
 	type ManifestStageEntry,
 	type PipelineConfig,
 	type PipelineStage,
+	type RunEvent,
 	type RunLog,
 	type RunManifest,
 	type RunSummary,
@@ -195,13 +196,25 @@ describe("PipelineRunner integration", () => {
 	// asserting the batch normalises its module can read the call off it, instead
 	// of standing up a second runner to inject a spy of its own.
 	let normaliseModule: Mock<() => Promise<undefined>>;
+	// What the runner told the user about as it went. Kept as the events
+	// themselves rather than as rendered lines: the wording is the CLI's, and
+	// this suite is asking what the runner said happened, not how it reads.
+	let events: RunEvent[];
 
 	beforeEach(async () => {
 		tempDir = await makeTempDir({ prefix: "runner-" });
 		moduleRoot = join(tempDir, testModuleName);
 		workspaceRoot = workspaceRootFor({ moduleRoot, folderName: LECTURE_FOLDER });
 		normaliseModule = vi.fn(() => Promise.resolve(undefined));
+		events = [];
 	});
+
+	/** The events reported, in order, as `<event>` or `<event>:<stageId>`. */
+	function reported(): readonly string[] {
+		return events.map((event) =>
+			event.event === "lecture-started" ? event.event : `${event.event}:${event.stageId}`,
+		);
+	}
 
 	afterEach(async () => {
 		vi.useRealTimers();
@@ -218,6 +231,33 @@ describe("PipelineRunner integration", () => {
 			sourceNormalisation,
 			lectureStages,
 			logger: logged().logger,
+			reporter: (event: RunEvent) => {
+				events.push(event);
+			},
+		});
+	}
+
+	/**
+	 * An audio-extraction stage that writes its output where the runner expects it
+	 * and records the given cost — a stage that succeeded and charged for it, which
+	 * is what every case about a completed stage needs.
+	 *
+	 * @param cost - What the stage records for its work.
+	 * @returns The stage.
+	 */
+	function audioStageCosting(cost: StageCost): PipelineStage<unknown, unknown> {
+		return makeStubStage({
+			stageId: "audio-extraction",
+			run: async ({ context }) => ({
+				output: undefined,
+				cost,
+				filesWritten: [
+					await seedStageOutput({
+						workspaceRoot: context.workspaceRoot,
+						stageId: "audio-extraction",
+					}),
+				],
+			}),
 		});
 	}
 
@@ -257,22 +297,67 @@ describe("PipelineRunner integration", () => {
 			]);
 		});
 
-		it("should record a completed stage and its cost when the stage succeeds", async () => {
-			const stage = makeStubStage({
-				stageId: "audio-extraction",
-				run: async ({ context }) => ({
-					output: undefined,
-					cost: oneCallCosting(0.5),
-					filesWritten: [
-						await seedStageOutput({
-							workspaceRoot: context.workspaceRoot,
-							stageId: "audio-extraction",
-						}),
-					],
-				}),
+		describe("what the run reports as it goes", () => {
+			it("should name the lecture then announce and close each stage when a stage runs", async () => {
+				await makeRunner([audioStageCosting(oneCallCosting(0.5))]).runLecture({ workspaceRoot });
+
+				expect(reported()).toEqual([
+					"lecture-started",
+					"stage-started:audio-extraction",
+					"stage-completed:audio-extraction",
+				]);
 			});
 
-			const summary = await makeRunner([stage]).runLecture({ workspaceRoot });
+			it("should report the cost the stage recorded when it completes", async () => {
+				const cost = oneCallCosting(0.5);
+
+				await makeRunner([audioStageCosting(cost)]).runLecture({ workspaceRoot });
+
+				expect(events).toContainEqual({
+					event: "stage-completed",
+					stageId: "audio-extraction",
+					cost,
+				});
+			});
+
+			// The case that motivated reporting at all: a re-run of a finished lecture
+			// did every one of its stages no work and said nothing about any of them.
+			it("should announce nothing as started when every stage is skipped", async () => {
+				const skipping = makeStubStage({
+					stageId: "audio-extraction",
+					isComplete: async () => true,
+					run: spyingRun(),
+				});
+
+				await makeRunner([skipping]).runLecture({ workspaceRoot });
+
+				expect(reported()).toEqual(["lecture-started", "stage-skipped:audio-extraction"]);
+			});
+
+			it("should report the failure when a stage throws", async () => {
+				await makeRunner([failingAudioStage()]).runLecture({ workspaceRoot });
+
+				expect(reported()).toEqual([
+					"lecture-started",
+					"stage-started:audio-extraction",
+					"stage-failed:audio-extraction",
+				]);
+			});
+
+			it("should say nothing about a later stage when an earlier one halts the run", async () => {
+				const failing = failingAudioStage();
+				const later = makeStubStage({ stageId: "transcription", run: spyingRun() });
+
+				await makeRunner([failing, later]).runLecture({ workspaceRoot });
+
+				expect(reported()).not.toContain("stage-started:transcription");
+			});
+		});
+
+		it("should record a completed stage and its cost when the stage succeeds", async () => {
+			const summary = await makeRunner([audioStageCosting(oneCallCosting(0.5))]).runLecture({
+				workspaceRoot,
+			});
 
 			expect(summary.overallStatus).toBe("success");
 			expect(summary.stageOutcomes).toEqual([
@@ -825,6 +910,14 @@ describe("PipelineRunner integration", () => {
 			expect(normaliseModule).toHaveBeenCalledWith({ moduleRoot: moduleA });
 			expect(summary.lectures).toHaveLength(2);
 			expect(summary.overallStatus).toBe("success");
+		});
+
+		// Without this a batch's stage notices run together: the same stage names
+		// repeat once per lecture with nothing saying which lecture they belong to.
+		it("should name each lecture in turn when the batch runs several", async () => {
+			await makeRunner([batchStage()]).runBatch({ moduleRoots: [moduleA] });
+
+			expect(reported().filter((entry) => entry === "lecture-started")).toHaveLength(2);
 		});
 
 		it("should run the lectures in date order when the batch starts", async () => {

@@ -30,6 +30,8 @@ describe("PipelineRunner.normaliseSources", () => {
 			sourceNormalisation: { stageId: "source-normalisation", normaliseModule },
 			lectureStages: [],
 			logger: makeStubLogger().logger,
+			// Normalising sources runs no stage, so this test has nothing to report.
+			reporter: () => undefined,
 		});
 
 		const moduleRoots = [testModuleRoot, otherModuleRoot];

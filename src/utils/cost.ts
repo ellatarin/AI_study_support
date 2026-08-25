@@ -571,6 +571,25 @@ function tokensCell(cost: StageCost | null): Cell {
 }
 
 /**
+ * How a lecture is named at the head of anything written about it: its number,
+ * its title, and the date it was given (technical-design.md §7).
+ *
+ * Three places name a lecture this way — the end-of-run summary, the cost
+ * report, and the notice the CLI writes as a run starts — and a batch shows
+ * several of them one after another, so two of these disagreeing about how a
+ * lecture is identified would be read as two different lectures.
+ *
+ * @param args - The lecture to name.
+ * @param args.manifest - The lecture's run manifest.
+ * @returns The lecture named for a heading.
+ * @example
+ * lectureHeading({ manifest }); // "Lecture 1: Cell Injury (2025-10-10)"
+ */
+export function lectureHeading({ manifest }: { readonly manifest: RunManifest }): string {
+	return `Lecture ${manifest.lectureNumber}: ${manifest.lectureTitle} (${manifest.lectureDate})`;
+}
+
+/**
  * The stages this invocation executed that have a model's cost to show, paired
  * with what the manifest recorded for each. Skipped and not-reached stages are
  * left out — the summary reports the work the run did, not the work it declined
@@ -632,7 +651,7 @@ export function formatRunSummary({
 		],
 	);
 	return renderCostTable({
-		title: `Run summary — Lecture ${manifest.lectureNumber}: ${manifest.lectureTitle} (${manifest.lectureDate})`,
+		title: `Run summary — ${lectureHeading({ manifest })}`,
 		columns: [
 			["Stage", RUN_SUMMARY_WIDTHS.stage, "left"],
 			["Model", RUN_SUMMARY_WIDTHS.model, "left"],
