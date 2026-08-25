@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { extractDate, extractDates, formatDateISO, stripDateTokens } from "./date.js";
+import {
+	extractDate,
+	extractDates,
+	formatDateISO,
+	isCalendarDate,
+	stripDateTokens,
+} from "./date.js";
 
 // This suite tests the date derivation itself, so it keeps its own literals
 // rather than importing the shared lecture fixture: asserting a derived value
@@ -154,5 +160,26 @@ describe("formatDateISO", () => {
 		{ date: new Date(2025, 11, 31, 12, 0, 0), expected: "2025-12-31" },
 	])("should format as YYYY-MM-DD when date is $expected", ({ date, expected }) => {
 		expect(formatDateISO(date)).toBe(expected);
+	});
+});
+
+describe("isCalendarDate", () => {
+	it.each([
+		{ scenario: "an ordinary date", value: "2025-10-10" },
+		{ scenario: "a leap day in a leap year", value: "2024-02-29" },
+	])("should accept the value when it is $scenario ($value)", ({ value }) => {
+		expect(isCalendarDate(value)).toBe(true);
+	});
+
+	it.each([
+		{ scenario: "the day does not exist in that month", value: "2025-02-30" },
+		{ scenario: "the leap day falls in a common year", value: "2025-02-29" },
+		{ scenario: "the month does not exist", value: "2025-13-01" },
+		{ scenario: "the date is written British-style", value: "10/10/2025" },
+		{ scenario: "the components are not zero-padded", value: "2025-1-5" },
+		{ scenario: "the date is a phrase rather than a date", value: "yesterday" },
+		{ scenario: "there is nothing to read", value: "" },
+	])("should reject the value when $scenario", ({ value }) => {
+		expect(isCalendarDate(value)).toBe(false);
 	});
 });

@@ -11,6 +11,7 @@
 import { parseArgs } from "node:util";
 import type { BatchRunOptions, RunOptions, StageId } from "../types/pipeline.js";
 import { DEFAULT_BATCH_OPTIONS, DEFAULT_RUN_OPTIONS } from "../types/pipeline.js";
+import { isCalendarDate } from "../utils/date.js";
 import { errorMessage, NamedError } from "../utils/errors.js";
 import { isStageId, unknownStageMessage } from "../utils/stage-id.js";
 
@@ -112,25 +113,6 @@ const FLAG_SPECS: Readonly<Record<FlagName, FlagSpec>> = {
 		summary: "Narrow a cost report to one module.",
 	},
 };
-
-/**
- * Whether text is an ISO `YYYY-MM-DD` date that exists in the calendar, so that
- * `2025-02-30` is rejected as firmly as `yesterday`.
- *
- * @param value - The text to test.
- * @returns `true` when the text names a real date.
- */
-function isCalendarDate(value: string): boolean {
-	if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-		return false;
-	}
-	const parsed = new Date(`${value}T00:00:00Z`);
-	if (Number.isNaN(parsed.getTime())) {
-		return false;
-	}
-	// A date that exists is echoed back unchanged; 2025-02-30 rolls forward to March.
-	return parsed.toISOString().startsWith(value);
-}
 
 /**
  * Returns a validated lecture date, or fails with the command's usage line.

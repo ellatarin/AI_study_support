@@ -10,13 +10,21 @@
  * (technical-design.md §4.5).
  */
 
+/* jscpd:ignore-start -- the two places a date enters the pipeline from outside
+   now both read the pipeline types, the date checker and the error helpers, so
+   this import block matches `args.ts`'s line for line. There is nothing to
+   extract: imports cannot be shared, and barrel files are forbidden (CLAUDE.md,
+   File Organisation). Only the imports are exempt; the code below is checked as
+   normal. */
 import { mkdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { type RunManifest, STAGE_IDS } from "../types/pipeline.js";
+import { isCalendarDate } from "../utils/date.js";
 import { errorMessage, NamedError } from "../utils/errors.js";
 import { readJsonSafe, writeJsonAtomic } from "../utils/files.js";
 import { isRecord } from "../utils/record.js";
 import { MANIFEST_FILE } from "./layout.js";
+/* jscpd:ignore-end */
 
 /**
  * The manifest file could not be read at all — it is missing, or the filesystem
@@ -163,6 +171,13 @@ function parseManifest({
  * number) is not a manifest, whereas one whose stage entries are imperfect still
  * describes a lecture and is left to the caller reading them.
  *
+ * The lecture date is the one field checked beyond its type, because it is the
+ * only one a caller *matches on*: every lookup finds a lecture by its date, so a
+ * date written any other way silently matches nothing rather than failing where
+ * it was introduced. This is the second of the two places a date enters the
+ * pipeline from outside; the command line is the other, and both ask
+ * {@link isCalendarDate}.
+ *
  * @param value - The parsed file contents.
  * @returns `true` when the value identifies a lecture.
  */
@@ -173,6 +188,7 @@ function isRunManifest(value: unknown): value is RunManifest {
 	return (
 		typeof value.lectureNumber === "number" &&
 		typeof value.lectureDate === "string" &&
+		isCalendarDate(value.lectureDate) &&
 		isRecord(value.stages)
 	);
 }

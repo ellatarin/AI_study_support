@@ -432,3 +432,30 @@ export function formatDateISO(date: Readonly<Date>): string {
 	const day = String(date.getDate()).padStart(2, "0");
 	return `${year}-${month}-${day}`;
 }
+
+/** The written form of an ISO date, before it is asked whether the day exists. */
+const ISO_DATE_FORM = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * Whether text is an ISO `YYYY-MM-DD` date that exists in the calendar, so that
+ * `2025-02-30` is rejected as firmly as `yesterday`.
+ *
+ * This is the form {@link formatDateISO} produces and the form a lecture is
+ * identified by everywhere it is stored or asked for, so both places a date
+ * enters the pipeline from outside — the command line and a manifest read off
+ * disk — check it against this rather than each judging for itself.
+ *
+ * @param value - The text to test.
+ * @returns `true` when the text names a real date.
+ */
+export function isCalendarDate(value: string): boolean {
+	if (!ISO_DATE_FORM.test(value)) {
+		return false;
+	}
+	const parsed = new Date(`${value}T00:00:00Z`);
+	if (Number.isNaN(parsed.getTime())) {
+		return false;
+	}
+	// A date that exists is echoed back unchanged; 2025-02-30 rolls forward to March.
+	return parsed.toISOString().startsWith(value);
+}

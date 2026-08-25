@@ -114,6 +114,11 @@ extractDate(filename: string): Date | null
 // null when no date is found with sufficient confidence.
 formatDateISO(date: Date): string                    // YYYY-MM-DD, in local time — the zone the date was read in
 stripDateTokens(text: string): string                // removes every numeric date, and every date and weekday span chrono finds
+isCalendarDate(value: string): boolean
+// Whether text is an ISO `YYYY-MM-DD` date that exists, so `2025-02-30` is refused as firmly as
+// `yesterday`. Asked at both points a date enters the pipeline from outside — the command line, and a
+// manifest read off disk (§4.2). A lecture is looked up *by* its date everywhere, so a date written any
+// other way matches nothing rather than failing where it was introduced.
 
 extractProvisionalTitle(args: { filename: string; modulePrefixes: readonly string[] }): string
 // Best-effort title: strips whichever of the date, day names, a configured module prefix (`BOD_`, `BOD `),

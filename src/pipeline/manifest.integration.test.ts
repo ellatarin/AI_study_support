@@ -71,6 +71,19 @@ describe("manifest I/O", () => {
 				content: JSON.stringify({ ...makeManifest(), lectureDate: undefined }),
 				expected: ManifestShapeError,
 			},
+			// A date nothing can read is as useless as no date at all: every caller
+			// matches a lecture by this field, so one written another way silently
+			// matches nothing rather than failing where it was introduced.
+			{
+				scenario: "dates the lecture in a form the pipeline cannot read",
+				content: JSON.stringify({ ...makeManifest(), lectureDate: "10/10/2025" }),
+				expected: ManifestShapeError,
+			},
+			{
+				scenario: "dates the lecture to a day that does not exist",
+				content: JSON.stringify({ ...makeManifest(), lectureDate: "2025-02-30" }),
+				expected: ManifestShapeError,
+			},
 		])("should reject with $expected.name when the manifest $scenario", async ({
 			content,
 			expected,
@@ -110,6 +123,13 @@ describe("manifest I/O", () => {
 			{
 				scenario: "the manifest carries no stages",
 				content: JSON.stringify({ ...makeManifest(), stages: undefined }),
+			},
+			// The consequence of the two readers sharing one idea of a manifest: a
+			// scan passes over a folder whose date it cannot read, rather than
+			// admitting a lecture that would then match nothing.
+			{
+				scenario: "the manifest dates the lecture in a form the pipeline cannot read",
+				content: JSON.stringify({ ...makeManifest(), lectureDate: "10/10/2025" }),
 			},
 		])("should return null when $scenario", async ({ content }) => {
 			if (content !== null) {
