@@ -1527,9 +1527,15 @@ Stage: synthesis
   Run 2025-10-11T15:30Z    anthropic/claude-opus  £0.659
 ```
 
-### Cost Module
+### Cost and Reporting Modules
 
-`src/utils/cost.ts` holds the cost helpers the runner and CLI call. `StageCost`, the type they operate on, is defined in `src/types/pipeline.ts` (single source of truth). Nothing here adds one stage to another; the reporting functions render what each stage recorded and nothing else (NFR-2.2).
+Two modules, split by what they know. `src/utils/cost.ts` holds the arithmetic: one operation, working entirely in stored US dollars, knowing nothing about how a figure is shown. `src/pipeline/reports.ts` holds everything that turns a run into text a reader sees — the three reports, the table engine beneath them, the stage labels and the money formatting.
+
+The split is by kind rather than by size. Rendering reads manifests, run logs and stage ids, and knows how a lecture is named and how wide a model column must be; it is pipeline presentation, not a general-purpose helper, and while it sat in `src/utils/` it reached back into the pipeline for its material — a utility needing the pipeline being the tell. It sits under `src/pipeline/` rather than `src/cli/` because the runner renders the cost report itself (§4.7) and pipeline code does not import from the CLI layer.
+
+`StageCost`, the type both operate on, is defined in `src/types/pipeline.ts` (single source of truth). Nothing in either adds one stage to another; the reports render what each stage recorded and nothing else (NFR-2.2).
+
+**Money is formatted by a formatter, never a rate.** Every report takes a `MoneyFormatter` rather than `gbpPerUsd`, so nothing in `reports.ts` knows what currency it is showing or what it converts from. The caller builds one and passes it down: the CLI builds a single formatter where it is assembled and uses it for the live stage notices and every summary that follows them, and the runner builds one for the whole of a cost report. A rate is read once per invocation rather than carried to each place that prints a figure.
 
 ```typescript
 accumulateCost(args: { current: StageCost; incoming: StageCost }): StageCost
@@ -1553,10 +1559,10 @@ lectureHeading(args: { manifest: RunManifest }): string
 // writes as a run starts (§10). A batch shows several one after another, so two of them identifying a
 // lecture differently would read as two lectures.
 
-formatCostReport(args: { runLogs: readonly RunLog[]; manifest: RunManifest; gbpPerUsd: number }): string
+formatCostReport(args: { runLogs: readonly RunLog[]; manifest: RunManifest; formatMoney: MoneyFormatter }): string
 // The three sections above, rendered as a single string.
 
-formatRunSummary(args: { outcomes: readonly RunStageOutcome[]; manifest: RunManifest; gbpPerUsd: number }): string
+formatRunSummary(args: { outcomes: readonly RunStageOutcome[]; manifest: RunManifest; formatMoney: MoneyFormatter }): string
 // The end-of-run summary above. The outcomes say which stages this invocation executed; the manifest, read
 // after the run, says what each one used and cost — tokens live there and not in the run log. A stage that
 // names a model gets a row, its cost cell `n/a` wherever no figure resolved; a stage naming none gets none.
@@ -1643,6 +1649,8 @@ src/
 │   ├── lecture-files.ts              # Moving and removing the files a lecture's identity is spread across (§4.7)
 │   ├── workspace-paths.ts            # The two path resolvers: trusted segments, and the untrusted-entry
 │   │                                 # boundary check that keeps a manifest inside moduleRoot (§4.4)
+│   ├── reports.ts                    # Every report a reader sees, the table engine, stage labels and
+│   │                                 # money formatting (§7)
 │   ├── run-status.ts                 # Reducing stage and lecture outcomes to an OverallStatus, and
 │   │                                 # reading a stage entry for settled output (§4.2)
 │   ├── config.ts                     # Config file loader and validator
@@ -1666,7 +1674,7 @@ src/
     ├── naming.ts                     # Lecture folder and file naming helpers
     ├── files.ts                      # Atomic writes (.tmp pattern) and directory reads — conveniences only
     ├── progress.ts                   # Shared cli-progress bar helpers
-    ├── cost.ts                       # Cost accumulation and report formatting
+    ├── cost.ts                       # Cost accumulation only — the arithmetic, in stored USD (§7)
     ├── stage-id.ts                   # Recognising a stage name, for --from-stage and the config keys (§6)
     ├── language.ts                   # Recognising a configured language, and wording it for every prose prompt (§6)
     ├── model-id.ts                   # Reading a model ID's provider and name, for the exemption and Stage 2 (§6)

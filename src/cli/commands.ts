@@ -11,6 +11,12 @@
 
 import { moduleName } from "../pipeline/layout.js";
 import { readManifest } from "../pipeline/manifest.js";
+import {
+	formatBatchSummary,
+	formatRunSummary,
+	type MoneyFormatter,
+	stageLabel,
+} from "../pipeline/reports.js";
 import type { PipelineRunner } from "../pipeline/runner.js";
 import type { ConfirmPrompt } from "../pipeline/stages/source-normalisation.js";
 import type {
@@ -20,7 +26,6 @@ import type {
 	RunSummary,
 	StageId,
 } from "../types/pipeline.js";
-import { formatBatchSummary, formatRunSummary, stageLabel } from "../utils/cost.js";
 import { pluralise } from "../utils/text.js";
 import type { CliCommand } from "./args.js";
 import { changeLectureDate, deleteLecture, renameLecture } from "./lecture-identity.js";
@@ -80,8 +85,11 @@ export type CliDeps = {
 	readonly runner: PipelineRunnerFacade;
 	/** Every module named in the configuration, used when a command names none. */
 	readonly moduleRoots: readonly string[];
-	/** Pounds per US dollar, for presenting stored costs. */
-	readonly gbpPerUsd: number;
+	/**
+	 * Renders a stored dollar figure for display. Built once where the CLI is
+	 * assembled, so every block of output it writes shows money the same way.
+	 */
+	readonly formatMoney: MoneyFormatter;
 	/** Asks which lectures to act on when a date matches several. */
 	readonly selectMatches: LecturePicker;
 	/** Asks which single lecture to act on, where acting on several would be meaningless. */
@@ -255,7 +263,7 @@ async function printRunSummary({ deps, summary }: LectureReport): Promise<void> 
 		`${formatRunSummary({
 			outcomes: summary.stageOutcomes,
 			manifest,
-			gbpPerUsd: deps.gbpPerUsd,
+			formatMoney: deps.formatMoney,
 		})}\n\n`,
 	);
 	reportFailures({ deps, summary });

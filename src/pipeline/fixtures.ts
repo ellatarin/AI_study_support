@@ -47,6 +47,7 @@ import {
 	OPENROUTER_PATHS,
 	type OpenRouterClient,
 } from "./openrouter.js";
+import { createMoneyFormatter, type MoneyFormatter } from "./reports.js";
 import { assembleContext } from "./stage-context.js";
 import {
 	API_KEY_VARIABLE as ELEVENLABS_KEY_VARIABLE,
@@ -203,6 +204,16 @@ export const exampleConfig: PipelineConfig = parseConfig(
  * same rate the code under test does, and prove nothing.
  */
 export const GBP_PER_USD = 0.74;
+
+/**
+ * The formatter every suite showing money renders through, at {@link
+ * GBP_PER_USD}.
+ *
+ * The reports take a formatter rather than a rate, so four suites were each
+ * building one from the same constant. Built once here, as the CLI builds one
+ * for everything it writes.
+ */
+export const formatTestMoney: MoneyFormatter = createMoneyFormatter({ gbpPerUsd: GBP_PER_USD });
 
 /** A configured service address, split into the two halves nock asks for. */
 type ServiceAddress = {

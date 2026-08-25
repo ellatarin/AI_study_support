@@ -11,6 +11,7 @@
 import { loadConfig } from "../pipeline/config.js";
 import { debugLogPath } from "../pipeline/layout.js";
 import { createOpenRouterClientProvider } from "../pipeline/openrouter.js";
+import { createMoneyFormatter } from "../pipeline/reports.js";
 import { deriveRunId, PipelineRunner } from "../pipeline/runner.js";
 import { createAudioExtractionStage } from "../pipeline/stages/audio-extraction.js";
 import { createSourceNormalisationStage } from "../pipeline/stages/source-normalisation.js";
@@ -63,7 +64,10 @@ async function assembleDeps({
 	// rather than a client because constructing one needs the API key, and the
 	// commands that touch no model must keep working without one.
 	const client = createOpenRouterClientProvider({ openRouter: config.openRouter });
-	const { gbpPerUsd } = config.currency;
+	// One formatter for everything the CLI writes — the live stage notices and
+	// the summaries that follow them — so the rate is read once rather than
+	// carried to each place that shows a figure.
+	const formatMoney = createMoneyFormatter({ gbpPerUsd: config.currency.gbpPerUsd });
 	const runner = new PipelineRunner({
 		config,
 		sourceNormalisation: createSourceNormalisationStage({
@@ -78,12 +82,12 @@ async function assembleDeps({
 			createTranscriptStructuringStage({ logger, client }),
 		],
 		logger,
-		reporter: createRunReporter({ write, gbpPerUsd }),
+		reporter: createRunReporter({ write, formatMoney }),
 	});
 	return {
 		runner,
 		moduleRoots: config.moduleRoots,
-		gbpPerUsd,
+		formatMoney,
 		selectMatches: selectLectureMatches,
 		selectMatch: selectLectureMatch,
 		confirm: confirmPrompt,

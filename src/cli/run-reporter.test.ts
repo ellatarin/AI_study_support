@@ -1,9 +1,14 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { makeManifest } from "../pipeline/fixtures.js";
+import { createMoneyFormatter } from "../pipeline/reports.js";
 import type { RunEvent } from "../types/pipeline.js";
 import { createRunReporter } from "./run-reporter.js";
 
-/** The rate the suite reports at, chosen so a converted figure is not its own input. */
+/**
+ * The rate the suite reports at, chosen so a converted figure is not its own
+ * input — and deliberately not the fixtures' rate, so this suite's expectations
+ * cannot pass by sharing a constant with the code that produced them.
+ */
 const GBP_PER_USD = 0.8;
 
 describe("createRunReporter", () => {
@@ -16,7 +21,7 @@ describe("createRunReporter", () => {
 			write: (text) => {
 				written.push(text);
 			},
-			gbpPerUsd: GBP_PER_USD,
+			formatMoney: createMoneyFormatter({ gbpPerUsd: GBP_PER_USD }),
 		});
 	});
 

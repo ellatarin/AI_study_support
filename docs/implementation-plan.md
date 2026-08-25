@@ -78,7 +78,8 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `src/utils/date.ts` — `extractDate`, `formatDateISO`, `isCalendarDate` **(TD §3.2, Date and Naming Helpers)**
 - `src/utils/naming.ts` — `extractProvisionalTitle`, `lectureFolderName`, `lectureBaseName` **(TD §3.2)**; `filenameSafe` and the `EmptyNameError` it raises **(TD §4.4)**
 - `src/utils/progress.ts` — `createProgressBar` and `createUploadProgressStream` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`. `createParallelWorkBar` is specified in TD §10 but built in Phase 7, with the first stage that calls it
-- `src/utils/cost.ts` — `accumulateCost`, `createMoneyFormatter`, `formatCostReport` **(TD §7, Cost Module)**
+- `src/utils/cost.ts` — `accumulateCost`, the arithmetic alone **(TD §7)**
+- `src/pipeline/reports.ts` — `createMoneyFormatter`, `formatCostReport` and the table engine beneath them **(TD §7, Cost and Reporting Modules)**
 - `src/utils/stage-id.ts` — `isStageId`, `unknownStageMessage`: recognising a stage name and reporting one that is not, for `--from-stage` and the config keys alike **(TD §6)**
 - `src/utils/model-id.ts` — `splitModelId`: a model ID's provider and its name, read by the provider exemption and by Stage 2, which want opposite halves **(TD §6; §5, Stage 2)**
 - `src/utils/language.ts` — `isOutputLanguage`, `unknownLanguageMessage`, `languageRule`: recognising a configured language, reporting one the pipeline cannot write, and wording the instruction every prose stage's prompt gives the model **(TD §6)**
@@ -130,8 +131,10 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `resolveManifestPath` — `test.each` covering: in-workspace path (accepted), `..` escape into `Final output/` under moduleRoot (accepted), `..` escape outside moduleRoot (rejected), symlink pointing outside moduleRoot (rejected after realpath), absolute path (rejected)
 
 `cost.ts` — unit tests:
-- `should render a stage's cost as n/a when its lookup failed` — and `should leave a stage out when it names no model`, the two rules every section applies
 - `accumulateCost` — `test.each` across combinations including zeros and unresolved costs
+
+`reports.ts` — unit tests:
+- `should render a stage's cost as n/a when its lookup failed` — and `should leave a stage out when it names no model`, the two rules every section applies
 - `formatCostReport` — snapshot test (serialisation format regression only)
 
 `progress.ts` — unit tests driving the bar through its control methods:
@@ -187,7 +190,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - The identity-mutation commands (`rename`, `delete`, `change-date`) land with this deliverable too
 - Behaviour of each — the module layout, the multi-match picker, batch scope, what `--from-stage` resets and deletes, exit codes, and how each mutation leaves the module for Stage 0 to finish — is specified in **TD §4.7**
 
-`formatRunSummary` and `formatBatchSummary` in `src/utils/cost.ts` — the end-of-run and batch summaries the CLI prints (**TD §7**). Neither sums anything: the run summary ends at its last stage row, and the batch table shows lecture counts and status without a money column.
+`formatRunSummary` and `formatBatchSummary` in `src/pipeline/reports.ts` — the end-of-run and batch summaries the CLI prints (**TD §7**). Neither sums anything: the run summary ends at its last stage row, and the batch table shows lecture counts and status without a money column.
 
 **Tests:**
 
@@ -306,7 +309,7 @@ Integration tests (real temp directory with fixture source files):
 
 `src/pipeline/config.ts` — three new required keys, `modelIdCheck.exemptProviders`, `elevenLabs.costPerAudioHourUsd`, and `currency.gbpPerUsd`, each specified in **TD §6**. `pipeline-config.json` gains all three plus a `transcription` stage entry.
 
-`src/utils/cost.ts` — present all user-facing costs in pounds **(TD §7, NFR-2.3)**.
+`src/pipeline/reports.ts` — present all user-facing costs in pounds **(TD §7, NFR-2.3)**.
 
 `src/pipeline/stages/pipeline-stage.ts` — the shared `isComplete` check and the stage factory every per-lecture stage is assembled through **(TD §4.2)**. Both stages need identical completeness logic, so it is written once.
 

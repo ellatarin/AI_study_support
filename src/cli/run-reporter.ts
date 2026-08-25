@@ -8,13 +8,8 @@
  * stream they go to (technical-design.md §8, §10).
  */
 
+import { lectureHeading, type MoneyFormatter, stageLabel } from "../pipeline/reports.js";
 import type { RunEvent, RunReporter, StageCost } from "../types/pipeline.js";
-import {
-	createMoneyFormatter,
-	lectureHeading,
-	type MoneyFormatter,
-	stageLabel,
-} from "../utils/cost.js";
 import { pluralise } from "../utils/text.js";
 import type { WriteText } from "./commands.js";
 
@@ -93,19 +88,18 @@ function noticeFor({
  * Builds the reporter the runner tells its events to, writing each as a line to
  * the CLI's own output stream.
  *
- * @param args - Where the notices go, and the rate their money is shown at.
+ * @param args - Where the notices go, and how their money is shown.
  * @param args.write - The CLI's output stream.
- * @param args.gbpPerUsd - Pounds per US dollar, from `currency.gbpPerUsd`.
+ * @param args.formatMoney - Renders a stored dollar figure; the same one the summaries use.
  * @returns The reporter to hand the runner.
  */
 export function createRunReporter({
 	write,
-	gbpPerUsd,
+	formatMoney,
 }: {
 	readonly write: WriteText;
-	readonly gbpPerUsd: number;
+	readonly formatMoney: MoneyFormatter;
 }): RunReporter {
-	const formatMoney = createMoneyFormatter({ gbpPerUsd });
 	return (event) => {
 		write(noticeFor({ event, formatMoney }));
 	};

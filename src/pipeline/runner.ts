@@ -27,7 +27,6 @@ import type {
 	StageRunConfig,
 } from "../types/pipeline.js";
 import { DEFAULT_BATCH_OPTIONS, DEFAULT_RUN_OPTIONS, STAGE_IDS } from "../types/pipeline.js";
-import { formatCostReport } from "../utils/cost.js";
 import { errorMessage } from "../utils/errors.js";
 import {
 	listSubdirectoryNames,
@@ -41,6 +40,7 @@ import { configuredStage } from "../utils/stage-config.js";
 import { moduleDirs, resolveStageOutput, runsDirPath, type StageInWorkspace } from "./layout.js";
 import { removeDatedFile } from "./lecture-files.js";
 import { patchManifest, readManifest, readManifestSafe, writeManifest } from "./manifest.js";
+import { createMoneyFormatter, formatCostReport } from "./reports.js";
 import {
 	hasSettledOutput,
 	stageOutcomeStatus,
@@ -924,11 +924,13 @@ export class PipelineRunner {
 			options.lectureDate === undefined
 				? lectures
 				: lectures.filter((lecture) => lecture.manifest.lectureDate === options.lectureDate);
-		const { gbpPerUsd } = this.#config.currency;
+		// One formatter for every lecture reported, so the rate is read once and no
+		// two blocks in the same output could show money differently.
+		const formatMoney = createMoneyFormatter({ gbpPerUsd: this.#config.currency.gbpPerUsd });
 		const reports: string[] = [];
 		for (const { workspaceRoot, manifest } of reported) {
 			const runLogs = await readRunLogs(workspaceRoot);
-			reports.push(formatCostReport({ runLogs, manifest, gbpPerUsd }));
+			reports.push(formatCostReport({ runLogs, manifest, formatMoney }));
 		}
 		return reports;
 	}

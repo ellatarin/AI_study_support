@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, type Mock, vi } from "vite
 import {
 	changedDate,
 	finishedEntry,
+	formatTestMoney,
 	makeLectureTree,
 	makeManifest,
 	otherModuleName,
@@ -33,11 +34,11 @@ import {
 	type RunnableCliCommand,
 } from "./commands.js";
 
-// A rate this suite fixes for itself, deliberately NOT `currency.gbpPerUsd`: the
-// pounds figure asserted below was worked out by hand at this rate, so taking it
-// from config would fail the assertion on an unrelated config edit and blame the
-// formatter. Same reasoning as cost.test.ts.
-const GBP_PER_USD = 0.74;
+// The pounds figure asserted below was worked out by hand at the fixtures' rate,
+// which is deliberately not `currency.gbpPerUsd` — taking it from config would
+// fail the assertion on an unrelated config edit and blame the formatter. That
+// rate, and the formatter built from it, live in the fixtures: this suite had a
+// second copy of the same number for the same stated reason.
 
 // A stage with work both before and after it, so a reset from here is worth
 // warning about. Which stage it is does not matter — only that it is named back.
@@ -141,7 +142,7 @@ describe("executeCommand", () => {
 		return {
 			runner: runner as unknown as PipelineRunnerFacade,
 			moduleRoots: [moduleRoot, secondModuleRoot()],
-			gbpPerUsd: GBP_PER_USD,
+			formatMoney: formatTestMoney,
 			selectMatches,
 			selectMatch,
 			confirm,
