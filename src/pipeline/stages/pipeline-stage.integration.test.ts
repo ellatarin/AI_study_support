@@ -3,7 +3,7 @@ import { dirname, join } from "node:path";
 import type { Logger } from "pino";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { ManifestStageEntry, StageContext } from "../../types/pipeline.js";
-import { ManifestPathError, pathExists } from "../../utils/files.js";
+import { pathExists } from "../../utils/files.js";
 import {
 	contextWithEntry,
 	contextWithOutput,
@@ -16,6 +16,7 @@ import {
 	useStubLogger,
 } from "../fixtures.js";
 import { stageDirectoryPaths, stageOutputEntry, stageOutputPath } from "../layout.js";
+import { ManifestPathError } from "../workspace-paths.js";
 import { createPipelineStage, isStageComplete, writeStageOutput } from "./pipeline-stage.js";
 
 // Any stage with a single output file would do; Stage 1's is the simplest.

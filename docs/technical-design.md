@@ -439,14 +439,17 @@ This is enforced in every place a path from `filesWritten` or the manifest is us
 `--from-stage` cleanup takes no manifest-derived path, so the boundary check has nothing to act on there. Every directory it works in comes from the hard-coded `STAGE_WORKSPACE`, and it reads `filesWritten` at no point (see "Stage cleanup boundaries" below): the untrusted input is kept out of the function rather than checked on the way in. `isComplete()` reads `filesWritten` as its whole job, so the check belongs there.
 
 ```typescript
-// src/utils/files.ts — the two path resolvers, one per kind of input
+// src/pipeline/workspace-paths.ts — the two path resolvers, one per kind of input
 workspacePath(args: { workspaceRoot: string; segments: readonly string[] }): string
 // Trusted, code-supplied segments only. No boundary check — untrusted input uses the resolver below.
 type ManifestPathQuery = { workspaceRoot: string; moduleRoot: string; entry: string }
+class ManifestPathError extends NamedError
 resolveManifestPath(query: ManifestPathQuery): Promise<string>
 // The three steps above, in order; throws ManifestPathError when the result escapes moduleRoot.
 // The query is a named type so callers forwarding a path state the shape once.
 ```
+
+These live in a module of their own rather than among the filesystem conveniences in `src/utils/files.ts` (§4.3), because they differ from those in kind and not in subject. Listing a directory or writing a file without leaving half of one behind are conveniences: getting one wrong is an inconvenience. This is the one place in the pipeline where getting it wrong means a path escaping the tree the user pointed the tool at, and it is worth being able to read and review on its own. Keeping the trusted resolver beside the untrusted one is deliberate: the two are a pair, and which one a caller reaches for is the decision the pair exists to make visible.
 
 **`filenameSafe(title)`.** Titles reach the filesystem via workspace folder names, source file renames, and the `Final output/` PDF name. Titles originate from user filenames (Stage 0) or LLM output (Stage 3) — neither is a trusted path component. `filenameSafe` MUST:
 
@@ -1629,6 +1632,8 @@ src/
 │   ├── manifest.ts                   # manifest.json location, reading, and atomic writing
 │   ├── stage-context.ts              # Assembling the StageContext a stage is handed (§4.7)
 │   ├── lecture-files.ts              # Moving and removing the files a lecture's identity is spread across (§4.7)
+│   ├── workspace-paths.ts            # The two path resolvers: trusted segments, and the untrusted-entry
+│   │                                 # boundary check that keeps a manifest inside moduleRoot (§4.4)
 │   ├── run-status.ts                 # Reducing stage and lecture outcomes to an OverallStatus, and
 │   │                                 # reading a stage entry for settled output (§4.2)
 │   ├── config.ts                     # Config file loader and validator
@@ -1650,7 +1655,7 @@ src/
 └── utils/
     ├── date.ts                       # Date extraction and normalisation (chrono-node)
     ├── naming.ts                     # Lecture folder and file naming helpers
-    ├── files.ts                      # Atomic writes (.tmp pattern), directory reads, path resolution
+    ├── files.ts                      # Atomic writes (.tmp pattern) and directory reads — conveniences only
     ├── progress.ts                   # Shared cli-progress bar helpers
     ├── cost.ts                       # Cost accumulation and report formatting
     ├── stage-id.ts                   # Recognising a stage name, for --from-stage and the config keys (§6)

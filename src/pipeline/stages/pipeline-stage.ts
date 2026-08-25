@@ -1,14 +1,11 @@
 import { mkdir } from "node:fs/promises";
 import type { Logger } from "pino";
 import type { PipelineStage, StageContext, StageId, StageResult } from "../../types/pipeline.js";
-import type { ManifestPathQuery } from "../../utils/files.js";
 import {
 	cleanTmpFiles,
-	ManifestPathError,
 	type ProduceFile,
 	pathExists,
 	produceFileAtomic,
-	resolveManifestPath,
 	writeFileAtomic,
 } from "../../utils/files.js";
 import { createStageLogger } from "../../utils/logger.js";
@@ -19,6 +16,11 @@ import {
 	stageOutputPath,
 } from "../layout.js";
 import { hasSettledOutput } from "../run-status.js";
+import {
+	ManifestPathError,
+	type ManifestPathQuery,
+	resolveManifestPath,
+} from "../workspace-paths.js";
 
 /**
  * Whether one recorded `filesWritten` entry still exists, resolved through the

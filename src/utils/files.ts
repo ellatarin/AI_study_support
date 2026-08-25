@@ -1,7 +1,17 @@
+/**
+ * Conveniences over the filesystem: listing a directory that may not exist,
+ * asking whether a path is there, and writing a file without ever leaving half
+ * of one behind (technical-design.md §4.3).
+ *
+ * Every one of these is a convenience in the strict sense — the cost of getting
+ * one wrong is an inconvenience. Deciding whether a path derived from untrusted
+ * input may be touched at all is a different kind of question and lives apart,
+ * in `src/pipeline/workspace-paths.ts` (§4.4).
+ */
+
 import type { Dirent } from "node:fs";
-import { access, readdir, readFile, realpath, rename, rm, writeFile } from "node:fs/promises";
-import { basename, dirname, isAbsolute, join, relative, resolve } from "node:path";
-import { NamedError } from "./errors.js";
+import { access, readdir, readFile, rename, rm, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 
 /**
  * Reads a directory's entries with file-type info, returning `[]` when the
@@ -80,14 +90,6 @@ export function listFileNames(dir: string): Promise<readonly string[]> {
 export function listSubdirectoryNames(dir: string): Promise<readonly string[]> {
 	return readEntryNames({ dir, matches: (entry) => entry.isDirectory() });
 }
-
-/**
- * Thrown when a path derived from the run manifest or a stage's `filesWritten`
- * resolves outside the module tree. The manifest is untrusted input; this error
- * signals a corrupt or hand-edited manifest attempting to reach beyond
- * `moduleRoot` (technical-design.md §4.4).
- */
-export class ManifestPathError extends NamedError {}
 
 /**
  * Writes a file atomically: content is written to a `.tmp`-suffixed sibling and
@@ -203,30 +205,6 @@ export async function produceFileAtomic({
 }
 
 /**
- * Resolves an absolute path inside a workspace from trusted path segments. Used
- * for internal, code-supplied paths (e.g. a stage's own output directories); it
- * performs no boundary validation because the segments never originate from the
- * manifest or LLM output — untrusted paths must go through
- * {@link resolveManifestPath} instead (technical-design.md §4.3).
- *
- * @param args - The workspace root and the path segments to append to it.
- * @param args.workspaceRoot - Absolute path to the workspace root.
- * @param args.segments - Trusted path segments to append, in order.
- * @returns The joined absolute path.
- * @example
- * workspacePath({ workspaceRoot, segments: ["Audio", "audio.m4a"] });
- */
-export function workspacePath({
-	workspaceRoot,
-	segments,
-}: {
-	readonly workspaceRoot: string;
-	readonly segments: readonly string[];
-}): string {
-	return join(workspaceRoot, ...segments);
-}
-
-/**
  * Reads and parses a JSON file, answering `null` when it is missing, unreadable,
  * or not JSON at all.
  *
@@ -264,87 +242,4 @@ export async function cleanTmpFiles(dir: string): Promise<void> {
 	const entries = await readdir(dir);
 	const tmpFiles = entries.filter((name) => name.endsWith(TMP_SUFFIX));
 	await Promise.all(tmpFiles.map((name) => rm(join(dir, name), { force: true })));
-}
-
-/**
- * Whether a filesystem error carries the `ENOENT` (not found) code.
- *
- * @param error - The caught error to inspect.
- * @returns `true` when the error is a Node `ENOENT` error.
- */
-function isNotFoundError(error: unknown): boolean {
-	return error instanceof Error && "code" in error && error.code === "ENOENT";
-}
-
-/**
- * Resolves an absolute, symlink-collapsed path for a candidate, whether or not
- * it exists yet. Existing paths resolve directly; a not-yet-created file
- * resolves its (existing) parent directory and re-appends the basename.
- *
- * @param candidate - The absolute path to resolve.
- * @returns The symlink-collapsed absolute path.
- */
-async function realpathResolved(candidate: string): Promise<string> {
-	try {
-		return await realpath(candidate);
-	} catch (error: unknown) {
-		if (!isNotFoundError(error)) {
-			throw error;
-		}
-		const parent = await realpath(dirname(candidate));
-		return join(parent, basename(candidate));
-	}
-}
-
-/**
- * Whether `target` is `ancestor` itself or nested beneath it.
- *
- * @param args - The two absolute paths to compare.
- * @param args.ancestor - The directory expected to contain `target`.
- * @param args.target - The path being tested.
- * @returns `true` when `target` is within `ancestor`.
- */
-function isDescendant({
-	ancestor,
-	target,
-}: {
-	readonly ancestor: string;
-	readonly target: string;
-}): boolean {
-	const rel = relative(ancestor, target);
-	return rel === "" || (!rel.startsWith("..") && !isAbsolute(rel));
-}
-
-/**
- * One untrusted manifest path together with the roots that bound it. Named so
- * that callers forwarding a path to {@link resolveManifestPath} state the shape
- * once rather than restating all three fields.
- */
-export type ManifestPathQuery = {
-	/** The workspace root the entry is relative to. */
-	readonly workspaceRoot: string;
-	/** The module root that bounds all pipeline output. */
-	readonly moduleRoot: string;
-	/** The untrusted `filesWritten` entry to resolve. */
-	readonly entry: string;
-};
-
-/**
- * Resolves a manifest-derived path to an absolute location and asserts it stays
- * within `moduleRoot`, collapsing symlinks first so a symlinked escape is caught
- * (technical-design.md §4.4).
- *
- * @param query - The path to resolve and the roots that bound it, as {@link ManifestPathQuery} describes them.
- * @returns The absolute, symlink-collapsed path, guaranteed under `moduleRoot`.
- * @throws {@link ManifestPathError} when the entry resolves outside `moduleRoot`.
- */
-export async function resolveManifestPath(query: ManifestPathQuery): Promise<string> {
-	const candidate = resolve(query.workspaceRoot, query.entry);
-	const resolved = await realpathResolved(candidate);
-	const moduleRootReal = await realpath(query.moduleRoot);
-
-	if (!isDescendant({ ancestor: moduleRootReal, target: resolved })) {
-		throw new ManifestPathError(`Manifest path "${query.entry}" resolves outside the module root`);
-	}
-	return resolved;
 }
