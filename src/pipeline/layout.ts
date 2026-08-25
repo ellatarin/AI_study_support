@@ -14,6 +14,17 @@
 
 import { basename, join, resolve } from "node:path";
 import type { StageId } from "../types/pipeline.js";
+import { NamedError } from "../utils/errors.js";
+
+/**
+ * A stage was asked to name its single output file and has none. Raised by
+ * {@link stageOutputEntry} for the four stages that write no one file: source
+ * normalisation writes nothing inside a workspace, image extraction writes a set
+ * of images, the QA loop writes across two directories once per iteration, and
+ * PDF generation writes its one file into the module's output directory rather
+ * than the workspace (technical-design.md §3.3).
+ */
+export class NoStageOutputFileError extends NamedError {}
 
 const SOURCE_DIR = "Source files";
 const VIDEO_SUBDIR = "Video files";
@@ -338,12 +349,12 @@ export const STAGE_WORKSPACE: Readonly<Record<StageId, StageWorkspace>> = {
  *
  * @param stageId - The stage whose output to name.
  * @returns The workspace-relative path.
- * @throws {Error} If the stage writes no single output file.
+ * @throws {NoStageOutputFileError} If the stage writes no single output file.
  */
 export function stageOutputEntry(stageId: StageId): string {
 	const { outputFile } = STAGE_WORKSPACE[stageId];
 	if (outputFile === null) {
-		throw new Error(`Stage "${stageId}" writes no single output file to name`);
+		throw new NoStageOutputFileError(`Stage "${stageId}" writes no single output file to name`);
 	}
 	return outputFile;
 }
@@ -369,7 +380,7 @@ export type StageInWorkspace = {
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
  * @param args.stageId - The stage whose output to locate.
  * @returns The absolute path to that stage's output file.
- * @throws {Error} If the stage writes no single output file.
+ * @throws {NoStageOutputFileError} If the stage writes no single output file.
  */
 export function stageOutputPath({ workspaceRoot, stageId }: StageInWorkspace): string {
 	return join(workspaceRoot, stageOutputEntry(stageId));

@@ -259,8 +259,11 @@ STAGE_WORKSPACE: Readonly<Record<StageId, StageWorkspace>>
 
 type StageInWorkspace = { workspaceRoot: string; stageId: StageId }
 // One stage's work within one lecture, the pair every resolver below is addressed by.
+class NoStageOutputFileError extends NamedError   // asked of a stage that writes no one file
 stageOutputEntry(stageId: StageId): string
-// The stage's output path relative to the workspace, as recorded in `filesWritten` (§4.5).
+// The stage's output path relative to the workspace, as recorded in `filesWritten` (§4.5). The four stages
+// whose `outputFile` is null have no answer to give, and each is null for a different reason, so asking raises
+// the error above rather than returning a value that would have to be read as "none of the four".
 stageOutputPath(query: StageInWorkspace): string
 // The same path, absolute. A stage uses it for its own output and for its upstream's input, so a hand-off
 // between two stages is stated once rather than at both ends.
@@ -1520,7 +1523,7 @@ The tables above share one renderer and one money formatter, so a column of poun
 
 ### Typed Errors
 
-Every way a module can fail raises an error class of its own, the failures the platform raises included — `ConfigError`, `ManifestPathError`, `ManifestUnreadableError`, `ManifestNotJsonError`, `ManifestShapeError`, `UnconfiguredStageError`, `ContextLengthError`, `CompletionRejectedError`, `NoCompletionChoicesError`, `EmptyNameError`, `SourceNormalisationError`, `AudioExtractionError`, `TranscriptionError`, `TranscriptStructuringError`, `CliUsageError`, `LectureIdentityError`. A caught failure names what happened from its type, so a module with three ways to fail declares three classes; a filesystem error or a `SyntaxError` on its way out through one of them is caught and rethrown as the module's own, its message carried into the new one. Every stage built so far contributes at least one, so each stage still to come adds its own. All extend a shared `NamedError` base that captures the concrete subclass name via `new.target`, so each stays a distinct `instanceof` type without repeating constructor boilerplate and reports its own name in logs.
+Every way a module can fail raises an error class of its own, the failures the platform raises included — `ConfigError`, `ManifestPathError`, `ManifestUnreadableError`, `ManifestNotJsonError`, `ManifestShapeError`, `UnconfiguredStageError`, `ContextLengthError`, `CompletionRejectedError`, `NoCompletionChoicesError`, `EmptyNameError`, `NoStageOutputFileError`, `SourceNormalisationError`, `AudioExtractionError`, `TranscriptionError`, `TranscriptStructuringError`, `CliUsageError`, `LectureIdentityError`. A caught failure names what happened from its type, so a module with three ways to fail declares three classes; a filesystem error or a `SyntaxError` on its way out through one of them is caught and rethrown as the module's own, its message carried into the new one. Every stage built so far contributes at least one, so each stage still to come adds its own. All extend a shared `NamedError` base that captures the concrete subclass name via `new.target`, so each stays a distinct `instanceof` type without repeating constructor boilerplate and reports its own name in logs.
 
 A `catch` binding is typed `unknown`, because any value can be thrown. Every site that wants to report what went wrong therefore needs the same narrowing, so it lives in one place rather than at each catch.
 

@@ -9,6 +9,7 @@ import {
 	moduleDirs,
 	moduleName,
 	moduleRootOf,
+	NoStageOutputFileError,
 	RUNS_DIR,
 	resolveStageOutput,
 	runsDirPath,
@@ -174,7 +175,8 @@ describe("stageOutputEntry", () => {
 		expect(stageOutputEntry(stageId)).toBe(expected);
 	});
 
-	it("should fail when the stage writes no single output file", () => {
+	it("should raise NoStageOutputFileError naming the stage when it writes no single output file", () => {
+		expect(() => stageOutputEntry("qa-loop")).toThrow(NoStageOutputFileError);
 		expect(() => stageOutputEntry("qa-loop")).toThrow(/qa-loop/);
 	});
 });
