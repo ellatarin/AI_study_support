@@ -621,7 +621,10 @@ class PipelineRunner {
   async normaliseSources(args: { moduleRoots: readonly string[] }): Promise<void>          // Stage 0
   async runLecture(args: { workspaceRoot: string; options?: RunOptions }): Promise<RunSummary>
   async runBatch(args: { moduleRoots: readonly string[]; options?: BatchRunOptions }): Promise<BatchSummary>
-  async costReport(args: { moduleRoots: readonly string[]; options?: ReportOptions }): Promise<void>
+  async costReport(args: { moduleRoots: readonly string[]; options?: ReportOptions }): Promise<readonly string[]>
+  // One rendered report per reported lecture, handed back rather than printed. The CLI writes them
+  // through its injected stream like every other block of output (§8), so nothing in the pipeline
+  // writes to the process's own stdout.
   async resolveLecturesByDate(args: { moduleRoots: readonly string[]; lectureDate: string }): Promise<readonly LectureMatch[]>
   async countLectures(args: { moduleRoots: readonly string[] }): Promise<number>
 }
@@ -1540,7 +1543,7 @@ errorMessage(error: unknown): string      // the caught value's message, or the 
 5. The CLI names each failed stage and its message after the run summary, and points at the debug log
 6. Default behaviour: pipeline halts. `--continue-on-error` skips to the next stage
 
-Items 4 and 5 split one job in two on purpose. A stage's recorded `error` is a message, and for a typed stage error (`TranscriptionError: no transcript text in response`) the message *is* the diagnosis — a stack would only point back into the runner. But an unanticipated failure inside a stage yields a message that explains nothing on its own (`Cannot read properties of undefined`), and there the stack is the only thing that says where. So the message goes to the user, the stack goes to the debug log, and nothing goes to stderr from the runner: user-facing output is the CLI's job, and the runner is driven by tests that deliberately fail stages.
+Items 4 and 5 split one job in two on purpose. A stage's recorded `error` is a message, and for a typed stage error (`TranscriptionError: no transcript text in response`) the message *is* the diagnosis — a stack would only point back into the runner. But an unanticipated failure inside a stage yields a message that explains nothing on its own (`Cannot read properties of undefined`), and there the stack is the only thing that says where. So the message goes to the user, the stack goes to the debug log, and nothing goes to stderr from the runner: user-facing output is the CLI's job, and the runner is driven by tests that deliberately fail stages. The runner writes to **neither** of the process's streams — the cost report, the one thing it produces for a reader, is handed back as text for the CLI to write (§4.7).
 
 ### Intra-Stage Resumability (Slide Conversion)
 

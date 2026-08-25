@@ -885,10 +885,7 @@ describe("PipelineRunner integration", () => {
 	});
 
 	describe("costReport", () => {
-		let writeSpy: ReturnType<typeof vi.spyOn>;
-
 		beforeEach(async () => {
-			writeSpy = vi.spyOn(process.stdout, "write").mockImplementation(() => true);
 			await writeManifest({
 				workspaceRoot,
 				manifest: makeManifest({
@@ -921,28 +918,20 @@ describe("PipelineRunner integration", () => {
 			await mkdir(workspaceRootFor({ moduleRoot, folderName: EMPTY_FOLDER }), { recursive: true });
 		});
 
-		afterEach(() => {
-			writeSpy.mockRestore();
+		it("should return the current pipeline cost section when reporting all lectures", async () => {
+			const reports = await makeRunner([]).costReport({ moduleRoots: [moduleRoot] });
+
+			expect(reports).toHaveLength(1);
+			expect(reports.join("")).toContain("Current pipeline cost");
 		});
 
-		function printed(): string {
-			return writeSpy.mock.calls.map((call: readonly unknown[]) => String(call[0])).join("");
-		}
-
-		it("should print the current pipeline cost section when reporting all lectures", async () => {
-			await makeRunner([]).costReport({ moduleRoots: [moduleRoot] });
-
-			expect(writeSpy).toHaveBeenCalled();
-			expect(printed()).toContain("Current pipeline cost");
-		});
-
-		it("should print a report when a lecture matches the requested date", async () => {
-			await makeRunner([]).costReport({
+		it("should return a report when a lecture matches the requested date", async () => {
+			const reports = await makeRunner([]).costReport({
 				moduleRoots: [moduleRoot],
 				options: { lectureDate: testLecture.date },
 			});
 
-			expect(printed()).toContain("Current pipeline cost");
+			expect(reports.join("")).toContain("Current pipeline cost");
 		});
 
 		// runs/ is scanned, not indexed, so anything that lands in it is offered to
@@ -953,18 +942,18 @@ describe("PipelineRunner integration", () => {
 				JSON.stringify({ note: "not a run log" }),
 			);
 
-			await makeRunner([]).costReport({ moduleRoots: [moduleRoot] });
+			const reports = await makeRunner([]).costReport({ moduleRoots: [moduleRoot] });
 
-			expect(printed()).toContain("Current pipeline cost");
+			expect(reports.join("")).toContain("Current pipeline cost");
 		});
 
-		it("should print nothing when no lecture matches the requested date", async () => {
-			await makeRunner([]).costReport({
+		it("should return no reports when no lecture matches the requested date", async () => {
+			const reports = await makeRunner([]).costReport({
 				moduleRoots: [moduleRoot],
 				options: { lectureDate: "2099-01-01" },
 			});
 
-			expect(writeSpy).not.toHaveBeenCalled();
+			expect(reports).toEqual([]);
 		});
 	});
 

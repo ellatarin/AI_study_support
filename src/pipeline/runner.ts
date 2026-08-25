@@ -882,28 +882,35 @@ export class PipelineRunner {
 	}
 
 	/**
-	 * Prints the per-lecture cost report to stdout: all lectures across the given
-	 * modules, or only those matching `lectureDate` when supplied
-	 * (technical-design.md §7).
+	 * Renders the per-lecture cost report: all lectures across the given modules,
+	 * or only those matching `lectureDate` when supplied (technical-design.md §7).
+	 *
+	 * Handed back rather than printed. Showing text to a user is the CLI's job
+	 * (§8), and the CLI is given somewhere to write to, so a report that printed
+	 * itself would be the one output in the pipeline that could not be redirected,
+	 * captured, or read back by a test without intercepting the process's own
+	 * output stream.
 	 *
 	 * @param args - The report inputs.
 	 * @param args.moduleRoots - Absolute paths to the modules to report on.
 	 * @param args.options - Options narrowing the report, e.g. `lectureDate`.
-	 * @returns A promise that resolves once the report is written.
+	 * @returns One rendered report per reported lecture, empty when none match.
 	 */
 	public async costReport({
 		moduleRoots,
 		options = {},
-	}: ModuleScopedArgs<ReportOptions>): Promise<void> {
+	}: ModuleScopedArgs<ReportOptions>): Promise<readonly string[]> {
 		const lectures = await this.#collectLectures(moduleRoots);
 		const reported =
 			options.lectureDate === undefined
 				? lectures
 				: lectures.filter((lecture) => lecture.manifest.lectureDate === options.lectureDate);
+		const { gbpPerUsd } = this.#config.currency;
+		const reports: string[] = [];
 		for (const { workspaceRoot, manifest } of reported) {
 			const runLogs = await readRunLogs(workspaceRoot);
-			const { gbpPerUsd } = this.#config.currency;
-			process.stdout.write(`${formatCostReport({ runLogs, manifest, gbpPerUsd })}\n`);
+			reports.push(formatCostReport({ runLogs, manifest, gbpPerUsd }));
 		}
+		return reports;
 	}
 }

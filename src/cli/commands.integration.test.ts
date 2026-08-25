@@ -232,7 +232,7 @@ describe("executeCommand", () => {
 			normaliseSources: vi.fn(async () => undefined),
 			runLecture: vi.fn(async () => runSummaryFor({ workspace: workspaceRoot })),
 			runBatch: vi.fn(),
-			costReport: vi.fn(async () => undefined),
+			costReport: vi.fn(() => Promise.resolve([] as readonly string[])),
 			resolveLecturesByDate: vi.fn(async () => [match]),
 			countLectures: vi.fn(async () => 1),
 		};
@@ -518,6 +518,19 @@ describe("executeCommand", () => {
 				moduleRoots: [moduleRoot, secondModuleRoot()],
 				options: {},
 			});
+		});
+
+		// The runner renders reports and hands them back; showing them is the CLI's
+		// job, and it does it through the same injected stream as every other block
+		// of output — which is what makes this assertable without intercepting the
+		// process's own stdout.
+		it("should write every report it was given when the runner returns them", async () => {
+			runner.costReport.mockResolvedValue(["FIRST REPORT", "SECOND REPORT"]);
+
+			await invoke(costReport({ lectureDate: null, moduleRoot: null }));
+
+			expect(printed()).toContain("FIRST REPORT");
+			expect(printed()).toContain("SECOND REPORT");
 		});
 
 		it("should report on one module only when --module narrows it", async () => {

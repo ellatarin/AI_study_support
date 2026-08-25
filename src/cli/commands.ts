@@ -377,6 +377,29 @@ async function batchCommand({
 }
 
 /**
+ * Writes the rendered cost reports, one per lecture, each followed by a blank
+ * line as every other block of CLI output is.
+ *
+ * Both routes into the report end here, so where a report is written is stated
+ * once rather than at each of them.
+ *
+ * @param args - What to write and where.
+ * @param args.deps - The command dependencies, carrying the output stream.
+ * @param args.reports - The rendered reports, in the order the runner produced them.
+ */
+function writeCostReports({
+	deps,
+	reports,
+}: {
+	readonly deps: CliDeps;
+	readonly reports: readonly string[];
+}): void {
+	for (const report of reports) {
+		deps.write(`${report}\n`);
+	}
+}
+
+/**
  * Prints the cost report, narrowed to a module or a date when either was given.
  * A date matching several modules is resolved the same way `run` resolves one,
  * and the report then covers exactly the lectures chosen (technical-design.md §7).
@@ -392,9 +415,12 @@ async function costReportCommand({
 }: CommandArgs<Extract<CliCommand, { command: "cost-report" }>>): Promise<number> {
 	const { lectureDate, moduleRoot } = command;
 	if (lectureDate === null) {
-		await deps.runner.costReport({
-			moduleRoots: scopedModuleRoots({ moduleRoot, deps }),
-			options: {},
+		writeCostReports({
+			deps,
+			reports: await deps.runner.costReport({
+				moduleRoots: scopedModuleRoots({ moduleRoot, deps }),
+				options: {},
+			}),
 		});
 		return EXIT_SUCCESS;
 	}
@@ -405,9 +431,12 @@ async function costReportCommand({
 		lectureDate,
 		choose: deps.selectMatches,
 		act: async (matches) => {
-			await deps.runner.costReport({
-				moduleRoots: matches.map((lectureMatch) => lectureMatch.moduleRoot),
-				options: { lectureDate },
+			writeCostReports({
+				deps,
+				reports: await deps.runner.costReport({
+					moduleRoots: matches.map((lectureMatch) => lectureMatch.moduleRoot),
+					options: { lectureDate },
+				}),
 			});
 			return EXIT_SUCCESS;
 		},
