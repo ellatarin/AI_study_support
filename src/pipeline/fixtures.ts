@@ -34,6 +34,7 @@ import {
 	datedFileDirs,
 	type ModuleDirs,
 	moduleDirs,
+	type StageWithOutputFile,
 	stageOutputEntry,
 	stageOutputPath,
 	workspaceRootFor,
@@ -1093,7 +1094,7 @@ export function contextWithOutput({
 	status = "complete",
 }: {
 	readonly workspaceRoot: string;
-	readonly stageId: StageId;
+	readonly stageId: StageWithOutputFile;
 	readonly status?: "complete" | "skipped";
 }): StageContext {
 	return contextWithEntry({
@@ -1127,7 +1128,7 @@ export async function seedStageOutput({
 	contents = "x",
 }: {
 	readonly workspaceRoot: string;
-	readonly stageId: StageId;
+	readonly stageId: StageWithOutputFile;
 	readonly contents?: string;
 }): Promise<string> {
 	const path = stageOutputPath({ workspaceRoot, stageId });

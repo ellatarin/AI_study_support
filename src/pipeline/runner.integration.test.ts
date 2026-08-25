@@ -43,6 +43,7 @@ import {
 import {
 	moduleDirs,
 	runsDirPath,
+	type StageWithOutputFile,
 	stageDirectoryPaths,
 	stageOutputEntry,
 	stageOutputPath,
@@ -609,8 +610,8 @@ describe("PipelineRunner integration", () => {
 			"synthesis",
 		] as const satisfies readonly StageId[];
 
-		/** The workspace directory a stage's output lives in. */
-		function stageDir(stageId: StageId): string {
+		/** The workspace directory a stage's output lives in; only a stage writing one. */
+		function stageDir(stageId: StageWithOutputFile): string {
 			return dirname(stageOutputPath({ workspaceRoot, stageId }));
 		}
 

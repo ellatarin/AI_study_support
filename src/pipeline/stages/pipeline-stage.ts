@@ -10,7 +10,12 @@ import {
 	writeFileAtomic,
 } from "../../utils/files.js";
 import { createStageLogger } from "../../utils/logger.js";
-import { stageDirectoryPaths, stageOutputEntry, stageOutputPath } from "../layout.js";
+import {
+	type StageWithOutputFile,
+	stageDirectoryPaths,
+	stageOutputEntry,
+	stageOutputPath,
+} from "../layout.js";
 import { hasSettledOutput } from "../run-status.js";
 
 /**
@@ -127,7 +132,7 @@ async function prepareStageDirectories({
  * instead and record their entry themselves; there is no content to hand over.
  *
  * @param args - The stage, the workspace, and the content.
- * @param args.stageId - The stage whose output this is.
+ * @param args.stageId - The stage whose output this is; only a stage that writes one file.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
  * @param args.content - The text to write.
  * @returns The absolute path written, and the `filesWritten` naming it.
@@ -137,7 +142,7 @@ export async function writeStageOutput({
 	workspaceRoot,
 	content,
 }: {
-	readonly stageId: StageId;
+	readonly stageId: StageWithOutputFile;
 	readonly workspaceRoot: string;
 	readonly content: string;
 }): Promise<{ readonly path: string; readonly filesWritten: readonly string[] }> {

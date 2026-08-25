@@ -14,17 +14,6 @@
 
 import { basename, join, resolve } from "node:path";
 import type { StageId } from "../types/pipeline.js";
-import { NamedError } from "../utils/errors.js";
-
-/**
- * A stage was asked to name its single output file and has none. Raised by
- * {@link stageOutputEntry} for the four stages that write no one file: source
- * normalisation writes nothing inside a workspace, image extraction writes a set
- * of images, the QA loop writes across two directories once per iteration, and
- * PDF generation writes its one file into the module's output directory rather
- * than the workspace (technical-design.md §3.3).
- */
-export class NoStageOutputFileError extends NamedError {}
 
 const SOURCE_DIR = "Source files";
 const VIDEO_SUBDIR = "Video files";
@@ -251,8 +240,27 @@ export type StageWorkspace = {
 	 * set rather than a document have no one path to name, and
 	 * `pdf-generation`'s one file is deposited outside the workspace, where a
 	 * workspace-relative path cannot reach it.
+	 *
+	 * The four `null`s are four separate facts rather than one, so nothing asks
+	 * a stage carrying one for a path: {@link StageWithOutputFile} names the
+	 * stages that can answer, and the rest cannot be asked (§3.3).
 	 */
 	readonly outputFile: string | null;
+};
+
+/**
+ * What a stage owns when one of the things it owns is a single output file.
+ *
+ * The narrower half of {@link StageWorkspace}, and what {@link writesInto}
+ * returns. Declaring it is what lets the table below keep, per stage, whether
+ * that stage has a file to name — which is the fact {@link StageWithOutputFile}
+ * is derived from.
+ */
+type StageWorkspaceWithFile = {
+	/** Where the stage's work sits. */
+	readonly outputLocation: StageOutputLocation;
+	/** The single file the stage writes, relative to the lecture's workspace. */
+	readonly outputFile: string;
 };
 
 /**
@@ -303,7 +311,7 @@ function inWorkspace(names: readonly StageDirectoryName[]): StageOutputLocation 
 function writesInto<TName extends string>(args: {
 	readonly directory: TName & LiteralName<TName>;
 	readonly file: string;
-}): StageWorkspace {
+}): StageWorkspaceWithFile {
 	return {
 		outputLocation: inWorkspace([declaredName<TName>(args.directory)]),
 		outputFile: join(args.directory, args.file),
@@ -318,8 +326,14 @@ function writesInto<TName extends string>(args: {
  * output lands outside the lecture's workspace: its PDF is deposited in the
  * module's `Final output/`, alongside every other lecture's, which is why it
  * deposits into that directory rather than owning it.
+ *
+ * Read as the literal it is rather than annotated as a map of
+ * {@link StageWorkspace}, so the compiler keeps *which* stages carry a file and
+ * {@link StageWithOutputFile} can be derived from it. `satisfies` still proves
+ * every stage appears: a stage added to `StageId` and forgotten here fails to
+ * compile, exactly as the annotation used to make it.
  */
-export const STAGE_WORKSPACE: Readonly<Record<StageId, StageWorkspace>> = {
+export const STAGE_WORKSPACE = {
 	"source-normalisation": { outputLocation: inWorkspace([]), outputFile: null },
 	"audio-extraction": writesInto({ directory: "Audio", file: "audio.m4a" }),
 	transcription: writesInto({ directory: "Transcript", file: "transcript.txt" }),
@@ -341,22 +355,35 @@ export const STAGE_WORKSPACE: Readonly<Record<StageId, StageWorkspace>> = {
 		outputLocation: { root: "module", directory: declaredName(FINAL_OUTPUT_DIR) },
 		outputFile: null,
 	},
-};
+} satisfies Readonly<Record<StageId, StageWorkspace>>;
+
+/**
+ * The stages that write one named file inside the lecture's workspace, and so
+ * the only ones that can be asked to name it.
+ *
+ * Derived from {@link STAGE_WORKSPACE} rather than listed, so the table stays
+ * the single statement of which stages have a file: giving a stage a file, or
+ * taking one away, changes who may be asked without anything here being edited.
+ *
+ * The four stages left out are left out for four different reasons (§3.3), and
+ * none of them has a path to return. Asking one is a mistake the compiler
+ * refuses rather than a failure raised while the pipeline runs.
+ */
+export type StageWithOutputFile = {
+	[TStage in StageId]: (typeof STAGE_WORKSPACE)[TStage]["outputFile"] extends string
+		? TStage
+		: never;
+}[StageId];
 
 /**
  * A stage's output path relative to its workspace, as recorded in `filesWritten`
  * (technical-design.md §4.5).
  *
- * @param stageId - The stage whose output to name.
+ * @param stageId - The stage whose output to name; only a stage that writes one.
  * @returns The workspace-relative path.
- * @throws {NoStageOutputFileError} If the stage writes no single output file.
  */
-export function stageOutputEntry(stageId: StageId): string {
-	const { outputFile } = STAGE_WORKSPACE[stageId];
-	if (outputFile === null) {
-		throw new NoStageOutputFileError(`Stage "${stageId}" writes no single output file to name`);
-	}
-	return outputFile;
+export function stageOutputEntry(stageId: StageWithOutputFile): string {
+	return STAGE_WORKSPACE[stageId].outputFile;
 }
 
 /**
@@ -371,6 +398,18 @@ export type StageInWorkspace = {
 };
 
 /**
+ * One stage's output file within one lecture's workspace — the pair addressed by
+ * anything reading or writing the single file a stage produces. The narrower
+ * half of {@link StageInWorkspace}: only a stage that writes one can be named.
+ */
+export type StageFileInWorkspace = {
+	/** Absolute path to the lecture workspace. */
+	readonly workspaceRoot: string;
+	/** The stage whose output file within it is meant. */
+	readonly stageId: StageWithOutputFile;
+};
+
+/**
  * A stage's output as an absolute path.
  *
  * Used by a stage for its own output and for its upstream's input, so the
@@ -378,11 +417,10 @@ export type StageInWorkspace = {
  *
  * @param args - The workspace and the stage.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
- * @param args.stageId - The stage whose output to locate.
+ * @param args.stageId - The stage whose output to locate; only a stage that writes one.
  * @returns The absolute path to that stage's output file.
- * @throws {NoStageOutputFileError} If the stage writes no single output file.
  */
-export function stageOutputPath({ workspaceRoot, stageId }: StageInWorkspace): string {
+export function stageOutputPath({ workspaceRoot, stageId }: StageFileInWorkspace): string {
 	return join(workspaceRoot, stageOutputEntry(stageId));
 }
 

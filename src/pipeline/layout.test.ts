@@ -9,11 +9,11 @@ import {
 	moduleDirs,
 	moduleName,
 	moduleRootOf,
-	NoStageOutputFileError,
 	RUNS_DIR,
 	resolveStageOutput,
 	runsDirPath,
 	STAGE_WORKSPACE,
+	type StageWithOutputFile,
 	stageDirectoryPaths,
 	stageOutputEntry,
 	stageOutputPath,
@@ -175,9 +175,25 @@ describe("stageOutputEntry", () => {
 		expect(stageOutputEntry(stageId)).toBe(expected);
 	});
 
-	it("should raise NoStageOutputFileError naming the stage when it writes no single output file", () => {
-		expect(() => stageOutputEntry("qa-loop")).toThrow(NoStageOutputFileError);
-		expect(() => stageOutputEntry("qa-loop")).toThrow(/qa-loop/);
+	// The four stages that write no single file cannot be asked for one at all:
+	// each is null for its own reason, and none of them has an answer to give.
+	// The refusal is the compiler's, so this case is written as a type the
+	// annotations below make load-bearing — remove the narrowing and the
+	// expect-error becomes unused, which fails the build.
+	it("should admit only the stages writing one file when a writer is named", () => {
+		const writers: readonly StageWithOutputFile[] = [
+			"audio-extraction",
+			"transcription",
+			"transcript-structuring",
+			"slide-conversion",
+			"synthesis",
+		];
+
+		// @ts-expect-error -- qa-loop writes across two directories once per iteration, so it names no single file
+		const notAWriter: StageWithOutputFile = "qa-loop";
+
+		expect(writers.map(stageOutputEntry)).toHaveLength(writers.length);
+		expect(notAWriter).toBe("qa-loop");
 	});
 });
 
