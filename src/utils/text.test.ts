@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { collapseWhitespace } from "./text.js";
+import { collapseWhitespace, pluralise } from "./text.js";
 
 describe("collapseWhitespace", () => {
 	it.each([
@@ -35,5 +35,15 @@ describe("collapseWhitespace", () => {
 		},
 	])("should read $expected when $scenario", ({ text, expected }) => {
 		expect(collapseWhitespace(text)).toBe(expected);
+	});
+});
+
+describe("pluralise", () => {
+	it.each([
+		{ scenario: "there is one of them", count: 1, expected: "1 lecture" },
+		{ scenario: "there are several", count: 3, expected: "3 lectures" },
+		{ scenario: "there are none", count: 0, expected: "0 lectures" },
+	])("should read $expected when $scenario", ({ count, expected }) => {
+		expect(pluralise({ count, noun: "lecture" })).toBe(expected);
 	});
 });

@@ -82,7 +82,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `src/utils/model-id.ts` — `splitModelId`: a model ID's provider and its name, read by the provider exemption and by Stage 2, which want opposite halves **(TD §6; §5, Stage 2)**
 - `src/utils/language.ts` — `isOutputLanguage`, `unknownLanguageMessage`, `languageRule`: recognising a configured language, reporting one the pipeline cannot write, and wording the instruction every prose stage's prompt gives the model **(TD §6)**
 - `src/utils/record.ts` — `isRecord`: whether a parsed value has fields to read, shared by every check over something parsed from outside the pipeline — the config file, a manifest, a model's reply **(TD §6; §4.4; §7)**
-- `src/utils/text.ts` — `collapseWhitespace`: closing up the gaps that removing a fragment leaves, which both the naming rules and the date reader end by doing **(TD §3)**
+- `src/utils/text.ts` — `collapseWhitespace`: closing up the gaps that removing a fragment leaves, which both the naming rules and the date reader end by doing **(TD §3)**; `pluralise`: a count and its noun agreeing with each other, for every place that tells the user how many of something there are
 - `src/utils/stage-config.ts` — `configuredStage`, `unconfiguredStageMessage`: a stage's entry in the config file and the sentence reporting its absence, for the OpenRouter client, Stage 2 and the runner alike **(TD §6)**
 - `src/pipeline/config.ts` — `loadConfig`, plus the model-ID resolution check and its provider exemptions **(TD §6)**
 - `src/pipeline/openrouter.ts` — `createOpenRouterClient`, `makeCompletionCall`, and the exported `UnconfiguredStageError`, `ContextLengthError`, `CompletionRejectedError` and `NoCompletionChoicesError` **(TD §6)**

@@ -15,6 +15,7 @@ import type { PipelineRunner } from "../pipeline/runner.js";
 import type { ConfirmPrompt } from "../pipeline/stages/source-normalisation.js";
 import type { LectureMatch, RunOptions, RunSummary, StageId } from "../types/pipeline.js";
 import { formatBatchSummary, formatRunSummary, stageLabel } from "../utils/cost.js";
+import { pluralise } from "../utils/text.js";
 import type { CliCommand } from "./args.js";
 import { changeLectureDate, deleteLecture, renameLecture } from "./lecture-identity.js";
 
@@ -491,9 +492,8 @@ async function confirmReset({
 	if (count === 0) {
 		return true;
 	}
-	const lectures = count === 1 ? "1 lecture" : `${count} lectures`;
 	const approved = await deps.confirm({
-		message: `Re-running from "${fromStage}" will delete that stage's output and every later stage's, for ${lectures}. This cannot be undone.`,
+		message: `Re-running from "${fromStage}" will delete that stage's output and every later stage's, for ${pluralise({ count, noun: "lecture" })}. This cannot be undone.`,
 	});
 	if (!approved) {
 		deps.write("Nothing was run.\n");
