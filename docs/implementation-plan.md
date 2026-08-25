@@ -18,7 +18,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 **Tooling that belongs to no phase.** `scripts/audit-constants.mjs` is a maintenance scanner, not a pipeline deliverable. It lexes the tree and tallies repeated string and numeric literals so a value living in two places can be found and given one, which is a whole-tree question no phase can answer for itself. It was written mid-project, is run on demand as `pnpm audit:constants` rather than by the gate, and carries its own two suites — the first tests in this repo to live outside `src/`.
 
-**Each fact has one home.** This plan owns build order, per-phase deliverables, acceptance criteria, and test intent. It does not restate design: stage behaviour, contracts, and data shapes live in the technical design (referenced as **(TD §N)**), and exact type definitions live in `src/types/*` once written — the TD references those too rather than reproducing them. A phase that needs a design detail links to it; it never copies it. Test names may echo the behaviour they verify — that is the executable spec following the design, not duplication.
+**Each fact has one home.** This plan owns build order, per-phase deliverables, acceptance criteria, and test intent. It does not restate design: stage behaviour, contracts, and data shapes live in the technical design (referenced as **(TD §N)**), and exact type definitions live in `src/types/*` once written — the TD references those too rather than reproducing them. A phase that needs a design detail links to it; it never copies it. Test names may echo the behaviour they verify: the executable spec follows the design, as it should.
 
 ---
 
@@ -41,7 +41,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `bin/lecture-notes` — executable bash wrapper (`chmod +x`) that `cd`s to the repo root and `exec pnpm exec tsx src/index.ts "$@"`. Live TypeScript, no build step. Runs from any directory once the user's shell has the repo's `bin/` on `PATH`
 - `scripts/setup` — executable bash script (`chmod +x`) that performs two idempotent installs:
   1. Appends a PATH export to the user's shell config (`.zshrc` / `.bashrc` / `config.fish`) so `lecture-notes` is on `PATH`. Marker-comment skip on re-run; read-then-append only (never overwrites)
-  2. Merges the hook block from `scripts/claude-hooks.json` into **`.claude/settings.local.json` inside the repo** (Claude Code's per-user, per-repo settings file — gitignored by default via the existing `.claude/` rule; hooks fire only for Claude Code sessions in this project, never globally). Existing keys preserved (deep merge — e.g. any `permissions.allow` already present is untouched); re-runs strip every hook whose command is one the template installs before re-inserting the template entries, so a human hand-editing the file to add unrelated hooks isn't clobbered. Dedupe is on the **command string** and never on a marker key of our own: Claude Code rewrites this file and drops keys it does not recognise, so a marker would not survive to be matched on the next run — and each re-run would append another copy of every hook. Uses `node -e '<merge script>'` (jq is not a hard dependency)
+  2. Merges the hook block from `scripts/claude-hooks.json` into **`.claude/settings.local.json` inside the repo** (Claude Code's per-user, per-repo settings file — gitignored by default via the existing `.claude/` rule; hooks fire only for Claude Code sessions in this project, never globally). Existing keys preserved (deep merge — e.g. any `permissions.allow` already present is untouched); re-runs strip every hook whose command is one the template installs before re-inserting the template entries, so a human hand-editing the file to add unrelated hooks isn't clobbered. Dedupe is on the **command string**, which is what survives a rewrite: Claude Code rewrites this file and drops keys it does not recognise, so a marker key of our own would be gone by the next run. Uses `node -e '<merge script>'` (jq is not a hard dependency)
   Prints what was touched and the reload command. Users invoke it once via `./scripts/setup` or `pnpm setup`
 - `scripts/claude-hooks.json` — template describing this project's Claude Code hook configuration (committed to the repo — a normal file, not under `.claude/`, so unaffected by the gitignore rule). Five hooks, two that check and three that block:
   - **PostToolUse matcher `Edit|Write|MultiEdit`** → the hook command invokes `scripts/hooks/post-edit-biome`, which reads the tool-call JSON from stdin, extracts `.tool_input.file_path`, and runs `pnpm exec biome check --write <file>` on it. Fast fixup, no cross-file false positives (eslint deliberately omitted — its architectural rules only make sense against the whole tree)
@@ -51,7 +51,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
   - **PreToolUse matcher `WebFetch|WebSearch`** → `scripts/hooks/block-webfetch`, so web lookups go through the configured MCP tools
   - All three blocking hooks share one escape hatch, `scripts/hooks/lib/tool-override.mjs`: a one-line reason written to `.claude/tool-override` waives the next block, once, and stays in the transcript
 
-**How far the commit gate reaches — decided 2026-08-22.** Every check above is a Claude Code hook, installed into `.claude/settings.local.json`, so **the gate covers commits made from a Claude Code session in this repository and nothing else.** `.git/hooks/` holds only git's own `.sample` files and `core.hooksPath` is unset, so a commit made from a terminal, an IDE, or any other tool runs no checks at all. That is a decision, not an oversight: a real `.git/hooks/pre-commit` would make every hand-made commit pay the full suite — secretlint, Biome, `tsc`, ESLint, both jscpd passes and the whole vitest run with coverage — and would edit the developer's local git configuration to do it. The consequence to hold on to is that **a commit that did not come from a session has not been through the gate.** `pnpm check` runs the identical checks over the whole tree on demand, and is the way to find out what the gate would have said.
+**How far the commit gate reaches — decided 2026-08-22.** Every check above is a Claude Code hook, installed into `.claude/settings.local.json`, so **the gate covers commits made from a Claude Code session in this repository and nothing else.** `.git/hooks/` holds only git's own `.sample` files and `core.hooksPath` is unset, so a commit made from a terminal, an IDE, or any other tool runs no checks. The consequence to hold on to is that **a commit that did not come from a session has not been through the gate.** `pnpm check` runs the identical checks over the whole tree on demand, and is the way to find out what the gate would have said.
 
 **Dependencies installed:**
 - Runtime: `openai`, `@elevenlabs/elevenlabs-js`, `fluent-ffmpeg`, `pdfjs-dist`, `canvas`, `sharp`, `chrono-node`, `pino`, `cli-progress`, `@inquirer/prompts`, `dotenv`
@@ -147,7 +147,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `should throw ConfigError naming the offending stage when a configured modelId is not in the OpenRouter models response`
 - `should throw ConfigError with a helpful hint when a placeholder like <REASONING_MODEL> is left un-substituted`
 - `should accept the config when every stage modelId appears in the OpenRouter response`
-- `should skip the model-ID check when skipModelCheck is set` — for offline test runs. It is a `loadConfig` parameter, not a CLI flag: nothing on the command line turns the check off, because a user who cannot reach OpenRouter cannot run the pipeline either
+- `should skip the model-ID check when skipModelCheck is set` — for offline test runs. It is a `loadConfig` parameter, reachable only from code: a user who cannot reach OpenRouter cannot run the pipeline either, so the command line offers no way to turn the check off
 
 `openrouter.ts` — HTTP interceptor tests using `nock`:
 - `should send correct baseURL, headers, and model ID when makeCompletionCall invoked`
@@ -160,7 +160,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `should throw after 120s when completion request times out`
 - `should time out cost lookup after 30s per attempt`
 
-`openrouter.integration.test.ts` intercepts with `nock` like the unit tests above, and there is no live-key variant of it. CLAUDE.md § Testing requires every external service to be mocked, and a suite that spends money when a key happens to be present is the one kind that cannot be run by everyone who clones this. Stage 2's integration test resolves the same tension the same way: a real file streamed through the real SDK, against a stubbed endpoint.
+`openrouter.integration.test.ts` intercepts with `nock` like the unit tests above. CLAUDE.md § Testing requires every external service to be mocked, so every suite here runs for anyone who clones the repo, with no key and no spend. Stage 2's integration test is built the same way: a real file streamed through the real SDK, against a stubbed endpoint.
 
 **Acceptance:** All unit and integration tests pass; `tsc --noEmit` clean.
 
@@ -299,7 +299,7 @@ Integration tests (real temp directory with fixture source files):
 
 ## Phase 5 — Stages 1 & 2: Audio Extraction and Transcription
 
-**Goal:** The first two `PipelineStage` implementations, and the first stages the runner drives end-to-end. Built fresh from the contract, not ported from `src/index.ts` — the prototype supplies the proven API parameters and nothing else.
+**Goal:** The first two `PipelineStage` implementations, and the first stages the runner drives end-to-end. Built from the contract, taking the proven API parameters from the `src/index.ts` prototype.
 
 **Deliverables:**
 
@@ -346,9 +346,8 @@ Stages — unit tests (mock ffmpeg and ffprobe via `vi.mock`; mock ElevenLabs vi
 - `should record a null cost with costResolutionError when the audio duration cannot be read`
 
 Shared stage helper — integration tests (real filesystem). Every case about a finished stage runs
-twice, once for each of the two statuses that mean the output is on disk (**TD §4.2**) — a check that
-accepted only `complete` would make a third run repeat the work, so the equivalence is asserted rather
-than assumed:
+twice, once for each of the two statuses that mean the output is on disk (**TD §4.2**), so that the
+equivalence the third run of a lecture depends on is asserted at both:
 - `should report incomplete when the stage $scenario` — has not run, is still running, failed
 - `should report complete when a $status stage's every recorded file exists`
 - `should report incomplete when a $status stage's recorded output file has been deleted`

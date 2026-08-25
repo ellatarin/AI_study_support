@@ -86,7 +86,7 @@ A **two-digit year** is read only in the trailing position, and always as this c
 
 The numeric forms are matched in `src/utils/date.ts` rather than delegated to `chrono-node`, because chrono reads `10/11/2025` as the eleventh of October — the American convention, and wrong here in every separated case. Chrono still handles dates written in words (`13 Oct 2025`, `Fri 10th Oct`), which carry no such ambiguity. Note that a prose date omitting the year is anchored to the current year, so a year-less filename dates itself to whenever it was processed.
 
-A date is recognised wherever it sits and whatever abuts it: the boundary is "not a digit", not a word boundary, so `BOD_10112025_Cell Injury.mp4` resolves. This matters because `_` is a word character, and underscore-separated exports (Panopto, Echo360, Zoom) would otherwise hide the date entirely. A bare eight-digit run is read as a date only when one end is a plausible year (2000–2099), so an eight-digit identifier is left alone; separated forms need no such bound, since position alone identifies the year. Combinations naming no real day — `31022025`, `2025-13-10` — are rejected rather than rolled over into March or quietly corrected. A span with a date's shape is claimed even when it names no day, so chrono cannot reinterpret it: left to chrono, `2025-13-10` comes back as a valid date with the month silently adjusted, which is worse than no date at all.
+A date is recognised wherever it sits and whatever abuts it: the boundary is "not a digit", not a word boundary, so `BOD_10112025_Cell Injury.mp4` resolves. This matters because `_` is a word character, and underscore-separated exports (Panopto, Echo360, Zoom) would otherwise hide the date entirely. A bare eight-digit run is read as a date only when one end is a plausible year (2000–2099), so an eight-digit identifier is left alone; separated forms need no such bound, since position alone identifies the year. Combinations naming no real day — `31022025`, `2025-13-10` — are rejected rather than rolled over into March or quietly corrected. A span with a date's shape is claimed even when it names no day, so chrono cannot reinterpret it: chrono reads `2025-13-10` as a valid date with the month adjusted.
 
 | Pass | Example filename |
 |---|---|
@@ -195,17 +195,17 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 
 `QA checked/notes.md` uses a simple name because it lives inside the named lecture folder. The full descriptive filename appears only on the PDF in `Final output/` (Stage 8).
 
-The directory is named for the stage that fills it, not for the pipeline's end: it holds Stage 7's quality-checked notes, and Stage 8 only reads it. Stage 8's own output is the PDF in the module's `Final output/` (§3.1) — the one place a stage writes outside its workspace, and the one a re-run cannot clear by emptying, because every lecture's PDF is in it. `--from-stage pdf-generation` takes this lecture's PDF and leaves the rest (§4.4).
+The directory is named for the stage that fills it: it holds Stage 7's quality-checked notes, and Stage 8 only reads it. Stage 8's own output is the PDF in the module's `Final output/` (§3.1) — the one place a stage writes outside its workspace, and the one a re-run cannot clear by emptying, because every lecture's PDF is in it. `--from-stage pdf-generation` takes this lecture's PDF and leaves the rest (§4.4).
 
 #### The layout has one owner
 
 Every name in the two trees above — the module's four directories, each stage's workspace directory and the file it writes, `runs/`, and `manifest.json` — is declared once, in `src/pipeline/layout.ts`. Nothing else states a directory or filename as a literal.
 
-This matters beyond tidiness, because the same name is relied on by parties that would otherwise each keep their own copy:
+One owner matters here because each of these names is relied on by two parties at once, and a name changed for one has to reach the other:
 
-- **A stage and the runner.** A stage writes into its directory; `--from-stage` clears the stage's work there (§4.7). Two copies of the name means a rename breaks the reset silently — it would clear a path that no longer exists, report success, and leave the stage skipping on a manifest that still says complete.
-- **A stage and the stage after it.** Stage 2 reads what Stage 1 wrote, Stage 3 reads what Stage 2 wrote. Declaring the path at both ends means the hand-off is stated twice and can drift in one place.
-- **Production and tests.** A suite asserting a stage's output existed restated the path; it now asks the same module the stage asks.
+- **A stage and the runner.** A stage writes into its directory; `--from-stage` clears the stage's work there (§4.7). Both read the directory from here, so a rename reaches the write and the reset together.
+- **A stage and the stage after it.** Stage 2 reads what Stage 1 wrote, Stage 3 reads what Stage 2 wrote. Each hand-off is one name, read at both ends.
+- **Production and tests.** A suite asserting a stage's output exists asks the same module the stage asks.
 
 ```typescript
 // src/pipeline/layout.ts
@@ -223,7 +223,7 @@ debugLogPath(args: { projectRoot: string; runId: string }): string
 // from (§10).
 workspaceRootFor(args: { moduleRoot: string; folderName: string }): string
 // Where one lecture's workspace sits: a folder named after the lecture, inside the module's processing
-// directory. Every stage, the runner, the CLI and every suite that lays a lecture out was rebuilding this.
+// directory. Every stage, the runner, the CLI and every suite that lays a lecture out asks for it here.
 moduleRootOf(args: { workspaceRoot: string }): string
 // The module two levels up from a lecture workspace (`moduleRoot/Pipeline processing/<folder>`) — the inverse
 // of the above, so the nesting is stated once. Used to assemble StageContext and to resolve the one stage
@@ -242,7 +242,7 @@ type StageDirectoryName = string & { readonly [declaredInLayout]: true }   // br
 type StageOutputLocation =
   | { root: "workspace"; directories: readonly StageDirectoryName[] }
   | { root: "module"; directory: StageDirectoryName }
-// Where a stage's work sits, and so what a reset may take. The two variants are not two spellings of one thing.
+// Where a stage's work sits, and so what a reset may take. The two variants carry different facts.
 // A workspace directory holds one lecture's work and nothing else, so a reset takes the directory. The module's
 // `Final output/` holds every lecture in the module, so a reset there takes only the file belonging to the
 // lecture being reset — which is why that variant names a directory *deposited into* rather than a set owned.
@@ -277,9 +277,10 @@ resolveStageOutput(query: StageInWorkspace): ResolvedStageOutput
 // whether it may take the directory (§4.7).
 stageDirectoryPaths(query: StageInWorkspace): readonly string[]
 // Every directory the stage works in, in declaration order; `[]` for a stage working in none. This is what the
-// factory creates and clears of leftovers before a run (§4.3). It is deliberately *not* what a reset deletes:
+// factory creates and clears of leftovers before a run (§4.3), and it is wider than what a reset may delete:
 // the module directory pdf-generation deposits into appears here, because it must exist before pandoc writes
-// into it, and a reset taking this list at face value would remove every lecture's PDF.
+// into it, and it holds every lecture's PDF. A reset reads `resolveStageOutput` instead, which carries the
+// variant that says so.
 ```
 
 ### 3.4 Re-numbering When New Lectures Are Added
@@ -315,7 +316,7 @@ Because all other files inside the workspace use simple names, only the four ite
 
 Every stage implements a common `PipelineStage<TInput, TOutput>` contract: an idempotency check `isComplete(context)`, an input step `getInput(context)`, and `run({ input, context })` returning a `StageResult`. Stages read an immutable `StageContext` — lecture identity, `workspaceRoot`, `moduleRoot`, the resolved `PipelineConfig`, and the current `RunManifest` — and never mutate it. A stage's own bookkeeping in the manifest — its status, cost, and `filesWritten` — is written by the runner, never by the stage, and so is the manifest's *lecture identity*. **No per-lecture stage writes `manifest.json`.** Stage 3 settles the lecture's title (§5, Stage 3) and is the only stage that changes anything about the lecture's identity; it reports what it settled on `StageResult.identityChanges` and the runner writes it with the stage's `complete` entry.
 
-A stage's context is assembled before its own entry is marked `running`, so the manifest copy it carries is out of date in that field for as long as the stage runs. The copy is a read model. The runner re-reads the manifest immediately before each write and is its only writer, so every write has a current base, and the `running` marker survives the stage it belongs to (§4.5). Current is not trusted: the manifest is untrusted input throughout, bounded by §4.4.
+A stage's context is assembled before its own entry is marked `running`, so the manifest copy it carries is out of date in that field for as long as the stage runs. The copy is a read model. The runner re-reads the manifest immediately before each write and is its only writer, so every write has a current base, and the `running` marker survives the stage it belongs to (§4.5). Currency and trust are separate questions: the manifest is untrusted input however fresh it is, bounded by §4.4.
 
 **Authoritative types.** The exact shape of every pipeline contract — `PipelineStage`, `StageId`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, and the rest — lives in `src/types/pipeline.ts` with per-field documentation. That file is the single source of truth; this section describes intent and the invariants those types encode, not field lists:
 
@@ -329,7 +330,7 @@ A stage's context is assembled before its own entry is marked `running`, so the 
 
 That check is identical for every stage, so stages are not assembled by hand: each is built through a shared factory that supplies `isComplete` for the given stage id, leaving a stage to define only the two things that genuinely differ — how it gathers its input, and what it does.
 
-The factory carries two further things every stage would otherwise restate. It prepares the stage's output directories before `run` begins (§4.3), and it binds the run's logger to the stage **once, at construction**, so `run` is handed a logger already stamping `{ stage }` (§10). Note where `logger` sits: on the factory, not on `PipelineStage.run`. The runner invokes a stage with the input and the context and nothing else, so the logging capability never travels through the stage contract — and `src/types/pipeline.ts` stays free of any dependency on the logging library.
+The factory carries two further things every stage would otherwise restate. It prepares the stage's output directories before `run` begins (§4.3), and it binds the run's logger to the stage **once, at construction**, so `run` is handed a logger already stamping `{ stage }` (§10). `logger` sits on the factory rather than on `PipelineStage.run`: the runner invokes a stage with the input and the context and nothing else, so the logging capability never travels through the stage contract, and `src/types/pipeline.ts` stays free of any dependency on the logging library.
 
 ```typescript
 // src/pipeline/stages/pipeline-stage.ts
@@ -364,7 +365,7 @@ Every file is written to a `.tmp`-suffixed path first, then renamed on success. 
 
 The stage does not do this for itself — `createPipelineStage` does it on every stage's behalf (§4.2), reading the directories from `STAGE_WORKSPACE` (§3.3) rather than from the stage's output file, so a stage owning several directories, or one outside the workspace as `pdf-generation` does, is prepared as completely as a stage owning a single one.
 
-Output a stage does not hold in memory — bytes written by a subprocess, such as Stage 1's ffmpeg extraction — goes through the same discipline via `produceFileAtomic`, which hands the producer the `.tmp` path and renames only once it resolves. One consequence is worth stating because it looks like an oversight otherwise: a `.tmp` suffix defeats the container inference ffmpeg does from the output extension, so any stage muxing to a temporary path must name its output format explicitly.
+Output a stage does not hold in memory — bytes written by a subprocess, such as Stage 1's ffmpeg extraction — goes through the same discipline via `produceFileAtomic`, which hands the producer the `.tmp` path and renames only once it resolves. This has one consequence for a stage that muxes: a `.tmp` suffix defeats the container inference ffmpeg does from the output extension, so a stage writing through a temporary path names its output format explicitly.
 
 ```typescript
 // src/utils/files.ts
@@ -409,10 +410,10 @@ listSubdirectoryNames(dir: string): Promise<readonly string[]>
 
 This is enforced in every place a path from `filesWritten` or the manifest is used. Today that is one place — the `isComplete()` existence checks, via `recordedFileExists` — and it extends to `cost-report` file discovery and PDF output resolution as those are built.
 
-`--from-stage` cleanup is deliberately **not** on that list. It takes no manifest-derived path at all, so it has nothing to validate: every directory it works in comes from the hard-coded `STAGE_WORKSPACE`, and it never consults `filesWritten` (see "Stage cleanup boundaries" below). Eliminating the untrusted input is stronger than checking it — a boundary check is only as sound as its own symlink handling, whereas a path that never enters the function cannot be steered at all. `isComplete()` has no such option, since reading `filesWritten` is precisely its job. Running the check in cleanup would also be inert, passing unconditionally on names like `"Audio"`, and an assertion that cannot fail would misrepresent the input as untrusted to the next reader.
+`--from-stage` cleanup takes no manifest-derived path, so the boundary check has nothing to act on there. Every directory it works in comes from the hard-coded `STAGE_WORKSPACE`, and it reads `filesWritten` at no point (see "Stage cleanup boundaries" below): the untrusted input is kept out of the function rather than checked on the way in. `isComplete()` reads `filesWritten` as its whole job, so the check belongs there.
 
 ```typescript
-// src/utils/files.ts — the two path resolvers, deliberately distinct
+// src/utils/files.ts — the two path resolvers, one per kind of input
 workspacePath(args: { workspaceRoot: string; segments: readonly string[] }): string
 // Trusted, code-supplied segments only. No boundary check — untrusted input uses the resolver below.
 type ManifestPathQuery = { workspaceRoot: string; moduleRoot: string; entry: string }
@@ -639,9 +640,9 @@ type SourceNormalisationStage = { stageId: "source-normalisation"; normaliseModu
 
 // The runner's supporting logic lives in module-level functions rather than private methods, so each has one
 // job and the class stays orchestration. All of them are module-private but `deriveRunId`: `PipelineRunner`
-// is the module's surface, and the surface its own tests drive. Notably runStage returns its outcome (rather
-// than void): the caller collects the entries, decides whether to halt, and fills `not-reached` — so no
-// shared mutable run-log state exists and batch concurrency is safe.
+// is the module's surface, and the surface its own tests drive. runStage returns its outcome: the caller
+// collects the entries, decides whether to halt, and fills `not-reached`, so the run log is assembled from
+// return values and concurrent lectures share no state.
 export deriveRunId(args: { instant: Date }): string     // filesystem-safe run id, e.g. 2025-10-10T09-00-00Z
 // Exported for the CLI, which names the run's debug log after the run it belongs to (§10).
 classifyRunType(args: { options: RunOptions; manifest: RunManifest }): RunType  // normal | experiment | error-recovery (§7)
@@ -688,8 +689,8 @@ stageOutcomeStatus(entry: RunLogStageEntry): OverallStatus            // failed 
 summariseOverallStatus(args: { statuses: readonly OverallStatus[] }): OverallStatus  // any failure wins
 summariseLectures(args: { lectures: readonly { overallStatus: OverallStatus }[] }): OverallStatus
 // The same rule over lectures, which carry their own status: the runner folds a whole batch this way and the
-// batch table folds each module's rows, and both were writing the projection out. The parameter asks for the
-// status alone rather than a whole RunSummary, because that is all the rule reads.
+// batch table folds each module's rows, so the projection is written once. The parameter asks for the status
+// alone rather than a whole RunSummary, because that is all the rule reads.
 hasSettledOutput(entry: ManifestStageEntry | QaManifestStageEntry | undefined): entry is SettledStageEntry
 // Whether a *manifest* entry means the stage's output is on disk — `complete` or `skipped` (§4.2). Three
 // unrelated callers ask it: the shared `isComplete`, the run classifier, and the cost report's current-pipeline
@@ -698,7 +699,7 @@ hasSettledOutput(entry: ManifestStageEntry | QaManifestStageEntry | undefined): 
 
 **Run outcome classification.** A `RunSummary.overallStatus` — and the aggregate `BatchSummary.overallStatus` across a batch's lectures — is `failed` when at least one stage failed, and `success` otherwise, a stage whose output already stood and was skipped included. It answers whether the lecture's work is done, not how much of it this particular run performed.
 
-**Pipeline order comes from `STAGE_IDS`.** `src/types/pipeline.ts` declares `STAGE_IDS` as the ordered stage list, and everything that walks the stages in order — the runner's `--from-stage` reset, the cost report's per-stage breakdown — iterates that array. Neither derives its own order from the keys of some other map: a map is a lookup keyed *by* stage, and using its key order as the pipeline order means a stage added to one map and not another silently changes or truncates the sequence.
+**Pipeline order comes from `STAGE_IDS`.** `src/types/pipeline.ts` declares `STAGE_IDS` as the ordered stage list, and everything that walks the stages in order — the runner's `--from-stage` reset, the cost report's per-stage breakdown — iterates that array. A map elsewhere in the code is a lookup keyed *by* stage, and its key order is that map's own; the pipeline's order has one statement, and adding a stage to it is what puts the stage in the sequence.
 
 **`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes per-stage intermediate files for the stages being re-run (e.g. `Slide content/raw/*.md` when re-running Stage 4), so the re-run produces entirely fresh output. Upstream stages are untouched. Deletion targets hard-coded per-stage directories (see §4.4) — never `filesWritten` from the manifest — and in the module's `Final output/`, which is shared, it takes only this lecture's PDF.
 
@@ -728,7 +729,7 @@ The context is **rebuilt between stages** rather than assembled once for the run
 
 **Batch mode:** `runBatch({ moduleRoots })` normalises every listed module, then processes every lecture across them. The CLI passes an array of one for `batch <moduleRoot>` and the full `config.moduleRoots` for `batch` (no argument). Modules processed in the order given; lectures within a module in date order. Sequential by default; `--concurrency N` runs that many lectures at once, drawn from a single global queue rather than per module — with modules in order, a global queue keeps every worker busy where a per-module one would idle at each module boundary. Because lectures from different modules may therefore be in flight together, the per-module and cross-module summaries are printed once the batch completes rather than as each module finishes (§7).
 
-**`cost-report` command:** Aggregates all run logs across the configured `moduleRoots` and prints a table showing total expenditure broken down by run and stage — enabling comparison of model experiments and visibility of wasted spend from failures (see §7). Narrowed by `--date` (via `resolveLecturesByDate`, with the same multi-match prompt) or `--module <moduleRoot>`.
+**`cost-report` command:** Reads the run logs of every lecture across the configured `moduleRoots` and renders one three-section report per lecture, each headed by the lecture it covers — what its outputs on disk cost, what its failures and retries cost, and its model experiments grouped for comparison (see §7). Figures are per stage throughout; nothing is summed across stages, runs, lectures or modules (NFR-2.2). The reports are handed back for the CLI to write (§8). Narrowed by `--date` (via `resolveLecturesByDate`, with the same multi-match prompt) or `--module <moduleRoot>`. Where the scope holds no lecture, the command says so and succeeds.
 
 **Identity-mutation commands (`rename`, `delete`, `change-date`).** A lecture's identity is changed only through these commands — never by editing the filesystem directly — so the manifest and filesystem stay in lock-step (see Stage 0, §5):
 - `rename <date> "<new title>"` — sets `userTitle` in the manifest (which then wins the title precedence) and renames the video, slide, workspace folder, and any `Final output/` PDF to match.
@@ -819,9 +820,9 @@ runCli(args: { argv; projectRoot?; write?; writeError? }): Promise<number>
 
 Parsing is validated in full before anything runs: the command must exist, its positional arguments must be present and well formed, `<date>` must be a real calendar date (`2025-02-30` is rejected as firmly as `yesterday`), `--from-stage` must name a stage that exists, and `--concurrency` must be a whole number of 1 or more.
 
-**Flags belong to commands.** They are declared once for the whole CLI, so `parseArgs` will accept any of them anywhere; each command then declares the ones it acts on, and anything else is a usage error naming the flag and what the command does take. Without that, a surplus flag would be parsed and quietly ignored — `run --concurrency 4` would run one lecture and say nothing about the request to run four, since `--concurrency` counts lectures running at once and only `batch` runs more than one.
+**Flags belong to commands.** They are declared once for the whole CLI, so `parseArgs` will accept any of them anywhere; each command then declares the ones it acts on, and anything else is a usage error naming the flag and what the command does take. So `run --concurrency 4` is refused and says why: `--concurrency` counts lectures running at once, and only `batch` runs more than one.
 
-**`run <date>` normalises first.** Before resolving the date it runs Stage 0 across the configured modules. Without that, a lecture whose video and slides were added this week has no workspace and no manifest, so no date could resolve to it and `run` could never be its first command — the user would have to reach for `batch` and process everything. Stage 0 is idempotent, so this costs nothing when there is nothing new.
+**`run <date>` normalises first.** Before resolving the date it runs Stage 0 across the configured modules. This is what lets `run` be the first command for a lecture whose video and slides were only just added: Stage 0 creates the workspace and manifest the date then resolves against. Stage 0 is idempotent, so this costs nothing when there is nothing new.
 
 **Exit codes.** `0` when the command did what was asked, `1` when it could not: an unusable command line, a date matching no lecture, an unreadable configuration, or a run in which any stage failed. A user who cancels a choice has not failed at anything and exits `0`.
 
@@ -833,9 +834,9 @@ Parsing is validated in full before anything runs: the command must exist, its p
 
 **Where prompts live.** A stage that calls an LLM keeps its prompt in a sibling module, `<stage>.prompt.ts`, exporting the function that builds the messages. Only the five stages that make LLM calls have one; Stages 0, 1, 2, and 8 do not. Where a stage makes more than one kind of call, its single prompt module exports one builder per call — the QA loop's checker and reviser both belong to Stage 7.
 
-Prompts sit beside their stage rather than gathered into one shared file: a shared file would collect text each used by a single stage, and every prompt tweak would touch a module five other stages import (NFR-5.2). Splitting them out of the stage module itself keeps prompt changes legible — a prompt is the part iterated on hardest once real lectures run, and its diffs should not be buried among file renames and manifest writes.
+Each prompt sits beside the one stage that uses it, so a prompt edit touches that stage alone (NFR-5.2). Keeping it out of the stage module puts prompt changes in a file of their own — a prompt is the part iterated on hardest once real lectures run, and its diffs stay legible apart from file renames and manifest writes.
 
-A prompt module has no test file of its own. Its builder is a pure assembly whose contract is that the stage's inputs reach the messages, and the stage's own tests verify that against the real builder. A separate suite could only assert that particular sentences are present, which would pin the wording down and make every prompt iteration a two-file edit — the opposite of what splitting them achieves.
+A prompt module has no test file of its own. Its builder is a pure assembly whose contract is that the stage's inputs reach the messages, and the stage's own tests verify that against the real builder. What a suite of its own could assert is the presence of particular sentences, which pins the wording and makes every prompt iteration a two-file edit.
 
 ### Stage 0 — Source Normalisation (Batch)
 
@@ -989,7 +990,7 @@ The same LLM call produces the structured markdown. The LLM:
 - Does not add content not present in the transcript
 - Writes in the configured `output.language` (§6)
 
-The last rule is a correction, not an addition, so it does not contradict the one above it. Speech carries no spelling: the transcript's spelling is the transcriber's, and Stage 2 cannot influence it — ElevenLabs' `languageCode` takes an ISO-639-1 or ISO-639-3 code, neither of which can express a regional variant, so `eng` names English and nothing more. An LLM call is therefore the first point in the pipeline at which the output's language can be chosen at all, and Stage 3 is the first such call. The rule is worded by `languageRule` (§6) rather than written into this prompt, so that every prose stage instructs the model identically.
+The last rule governs how the transcript's words are spelled, and the rule above it governs which words are there. Speech carries no spelling: the transcript's spelling is the transcriber's, and Stage 2 cannot influence it — ElevenLabs' `languageCode` takes an ISO-639-1 or ISO-639-3 code, neither of which can express a regional variant, so `eng` names English and nothing more. An LLM call is therefore the first point in the pipeline at which the output's language can be chosen at all, and Stage 3 is the first such call. The rule is worded by `languageRule` (§6) rather than written into this prompt, so that every prose stage instructs the model identically.
 
 **Context:** A 90-minute transcript is typically 15,000–30,000 tokens — a single call within any 128k-context model.
 
@@ -1271,9 +1272,9 @@ makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; r
 // declares the shape it expects back. `client` is injected by tests; it defaults to the shared instance.
 ```
 
-**JSON mode is routed for, not merely asked for.** OpenRouter honours `response_format` per *endpoint* rather than per model: a model is served by several providers, and by default the parameter only steers routing towards those that support it — where none of a model's providers do, the request still goes through and the parameter is quietly dropped, handing the stage prose where it expected JSON. A `"json"` call therefore also sends `provider: { require_parameters: true }`, which restricts routing to endpoints supporting every parameter in the request, so a model that cannot do JSON fails the call outright instead of returning something unparseable. Failing is the better outcome here: a silently-dropped `response_format` costs a full billable call and surfaces as a parse error that names the wrong culprit, whereas a routing failure names the real one. The flag rides with `"json"` alone — a `"text"` call has nothing to require, and restricting its routing would narrow the model choice for no gain.
+**JSON mode is routed for as well as asked for.** OpenRouter honours `response_format` per *endpoint* rather than per model: a model is served by several providers, and by default the parameter steers routing towards those that support it — where none of a model's providers do, the request still goes through with the parameter dropped, handing the stage prose where it expected JSON. A `"json"` call therefore also sends `provider: { require_parameters: true }`, which restricts routing to endpoints supporting every parameter in the request. A model that cannot do JSON then fails the call, which names the real cause at the point it arises; a dropped `response_format` costs a full billable call and arrives as a parse error naming the reply. The flag rides with `"json"` alone: a `"text"` call has nothing to require, and requiring nothing would only narrow which endpoints can serve it.
 
-Belt and braces, not belt alone: OpenRouter's own parameter reference states that JSON mode requires the prompt to ask for JSON as well, so a `"json"` caller instructs the model in its messages too, and still treats a reply that will not parse as a stage failure.
+OpenRouter's own parameter reference states that JSON mode requires the prompt to ask for JSON as well, so a `"json"` caller instructs the model in its messages too, and still treats a reply that will not parse as a stage failure.
 
 **A stage key names a stage.** Every key of the `stages` section is checked against the stage IDs, and one that names no stage is a `ConfigError` at startup listing the stages it could have named. Configuration reaches a stage by its key alone, so this check is what makes "the stage is configured" and "the config file mentions the stage" the same statement.
 
@@ -1287,7 +1288,7 @@ Both halves of a model ID are read through `splitModelId` in `src/utils/model-id
 
 **Currency.** Every provider bills in US dollars, so costs are stored in USD and converted to pounds only for presentation (§7). `currency.gbpPerUsd` is the rate applied. Because it converts at display time rather than at write time, correcting a stale rate re-renders every historical report consistently — no stored figure is ever rewritten, and none silently mixes rates.
 
-**The ElevenLabs address is configuration too.** `elevenLabs.baseUrl` is the single place ElevenLabs' address is stated, and it is passed to the SDK's own `baseUrl` option so every Scribe call is made against it. The reasoning is the same as for `openRouter.baseUrl` above, and so is the validation — it must parse as an absolute URL or startup fails. It matters more here than the shared reasoning suggests: ElevenLabs serves the same API from several regional residency hosts, and which one an account must use is a fact about that account, not about this codebase. Left to the SDK's default the pipeline would always reach for the global host, and moving to a regional one would be a code edit.
+**The ElevenLabs address is configuration too.** `elevenLabs.baseUrl` is the single place ElevenLabs' address is stated, and it is passed to the SDK's own `baseUrl` option so every Scribe call is made against it. The reasoning is the same as for `openRouter.baseUrl` above, and so is the validation — it must parse as an absolute URL or startup fails. It matters more here than the shared reasoning suggests: ElevenLabs serves the same API from several regional residency hosts, and which one an account must use is a fact about that account. Naming the host in config is what lets an account on a regional one be served by a config edit.
 
 Unlike OpenRouter's, this base URL carries no path — the SDK appends the versioned route itself — so `speechToText` is named alongside it in `transcription.ts` rather than being built by the pipeline, for the same reason `completions` is named in `OPENROUTER_PATHS`: so a test intercepting the call does not have to know the route independently of the code under test.
 
@@ -1295,7 +1296,7 @@ Unlike OpenRouter's, this base URL carries no path — the SDK appends the versi
 
 **Module prefixes are configuration because a prefix describes a module, not this codebase.** Lecturers put the module at the front of a recording's filename, which is noise in a title: the module is already the folder the lecture sits in. `naming.modulePrefixes` lists what to strip, and it is a list rather than one value for two reasons — the pipeline is pointed at several modules at once, and **one module may be written more than one way**. A lecturer abbreviates it in some filenames (`BOD_Cell injury`) and writes it out in others (`Biology of Disease - Cell injury`), so both forms are listed. Matching ignores case for the same reason: how a filename happens to write a module says nothing about whether it is one. A prefix absent from the list survives into the workspace folder name and the final PDF for every lecture that carries it.
 
-Each prefix is matched literally, so one carrying a pattern character means itself; a blank prefix is refused at load, since it would otherwise match any run of underscores or spaces and take apart every title the run produces. The alternative of stripping any capitals-then-underscore run was rejected: it cannot tell a module prefix from a lecture that opens with an acronym, and `DNA_replication` would lose its subject — and it could never have handled a spelled-out module name at all.
+Each prefix is matched literally, so one carrying a pattern character means itself; a blank prefix is refused at load, since it would otherwise match any run of underscores or spaces and take apart every title the run produces. A listed prefix is what makes the strip safe: the module names are known, where the shape of a prefix is not — an opening acronym belongs to the subject (`DNA_replication`), and a module written out in full has no shape to match at all.
 
 **`output.language` is a closed set, and every stage that writes prose obeys it.** The tag is checked at load against `OUTPUT_LANGUAGES`, which maps each tag to the name a prompt calls it by; a tag with no name is refused at startup, listing the ones it could have been. The pairing is the point — "Write in en-GB" is not an instruction a model can follow, so a language cannot be offered in config without wording for the prompts to use. `languageRule` in `src/utils/language.ts` builds that sentence, and every prose stage's prompt includes it rather than wording the rule itself, so the stages cannot drift into instructing the model differently. Stage 3 is the only such stage built; Stages 4, 5, 6, and 7 join it as they are.
 
@@ -1564,7 +1565,7 @@ errorMessage(error: unknown): string      // the caught value's message, or the 
 5. The CLI names each failed stage and its message after the run summary, and points at the debug log
 6. Default behaviour: pipeline halts. `--continue-on-error` skips to the next stage
 
-Items 4 and 5 split one job in two on purpose. A stage's recorded `error` is a message, and for a typed stage error (`TranscriptionError: no transcript text in response`) the message *is* the diagnosis — a stack would only point back into the runner. But an unanticipated failure inside a stage yields a message that explains nothing on its own (`Cannot read properties of undefined`), and there the stack is the only thing that says where. So the message goes to the user, the stack goes to the debug log, and nothing goes to stderr from the runner: user-facing output is the CLI's job, and the runner is driven by tests that deliberately fail stages. The runner writes to **neither** of the process's streams — the cost report, the one thing it produces for a reader, is handed back as text for the CLI to write (§4.7).
+Items 4 and 5 split one job in two, because the two audiences need different things. For a typed stage error (`TranscriptionError: no transcript text in response`) the message *is* the diagnosis, and a stack would point back into the runner. An unanticipated failure yields a message that explains nothing on its own (`Cannot read properties of undefined`), and there the stack is what says where. So the message goes to the user, the stack goes to the debug log, and nothing goes to stderr from the runner: user-facing output is the CLI's job, and the runner is driven by tests that deliberately fail stages. The runner writes to **neither** of the process's streams — the cost report, the one thing it produces for a reader, is handed back as text for the CLI to write (§4.7).
 
 ### Intra-Stage Resumability (Slide Conversion)
 

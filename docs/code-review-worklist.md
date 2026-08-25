@@ -577,10 +577,17 @@ C1 and C2 which are settled early because A20 shares their seam.
 - [x] **C10.1** §4.2 (stage interface), §4.5 (manifest callers), §4.7 (relocated workspace, runner
   helper listing) and §5 Stage 3 (order of operations). **Done as part of C2** — these are the sections
   C2.1, C2.2 and C2.5 touched, and they were fixed as each landed rather than left for the sweep
-- [ ] **C10.2** §4.4 (path validation) — at least one instance: "an assertion that cannot fail would
+- [x] **C10.2** §4.4 (path validation) — at least one instance: "an assertion that cannot fail would
   misrepresent the input as untrusted to the next reader", and the surrounding `--from-stage` paragraph
   reads as a defence of a choice rather than a statement of it. Noticed while checking the manifest's
-  trust posture during C2.1; not swept
+  trust posture during C2.1; not swept. **Done with C10.3/C10.4's single reading pass.** The paragraph
+  was five sentences of defence and is now two of statement: cleanup takes no manifest-derived path, so
+  the boundary check has nothing to act on there, and `isComplete()` reads `filesWritten` as its whole
+  job, so the check belongs there. The comparative ("eliminating the untrusted input is stronger than
+  checking it"), the inertness argument, and the misrepresentation clause are gone; **the substantive
+  fact they were carrying — that the untrusted input is kept out of the function rather than checked on
+  the way in — is stated plainly and kept.** `// the two path resolvers, deliberately distinct` became
+  `one per kind of input`
 > **Two more instances caught in the A12–A14 pass, both written that session and fixed in it** (§10's
 > opening, "the timestamp names the file rather than binding anything onto the entries"; §4.7's
 > `CliDeps`, "Both pickers are dependencies, not one"). Both were **X-not-Y correcting the sentence
@@ -589,12 +596,44 @@ C1 and C2 which are settled early because A20 shares their seam.
 > statement is where this register gets written**, because the old statement is still in mind. Check
 > every replacement sentence for the ghost of what it replaced.
 
-- [ ] **C10.3** The rest of the TD — no pass has been made. §§1–3, 4.1, 4.3, 4.6, 5 (Stages 0–2, 4–8),
+- [x] **C10.3** The rest of the TD — no pass has been made. §§1–3, 4.1, 4.3, 4.6, 5 (Stages 0–2, 4–8),
   6–10 are all unread for register. **Do not assume the problem is confined to the sections C2
-  touched**; those are simply the ones that were being read when it was noticed
-- [ ] **C10.4** `docs/requirements.md` and `docs/implementation-plan.md` — same question, never asked
+  touched**; those are simply the ones that were being read when it was noticed. **Done — all 1,728
+  lines read. Seventeen passages changed.** The densest were the design-rationale ones, where a rule was
+  justified by describing what breaks without it: §3.3's "This matters beyond tidiness" bullets (a
+  rename "breaks the reset silently", a suite that "restated the path"), §4.7's `STAGE_IDS` ordering
+  ("silently changes or truncates the sequence"), and both "Without that…" paragraphs in the CLI
+  section. Each now states the property the rule gives rather than the failure it prevents. **The
+  X-not-Y headings went too** — "JSON mode is routed for, not merely asked for", "Belt and braces, not
+  belt alone" — and §6's "The alternative of stripping any capitals-then-underscore run was rejected",
+  which is the clearest instance of form 1 in the document. **Stage 3's "The last rule is a correction,
+  not an addition, so it does not contradict the one above it" is the one worth remembering**: it only
+  parses as an answer to an objection, and what it was actually saying — one rule governs which words
+  are there, the other how they are spelled — is shorter and stands alone
+	- **Deliberately kept, on the user's ruling of 2026-08-25**: a passage that explains a choice a reader
+	  would otherwise trip over stays, even where it names the alternative. So §3.2 keeps why the numeric
+	  date forms are not delegated to chrono, §5 Stage 4 keeps why native PDF text extraction is not used,
+	  §5 Stage 7 keeps why QA and revision are two calls, and §6 keeps why `elevenLabs.languageCode` and
+	  `output.language` are separate fields. **The test that separates them: is the sentence answering a
+	  question a reader would ask, or a criticism someone made?**
+	- **Found in passing, and substantive rather than register: §4.7's `cost-report` paragraph still said
+	  the command "aggregates all run logs … and prints a table showing total expenditure".** Both halves
+	  were stale — C9.2 corrected the same claim in §7 hours earlier and this second copy was missed, and
+	  C8.6 stopped the command printing anything. Now says what it does. **A claim corrected in one
+	  section is worth grepping for in the others.**
+- [x] **C10.4** `docs/requirements.md` and `docs/implementation-plan.md` — same question, never asked
   of either. Scope them before working C10.3, since a sweep of all three at once is one reading pass
-  rather than three
+  rather than three. **Done, and scoping first was right: the two documents behave completely
+  differently.** `requirements.md` is clean — 131 lines of "the system shall", a register with no room
+  for the adversarial one; the only candidate was NFR-2.2's "as unknown rather than as nothing", **which
+  the user ruled stays**, since the contrast *is* the requirement (without it, reporting zero satisfies
+  the sentence). The plan had **six**, milder than the TD's and clustered where a decision is recorded
+  rather than where behaviour is described: Phase 1's commit-gate paragraph ("That is a decision, not an
+  oversight", then a paragraph arguing against a git hook — the argument lives in A1.2, which settled
+  it), the `__project` marker note, `skipModelCheck` ("not a CLI flag"), the no-live-key note, Phase 5's
+  "not ported from `src/index.ts`", and "asserted rather than assumed". **A plan legitimately says when
+  and where something is built, so "built here rather than in Phase 2" and "built with the CLI, not in
+  this phase" were left alone** — scope, not defence
 
 ---
 
