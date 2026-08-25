@@ -92,6 +92,7 @@ function sectionCorrupter(
 const openRouterSection = sectionCorrupter("openRouter");
 const elevenLabsSection = sectionCorrupter("elevenLabs");
 const outputSection = sectionCorrupter("output");
+const namingSection = sectionCorrupter("naming");
 
 /**
  * The config's stages record, typed to the one field these tests read off it.
@@ -585,6 +586,28 @@ const shapeCases: readonly {
 			config.stages = { synthesis: { modelId: openRouterModelId, temperature: "hot" } };
 		},
 		match: /temperature/,
+	},
+	{
+		name: "naming is missing",
+		mutate: (config: Record<string, unknown>) => delete config.naming,
+		match: /naming/,
+	},
+	{
+		name: "naming.moduleCodes is not an array of strings",
+		mutate: (config: Record<string, unknown>) => {
+			config.naming = namingSection({ moduleCodes: ["BOD", 7] });
+		},
+		match: /moduleCodes/,
+	},
+	{
+		// An empty code would build a pattern matching any run of underscores or
+		// spaces, taking the whole title apart, so it is refused rather than
+		// quietly dropped.
+		name: "naming.moduleCodes holds a code that is nothing but whitespace",
+		mutate: (config: Record<string, unknown>) => {
+			config.naming = namingSection({ moduleCodes: ["BOD", "  "] });
+		},
+		match: /moduleCodes/,
 	},
 	{
 		name: "output is missing",

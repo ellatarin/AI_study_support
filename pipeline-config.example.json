@@ -19,6 +19,9 @@
 	"modelIdCheck": {
 		"exemptProviders": ["elevenlabs"]
 	},
+	"naming": {
+		"moduleCodes": ["BOD", "ANA"]
+	},
 	"stages": {
 		"transcription": {
 			"modelId": "elevenlabs/scribe_v2"

@@ -4,7 +4,13 @@ import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RunManifest } from "../../types/pipeline.js";
 import type { LoggedEntry, LoggedLevel } from "../fixtures.js";
-import { loggedAt, makeStubLogger, makeTempDir, stageCompletedAt } from "../fixtures.js";
+import {
+	exampleConfig,
+	loggedAt,
+	makeStubLogger,
+	makeTempDir,
+	stageCompletedAt,
+} from "../fixtures.js";
 import { moduleDirs, workspaceRootFor } from "../layout.js";
 import { patchManifest, readManifest } from "../manifest.js";
 import {
@@ -120,7 +126,11 @@ describe("createSourceNormalisationStage", () => {
 	 */
 	function freshStage(): void {
 		logged = makeStubLogger();
-		stage = createSourceNormalisationStage({ logger: logged.logger, confirm });
+		stage = createSourceNormalisationStage({
+			logger: logged.logger,
+			confirm,
+			moduleCodes: exampleConfig.naming.moduleCodes,
+		});
 	}
 
 	/** What the stage logged at one level. */

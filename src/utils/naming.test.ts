@@ -9,6 +9,9 @@ import {
 const NULL_BYTE = String.fromCharCode(0);
 const CONTROL_CHAR = String.fromCharCode(1);
 
+/** The codes a run is configured with, unless a case is about a different set. */
+const MODULE_CODES = ["BOD", "ANA"];
+
 describe("extractProvisionalTitle", () => {
 	it.each([
 		{
@@ -33,15 +36,44 @@ describe("extractProvisionalTitle", () => {
 		// surprise: a filename typed wholly in capitals is indistinguishable from
 		// one made of acronyms, so it is left as the lecturer typed it.
 		{ filename: "2025-10-10 BOD_CELL INJURY.mp4", expected: "CELL INJURY" },
+		// Every configured code is stripped, not just the first: a second module's
+		// lectures would otherwise carry its code into every title.
+		{ filename: "2025-10-10 ANA_Skeletal system.mp4", expected: "Skeletal System" },
+		{ filename: "ANA Muscles of the Arm 2025-10-10.mp4", expected: "Muscles of the Arm" },
+		// A code that names no configured module is part of the title. Stripping
+		// any capitals-then-underscore run would eat this.
+		{ filename: "2025-10-10 XYZ_Cell injury.mp4", expected: "XYZ Cell Injury" },
 	])("should extract provisional title when filename is $filename", ({ filename, expected }) => {
-		expect(extractProvisionalTitle(filename)).toBe(expected);
+		expect(extractProvisionalTitle({ filename, moduleCodes: MODULE_CODES })).toBe(expected);
+	});
+
+	it("should leave a module code in place when no codes are configured", () => {
+		expect(
+			extractProvisionalTitle({ filename: "2025-10-10 BOD_Cell injury.mp4", moduleCodes: [] }),
+		).toBe("BOD Cell Injury");
+	});
+
+	// Codes come from the config file, so a character with meaning inside a
+	// pattern must match itself rather than being interpreted.
+	it.each([
+		{ scenario: "the code itself", filename: "B.D_Cell injury.mp4", expected: "Cell Injury" },
+		{
+			scenario: "a name the code would match only as a pattern",
+			filename: "BXD_Cell injury.mp4",
+			expected: "BXD Cell Injury",
+		},
+	])("should treat a module code as literal text when the filename holds $scenario", ({
+		filename,
+		expected,
+	}) => {
+		expect(extractProvisionalTitle({ filename, moduleCodes: ["B.D"] })).toBe(expected);
 	});
 
 	it.each([
 		{ filename: "2025-10-10 Lecture 5.mp4", remainder: "a date and lecture number" },
 		{ filename: "Lecture 1 - 2025-10-10.mp4", remainder: "a canonical untitled name" },
 	])("should return an empty string when the filename holds only $remainder", ({ filename }) => {
-		expect(extractProvisionalTitle(filename)).toBe("");
+		expect(extractProvisionalTitle({ filename, moduleCodes: MODULE_CODES })).toBe("");
 	});
 });
 

@@ -215,6 +215,17 @@ export type PipelineConfig = {
 		 */
 		readonly exemptProviders: readonly string[];
 	};
+	readonly naming: {
+		/**
+		 * The codes a lecturer prefixes their filenames with (`BOD_Cell injury`),
+		 * stripped from the title Stage 0 derives. Configuration rather than a
+		 * constant because a code describes a module rather than this codebase,
+		 * and the pipeline is pointed at more than one: an unlisted code survives
+		 * into the workspace folder name and the final PDF for every lecture of
+		 * that module (technical-design.md §3.2).
+		 */
+		readonly moduleCodes: readonly string[];
+	};
 	readonly stages: Readonly<Partial<Record<StageId, StageConfig>>>;
 	readonly output: {
 		/**

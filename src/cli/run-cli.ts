@@ -58,7 +58,11 @@ async function assembleDeps({
 	const { gbpPerUsd } = config.currency;
 	const runner = new PipelineRunner({
 		config,
-		sourceNormalisation: createSourceNormalisationStage({ logger, confirm: confirmPrompt }),
+		sourceNormalisation: createSourceNormalisationStage({
+			logger,
+			confirm: confirmPrompt,
+			moduleCodes: config.naming.moduleCodes,
+		}),
 		// Pipeline order; each further stage joins this list as it is built.
 		lectureStages: [
 			createAudioExtractionStage({ logger }),

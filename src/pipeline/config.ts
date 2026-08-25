@@ -219,6 +219,28 @@ function requireModelIdCheck(value: unknown): PipelineConfig["modelIdCheck"] {
 	return { exemptProviders: modelIdCheck.stringArray("exemptProviders") };
 }
 
+/**
+ * Validates the `naming` section: the module codes stripped from a derived
+ * lecture title.
+ *
+ * A code that is empty or only whitespace is refused. It would otherwise build a
+ * pattern matching any run of underscores or spaces, which would take apart
+ * every title the run produces rather than merely failing to strip a code
+ * (technical-design.md §3.2).
+ *
+ * @param value - The raw `naming` section.
+ * @returns The validated section.
+ * @throws {ConfigError} If the section is not an object, `moduleCodes` is not an array of strings, or any code is blank.
+ */
+function requireNaming(value: unknown): PipelineConfig["naming"] {
+	const naming = requireSection({ value, label: "naming" });
+	const moduleCodes = naming.stringArray("moduleCodes");
+	if (moduleCodes.some((code) => code.trim() === "")) {
+		throw new ConfigError("naming.moduleCodes must not contain a blank module code");
+	}
+	return { moduleCodes };
+}
+
 function requireStageConfig(args: {
 	readonly value: unknown;
 	readonly stageId: string;
@@ -304,6 +326,7 @@ export function parseConfig(raw: unknown): PipelineConfig {
 			gbpPerUsd: requireSection({ value: root.currency, label: "currency" }).number("gbpPerUsd"),
 		},
 		modelIdCheck: requireModelIdCheck(root.modelIdCheck),
+		naming: requireNaming(root.naming),
 		stages: requireStages(root.stages),
 		output: requireOutput(root.output),
 	};

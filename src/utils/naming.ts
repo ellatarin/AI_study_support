@@ -50,8 +50,30 @@ const MINOR_WORDS: ReadonlySet<string> = new Set([
 	"with",
 ]);
 
-/** Leading module-code prefix (`BOD_`, `BOD `) attached to source filenames. */
-const MODULE_CODE_PREFIX = /\bBOD[_ ]+/g;
+/**
+ * Characters carrying meaning inside a pattern. Module codes come from the
+ * config file, so each is escaped before it is built into one — a code is text
+ * to match literally, never a pattern the user wrote.
+ */
+const PATTERN_METACHARACTERS = /[.*+?^${}()|[\]\\]/g;
+
+/**
+ * The pattern matching any configured module code where it prefixes a name
+ * (`BOD_`, `BOD `), or `null` when no codes are configured and nothing is to be
+ * stripped.
+ *
+ * @param moduleCodes - The codes the modules' filenames are prefixed with.
+ * @returns The pattern, or `null` when the list is empty.
+ */
+function moduleCodePrefixes(moduleCodes: readonly string[]): RegExp | null {
+	if (moduleCodes.length === 0) {
+		return null;
+	}
+	const alternatives = moduleCodes
+		.map((code) => code.replace(PATTERN_METACHARACTERS, "\\$&"))
+		.join("|");
+	return new RegExp(`\\b(?:${alternatives})[_ ]+`, "g");
+}
 
 /**
  * An embedded lecture-number token (`Lecture 1`, `Lectures 2`). Stripped so the
@@ -154,9 +176,9 @@ function stripControlChars(text: string): string {
 /**
  * Derives a best-effort provisional lecture title from a source filename.
  *
- * Strips the file extension, all date and weekday tokens, the module-code
- * prefix, any embedded lecture-number token, underscores, separator debris at
- * either end, and trailing artefacts, then title-cases what remains. Filenames
+ * Strips the file extension, all date and weekday tokens, any configured
+ * module code, any embedded lecture-number token, underscores, separator debris
+ * at either end, and trailing artefacts, then title-cases what remains. Filenames
  * vary: a rich filename yields a full title, while a `date + Lecture N` filename
  * yields an **empty string**. Callers must fall back (e.g. to the bare
  * `Lecture N` name) on an empty result; Stage 3's LLM later judges whether the
@@ -167,24 +189,38 @@ function stripControlChars(text: string): string {
  * its manifest is re-read from its canonical filename on the next run, and must
  * yield the title that name was built from (technical-design.md §3.2).
  *
- * @param filename - The user-supplied source filename.
+ * @param args - The filename to read, and what counts as a module code.
+ * @param args.filename - The user-supplied source filename.
+ * @param args.moduleCodes - The configured module codes; a code is stripped only where it prefixes a name, and an empty list strips none.
  * @returns The cleaned, title-cased provisional title, possibly empty.
  *
  * @example
- * extractProvisionalTitle("2025-10-10 BOD_Disease cell injury Fri co.mp4");
+ * extractProvisionalTitle({
+ *   filename: "2025-10-10 BOD_Disease cell injury Fri co.mp4",
+ *   moduleCodes: ["BOD"],
+ * });
  * // → "Disease Cell Injury"
- * extractProvisionalTitle("Lecture 1 - Cell Injury - 2025-10-10.mp4");
+ * extractProvisionalTitle({
+ *   filename: "Lecture 1 - Cell Injury - 2025-10-10.mp4",
+ *   moduleCodes: ["BOD"],
+ * });
  * // → "Cell Injury"
- * extractProvisionalTitle("2025-10-10 Lecture 5.mp4");
+ * extractProvisionalTitle({ filename: "2025-10-10 Lecture 5.mp4", moduleCodes: ["BOD"] });
  * // → ""
  */
-export function extractProvisionalTitle(filename: string): string {
+export function extractProvisionalTitle({
+	filename,
+	moduleCodes,
+}: {
+	readonly filename: string;
+	readonly moduleCodes: readonly string[];
+}): string {
+	const codePrefixes = moduleCodePrefixes(moduleCodes);
 	const withoutExtension = filename.replace(FILE_EXTENSION, "");
 	const withoutDates = stripDateTokens(withoutExtension);
-	const withoutNoise = withoutDates
-		.replace(MODULE_CODE_PREFIX, " ")
-		.replace(LECTURE_NUMBER_TOKEN, " ")
-		.replace(UNDERSCORES, " ");
+	const withoutCodes =
+		codePrefixes === null ? withoutDates : withoutDates.replace(codePrefixes, " ");
+	const withoutNoise = withoutCodes.replace(LECTURE_NUMBER_TOKEN, " ").replace(UNDERSCORES, " ");
 	const normalised = collapseWhitespace(withoutNoise);
 	const withoutEdges = normalised.replace(EDGE_SEPARATORS, "");
 	const withoutArtefacts = withoutEdges.replace(TRAILING_ARTEFACTS, "").trim();
