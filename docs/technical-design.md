@@ -1445,12 +1445,16 @@ It carries no money: what a module or a batch spent is a sum across lectures, an
 
 ### Cost Report Command
 
-`lecture-notes cost-report [--date <YYYY-MM-DD>] [--module <moduleRoot>]` aggregates all run logs across the configured `moduleRoots` and presents three sections. With no flags, aggregates across everything. With `--date`, narrows to lectures on that date (uses `resolveLecturesByDate`; prompts if the date matches multiple modules). With `--module`, restricts to a single module.
+`lecture-notes cost-report [--date <YYYY-MM-DD>] [--module <moduleRoot>]` reads the run logs of every lecture across the configured `moduleRoots` and presents three sections for each. With no flags, it covers every configured module. With `--date`, narrows to lectures on that date (uses `resolveLecturesByDate`; prompts if the date matches multiple modules). With `--module`, restricts to a single module.
+
+Each lecture's report opens with the lecture it is about, named by `lectureHeading` (Cost Module, below), because a report with no flags prints several one after another. The figures are per stage throughout: each lecture's sections stand on their own, and nothing is summed across stages, runs, lectures or modules (NFR-2.2). Where the scope holds no lecture, the command says so and succeeds — nothing has been spent is an answer, and a report that printed nothing at all could not be told from one that failed to look.
 
 (The `lecture-notes` command becomes available after running `./scripts/setup` once, which appends a PATH export to your shell config. During dev the equivalent invocation is `pnpm exec tsx src/index.ts cost-report …`.)
 
-**1 — Current pipeline cost** (what the outputs on disk cost to produce):
+**1 — Current pipeline cost** (what the outputs on disk cost to produce), under the lecture's heading:
 ```
+Lecture 1: Cell Injury (2025-10-10)
+
 Stage                    Model                  Calls    Cost
 ──────────────────────────────────────────────────────────────
 Transcription            elevenlabs/scribe_v2      1    £0.031

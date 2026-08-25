@@ -521,6 +521,11 @@ export function formatCostReport({
 }: ManifestAtRate & { readonly runLogs: readonly RunLog[] }): string {
 	const formatMoney = createMoneyFormatter({ gbpPerUsd });
 	return [
+		// A report with no flags covers every configured module, so several of
+		// these print one after another; without this every one of them opens on
+		// the same words and nothing says which lecture it is about.
+		lectureHeading({ manifest }),
+		"",
 		...currentPipelineSection({ manifest, formatMoney }),
 		"",
 		...errorRecoverySection({ runLogs, formatMoney }),

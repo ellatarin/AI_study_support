@@ -389,6 +389,12 @@ describe("formatCostReport", () => {
 		expect(costReport()).toMatchSnapshot();
 	});
 
+	// A report with no flags covers every configured module, so several of these
+	// print one after another with nothing else to tell them apart.
+	it("should open by naming the lecture when the report is rendered", () => {
+		expect(costReport().startsWith("Lecture 1: Cell Injury (2025-10-10)")).toBe(true);
+	});
+
 	// The table is aligned by padding alone, so a row that has kept its columns is
 	// exactly as wide as the rule above it, and one that has pushed them along is
 	// wider.

@@ -13,7 +13,13 @@ import { moduleName } from "../pipeline/layout.js";
 import { readManifest } from "../pipeline/manifest.js";
 import type { PipelineRunner } from "../pipeline/runner.js";
 import type { ConfirmPrompt } from "../pipeline/stages/source-normalisation.js";
-import type { LectureMatch, RunOptions, RunSummary, StageId } from "../types/pipeline.js";
+import type {
+	LectureMatch,
+	ReportOptions,
+	RunOptions,
+	RunSummary,
+	StageId,
+} from "../types/pipeline.js";
 import { formatBatchSummary, formatRunSummary, stageLabel } from "../utils/cost.js";
 import { pluralise } from "../utils/text.js";
 import type { CliCommand } from "./args.js";
@@ -378,23 +384,42 @@ async function batchCommand({
 }
 
 /**
- * Writes the rendered cost reports, one per lecture, each followed by a blank
- * line as every other block of CLI output is.
+ * Reports on the given modules: one rendered report per lecture, each followed
+ * by a blank line as every other block of CLI output is.
  *
- * Both routes into the report end here, so where a report is written is stated
- * once rather than at each of them.
+ * Both routes into the report end here — the whole configuration, and the
+ * lectures a date resolved to — so what a report covers is asked for and written
+ * in one place rather than at each of them.
  *
- * @param args - What to write and where.
- * @param args.deps - The command dependencies, carrying the output stream.
- * @param args.reports - The rendered reports, in the order the runner produced them.
+ * Where the scope holds no lecture there is no report to write, and this says so
+ * instead: nothing spent is an answer, and printing nothing at all could not be
+ * told from a command that failed to look (technical-design.md §7).
+ *
+ * @param args - What to report on and where to write it.
+ * @param args.deps - The command dependencies, carrying the runner and the output stream.
+ * @param args.moduleRoots - The modules to report on.
+ * @param args.options - What narrows the report, e.g. the date the user gave.
+ * @param args.moduleRoot - The module the command named, or `null` for all of them.
+ * @returns A promise that resolves once the report has been written.
  */
-function writeCostReports({
+async function reportCosts({
 	deps,
-	reports,
+	moduleRoots,
+	options,
+	moduleRoot,
 }: {
 	readonly deps: CliDeps;
-	readonly reports: readonly string[];
-}): void {
+	readonly moduleRoots: readonly string[];
+	readonly options: ReportOptions;
+	readonly moduleRoot: string | null;
+}): Promise<void> {
+	const reports = await deps.runner.costReport({ moduleRoots, options });
+	if (reports.length === 0) {
+		deps.write(
+			`No lecture has run ${searchScope({ moduleRoot })}, so there is nothing to report.\n`,
+		);
+		return;
+	}
 	for (const report of reports) {
 		deps.write(`${report}\n`);
 	}
@@ -416,12 +441,11 @@ async function costReportCommand({
 }: CommandArgs<Extract<CliCommand, { command: "cost-report" }>>): Promise<number> {
 	const { lectureDate, moduleRoot } = command;
 	if (lectureDate === null) {
-		writeCostReports({
+		await reportCosts({
 			deps,
-			reports: await deps.runner.costReport({
-				moduleRoots: scopedModuleRoots({ moduleRoot, deps }),
-				options: {},
-			}),
+			moduleRoot,
+			moduleRoots: scopedModuleRoots({ moduleRoot, deps }),
+			options: {},
 		});
 		return EXIT_SUCCESS;
 	}
@@ -432,12 +456,11 @@ async function costReportCommand({
 		lectureDate,
 		choose: deps.selectMatches,
 		act: async (matches) => {
-			writeCostReports({
+			await reportCosts({
 				deps,
-				reports: await deps.runner.costReport({
-					moduleRoots: matches.map((lectureMatch) => lectureMatch.moduleRoot),
-					options: { lectureDate },
-				}),
+				moduleRoot,
+				moduleRoots: matches.map((lectureMatch) => lectureMatch.moduleRoot),
+				options: { lectureDate },
 			});
 			return EXIT_SUCCESS;
 		},

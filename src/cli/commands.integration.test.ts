@@ -539,6 +539,25 @@ describe("executeCommand", () => {
 			expect(runner.costReport).toHaveBeenCalledWith({ moduleRoots: [moduleRoot], options: {} });
 		});
 
+		// Nothing spent is an answer. Printing nothing at all cannot be told from a
+		// command that failed to look, or from a mistyped --module.
+		it("should say there is nothing to report and succeed when no lecture has run", async () => {
+			runner.costReport.mockResolvedValue([]);
+
+			const code = await invoke(costReport({ lectureDate: null, moduleRoot: null }));
+
+			expect(code).toBe(0);
+			expect(printed()).toContain("nothing to report");
+		});
+
+		it("should name the module it looked in when --module narrows an empty report", async () => {
+			runner.costReport.mockResolvedValue([]);
+
+			await invoke(costReport({ lectureDate: null, moduleRoot }));
+
+			expect(printed()).toContain(testModuleName);
+		});
+
 		it("should narrow to the chosen lectures when the date matches several modules", async () => {
 			const other: LectureMatch = {
 				moduleRoot: secondModuleRoot(),
