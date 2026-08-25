@@ -22,8 +22,12 @@ Stages 4–8 (slide-conversion, image-extraction, synthesis, qa-loop, pdf-genera
 
 ### Two behaviours that look like faults and are not
 
-- **A clean re-run reports `partial`, not `success`.** A stage that is already complete is *skipped*, and a skipped stage contributes `partial`. Re-running a finished lecture therefore reports `partial` with zero cost. The exit code is still 0. Nothing is wrong.
+- **A run that produces no PDF is still reported as a success.** Only Stages 0–3 exist, so a run does everything there is to do and ends with a structured transcript. The status describes the run, not how far the pipeline reaches.
 - **`--from-stage` accepts stages that do not exist yet.** `--from-stage synthesis` is accepted, resets manifest entries for stages that never ran, then runs the three built stages, which all skip. A no-op, not an error.
+
+### What a run prints
+
+Each lecture is named as its run begins, and each stage says what it did as it happens: `▶` for a stage starting, `✔` when it finishes (with its calls and cost, where it made any), `−` where its output was already present and it was skipped, `✖` where it failed. The run summary follows, then any failed stage's message and where to find its stack. A re-run of a finished lecture is all `−` lines and an empty summary table — the table lists only stages that did work.
 
 ---
 
@@ -183,8 +187,9 @@ From here each run bills real transcription. Use the short lecture.
 
 Re-run the identical command.
 
-- All stages skip, cost is zero, exit 0
-- Overall status reads **`partial`** — expected, see §1
+- Every stage reports its output already present and is skipped, cost is zero, exit 0
+- Overall status reads **`success`** — the lecture is finished, and repeating nothing is the pipeline working
+- The run summary table is **empty**, since it lists only the stages that did work; the skip lines above it are what say why
 - No file is rewritten (check modification times)
 
 ### T7 — `--from-stage`
@@ -212,6 +217,6 @@ One full-length lecture end to end, to confirm nothing depends on the short file
 For each test: the command, the exit code, what was printed, and pass/fail. For failures, keep `runs/<runId>.json` and the debug log.
 
 Worth noting separately as they come up:
-- Wording that misleads — `partial` on a clean re-run is a known one
+- Wording that misleads, and any stage notice that says something other than what the stage did
 - Any cost figure that disagrees with the provider's own
 - Anything Stage 0 renames that you did not expect

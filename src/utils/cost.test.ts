@@ -642,7 +642,7 @@ const failedLecture = lecture({
 const otherModuleLecture = lecture({
 	moduleRoot: otherModuleRoot,
 	folder: "Lecture 1 - Antigens - 2025-10-11",
-	overallStatus: "partial",
+	overallStatus: "success",
 });
 
 const batch: BatchSummary = {
@@ -676,10 +676,12 @@ describe("formatBatchSummary", () => {
 		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+2\\s+failed`));
 	});
 
+	// The row is the module's own verdict, not the batch's: this batch failed
+	// overall, and this module still reads success because nothing in it failed.
 	it("should carry a module's own status when none of its lectures failed", () => {
 		const summary = batchSummary();
 
-		expect(summary).toMatch(new RegExp(`${otherModuleName}\\s+1\\s+partial`));
+		expect(summary).toMatch(new RegExp(`${otherModuleName}\\s+1\\s+success`));
 	});
 
 	it("should count every lecture in an all-modules row when the batch ends", () => {
@@ -703,7 +705,7 @@ describe("formatBatchSummary", () => {
 		const namesake = lecture({
 			moduleRoot: join(otherModuleRoot, testModuleName),
 			folder: otherLecture.folderName,
-			overallStatus: "partial",
+			overallStatus: "failed",
 		});
 
 		const summary = batchSummary({ lectures: [succeededLecture, namesake] });
@@ -711,7 +713,7 @@ describe("formatBatchSummary", () => {
 		const rows = summary.split("\n").filter((line) => line.startsWith(testModuleName));
 		expect(rows).toHaveLength(2);
 		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+1\\s+success`));
-		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+1\\s+partial`));
+		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+1\\s+failed`));
 	});
 
 	// The format snapshot; see the note at the top of this file.

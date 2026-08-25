@@ -651,11 +651,16 @@ export type RunLog = TimeSpan & {
 
 /**
  * The overall outcome of a run or batch: every stage's output standing, whether
- * this run produced it or found it already there (`success`), a stage the run
- * never reached (`partial`), or at least one failure (`failed`)
- * (technical-design.md §4.7).
+ * this run produced it or found it already there (`success`), or at least one
+ * stage that failed (`failed`) (technical-design.md §4.7).
+ *
+ * Two values rather than three. The question a run answers is whether the work
+ * is done, and there are only two answers to it — a third would have to describe
+ * a lecture whose pipeline is incomplete without anything having failed, and
+ * nothing the runner sees can be that: it runs every stage it was given, and a
+ * stage it never reached was stopped by a failure that already decides the run.
  */
-export type OverallStatus = "success" | "partial" | "failed";
+export type OverallStatus = "success" | "failed";
 
 /**
  * A lecture located by `resolveLecturesByDate`, identifying its module and

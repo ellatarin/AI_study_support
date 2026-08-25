@@ -5,7 +5,7 @@ exports[`formatBatchSummary > should render the whole batch table when given a b
 Module                          Lectures    Status
 ──────────────────────────────────────────────────
 Biology of Disease                     2    failed
-Immunology                             1   partial
+Immunology                             1   success
 ──────────────────────────────────────────────────
 All modules                            3    failed"
 `;

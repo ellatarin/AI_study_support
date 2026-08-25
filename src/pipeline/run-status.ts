@@ -2,10 +2,10 @@
  * Reading what a run and its stages amount to.
  *
  * Reducing what happened during a run to a single {@link OverallStatus}: the
- * same three-way rule applies at every level — a stage within a lecture, a
- * lecture within a module, a module within a batch — so it is stated once here
- * and applied by the runner (which summarises a lecture and a batch) and by the
- * cost reporting that prints those summaries (technical-design.md §4.7).
+ * same rule applies at every level — a stage within a lecture, a lecture within
+ * a module, a module within a batch — so it is stated once here and applied by
+ * the runner (which summarises a lecture and a batch) and by the cost reporting
+ * that prints those summaries (technical-design.md §4.7).
  *
  * And reading a manifest stage entry for the one question three unrelated
  * callers ask of it — {@link hasSettledOutput} — which belongs beside the above
@@ -42,24 +42,21 @@ export function hasSettledOutput(
 }
 
 /**
- * The status one stage contributes to its run: a failure outright, a stage never
- * reached as `partial`, and both a completed stage and a skipped one as
- * `success`.
+ * The status one stage contributes to its run: `failed` where the stage ran and
+ * failed, and `success` everywhere else.
  *
- * A skipped stage counts as a success on the same reading {@link hasSettledOutput}
- * gives it: its output is on disk, and the run declining to produce it a second
- * time is the pipeline working. Counting it as work not done made the commonest
- * run of all — a re-run of a finished lecture, which repeats nothing — report
- * `partial`, as though something had gone wrong with a lecture that is complete.
+ * This is what a stage contributes to the fold below, not a verdict on the stage
+ * in isolation — `success` here means "nothing about this stage makes the run a
+ * failure", which is as true of a stage the run never reached as of one that
+ * finished. A skipped stage reads the same way {@link hasSettledOutput} reads it:
+ * its output is on disk, and the run declining to produce it a second time is
+ * the pipeline working, not work left undone.
  *
  * @param entry - The stage's run-log entry.
  * @returns The status that stage contributes.
  */
 export function stageOutcomeStatus(entry: RunLogStageEntry): OverallStatus {
-	if (entry.action === "not-reached") {
-		return "partial";
-	}
-	if (entry.action === "skipped") {
+	if (entry.action === "skipped" || entry.action === "not-reached") {
 		return "success";
 	}
 	return entry.status === "failed" ? "failed" : "success";
@@ -67,8 +64,7 @@ export function stageOutcomeStatus(entry: RunLogStageEntry): OverallStatus {
 
 /**
  * Combines the statuses of a run's parts: any failure makes the whole failed,
- * any partial makes it partial, and everything else — including nothing at all —
- * is a success.
+ * and everything else — including nothing at all — is a success.
  *
  * @param args - The statuses to combine.
  * @param args.statuses - The parts' statuses, in any order.
@@ -79,13 +75,7 @@ export function summariseOverallStatus({
 }: {
 	readonly statuses: readonly OverallStatus[];
 }): OverallStatus {
-	if (statuses.includes("failed")) {
-		return "failed";
-	}
-	if (statuses.includes("partial")) {
-		return "partial";
-	}
-	return "success";
+	return statuses.includes("failed") ? "failed" : "success";
 }
 
 /**

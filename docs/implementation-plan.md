@@ -224,7 +224,7 @@ Runner lifecycle — integration tests (real temp directory with fixture manifes
 Manifest I/O and run status — integration and unit tests:
 - `should return null when the manifest is missing` / `when the manifest is malformed`
 - `should leave no temporary file behind when the write succeeds`
-- `should report partial when a stage was skipped or not reached`, `failed when any part failed`
+- `should report success when a stage was skipped because its output already stood`, and when a stage was never reached; `failed when any part failed`
 
 CLI argument parsing — unit tests (no filesystem, no runner):
 - `should carry every run flag when they are all supplied`

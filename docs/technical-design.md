@@ -675,15 +675,17 @@ findLectureByDate(args: { moduleRoot: string; lectureDate: string }): Promise<{ 
 
 A `RunSummary` lists its stages as `RunStageOutcome` — the run-log entry *paired with the stage id it belongs to*. The run log keys entries by stage id, but a summary is an ordered list, and its consumer (the end-of-run summary, §7) has to name each stage it reports.
 
-**Reducing outcomes to a status.** The same three-way rule applies at every level — a stage within a lecture, a lecture within a module, a module within a batch — so it is stated once in `src/pipeline/run-status.ts` and applied by both the runner and the reporting that prints its summaries:
+**Reducing outcomes to a status.** The same rule applies at every level — a stage within a lecture, a lecture within a module, a module within a batch — so it is stated once in `src/pipeline/run-status.ts` and applied by both the runner and the reporting that prints its summaries.
+
+`OverallStatus` has two values, `success` and `failed`. The question a run answers is whether the work is done, and there are only two answers to it: a third would have to describe a lecture whose pipeline is incomplete without anything having failed, and nothing the runner sees can be that — it runs every stage it was given, a skipped stage's output is already on disk, and a stage it never reached was stopped by a failure that has already decided the run.
 
 ```typescript
-stageOutcomeStatus(entry: RunLogStageEntry): OverallStatus            // failed | partial (not-reached) | success
-// A skipped stage counts as a success, on the same reading `hasSettledOutput` gives it: its output is on disk,
-// and a run declining to produce it a second time is the pipeline working. Counted as work not done, it made
-// the commonest run of all — a re-run of a finished lecture, which repeats every stage's skip — report
-// `partial`, of a lecture that is complete.
-summariseOverallStatus(args: { statuses: readonly OverallStatus[] }): OverallStatus  // any failure wins, then any partial
+stageOutcomeStatus(entry: RunLogStageEntry): OverallStatus            // failed where the stage ran and failed
+// What a stage contributes to the fold, not a verdict on the stage alone: `success` means "nothing here makes
+// the run a failure", which is as true of a stage never reached as of one that finished. A skipped stage reads
+// as `hasSettledOutput` reads it — its output is on disk, and declining to produce it again is the pipeline
+// working rather than work left undone.
+summariseOverallStatus(args: { statuses: readonly OverallStatus[] }): OverallStatus  // any failure wins
 summariseLectures(args: { lectures: readonly { overallStatus: OverallStatus }[] }): OverallStatus
 // The same rule over lectures, which carry their own status: the runner folds a whole batch this way and the
 // batch table folds each module's rows, and both were writing the projection out. The parameter asks for the
@@ -694,7 +696,7 @@ hasSettledOutput(entry: ManifestStageEntry | QaManifestStageEntry | undefined): 
 // section. A type guard rather than a boolean, so a caller that has checked can read `filesWritten` without a cast.
 ```
 
-**Run outcome classification.** A `RunSummary.overallStatus` — and the aggregate `BatchSummary.overallStatus` across a batch's lectures — is `success` when every attempted stage completed, `partial` when one or more stages were skipped or not reached, and `failed` when at least one stage failed.
+**Run outcome classification.** A `RunSummary.overallStatus` — and the aggregate `BatchSummary.overallStatus` across a batch's lectures — is `failed` when at least one stage failed, and `success` otherwise, a stage whose output already stood and was skipped included. It answers whether the lecture's work is done, not how much of it this particular run performed.
 
 **Pipeline order comes from `STAGE_IDS`.** `src/types/pipeline.ts` declares `STAGE_IDS` as the ordered stage list, and everything that walks the stages in order — the runner's `--from-stage` reset, the cost report's per-stage breakdown — iterates that array. Neither derives its own order from the keys of some other map: a map is a lookup keyed *by* stage, and using its key order as the pipeline order means a stage added to one map and not another silently changes or truncates the sequence.
 

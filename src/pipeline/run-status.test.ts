@@ -31,9 +31,9 @@ describe("stageOutcomeStatus", () => {
 			expected: "success" as const,
 		},
 		{
-			scenario: "the stage was not reached",
+			scenario: "the stage was never reached because the run had already halted",
 			entry: { action: "not-reached" } as RunLogStageEntry,
-			expected: "partial" as const,
+			expected: "success" as const,
 		},
 	])("should report $expected when $scenario", ({ entry, expected }) => {
 		expect(stageOutcomeStatus(entry)).toBe<OverallStatus>(expected);
@@ -49,18 +49,13 @@ describe("summariseOverallStatus", () => {
 			expected: "success" as const,
 		},
 		{
-			scenario: "one part was partial",
-			statuses: ["success", "partial"] as const,
-			expected: "partial" as const,
-		},
-		{
 			scenario: "one part failed",
 			statuses: ["success", "failed"] as const,
 			expected: "failed" as const,
 		},
 		{
-			scenario: "parts both failed and were partial",
-			statuses: ["partial", "failed", "success"] as const,
+			scenario: "several parts failed among ones that did not",
+			statuses: ["success", "failed", "failed"] as const,
 			expected: "failed" as const,
 		},
 	])("should report $expected when $scenario", ({ statuses, expected }) => {
