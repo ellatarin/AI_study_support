@@ -309,14 +309,28 @@ type CommandSpec = {
 };
 
 /**
+ * The word a user types to choose a command.
+ *
+ * Derived from {@link CliCommand} rather than listed, so the words and the
+ * commands they name cannot drift apart. `help` is excluded because it is
+ * answered before any command is looked up — it has to work in a project that is
+ * not yet configured — so it has no spec and no usage line of its own.
+ */
+type CommandName = Exclude<CliCommand, { readonly command: "help" }>["command"];
+
+/**
  * Every command the CLI offers, described once.
  *
  * The usage text is rendered from this and so is each command's own usage line,
  * and `build` is what the parser dispatches to — so a command is written down in
  * one place rather than in a usage line, a spec, and a cascade of command words
  * that nothing cross-checked against either.
+ *
+ * Keyed by {@link CommandName} rather than by `string`, so a command added to
+ * {@link CliCommand} and forgotten here fails to compile. Keyed loosely, the
+ * omission was a usage error a user met at the terminal.
  */
-const COMMAND_SPECS: Readonly<Record<string, CommandSpec>> = {
+const COMMAND_SPECS: Readonly<Record<CommandName, CommandSpec>> = {
 	run: {
 		positionals: "<date>",
 		maxPositionals: 1,
@@ -406,6 +420,21 @@ function invocationForm({
 
 /** Spaces between the widest label in a usage-text list and the descriptions. */
 const LABEL_GAP = 3;
+
+/**
+ * Whether a word the user typed names one of the CLI's commands.
+ *
+ * A type guard rather than a boolean, so the caller that has checked can index
+ * {@link COMMAND_SPECS} with it — which is what the table's tighter key requires,
+ * and what makes an unknown word a usage error at the one place a command is
+ * read rather than a missing entry discovered later.
+ *
+ * @param value - The word to test.
+ * @returns `true` when the word is a key of {@link COMMAND_SPECS}.
+ */
+function isCommandName(value: string): value is CommandName {
+	return Object.hasOwn(COMMAND_SPECS, value);
+}
 
 /**
  * One list in the usage text: a label per line with its description, indented
@@ -545,11 +574,10 @@ export function parseCliArgs({ argv }: { readonly argv: readonly string[] }): Cl
 		return { command: "help" };
 	}
 	const [command, ...rest] = positionals;
-	const spec = command === undefined ? undefined : COMMAND_SPECS[command];
-	if (command === undefined || spec === undefined) {
+	if (command === undefined || !isCommandName(command)) {
 		throw new CliUsageError(
 			`Unknown command "${command ?? ""}". Commands are: ${Object.keys(COMMAND_SPECS).join(", ")}`,
 		);
 	}
-	return buildCommand({ command, spec, positionals: rest, flags });
+	return buildCommand({ command, spec: COMMAND_SPECS[command], positionals: rest, flags });
 }
