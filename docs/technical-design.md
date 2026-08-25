@@ -120,9 +120,13 @@ extractProvisionalTitle(filename: string): string
 // embedded lecture-number token (e.g. `Lecture 1`, which would duplicate the assigned number),
 // separator debris at either end, and trailing artefacts (`co`, `copy`, `v2`) are present, then
 // title-cases the result. The separator strip is what lets a name this module built read back as the
-// title it was built from: `Lecture 1 - Cell Injury - 2025-10-10.mp4` gives `Cell Injury`. A thin or empty
-// result is acceptable — a date-plus-number filename leaves nothing — and Stage 3 judges the title
-// once the transcript exists.
+// title it was built from: `Lecture 1 - Cell Injury - 2025-10-10.mp4` gives `Cell Injury`. A word already
+// written wholly in capitals is left as it stands, so `DNA replication` gives `DNA Replication` rather than
+// `Dna Replication`: the title becomes the workspace folder and the final PDF name, and an acronym
+// lowercased there is a misspelling of the subject in every name the run produces. The cost is that a
+// filename typed wholly in capitals cannot be told from one made of acronyms and keeps its capitals.
+// A thin or empty result is acceptable — a date-plus-number filename leaves nothing — and Stage 3 judges
+// the title once the transcript exists.
 lectureFolderName(args: { lectureNumber: number; title: string; date: Date }): string
 // The canonical `Lecture N - <title> - YYYY-MM-DD` form shared by the folder, sources, and PDF. Takes the
 // parsed Date rather than a formatted string so the one place that formats a lecture date is formatDateISO.

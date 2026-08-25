@@ -89,12 +89,32 @@ const LAST_C0_CONTROL_CODE = 0x1f;
 const DELETE_CODE = 0x7f;
 
 /**
- * Title-cases a single word: first letter upper, remainder lower.
+ * Whether a word is written wholly in capitals — an acronym such as `DNA`, or a
+ * code such as `COVID-19`. Digits and punctuation carry no case, so the test is
+ * that the word holds a capital and no lower-case letter at all.
+ *
+ * @param word - The word to inspect.
+ * @returns `true` when the word has capitals and no lower-case letters.
+ */
+function isAllCapitals(word: string): boolean {
+	return word !== word.toLowerCase() && word === word.toUpperCase();
+}
+
+/**
+ * Title-cases a single word: first letter upper, remainder lower. A word
+ * already written wholly in capitals is returned untouched, because the title
+ * becomes the workspace folder name and the final PDF name, and lowercasing an
+ * acronym's tail would misspell the subject in both. The cost is that a
+ * filename typed wholly in capitals cannot be told from one made of acronyms
+ * and is left as the lecturer typed it.
  *
  * @param word - The word to transform (may be empty).
- * @returns The title-cased word.
+ * @returns The title-cased word, or the word unchanged when it is all capitals.
  */
 function titleCaseWord(word: string): string {
+	if (isAllCapitals(word)) {
+		return word;
+	}
 	return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
 

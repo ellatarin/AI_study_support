@@ -24,6 +24,15 @@ describe("extractProvisionalTitle", () => {
 		// A file Stage 0 has already renamed, re-read because its lecture has no
 		// manifest yet: the title it yields must be the one the name was built from.
 		{ filename: "Lecture 1 - Cell Injury - 2025-10-10.mp4", expected: "Cell Injury" },
+		// An acronym is a word the lecturer wrote in capitals on purpose, and the
+		// title reaches the workspace folder and the final PDF, so lowercasing its
+		// tail would misspell the subject in every name the run produces.
+		{ filename: "2025-10-10 BOD_DNA replication.mp4", expected: "DNA Replication" },
+		{ filename: "2025-10-10 BOD_Introduction to DNA.mp4", expected: "Introduction to DNA" },
+		// The cost of the rule above, stated so it is a decision rather than a
+		// surprise: a filename typed wholly in capitals is indistinguishable from
+		// one made of acronyms, so it is left as the lecturer typed it.
+		{ filename: "2025-10-10 BOD_CELL INJURY.mp4", expected: "CELL INJURY" },
 	])("should extract provisional title when filename is $filename", ({ filename, expected }) => {
 		expect(extractProvisionalTitle(filename)).toBe(expected);
 	});
