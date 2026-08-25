@@ -16,21 +16,6 @@ import { OPENROUTER_PATHS } from "./openrouter.js";
  */
 export class ConfigError extends NamedError {}
 
-// The OpenRouter model list is stable within a run; caching it means the check
-// costs a single request no matter how many stages reference the same model.
-let cachedModelIds: ReadonlySet<string> | null = null;
-
-/**
- * Clears the in-process OpenRouter model-ID cache so the next {@link loadConfig}
- * with the model check enabled fetches a fresh list. Primarily a test seam for
- * isolating interceptor-backed cases.
- *
- * @returns Nothing.
- */
-export function clearModelIdCache(): void {
-	cachedModelIds = null;
-}
-
 /**
  * A raw config value together with the key it reports against, which is what
  * every reader below needs and all a reader needs: the value to check, and the
@@ -359,9 +344,6 @@ function modelsPageFor(baseUrl: string): string {
 }
 
 async function fetchKnownModelIds(baseUrl: string): Promise<ReadonlySet<string>> {
-	if (cachedModelIds !== null) {
-		return cachedModelIds;
-	}
 	const response = await fetch(`${baseUrl}${OPENROUTER_PATHS.models}`);
 	if (!response.ok) {
 		throw new ConfigError(
@@ -369,9 +351,7 @@ async function fetchKnownModelIds(baseUrl: string): Promise<ReadonlySet<string>>
 		);
 	}
 	const body = (await response.json()) as { readonly data: readonly { readonly id: string }[] };
-	const ids = new Set(body.data.map((model) => model.id));
-	cachedModelIds = ids;
-	return ids;
+	return new Set(body.data.map((model) => model.id));
 }
 
 function describeModelIdMiss(args: { readonly stageId: string; readonly modelId: string }): string {
@@ -450,20 +430,20 @@ async function assertModelIdsResolvable(config: PipelineConfig): Promise<void> {
  * the list is never fetched when every configured stage is exempt
  * (technical-design.md §6).
  *
+ * The check is not optional. It costs one request per invocation, before any
+ * billable call, and a way of turning it off would be a way of discovering a
+ * typo'd model id at the first paid call instead of at startup.
+ *
  * @param options - Loader options.
  * @param options.projectRoot - Absolute path to the directory containing `pipeline-config.json`.
- * @param options.skipModelCheck - When `true`, skips the OpenRouter model-ID lookup for offline runs. Defaults to `false`.
  * @returns The validated pipeline configuration.
  * @throws {ConfigError} If the file is missing, malformed, fails shape validation, or names an unrecognised model ID.
  */
 export async function loadConfig(options: {
 	readonly projectRoot: string;
-	readonly skipModelCheck?: boolean;
 }): Promise<PipelineConfig> {
 	const configPath = join(options.projectRoot, CONFIG_FILENAME);
 	const config = parseConfig(await readConfigFile(configPath));
-	if (options.skipModelCheck !== true) {
-		await assertModelIdsResolvable(config);
-	}
+	await assertModelIdsResolvable(config);
 	return config;
 }

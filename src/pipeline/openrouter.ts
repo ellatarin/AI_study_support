@@ -118,11 +118,6 @@ function responseFormatFields(
 	};
 }
 
-// One client is reused across calls, remembering the settings it was built from
-// so a differently configured run is never served a client pointed elsewhere or
-// waiting to the wrong budget. Tests inject their own client instead.
-let sharedClient: { readonly builtFrom: ClientSettings; readonly client: OpenAI } | null = null;
-
 /**
  * Builds an OpenAI SDK client pointed at OpenRouter, with the app title header
  * and the address, timeout, and retry budget the configuration asks for
@@ -148,72 +143,39 @@ export function createOpenRouterClient({
 }
 
 /**
- * The settings a client is actually built from, and so the settings that decide
- * whether a cached one can be reused. A narrower thing than the whole
- * `openRouter` section: the cost-lookup budget lives there too but is applied
- * per request, so a run differing only in that can share a client.
+ * Supplies the invocation's OpenRouter client, building it the first time one is
+ * actually wanted.
+ *
+ * A function rather than the client itself because constructing one reads
+ * `OPENROUTER_API_KEY`, and the SDK refuses to construct without it. Commands
+ * that never reach a model — `delete`, `rename`, `change-date`, `cost-report` —
+ * would otherwise demand a key to do work that has nothing to do with one.
  */
-type ClientSettings = Pick<
-	OpenRouterSettings,
-	"baseUrl" | "completionMaxRetries" | "completionTimeoutMs"
->;
+export type OpenRouterClient = () => OpenAI;
 
 /**
- * Reads the settings {@link createOpenRouterClient} builds a client from.
+ * Builds the provider the pipeline is handed: one client per invocation, made on
+ * first use and reused after it.
  *
- * @param openRouter - The validated `openRouter` config section.
- * @returns Just the fields the client is constructed with.
+ * The memory is a local in this closure, so it lives exactly as long as the
+ * invocation that made it. Nothing module-level holds a client, which is what
+ * lets tests hand a stage their own provider without a way of clearing shared
+ * state (technical-design.md §4.7, §6).
+ *
+ * @param args - The settings every client it builds is built from.
+ * @param args.openRouter - The validated `openRouter` config section.
+ * @returns A provider handing back the same client each time it is asked.
  */
-function clientSettings(openRouter: OpenRouterSettings): ClientSettings {
-	return {
-		baseUrl: openRouter.baseUrl,
-		completionMaxRetries: openRouter.completionMaxRetries,
-		completionTimeoutMs: openRouter.completionTimeoutMs,
-	};
-}
-
-/**
- * The shared client for these settings, building one if the settings differ from
- * whatever the cached client was built with.
- *
- * The settings are compared field by field rather than by serialising them,
- * because a serialised comparison also depends on the order the fields happen to
- * be written in, which is not part of what identifies a client.
- *
- * @param openRouter - The validated `openRouter` config section.
- * @returns The cached client, or a newly built one.
- */
-function getSharedClient(openRouter: OpenRouterSettings): OpenAI {
-	const wanted = clientSettings(openRouter);
-	if (
-		sharedClient === null ||
-		!sameClientSettings({ left: sharedClient.builtFrom, right: wanted })
-	) {
-		sharedClient = { builtFrom: wanted, client: createOpenRouterClient({ openRouter }) };
-	}
-	return sharedClient.client;
-}
-
-/**
- * Whether two sets of client settings would build the same client.
- *
- * @param args - The two settings to compare.
- * @param args.left - The settings a client was built from.
- * @param args.right - The settings now being asked for.
- * @returns `true` when every field matches.
- */
-function sameClientSettings({
-	left,
-	right,
+export function createOpenRouterClientProvider({
+	openRouter,
 }: {
-	readonly left: ClientSettings;
-	readonly right: ClientSettings;
-}): boolean {
-	return (
-		left.baseUrl === right.baseUrl &&
-		left.completionMaxRetries === right.completionMaxRetries &&
-		left.completionTimeoutMs === right.completionTimeoutMs
-	);
+	readonly openRouter: OpenRouterSettings;
+}): OpenRouterClient {
+	let client: OpenAI | null = null;
+	return () => {
+		client ??= createOpenRouterClient({ openRouter });
+		return client;
+	};
 }
 
 function stageConfigFor(options: {
@@ -356,7 +318,9 @@ async function lookupCost(options: {
  *   providers that honour it, and obliges the caller to ask for JSON in its messages too (§6).
  * @param options.logger - The calling stage's logger, already bound to it by the stage factory;
  *   the call is recorded on it at `debug` (§10).
- * @param options.client - An OpenAI client to use; defaults to the shared OpenRouter client.
+ * @param options.client - Supplies the OpenAI client to call through, provided where the pipeline is
+ *   assembled and handed to the stage exactly as its logger is; asked for it here, at the point a
+ *   client is actually wanted (§4.7).
  * @returns The completion text and its resolved cost.
  * @throws {UnconfiguredStageError} If the configuration holds no entry for the stage.
  * @throws {ContextLengthError} If the prompt exceeds the model's context window.
@@ -371,11 +335,13 @@ export async function makeCompletionCall(options: {
 	readonly config: PipelineConfig;
 	readonly responseFormat: CompletionResponseFormat;
 	readonly logger: Logger;
-	readonly client?: OpenAI;
+	readonly client: OpenRouterClient;
 }): Promise<{ readonly content: string; readonly cost: StageCost }> {
 	const stageConfig = stageConfigFor({ config: options.config, stageId: options.stageId });
 	const { openRouter } = options.config;
-	const client = options.client ?? getSharedClient(openRouter);
+	// Asked for at the one moment a client is genuinely needed. A command that
+	// reaches no model never builds one, and so never needs the API key.
+	const client = options.client();
 	// Measured here rather than handed back for the caller to log: the latency of
 	// the call is only observable from inside it (§10).
 	const startedAt = performance.now();

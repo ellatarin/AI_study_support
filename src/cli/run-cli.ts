@@ -10,6 +10,7 @@
 
 import { loadConfig } from "../pipeline/config.js";
 import { debugLogPath } from "../pipeline/layout.js";
+import { createOpenRouterClientProvider } from "../pipeline/openrouter.js";
 import { deriveRunId, PipelineRunner } from "../pipeline/runner.js";
 import { createAudioExtractionStage } from "../pipeline/stages/audio-extraction.js";
 import { createSourceNormalisationStage } from "../pipeline/stages/source-normalisation.js";
@@ -56,6 +57,12 @@ async function assembleDeps({
 	const config = await loadConfig({ projectRoot });
 	const logFile = debugLogPath({ projectRoot, runId: deriveRunId({ instant: new Date() }) });
 	const logger = createRootLogger({ logFile });
+	// One client for the invocation, provided from here for the reason the logger
+	// is: a stage is handed what it needs rather than reaching for a shared one,
+	// so nothing in the pipeline holds state outliving a run. It is a provider
+	// rather than a client because constructing one needs the API key, and the
+	// commands that touch no model must keep working without one.
+	const client = createOpenRouterClientProvider({ openRouter: config.openRouter });
 	const { gbpPerUsd } = config.currency;
 	const runner = new PipelineRunner({
 		config,
@@ -68,7 +75,7 @@ async function assembleDeps({
 		lectureStages: [
 			createAudioExtractionStage({ logger }),
 			createTranscriptionStage({ logger }),
-			createTranscriptStructuringStage({ logger }),
+			createTranscriptStructuringStage({ logger, client }),
 		],
 		logger,
 		reporter: createRunReporter({ write, gbpPerUsd }),

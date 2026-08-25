@@ -15,7 +15,7 @@ import { errorMessage, NamedError } from "../../utils/errors.js";
 import { isRecord } from "../../utils/record.js";
 import { moduleDirs, stageOutputPath } from "../layout.js";
 import { baseNameForLecture, renameLectureFiles } from "../lecture-files.js";
-import { makeCompletionCall } from "../openrouter.js";
+import { makeCompletionCall, type OpenRouterClient } from "../openrouter.js";
 import { createPipelineStage, writeStageOutput } from "./pipeline-stage.js";
 import { buildStructuringMessages } from "./transcript-structuring.prompt.js";
 /* jscpd:ignore-end */
@@ -299,6 +299,7 @@ function settleTitle({
  * @param args.input - The transcript to structure.
  * @param args.context - The current lecture run context.
  * @param args.logger - The run's logger, on which the model call is recorded.
+ * @param args.client - The OpenAI client the completion goes through, built where the pipeline is assembled.
  * @returns The structured transcript's path, the settled title, the identity for the runner to record, the call's cost, and the file written.
  * @throws {TranscriptStructuringError} If the reply is unusable or a needed title is missing.
  */
@@ -307,10 +308,12 @@ async function structureTranscript({
 	input,
 	context,
 	logger,
+	client,
 }: {
 	readonly input: TranscriptStructuringInput;
 	readonly context: StageContext;
 	readonly logger: Logger;
+	readonly client: OpenRouterClient;
 }): Promise<StageResult<TranscriptStructuringOutput>> {
 	const { content, cost } = await makeCompletionCall({
 		messages: buildStructuringMessages({
@@ -322,6 +325,7 @@ async function structureTranscript({
 		config: context.config,
 		responseFormat: "json",
 		logger,
+		client,
 	});
 	const reply = parseReply(content);
 
@@ -356,18 +360,21 @@ async function structureTranscript({
  *
  * @param args - The stage's dependencies.
  * @param args.logger - The run's logger; the factory binds it to this stage.
+ * @param args.client - The invocation's OpenAI client, handed to the stage as the logger is (§4.7).
  * @returns The transcript-structuring stage.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 export function createTranscriptStructuringStage({
 	logger,
+	client,
 }: {
 	readonly logger: Logger;
+	readonly client: OpenRouterClient;
 }): PipelineStage<TranscriptStructuringInput, TranscriptStructuringOutput> {
 	return createPipelineStage({
 		stageId: STAGE_ID,
 		logger,
 		getInput: readTranscript,
-		run: structureTranscript,
+		run: (args) => structureTranscript({ ...args, client }),
 	});
 }

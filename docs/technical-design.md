@@ -1271,15 +1271,24 @@ The loader and the client surface:
 
 ```typescript
 // src/pipeline/config.ts
-loadConfig(args: { projectRoot: string; skipModelCheck?: boolean }): Promise<PipelineConfig>
+loadConfig(args: { projectRoot: string }): Promise<PipelineConfig>
 // Reads and validates pipeline-config.json; throws ConfigError on a missing or mistyped required field,
-// or on a model ID the check below rejects. skipModelCheck exists for offline runs against a mocked SDK.
+// or on a model ID the check below rejects. The check is not optional: it costs one request per invocation,
+// before any billable call, and a way of turning it off is a way of meeting a typo'd model id at the first
+// paid call rather than at startup.
 
 // src/pipeline/openrouter.ts
 createOpenRouterClient(args: { openRouter: PipelineConfig["openRouter"] }): OpenAI
-// The configured client above. Reused in-process, keyed on the settings it was built from, so a differently
-// configured run cannot be served a client pointed elsewhere or waiting to the wrong budget. Not exported as
-// a live instance, so importing the module never requires OPENROUTER_API_KEY.
+// The configured client above. Not exported as a live instance, so importing the module never requires
+// OPENROUTER_API_KEY.
+type OpenRouterClient = () => OpenAI
+createOpenRouterClientProvider(args: { openRouter: PipelineConfig["openRouter"] }): OpenRouterClient
+// How the pipeline is given a client: one per invocation, made at the composition root and handed to a stage
+// exactly as its logger is (§4.7). A provider rather than a client because building one reads the API key and
+// the SDK refuses to build without it, while `delete`, `rename`, `change-date` and `cost-report` reach no
+// model and must run without a key — so the client is built at the point a call is actually made. The one it
+// builds is remembered in the provider's own closure, which lives exactly as long as the invocation: nothing
+// module-level holds a client, so nothing needs a way to clear one.
 API_KEY_VARIABLE: "OPENROUTER_API_KEY"
 // The environment variable the key is read from, named for the same reason the routes are: a suite that stubs
 // it names the variable this module reads rather than its own copy. The key itself never leaves the
@@ -1307,7 +1316,7 @@ OpenRouter's own parameter reference states that JSON mode requires the prompt t
 
 **A stage key names a stage.** Every key of the `stages` section is checked against the stage IDs, and one that names no stage is a `ConfigError` at startup listing the stages it could have named. Configuration reaches a stage by its key alone, so this check is what makes "the stage is configured" and "the config file mentions the stage" the same statement.
 
-**Model-ID resolution check.** At startup `loadConfig` fetches the model list once from `${openRouter.baseUrl}/models` and asserts every configured `stages[*].modelId` appears in it, so placeholders left un-substituted, typos, and retired IDs are caught before any billable call. A miss throws a `ConfigError` naming the offending stages and linking to the models page. The result is cached in-process.
+**Model-ID resolution check.** At startup `loadConfig` fetches the model list once from `${openRouter.baseUrl}/models` and asserts every configured `stages[*].modelId` appears in it, so placeholders left un-substituted, typos, and retired IDs are caught before any billable call. A miss throws a `ConfigError` naming the offending stages and linking to the models page. The list is fetched once per invocation, which is the only time it is wanted: `loadConfig` runs once, and asks for the list once.
 
 **Exempting non-OpenRouter providers.** Not every stage calls OpenRouter — Stage 2 transcribes through ElevenLabs — so checking its model ID against OpenRouter's list would always fail. `modelIdCheck.exemptProviders` lists provider prefixes (the part of a model ID before the `/`) that the check skips, so a stage on any non-OpenRouter provider can still declare its model in config and have it recorded in the manifest and cost report. The mechanism is general: it is not specific to ElevenLabs, and a stage whose provider is not exempt is always checked. Exempting a provider trades away the typo protection for its IDs, so keep the list to providers that genuinely sit outside OpenRouter.
 

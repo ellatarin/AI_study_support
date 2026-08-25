@@ -41,7 +41,12 @@ import {
 } from "./layout.js";
 import { baseNameForLecture } from "./lecture-files.js";
 import { MANIFEST_VERSION, pendingStages } from "./manifest.js";
-import { API_KEY_VARIABLE as OPENROUTER_KEY_VARIABLE, OPENROUTER_PATHS } from "./openrouter.js";
+import {
+	createOpenRouterClientProvider,
+	API_KEY_VARIABLE as OPENROUTER_KEY_VARIABLE,
+	OPENROUTER_PATHS,
+	type OpenRouterClient,
+} from "./openrouter.js";
 import { assembleContext } from "./stage-context.js";
 import {
 	API_KEY_VARIABLE as ELEVENLABS_KEY_VARIABLE,
@@ -267,6 +272,28 @@ export function openRouterUrlsAt(baseUrl: string): {
 
 /** Where a suite intercepting the *configured* OpenRouter should point nock. */
 export const openRouterUrls = openRouterUrlsAt(exampleConfig.openRouter.baseUrl);
+
+/**
+ * The OpenRouter client provider a config describes, made the way the
+ * composition root makes it.
+ *
+ * Nothing holds a shared client any more — a stage is handed a provider, as it
+ * is handed its logger — so every suite driving a stage or a completion call
+ * supplies one. They ask here rather than each reaching into the config's
+ * `openRouter` section for themselves. A suite that needs the client itself
+ * calls what this returns.
+ *
+ * @param args - Which config's OpenRouter section to build from.
+ * @param args.config - The validated config the client should point at.
+ * @returns A provider handing back one client for that config.
+ */
+export function openRouterClientFor({
+	config,
+}: {
+	readonly config: PipelineConfig;
+}): OpenRouterClient {
+	return createOpenRouterClientProvider({ openRouter: config.openRouter });
+}
 
 /** The ElevenLabs counterpart to {@link openRouterAddress}. */
 const elevenLabsAddress = configuredAddress(exampleConfig.elevenLabs.baseUrl);

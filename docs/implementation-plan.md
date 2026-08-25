@@ -148,7 +148,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `should throw ConfigError naming the offending stage when a configured modelId is not in the OpenRouter models response`
 - `should throw ConfigError with a helpful hint when a placeholder like <REASONING_MODEL> is left un-substituted`
 - `should accept the config when every stage modelId appears in the OpenRouter response`
-- `should skip the model-ID check when skipModelCheck is set` — for offline test runs. It is a `loadConfig` parameter, reachable only from code: a user who cannot reach OpenRouter cannot run the pipeline either, so the command line offers no way to turn the check off
+- `should build no client when a provider is made without an API key` — the commands that reach no model must run without one, so making the provider must not build a client
 
 `openrouter.ts` — HTTP interceptor tests using `nock`:
 - `should send correct baseURL, headers, and model ID when makeCompletionCall invoked`

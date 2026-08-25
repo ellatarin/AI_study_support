@@ -15,10 +15,12 @@ import {
 	captureError,
 	configuringStage,
 	driveStage,
+	exampleConfig,
 	loggedAt,
 	makeManifest,
 	makeStageContext,
 	makeWorkspaceTree,
+	openRouterClientFor,
 	seedStageOutput,
 	structuringReply,
 	stubbedCostUsd,
@@ -96,7 +98,12 @@ describe("createTranscriptStructuringStage", () => {
 
 	/** The stage under test, logging into {@link logged}. */
 	function makeStage(): ReturnType<typeof createTranscriptStructuringStage> {
-		return createTranscriptStructuringStage({ logger: logged().logger });
+		return createTranscriptStructuringStage({
+			logger: logged().logger,
+			// The completion call is mocked wholesale in this suite, so the client is
+			// never reached; it is here because the stage requires one.
+			client: openRouterClientFor({ config: exampleConfig }),
+		});
 	}
 
 	/** The outcome the stage recorded for the lecture's title. */

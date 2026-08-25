@@ -7,6 +7,7 @@ import {
 	configuringStage,
 	exampleConfig,
 	loggedAt,
+	openRouterClientFor,
 	openRouterCompletionBody,
 	openRouterModelId,
 	openRouterUrls,
@@ -21,8 +22,10 @@ import {
 	CompletionRejectedError,
 	ContextLengthError,
 	createOpenRouterClient,
+	createOpenRouterClientProvider,
 	makeCompletionCall,
 	NoCompletionChoicesError,
+	API_KEY_VARIABLE as OPENROUTER_KEY_VARIABLE,
 	UnconfiguredStageError,
 } from "./openrouter.js";
 
@@ -84,6 +87,10 @@ function call(
 		config,
 		responseFormat: "text",
 		logger: logged().logger,
+		// The client is the caller's to provide — there is no shared one to fall
+		// back on — so the default here is the one this suite's config describes,
+		// and a test wanting a different client passes it in `overrides`.
+		client: openRouterClientFor({ config }),
 		...overrides,
 	});
 }
@@ -158,6 +165,27 @@ describe("createOpenRouterClient", () => {
 	});
 });
 
+describe("createOpenRouterClientProvider", () => {
+	// Building a client reads the API key and the SDK refuses to build without
+	// one. The provider is therefore made at the composition root but must not
+	// build anything there: `delete`, `rename`, `change-date` and `cost-report`
+	// reach no model, and none of them should need a key to run.
+	it("should build no client when a provider is made without an API key", () => {
+		vi.stubEnv(OPENROUTER_KEY_VARIABLE, undefined);
+
+		const provider = createOpenRouterClientProvider({ openRouter: config.openRouter });
+
+		expect(provider).toBeTypeOf("function");
+		expect(() => provider()).toThrow(/credential/i);
+	});
+
+	it("should hand back the client it already built when asked a second time", () => {
+		const provider = createOpenRouterClientProvider({ openRouter: config.openRouter });
+
+		expect(provider()).toBe(provider());
+	});
+});
+
 describe("makeCompletionCall", () => {
 	it("should send the correct baseURL, headers, and model ID when makeCompletionCall is invoked", async () => {
 		const { body, headers } = await callCapturingRequest();
@@ -194,20 +222,21 @@ describe("makeCompletionCall", () => {
 		expect(body.provider).toEqual(expectedProvider);
 	});
 
-	// The client is built once and reused, so the settings it was built from are
-	// remembered alongside it. This is the contract that reuse rests on: a run
-	// configured to reach OpenRouter elsewhere must not be served the client the
-	// previous address built.
-	it("should reach the new address when the configured address changes between calls", async () => {
+	// A call reaches wherever its client points. There is no shared client to be
+	// served by mistake, so this asserts the whole of the rule rather than the
+	// cache-invalidation that used to stand in for it.
+	it("should reach the new address when the client is built for a different address", async () => {
 		await callSucceeding();
 		const gateway = openRouterUrlsAt(GATEWAY_BASE_URL);
 		const gatewayCompletion = nock(gateway.origin)
 			.post(gateway.completions)
 			.reply(200, completionBody());
 		nock(gateway.origin).get(gateway.generation).query(true).reply(200, generationBody(0));
+		const openRouter = { ...config.openRouter, baseUrl: GATEWAY_BASE_URL };
 
 		await call({
-			config: { ...config, openRouter: { ...config.openRouter, baseUrl: GATEWAY_BASE_URL } },
+			config: { ...config, openRouter },
+			client: () => createOpenRouterClient({ openRouter }),
 		});
 
 		expect(gatewayCompletion.isDone()).toBe(true);
@@ -357,7 +386,7 @@ describe("makeCompletionCall", () => {
 		const client = createOpenRouterClient({ openRouter: config.openRouter });
 		vi.spyOn(client.chat.completions, "create").mockRejectedValue(new Error("socket exploded"));
 
-		const error = await captureError(call({ client }));
+		const error = await captureError(call({ client: () => client }));
 
 		expect(error.message).toBe("socket exploded");
 	});
@@ -379,7 +408,7 @@ describe("makeCompletionCall", () => {
 		});
 		mockCompletion().delay(200).reply(200, completionBody());
 
-		const error = await captureError(call({ client }));
+		const error = await captureError(call({ client: () => client }));
 
 		expect(error.message).toMatch(/timed out|timeout/i);
 	});
@@ -390,7 +419,7 @@ describe("makeCompletionCall", () => {
 		mockCompletionReturning();
 		mockGeneration().reply(200, generationBody(RESOLVED_COST_USD));
 
-		await call({ client });
+		await call({ client: () => client });
 
 		expect(getSpy).toHaveBeenCalledWith(
 			"/generation",

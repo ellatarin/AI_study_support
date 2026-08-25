@@ -8,10 +8,12 @@ import {
 	aiDerivedLecture,
 	configuringStage,
 	driveStage,
+	exampleConfig,
 	makeLectureTree,
 	makeManifest,
 	makeStageContext,
 	makeStubLogger,
+	openRouterClientFor,
 	openRouterCompletionBody,
 	openRouterUrls,
 	resetStubbedApi,
@@ -86,7 +88,10 @@ describe("transcript structuring against a real module tree", () => {
 	}
 
 	async function runStage(context: StageContext): Promise<LectureIdentityChanges | undefined> {
-		const stage = createTranscriptStructuringStage({ logger: makeStubLogger().logger });
+		const stage = createTranscriptStructuringStage({
+			logger: makeStubLogger().logger,
+			client: openRouterClientFor({ config: exampleConfig }),
+		});
 		const result = await driveStage({ stage, context });
 		return result.identityChanges;
 	}

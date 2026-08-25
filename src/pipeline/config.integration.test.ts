@@ -3,7 +3,7 @@ import { join } from "node:path";
 import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { CONFIG_FILENAME } from "../types/pipeline.js";
-import { ConfigError, clearModelIdCache, loadConfig } from "./config.js";
+import { ConfigError, loadConfig } from "./config.js";
 import {
 	blockNetwork,
 	captureError,
@@ -141,16 +141,10 @@ async function writeConfig(config: unknown): Promise<void> {
  * Every rejection case here differs in how the config was made bad, never in how
  * the failure is asked for, so only that difference is written out per test.
  *
- * @param args - How to load it.
- * @param args.skipModelCheck - Whether to load without consulting OpenRouter's model list.
  * @returns The error the load threw.
  */
-function configRejection({
-	skipModelCheck = false,
-}: {
-	readonly skipModelCheck?: boolean;
-} = {}): Promise<Error> {
-	return captureError(loadConfig({ projectRoot, skipModelCheck }));
+function configRejection(): Promise<Error> {
+	return captureError(loadConfig({ projectRoot }));
 }
 
 /**
@@ -177,7 +171,6 @@ function writeConfigAtGateway(): Promise<void> {
 }
 
 beforeEach(async () => {
-	clearModelIdCache();
 	// The network half only: nothing here sends a key, so there is none to stub.
 	blockNetwork();
 	projectRoot = await makeTempDir({ prefix: "config-test-" });
@@ -304,27 +297,6 @@ describe("loadConfig model-ID resolution check", () => {
 		expect(config.version).toBe("1");
 		expect(config.stages["transcript-structuring"]?.modelId).toBe(STRUCTURING_MODEL_ID);
 		expect(config.stages["slide-conversion"]?.concurrency).toBe(3);
-	});
-
-	it("should skip the model-ID check when skipModelCheck is set", async () => {
-		const config = makeValidConfig();
-		setStructuringModelId({ config, modelId: "totally/made-up-model" });
-		await writeConfig(config);
-
-		const result = await loadConfig({ projectRoot, skipModelCheck: true });
-
-		expect(result.stages["transcript-structuring"]?.modelId).toBe("totally/made-up-model");
-	});
-
-	it("should fetch the OpenRouter model list only once when loadConfig is called repeatedly", async () => {
-		await writeValidConfig();
-		mockModelsResponse(KNOWN_MODEL_IDS);
-
-		await loadConfig({ projectRoot });
-		const second = await loadConfig({ projectRoot });
-
-		expect(second.version).toBe("1");
-		expect(nock.isDone()).toBe(true);
 	});
 
 	it("should skip the model list fetch when no stages are configured", async () => {
@@ -655,7 +627,7 @@ describe("loadConfig rejections", () => {
 	])("should throw ConfigError when $name", async ({ seed, match }) => {
 		await seed();
 
-		const error = await configRejection({ skipModelCheck: true });
+		const error = await configRejection();
 
 		expect(error).toBeInstanceOf(ConfigError);
 		expect(error.message).toMatch(match);
