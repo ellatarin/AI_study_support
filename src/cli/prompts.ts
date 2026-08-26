@@ -10,7 +10,7 @@
 
 import { basename } from "node:path";
 import { checkbox, confirm, select } from "@inquirer/prompts";
-import type { ConfirmPrompt } from "../pipeline/stages/source-normalisation.js";
+import type { ConfirmPrompt } from "../pipeline/stages/orphaned-workspaces.js";
 import type { LectureMatch } from "../types/pipeline.js";
 import type { LecturePicker, SingleLecturePicker } from "./commands.js";
 

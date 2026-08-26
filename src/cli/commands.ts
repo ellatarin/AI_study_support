@@ -18,7 +18,7 @@ import {
 	stageLabel,
 } from "../pipeline/reports.js";
 import type { PipelineRunner } from "../pipeline/runner.js";
-import type { ConfirmPrompt } from "../pipeline/stages/source-normalisation.js";
+import type { ConfirmPrompt } from "../pipeline/stages/orphaned-workspaces.js";
 import type {
 	LectureMatch,
 	ReportOptions,

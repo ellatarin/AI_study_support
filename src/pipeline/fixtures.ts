@@ -546,6 +546,71 @@ export const testLecture = describeLecture({
 /** The module {@link testLecture} belongs to. */
 export const testModuleName = "Biology of Disease";
 
+/** One lecture's raw sources, named as the lecturer left them. */
+export type LectureSources = {
+	/** The source video. */
+	readonly video: string;
+	/** The slide deck sharing its date. */
+	readonly slide: string;
+	/**
+	 * The date both names carry, stated rather than read off them: reading a date
+	 * off a filename is the rule these suites test.
+	 */
+	readonly date: string;
+};
+
+/**
+ * Raw sources, and the canonical names Stage 0 gives them.
+ *
+ * Two suites work in these terms: Stage 0's own, which lays them out on disk,
+ * and the resolution rules', which reads the same names without one. They must
+ * agree about what the rule produces, so the names are stated once.
+ *
+ * Unlike {@link describeLecture}, the canonical names below are **written out
+ * rather than derived**. Both suites test the naming and numbering rules, and an
+ * expectation derived from {@link baseNameForLecture} would assert the rule
+ * against itself. That some of these strings coincide with a `folderName`
+ * {@link describeLecture} computes is a coincidence of the example, not a shared
+ * fact: one is a convenience for suites that do not care how a lecture is named,
+ * the other is the assertion.
+ */
+export const cellInjurySources: LectureSources = {
+	video: "2025-10-10 BOD_Cell Injury.mp4",
+	slide: "2025-10-10 Cell Injury deck.pdf",
+	// The same lecture {@link testLecture} describes, so its date is that one and
+	// not a second copy of it.
+	date: testLecture.date,
+};
+
+/** The second lecture's raw sources; see {@link cellInjurySources}. */
+export const vaccinationSources: LectureSources = {
+	video: "2025-10-17 BOD_Vaccination.mp4",
+	slide: "2025-10-17 Vaccination deck.pdf",
+	date: "2025-10-17",
+};
+
+/** A lecture dated between the other two, for the renumbering cases. */
+export const immunitySources: LectureSources = {
+	video: "2025-10-13 BOD_Immunity to Infection.mp4",
+	slide: "2025-10-13 Immunity deck.pdf",
+	date: "2025-10-13",
+};
+
+/** What {@link cellInjurySources} is named when it is the module's first lecture. */
+export const cellInjuryAsFirst = "Lecture 1 - Cell Injury - 2025-10-10";
+
+/** What {@link vaccinationSources} is named as the second of two. */
+export const vaccinationAsSecond = "Lecture 2 - Vaccination - 2025-10-17";
+
+/** What {@link immunitySources} is named when it is inserted as the second of three. */
+export const immunityAsSecond = "Lecture 2 - Immunity to Infection - 2025-10-13";
+
+/** What inserting {@link immunitySources} renames {@link vaccinationSources} to. */
+export const vaccinationAsThird = "Lecture 3 - Vaccination - 2025-10-17";
+
+/** What deleting the first lecture renames {@link vaccinationSources} to. */
+export const vaccinationAsFirst = "Lecture 1 - Vaccination - 2025-10-17";
+
 /**
  * The markdown Stage 3's model returns, shared by the two suites that stub the
  * call — they assert the same body reaches disk, so it is one value.
