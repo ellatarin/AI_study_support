@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.40-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.41-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -272,15 +272,28 @@ End to end — integration tests through `runCli`:
 
 **Deliverables:**
 
-`src/pipeline/stages/source-normalisation.ts` — the whole of **TD Stage 0**: date parsing and lecture numbering, slide-to-video matching, provisional titles, collision-safe renaming, workspace and manifest creation, renumbering on re-run, and the orphan direct-deletion guard (NFR-4.3).
+**TD Stage 0** in four files: date parsing, lecture numbering, slide-to-video matching and provisional titles in `src/pipeline/stages/lecture-resolution.ts`; collision-safe renaming and interrupted-rename recovery in `src/pipeline/stages/source-renames.ts`; the orphan direct-deletion guard (NFR-4.3) and workspace discovery in `src/pipeline/stages/orphaned-workspaces.ts`; and in `src/pipeline/stages/source-normalisation.ts` the order they run in, what aborting means, and workspace and manifest creation with renumbering on re-run.
 
 The CLI identity-mutation commands that drive this same machinery — `rename`, `delete`, `change-date` (FR-6.7, TD §4.7) — are built with the CLI, not in this phase.
 
 **Tests:**
 
-Note: `extractDate` and `extractProvisionalTitle` unit tests are covered in Phase 2. Stage-level tests focus on observable stage behaviour.
+Note: `extractDate` and `extractProvisionalTitle` unit tests are covered in Phase 2.
 
-Integration tests (real temp directory with fixture source files):
+Unit tests (no directory tree — filenames in, answers out):
+- `should read $iso off $name when the name carries a date`, and the undateable counterpart
+- `should pair each video with the slide sharing its date when every date matches`
+- `should refuse the sources and say so when $problem` — `test.each` for: an undateable video, an undateable slide, two videos sharing a date, two slides sharing a date, a video with no slide on its date, a slide with no video on its date
+- `should report every problem rather than the first when several sources are wrong`
+- `should number lectures from one in date order when the listing is in another order`
+- `should name a lecture from its number, title and date when it is new`, and by number and date alone when the filename yields no title
+- `should take an existing lecture's name from its manifest title when it has been retitled`
+- `should move a video and its slide onto the lecture's base name when they are freshly named`
+- `should plan nothing when every item already sits at the name the numbering wants`
+- `should move the workspace folder and the final PDF too when a lecture is renumbered`
+- `should find the workspace whose date has no sources left when one is removed`, and `should list orphans in date order when several workspaces have lost their sources`
+
+Integration tests (real temp directory with fixture source files) — everything that only shows on disk:
 - `should assign correct lecture numbers when lectures sorted by date` — `test.each` across straight sequence and mid-sequence insertion
 - `should renumber all affected lectures when new lecture inserted between existing dates`
 - `should match slide PDF to video when dates align`

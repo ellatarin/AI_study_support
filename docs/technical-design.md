@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.40-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.41-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -904,13 +904,18 @@ The temporary suffix sits outside the `.tmp` convention of §4.3, because the tw
 
 **Logging:** Every action — files discovered, dates extracted, numbers assigned, matches, each rename, each workspace/manifest write, each renumber, each approved deletion (with its prior number/title/date) — is recorded at `info` on the run's pino logger; validation and orphan-abort failures are recorded at `error` before the throw.
 
+**Where the rules live.** Stage 0's file holds the order things happen in and what aborting a run means; three modules beside it hold the jobs that can be stated on their own. `lecture-resolution.ts` turns two lists of filenames into numbered lectures or into the problems that stop the run, and touches nothing — every rule under "Validate, then apply" and steps 1–4 above is checkable by calling it with two lists of names. `source-renames.ts` holds the two-pass rename and the recovery that only works by agreeing with it about the temporary suffix. `orphaned-workspaces.ts` holds workspace discovery by manifest date and the confirmation protocol, which is the only code in the project that permanently destroys a user's work. Neither of the latter two throws: each reports its refusal, and the stage decides what a refusal means. Numbering and manifest seeding stay in the stage, being short and used nowhere else.
+
 ```typescript
-// src/pipeline/stages/source-normalisation.ts
+// src/pipeline/stages/orphaned-workspaces.ts
 type ConfirmPrompt = (args: { message: string }) => Promise<boolean>
-createSourceNormalisationStage(args: { logger: Logger; confirm: ConfirmPrompt }): SourceNormalisationStage
-// `confirm` is injected rather than imported so the stage never reaches for stdin: the CLI backs it with
-// @inquirer/prompts and tests stub it. Throws SourceNormalisationError on any validation failure or declined
-// confirmation, having made no filesystem changes.
+// Declared by the layer with a question to ask and implemented in the CLI's prompts.ts, so the stage never
+// reaches for stdin: the CLI backs it with @inquirer/prompts and tests stub it.
+
+// src/pipeline/stages/source-normalisation.ts
+createSourceNormalisationStage(args: { logger: Logger; confirm: ConfirmPrompt; modulePrefixes: readonly string[] }): SourceNormalisationStage
+// Throws SourceNormalisationError on any validation failure or declined confirmation, having made no
+// filesystem changes.
 ```
 
 The stage names and places nothing itself: it takes the module's directories from `moduleDirs` (§3.3) and
@@ -1659,7 +1664,13 @@ src/
 │   │                                 # the temp-directory trees. Production code never imports it
 │   └── stages/
 │       ├── pipeline-stage.ts         # The shared isComplete check and the stage factory (§4.2)
-│       ├── source-normalisation.ts   # Stage 0 — batch, date parsing, renaming
+│       ├── lecture-resolution.ts     # Filenames in, numbered lectures or the problems that stop the
+│       │                             # run out; touches no disk (§5, Stage 0)
+│       ├── source-renames.ts         # The two-pass rename and the recovery that shares its temporary
+│       │                             # suffix (§5, Stage 0)
+│       ├── orphaned-workspaces.ts    # Finding the workspaces whose sources have gone, and the
+│       │                             # all-or-nothing confirmation before deleting them (§5, Stage 0)
+│       ├── source-normalisation.ts   # Stage 0 — the order those happen in, and manifest seeding
 │       ├── audio-extraction.ts       # Stage 1 — existing, refactored to implement PipelineStage
 │       ├── transcription.ts          # Stage 2 — existing, refactored to implement PipelineStage
 │       ├── transcript-structuring.prompt.ts  # Stage 3's messages — one prompt module per LLM stage (§5)
