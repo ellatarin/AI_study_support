@@ -612,15 +612,27 @@ export type QaConsideration = {
 };
 
 /**
- * The structured report returned by a quality checker for one iteration
- * (technical-design.md Stage 8).
+ * What a quality checker returns when asked to judge one output against its
+ * source: everything the model itself is in a position to say.
+ *
+ * Separate from {@link QaDeficienciesReport} because the iteration number is not
+ * the model's to supply — it is a fact about the loop calling it, and a checker
+ * asked for it would have to guess. Transcript verification runs once and has no
+ * iteration at all (technical-design.md Stage 4, Stage 8).
  */
-export type QaDeficienciesReport = {
-	readonly iteration: number;
+export type QaFindingsReport = {
 	readonly overallVerdict: QaVerdict;
 	readonly coverageScore: number; // 0–100, LLM self-assessed
 	readonly deficiencies: readonly QaDeficiency[];
 	readonly considered: readonly QaConsideration[];
+};
+
+/**
+ * One iteration's findings as the QA loop records them: what the checker said,
+ * stamped with which pass said it (technical-design.md Stage 8).
+ */
+export type QaDeficienciesReport = QaFindingsReport & {
+	readonly iteration: number;
 };
 
 /**
