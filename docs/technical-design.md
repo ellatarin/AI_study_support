@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.42-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.43-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -1318,6 +1318,8 @@ makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; r
 **JSON mode is routed for as well as asked for.** OpenRouter honours `response_format` per *endpoint* rather than per model: a model is served by several providers, and by default the parameter steers routing towards those that support it — where none of a model's providers do, the request still goes through with the parameter dropped, handing the stage prose where it expected JSON. A `"json"` call therefore also sends `provider: { require_parameters: true }`, which restricts routing to endpoints supporting every parameter in the request. A model that cannot do JSON then fails the call, which names the real cause at the point it arises; a dropped `response_format` costs a full billable call and arrives as a parse error naming the reply. The flag rides with `"json"` alone: a `"text"` call has nothing to require, and requiring nothing would only narrow which endpoints can serve it.
 
 OpenRouter's own parameter reference states that JSON mode requires the prompt to ask for JSON as well, so a `"json"` caller instructs the model in its messages too, and still treats a reply that will not parse as a stage failure.
+
+**A rejection can arrive inside an accepted reply.** OpenRouter answers some upstream failures with HTTP 200 and a body carrying `{"error": {…}}` where the choices should be, which the SDK reports as a success. The provider's own sentence is the only account of what happened — it says whether the failure is transient and whether retrying is the remedy — so an accepted reply carrying one is a `CompletionRejectedError` quoting it beside the stage and the model, and is recorded on the stage's logger at `debug`. It is reported, never retried: the reply may already have been billed, so what to do about a busy provider is the caller's decision rather than this module's. A reply carrying neither choices nor an explanation is the `NoCompletionChoicesError` above.
 
 **A tuning parameter can be left unset out loud.** Every optional field of a stage entry — `temperature`, `maxTokens`, `concurrency`, `maxIterations` — may be written as `null`, which means what leaving the key out means: the request carries no such parameter. There are two ways to say it because the choice is worth writing down. Under the routing restriction above, the parameters a request carries decide which endpoints may serve it, and providers differ in what they accept — the same model reached through one provider takes a `temperature` and through another does not. Which tuning a stage sets is therefore part of choosing what can answer it, and a `null` records a deliberate omission beside the tuning that is set, where a missing key reads as an oversight.
 

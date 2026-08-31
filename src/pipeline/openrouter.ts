@@ -190,6 +190,53 @@ function stageConfigFor(options: {
 }
 
 /**
+ * The one wording a rejected completion is reported in.
+ *
+ * A rejection reaches this module by two routes — the SDK raising on a failure
+ * status, and a provider error arriving inside an accepted reply — and a reader
+ * has no reason to care which. Both name the model, the stage, and the
+ * provider's own sentence, in the same order, because they describe the same
+ * event (technical-design.md §8).
+ *
+ * @param options - What was being attempted, and what the provider said about it.
+ * @param options.stageId - The stage the call was made for.
+ * @param options.modelId - The model the stage is configured to use.
+ * @param options.providerMessage - The provider's own account of the failure.
+ * @returns The message to report the rejection under.
+ */
+function rejectionMessage(options: {
+	readonly stageId: StageId;
+	readonly modelId: string;
+	readonly providerMessage: string;
+}): string {
+	return `Model "${options.modelId}" rejected the request for stage "${options.stageId}": ${options.providerMessage}`;
+}
+
+/**
+ * The provider's own explanation, when an accepted reply carries one instead of
+ * a completion.
+ *
+ * OpenRouter answers some upstream failures with HTTP 200 and a body holding
+ * `{"error": {...}}` and no `choices`, which the SDK hands back as a success.
+ * The sentence inside is the only account of what went wrong — it says whether
+ * the failure is transient and whether retrying is the remedy — so it is read
+ * off a reply the SDK's type says cannot hold it (technical-design.md §8).
+ *
+ * @param response - The accepted completion reply.
+ * @returns The provider's message, or `null` when the reply carries no usable one.
+ */
+function providerErrorMessage(response: unknown): string | null {
+	if (!isRecord(response)) {
+		return null;
+	}
+	const { error } = response;
+	if (!isRecord(error) || typeof error.message !== "string") {
+		return null;
+	}
+	return error.message;
+}
+
+/**
  * Renders a rejected completion as an error that names the model and the stage.
  *
  * Every SDK failure arrives as an `APIError` carrying the provider's own words
@@ -218,7 +265,11 @@ function toCompletionError(options: {
 		);
 	}
 	return new CompletionRejectedError(
-		`Model "${options.modelId}" rejected the request for stage "${options.stageId}": ${options.error.message}`,
+		rejectionMessage({
+			stageId: options.stageId,
+			modelId: options.modelId,
+			providerMessage: options.error.message,
+		}),
 	);
 }
 
@@ -324,7 +375,8 @@ async function lookupCost(options: {
  * @returns The completion text and its resolved cost.
  * @throws {UnconfiguredStageError} If the configuration holds no entry for the stage.
  * @throws {ContextLengthError} If the prompt exceeds the model's context window.
- * @throws {CompletionRejectedError} If the API rejects the call for any other reason.
+ * @throws {CompletionRejectedError} If the API rejects the call for any other reason, including a
+ *   reply the SDK accepted that carries the provider's error in place of a completion.
  * @throws {NoCompletionChoicesError} If the call is accepted but the model returns no choices.
  *   Every one of these names the model and the stage in its message (§8).
  */
@@ -358,11 +410,25 @@ export async function makeCompletionCall(options: {
 		{ model: stageConfig.modelId, promptTokens: usage.prompt_tokens, latencyMs },
 		"Completion call",
 	);
+	const providerMessage = providerErrorMessage(response);
+	if (providerMessage !== null) {
+		options.logger.debug(
+			{ model: stageConfig.modelId, providerMessage },
+			"Completion rejected by provider",
+		);
+		throw new CompletionRejectedError(
+			rejectionMessage({
+				stageId: options.stageId,
+				modelId: stageConfig.modelId,
+				providerMessage,
+			}),
+		);
+	}
 	// A provider can reply with no choices at all — content filtering, or an
 	// upstream error the SDK does not raise. Reading choices[0] blindly turns that
 	// into a TypeError naming nothing; failing here names the stage and the model.
 	// Empty content is a different matter and stays tolerated as "" below.
-	const [choice] = response.choices;
+	const [choice] = response.choices ?? [];
 	if (choice === undefined) {
 		throw new NoCompletionChoicesError(
 			`Model "${stageConfig.modelId}" returned no choices for stage "${options.stageId}"`,

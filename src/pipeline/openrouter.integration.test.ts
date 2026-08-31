@@ -34,6 +34,14 @@ const config: PipelineConfig = configuringStage({ stageId: "transcript-structuri
 /** What the stubbed `/generation` lookup reports this call cost. */
 const RESOLVED_COST_USD = 0.0042;
 
+/**
+ * The sentence OpenRouter sent this account on 2026-08-31 when the upstream
+ * provider was overloaded, quoted so the assertions are about a reply that
+ * genuinely arrived rather than an invented one.
+ */
+const PROVIDER_BUSY_MESSAGE =
+	"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.";
+
 /** A second address, for the case where a run is configured to reach OpenRouter elsewhere. */
 const GATEWAY_BASE_URL = "https://gateway.example.test/openrouter/v1";
 
@@ -69,6 +77,14 @@ function mockGeneration(): nock.Interceptor {
  */
 function mockCompletionReturning(overrides: Record<string, unknown> = {}): void {
 	mockCompletion().reply(200, completionBody(overrides));
+}
+
+/**
+ * Mocks the reply a busy provider produces: accepted with HTTP 200, but
+ * carrying its own explanation where the choices should be.
+ */
+function mockCompletionRejectedByProvider(): void {
+	mockCompletion().reply(200, { error: { message: PROVIDER_BUSY_MESSAGE, code: 503 } });
 }
 
 /** Mocks the cost lookup resolving, to the figure the suite prices everything at. */
@@ -309,6 +325,48 @@ describe("makeCompletionCall", () => {
 		expect(error).toBeInstanceOf(NoCompletionChoicesError);
 		expect(error.message).toMatch(new RegExp(openRouterModelId));
 		expect(error.message).toMatch(/no choices/i);
+	});
+
+	// OpenRouter answers some upstream failures with HTTP 200 and an error object
+	// where the choices should be, so the SDK sees a success and hands the body
+	// back. The provider's sentence is the only account of what went wrong.
+	it("should keep the provider's own explanation when a 200 reply carries an error object", async () => {
+		mockCompletionRejectedByProvider();
+
+		const error = await captureError(call());
+
+		expect(error).toBeInstanceOf(CompletionRejectedError);
+		expect(error.message).toContain(PROVIDER_BUSY_MESSAGE);
+		expect(error.message).toContain(openRouterModelId);
+		expect(error.message).toContain("transcript-structuring");
+	});
+
+	// The thrown error reaches the user; the debug log is where the run is
+	// reconstructed afterwards, and a transient provider failure is exactly the
+	// kind that has to be legible from the log alone.
+	it("should record the provider's explanation in the debug log when a 200 reply carries an error object", async () => {
+		mockCompletionRejectedByProvider();
+
+		await captureError(call());
+
+		expect(loggedAt({ entries: logged().entries, level: "debug" })).toContainEqual(
+			expect.objectContaining({
+				message: "Completion rejected by provider",
+				payload: { model: openRouterModelId, providerMessage: PROVIDER_BUSY_MESSAGE },
+			}),
+		);
+	});
+
+	// The guard above only fires when there is an explanation to report. A reply
+	// carrying neither an explanation nor choices still has to name the stage and
+	// the model rather than fail while reaching for a key that is not there.
+	it("should report no choices when a 200 reply carries neither choices nor an error", async () => {
+		mockCompletion().reply(200, { id: "gen-no-choices", object: "chat.completion" });
+
+		const error = await captureError(call());
+
+		expect(error).toBeInstanceOf(NoCompletionChoicesError);
+		expect(error.message).toContain(openRouterModelId);
 	});
 
 	it("should resolve with costUsd null and costResolutionError set when the cost lookup fails after all retries", async () => {
