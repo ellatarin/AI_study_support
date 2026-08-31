@@ -527,9 +527,24 @@ export type SourceNormalisationStage = {
 };
 
 /**
- * Severity of a single QA deficiency (technical-design.md Stage 8).
+ * Every severity a QA deficiency may carry, worst first
+ * (technical-design.md Stage 8).
+ *
+ * Ordered rather than merely listed, because the order is a fact two parties
+ * rely on: a checker's reply is validated against this set, and a report shown
+ * to a reader is ordered by it. Written as a list and again as an ordering, the
+ * two could disagree about a severity that had been added to one of them.
+ *
+ * It is the source of truth for {@link QaSeverity}, as {@link STAGE_IDS} is for
+ * {@link StageId}.
  */
-export type QaSeverity = "critical" | "major" | "minor";
+export const QA_SEVERITIES = ["critical", "major", "minor"] as const;
+
+/**
+ * Severity of a single QA deficiency (technical-design.md Stage 8).
+ * Derived from {@link QA_SEVERITIES}.
+ */
+export type QaSeverity = (typeof QA_SEVERITIES)[number];
 
 /**
  * Category of a single quality finding.

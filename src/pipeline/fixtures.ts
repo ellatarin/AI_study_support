@@ -21,6 +21,7 @@ import type {
 	OutputLanguage,
 	PipelineConfig,
 	PipelineStage,
+	QaFindingsReport,
 	RunManifest,
 	StageConfig,
 	StageContext,
@@ -786,11 +787,11 @@ export const verificationCleared = {
  * through here and overrides only the field its test is about.
  *
  * @param overrides - The fields this test's behaviour depends on.
- * @returns The report, ready to be serialised as the model's content.
+ * @returns The report, as the stage holds it once the reply has been read.
  */
-export function verificationReply(
-	overrides: Readonly<Record<string, unknown>> = {},
-): Record<string, unknown> {
+export function verificationReport(
+	overrides: Readonly<Partial<QaFindingsReport>> = {},
+): QaFindingsReport {
 	return {
 		overallVerdict: "fail",
 		coverageScore: 72,
@@ -798,6 +799,20 @@ export function verificationReply(
 		considered: [verificationCleared],
 		...overrides,
 	};
+}
+
+/**
+ * The same report as the model's reply, where a test may replace a field with
+ * something the report's type would refuse — which is how the malformed-reply
+ * cases are stated.
+ *
+ * @param overrides - The fields this test's behaviour depends on, valid or not.
+ * @returns The report, ready to be serialised as the model's content.
+ */
+export function verificationReply(
+	overrides: Readonly<Record<string, unknown>> = {},
+): Record<string, unknown> {
+	return { ...verificationReport(), ...overrides };
 }
 
 /** The title a user sets through the CLI's `rename` command. */

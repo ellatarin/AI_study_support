@@ -464,13 +464,26 @@ Unit tests for the stage (mock `makeCompletionCall`):
 - `should send neither a temperature nor a token cap when the shipped example configures the stage` — the routing narrowing of A11.2d is what this prevents
 
 Unit tests for the view (`renderVerificationReport`, no mocks — it is handed a report and returns text):
+- `should open with the verdict, the coverage score and the count when a report is rendered`
 - `should say the checker raised nothing when the report carries no findings`
 - `should count the findings of each category when the report carries several`
+- `should keep the counts in one table when the report carries several categories`
 - `should put distortions before every other category when the report carries both`
-- `should order findings from critical to minor within a category`
+- `should order findings from critical to minor when a category carries several`
 - `should show both locations and the source quote when a finding carries a source`
 - `should say the source carries no such passage when a finding has no source anchor`
 - `should record what the checker cleared when the report carries considerations`
+- `should say nothing was cleared when the checker recorded no considerations`
+
+Unit tests for the layout's second file:
+- `should render a view for a reader from transcript-verification alone when ownership is read`
+- `should put the view beside the report it renders when transcript-verification is asked`
+- `should admit only the stages rendering a view when a renderer is named` — the compile-time refusal, asserted with `@ts-expect-error`
+- `should resolve the view under the workspace when a workspace is given`
+
+Integration tests for the writer (real temp directory):
+- `should put the view beside the output when a stage renders one`
+- `should record both files when a stage renders its output for a reader`
 
 Integration tests (real temp directory):
 - `should write the report to Transcript verification when the stage completes`

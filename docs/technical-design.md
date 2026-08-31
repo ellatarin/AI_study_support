@@ -274,7 +274,7 @@ STAGE_WORKSPACE = { … } satisfies Readonly<Record<StageId, StageWorkspace>>
 // compile.
 
 type StageWithOutputFile = /* the keys of STAGE_WORKSPACE whose outputFile is a string */
-// The five stages that write one named file, derived from the table rather than listed beside it: giving a
+// The six stages that write one named file, derived from the table rather than listed beside it: giving a
 // stage a file or taking one away changes who may be asked, with nothing else edited.
 type StageWithReadableView = /* the keys of STAGE_WORKSPACE whose readableView is a string */
 // The same derivation for the view, so a stage that does not render one cannot be asked for its path. Today

@@ -4,14 +4,15 @@
    (CLAUDE.md, File Organisation). Only the imports are exempt; the code below is
    checked as normal. */
 import { readFile } from "node:fs/promises";
-import type {
-	PipelineStage,
-	QaConsideration,
-	QaDeficiency,
-	QaFindingsReport,
-	QaSourceAnchor,
-	StageContext,
-	StageResult,
+import {
+	type PipelineStage,
+	QA_SEVERITIES,
+	type QaConsideration,
+	type QaDeficiency,
+	type QaFindingsReport,
+	type QaSourceAnchor,
+	type StageContext,
+	type StageResult,
 } from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
 import { isRecord } from "../../utils/record.js";
@@ -21,8 +22,9 @@ import {
 	type ModelStageRunArgs,
 	requestJsonReply,
 } from "./model-stage.js";
-import { createPipelineStage, writeStageOutput } from "./pipeline-stage.js";
+import { createPipelineStage, writeStageOutputWithReadableView } from "./pipeline-stage.js";
 import { buildVerificationMessages } from "./transcript-verification.prompt.js";
+import { renderVerificationReport } from "./transcript-verification.view.js";
 /* jscpd:ignore-end */
 
 /**
@@ -76,8 +78,8 @@ const VERIFICATION_TYPES = new Set([
 	"other",
 ]);
 
-/** The severities a finding may carry, as `QaSeverity` declares them. */
-const SEVERITIES = new Set(["critical", "major", "minor"]);
+/** The severities a finding may carry, as `QA_SEVERITIES` declares them. */
+const SEVERITIES = new Set<string>(QA_SEVERITIES);
 
 /**
  * Reads one of the two versions being compared, insisting it holds text.
@@ -221,7 +223,8 @@ const DOCUMENTED_REPORT_SHAPE =
 
 /**
  * Compares the structured transcript with the raw one and writes what the
- * checker found (technical-design.md §5, Stage 4).
+ * checker found, both as the stored report and as a page a person reads
+ * (technical-design.md §5, Stage 4).
  *
  * The verdict is recorded and never acted on. A report saying the structuring
  * lost half the lecture completes exactly as a clean one does: this stage exists
@@ -233,7 +236,7 @@ const DOCUMENTED_REPORT_SHAPE =
  * @param args.context - The current lecture run context.
  * @param args.logger - The run's logger, on which the model call is recorded.
  * @param args.client - The OpenAI client the completion goes through.
- * @returns The report's path, how much it found, the call's cost, and the file written.
+ * @returns The report's path, how much it found, the call's cost, and both files written.
  * @throws {TranscriptVerificationError} If the reply is not the documented report.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
@@ -258,16 +261,12 @@ async function verifyTranscript({
 		logger,
 		client,
 	});
-	/* jscpd:ignore-start -- every stage that writes one output calls writeStageOutput
-	   with its own id, its workspace and its content, so the call reads the same in
-	   each. The shared code is the function being called; there is nothing left in a
-	   call to it to extract. */
-	const { path, filesWritten } = await writeStageOutput({
+	const { path, filesWritten } = await writeStageOutputWithReadableView({
 		stageId: STAGE_ID,
 		workspaceRoot: context.workspaceRoot,
 		content: JSON.stringify(report, null, REPORT_INDENT),
+		readableView: renderVerificationReport({ report }),
 	});
-	/* jscpd:ignore-end */
 	// Recorded, not acted on: the count says what the stage found, and the stage
 	// completes whatever it is.
 	logger.info(
@@ -284,8 +283,8 @@ async function verifyTranscript({
 /**
  * Builds Stage 4, which compares `Structured transcript/structured-transcript.md`
  * with the `Transcript/transcript.txt` it was made from and writes
- * `Transcript verification/verification-report.json` (technical-design.md §5,
- * Stage 4).
+ * `Transcript verification/verification-report.json`, with a readable
+ * `verification-report.md` beside it (technical-design.md §5, Stage 4).
  *
  * @param args - The stage's dependencies.
  * @param args.logger - The run's logger; the factory binds it to this stage.

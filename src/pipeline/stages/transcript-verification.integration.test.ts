@@ -19,6 +19,7 @@ import {
 	stubModelReply,
 	stubOpenRouterApi,
 	transcriptText,
+	verificationFinding,
 	verificationReply,
 } from "../fixtures.js";
 import { writeManifest } from "../manifest.js";
@@ -32,6 +33,9 @@ const STAGE_ID = "transcript-verification";
  * for, so a test that rebuilt them could not notice them changing.
  */
 const REPORT_LOCATION = join("Transcript verification", "verification-report.json");
+
+/** Where the reader's view of that report belongs, spelled out for the same reason. */
+const VIEW_LOCATION = join("Transcript verification", "verification-report.md");
 
 describe("transcript verification against a real module tree", () => {
 	let tempDir: string;
@@ -101,13 +105,26 @@ describe("transcript verification against a real module tree", () => {
 	});
 
 	it("should write the report to Transcript verification when the stage completes", async () => {
-		const { output, filesWritten } = await runStage();
+		const { output } = await runStage();
 
 		expect(await pathExists(join(workspaceRoot, REPORT_LOCATION))).toBe(true);
-		expect(filesWritten).toEqual([REPORT_LOCATION]);
 		expect(output).toMatchObject({
 			verificationReportPath: join(workspaceRoot, REPORT_LOCATION),
 		});
+	});
+
+	it("should write the readable view beside the report when the stage completes", async () => {
+		await runStage();
+
+		const written = await readFile(join(workspaceRoot, VIEW_LOCATION), "utf8");
+		expect(written).toContain("# Transcript verification");
+		expect(written).toContain(verificationFinding.description);
+	});
+
+	it("should record both files as written when the stage completes", async () => {
+		const { filesWritten } = await runStage();
+
+		expect(filesWritten).toEqual([REPORT_LOCATION, VIEW_LOCATION]);
 	});
 
 	it("should write the report as readable JSON when the stage completes", async () => {
