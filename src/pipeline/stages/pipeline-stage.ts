@@ -11,9 +11,12 @@ import {
 import { createStageLogger } from "../../utils/logger.js";
 import {
 	type StageWithOutputFile,
+	type StageWithReadableView,
 	stageDirectoryPaths,
 	stageOutputEntry,
 	stageOutputPath,
+	stageReadableViewEntry,
+	stageReadableViewPath,
 } from "../layout.js";
 import { hasSettledOutput } from "../run-status.js";
 import {
@@ -189,6 +192,52 @@ export async function writeStageOutput(
 		? writeFileAtomic({ path, content: args.content })
 		: produceFileAtomic({ path, produce: args.produce }));
 	return { path, filesWritten: [stageOutputEntry(args.stageId)] };
+}
+
+/**
+ * Writes the file a stage owns and the reader's view of it, and names both as
+ * `filesWritten` records them (technical-design.md §3.3, §4.5).
+ *
+ * The same act as {@link writeStageOutput} for a stage that renders its own
+ * output: the view is derived from what has just been written rather than
+ * fetched or asked for again, so the two files say the same thing by
+ * construction.
+ *
+ * A separate function rather than an optional argument, because the parameter
+ * type is what ties supplying a view to a stage that declares one: a stage
+ * rendering nothing cannot be named here, and one that does cannot forget to
+ * render it. Both entries are recorded, so deleting either file re-runs the
+ * stage (§4.2).
+ *
+ * @param args - The stage, the workspace, and both files' contents.
+ * @param args.stageId - The stage whose output this is; only a stage that renders a view.
+ * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args.content - The output file's text.
+ * @param args.readableView - The rendering of that output for a person to read.
+ * @returns The absolute path of the output, and the `filesWritten` naming both files.
+ * @example
+ * await writeStageOutputWithReadableView({ stageId, workspaceRoot, content: json, readableView: markdown });
+ */
+export async function writeStageOutputWithReadableView({
+	stageId,
+	workspaceRoot,
+	content,
+	readableView,
+}: {
+	readonly stageId: StageWithOutputFile & StageWithReadableView;
+	readonly workspaceRoot: string;
+	readonly content: string;
+	readonly readableView: string;
+}): Promise<RecordedStageOutput> {
+	const written = await writeStageOutput({ stageId, workspaceRoot, content });
+	await writeFileAtomic({
+		path: stageReadableViewPath({ workspaceRoot, stageId }),
+		content: readableView,
+	});
+	return {
+		path: written.path,
+		filesWritten: [...written.filesWritten, stageReadableViewEntry(stageId)],
+	};
 }
 
 /**

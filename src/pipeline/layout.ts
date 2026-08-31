@@ -246,6 +246,18 @@ export type StageWorkspace = {
 	 * stages that can answer, and the rest cannot be asked (§3.3).
 	 */
 	readonly outputFile: string | null;
+	/**
+	 * A second file holding the same content as {@link outputFile} in a form a
+	 * person reads, written by us from what was already stored rather than
+	 * produced again. `null` where the stage renders none, which is every stage
+	 * but transcript-verification.
+	 *
+	 * It sits beside the output rather than joining it in a list because the two
+	 * are not peers: the output is the file the stage after it opens, and a
+	 * downstream stage handed a list could not tell which member was meant. The
+	 * view has no reader but a person (technical-design.md §3.3).
+	 */
+	readonly readableView: string | null;
 };
 
 /**
@@ -261,6 +273,8 @@ type StageWorkspaceWithFile = {
 	readonly outputLocation: StageOutputLocation;
 	/** The single file the stage writes, relative to the lecture's workspace. */
 	readonly outputFile: string;
+	/** The reader's view of that file, relative to the workspace; `null` where there is none. */
+	readonly readableView: string | null;
 };
 
 /**
@@ -307,14 +321,57 @@ function inWorkspace(names: readonly StageDirectoryName[]): StageOutputLocation 
  * @param args.file - The file's name within that directory.
  * @returns The stage's workspace.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- string literal types, which have nothing to mutate; the rule cannot see through the unresolved LiteralName conditional
-function writesInto<TName extends string>(args: {
+/**
+ * How a stage that keeps its output in a directory of its own is declared: the
+ * directory it owns and the file it writes there. Named because both builders
+ * below are declared this way and differ only in what they add to it.
+ *
+ * @typeParam TName - The directory's name, which must be a literal written here.
+ */
+type WritesIntoArgs<TName extends string> = {
+	/** The workspace directory's name, as a literal. */
 	readonly directory: TName & LiteralName<TName>;
+	/** The output file's name within that directory. */
 	readonly file: string;
-}): StageWorkspaceWithFile {
+};
+
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- string literal types, which have nothing to mutate; the rule cannot see through the unresolved LiteralName conditional
+function writesInto<TName extends string>(args: WritesIntoArgs<TName>): StageWorkspaceWithFile {
 	return {
 		outputLocation: inWorkspace([declaredName<TName>(args.directory)]),
 		outputFile: join(args.directory, args.file),
+		readableView: null,
+	};
+}
+
+/** A stage that renders its output for a reader as well as writing it. */
+type StageWorkspaceWithView = StageWorkspaceWithFile & { readonly readableView: string };
+
+/**
+ * A stage that writes one file and renders a second beside it holding the same
+ * content in a form a person reads.
+ *
+ * Built on {@link writesInto} rather than beside it, so the view's directory is
+ * the output's directory by construction: named separately, a directory renamed
+ * for one would leave the other's file somewhere else entirely.
+ *
+ * The narrower return type is what lets {@link StageWithReadableView} be derived
+ * from the table below — a stage rendering nothing carries `null` here and
+ * cannot be asked for a path.
+ *
+ * @param args - What the stage owns, what it writes, and what it renders.
+ * @param args.directory - The workspace directory's name, as a literal.
+ * @param args.file - The output file's name within that directory.
+ * @param args.readableView - The view's name within that same directory.
+ * @returns The stage's workspace, carrying both files.
+ */
+function writesIntoAndRenders<TName extends string>(
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- string literal types, which have nothing to mutate; the rule cannot see through the unresolved LiteralName conditional
+	args: WritesIntoArgs<TName> & { readonly readableView: string },
+): StageWorkspaceWithView {
+	return {
+		...writesInto<TName>({ directory: args.directory, file: args.file }),
+		readableView: join(args.directory, args.readableView),
 	};
 }
 
@@ -334,30 +391,34 @@ function writesInto<TName extends string>(args: {
  * compile, exactly as the annotation used to make it.
  */
 export const STAGE_WORKSPACE = {
-	"source-normalisation": { outputLocation: inWorkspace([]), outputFile: null },
+	"source-normalisation": { outputLocation: inWorkspace([]), outputFile: null, readableView: null },
 	"audio-extraction": writesInto({ directory: "Audio", file: "audio.m4a" }),
 	transcription: writesInto({ directory: "Transcript", file: "transcript.txt" }),
 	"transcript-structuring": writesInto({
 		directory: "Structured transcript",
 		file: "structured-transcript.md",
 	}),
-	"transcript-verification": writesInto({
+	"transcript-verification": writesIntoAndRenders({
 		directory: "Transcript verification",
 		file: "verification-report.json",
+		readableView: "verification-report.md",
 	}),
 	"slide-conversion": writesInto({ directory: "Slide content", file: "slides.md" }),
 	"image-extraction": {
 		outputLocation: inWorkspace([declaredName("Slide images")]),
 		outputFile: null,
+		readableView: null,
 	},
 	synthesis: writesInto({ directory: "Synthesised notes", file: "synthesised-notes.md" }),
 	"qa-loop": {
 		outputLocation: inWorkspace([declaredName("QA iterations"), declaredName("QA checked")]),
 		outputFile: null,
+		readableView: null,
 	},
 	"pdf-generation": {
 		outputLocation: { root: "module", directory: declaredName(FINAL_OUTPUT_DIR) },
 		outputFile: null,
+		readableView: null,
 	},
 } satisfies Readonly<Record<StageId, StageWorkspace>>;
 
@@ -380,6 +441,22 @@ export type StageWithOutputFile = {
 }[StageId];
 
 /**
+ * The stages that render their output for a reader, and so the only ones that
+ * can be asked where that rendering goes.
+ *
+ * Derived from {@link STAGE_WORKSPACE} exactly as {@link StageWithOutputFile}
+ * is, so the table stays the single statement of which stages render one. The
+ * view is provisional (technical-design.md §5, Stage 4): when it is withdrawn
+ * this set is empty and every caller of the two resolvers below stops compiling,
+ * which is how the withdrawal is made to be complete rather than partial.
+ */
+export type StageWithReadableView = {
+	[TStage in StageId]: (typeof STAGE_WORKSPACE)[TStage]["readableView"] extends string
+		? TStage
+		: never;
+}[StageId];
+
+/**
  * A stage's output path relative to its workspace, as recorded in `filesWritten`
  * (technical-design.md §4.5).
  *
@@ -388,6 +465,17 @@ export type StageWithOutputFile = {
  */
 export function stageOutputEntry(stageId: StageWithOutputFile): string {
 	return STAGE_WORKSPACE[stageId].outputFile;
+}
+
+/**
+ * A stage's readable view relative to its workspace, as recorded in
+ * `filesWritten` beside the output it renders (technical-design.md §3.3).
+ *
+ * @param stageId - The stage whose view to name; only a stage that renders one.
+ * @returns The workspace-relative path.
+ */
+export function stageReadableViewEntry(stageId: StageWithReadableView): string {
+	return STAGE_WORKSPACE[stageId].readableView;
 }
 
 /**
@@ -426,6 +514,29 @@ export type StageFileInWorkspace = {
  */
 export function stageOutputPath({ workspaceRoot, stageId }: StageFileInWorkspace): string {
 	return join(workspaceRoot, stageOutputEntry(stageId));
+}
+
+/**
+ * One stage's readable view within one lecture's workspace. The narrower half of
+ * {@link StageInWorkspace} again: only a stage that renders a view can be named.
+ */
+export type StageViewInWorkspace = {
+	/** Absolute path to the lecture workspace. */
+	readonly workspaceRoot: string;
+	/** The stage whose readable view within it is meant. */
+	readonly stageId: StageWithReadableView;
+};
+
+/**
+ * A stage's readable view as an absolute path, beside the output it renders.
+ *
+ * @param args - The workspace and the stage.
+ * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args.stageId - The stage whose view to locate; only a stage that renders one.
+ * @returns The absolute path to that stage's readable view.
+ */
+export function stageReadableViewPath({ workspaceRoot, stageId }: StageViewInWorkspace): string {
+	return join(workspaceRoot, stageReadableViewEntry(stageId));
 }
 
 /**

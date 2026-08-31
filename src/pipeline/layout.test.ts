@@ -14,9 +14,12 @@ import {
 	runsDirPath,
 	STAGE_WORKSPACE,
 	type StageWithOutputFile,
+	type StageWithReadableView,
 	stageDirectoryPaths,
 	stageOutputEntry,
 	stageOutputPath,
+	stageReadableViewEntry,
+	stageReadableViewPath,
 	workspaceRootFor,
 } from "./layout.js";
 
@@ -117,6 +120,12 @@ describe("STAGE_WORKSPACE", () => {
 
 		expect(moduleRooted).toStrictEqual(["pdf-generation"]);
 	});
+
+	it("should render a view for a reader from transcript-verification alone when ownership is read", () => {
+		const renderers = STAGE_IDS.filter((stageId) => STAGE_WORKSPACE[stageId].readableView !== null);
+
+		expect(renderers).toStrictEqual(["transcript-verification"]);
+	});
 });
 
 describe("resolveStageOutput", () => {
@@ -185,6 +194,7 @@ describe("stageOutputEntry", () => {
 			"audio-extraction",
 			"transcription",
 			"transcript-structuring",
+			"transcript-verification",
 			"slide-conversion",
 			"synthesis",
 		];
@@ -202,6 +212,39 @@ describe("stageOutputPath", () => {
 		expect(stageOutputPath({ workspaceRoot: WORKSPACE_ROOT, stageId: "transcription" })).toBe(
 			join(WORKSPACE_ROOT, "Transcript", "transcript.txt"),
 		);
+	});
+});
+
+describe("stageReadableViewEntry", () => {
+	it("should put the view beside the report it renders when transcript-verification is asked", () => {
+		expect(stageReadableViewEntry("transcript-verification")).toBe(
+			join("Transcript verification", "verification-report.md"),
+		);
+	});
+
+	// A stage that renders no view has no path to give, so asking is a compile
+	// error rather than a failure at run time — the same refusal stageOutputEntry
+	// makes for a stage that writes no single file. The expect-error is what
+	// asserts it: remove the narrowing and it becomes unused, which fails the build.
+	it("should admit only the stages rendering a view when a renderer is named", () => {
+		const renderers: readonly StageWithReadableView[] = ["transcript-verification"];
+
+		// @ts-expect-error -- transcription writes a transcript and renders nothing for a reader
+		const notARenderer: StageWithReadableView = "transcription";
+
+		expect(renderers.map(stageReadableViewEntry)).toHaveLength(renderers.length);
+		expect(notARenderer).toBe("transcription");
+	});
+});
+
+describe("stageReadableViewPath", () => {
+	it("should resolve the view under the workspace when a workspace is given", () => {
+		expect(
+			stageReadableViewPath({
+				workspaceRoot: WORKSPACE_ROOT,
+				stageId: "transcript-verification",
+			}),
+		).toBe(join(WORKSPACE_ROOT, "Transcript verification", "verification-report.md"));
 	});
 });
 

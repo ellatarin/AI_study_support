@@ -15,9 +15,20 @@ import {
 	makeWorkspaceTree,
 	useStubLogger,
 } from "../fixtures.js";
-import { stageDirectoryPaths, stageOutputEntry, stageOutputPath } from "../layout.js";
+import {
+	stageDirectoryPaths,
+	stageOutputEntry,
+	stageOutputPath,
+	stageReadableViewEntry,
+	stageReadableViewPath,
+} from "../layout.js";
 import { ManifestPathError } from "../workspace-paths.js";
-import { createPipelineStage, isStageComplete, writeStageOutput } from "./pipeline-stage.js";
+import {
+	createPipelineStage,
+	isStageComplete,
+	writeStageOutput,
+	writeStageOutputWithReadableView,
+} from "./pipeline-stage.js";
 
 // Any stage with a single output file would do; Stage 1's is the simplest.
 const STAGE_ID = "audio-extraction";
@@ -219,15 +230,19 @@ describe("createPipelineStage", () => {
 // put in place — which is what these assert, by resolving the entry the way the
 // next run's completeness check resolves it rather than by rebuilding the path
 // (technical-design.md §4.3, §4.5).
-describe("recording a stage's single output", () => {
+// The one stage that renders its output for a reader as well as writing it
+// (technical-design.md §3.3). Provisional, like the view itself.
+const VIEWED_STAGE = "transcript-verification";
+
+describe("recording what a stage wrote", () => {
 	let moduleRoot: string;
 	let workspaceRoot: string;
 
 	beforeEach(async () => {
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "stage-output-" }));
-		await mkdir(dirname(stageOutputPath({ workspaceRoot, stageId: STAGE_ID })), {
-			recursive: true,
-		});
+		for (const stageId of [STAGE_ID, VIEWED_STAGE] as const) {
+			await mkdir(dirname(stageOutputPath({ workspaceRoot, stageId })), { recursive: true });
+		}
 	});
 
 	afterEach(async () => {
@@ -280,5 +295,33 @@ describe("recording a stage's single output", () => {
 
 		await expect(failing).rejects.toThrow("ffmpeg failed");
 		expect(await pathExists(stageOutputPath({ workspaceRoot, stageId: STAGE_ID }))).toBe(false);
+	});
+
+	it("should put the view beside the output when a stage renders one", async () => {
+		const { path } = await writeStageOutputWithReadableView({
+			stageId: VIEWED_STAGE,
+			workspaceRoot,
+			content: '{"overallVerdict":"pass"}',
+			readableView: "# Transcript verification\n",
+		});
+
+		expect(await readFile(path, "utf8")).toBe('{"overallVerdict":"pass"}');
+		expect(
+			await readFile(stageReadableViewPath({ workspaceRoot, stageId: VIEWED_STAGE }), "utf8"),
+		).toBe("# Transcript verification\n");
+	});
+
+	it("should record both files when a stage renders its output for a reader", async () => {
+		const { filesWritten } = await writeStageOutputWithReadableView({
+			stageId: VIEWED_STAGE,
+			workspaceRoot,
+			content: "{}",
+			readableView: "# Transcript verification\n",
+		});
+
+		expect(filesWritten).toStrictEqual([
+			stageOutputEntry(VIEWED_STAGE),
+			stageReadableViewEntry(VIEWED_STAGE),
+		]);
 	});
 });
