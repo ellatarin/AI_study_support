@@ -15,7 +15,7 @@ Five of the ten stages are built and wired in:
 | 1 | audio-extraction | `Audio/audio.m4a` |
 | 2 | transcription | `Transcript/transcript.txt` |
 | 3 | transcript-structuring | `Structured transcript/structured-transcript.md` |
-| 4 | transcript-verification | `Transcript verification/verification-report.json` |
+| 4 | transcript-verification | `Transcript verification/verification-report.json`, and `verification-report.md` beside it |
 
 Stages 5–9 (slide-conversion, image-extraction, synthesis, qa-loop, pdf-generation) **do not exist yet**.
 
@@ -180,6 +180,7 @@ From here each run bills real transcription. Use the short lecture.
 - `Structured transcript/structured-transcript.md` is markdown with headings, filler removed, and no invented content
 - Title judgement: if the provisional title was already meaningful it is kept; if not, the lecture is renamed and files, workspace and manifest all follow
 - `Transcript verification/verification-report.json` holds a verdict, a coverage score, the findings, and what the checker cleared — and the run completes and exits 0 whatever it says
+- `Transcript verification/verification-report.md` says the same thing as a page you can read: verdict and counts at the top, then the findings with distortions first and the worst of each category first, then what the checker looked at and let pass
 - Cost summary printed, exit 0
 - `manifest.json` shows the four built stages complete with costs; `runs/<runId>.json` exists
 - **The manifest also lists `slide-conversion`, `image-extraction`, `synthesis`, `qa-loop` and `pdf-generation` as `pending`, and always will.** It is written with every stage in `STAGE_IDS` set to pending, so it describes the whole pipeline rather than the built part of it. Those five are never attempted — see §1

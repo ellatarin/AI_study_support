@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.46-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.47-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -440,7 +440,13 @@ Integration tests for the runner following the move:
 
 `src/pipeline/stages/transcript-verification.prompt.ts` **(TD §5, "Where prompts live")** — `buildVerificationMessages`. The assessment method carried over verbatim from the prompt that produced `docs/quality/`, with the reply contract appended. No test file of its own; the stage's tests exercise it.
 
-`src/pipeline/stages/transcript-verification.ts` **(TD Stage 4)** — a single JSON-mode call carrying the raw transcript and the structured one, writing the report to `Transcript verification/verification-report.json`. Offers only the faithfulness categories of `QaDeficiencyType`. Added to `lectureStages` in `src/cli/run-cli.ts`, which is what makes it run.
+`src/pipeline/stages/transcript-verification.ts` **(TD Stage 4)** — a single JSON-mode call carrying the raw transcript and the structured one, writing the report to `Transcript verification/verification-report.json` and its readable view to `verification-report.md` beside it. Offers only the faithfulness categories of `QaDeficiencyType`. Added to `lectureStages` in `src/cli/run-cli.ts`, which is what makes it run.
+
+`src/pipeline/stages/transcript-verification.view.ts` **(TD Stage 4, "The findings are also written as a document")** — `renderVerificationReport`, turning a stored report into the page a person reads. Its own file and its own suite, because the view is provisional: when the checker no longer needs reading by eye, this file and the layout's `readableView` come out together.
+
+`readableView` in `STAGE_WORKSPACE`, with `StageWithReadableView`, `stageReadableViewEntry` and `stageReadableViewPath` **(TD §3.3)**, and `writeStageOutputWithReadableView` in `src/pipeline/stages/pipeline-stage.ts` **(TD §4.2)** — a stage's output may now be accompanied by a rendering of itself, written and recorded in the same act as the output. Stage 4 is the only stage that declares one.
+
+`QA_SEVERITIES` in `src/types/pipeline.ts` **(TD §4.1)** — the three severities as an ordered list, worst first, with `QaSeverity` derived from it as `StageId` is from `STAGE_IDS`. The stage validates a reply against it and the view orders findings by it, and an ordering written beside a membership check is the same fact twice.
 
 `src/pipeline/stages/model-stage.ts` **(TD §6, "A stage asks for a JSON reply through one shared act")** — `requestJsonReply`, plus the dependency pair and run arguments every model-calling stage takes. Extracted here because Stage 4 is the second stage to do all three, and Stage 3 moves onto it in the same change. No test file of its own; both stages' suites exercise it, each failure included.
 
@@ -457,15 +463,26 @@ Unit tests for the stage (mock `makeCompletionCall`):
 - `should fail when a finding carries the prose category %s` — the categories this checker is never offered
 - `should send neither a temperature nor a token cap when the shipped example configures the stage` — the routing narrowing of A11.2d is what this prevents
 
+Unit tests for the view (`renderVerificationReport`, no mocks — it is handed a report and returns text):
+- `should say the checker raised nothing when the report carries no findings`
+- `should count the findings of each category when the report carries several`
+- `should put distortions before every other category when the report carries both`
+- `should order findings from critical to minor within a category`
+- `should show both locations and the source quote when a finding carries a source`
+- `should say the source carries no such passage when a finding has no source anchor`
+- `should record what the checker cleared when the report carries considerations`
+
 Integration tests (real temp directory):
 - `should write the report to Transcript verification when the stage completes`
 - `should write the report as readable JSON when the stage completes`
+- `should write the readable view beside the report when the stage completes`
+- `should record both files as written when the stage completes`
 - `should ask OpenRouter for JSON when the stage calls the model`
 - `should put both versions in front of the checker when the stage calls the model`
 
 Skipping when the report is present, re-running under `--from-stage`, recording status, cost and `filesWritten`, and leaving the exit code alone are the runner's behaviour rather than this stage's, and `runner.integration.test.ts` already covers them against a stub stage. Restating them per stage would be the duplication Rule Zero forbids, so the acceptance below is met through those tests, not new ones.
 
-**Acceptance:** A lecture with a structured transcript produces a verification report; a poor verdict changes neither the stage's status, the run, nor the exit code; the stage skips and re-runs like every other.
+**Acceptance:** A lecture with a structured transcript produces a verification report and a readable view of it, both recorded as written; a poor verdict changes neither the stage's status, the run, nor the exit code; the stage skips and re-runs like every other.
 
 ---
 

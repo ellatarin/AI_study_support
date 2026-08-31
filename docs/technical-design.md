@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.46-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.47-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -167,7 +167,8 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │   └── structured-transcript.md              # Stage 3
 │
 ├── Transcript verification/
-│   └── verification-report.json               # Stage 4
+│   ├── verification-report.json               # Stage 4
+│   └── verification-report.md                 # Stage 4 — the same findings, for a reader
 │
 ├── Slide content/
 │   ├── raw/
@@ -250,7 +251,16 @@ type StageOutputLocation =
 // `Final output/` holds every lecture in the module, so a reset there takes only the file belonging to the
 // lecture being reset — which is why that variant names a directory *deposited into* rather than a set owned.
 // A stage cannot declare that it owns a module-wide directory, so no reset can sweep one (§4.7).
-type StageWorkspace = { outputLocation: StageOutputLocation; outputFile: string | null }
+type StageWorkspace = {
+  outputLocation: StageOutputLocation
+  outputFile: string | null
+  readableView: string | null
+}
+// `readableView` is a second file holding the same content as `outputFile` in a form a person reads, written
+// by us from what was already stored rather than produced again. Only transcript-verification declares one
+// (Stage 4), and it is provisional — see Stage 4, "The readable view is temporary". A stage's *output* is
+// still the one file the stage after it reads, which is why the view is a field beside it rather than a second
+// entry in a list: nothing downstream could be pointed at a list and know which member to open.
 STAGE_WORKSPACE = { … } satisfies Readonly<Record<StageId, StageWorkspace>>
 // What each stage owns: where its work sits, and the single file it writes where it writes one. Every stage but
 // pdf-generation works in workspace directories; pdf-generation deposits its PDF in the module's `Final
@@ -266,6 +276,10 @@ STAGE_WORKSPACE = { … } satisfies Readonly<Record<StageId, StageWorkspace>>
 type StageWithOutputFile = /* the keys of STAGE_WORKSPACE whose outputFile is a string */
 // The five stages that write one named file, derived from the table rather than listed beside it: giving a
 // stage a file or taking one away changes who may be asked, with nothing else edited.
+type StageWithReadableView = /* the keys of STAGE_WORKSPACE whose readableView is a string */
+// The same derivation for the view, so a stage that does not render one cannot be asked for its path. Today
+// that is transcript-verification alone; when the view is withdrawn the set is empty and every caller of the
+// two resolvers below stops compiling, which is the point.
 
 type StageInWorkspace = { workspaceRoot: string; stageId: StageId }
 // One stage's work within one lecture, the pair every resolver below is addressed by.
@@ -279,6 +293,10 @@ stageOutputEntry(stageId: StageWithOutputFile): string
 stageOutputPath(query: StageFileInWorkspace): string
 // The same path, absolute. A stage uses it for its own output and for its upstream's input, so a hand-off
 // between two stages is stated once rather than at both ends.
+stageReadableViewEntry(stageId: StageWithReadableView): string
+stageReadableViewPath(query: { workspaceRoot: string; stageId: StageWithReadableView }): string
+// The view's path relative to the workspace and absolute, answering for the view exactly as the two above
+// answer for the output. Both are recorded in `filesWritten`, so a view deleted by hand re-runs its stage.
 type ResolvedStageOutput =
   | { root: "workspace"; directories: readonly string[] }
   | { root: "module"; directory: string }
@@ -372,6 +390,16 @@ writeStageOutput(args: { stageId: StageWithOutputFile; workspaceRoot: string } &
 // track that way (§4.3). Written as one function because the pairing it protects is one fact.
 // It takes a stage that writes one file (§3.3); a stage producing a set builds its own `filesWritten`, and
 // pdf-generation names a file outside the workspace, so neither is served by this.
+writeStageOutputWithReadableView(args: {
+  stageId: StageWithOutputFile & StageWithReadableView
+  workspaceRoot: string
+  content: string
+  readableView: string
+}): Promise<RecordedStageOutput>
+// The same act for a stage that also renders its output for a reader (§3.3): it writes both files and returns
+// both entries, and `path` is still the machine-readable one. A separate function rather than an optional
+// argument, because the parameter type is what ties supplying a view to a stage that declares one — a stage
+// that does not cannot be named here, and one that does cannot forget to render it.
 ```
 
 **Stage status semantics:**
@@ -1053,7 +1081,7 @@ createTranscriptStructuringStage(args: { logger: Logger }): PipelineStage<Transc
 ### Stage 4 — Transcript Verification
 
 **Input:** `Transcript/transcript.txt` and `Structured transcript/structured-transcript.md`
-**Output:** `Transcript verification/verification-report.json`
+**Output:** `Transcript verification/verification-report.json`, and `Transcript verification/verification-report.md` beside it
 
 Stage 3 rewrites a transcript, and nothing downstream reads the raw one again: from Stage 5 onwards the structured transcript *is* the lecture. Whatever Stage 3 drops is therefore not recoverable later, and no other stage is positioned to notice it had been dropped — Stage 7 checks the notes against the structured transcript, so content lost before that point is invisible to it. This stage is the one place the two versions sit side by side.
 
@@ -1065,12 +1093,25 @@ It makes a single JSON-mode call carrying both texts, and writes back a `QaFindi
 
 **The prompt is the assessment method, not a new one.** The checker's instructions are the prompt that produced the assessments committed in `docs/quality/`, carried over verbatim with only a reply contract appended, so what the stage does automatically is what was already shown to work by hand. Changing the method and changing the medium at the same time would leave no way to tell which one moved the findings.
 
+**The findings are also written as a document.** `verification-report.md` carries the same report as a page a person reads without a JSON viewer: a heading line with the verdict, the coverage score and how many findings there are; a table of how many findings fell into each category; then the findings themselves, grouped by category with distortions first and ordered critical to minor inside each group, each showing the passage of the source it is about, where that passage sits, and where in the structured transcript the fault is; and last, everything the checker examined and cleared. A report with no findings still produces the document, saying so.
+
+The rendering is ours and is derived from the report already on disk, never from a second call. Two consequences follow. The two files cannot disagree, because one is a projection of the other. And the model is never asked to be good at judgement and at prose in the same breath — the priority order a reader sees comes from the severity the checker assigned, not from a second opinion about what matters.
+
+**The readable view is temporary.** It exists because the checker is being calibrated by hand: its reports are read, compared against the assessments in `docs/quality/`, and argued with, and a JSON file is the wrong medium for that. Once a checker is settled on, nobody reads these by eye and the stage goes back to writing the one machine-readable file — at which point `verification-report.md`, the renderer, and the layout's `readableView` come out together.
+
 ```typescript
 // src/pipeline/stages/transcript-verification.prompt.ts
 buildVerificationMessages(args: { transcriptText: string; structuredTranscriptText: string }):
   readonly ChatCompletionMessageParam[]
 // The assessment method, with the reply contract appended. Asks for the JSON object in the prompt as well
 // as through `responseFormat`, which JSON mode requires (§6).
+
+// src/pipeline/stages/transcript-verification.view.ts
+renderVerificationReport(args: { report: QaFindingsReport }): string
+// The report as the document described above. Pure: it is handed the stored report and returns text, calls
+// nothing, and reads no file — which is what makes every ordering and counting rule testable on its own.
+// Total over `QaDeficiencyType` rather than over the five categories this checker is offered, so the QA loop's
+// wider vocabulary could not produce a finding it silently drops.
 
 // src/pipeline/stages/transcript-verification.ts
 type TranscriptVerificationInput = { transcriptText: string; structuredTranscriptText: string }
