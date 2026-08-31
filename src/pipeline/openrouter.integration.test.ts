@@ -358,10 +358,18 @@ describe("makeCompletionCall", () => {
 	});
 
 	// The guard above only fires when there is an explanation to report. A reply
-	// carrying neither an explanation nor choices still has to name the stage and
-	// the model rather than fail while reaching for a key that is not there.
-	it("should report no choices when a 200 reply carries neither choices nor an error", async () => {
-		mockCompletion().reply(200, { id: "gen-no-choices", object: "chat.completion" });
+	// carrying no explanation still has to name the stage and the model rather
+	// than fail while reaching for a key that is not there — whether it is an
+	// object without choices, or not the object the SDK's type promises at all.
+	it.each([
+		{
+			scenario: "carries neither choices nor an error",
+			body: { id: "gen-1", object: "chat.completion" },
+		},
+		{ scenario: "is an array", body: [] },
+		{ scenario: "is not an object at all", body: '"done"' },
+	])("should report no choices when a 200 reply $scenario", async ({ body }) => {
+		mockCompletion().reply(200, body);
 
 		const error = await captureError(call());
 
