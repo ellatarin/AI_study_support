@@ -36,6 +36,7 @@ export const STAGE_IDS = [
 	"audio-extraction",
 	"transcription",
 	"transcript-structuring",
+	"transcript-verification",
 	"slide-conversion",
 	"image-extraction",
 	"synthesis",
@@ -244,13 +245,13 @@ export type PipelineConfig = {
 };
 
 /**
- * The checker's verdict for a single QA iteration (technical-design.md Stage 7).
+ * The checker's verdict for a single QA iteration (technical-design.md Stage 8).
  */
 export type QaVerdict = "pass" | "fail";
 
 /**
  * A single QA iteration's outcome, summarised for the manifest
- * (technical-design.md Stage 7).
+ * (technical-design.md Stage 8).
  */
 export type QaIterationSummary = {
 	readonly iteration: number;
@@ -261,7 +262,7 @@ export type QaIterationSummary = {
 };
 
 /**
- * The condition that terminated the QA loop (technical-design.md Stage 7).
+ * The condition that terminated the QA loop (technical-design.md Stage 8).
  */
 export type TerminationReason = "qa-passed" | "max-iterations-reached" | "stalled";
 
@@ -352,7 +353,7 @@ export type ManifestStageEntry = SharedStageEntry | StageEntryComplete;
 /**
  * The `qa-loop` stage's manifest entry. Identical to {@link ManifestStageEntry}
  * except that a completed entry additionally records the per-iteration
- * summaries and the reason the loop terminated (technical-design.md Stage 7).
+ * summaries and the reason the loop terminated (technical-design.md Stage 8).
  */
 export type QaManifestStageEntry = SharedStageEntry | StageEntryQaComplete;
 
@@ -526,7 +527,7 @@ export type SourceNormalisationStage = {
 };
 
 /**
- * Severity of a single QA deficiency (technical-design.md Stage 7).
+ * Severity of a single QA deficiency (technical-design.md Stage 8).
  */
 export type QaSeverity = "critical" | "major" | "minor";
 
@@ -546,7 +547,7 @@ export type QaSeverity = "critical" | "major" | "minor";
  * that line is the whole reason they are separate categories: a distortion
  * contradicts the source and is corrected against it, an unsourced addition is
  * absent from the source and is deleted. Looking for a source that would
- * support one instead would violate NFR-1.3 (technical-design.md Stage 7).
+ * support one instead would violate NFR-1.3 (technical-design.md Stage 8).
  */
 export type QaDeficiencyType =
 	// Faithfulness to the source: transcript verification and the QA loop.
@@ -577,7 +578,7 @@ export type QaSourceAnchor = {
 
 /**
  * A single issue found by a quality checker, with the evidence and the
- * suggested remedy the reviser will act on (technical-design.md Stage 7).
+ * suggested remedy the reviser will act on (technical-design.md Stage 8).
  *
  * A finding locates both ends. `outputLocation` is where in the output the
  * fault sits, or — for an omission, where nothing sits yet — the place the
@@ -603,7 +604,7 @@ export type QaDeficiency = {
  * missed something from one that looked at it and cleared it, and only the
  * first is a reason to distrust the checker. A lecturer's aside, an
  * administrative announcement, or a filler phrase dropped on purpose belongs
- * here rather than going unmentioned (technical-design.md Stage 7).
+ * here rather than going unmentioned (technical-design.md Stage 8).
  */
 export type QaConsideration = {
 	readonly source: QaSourceAnchor;
@@ -612,7 +613,7 @@ export type QaConsideration = {
 
 /**
  * The structured report returned by a quality checker for one iteration
- * (technical-design.md Stage 7).
+ * (technical-design.md Stage 8).
  */
 export type QaDeficienciesReport = {
 	readonly iteration: number;

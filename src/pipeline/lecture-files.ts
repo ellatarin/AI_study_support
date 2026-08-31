@@ -110,7 +110,7 @@ export async function findDatedFile({ dir, lectureDate }: DatedFileQuery): Promi
  * (technical-design.md §3.2).
  *
  * Two callers need exactly this: `delete` clears a lecture out of all three
- * directories, and a `--from-stage` re-run at or before Stage 8 clears that
+ * directories, and a `--from-stage` re-run at or before Stage 9 clears that
  * lecture's PDF out of `Final output/`.
  *
  * @param args - Where to look and whose file to remove.
@@ -155,7 +155,7 @@ async function renameToBase({
  * slides, its `Final output/` PDF, and its workspace folder.
  *
  * Anything absent is skipped rather than treated as an error, since a lecture
- * legitimately has no PDF until Stage 8 has run. A caller that needs a file to
+ * legitimately has no PDF until Stage 9 has run. A caller that needs a file to
  * be there checks for it first and says so in its own terms — `change-date`
  * refuses to move a lecture whose source pair is missing.
  *

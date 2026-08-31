@@ -341,6 +341,10 @@ export const STAGE_WORKSPACE = {
 		directory: "Structured transcript",
 		file: "structured-transcript.md",
 	}),
+	"transcript-verification": writesInto({
+		directory: "Transcript verification",
+		file: "verification-report.json",
+	}),
 	"slide-conversion": writesInto({ directory: "Slide content", file: "slides.md" }),
 	"image-extraction": {
 		outputLocation: inWorkspace([declaredName("Slide images")]),

@@ -8,6 +8,12 @@ Two groups came from neither review, raised by the user while the work was being
 runner's test-only exports) and **C10** (the technical design's register). They carry no source
 citation for that reason.
 
+> **Stage numbers below predate the renumber of 2026-08-31.** Transcript verification was inserted as
+> Stage 4 and everything after it moved up one, so a "Stage 7" written below means the QA loop, which is
+> now Stage 8. The numbers are left as they were written: these entries record what a review said on a
+> given date, and rewriting them would put words into it that it never said. Stage *ids* are unaffected —
+> they never carried a number.
+
 **Status key**
 
 | Marker | Meaning |

@@ -750,7 +750,7 @@ describe("PipelineRunner integration", () => {
 				}
 			});
 
-			// Every --from-stage at or before Stage 8 sweeps through it, so each is a
+			// Every --from-stage at or before Stage 9 sweeps through it, so each is a
 			// route to the same directory.
 			it.each([
 				"pdf-generation",

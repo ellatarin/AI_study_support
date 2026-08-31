@@ -7,7 +7,7 @@
 
 ## 1. What exists, and what the runner will do
 
-Four of the nine stages are built and wired in:
+Four of the ten stages are built and wired in:
 
 | Stage | Name | Writes |
 |---|---|---|
@@ -16,7 +16,7 @@ Four of the nine stages are built and wired in:
 | 2 | transcription | `Transcript/transcript.txt` |
 | 3 | transcript-structuring | `Structured transcript/structured-transcript.md` |
 
-Stages 4–8 (slide-conversion, image-extraction, synthesis, qa-loop, pdf-generation) **do not exist yet**.
+Stages 4–9 (transcript-verification, slide-conversion, image-extraction, synthesis, qa-loop, pdf-generation) **do not exist yet**.
 
 **The runner will not try to call them.** It iterates the stage list it was given (`src/cli/run-cli.ts`), not the full set of stage IDs, so unbuilt stages are absent rather than skipped. A run ends after Stage 3, writes its run log, prints a cost summary, and exits 0.
 

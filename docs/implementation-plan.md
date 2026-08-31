@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.44-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.45-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -8,7 +8,7 @@
 
 ## Overview
 
-The pipeline is built in twelve phases. Phases 1–3 establish the project scaffold and shared infrastructure before any stage code is written. Phases 4–11 implement stages in pipeline order. Phase 12 validates the full pipeline end-to-end against a real lecture.
+The pipeline is built in thirteen phases. Phases 1–3 establish the project scaffold and shared infrastructure before any stage code is written. Phases 4–12 implement stages in pipeline order. Phase 13 validates the full pipeline end-to-end against a real lecture.
 
 Testing is not a final phase — unit tests are written alongside each deliverable per the project conventions. Integration tests are noted explicitly where unit testing alone is insufficient.
 
@@ -77,7 +77,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `src/utils/logger.ts` — `createRootLogger`, `createStageLogger` **(TD §10, Logging and Progress Helpers)**
 - `src/utils/date.ts` — `extractDate`, `formatDateISO`, `isCalendarDate` **(TD §3.2, Date and Naming Helpers)**
 - `src/utils/naming.ts` — `extractProvisionalTitle`, `lectureFolderName`, `lectureBaseName` **(TD §3.2)**; `filenameSafe` and the `EmptyNameError` it raises **(TD §4.4)**
-- `src/utils/progress.ts` — `createProgressBar` and `createUploadProgressStream` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`. `createParallelWorkBar` is specified in TD §10 but built in Phase 7, with the first stage that calls it
+- `src/utils/progress.ts` — `createProgressBar` and `createUploadProgressStream` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`. `createParallelWorkBar` is specified in TD §10 but built in Phase 8, with the first stage that calls it
 - `src/utils/cost.ts` — `accumulateCost`, the arithmetic alone **(TD §7)**
 - `src/pipeline/reports.ts` — `createMoneyFormatter`, `formatCostReport` and the table engine beneath them **(TD §7, Cost and Reporting Modules)**
 - `src/utils/stage-id.ts` — `isStageId`, `unknownStageMessage`: recognising a stage name and reporting one that is not, for `--from-stage` and the config keys alike **(TD §6)**
@@ -432,15 +432,48 @@ Integration tests for the runner following the move:
 
 ---
 
-## Phase 7 — Stage 4: Slide Conversion
+## Phase 7 — Stage 4: Transcript Verification
+
+**Goal:** Report what Stage 3's structuring lost, underexplained, distorted, or invented, without letting the verdict stop anything.
+
+**Deliverables:**
+
+`src/pipeline/stages/transcript-verification.prompt.ts` **(TD §5, "Where prompts live")** — `buildVerificationMessages`. The assessment method carried over verbatim from the prompt that produced `docs/quality/`, with the reply contract appended. No test file of its own; the stage's tests exercise it.
+
+`src/pipeline/stages/transcript-verification.ts` **(TD Stage 4)** — a single JSON-mode call carrying the raw transcript and the structured one, writing the report to `Transcript verification/verification-report.json`. Offers only the faithfulness categories of `QaDeficiencyType`. Added to `lectureStages` in `src/cli/run-cli.ts`, which is what makes it run.
+
+The stage set gains a tenth entry **(TD §4.1)** — `STAGE_IDS`, `STAGE_WORKSPACE`, the cost report's labels and the config example all follow from it; the manifest, config keys, `--from-stage` validation and the run log derive from `STAGE_IDS` and need no edit.
+
+**Tests:**
+
+Unit tests for the stage (mock `makeCompletionCall`):
+- `should write the report with every finding the checker returned`
+- `should record what the checker considered and did not raise`
+- `should complete rather than fail when the checker returns findings at every severity`
+- `should fail when either input file is missing or empty`
+- `should fail when the reply is not the documented report`
+- `should send neither a temperature nor a token cap` — the routing narrowing of A11.2d is what this prevents
+
+Integration tests (real temp directory):
+- `should write verification-report.json into the lecture's workspace`
+- `should skip the stage when its report is already present`
+- `should re-run and replace the report under --from-stage transcript-verification`
+- `should record the stage's status, cost, and filesWritten in the manifest`
+- `should leave the run's exit code unchanged when the report is full of findings`
+
+**Acceptance:** A lecture with a structured transcript produces a verification report; a poor verdict changes neither the stage's status, the run, nor the exit code; the stage skips and re-runs like every other.
+
+---
+
+## Phase 8 — Stage 5: Slide Conversion
 
 **Goal:** Vision LLM extraction of content from each slide, with intra-stage resumability and controlled concurrency.
 
 **Deliverables:**
 
-`src/pipeline/stages/slide-conversion.ts` — the whole of **TD Stage 4**: PDF-to-PNG rendering, the per-slide vision call and its prompt, intra-stage resumability, bounded concurrency, the in-flight progress bar, concatenation, and `--from-stage` cleanup.
+`src/pipeline/stages/slide-conversion.ts` — the whole of **TD Stage 5**: PDF-to-PNG rendering, the per-slide vision call and its prompt, intra-stage resumability, bounded concurrency, the in-flight progress bar, concatenation, and `--from-stage` cleanup.
 
-`createParallelWorkBar` in `src/utils/progress.ts` **(TD §10)** — the in-flight-suffix bar, built here rather than in Phase 2 because this stage and Stage 5 are what it has to serve.
+`createParallelWorkBar` in `src/utils/progress.ts` **(TD §10)** — the in-flight-suffix bar, built here rather than in Phase 2 because this stage and Stage 6 are what it has to serve.
 
 **Tests:**
 
@@ -458,13 +491,13 @@ Integration tests (real temp directory; real small PDF fixture):
 
 ---
 
-## Phase 8 — Stage 5: Image Extraction and Labelling
+## Phase 9 — Stage 6: Image Extraction and Labelling
 
 **Goal:** Identify academic figures within each slide PNG, crop them with `sharp`, and produce an `images-manifest.json`.
 
 **Deliverables:**
 
-`src/pipeline/stages/image-extraction.ts` — the whole of **TD Stage 5**: the per-slide vision call and its figure schema, the relevance and type exclusions, percentage-to-pixel cropping with `sharp`, the per-figure PNG and caption files, and `images-manifest.json`.
+`src/pipeline/stages/image-extraction.ts` — the whole of **TD Stage 6**: the per-slide vision call and its figure schema, the relevance and type exclusions, percentage-to-pixel cropping with `sharp`, the per-figure PNG and caption files, and `images-manifest.json`.
 
 **Tests:**
 
@@ -481,13 +514,13 @@ Integration tests (real temp directory; real slide PNG fixture):
 
 ---
 
-## Phase 9 — Stage 6: Synthesis
+## Phase 10 — Stage 7: Synthesis
 
 **Goal:** Single LLM call assembling transcript, slide content, and figure captions into textbook-style notes in British English.
 
 **Deliverables:**
 
-`src/pipeline/stages/synthesis.ts` — the whole of **TD Stage 6**: context assembly from the structured transcript, slide content, and figure captions; the token-budget estimate and the chunking fallback above it; and the synthesis prompt and its output structure.
+`src/pipeline/stages/synthesis.ts` — the whole of **TD Stage 7**: context assembly from the structured transcript, slide content, and figure captions; the token-budget estimate and the chunking fallback above it; and the synthesis prompt and its output structure.
 
 **Tests:**
 
@@ -502,13 +535,13 @@ Unit tests:
 
 ---
 
-## Phase 10 — Stage 7: QA Loop
+## Phase 11 — Stage 8: QA Loop
 
 **Goal:** Iterative quality check and revision cycle; writes the final `QA checked/notes.md`.
 
 **Deliverables:**
 
-`src/pipeline/stages/qa-loop.ts` — the whole of **TD Stage 7**: the two-prompt checker/reviser design and both prompts, the per-type reviser action table (including the NFR-1.3 prohibition on grounding an unsourced addition in a new source), the per-iteration files, all three loop-termination conditions, and the final `QA checked/` write.
+`src/pipeline/stages/qa-loop.ts` — the whole of **TD Stage 8**: the two-prompt checker/reviser design and both prompts, the per-type reviser action table (including the NFR-1.3 prohibition on grounding an unsourced addition in a new source), the per-iteration files, all three loop-termination conditions, and the final `QA checked/` write.
 
 **Tests:**
 
@@ -530,13 +563,13 @@ Integration tests (real temp directory):
 
 ---
 
-## Phase 11 — Stage 8: PDF Generation
+## Phase 12 — Stage 9: PDF Generation
 
 **Goal:** Convert `QA checked/notes.md` to PDF via pandoc and deposit in `Final output/`, the module directory the stage owns.
 
 **Deliverables:**
 
-`src/pipeline/stages/pdf-generation.ts` — the whole of **TD Stage 8**: the cached `pandoc` and `xelatex` pre-flight checks and their install hints, the `spawn` invocation with its explicit argv array, stderr capture on a non-zero exit, and the output filename assembled from `StageContext` through `filenameSafe` (TD §4.4).
+`src/pipeline/stages/pdf-generation.ts` — the whole of **TD Stage 9**: the cached `pandoc` and `xelatex` pre-flight checks and their install hints, the `spawn` invocation with its explicit argv array, stderr capture on a non-zero exit, and the output filename assembled from `StageContext` through `filenameSafe` (TD §4.4).
 
 **Tests:**
 
@@ -557,7 +590,7 @@ Integration tests (`pdf-generation.integration.test.ts`) — requires pandoc and
 
 ---
 
-## Phase 12 — End-to-End Validation
+## Phase 13 — End-to-End Validation
 
 **Goal:** Run the full pipeline against a real lecture and verify output quality and pipeline mechanics.
 
@@ -566,7 +599,7 @@ Integration tests (`pdf-generation.integration.test.ts`) — requires pandoc and
 2. Run full pipeline on one lecture; verify manifest state and run log after each stage
 3. Verify the three-section cost report is correct and matches run log data
 4. Verify the final PDF opens and is readable
-5. Simulate a mid-run failure (kill process during Stage 4); verify resumability on restart
+5. Simulate a mid-run failure (kill process during Stage 5); verify resumability on restart
 6. Run `--from-stage slide-conversion` on a completed lecture; verify fresh extraction and downstream re-run
 7. Add a new lecture to the source folder; re-run Stage 0; verify re-numbering propagates correctly
 8. Run batch mode across all lectures; verify sequential processing and batch summary output

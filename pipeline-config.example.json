@@ -31,6 +31,11 @@
 			"temperature": 0.2,
 			"maxTokens": 8192
 		},
+		"transcript-verification": {
+			"modelId": "<REASONING_MODEL>",
+			"temperature": null,
+			"maxTokens": null
+		},
 		"slide-conversion": {
 			"modelId": "<COST_EFFICIENT_VISION_MODEL>",
 			"temperature": 0.1,

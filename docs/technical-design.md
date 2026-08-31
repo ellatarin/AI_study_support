@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.44-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.45-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -8,7 +8,7 @@
 
 ## 1. System Overview
 
-The system is a TypeScript/Node.js CLI tool with nine stages (Stage 0 through Stage 8). Stage 0 is a batch normalisation step across all lectures in a module. Stages 1–8 run per lecture, orchestrated by a pipeline runner that reads and writes a per-lecture run manifest. Every stage is idempotent — if its output exists and the manifest marks it complete or skipped, it is skipped.
+The system is a TypeScript/Node.js CLI tool with ten stages (Stage 0 through Stage 9). Stage 0 is a batch normalisation step across all lectures in a module. Stages 1–9 run per lecture, orchestrated by a pipeline runner that reads and writes a per-lecture run manifest. Every stage is idempotent — if its output exists and the manifest marks it complete or skipped, it is skipped.
 
 ---
 
@@ -166,36 +166,39 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 ├── Structured transcript/
 │   └── structured-transcript.md              # Stage 3
 │
+├── Transcript verification/
+│   └── verification-report.json               # Stage 4
+│
 ├── Slide content/
 │   ├── raw/
-│   │   ├── slide-001.md                       # per-slide extraction (Stage 4 resumability)
+│   │   ├── slide-001.md                       # per-slide extraction (Stage 5 resumability)
 │   │   ├── slide-002.md
 │   │   └── ...
-│   └── slides.md                              # Stage 4 — concatenated
+│   └── slides.md                              # Stage 5 — concatenated
 │
 ├── Slide images/
-│   ├── images-manifest.json                   # Stage 5
+│   ├── images-manifest.json                   # Stage 6
 │   ├── slide-003-figure-01.png
 │   ├── slide-003-figure-01-caption.md
 │   └── ...
 │
 ├── Synthesised notes/
-│   └── synthesised-notes.md                  # Stage 6
+│   └── synthesised-notes.md                  # Stage 7
 │
 ├── QA iterations/
 │   ├── qa-iteration-01-deficiencies.json
 │   ├── qa-iteration-01-revised.md
-│   └── ...                                    # Stage 7
+│   └── ...                                    # Stage 8
 │
 └── QA checked/
-    ├── notes.md                               # Stage 7 final — simple name
+    ├── notes.md                               # Stage 8 final — simple name
     └── images/
         └── slide-003-figure-01.png
 ```
 
-`QA checked/notes.md` uses a simple name because it lives inside the named lecture folder. The full descriptive filename appears only on the PDF in `Final output/` (Stage 8).
+`QA checked/notes.md` uses a simple name because it lives inside the named lecture folder. The full descriptive filename appears only on the PDF in `Final output/` (Stage 9).
 
-The directory is named for the stage that fills it: it holds Stage 7's quality-checked notes, and Stage 8 only reads it. Stage 8's own output is the PDF in the module's `Final output/` (§3.1) — the one place a stage writes outside its workspace, and the one a re-run cannot clear by emptying, because every lecture's PDF is in it. `--from-stage pdf-generation` takes this lecture's PDF and leaves the rest (§4.4).
+The directory is named for the stage that fills it: it holds Stage 8's quality-checked notes, and Stage 9 only reads it. Stage 9's own output is the PDF in the module's `Final output/` (§3.1) — the one place a stage writes outside its workspace, and the one a re-run cannot clear by emptying, because every lecture's PDF is in it. `--from-stage pdf-generation` takes this lecture's PDF and leaves the rest (§4.4).
 
 #### The layout has one owner
 
@@ -315,11 +318,12 @@ Because all other files inside the workspace use simple names, only the four ite
 | 1 | Audio Extraction | Per-lecture | Extract audio track from video using ffmpeg |
 | 2 | Transcription | Per-lecture | Upload audio to ElevenLabs, save raw transcript |
 | 3 | Transcript Structuring | Per-lecture | Determine AI title from transcript; structure transcript into markdown; conditionally rename files if original title was non-descriptive |
-| 4 | Slide Conversion | Per-lecture | Render PDF slides as images; extract content via vision LLM |
-| 5 | Image Extraction & Labelling | Per-lecture | Identify, label, and filter academic figures from slide images |
-| 6 | Synthesis | Per-lecture | Combine transcript, slide content, and figures into textbook-style notes |
-| 7 | QA Loop | Per-lecture | Iteratively check and revise notes; write final `QA checked/notes.md` |
-| 8 | PDF Generation | Per-lecture | Convert `QA checked/notes.md` to PDF via pandoc; deposit in `Final output/` |
+| 4 | Transcript Verification | Per-lecture | Compare the structured transcript against the raw one; report what was lost, underexplained, distorted, or invented. Reports only — never fails a run |
+| 5 | Slide Conversion | Per-lecture | Render PDF slides as images; extract content via vision LLM |
+| 6 | Image Extraction & Labelling | Per-lecture | Identify, label, and filter academic figures from slide images |
+| 7 | Synthesis | Per-lecture | Combine transcript, slide content, and figures into textbook-style notes |
+| 8 | QA Loop | Per-lecture | Iteratively check and revise notes; write final `QA checked/notes.md` |
+| 9 | PDF Generation | Per-lecture | Convert `QA checked/notes.md` to PDF via pandoc; deposit in `Final output/` |
 
 ### 4.2 Stage Interface
 
@@ -461,13 +465,13 @@ These live in a module of their own rather than among the filesystem convenience
 filenameSafe(title: string): string   // src/utils/naming.ts; throws when the result would be empty
 ```
 
-**Stage cleanup boundaries.** `--from-stage <stageId>` MUST NOT drive its cleanup off `filesWritten` from the manifest. Cleanup works from the per-stage, hard-coded `STAGE_WORKSPACE` (§3.3) — `Slide content/` for Stage 4, the module's `Final output/` for Stage 8 — so a corrupt manifest cannot trigger deletion of unintended files. "Hard-coded" is enforced by the type system rather than left to convention: a stage directory name is branded, and the private constructor that mints it rejects a widened `string` (§3.3). A `filesWritten` entry or LLM-supplied name reaching that map is a compile error.
+**Stage cleanup boundaries.** `--from-stage <stageId>` MUST NOT drive its cleanup off `filesWritten` from the manifest. Cleanup works from the per-stage, hard-coded `STAGE_WORKSPACE` (§3.3) — `Slide content/` for Stage 5, the module's `Final output/` for Stage 9 — so a corrupt manifest cannot trigger deletion of unintended files. "Hard-coded" is enforced by the type system rather than left to convention: a stage directory name is branded, and the private constructor that mints it rejects a widened `string` (§3.3). A `filesWritten` entry or LLM-supplied name reaching that map is a compile error.
 
-Stage 8's directory is the sole one resolved against `moduleRoot` rather than the workspace, and it holds every lecture in the module. What a stage declares is therefore a `StageOutputLocation` (§3.3), and the variant decides how cleanup proceeds. Its `workspace` variant carries directories, which cleanup takes whole, since each holds one lecture's work and nothing else. Its `module` variant carries the directory the stage deposits into, where cleanup removes the single file carrying the reset lecture's date and leaves the directory and every other lecture's PDF standing. A stage has no way to declare that it owns a module-wide directory, so the reach of a reset is bounded by the type rather than by the care taken at each call site.
+Stage 9's directory is the sole one resolved against `moduleRoot` rather than the workspace, and it holds every lecture in the module. What a stage declares is therefore a `StageOutputLocation` (§3.3), and the variant decides how cleanup proceeds. Its `workspace` variant carries directories, which cleanup takes whole, since each holds one lecture's work and nothing else. Its `module` variant carries the directory the stage deposits into, where cleanup removes the single file carrying the reset lecture's date and leaves the directory and every other lecture's PDF standing. A stage has no way to declare that it owns a module-wide directory, so the reach of a reset is bounded by the type rather than by the care taken at each call site.
 
 The delete target is anchored at the other end too: `workspaceRoot` is always built by `listWorkspaces` as `join(moduleDirs({ moduleRoot }).processing, <directory listing entry>)`, and the manifest is read only to match a lecture date, never to supply a path. So `moduleRootOf(workspaceRoot)` returns the same `moduleRoot` the caller passed in, and neither root nor name is manifest-derived.
 
-**No shell interpolation.** Every child-process invocation across the pipeline (fluent-ffmpeg in Stage 1, pandoc in Stage 8, any future subprocess call) MUST use `spawn(cmd, argv, opts)` with an explicit argv array — never `exec(shellString)` and never any variant that concatenates paths into a shell command. This eliminates the class of bug where folder names with spaces (`Final output/`, `Slide content/`, `QA iterations/`) or attacker-controlled title strings break out of an argument via unescaped shell metacharacters. Paths are passed verbatim as argv elements; no quoting is required or applied.
+**No shell interpolation.** Every child-process invocation across the pipeline (fluent-ffmpeg in Stage 1, pandoc in Stage 9, any future subprocess call) MUST use `spawn(cmd, argv, opts)` with an explicit argv array — never `exec(shellString)` and never any variant that concatenates paths into a shell command. This eliminates the class of bug where folder names with spaces (`Final output/`, `Slide content/`, `QA iterations/`) or attacker-controlled title strings break out of an argument via unescaped shell metacharacters. Paths are passed verbatim as argv elements; no quoting is required or applied.
 
 ### 4.5 Run Manifest
 
@@ -730,11 +734,11 @@ hasSettledOutput(entry: ManifestStageEntry | QaManifestStageEntry | undefined): 
 
 **Pipeline order comes from `STAGE_IDS`.** `src/types/pipeline.ts` declares `STAGE_IDS` as the ordered stage list, and everything that walks the stages in order — the runner's `--from-stage` reset, the cost report's per-stage breakdown — iterates that array. A map elsewhere in the code is a lookup keyed *by* stage, and its key order is that map's own; the pipeline's order has one statement, and adding a stage to it is what puts the stage in the sequence.
 
-**`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes per-stage intermediate files for the stages being re-run (e.g. `Slide content/raw/*.md` when re-running Stage 4), so the re-run produces entirely fresh output. Upstream stages are untouched. Deletion targets hard-coded per-stage directories (see §4.4) — never `filesWritten` from the manifest — and in the module's `Final output/`, which is shared, it takes only this lecture's PDF.
+**`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes per-stage intermediate files for the stages being re-run (e.g. `Slide content/raw/*.md` when re-running Stage 5), so the re-run produces entirely fresh output. Upstream stages are untouched. Deletion targets hard-coded per-stage directories (see §4.4) — never `filesWritten` from the manifest — and in the module's `Final output/`, which is shared, it takes only this lecture's PDF.
 
 **The reset is confirmed before anything is deleted (NFR-4.3).** The CLI asks once per invocation, leading with the number of lectures that will lose work, and declining runs nothing at all rather than running without the reset. The count is what makes the question worth reading, because nothing the user typed states it: `run <date>` covers however many lectures that date matched and they then chose, and `batch` covers every lecture in the module named — or, with no module named, in every configured one. The question is asked wherever that set first becomes known, which is the CLI for a date and, for a batch, only after `countLectures` has scanned the modules (§4.7, "Counting a batch's scope"). Establishing the count costs that scan, so it is taken only when a stage is nominated; an ordinary run asks nothing and pays nothing. There is no flag to suppress the question.
 
-**Natural restart after failure:** Does not clear intermediate files — per-slide markdown files from Stage 4 are preserved for resumability, allowing a failed run to pick up at the slide where it stopped.
+**Natural restart after failure:** Does not clear intermediate files — per-slide markdown files from Stage 5 are preserved for resumability, allowing a failed run to pick up at the slide where it stopped.
 
 **Lecture identification:** A lecture is uniquely identified by `(moduleRoot, lectureDate)`. Stage 0 guarantees `lectureDate` is unique within a module. Across modules, dates may collide — see `resolveLecturesByDate` below.
 
@@ -750,7 +754,7 @@ assembleContext(args: { workspaceRoot: string; manifest: RunManifest; config: Pi
 // moduleRoot derived two levels up; the result is frozen.
 ```
 
-The context is **rebuilt between stages** rather than assembled once for the run. It costs no extra reads: the runner already re-reads the manifest at every stage transition, so `updateManifest` hands back what it wrote and the next context is assembled from that. What it buys is that a stage's manifest changes reach the stages that follow — Stage 3 replaces `lectureTitle`, and Stage 8 names the PDF from it.
+The context is **rebuilt between stages** rather than assembled once for the run. It costs no extra reads: the runner already re-reads the manifest at every stage transition, so `updateManifest` hands back what it wrote and the next context is assembled from that. What it buys is that a stage's manifest changes reach the stages that follow — Stage 3 replaces `lectureTitle`, and Stage 9 names the PDF from it.
 
 **Following a relocated workspace.** Stage 3 renames the workspace folder when it replaces the lecture's title (§5, Stage 3), which invalidates the path the runner is holding mid-run. Stages do not report the move; the runner re-locates the lecture by the identity this section treats as canonical — `(moduleRoot, lectureDate)`. `resolveWorkspace` reads the manifest at the path it has and, failing that, falls back to `findLectureByDate`, which scans `Pipeline processing/` for the workspace whose manifest carries the date. The fallback is reached only after a stage has moved the folder; every other transition costs the read it always cost. The run log is written at the resolved path and `RunSummary.workspaceRoot` reports it, so a run that renames its own workspace still leaves its log beside the work.
 
@@ -777,7 +781,7 @@ Each mutation leaves the module in a state Stage 0 can finish, rather than doing
 
 **Moving a lecture's files.** `change-date` and Stage 3 both rename the same four things onto a new base name — the source video, the source slide, any `Final output/` PDF, and the workspace folder — so the sweep is stated once and shared. It lives under `src/pipeline/` rather than beside the CLI commands that were its first caller, because a stage may not import from the CLI layer.
 
-Removing one lecture's file lives here for the same reason. Every directory a lecture's own files sit in is shared with every other lecture in the module, so `delete` and a `--from-stage` re-run at or before Stage 8 both have to take one file rather than sweep a directory, and both find it the way everything else here does — by the date it carries.
+Removing one lecture's file lives here for the same reason. Every directory a lecture's own files sit in is shared with every other lecture in the module, so `delete` and a `--from-stage` re-run at or before Stage 9 both have to take one file rather than sweep a directory, and both find it the way everything else here does — by the date it carries.
 
 ```typescript
 // src/pipeline/lecture-files.ts
@@ -861,7 +865,7 @@ Parsing is validated in full before anything runs: the command must exist, its p
 
 ## 5. Stage Designs
 
-**Where prompts live.** A stage that calls an LLM keeps its prompt in a sibling module, `<stage>.prompt.ts`, exporting the function that builds the messages. Only the five stages that make LLM calls have one; Stages 0, 1, 2, and 8 do not. Where a stage makes more than one kind of call, its single prompt module exports one builder per call — the QA loop's checker and reviser both belong to Stage 7.
+**Where prompts live.** A stage that calls an LLM keeps its prompt in a sibling module, `<stage>.prompt.ts`, exporting the function that builds the messages. Only the five stages that make LLM calls have one; Stages 0, 1, 2, and 8 do not. Where a stage makes more than one kind of call, its single prompt module exports one builder per call — the QA loop's checker and reviser both belong to Stage 8.
 
 Each prompt sits beside the one stage that uses it, so a prompt edit touches that stage alone (NFR-5.2). Keeping it out of the stage module puts prompt changes in a file of their own — a prompt is the part iterated on hardest once real lectures run, and its diffs stay legible apart from file renames and manifest writes.
 
@@ -1046,7 +1050,40 @@ createTranscriptStructuringStage(args: { logger: Logger }): PipelineStage<Transc
 
 ---
 
-### Stage 4 — Slide Conversion
+### Stage 4 — Transcript Verification
+
+**Input:** `Transcript/transcript.txt` and `Structured transcript/structured-transcript.md`
+**Output:** `Transcript verification/verification-report.json`
+
+Stage 3 rewrites a transcript, and nothing downstream reads the raw one again: from Stage 5 onwards the structured transcript *is* the lecture. Whatever Stage 3 drops is therefore not recoverable later, and no other stage is positioned to notice it had been dropped — Stage 7 checks the notes against the structured transcript, so content lost before that point is invisible to it. This stage is the one place the two versions sit side by side.
+
+It makes a single JSON-mode call carrying both texts, and writes back a `QaDeficienciesReport` (§4.1, `src/types/pipeline.ts`): the findings, each with its severity, category, the source passage it is about and where it belongs in the output, plus the `considered` list of what the checker examined and cleared. Only the faithfulness categories are offered — `omission`, `underexplained`, `distortion`, `unsourced-addition`, `other` — because this stage compares two transcripts and has no notes to judge the prose of (Stage 8).
+
+**It reports; it never gates.** No verdict fails the stage, ends the run, or changes the exit code, and no severity blocks anything downstream. A lecture whose structured transcript is poor still produces notes and a PDF, and the report is how the user finds out. This is deliberate and is the first half of a two-step plan: a checker has to be shown to be right about a corpus before anything is allowed to act on what it says, and a checker that can stop a run is one whose false positives cost a user their run. A revision loop becomes possible once the reports are trusted; until then the cost of the stage being wrong is a file nobody has to read.
+
+**Tuning is left unset on purpose.** The stage's config entry writes `temperature` and `maxTokens` as `null`, so the only parameter the request carries is the reply format. Under `require_parameters` (§6) every parameter in a request narrows which endpoints may serve it, and a stage whose calls are this long is the worst place to discover that the tuning pinned routing to a provider refusing the account — which is exactly how a `404 No endpoints found that can handle the requested parameters` and a run of `503`s were produced during user testing. No token cap also means no truncated report: the reply length follows the number of findings, which is not known in advance and is largest precisely when the report matters most.
+
+**The prompt is the assessment method, not a new one.** The checker's instructions are the prompt that produced the assessments committed in `docs/quality/`, carried over verbatim with only a reply contract appended, so what the stage does automatically is what was already shown to work by hand. Changing the method and changing the medium at the same time would leave no way to tell which one moved the findings.
+
+```typescript
+// src/pipeline/stages/transcript-verification.prompt.ts
+buildVerificationMessages(args: { transcriptText: string; structuredTranscriptText: string;
+  language: OutputLanguage }): readonly ChatCompletionMessageParam[]
+// The assessment method, with the reply contract appended. Asks for the JSON object in the prompt as well
+// as through `responseFormat`, which JSON mode requires (§6).
+
+// src/pipeline/stages/transcript-verification.ts
+type TranscriptVerificationInput = { transcriptText: string; structuredTranscriptText: string }
+type TranscriptVerificationOutput = { verificationReportPath: string; findingCount: number }
+createTranscriptVerificationStage(args: { logger: Logger; client: OpenRouterClient }):
+  PipelineStage<TranscriptVerificationInput, TranscriptVerificationOutput>
+// Throws TranscriptVerificationError when either input file is missing or empty, or when the reply is not
+// the documented report. A report full of findings is not a failure — that is the stage working.
+```
+
+---
+
+### Stage 5 — Slide Conversion
 
 **Input:** `Source files/Lecture slides/Lecture N - [Title] - YYYY-MM-DD.pdf`
 **Output:** `Slide content/raw/slide-{003d}.md` (one per slide), `Slide content/slides.md` (concatenated)
@@ -1057,7 +1094,7 @@ Native PDF text extraction is rejected for this use case. Academic biology slide
 
 **Processing:**
 
-1. Render each PDF page to a PNG at 150 DPI using `pdfjs-dist` + `canvas`. PNGs are written to `Slide content/raw/slide-{003d}.png` and also used by Stage 5.
+1. Render each PDF page to a PNG at 150 DPI using `pdfjs-dist` + `canvas`. PNGs are written to `Slide content/raw/slide-{003d}.png` and also used by Stage 6.
 
 2. For each slide, make a vision LLM call:
    > "This is slide {N} of {total} from a lecture titled '{lectureTitle}'. Extract all academic content into structured markdown. Reproduce all text exactly. Describe diagrams in full (structure, labels, arrows, relationships). Reconstruct tables with all cells and headers. Render formulas as LaTeX. Note the slide's apparent purpose (e.g. definition slide, pathway diagram, data table)."
@@ -1080,13 +1117,13 @@ Format string: `'{label}  [{bar}] {value}/{total}  ETA {eta_formatted}  | in fli
 
 **Recommended model:** A cost-efficient vision model (e.g. `google/gemini-2.5-flash`) — this stage makes the most individual API calls.
 
-**`.tmp` cleanup:** At the start of Stage 4, any `.tmp` files in `Slide content/` are deleted before processing begins.
+**`.tmp` cleanup:** At the start of Stage 5, any `.tmp` files in `Slide content/` are deleted before processing begins.
 
 **`--from-stage slide-conversion`:** Deletes all files in `Slide content/raw/` before starting, ensuring entirely fresh output rather than resuming from cached per-slide files.
 
 ---
 
-### Stage 5 — Image Extraction and Labelling
+### Stage 6 — Image Extraction and Labelling
 
 **Input:** Slide PNGs from `Slide content/raw/slide-{003d}.png`
 **Output:** `Slide images/slide-{003d}-figure-{02d}.png`, `Slide images/slide-{003d}-figure-{02d}-caption.md`, `Slide images/images-manifest.json`
@@ -1118,7 +1155,7 @@ For each slide PNG, a vision LLM call identifies distinct figures and their boun
 
 Figures with `academicRelevance: 'exclude'` or `figureType` of `logo` or `decorative` are discarded without saving. Cropped PNGs are saved using zero-padded naming: `slide-{003d}-figure-{02d}.png`.
 
-**Progress, failure, and non-TTY behaviour:** Same convention as Stage 4 (single `SingleBar` with in-flight suffix). Default concurrency: 2 parallel API calls.
+**Progress, failure, and non-TTY behaviour:** Same convention as Stage 5 (single `SingleBar` with in-flight suffix). Default concurrency: 2 parallel API calls.
 
 #### `images-manifest.json`
 
@@ -1144,7 +1181,7 @@ Figures with `academicRelevance: 'exclude'` or `figureType` of `logo` or `decora
 
 ---
 
-### Stage 6 — Synthesis
+### Stage 7 — Synthesis
 
 **Inputs:**
 - `Structured transcript/structured-transcript.md`
@@ -1169,7 +1206,7 @@ Align transcript sections to slide sections by heading similarity to produce pai
 
 ---
 
-### Stage 7 — QA Loop
+### Stage 8 — QA Loop
 
 **Inputs:** All source materials + current synthesised notes draft.
 **Outputs (per iteration):** `QA iterations/qa-iteration-{02d}-deficiencies.json`, `QA iterations/qa-iteration-{02d}-revised.md`
@@ -1207,11 +1244,11 @@ The loop exits when any one of the following is true:
 
 `terminationReason` in the manifest records which condition triggered the exit (`'qa-passed'`, `'max-iterations-reached'`, `'stalled'`).
 
-On successful exit, the final revised draft is written to `QA checked/notes.md` and all included figures are copied to `QA checked/images/`. Stage 8 then converts this to the final PDF.
+On successful exit, the final revised draft is written to `QA checked/notes.md` and all included figures are copied to `QA checked/images/`. Stage 9 then converts this to the final PDF.
 
 ---
 
-### Stage 8 — PDF Generation
+### Stage 9 — PDF Generation
 
 **Input:** `QA checked/notes.md`, `QA checked/images/`
 **Output:** `Final output/Lecture N - [title] - YYYY-MM-DD.pdf` (at module level)
@@ -1682,11 +1719,12 @@ src/
 │       ├── transcription.ts          # Stage 2 — existing, refactored to implement PipelineStage
 │       ├── transcript-structuring.prompt.ts  # Stage 3's messages — one prompt module per LLM stage (§5)
 │       ├── transcript-structuring.ts # Stage 3 — title determination + structuring
-│       ├── slide-conversion.ts       # Stage 4 — PDF render + per-slide vision LLM
-│       ├── image-extraction.ts       # Stage 5 — vision-guided crop + labelling
-│       ├── synthesis.ts              # Stage 6 — context assembly, chunking fallback
-│       ├── qa-loop.ts               # Stage 7 — two-prompt QA pattern, loop termination
-│       └── pdf-generation.ts         # Stage 8 — pandoc invocation, Final output/ deposit
+│       ├── transcript-verification.ts # Stage 4 — raw vs structured transcript, report-only
+│       ├── slide-conversion.ts       # Stage 5 — PDF render + per-slide vision LLM
+│       ├── image-extraction.ts       # Stage 6 — vision-guided crop + labelling
+│       ├── synthesis.ts              # Stage 7 — context assembly, chunking fallback
+│       ├── qa-loop.ts               # Stage 8 — two-prompt QA pattern, loop termination
+│       └── pdf-generation.ts         # Stage 9 — pandoc invocation, Final output/ deposit
 └── utils/
     ├── date.ts                       # Date extraction and normalisation (chrono-node)
     ├── naming.ts                     # Lecture folder and file naming helpers
@@ -1717,7 +1755,7 @@ The pino file transport writes newline-delimited JSON to `<projectRoot>/runs/<ti
 
 - Every billable model call: model, prompt token count, latency ms. Stage 2's Scribe upload counts — it is billed by audio duration rather than tokens, so it logs bytes uploaded in place of prompt tokens
 - Rate limit retries: attempt number, back-off delay, error message
-- Per-slide processing times (Stage 4)
+- Per-slide processing times (Stage 5)
 - File I/O errors: path and OS error code
 - **Decisions that name things downstream.** Which source video Stage 1 chose, since it selects by base name from whatever the video directory holds; and which of the three ways Stage 3 settled the lecture's title (§5, Stage 3), since every later stage names its output from it
 - **Failures the run survives**, at `warn` — chiefly Stage 2's audio-duration lookup, whose only other trace is a `null` in a cost report read days later
@@ -1788,8 +1826,8 @@ createUploadProgressStream(totalBytes: number): Transform    // upload byte prog
 createParallelWorkBar(args: { label: string; total: number }): {
   bar; start; pick; complete; fail; stop
 }
-// The in-flight-suffix bar from Stage 4. pick(id) adds an id to the in-flight set, complete(id) removes it
+// The in-flight-suffix bar from Stage 5. pick(id) adds an id to the in-flight set, complete(id) removes it
 // and ticks, fail(id) marks the item red in the final render. Used by Stages 4 and 5; non-TTY behaviour is
-// delegated to cli-progress defaults. **Built with Stage 4** — the two stages that need it shape what it has
+// delegated to cli-progress defaults. **Built with Stage 5** — the two stages that need it shape what it has
 // to do, and a version written ahead of them could only be checked against a guess at that.
 ```
