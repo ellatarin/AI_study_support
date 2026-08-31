@@ -58,8 +58,25 @@ function requireNumber(args: LabelledValue): number {
 	return args.value;
 }
 
+/**
+ * Reads a field that may be left unset, which the file may say in either of two
+ * ways: leave the key out, or write it as `null`.
+ *
+ * Both mean the same thing — the pipeline sends no such parameter — but a
+ * `null` says it in the file, beside the stage it applies to and next to the
+ * tuning that is set. Which parameters a call carries decides which providers
+ * can serve it (§6, "JSON mode is routed for as well as asked for"), so leaving
+ * one off is a decision worth being able to write down rather than one that can
+ * only be expressed by an absence.
+ *
+ * @param args - The value to read and the label to report against.
+ * @param args.value - The raw config value.
+ * @param args.label - The config key, for the error message.
+ * @returns The number, or `undefined` where the field is unset.
+ * @throws {ConfigError} If the value is neither a number nor an explicit `null`.
+ */
 function requireOptionalNumber(args: LabelledValue): number | undefined {
-	if (args.value === undefined) {
+	if (args.value === undefined || args.value === null) {
 		return undefined;
 	}
 	return requireNumber(args);

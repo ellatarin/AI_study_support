@@ -222,6 +222,21 @@ describe("makeCompletionCall", () => {
 		expect(body.provider).toEqual(expectedProvider);
 	});
 
+	// Which parameters a request carries is a routing decision under
+	// `require_parameters`, so tuning a stage leaves unset has to be genuinely
+	// absent from the body rather than sent as a null the endpoint filter counts.
+	it("should send no tuning parameters at all when the stage configures none", async () => {
+		const untuned: PipelineConfig = {
+			...config,
+			stages: { "transcript-structuring": { modelId: openRouterModelId } },
+		};
+
+		const { body } = await callCapturingRequest({ config: untuned });
+
+		expect(body).not.toHaveProperty("temperature");
+		expect(body).not.toHaveProperty("max_tokens");
+	});
+
 	// A call reaches wherever its client points. There is no shared client to be
 	// served by mistake, so this asserts the whole of the rule rather than the
 	// cache-invalidation that used to stand in for it.

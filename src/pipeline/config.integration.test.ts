@@ -2,7 +2,7 @@ import { rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { CONFIG_FILENAME } from "../types/pipeline.js";
+import { CONFIG_FILENAME, type StageConfig } from "../types/pipeline.js";
 import { ConfigError, loadConfig } from "./config.js";
 import {
 	blockNetwork,
@@ -26,6 +26,16 @@ import {
 const STRUCTURING_MODEL_ID = openRouterModelId;
 const SLIDE_MODEL_ID = "google/gemini-2.5-flash";
 const KNOWN_MODEL_IDS = [STRUCTURING_MODEL_ID, SLIDE_MODEL_ID] as const;
+
+// Every optional field a stage entry may tune, checked against the stage config
+// itself so a renamed field fails to compile here rather than leaving the case
+// for it silently exercising a key nothing reads.
+const TUNING_FIELDS = [
+	"temperature",
+	"maxTokens",
+	"concurrency",
+	"maxIterations",
+] as const satisfies readonly (keyof StageConfig)[];
 
 /**
  * A structurally valid config as a fresh mutable object each call, so a test can
@@ -95,20 +105,40 @@ const outputSection = sectionCorrupter("output");
 const namingSection = sectionCorrupter("naming");
 
 /**
- * The config's stages record, typed to the one field these tests read off it.
+ * The config's stages record, as raw entries these tests read and retune field
+ * by field.
  *
  * @param config - The raw config being corrupted or inspected.
  * @returns Its stages, keyed by stage id.
  */
-function configuredStages(config: Record<string, unknown>): Record<string, { modelId: string }> {
-	return config.stages as Record<string, { modelId: string }>;
+function configuredStages(
+	config: Record<string, unknown>,
+): Record<string, Record<string, unknown>> {
+	return config.stages as Record<string, Record<string, unknown>>;
+}
+
+/**
+ * The structuring stage's own entry, to be retuned in place.
+ *
+ * The tests that reach for it change one field and leave the rest of the
+ * example's tuning standing — replacing the whole entry would drop that tuning
+ * and fail the loader for a reason the test is not about.
+ *
+ * @param config - The raw config being retuned.
+ * @returns The stage's raw entry.
+ * @throws {Error} If the fixture configures no structuring stage to retune.
+ */
+function structuringStage(config: Record<string, unknown>): Record<string, unknown> {
+	const stage = configuredStages(config)["transcript-structuring"];
+	if (stage === undefined) {
+		throw new Error('Fixture has no "transcript-structuring" stage to retune');
+	}
+	return stage;
 }
 
 /**
  * Retunes the structuring stage's model ID in place, keeping the rest of its
- * tuning. The tests that do this exercise validation of the ID itself, so every
- * other field has to stay valid — replacing the whole entry would drop the
- * example's tuning and fail the loader for an unrelated reason.
+ * tuning. The tests that do this exercise validation of the ID itself.
  */
 function setStructuringModelId({
 	config,
@@ -117,11 +147,7 @@ function setStructuringModelId({
 	readonly config: Record<string, unknown>;
 	readonly modelId: string;
 }): void {
-	const stage = configuredStages(config)["transcript-structuring"];
-	if (stage === undefined) {
-		throw new Error('Fixture has no "transcript-structuring" stage to retune');
-	}
-	stage.modelId = modelId;
+	structuringStage(config).modelId = modelId;
 }
 
 function mockModelsResponse(ids: readonly string[]): void {
@@ -307,6 +333,23 @@ describe("loadConfig model-ID resolution check", () => {
 		const result = await loadConfig({ projectRoot });
 
 		expect(result.stages).toEqual({});
+	});
+});
+
+describe("loadConfig stage tuning", () => {
+	it.each(
+		TUNING_FIELDS,
+	)("should leave %s unset, and the rest of the stage alone, when it is written as null", async (field) => {
+		await writeValidConfig((config) => {
+			structuringStage(config)[field] = null;
+		});
+		mockModelsResponse(KNOWN_MODEL_IDS);
+
+		const loaded = await loadConfig({ projectRoot });
+
+		const stage = loaded.stages["transcript-structuring"];
+		expect(stage?.[field]).toBeUndefined();
+		expect(stage?.modelId).toBe(STRUCTURING_MODEL_ID);
 	});
 });
 

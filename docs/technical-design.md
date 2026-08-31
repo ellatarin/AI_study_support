@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.41-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.42-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -1319,6 +1319,8 @@ makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; r
 
 OpenRouter's own parameter reference states that JSON mode requires the prompt to ask for JSON as well, so a `"json"` caller instructs the model in its messages too, and still treats a reply that will not parse as a stage failure.
 
+**A tuning parameter can be left unset out loud.** Every optional field of a stage entry — `temperature`, `maxTokens`, `concurrency`, `maxIterations` — may be written as `null`, which means what leaving the key out means: the request carries no such parameter. There are two ways to say it because the choice is worth writing down. Under the routing restriction above, the parameters a request carries decide which endpoints may serve it, and providers differ in what they accept — the same model reached through one provider takes a `temperature` and through another does not. Which tuning a stage sets is therefore part of choosing what can answer it, and a `null` records a deliberate omission beside the tuning that is set, where a missing key reads as an oversight.
+
 **A stage key names a stage.** Every key of the `stages` section is checked against the stage IDs, and one that names no stage is a `ConfigError` at startup listing the stages it could have named. Configuration reaches a stage by its key alone, so this check is what makes "the stage is configured" and "the config file mentions the stage" the same statement.
 
 **Model-ID resolution check.** At startup `loadConfig` fetches the model list once from `${openRouter.baseUrl}/models` and asserts every configured `stages[*].modelId` appears in it, so placeholders left un-substituted, typos, and retired IDs are caught before any billable call. A miss throws a `ConfigError` naming the offending stages and linking to the models page. The list is fetched once per invocation, which is the only time it is wanted: `loadConfig` runs once, and asks for the list once.
@@ -1376,7 +1378,7 @@ Each prefix is matched literally, so one carrying a pattern character means itse
     },
     "transcript-structuring": {
       "modelId": "<REASONING_MODEL>",             // long-context text model with strong structure/summarisation
-      "temperature": 0.2,
+      "temperature": 0.2,                         // any tuning field may be null instead: no such parameter is sent
       "maxTokens": 8192
     },
     "slide-conversion": {

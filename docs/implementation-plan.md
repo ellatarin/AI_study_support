@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.41-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.42-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -342,6 +342,7 @@ Config loader — integration tests:
 - `should skip the OpenRouter check when a model ID names an exempt provider`
 - `should still check a model ID when its provider is not exempt`
 - `should throw ConfigError when a required currency or ElevenLabs field is missing or not a number`
+- `should leave %s unset, and the rest of the stage alone, when it is written as null` — `test.each` over a stage's optional tuning fields, since `null` and an absent key both mean the parameter is not sent (TD §6)
 
 Typed errors — unit tests:
 - `should take its name from the concrete subclass when constructed` — the `new.target` capture in `NamedError`
