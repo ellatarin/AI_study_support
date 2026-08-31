@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.45-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.46-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -1057,7 +1057,7 @@ createTranscriptStructuringStage(args: { logger: Logger }): PipelineStage<Transc
 
 Stage 3 rewrites a transcript, and nothing downstream reads the raw one again: from Stage 5 onwards the structured transcript *is* the lecture. Whatever Stage 3 drops is therefore not recoverable later, and no other stage is positioned to notice it had been dropped — Stage 7 checks the notes against the structured transcript, so content lost before that point is invisible to it. This stage is the one place the two versions sit side by side.
 
-It makes a single JSON-mode call carrying both texts, and writes back a `QaDeficienciesReport` (§4.1, `src/types/pipeline.ts`): the findings, each with its severity, category, the source passage it is about and where it belongs in the output, plus the `considered` list of what the checker examined and cleared. Only the faithfulness categories are offered — `omission`, `underexplained`, `distortion`, `unsourced-addition`, `other` — because this stage compares two transcripts and has no notes to judge the prose of (Stage 8).
+It makes a single JSON-mode call carrying both texts, and writes back a `QaFindingsReport` (§4.1, `src/types/pipeline.ts`) — everything a checker is in a position to say, with no iteration number, because this stage runs once and the number belongs to the QA loop that calls its checker repeatedly. The report holds the findings, each with its severity, category, the source passage it is about and where it belongs in the output, plus the `considered` list of what the checker examined and cleared. Only the faithfulness categories are offered — `omission`, `underexplained`, `distortion`, `unsourced-addition`, `other` — because this stage compares two transcripts and has no notes to judge the prose of (Stage 8).
 
 **It reports; it never gates.** No verdict fails the stage, ends the run, or changes the exit code, and no severity blocks anything downstream. A lecture whose structured transcript is poor still produces notes and a PDF, and the report is how the user finds out. This is deliberate and is the first half of a two-step plan: a checker has to be shown to be right about a corpus before anything is allowed to act on what it says, and a checker that can stop a run is one whose false positives cost a user their run. A revision loop becomes possible once the reports are trusted; until then the cost of the stage being wrong is a file nobody has to read.
 
@@ -1067,8 +1067,8 @@ It makes a single JSON-mode call carrying both texts, and writes back a `QaDefic
 
 ```typescript
 // src/pipeline/stages/transcript-verification.prompt.ts
-buildVerificationMessages(args: { transcriptText: string; structuredTranscriptText: string;
-  language: OutputLanguage }): readonly ChatCompletionMessageParam[]
+buildVerificationMessages(args: { transcriptText: string; structuredTranscriptText: string }):
+  readonly ChatCompletionMessageParam[]
 // The assessment method, with the reply contract appended. Asks for the JSON object in the prompt as well
 // as through `responseFormat`, which JSON mode requires (§6).
 
@@ -1358,6 +1358,8 @@ makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; r
 **JSON mode is routed for as well as asked for.** OpenRouter honours `response_format` per *endpoint* rather than per model: a model is served by several providers, and by default the parameter steers routing towards those that support it — where none of a model's providers do, the request still goes through with the parameter dropped, handing the stage prose where it expected JSON. A `"json"` call therefore also sends `provider: { require_parameters: true }`, which restricts routing to endpoints supporting every parameter in the request. A model that cannot do JSON then fails the call, which names the real cause at the point it arises; a dropped `response_format` costs a full billable call and arrives as a parse error naming the reply. The flag rides with `"json"` alone: a `"text"` call has nothing to require, and requiring nothing would only narrow which endpoints can serve it.
 
 OpenRouter's own parameter reference states that JSON mode requires the prompt to ask for JSON as well, so a `"json"` caller instructs the model in its messages too, and still treats a reply that will not parse as a stage failure.
+
+**A stage asks for a JSON reply through one shared act.** Every stage that expects JSON has the same three obligations: send the call in JSON mode, refuse a reply that will not parse, and refuse one that parses into something other than the shape it documented. `requestJsonReply` in `src/pipeline/stages/model-stage.ts` performs all three and hands back the validated reply with the call's cost. The stage supplies what is its own — the messages, the predicate that recognises its reply, the shape in words, and how to raise its own named error — so each stage keeps its own error type while the two sentences a user reads are identical wherever they come from. The same module names the dependency pair (`{ logger, client }`) and the run arguments every model-calling stage takes, which had otherwise been restated per stage.
 
 **A rejection can arrive inside an accepted reply.** OpenRouter answers some upstream failures with HTTP 200 and a body carrying `{"error": {…}}` where the choices should be, which the SDK reports as a success. The provider's own sentence is the only account of what happened — it says whether the failure is transient and whether retrying is the remedy — so an accepted reply carrying one is a `CompletionRejectedError` quoting it beside the stage and the model, and is recorded on the stage's logger at `debug`. It is reported, never retried: the reply may already have been billed, so what to do about a busy provider is the caller's decision rather than this module's. A reply carrying neither choices nor an explanation is the `NoCompletionChoicesError` above.
 

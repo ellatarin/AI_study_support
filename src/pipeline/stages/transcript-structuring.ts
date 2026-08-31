@@ -15,7 +15,11 @@ import { errorMessage, NamedError } from "../../utils/errors.js";
 import { isRecord } from "../../utils/record.js";
 import { moduleDirs, stageOutputPath } from "../layout.js";
 import { baseNameForLecture, renameLectureFiles } from "../lecture-files.js";
-import { makeCompletionCall, type OpenRouterClient } from "../openrouter.js";
+import {
+	type ModelStageDependencies,
+	type ModelStageRunArgs,
+	requestJsonReply,
+} from "./model-stage.js";
 import { createPipelineStage, writeStageOutput } from "./pipeline-stage.js";
 import { buildStructuringMessages } from "./transcript-structuring.prompt.js";
 /* jscpd:ignore-end */
@@ -100,33 +104,9 @@ function isStructuringReply(value: unknown): value is StructuringReply {
 	);
 }
 
-/**
- * Parses the model's reply into the documented object.
- *
- * Worth validating rather than trusting: JSON mode is a routing preference, not
- * a guarantee, so a model whose providers cannot honour it answers in prose and
- * the request still succeeds (technical-design.md §6).
- *
- * @param content - The raw reply text.
- * @returns The parsed reply.
- * @throws {TranscriptStructuringError} If the reply is not JSON, or not the documented object.
- */
-function parseReply(content: string): StructuringReply {
-	let parsed: unknown;
-	try {
-		parsed = JSON.parse(content);
-	} catch (error: unknown) {
-		throw new TranscriptStructuringError(
-			`The model answered with something other than JSON (${errorMessage(error)})`,
-		);
-	}
-	if (!isStructuringReply(parsed)) {
-		throw new TranscriptStructuringError(
-			"The model's reply is not the documented { provisionalTitleMeaningful, suggestedTitle, structuredMarkdown } object",
-		);
-	}
-	return { ...parsed, suggestedTitle: parsed.suggestedTitle ?? null };
-}
+/** The reply's shape in words, for the failure a user reads when a reply is not one. */
+const DOCUMENTED_REPLY_SHAPE =
+	"{ provisionalTitleMeaningful, suggestedTitle, structuredMarkdown } object";
 
 /**
  * The title the model proposed, insisting it actually proposed one.
@@ -309,25 +289,26 @@ async function structureTranscript({
 	context,
 	logger,
 	client,
-}: {
-	readonly input: TranscriptStructuringInput;
-	readonly context: StageContext;
-	readonly logger: Logger;
-	readonly client: OpenRouterClient;
-}): Promise<StageResult<TranscriptStructuringOutput>> {
-	const { content, cost } = await makeCompletionCall({
+}: ModelStageRunArgs<TranscriptStructuringInput>): Promise<
+	StageResult<TranscriptStructuringOutput>
+> {
+	const { reply: replied, cost } = await requestJsonReply({
 		messages: buildStructuringMessages({
 			transcriptText: input.transcriptText,
 			provisionalTitle: context.provisionalTitle,
 			language: context.config.output.language,
 		}),
 		stageId: STAGE_ID,
-		config: context.config,
-		responseFormat: "json",
+		context,
+		isReply: isStructuringReply,
+		documentedShape: DOCUMENTED_REPLY_SHAPE,
+		fail: (message) => new TranscriptStructuringError(message),
 		logger,
 		client,
 	});
-	const reply = parseReply(content);
+	// An absent suggestion and an explicit null mean the same thing downstream, so
+	// the difference is settled here rather than at every reader.
+	const reply: StructuringReply = { ...replied, suggestedTitle: replied.suggestedTitle ?? null };
 
 	const { filesWritten } = await writeStageOutput({
 		stageId: STAGE_ID,
@@ -367,10 +348,7 @@ async function structureTranscript({
 export function createTranscriptStructuringStage({
 	logger,
 	client,
-}: {
-	readonly logger: Logger;
-	readonly client: OpenRouterClient;
-}): PipelineStage<TranscriptStructuringInput, TranscriptStructuringOutput> {
+}: ModelStageDependencies): PipelineStage<TranscriptStructuringInput, TranscriptStructuringOutput> {
 	return createPipelineStage({
 		stageId: STAGE_ID,
 		logger,

@@ -353,6 +353,20 @@ async function lookupCost(options: {
 }
 
 /**
+ * Everything one completion call needs. Named rather than written inline so a
+ * caller that forwards part of it — the stage helper that asks for a JSON reply
+ * — can say which part it forwards instead of restating the fields.
+ */
+export type CompletionRequest = {
+	readonly messages: readonly OpenAI.Chat.Completions.ChatCompletionMessageParam[];
+	readonly stageId: StageId;
+	readonly config: PipelineConfig;
+	readonly responseFormat: CompletionResponseFormat;
+	readonly logger: Logger;
+	readonly client: OpenRouterClient;
+};
+
+/**
  * Runs one chat completion for the named stage and returns its text alongside a
  * fully-resolved {@link StageCost}. Token counts are captured from the completion
  * response; the dollar cost is fetched from OpenRouter's generation endpoint and
@@ -380,15 +394,10 @@ async function lookupCost(options: {
  * @throws {NoCompletionChoicesError} If the call is accepted but the model returns no choices.
  *   Every one of these names the model and the stage in its message (§8).
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the OpenAI client, message-param and pino Logger types are library types that are not deeply readonly (CLAUDE.md permits dropping readonly when a library requires mutable types)
-export async function makeCompletionCall(options: {
-	readonly messages: readonly OpenAI.Chat.Completions.ChatCompletionMessageParam[];
-	readonly stageId: StageId;
-	readonly config: PipelineConfig;
-	readonly responseFormat: CompletionResponseFormat;
-	readonly logger: Logger;
-	readonly client: OpenRouterClient;
-}): Promise<{ readonly content: string; readonly cost: StageCost }> {
+export async function makeCompletionCall(
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the OpenAI client, message-param and pino Logger types are library types that are not deeply readonly (CLAUDE.md permits dropping readonly when a library requires mutable types)
+	options: CompletionRequest,
+): Promise<{ readonly content: string; readonly cost: StageCost }> {
 	const stageConfig = stageConfigFor({ config: options.config, stageId: options.stageId });
 	const { openRouter } = options.config;
 	// Asked for at the one moment a client is genuinely needed. A command that
