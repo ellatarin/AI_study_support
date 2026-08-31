@@ -1,7 +1,7 @@
 import { rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import type { Mock } from "vitest";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import type {
 	OutputLanguage,
 	RunManifest,
@@ -19,9 +19,7 @@ import {
 	loggedAt,
 	makeManifest,
 	makeStageContext,
-	makeWorkspaceTree,
 	openRouterClientFor,
-	seedStageOutput,
 	structuringReply,
 	stubbedCostUsd,
 	testLecture,
@@ -30,6 +28,7 @@ import {
 	transcriptText,
 	userChosenTitle,
 	useStubLogger,
+	useTranscribedWorkspace,
 } from "../fixtures.js";
 import { stageOutputEntry, stageOutputPath } from "../layout.js";
 import { manifestPath } from "../manifest.js";
@@ -67,19 +66,15 @@ function stubReply(overrides: Readonly<Record<string, unknown>> = {}): void {
 }
 
 describe("createTranscriptStructuringStage", () => {
-	let moduleRoot: string;
-	let workspaceRoot: string;
+	const workspace = useTranscribedWorkspace({ prefix: "structuring-" });
 	const logged = useStubLogger();
 
-	beforeEach(async () => {
-		vi.clearAllMocks();
-		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "structuring-" }));
-		await seedStageOutput({ workspaceRoot, stageId: "transcription", contents: transcriptText });
-		stubReply();
-	});
+	/** The lecture workspace the current test is running against. */
+	const workspaceRoot = (): string => workspace().workspaceRoot;
 
-	afterEach(async () => {
-		await rm(moduleRoot, { recursive: true, force: true });
+	beforeEach(() => {
+		vi.clearAllMocks();
+		stubReply();
 	});
 
 	function contextWith({
@@ -90,7 +85,7 @@ describe("createTranscriptStructuringStage", () => {
 		readonly language?: OutputLanguage;
 	} = {}): StageContext {
 		return makeStageContext({
-			workspaceRoot,
+			workspaceRoot: workspaceRoot(),
 			config: configuringStage({ stageId: "transcript-structuring", language }),
 			manifest: makeManifest(manifest),
 		});
@@ -123,7 +118,7 @@ describe("createTranscriptStructuringStage", () => {
 		const folders = [testLecture.folderName, aiDerivedLecture.folderName];
 		const written = await Promise.all(
 			folders.map((folder) =>
-				pathExists(manifestPath({ workspaceRoot: join(dirname(workspaceRoot), folder) })),
+				pathExists(manifestPath({ workspaceRoot: join(dirname(workspaceRoot()), folder) })),
 			),
 		);
 		return written.includes(true);
@@ -134,13 +129,16 @@ describe("createTranscriptStructuringStage", () => {
 	});
 
 	it("should fail when the transcript is missing", async () => {
-		await rm(stageOutputPath({ workspaceRoot, stageId: "transcription" }));
+		await rm(stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: "transcription" }));
 
 		await expect(makeStage().getInput(contextWith())).rejects.toThrow(TranscriptStructuringError);
 	});
 
 	it("should fail when the transcript holds no text", async () => {
-		await writeFile(stageOutputPath({ workspaceRoot, stageId: "transcription" }), "   \n  ");
+		await writeFile(
+			stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: "transcription" }),
+			"   \n  ",
+		);
 
 		await expect(makeStage().getInput(contextWith())).rejects.toThrow(TranscriptStructuringError);
 	});
@@ -181,7 +179,7 @@ describe("createTranscriptStructuringStage", () => {
 		const result = await runStage(contextWith());
 
 		expect(result.output.structuredTranscriptPath).toBe(
-			stageOutputPath({ workspaceRoot, stageId: "transcript-structuring" }),
+			stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: "transcript-structuring" }),
 		);
 		expect(result.filesWritten).toStrictEqual([stageOutputEntry("transcript-structuring")]);
 	});
@@ -207,7 +205,7 @@ describe("createTranscriptStructuringStage", () => {
 	it("should leave the workspace where it stands when the model judges the title meaningful", async () => {
 		await runStage(contextWith());
 
-		expect(await pathExists(workspaceRoot)).toBe(true);
+		expect(await pathExists(workspaceRoot())).toBe(true);
 	});
 
 	// The runner hands a stage the context as it stood before the stage began, so a
@@ -283,7 +281,7 @@ describe("createTranscriptStructuringStage", () => {
 		it("should leave the workspace where it stands when the user has named it", async () => {
 			await runStage(contextWith({ manifest: userNamed }));
 
-			expect(await pathExists(workspaceRoot)).toBe(true);
+			expect(await pathExists(workspaceRoot())).toBe(true);
 		});
 	});
 

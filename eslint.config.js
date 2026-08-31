@@ -271,7 +271,11 @@ export default [
 			"vitest/no-focused-tests": "error", // No stray .only
 			"vitest/no-disabled-tests": "warn", // Flag .skip so it doesn't hide
 			"vitest/no-identical-title": "error", // Prevents accidental duplicates
-			"vitest/expect-expect": "error", // A test with no assertion is silent noise
+			// A test with no assertion is silent noise. `expect*` is named as well as
+			// `expect` so a shared assertion helper from the fixtures — which is how
+			// an assertion made in several suites is stated once — still counts as
+			// asserting. The rule sees only the call, not what it does.
+			"vitest/expect-expect": ["error", { assertFunctionNames: ["expect", "expect*"] }],
 		},
 	},
 

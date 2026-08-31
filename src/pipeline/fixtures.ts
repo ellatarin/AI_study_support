@@ -15,7 +15,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import nock from "nock";
 import type { Logger } from "pino";
-import { afterEach, beforeEach, vi } from "vitest";
+import { afterEach, beforeEach, expect, vi } from "vitest";
 import type {
 	ManifestStageEntry,
 	OutputLanguage,
@@ -335,7 +335,7 @@ export const elevenLabsUrls = {
  * @returns The configured stage.
  * @throws {Error} If the example configures no such stage.
  */
-function exampleStageConfig(stageId: StageId): StageConfig {
+export function exampleStageConfig(stageId: StageId): StageConfig {
 	const configured = exampleConfig.stages[stageId];
 	if (configured === undefined) {
 		throw new Error(`pipeline-config.example.json configures no stage "${stageId}"`);
@@ -441,6 +441,57 @@ export function openRouterCompletionBody({
 			completion_tokens: stubbedTokenUsage.completionTokens,
 		},
 	};
+}
+
+/**
+ * Intercepts one JSON-mode completion and the cost lookup that follows it,
+ * handing back what the stage put on the wire.
+ *
+ * Every stage that calls a model over a real HTTP boundary needs the same two
+ * interceptors and the same capture, and the pair is not either suite's
+ * business: a stage that made its call and never had its cost resolved would
+ * hang on the second request rather than fail on the first, which is a
+ * confusing way to learn a suite forgot one.
+ *
+ * The captured body is reached through the returned function rather than a
+ * variable the suite keeps, so nothing has to be reset between tests.
+ *
+ * @param reply - The JSON object the model should appear to have replied with.
+ * @returns A function giving the request body the stage sent.
+ */
+export function stubModelReply(
+	reply: Readonly<Record<string, unknown>>,
+): () => Record<string, unknown> {
+	let capturedBody: Record<string, unknown> = {};
+	nock(openRouterUrls.origin)
+		.post(openRouterUrls.completions)
+		// eslint-disable-next-line max-params -- nock hands its reply callback (uri, body) positionally; the signature is the library's, not ours to shape
+		.reply((_uri, body) => {
+			capturedBody = body as Record<string, unknown>;
+			return [200, openRouterCompletionBody({ content: JSON.stringify(reply) })];
+		});
+	nock(openRouterUrls.origin)
+		.get(openRouterUrls.generation)
+		.query(true)
+		.reply(200, { data: { total_cost: stubbedCostUsd } });
+	return () => capturedBody;
+}
+
+/**
+ * Asserts a captured request asked for JSON, routing included.
+ *
+ * Both halves or neither: `response_format` alone is a preference OpenRouter may
+ * drop, and it is `require_parameters` that turns a model which cannot honour it
+ * into a failed call rather than prose. A suite checking one and not the other
+ * would pass on a stage that pays for a call and gets an unparseable reply, so
+ * the pair is asserted from one place for every stage that calls in JSON mode.
+ *
+ * @param request - The request body the stage sent, as `stubModelReply` captured it.
+ * @returns Nothing.
+ */
+export function expectJsonModeRequest(request: Readonly<Record<string, unknown>>): void {
+	expect(request.response_format).toEqual({ type: "json_object" });
+	expect(request.provider).toEqual({ require_parameters: true });
 }
 
 /**
@@ -706,6 +757,49 @@ export function structuringReply(
 	return { ...titleKept, structuredMarkdown, ...overrides };
 }
 
+/**
+ * One finding a verification checker returns: a concept the structuring dropped,
+ * with the words it dropped and where they belonged.
+ *
+ * Stated once because the two parties to a finding are the stage that writes it
+ * and the suite that reads it back, and they must agree on its shape or the
+ * assertion proves nothing.
+ */
+export const verificationFinding = {
+	severity: "major",
+	type: "omission",
+	description: "The base-rate argument for benign tumours is absent.",
+	source: { evidence: "who doesn't have moles?", location: "topic block 3" },
+	suggestedFix: "Restore the base-rate argument beside the multi-hit model.",
+	outputLocation: "Comparative Oncology and Tumour Incidence",
+} as const;
+
+/** Something the checker looked at and cleared, which a report records beside its findings. */
+export const verificationCleared = {
+	source: { evidence: "the exam is in January", location: "closing remarks" },
+	whyNotRaised: "Administrative aside, not subject content.",
+} as const;
+
+/**
+ * A well-formed verification report. The shape is the stage's documented
+ * contract rather than any one suite's business, so every suite states it
+ * through here and overrides only the field its test is about.
+ *
+ * @param overrides - The fields this test's behaviour depends on.
+ * @returns The report, ready to be serialised as the model's content.
+ */
+export function verificationReply(
+	overrides: Readonly<Record<string, unknown>> = {},
+): Record<string, unknown> {
+	return {
+		overallVerdict: "fail",
+		coverageScore: 72,
+		deficiencies: [verificationFinding],
+		considered: [verificationCleared],
+		...overrides,
+	};
+}
+
 /** The title a user sets through the CLI's `rename` command. */
 export const userChosenTitle = "Cell Injury and Death";
 
@@ -956,6 +1050,59 @@ export async function makeWorkspaceTree({
 	const workspaceRoot = workspaceRootFor({ moduleRoot, folderName });
 	await mkdir(workspaceRoot, { recursive: true });
 	return { moduleRoot, workspaceRoot };
+}
+
+/** A module tree with one lecture's workspace in it. */
+export type WorkspaceTree = {
+	readonly moduleRoot: string;
+	readonly workspaceRoot: string;
+};
+
+/**
+ * Gives a suite a workspace with Stage 2's transcript already in it, made afresh
+ * before each test and removed after.
+ *
+ * Every stage downstream of transcription starts from exactly this state, and
+ * every suite exercising one wants the same three things: a tree, a transcript
+ * in it, and the tree gone afterwards. Stated here rather than as two `let`s and
+ * a pair of hooks in each suite — which is also how two suites could come to
+ * disagree about what the transcript says while both still pass.
+ *
+ * Returns a reader rather than the tree, because it does not exist until the
+ * hook has run — the shape {@link useStubLogger} already establishes here.
+ *
+ * @param args - How to name the temporary directory.
+ * @param args.prefix - The temporary directory's prefix, naming the suite that made it.
+ * @returns A function giving the current test's workspace.
+ */
+export function useTranscribedWorkspace({
+	prefix,
+}: {
+	readonly prefix: string;
+}): () => WorkspaceTree {
+	let tree: WorkspaceTree | null = null;
+
+	beforeEach(async () => {
+		tree = await makeWorkspaceTree({ prefix });
+		await seedStageOutput({
+			workspaceRoot: tree.workspaceRoot,
+			stageId: "transcription",
+			contents: transcriptText,
+		});
+	});
+
+	afterEach(async () => {
+		if (tree !== null) {
+			await rm(tree.moduleRoot, { recursive: true, force: true });
+		}
+	});
+
+	return () => {
+		if (tree === null) {
+			throw new Error("The workspace is only available inside a test");
+		}
+		return tree;
+	};
 }
 
 /**

@@ -1,6 +1,5 @@
 import { rm } from "node:fs/promises";
 import { join } from "node:path";
-import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { LectureIdentityChanges, RunManifest, StageContext } from "../../types/pipeline.js";
 import { pathExists } from "../../utils/files.js";
@@ -9,17 +8,16 @@ import {
 	configuringStage,
 	driveStage,
 	exampleConfig,
+	expectJsonModeRequest,
 	makeLectureTree,
 	makeManifest,
 	makeStageContext,
 	makeStubLogger,
 	openRouterClientFor,
-	openRouterCompletionBody,
-	openRouterUrls,
 	resetStubbedApi,
 	seedStageOutput,
 	structuringReply,
-	stubbedCostUsd,
+	stubModelReply,
 	stubOpenRouterApi,
 	testLecture,
 	titleKept,
@@ -36,7 +34,7 @@ describe("transcript structuring against a real module tree", () => {
 	let moduleRoot: string;
 	let dirs: ModuleDirs;
 	let workspaceRoot: string;
-	let capturedBody: Record<string, unknown>;
+	let sentRequest: () => Record<string, unknown>;
 
 	/** The workspace a lecture named `folderName` occupies in this module. */
 	const workspaceNamed = (folderName: string): string =>
@@ -44,16 +42,7 @@ describe("transcript structuring against a real module tree", () => {
 
 	/** Mocks the completion and its cost lookup, capturing what was sent. */
 	function mockModelReply(reply: Record<string, unknown>): void {
-		nock(openRouterUrls.origin)
-			.post(openRouterUrls.completions)
-			.reply((_uri, body) => {
-				capturedBody = body as Record<string, unknown>;
-				return [200, openRouterCompletionBody({ content: JSON.stringify(reply) })];
-			});
-		nock(openRouterUrls.origin)
-			.get(openRouterUrls.generation)
-			.query(true)
-			.reply(200, { data: { total_cost: stubbedCostUsd } });
+		sentRequest = stubModelReply(reply);
 	}
 
 	/** The model's verdict, as the two cases every title test is written across. */
@@ -63,7 +52,6 @@ describe("transcript structuring against a real module tree", () => {
 
 	beforeEach(async () => {
 		stubOpenRouterApi();
-		capturedBody = {};
 
 		({ tempDir, moduleRoot, dirs, workspaceRoot } = await makeLectureTree({
 			prefix: "structuring-int-",
@@ -105,8 +93,7 @@ describe("transcript structuring against a real module tree", () => {
 
 		await runStage(await prepareLecture());
 
-		expect(capturedBody.response_format).toEqual({ type: "json_object" });
-		expect(capturedBody.provider).toEqual({ require_parameters: true });
+		expectJsonModeRequest(sentRequest());
 	});
 
 	it.each([
