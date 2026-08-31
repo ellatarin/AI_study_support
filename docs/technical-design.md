@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.43-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.44-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -1179,20 +1179,23 @@ Align transcript sections to slide sections by heading similarity to produce pai
 
 QA and revision are two separate LLM calls per iteration. Combining them in one call degrades quality — the model cannot be simultaneously maximally critical and produce fluent prose. Separating the tasks allows each to be done well.
 
-**QA checker call:** Reads source transcript + source slides + image manifest + current draft. Returns a structured `QaDeficienciesReport`. The prompt instructs the model to be thorough and critical, to categorise every deficiency into exactly one of the eight `QaDeficiency.type` values (carrying a short definition of each in-prompt), to hold the `factual-error` / `unsupported-claim` line precisely — contradiction of a source versus mere absence of support — and not to call the notes adequate unless they genuinely are.
+**QA checker call:** Reads source transcript + source slides + image manifest + current draft. Returns a structured `QaDeficienciesReport`. The prompt instructs the model to be thorough and critical, to categorise every deficiency into exactly one `QaDeficiency.type` value (carrying a short definition of each in-prompt), to hold the `distortion` / `unsourced-addition` line precisely — contradiction of a source versus content the source does not carry at all — and not to call the notes adequate unless they genuinely are. It also asks what the checker examined and cleared, which lands in `considered`: a findings list alone cannot tell a checker that missed something from one that looked and decided it was not a fault, and only the first is a reason to distrust the report.
 
 **QA reviser call:** Reads current draft + deficiencies report. Applies targeted edits to address each deficiency. Does not rewrite wholesale. Every remedy is grounded in the lecture's own source materials (transcript, slide content, image manifest) — the reviser MUST NOT introduce content from outside the source set. The reviser branches on `type`:
 
-- `omission` → insert the missing content, grounded in the cited `sourceEvidence`
-- `inadequate-coverage` → expand the existing passage using the cited evidence; do not add unrelated material
-- `factual-error` → correct the claim against the cited source
-- `unsupported-claim` → **remove** the claim. The reviser MUST NOT go looking for external corroboration — grounding an unsupported statement in a newly-cited source would violate NFR-1.3 (faithful representation) and licenses citation fabrication
+- `omission` → insert the missing content at `outputLocation`, grounded in the quote the finding's `source` carries
+- `underexplained` → restore the mechanism or reasoning the passage was stripped of, using that same quote; do not add unrelated material
+- `distortion` → correct the claim against the cited source
+- `unsourced-addition` → **remove** the content. The reviser MUST NOT go looking for external corroboration — grounding a statement the sources do not carry in a newly-cited one would violate NFR-1.3 (faithful representation) and licenses citation fabrication. This is why the category is distinct from `distortion`: the two look alike in a report and their remedies are opposites
+- `other` → no standing action; a category that keeps recurring has earned a name and a branch of its own, and gets one
 - `clarity` → rewrite the passage for readability without introducing new content or altering meaning
 - `british-english` / `formatting` / `figure-reference` → apply the targeted edit; no other changes
 
 #### Deficiency Schema
 
-The QA checker returns a `QaDeficienciesReport`: an `overallVerdict` (`pass`/`fail`), a self-assessed `coverageScore` (0–100), and a list of `QaDeficiency` items. Each deficiency carries a `severity` (`critical`/`major`/`minor`), a `type` (the eight categories listed in the reviser-branch table above, each mapped to FR-4.2/FR-4.3), a `description`, a `sourceEvidence` quote from the source material, a `suggestedFix`, and a `location`. Exact shapes and per-field/per-category documentation are the single source of truth in `src/types/pipeline.ts` (`QaDeficienciesReport`, `QaDeficiency`, `QaDeficiencyType`, `QaSeverity`).
+The QA checker returns a `QaDeficienciesReport`: an `overallVerdict` (`pass`/`fail`), a self-assessed `coverageScore` (0–100), a list of `QaDeficiency` items, and the `considered` list of what it examined and cleared. Each deficiency carries a `severity` (`critical`/`major`/`minor`), a `type` (the categories listed in the reviser-branch table above, each mapped to FR-4.2/FR-4.3), a `description`, a `suggestedFix`, and both ends of where it applies — an `outputLocation`, and a `source` holding the quote from the source material and where that quote sits. Exact shapes and per-field/per-category documentation are the single source of truth in `src/types/pipeline.ts` (`QaDeficienciesReport`, `QaDeficiency`, `QaDeficiencyType`, `QaSourceAnchor`, `QaConsideration`, `QaSeverity`).
+
+**The category set is shared, the prompts are not.** One `QaDeficiencyType` union serves both this stage and transcript verification, so the same fault cannot acquire two names depending on which checker found it — and a finding can be compared across stages, which is what makes the calibration corpus in `docs/quality/` readable against either. What differs is what each prompt offers: transcript verification asks only for the faithfulness categories, because it compares a transcript with a structured transcript and has no notes to judge the prose of. `other` sits in both, deliberately unglamorous — a checker with no way to report a real finding will force it into whichever category fits worst, and a recurring `other` is the evidence that a category is missing.
 
 #### Loop Termination
 

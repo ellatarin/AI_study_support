@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.43-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.44-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -70,7 +70,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 **Deliverables:**
 
-- `src/types/pipeline.ts` — every shared type, `STAGE_IDS`, the ordered stage list `StageId` is derived from, and `CONFIG_FILENAME`, the configuration file every layer names **(TD §4.1, §4.2, §4.7, §6)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, `StageStatus`), the persisted shapes (`RunManifest`, `ManifestStageEntry`, `RunLog`, `RunLogStageEntry`, `RunLogCost`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaDeficienciesReport`), and the runner-facing `LectureMatch`, `RunOptions`, `BatchRunOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, `BatchSummary`, with `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`
+- `src/types/pipeline.ts` — every shared type, `STAGE_IDS`, the ordered stage list `StageId` is derived from, and `CONFIG_FILENAME`, the configuration file every layer names **(TD §4.1, §4.2, §4.7, §6)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, `StageStatus`), the persisted shapes (`RunManifest`, `ManifestStageEntry`, `RunLog`, `RunLogStageEntry`, `RunLogCost`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaDeficienciesReport`, `QaSourceAnchor`, `QaConsideration`), and the runner-facing `LectureMatch`, `RunOptions`, `BatchRunOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, `BatchSummary`, with `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`
 - `src/pipeline/layout.ts` — the filesystem vocabulary, declared once: `moduleDirs`, `datedFileDirs`, `workspaceRootFor`, `moduleRootOf`, `moduleName`, `MANIFEST_FILE`, `RUNS_DIR`, `runsDirPath`, `debugLogPath`, `STAGE_WORKSPACE`, `StageWithOutputFile` and the `stageOutputEntry` that admits only those stages, `stageOutputPath`, `resolveStageOutput`, `stageDirectoryPaths` **(TD §3.3, "The layout has one owner")**. Every stage, the runner, the CLI, and the fixtures take directory and file names from here; no other module states one as a literal
 - `src/utils/files.ts` — `writeFileAtomic`, `writeJsonAtomic`, `readJsonSafe`, `cleanTmpFiles`, `pathExists`, and the directory reads `readDirSafe`/`listFileNames`/`listSubdirectoryNames` **(TD §4.3)**
 - `src/pipeline/workspace-paths.ts` — `workspacePath` and `resolveManifestPath` with its `ManifestPathError` **(TD §4.4)**; apart from the conveniences above because a mistake here is a path escaping the module tree rather than an inconvenience
@@ -508,7 +508,7 @@ Unit tests:
 
 **Deliverables:**
 
-`src/pipeline/stages/qa-loop.ts` — the whole of **TD Stage 7**: the two-prompt checker/reviser design and both prompts, the per-type reviser action table (including the NFR-1.3 prohibition on grounding an unsupported claim in a new source), the per-iteration files, all three loop-termination conditions, and the final `QA checked/` write.
+`src/pipeline/stages/qa-loop.ts` — the whole of **TD Stage 7**: the two-prompt checker/reviser design and both prompts, the per-type reviser action table (including the NFR-1.3 prohibition on grounding an unsourced addition in a new source), the per-iteration files, all three loop-termination conditions, and the final `QA checked/` write.
 
 **Tests:**
 
@@ -517,9 +517,10 @@ Unit tests (mock `makeCompletionCall` via `nock`) — `test.each` across all thr
 - `should terminate with max-iterations-reached when iteration count reaches configured maximum`
 - `should terminate with stalled when deficiency count is identical across two consecutive iterations`
 - `should record correct terminationReason in manifest for each termination condition`
-- `should include all eight QaDeficiency.type values with definitions in the checker prompt`
+- `should offer every QaDeficiency.type value this stage can judge with definitions in the checker prompt`
 - `should include the per-type action table in the reviser prompt`
-- `should explicitly forbid external grounding and restrict unsupported-claim remedies to removal in the reviser prompt` — grep the constructed prompt for the prohibition
+- `should explicitly forbid external grounding and restrict unsourced-addition remedies to removal in the reviser prompt` — grep the constructed prompt for the prohibition
+- `should ask the checker to record what it examined and cleared in the checker prompt`
 
 Integration tests (real temp directory):
 - `should write QA checked/notes.md and copy figures to QA checked/images/ on termination`

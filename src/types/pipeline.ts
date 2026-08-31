@@ -531,35 +531,87 @@ export type SourceNormalisationStage = {
 export type QaSeverity = "critical" | "major" | "minor";
 
 /**
- * Category of a single QA deficiency. Each value maps to a functional
- * requirement and drives a specific reviser action (technical-design.md
- * Stage 7).
+ * Category of a single quality finding.
+ *
+ * One union shared by every stage that checks an output against the source it
+ * was made from, so two checkers cannot end up describing the same fault in
+ * different words. Each stage's prompt offers only its own subset: a checker
+ * asked for a category it has no way to judge will find one.
+ *
+ * The faithfulness categories below are asked for by transcript verification
+ * and by the QA loop alike; the prose categories are faults in the notes
+ * themselves, which only the QA loop looks for.
+ *
+ * `distortion` and `unsourced-addition` divide on what the reviser must do, and
+ * that line is the whole reason they are separate categories: a distortion
+ * contradicts the source and is corrected against it, an unsourced addition is
+ * absent from the source and is deleted. Looking for a source that would
+ * support one instead would violate NFR-1.3 (technical-design.md Stage 7).
  */
 export type QaDeficiencyType =
-	| "omission" // source content is entirely absent from the notes (FR-4.2)
-	| "inadequate-coverage" // source content is mentioned but under-developed (FR-4.2)
-	| "factual-error" // a claim in the notes contradicts the source (FR-4.3)
-	| "unsupported-claim" // a claim in the notes is not supported by any source (FR-4.3)
+	// Faithfulness to the source: transcript verification and the QA loop.
+	| "omission" // source content is entirely absent from the output (FR-4.2)
+	| "underexplained" // present, but stripped of the mechanism or reasoning that makes it usable (FR-4.2)
+	| "distortion" // the output asserts something the source contradicts (FR-4.3)
+	| "unsourced-addition" // present in the output, absent from the source (FR-4.3)
+	| "other" // a real finding no category fits — a standing prompt to invent the one it needs
+	// Prose faults in the notes: the QA loop only.
 	| "clarity" // factually correct but ambiguous, muddled, or hard to follow (FR-4.3)
 	| "british-english" // spelling, punctuation, or idiom deviating from en-GB
 	| "formatting" // heading level, list structure, table structure, or LaTeX rendering
 	| "figure-reference"; // wrong image, missing image, or broken relative path
 
 /**
- * A single issue found by the QA checker, with the evidence and the suggested
- * remedy the reviser will act on (technical-design.md Stage 7).
+ * The passage in the source a finding is about: the words themselves, and where
+ * to go and read them.
+ *
+ * Both together, because a quote with no locator sends a reader hunting through
+ * a whole transcript for it, and a locator with no quote cannot be checked
+ * without opening the source. Stated once and reused, so a finding and a
+ * cleared consideration point at a source the same way.
+ */
+export type QaSourceAnchor = {
+	readonly evidence: string; // direct quote from the source material
+	readonly location: string; // where that quote sits: topic block, slide number, or timestamp
+};
+
+/**
+ * A single issue found by a quality checker, with the evidence and the
+ * suggested remedy the reviser will act on (technical-design.md Stage 7).
+ *
+ * A finding locates both ends. `outputLocation` is where in the output the
+ * fault sits, or — for an omission, where nothing sits yet — the place the
+ * missing content belongs. `source` is the passage it is about. A category with
+ * no source end carries `null` there rather than an invented locator: an
+ * unsourced addition is defined by its absence from the source, and a prose
+ * fault is about the output alone. Nothing branches on that `null`; which
+ * categories have a source end is settled by `type`.
  */
 export type QaDeficiency = {
 	readonly severity: QaSeverity;
 	readonly type: QaDeficiencyType;
 	readonly description: string;
-	readonly sourceEvidence: string; // direct quote from the source material
+	readonly source: QaSourceAnchor | null;
 	readonly suggestedFix: string;
-	readonly location: string; // section heading, "Glossary", or "throughout"
+	readonly outputLocation: string; // section heading, "Glossary", or "throughout"
 };
 
 /**
- * The structured report returned by the QA checker for one iteration
+ * Something a checker examined and decided was not a deficiency, and why.
+ *
+ * Recorded because a findings list alone cannot distinguish a checker that
+ * missed something from one that looked at it and cleared it, and only the
+ * first is a reason to distrust the checker. A lecturer's aside, an
+ * administrative announcement, or a filler phrase dropped on purpose belongs
+ * here rather than going unmentioned (technical-design.md Stage 7).
+ */
+export type QaConsideration = {
+	readonly source: QaSourceAnchor;
+	readonly whyNotRaised: string;
+};
+
+/**
+ * The structured report returned by a quality checker for one iteration
  * (technical-design.md Stage 7).
  */
 export type QaDeficienciesReport = {
@@ -567,6 +619,7 @@ export type QaDeficienciesReport = {
 	readonly overallVerdict: QaVerdict;
 	readonly coverageScore: number; // 0–100, LLM self-assessed
 	readonly deficiencies: readonly QaDeficiency[];
+	readonly considered: readonly QaConsideration[];
 };
 
 /**
