@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.45-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.46-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -70,7 +70,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 **Deliverables:**
 
-- `src/types/pipeline.ts` — every shared type, `STAGE_IDS`, the ordered stage list `StageId` is derived from, and `CONFIG_FILENAME`, the configuration file every layer names **(TD §4.1, §4.2, §4.7, §6)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, `StageStatus`), the persisted shapes (`RunManifest`, `ManifestStageEntry`, `RunLog`, `RunLogStageEntry`, `RunLogCost`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaDeficienciesReport`, `QaSourceAnchor`, `QaConsideration`), and the runner-facing `LectureMatch`, `RunOptions`, `BatchRunOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, `BatchSummary`, with `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`
+- `src/types/pipeline.ts` — every shared type, `STAGE_IDS`, the ordered stage list `StageId` is derived from, and `CONFIG_FILENAME`, the configuration file every layer names **(TD §4.1, §4.2, §4.7, §6)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, `StageStatus`), the persisted shapes (`RunManifest`, `ManifestStageEntry`, `RunLog`, `RunLogStageEntry`, `RunLogCost`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaFindingsReport`, `QaDeficienciesReport`, `QaSourceAnchor`, `QaConsideration`), and the runner-facing `LectureMatch`, `RunOptions`, `BatchRunOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, `BatchSummary`, with `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`
 - `src/pipeline/layout.ts` — the filesystem vocabulary, declared once: `moduleDirs`, `datedFileDirs`, `workspaceRootFor`, `moduleRootOf`, `moduleName`, `MANIFEST_FILE`, `RUNS_DIR`, `runsDirPath`, `debugLogPath`, `STAGE_WORKSPACE`, `StageWithOutputFile` and the `stageOutputEntry` that admits only those stages, `stageOutputPath`, `resolveStageOutput`, `stageDirectoryPaths` **(TD §3.3, "The layout has one owner")**. Every stage, the runner, the CLI, and the fixtures take directory and file names from here; no other module states one as a literal
 - `src/utils/files.ts` — `writeFileAtomic`, `writeJsonAtomic`, `readJsonSafe`, `cleanTmpFiles`, `pathExists`, and the directory reads `readDirSafe`/`listFileNames`/`listSubdirectoryNames` **(TD §4.3)**
 - `src/pipeline/workspace-paths.ts` — `workspacePath` and `resolveManifestPath` with its `ManifestPathError` **(TD §4.4)**; apart from the conveniences above because a mistake here is a path escaping the module tree rather than an inconvenience
@@ -442,24 +442,28 @@ Integration tests for the runner following the move:
 
 `src/pipeline/stages/transcript-verification.ts` **(TD Stage 4)** — a single JSON-mode call carrying the raw transcript and the structured one, writing the report to `Transcript verification/verification-report.json`. Offers only the faithfulness categories of `QaDeficiencyType`. Added to `lectureStages` in `src/cli/run-cli.ts`, which is what makes it run.
 
+`src/pipeline/stages/model-stage.ts` **(TD §6, "A stage asks for a JSON reply through one shared act")** — `requestJsonReply`, plus the dependency pair and run arguments every model-calling stage takes. Extracted here because Stage 4 is the second stage to do all three, and Stage 3 moves onto it in the same change. No test file of its own; both stages' suites exercise it, each failure included.
+
 The stage set gains a tenth entry **(TD §4.1)** — `STAGE_IDS`, `STAGE_WORKSPACE`, the cost report's labels and the config example all follow from it; the manifest, config keys, `--from-stage` validation and the run log derive from `STAGE_IDS` and need no edit.
 
 **Tests:**
 
 Unit tests for the stage (mock `makeCompletionCall`):
-- `should write the report with every finding the checker returned`
-- `should record what the checker considered and did not raise`
-- `should complete rather than fail when the checker returns findings at every severity`
-- `should fail when either input file is missing or empty`
-- `should fail when the reply is not the documented report`
-- `should send neither a temperature nor a token cap` — the routing narrowing of A11.2d is what this prevents
+- `should write every finding the checker returned when the stage runs`
+- `should record what the checker cleared when it reports having considered it`
+- `should complete rather than fail when the checker returns a %s finding` — `test.each` across every severity
+- `should fail when the $stageId output is $state` — `test.each` across each input absent and each input blank
+- `should fail when the reply is $label` — `test.each` across the ways a reply can miss the documented report
+- `should fail when a finding carries the prose category %s` — the categories this checker is never offered
+- `should send neither a temperature nor a token cap when the shipped example configures the stage` — the routing narrowing of A11.2d is what this prevents
 
 Integration tests (real temp directory):
-- `should write verification-report.json into the lecture's workspace`
-- `should skip the stage when its report is already present`
-- `should re-run and replace the report under --from-stage transcript-verification`
-- `should record the stage's status, cost, and filesWritten in the manifest`
-- `should leave the run's exit code unchanged when the report is full of findings`
+- `should write the report to Transcript verification when the stage completes`
+- `should write the report as readable JSON when the stage completes`
+- `should ask OpenRouter for JSON when the stage calls the model`
+- `should put both versions in front of the checker when the stage calls the model`
+
+Skipping when the report is present, re-running under `--from-stage`, recording status, cost and `filesWritten`, and leaving the exit code alone are the runner's behaviour rather than this stage's, and `runner.integration.test.ts` already covers them against a stub stage. Restating them per stage would be the duplication Rule Zero forbids, so the acceptance below is met through those tests, not new ones.
 
 **Acceptance:** A lecture with a structured transcript produces a verification report; a poor verdict changes neither the stage's status, the run, nor the exit code; the stage skips and re-runs like every other.
 

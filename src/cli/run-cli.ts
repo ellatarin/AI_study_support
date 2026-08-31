@@ -16,6 +16,7 @@ import { deriveRunId, PipelineRunner } from "../pipeline/runner.js";
 import { createAudioExtractionStage } from "../pipeline/stages/audio-extraction.js";
 import { createSourceNormalisationStage } from "../pipeline/stages/source-normalisation.js";
 import { createTranscriptStructuringStage } from "../pipeline/stages/transcript-structuring.js";
+import { createTranscriptVerificationStage } from "../pipeline/stages/transcript-verification.js";
 import { createTranscriptionStage } from "../pipeline/stages/transcription.js";
 import { errorMessage } from "../utils/errors.js";
 import { createRootLogger } from "../utils/logger.js";
@@ -80,6 +81,7 @@ async function assembleDeps({
 			createAudioExtractionStage({ logger }),
 			createTranscriptionStage({ logger }),
 			createTranscriptStructuringStage({ logger, client }),
+			createTranscriptVerificationStage({ logger, client }),
 		],
 		logger,
 		reporter: createRunReporter({ write, formatMoney }),

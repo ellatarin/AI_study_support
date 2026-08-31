@@ -7,7 +7,7 @@
 
 ## 1. What exists, and what the runner will do
 
-Four of the ten stages are built and wired in:
+Five of the ten stages are built and wired in:
 
 | Stage | Name | Writes |
 |---|---|---|
@@ -15,15 +15,17 @@ Four of the ten stages are built and wired in:
 | 1 | audio-extraction | `Audio/audio.m4a` |
 | 2 | transcription | `Transcript/transcript.txt` |
 | 3 | transcript-structuring | `Structured transcript/structured-transcript.md` |
+| 4 | transcript-verification | `Transcript verification/verification-report.json` |
 
-Stages 4–9 (transcript-verification, slide-conversion, image-extraction, synthesis, qa-loop, pdf-generation) **do not exist yet**.
+Stages 5–9 (slide-conversion, image-extraction, synthesis, qa-loop, pdf-generation) **do not exist yet**.
 
-**The runner will not try to call them.** It iterates the stage list it was given (`src/cli/run-cli.ts`), not the full set of stage IDs, so unbuilt stages are absent rather than skipped. A run ends after Stage 3, writes its run log, prints a cost summary, and exits 0.
+**The runner will not try to call them.** It iterates the stage list it was given (`src/cli/run-cli.ts`), not the full set of stage IDs, so unbuilt stages are absent rather than skipped. A run ends after Stage 4, writes its run log, prints a cost summary, and exits 0.
 
-### Two behaviours that look like faults and are not
+### Three behaviours that look like faults and are not
 
-- **A run that produces no PDF is still reported as a success.** Only Stages 0–3 exist, so a run does everything there is to do and ends with a structured transcript. The status describes the run, not how far the pipeline reaches.
-- **`--from-stage` accepts stages that do not exist yet.** `--from-stage synthesis` is accepted, resets manifest entries for stages that never ran, then runs the three built stages, which all skip. A no-op, not an error.
+- **A run that produces no PDF is still reported as a success.** Only Stages 0–4 exist, so a run does everything there is to do and ends with a verification report. The status describes the run, not how far the pipeline reaches.
+- **`--from-stage` accepts stages that do not exist yet.** `--from-stage synthesis` is accepted, resets manifest entries for stages that never ran, then runs the built stages, which all skip. A no-op, not an error.
+- **A verification report full of findings is not a failed run.** Stage 4 reports and never gates: whatever it finds, the stage completes, the run summary is unchanged, and the exit code stays 0. The report is there to be read, not obeyed.
 
 ### What a run prints
 
@@ -94,7 +96,7 @@ Include at least one **short** lecture (2–5 minutes) — most tests below only
 ### 2.5 Cost model
 
 - **Transcription** is reported at the configured `elevenLabs.costPerAudioHourUsd` (currently `0.22`), converted at `currency.gbpPerUsd` (currently `0.74`) — roughly **£0.16 per audio hour**, so a 5-minute lecture is about **£0.01**. The figure printed is derived from that configured rate, not from a bill; check it against the real invoice once.
-- **Stage 3** costs OpenRouter tokens for one call per lecture, reported from the live generation endpoint, so that figure is actual.
+- **Stages 3 and 4** each cost OpenRouter tokens for one call per lecture, reported from the live generation endpoint, so those figures are actual. Stage 4 is the more expensive of the two: it sends both the raw transcript and the structured one, and its reply grows with the number of findings.
 - Always use `run <date>` for testing. **Never `batch`** — it takes every lecture in the module.
 
 ---
@@ -177,6 +179,7 @@ From here each run bills real transcription. Use the short lecture.
 - `Transcript/transcript.txt` holds recognisable text from the recording
 - `Structured transcript/structured-transcript.md` is markdown with headings, filler removed, and no invented content
 - Title judgement: if the provisional title was already meaningful it is kept; if not, the lecture is renamed and files, workspace and manifest all follow
+- `Transcript verification/verification-report.json` holds a verdict, a coverage score, the findings, and what the checker cleared — and the run completes and exits 0 whatever it says
 - Cost summary printed, exit 0
 - `manifest.json` shows the four built stages complete with costs; `runs/<runId>.json` exists
 - **The manifest also lists `slide-conversion`, `image-extraction`, `synthesis`, `qa-loop` and `pdf-generation` as `pending`, and always will.** It is written with every stage in `STAGE_IDS` set to pending, so it describes the whole pipeline rather than the built part of it. Those five are never attempted — see §1
