@@ -1,0 +1,159 @@
+{
+  "overallVerdict": "fail",
+  "coverageScore": 74,
+  "deficiencies": [
+    {
+      "severity": "major",
+      "type": "distortion",
+      "description": "The morbidity section changes the lecturer's causal framing of biliary obstruction. The source says bile-duct obstruction interferes with digestion; liver failure is discussed separately as a consequence of overwhelming secondary metastases colonising the liver. The structured version instead states that biliary obstruction leads to liver failure.",
+      "source": {
+        "evidence": "\"obstruction of the bile ducts in the liver interferes with digestion\"; later, with secondary metastases, \"you can get things like liver failure\".",
+        "location": "Morbidity and mortality discussion"
+      },
+      "suggestedFix": "Separate digestive impairment from bile-duct obstruction from liver failure caused by extensive metastatic involvement.",
+      "outputLocation": "Morbidity and Mortality in Cancer — “Luminal obstruction” bullet"
+    },
+    {
+      "severity": "major",
+      "type": "omission",
+      "description": "Important clinical-pathology limitations on diagnosing invasion and metastatic disease are omitted. The lecturer explains that a biopsy samples only a limited area; adjacent lymph nodes may be sampled in breast cancer, but the entire body is not sampled, so occult secondary disease can be missed. The source also identifies assessment of clear surgical margins and depth of invasion as routine histopathological considerations. These qualifications make the otherwise categorical invasion/metastasis framing clinically usable.",
+      "source": {
+        "evidence": "\"you'll also hear about looking for clear margins around any kind of biopsy\"; \"you might sample the adjacent lymph node, but you wouldn't be sampling all over the body\"; \"it might be difficult to necessarily find all of the possible secondary tumors\".",
+        "location": "Immediately after colorectal invasion example"
+      },
+      "suggestedFix": "Retain the sampling, margin, and occult-metastasis caveats alongside the statements on invasion as a diagnostic/prognostic feature.",
+      "outputLocation": "Benign vs Malignant Tumours: Invasion and Metastasis; Case Study: Colorectal Cancer Progression"
+    },
+    {
+      "severity": "major",
+      "type": "omission",
+      "description": "The structured version substantially narrows the lecturer's tumour-incidence framing. It omits that malignant mesenchymal tumours are extremely rare, tend to occur in adolescence/young adulthood, and can progress rapidly and be lethal. It also omits the geographic examples of liver cancer and nasopharyngeal carcinoma being prominent in Chinese populations, including the lecturer's note of a substantial infectious contribution to liver cancer. These are lost epidemiological examples and clinical context, not merely repetition.",
+      "source": {
+        "evidence": "\"malignant tumors... from mesenchymal lineage cell types... are extremely rare\"; \"usually occur in young adulthood, in adolescence and young adulthood\"; \"liver cancer and nasopharyngeal carcinomas are very big in Chinese populations. There's also a large infectious element to liver cancer.\"",
+        "location": "Tumour incidence discussion, before companion-animal slide"
+      },
+      "suggestedFix": "Restore the omitted age, rarity, clinical-behaviour, geographic, and infection-linked incidence context.",
+      "outputLocation": "Comparative Oncology and Tumour Incidence, or a dedicated human tumour-incidence subsection before it"
+    },
+    {
+      "severity": "major",
+      "type": "unsourced-addition",
+      "description": "The structured version says that endoscopic colorectal screening permits both visualisation and removal of premalignant polyps/adenomas. The source describes endoscopy as a way to look at and sample lesions, with histology needed to determine whether a polyp has transitioned from adenoma to adenocarcinoma; it does not state removal.",
+      "source": null,
+      "suggestedFix": "Do not attribute polyp removal through screening endoscopy to this transcript unless it is explicitly supported elsewhere.",
+      "outputLocation": "Colorectal, Breast, and Prostate Screening — “Colorectal screening” bullet"
+    },
+    {
+      "severity": "minor",
+      "type": "underexplained",
+      "description": "The colorectal case study loses the diagnostic distinction between a grossly observed polyp and a histologically diagnosed adenoma. The lecturer explicitly corrects the initial label: “polyp” is the neutral gross term for a stalked bowel growth, whereas it can only be called an adenoma after histology confirms no invasion. The structured heading “Polyp / Adenoma” and description of a “benign, non-invasive” polyp collapse this reasoning.",
+      "source": {
+        "evidence": "\"it's probably more neutral to call this a polyp\"; \"this is not necessarily an adenoma until I understand the histology\"; after finding no invasion, \"you can diagnose this as an adenoma.\"",
+        "location": "Colorectal precursor-lesion discussion"
+      },
+      "suggestedFix": "Preserve the sequence from gross polyp, to histological assessment of invasion, to adenoma diagnosis.",
+      "outputLocation": "Case Study: Colorectal Cancer Progression — step 2"
+    },
+    {
+      "severity": "minor",
+      "type": "omission",
+      "description": "Several clinically relevant screening caveats and numbers are lost: patients with vague/non-screenable presentations commonly make three, four, or five visits before diagnosis; cervical mortality reduction was especially apparent in older women and not markedly changed in younger groups; and ongoing cervical-cancer deaths were linked to non-follow-up after screening or declining screening. The structured version retains only a general success claim.",
+      "source": {
+        "evidence": "\"patients are usually making three or four or five visits before a diagnosis is made\"; cervical mortality \"came down, particularly amongst older women\"; \"This hasn't changed much for the younger populations\"; deaths are in people \"not followed up after their screen\" or who \"declined screening altogether.\"",
+        "location": "Clinical presentation and cervical-screening discussion"
+      },
+      "suggestedFix": "Retain the diagnostic-delay number and the age/follow-up qualifications to the cervical-screening success narrative.",
+      "outputLocation": "Clinical Detection and Screening Strategies; Cervical Cancer Screening"
+    },
+    {
+      "severity": "minor",
+      "type": "underexplained",
+      "description": "The cervical-screening account removes explanatory detail about why the junction is biologically relevant. The source says the squamocolumnar junction can move when the cervix is under stress and that the acidic vaginal environment can drive metaplasia from columnar toward squamous epithelium. Replacing this with the general phrase “environmental stress can trigger metaplasia” strips out the mechanism and tissue context.",
+      "source": {
+        "evidence": "\"This junction can be quite movable when the cervix is under... stress\"; \"Because of the acidic environment of the vagina, you can often get... metaplasia\"; \"columnar epithelium transitioning into... a squamous cell type.\"",
+        "location": "Cervical histology and HPV discussion"
+      },
+      "suggestedFix": "Keep the acidic-vaginal-environment and mobile-junction explanation when introducing metaplasia and HPV susceptibility.",
+      "outputLocation": "Cervical Cancer Screening — paragraph on the squamocolumnar junction"
+    },
+    {
+      "severity": "minor",
+      "type": "unsourced-addition",
+      "description": "The nomenclature table introduces developmental-germ-layer origins for malignant epithelial and mesenchymal tumours and supplies specific examples of acute lymphoblastic leukaemia and Hodgkin/non-Hodgkin lymphoma. The transcript supplies neither those origin assignments nor those example diagnoses; it only distinguishes carcinomas/sarcomas by epithelial versus mesenchymal origin and describes leukaemias as circulating and lymphomas as solid lymph-node neoplasms.",
+      "source": null,
+      "suggestedFix": "Remove or separately source the germ-layer labels and added disease examples rather than presenting them as transcript-derived content.",
+      "outputLocation": "Tumour Nomenclature and Classification — nomenclature table"
+    },
+    {
+      "severity": "minor",
+      "type": "unsourced-addition",
+      "description": "The statement that “millions of tumour cells may be shed into circulation” adds a numerical magnitude absent from the source. The lecturer says only that “significant numbers” may be released and emphasises that many fail to establish metastases.",
+      "source": null,
+      "suggestedFix": "Avoid the unsupported numerical quantifier; retain the source's qualitative statement about substantial shedding and inefficient colonisation.",
+      "outputLocation": "Benign vs Malignant Tumours: Invasion and Metastasis — paragraph after leiomyosarcoma"
+    },
+    {
+      "severity": "minor",
+      "type": "distortion",
+      "description": "The companion-animal section makes the proposed cause of feline injection-site sarcoma more definite and more specific than the source. The lecturer described a personal case and said it was “proposed” to be due to an adjuvant added with the injection. The structured version states that feline injection-site sarcomas are associated with vaccine adjuvants.",
+      "source": {
+        "evidence": "\"feline injection site sarcoma. This is from injections proposed to be due to the adjuvant that is also added with the injection.\"",
+        "location": "Companion-animal incidence discussion"
+      },
+      "suggestedFix": "Preserve the lecturer's uncertainty and avoid adding “vaccine” unless independently sourced.",
+      "outputLocation": "Comparative Oncology and Tumour Incidence — “Companion animals” bullet"
+    },
+    {
+      "severity": "minor",
+      "type": "omission",
+      "description": "The source's additional explanation of the limitations and value conditions of screening is omitted. The lecturer says population screening must be cost-conscious, must find disease at a treatable stage before malignant disease and diminishing treatment returns, and must lead to an intervention useful to the patient. This reasoning frames why screening differs between cancer types.",
+      "source": {
+        "evidence": "\"the cost of this is something to bear in mind\"; \"find it at an earlier state... before it becomes malignant\"; \"We also have to be able to do something that is useful for that patient.\"",
+        "location": "Opening of screening discussion"
+      },
+      "suggestedFix": "Retain the population-screening criteria and economic/clinical-utility rationale.",
+      "outputLocation": "Clinical Detection and Screening Strategies — introductory paragraph"
+    },
+    {
+      "severity": "minor",
+      "type": "omission",
+      "description": "A historical example in the cell-culture discussion is reduced: the source identifies HeLa as the first tumour cells to grow in culture, whereas the structured version notes only that their establishment was surprising. The first-in-culture point is a distinct historical example supporting the contrast with non-growing primary cells.",
+      "source": {
+        "evidence": "\"When HeLa cells, which were the first tumor cells to grow in culture, did that, this was very much a surprise.\"",
+        "location": "Cell culture discussion"
+      },
+      "suggestedFix": "Retain the historical 'first tumour cells to grow in culture' example if this section is intended to preserve the lecture's detail.",
+      "outputLocation": "Cell Culture and in vitro Limitations"
+    }
+  ],
+  "considered": [
+    {
+      "source": {
+        "evidence": "\"Okay, everyone, shall we get started?\" and closing references to practicals and next Monday",
+        "location": "Opening and closing remarks"
+      },
+      "whyNotRaised": "These are lecturer administration and class logistics, which the assessment criteria treat as non-findings when absent."
+    },
+    {
+      "source": {
+        "evidence": "\"Whoops, I forgot to start my clock\" and slide-navigation remarks such as \"Oh, God. It doesn't go backwards.\"",
+        "location": "Mid-lecture slide transitions"
+      },
+      "whyNotRaised": "These are delivery asides with no conceptual or revision content."
+    },
+    {
+      "source": {
+        "evidence": "Repeated reminders that students will inspect invasion, basement-membrane proxies, and gland formation in practicals",
+        "location": "Breast, colorectal, and cervical histology sections"
+      },
+      "whyNotRaised": "The structured version preserves the substantive histological concepts and practical linkage; omission of repeated delivery reminders is not a finding."
+    },
+    {
+      "source": {
+        "evidence": "\"You'll be happy to hear he's doing fine now after his surgery.\"",
+        "location": "Lecturer's cat anecdote in comparative oncology"
+      },
+      "whyNotRaised": "The recovery update is a personal aside rather than a cancer-biology concept; the injection-site sarcoma concept itself is represented and separately assessed for altered causality."
+    }
+  ]
+}

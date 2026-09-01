@@ -1,0 +1,287 @@
+{
+  "overallVerdict": "fail",
+  "coverageScore": 80,
+  "deficiencies": [
+    {
+      "severity": "critical",
+      "type": "distortion",
+      "description": "The structured version conflates the gross term “polyp” with the histological diagnosis “adenoma” and describes the combined category as benign and non-invasive. The lecturer explicitly warns that a polyp cannot be called an adenoma until histology confirms absence of invasion; a grossly similar polyp may already contain invasive adenocarcinoma. This removes a central diagnostic distinction.",
+      "source": {
+        "evidence": "“I've labeled it here as a precursor stage, which is known as an adenoma. But actually, it's a little bit premature of me to have done that because this is not necessarily an adenoma until I understand the histology of this particular polyp... polyp simply means something that's growing on a stalk.” Later, a similar lesion contains “an adenocarcinoma component that has developed out of the adenoma.”",
+        "location": "Colorectal cancer progression discussion, from introduction of the smaller ‘cauliflowers’ through comparison of the two polyps"
+      },
+      "suggestedFix": "Separate gross polyps from histologically confirmed adenomas and make clear that visually similar polyps can contain invasive adenocarcinoma.",
+      "outputLocation": "Case Study: Colorectal Cancer Progression, item 2 ‘Polyp / Adenoma’"
+    },
+    {
+      "severity": "major",
+      "type": "distortion",
+      "description": "The morbidity section incorrectly makes biliary obstruction lead to liver failure. In the source, bile-duct obstruction interferes with digestion; liver failure is discussed separately as a consequence of widespread secondary metastases.",
+      "source": {
+        "evidence": "“Obstruction of the bile ducts in the liver interferes with digestion.” Later: “When the tumor has spread all throughout the body, you can get things like liver failure.”",
+        "location": "Morbidity and causes-of-death discussion"
+      },
+      "suggestedFix": "Keep impaired digestion from biliary obstruction separate from liver failure caused by extensive metastatic disease.",
+      "outputLocation": "Morbidity and Mortality in Cancer, bullet ‘Luminal obstruction’"
+    },
+    {
+      "severity": "major",
+      "type": "underexplained",
+      "description": "Important biopsy and staging limitations are absent. The source explains that clinicians assess whether a sampled tumour is contained or invasive, may sample an adjacent lymph node, cannot biopsy the whole body, and can therefore miss secondary deposits. It also introduces clear surgical margins and assessment of invasion depth. These qualifications are important to understanding what histology can and cannot establish.",
+      "source": {
+        "evidence": "“When somebody presents with a lump or a primary tumor, there will be a biopsy to look and to see whether or not the tumor cells are contained or whether or not they're invading.” Also: “You might sample the adjacent lymph node, but you wouldn't be sampling all over the body.” And: “You'll also hear about looking for clear margins... Histopathologists will look to see how far the tumor has invaded.”",
+        "location": "Benign versus malignant tumour discussion and the paragraphs immediately following the uterine and colorectal invasion examples"
+      },
+      "suggestedFix": "Restore the roles and limitations of biopsy, adjacent-node sampling, clear margins, and histological invasion-depth assessment.",
+      "outputLocation": "Benign vs Malignant Tumours and Case Study: Colorectal Cancer Progression"
+    },
+    {
+      "severity": "major",
+      "type": "omission",
+      "description": "The structured account loses the general decision framework for population screening: cost, whether the test finds disease early enough to be treatable, whether an effective intervention can be offered, and the diminishing benefit of treatment after malignancy develops. Without this, the later comparison of screening programmes is less usable.",
+      "source": {
+        "evidence": "“In thinking about how you might roll this out across a population, the cost of this is something to bear in mind... find it at an earlier state, a state at which it can be treatable... And we also have to be able to do something that is useful for that patient.”",
+        "location": "Clinical detection section, immediately before cervical screening"
+      },
+      "suggestedFix": "Include cost, early treatability, intervention availability, and diminishing treatment returns as the criteria used to judge screening programmes.",
+      "outputLocation": "Clinical Detection and Screening Strategies, introductory paragraphs"
+    },
+    {
+      "severity": "major",
+      "type": "omission",
+      "description": "A distinct epidemiological and clinical profile of malignant mesenchymal tumours is lost: they are extremely rare, tend to occur in adolescence or young adulthood, are difficult to treat, progress rapidly, and are lethal.",
+      "source": {
+        "evidence": "“Malignant tumors... originating from mesenchymal lineage cell types, they're extremely rare... They usually occur in young adulthood, in adolescence and young adulthood. But they are very difficult to treat. And so they progress very quickly, and they're lethal.”",
+        "location": "Tumour incidence discussion, before the four common epithelial cancers"
+      },
+      "suggestedFix": "Restore the rarity, age distribution, rapid course, treatment difficulty, and lethality of malignant mesenchymal tumours.",
+      "outputLocation": "Comparative Oncology and Tumour Incidence, or a human tumour-incidence subsection before it"
+    },
+    {
+      "severity": "major",
+      "type": "distortion",
+      "description": "The structured version softens the lecturer's position on PSA screening from “currently not recommended for the general populace” to merely “controversial.” It preserves the test's inability to predict progression but loses the explicit current recommendation.",
+      "source": {
+        "evidence": "“The test for this is PSA in the blood. It is not a very, very good test, and it's currently not recommended for the general populace.”",
+        "location": "Final paragraph on prostate screening"
+      },
+      "suggestedFix": "Report the lecturer's explicit statement that population-wide PSA screening is not currently recommended, alongside the reason that PSA does not predict progression reliably.",
+      "outputLocation": "Clinical Detection and Screening Strategies, bullet ‘Prostate screening’"
+    },
+    {
+      "severity": "minor",
+      "type": "underexplained",
+      "description": "The colorectal screening summary omits that visualisation by endoscope cannot by itself establish whether a polyp has transitioned from adenoma to adenocarcinoma; histology is required. This omission compounds the earlier polyp/adenoma conflation.",
+      "source": {
+        "evidence": "“You'd have to do the histology in order to be sure that the polyps that you see with an endoscope are the things that haven't made a transition from adenoma to adenocarcinoma.”",
+        "location": "Colorectal screening discussion"
+      },
+      "suggestedFix": "State that endoscopically observed or removed lesions require histological examination to determine whether invasion has occurred.",
+      "outputLocation": "Clinical Detection and Screening Strategies, bullet ‘Colorectal screening’"
+    },
+    {
+      "severity": "minor",
+      "type": "omission",
+      "description": "The practical histology example of tumour cells present inside a lymphatic duct is lost. The source uses this finding to show that the tumour has access to a dissemination route and may spread, whereas the structured version gives only a generic route list.",
+      "source": {
+        "evidence": "“You can often see sometimes the tumor cells are actually present within a lymphatic duct... this is a metastatic tumor as it has access to the lymphatics and could potentially spread around the body.”",
+        "location": "Mechanisms and routes of metastasis discussion"
+      },
+      "suggestedFix": "Retain the lymphatic-vessel histology example and its diagnostic interpretation.",
+      "outputLocation": "Mechanisms and Routes of Metastasis"
+    },
+    {
+      "severity": "minor",
+      "type": "omission",
+      "description": "The source's clinical detection number is missing: vague or inaccessible presentations commonly lead to three, four, or five visits before diagnosis.",
+      "source": {
+        "evidence": "“Because the symptoms are quite vague, patients are usually making three or four or five visits before a diagnosis is made.”",
+        "location": "Clinical detection discussion after ‘itchy, crusty, lumpy, or bloody’"
+      },
+      "suggestedFix": "Restore the three-to-five-visit figure as evidence of the diagnostic difficulty caused by vague symptoms.",
+      "outputLocation": "Clinical Detection and Screening Strategies, introductory paragraph"
+    },
+    {
+      "severity": "minor",
+      "type": "omission",
+      "description": "The cervical-screening outcome is over-compressed. The source specifies that the mortality decline was especially evident among older women, had changed little in younger populations, and that remaining deaths were associated with declining screening or failure of follow-up.",
+      "source": {
+        "evidence": "“The rates of death in cervical cancer came down, particularly amongst older women... This hasn't changed much for the younger populations... the women that are still dying... either are not followed up after their screen or... have declined screening altogether.”",
+        "location": "End of cervical cancer screening discussion"
+      },
+      "suggestedFix": "Include the age-specific pattern and the follow-up/non-participation caveat rather than reporting only an overall decline.",
+      "outputLocation": "Cervical Cancer Screening, final sentence"
+    },
+    {
+      "severity": "minor",
+      "type": "underexplained",
+      "description": "Metaplasia is mentioned but not defined. The lecturer defines it as replacement of one differentiated adult cell type by another, which is the mechanism needed to understand the changing cervical transformation zone.",
+      "source": {
+        "evidence": "“Metaplasia, where one cell type is replaced by another. One adult differentiated cell type is replaced by the other.”",
+        "location": "Cervical histology discussion before HPV infection and dysplasia"
+      },
+      "suggestedFix": "Supply the source definition of metaplasia as replacement of one mature differentiated cell type by another.",
+      "outputLocation": "Cervical Cancer Screening, paragraph on the transformation zone"
+    },
+    {
+      "severity": "minor",
+      "type": "omission",
+      "description": "Geographical variation in human cancer incidence is omitted, including the examples of liver cancer and nasopharyngeal carcinoma in Chinese populations and the infectious contribution to liver cancer.",
+      "source": {
+        "evidence": "“There are also geographical differences in which tumors are prevalent... liver cancer and nasopharyngeal carcinomas are very big in Chinese populations. There's also a large infectious element to liver cancer.”",
+        "location": "Human tumour-incidence discussion"
+      },
+      "suggestedFix": "Retain the geographical examples and the infectious association with liver cancer.",
+      "outputLocation": "Comparative Oncology and Tumour Incidence, before companion-animal incidence"
+    },
+    {
+      "severity": "minor",
+      "type": "omission",
+      "description": "The structured version does not preserve the incidence framing that benign overgrowths are extremely common, illustrated by lipomas, fibroids, warts, and moles. Some examples occur elsewhere, but their significance as evidence of high benign-tumour incidence is lost.",
+      "source": {
+        "evidence": "“Benign tumors are actually incredibly common... lipomas... fibroids... warts... Moles, I mean, who doesn't have moles?”",
+        "location": "Opening of tumour-incidence discussion"
+      },
+      "suggestedFix": "State explicitly that benign tumours and overgrowths are very common and retain the representative examples.",
+      "outputLocation": "Comparative Oncology and Tumour Incidence"
+    },
+    {
+      "severity": "minor",
+      "type": "distortion",
+      "description": "The UK incidence claim changes “account for half” to “account for over half.” This is an unsupported numerical strengthening.",
+      "source": {
+        "evidence": "“Breast carcinomas, colorectal, lung, and prostate cancer... account for half of the malignant cases in the UK.”",
+        "location": "Human tumour-incidence discussion"
+      },
+      "suggestedFix": "Use “about half” or “half,” matching the source.",
+      "outputLocation": "Morbidity and Mortality in Cancer, final paragraph"
+    },
+    {
+      "severity": "minor",
+      "type": "unsourced-addition",
+      "description": "The structured version states that “millions” of tumour cells may be shed. The transcript says only that significant numbers are released and provides no numerical scale.",
+      "source": null,
+      "suggestedFix": "Remove the unsupported numerical magnitude or replace it with the source's non-quantified wording.",
+      "outputLocation": "Benign vs Malignant Tumours, paragraph beginning ‘Although millions of tumour cells’"
+    },
+    {
+      "severity": "minor",
+      "type": "unsourced-addition",
+      "description": "The nomenclature table adds embryological lineage labels (‘Endoderm / Ectoderm’ for carcinomas and ‘Mesoderm’ for sarcomas) and examples such as acute lymphoblastic leukaemia and Hodgkin lymphoma that were not given in the transcript.",
+      "source": null,
+      "suggestedFix": "Remove the added lineage taxonomy and examples, or clearly distinguish them from transcript-derived material.",
+      "outputLocation": "Tumour Nomenclature and Classification table"
+    },
+    {
+      "severity": "minor",
+      "type": "unsourced-addition",
+      "description": "The morbidity section adds the specific diagnosis ‘pancytopenia’ and reframes the source mechanism as marrow replacement. The source instead describes competition within a limited haematopoietic niche, marrow interference or failure, and resulting infection, anaemia, and bleeding.",
+      "source": null,
+      "suggestedFix": "Use the source's limited-niche competition and marrow-failure explanation without adding pancytopenia.",
+      "outputLocation": "Morbidity and Mortality in Cancer, bullet ‘Bone erosion and marrow failure’"
+    },
+    {
+      "severity": "minor",
+      "type": "distortion",
+      "description": "The feline injection-site sarcoma example is narrowed to association with ‘vaccine adjuvants.’ The source says it followed injections and that an adjuvant contribution was proposed; it does not specify vaccines.",
+      "source": {
+        "evidence": "“A feline injection site sarcoma. This is from injections proposed to be due to the adjuvant that is also added with the injection.”",
+        "location": "Companion-animal incidence discussion"
+      },
+      "suggestedFix": "Describe the proposed association with injection adjuvants without adding the vaccine qualifier.",
+      "outputLocation": "Comparative Oncology and Tumour Incidence, companion-animals bullet"
+    },
+    {
+      "severity": "minor",
+      "type": "omission",
+      "description": "The structured companion-animal summary omits that skin and connective-tissue tumours are also prominent in cats.",
+      "source": {
+        "evidence": "“In cats, the primary type of tumor that arises is non-Hodgkin's lymphoma, but they also get skin and connective tissue tumors.”",
+        "location": "Companion-animal incidence discussion"
+      },
+      "suggestedFix": "Add feline skin and connective-tissue tumours to the comparative incidence summary.",
+      "outputLocation": "Comparative Oncology and Tumour Incidence, companion-animals bullet"
+    },
+    {
+      "severity": "minor",
+      "type": "omission",
+      "description": "The fibroid histology example loses the warning that apparent separation of the tumour from normal muscle was accentuated by fixation, hydration, and dehydration. That is a useful practical caveat when interpreting the slide.",
+      "source": {
+        "evidence": "“Through the process of fixation and staining... the hydration and dehydration of this tissue slice... has actually caused the tumor... to separate away from the normal muscle.”",
+        "location": "Benign uterine fibroid example"
+      },
+      "suggestedFix": "Retain the preparation-artifact explanation when describing the apparent separation of leiomyoma from surrounding muscle.",
+      "outputLocation": "Benign vs Malignant Tumours, leiomyoma example"
+    },
+    {
+      "severity": "minor",
+      "type": "omission",
+      "description": "The lecturer's explicit revision guidance is lost: detailed incidence figures did not need memorising; the intended takeaway was the identity of the four major cancer types.",
+      "source": {
+        "evidence": "“There's nothing to memorize here except to say that... breast, prostate, lung, and bowel are the four big cancer types.”",
+        "location": "Human tumour-incidence slide discussion"
+      },
+      "suggestedFix": "Preserve the exam/revision framing that only the four major types, rather than the detailed incidence figures, were expected takeaways.",
+      "outputLocation": "Morbidity and Mortality in Cancer or Comparative Oncology and Tumour Incidence"
+    },
+    {
+      "severity": "minor",
+      "type": "unsourced-addition",
+      "description": "The structured version identifies breast screening specifically as mammography, whereas the transcript refers only to breast screening without naming the modality.",
+      "source": null,
+      "suggestedFix": "Refer generically to breast screening unless material beyond the transcript is intentionally being introduced.",
+      "outputLocation": "Clinical Detection and Screening Strategies, bullet ‘Breast screening’"
+    }
+  ],
+  "considered": [
+    {
+      "source": {
+        "evidence": "“Okay, everyone, shall we get started?... You're very welcome, all of you.”",
+        "location": "Opening"
+      },
+      "whyNotRaised": "Opening classroom chatter and welcome material were treated as non-substantive administration."
+    },
+    {
+      "source": {
+        "evidence": "“Whoops, I forgot to start my clock.”",
+        "location": "Cell-culture discussion"
+      },
+      "whyNotRaised": "This is a lecturer aside with no conceptual, clinical, or assessment content."
+    },
+    {
+      "source": {
+        "evidence": "“This is just to remind me to say tas instead of metastasis, which I do frequently.”",
+        "location": "Introduction of metastasis terminology"
+      },
+      "whyNotRaised": "This is a personal pronunciation reminder rather than course content."
+    },
+    {
+      "source": {
+        "evidence": "“Whoops... Oh, God. It doesn't go backwards. Here we go.”",
+        "location": "Tumour-incidence slide transition"
+      },
+      "whyNotRaised": "Slide-navigation chatter was correctly excluded."
+    },
+    {
+      "source": {
+        "evidence": "“This is my cat... You'll be happy to hear he's doing fine now after his surgery.”",
+        "location": "Companion-animal oncology discussion"
+      },
+      "whyNotRaised": "The clinically relevant feline injection-site sarcoma example was assessed, but the personal update about the lecturer's cat was treated as an aside."
+    },
+    {
+      "source": {
+        "evidence": "Repeated formulations including “really, really important,” repeated orientation to slide boundaries, and repeated reminders that invasion crosses the basement membrane.",
+        "location": "Throughout the invasion, colorectal histology, and practical-orientation sections"
+      },
+      "whyNotRaised": "The underlying concepts were retained; rhetorical repetition and repeated slide orientation were not counted as separate omissions."
+    },
+    {
+      "source": {
+        "evidence": "“I will see you in the practicals, and I will see you next week, Monday. [clapping]”",
+        "location": "Closing"
+      },
+      "whyNotRaised": "Scheduling and closing applause are administrative rather than substantive content."
+    }
+  ]
+}
