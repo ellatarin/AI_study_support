@@ -1,0 +1,142 @@
+{
+  "overallVerdict": "fail",
+  "coverageScore": 74,
+  "deficiencies": [
+    {
+      "severity": "major",
+      "type": "distortion",
+      "description": "The structured version asserts that biliary obstruction leads to 'liver failure'. The transcript says it 'interferes with digestion'. In the transcript, 'liver failure' is explicitly linked to 'secondary metastases colonizing organs all over the body' in the mortality section. Attributing liver failure to bile duct obstruction is a clinically distinct and unsupported mechanistic shift.",
+      "source": {
+        "evidence": "Things like obstruction of the bile ducts in the liver interferes with digestion... So when the tumor has spread all throughout the body, you can get things like liver failure.",
+        "location": "Morbidity and mortality section; approx 37:00-39:00."
+      },
+      "suggestedFix": "Correct the bullet point to state biliary obstruction leads to digestive interference/malabsorption. Move 'liver failure' to the section on metastatic disease/colonization of distant organs.",
+      "outputLocation": "Morbidity and Mortality in Cancer -> Luminal obstruction"
+    },
+    {
+      "severity": "major",
+      "type": "omission",
+      "description": "Lost the specific 'clear margins' concept. The transcript explicitly states this is a key diagnostic goal for histopathologists during biopsy/excision to ensure the entire tumor is removed.",
+      "source": {
+        "evidence": "You'll also hear about looking for clear margins around any kind of biopsy, to see that you have lifted out the entire tumor.",
+        "location": "After colorectal invasion discussion; approx 28:15."
+      },
+      "suggestedFix": "Add a note under the benign vs malignant or colorectal case study section explaining that histopathologists assess 'clear margins' to confirm complete tumor excision.",
+      "outputLocation": "Benign vs Malignant Tumours: Invasion and Metastasis or Case Study: Colorectal Cancer Progression"
+    },
+    {
+      "severity": "major",
+      "type": "omission",
+      "description": "Lost the critical caveat regarding the limitations of biopsy sampling. The transcript emphasizes that because you cannot biopsy the whole body, missing metastases is common unless there are other physical signs, and finding widespread metastases at initial biopsy usually implies missed prior sampling.",
+      "source": {
+        "evidence": "...you wouldn't be sampling all over the body, so it might be difficult to necessarily find all of the possible secondary tumors unless there is some other physical sign... by the time you get secondary metastases in other sites... that is probably you've missed something in terms of the sampling.",
+        "location": "Invasion/Metastasis discussion and Colorectal progression; approx 23:30 and 28:00."
+      },
+      "suggestedFix": "Add a caveat under the Invasion and Metastasis section: clinical biopsy is spatially limited; absence of metastasis in a sample does not rule it out, and widespread metastasis at presentation often indicates prior undetected progression.",
+      "outputLocation": "Benign vs Malignant Tumours: Invasion and Metastasis"
+    },
+    {
+      "severity": "major",
+      "type": "omission",
+      "description": "Lost the geographical/ethnic incidence data. The transcript highlights that liver and nasopharyngeal carcinomas are prevalent in Chinese populations (with an infectious component to liver cancer), which is a key epidemiological teaching point.",
+      "source": {
+        "evidence": "...liver cancer and nasopharyngeal carcinomas are very big in Chinese populations. There's also a large infectious element to liver cancer.",
+        "location": "Incidence/Epidemiology section; approx 34:45."
+      },
+      "suggestedFix": "Add a bullet point in the incidence section noting geographical variations, specifically high rates of liver and nasopharyngeal cancers in Chinese populations and the infectious etiology of liver cancer.",
+      "outputLocation": "Comparative Oncology and Tumour Incidence"
+    },
+    {
+      "severity": "major",
+      "type": "omission",
+      "description": "Lost the 'four horsemen' mnemonic and the specific clinical context that patients typically make 3-5 visits before diagnosis due to vague symptoms.",
+      "source": {
+        "evidence": "I call this the four horsemen. You show up with something that's itchy, crusty, lumpy, or bloody... patients are usually making three or four or five visits before a diagnosis is made...",
+        "location": "Clinical Detection intro; approx 36:15."
+      },
+      "suggestedFix": "Include the 'itchy, crusty, lumpy, or bloody' signs (optionally referencing the 'four horsemen' mnemonic) and the statistic that vague symptoms often lead to 3-5 clinical visits before diagnosis.",
+      "outputLocation": "Clinical Detection and Screening Strategies"
+    },
+    {
+      "severity": "minor",
+      "type": "omission",
+      "description": "Omitted the statistic that mesenchymal malignant tumors (sarcomas) are extremely rare, occur primarily in adolescence/young adulthood, and progress quickly.",
+      "source": {
+        "evidence": "But malignant tumors, for example, originating from mesenchymal lineage cell types, they're extremely rare... usually occur in young adulthood... progress very quickly, and they're lethal.",
+        "location": "Incidence section; approx 33:45."
+      },
+      "suggestedFix": "Add a note under the incidence or nomenclature section that mesenchymal malignancies are rare, typically present in young adulthood, and are aggressive.",
+      "outputLocation": "Comparative Oncology and Tumour Incidence or Tumour Nomenclature and Classification"
+    },
+    {
+      "severity": "minor",
+      "type": "omission",
+      "description": "Lost the visual diagnostic details for adenocarcinoma cells invading muscle: they retain markers of muscle cells but not all, indicating partial dedifferentiation.",
+      "source": {
+        "evidence": "...these tumor cells have some of the markers of muscle cells, but not all of them, so they're considered to have dedifferentiated slightly in terms of their phenotype.",
+        "location": "Leiomyosarcoma vs fibroid comparison; approx 20:30."
+      },
+      "suggestedFix": "Clarify in the Leiomyosarcoma description that invading cells show partial dedifferentiation, retaining some but not all muscle markers.",
+      "outputLocation": "Benign vs Malignant Tumours: Invasion and Metastasis -> Leiomyosarcoma"
+    },
+    {
+      "severity": "minor",
+      "type": "omission",
+      "description": "Omitted the explanation of why colonic polyps take on a 'cauliflower' shape (mechanical pulling by peristalsis).",
+      "source": {
+        "evidence": "...the polyp is pulled out off of the surface through the action of peristalsis in the bowel as food moves through it.",
+        "location": "Colorectal case study; approx 25:45."
+      },
+      "suggestedFix": "Add a brief phrase noting the polyp's stalked/cauliflower shape results from mechanical traction by bowel peristalsis.",
+      "outputLocation": "Case Study: Colorectal Cancer Progression -> Polyp / Adenoma"
+    },
+    {
+      "severity": "minor",
+      "type": "omission",
+      "description": "Lost the specific clinical nuance that cervical cancer mortality declines have primarily benefited older women, while younger population rates haven't changed much, with deaths now concentrated in those declining screening or lost to follow-up.",
+      "source": {
+        "evidence": "...rates of death in cervical cancer came down, particularly amongst older women... hasn't changed much for the younger populations... women that are still dying... either are not followed up... or that have declined screening...",
+        "location": "Cervical screening results; approx 42:15."
+      },
+      "suggestedFix": "Refine the cervical screening outcome to specify that mortality reduction is most pronounced in older women, and current deaths largely involve patients lost to follow-up or declining screening.",
+      "outputLocation": "Clinical Detection and Screening Strategies -> Cervical Cancer Screening"
+    }
+  ],
+  "considered": [
+    {
+      "source": {
+        "evidence": "Simplicity can help frame our thinking, but it will also end up losing a lot of details... [chuckles]... Whoops. I'll just skip forward... Oops. Oh, God. It doesn't go backwards.",
+        "location": "Throughout transcript."
+      },
+      "whyNotRaised": "Admin chatter, slide navigation errors, and meta-commentary on diagram simplicity are non-content and correctly excluded."
+    },
+    {
+      "source": {
+        "evidence": "...tas instead of metastasis, which I do frequently.",
+        "location": "Metastasis definition; approx 17:45."
+      },
+      "whyNotRaised": "Lecturer aside regarding personal pronunciation habit. No conceptual loss."
+    },
+    {
+      "source": {
+        "evidence": "And this is my cat, who also ended up with a feline injection site sarcoma... You'll be happy to hear he's doing fine now after his surgery.",
+        "location": "Comparative oncology; approx 35:30."
+      },
+      "whyNotRaised": "Personal anecdote about the lecturer's cat. The core concept (feline injection-site sarcomas associated with adjuvants) is preserved in the structured version."
+    },
+    {
+      "source": {
+        "evidence": "Primary cells really don't grow in culture... ethical practices were different at the time...",
+        "location": "Cell culture section; approx 14:30."
+      },
+      "whyNotRaised": "Compressed but intact. The structured version captures the failure of primary cells to grow, the surprise of HeLa, the 1950s timeframe, and the lack of modern consent."
+    },
+    {
+      "source": {
+        "evidence": "Breast screening... about a third of those cases are unnecessary treatment... PSA... not a very, very good test...",
+        "location": "Screening limitations; approx 43:30-44:30."
+      },
+      "whyNotRaised": "Preserved. The structured version accurately captures the ~1/3 overtreatment rate for breast screening and the poor specificity/indolent disease issue for PSA."
+    }
+  ]
+}
