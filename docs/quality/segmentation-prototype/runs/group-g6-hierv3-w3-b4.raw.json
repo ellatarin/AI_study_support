@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer welcomes the class, outlines the scope of the cancer lecture series, and presents the core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational Etiology: Genetics, Bad Luck, and Epidemiological Variation",
+      "groupedBecause": "These subtopics explore the broad conceptual frameworks of cancer etiology, contrasting endogenous replication errors and genetic predispositions with environmental exposures and global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents in Carcinogenesis",
+      "groupedBecause": "These subtopics explain the oncogenic mechanisms of biological pathogens, focusing on viruses and bacteria with a detailed case study of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and Physical Mutagens: Metabolic Activation and DNA Adducts",
+      "groupedBecause": "These subtopics examine how specific physical agents and chemical mutagens undergo xenobiotic metabolism to form reactive species and cause direct DNA damage.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics focus on non-mutagenic mechanisms of cancer development, including chronic inflammation, the two-stage initiator-promoter model, and age- or tissue-specific host susceptibility.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the analytical, epidemiological, animal, and in vitro experimental methods used to determine whether exposures cause cancer.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

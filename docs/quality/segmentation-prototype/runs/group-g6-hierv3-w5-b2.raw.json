@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This section introduces the lecturer, contextualises the cancer lecture series, and establishes the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Causes of Cancer and Epidemiological Variation",
+      "groupedBecause": "These subtopics explore the interplay between intrinsic cellular errors, genetic predisposition, and environmental exposures in driving population-level cancer incidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenic Pathogens and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics examine how infectious agents contribute to malignancy, illustrated through the discovery and molecular etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of Direct and Metabolically Activated Mutagens",
+      "groupedBecause": "These subtopics explain how physical radiation and chemical compounds undergo endogenous processing to form DNA adducts and mutations.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Vulnerability",
+      "groupedBecause": "These subtopics analyze how non-mutagenic environmental promoters, chronic inflammation, and host developmental timing facilitate cancer development.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Methodologies for Identifying and Assessing Carcinogens",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, animal, and in vitro screening strategies used to evaluate whether agents are carcinogenic.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Carcinogenic Risk Assessment and Lecture Summary",
+      "groupedBecause": "This section concludes the lecture by evaluating practical risk-benefit trade-offs in environmental exposures and summarising core takeaways.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

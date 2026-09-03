@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This opening subtopic introduces the lecturer, the scope of the lecture series, and the specific learning outcomes regarding cancer causation and carcinogen appraisal.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: intrinsic mutations, chance, and environmental epidemiology",
+      "groupedBecause": "These subtopics define cancer as a genetic and microenvironmental disease and evaluate the relative contributions of endogenous mutations, inherited risks, and environmental factors across global populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens and viral oncogenesis",
+      "groupedBecause": "These subtopics explain how infectious agents contribute to malignancy, using the epidemiology, co-factors, and molecular mechanisms of Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of chemical and physical mutagens",
+      "groupedBecause": "These subtopics detail how specific environmental, dietary, and physical agents cause direct and indirect DNA damage through adduct formation, metabolic activation, and oxidative stress.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor promotion, chronic inflammation, and host susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of carcinogenesis, including inflammation, promoter signaling pathways in two-stage models, and host developmental susceptibility.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for identifying and assessing carcinogenicity",
+      "groupedBecause": "These subtopics review the analytical, epidemiological, and experimental methods used to link exposures to cancer, ranging from genomic mutational signatures and biobanks to animal and bacterial assays.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

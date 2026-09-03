@@ -1,0 +1,12 @@
+{
+  "mode": "probe",
+  "instance": "1",
+  "seconds": 83,
+  "promptTokens": 11452,
+  "completionTokens": 12306,
+  "contentLength": 54418,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "blocks": 10,
+  "fidelity": "EXACT"
+}

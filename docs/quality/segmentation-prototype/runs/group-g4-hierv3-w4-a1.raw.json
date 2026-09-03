@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This opening section welcomes students, introduces the lecturer, and outlines the core learning outcomes for the lecture on cancer causes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mechanisms of Cancer Development, Risk Factors, and Epidemiology",
+      "groupedBecause": "These subtopics define cancer as an evolutionary and genetic disease, examining how endogenous processes, inherited mutations, and environmental exposures combine across global populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics examine the role of infectious agents in driving malignancy, focusing on the discovery, epidemiology, and mechanism of Epstein-Barr virus in Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical, Physical, and Dietary Mutagens",
+      "groupedBecause": "These subtopics describe specific physical and chemical carcinogens, including UV radiation and dietary or smoke-related compounds, and how xenobiotic metabolism converts them into DNA-damaging agents.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic cancer drivers, focusing on the initiator-promoter paradigm, chronic inflammation, and how host developmental stages affect tissue susceptibility.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methods for Assessing and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, in vivo, and in vitro methodologies used to detect mutational signatures and determine carcinogenicity.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

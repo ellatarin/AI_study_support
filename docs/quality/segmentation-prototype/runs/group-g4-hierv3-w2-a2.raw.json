@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, outlines the scope of the cancer lecture series, and sets the learning outcomes for evaluating cancer causes and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Genetics, Endogenous Processes, and Environmental Risk",
+      "groupedBecause": "These subtopics introduce the fundamental mechanisms of cancer development, debating the relative roles of endogenous errors ('bad luck'), inherited predisposition, and environmental exposures supported by epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics examine how biological pathogens drive carcinogenesis, featuring an overview of viral and bacterial mechanisms and a detailed case study of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens: Activation, Adducts, and DNA Damage",
+      "groupedBecause": "These subtopics explore how chemical and physical agents—including dietary aflatoxins, UV radiation, polycyclic aromatic hydrocarbons, and aromatic amines—undergo xenobiotic metabolism to directly damage DNA.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics distinguish cancer initiators from promoters, describing how chronic inflammation, intracellular signaling, and host developmental stages create permissive conditions for tumor growth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Assessing Carcinogenicity and Risk",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, in vivo, and in vitro methods used to identify carcinogens and evaluate their carcinogenic potency and risk.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

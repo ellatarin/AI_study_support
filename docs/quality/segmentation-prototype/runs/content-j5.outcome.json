@@ -1,0 +1,12 @@
+{
+  "mode": "content",
+  "instance": "j5",
+  "seconds": 101,
+  "promptTokens": 11768,
+  "completionTokens": 13209,
+  "contentLength": 54336,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "blocks": 8,
+  "fidelity": "ACCEPT/-2 \"Soh\"->\"H\""
+}

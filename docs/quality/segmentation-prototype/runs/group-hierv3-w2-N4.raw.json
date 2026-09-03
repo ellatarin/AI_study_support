@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture aims",
+      "groupedBecause": "This opening subtopic introduces the lecturer, the course context, and the key learning objectives regarding cancer causation, carcinogenicity methodologies, and initiators versus promoters.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer causation: endogenous mutations, environmental exposures, and epidemiology",
+      "groupedBecause": "These subtopics explore the foundational concepts of cancer etiology by examining the balance between endogenous 'bad luck' mutations, inherited genetic predispositions, and environmental risk factors illustrated through global epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens and oncogenesis",
+      "groupedBecause": "These subtopics explain how biological agents such as viruses, bacteria, and parasites contribute to malignancy, focusing on the mechanism and discovery of Epstein-Barr virus in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and xenobiotic metabolism",
+      "groupedBecause": "These subtopics describe how physical agents and chemical carcinogens undergo metabolic conversion to form bulky DNA adducts and induce specific mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, chronic inflammation, and host tissue susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of carcinogenesis, including the initiator-promoter paradigm, inflammation-driven growth, and stage-of-life tissue vulnerability.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for determining carcinogenicity and assessing risk",
+      "groupedBecause": "These subtopics review the scientific approaches used to identify and validate carcinogens—including mutational signatures, epidemiological biobanks, animal models, and in vitro assays—alongside considerations of dose and risk-benefit balance.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

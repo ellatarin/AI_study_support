@@ -1,0 +1,12 @@
+{
+  "mode": "hier",
+  "instance": "solpro5",
+  "seconds": 113,
+  "promptTokens": 61764,
+  "completionTokens": 15884,
+  "contentLength": 10238,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "blocks": 46,
+  "fidelity": "EXACT"
+}

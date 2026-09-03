@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Causes and Learning Outcomes",
+      "groupedBecause": "The lecture opens with administrative framing, instructor introductions, and the learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Drivers of Cancer: Genetics, Environment, and Epidemiological Evidence",
+      "groupedBecause": "These subtopics introduce cancer as a genetic and evolutionary process driven by a balance of endogenous mutations, bad luck, and environmental exposures, supported by global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and Oncogenesis",
+      "groupedBecause": "These subtopics explore how biological pathogens such as viruses, bacteria, and parasites contribute to malignancy, with a detailed focus on Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mechanisms of Mutagenesis",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms by which specific dietary toxins, UV radiation, polycyclic hydrocarbons, and aromatic amines cause DNA damage and adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer Initiation, Promotion, and Host Susceptibility",
+      "groupedBecause": "These subtopics distinguish between mutational initiators and non-mutagenic promoters of inflammation and proliferation, while examining how developmental timing affects cancer risk.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Determining Carcinogenicity",
+      "groupedBecause": "These subtopics review the tools and assays used to evaluate carcinogens, including mutational signature profiling, epidemiological biobanks, in vivo animal studies, and the Ames test.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Risk-Benefit Balance and Lecture Conclusion",
+      "groupedBecause": "This concluding subtopic summarises the key takeaways on environmental cancer risks and discusses evaluating daily exposures through a risk-versus-benefit perspective.",
+      "firstSubtopicId": 21
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Factors, Environmental Risks, and Epidemiology",
+      "groupedBecause": "These subtopics introduce the fundamental causes of cancer, contrasting endogenous random mutations and 'bad luck' with environmental exposures and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents in Carcinogenesis",
+      "groupedBecause": "These subtopics explore how biological pathogens promote malignancy, featuring a detailed case study of Burkitt lymphoma and its co-factors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens: Mechanisms of DNA Damage and Metabolic Activation",
+      "groupedBecause": "These subtopics detail how specific chemical compounds and physical radiation undergo metabolic processing to form DNA adducts, mutations, and oxidative damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Tissue Susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of carcinogenesis, distinguishing tumor promoters and inflammatory microenvironments from initiators and explaining tissue- and developmental-stage vulnerabilities.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the scientific methodologies used to establish carcinogenicity—including mutational signatures, epidemiology, animal models, and the Ames test—and conclude with risk-benefit considerations.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

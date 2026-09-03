@@ -1,0 +1,12 @@
+{
+  "mode": "cuts",
+  "instance": "j1",
+  "seconds": 11,
+  "promptTokens": 0,
+  "completionTokens": 0,
+  "contentLength": 0,
+  "finishReason": "error",
+  "verdict": "EMPTY",
+  "blocks": null,
+  "fidelity": null
+}

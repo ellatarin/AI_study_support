@@ -1,0 +1,74 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and lecture learning outcomes",
+      "groupedBecause": "This opening subtopic introduces the lecturer, the course context, and the key learning objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic and extrinsic factors in cancer development",
+      "groupedBecause": "These subtopics discuss the conceptual foundation of cancer etiology, contrasting endogenous metabolic errors and bad luck with environmental exposures, genetic inheritance, and microenvironmental support.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Geographic variation and epidemiological evidence for environmental cancer risk",
+      "groupedBecause": "This subtopic explores international differences in cancer incidence and migrant studies to show how environment and lifestyle influence cancer rates.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious pathogens and cancer mechanisms",
+      "groupedBecause": "These subtopics examine biological agents including viruses, bacteria, and parasites, detailing how infections and co-infections such as EBV and malaria drive malignant transformation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Aflatoxin metabolism and DNA adduct formation",
+      "groupedBecause": "This subtopic describes dietary exposure to the fungal toxin aflatoxin and its metabolic activation to an epoxide that forms bulky DNA adducts.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Ultraviolet radiation and thymine dimer damage",
+      "groupedBecause": "This subtopic covers the physical mechanism by which UV radiation induces thymine dimers in DNA.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Chemical carcinogens, xenobiotic metabolism, and DNA damage",
+      "groupedBecause": "These subtopics examine chemical carcinogens such as polycyclic aromatic hydrocarbons, TCDD, and aromatic amines, describing how xenobiotic metabolism produces reactive intermediates, oxidative stress, and DNA transversions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, chronic inflammation, and the two-stage carcinogenesis model",
+      "groupedBecause": "These subtopics explain the concept of non-mutagenic tumor promotion through chronic inflammation from asbestos and signaling activation in the DMBA-TPA model.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Host developmental timing and proliferation susceptibility",
+      "groupedBecause": "This subtopic examines how tissue vulnerability to carcinogens depends on host developmental windows, active cellular proliferation, and hormonal influences.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Identification of carcinogen exposures via mutational signatures",
+      "groupedBecause": "This subtopic details how whole-genome sequencing reveals characteristic patterns of base substitutions that serve as signatures of specific carcinogen exposures.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Human epidemiology, biomarkers, and population biobanks",
+      "groupedBecause": "This subtopic describes methods for assessing human carcinogenicity using epidemiological cohort studies, urinary exposure biomarkers, and large-scale biobanks.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "In vivo animal toxicology testing and dosage considerations",
+      "groupedBecause": "This subtopic discusses the use of whole-animal rodent models for carcinogen testing, dose-response relationships, and species concordance limitations.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "In vitro bacterial Ames mutagenicity testing",
+      "groupedBecause": "This subtopic covers the Ames bacterial reverse-mutation assay, the incorporation of liver extracts for metabolic activation, and the assay's limitations in capturing physiological tumour-promoting factors.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Concluding summary on carcinogenicity and risk-benefit decisions",
+      "groupedBecause": "This subtopic summarizes the challenges of establishing carcinogenicity and potency while reviewing the everyday risk-benefit trade-offs of environmental exposures.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

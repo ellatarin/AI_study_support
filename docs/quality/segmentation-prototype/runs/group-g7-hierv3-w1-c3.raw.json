@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the cancer lecture series, outlines the course structure, and defines the learning objectives concerning cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Intrinsic Errors versus Environmental Risk Factors",
+      "groupedBecause": "These subtopics examine the fundamental biology of cancer development while weighing the relative contributions of random endogenous mutations against environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and Infectious Drivers of Cancer",
+      "groupedBecause": "These subtopics explain the mechanisms by which infectious agents cause cancer, focusing on Epstein-Barr virus and the etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Mechanisms of DNA Damage",
+      "groupedBecause": "These subtopics describe how various physical and chemical mutagens undergo metabolic activation to induce DNA adducts, transversions, and mutations.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion and Host Susceptibility Factors",
+      "groupedBecause": "These subtopics explore how non-mutagenic tumor promoters, inflammatory microenvironments, and host developmental timing facilitate malignant transformation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Assessing and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, in vivo, and in vitro experimental approaches used to identify carcinogens and evaluate cancer risk.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

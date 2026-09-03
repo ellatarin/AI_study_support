@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This opening section welcomes students and introduces the course context, central questions, and learning outcomes regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Concepts of Cancer Genesis: Genetics, Microenvironment, and Environmental Epidemiology",
+      "groupedBecause": "These subtopics explore the fundamental nature of cancer as an evolutionary genetic disease influenced by endogenous processes, environmental mutagens, and geographical epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics focus on how infectious agents drive oncogenesis, using the detailed historical and mechanistic case study of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Carcinogens, Promoters, and Host Susceptibility",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms by which specific chemical mutagens, radiation, tumor promoters, and host developmental stages contribute to carcinogenesis.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Methodologies for Investigating and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics examine the experimental and population-level methods—including mutational signatures, epidemiology, animal models, and the Ames test—used to establish and evaluate carcinogenic risks.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the course structure, her background, and the key learning outcomes regarding environmental carcinogens and cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Causation: Genetic Chance versus Environmental Exposures",
+      "groupedBecause": "These subtopics discuss the fundamental concepts of cancer development, debating whether it arises from endogenous 'bad luck' mutations or environmental exposures using global epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Cancer Etiology",
+      "groupedBecause": "These subtopics examine how various pathogens cause cancer, highlighting Burkitt lymphoma and the interaction between EBV, malaria, and genetic translocation as a case study.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Chemical and Physical Mutagens: Activation and DNA Damage",
+      "groupedBecause": "These subtopics explore specific chemical and physical carcinogens, explaining how xenobiotic metabolism, bulky adducts, and radiation directly or indirectly damage DNA.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics distinguish cancer initiators from promoters, describing the role of inflammation, the Berenbaum two-stage model, and tissue- or developmental-stage vulnerability.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Methods for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics cover the genomic, epidemiological, in vivo, and in vitro experimental approaches used to detect and prove the carcinogenicity of environmental substances.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

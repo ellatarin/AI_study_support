@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "This subtopic introduces the lecturer, outlines the lecture series, and presents the key learning outcomes regarding cancer etiology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Cancer Biology and Sources of Mutation",
+      "groupedBecause": "These subtopics introduce cancer as an evolutionary genetic disease and discuss the intrinsic cellular processes and inherited predispositions that generate oncogenic mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Carcinogens and Epidemiological Patterns",
+      "groupedBecause": "These subtopics examine common environmental exposures and the global epidemiological data linking geographic variations to specific cancer risks.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens in Carcinogenesis",
+      "groupedBecause": "These subtopics explain how infectious agents contribute to malignancy, featuring Burkitt lymphoma as a detailed case study of viral and co-infectious etiology.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of Physical and Chemical Mutagenesis",
+      "groupedBecause": "These subtopics detail how specific chemical compounds and ultraviolet radiation are metabolized and form mutagenic DNA adducts or lesions.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion and Non-Mutagenic Mechanisms",
+      "groupedBecause": "These subtopics explain the distinction between cancer initiation and promotion, focusing on how non-mutagenic stimuli and chronic inflammation drive clonal expansion.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Host Tissue Susceptibility and Developmental Stage",
+      "groupedBecause": "This subtopic addresses how cellular proliferation during specific developmental stages and hormonal states dictates tissue vulnerability to carcinogens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Methods for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics overview the genomic, epidemiological, in vivo, and in vitro experimental methodologies used to establish whether agents are carcinogenic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

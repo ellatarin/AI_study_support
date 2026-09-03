@@ -1,0 +1,12 @@
+{
+  "mode": "content",
+  "instance": "j4",
+  "seconds": 102,
+  "promptTokens": 11768,
+  "completionTokens": 12856,
+  "contentLength": 54229,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "blocks": 8,
+  "fidelity": "EXACT"
+}

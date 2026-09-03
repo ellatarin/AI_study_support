@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "These subtopics introduce the lecturer, outline the scope of the cancer lecture series, and state the key learning outcomes regarding environmental carcinogenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Genetic Mutations, Environmental Exposures, and Epidemiological Trends",
+      "groupedBecause": "These subtopics explore the foundational causes of cancer, contrasting intrinsic replicative errors and genetic bad luck with environmental exposures supported by global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Carcinogenesis and the Burkitt Lymphoma Model",
+      "groupedBecause": "These subtopics describe how infectious agents contribute to cancer development, focusing on the epidemiological and molecular evidence linking Epstein-Barr virus and malaria to Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and Physical Carcinogens, Metabolic Activation, and DNA Damage",
+      "groupedBecause": "These subtopics explain the biochemical mechanisms through which physical and chemical agents—such as UV radiation, aflatoxin, polycyclic aromatic hydrocarbons, and aromatic amines—undergo metabolic activation and cause DNA adducts or transversions.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Initiation, Promotion, and Host Tissue Susceptibility",
+      "groupedBecause": "These subtopics differentiate between mutational initiators and non-mutagenic tumor promoters such as chronic inflammation and phorbol esters, while examining how host developmental stages and tissue contexts modulate carcinogenic susceptibility.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Detecting Carcinogenicity, Testing Mutagens, and Evaluating Risk",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, in vivo, and in vitro experimental methods used to determine whether agents are carcinogenic, concluding with practical considerations of exposure dose and risk-benefit evaluation.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

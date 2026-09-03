@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This topic introduces the cancer lecture series and outlines the core learning outcomes on environmental exposures, carcinogenicity, and tumor development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, endogenous mutation, and epidemiological evidence",
+      "groupedBecause": "These subtopics introduce the fundamental causes of cancer, contrasting intrinsic cell-biological processes with environmental exposures through public perception and global epidemiological variation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and oncogenesis: viral, bacterial, and co-infection mechanisms",
+      "groupedBecause": "These subtopics explain how biological agents such as bacteria, parasites, and viruses contribute to cancer development, highlighting the interaction between Epstein-Barr virus and malaria in Burkitt lymphoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Chemical and physical mutagens: metabolic activation and DNA damage",
+      "groupedBecause": "These subtopics detail how environmental agents, radiation, and dietary compounds undergo xenobiotic metabolism to form DNA adducts and induce genetic mutations.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Tumour promotion, inflammatory microenvironments, and host susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic mechanisms of tumorigenesis, examining how chronic inflammation, promotional signals like phorbol esters, and host developmental windows drive tumor development.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Methodologies for identifying carcinogens, mutational signatures, and assessing risk",
+      "groupedBecause": "These subtopics cover the experimental, genomic, and epidemiological methods used to establish carcinogenicity and conclude with practical risk-benefit considerations.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, outlines the cancer lecture series, and presents the learning objectives focused on cancer causes, environmental exposures, and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Causation: Genetic Evolution, Intrinsic Risk, and Environmental Epidemiology",
+      "groupedBecause": "These subtopics explore the foundational concepts of cancer development, debating the relative contributions of intrinsic random mutations versus environmental exposures and global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Specific Carcinogens: Pathogens, Radiation, and Chemically Activated Mutagens",
+      "groupedBecause": "These subtopics detail various environmental and biological agents—including infectious pathogens, dietary toxins, UV radiation, and polycyclic aromatic hydrocarbons—and their mechanisms of damaging DNA.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of carcinogenesis, contrasting tumor initiators with promoters and exploring how chronic inflammation, cellular signaling, and host developmental stages permit tumor growth.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methods for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics outline the experimental, genomic, toxicological, and epidemiological methodologies used to identify mutational signatures and determine whether specific agents are carcinogenic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

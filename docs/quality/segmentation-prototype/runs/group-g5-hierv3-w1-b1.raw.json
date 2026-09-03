@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the course structure, personal background, and core learning objectives on cancer etiology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins of Cancer: Intrinsic Mutations versus Environmental Exposures",
+      "groupedBecause": "These subtopics explore the foundational concepts of cancer etiology, evaluating the relative contributions of endogenous mutations, random chance, and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Carcinogenesis",
+      "groupedBecause": "These subtopics examine how viral and bacterial infections contribute to malignant transformation, illustrated in detail by the mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagens",
+      "groupedBecause": "These subtopics detail how specific environmental, dietary, and chemical mutagens undergo metabolic activation and induce DNA damage.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics explain non-mutagenic mechanisms of cancer development, focusing on tumor promoters, chronic inflammation, and developmental windows of tissue susceptibility.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methods for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics discuss the genomic, epidemiological, in vivo, and in vitro methodologies used to determine carcinogenicity and assess cancer risk.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

@@ -1,0 +1,639 @@
+{
+ "group-g3-hierv3-w4-smoke": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": false,
+  "uvOwnSubtopic": true
+ },
+ "group-g4-hierv3-w1-a1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g4-hierv3-w1-a2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g4-hierv3-w1-a3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g4-hierv3-w2-a1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g4-hierv3-w2-a2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g4-hierv3-w2-a3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g4-hierv3-w3-a1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g4-hierv3-w3-a2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g4-hierv3-w3-a3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": false,
+  "uvOwnSubtopic": true
+ },
+ "group-g4-hierv3-w4-a1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g4-hierv3-w4-a2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g4-hierv3-w4-a3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g4-hierv3-w5-a1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g4-hierv3-w5-a2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g4-hierv3-w6-a1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g4-hierv3-w6-a2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g5-hierv3-w1-b1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g5-hierv3-w2-b1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": false,
+  "uvOwnSubtopic": true
+ },
+ "group-g6-hierv3-w1-b1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g6-hierv3-w1-b2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g6-hierv3-w1-b3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g6-hierv3-w2-b1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g6-hierv3-w2-b2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g6-hierv3-w2-b3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": false,
+  "uvOwnSubtopic": true
+ },
+ "group-g6-hierv3-w3-b2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g6-hierv3-w3-b3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g6-hierv3-w3-b4": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g6-hierv3-w4-b2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g6-hierv3-w4-b3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g6-hierv3-w4-b4": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g6-hierv3-w5-b2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g6-hierv3-w5-b4": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g6-hierv3-w6-b2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g6-hierv3-w6-b4": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g7-hierv3-w1-c1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g7-hierv3-w1-c2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g7-hierv3-w1-c3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g7-hierv3-w2-c1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g7-hierv3-w2-c2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g7-hierv3-w2-c3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g7-hierv3-w3-c1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g7-hierv3-w3-c2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g7-hierv3-w3-c3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g7-hierv3-w4-c1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g7-hierv3-w4-c2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g7-hierv3-w4-c3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g7-hierv3-w5-c1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g7-hierv3-w5-c2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g7-hierv3-w6-c1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-g7-hierv3-w6-c2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w1-1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w1-L1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w1-L2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": false,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w1-N1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w1-N2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w1-N3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": false,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w1-N4": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": false,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w2-1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w2-L1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w2-L2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": false,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w2-N1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w2-N2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w2-N3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": false,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w2-N4": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w3-1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w3-L1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w3-L2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w3-N1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w3-N2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w3-N3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": false,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w3-N4": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w4-1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w4-L1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": false,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w4-L2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w4-N1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w4-N2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w4-N3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w4-N4": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w5-1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w5-L1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w5-L2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w5-N1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": false,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w5-N2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w5-N3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": false,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w6-1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w6-L1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w6-L2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": false,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w6-N1": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w6-N2": {
+  "animalVsAmes": true,
+  "pathogensSeparate": true,
+  "preambleSeparate": true,
+  "promotionOwnTopic": true,
+  "uvOwnSubtopic": true
+ },
+ "group-hierv3-w6-N3": {
+  "animalVsAmes": true,
+  "pathogensSeparate": false,
+  "preambleSeparate": true,
+  "promotionOwnTopic": false,
+  "uvOwnSubtopic": true
+ }
+}

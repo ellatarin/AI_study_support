@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This opening subtopic introduces the lecturer, the course context, and the key learning outcomes regarding cancer causes and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins of Cancer: Intrinsic Mechanisms, Chance, and Epidemiological Patterns",
+      "groupedBecause": "These subtopics examine what drives cancer development across intrinsic cellular processes, random mutational events, inherited predispositions, and global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Cancer Etiology",
+      "groupedBecause": "These subtopics focus on how infectious agents contribute to malignancy, detailing various oncogenic pathogens and exploring Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Mechanisms of DNA Damage",
+      "groupedBecause": "These subtopics describe specific physical, dietary, and chemical carcinogens along with their pathways of metabolic activation and direct or indirect DNA damage.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Tissue Susceptibility",
+      "groupedBecause": "These subtopics address non-mutagenic mechanisms of carcinogenesis, focusing on tumor promoters, inflammatory microenvironments, and life-stage or tissue-specific cellular susceptibilities.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro methods used to identify carcinogens and substantiate their link to cancer.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Risk-Benefit Assessment and Lecture Summary",
+      "groupedBecause": "This concluding subtopic reflects on balancing exposure risks against benefits and summarizes the main themes of the lecture.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

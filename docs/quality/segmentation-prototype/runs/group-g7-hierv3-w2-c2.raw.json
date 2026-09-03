@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course and Lecture Introduction",
+      "groupedBecause": "This subtopic introduces the lecturer, the cancer lecture series, and the specific learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins of Cancer and Determinants of Risk",
+      "groupedBecause": "These subtopics explore the conceptual foundations of cancer development by examining the relative contributions of intrinsic cellular processes, environmental exposures, and genetic predisposition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogen-Driven Carcinogenesis",
+      "groupedBecause": "These subtopics examine how infectious agents promote oncogenesis, highlighted by the cooperative mechanism between viral infection and malaria in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Mutagenesis and Metabolic Activation",
+      "groupedBecause": "These subtopics describe how chemical and physical mutagens undergo metabolic processing in host tissues to induce DNA damage and transversion mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion and Host Tissue Susceptibility",
+      "groupedBecause": "These subtopics examine how non-mutagenic promotional factors, inflammatory microenvironments, and the developmental stage of host tissues facilitate tumor formation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Evaluating Carcinogenicity",
+      "groupedBecause": "These subtopics explain the observational techniques and experimental assay systems used to detect and prove the carcinogenic potential of environmental agents.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Risk-Benefit Balance and Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the lecture by evaluating how individuals and societies balance everyday environmental risks against practical benefits.",
+      "firstSubtopicId": 21
+    }
+  ]
+}

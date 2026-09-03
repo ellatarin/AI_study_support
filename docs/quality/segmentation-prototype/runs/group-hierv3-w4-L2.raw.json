@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture objectives",
+      "groupedBecause": "This subtopic introduces the course instructors, format, and primary learning objectives on cancer etiology and carcinogen appraisal.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of cancer: endogenous mutations, genetics, environment, and epidemiology",
+      "groupedBecause": "These subtopics explore the fundamental origins of cancer by comparing intrinsic cellular errors and inherited predispositions with environmental exposures, supported by epidemiological and migrant data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and infectious agents in oncogenesis",
+      "groupedBecause": "These subtopics detail how viral, bacterial, and parasitic infections drive cancer development, with a specific focus on Epstein-Barr virus and Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and physical mutagens, metabolic bioactivation, and DNA damage",
+      "groupedBecause": "These subtopics analyze how specific dietary, environmental, and chemical mutagens undergo xenobiotic bioactivation to form DNA adducts and mutations.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor promotion, chronic inflammation, and windows of tissue susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms that facilitate cancer growth, including inflammatory promoters, two-stage carcinogenesis models, and developmental stages of vulnerability.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and proving carcinogenicity",
+      "groupedBecause": "These subtopics present the investigative techniques used to assess carcinogenic potential, ranging from mutational signatures and biobanks to animal bioassays and the Ames test.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "This section introduces the lecturer, the course context, and the key learning outcomes regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Endogenous mechanisms, genetic predisposition, and environmental epidemiology",
+      "groupedBecause": "These subtopics establish the overarching framework of cancer causation by evaluating the relative contributions of endogenous mutations, genetic inheritance, and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogen-driven carcinogenesis",
+      "groupedBecause": "These subtopics explore how infectious pathogens contribute to malignant transformation, highlighting Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of chemical and physical mutagens",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms through which specific dietary, radiation, and environmental mutagens induce DNA damage.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Tumor promotion, inflammation, and host susceptibility",
+      "groupedBecause": "These subtopics explain how non-mutagenic promotional stimuli, inflammatory microenvironments, and proliferative host cell contexts facilitate tumor development.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Methods for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, in vivo, and in vitro experimental approaches used to detect and evaluate carcinogenicity.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Summary and risk-benefit balance",
+      "groupedBecause": "This concluding subtopic summarizes the main lecture themes and considers how carcinogen exposure risks are balanced against practical benefits.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

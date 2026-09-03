@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, sets out the course context, and outlines the core learning objectives concerning cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer biology and intrinsic mutational processes",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease shaped by cellular microenvironments, endogenous metabolic damage, and inherited genetic susceptibilities.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental exposures, epidemiology, and the bad-luck debate",
+      "groupedBecause": "These subtopics evaluate the relative contributions of environmental factors versus random mutational events using public health examples and global epidemiological trends.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents and Burkitt lymphoma",
+      "groupedBecause": "These subtopics examine how oncogenic pathogens contribute to cancer development, focusing on the epidemiological and molecular mechanisms of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of chemical, dietary, and physical mutagens",
+      "groupedBecause": "These subtopics detail how specific environmental and dietary compounds cause DNA damage through direct interaction or metabolic activation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor promotion, inflammation, and host susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic mechanisms of carcinogenesis, including chronic inflammation, tumor promoter signalling, and developmental windows of tissue vulnerability.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, animal, and in vitro approaches used to determine the carcinogenic potential of environmental agents.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

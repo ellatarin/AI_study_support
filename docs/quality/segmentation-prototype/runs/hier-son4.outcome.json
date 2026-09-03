@@ -1,0 +1,12 @@
+{
+  "mode": "hier",
+  "instance": "son4",
+  "seconds": 116,
+  "promptTokens": 17432,
+  "completionTokens": 15867,
+  "contentLength": 5888,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "blocks": 26,
+  "fidelity": "EXACT"
+}

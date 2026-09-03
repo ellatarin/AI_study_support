@@ -1,0 +1,12 @@
+{
+  "mode": "content",
+  "instance": "cap-3",
+  "seconds": 67,
+  "promptTokens": 11768,
+  "completionTokens": 13963,
+  "contentLength": 54716,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "blocks": 11,
+  "fidelity": "EXACT"
+}

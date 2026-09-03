@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the lecture series, and the learning outcomes regarding environmental carcinogens and cancer development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of Cancer: Genetic, Endogenous, and Epidemiological Factors",
+      "groupedBecause": "These subtopics explore the foundational causes of cancer, comparing intrinsic genetic mutations and bad luck with inherited predispositions and global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and Examples of Environmental and Biological Carcinogenesis",
+      "groupedBecause": "These subtopics detail specific carcinogenic exposures—including pathogens, dietary toxins, radiation, and industrial chemicals—and their mechanisms as tumor initiators or promoters across different tissues and life stages.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Methods for Determining Carcinogenicity and Assessing Risk",
+      "groupedBecause": "These subtopics discuss the analytical and experimental methods used to identify carcinogens—such as mutational signatures, epidemiological biobanks, animal models, and the Ames test—and conclude with risk-benefit considerations.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

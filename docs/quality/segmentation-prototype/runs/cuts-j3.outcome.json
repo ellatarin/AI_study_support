@@ -1,0 +1,12 @@
+{
+  "mode": "cuts",
+  "instance": "j3",
+  "seconds": 12,
+  "promptTokens": 11785,
+  "completionTokens": 1535,
+  "contentLength": 1636,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "blocks": 8,
+  "fidelity": "EXACT"
+}

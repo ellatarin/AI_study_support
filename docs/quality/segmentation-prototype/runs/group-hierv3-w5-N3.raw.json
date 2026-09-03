@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, contextualizes the lecture series, and outlines the key learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Mutations, Environment, and Epidemiology",
+      "groupedBecause": "These subtopics examine how cancer develops through a balance of intrinsic biological errors and environmental exposures, supported by global epidemiological and migration data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Carcinogenic Agents and Mechanisms of Initiation and Promotion",
+      "groupedBecause": "These subtopics explore specific biological, chemical, and physical carcinogens alongside the mechanisms of direct DNA mutation, xenobiotic activation, chronic inflammation, and tumor promotion.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Methodologies for Detecting Carcinogen Exposure and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics review the laboratory, genomic, animal, and epidemiological approaches used to identify carcinogen signatures and evaluate the carcinogenic potential of compounds.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Conclusion: Risk-Benefit Analysis of Environmental Exposures",
+      "groupedBecause": "This subtopic provides a concluding summary of the lecture and addresses the real-world decisions involved in balancing carcinogen risks against practical benefits.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

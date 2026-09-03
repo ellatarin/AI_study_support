@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "It introduces the lecture on the causes of cancer and sets out the key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Concepts of Cancer Etiology: Endogenous Factors, Environmental Risks, and Epidemiology",
+      "groupedBecause": "They examine the core nature of cancer as a genetic and evolutionary disease driven by a combination of endogenous processes, inherited predispositions, and environmental exposures highlighted through epidemiology.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and Pathogen-Driven Carcinogenesis",
+      "groupedBecause": "They discuss how viral, bacterial, and parasitic infections contribute to malignancy, focusing on Burkitt lymphoma and Epstein-Barr virus.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Mechanisms of DNA Damage",
+      "groupedBecause": "They explain how specific dietary, environmental, and chemical agents—such as aflatoxin, UV light, benzo[a]pyrene, and aromatic amines—undergo metabolism and induce DNA damage.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Tissue Susceptibility",
+      "groupedBecause": "They analyze non-mutagenic drivers of cancer, including tumor promotion, inflammation induced by agents like asbestos, and the influence of host developmental stages on carcinogenesis.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methods for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "They describe the experimental and analytical approaches used to prove carcinogenicity, ranging from mutational signature profiling and biobank epidemiology to in vivo and in vitro toxicological assays.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

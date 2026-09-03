@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "It introduces the lecturer, contextualises the cancer lecture series, and outlines the learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of Cancer and Epidemiological Patterns",
+      "groupedBecause": "These subtopics explore the relative contributions of intrinsic biological processes, inherited genetics, and environmental exposures to cancer risk alongside global epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Biological, Physical, and Chemical Carcinogens",
+      "groupedBecause": "These subtopics examine specific infectious agents, radiation, dietary toxins, and chemical mutagens that directly or metabolically cause DNA damage and initiate carcinogenesis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics explain how non-mutagenic tumor promoters, chronic inflammatory microenvironments, and host developmental timing permit the outgrowth of initiated cells.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting Carcinogenicity and Assessing Risk",
+      "groupedBecause": "These subtopics cover the genomic signatures, epidemiological studies, animal models, and in vitro assays used to prove carcinogenicity and balance human exposure risks.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

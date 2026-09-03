@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the core learning outcomes covering cancer causation and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Causation: Genetics, Bad Luck, and Population Epidemiology",
+      "groupedBecause": "These subtopics introduce the fundamental nature of cancer and evaluate the relative roles of intrinsic replication errors, genetics, and environmental influences using population-level epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Biological and Chemical Carcinogens and Their Mutagenic Mechanisms",
+      "groupedBecause": "These subtopics examine specific infectious, dietary, physical, and chemical agents—including viruses, aflatoxin, UV radiation, polycyclic aromatic hydrocarbons, and aromatic amines—and how they induce DNA damage or metabolic activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour Initiation, Promotion, and Host Susceptibility",
+      "groupedBecause": "These subtopics explore the multi-step model of carcinogenesis, distinguishing between direct mutational initiators and non-mutagenic promoters like inflammation, as well as the influence of host developmental stages and tissue types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Approaches and Assays for Proving Carcinogenicity",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, animal, and in vitro experimental methodologies—such as mutational signatures, biobanks, maximum tolerated dose animal studies, and the Ames test—used to determine whether agents cause cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Risk-Benefit Balance and Lecture Conclusion",
+      "groupedBecause": "The lecturer summarizes the lecture and reflects on the real-world risk-versus-benefit decisions associated with environmental and medical carcinogen exposures.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

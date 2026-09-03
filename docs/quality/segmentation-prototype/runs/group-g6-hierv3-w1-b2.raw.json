@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the scope of the lecture series, and the key learning outcomes regarding cancer causes and carcinogen evaluation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of Cancer Etiology: Endogenous Factors, Environment, and Chance",
+      "groupedBecause": "These subtopics outline the fundamental drivers of cancer development, examining the interplay among endogenous cellular errors, inherited genetic predispositions, and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Viral Oncogenesis",
+      "groupedBecause": "These subtopics examine how infectious agents promote cancer, using the relationship between Epstein-Barr virus, malaria, and Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics explain how diverse chemical and physical agents undergo metabolic processing and directly or indirectly cause DNA damage.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Initiation and Tumor Promotion",
+      "groupedBecause": "These subtopics illustrate the two-stage model of carcinogenesis by distinguishing direct DNA-damaging initiators from non-mutagenic, inflammation-driven promoters.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Host Tissue Context and Developmental Timing in Cancer Susceptibility",
+      "groupedBecause": "This subtopic explores how an individual's life stage, tissue proliferation status, and developmental windows alter susceptibility to carcinogenic insults.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Methodologies for Detecting and Evaluating Carcinogenicity",
+      "groupedBecause": "These subtopics review the experimental, epidemiological, genomic, and risk-assessment strategies used to determine and measure carcinogenicity.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

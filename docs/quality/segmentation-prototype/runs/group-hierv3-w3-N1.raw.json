@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This opening subtopic introduces the lecturer, outlines the scope of the cancer lecture series, and presents the key learning outcomes regarding environmental carcinogenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Factors, Heredity, and Environmental Exposures",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease and explore the interplay between intrinsic cellular errors, inherited genetic risk, and environmental exposures reflected in global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Cancer Development",
+      "groupedBecause": "These subtopics focus on biological carcinogens, detailing how viral, bacterial, and parasitic infections drive oncogenesis with a detailed case study of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Metabolic Activation",
+      "groupedBecause": "These subtopics examine how physical agents and chemical carcinogens—including aflatoxins, UV light, polycyclic hydrocarbons, dioxins, and aromatic amines—cause DNA damage directly or through xenobiotic metabolism.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Context",
+      "groupedBecause": "These subtopics explore non-mutagenic mechanisms in carcinogenesis, emphasizing the multi-stage initiator-promoter paradigm, inflammation-driven growth, and developmental or tissue-specific susceptibilities.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics describe the experimental, genomic, and population-level methods used to establish carcinogenicity, including mutational signature analysis, biobank epidemiology, animal bioassays, and the Ames test.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

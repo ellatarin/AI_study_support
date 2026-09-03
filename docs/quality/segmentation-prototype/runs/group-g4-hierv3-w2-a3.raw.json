@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer welcomes the class, introduces the lecture on the causes of cancer, and outlines the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Genetics, Random Mutations, and Epidemiological Evidence",
+      "groupedBecause": "These subtopics introduce the fundamental drivers of cancer development, examining the balance between intrinsic random mutations, inherited genetics, and environmental risks highlighted by global epidemiology.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenic Pathogens and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics examine how infectious agents drive malignancy, using the epidemiology and molecular mechanism of Burkitt lymphoma as a detailed case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Xenobiotic Metabolism",
+      "groupedBecause": "These subtopics detail how specific environmental, dietary, and chemical mutagens cause DNA damage, often requiring metabolic activation by host enzymes.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Initiation, Promotion, and Host Susceptibility",
+      "groupedBecause": "These subtopics differentiate between mutational initiators and non-mutagenic promoters like asbestos and phorbol esters, while exploring how host developmental stage influences cancer susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the scientific approaches used to identify carcinogens, including mutational signature analysis, population biobanks, animal models, and in vitro Ames testing.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion: Risk versus Benefit Analysis of Carcinogen Exposure",
+      "groupedBecause": "The lecturer concludes the session by summarizing environmental cancer risks and framing everyday exposure decisions as risk-benefit trade-offs.",
+      "firstSubtopicId": 21
+    }
+  ]
+}

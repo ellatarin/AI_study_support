@@ -1,0 +1,43 @@
+<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Block split runs</title><style>
+:root {
+  --bg: #fbfaf8; --fg: #1b1a17; --muted: #6d6a63; --rule: #ddd9d1;
+  --card: #ffffff; --accent: #8a5a2b; --accent-bg: #f6efe6; --warn: #9a3412;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14130f; --fg: #eceae4; --muted: #a09c92; --rule: #33302a;
+    --card: #1c1b16; --accent: #d9a066; --accent-bg: #241d14; --warn: #f0a080;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Georgia, serif; }
+.wrap { max-width: 60rem; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
+h1 { font-size: 1.5rem; margin: 0 0 .3rem; letter-spacing: -.01em; }
+h2 { font-size: 1.05rem; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--muted); margin: 3rem 0 1rem; font-weight: 600; }
+.meta { color: var(--muted); font-size: .9rem; margin-bottom: 2rem; }
+.meta code { background: var(--accent-bg); padding: .1rem .35rem; border-radius: 3px; }
+.pill { display: inline-block; padding: .15rem .5rem; border-radius: 99px;
+  font-size: .78rem; background: var(--accent-bg); color: var(--accent); margin-right: .4rem; }
+.pill.warn { color: var(--warn); }
+table.toc { width: 100%; border-collapse: collapse; font-size: .92rem; }
+table.toc td { padding: .35rem .5rem; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+table.toc td.n { color: var(--muted); width: 2.5rem; text-align: right; }
+table.toc td.w { color: var(--muted); width: 5rem; text-align: right; font-variant-numeric: tabular-nums; }
+table.toc td.bar { width: 30%; }
+.bar span { display: block; height: .55rem; background: var(--accent); opacity: .55; border-radius: 2px; }
+.cut { background: var(--card); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 1rem 1.25rem; margin: 0 0 1.1rem; }
+.cut .tag { font-size: .78rem; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: .5rem; }
+.cut .before { color: var(--muted); }
+.cut .join { margin: .7rem 0; padding: .5rem .75rem; background: var(--accent-bg);
+  border-left: 3px solid var(--accent); border-radius: 0 4px 4px 0; }
+.cut .join strong { color: var(--accent); }
+.block { margin: 0 0 2.5rem; }
+.block h3 { font-size: 1.1rem; margin: 0 0 .2rem; }
+.block .sub { color: var(--muted); font-size: .85rem; margin-bottom: .8rem; }
+.block p { margin: 0; white-space: pre-wrap; }
+a { color: var(--accent); }
+</style></head><body><div class='wrap'><h1>Lecture 4 &mdash; block split runs</h1><div class='meta'>Five full-text runs and five cut-position runs of the same transcript. Open each and read <em>The cuts</em> section.</div><table class='toc'><tr><td class='n'></td><td><strong>run</strong></td><td><strong>blocks</strong></td><td><strong>fidelity</strong></td><td class='w'><strong>size range</strong></td></tr><tr><td class='n'>1</td><td><a href='content-j1.html'>content-j1</a></td><td>8</td><td>ACCEPT/-2 &quot;Soh&quot;-&gt;&quot;H&quot;</td><td class='w'>207&ndash;1,622w</td></tr><tr><td class='n'>2</td><td><a href='content-j2.html'>content-j2</a></td><td>7</td><td>ACCEPT/-2 &quot;Soh&quot;-&gt;&quot;H&quot;</td><td class='w'>713&ndash;1,768w</td></tr><tr><td class='n'>3</td><td><a href='content-j3.html'>content-j3</a></td><td>8</td><td>ACCEPT/-2 &quot;Soh&quot;-&gt;&quot;H&quot;</td><td class='w'>588&ndash;1,622w</td></tr><tr><td class='n'>4</td><td><a href='content-j4.html'>content-j4</a></td><td>8</td><td>EXACT</td><td class='w'>588&ndash;1,623w</td></tr><tr><td class='n'>5</td><td><a href='content-j5.html'>content-j5</a></td><td>8</td><td>ACCEPT/-2 &quot;Soh&quot;-&gt;&quot;H&quot;</td><td class='w'>588&ndash;1,622w</td></tr><tr><td class='n'>6</td><td><a href='cuts-j2.html'>cuts-j2</a></td><td>8</td><td>EXACT</td><td class='w'>578&ndash;1,623w</td></tr><tr><td class='n'>7</td><td><a href='cuts-j3.html'>cuts-j3</a></td><td>8</td><td>EXACT</td><td class='w'>578&ndash;1,622w</td></tr><tr><td class='n'>8</td><td><a href='cuts-j4.html'>cuts-j4</a></td><td>14</td><td>EXACT</td><td class='w'>117&ndash;1,450w</td></tr><tr><td class='n'>9</td><td><a href='cuts-j5.html'>cuts-j5</a></td><td>9</td><td>EXACT</td><td class='w'>555&ndash;1,622w</td></tr></table></div></body></html>

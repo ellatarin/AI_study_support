@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "The lecturer introduces herself, frames the cancer lecture series, and outlines the session's key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology, Genetic Evolution, and Environmental Risk Factors",
+      "groupedBecause": "These subtopics examine cancer as an evolutionary genetic disease shaped by the balance between intrinsic cellular errors, inherited predispositions, and environmental exposures identified through epidemiology.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenic Agents, Bioactivation, and Tumor Promotion",
+      "groupedBecause": "These subtopics detail how specific biological, chemical, and physical agents cause cancer through direct DNA damage, metabolic bioactivation, chronic inflammation, and promotional signaling.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Methodologies for Identifying and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics describe the mutational signature analysis, epidemiological biobanks, animal models, and in vitro assays used to prove and evaluate carcinogenic risk.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

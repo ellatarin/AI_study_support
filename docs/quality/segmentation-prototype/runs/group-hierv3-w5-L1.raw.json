@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the lecture series, outlines the topic of cancer causation, and presents the key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer causation, endogenous versus environmental risk, and geographic incidence",
+      "groupedBecause": "These subtopics explore the multifaceted origins of cancer, contrasting intrinsic mutational processes with environmental exposures and global epidemiological variation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and viral mechanisms in carcinogenesis",
+      "groupedBecause": "These subtopics focus on how pathogens contribute to malignancy, examining specific mechanisms and the co-infection model of Burkitt lymphoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Chemical and physical mutagens, metabolic activation, and DNA damage",
+      "groupedBecause": "These subtopics describe specific dietary, environmental, and chemical mutagens and the metabolic processes by which they cause DNA adducts and mutations.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Tumour promotion, chronic inflammation, and host susceptibility windows",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of cancer development, including chronic inflammation, the initiator-promoter model, and host developmental timing.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and evaluating cancer risk",
+      "groupedBecause": "These subtopics detail experimental, genomic, and epidemiological approaches used to detect mutagenicity and prove carcinogenicity, concluding with risk-benefit considerations.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

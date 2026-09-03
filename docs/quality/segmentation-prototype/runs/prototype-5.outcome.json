@@ -1,0 +1,12 @@
+{
+  "mode": "prototype",
+  "instance": "5",
+  "seconds": 71,
+  "promptTokens": 0,
+  "completionTokens": 0,
+  "contentLength": 42710,
+  "finishReason": null,
+  "verdict": "PARSE-FAIL",
+  "blocks": null,
+  "fidelity": null
+}

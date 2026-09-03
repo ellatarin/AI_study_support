@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the scope of the lecture series, and the specific learning outcomes regarding the causes and methodologies of studying cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Multifactorial Basis of Cancer: Genetics, Bad Luck, and Population Patterns",
+      "groupedBecause": "These subtopics explore what cancer is at a cellular level and evaluate the relative contributions of intrinsic biological bad luck, genetics, and environmental factors using epidemiological and geographic evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Environmental, Chemical, and Infectious Carcinogenesis",
+      "groupedBecause": "These subtopics examine specific infectious, dietary, physical, and chemical agents, explaining the molecular and cellular mechanisms through which they act as cancer initiators, promoters, or tissue-specific mutagens.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Methods for Determining Carcinogenicity and Evaluating Exposure Risks",
+      "groupedBecause": "These subtopics review the experimental and analytical approaches used to detect and prove carcinogenicity—including mutational signatures, epidemiology, animal testing, and in vitro assays—and conclude with an evaluation of carcinogen risk versus benefit.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

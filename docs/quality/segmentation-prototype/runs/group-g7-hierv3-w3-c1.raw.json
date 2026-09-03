@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the cancer course and outlines the core learning objectives regarding environmental carcinogens and cancer mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Evolutionary Principles of Cancer Development",
+      "groupedBecause": "These subtopics explain the fundamental biology of cancer as a micro-evolutionary disease driven by accumulated mutations and microenvironmental support.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental and Epidemiological Influences on Cancer Risk",
+      "groupedBecause": "These subtopics explore population-level evidence and geographic disparities that demonstrate the impact of environmental exposures versus random biological bad luck.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Agents and Pathogen-Driven Oncogenesis",
+      "groupedBecause": "These subtopics explore how viral, bacterial, and parasitic infections promote cancer development, highlighting Burkitt lymphoma as a key example.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagens",
+      "groupedBecause": "These subtopics detail how physical radiation and chemical exposures undergo metabolism and interact directly or indirectly with DNA to cause mutations.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Tissue Susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic factors that facilitate tumor growth, including chronic inflammation, chemical promotion, and life-stage tissue proliferation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics review the analytical, laboratory, and population-based approaches used to evaluate mutagenic potential and prove carcinogenic risk.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

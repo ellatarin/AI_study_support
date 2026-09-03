@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the course context, lecturer background, and the key learning outcomes regarding cancer causes and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of Cancer: Genetics, Environment, and Chance",
+      "groupedBecause": "These subtopics examine the fundamental debate and evidence regarding whether cancer development is driven primarily by intrinsic cellular errors, inherited genetic risk, or external environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and Infectious Causes of Cancer",
+      "groupedBecause": "These subtopics explore how infectious agents contribute to oncogenesis, focusing on the discovery and multi-step mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and Physical Mechanisms of DNA Mutagenesis",
+      "groupedBecause": "These subtopics explain how physical radiation and chemical carcinogens undergo metabolic activation and induce DNA damage through bulky adducts and oxidative stress.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion, Microenvironment, and Host Susceptibility",
+      "groupedBecause": "These subtopics distinguish direct mutational initiation from non-mutagenic tumor promotion and explain how tissue microenvironments and developmental life stages affect susceptibility.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methods for Detecting Carcinogenicity and Assessing Risk",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, in vivo, and in vitro methodologies used to determine whether agents are carcinogenic and evaluate their associated risks.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

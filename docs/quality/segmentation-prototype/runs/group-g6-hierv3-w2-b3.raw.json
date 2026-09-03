@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic frames the lecture series, introduces the lecturer, and outlines the core learning outcomes concerning cancer etiology and carcinogen assessment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Factors, Environment, and Epidemiology",
+      "groupedBecause": "These subtopics introduce cancer as a genetic and microenvironmental disease, contrasting intrinsic random mutation processes with environmental exposures and global epidemiological variation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenic Agents, Promoters, and Host Susceptibility",
+      "groupedBecause": "These subtopics explain the specific biological, chemical, and physical mechanisms through which pathogens, environmental mutagens, metabolic activation, chronic inflammation, and tumour promotion drive malignancy.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, in vivo, and in vitro experimental approaches used to identify carcinogens and establish causal links to cancer.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Carcinogen Risk Assessment and Lecture Conclusion",
+      "groupedBecause": "This subtopic provides the closing summary on the difficulty of assessing carcinogen potency and the practical balance between environmental risk and benefit.",
+      "firstSubtopicId": 21
+    }
+  ]
+}

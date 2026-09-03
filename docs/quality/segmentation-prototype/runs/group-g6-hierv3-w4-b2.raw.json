@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the series on cancer causation and outlines the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic and Environmental Drivers of Cancer Risk",
+      "groupedBecause": "These subtopics examine how cancer arises from the interplay between intrinsic biological processes, genetic predispositions, and environmental exposures reflected in global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Cancer Etiology",
+      "groupedBecause": "These subtopics explain how various infectious agents drive oncogenesis, using Burkitt lymphoma as a detailed case study of pathogen interplay.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics detail how specific environmental and dietary agents undergo metabolic activation or energy transfer to cause direct DNA damage and mutation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion and Non-Mutagenic Mechanisms",
+      "groupedBecause": "These subtopics establish the multi-stage model of carcinogenesis by distinguishing non-mutagenic tumor promoters and inflammatory microenvironments from initiating mutagens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Host Developmental State and Carcinogen Susceptibility",
+      "groupedBecause": "This subtopic addresses how cellular proliferation states and specific life stages modulate tissue susceptibility to carcinogenic exposures.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Methodologies for Investigating and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics survey the genomic, epidemiological, in vivo, and in vitro experimental approaches used to identify carcinogens and assess their cancer risk.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

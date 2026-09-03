@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course overview and learning outcomes",
+      "groupedBecause": "The lecturer introduces the series, outlines core concepts of cancer development, and presents the lecture learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, environmental, and stochastic contributions to cancer development",
+      "groupedBecause": "These subtopics explore the core nature of cancer as a clonal genetic disease and debate the relative roles of bad luck, genetic predisposition, and environmental exposures supported by global epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens as drivers of carcinogenesis",
+      "groupedBecause": "These subtopics detail how viral, bacterial, and parasitic infections contribute to cancer, highlighting Burkitt lymphoma as a model of pathogen-driven oncogenesis.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Direct and metabolically activated chemical and physical carcinogens",
+      "groupedBecause": "These subtopics examine how physical radiation, dietary mycotoxins, and chemical hydrocarbons undergo metabolic conversion to directly damage DNA through adducts, dimers, and oxidative stress.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumour promotion, chronic inflammation, and cellular susceptibility",
+      "groupedBecause": "These subtopics discuss non-mutagenic mechanisms of carcinogenesis, including chronic inflammatory promoters, the initiation versus promotion model, and host developmental stage susceptibility.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methods for identifying carcinogens and evaluating cancer risk",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, animal, and in vitro methodologies used to determine carcinogenicity alongside practical risk-benefit considerations.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

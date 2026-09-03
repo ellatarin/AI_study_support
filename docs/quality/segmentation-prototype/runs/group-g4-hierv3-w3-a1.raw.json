@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Lecture Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the core learning outcomes regarding environmental carcinogens, testing methodologies, and tumor initiation and promotion.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Understanding Cancer Etiology: Genetics, Environment, and Epidemiology",
+      "groupedBecause": "These subtopics introduce cancer as a genetic and evolutionary disease driven by an interplay of endogenous cellular processes, genetic predispositions, and environmental exposures, as evidenced by global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Biological and Chemical Carcinogens and Mechanisms of DNA Damage",
+      "groupedBecause": "These subtopics detail specific infectious agents, dietary toxins, radiation, and chemical carcinogens, focusing on how they are metabolically activated to cause direct DNA damage and mutations.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic mechanisms of carcinogenesis, distinguishing tumor initiators from promoters while examining the roles of chronic inflammation, tissue microenvironments, and developmental stages of life.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Identifying and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the experimental, genomic, epidemiological, and in vitro methods used to detect carcinogen exposure, determine mutational signatures, and assess carcinogenic risk.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

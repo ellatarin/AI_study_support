@@ -1,0 +1,69 @@
+{
+  "topics": [
+    {
+      "label": "Course welcome and learning outcomes",
+      "groupedBecause": "This opening subtopic introduces the lecturer, outlines the lecture series on cancer etiology, and sets the learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Endogenous, genetic, and environmental determinants of cancer risk",
+      "groupedBecause": "These subtopics introduce the fundamental drivers of cancer development, examining the relative contributions of intrinsic cellular mutations, genetic predispositions, environmental exposures, stochastic factors, and epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens and viral mechanisms of oncogenesis",
+      "groupedBecause": "These subtopics examine how infectious agents and oncogenic viruses contribute to cancer development through cell cycle deregulation, immunosuppression, and chromosomal translocations.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Aflatoxin metabolism and DNA adduct formation",
+      "groupedBecause": "This subtopic describes how the dietary fungal toxin aflatoxin is metabolically converted by liver oxidases into a reactive epoxide that forms mutagenic DNA adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "UV radiation and pyrimidine dimer formation",
+      "groupedBecause": "This subtopic explains the physical mechanism by which ultraviolet radiation directly induces thymine dimers and leads to mutations when repair systems are overwhelmed.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Chemical carcinogens, xenobiotic metabolism, and tissue specificity",
+      "groupedBecause": "These subtopics detail how chemical carcinogens such as polycyclic aromatic hydrocarbons, TCDD, and aromatic amines undergo xenobiotic processing to induce DNA transversions, oxidative stress, or organ-specific malignancies.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor promotion, chronic inflammation, and the two-stage carcinogenesis model",
+      "groupedBecause": "These subtopics explain the mechanisms of tumor promoters, illustrating how agents like asbestos and phorbol esters drive clonal expansion through chronic inflammation and intracellular signaling without directly mutating DNA.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host developmental timing and tissue susceptibility to carcinogens",
+      "groupedBecause": "This subtopic explores how developmental windows, tissue proliferation states, and hormonal environments influence cellular susceptibility to carcinogenic transformation.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Mutational signature analysis in cancer genomes",
+      "groupedBecause": "This subtopic outlines how high-throughput genomic sequencing identifies distinct mutational signatures that correlate with specific historical carcinogen exposures.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Epidemiological cohorts, urinary biomarkers, and biobanks",
+      "groupedBecause": "This subtopic discusses human population-level methods for identifying carcinogen exposure using large-scale biobanks and urinary metabolite biomarkers.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "In vivo animal testing for carcinogenicity",
+      "groupedBecause": "This subtopic examines the utility, protocols, and limitations of whole-animal rodent models in assessing chemical toxicity and carcinogenesis.",
+      "firstSubtopicId": 19
+    },
+    {
+      "label": "In vitro mutagenicity testing and the Ames test",
+      "groupedBecause": "This subtopic describes the bacterial Ames assay for evaluating mutagenic potential and discusses the strengths and limitations of cell-based in vitro screening.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Carcinogen risk-benefit analysis and lecture summary",
+      "groupedBecause": "This subtopic concludes the lecture by evaluating the trade-offs between carcinogen exposure and practical benefits while summarizing the core principles of environmental carcinogenesis.",
+      "firstSubtopicId": 21
+    }
+  ]
+}

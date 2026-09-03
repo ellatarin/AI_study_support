@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This opening subtopic introduces the lecturer, sets the course context, and outlines the core learning outcomes for understanding what causes cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of Cancer: Intrinsic Mutation, Heredity, and Environmental Variation",
+      "groupedBecause": "These subtopics introduce cancer as a genetic and evolutionary process and explore how endogenous metabolic damage, inherited predispositions, and lifestyle or geographic exposures contribute to cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Carcinogenic Agents and Mechanisms of Tumor Initiation and Promotion",
+      "groupedBecause": "These subtopics examine specific infectious, chemical, and physical agents to illustrate how direct mutagenesis, metabolic bioactivation, chronic inflammation, and promoter signaling drive cancer development across different tissues and life stages.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Methods for Identifying Carcinogen Exposure and Evaluating Carcinogenicity",
+      "groupedBecause": "These subtopics explain the genomic mutational signatures, population biobanks, in vivo animal models, and in vitro screening assays used to detect carcinogen exposure and assess carcinogenic risk.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

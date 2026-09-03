@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, outlines the course, and sets out the learning objectives regarding cancer causation, environmental exposures, and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic Mutation Risk, Environmental Factors, and Epidemiology",
+      "groupedBecause": "These subtopics discuss the fundamental nature of cancer as a genetic disease driven by a combination of endogenous mutations, genetic predispositions, and geographical and lifestyle variations revealed through epidemiology.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and Burkitt Lymphoma in Carcinogenesis",
+      "groupedBecause": "These subtopics examine how infectious pathogens promote malignancy, using the epidemiological and molecular case study of Burkitt lymphoma to illustrate viral-driven oncogenesis.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Chemical and Physical Carcinogens and Mechanisms of DNA Damage",
+      "groupedBecause": "These subtopics review various dietary, environmental, and tobacco-related carcinogens—such as aflatoxin, UV light, polycyclic aromatic hydrocarbons, TCDD, and aromatic amines—and explain how they are metabolized to cause DNA adducts and mutations.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Tumor Initiation, Promotion, and Developmental Susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic mechanisms of cancer development, focusing on the distinction between tumor initiators and promoters, the role of chronic inflammation, and how tissue proliferative states influence cancer susceptibility.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Methodologies for Detecting Carcinogenicity and Assessing Risk",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, in vivo, and in vitro approaches used to identify carcinogens and conclude with considerations of exposure dose, potency, and risk-benefit trade-offs.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

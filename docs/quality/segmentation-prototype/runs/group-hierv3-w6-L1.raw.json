@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture overview and learning outcomes",
+      "groupedBecause": "The lecturer introduces the course structure and outlines the key learning objectives regarding cancer etiology, environmental exposures, and carcinogenicity testing.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic and extrinsic factors in cancer etiology and epidemiology",
+      "groupedBecause": "These subtopics explore the foundational causes of cancer, balancing endogenous replicative errors and genetic predisposition against environmental exposures supported by geographic and migrant epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens and cancer development",
+      "groupedBecause": "These subtopics detail how biological agents such as viruses, bacteria, and parasites contribute to oncogenesis, focusing on their mechanisms and the specific etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and physical carcinogens, metabolic activation, and DNA damage",
+      "groupedBecause": "These subtopics examine dietary, environmental, and occupational mutagens—such as aflatoxin, UV light, polycyclic aromatic hydrocarbons, and aromatic amines—and how host metabolic processing mediates their DNA-damaging effects.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor promotion, chronic inflammation, and developmental timing",
+      "groupedBecause": "These subtopics address non-mutagenic mechanisms of carcinogenesis, focusing on how chronic inflammation, chemical promoters in two-stage models, and periods of high tissue proliferation facilitate tumor outgrowth.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and assessing cancer risk",
+      "groupedBecause": "These subtopics describe genomic, epidemiological, animal, and in vitro testing strategies used to establish carcinogenicity and evaluate dose-dependent cancer risks.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

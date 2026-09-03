@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "The lecturer introduces herself, outlines the lecture series, and defines the learning objectives regarding environmental carcinogens and cancer development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: intrinsic mutations, chance, and environmental influences",
+      "groupedBecause": "These subtopics explore the fundamental nature of cancer etiology by examining the relative roles of endogenous random mutations, genetic background, and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "These subtopics examine how infectious organisms such as viruses and bacteria contribute to cancer development, highlighting Burkitt lymphoma as a prime example.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of chemical and physical mutagens",
+      "groupedBecause": "These subtopics examine how direct and metabolically activated environmental mutagens cause specific forms of DNA damage and mutation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor promotion, microenvironment, and host tissue susceptibility",
+      "groupedBecause": "These subtopics discuss how non-mutagenic factors, including inflammatory tumor promoters and host tissue developmental states, create the permissive conditions required for malignant growth.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for determining carcinogenicity",
+      "groupedBecause": "These subtopics explain the genomic, epidemiological, and experimental techniques used to detect carcinogens and prove their links to cancer.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

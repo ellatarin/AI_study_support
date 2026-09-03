@@ -1,0 +1,12 @@
+{
+  "mode": "prototype",
+  "instance": "3",
+  "seconds": 104,
+  "promptTokens": 11768,
+  "completionTokens": 13192,
+  "contentLength": 54022,
+  "finishReason": null,
+  "verdict": "OK",
+  "blocks": 6,
+  "fidelity": "REJECT/altered \"Soh\"->\"H\""
+}

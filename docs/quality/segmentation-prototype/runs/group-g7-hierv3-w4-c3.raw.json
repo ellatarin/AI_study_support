@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, outlines the scope of the lecture series on cancer etiology, and sets out the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiological origins of cancer across genetics, environment, and epidemiology",
+      "groupedBecause": "These subtopics examine how cancer arises through genetic mutations driven by the interplay of endogenous cellular errors, environmental mutagens, and population-level epidemiological differences.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenic pathogens and the Burkitt lymphoma paradigm",
+      "groupedBecause": "These subtopics explore how infectious agents contribute to oncogenesis, using the relationship between Epstein-Barr virus, malaria, and chromosomal translocations in Burkitt lymphoma as a detailed case study.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of chemical and physical DNA damage",
+      "groupedBecause": "These subtopics detail how radiation, dietary toxins, and xenobiotically metabolized environmental compounds biochemically interact with cells to induce DNA adducts and mutations.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumour promotion, inflammation, and host tissue susceptibility",
+      "groupedBecause": "These subtopics explain how non-mutagenic influences—such as chronic inflammatory stimuli, chemical promoters, and host developmental timing—create permissive microenvironments for clonal tumour outgrowth.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Experimental and epidemiological methods for determining carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the laboratory assays, mutational signature profiling, animal models, and epidemiological cohorts used to assess and prove the carcinogenic potential of exposures.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

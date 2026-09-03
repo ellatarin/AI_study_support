@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the framing for the lecture series, introducing the lecturer and setting out the core learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of cancer: intrinsic factors versus environmental exposures",
+      "groupedBecause": "These subtopics explore the conceptual framework of cancer development, examining how endogenous biological processes, genetic predisposition, and environmental exposures combine to drive cancer risk across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens and Burkitt lymphoma pathogenesis",
+      "groupedBecause": "These subtopics detail how oncogenic infectious agents contribute to cancer development, focusing on the specific epidemiological and molecular mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics explain how dietary toxins, radiation, and chemical compounds cause DNA mutations either directly or following xenobiotic metabolic activation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor promotion, chronic inflammation, and host susceptibility",
+      "groupedBecause": "These subtopics focus on non-mutagenic mechanisms of carcinogenesis, including the distinction between initiators and promoters, inflammation-driven tumor outgrowth, and tissue vulnerability at specific developmental stages.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for identifying and assessing carcinogenicity",
+      "groupedBecause": "These subtopics present the complementary genomic, epidemiological, in vivo, and in vitro methods used to detect carcinogen exposure and evaluate carcinogenic risk.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

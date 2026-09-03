@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course framing, and the core learning outcomes concerning cancer causation and carcinogen appraisal.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins of Cancer and Environmental Versus Endogenous Risk",
+      "groupedBecause": "These subtopics explore the biological nature of cancer as an evolutionary disease and evaluate the relative contributions of endogenous mutations, genetics, and environmental exposures to cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Mutagenic Carcinogens and Metabolic Activation",
+      "groupedBecause": "These subtopics examine how various environmental carcinogens induce DNA damage directly or through host metabolic activation and oxidative stress.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Cell Susceptibility",
+      "groupedBecause": "These subtopics explain how non-mutagenic mechanisms such as chronic inflammation, chemical promoters, and specific developmental life stages create permissive environments for tumor growth.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogens",
+      "groupedBecause": "These subtopics describe the genomic signatures, epidemiological strategies, animal models, and in vitro assays used to identify and evaluate carcinogenic substances.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

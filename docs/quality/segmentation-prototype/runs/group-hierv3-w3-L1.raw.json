@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and lecture overview",
+      "groupedBecause": "The lecturer introduces the course context, outlines the learning objectives, and frames the central question of what causes cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, endogenous, and environmental contributions to cancer etiology",
+      "groupedBecause": "These subtopics examine how cancer arises from an interplay between endogenous mutations, microenvironmental factors, environmental exposures, and global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Biological, physical, and chemical carcinogens and their mechanisms of DNA damage",
+      "groupedBecause": "These subtopics detail specific causative agents—including viruses, dietary toxins, UV radiation, and metabolically activated chemicals—and the molecular mechanisms by which they induce DNA alterations.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Tumor promotion, chronic inflammation, and life-stage susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic aspects of carcinogenesis, focusing on the two-stage initiation-promotion model, inflammatory microenvironments, and tissue susceptibility during specific developmental stages.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methods for detecting mutational signatures and testing carcinogenicity",
+      "groupedBecause": "These subtopics explain the genomic, epidemiological, in vivo, and in vitro experimental approaches used to identify carcinogens and evaluate human cancer risk.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

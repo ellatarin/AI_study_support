@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the lecture series, and the key learning outcomes regarding environmental carcinogens, methodologies, and cancer initiation and promotion.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Genetic Basis, Random Chance, and Epidemiological Variation",
+      "groupedBecause": "These subtopics introduce the fundamental mechanisms of cancer development and debate the relative contributions of intrinsic biological bad luck versus environmental exposures using global epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious and Chemical Carcinogens and Mechanisms of DNA Damage",
+      "groupedBecause": "These subtopics detail how specific biological agents, dietary toxins, radiation, and chemical exposures induce DNA damage and mutations through direct reactivity or xenobiotic metabolic activation.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Tissue Susceptibility",
+      "groupedBecause": "These subtopics examine how non-mutagenic factors like chronic inflammation, tumor-promoting chemical agonists, and host developmental timing provide the permissive environment for mutated cells to progress into cancer.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate genomic mutational signatures, epidemiological biobanks, in vivo animal studies, and in vitro assays used to identify and validate carcinogenic agents.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

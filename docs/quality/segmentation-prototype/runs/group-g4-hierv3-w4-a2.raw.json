@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer welcomes the class, outlines the scope of the cancer lecture series, and defines the learning objectives regarding cancer etiology and carcinogens.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Concepts of Cancer Etiology, Genetic Predisposition, and Epidemiology",
+      "groupedBecause": "These subtopics explore what cancer is at a cellular level, balancing the interplay between intrinsic genetic mutations, bad luck, inherited predispositions, environmental exposures, and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Specific Carcinogenic Agents and Mechanisms of Mutagenesis",
+      "groupedBecause": "These subtopics examine specific biological and chemical carcinogens—including infectious pathogens, aflatoxins, UV radiation, polycyclic aromatic hydrocarbons, TCDD, and aromatic amines—and the distinct biochemical mechanisms by which they induce DNA damage.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Tumor Initiation, Promotion, and Host Tissue Susceptibility",
+      "groupedBecause": "These subtopics explain the distinction between tumor initiators and promoters, highlighting non-mutagenic drivers like chronic inflammation, the two-stage model of carcinogenesis, and the impact of host developmental timing on cancer susceptibility.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics detail the laboratory, genomic, in vivo, and epidemiological approaches used to identify mutational signatures, assess mutagenicity, and evaluate the carcinogenicity and risk of environmental exposures.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

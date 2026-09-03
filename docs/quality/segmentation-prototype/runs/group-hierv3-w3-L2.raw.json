@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and lecture overview",
+      "groupedBecause": "The opening introduces the lecturer, learning objectives, and main themes regarding what causes cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic mutations, environmental risk factors, and epidemiological patterns",
+      "groupedBecause": "These subtopics explore the broad origins of cancer by evaluating how endogenous mutational processes, inherited predisposition, and environmental exposures interact across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and viral mechanisms of oncogenesis",
+      "groupedBecause": "These subtopics examine how infectious agents drive malignant transformation, focusing on viral oncogenesis and the etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics detail how various environmental agents, such as dietary toxins, UV radiation, polycyclic aromatic hydrocarbons, herbicides, and aromatic amines, cause direct and indirect DNA damage.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor promotion, multi-stage carcinogenesis, and host susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of carcinogenesis, contrasting tumor initiators with promoters and assessing how chronic inflammation and life-stage developmental windows influence susceptibility.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methods for identifying, profiling, and testing carcinogens",
+      "groupedBecause": "These subtopics cover the experimental and observational methodologies used to detect carcinogenicity, including mutational signatures, biobanks, rodent assays, and in vitro tests.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

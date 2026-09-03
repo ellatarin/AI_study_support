@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces her background, course context, and key learning outcomes regarding the causes and mechanisms of cancer development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Origins of Cancer and Mutation Drivers",
+      "groupedBecause": "These subtopics explain the foundational nature of cancer as a multi-step genetic and evolutionary process driven by endogenous errors and inherited predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Risk Factors and Geographic Epidemiology",
+      "groupedBecause": "These subtopics explore common environmental carcinogen exposures and use worldwide cancer incidence data to demonstrate environmental influences on cancer risk.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens in Cancer Etiology",
+      "groupedBecause": "These subtopics examine how infectious agents drive oncogenesis, highlighted by the role of Epstein-Barr virus and malaria co-infection in Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagens",
+      "groupedBecause": "These subtopics explain how specific physical agents and metabolically activated chemical compounds cause DNA damage, adducts, and mutations.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics distinguish non-mutagenic tumor promoters from initiators and describe how inflammatory microenvironments and developmental timing enable malignant outgrowth.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the analytical, epidemiological, and laboratory approaches used to prove causal relationships between specific exposures and cancer formation.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

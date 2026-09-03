@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The opening introduces the lecturer and outlines the scope, themes, and learning outcomes for understanding what causes cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Frameworks of Cancer Causation: Genetics, Chance, and Epidemiology",
+      "groupedBecause": "These subtopics introduce the fundamental causes of cancer development by exploring the interplay between endogenous mutations, inherited risks, environmental exposures, and geographic epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Carcinogenic Agents, Metabolic Activation, and Tumor Promotion",
+      "groupedBecause": "These subtopics examine specific biological, physical, and chemical agents to explain the molecular mechanisms of direct DNA damage, xenobiotic metabolic activation, and inflammatory tumor promotion.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Detecting Carcinogenicity and Assessing Risk",
+      "groupedBecause": "These subtopics describe genomic, epidemiological, in vivo, and in vitro methods used to identify carcinogens and evaluate cancer risk.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

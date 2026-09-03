@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "It introduces the lecturer, the course structure, and the core learning outcomes concerning cancer etiology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Cancer Etiology: Genetics, Microenvironment, and Epidemiology",
+      "groupedBecause": "They explore how endogenous biological errors, inherited predispositions, environmental exposures, and epidemiological trends interact to drive cancer.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Cancer Development",
+      "groupedBecause": "They examine how biological agents and co-infections contribute to oncogenesis, highlighted by the mechanistic case study of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Carcinogens",
+      "groupedBecause": "They describe how distinct dietary, environmental, and chemical mutagens undergo metabolic activation to induce DNA adducts and mutations.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion and Inflammatory Microenvironments",
+      "groupedBecause": "They explain how non-mutagenic substances promote tumor growth through chronic inflammation and intracellular signaling pathways.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Developmental Timing and Target Cell Susceptibility",
+      "groupedBecause": "It examines how cellular proliferative states and specific life stages alter susceptibility to carcinogenic exposure.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Methodologies for Detecting and Assessing Carcinogens",
+      "groupedBecause": "They review the genomic, epidemiological, in vivo, and in vitro approaches used to determine and quantify carcinogenicity.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

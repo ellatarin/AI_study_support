@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and learning objectives",
+      "groupedBecause": "This topic introduces the lecturer, the course context on cancer biology, and the main learning outcomes of the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, intrinsic versus extrinsic risk, and epidemiological patterns",
+      "groupedBecause": "These subtopics introduce the core nature of cancer as an evolutionary genetic disease influenced by the microenvironment, intrinsic cellular errors, environmental exposures, public perception, and global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens as drivers of oncogenesis",
+      "groupedBecause": "These subtopics examine how biological agents such as viruses, bacteria, and parasites cause cancer, illustrated with the detailed mechanism and geographic distribution of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics describe specific exogenous carcinogens—including dietary aflatoxin, UV radiation, polycyclic aromatic hydrocarbons, TCDD, and aromatic amines—and the biochemical pathways and xenobiotic metabolism through which they damage DNA.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor promotion, chronic inflammation, and host developmental susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic mechanisms of tumorigenesis, focusing on the initiator-promoter paradigm, chronic inflammation induced by agents like asbestos, and the influence of host developmental stages on cancer risk.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and evaluating cancer risk",
+      "groupedBecause": "These subtopics discuss the analytical and experimental methods used to determine carcinogenicity, including mutational signature profiling, human biobank epidemiology, animal toxicology studies, and the Ames in vitro test.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

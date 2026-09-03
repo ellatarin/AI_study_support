@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Outcomes",
+      "groupedBecause": "These framing remarks introduce the lecturer, outline the course structure, and establish the core learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Genetic, Environmental, and Epidemiological Drivers",
+      "groupedBecause": "These subtopics examine the fundamental origins of cancer, contrasting intrinsic genetic mutations and stochastic risk with environmental exposures and epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogenic and Viral Oncogenesis",
+      "groupedBecause": "These subtopics explore how infectious agents and viruses drive malignant transformation, focusing on cellular mechanisms and the specific etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Carcinogens: Metabolic Activation and DNA Adducts",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which radiation, dietary toxins, and chemical exposures undergo metabolic activation to induce DNA damage and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Two-Stage Carcinogenesis, and Tissue Susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic tumor promoters, chronic inflammation, two-stage carcinogenesis models, and the role of developmental timing in cancer susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting Carcinogens and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the experimental and analytical strategies used to demonstrate carcinogenicity, including mutational signature profiling, epidemiological biobanks, in vivo assays, and the Ames test.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Risk-Benefit Assessment and Lecture Summary",
+      "groupedBecause": "This concluding section discusses everyday risk-benefit trade-offs associated with carcinogen exposures and summarizes the lecture's key concepts.",
+      "firstSubtopicId": 21
+    }
+  ]
+}

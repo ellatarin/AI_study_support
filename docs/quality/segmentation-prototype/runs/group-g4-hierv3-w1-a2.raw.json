@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This opening section welcomes students, introduces the lecturer, and outlines the core learning objectives of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of Cancer: Genetic Predisposition, Environmental Risk, and Epidemiology",
+      "groupedBecause": "These subtopics introduce fundamental concepts of cancer development, debating the balance between intrinsic bad luck, genetic background, and environmental factors using epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Direct and Metabolically Activated Carcinogens: Pathogens, Radiation, and Chemicals",
+      "groupedBecause": "These subtopics explore specific environmental mutagens—including viral/bacterial pathogens, UV radiation, dietary toxins, and chemical agents—and the mechanisms by which they induce DNA damage.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Tissue Susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of cancer development, focusing on tumor promoters, chronic inflammatory microenvironments, and developmental timing in host tissues.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methods for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the experimental and statistical methodologies used to establish carcinogenicity—including mutational signatures, epidemiology, animal bioassays, and the Ames test—along with concluding thoughts on risk appraisal.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

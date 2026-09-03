@@ -1,0 +1,12 @@
+{
+  "mode": "hier",
+  "instance": "h3",
+  "seconds": 32,
+  "promptTokens": 11994,
+  "completionTokens": 4135,
+  "contentLength": 3124,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "blocks": 12,
+  "fidelity": "EXACT"
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer introduces herself, sets the context within the cancer lecture series, and outlines the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Causes of Cancer: Genetics, Environmental Factors, and Chance",
+      "groupedBecause": "These subtopics introduce the fundamental drivers of cancer development, comparing endogenous cellular errors and inherited predispositions with environmental exposures and epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Biological and Chemical Carcinogens and Mechanisms of DNA Damage",
+      "groupedBecause": "These subtopics examine specific infectious, physical, dietary, and chemical carcinogens and explain the metabolic and molecular mechanisms by which they induce DNA damage.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics focus on non-mutagenic mechanisms of carcinogenesis, detailing the initiator-promoter model, inflammation-driven growth, and tissue susceptibility during specific developmental stages.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, in vivo, and in vitro experimental methods used to determine whether agents cause cancer and discuss their practical limitations.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

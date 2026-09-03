@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Lecture overview and learning outcomes",
+      "groupedBecause": "This opening subtopic outlines the scope of the lecture on cancer causes and defines the expected learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conceptual frameworks and epidemiology of cancer etiology",
+      "groupedBecause": "These subtopics introduce the interplay between genetic predisposition, endogenous errors, environmental exposures, and geographical epidemiological evidence underlying cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of specific carcinogens, tumor initiation, and promotion",
+      "groupedBecause": "These subtopics examine specific biological, chemical, and physical agents alongside the molecular mechanisms, metabolic activations, and tumor promotion processes that drive carcinogenesis.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogenicity",
+      "groupedBecause": "These subtopics cover genomic, epidemiological, animal, and in vitro experimental methods used to determine and validate whether exposures are carcinogenic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

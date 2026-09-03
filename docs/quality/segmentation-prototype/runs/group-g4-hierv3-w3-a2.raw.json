@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "These subtopics introduce the lecture series, lecturer, and the core learning outcomes relating to cancer causes and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mechanisms of Cancer Development, Etiology, and Epidemiological Evidence",
+      "groupedBecause": "These subtopics explore what defines cancer, discuss the balance between endogenous bad luck and environmental exposures, and review epidemiological studies of global cancer variation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and the Burkitt Lymphoma Paradigm",
+      "groupedBecause": "These subtopics examine how viral and bacterial pathogens contribute to malignancy, focusing closely on the environmental and mechanistic discovery of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagens",
+      "groupedBecause": "These subtopics detail how specific environmental, dietary, and cigarette-derived mutagens—including aflatoxin, UV radiation, polycyclic hydrocarbons, and aromatic amines—undergo metabolic activation to damage DNA.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumour Promotion, Chronic Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic mechanisms of carcinogenesis, contrasting tumour initiators with promoters, detailing inflammation-driven progression, and highlighting host developmental vulnerabilities.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Approaches for Determining and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics survey the methodologies used to prove and evaluate carcinogenicity, from mutational signatures and human biobanks to animal models and in vitro assays.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

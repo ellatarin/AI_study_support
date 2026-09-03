@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the course structure, sets out the core theme of cancer causation, and outlines the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of Cancer Causation: Intrinsic Mutations, Environment, and Epidemiology",
+      "groupedBecause": "These subtopics explore the core nature of cancer as a genetic and microenvironmental disease, examining the balance between intrinsic random mutation and environmental exposures through public debates and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and Infectious Drivers of Cancer",
+      "groupedBecause": "These subtopics examine how biological pathogens contribute to oncogenesis, surveying various cancer-associated infectious agents and detailing the epidemiological and molecular mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Metabolic Bioactivation",
+      "groupedBecause": "These subtopics describe how specific dietary, environmental, and tobacco-derived mutagens and radiation cause DNA damage, detailing the endogenous metabolic pathways that bioactivate these compounds into reactive mutagens.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Tissue Susceptibility",
+      "groupedBecause": "These subtopics explain how non-mutagenic factors like chronic inflammation drive tumor promotion, detail the classical two-stage model of carcinogenesis, and explore how host tissue developmental state influences susceptibility.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics review the analytical, epidemiological, and experimental methods used to determine and validate carcinogenicity, ranging from mutational signature sequencing and biobanks to animal models and in vitro Ames assays.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

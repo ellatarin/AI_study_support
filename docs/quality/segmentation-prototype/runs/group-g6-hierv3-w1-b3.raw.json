@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This topic covers the lecture opening, introducing the speaker, the course context, and the key learning outcomes regarding cancer etiology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Mutations, Environment, and Epidemiology",
+      "groupedBecause": "These subtopics explore the foundational drivers of cancer, evaluating the interplay between intrinsic genetic errors, inherited risks, and environmental factors highlighted by epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Oncogenesis",
+      "groupedBecause": "These subtopics examine the mechanisms by which biological agents cause cancer, focusing on viral and bacterial drivers and the classic case of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics detail the biochemical pathways through which direct and indirect mutagens, such as radiation and chemical compounds, damage DNA and cause mutations.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics address non-mutagenic factors in cancer development, including chronic inflammation, the two-stage initiation-promotion model, and developmental timing.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methods for Determining Carcinogenicity and Assessing Risk",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, animal, and bacterial methodologies used to identify carcinogens and evaluate cancer risk.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

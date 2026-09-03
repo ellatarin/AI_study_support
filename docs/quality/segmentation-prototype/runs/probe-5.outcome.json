@@ -1,0 +1,12 @@
+{
+  "mode": "probe",
+  "instance": "5",
+  "seconds": 9,
+  "promptTokens": 0,
+  "completionTokens": 0,
+  "contentLength": 0,
+  "finishReason": "error",
+  "verdict": "EMPTY",
+  "blocks": null,
+  "fidelity": null
+}

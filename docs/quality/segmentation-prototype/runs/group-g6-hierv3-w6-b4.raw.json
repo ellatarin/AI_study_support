@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This opening subtopic introduces the lecturer, the cancer lecture series, and the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Factors, Environment, and Epidemiology",
+      "groupedBecause": "These subtopics explore the conceptual framework of cancer development as an evolutionary process driven by an interplay between intrinsic cellular errors, environmental exposures, and global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics examine how biological agents drive oncogenesis, using the relationship between Epstein-Barr virus, malaria, and Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and Physical Carcinogens and DNA Damage Mechanisms",
+      "groupedBecause": "These subtopics explore specific chemical mutagens and radiation that induce mutations either directly or via metabolic activation into reactive DNA-damaging intermediates.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Cell Susceptibility",
+      "groupedBecause": "These subtopics address non-mutagenic contributions to cancer development, focusing on promotional signaling cascades, inflammatory microenvironments, and developmental stages of cellular vulnerability.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Identifying Carcinogens and Assessing Risk",
+      "groupedBecause": "These subtopics describe the mutational signature analyses, epidemiological tools, and laboratory assays used to determine carcinogenicity and evaluate cancer risk.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

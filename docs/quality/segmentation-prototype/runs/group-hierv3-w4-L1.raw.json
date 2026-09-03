@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer causation and lecture objectives",
+      "groupedBecause": "This opening subtopic introduces the lecturer, outlines the learning outcomes, and frames the six-lecture series on the causes of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conceptual frameworks of cancer etiology: genetics, endogenous processes, and epidemiology",
+      "groupedBecause": "These subtopics examine the broad principles driving cancer initiation, including the debate over random endogenous mutations versus environmental exposures and geographic epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Biological, chemical, and promotional mechanisms of carcinogenesis",
+      "groupedBecause": "These subtopics detail specific agents and mechanisms that cause cancer, spanning viral oncogenesis, dietary and chemical mutagens, metabolic bioactivation, chronic inflammation, and tumor promotion.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogenicity",
+      "groupedBecause": "These subtopics review the experimental, genomic, and epidemiological methods used to detect carcinogen exposure and evaluate mutagenic potential.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

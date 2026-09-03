@@ -1,0 +1,64 @@
+{
+  "topics": [
+    {
+      "label": "Lecture overview and learning outcomes",
+      "groupedBecause": "It introduces the lecture themes, lecturer background, and learning objectives regarding environmental carcinogens and cancer development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conceptual frameworks and population patterns of cancer causation",
+      "groupedBecause": "They introduce fundamental concepts in cancer etiology, comparing intrinsic biological processes, environmental exposures, and global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens and oncogenic mechanisms",
+      "groupedBecause": "They focus on biological pathogens linked to cancer and examine the cooperative role of Epstein-Barr virus and malaria in Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Aflatoxin metabolism and DNA adduct formation",
+      "groupedBecause": "It describes how dietary aflatoxin is converted by liver enzymes into a reactive epoxide that forms mutagenic DNA adducts.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "UV radiation and thymine dimer formation",
+      "groupedBecause": "It examines the mechanism by which physical ultraviolet radiation damages DNA through the formation of pyrimidine dimers.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Metabolic activation and mechanisms of chemical carcinogens",
+      "groupedBecause": "They detail the metabolic pathways and biochemical mechanisms through which environmental chemical compounds become active mutagens in host tissues.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor promotion and the two-stage carcinogenesis model",
+      "groupedBecause": "They explain non-mutagenic mechanisms of carcinogenesis where chronic inflammation and promotional signaling stimulate the proliferation of initiated cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Host tissue proliferation and developmental susceptibility to carcinogenesis",
+      "groupedBecause": "It explores how the developmental timing and active proliferative state of specific tissues alter vulnerability to carcinogen exposure.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mutational signatures derived from whole-genome sequencing",
+      "groupedBecause": "It describes how high-throughput genomic sequencing identifies characteristic mutation patterns left by distinct carcinogens.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Epidemiological cohorts, biobanks, and exposure biomarkers",
+      "groupedBecause": "It covers human population-level methodologies, biobank resources, and urinary biomarkers used to link exposures to cancer development.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "In vivo animal bioassays and dose-response considerations",
+      "groupedBecause": "It examines the experimental use, limitations, and dosage parameters of whole-animal rodent bioassays in assessing carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "In vitro mutagenicity testing and carcinogen risk evaluation",
+      "groupedBecause": "It discusses the bacterial Ames test for mutagen screening and reviews how societal risk-benefit assessments apply to carcinogens.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

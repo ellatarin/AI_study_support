@@ -1,0 +1,79 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture objectives",
+      "groupedBecause": "It introduces the lecturer, course outline, and key learning objectives regarding the causes and appraisal of carcinogens.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal evolution and microenvironmental support in cancer",
+      "groupedBecause": "It defines cancer as an evolutionary process of clonal genetic mutation dependent on a permissive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Endogenous mutagenic processes and genetic predisposition",
+      "groupedBecause": "It explores internal cellular sources of DNA damage, replication errors, and inherited genetic syndromes that increase cancer risk.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Environmental carcinogens and the bad luck debate",
+      "groupedBecause": "It discusses everyday environmental carcinogen exposures and examines the debate regarding random biological chance versus preventable external risks.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Geographic and migrant epidemiology of cancer risk",
+      "groupedBecause": "It examines global geographical disparities and migrant population data that distinguish environmental risks from genetic predispositions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Infectious pathogens and viral oncogenesis",
+      "groupedBecause": "They explain how infectious biological pathogens contribute to malignant transformation, featuring the detailed etiology and molecular mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Dietary aflatoxin and DNA adduct formation",
+      "groupedBecause": "It details how the dietary fungal toxin aflatoxin is metabolically activated in the liver to form bulky, mutagenic guanine adducts.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Ultraviolet radiation and thymine dimer formation",
+      "groupedBecause": "It explains how physical ultraviolet radiation directly damages DNA through the formation of thymine dimers.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Chemical carcinogen bioactivation and xenobiotic metabolism",
+      "groupedBecause": "They describe how chemical xenobiotics undergo metabolic bioactivation via AhR signalling, CYP enzymes, and tissue-specific processes to generate DNA damage.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor promotion and non-mutagenic mechanisms of carcinogenesis",
+      "groupedBecause": "They explain how non-mutagenic tumor promoters, such as asbestos-induced chronic inflammation and phorbol ester PKC activation, drive clonal cell proliferation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Developmental timing and tissue susceptibility to carcinogenesis",
+      "groupedBecause": "It illustrates how specific windows of active proliferation and developmental life stages dictate tissue vulnerability to carcinogenic insult.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Whole-genome mutational signatures of carcinogens",
+      "groupedBecause": "It explains the use of whole-genome sequencing to identify distinct mutational signatures left by specific carcinogenic exposures.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Human epidemiological studies, biomarkers, and biobanks",
+      "groupedBecause": "It covers observational population methodologies, urinary biomarker assays, and large-scale biobanks used to link human exposures to cancer.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "In vivo animal bioassays for carcinogen testing",
+      "groupedBecause": "It details the methodology, inter-species concordance challenges, and dose-threshold considerations of testing carcinogens in live animal models.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "In vitro Ames mutagenicity testing and risk-benefit considerations",
+      "groupedBecause": "It explains bacterial reversion screening for mutagenicity and concludes with the overall risk-versus-benefit considerations of carcinogen exposure.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

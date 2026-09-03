@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the series and establishes the key learning objectives regarding cancer causation, environmental exposures, and research methodologies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Concepts of Cancer Causation: Genetics, Chance, and Environmental Risk",
+      "groupedBecause": "These subtopics explore the core drivers of cancer etiology by examining the interplay between intrinsic random mutations, inherited predispositions, lifestyle factors, and geographic epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Carcinogenesis and the Burkitt Lymphoma Model",
+      "groupedBecause": "These subtopics discuss how biological agents cause cancer, detailing the specific discovery and multi-step oncogenic mechanism of Burkitt lymphoma involving Epstein-Barr virus and malaria.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Mechanisms of DNA Damage",
+      "groupedBecause": "These subtopics detail various dietary, chemical, and environmental carcinogens and the molecular pathways—including xenobiotic metabolism and DNA adduct formation—by which they damage DNA.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility Contexts",
+      "groupedBecause": "These subtopics examine non-mutagenic promotional mechanisms of cancer, distinguishing initiators from promoters and assessing how chronic inflammation and host developmental timing permit tumor outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the scientific methodologies used to evaluate carcinogens, ranging from mutational signature analysis and biobank epidemiology to in vivo rodent assays and the in vitro Ames test.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Everyday Risk Assessment",
+      "groupedBecause": "The lecturer summarizes the core themes of the lecture and discusses how individuals and society balance exposure risks against practical benefits.",
+      "firstSubtopicId": 21
+    }
+  ]
+}

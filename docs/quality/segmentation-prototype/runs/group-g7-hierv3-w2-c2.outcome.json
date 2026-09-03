@@ -1,0 +1,23 @@
+{
+  "sourceRun": "hierv3-w2",
+  "promptVersion": "g7",
+  "instance": "c2",
+  "modelId": "google/gemini-3.7-flash",
+  "labelsShown": false,
+  "seconds": 24,
+  "promptTokens": 12379,
+  "completionTokens": 3451,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": 7,
+  "subtopics": 21,
+  "topicSizes": [
+    1,
+    5,
+    2,
+    5,
+    3,
+    4,
+    1
+  ]
+}

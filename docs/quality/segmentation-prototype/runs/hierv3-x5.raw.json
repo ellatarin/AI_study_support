@@ -1,0 +1,190 @@
+{
+  "topics": [
+    {
+      "id": 1,
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "These introductory remarks set the context of the cancer lecture series and outline the specific learning objectives for the session.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Course introduction and lecture learning objectives",
+          "groupedBecause": "The lecturer introduces herself, situates the lecture within the pathology curriculum, and outlines the session's three learning goals.",
+          "startsWith": "[background chatter] Okay, good afternoon, everybody. We'll get started"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "label": "Conceptual framework of cancer etiology: intrinsic risk and environmental epidemiology",
+      "groupedBecause": "These subtopics establish how cancer arises from accumulating mutations and microenvironmental factors, contrasting intrinsic cellular risks with extrinsic environmental influences.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Cancer as a clonal evolutionary disease dependent on a permissive microenvironment",
+          "groupedBecause": "The lecturer defines cancer as somatic evolution driven by accumulating mutations and supported by blood vessels, stromal cells, and immune cells.",
+          "startsWith": "So what is cancer? So at its heart, it's a"
+        },
+        {
+          "id": 2,
+          "label": "Endogenous processes and intrinsic mutation risk",
+          "groupedBecause": "The lecturer discusses internal sources of DNA damage such as oxidative metabolism and replication stress during rapid cell division.",
+          "startsWith": "So what is driving that? What is going on"
+        },
+        {
+          "id": 3,
+          "label": "Inherited genetic cancer predisposition syndromes",
+          "groupedBecause": "The lecturer describes inherited cancer predisposition syndromes involving germline defects in DNA repair and cell cycle checkpoint genes such as p53 and Rb.",
+          "startsWith": "And then we have some people who perhaps inherit"
+        },
+        {
+          "id": 4,
+          "label": "Influence of cell differentiation state and stemness on transformation",
+          "groupedBecause": "The lecturer explains how a cell's differentiation state and lifespan dictate whether acquired mutations can lead to cancer.",
+          "startsWith": "And the other thing we might want to think"
+        },
+        {
+          "id": 5,
+          "label": "Overview of recognized and suspected environmental carcinogens",
+          "groupedBecause": "The lecturer surveys a wide range of established, accidental, and emerging environmental exposures associated with cancer risk.",
+          "startsWith": "And so I'm going to think a little bit about"
+        },
+        {
+          "id": 6,
+          "label": "The Tomasetti-Vogelstein debate on random bad luck versus environmental causes",
+          "groupedBecause": "The lecturer evaluates the scientific and public controversy surrounding Tomasetti and Vogelstein's thesis that most cancers arise from random replicative bad luck rather than extrinsic carcinogens.",
+          "startsWith": "So ultimately, we spend our lives with our cells"
+        },
+        {
+          "id": 7,
+          "label": "Epidemiological and migrant studies of geographic cancer incidence",
+          "groupedBecause": "The lecturer analyzes international geographic disparities in cancer rates and migrant cohort data to demonstrate the substantial contribution of environmental factors over genetics.",
+          "startsWith": "Anyway, cancer, is it inevitable or is it caused?"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "These subtopics explain how infectious pathogens such as viruses, bacteria, and parasites contribute to tumorigenesis, with a detailed focus on Burkitt lymphoma.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Pathogenic agents and mechanisms of infectious oncogenesis",
+          "groupedBecause": "The lecturer outlines bacterial, parasitic, fungal, and viral pathogens that cause cancer through chronic inflammation, toxin production, or cell cycle disruption.",
+          "startsWith": "So what environmental cancers might be involved in this process?"
+        },
+        {
+          "id": 2,
+          "label": "Burkitt lymphoma as a multi-factor model of infectious carcinogenesis",
+          "groupedBecause": "The lecturer details how Burkitt lymphoma arises from an interplay between malaria-induced immunosuppression, Epstein-Barr virus reactivation, and oncogenic Myc translocation.",
+          "startsWith": "I'm going to use the example of Burkitt lymphoma, because"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics examine how chemical and physical mutagens damage DNA directly or require metabolic activation and cellular stress to induce mutations.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Dietary aflatoxin and metabolic activation to DNA adducts",
+          "groupedBecause": "The lecturer explains how dietary aflatoxin from Aspergillus is converted by hepatic oxidases into a reactive epoxide that forms bulky guanine DNA adducts.",
+          "startsWith": "Okay, so we can have infectious agents involved in the"
+        },
+        {
+          "id": 2,
+          "label": "UV radiation and thymine dimer formation",
+          "groupedBecause": "The lecturer explains how ultraviolet radiation induces thymine dimers in DNA that can overwhelm nucleotide excision repair mechanisms.",
+          "startsWith": "What about UV light? What does UV light do?"
+        },
+        {
+          "id": 3,
+          "label": "Benzo[a]pyrene metabolism, bulky adducts, and transversions",
+          "groupedBecause": "The lecturer traces the metabolic activation of benzo[a]pyrene via AhR, ARNT, and CYP1A1 to reactive epoxides that create bulky DNA adducts and replication transversions.",
+          "startsWith": "Where are we now? Smoking cigarettes. So why are cigarettes"
+        },
+        {
+          "id": 4,
+          "label": "TCDD and oxidative stress-induced DNA damage",
+          "groupedBecause": "The lecturer explains how TCDD from Agent Orange binds the AhR receptor to stimulate CYP1A1-derived reactive oxygen species and chronic inflammation without direct enzymatic conversion.",
+          "startsWith": "This is another example of one of those compounds. So"
+        },
+        {
+          "id": 5,
+          "label": "Beta-naphthylamine and tissue-specific activation in the bladder",
+          "groupedBecause": "The lecturer illustrates tissue-specific carcinogenicity using beta-naphthylamine, which is reactivated exclusively in the bladder by local glucuronidase enzymes.",
+          "startsWith": "Where do we come to now? Back to cigarette smoke."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "label": "Cancer initiation, tumor promotion, and host tissue susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of tumorigenesis, contrasting tumor initiators and promoters, and highlighting the influence of host tissue proliferative state.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Asbestos and chronic inflammation as a tumor promoter",
+          "groupedBecause": "The lecturer explains how inhaled asbestos fibers lodge in the mesothelium to trigger chronic inflammation and act as a tumor promoter rather than a direct DNA mutagen.",
+          "startsWith": "There are also environmental exposures which we associate with cancer,"
+        },
+        {
+          "id": 2,
+          "label": "The Berenbaum two-stage model of initiation and promotion",
+          "groupedBecause": "The lecturer describes the Berenbaum mouse skin model demonstrating that DMBA initiation requires subsequent promotion by TPA via protein kinase C activation to drive tumorigenesis.",
+          "startsWith": "And this was the first study that really gave rise"
+        },
+        {
+          "id": 3,
+          "label": "Developmental timing, cell proliferation state, and susceptibility to carcinogens",
+          "groupedBecause": "The lecturer shows how tissue vulnerability to alkylating mutagens like NMU depends on developmental timing and active cell proliferation, such as during puberty and pregnancy.",
+          "startsWith": "Okay, so we have choices. We have random events that"
+        },
+        {
+          "id": 4,
+          "label": "Summary of mutational mechanisms, promoters, and tissue specificity",
+          "groupedBecause": "The lecturer synthesizes the direct and indirect mechanisms of carcinogenesis, distinguishing mutagens, promoters, metabolic activation, and tissue-specific vulnerabilities.",
+          "startsWith": "DNA damage underlies cancer development. Sometimes this damage is caused"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "label": "Methodologies for identifying and proving carcinogenicity",
+      "groupedBecause": "These subtopics describe genomic, epidemiological, animal, and in vitro experimental strategies used to detect carcinogens and assess cancer risk.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Mutational signatures in cancer genomes",
+          "groupedBecause": "The lecturer explains how high-throughput whole-genome sequencing reveals distinct mutational signatures that link specific DNA damage patterns to particular carcinogens.",
+          "startsWith": "How can we work out what's causing cancer? We do"
+        },
+        {
+          "id": 2,
+          "label": "Epidemiological cohort studies, biomarkers, and biobanks",
+          "groupedBecause": "The lecturer discusses using population epidemiology, urinary DNA adduct biomarkers, and large biobanks like the UK Biobank to identify carcinogenic exposures ethically.",
+          "startsWith": "How can we prove carcinogenicity? How do we prove it?"
+        },
+        {
+          "id": 3,
+          "label": "In vivo animal toxicology studies and their limitations",
+          "groupedBecause": "The lecturer evaluates the standard in vivo rodent carcinogenicity testing protocols, highlighting ethical concerns, species differences, and the challenge of high-dose extrapolations.",
+          "startsWith": "What about the mouse studies? Well, these are a little"
+        },
+        {
+          "id": 4,
+          "label": "The Ames bacterial mutagenicity test and its limitations",
+          "groupedBecause": "The lecturer details the Ames bacterial reversion assay, the addition of liver S9 extract for xenobiotic metabolism, and its failure to capture tissue microenvironment factors.",
+          "startsWith": "So we can do epidemiology, we can do in vivo"
+        },
+        {
+          "id": 5,
+          "label": "Risk-benefit analysis and concluding remarks",
+          "groupedBecause": "The lecturer concludes by discussing the personal and public risk-benefit assessments required when evaluating environmental carcinogen exposures.",
+          "startsWith": "Ultimately, it's all about the risks versus the benefits."
+        }
+      ]
+    }
+  ]
+}

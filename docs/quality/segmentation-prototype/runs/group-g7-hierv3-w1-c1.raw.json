@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, outlines the scope of the cancer lecture series, and sets out the key learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of Cancer Etiology, Risk Factors, and Epidemiology",
+      "groupedBecause": "These subtopics establish the core concepts of cancer development, examining the balance between intrinsic random mutations and environmental exposures through global epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and Infectious Drivers of Cancer",
+      "groupedBecause": "These subtopics explore how infectious agents contribute to oncogenesis, detailing the specific mechanism and geographical co-factors of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Mechanisms of DNA Damage",
+      "groupedBecause": "These subtopics describe specific physical and chemical mutagens and detail how host xenobiotic metabolism can convert unreactive compounds into DNA-damaging adducts.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promoters, Chronic Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics distinguish non-mutagenic tumor promoters from initiators, explaining how chronic inflammation, aberrant signaling pathways, and host developmental timing create permissive environments for malignant outgrowth.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Mutational Signatures and Genomic Profiling",
+      "groupedBecause": "This subtopic explains how whole-genome sequencing reveals characteristic mutational signatures that link specific DNA damage patterns back to particular carcinogenic exposures.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Assessing Carcinogenicity and Risk",
+      "groupedBecause": "These subtopics evaluate the epidemiological, in vivo, and in vitro experimental approaches used to determine carcinogenicity, concluding with the practical challenges of assessing potency and balancing risk.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

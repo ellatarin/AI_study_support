@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the course context, her background, and the learning objectives regarding environmental exposures and cancer development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of Cancer: Genetics, Environment, and Chance",
+      "groupedBecause": "These subtopics introduce the fundamental drivers of cancer development, exploring the interaction between endogenous mutation rates, genetic predisposition, and environmental risk factors across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Carcinogenesis",
+      "groupedBecause": "These subtopics explain how biological agents and chronic infections contribute to cancer development, illustrated through the mechanism of Epstein-Barr virus in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and DNA Damage Mechanisms",
+      "groupedBecause": "These subtopics examine how specific dietary, environmental, and chemical agents undergo metabolic activation to induce direct DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics explain non-mutagenic mechanisms of cancer development, including the role of chronic inflammation, chemical promoters, and host developmental windows in facilitating tumor outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, in vivo, and in vitro experimental approaches used to identify and validate carcinogenic agents.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Summary and Risk-Benefit Analysis",
+      "groupedBecause": "The lecture concludes with a summary of cancer causality and the everyday decisions involved in weighing carcinogen exposure against practical benefits.",
+      "firstSubtopicId": 21
+    }
+  ]
+}

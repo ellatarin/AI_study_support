@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, course context, and core learning outcomes regarding cancer etiology and carcinogen assessment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins of Cancer: Genetics, \"Bad Luck\", and Environmental Influences",
+      "groupedBecause": "These subtopics explore the fundamental causes of cancer by examining the interplay between intrinsic replication errors (\"bad luck\"), genetic predisposition, and environmental factors supported by geographic epidemiology.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Carcinogens: Mechanisms of Initiation, Promotion, and Host Vulnerability",
+      "groupedBecause": "These subtopics examine specific biological, dietary, and chemical carcinogens along with their molecular mechanisms across tumor initiation, inflammatory promotion, and tissue or developmental stage susceptibility.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Approaches for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics describe the scientific methodologies used to evaluate and verify carcinogen exposure, including mutational signature profiling, epidemiological biobanking, rodent bioassays, and in vitro Ames testing.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Conclusion and Risk–Benefit Assessment of Exposures",
+      "groupedBecause": "This subtopic concludes the lecture by synthesizing key takeaways on carcinogen potency and framing environmental exposures within a practical risk-versus-benefit perspective.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

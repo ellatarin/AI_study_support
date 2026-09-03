@@ -1,0 +1,166 @@
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --ground:#f6f7f8; --surface:#ffffff; --ink:#14181c; --muted:#5c646c;
+  --rule:#dee3e8; --rule-soft:#eaeef1; --topic:#17606d; --topic-soft:#e4f0f2;
+  --sub:#6d4a76; --flag:#8a5a1c; --flag-soft:#f6ecdd;
+  --ui:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0e1216; --surface:#151a1f; --ink:#e4e8ec; --muted:#939ba3;
+  --rule:#242b32; --rule-soft:#1c2228; --topic:#6bc2d0; --topic-soft:#12292f;
+  --sub:#c3a2cb; --flag:#d5a05a; --flag-soft:#2b2214;
+}}
+:root[data-theme="dark"]{
+  --ground:#0e1216; --surface:#151a1f; --ink:#e4e8ec; --muted:#939ba3;
+  --rule:#242b32; --rule-soft:#1c2228; --topic:#6bc2d0; --topic-soft:#12292f;
+  --sub:#c3a2cb; --flag:#d5a05a; --flag-soft:#2b2214;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--serif);
+  font-size:17px;line-height:1.68;-webkit-font-smoothing:antialiased}
+header{position:sticky;top:0;z-index:10;background:var(--surface);
+  border-bottom:1px solid var(--rule)}
+.bar{max-width:78rem;margin:0 auto;padding:.9rem 1.5rem;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:.6rem 1.4rem}
+.wordmark{font-family:var(--ui);font-weight:600;font-size:.95rem;letter-spacing:-.01em}
+.wordmark span{color:var(--muted);font-weight:400}
+.tabs{display:flex;gap:.35rem;margin-left:auto;flex-wrap:wrap}
+.tab{font-family:var(--mono);font-size:.82rem;padding:.3rem .6rem;border-radius:3px;
+  border:1px solid var(--rule);background:transparent;color:var(--muted);cursor:pointer;
+  transition:background .12s,color .12s,border-color .12s}
+.tab:hover{color:var(--ink);border-color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--topic);border-color:var(--topic);color:var(--surface)}
+.tab:focus-visible{outline:2px solid var(--topic);outline-offset:2px}
+.meta{max-width:78rem;margin:0 auto;padding:0 1.5rem 1rem;display:flex;flex-wrap:wrap;
+  gap:.5rem 1.5rem;align-items:center;font-family:var(--ui);font-size:.83rem;color:var(--muted)}
+.profile{display:flex;align-items:flex-end;gap:3px;height:1.5rem}
+.profile i{display:block;width:.7rem;background:var(--topic);opacity:.75;border-radius:1px}
+.verdict{font-family:var(--ui);font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;
+  padding:.18rem .5rem;border-radius:2px;background:var(--topic-soft);color:var(--topic)}
+.verdict.partial{background:var(--flag-soft);color:var(--flag)}
+main{max-width:78rem;margin:0 auto;padding:2.5rem 1.5rem 7rem;display:grid;
+  grid-template-columns:15rem minmax(0,1fr);gap:3.5rem;align-items:start}
+@media (max-width:60rem){main{grid-template-columns:1fr;gap:2rem}
+  nav.contents{position:static;max-height:none}}
+nav.contents{position:sticky;top:7.5rem;font-family:var(--ui);font-size:.82rem;
+  max-height:calc(100vh - 9rem);overflow-y:auto}
+nav.contents h2{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 .8rem;font-weight:500}
+nav.contents ol{list-style:none;margin:0;padding:0}
+nav.contents li{margin-bottom:.55rem;line-height:1.4}
+nav.contents a{color:var(--topic);text-decoration:none;font-weight:500}
+nav.contents a:hover{text-decoration:underline}
+nav.contents .n{font-family:var(--mono);color:var(--muted);font-size:.75rem;margin-left:.3rem}
+article{max-width:38rem}
+.topic{margin:0 0 3rem;scroll-margin-top:8rem}
+.topic > h2{font-family:var(--ui);font-size:1.28rem;font-weight:600;line-height:1.3;
+  margin:0 0 .5rem;color:var(--topic);text-wrap:balance;
+  border-top:2px solid var(--topic);padding-top:.9rem}
+.why{font-family:var(--ui);font-size:.86rem;color:var(--muted);margin:0 0 1.8rem;
+  font-style:italic;line-height:1.55}
+.sub{margin:0 0 2rem}
+.sub h3{font-family:var(--ui);font-size:.95rem;font-weight:600;color:var(--sub);
+  margin:0 0 .7rem;text-wrap:balance;line-height:1.35}
+.sub p{margin:0;text-align:left;hyphens:auto}
+.count{font-family:var(--mono);font-size:.75rem;color:var(--muted);
+  border:1px solid var(--rule);border-radius:2px;padding:.1rem .35rem;margin-left:.5rem;
+  vertical-align:.15em;font-weight:400}
+footer{border-top:1px solid var(--rule);max-width:78rem;margin:0 auto;
+  padding:1.5rem;font-family:var(--ui);font-size:.8rem;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<header>
+  <div class="bar">
+    <div class="wordmark">__TITLE__ <span>· __SUBTITLE__</span></div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+  </div>
+  <div class="meta" id="meta"></div>
+</header>
+<main>
+  <nav class="contents" aria-label="Topics in this reading"><h2>Topics</h2><ol id="toc"></ol></nav>
+  <article id="doc"></article>
+</main>
+<footer id="foot"></footer>
+<script id="runs" type="application/json">__RUNS__</script>
+<script>
+(function(){
+  var runs = JSON.parse(document.getElementById('runs').textContent);
+  var tabs = document.getElementById('tabs'), meta = document.getElementById('meta');
+  var toc = document.getElementById('toc'), doc = document.getElementById('doc');
+  var current = 0;
+
+  runs.forEach(function(run, i){
+    var b = document.createElement('button');
+    b.className = 'tab'; b.type = 'button'; b.role = 'tab';
+    b.textContent = run.key;
+    b.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    b.addEventListener('click', function(){ show(i); });
+    tabs.appendChild(b);
+  });
+
+  function el(tag, cls, text){
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+
+  function show(i){
+    current = i;
+    var run = runs[i], max = Math.max.apply(null, run.sizes);
+    Array.prototype.forEach.call(tabs.children, function(t, j){
+      t.setAttribute('aria-selected', j === i ? 'true' : 'false');
+    });
+
+    meta.textContent = '';
+    var v = el('span', 'verdict' + (run.verdict === 'all five' ? '' : ' partial'),
+               run.verdict + ' criteria met');
+    meta.appendChild(v);
+    meta.appendChild(el('span', null,
+      run.topics.length + ' topics · ' + run.subtopics + ' subtopics · pass 1 ' + run.source + ' · ' + run.seconds + 's'));
+    var prof = el('div', 'profile');
+    prof.title = 'Subtopics per topic: ' + run.sizes.join(', ');
+    run.sizes.forEach(function(s){
+      var bar = document.createElement('i');
+      bar.style.height = (18 * s / max + 4) + 'px';
+      prof.appendChild(bar);
+    });
+    meta.appendChild(prof);
+    meta.appendChild(el('span', null, run.note));
+
+    toc.textContent = ''; doc.textContent = '';
+    run.topics.forEach(function(topic, t){
+      var id = 'r' + i + 't' + t;
+      var li = document.createElement('li');
+      var a = el('a', null, topic.label); a.href = '#' + id;
+      li.appendChild(a);
+      li.appendChild(el('span', 'n', topic.subtopics.length));
+      toc.appendChild(li);
+
+      var sec = el('section', 'topic'); sec.id = id;
+      var h = el('h2', null, topic.label);
+      h.appendChild(el('span', 'count', topic.subtopics.length));
+      sec.appendChild(h);
+      if (topic.why) sec.appendChild(el('p', 'why', topic.why));
+      topic.subtopics.forEach(function(sub){
+        var d = el('div', 'sub');
+        d.appendChild(el('h3', null, sub.label));
+        d.appendChild(el('p', null, sub.text));
+        sec.appendChild(d);
+      });
+      doc.appendChild(sec);
+    });
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+
+  document.getElementById('foot').textContent = '__FOOTER__';
+
+  show(0);
+})();
+</script>

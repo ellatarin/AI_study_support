@@ -1,0 +1,12 @@
+{
+  "mode": "hierv2",
+  "instance": "v3",
+  "seconds": 32,
+  "promptTokens": 12365,
+  "completionTokens": 3688,
+  "contentLength": 10405,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "blocks": 20,
+  "fidelity": "EXACT MISSED:1"
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "These opening remarks introduce the lecturer, outline the cancer lecture series, and establish the learning objectives regarding cancer causation and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins of Cancer: Intrinsic Errors, Genetics, and Environmental Epidemiology",
+      "groupedBecause": "These subtopics explore the multifactorial drivers of cancer development, comparing intrinsic replicative mutations, inherited predispositions, and geographic epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Carcinogenic Agents and Mutagenic Mechanisms",
+      "groupedBecause": "These subtopics examine specific infectious, physical, and chemical agents alongside the biochemical mechanisms through which they induce direct or metabolically activated DNA damage.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Cell Susceptibility",
+      "groupedBecause": "These subtopics explain the non-mutagenic processes that facilitate cancer development, highlighting the initiator-promoter paradigm, inflammatory microenvironments, and life-stage tissue vulnerability.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics review the analytical and experimental strategies used to detect carcinogen exposure and evaluate carcinogenic risk, spanning genomic signatures, epidemiology, animal bioassays, and in vitro tests.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

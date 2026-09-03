@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course overview and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the students and outlines the lecture goals, structure, and expected learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: endogenous mechanisms, environmental exposures, and epidemiology",
+      "groupedBecause": "These subtopics introduce the fundamental concepts of cancer development by exploring the balance between endogenous mutational processes, bad luck, genetic background, and epidemiological evidence for environmental causes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "These subtopics examine how viral, bacterial, and parasitic infections contribute to malignancy, illustrated by the detailed etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and physical carcinogens: mechanisms of initiation, promotion, and tissue susceptibility",
+      "groupedBecause": "These subtopics explore diverse environmental carcinogens, explaining how metabolic activation, direct DNA damage, chronic inflammation, tumor promotion, and developmental tissue states drive carcinogenesis.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics detail the laboratory, genomic, and epidemiological approaches used to detect mutational signatures and evaluate the carcinogenicity of substances.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Carcinogenic risk assessment and lecture summary",
+      "groupedBecause": "The lecture concludes by evaluating real-world risk-benefit tradeoffs of carcinogen exposure and summarizing the main themes of the lecture.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

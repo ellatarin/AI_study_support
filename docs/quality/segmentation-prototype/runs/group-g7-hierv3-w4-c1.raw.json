@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Objectives",
+      "groupedBecause": "This opening section welcomes the students, introduces the lecturer, and outlines the learning objectives for the lecture on cancer causes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Nature of Cancer and Mutational Drivers",
+      "groupedBecause": "These subtopics explain the fundamental biology of cancer as an evolutionary genetic disease and describe the endogenous, inherited, and cellular drivers of mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Carcinogens and Epidemiological Patterns",
+      "groupedBecause": "These subtopics examine everyday environmental exposures and evaluate epidemiological evidence showing geographic and lifestyle variations in cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogenic Pathogens and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics explore how infectious agents contribute to malignancy, focusing on Burkitt lymphoma as a case study of viral, environmental, and genetic interactions.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of Mutagenesis and Metabolic Activation",
+      "groupedBecause": "These subtopics detail how physical, dietary, and chemical carcinogens undergo metabolic activation to cause specific forms of DNA damage and mutations.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion and the Two-Stage Carcinogenesis Model",
+      "groupedBecause": "These subtopics explain the distinction and cooperation between mutagenic initiators and non-mutagenic promoters such as chronic inflammation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Host Factors and Developmental Timing in Carcinogenesis",
+      "groupedBecause": "This subtopic analyzes how host tissue proliferative status, developmental stage, and hormonal history modulate susceptibility to carcinogen-induced damage.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Methodologies for Identifying and Testing Carcinogens",
+      "groupedBecause": "These subtopics describe the genomic signatures, epidemiological approaches, and laboratory assays used to establish and evaluate carcinogenicity.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

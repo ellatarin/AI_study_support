@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the speaker, the context within the cancer lecture series, and the primary learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Intrinsic Mutations, Bad Luck, and Environmental Factors",
+      "groupedBecause": "These subtopics explore the foundational concepts and epidemiological evidence regarding the balance between intrinsic genetic chance and extrinsic environmental influences in cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics examine how infectious agents contribute to oncogenesis, focusing on the epidemiological discovery and molecular mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Chemical and Physical Mutagens: Metabolic Activation and DNA Adducts",
+      "groupedBecause": "These subtopics explain how physical radiation and dietary or chemical carcinogens undergo metabolic bioactivation to induce direct DNA damage across different tissues.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Tumor Promotion and Chronic Inflammation",
+      "groupedBecause": "These subtopics analyze the role of non-mutagenic promoters and chronic inflammatory microenvironments in driving the clonal outgrowth of initiated cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Host Developmental Timing and Tissue Vulnerability",
+      "groupedBecause": "This subtopic examines how cellular proliferation states and specific stages of host development influence susceptibility to carcinogenic transformation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Identifying and Testing Carcinogens",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, in vivo, and in vitro experimental strategies used to detect and validate the carcinogenicity of compounds.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Risk-Benefit Assessment and Summary",
+      "groupedBecause": "This subtopic concludes the lecture by framing carcinogenic exposure within the context of everyday risk-benefit decision-making.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

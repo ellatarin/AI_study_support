@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, outlines the scope of the cancer lecture series, and defines the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic and Environmental Contributions to Cancer Etiology",
+      "groupedBecause": "These subtopics examine the fundamental causes of cancer by comparing intrinsic biological errors and genetic predispositions with environmental influences supported by global epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Burkitt Lymphoma Pathogenesis",
+      "groupedBecause": "These subtopics illustrate how infectious agents contribute to oncogenesis, using Burkitt lymphoma as a detailed case study of multi-factorial pathogen-driven cancer.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Metabolic DNA Damage",
+      "groupedBecause": "These subtopics explain the biochemical mechanisms through which specific environmental chemicals, dietary toxins, and radiation undergo activation to induce DNA adducts and mutations.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic mechanisms of carcinogenesis, focusing on how tumor promoters, inflammatory microenvironments, and developmental tissue vulnerability drive clonal outgrowth.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Experimental and Epidemiological Methods for Testing Carcinogenicity",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, animal, and in vitro screening methodologies utilized to identify mutational signatures and evaluate whether substances are carcinogenic.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Carcinogen Exposure Risk-Benefit Analysis and Lecture Summary",
+      "groupedBecause": "This subtopic concludes the lecture by discussing practical risk-versus-benefit decisions regarding exposure to carcinogens and summarizing the main themes.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

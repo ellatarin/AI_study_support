@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer introduces herself, frames the course of lectures on cancer biology, and outlines the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Framework of Cancer Causation: Genetics, Environment, and Epidemiology",
+      "groupedBecause": "These subtopics examine how intrinsic cellular errors, inherited genetic risk, and environmental exposures contribute to cancer development as demonstrated by epidemiological and migrant studies.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenic Agents and Tumor Promotion",
+      "groupedBecause": "These subtopics detail how specific biological, physical, and chemical agents drive cancer via direct mutagenesis, xenobiotic metabolism, promotional chronic inflammation, and tissue-specific susceptibility.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for Determining and Appraising Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the experimental and observational methodologies used to detect and prove carcinogen exposure and cancer risk.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

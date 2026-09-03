@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, contextualizes the lecture within the course, and outlines the key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins of Cancer: Genetics, Chance, and Environmental Influences",
+      "groupedBecause": "These subtopics explore the fundamental nature of cancer as an evolutionary genetic process shaped by the balance between intrinsic errors, chance, and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Carcinogenesis",
+      "groupedBecause": "These subtopics explain how infectious pathogens drive cancer development, highlighting Burkitt lymphoma as an illustrative case study.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Metabolic Activation",
+      "groupedBecause": "These subtopics describe how physical radiation and chemical agents are metabolically processed to create reactive species that induce DNA damage.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion and the Initiation-Promotion Paradigm",
+      "groupedBecause": "These subtopics examine how non-mutagenic factors like chronic inflammation and signaling agonists promote tumor outgrowth following initial DNA damage.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Host Proliferative State and Life-Stage Susceptibility",
+      "groupedBecause": "This subtopic explores how tissue developmental stages and active proliferation periods influence host susceptibility to carcinogenic transformation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Methods for Identifying Carcinogens and Assessing Carcinogenic Risk",
+      "groupedBecause": "These subtopics evaluate genomic, epidemiological, animal, and in vitro methods used to detect carcinogens and weigh the practical risks of exposure.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

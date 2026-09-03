@@ -1,0 +1,158 @@
+{
+  "topics": [
+    {
+      "id": 1,
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This opening section introduces the lecture series, outlines the speaker's role, and frames the core learning objectives regarding cancer causation.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Welcome, course structure, and intended learning outcomes",
+          "groupedBecause": "The lecturer welcomes students, introduces the lecture series, and outlines the three main learning objectives of the session.",
+          "startsWith": "[background chatter] Okay, good afternoon, everybody. We'll get started now"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "label": "Foundations of Carcinogenesis: Genetic Mechanisms, Environmental Risks, and Epidemiology",
+      "groupedBecause": "These subtopics establish the biological definition of cancer and explore how internal cellular processes, environmental hazards, and population-level epidemiological variations contribute to malignancy.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Cancer as a clonal genetic disease requiring a permissive microenvironment",
+          "groupedBecause": "This passage defines cancer as a micro-evolutionary process driven by acquired mutations, hallmark capabilities, and an accommodating cellular microenvironment.",
+          "startsWith": "So what is cancer? So at its heart, it's a"
+        },
+        {
+          "id": 2,
+          "label": "Endogenous mutational sources, cell turnover, and inherited cancer predispositions",
+          "groupedBecause": "This passage describes intrinsic sources of DNA damage, including metabolism and replication stress, alongside inherited cancer susceptibility syndromes.",
+          "startsWith": "Because there are a number of things we do on"
+        },
+        {
+          "id": 3,
+          "label": "Overview of common and emerging environmental cancer exposures",
+          "groupedBecause": "This passage provides examples of consumer, occupational, and medical exposures linked or suspected to be linked to cancer development.",
+          "startsWith": "And so I'm going to think a little bit"
+        },
+        {
+          "id": 4,
+          "label": "Evaluating the 'bad luck' hypothesis versus environmental causation",
+          "groupedBecause": "This passage addresses the scientific and public debate regarding how much cancer risk stems from unavoidable replication errors versus external exposures.",
+          "startsWith": "So ultimately, we spend our lives with our cells endogenously"
+        },
+        {
+          "id": 5,
+          "label": "Epidemiological and migrant evidence for environmental cancer causes",
+          "groupedBecause": "This passage uses international incidence disparities and post-war migrant data to demonstrate environmental and genetic contributions to cancer risk.",
+          "startsWith": "And a lot of studies that have been done to"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "label": "Mechanisms of Specific Carcinogens: Biological, Physical, Chemical, and Promoting Agents",
+      "groupedBecause": "These subtopics explain the distinct cellular and molecular mechanisms by which specific biological, physical, and chemical carcinogens damage DNA or promote tumor growth.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Infectious pathogens as drivers of inflammation and cellular transformation",
+          "groupedBecause": "This passage surveys how specific bacteria, helminths, and viruses contribute to malignant transformation through inflammation or cell cycle disruption.",
+          "startsWith": "So what environmental cancers might be involved in this process?"
+        },
+        {
+          "id": 2,
+          "label": "Pathogenesis and environmental geography of Burkitt lymphoma",
+          "groupedBecause": "This passage details the discovery of Burkitt lymphoma, its geographical overlap with malaria, and the mechanism of EBV-driven Myc translocation.",
+          "startsWith": "I'm going to use the example of Burkitt lymphoma, because"
+        },
+        {
+          "id": 3,
+          "label": "Metabolic activation of dietary aflatoxin into reactive DNA adducts",
+          "groupedBecause": "This passage explains how fungal aflatoxin from peanuts is converted by liver oxidases into a reactive epoxide that forms bulky guanine adducts.",
+          "startsWith": "What about diet? We know that in the US, there"
+        },
+        {
+          "id": 4,
+          "label": "DNA damage and thymine dimer formation caused by ultraviolet radiation",
+          "groupedBecause": "This passage explains the physical mechanism by which UV radiation creates thymine dimers that challenge nucleotide excision repair.",
+          "startsWith": "What about UV light? What does UV light do? Well,"
+        },
+        {
+          "id": 5,
+          "label": "Xenobiotic metabolism of polycyclic aromatic hydrocarbons into mutagens",
+          "groupedBecause": "This passage details how benzo[a]pyrene binds the aryl hydrocarbon receptor to induce CYP1A1, producing reactive epoxides and DNA transversions.",
+          "startsWith": "Where are we now? Smoking cigarettes. So why are cigarettes"
+        },
+        {
+          "id": 6,
+          "label": "Indirect DNA damage and oxidative stress induced by TCDD",
+          "groupedBecause": "This passage explains how dioxin exposure triggers CYP1A1 expression to generate destructive reactive oxygen species and chronic inflammation without direct adduct formation.",
+          "startsWith": "This is another example of one of those compounds. So"
+        },
+        {
+          "id": 7,
+          "label": "Tissue-specific reactivation of aromatic amines in bladder carcinogenesis",
+          "groupedBecause": "This passage explains how beta-naphthylamine is selectively converted back into a carcinogen in the bladder due to the local activity of glucuronidase.",
+          "startsWith": "Where do we come to now? Back to cigarette smoke."
+        },
+        {
+          "id": 8,
+          "label": "Asbestos fibers as non-mutagenic inflammatory promoters",
+          "groupedBecause": "This passage explains how inhaled asbestos fibers lodge in the mesothelium to generate chronic inflammation that fosters tumor development without causing direct mutations.",
+          "startsWith": "There are also environmental exposures which we associate with cancer,"
+        },
+        {
+          "id": 9,
+          "label": "Two-stage carcinogenesis and phorbol ester-mediated tumor promotion",
+          "groupedBecause": "This passage explains Berenbaum's initiator-promoter skin model and describes how phorbol esters like TPA mimic diacylglycerol to activate protein kinase C.",
+          "startsWith": "So we consider this to be promoter activity rather than"
+        },
+        {
+          "id": 10,
+          "label": "Host developmental timing and tissue susceptibility to alkylating agents",
+          "groupedBecause": "This passage illustrates how active tissue remodeling during specific developmental windows, such as puberty, modulates susceptibility to alkylating agents and radiation.",
+          "startsWith": "And now I want to think about the cell host"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "label": "Methodologies for Identifying Carcinogens, Testing Carcinogenicity, and Assessing Risk",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro methodologies used to determine whether agents cause cancer, concluding with the principles of risk-benefit assessment.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Genomic sequencing and carcinogen-specific mutational signatures",
+          "groupedBecause": "This passage describes how high-throughput whole-genome sequencing maps characteristic mutational signatures in tumors back to specific causative exposures.",
+          "startsWith": "How can we work out what's causing cancer? We do"
+        },
+        {
+          "id": 2,
+          "label": "Epidemiological cohort investigations, exposure biomarkers, and biobanks",
+          "groupedBecause": "This passage explains how human observational studies, urinary adduct biomarkers, and large-scale biobanks are used to correlate exposures with cancer incidence.",
+          "startsWith": "How can we prove carcinogenicity? How do we prove it?"
+        },
+        {
+          "id": 3,
+          "label": "In vivo rodent toxicological testing and its translational limitations",
+          "groupedBecause": "This passage outlines the design, dosing challenges, interspecies discrepancies, and ethical limitations of two-year animal carcinogenicity assays.",
+          "startsWith": "What about the mouse studies? Well, these are a little"
+        },
+        {
+          "id": 4,
+          "label": "In vitro bacterial mutagenicity testing using the Ames test",
+          "groupedBecause": "This passage details the Salmonella histidine reversion assay with liver metabolic extract while evaluating why in vitro tests fail to reflect the tumor microenvironment.",
+          "startsWith": "So we can do epidemiology, we can do in vivo"
+        },
+        {
+          "id": 5,
+          "label": "Risk-benefit appraisal in cancer prevention and concluding summary",
+          "groupedBecause": "This concluding passage summarizes the lecture by considering how individuals and regulators weigh carcinogenic exposure risks against practical medical and lifestyle benefits.",
+          "startsWith": "Ultimately, it's all about the risks versus the benefits. We"
+        }
+      ]
+    }
+  ]
+}

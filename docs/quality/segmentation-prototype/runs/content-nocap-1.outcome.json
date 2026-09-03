@@ -1,0 +1,12 @@
+{
+  "mode": "content",
+  "instance": "nocap-1",
+  "seconds": 67,
+  "promptTokens": 11768,
+  "completionTokens": 13911,
+  "contentLength": 54527,
+  "finishReason": "stop",
+  "verdict": "PARSE-FAIL",
+  "blocks": null,
+  "fidelity": null
+}

@@ -1,0 +1,64 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This topic covers the lecturer's opening remarks, course context, and the primary learning objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Multifactorial drivers, environmental factors, and epidemiology of cancer risk",
+      "groupedBecause": "These subtopics explore the general concepts of cancer etiology, contrasting endogenous processes, inherited genetics, and environmental exposures through statistical debate and global epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens and viral oncogenesis",
+      "groupedBecause": "These subtopics focus on biological agents—including viruses, bacteria, and parasites—and the specific infectious etiology and chromosomal translocations of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Dietary aflatoxin and metabolic DNA adduct formation",
+      "groupedBecause": "This subtopic specifically examines the dietary fungal toxin aflatoxin and its oxidative conversion in the liver into reactive DNA-binding adducts.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Ultraviolet radiation and thymine dimer DNA damage",
+      "groupedBecause": "This subtopic addresses physical radiation damage to DNA via ultraviolet light and the resulting formation of pyrimidine dimers.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Chemical carcinogens, xenobiotic metabolism, and tissue-specific activation",
+      "groupedBecause": "These subtopics examine chemical carcinogens—including polycyclic aromatic hydrocarbons, dioxins, and aromatic amines—and their processing by xenobiotic metabolic pathways in host tissues.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor promotion, chronic inflammation, and the two-stage carcinogenesis model",
+      "groupedBecause": "These subtopics explore non-mutagenic mechanisms of cancer development, focusing on chronic inflammatory microenvironments and the classic two-stage initiator-promoter paradigm.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Developmental and life-stage susceptibility to carcinogenesis",
+      "groupedBecause": "This subtopic explores how host developmental timing, age, and reproductive life stages modulate tissue vulnerability to carcinogenic exposures.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mutational signatures and genomic profiling of carcinogens",
+      "groupedBecause": "This subtopic details high-throughput genomic sequencing techniques used to identify characteristic mutational patterns left by specific carcinogens.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Epidemiological cohort studies and population biobanks",
+      "groupedBecause": "This subtopic covers human population-level methodologies, urinary biomarker tracking, and large-scale biobank resources used to establish carcinogenic associations.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "In vivo rodent carcinogenicity bioassays",
+      "groupedBecause": "This subtopic examines whole-animal toxicology studies in rodents to test compound carcinogenicity, along with the limitations and dosage challenges of animal models.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "In vitro bacterial mutagenesis testing and risk-benefit evaluation",
+      "groupedBecause": "These subtopics detail the in vitro Ames test using bacterial cultures and metabolizing extracts, concluding with the broader societal evaluation of exposure risks versus benefits.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

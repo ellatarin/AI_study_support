@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the scope of the cancer lecture series, and the core learning outcomes concerning environmental carcinogens, testing methodologies, and tumor initiation versus promotion.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mechanisms of Cancer Development, Risk Factors, and Epidemiology",
+      "groupedBecause": "These subtopics outline the fundamental biology of cancer as a genetic and microenvironmental disease, the relative roles of endogenous errors versus environmental exposures, and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Viral Oncogenesis",
+      "groupedBecause": "These subtopics examine how infectious agents such as bacteria, parasites, and viruses contribute to cancer development, focusing particularly on the pathogenesis and epidemiology of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Physical and Chemical Mutagens and Xenobiotic Activation",
+      "groupedBecause": "These subtopics explain how specific physical and chemical agents—including aflatoxin, UV radiation, polycyclic hydrocarbons, TCDD, and aromatic amines—cause DNA adducts and mutations through direct damage or xenobiotic metabolic activation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Initiation, Promotion, and Host Tissue Susceptibility",
+      "groupedBecause": "These subtopics explore the two-stage model of carcinogenesis, contrasting direct mutational initiation with promotional factors like inflammation, signaling pathway activation, and developmental life-stage vulnerabilities.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Detecting, Testing, and Evaluating Carcinogens",
+      "groupedBecause": "These subtopics review the analytical and experimental strategies used to demonstrate carcinogenicity, including mutational signature analysis, population epidemiology, in vivo animal bioassays, and in vitro Ames testing.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

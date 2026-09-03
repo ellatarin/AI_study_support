@@ -1,0 +1,69 @@
+{
+  "topics": [
+    {
+      "label": "Course overview and learning outcomes",
+      "groupedBecause": "It outlines the aims, structure, and learning outcomes of the lecture on the causes of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Concepts and evidence for multifactorial cancer etiology",
+      "groupedBecause": "They explore the fundamental causes of cancer by balancing intrinsic cellular processes, genetic predisposition, and environmental factors supported by epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "They describe how biological agents, including viruses, bacteria, and parasites, contribute to cancer development, illustrated by Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Aflatoxin activation and dietary carcinogenesis",
+      "groupedBecause": "It details how dietary aflatoxin is metabolically converted into a reactive epoxide that forms DNA adducts.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "UV radiation and DNA damage",
+      "groupedBecause": "It explains how UV radiation acts as a physical carcinogen by inducing thymine dimers in DNA.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Chemical carcinogens and xenobiotic metabolism",
+      "groupedBecause": "They examine chemical carcinogens that undergo metabolic processing or generate oxidative stress to cause DNA damage and tissue-specific mutations.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor promotion and non-mutagenic mechanisms",
+      "groupedBecause": "They examine non-mutagenic mechanisms of carcinogenesis where chronic inflammation and promoter signalling stimulate clonal expansion.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Developmental timing and tissue susceptibility to carcinogenesis",
+      "groupedBecause": "It explains how active cell proliferation during specific developmental stages alters tissue susceptibility to mutagens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mutational signatures from genomic sequencing",
+      "groupedBecause": "It describes the identification of carcinogen-specific DNA damage patterns through whole-genome sequencing.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Epidemiological cohort studies and biobanks",
+      "groupedBecause": "It explains how human epidemiological biobanks and biomarker tracking are used to associate environmental exposures with cancer.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "In vivo rodent bioassays and dosing challenges",
+      "groupedBecause": "It evaluates the methodology and limitations of using whole-animal rodent bioassays to assess carcinogen toxicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "The Ames test and in vitro mutagenesis screening",
+      "groupedBecause": "It details the bacterial Ames assay for detecting chemical mutagenicity and discusses the limitations of in vitro testing.",
+      "firstSubtopicId": 19
+    },
+    {
+      "label": "Risk-benefit analysis and lecture summary",
+      "groupedBecause": "It concludes the lecture with a summary of environmental carcinogenesis and the personal assessment of exposure risks versus benefits.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

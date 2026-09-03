@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the series context, and the lecture's learning objectives regarding environmental exposures and cancer development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology, Risk Factors, and Epidemiological Patterns",
+      "groupedBecause": "These subtopics introduce the fundamental biology of cancer as an evolutionary genetic disease shaped by intrinsic mutational processes, hereditary predisposition, environmental exposures, and global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Biological and Chemical Mechanisms of Carcinogenesis and Tumor Promotion",
+      "groupedBecause": "These subtopics detail how specific biological, physical, and chemical agents drive malignancy through direct DNA damage, xenobiotic metabolic activation, chronic inflammation, tumor promotion, and life-stage tissue susceptibility.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics describe the sequencing, epidemiological, animal, and bacterial assay methods used to evaluate, prove, and profile the carcinogenic potential of environmental agents.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

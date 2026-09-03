@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Course welcome and learning outcomes",
+      "groupedBecause": "This opening section introduces the lecturer, outlines the scope of the lecture series on cancer causation, and presents the core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of cancer etiology: genetics, environment, and stochastic risk",
+      "groupedBecause": "These subtopics introduce the fundamental drivers of cancer development, examining how endogenous biological processes, inherited genetics, environmental exposures, and stochastic risk contribute to malignancy and geographic variations in incidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Specific carcinogenic agents, chemical mechanisms, and tumor promotion",
+      "groupedBecause": "These subtopics detail specific biological, physical, and chemical carcinogens, explaining their molecular mechanisms of DNA damage, metabolic activation, tumor promotion through chronic inflammation, and tissue-specific vulnerabilities.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for detecting carcinogenicity and evaluating cancer risk",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, in vivo, and in vitro methodologies used to identify carcinogens and prove their causal link to cancer, concluding with risk-benefit considerations.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

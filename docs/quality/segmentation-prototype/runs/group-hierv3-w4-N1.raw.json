@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the speaker, the cancer lecture series, and the key learning outcomes regarding cancer causes and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Genetic Basis, Environmental Risks, and Epidemiology",
+      "groupedBecause": "These subtopics explore what cancer is at a cellular level, discussing the balance between intrinsic bad luck and environmental mutagens alongside epidemiological evidence of global cancer variation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents in Oncogenesis and the Burkitt Lymphoma Paradigm",
+      "groupedBecause": "These subtopics focus on how biological pathogens cause cancer, highlighting various viral and bacterial mechanisms and examining the multi-factorial etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Chemical and Physical Mutagens: Metabolic Activation and DNA Adducts",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms by which dietary, environmental, and tobacco carcinogens and radiation damage DNA, often requiring xenobiotic metabolic activation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Tissue Susceptibility",
+      "groupedBecause": "These subtopics explain the two-stage model of carcinogenesis, demonstrating how non-mutagenic promoters, chronic inflammation, and specific host developmental stages facilitate tumor outgrowth.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Methodologies for Identifying, Testing, and Evaluating Carcinogens",
+      "groupedBecause": "These subtopics present the genomic signatures, epidemiological approaches, animal models, and in vitro assays used to identify carcinogens and assess their risks.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

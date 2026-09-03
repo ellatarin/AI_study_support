@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture overview",
+      "groupedBecause": "The lecturer introduces herself, outlines the lecture series, and defines the learning objectives regarding environmental carcinogens and cancer development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamental concepts and causes of cancer development",
+      "groupedBecause": "These subtopics introduce the genetic and microenvironmental nature of cancer while examining the relative contributions of stochastic mutations, environmental exposures, and geographical patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and infectious agents in carcinogenesis",
+      "groupedBecause": "These subtopics explore how infectious agents, specifically highlighting Epstein-Barr virus and malaria in Burkitt lymphoma, contribute to malignant transformation.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of chemical and physical DNA damage",
+      "groupedBecause": "These subtopics explain how dietary toxins, UV radiation, and metabolized chemical carcinogens cause direct and indirect DNA mutations and adducts.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor promotion and multistage carcinogenesis",
+      "groupedBecause": "These subtopics examine how non-mutagenic promoters and chronic inflammation cooperate with mutational initiators to drive tumor outgrowth.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Host developmental stage and tissue susceptibility",
+      "groupedBecause": "This subtopic describes how proliferative developmental windows and hormonal changes influence tissue vulnerability to carcinogens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Methods for identifying and assessing carcinogens",
+      "groupedBecause": "These subtopics survey the genomic, epidemiological, animal, and in vitro testing methods used to establish carcinogenicity and evaluate exposure risks.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

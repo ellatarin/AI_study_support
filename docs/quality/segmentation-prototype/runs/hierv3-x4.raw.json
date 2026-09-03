@@ -1,0 +1,178 @@
+{
+  "topics": [
+    {
+      "id": 1,
+      "label": "Lecture opening and learning objectives",
+      "groupedBecause": "This section serves as the lecture's framing, introducing the lecturer, the module context, and the core learning outcomes regarding carcinogenicity.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Course introduction and learning objectives",
+          "groupedBecause": "The lecturer introduces herself, situates the lecture within the course, and defines the three primary learning objectives regarding cancer causation.",
+          "startsWith": "[background chatter] Okay, good afternoon, everybody. We'll get started now on"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "label": "Concepts of cancer development, risk factors, and epidemiology",
+      "groupedBecause": "These subtopics collectively establish the foundational framework of cancer as an evolutionary genetic disease influenced by intrinsic biological processes, environmental exposures, and population-level epidemiological patterns.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Cancer as an evolutionary genetic disease dependent on mutations and microenvironment",
+          "groupedBecause": "The lecturer explains that cancer arises from accumulated mutations granting clonal advantages alongside a supportive tissue microenvironment.",
+          "startsWith": "So what is cancer? So at its heart, it's a"
+        },
+        {
+          "id": 2,
+          "label": "Intrinsic mutagenesis, cell turnover, and inherited genetic predisposition",
+          "groupedBecause": "The lecturer describes how endogenous metabolic stress, rapid cell division, cell longevity, and inherited gene mutations contribute to baseline cancer risk.",
+          "startsWith": "And of course, we know that 50% of us will"
+        },
+        {
+          "id": 3,
+          "label": "Common and unsuspected environmental exposures linked to cancer",
+          "groupedBecause": "The lecturer reviews diverse everyday and occupational chemical and physical exposures that have demonstrated or suspected carcinogenic associations.",
+          "startsWith": "And so I'm going to think a little bit about"
+        },
+        {
+          "id": 4,
+          "label": "The bad luck versus extrinsic causation debate in carcinogenesis",
+          "groupedBecause": "The lecturer examines the scientific and public debate surrounding Tomassetti and Vogelstein's proposition that most cancers stem from unavoidable random mutations rather than environmental factors.",
+          "startsWith": "So ultimately, we spend our lives with our cells endogenously"
+        },
+        {
+          "id": 5,
+          "label": "Geographic and migratory epidemiological patterns of cancer incidence",
+          "groupedBecause": "The lecturer analyses worldwide geographic variations and migrant studies to show how environmental factors interact with genetic backgrounds to determine cancer incidence.",
+          "startsWith": "And a lot of studies that have been done to"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "label": "Infectious agents in cancer pathogenesis",
+      "groupedBecause": "These subtopics examine how biological pathogens, including bacteria, parasites, and viruses, contribute to carcinogenesis through chronic inflammation, oncogenic proteins, and chromosomal translocations.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Mechanisms of pathogen-driven carcinogenesis across microbes",
+          "groupedBecause": "The lecturer outlines how bacteria, helminths, and various viruses disrupt cell cycle control or induce chronic inflammation to promote malignancy.",
+          "startsWith": "So what environmental cancers might be involved in this process?"
+        },
+        {
+          "id": 2,
+          "label": "Etiology and chromosomal translocation mechanisms in Burkitt lymphoma",
+          "groupedBecause": "The lecturer details Denis Burkitt's discovery of Burkitt lymphoma in the African malaria belt and explains how co-infection with EBV and malaria leads to Myc translocation.",
+          "startsWith": "So I'm going to use the example of Burkitt"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics detail specific dietary, radiation, and chemical mutagens and the biochemical pathways through which they alter DNA structure.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Aflatoxin activation and DNA adduct formation",
+          "groupedBecause": "The lecturer explains how dietary fungal aflatoxin is metabolised by hepatic oxidases into a reactive epoxide that forms bulky guanine adducts.",
+          "startsWith": "Okay, so we can have infectious agents involved in the"
+        },
+        {
+          "id": 2,
+          "label": "Ultraviolet radiation and thymine dimer formation",
+          "groupedBecause": "The lecturer describes how physical UV radiation induces thymine dimers in DNA and discusses the limits of nucleotide excision repair.",
+          "startsWith": "What about UV light? What does UV light do? Well,"
+        },
+        {
+          "id": 3,
+          "label": "Benzo[a]pyrene metabolism via CYP1A1 and guanine adduct transversions",
+          "groupedBecause": "The lecturer explains the metabolic activation of benzo[a]pyrene by the aryl hydrocarbon receptor and CYP1A1 into reactive epoxides that create transversion mutations.",
+          "startsWith": "Where are we now? Smoking cigarettes. So why are cigarettes"
+        },
+        {
+          "id": 4,
+          "label": "TCDD exposure, receptor binding, and oxidative DNA damage",
+          "groupedBecause": "The lecturer describes how the herbicide contaminant TCDD binds the aryl hydrocarbon receptor to induce oxidative stress and reactive oxygen species.",
+          "startsWith": "This is another example of one of those compounds. So"
+        },
+        {
+          "id": 5,
+          "label": "Bladder-specific activation of aromatic amines by glucuronidase",
+          "groupedBecause": "The lecturer explains how beta-naphthylamine undergoes tissue-specific reactivation by glucuronidase in the bladder to cause localised DNA damage.",
+          "startsWith": "Where do we come to now? Back to cigarette smoke."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "label": "Tumor promoters, microenvironment, and developmental susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic aspects of carcinogenesis, focusing on inflammatory promoters, the distinction between initiation and promotion, and tissue vulnerability during developmental windows.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Asbestos-induced chronic inflammation as a tumor promoter",
+          "groupedBecause": "The lecturer explains that asbestos fibers cause mesothelioma by inducing chronic inflammation and reactive oxygen species rather than acting as direct DNA mutagens.",
+          "startsWith": "There are also environmental exposures which we associate with cancer,"
+        },
+        {
+          "id": 2,
+          "label": "Experimental validation of the initiator-promoter paradigm using DMBA and TPA",
+          "groupedBecause": "The lecturer presents Berenbaum's two-stage mouse skin model and explains how the promoter TPA mimics diacylglycerol to activate protein kinase C.",
+          "startsWith": "This was the first study that really gave rise to"
+        },
+        {
+          "id": 3,
+          "label": "Developmental timing and proliferative susceptibility to alkylating agents",
+          "groupedBecause": "The lecturer demonstrates that tissue vulnerability to carcinogens like NMU depends on active proliferation during specific developmental stages such as puberty.",
+          "startsWith": "Okay, so we have choices. We have random events that"
+        },
+        {
+          "id": 4,
+          "label": "Recapitulation of direct, indirect, and tissue-specific carcinogenic mechanisms",
+          "groupedBecause": "The lecturer provides an integrative summary of how direct mutagens, indirect inflammation, metabolic activation, and stage-specific contexts unite in cancer etiology.",
+          "startsWith": "DNA damage underlies cancer development. Sometimes this damage is caused"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "label": "Methodologies for evaluating carcinogenicity and risk assessment",
+      "groupedBecause": "These subtopics evaluate the analytical, experimental, and epidemiological methods used to establish carcinogenicity and assess human exposure risks.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Identifying carcinogen exposure through DNA mutational signatures",
+          "groupedBecause": "The lecturer explains how high-throughput sequencing reveals characteristic mutational signatures that pinpoint the specific carcinogen responsible for a cancer.",
+          "startsWith": "How can we work out what's causing cancer? We do"
+        },
+        {
+          "id": 2,
+          "label": "Human epidemiological studies and population biobanks",
+          "groupedBecause": "The lecturer discusses how population epidemiology, exposure biomarkers in urine, and large biobanks link exposures to cancer incidence.",
+          "startsWith": "How can we prove carcinogenicity? How do we prove it?"
+        },
+        {
+          "id": 3,
+          "label": "In vivo rodent bioassays and their translational limitations",
+          "groupedBecause": "The lecturer evaluates animal toxicological testing across two species, highlighting high costs, species discordance, and high-dose limitations.",
+          "startsWith": "What about the mouse studies? Well, these are a little"
+        },
+        {
+          "id": 4,
+          "label": "In vitro mutagenicity testing using the Ames test",
+          "groupedBecause": "The lecturer details the bacterial Ames test with rat liver extract for assessing metabolic mutagenicity while acknowledging its lack of systemic and microenvironmental context.",
+          "startsWith": "So we can do epidemiology, we can do in vivo"
+        },
+        {
+          "id": 5,
+          "label": "Balancing benefit and risk in environmental and clinical carcinogen exposures",
+          "groupedBecause": "The lecturer concludes the lecture by framing carcinogenic exposure as a societal and personal trade-off between practical benefits and health risks.",
+          "startsWith": "Ultimately, it's all about the risks versus the benefits."
+        }
+      ]
+    }
+  ]
+}
