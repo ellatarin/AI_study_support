@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic frames the lecture by connecting it to previous practical work and introducing the learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Virology and Discovery of Cellular Oncogenes",
+      "groupedBecause": "These subtopics explain how the historical study of tumor-causing viruses led to discovering cellular proto-oncogenes and establishing laboratory assays for cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenes, Tumor Suppressors, and Cell Cycle Dysregulation",
+      "groupedBecause": "These subtopics describe the classification, functional genetics, and cell cycle consequences of oncogenic and tumor suppressor mutations.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms and Consequences of Genetic Instability",
+      "groupedBecause": "These subtopics detail the distinct molecular defects and cellular stress pathways underlying sequence and chromosomal instability.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Multistep Mutation Accumulation in Cancer Progression",
+      "groupedBecause": "This subtopic explores how the sequential accumulation of genetic mutations over time drives tumor progression according to the Vogelstein model.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Hereditary Cancer Predisposition and Mutation Dynamics",
+      "groupedBecause": "These subtopics explain how inherited gene mutations predispose individuals to cancer and influence secondary tumor evolutionary dynamics.",
+      "firstSubtopicId": 14
+    }
+  ]
+}

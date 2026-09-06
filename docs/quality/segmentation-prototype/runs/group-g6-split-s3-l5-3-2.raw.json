@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic introduces the lecture by recapping histopathology observations and outlining the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Virology, Cellular Proto-Oncogenes, and Transformation Assays",
+      "groupedBecause": "These subtopics describe how the historical study of tumor viruses revealed cellular proto-oncogenes and led to laboratory assays for measuring cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Functional Classification and Mechanisms of Cancer Mutations",
+      "groupedBecause": "These subtopics define the major categories of cancer-associated mutations and illustrate how oncogenic and tumor-suppressive alterations disrupt cellular regulation.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of Genetic Instability and Multistep Tumor Progression",
+      "groupedBecause": "These subtopics detail the DNA repair and mitotic failure mechanisms causing sequence and chromosomal instability and show how they drive stepwise tumor progression.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Hereditary Cancer Predispositions and Tumor Evolution",
+      "groupedBecause": "These subtopics examine inherited cancer syndromes and explain how germline mutations and secondary genetic reversions affect disease progression.",
+      "firstSubtopicId": 14
+    }
+  ]
+}

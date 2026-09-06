@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer frames the lecture by linking to recent practicals and outlining the topics and learning outcomes to be covered.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory, germ theory, and Rous sarcoma virus",
+      "groupedBecause": "The lecturer traces the historical background of cell theory and germ theory that led to Peyton Rous's discovery of sarcoma transmission.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+    },
+    {
+      "id": 3,
+      "label": "Transforming viruses and retroviral oncogene capture",
+      "groupedBecause": "The lecturer discusses transforming DNA and RNA viruses and explains the retroviral mechanism of capturing cellular proto-oncogenes.",
+      "startsWith": "This idea that cancer is a transmissible disease kind of took"
+    },
+    {
+      "id": 4,
+      "label": "Laboratory assays for cellular transformation",
+      "groupedBecause": "The lecturer describes experimental techniques used to detect and test transformed cell phenotypes and tumorigenicity in culture and mice.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 5,
+      "label": "Defining oncogenes, tumor suppressors, and mutation classes",
+      "groupedBecause": "The lecturer defines and contrasts oncogenic versus tumor-suppressive mutations and introduces driver, passenger, gatekeeper, and caretaker categories.",
+      "startsWith": "So [lip smacks] in doing so, you're going to say"
+    },
+    {
+      "id": 6,
+      "label": "Rb regulation of the G1/S cell cycle checkpoint",
+      "groupedBecause": "The lecturer reviews the molecular pathway regulating the G1 to S checkpoint via Rb, CDKs, cyclins, and kinase inhibitors.",
+      "startsWith": "Okay? So this should be basic revision for you in terms"
+    },
+    {
+      "id": 7,
+      "label": "Dominant-negative mutations and p53",
+      "groupedBecause": "The lecturer illustrates how mutation type impacts protein function using the dominant-negative effect of point-mutated p53 tetramers.",
+      "startsWith": "What does that look like in terms of mutations? It kind"
+    },
+    {
+      "id": 8,
+      "label": "Chromosome instability versus sequence instability",
+      "groupedBecause": "The lecturer compares two colorectal cancer karyotypes to distinguish chromosomal instability from sequence-level instability.",
+      "startsWith": "Right. So we're going to move on to this idea"
+    },
+    {
+      "id": 9,
+      "label": "DNA repair pathways: mismatch repair and double-strand break repair",
+      "groupedBecause": "The lecturer explains how failures in mismatch repair and homologous recombination lead to microsatellite instability and chromosomal rearrangements.",
+      "startsWith": "Okay. So we're just going to run through the main"
+    },
+    {
+      "id": 10,
+      "label": "Replication errors, mitotic defects, and cellular stress",
+      "groupedBecause": "The lecturer describes how errors in polymerase proofreading and mitotic chromosome segregation produce lagging chromosomes, micronuclei, and downstream stress pathways.",
+      "startsWith": "Okay. So I've told you now this failure or mutations"
+    },
+    {
+      "id": 11,
+      "label": "Multi-step genetic progression in the Vogelstein model",
+      "groupedBecause": "The lecturer discusses the stepwise accumulation and ordering of mutations during colorectal cancer progression.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 12,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "The lecturer examines hereditary predispositions to cancer, illustrating familial syndromes like FAP, Lynch syndrome, BRCA-linked breast cancer, and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be born"
+    },
+    {
+      "id": 13,
+      "label": "Conclusion and recommended reading",
+      "groupedBecause": "The lecturer wraps up the lecture, reviews learning outcomes, and provides reading recommendations.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for today."
+    }
+  ]
+}

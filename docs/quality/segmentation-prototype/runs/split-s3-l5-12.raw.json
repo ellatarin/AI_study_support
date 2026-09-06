@@ -1,0 +1,106 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the session by connecting it to histopathology practicals and laying out the learning outcomes covering transformation, oncogenes, tumor suppressors, and genetic instability.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you"
+    },
+    {
+      "id": 2,
+      "label": "Historical development of cell and germ theories of disease",
+      "groupedBecause": "The passage traces the historical emergence of cell theory through microscopy and the germ theory of disease, framing the early hypothesis that cancer might be transmissible.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+    },
+    {
+      "id": 3,
+      "label": "Peyton Rous's discovery of Rous sarcoma virus",
+      "groupedBecause": "This section explains Peyton Rous's chicken sarcoma filtration experiment and how it founded the discipline of tumor virology and cell transformation assays.",
+      "startsWith": "And there are some very nice experiments at the turn of"
+    },
+    {
+      "id": 4,
+      "label": "Transforming viruses and their epidemiology in human cancers",
+      "groupedBecause": "The lecturer surveys the discovery of DNA and RNA transforming viruses and explains that while viruses cause only about 25% of global cancers, specific viral etiologies are well established.",
+      "startsWith": "This idea that cancer is a transmissible disease kind of took"
+    },
+    {
+      "id": 5,
+      "label": "Retroviral provirus integration and cellular proto-oncogene capture",
+      "groupedBecause": "This passage describes the molecular mechanism of retroviral provirus insertion, transduction of proto-oncogenes, and the discovery of normal cellular origins of oncogenes like SRC, Ras, and Myc.",
+      "startsWith": "But this principle of that there are some viruses that do"
+    },
+    {
+      "id": 6,
+      "label": "Experimental assays for cell transformation",
+      "groupedBecause": "The lecturer details the laboratory methods used to test oncogenic mutations, such as focus formation assays in NIH 3T3 cells, soft agar growth, and mouse tumorigenicity tests.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+    },
+    {
+      "id": 7,
+      "label": "Classifications of cancer genes: oncogenes, tumor suppressors, drivers, and caretakers",
+      "groupedBecause": "This section defines and contrasts functional classifications of cancer mutations, including dominant oncogenes, recessive tumor suppressors, drivers, passengers, gatekeepers, and caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going to"
+    },
+    {
+      "id": 8,
+      "label": "Cell cycle regulation at the G1/S checkpoint by Rb, CDKs, and INK/KIP inhibitors",
+      "groupedBecause": "The lecturer explains the biochemical pathway regulating the G1/S transition, highlighting Rb phosphorylation by Cyclin D/CDK4/6 and inhibition by p16 and p21.",
+      "startsWith": "Okay? So this should be basic revision for you in terms"
+    },
+    {
+      "id": 9,
+      "label": "Dominant-negative mutations in multimeric tumor suppressors like p53",
+      "groupedBecause": "The lecturer uses p53 tetramer formation to illustrate how specific point mutations can exert dominant-negative effects unlike simple null alleles.",
+      "startsWith": "What does that look like in terms of mutations? It kind"
+    },
+    {
+      "id": 10,
+      "label": "Distinguishing chromosome instability from sequence instability",
+      "groupedBecause": "This section compares two colorectal cancer cell lines to define the distinct characteristics of sequence instability versus chromosomal aneuploidy and translocations.",
+      "startsWith": "Right. So we're going to move on to this idea"
+    },
+    {
+      "id": 11,
+      "label": "Mismatch repair failure, replication slippage, and microsatellite instability",
+      "groupedBecause": "The lecturer contrasts high-fidelity excision repair with mismatch repair deficiencies, showing how replication slippage generates microsatellite sequence instability.",
+      "startsWith": "So we're just going to run through the main types of DNA"
+    },
+    {
+      "id": 12,
+      "label": "Double-strand break repair: homologous recombination vs non-homologous end joining",
+      "groupedBecause": "This passage explains high-fidelity homologous recombination mediated by BRCA1/2 and contrasts it with error-prone end joining that produces chromosomal instability.",
+      "startsWith": "Obviously, that's not going to be the case for tumor"
+    },
+    {
+      "id": 13,
+      "label": "Errors in DNA replication fidelity and mitotic chromosome segregation",
+      "groupedBecause": "The lecturer covers mutations in DNA polymerase epsilon and defects in mitotic spindle attachment that produce lagging chromosomes and spindle assembly checkpoint delays.",
+      "startsWith": "Okay. So I've told you now this failure or mutations"
+    },
+    {
+      "id": 14,
+      "label": "Downstream cellular consequences of lagging chromosomes and extrachromosomal DNA",
+      "groupedBecause": "This section explains the cellular outcomes of chromosome segregation errors, including micronuclei, chromothripsis, cGAS-STING inflammatory signaling, and stress adaptation.",
+      "startsWith": "And just to say that in addition to this, there's also"
+    },
+    {
+      "id": 15,
+      "label": "Multistep progression models of colorectal cancer (Vogelstein model)",
+      "groupedBecause": "The lecturer discusses the sequential accumulation of genetic alterations from normal epithelium to adenoma and carcinoma, examining early APC mutations versus late p53 loss.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 16,
+      "label": "Hereditary cancer syndromes: FAP, Lynch syndrome, BRCA, and retinoblastoma",
+      "groupedBecause": "The lecturer explains how inherited germline mutations accelerate carcinogenesis and compares specific syndromes involving gatekeeper versus caretaker genes.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be born"
+    },
+    {
+      "id": 17,
+      "label": "BRCA2 reversion mutations and lecture conclusion",
+      "groupedBecause": "The lecturer uses secondary BRCA2 reversion mutations to demonstrate that genomic instability is not required for malignancy maintenance, before concluding the lecture.",
+      "startsWith": "Right. So I forgot what I wanted to say here [laughs]."
+    }
+  ]
+}

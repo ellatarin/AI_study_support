@@ -8,5 +8,6 @@
   "finishReason": "stop",
   "verdict": "OK",
   "blocks": 21,
-  "fidelity": "EXACT MISSED:1"
+  "fidelity": "EXACT MISSED:1",
+  "lecture": "l4"
 }

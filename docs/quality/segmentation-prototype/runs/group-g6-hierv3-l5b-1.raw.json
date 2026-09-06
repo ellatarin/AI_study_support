@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer opens the session by linking histopathology practicals to the lecture objectives on cancer genetics.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Discovery of Oncogenes Through Tumor Virology",
+      "groupedBecause": "These subtopics trace how the study of infectious disease and tumor virology revealed that oncogenes originate from normal cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental Assays for Cellular Transformation",
+      "groupedBecause": "These subtopics detail the laboratory assays used to demonstrate cell transformation and measure the functional impact of cancer-associated mutations.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Classification and Mechanisms of Oncogenes and Tumor Suppressors",
+      "groupedBecause": "These subtopics explain how oncogenes and tumor suppressor genes differ in their mutational effects and regulatory roles in cell cycle checkpoints.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mechanisms and Consequences of Genetic Instability",
+      "groupedBecause": "These subtopics explore the origins, mechanisms, and cellular consequences of chromosomal and sequence instability in cancer cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Multi-Step Tumorigenesis and Mutation Progression",
+      "groupedBecause": "This subtopic explores the multi-step model of cancer progression driven by the sequential acquisition of genetic alterations.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Hereditary Cancer Predisposition Syndromes",
+      "groupedBecause": "These subtopics address how inherited mutations accelerate cancer development across specific hereditary predisposition syndromes.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

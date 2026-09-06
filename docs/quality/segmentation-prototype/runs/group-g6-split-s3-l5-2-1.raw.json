@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture by outlining the learning outcomes and historical approach to understanding cancer genetics.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the discovery of cellular proto-oncogenes",
+      "groupedBecause": "These subtopics trace how the historical study of transmissible tumor viruses revealed that cancer originates from the misregulation of normal cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Assays for cellular transformation and tumorigenic mutations",
+      "groupedBecause": "This subtopic details the experimental cell culture and animal assays used to measure the transforming and tumorigenic potential of candidate cancer genes.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Functional classification and genetic mechanisms of oncogenes and tumor suppressors",
+      "groupedBecause": "These subtopics define the distinctions between oncogenes and tumor suppressor genes and explain their genetic mechanisms of action using regulators like RB and p53.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Forms, mechanisms, and cellular consequences of genetic instability",
+      "groupedBecause": "These subtopics examine how defects in DNA repair, replication, and mitotic chromosome segregation produce sequence and chromosomal instability in cancer cells.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Multi-step tumor progression and hereditary cancer predispositions",
+      "groupedBecause": "These subtopics explore how the sequential accumulation of somatic mutations and inherited genetic defects drives tumor evolution and progression.",
+      "firstSubtopicId": 14
+    }
+  ]
+}

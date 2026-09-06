@@ -8,5 +8,6 @@
   "finishReason": "stop",
   "verdict": "OK",
   "blocks": 8,
-  "fidelity": "ACCEPT/-2 \"Soh\"->\"H\""
+  "fidelity": "ACCEPT/-2 \"Soh\"->\"H\"",
+  "lecture": "l4"
 }

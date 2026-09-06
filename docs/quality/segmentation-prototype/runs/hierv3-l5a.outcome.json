@@ -1,0 +1,13 @@
+{
+  "mode": "hierv3",
+  "instance": "l5-1",
+  "seconds": 27,
+  "promptTokens": 10864,
+  "completionTokens": 4199,
+  "contentLength": 6182,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "blocks": 12,
+  "fidelity": "EXACT",
+  "lecture": "l5"
+}

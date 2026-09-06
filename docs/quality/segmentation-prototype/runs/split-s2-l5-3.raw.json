@@ -1,0 +1,117 @@
+{
+  "topics": [
+    {
+      "id": 1,
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "This opening section reviews practical observations and outlines the topics and learning objectives covered in the lecture.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Introduction and Learning Outcomes",
+          "groupedBecause": "The lecturer frames the lecture by linking to prior histopathology practicals and listing the key learning outcomes.",
+          "startsWith": "[background chatter] All righty. Shall we get going? I hope you guys"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "label": "Discovery of Oncogenes via Tumor Virology and Transformation Assays",
+      "groupedBecause": "These subtopics trace how cell and germ theories led to tumor virology, the mechanism of retroviral oncogene capture, and laboratory assays used to test cell transformation.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Cell Theory, Germ Theory, and Peyton Rous's Experiments",
+          "groupedBecause": "This passage covers the historical progression from early microscopy and germ theory to Rous sarcoma virus experiments establishing transmissible tumors.",
+          "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+        },
+        {
+          "id": 2,
+          "label": "Transforming Viruses and Retroviral Oncogene Capture",
+          "groupedBecause": "This passage details the search for human tumor viruses and explains how retroviruses capture cellular proto-oncogenes via proviral insertion.",
+          "startsWith": "This idea that cancer is a transmissible disease kind of took"
+        },
+        {
+          "id": 3,
+          "label": "In Vitro and In Vivo Transformation Assays",
+          "groupedBecause": "This passage describes experimental assays used in the lab to test the transforming ability and tumorigenicity of mutated genes.",
+          "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "label": "Oncogenes, Tumor Suppressor Genes, and Cell Cycle Checkpoints",
+      "groupedBecause": "These subtopics define mutational classifications in cancer biology and examine their molecular mechanisms using the G1/S checkpoint and p53 as paradigms.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Definitions of Oncogenes, Tumor Suppressors, Drivers, and Caretakers",
+          "groupedBecause": "This passage defines oncogenes, tumor suppressor genes, driver versus passenger mutations, and gatekeeper versus caretaker genes.",
+          "startsWith": "So [lip smacks] in doing so, you're going to say"
+        },
+        {
+          "id": 2,
+          "label": "Regulation of the G1/S Checkpoint by Rb and CDKs",
+          "groupedBecause": "This passage reviews the molecular components and regulation of the G1 to S cell cycle checkpoint by retinoblastoma protein, cyclins, and CDKs.",
+          "startsWith": "This should be basic revision for you in terms of the"
+        },
+        {
+          "id": 3,
+          "label": "Mutational Consequences in Pathway Regulators and p53 Dominant-Negative Effects",
+          "groupedBecause": "This passage explains how dominant oncogenic and recessive tumor-suppressive mutations affect pathway activity, highlighting p53 tetramer disruption as a dominant-negative mechanism.",
+          "startsWith": "So in terms of thinking about this as oncogenes or"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "label": "Forms and Mechanisms of Genetic Instability in Cancer",
+      "groupedBecause": "These subtopics explain the distinct forms, DNA repair defects, mitotic errors, and multi-step progression models underlying genetic instability in tumors.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Chromosome Instability versus Sequence Instability",
+          "groupedBecause": "This passage contrasts chromosomal instability and sequence instability using colorectal cancer cell line karyotypes and sequencing data.",
+          "startsWith": "Right. So we're going to move on to this"
+        },
+        {
+          "id": 2,
+          "label": "DNA Repair Pathways: Mismatch Repair and Double-Strand Break Repair",
+          "groupedBecause": "This passage describes DNA repair mechanisms, detailing mismatch repair failures and homologous recombination versus non-homologous end joining in double-strand break repair.",
+          "startsWith": "So we're just going to run through the main types"
+        },
+        {
+          "id": 3,
+          "label": "Polymerase Mutations, Mitotic Errors, and Cellular Consequences",
+          "groupedBecause": "This passage covers sequence errors from polymerase epsilon mutations and chromosomal instability arising from mitotic spindle defects and lagging chromosomes.",
+          "startsWith": "So I've told you now this failure or mutations in"
+        },
+        {
+          "id": 4,
+          "label": "Multi-Step Vogelstein Progression Model of Colorectal Cancer",
+          "groupedBecause": "This passage examines the Vogelstein adenoma-carcinoma sequence model and discusses the dynamic ordering of mutations during cancer evolution.",
+          "startsWith": "Might want to pick up the pace here. So the"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "label": "Hereditary Predisposition Syndromes and Cancer Evolution",
+      "groupedBecause": "These subtopics explain how inherited germline mutations accelerate cancer development and analyze specific syndromes and secondary mutation reversions.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Hereditary Cancer Syndromes: Caretakers and Gatekeepers",
+          "groupedBecause": "This passage explains hereditary cancer risk mechanisms and details FAP, Lynch syndrome, hereditary breast cancer, and retinoblastoma.",
+          "startsWith": "So, what if you're unlucky enough to be born"
+        },
+        {
+          "id": 2,
+          "label": "BRCA2 Reversion Mutations and Lecture Conclusion",
+          "groupedBecause": "This passage discusses secondary restoration of BRCA2 function during chemotherapy resistance and concludes the lecture.",
+          "startsWith": "Right. But this is the last slide to tell you"
+        }
+      ]
+    }
+  ]
+}

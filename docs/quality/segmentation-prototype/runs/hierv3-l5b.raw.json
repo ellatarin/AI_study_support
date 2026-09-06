@@ -1,0 +1,165 @@
+{
+  "topics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class, reviews previous practical work, and outlines the learning objectives for the session.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Introduction and learning objectives",
+          "groupedBecause": "The speaker sets up the lecture by reviewing previous practical work and listing the topics to be covered.",
+          "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "label": "History of tumor virology and discovery of oncogenes",
+      "groupedBecause": "These subtopics trace how early cell and germ theories led to tumor virus research and the subsequent discovery of cellular proto-oncogenes.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Cell theory and the germ theory of disease",
+          "groupedBecause": "The lecturer traces the historical development of microscopy, cell theory, and the germ theory of infectious diseases.",
+          "startsWith": "Starting with cell and germ theories really, our modern concepts"
+        },
+        {
+          "id": 2,
+          "label": "Peyton Rous and the Rous sarcoma virus",
+          "groupedBecause": "The passage describes Peyton Rous's experiments transmitting sarcomas in chickens and demonstrating cell transformation in culture.",
+          "startsWith": "And there are some very nice experiments at the turn"
+        },
+        {
+          "id": 3,
+          "label": "Epidemiology and types of human tumor viruses",
+          "groupedBecause": "The speaker surveys various DNA and RNA tumor viruses and their proportional burden in human cancers.",
+          "startsWith": "This idea that cancer is a transmissible disease kind"
+        },
+        {
+          "id": 4,
+          "label": "Retroviral integration and capture of proto-oncogenes",
+          "groupedBecause": "The lecturer explains how retroviruses integrate near cellular proto-oncogenes and alter their expression or sequence.",
+          "startsWith": "Right? You have to kind of understand a little"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "label": "Cellular transformation assays and cancer gene classification",
+      "groupedBecause": "These subtopics discuss experimental assays for testing transforming genes and the conceptual frameworks used to classify oncogenes and tumor suppressors.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Assays for cellular transformation",
+          "groupedBecause": "The lecturer describes laboratory hallmarks and assays used to measure the transformed phenotype in cultured cells.",
+          "startsWith": "Taking these transforming viruses understanding genes present Within them"
+        },
+        {
+          "id": 2,
+          "label": "Gene transfer and tumorigenicity testing",
+          "groupedBecause": "The passage explains transfection experiments and in vivo mouse assays used to evaluate putative cancer mutations.",
+          "startsWith": "And then you can also take your gene out"
+        },
+        {
+          "id": 3,
+          "label": "Classifications of cancer mutations and genes",
+          "groupedBecause": "The lecturer contrasts oncogenes with tumor suppressors and introduces driver, passenger, gatekeeper, and caretaker categories.",
+          "startsWith": "So [lip smacks] in doing so, you're going"
+        },
+        {
+          "id": 4,
+          "label": "Cell cycle regulation by the Rb pathway",
+          "groupedBecause": "The speaker reviews cell cycle checkpoints and details how cyclin-CDK complexes and INK/KIP inhibitors regulate Rb phosphorylation.",
+          "startsWith": "So this should be basic revision for you in"
+        },
+        {
+          "id": 5,
+          "label": "Dominant oncogenes versus recessive tumor suppressors",
+          "groupedBecause": "The passage contrasts dominant gain-of-function oncogenic mutations with recessive loss-of-function tumor suppressor mutations.",
+          "startsWith": "What does that look like in terms of mutations?"
+        },
+        {
+          "id": 6,
+          "label": "Dominant-negative mechanisms exemplified by p53",
+          "groupedBecause": "The lecturer uses p53 tetramer formation and point mutations to illustrate how a mutant allele can exert a dominant-negative effect.",
+          "startsWith": "What does that mean? I'll give you one"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "label": "Mechanisms and consequences of genetic instability",
+      "groupedBecause": "These subtopics examine the distinct forms of genomic instability in cancer cells and their underlying molecular and mitotic causes.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Chromosomal versus sequence instability",
+          "groupedBecause": "The lecturer compares karyotype abnormalities with base-level sequence mutations using two colorectal cancer cell line examples.",
+          "startsWith": "Right. So we're going to move on to"
+        },
+        {
+          "id": 2,
+          "label": "Origins of genetic instability in repair and replication",
+          "groupedBecause": "The speaker provides an overview of how replication errors and repair failures generate genomic instability.",
+          "startsWith": "So it has big implications for us thinking about"
+        },
+        {
+          "id": 3,
+          "label": "Excision repair and mismatch repair pathways",
+          "groupedBecause": "The passage explains base and nucleotide excision repair and details how mismatch repair defects cause microsatellite instability.",
+          "startsWith": "So we're just going to run through the"
+        },
+        {
+          "id": 4,
+          "label": "Double-strand break repair pathways",
+          "groupedBecause": "The lecturer contrasts high-fidelity homologous recombination involving BRCA1/2 with error-prone non-homologous end joining.",
+          "startsWith": "Obviously, that's not going to be the"
+        },
+        {
+          "id": 5,
+          "label": "Replication polymerase errors and mitotic segregation defects",
+          "groupedBecause": "The speaker explains polymerase epsilon proofreading mutations and displays microscopy of lagging chromosomes during mitosis.",
+          "startsWith": "Okay. So I've told you now this"
+        },
+        {
+          "id": 6,
+          "label": "Consequences of chromosome missegregation and cytosolic DNA",
+          "groupedBecause": "The passage details the cellular stress, cGAS-STING signaling, and chromothripsis resulting from lagging chromosomes and micronuclei.",
+          "startsWith": "And just to say that in addition to this,"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "label": "Multistep progression and hereditary cancer predisposition",
+      "groupedBecause": "These subtopics explore models of sequential mutation accumulation and the clinical and genetic characteristics of inherited cancer syndromes.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "The Vogelstein model of multistep colorectal carcinogenesis",
+          "groupedBecause": "The lecturer discusses the stepwise accumulation of mutations driving tumor progression from adenoma to metastatic carcinoma.",
+          "startsWith": "So the Vogelstein model as I said there"
+        },
+        {
+          "id": 2,
+          "label": "Mechanisms of hereditary cancer predisposition",
+          "groupedBecause": "The passage describes how inheriting a germline mutation accelerates the acquisition of the two-hit requirement for malignancy.",
+          "startsWith": "So, what if you're unlucky enough to"
+        },
+        {
+          "id": 3,
+          "label": "Syndromes of hereditary predisposition to cancer",
+          "groupedBecause": "The speaker reviews clinical examples including familial adenomatous polyposis, Lynch syndrome, BRCA-related breast cancer, and retinoblastoma.",
+          "startsWith": "Okay? So just to give you some examples of"
+        },
+        {
+          "id": 4,
+          "label": "Secondary reversions and conclusion",
+          "groupedBecause": "The lecturer illustrates BRCA2 secondary mutations restoring function under therapy and concludes the lecture.",
+          "startsWith": "Right. So I forgot what I wanted to say"
+        }
+      ]
+    }
+  ]
+}

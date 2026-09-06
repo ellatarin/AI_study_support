@@ -8,5 +8,6 @@
   "finishReason": "stop",
   "verdict": "PARSE-FAIL",
   "blocks": null,
-  "fidelity": null
+  "fidelity": null,
+  "lecture": "unknown"
 }

@@ -1,0 +1,111 @@
+{
+  "topics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This opening section sets the agenda for the lecture by linking to prior practical work and detailing the scheduled learning outcomes.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Overview and learning objectives",
+          "groupedBecause": "The lecturer reviews cellular histopathology concepts from practicals and outlines the key topics and learning outcomes to be covered.",
+          "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "label": "Historical origins of tumor virology and proto-oncogenes",
+      "groupedBecause": "These subtopics trace how the history of cell and germ theories and viral transmission experiments led to the discovery of cellular proto-oncogenes.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Cell theory, germ theory, and Rous sarcoma virus",
+          "groupedBecause": "The lecturer describes how early microscopy and germ theories led to Peyton Rous's discovery of filterable sarcoma transmission in chickens.",
+          "startsWith": "Starting with cell and germ theories really, our modern concepts"
+        },
+        {
+          "id": 2,
+          "label": "Tumor viruses and the cellular origin of proto-oncogenes",
+          "groupedBecause": "The lecturer explains the epidemiology of viral cancers and how retroviral reverse transcription and insertion led to the discovery of captured cellular proto-oncogenes.",
+          "startsWith": "This idea that cancer is a transmissible disease kind of"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "label": "Transformation assays, cancer gene classifications, and cell cycle controls",
+      "groupedBecause": "These subtopics explain the laboratory methods used to test cellular transformation, the definitions of different classes of cancer mutations, and their molecular effects on cell cycle checkpoints.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "In vitro assays for cellular transformation",
+          "groupedBecause": "The lecturer details experimental techniques used to detect transformed cellular phenotypes, such as focus formation, soft agar assays, and mouse xenografts.",
+          "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+        },
+        {
+          "id": 2,
+          "label": "Classification of oncogenes, tumor suppressors, drivers, and caretakers",
+          "groupedBecause": "The lecturer defines and contrasts oncogenic versus tumor-suppressive mutations, as well as driver, passenger, gatekeeper, and caretaker gene classifications.",
+          "startsWith": "So [lip smacks] in doing so, you're going to"
+        },
+        {
+          "id": 3,
+          "label": "Regulation of the G1/S checkpoint by Rb and CDK complexes",
+          "groupedBecause": "The lecturer reviews the molecular regulation of the G1/S cell cycle transition by retinoblastoma protein, cyclin D-CDK4/6, and CDK inhibitors.",
+          "startsWith": "So this should be basic revision for you in terms"
+        },
+        {
+          "id": 4,
+          "label": "Dominant-negative mutations and p53 multimer dosage",
+          "groupedBecause": "The lecturer uses p53 tetramer binding to illustrate how heterozygous point mutations can exert dominant-negative effects unlike simple null alleles.",
+          "startsWith": "What does that look like in terms of mutations? It"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "label": "Mechanisms and consequences of genetic instability",
+      "groupedBecause": "These subtopics explore the definitions, repair pathway defects, mitotic failures, and cellular stresses that cause sequence and chromosomal instability in cancer.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Chromosomal instability versus sequence instability",
+          "groupedBecause": "The lecturer compares karyotypic and sequence profiles of colorectal cancer cell lines to distinguish chromosome-level instability from sequence-level instability.",
+          "startsWith": "Right. So we're going to move on to this"
+        },
+        {
+          "id": 2,
+          "label": "DNA repair mechanisms: mismatch repair and double-strand break repair",
+          "groupedBecause": "The lecturer contrasts excision repair with mismatch repair and homologous recombination versus non-homologous end joining in generating instability.",
+          "startsWith": "Okay. So we're just going to run through the"
+        },
+        {
+          "id": 3,
+          "label": "Replication errors, mitotic failure, and downstream consequences of CIN",
+          "groupedBecause": "The lecturer examines polymerase epsilon mutations, lagging chromosomes during mitosis, and the resulting downstream stresses such as chromothripsis and cGAS-STING signaling.",
+          "startsWith": "Okay. So I've told you now this failure or"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "label": "Multistep progression and hereditary cancer predisposition syndromes",
+      "groupedBecause": "These subtopics discuss the sequential accumulation of mutations in tumor evolution and how inherited germline mutations accelerate cancer development.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Vogelstein multistep model of tumor progression",
+          "groupedBecause": "The lecturer presents the multistep model of adenoma-to-carcinoma progression, highlighting the dynamic timing of mutations like APC and p53.",
+          "startsWith": "Okay. Might want to pick up the pace here. So"
+        },
+        {
+          "id": 2,
+          "label": "Hereditary cancer syndromes and two-hit kinetics",
+          "groupedBecause": "The lecturer discusses inherited mutations in gatekeepers and caretakers—including FAP, Lynch syndrome, BRCA1/2, and retinoblastoma—and explains two-hit kinetics.",
+          "startsWith": "Okay? So, what if you're unlucky enough to be"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic introduces the lecture by connecting to histopathology practicals and outlining the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Virology and the Discovery of Cellular Proto-Oncogenes",
+      "groupedBecause": "These subtopics trace the historical study of infectious tumor viruses that led to the discovery that oncogenes originate from normal cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Functional Assays, Classifications, and Mechanisms of Oncogenes and Tumor Suppressors",
+      "groupedBecause": "These subtopics explain how cancer-associated genes are experimentally assayed, categorized into oncogenes or tumor suppressors, and mechanistically alter cell cycle regulation.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms and Cellular Consequences of Genetic Instability",
+      "groupedBecause": "These subtopics detail the repair failures and mitotic errors that generate sequence instability and chromosomal instability in cancer cells.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Multistep Tumor Progression and Hereditary Cancer Predisposition",
+      "groupedBecause": "These subtopics examine how the stepwise accumulation and inheritance of genetic mutations drive cancer development and subsequent tumor evolution.",
+      "firstSubtopicId": 14
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "topics": [
+    {
+      "id": 1,
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer introduces the session by connecting it to histopathology practicals and setting out the learning outcomes.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Welcome and Learning Outcomes Overview",
+          "groupedBecause": "The passage outlines the lecture goals, including cellular transformation, oncogenes, tumor suppressor genes, genetic instability, and hereditary cancer predispositions.",
+          "startsWith": "[background chatter] All righty. Shall we get going? I hope you guys"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "label": "History of Tumor Virology and Proto-Oncogene Discovery",
+      "groupedBecause": "These subtopics trace the historical progression from early cell and germ theories to the discovery of tumor viruses and the realization that oncogenes originate from host cellular genes.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Development of Cell and Germ Theories",
+          "groupedBecause": "The lecturer explains how microscopy advanced cell theory and germ theory, leading to the early hypothesis that cancer might be infectious.",
+          "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+        },
+        {
+          "id": 2,
+          "label": "Rous Sarcoma Virus and Transmissible Tumors",
+          "groupedBecause": "The lecturer describes Peyton Rous's experiments demonstrating cell-free transmission of chicken sarcoma and in vitro focus formation.",
+          "startsWith": "It wasn't such a leap to think that cancer was"
+        },
+        {
+          "id": 3,
+          "label": "Transforming Viruses and Human Cancer Epidemiology",
+          "groupedBecause": "The lecturer surveys various DNA and RNA tumor viruses and clarifies that infectious agents account for only about 25 percent of human cancer burden worldwide.",
+          "startsWith": "This idea that cancer is a transmissible disease kind of"
+        },
+        {
+          "id": 4,
+          "label": "Retroviral Integration and Proto-Oncogene Capture",
+          "groupedBecause": "The lecturer details the molecular mechanism by which retroviruses integrate near and capture cellular proto-oncogenes such as c-Src.",
+          "startsWith": "But this principle of that there are some viruses that"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "label": "Assays for In Vitro Cell Transformation",
+      "groupedBecause": "These subtopics discuss the experimental methods and cellular phenotypes used to evaluate the transforming capability of genes and mutations.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Phenotypic Hallmarks of Transformed Cells in Culture",
+          "groupedBecause": "The lecturer reviews the characteristics of transformed cells in vitro, including loss of contact inhibition, soft agar growth, altered metabolism, and nude mouse tumorigenicity.",
+          "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+        },
+        {
+          "id": 2,
+          "label": "Testing Specific Mutations Using Immortalized Cells",
+          "groupedBecause": "The lecturer explains how transfecting mutated genes into immortalized cell lines like NIH 3T3 is used to evaluate oncogenic potential.",
+          "startsWith": "And then you can also take your gene out of"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "label": "Classes of Cancer Genes and Mutation Dynamics",
+      "groupedBecause": "These subtopics contrast oncogenes and tumor suppressor genes and describe how different mutation types alter cell cycle regulators such as Rb and p53.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Definitions of Oncogenes, Tumor Suppressors, Gatekeepers, and Caretakers",
+          "groupedBecause": "The lecturer classifies cancer mutations by function, comparing dominant gain-of-function oncogenes with recessive loss-of-function tumor suppressors, as well as driver, passenger, gatekeeper, and caretaker roles.",
+          "startsWith": "So [lip smacks] in doing so, you're going to"
+        },
+        {
+          "id": 2,
+          "label": "Regulation of the G1/S Checkpoint by the Rb Pathway",
+          "groupedBecause": "The lecturer details the molecular control of the G1/S transition through Cyclin D, CDK4/6, p16, p21, and Rb phosphorylation, showing how mutations alter this checkpoint.",
+          "startsWith": "This should be basic revision for you in terms of"
+        },
+        {
+          "id": 3,
+          "label": "Dominant Versus Recessive Mutation Dynamics",
+          "groupedBecause": "The lecturer compares how single-allele dominant mutations and double-allele recessive mutations affect cellular phenotype and tumor development.",
+          "startsWith": "What does that look like in terms of mutations? It"
+        },
+        {
+          "id": 4,
+          "label": "p53 Tetramerization and Dominant-Negative Mutations",
+          "groupedBecause": "The lecturer uses p53 to demonstrate how a point mutation in a multimeric transcription factor can exert a dominant-negative effect distinct from a null allele.",
+          "startsWith": "All right. What does that mean? I'll give you"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "label": "Mechanisms and Consequences of Genetic Instability",
+      "groupedBecause": "These subtopics explain the forms, DNA repair defects, replication errors, and mitotic abnormalities that generate sequence and chromosomal instability in cancer cells.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Sequence Instability Versus Chromosomal Instability",
+          "groupedBecause": "The lecturer compares diploid tumors carrying sequence mutations with aneuploid tumors displaying extensive chromosomal rearrangements.",
+          "startsWith": "Right. So we're going to move on to this"
+        },
+        {
+          "id": 2,
+          "label": "Excision Repair and Mismatch Repair Pathways",
+          "groupedBecause": "The lecturer contrasts high-fidelity base and nucleotide excision repair with mismatch repair defects that cause microsatellite instability in colorectal cancers.",
+          "startsWith": "So we're just going to run through the main"
+        },
+        {
+          "id": 3,
+          "label": "Double-Strand Break Repair: Homologous Recombination vs NHEJ",
+          "groupedBecause": "The lecturer explains the high-fidelity BRCA-dependent homologous recombination pathway versus error-prone non-homologous end joining.",
+          "startsWith": "Obviously, that's not going to be the case for"
+        },
+        {
+          "id": 4,
+          "label": "Replication and Mitotic Errors Leading to Genomic Stress",
+          "groupedBecause": "The lecturer explores polymerase epsilon proofreading defects and mitotic chromosome segregation failures, detailing resulting cellular stresses such as micronuclei and cGAS-STING activation.",
+          "startsWith": "So I've told you now this failure or mutations in"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "label": "Multi-Step Carcinogenesis and Tumor Progression Models",
+      "groupedBecause": "The lecturer uses the Vogelstein colorectal cancer model to discuss the stepwise accumulation and timing of mutations in tumor development.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "The Vogelstein Model of Stepwise Mutation Accumulation",
+          "groupedBecause": "The lecturer describes the progressive acquisition of early and late mutations like APC, KRAS, and p53 during adenoma-to-carcinoma progression.",
+          "startsWith": "The Vogelstein model as I said there we were looking"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "label": "Hereditary Cancer Predispositions and Clinical Examples",
+      "groupedBecause": "These subtopics examine inherited cancer syndromes, contrasting gatekeeper and caretaker mutations and illustrating the principles with specific clinical conditions.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Principles and Population Prevalence of Hereditary Predisposition",
+          "groupedBecause": "The lecturer explains how inherited germline mutations accelerate tumor progression under the two-hit model and compares their prevalence with other genetic disorders.",
+          "startsWith": "So, what if you're unlucky enough to be born"
+        },
+        {
+          "id": 2,
+          "label": "Syndromes of Inherited Predisposition: FAP, Lynch, BRCA, and Retinoblastoma",
+          "groupedBecause": "The lecturer details the clinical and genetic characteristics of familial adenomatous polyposis, Lynch syndrome, BRCA1/2 breast cancer, and retinoblastoma.",
+          "startsWith": "So just to give you some examples of the hereditary"
+        },
+        {
+          "id": 3,
+          "label": "Secondary BRCA2 Reversion and Independence of Malignancy",
+          "groupedBecause": "The lecturer illustrates how platinum chemotherapy selects for secondary BRCA2 reversion mutations and emphasizes that genetic instability is not strictly required for malignancy.",
+          "startsWith": "Right. But this is the last slide to tell you"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This opening section frames the lecture by recalling previous histopathology practicals and setting out the day's learning outcomes.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory, germ theory, and early cancer transmission concepts",
+      "groupedBecause": "This section reviews the historical progression from early microscopy and cell theory to the germ theory of disease and early ideas that cancer was infectious.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Peyton Rous experiments and Rous sarcoma virus",
+      "groupedBecause": "This section describes Peyton Rous's chicken sarcoma experiments that demonstrated viral transmission of tumors and cellular transformation in culture.",
+      "startsWith": "And there are some very nice experiments at the turn"
+    },
+    {
+      "id": 4,
+      "label": "Transforming viruses and their epidemiological burden",
+      "groupedBecause": "This section examines the discovery of transforming DNA and RNA viruses and discusses the proportion of human cancers attributable to viral etiologies.",
+      "startsWith": "This idea that cancer is a transmissible disease kind of"
+    },
+    {
+      "id": 5,
+      "label": "Retroviral provirus integration and capture of cellular proto-oncogenes",
+      "groupedBecause": "This section explains the mechanism of retroviral integration into the host genome and the acquisition and deregulation of cellular proto-oncogenes.",
+      "startsWith": "But this principle of that there are some viruses that"
+    },
+    {
+      "id": 6,
+      "label": "Experimental assays for cellular transformation",
+      "groupedBecause": "This section details in vitro and in vivo laboratory assays used to measure the transformed phenotype and oncogenic capacity of mutated genes.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 7,
+      "label": "Classifications of cancer mutations and gene functions",
+      "groupedBecause": "This section defines the classifications cancer biologists use for mutated genes, contrasting oncogenes with tumor suppressors and drivers with passengers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going"
+    },
+    {
+      "id": 8,
+      "label": "Cell cycle regulation and the G1/S checkpoint",
+      "groupedBecause": "This section reviews the regulation of the G1 to S cell cycle checkpoint by the retinoblastoma protein, cyclins, CDKs, and CDK inhibitors.",
+      "startsWith": "Okay? So this should be basic revision for you in"
+    },
+    {
+      "id": 9,
+      "label": "Dominant-negative mechanisms in p53 mutations",
+      "groupedBecause": "This section explains how point mutations in tetrameric p53 exert a dominant-negative effect compared to null alleles.",
+      "startsWith": "What does that look like in terms of mutations? It"
+    },
+    {
+      "id": 10,
+      "label": "Sequence instability versus chromosomal instability",
+      "groupedBecause": "This section introduces genetic instability as a defect of cancer cells and contrasts diploid sequence instability with aneuploid chromosomal instability.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 11,
+      "label": "DNA excision and mismatch repair mechanisms",
+      "groupedBecause": "This section covers single-strand DNA repair pathways, showing why base/nucleotide excision is high-fidelity while mismatch repair failure causes microsatellite instability.",
+      "startsWith": "Okay. So we're just going to run through the"
+    },
+    {
+      "id": 12,
+      "label": "Double-strand break repair: homologous recombination and non-homologous end joining",
+      "groupedBecause": "This section explains the high-fidelity homologous recombination pathway mediated by BRCA1/2 versus error-prone end joining that leads to chromosomal instability.",
+      "startsWith": "Obviously, that's not going to be the case for"
+    },
+    {
+      "id": 13,
+      "label": "Replication errors, mitotic failure, and cellular stress responses",
+      "groupedBecause": "This section describes how polymerase mutations, mitotic spindle defects, lagging chromosomes, and chromothripsis generate cellular stress and drive tumor plasticity.",
+      "startsWith": "Okay. So I've told you now this failure or"
+    },
+    {
+      "id": 14,
+      "label": "The Vogelstein multi-step progression model",
+      "groupedBecause": "This section discusses the multi-step model of colorectal cancer development and the timing of early and late mutations during tumorigenesis.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 15,
+      "label": "Hereditary cancer predispositions and clinical syndromes",
+      "groupedBecause": "This section explains how inherited germline mutations in caretaker and gatekeeper genes predispose individuals to specific cancers such as FAP, Lynch syndrome, BRCA breast cancer, and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be"
+    },
+    {
+      "id": 16,
+      "label": "Conclusion and reading recommendation",
+      "groupedBecause": "This closing section summarizes the lecture, recommends supplemental reading, and previews the upcoming session on cancer hallmarks.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for"
+    }
+  ]
+}

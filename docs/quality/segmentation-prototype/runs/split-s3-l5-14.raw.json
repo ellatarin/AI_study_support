@@ -1,0 +1,94 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes students, reflects on practicals, and sets out the learning outcomes for the lecture.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you"
+    },
+    {
+      "id": 2,
+      "label": "History of cell theory and germ theory of disease",
+      "groupedBecause": "The lecturer traces the historical development of microscopy, cell theory, and the germ theory of disease.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Rous sarcoma virus and transforming tumor viruses",
+      "groupedBecause": "The lecturer explains Peyton Rous's chicken sarcoma experiments, the discovery of transforming viruses, and the viral contribution to human cancers.",
+      "startsWith": "And there are some very nice experiments at the turn of the century"
+    },
+    {
+      "id": 4,
+      "label": "Retroviral life cycle and proto-oncogene capture",
+      "groupedBecause": "The lecturer describes how retroviruses integrate into host genomes, hijack cellular proto-oncogenes such as c-Src, and reveal cellular origins of cancer.",
+      "startsWith": "But this principle of that there are some viruses that do"
+    },
+    {
+      "id": 5,
+      "label": "Assays for cellular transformation",
+      "groupedBecause": "The lecturer outlines laboratory assays and genetic techniques used to detect and measure transformed cellular properties.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+    },
+    {
+      "id": 6,
+      "label": "Functional classifications: oncogenes, tumor suppressors, drivers, and caretakers",
+      "groupedBecause": "The lecturer defines and contrasts the categories used in cancer genetics, including oncogenes, tumor suppressors, driver/passenger mutations, and gatekeepers/caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going to say whether"
+    },
+    {
+      "id": 7,
+      "label": "The G1/S checkpoint and the retinoblastoma pathway",
+      "groupedBecause": "The lecturer reviews the molecular regulation of the G1 to S cell cycle checkpoint by Rb, cyclins, CDKs, and CDK inhibitors.",
+      "startsWith": "Okay? So this should be basic revision for you in terms"
+    },
+    {
+      "id": 8,
+      "label": "Dominant-negative mechanisms and p53 mutations",
+      "groupedBecause": "The lecturer explains how dominant and recessive mutations function, illustrating the dominant-negative effect of p53 DNA-binding domain mutations in tetramers.",
+      "startsWith": "What does that look like in terms of mutations? It kind of"
+    },
+    {
+      "id": 9,
+      "label": "Sequence instability versus chromosomal instability",
+      "groupedBecause": "The lecturer introduces genetic instability in cancer, contrasting sequence-unstable diploid karyotypes with aneuploid chromosomal instability.",
+      "startsWith": "Right. So we're going to move on to this idea now"
+    },
+    {
+      "id": 10,
+      "label": "Mismatch repair deficiency and microsatellite instability",
+      "groupedBecause": "The lecturer explains single-strand and base repair mechanisms, focusing on mismatch repair failure and microsatellite slippage.",
+      "startsWith": "Okay. So we're just going to run through the main types of"
+    },
+    {
+      "id": 11,
+      "label": "Double-strand break repair: homologous recombination versus nonhomologous end joining",
+      "groupedBecause": "The lecturer details the mechanisms of high-fidelity homologous recombination versus error-prone end joining that leads to chromosomal instability.",
+      "startsWith": "Obviously, that's not going to be the case for tumor B."
+    },
+    {
+      "id": 12,
+      "label": "Replication errors, mitotic defects, and lagging chromosomes",
+      "groupedBecause": "The lecturer explains how DNA polymerase epsilon mutations and mitotic spindle defects produce lagging chromosomes, micronuclei, and cellular stress.",
+      "startsWith": "Okay. So I've told you now this failure or mutations in"
+    },
+    {
+      "id": 13,
+      "label": "Multistep progression and the Vogelstein model",
+      "groupedBecause": "The lecturer examines the multistep accumulation of mutations in colorectal cancer progression and the timing of genomic instability.",
+      "startsWith": "Okay. Might want to pick up the pace here. So the Vogelstein"
+    },
+    {
+      "id": 14,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "The lecturer discusses inherited cancer predispositions and compares specific syndromes including FAP, Lynch syndrome, hereditary breast cancer, and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be born with"
+    },
+    {
+      "id": 15,
+      "label": "Secondary reversions in BRCA2 and lecture conclusion",
+      "groupedBecause": "The lecturer demonstrates that genetic instability is not required for malignancy using BRCA2 reversion under cisplatin, before concluding the lecture.",
+      "startsWith": "Right. So I forgot what I wanted to say here [laughs]."
+    }
+  ]
+}

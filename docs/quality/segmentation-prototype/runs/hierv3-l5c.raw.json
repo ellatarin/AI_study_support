@@ -1,0 +1,129 @@
+{
+  "topics": [
+    {
+      "id": 1,
+      "label": "Introduction and Learning Outcomes",
+      "groupedBecause": "These opening remarks set expectations, connect the lecture to practical histology sessions, and review learning outcomes.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Lecture overview and learning outcomes",
+          "groupedBecause": "The lecturer introduces the lecture, connects it to practical histology sessions, and outlines the day's learning outcomes.",
+          "startsWith": "[background chatter] All righty. Shall we get going? I hope you guys"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "label": "History of Tumor Virology and Identification of Cellular Oncogenes",
+      "groupedBecause": "These subtopics trace the historical progression from early cell and germ theories to the discovery of tumor viruses, cellular proto-oncogenes, and laboratory transformation assays.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Cell theory, germ theory, and Peyton Rous's chicken sarcoma experiments",
+          "groupedBecause": "The lecturer describes how cell and germ theories led to the hypothesis of cancer transmissibility and Peyton Rous's pioneering tumor virus experiments.",
+          "startsWith": "Starting with cell and germ theories really, our modern concepts"
+        },
+        {
+          "id": 2,
+          "label": "Transforming retroviruses and the capture of cellular proto-oncogenes",
+          "groupedBecause": "The lecturer explains how transforming retroviruses integrate into host genomes to capture and alter normal cellular proto-oncogenes.",
+          "startsWith": "This idea that cancer is a transmissible disease kind of"
+        },
+        {
+          "id": 3,
+          "label": "Experimental assays for cellular transformation and oncogenic testing",
+          "groupedBecause": "The lecturer details in vitro and in vivo assays used to evaluate cellular transformation properties and the oncogenic effects of specific mutations.",
+          "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "label": "Functional Classification of Cancer Genes and Cell Cycle Regulation",
+      "groupedBecause": "These subtopics define the major classes of cancer-associated mutations and examine how they perturb cell cycle control mechanisms and multimeric protein function.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Classification of cancer genes and mutation types",
+          "groupedBecause": "The lecturer defines oncogenes, tumor suppressor genes, driver and passenger mutations, and caretaker and gatekeeper roles in cancer.",
+          "startsWith": "Okay. So [lip smacks] in doing so, you're going to"
+        },
+        {
+          "id": 2,
+          "label": "Regulation of the G1/S cell cycle checkpoint by the Rb pathway",
+          "groupedBecause": "The lecturer reviews how the G1/S cell cycle checkpoint is governed by the retinoblastoma protein, cyclins, CDKs, and kinase inhibitors.",
+          "startsWith": "Okay? So this should be basic revision for you in"
+        },
+        {
+          "id": 3,
+          "label": "Oncogenic and tumor-suppressive alterations in the G1/S pathway",
+          "groupedBecause": "The lecturer explains how specific oncogenic activations and tumor suppressor losses relieve repression at the G1/S checkpoint.",
+          "startsWith": "So in terms of thinking about this as oncogenes"
+        },
+        {
+          "id": 4,
+          "label": "Dominant-negative mechanisms and p53 mutant tetramers",
+          "groupedBecause": "The lecturer explains how point mutations in multimeric tumor suppressor proteins like p53 exert dominant-negative effects compared to null alleles.",
+          "startsWith": "What does that look like in terms of mutations?"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "label": "Forms and Mechanisms of Genetic Instability in Cancer",
+      "groupedBecause": "These subtopics analyze the types, enzymatic repair failures, mitotic errors, and multistep accumulation models of genetic instability in cancer development.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Sequence instability versus chromosomal instability in cancer genomes",
+          "groupedBecause": "The lecturer contrasts sequence instability with chromosomal instability using karyotypes and sequencing characteristics of colorectal cancer lines.",
+          "startsWith": "Right. So we're going to move on to this"
+        },
+        {
+          "id": 2,
+          "label": "DNA repair pathways underlying sequence and chromosomal defects",
+          "groupedBecause": "The lecturer details DNA repair pathways including base and nucleotide excision, mismatch repair, homologous recombination, and non-homologous end joining.",
+          "startsWith": "Okay. So we're just going to run through the main"
+        },
+        {
+          "id": 3,
+          "label": "Mitotic defects, lagging chromosomes, and downstream cellular stress cascades",
+          "groupedBecause": "The lecturer explains how mitotic errors such as lagging chromosomes produce micronuclei, chromothripsis, and inflammatory stress pathways.",
+          "startsWith": "Okay. So I've told you now this failure"
+        },
+        {
+          "id": 4,
+          "label": "The Vogelstein multistep progression model of colorectal cancer",
+          "groupedBecause": "The lecturer discusses the Vogelstein model describing the dynamic, stepwise accumulation of mutations during adenoma-to-carcinoma progression.",
+          "startsWith": "Okay. Might want to pick up the pace here."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "label": "Hereditary Cancer Predispositions and Tumor Evolution",
+      "groupedBecause": "These subtopics explain hereditary cancer predisposition syndromes, specific clinical examples, and how secondary mutations illustrate tumor evolution.",
+      "subtopics": [
+        {
+          "id": 1,
+          "label": "Hereditary predisposition principles and two-hit dynamics",
+          "groupedBecause": "The lecturer explains how inherited germline mutations accelerate carcinogenesis compared to sporadic two-hit mutations.",
+          "startsWith": "Okay? So, what if you're unlucky enough to be"
+        },
+        {
+          "id": 2,
+          "label": "Clinical syndromes of inherited cancer predisposition",
+          "groupedBecause": "The lecturer compares specific inherited cancer syndromes, contrasting caretaker defects like Lynch syndrome and BRCA with gatekeeper defects like FAP and retinoblastoma.",
+          "startsWith": "Okay? So just to give you some examples of the"
+        },
+        {
+          "id": 3,
+          "label": "BRCA2 reversion mutations and malignancy independence from genetic instability",
+          "groupedBecause": "The lecturer demonstrates through BRCA2 reversion mutations under chemotherapy that genetic instability can initiate tumors without being permanently required for malignancy.",
+          "startsWith": "Right. So I forgot what I wanted to say here"
+        }
+      ]
+    }
+  ]
+}

@@ -8,5 +8,6 @@
   "finishReason": "error",
   "verdict": "EMPTY",
   "blocks": null,
-  "fidelity": null
+  "fidelity": null,
+  "lecture": "unknown"
 }

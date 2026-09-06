@@ -1,0 +1,88 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class, connects the lecture to previous practicals, and outlines the day's learning outcomes.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+    },
+    {
+      "id": 2,
+      "label": "History of cell and germ theories and discovery of tumor viruses",
+      "groupedBecause": "The lecturer traces the historical development from cell theory and germ theory to Peyton Rous' discovery of transmissible transforming viruses and the viral etiology of cancer.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+    },
+    {
+      "id": 3,
+      "label": "Retroviral integration and capture of cellular proto-oncogenes",
+      "groupedBecause": "The lecturer describes the mechanism by which retroviruses integrate and capture host cellular proto-oncogenes to become transforming viruses.",
+      "startsWith": "But this principle of that there are some viruses that do"
+    },
+    {
+      "id": 4,
+      "label": "Experimental assays for cellular transformation",
+      "groupedBecause": "The lecturer outlines laboratory assays used to detect transformed cellular properties and assess tumorigenicity in culture and animal models.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+    },
+    {
+      "id": 5,
+      "label": "Classifications of cancer mutations and genes",
+      "groupedBecause": "The lecturer defines and contrasts oncogenes versus tumor suppressor genes, driver versus passenger mutations, and gatekeepers versus caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going to say"
+    },
+    {
+      "id": 6,
+      "label": "Cell cycle control at the G1/S checkpoint",
+      "groupedBecause": "The lecturer reviews the regulation of the G1/S transition by the retinoblastoma protein, cyclin D-CDK complexes, and kinase inhibitors.",
+      "startsWith": "Okay? So this should be basic revision for you in terms"
+    },
+    {
+      "id": 7,
+      "label": "Mutation effects and dominant-negative mechanism of p53",
+      "groupedBecause": "The lecturer explains how specific mutation types alter protein function, illustrating dominant-negative inactivation using the tetrameric p53 transcription factor.",
+      "startsWith": "What does that look like in terms of mutations? It kind"
+    },
+    {
+      "id": 8,
+      "label": "Chromosome instability versus sequence instability",
+      "groupedBecause": "The lecturer contrasts chromosomal instability characterized by karyotypic aneuploidy with sequence instability characterized by small-scale point mutations.",
+      "startsWith": "Right. So we're going to move on to this idea"
+    },
+    {
+      "id": 9,
+      "label": "DNA mismatch repair and microsatellite instability",
+      "groupedBecause": "The lecturer explains mismatch repair mechanisms, replication slippage, and the resulting microsatellite instability in colorectal cancers.",
+      "startsWith": "So we're just going to run through the main types"
+    },
+    {
+      "id": 10,
+      "label": "Double-strand break repair and BRCA mutations",
+      "groupedBecause": "The lecturer contrasts high-fidelity homologous recombination with error-prone non-homologous repair, explaining how BRCA deficiencies lead to chromosomal instability.",
+      "startsWith": "Obviously, that's not going to be the case for tumor"
+    },
+    {
+      "id": 11,
+      "label": "Replication and mitotic errors driving chromosomal instability",
+      "groupedBecause": "The lecturer covers DNA polymerase epsilon mutations, spindle assembly defects, lagging chromosomes, chromothripsis, and subsequent cellular stress cascades.",
+      "startsWith": "Okay. So I've told you now this failure or mutations"
+    },
+    {
+      "id": 12,
+      "label": "The Vogelstein multi-step model of tumor progression",
+      "groupedBecause": "The lecturer discusses the multi-step model of sequential mutation accumulation driving the transition from normal epithelium to metastatic carcinoma.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 13,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "The lecturer explores hereditary cancer predispositions, comparing familial adenomatous polyposis, Lynch syndrome, hereditary breast cancer, and retinoblastoma.",
+      "startsWith": "So, what if you're unlucky enough to be born with"
+    },
+    {
+      "id": 14,
+      "label": "Reversion of BRCA2 deficiency and tumor malignancy",
+      "groupedBecause": "The lecturer uses secondary BRCA2 reversion in treated tumors to show that ongoing homologous recombination deficiency is not required for malignancy.",
+      "startsWith": "Right. So I forgot what I wanted to say here"
+    }
+  ]
+}

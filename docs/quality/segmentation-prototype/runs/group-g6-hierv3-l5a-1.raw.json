@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer opens the session by connecting histopathology practical observations to cellular transformation and outlining the learning objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Virology and the Discovery of Cellular Oncogenes",
+      "groupedBecause": "These subtopics trace the historical investigation of infectious tumor viruses and how retroviral gene capture demonstrated that cancer originates from altered normal cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental Assays for Cellular Transformation",
+      "groupedBecause": "This subtopic details the phenotypic hallmarks and laboratory culture and animal assays used to test whether specific genes or mutations can transform cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Classification and Mechanisms of Oncogenes and Tumor Suppressors",
+      "groupedBecause": "These subtopics define oncogenes, tumor suppressor genes, and mutation types, illustrating their functional impact through cell cycle checkpoint regulation and allelic mechanisms such as dominant-negative p53.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and Consequences of Genetic Instability",
+      "groupedBecause": "These subtopics describe the distinctions between sequence and chromosomal instability, detailing the specific DNA repair failures, replication errors, and mitotic defects that produce them.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep Mutational Progression in Tumorigenesis",
+      "groupedBecause": "This subtopic explains the Vogelstein model of colorectal cancer to illustrate how the stepwise accumulation and ordering of mutations drive tumor development.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Hereditary Cancer Predisposition Syndromes",
+      "groupedBecause": "This subtopic explores how inheriting a single mutated allele in gatekeeper or caretaker genes accelerates cancer onset across clinical syndromes such as Lynch syndrome, FAP, and hereditary breast cancer.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

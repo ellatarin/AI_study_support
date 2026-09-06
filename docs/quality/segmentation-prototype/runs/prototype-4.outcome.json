@@ -8,5 +8,6 @@
   "finishReason": null,
   "verdict": "OK",
   "blocks": 6,
-  "fidelity": "REJECT/altered \"Soh\"->\"H\""
+  "fidelity": "REJECT/altered \"Soh\"->\"H\"",
+  "lecture": "unknown"
 }

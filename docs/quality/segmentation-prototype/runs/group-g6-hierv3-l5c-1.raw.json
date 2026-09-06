@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This opening subtopic introduces the lecture by recapping prior histopathology practicals and setting out the learning outcomes on cancer genetics and transformation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Viral Origins of Cancer and Assays for Cellular Transformation",
+      "groupedBecause": "These subtopics trace how the study of tumor viruses revealed cellular proto-oncogenes and describe the experimental assays used to demonstrate cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classifications and Pathway Mechanisms of Oncogenes and Tumor Suppressors",
+      "groupedBecause": "These subtopics define the functional classifications of cancer-associated mutations and illustrate how they disrupt cell cycle control pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of Genetic Instability and Stepwise Tumor Progression",
+      "groupedBecause": "These subtopics examine the molecular causes of sequence and chromosomal instability and show how these defects drive multistep tumor progression.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Hereditary Cancer Predisposition Syndromes and Tumor Evolution",
+      "groupedBecause": "These subtopics explain how inherited germline mutations accelerate cancer development across specific hereditary syndromes and affect subsequent tumor evolution.",
+      "firstSubtopicId": 13
+    }
+  ]
+}

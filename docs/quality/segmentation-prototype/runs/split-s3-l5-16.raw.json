@@ -1,0 +1,88 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer frames the session by reviewing histopathology practicals and outlining the day's learning outcomes.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+    },
+    {
+      "id": 2,
+      "label": "History of cell theory, germ theory, and Rous sarcoma virus",
+      "groupedBecause": "The lecturer traces the historical development from cell and germ theories to Peyton Rous's discovery of transmissible viral sarcoma.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Tumor viruses and human viral oncogenesis",
+      "groupedBecause": "The lecturer discusses the search for transforming viruses and the specific human viruses associated with cancer.",
+      "startsWith": "This idea that cancer is a transmissible disease kind of"
+    },
+    {
+      "id": 4,
+      "label": "Retroviral life cycle and proto-oncogene capture",
+      "groupedBecause": "The lecturer explains how retroviruses integrate into host DNA and capture cellular proto-oncogenes such as c-Src.",
+      "startsWith": "But this principle of that there are some viruses that"
+    },
+    {
+      "id": 5,
+      "label": "In vitro and in vivo assays for cellular transformation",
+      "groupedBecause": "The lecturer describes laboratory assays used to test transformed cell phenotypes and gene oncogenicity.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 6,
+      "label": "Classifications of cancer mutations: oncogenes, tumor suppressors, drivers, and caretakers",
+      "groupedBecause": "The lecturer defines and contrasts oncogenes versus tumor suppressors, driver versus passenger mutations, and gatekeepers versus caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're"
+    },
+    {
+      "id": 7,
+      "label": "Rb and the G1/S cell cycle checkpoint regulation",
+      "groupedBecause": "The lecturer explains how the Rb pathway regulates the G1/S transition and how oncogenic and tumor-suppressive alterations bypass this control.",
+      "startsWith": "Okay? So this should be basic revision for you in"
+    },
+    {
+      "id": 8,
+      "label": "Dominant negative effects: the p53 tetramer model",
+      "groupedBecause": "The lecturer uses p53 to demonstrate how single missense mutations in multimeric complexes produce a dominant-negative phenotype.",
+      "startsWith": "What does that look like in terms of mutations? It"
+    },
+    {
+      "id": 9,
+      "label": "Chromosomal instability versus sequence instability",
+      "groupedBecause": "The lecturer contrasts chromosomal instability and sequence instability using karyotypes and sequencing profiles of two colorectal cancer cell lines.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 10,
+      "label": "DNA repair pathways: mismatch repair versus double-strand break repair",
+      "groupedBecause": "The lecturer explains the mechanisms of DNA mismatch repair and double-strand break repair (homologous recombination and non-homologous end joining) in relation to cancer.",
+      "startsWith": "Okay. So we're just going to run through the"
+    },
+    {
+      "id": 11,
+      "label": "Mitotic errors, lagging chromosomes, and cellular stress responses",
+      "groupedBecause": "The lecturer describes errors during DNA replication and mitosis, focusing on lagging chromosomes, micronuclei, and the downstream stress cascades they trigger.",
+      "startsWith": "Okay. So I've told you now this failure or"
+    },
+    {
+      "id": 12,
+      "label": "The Vogelstein multi-step model of colorectal tumorigenesis",
+      "groupedBecause": "The lecturer explains the stepwise accumulation and ordering of genetic mutations during colorectal cancer progression.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 13,
+      "label": "Hereditary cancer predispositions and clinical syndromes",
+      "groupedBecause": "The lecturer discusses inherited cancer predispositions and compares clinical examples including FAP, Lynch syndrome, BRCA1/2, and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be"
+    },
+    {
+      "id": 14,
+      "label": "Lecture conclusion and reading recommendations",
+      "groupedBecause": "The lecturer closes the lecture with concluding remarks, book recommendations, and framing for the next session.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for"
+    }
+  ]
+}

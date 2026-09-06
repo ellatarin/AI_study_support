@@ -1,0 +1,23 @@
+{
+  "sourceRun": "split-s3-l5-2",
+  "promptVersion": "g6",
+  "lecture": "l5",
+  "instance": "1",
+  "modelId": "google/gemini-3.7-flash",
+  "labelsShown": false,
+  "seconds": 35,
+  "promptTokens": 10731,
+  "completionTokens": 5039,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": 6,
+  "subtopics": 16,
+  "topicSizes": [
+    1,
+    4,
+    1,
+    3,
+    4,
+    3
+  ]
+}
