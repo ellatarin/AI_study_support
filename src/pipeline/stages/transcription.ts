@@ -161,6 +161,12 @@ async function requestTranscript({
 			languageCode: elevenLabs.languageCode,
 			// Supported only on scribe_v2, so it travels with that model ID.
 			noVerbatim: true,
+			// Defaults to true, which writes the transcriber's own notes into the
+			// transcript — "[coughing]", "[lip smacks]", "[audience applauding]".
+			// They are not words the lecturer said, and every later stage has to
+			// treat them as though they were: they are quoted back, summarised, and
+			// counted as content. Off, so the transcript holds speech only.
+			tagAudioEvents: false,
 		});
 		if (!("text" in result)) {
 			throw new TranscriptionError("ElevenLabs returned no transcript text for the uploaded audio");
