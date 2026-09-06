@@ -31,18 +31,41 @@ fast, and good enough. Sol/Sol Pro find ~2× more structure and are more
 self-consistent but divide far finer than wanted; Sonnet 5 is dominated on every
 axis. See the memory file for the full four-model table.
 
-## Prompt versions — in `failure-trial.mts`
+## Pass one: splitting the transcript into subtopics
+
+**Splitting prompts are versioned in `split-prompts.mts`**, on the same terms as
+the grouping prompts: a version is never edited once it has runs against it, and
+every rule body is a shared constant so a version that restates a rule in a
+different form cannot restate it in different words.
+
+| version | what it is |
+|---|---|
+| `s1` | the prose prompt — kind rule scoped to subtopics, topics exempt, opening its own division, `groupedBecause`, re-read pass. This is `HIER_PROMPT_V3` moved into the registry character for character, so every archived `hierv3-*` run is a run of `s1` |
+| `s2` | `s1`'s rules as a structured document: markdown headings, a numbered method, named rules `R1`–`R9`, and a checklist. Presentation only — no rule added, removed or reworded in substance |
+
+```
+cd <repo root>
+TRIAL_MODEL=google/gemini-3.7-flash \
+  pnpm exec tsx docs/quality/segmentation-prototype/split-trial.mts \
+  <version> "<transcript path>" <instance>
+```
+Run files are `split-<version>-<lecture>-<instance>`. The lecture key comes from
+the workspace folder the transcript sits in, so two lectures' runs can never
+overwrite one another at the same instance number.
+
+### The earlier modes — in `failure-trial.mts`
+
+Kept so the archived runs stay reproducible; new pass-one work goes through
+`split-trial.mts`.
 
 | constant | mode arg | what it is |
 |---|---|---|
 | `HIER_PROMPT_V1` | `hier` | two-level, the original. **Do not edit** — produced run h4, the reference output |
 | `HIER_PROMPT_V2` | `hierv2` | v1 + kind rule (both levels), grouped-because, re-read pass, preamble rule |
-| `HIER_PROMPT_V3` | `hierv3` | v2 with the kind rule scoped to subtopics only |
+| `HIER_PROMPT_V3` | `hierv3` | now `s1` in `split-prompts.mts`; this mode sends exactly that text |
 | `HIER3_PROMPT` | `hier3` | three-level variant, parked |
 | `CUTS_PROMPT` | `cuts` | flat, no hierarchy |
 | `LONG_PROMPT` | `content` / `prototype` | content emission, superseded |
-
-## How to run
 
 ```
 cd <repo root>
@@ -83,9 +106,9 @@ TRIAL_MODEL=google/gemini-3.7-flash \
   pnpm exec tsx docs/quality/segmentation-prototype/group-trial.mts \
   <source-run> <version> <instance> [nolabels]
 ```
-`<source-run>` is a pass-one blocks.json stem in `runs/`, e.g. `hierv3-w4`.
-`nolabels` withholds pass one's subtopic labels from the grouping model; they are
-restored on the way back either way.
+`<source-run>` is a pass-one blocks.json stem in `runs/`, e.g. `hierv3-w4` or
+`split-s2-l5-1`. `nolabels` withholds pass one's subtopic labels from the
+grouping model; they are restored on the way back either way.
 
 Score each new run by hand into `runs/criteria.json`, then regenerate the ledger:
 
@@ -95,3 +118,16 @@ python3 report-grouping.py     # writes GROUPING-RESULTS.md
 
 `GROUPING-RESULTS.md` is generated — every number in it is computed from the run
 files, so it cannot drift from the runs it describes.
+
+## One lecture per table
+
+**Numbers are never pooled across lectures.** A topic count, a singleton rate and
+the five criteria all describe one transcript's material, so every run carries a
+`lecture` key and the ledger gives each lecture its own table. The key is derived
+from the workspace folder the transcript sits in (`lecture-key.mts`), it is part
+of every new run's filename, and `backfill-lecture-key.mts` recovered it for the
+archived runs from the transcript path they had always recorded.
+
+The five criteria in `runs/criteria.json` are **lecture 4's rubric**, taken from
+the user's critique of run h4. Another lecture's runs score `—`, meaning unjudged
+rather than failed, until a rubric is written for it.

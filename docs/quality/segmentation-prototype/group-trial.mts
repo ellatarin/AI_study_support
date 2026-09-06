@@ -22,6 +22,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { groupPromptVersion } from "./group-prompts.mts";
+import { lectureKeyFor } from "./lecture-key.mts";
 import { callTrialModel, loadTrialConfig, OUT_DIR } from "./trial-model.mts";
 
 const MODEL = process.env["TRIAL_MODEL"] ?? "google/gemini-3.7-flash";
@@ -36,6 +37,8 @@ type SourceSubtopic = {
 /** What pass one wrote, of which only the subtopic layer is read. */
 type SourceRun = {
 	readonly transcriptPath?: string;
+	/** Written by `split-trial.mts`; absent from runs made before the key existed. */
+	readonly lecture?: string;
 	readonly blocks: readonly {
 		readonly label: string;
 		readonly content: string;
@@ -46,6 +49,8 @@ type SourceRun = {
 type GroupOutcome = {
 	readonly sourceRun: string;
 	readonly promptVersion: string;
+	/** Which lecture this grouping is of. Numbers are only comparable within one. */
+	readonly lecture: string;
 	readonly instance: string;
 	readonly modelId: string;
 	readonly labelsShown: boolean;
@@ -115,6 +120,13 @@ async function main(): Promise<void> {
 	const source = JSON.parse(
 		await readFile(join(OUT_DIR, `${sourceRun}.blocks.json`), "utf8"),
 	) as SourceRun;
+	// Pass one's own key when it recorded one; otherwise read back from the
+	// transcript it cut, which every pass-one run has always written.
+	const lecture =
+		source.lecture ??
+		(source.transcriptPath === undefined
+			? "unknown"
+			: lectureKeyFor({ transcriptPath: source.transcriptPath }));
 	const subtopics: readonly SourceSubtopic[] = source.blocks.map((block) => ({
 		label: block.label,
 		content: block.content,
@@ -221,6 +233,7 @@ async function main(): Promise<void> {
 	const outcome: GroupOutcome = {
 		sourceRun,
 		promptVersion: version.id,
+		lecture,
 		instance,
 		modelId: MODEL,
 		labelsShown,

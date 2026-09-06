@@ -5,6 +5,8 @@ import {
 	makeCompletionCall,
 } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/openrouter.js";
 import { createRootLogger } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/logger.js";
+import { applyCuts, judgeFidelity } from "./cut-blocks.mts";
+import { splitPromptVersion } from "./split-prompts.mts";
 import {
 	BORROWED_STAGE_ID,
 	callTrialModel,
@@ -189,63 +191,14 @@ Ids count up from 1 within their own list. Topics and subtopics appear in transc
  * got promoted to a topic of its own, so half the runs produced 13–14 topics
  * over ~21 subtopics and the topic level stopped grouping anything. Nothing else
  * is changed, so any difference is attributable to this.
+ *
+ * The text now lives in `split-prompts.mts` as version `s1`, so pass one is
+ * versioned the way pass two is. It moved there character for character, and
+ * `mode === "hierv3"` still sends exactly what every archived `hierv3-*` run was
+ * sent. New pass-one work goes through `split-trial.mts`; this mode stays so the
+ * archived runs remain reproducible.
  */
-const HIER_PROMPT_V3 = `You are dividing a university lecture transcript into topics, and each topic into subtopics.
-
-A TOPIC is a major division of the lecture — one of the handful of things the lecture is about.
-A SUBTOPIC is a distinct step within a topic: a single claim developed, a mechanism explained, an example worked through.
-
-Decide where topics and subtopics change by reading what is being talked about. Do NOT rely on the speaker announcing a change. This lecturer says "So", "Right", and "Okay" constantly without changing subject, and several real changes of subject arrive with no announcement at all. The words are not the signal; the subject is.
-
-Do not decide in advance how many topics or subtopics there should be. Divide wherever the subject genuinely changes, and let the numbers be whatever they turn out to be. Every topic has at least one subtopic; a short topic may have exactly one.
-
-WITHIN A TOPIC, THINGS THAT DIFFER IN KIND DO NOT SHARE A SUBTOPIC.
-Do not put under one SUBTOPIC things that differ in kind, even when the lecturer treats them one after another and for the same purpose. A biological agent and a chemical agent differ in kind. A physical agent such as radiation and a chemical one differ in kind. An experiment in living animals and one in cultured cells differ in kind. Serving the same argument does not make two things one subtopic, and neither does being adjacent in the lecture.
-This does NOT apply to a thing and its own mechanism: an agent and the damage it causes, or a process and the molecular change it produces, are one subtopic and belong together.
-
-THIS RULE DOES NOT APPLY TO TOPICS. A topic is allowed — and often expected — to gather subtopics of different kinds, because what makes a topic is a shared line of argument rather than a shared kind. Chemical, physical and dietary agents may sit in one topic if the lecture treats them as one part of its argument; so may two different ways of testing for carcinogenicity. Do not split a topic merely because its subtopics differ in kind.
-
-THE OPENING IS ITS OWN DIVISION.
-A lecture opens with framing that is not yet its subject: welcome, learning outcomes, what the lecture will cover, how it relates to other lectures. That opening is its own division, separate from the first substantive topic. Do not fold it into the first thing the lecturer actually teaches.
-
-Work from the bottom up. Find and label the subtopics first, from the transcript. Only then name each topic, and name it FROM ITS OWN SUBTOPICS:
-- A topic's label must describe what its subtopics have in common, as a reader of those subtopic labels would summarise them.
-- Do not introduce into a topic label any idea that none of its subtopics carries, and do not name a topic from what you expect a lecture on this subject to contain. If the subtopics do not support a tidy heading, give an untidy one that fits them.
-
-Give every subtopic a short descriptive label taken from what the transcript actually says there.
-
-SAY WHY EACH GROUPING HOLDS.
-Every topic and every subtopic carries a "groupedBecause": one sentence saying what makes its contents one thing. Write it honestly. If the most you can say is that these were discussed together, or that they are all examples of something broad, then it is not one grouping and you must divide it.
-
-THEN READ IT AGAIN.
-When you have divided the transcript, read each subtopic once more and ask whether the lecturer changes subject inside it. If so, split it. Do the same for each topic and its subtopics.
-
-You are not reproducing the transcript. Only subtopics carry a position, and a topic begins where its first subtopic begins:
-- "startsWith" must be the first EIGHT to TWELVE words of the subtopic, copied from the transcript exactly as they appear. Do not tidy them, do not drop a leading "So" or "Right", do not change capitalisation, do not paraphrase. It is used to locate the cut, so it must match the transcript character for character.
-- The first subtopic of the first topic begins at the very start of the transcript.
-- Subtopics are contiguous and in order, and together they cover the whole transcript.
-
-Reply with a single JSON object and nothing else, in this exact shape:
-
-{
-  "topics": [
-    {
-      "id": 1,
-      "label": "what these subtopics have in common",
-      "groupedBecause": "one sentence on what makes these subtopics one topic",
-      "subtopics": [
-        {
-          "id": 1,
-          "label": "what this subtopic is about",
-          "groupedBecause": "one sentence on what makes this passage one subtopic",
-          "startsWith": "the first eight to twelve words, verbatim"
-        }
-      ]
-    }
-  ]
-}
-
-Ids count up from 1 within their own list. Topics and subtopics appear in transcript order.`;
+const HIER_PROMPT_V3 = splitPromptVersion({ id: "s1" }).build();
 
 /**
  * Three levels, with only the deepest carrying a position and every label built
@@ -312,129 +265,6 @@ type Outcome = {
 	readonly blocks: number | null;
 	readonly fidelity: string | null;
 };
-
-/** How many characters may be deleted before a run is rejected. */
-const DELETION_TOLERANCE = 6;
-
-function stripWhitespace(text: string): string {
-	return text.replace(/\s+/gu, "");
-}
-
-/**
- * Whether `candidate` can be produced from `source` by deleting characters only.
- *
- * This is the acceptance rule expressed exactly: "every change is a deletion" is
- * the same statement as "the result is a subsequence of the source". A
- * substitution — the lecturer's "50 mils" rewritten as "50 mm" — breaks
- * subsequence order and so can never pass, however few characters it moves.
- */
-function isSubsequence(source: string, candidate: string): boolean {
-	// Case-folded: the model's tidying is "drop the leading So and capitalise the
-	// next word", so a case-sensitive test rejects that on one transcript and
-	// accepts it on another purely by accident of spelling. Folding case does not
-	// weaken the rule — "50 mils" to "50 mm" is still not a subsequence.
-	const folded = source.toLowerCase();
-	const wanted = candidate.toLowerCase();
-	let index = 0;
-	for (const character of folded) {
-		if (index < wanted.length && wanted[index] === character) {
-			index += 1;
-		}
-	}
-	return index === wanted.length;
-}
-
-/** The changed span, found by trimming the common prefix and suffix. */
-function changedSpan(source: string, candidate: string): { from: string; to: string } {
-	let start = 0;
-	while (start < source.length && start < candidate.length && source[start] === candidate[start]) {
-		start += 1;
-	}
-	let end = 0;
-	while (
-		end < source.length - start &&
-		end < candidate.length - start &&
-		source[source.length - 1 - end] === candidate[candidate.length - 1 - end]
-	) {
-		end += 1;
-	}
-	return {
-		from: source.slice(start, source.length - end),
-		to: candidate.slice(start, candidate.length - end),
-	};
-}
-
-/**
- * A whitespace-free, case-folded view of the text, alongside a map from each
- * position in that view back to its position in the original.
- *
- * Searching the folded view is what lets a quote still be located when the model
- * has tidied its capitalisation or spacing — the cut is then made in the
- * original, so nothing the model wrote ever reaches the output.
- */
-function foldedIndex(text: string): { readonly folded: string; readonly origin: readonly number[] } {
-	const characters: string[] = [];
-	const origin: number[] = [];
-	for (let index = 0; index < text.length; index += 1) {
-		const character = text[index] ?? "";
-		if (!/\s/u.test(character)) {
-			characters.push(character.toLowerCase());
-			origin.push(index);
-		}
-	}
-	return { folded: characters.join(""), origin };
-}
-
-/**
- * Cuts the transcript at the positions the model named.
- *
- * Every block's text is sliced out of `sourceText`, so the result reproduces the
- * transcript exactly whatever the model returned. A quote that cannot be found
- * is reported rather than guessed at.
- */
-function applyCuts(
-	sourceText: string,
-	starts: readonly { id: number; label: string; startsWith: string }[],
-): { readonly blocks: readonly { label: string; content: string }[]; readonly misses: readonly string[] } {
-	const { folded, origin } = foldedIndex(sourceText);
-	const misses: string[] = [];
-	const cuts: number[] = [0];
-	let searchFrom = 0;
-	for (const start of starts.slice(1)) {
-		const needle = start.startsWith.replace(/\s+/gu, "").toLowerCase();
-		const found = needle === "" ? -1 : folded.indexOf(needle, searchFrom);
-		if (found === -1) {
-			misses.push(start.startsWith.slice(0, 40));
-			continue;
-		}
-		cuts.push(origin[found] ?? 0);
-		searchFrom = found + 1;
-	}
-	cuts.push(sourceText.length);
-	const blocks = cuts.slice(0, -1).map((from, position) => ({
-		label: starts[position]?.label ?? "",
-		content: sourceText.slice(from, cuts[position + 1]),
-	}));
-	return { blocks, misses };
-}
-
-/** Applies the agreed rule: deletions up to the tolerance pass; anything else does not. */
-function judgeFidelity(sourceText: string, blocks: readonly { content: string }[]): string {
-	const source = stripWhitespace(sourceText);
-	const joined = stripWhitespace(blocks.map((block) => block.content).join(" "));
-	if (source === joined) {
-		return "EXACT";
-	}
-	const span = changedSpan(source, joined);
-	const detail = `${JSON.stringify(span.from)}->${JSON.stringify(span.to)}`;
-	if (!isSubsequence(source, joined)) {
-		return `REJECT/altered ${detail}`;
-	}
-	const deleted = source.length - joined.length;
-	return deleted <= DELETION_TOLERANCE
-		? `ACCEPT/-${deleted} ${detail}`
-		: `REJECT/-${deleted} ${detail}`;
-}
 
 async function main(): Promise<void> {
 	const mode = process.argv[2] ?? "probe";
@@ -554,7 +384,7 @@ async function main(): Promise<void> {
 					if (!Array.isArray(parsed.topics)) {
 						verdict = "SHAPE";
 					} else {
-						const flat = parsed.topics.flatMap((topic, topicIndex) =>
+						const flat = parsed.topics.flatMap((topic) =>
 							(topic.subtopics ?? []).flatMap((subtopic, subIndex) =>
 								(subtopic.subsubtopics ?? []).map((leaf, leafIndex) => ({
 									id: 0,
