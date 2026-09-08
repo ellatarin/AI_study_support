@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class, reviews histopathology practicals, and outlines the lecture's learning outcomes.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory, germ theory, and Peyton Rous's discovery",
+      "groupedBecause": "The lecturer traces the history from cell and germ theory to Peyton Rous's discovery of transmissible transforming viruses.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Transforming viruses and cellular proto-oncogenes",
+      "groupedBecause": "The lecturer explains how retroviruses capture cellular proto-oncogenes to become transforming viruses.",
+      "startsWith": "Okay.This idea that cancer is a transmissible disease kind of"
+    },
+    {
+      "id": 4,
+      "label": "Assays for cell transformation and oncogene testing",
+      "groupedBecause": "The lecturer describes experimental laboratory assays used to measure cellular transformation and test cancer-associated mutations.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+    },
+    {
+      "id": 5,
+      "label": "Classifications of cancer mutations",
+      "groupedBecause": "The lecturer defines and contrasts oncogenes, tumor suppressors, driver and passenger mutations, and gatekeepers versus caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going to"
+    },
+    {
+      "id": 6,
+      "label": "Regulation of the G1 to S cell cycle checkpoint",
+      "groupedBecause": "The lecturer details the molecular mechanisms and regulatory proteins controlling the G1 to S checkpoint via Rb phosphorylation.",
+      "startsWith": "Okay? So this should be basic revision for you in"
+    },
+    {
+      "id": 7,
+      "label": "Recessive tumor suppressors and dominant-negative p53",
+      "groupedBecause": "The lecturer explains how allele mutations affect cellular phenotype, highlighting the dominant-negative effect of tetrameric p53 mutations.",
+      "startsWith": "What does that look like in terms of mutations? It"
+    },
+    {
+      "id": 8,
+      "label": "Chromosomal instability versus sequence instability",
+      "groupedBecause": "The lecturer introduces genetic instability as a cancer-specific abnormality and contrasts chromosomal instability with sequence instability.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 9,
+      "label": "DNA mismatch repair and double-strand break repair pathways",
+      "groupedBecause": "The lecturer examines mechanisms of DNA repair failure, contrasting mismatch repair defects with homologous recombination and non-homologous end joining.",
+      "startsWith": "Okay. So we're just going to run through the main"
+    },
+    {
+      "id": 10,
+      "label": "Replication errors, mitotic defects, and consequences of lagging chromosomes",
+      "groupedBecause": "The lecturer details how DNA polymerase errors and mitotic segregation defects produce lagging chromosomes and cellular stress cascades.",
+      "startsWith": "Okay. So I've told you now this failure or"
+    },
+    {
+      "id": 11,
+      "label": "The Vogelstein model of multistep tumor progression",
+      "groupedBecause": "The lecturer discusses the Vogelstein model regarding the order and dynamic accumulation of mutations during tumor development.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 12,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "The lecturer explains how inherited germline mutations in caretaker and gatekeeper genes predispose individuals to specific cancers.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be"
+    },
+    {
+      "id": 13,
+      "label": "Closing and reading recommendations",
+      "groupedBecause": "The lecturer concludes the lecture, recommends book reading for the break, and previews the next lecture topic.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture overview and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class, reviews the histology practical, and outlines the learning objectives for the session.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory, germ theory, and Rous sarcoma virus",
+      "groupedBecause": "The lecturer traces the historical understanding of cells and germ theory leading to Peyton Rous's discovery of transmissible sarcoma in chickens.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+    },
+    {
+      "id": 3,
+      "label": "Transforming viruses and discovery of cellular proto-oncogenes",
+      "groupedBecause": "The lecturer explains how retroviruses integrate into host genomes, capture cellular genes like SRC, and reveal cellular proto-oncogenes.",
+      "startsWith": "This idea that cancer is a transmissible disease kind of took"
+    },
+    {
+      "id": 4,
+      "label": "Experimental assays for cell transformation",
+      "groupedBecause": "The lecturer outlines laboratory methods and phenotypic assays used to measure cellular transformation and oncogene activity in culture and animal models.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+    },
+    {
+      "id": 5,
+      "label": "Classifications of cancer mutations",
+      "groupedBecause": "The lecturer defines oncogenes, tumor suppressor genes, driver and passenger mutations, as well as gatekeepers and caretakers.",
+      "startsWith": "So [lip smacks] in doing so, you're going to say"
+    },
+    {
+      "id": 6,
+      "label": "Regulation of the G1/S cell cycle checkpoint",
+      "groupedBecause": "The lecturer describes the molecular control of the G1 to S transition by the retinoblastoma protein, cyclin D/CDK4/6 complexes, and kinase inhibitors.",
+      "startsWith": "Okay? So this should be basic revision for you in terms"
+    },
+    {
+      "id": 7,
+      "label": "Dominant-negative mutations and the p53 tetramer mechanism",
+      "groupedBecause": "The lecturer illustrates how point mutations in multimeric proteins like p53 act as dominant-negative alleles compared to null mutations.",
+      "startsWith": "What does that look like in terms of mutations? It kind"
+    },
+    {
+      "id": 8,
+      "label": "Chromosomal versus sequence genetic instability",
+      "groupedBecause": "The lecturer contrasts chromosomal instability characterized by aneuploidy and translocations with sequence instability characterized by point mutations.",
+      "startsWith": "Right. So we're going to move on to this idea"
+    },
+    {
+      "id": 9,
+      "label": "DNA repair pathways in cancer",
+      "groupedBecause": "The lecturer details DNA damage repair mechanisms, comparing high-fidelity homologous recombination with error-prone non-homologous end joining and mismatch repair defects.",
+      "startsWith": "Okay. So we're just going to run through the main"
+    },
+    {
+      "id": 10,
+      "label": "Replication errors, mitotic defects, and cellular stress responses",
+      "groupedBecause": "The lecturer describes how polymerase errors and lagging chromosomes during mitosis trigger micronuclei formation, cGAS-STING signaling, and cellular adaptation.",
+      "startsWith": "Okay. So I've told you now this failure or mutations"
+    },
+    {
+      "id": 11,
+      "label": "The Vogelstein multistep model of colorectal cancer",
+      "groupedBecause": "The lecturer discusses the sequential accumulation of genetic mutations that drives colorectal tissue from normal epithelium to adenoma and carcinoma.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 12,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "The lecturer explores inherited cancer risks, comparing caretaker syndromes like Lynch syndrome and BRCA mutations with gatekeeper syndromes like FAP and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be born"
+    },
+    {
+      "id": 13,
+      "label": "Closing remarks and recommended reading",
+      "groupedBecause": "The lecturer concludes the session, suggests a book for reading, and previews the next lecture on the hallmarks of cancer.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for today."
+    }
+  ]
+}

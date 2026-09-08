@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer opens the session by linking previous practicals to the lecture's aims and outlining the core learning outcomes.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you guys"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory, germ theory, and tumor virology history",
+      "groupedBecause": "This section traces the historical development from early cell and germ theories to Rous sarcoma virus experiments and the discovery of viral oncogenesis.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+    },
+    {
+      "id": 3,
+      "label": "Retroviral lifecycle and capture of proto-oncogenes",
+      "groupedBecause": "The lecturer explains the mechanism of retroviral integration and how viruses capture and alter cellular proto-oncogenes to become transforming viruses.",
+      "startsWith": "But this principle of that there are some viruses that do"
+    },
+    {
+      "id": 4,
+      "label": "Assays for cellular transformation",
+      "groupedBecause": "This passage details laboratory assays and experimental models used to test transforming properties and gene mutations in cultured cells and mice.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+    },
+    {
+      "id": 5,
+      "label": "Classifications of cancer mutations",
+      "groupedBecause": "The lecturer defines key classifications used in cancer genetics, contrasting oncogenes, tumor suppressor genes, driver versus passenger mutations, and gatekeepers versus caretakers.",
+      "startsWith": "So [lip smacks] in doing so, you're going to say"
+    },
+    {
+      "id": 6,
+      "label": "Cell cycle regulation at the G1/S checkpoint",
+      "groupedBecause": "This section explains the molecular mechanisms governing the G1/S checkpoint, focusing on Rb phosphorylation, cyclin-CDK complexes, and their regulatory inhibitors.",
+      "startsWith": "So this should be basic revision for you in terms of"
+    },
+    {
+      "id": 7,
+      "label": "Dominant-negative mutations in p53",
+      "groupedBecause": "The lecturer uses p53 tetrameric structure to explain how point mutations exert dominant-negative effects compared to null mutations.",
+      "startsWith": "All right. What does that mean? I'll give you one"
+    },
+    {
+      "id": 8,
+      "label": "Chromosomal versus sequence genetic instability",
+      "groupedBecause": "This passage distinguishes the two major types of cancer genetic instability—chromosomal instability and sequence instability—using colorectal cancer karyotypes and sequencing data.",
+      "startsWith": "Right. So we're going to move on to this idea"
+    },
+    {
+      "id": 9,
+      "label": "DNA repair pathways: MMR and double-strand break repair",
+      "groupedBecause": "The lecturer reviews DNA damage repair mechanisms, contrasting mismatch repair defects with homologous recombination and error-prone non-homologous end joining.",
+      "startsWith": "So we're just going to run through the main types"
+    },
+    {
+      "id": 10,
+      "label": "Replication errors, mitotic defects, and cellular consequences",
+      "groupedBecause": "This section covers DNA polymerase mutations and mitotic chromosome lagging, detailing their downstream cellular consequences such as micronuclei, chromothripsis, and cGAS-STING signaling.",
+      "startsWith": "Okay. So I've told you now this failure or mutations"
+    },
+    {
+      "id": 11,
+      "label": "Vogelstein multi-step model of tumor progression",
+      "groupedBecause": "The lecturer explains the multi-step model of colorectal cancer development, focusing on the timing and accumulation of specific gene mutations during progression.",
+      "startsWith": "Okay. Might want to pick up the pace here. So the"
+    },
+    {
+      "id": 12,
+      "label": "Hereditary cancer predispositions and clinical examples",
+      "groupedBecause": "This passage discusses hereditary cancer syndromes, examining specific cases such as FAP, Lynch syndrome, BRCA1/2-associated breast cancer, and retinoblastoma.",
+      "startsWith": "So, what if you're unlucky enough to be born with"
+    },
+    {
+      "id": 13,
+      "label": "Conclusion and reading recommendation",
+      "groupedBecause": "The lecturer closes the lecture by summarizing coverage of learning outcomes, recommending holiday reading, and announcing the next lecture topic.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for today."
+    }
+  ]
+}

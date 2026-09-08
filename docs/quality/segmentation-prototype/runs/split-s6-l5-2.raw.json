@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Opening and lecture learning outcomes",
+      "groupedBecause": "The lecturer welcomes the students, references previous histopathology practicals, and outlines the session's learning objectives.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory, germ theory, and tumor virology discovery",
+      "groupedBecause": "The lecturer traces the historical development from cell and germ theories to Peyton Rous's discovery of transforming viruses.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+    },
+    {
+      "id": 3,
+      "label": "Retroviral integration and cellular proto-oncogenes",
+      "groupedBecause": "The mechanism by which retroviruses integrate into host genomes to misregulate and acquire cellular proto-oncogenes is explained.",
+      "startsWith": "But this principle of that there are some viruses that do"
+    },
+    {
+      "id": 4,
+      "label": "Laboratory assays for cellular transformation",
+      "groupedBecause": "This section explains experimental methods used in the laboratory to test the transforming capacity and tumorigenicity of cancer genes.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+    },
+    {
+      "id": 5,
+      "label": "Classifications of cancer gene mutations",
+      "groupedBecause": "The lecturer defines and contrasts oncogenes, tumor suppressor genes, driver versus passenger mutations, and gatekeepers versus caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going"
+    },
+    {
+      "id": 6,
+      "label": "Cell cycle regulation at the G1/S checkpoint",
+      "groupedBecause": "The regulation of the G1 to S cell cycle checkpoint by retinoblastoma protein, cyclins, CDKs, and CDK inhibitors is detailed.",
+      "startsWith": "Okay? So this should be basic revision for you in"
+    },
+    {
+      "id": 7,
+      "label": "Dominant negative mutations in p53",
+      "groupedBecause": "The lecturer uses p53 tetrameric structure to explain how point mutations in the DNA-binding domain exert dominant-negative effects.",
+      "startsWith": "All right. What does that mean? I'll give you"
+    },
+    {
+      "id": 8,
+      "label": "Chromosomal versus sequence instability",
+      "groupedBecause": "The lecturer compares chromosomal instability and sequence instability using karyotype spreads and sequencing data from colorectal cancer cell lines.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 9,
+      "label": "DNA repair pathways and instability mechanisms",
+      "groupedBecause": "The mechanisms of nucleotide/base excision repair, mismatch repair slippage, and double-strand break repair pathways are compared.",
+      "startsWith": "Okay. So we're just going to run through the main"
+    },
+    {
+      "id": 10,
+      "label": "Mitotic errors and lagging chromosomes",
+      "groupedBecause": "The lecturer details how defects in DNA replication and mitosis lead to lagging chromosomes, micronuclei, chromothripsis, and cellular stress responses.",
+      "startsWith": "Okay. So I've told you now this failure or mutations"
+    },
+    {
+      "id": 11,
+      "label": "Vogelstein multi-step model of tumor progression",
+      "groupedBecause": "The multi-step accumulation and temporal order of genetic mutations driving progression from normal epithelium to metastatic carcinoma are discussed.",
+      "startsWith": "Okay. Might want to pick up the pace here. So the"
+    },
+    {
+      "id": 12,
+      "label": "Hereditary cancer predispositions and clinical syndromes",
+      "groupedBecause": "The concept of inherited cancer risk is explained through examples including FAP, Lynch syndrome, hereditary breast cancer, and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be"
+    },
+    {
+      "id": 13,
+      "label": "Closing remarks and recommended reading",
+      "groupedBecause": "The lecturer concludes the session, suggests supplementary reading, and previews the next lecture topic.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for"
+    }
+  ]
+}

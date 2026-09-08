@@ -1,0 +1,70 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Welcome, course structure, and learning outcomes",
+      "groupedBecause": "The lecturer introduces the lecture series, the interdisciplinary audience, and the key learning objectives for the session.",
+      "startsWith": "Okay, everyone, shall we get started? Yes. You're very welcome,"
+    },
+    {
+      "id": 2,
+      "label": "The multistep model of genetic, epigenetic, and viral changes",
+      "groupedBecause": "The lecturer explains how cancers accumulate stepwise genetic, epigenetic, and viral alterations over time.",
+      "startsWith": "Okay, so we're just going to start here with our core idea."
+    },
+    {
+      "id": 3,
+      "label": "Cancer as a failure of normal cellular differentiation and tissue architecture",
+      "groupedBecause": "The lecturer defines cancer in the context of developmental differentiation programs, tissue organization, and methods used to study tissue structure.",
+      "startsWith": "So what is cancer, really? So we've all, everybody sitting in"
+    },
+    {
+      "id": 4,
+      "label": "Invasion, metastasis, and distinguishing benign from malignant tumors",
+      "groupedBecause": "The lecturer examines the physical and histological characteristics that differentiate benign tumors from invasive, metastasizing malignancies.",
+      "startsWith": "Okay. So with these tools in hand, I think the important concept"
+    },
+    {
+      "id": 5,
+      "label": "Colorectal cancer as a model of stepwise tumor progression",
+      "groupedBecause": "The lecturer uses colorectal polyps and carcinomas to illustrate how tumors histologically progress across tissue layers from adenomas to invasive adenocarcinomas.",
+      "startsWith": "Right. So, we're going to focus on colorectal cancer as an"
+    },
+    {
+      "id": 6,
+      "label": "Progression potential and clinical hazards of benign tumors",
+      "groupedBecause": "The lecturer discusses why not all benign tumors become malignant and explains how non-malignant growths can still cause severe harm or death through mass effect and hormone secretion.",
+      "startsWith": "So some benign tumors become malignant, but they don't all become"
+    },
+    {
+      "id": 7,
+      "label": "Tumor nomenclature and classification conventions",
+      "groupedBecause": "The lecturer outlines the standardized naming conventions and notable exceptions for benign and malignant neoplasms across different tissue types.",
+      "startsWith": "Okay? So just so that we're all on the same page in terms"
+    },
+    {
+      "id": 8,
+      "label": "Pathophysiological mechanisms of cancer disease and mortality",
+      "groupedBecause": "The lecturer details the direct physical, metabolic, and metastatic mechanisms by which primary and secondary tumors cause morbidity and death.",
+      "startsWith": "Okay? So with that in mind, the question that often gets asked"
+    },
+    {
+      "id": 9,
+      "label": "Cancer incidence across tissues, species, and multicellular life",
+      "groupedBecause": "The lecturer compares tumor incidence rates across different human tissue lineages, companion animals, and broader multicellular taxa.",
+      "startsWith": "So just talking about incidence, about how often various tumors arise."
+    },
+    {
+      "id": 10,
+      "label": "Clinical detection and cancer screening strategies",
+      "groupedBecause": "The lecturer evaluates clinical presentation challenges and the effectiveness and limitations of population screening programs for cervical, colorectal, breast, and prostate cancers.",
+      "startsWith": "Okay, so what does this look like in the clinic? [chuckles] I"
+    },
+    {
+      "id": 11,
+      "label": "Lecture closing and practical preview",
+      "groupedBecause": "The lecturer concludes the session, references revision resources, and provides notice for upcoming practicals and lectures.",
+      "startsWith": "Okay? So I leave you with the learning outcomes. Hopefully, you will"
+    }
+  ]
+}

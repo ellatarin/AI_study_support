@@ -1,0 +1,106 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the specific learning outcomes for the session.",
+      "startsWith": "[background chatter] Okay, good afternoon, everybody. We'll get started now on this"
+    },
+    {
+      "id": 2,
+      "label": "Cancer as a genetic and microenvironmental disease",
+      "groupedBecause": "The lecturer explains the fundamental nature of cancer as a genetic disease requiring clonal advantage, evolutionary selection, and a permissive microenvironment.",
+      "startsWith": "So what is cancer? So at its heart, it's a genetic"
+    },
+    {
+      "id": 3,
+      "label": "Endogenous and inherited drivers of mutation",
+      "groupedBecause": "The lecturer outlines endogenous error-prone cellular processes, DNA repair limits, inherited genetic predispositions, and the role of stem cells in mutation accumulation.",
+      "startsWith": "So what is driving that? What is going on that enables"
+    },
+    {
+      "id": 4,
+      "label": "Survey of known and emerging environmental mutagens",
+      "groupedBecause": "The lecturer provides an overview of diverse environmental exposures and commercial products with proven or suspected carcinogenic links.",
+      "startsWith": "And so I'm going to think a little bit about"
+    },
+    {
+      "id": 5,
+      "label": "Bad luck versus environment and public perception",
+      "groupedBecause": "The lecturer discusses the Tomasetti and Vogelstein debate regarding bad luck versus environmental exposure and how the public misinterprets cancer risks.",
+      "startsWith": "So ultimately, we spend our lives with our cells endogenously"
+    },
+    {
+      "id": 6,
+      "label": "Geographic epidemiology and migration evidence",
+      "groupedBecause": "The lecturer presents global cancer incidence patterns and migrant studies showing the combined influence of environmental exposures and genetics.",
+      "startsWith": "Anyway, cancer, is it inevitable or is it caused? And"
+    },
+    {
+      "id": 7,
+      "label": "Pathogens and infectious agents in carcinogenesis",
+      "groupedBecause": "The lecturer surveys various bacteria, parasites, fungi, and oncogenic viruses that contribute to cancer development.",
+      "startsWith": "So what environmental cancers might be involved in this process? So"
+    },
+    {
+      "id": 8,
+      "label": "Burkitt lymphoma etiology and mechanism",
+      "groupedBecause": "The lecturer details the historical discovery, geographic distribution, and mechanistic synergy between malaria, EBV, and Myc translocation in Burkitt lymphoma.",
+      "startsWith": "So I'm going to use the example of Burkitt lymphoma,"
+    },
+    {
+      "id": 9,
+      "label": "Chemical carcinogens, DNA adducts, and metabolic activation",
+      "groupedBecause": "The lecturer explains how dietary toxins, UV radiation, and polycyclic hydrocarbons like benzo[a]pyrene and TCDD cause direct or metabolically activated DNA damage.",
+      "startsWith": "Okay, so we can have infectious agents involved in the"
+    },
+    {
+      "id": 10,
+      "label": "Tissue specificity of chemical carcinogens",
+      "groupedBecause": "The lecturer explains how bladder-specific glucuronidase enzymes reactivate beta-naphthylamine metabolites to cause tissue-specific carcinogenesis.",
+      "startsWith": "So where do we come to now? Back to cigarette"
+    },
+    {
+      "id": 11,
+      "label": "Cancer promoters, inflammation, and the Berenbaum hypothesis",
+      "groupedBecause": "The lecturer distinguishes tumor initiators from promoters using asbestos-induced chronic inflammation and the DMBA/TPA skin carcinogenesis model.",
+      "startsWith": "There are also environmental exposures which we associate with cancer,"
+    },
+    {
+      "id": 12,
+      "label": "Host developmental stage and tissue susceptibility",
+      "groupedBecause": "The lecturer explores how timing of exposure during puberty or pregnancy influences tissue susceptibility to carcinogenesis, using alkylating agents and radiation as examples.",
+      "startsWith": "Okay, so we have choices. We have random events that"
+    },
+    {
+      "id": 13,
+      "label": "Mutational signatures and genomic sequencing",
+      "groupedBecause": "The lecturer describes how whole-genome sequencing identifies characteristic mutational signatures left in DNA by specific carcinogens.",
+      "startsWith": "So how can we work out what's causing cancer?"
+    },
+    {
+      "id": 14,
+      "label": "Epidemiological approaches and biobanks",
+      "groupedBecause": "The lecturer explains how population epidemiology, urine biomarkers, and large-scale biobanks are used to link exposures to cancer outcomes.",
+      "startsWith": "So how can we prove carcinogenicity? How do we prove"
+    },
+    {
+      "id": 15,
+      "label": "In vivo toxicological studies and dosage considerations",
+      "groupedBecause": "The lecturer discusses the methodologies, species discordances, ethical concerns, and dosage challenges of animal carcinogenicity testing.",
+      "startsWith": "What about the mouse studies? Well, these are a little"
+    },
+    {
+      "id": 16,
+      "label": "The Ames test and in vitro limitations",
+      "groupedBecause": "The lecturer explains the bacterial Ames test for mutagenicity and highlights its failure to account for broader in vivo microenvironmental factors.",
+      "startsWith": "So we can do epidemiology, we can do in vivo"
+    },
+    {
+      "id": 17,
+      "label": "Lecture summary and risk-benefit perspective",
+      "groupedBecause": "The lecturer delivers the concluding summary on environmental cancer risks and the daily balancing of lifestyle benefits against risks.",
+      "startsWith": "So we will end it there with this summary, that"
+    }
+  ]
+}

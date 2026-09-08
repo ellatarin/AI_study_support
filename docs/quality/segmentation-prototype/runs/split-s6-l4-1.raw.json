@@ -1,0 +1,100 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the key learning outcomes for the session.",
+      "startsWith": "[background chatter] Okay, good afternoon, everybody. We'll get started now on this second"
+    },
+    {
+      "id": 2,
+      "label": "Cancer as a genetic disease and microenvironmental evolution",
+      "groupedBecause": "The lecturer explains the fundamental nature of cancer as an evolutionary process driven by genetic mutations within a supportive microenvironment.",
+      "startsWith": "So what is cancer? So at its heart, it's a genetic"
+    },
+    {
+      "id": 3,
+      "label": "The 'roulette wheel' of cancer risk factors",
+      "groupedBecause": "The lecturer describes the endogenous, environmental, genetic, and cell-type factors that contribute to the likelihood of acquiring oncogenic mutations.",
+      "startsWith": "And this is where I'm going to introduce you to"
+    },
+    {
+      "id": 4,
+      "label": "Survey of known and suspected environmental carcinogens",
+      "groupedBecause": "The lecturer reviews various real-world environmental and occupational exposures that have been linked or suspected to cause cancer.",
+      "startsWith": "And so I'm going to think a little bit about"
+    },
+    {
+      "id": 5,
+      "label": "Public interpretation of bad luck versus environmental causation",
+      "groupedBecause": "The lecturer discusses scientific papers and media reactions regarding whether cancer risk is primarily due to random bad luck or environmental exposures.",
+      "startsWith": "So ultimately, we spend our lives with our cells endogenously"
+    },
+    {
+      "id": 6,
+      "label": "Epidemiological evidence and geographical variation in cancer rates",
+      "groupedBecause": "The lecturer examines how global variations and migrant studies provide epidemiological evidence for environmental and lifestyle drivers of cancer.",
+      "startsWith": "And a lot of studies that have been done to try"
+    },
+    {
+      "id": 7,
+      "label": "Pathogens and infectious agents in carcinogenesis",
+      "groupedBecause": "The lecturer outlines how various bacteria, parasites, and viruses contribute to cancer development through inflammation or cell cycle disruption.",
+      "startsWith": "So we'll come back to the roulette wheel, and we're"
+    },
+    {
+      "id": 8,
+      "label": "Burkitt lymphoma as a case study of multi-factorial viral carcinogenesis",
+      "groupedBecause": "The lecturer details the discovery and mechanism of Burkitt lymphoma, illustrating how EBV, malaria, and Myc translocation collaborate to cause malignancy.",
+      "startsWith": "So I'm going to use the example of Burkitt lymphoma,"
+    },
+    {
+      "id": 9,
+      "label": "Dietary mutagens and UV radiation mechanisms",
+      "groupedBecause": "The lecturer explains how ingested toxins like aflatoxin and radiation like UV light directly induce DNA damage and base alterations.",
+      "startsWith": "Okay, so we can have infectious agents involved in the"
+    },
+    {
+      "id": 10,
+      "label": "Xenobiotic activation of chemical carcinogens",
+      "groupedBecause": "The lecturer describes how metabolic enzymes such as CYP1A1 inadvertently activate chemical compounds like benzo[a]pyrene and TCDD into reactive, DNA-damaging agents.",
+      "startsWith": "Where are we now? Smoking cigarettes. So why are cigarettes"
+    },
+    {
+      "id": 11,
+      "label": "Tissue-specific activation of aromatic amines in the bladder",
+      "groupedBecause": "The lecturer explains how beta-naphthylamine is specifically converted back into a carcinogenic metabolite in the bladder by local enzymes.",
+      "startsWith": "Where do we come to now? Back to cigarette smoke."
+    },
+    {
+      "id": 12,
+      "label": "Tumor promoters versus initiators",
+      "groupedBecause": "The lecturer contrasts mutational initiators with non-mutagenic promoters like asbestos and phorbol esters that drive cell proliferation and chronic inflammation.",
+      "startsWith": "There are also environmental exposures which we associate with cancer,"
+    },
+    {
+      "id": 13,
+      "label": "Developmental stage and cell susceptibility in carcinogenesis",
+      "groupedBecause": "The lecturer explains how tissue vulnerability to carcinogens depends on the developmental timing and proliferative state of the target cells.",
+      "startsWith": "Okay, so we have choices. We have random events that"
+    },
+    {
+      "id": 14,
+      "label": "Identifying carcinogen exposure through mutational signatures",
+      "groupedBecause": "The lecturer explains how whole-genome sequencing reveals distinct mutational signatures that pinpoint specific carcinogen exposures.",
+      "startsWith": "So how can we work out what's causing cancer? We"
+    },
+    {
+      "id": 15,
+      "label": "Methods for assessing carcinogenicity",
+      "groupedBecause": "The lecturer evaluates the methodologies used to determine carcinogenicity, including human biobanks, animal models, and bacterial mutagenesis assays.",
+      "startsWith": "So how can we prove carcinogenicity? How do we prove"
+    },
+    {
+      "id": 16,
+      "label": "Summary and closing remarks",
+      "groupedBecause": "The lecturer concludes the lecture with a summary of environmental cancer risks and benefit-risk trade-offs.",
+      "startsWith": "So we will end it there with this summary, that"
+    }
+  ]
+}

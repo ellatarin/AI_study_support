@@ -1,0 +1,88 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class, reviews histopathology practicals, and outlines the learning outcomes for the lecture.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you"
+    },
+    {
+      "id": 2,
+      "label": "History of tumor virology and transmissible cancers",
+      "groupedBecause": "The lecturer traces the historical development of cell and germ theories leading to Peyton Rous's discovery of transmissible tumor viruses.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+    },
+    {
+      "id": 3,
+      "label": "Retroviral provirus integration and cellular proto-oncogenes",
+      "groupedBecause": "The lecturer explains how retroviruses integrate into host DNA and capture cellular proto-oncogenes to become transforming viruses.",
+      "startsWith": "But this principle of that there are some viruses that do"
+    },
+    {
+      "id": 4,
+      "label": "Experimental assays for cellular transformation",
+      "groupedBecause": "The lecturer describes laboratory assays used in cell culture and animal models to test whether genes and mutations cause cellular transformation.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+    },
+    {
+      "id": 5,
+      "label": "Classifying cancer mutations and gene functions",
+      "groupedBecause": "The lecturer defines key categories of cancer mutations including oncogenes versus tumor suppressors, drivers versus passengers, and gatekeepers versus caretakers.",
+      "startsWith": "So [lip smacks] in doing so, you're going to say"
+    },
+    {
+      "id": 6,
+      "label": "G1/S checkpoint regulation and Rb pathway alteration",
+      "groupedBecause": "The lecturer explains how the retinoblastoma protein and cyclin-CDK complexes regulate the G1/S transition and how oncogenic alterations bypass this control.",
+      "startsWith": "So this should be basic revision for you in terms of"
+    },
+    {
+      "id": 7,
+      "label": "Dominant versus recessive mutations and p53 dominant negatives",
+      "groupedBecause": "The lecturer contrasts dominant oncogenic and recessive tumor-suppressive alleles, illustrating with p53 how tetrameric multimerization enables dominant-negative effects.",
+      "startsWith": "What does that look like in terms of mutations? It kind"
+    },
+    {
+      "id": 8,
+      "label": "Chromosomal versus sequence genetic instability",
+      "groupedBecause": "The lecturer compares chromosomal instability and sequence instability using karyotype and sequencing profiles of two colorectal cancer cell lines.",
+      "startsWith": "Right. So we're going to move on to this idea"
+    },
+    {
+      "id": 9,
+      "label": "DNA damage repair pathways in cancer",
+      "groupedBecause": "The lecturer reviews mismatch repair, homologous recombination, and non-homologous end joining mechanisms and how defects in them cause genomic instability.",
+      "startsWith": "So we're just going to run through the main types"
+    },
+    {
+      "id": 10,
+      "label": "Replication errors, mitotic defects, and cellular stress consequences",
+      "groupedBecause": "The lecturer discusses polymerase epsilon mutations, mitotic spindle errors resulting in lagging chromosomes, and downstream consequences such as chromothripsis and cGAS-STING signaling.",
+      "startsWith": "So I've told you now this failure or mutations in"
+    },
+    {
+      "id": 11,
+      "label": "The Vogelstein model of stepwise mutation accumulation",
+      "groupedBecause": "The lecturer discusses the multistep model of colorectal cancer progression and the timing of specific genetic mutations during tumor development.",
+      "startsWith": "So the Vogelstein model as I said there we were"
+    },
+    {
+      "id": 12,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "The lecturer details hereditary cancer syndromes—including FAP, Lynch syndrome, hereditary breast cancer, and retinoblastoma—and explains how inheriting a first hit accelerates malignancy.",
+      "startsWith": "So, what if you're unlucky enough to be born with"
+    },
+    {
+      "id": 13,
+      "label": "Dispensability of genetic instability for malignancy in BRCA2 reversion",
+      "groupedBecause": "The lecturer presents a clinical case showing that secondary restoration of BRCA2 function in a tumor does not eliminate malignancy.",
+      "startsWith": "Right. But this is the last slide to tell you"
+    },
+    {
+      "id": 14,
+      "label": "Conclusion and recommended reading",
+      "groupedBecause": "The lecturer wraps up the lecture, offers a book recommendation, and previews the next session.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for today."
+    }
+  ]
+}

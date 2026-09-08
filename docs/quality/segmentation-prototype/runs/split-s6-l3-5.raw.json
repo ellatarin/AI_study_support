@@ -1,0 +1,70 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction to cancer biology course structure and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the students, outlines the course background and multidisciplinary audience, and introduces the session's key learning outcomes.",
+      "startsWith": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you,"
+    },
+    {
+      "id": 2,
+      "label": "Genetic, epigenetic, and infectious drivers of tumor initiation",
+      "groupedBecause": "The passage outlines the stepwise accumulation of diverse molecular changes—including mutations, epigenetic modifications, and viral infections—that transform a normal cell.",
+      "startsWith": "Okay, so we're just going to start here with our core idea."
+    },
+    {
+      "id": 3,
+      "label": "Cancer as a failure of cellular differentiation and tissue architecture",
+      "groupedBecause": "The lecturer explains how cancer represents a breakdown in normal developmental differentiation and tissue structure, using histology and cell culture models as illustration.",
+      "startsWith": "So what is cancer, really? So we've all, everybody sitting in this room,"
+    },
+    {
+      "id": 4,
+      "label": "Benign versus malignant tumors, invasion, and metastatic routes",
+      "groupedBecause": "This section distinguishes benign from malignant tumors based on mobility and tissue invasion, and outlines how cancer cells spread to secondary sites.",
+      "startsWith": "Okay. So with these tools in hand, I think the important concept"
+    },
+    {
+      "id": 5,
+      "label": "Colorectal cancer progression from adenoma to adenocarcinoma",
+      "groupedBecause": "The lecturer uses colorectal polyps to illustrate the histological steps of tumor progression across the basement membrane proxy into invasive malignancy.",
+      "startsWith": "Right. So, we're going to focus on colorectal cancer as an"
+    },
+    {
+      "id": 6,
+      "label": "Malignant potential and clinical risks of benign tumors",
+      "groupedBecause": "This passage discusses the variable progression of benign tumors and how even non-malignant growths can cause serious harm through anatomical compression.",
+      "startsWith": "So some benign tumors become malignant, but they don't all become"
+    },
+    {
+      "id": 7,
+      "label": "Principles and exceptions of tumor nomenclature",
+      "groupedBecause": "The lecturer explains the systematic naming conventions for benign and malignant neoplasms across different tissue types along with notable exceptions.",
+      "startsWith": "Okay? So just so that we're all on the same page in terms"
+    },
+    {
+      "id": 8,
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "The passage details the various physical, metabolic, and metastatic mechanisms through which primary and secondary tumors cause illness and death.",
+      "startsWith": "Okay? So with that in mind, the question that often gets"
+    },
+    {
+      "id": 9,
+      "label": "Comparative tumor incidence in humans, animals, and multicellular life",
+      "groupedBecause": "The lecturer surveys the frequency of major human cancers and compares tumor incidence across companion animals and diverse multicellular organisms.",
+      "startsWith": "So just talking about incidence, about how often various tumors arise."
+    },
+    {
+      "id": 10,
+      "label": "Clinical presentation and cancer screening modalities",
+      "groupedBecause": "This section examines the clinical signs of cancer and evaluates screening methods across cervical, colorectal, breast, and prostate cancers.",
+      "startsWith": "Okay, so what does this look like in the clinic? [chuckles]"
+    },
+    {
+      "id": 11,
+      "label": "Lecture conclusion and practical session preview",
+      "groupedBecause": "The lecturer concludes the lecture by referencing the learning outcomes and reminding students about upcoming practical sessions.",
+      "startsWith": "Okay? So I leave you with the learning outcomes. Hopefully,"
+    }
+  ]
+}

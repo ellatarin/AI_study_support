@@ -1,0 +1,100 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Opening and learning outcomes",
+      "groupedBecause": "The lecturer introduces the session, connects it to practicals, and outlines the day's learning outcomes.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I"
+    },
+    {
+      "id": 2,
+      "label": "Historical development of cell theory, germ theory, and Rous sarcoma virus",
+      "groupedBecause": "This section traces how early microscopy and germ theory led to Peyton Rous discovering viral cellular transformation.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Tumor viruses and their contribution to human cancer",
+      "groupedBecause": "The lecturer discusses the search for transforming viruses and outlines the major viral causes of human cancer.",
+      "startsWith": "This idea that cancer is a transmissible disease kind"
+    },
+    {
+      "id": 4,
+      "label": "Retroviral transduction and discovery of cellular proto-oncogenes",
+      "groupedBecause": "This passage details the mechanism by which retroviruses integrate, capture cellular proto-oncogenes, and misregulate them.",
+      "startsWith": "But this principle of that there are some viruses"
+    },
+    {
+      "id": 5,
+      "label": "Assays for detecting cell transformation and oncogenic mutations",
+      "groupedBecause": "The lecturer describes laboratory methods and cell models used to test transformed phenotypes and mutagenic potential.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 6,
+      "label": "Classification of cancer mutations: oncogenes, tumor suppressors, drivers, and caretakers",
+      "groupedBecause": "This section defines the key conceptual categories used to classify cancer genes and mutations.",
+      "startsWith": "So [lip smacks] in doing so, you're going"
+    },
+    {
+      "id": 7,
+      "label": "Cell cycle G1/S checkpoint regulation by Rb and CDK complexes",
+      "groupedBecause": "The lecturer explains the biochemical mechanism of the G1/S checkpoint and how mutations alter Rb pathway control.",
+      "startsWith": "So this should be basic revision for you in"
+    },
+    {
+      "id": 8,
+      "label": "Dominant-negative mutations and p53 tetramer disruption",
+      "groupedBecause": "This passage explains how point mutations in multimeric proteins like p53 can exert dominant-negative effects.",
+      "startsWith": "What does that look like in terms of mutations?"
+    },
+    {
+      "id": 9,
+      "label": "Distinguishing chromosomal instability from sequence instability",
+      "groupedBecause": "The lecturer compares chromosomal instability with sequence instability using two contrasting colorectal cancer cell lines.",
+      "startsWith": "Right. So we're going to move on to"
+    },
+    {
+      "id": 10,
+      "label": "Excision repair and mismatch repair defects",
+      "groupedBecause": "This section explains how mismatch repair failure and replication slippage cause microsatellite sequence instability.",
+      "startsWith": "So we're just going to run through the"
+    },
+    {
+      "id": 11,
+      "label": "Double-strand break repair: homologous recombination versus non-homologous end joining",
+      "groupedBecause": "The lecturer contrasts high-fidelity homologous recombination via BRCA1/2 with error-prone non-homologous end joining.",
+      "startsWith": "Obviously, that's not going to be the case for"
+    },
+    {
+      "id": 12,
+      "label": "Replication errors, mitotic failure, and cellular stress consequences",
+      "groupedBecause": "This section covers polymerase errors, chromosome lagging during mitosis, and the resulting downstream cellular stress responses.",
+      "startsWith": "So I've told you now this failure or"
+    },
+    {
+      "id": 13,
+      "label": "Multi-step carcinogenesis and the Vogelstein model",
+      "groupedBecause": "The lecturer discusses the sequential accumulation of mutations in colorectal cancer progression.",
+      "startsWith": "Might want to pick up the pace here. So"
+    },
+    {
+      "id": 14,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "This section examines how inherited germline mutations in caretakers and gatekeepers accelerate tumor development.",
+      "startsWith": "So, what if you're unlucky enough to be"
+    },
+    {
+      "id": 15,
+      "label": "Secondary reversion in BRCA2 and dispensability of genetic instability for malignancy",
+      "groupedBecause": "The lecturer explains how BRCA2 reversion restores repair function while demonstrating that instability is not essential to maintain malignancy.",
+      "startsWith": "Right. So I forgot what I wanted to say"
+    },
+    {
+      "id": 16,
+      "label": "Closing remarks and recommended reading",
+      "groupedBecause": "The lecturer provides closing administrative remarks, reading recommendations, and an outlook on the next lecture.",
+      "startsWith": "So I hope that covers our learning outcomes for"
+    }
+  ]
+}

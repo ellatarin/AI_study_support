@@ -1,0 +1,15 @@
+{
+  "promptVersion": "s5",
+  "lecture": "l5",
+  "instance": "13",
+  "modelId": "google/gemini-3.7-flash",
+  "transcriptPath": "/Users/ellatarin/Lecture Notes/Biology of Disease/Pipeline processing/Lecture 5 - Cancer Genetics, Oncogenes, and Genomic Instability - 2026-03-09/Transcript/transcript.txt",
+  "seconds": 16,
+  "promptTokens": 10936,
+  "completionTokens": 2593,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": null,
+  "subtopics": 13,
+  "fidelity": "EXACT"
+}

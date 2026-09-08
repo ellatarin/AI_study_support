@@ -1,0 +1,76 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer opens the session by connecting back to practical sessions and outlining the learning outcomes for the lecture.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory, germ theory, and tumor virology",
+      "groupedBecause": "The lecturer traces the historical development of cancer biology from cellular and germ theories to the discovery of animal and human tumor viruses.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Retroviral oncogene capture and transformation assays",
+      "groupedBecause": "The lecturer explains how retroviruses integrate and capture cellular proto-oncogenes and describes laboratory assays used to test cell transformation.",
+      "startsWith": "But this principle of that there are some viruses that"
+    },
+    {
+      "id": 4,
+      "label": "Classification of cancer mutations",
+      "groupedBecause": "The lecturer defines and contrasts the main functional categories used to classify cancer mutations, including oncogenes, tumor suppressors, drivers, and caretakers.",
+      "startsWith": "So [lip smacks] in doing so, you're going to"
+    },
+    {
+      "id": 5,
+      "label": "Regulation of the G1/S cell cycle checkpoint",
+      "groupedBecause": "The lecturer explains the molecular regulation of the G1/S transition by Rb, CDK complexes, and inhibitors, detailing how oncogenic and tumor-suppressive mutations bypass it.",
+      "startsWith": "So this should be basic revision for you in terms"
+    },
+    {
+      "id": 6,
+      "label": "Dominant-negative mutations and p53",
+      "groupedBecause": "The lecturer uses p53 as an example to explain how point mutations in multimeric proteins can produce dominant-negative phenotypes rather than classic recessive loss-of-function.",
+      "startsWith": "What does that look like in terms of mutations? It"
+    },
+    {
+      "id": 7,
+      "label": "Chromosomal versus sequence genetic instability",
+      "groupedBecause": "The lecturer introduces genetic instability as an inherent defect of cancer cells and contrasts chromosomal instability with sequence instability.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 8,
+      "label": "DNA repair pathways and mechanisms of instability",
+      "groupedBecause": "The lecturer explains the mechanisms of DNA repair, focusing on mismatch repair, homologous recombination, non-homologous end joining, and polymerase proofreading defects.",
+      "startsWith": "So we're just going to run through the main"
+    },
+    {
+      "id": 9,
+      "label": "Mitotic chromosome segregation defects and cellular stress",
+      "groupedBecause": "The lecturer describes how mitotic errors lead to lagging chromosomes and details downstream consequences including chromothripsis, cGAS-STING signaling, and cancer adaptation.",
+      "startsWith": "In terms of chromosomal instability, I have a few"
+    },
+    {
+      "id": 10,
+      "label": "The Vogelstein multi-step model of tumor progression",
+      "groupedBecause": "The lecturer explains the stepwise accumulation and non-linear ordering of mutations during adenoma-to-carcinoma progression using the Vogelstein model.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 11,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "The lecturer examines inherited cancer susceptibility syndromes, detailing how inherited mutations in gatekeeper or caretaker genes accelerate tumor formation.",
+      "startsWith": "So, what if you're unlucky enough to be born"
+    },
+    {
+      "id": 12,
+      "label": "Closing remarks and recommended reading",
+      "groupedBecause": "The lecturer concludes the session with a reading recommendation and preview of the next lecture.",
+      "startsWith": "Okay. So I hope that covers our learning outcomes for"
+    }
+  ]
+}

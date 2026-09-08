@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer connects the practical histopathology sessions to the lecture goals and outlines the learning outcomes regarding cancer genetics and transformation.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I"
+    },
+    {
+      "id": 2,
+      "label": "Tumor virology and discovery of cellular proto-oncogenes",
+      "groupedBecause": "The lecturer traces how cell and germ theories led to Rous sarcoma virus experiments and the discovery that retroviruses capture and misregulate cellular proto-oncogenes.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Experimental assays for cell transformation and oncogenic mutations",
+      "groupedBecause": "The lecturer outlines laboratory methods used to test gene transforming capacity and mutations, including soft agar assays, focus formation in NIH 3T3 cells, and mouse xenografts.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 4,
+      "label": "Classification of cancer genes and cell cycle regulation",
+      "groupedBecause": "The lecturer defines oncogenes, tumor suppressors, gatekeepers, and caretakers, explaining their roles through G1/S cell cycle checkpoint regulation and p53 dominant-negative effects.",
+      "startsWith": "So [lip smacks] in doing so, you're going to"
+    },
+    {
+      "id": 5,
+      "label": "Forms of genetic instability in cancer",
+      "groupedBecause": "The lecturer contrasts sequence instability and chromosomal instability using karyotypes and sequencing data from two distinct colorectal cancer cell lines.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 6,
+      "label": "Mechanisms of DNA repair failure and mitotic errors",
+      "groupedBecause": "The lecturer explains how defects in mismatch repair, double-strand break repair, proofreading polymerases, and mitotic chromosome segregation cause genetic instability and cellular stress.",
+      "startsWith": "Okay. So we're just going to run through the"
+    },
+    {
+      "id": 7,
+      "label": "The Vogelstein multi-step model of cancer progression",
+      "groupedBecause": "The lecturer explains the stepwise progression of colorectal cancer from normal epithelium to metastasis through the accumulation and timing of specific mutations.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 8,
+      "label": "Hereditary cancer predispositions and two-hit kinetics",
+      "groupedBecause": "The lecturer explains how inheriting a mutated allele accelerates cancer development, illustrating this with familial adenomatous polyposis, Lynch syndrome, BRCA breast cancer, and retinoblastoma.",
+      "startsWith": "So, what if you're unlucky enough to be born"
+    },
+    {
+      "id": 9,
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "The lecturer concludes the lecture, offers to take questions, recommends a reading book, and previews the next session.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for"
+    }
+  ]
+}

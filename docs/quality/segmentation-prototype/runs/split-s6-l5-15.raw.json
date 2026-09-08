@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the students and outlines the learning outcomes and topics for the lecture.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+    },
+    {
+      "id": 2,
+      "label": "History of cell theory, germ theory, and tumor virology",
+      "groupedBecause": "The lecturer traces the historical development from cell and germ theories to Peyton Rous's discovery of tumor-causing viruses and the identification of human oncogenic viruses.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Retroviral capture of cellular proto-oncogenes",
+      "groupedBecause": "The lecturer explains the mechanism by which retroviruses integrate near and capture cellular proto-oncogenes like SRC, establishing that oncogenes originate from normal cellular genes.",
+      "startsWith": "But this principle of that there are some viruses that do cause"
+    },
+    {
+      "id": 4,
+      "label": "Assays for cell transformation and oncogenic mutations",
+      "groupedBecause": "The lecturer explains experimental assays used to detect cellular transformation and evaluate specific oncogenic mutations in vitro and in vivo.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 5,
+      "label": "Classification of cancer mutations and genes",
+      "groupedBecause": "The lecturer defines and contrasts the classifications of cancer gene mutations, including oncogenes, tumor suppressors, drivers, passengers, gatekeepers, and caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going to say"
+    },
+    {
+      "id": 6,
+      "label": "G1/S checkpoint regulation and Rb pathway mutations",
+      "groupedBecause": "The lecturer describes the molecular regulation of the G1/S cell cycle checkpoint by the Rb pathway and how oncogenic or tumor-suppressive mutations compromise this control.",
+      "startsWith": "Okay? So this should be basic revision for you in terms"
+    },
+    {
+      "id": 7,
+      "label": "Mutation effects and dominant-negative mechanisms in p53",
+      "groupedBecause": "The lecturer explains how mutation types influence phenotype using the example of p53 tetramer formation and dominant-negative point mutations versus null mutations.",
+      "startsWith": "What does that look like in terms of mutations? It kind"
+    },
+    {
+      "id": 8,
+      "label": "Types of genetic instability: Chromosomal vs sequence instability",
+      "groupedBecause": "The lecturer introduces genetic instability as a cancer-specific defect and contrasts chromosomal instability with sequence instability using colorectal cancer cell karyotypes.",
+      "startsWith": "Right. So we're going to move on to this idea"
+    },
+    {
+      "id": 9,
+      "label": "DNA repair pathways and their breakdown in cancer",
+      "groupedBecause": "The lecturer details the cellular DNA repair pathways—mismatch repair and double-strand break repair via homologous recombination or error-prone joining—and their roles in sequence versus chromosomal instability.",
+      "startsWith": "Okay. So we're just going to run through the main"
+    },
+    {
+      "id": 10,
+      "label": "Mitotic errors and consequences of chromosome segregation defects",
+      "groupedBecause": "The lecturer explains how replication errors and mitotic defects generate lagging chromosomes, micronuclei, chromothripsis, and downstream stress responses that drive tumor evolution.",
+      "startsWith": "Okay. So I've told you now this failure or mutations"
+    },
+    {
+      "id": 11,
+      "label": "The Vogelstein multi-step model of tumor progression",
+      "groupedBecause": "The lecturer presents the Vogelstein model of multi-step colorectal cancer progression, discussing the timing and order in which specific driver mutations accumulate.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 12,
+      "label": "Hereditary cancer predispositions and syndromes",
+      "groupedBecause": "The lecturer discusses hereditary cancer predispositions and compares specific inherited syndromes including FAP, Lynch syndrome, hereditary breast cancer, and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be born"
+    },
+    {
+      "id": 13,
+      "label": "Closing remarks and recommended reading",
+      "groupedBecause": "The lecturer concludes the lecture, invites questions, recommends a book for reading, and previews the next lecture topic.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for today."
+    }
+  ]
+}

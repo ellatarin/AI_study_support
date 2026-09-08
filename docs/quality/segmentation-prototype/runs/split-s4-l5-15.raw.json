@@ -1,0 +1,88 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer opens the lecture by recapping the histopathology practical and framing the day's learning outcomes on cellular transformation and genetic changes in cancer.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory and germ theory of disease",
+      "groupedBecause": "This section outlines the historical development of microscopy, cell theory, and the germ theory of disease.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Tumor virology and Rous sarcoma virus",
+      "groupedBecause": "This section explains Peyton Rous's chicken sarcoma experiments, the birth of tumor virology, and the epidemiology of viral cancers.",
+      "startsWith": "It wasn't such a leap to think that cancer was"
+    },
+    {
+      "id": 4,
+      "label": "Retroviral life cycle and proto-oncogene capture",
+      "groupedBecause": "This section explains how retroviral integration captures and mutates host cellular proto-oncogenes like SRC, Abl, KIT, Ras, and Myc.",
+      "startsWith": "But this principle of that there are some viruses that"
+    },
+    {
+      "id": 5,
+      "label": "Assays for cellular transformation",
+      "groupedBecause": "This section details the experimental assays used in vitro and in vivo to test whether specific mutated genes transform cells.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 6,
+      "label": "Definitions of oncogenes, tumor suppressors, drivers, and caretakers",
+      "groupedBecause": "This section classifies cancer-associated mutations into oncogenic, tumor-suppressive, driver, passenger, gatekeeper, and caretaker categories.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going"
+    },
+    {
+      "id": 7,
+      "label": "G1/S checkpoint regulation and the Rb pathway",
+      "groupedBecause": "This section explains how cyclins, CDKs, p16, p21, and the retinoblastoma protein regulate the G1 to S cell cycle checkpoint and how pathway mutations relieve repression.",
+      "startsWith": "Okay? So this should be basic revision for you in"
+    },
+    {
+      "id": 8,
+      "label": "Dominant-negative mutations and p53 tetramers",
+      "groupedBecause": "This section illustrates how point mutations in multimeric proteins like p53 exert a dominant-negative effect compared to null mutations.",
+      "startsWith": "What does that mean? I'll give you one example"
+    },
+    {
+      "id": 9,
+      "label": "Sequence instability versus chromosomal instability",
+      "groupedBecause": "This section defines genetic instability and compares colorectal cancer cell lines exhibiting sequence instability versus chromosomal instability.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 10,
+      "label": "DNA repair pathway defects in cancer",
+      "groupedBecause": "This section details the mechanisms of mismatch repair slippage and double-strand break repair via homologous recombination or non-homologous end joining.",
+      "startsWith": "Okay. So we're just going to run through the"
+    },
+    {
+      "id": 11,
+      "label": "Mitotic errors, lagging chromosomes, and cellular stress",
+      "groupedBecause": "This section examines mitotic spindle defects, lagging chromosomes, chromothripsis, and the resulting downstream cellular stresses and adaptations.",
+      "startsWith": "Okay. So I've told you now this failure or"
+    },
+    {
+      "id": 12,
+      "label": "Vogelstein model of colorectal cancer progression",
+      "groupedBecause": "This section describes the stepwise multi-mutation progression model from normal epithelium through adenoma to metastatic carcinoma.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 13,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "This section covers inherited cancer syndromes including familial adenomatous polyposis, Lynch syndrome, BRCA-associated breast cancer, and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be"
+    },
+    {
+      "id": 14,
+      "label": "Closing and reading recommendations",
+      "groupedBecause": "The lecturer concludes the session, offers to answer questions, recommends a book, and previews the next lecture.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for"
+    }
+  ]
+}

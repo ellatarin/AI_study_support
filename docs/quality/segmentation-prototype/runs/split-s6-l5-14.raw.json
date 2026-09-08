@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the lecture, connects it to prior practicals, and outlines the day's learning outcomes.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory, germ theory, and the discovery of tumor viruses",
+      "groupedBecause": "The lecturer traces the historical development from cellular and germ theories to the discovery of transmissible transforming viruses like Rous sarcoma virus.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Retroviral provirus integration and cellular proto-oncogenes",
+      "groupedBecause": "The lecturer explains the mechanism by which retroviruses capture host proto-oncogenes to form transforming viruses, establishing that cancer originates in cellular genes.",
+      "startsWith": "But this principle of that there are some viruses that"
+    },
+    {
+      "id": 4,
+      "label": "Experimental assays for cell transformation",
+      "groupedBecause": "The lecturer describes in vitro and in vivo assays used to detect cellular transformation and test specific cancer mutations.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 5,
+      "label": "Functional classifications of cancer mutations",
+      "groupedBecause": "The lecturer defines oncogenes, tumor suppressor genes, driver versus passenger mutations, and gatekeepers versus caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going to say"
+    },
+    {
+      "id": 6,
+      "label": "Rb pathway and the G1/S cell cycle checkpoint",
+      "groupedBecause": "The lecturer explains the regulation of the G1/S checkpoint by Rb, cyclins, CDKs, and CDK inhibitors, and how oncogenic or tumor-suppressive alterations disrupt it.",
+      "startsWith": "Okay? So this should be basic revision for you in terms"
+    },
+    {
+      "id": 7,
+      "label": "Mutation dynamics and the dominant-negative effect of p53",
+      "groupedBecause": "The lecturer contrasts dominant and recessive mutations and details the dominant-negative mechanism of tetrameric p53 point mutations.",
+      "startsWith": "What does that look like in terms of mutations? It kind"
+    },
+    {
+      "id": 8,
+      "label": "Chromosomal versus sequence genetic instability",
+      "groupedBecause": "The lecturer introduces genetic instability and contrasts chromosomal instability with sequence instability using colorectal cancer cell line karyotypes.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 9,
+      "label": "DNA repair pathways in cancer",
+      "groupedBecause": "The lecturer reviews DNA repair mechanisms, explaining how defects in mismatch repair cause microsatellite instability and defects in homologous recombination cause chromosomal instability.",
+      "startsWith": "Okay. So we're just going to run through the main"
+    },
+    {
+      "id": 10,
+      "label": "Mitotic errors, lagging chromosomes, and cellular stress responses",
+      "groupedBecause": "The lecturer discusses replication and mitotic errors that lead to lagging chromosomes, micronuclei, chromothripsis, and subsequent cellular stress responses.",
+      "startsWith": "Okay. So I've told you now this failure or"
+    },
+    {
+      "id": 11,
+      "label": "The Vogelstein multi-step model of tumor progression",
+      "groupedBecause": "The lecturer details the Vogelstein model describing the sequential accumulation of genetic mutations during colorectal cancer progression.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 12,
+      "label": "Hereditary cancer predisposition syndromes and two-hit hypothesis",
+      "groupedBecause": "The lecturer explores hereditary cancer predispositions, illustrating the two-hit hypothesis through syndromes like FAP, Lynch syndrome, hereditary breast cancer, and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be"
+    },
+    {
+      "id": 13,
+      "label": "Closing remarks and recommended reading",
+      "groupedBecause": "The lecturer concludes the session, recommends further reading, and previews the upcoming lecture.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for"
+    }
+  ]
+}

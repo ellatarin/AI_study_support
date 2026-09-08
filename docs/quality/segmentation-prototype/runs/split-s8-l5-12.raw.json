@@ -1,0 +1,76 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes students, links the material to prior histopathology practicals, and outlines the session's learning outcomes.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+    },
+    {
+      "id": 2,
+      "label": "Historical discovery of tumor viruses and cellular proto-oncogenes",
+      "groupedBecause": "This section traces the history from cell and germ theories to Rous sarcoma virus and the discovery that transforming viruses capture normal cellular proto-oncogenes.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Assays for cellular transformation",
+      "groupedBecause": "This section describes laboratory assays used to test gene oncogenicity, including focus formation, soft agar growth, and tumorigenicity in nude mice.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 4,
+      "label": "Classifications of cancer mutations",
+      "groupedBecause": "This section defines and contrasts oncogenes versus tumor suppressors, driver versus passenger mutations, and gatekeepers versus caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going to"
+    },
+    {
+      "id": 5,
+      "label": "Regulation of the G1 to S cell cycle checkpoint",
+      "groupedBecause": "This passage details the biochemical regulation of the G1/S transition by Rb, CDK4/6, D-type cyclins, and kinase inhibitors, and how mutations alter this checkpoint.",
+      "startsWith": "So this should be basic revision for you in terms"
+    },
+    {
+      "id": 6,
+      "label": "Dominant versus recessive mutations and p53 dominant negativity",
+      "groupedBecause": "This section explains why mutation types differ functionally, using the tetrameric structure of p53 to illustrate how point mutations exert dominant-negative effects.",
+      "startsWith": "What does that look like in terms of mutations? It"
+    },
+    {
+      "id": 7,
+      "label": "Chromosomal versus sequence genetic instability",
+      "groupedBecause": "This section introduces genetic instability as an intrinsic cancer defect and contrasts sequence instability with chromosomal instability using colorectal cancer cell lines.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 8,
+      "label": "DNA repair pathways in cancer instability",
+      "groupedBecause": "This passage explains how defects in mismatch repair cause sequence instability and how failures in homologous recombination versus nonhomologous end joining cause chromosomal rearrangements.",
+      "startsWith": "Okay. So we're just going to run through the"
+    },
+    {
+      "id": 9,
+      "label": "Mitotic errors, lagging chromosomes, and cellular stress responses",
+      "groupedBecause": "This section explains how replication errors and mitotic chromosome segregation failures produce lagging chromosomes, micronuclei, chromothripsis, and protumorigenic stress adaptation.",
+      "startsWith": "Okay. So I've told you now this failure or"
+    },
+    {
+      "id": 10,
+      "label": "The Vogelstein multi-step model of tumor progression",
+      "groupedBecause": "This section describes the stepwise accumulation and timing of mutations driving the transition from normal epithelium to metastatic carcinoma.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 11,
+      "label": "Hereditary cancer predispositions and clinical syndromes",
+      "groupedBecause": "This section discusses how inherited germline mutations accelerate cancer development and compares specific syndromes including FAP, Lynch syndrome, hereditary breast cancer, and retinoblastoma.",
+      "startsWith": "So, what if you're unlucky enough to be born"
+    },
+    {
+      "id": 12,
+      "label": "Conclusion and reading recommendation",
+      "groupedBecause": "The lecturer concludes the session with a reading recommendation and a preview of the next lecture topic.",
+      "startsWith": "Okay. So I hope that covers our learning outcomes for"
+    }
+  ]
+}

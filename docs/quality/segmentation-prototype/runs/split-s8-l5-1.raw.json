@@ -1,0 +1,88 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the students, references the recent practicals, and outlines the learning outcomes for the lecture.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you"
+    },
+    {
+      "id": 2,
+      "label": "History of cell and germ theories and Rous sarcoma virus",
+      "groupedBecause": "The lecturer traces the historical development from early microscopy and germ theory to Peyton Rous's discovery of transmissible sarcoma in chickens.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+    },
+    {
+      "id": 3,
+      "label": "Transforming viruses and cellular proto-oncogenes",
+      "groupedBecause": "This section explains how transforming retroviruses capture and misregulate cellular proto-oncogenes to drive oncogenesis.",
+      "startsWith": "This idea that cancer is a transmissible disease kind of took"
+    },
+    {
+      "id": 4,
+      "label": "Experimental assays for cell transformation",
+      "groupedBecause": "The lecturer describes laboratory assays used to test transforming properties of cancer genes, including focus formation, soft agar assays, and mouse xenografts.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+    },
+    {
+      "id": 5,
+      "label": "Classification of cancer mutations",
+      "groupedBecause": "The lecturer defines oncogenes, tumor suppressor genes, driver versus passenger mutations, and gatekeepers versus caretakers.",
+      "startsWith": "So [lip smacks] in doing so, you're going to say whether"
+    },
+    {
+      "id": 6,
+      "label": "Cell cycle regulation and the retinoblastoma pathway",
+      "groupedBecause": "This section explains the control of the G1/S checkpoint by the retinoblastoma protein and how mutations in this pathway permit unregulated progression.",
+      "startsWith": "So this should be basic revision for you in terms of"
+    },
+    {
+      "id": 7,
+      "label": "Dominant-negative mutations in p53",
+      "groupedBecause": "The lecturer explains why single point mutations in the tetrameric transcription factor p53 can exert a dominant-negative effect.",
+      "startsWith": "What does that look like in terms of mutations? It kind"
+    },
+    {
+      "id": 8,
+      "label": "Chromosomal versus sequence instability",
+      "groupedBecause": "The lecturer contrasts chromosomal instability characterized by aneuploidy with sequence instability characterized by high point mutation burdens.",
+      "startsWith": "Right. So we're going to move on to this idea"
+    },
+    {
+      "id": 9,
+      "label": "DNA repair pathways: mismatch repair and double-strand break repair",
+      "groupedBecause": "This section details how defects in mismatch repair cause microsatellite instability and how loss of homologous recombination leads to error-prone non-homologous end joining.",
+      "startsWith": "So we're just going to run through the main types"
+    },
+    {
+      "id": 10,
+      "label": "Replication errors, mitotic failure, and cellular stress",
+      "groupedBecause": "The lecturer describes the consequences of mitotic errors and polymerase mutations, including lagging chromosomes, micronuclei, chromothripsis, and cGAS-STING activation.",
+      "startsWith": "Okay. So I've told you now this failure or mutations"
+    },
+    {
+      "id": 11,
+      "label": "Vogelstein multi-step model of tumor progression",
+      "groupedBecause": "The lecturer discusses the stepwise accumulation and ordering of genetic mutations that drive progression from normal tissue to metastatic carcinoma.",
+      "startsWith": "Okay. Might want to pick up the pace here. So the"
+    },
+    {
+      "id": 12,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "This section covers inherited cancer predispositions, comparing caretaker syndromes like Lynch and hereditary breast cancer with gatekeeper syndromes like FAP and retinoblastoma.",
+      "startsWith": "So, what if you're unlucky enough to be born with"
+    },
+    {
+      "id": 13,
+      "label": "BRCA2 reversion mutations and tumor evolution",
+      "groupedBecause": "The lecturer uses secondary reversion mutations in BRCA2 under chemotherapy to illustrate that ongoing genetic instability is not required for tumor maintenance.",
+      "startsWith": "Right. But this is the last slide to tell you"
+    },
+    {
+      "id": 14,
+      "label": "Lecture conclusion and reading recommendations",
+      "groupedBecause": "The lecturer concludes the session with book recommendations and a preview of the next lecture.",
+      "startsWith": "So I hope that covers our learning outcomes for today. I'm"
+    }
+  ]
+}

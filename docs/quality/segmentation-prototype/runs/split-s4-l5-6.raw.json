@@ -1,0 +1,100 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the session by connecting back to previous practicals and outlining the day's learning outcomes.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you guys have been"
+    },
+    {
+      "id": 2,
+      "label": "History of cell and germ theories",
+      "groupedBecause": "This section traces the historical development of microscopy, cell theory, and germ theory that led to early ideas about cancer.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of cells being"
+    },
+    {
+      "id": 3,
+      "label": "Tumor virology and viral causes of cancer",
+      "groupedBecause": "This passage covers early experiments on Rous sarcoma virus and the epidemiological discovery of transforming viruses in humans and animals.",
+      "startsWith": "It wasn't such a leap to think that cancer was the result of"
+    },
+    {
+      "id": 4,
+      "label": "Retroviral oncogene capture and cellular proto-oncogenes",
+      "groupedBecause": "The lecturer explains how retroviruses integrate into host genomes, mutate cellular proto-oncogenes into oncogenes, and reveal the endogenous origin of cancer genes.",
+      "startsWith": "But this principle of that there are some viruses that do cause cancers"
+    },
+    {
+      "id": 5,
+      "label": "Experimental assays for cell transformation",
+      "groupedBecause": "This section describes laboratory assays such as focus formation, soft agar growth, and mouse models used to test the transforming capacity of candidate oncogenes.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed to study"
+    },
+    {
+      "id": 6,
+      "label": "Classification of cancer genes and mutations",
+      "groupedBecause": "The lecturer defines oncogenes, tumor suppressors, driver versus passenger mutations, and gatekeepers versus caretakers.",
+      "startsWith": "So [lip smacks] in doing so, you're going to say whether or not"
+    },
+    {
+      "id": 7,
+      "label": "Regulation of the G1/S cell cycle checkpoint",
+      "groupedBecause": "This passage explains the molecular mechanism of the G1/S transition controlled by Rb, cyclin D/CDK4/6 complexes, and kinase inhibitors.",
+      "startsWith": "So this should be basic revision for you in terms of the cell"
+    },
+    {
+      "id": 8,
+      "label": "Dominant versus recessive mutations and p53 dominant-negative effects",
+      "groupedBecause": "The lecturer contrasts dominant oncogenes and recessive tumor suppressors with the dominant-negative effect seen in multimeric p53 mutant tetramers.",
+      "startsWith": "What does that look like in terms of mutations? It kind of looks"
+    },
+    {
+      "id": 9,
+      "label": "Sequence instability versus chromosomal instability",
+      "groupedBecause": "This section defines genetic instability in cancer and compares colorectal tumor karyotypes exhibiting sequence instability against those showing chromosomal instability.",
+      "startsWith": "Right. So we're going to move on to this idea now of genetic"
+    },
+    {
+      "id": 10,
+      "label": "Excision repair and mismatch repair defects",
+      "groupedBecause": "The lecturer explains base and nucleotide excision repair and contrasts them with mismatch repair defects causing replication slippage and microsatellite instability.",
+      "startsWith": "So we're just going to run through the main types of DNA damage"
+    },
+    {
+      "id": 11,
+      "label": "Double-strand break repair pathways and BRCA mutations",
+      "groupedBecause": "This passage details homologous recombination versus non-homologous end joining and explains how BRCA defects cause chromosomal instability.",
+      "startsWith": "Obviously, that's not going to be the case for tumor B. For tumor"
+    },
+    {
+      "id": 12,
+      "label": "Replication and mitotic errors leading to chromosomal instability",
+      "groupedBecause": "The lecturer describes how polymerase mutations, lagging chromosomes in mitosis, micronuclei, and chromothripsis trigger cGAS-STING signaling and cellular stress responses.",
+      "startsWith": "Okay. So I've told you now this failure or mutations in the DNA"
+    },
+    {
+      "id": 13,
+      "label": "The Vogelstein multi-step model of tumor progression",
+      "groupedBecause": "This section explains the stepwise accumulation and temporal ordering of mutations across stages of colorectal cancer development.",
+      "startsWith": "Okay. Might want to pick up the pace here. So the Vogelstein model"
+    },
+    {
+      "id": 14,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "The lecturer discusses inherited mutations in caretaker and gatekeeper genes that accelerate cancer onset, including FAP, Lynch syndrome, hereditary breast cancer, and retinoblastoma.",
+      "startsWith": "So, what if you're unlucky enough to be born with a hereditary predisposition"
+    },
+    {
+      "id": 15,
+      "label": "BRCA reversion and the non-essentiality of instability for malignancy",
+      "groupedBecause": "This passage illustrates how secondary reversion mutations can restore BRCA2 function and DNA repair without halting tumor lethality.",
+      "startsWith": "Right. But this is the last slide to tell you again, to drive"
+    },
+    {
+      "id": 16,
+      "label": "Closing remarks and recommended reading",
+      "groupedBecause": "The lecturer concludes the session with book recommendations and a preview of the next lecture.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for today. I'm happy"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class, outlines the course structure and diverse student backgrounds, and reviews the learning outcomes for the lecture series.",
+      "startsWith": "Okay, everyone, shall we get started? Yes. You're very welcome, all"
+    },
+    {
+      "id": 2,
+      "label": "Accumulation of genetic and epigenetic alterations",
+      "groupedBecause": "The lecturer explains how normal cells accumulate stepwise genetic, epigenetic, and viral changes on their path to malignancy.",
+      "startsWith": "Okay, so we're just going to start here with our core idea."
+    },
+    {
+      "id": 3,
+      "label": "Cancer as a failure of normal cellular differentiation",
+      "groupedBecause": "The lecturer frames cancer as a breakdown of normal developmental programs and 3D tissue architecture, illustrated through breast histology and tissue culture limitations.",
+      "startsWith": "[chuckles] So what is cancer, really? So we've all, everybody sitting in"
+    },
+    {
+      "id": 4,
+      "label": "Benign versus malignant tumors and mechanisms of metastasis",
+      "groupedBecause": "The lecturer distinguishes benign encapsulated tumors from invasive malignant tumors and describes the routes and histological signs of metastasis.",
+      "startsWith": "Okay. So with these tools in hand, I think the important concept"
+    },
+    {
+      "id": 5,
+      "label": "Colorectal cancer progression from adenoma to adenocarcinoma",
+      "groupedBecause": "The lecturer walks through histological sections of the bowel to illustrate the stepwise transition from a benign polyp to an invasive adenocarcinoma breaching the muscularis mucosa.",
+      "startsWith": "Right. So, we're going to focus on colorectal cancer as an"
+    },
+    {
+      "id": 6,
+      "label": "Tumor nomenclature and classification rules",
+      "groupedBecause": "The lecturer outlines the systematic naming conventions and suffixes used to classify benign and malignant tumors across different tissue types.",
+      "startsWith": "Okay? So just so that we're all on the same page"
+    },
+    {
+      "id": 7,
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "The lecturer explains the specific physiological and anatomical mechanisms by which primary and metastatic tumors cause severe illness and death.",
+      "startsWith": "Okay? So with that in mind, the question that often gets"
+    },
+    {
+      "id": 8,
+      "label": "Cancer incidence across tumor types and animal species",
+      "groupedBecause": "The lecturer compares tumor frequencies across human tissue types, companion animals, and other multicellular organisms to show that cancer is a universal disease of differentiation.",
+      "startsWith": "So just talking about incidence, about how often various tumors arise."
+    },
+    {
+      "id": 9,
+      "label": "Clinical presentation and screening methods for early detection",
+      "groupedBecause": "The lecturer details the clinical signs of cancer and evaluates population screening approaches, highlighting the cervical Pap smear alongside bowel, breast, and prostate testing.",
+      "startsWith": "Okay, so what does this look like in the clinic? [chuckles]"
+    },
+    {
+      "id": 10,
+      "label": "Lecture conclusion and next steps",
+      "groupedBecause": "The lecturer wraps up the session with concluding reminders about revision, practicals, and the next lecture.",
+      "startsWith": "Okay? So I leave you with the learning outcomes. Hopefully, you"
+    }
+  ]
+}

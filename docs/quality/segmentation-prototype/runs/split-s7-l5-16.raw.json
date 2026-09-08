@@ -1,0 +1,88 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Opening and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the students, recaps the practical session, and outlines the learning outcomes for the lecture.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory, germ theory, and tumor virology",
+      "groupedBecause": "This section reviews the historical development from cell and germ theories to Peyton Rous's discovery of viral cell transformation and the emergence of tumor virology.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Retroviral integration and cellular proto-oncogenes",
+      "groupedBecause": "This section explains how retroviruses capture cellular proto-oncogenes upon insertion, demonstrating that cancer originates from misregulated endogenous genes.",
+      "startsWith": "But this principle of that there are some viruses that"
+    },
+    {
+      "id": 4,
+      "label": "Laboratory assays for cellular transformation",
+      "groupedBecause": "This section details experimental assays used in the laboratory to test the capacity of specific genes and mutations to transform cells.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 5,
+      "label": "Classifying cancer mutations",
+      "groupedBecause": "This section defines and contrasts the functional categories of cancer mutations, including oncogenes, tumor suppressors, drivers, passengers, gatekeepers, and caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going"
+    },
+    {
+      "id": 6,
+      "label": "The G1 to S cell cycle checkpoint and regulation",
+      "groupedBecause": "This section describes the molecular regulation of the G1 to S checkpoint by the retinoblastoma protein and cyclin-dependent kinase inhibitors, along with the impact of pathway mutations.",
+      "startsWith": "Okay? So this should be basic revision for you in"
+    },
+    {
+      "id": 7,
+      "label": "Dominant-negative mutations and p53",
+      "groupedBecause": "This section analyzes how dominant-negative point mutations impair the function of multimeric proteins, using p53 tetramers as an example.",
+      "startsWith": "What does that look like in terms of mutations? It"
+    },
+    {
+      "id": 8,
+      "label": "Sequence instability versus chromosomal instability",
+      "groupedBecause": "This section distinguishes between sequence instability and chromosomal instability using karyotypic and sequencing comparisons of two colorectal cancer cell lines.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 9,
+      "label": "Excision repair and mismatch repair pathways",
+      "groupedBecause": "This section reviews single-strand DNA repair mechanisms, contrasting high-fidelity excision repair with the consequences of defective mismatch repair and microsatellite instability.",
+      "startsWith": "Okay. So we're just going to run through the"
+    },
+    {
+      "id": 10,
+      "label": "Double-strand break repair pathways",
+      "groupedBecause": "This section contrasts high-fidelity homologous recombination mediated by BRCA1/2 with error-prone non-homologous end joining and its link to chromosomal instability.",
+      "startsWith": "Obviously, that's not going to be the case for"
+    },
+    {
+      "id": 11,
+      "label": "Errors in replication and mitosis",
+      "groupedBecause": "This section explores how mutations in DNA polymerase epsilon and mitotic segregation errors cause genomic defects, leading to lagging chromosomes, micronuclei, and stress cascades.",
+      "startsWith": "Okay. So I've told you now this failure or"
+    },
+    {
+      "id": 12,
+      "label": "The Vogelstein multistep model of tumor progression",
+      "groupedBecause": "This section explains the Vogelstein model of colorectal cancer progression through the sequential accumulation of chromosomal instability and specific gene mutations.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 13,
+      "label": "Hereditary predispositions to cancer",
+      "groupedBecause": "This section discusses the two-hit hypothesis and examines clinical examples of inherited cancer predispositions, including Lynch syndrome, FAP, BRCA mutations, and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be"
+    },
+    {
+      "id": 14,
+      "label": "Closing and reading recommendations",
+      "groupedBecause": "The lecturer concludes the session, suggests supplementary reading, and previews the next lecture.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for"
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction, practical review, and learning outcomes",
+      "groupedBecause": "The lecturer connects the session to recent histology practicals and outlines the core learning outcomes for the lecture.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory, germ theory, and infectious origins of disease",
+      "groupedBecause": "The lecturer traces the historical development of microscopy, cell theory, and the germ theory of disease.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Peyton Rous and the Rous sarcoma virus experiment",
+      "groupedBecause": "The passage details Peyton Rous's chicken sarcoma transmission experiments and the discovery of transforming retroviruses.",
+      "startsWith": "And there are some very nice experiments at the turn"
+    },
+    {
+      "id": 4,
+      "label": "Human transforming viruses and cancer epidemiology",
+      "groupedBecause": "The lecturer discusses the search for tumor-causing viruses, their known human examples, and their epidemiological burden.",
+      "startsWith": "This idea that cancer is a transmissible disease kind"
+    },
+    {
+      "id": 5,
+      "label": "Mechanism of retroviral proto-oncogene capture",
+      "groupedBecause": "The lecturer explains how retroviral provirus integration can capture and alter cellular genes like SRC into oncogenes.",
+      "startsWith": "But this principle of that there are some viruses that"
+    },
+    {
+      "id": 6,
+      "label": "Discovery of cellular proto-oncogenes from retroviruses",
+      "groupedBecause": "The lecturer summarizes the discovery of cellular proto-oncogenes such as Abl, KIT, Ras, and Myc from transforming retroviruses.",
+      "startsWith": "In studying these kinds of transforming viruses scientists then if"
+    },
+    {
+      "id": 7,
+      "label": "In vitro cellular transformation assays",
+      "groupedBecause": "The lecturer details laboratory assays used to detect cellular transformation phenotypes such as altered morphology, contact inhibition loss, and soft agar growth.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 8,
+      "label": "Testing specific cancer mutations using transfection and genetic models",
+      "groupedBecause": "The lecturer explains how specific oncogenic mutations are evaluated in cell lines and mouse models using transfection and gene editing.",
+      "startsWith": "And then you can also take your gene out of"
+    },
+    {
+      "id": 9,
+      "label": "Definitions of oncogenes, tumor suppressors, drivers, passengers, gatekeepers, and caretakers",
+      "groupedBecause": "The lecturer defines and contrasts the conceptual categories used to classify cancer-associated gene mutations.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going"
+    },
+    {
+      "id": 10,
+      "label": "Cell cycle regulation at the G1/S checkpoint by Rb and its inhibitors",
+      "groupedBecause": "The lecturer reviews the molecular pathway controlling the G1/S transition via Rb phosphorylation, CDK4/6, Cyclin D, p16, and p21.",
+      "startsWith": "So this should be basic revision for you in terms"
+    },
+    {
+      "id": 11,
+      "label": "Allelic mutation dosage and dominant versus recessive tumor phenotypes",
+      "groupedBecause": "The lecturer contrasts single-allele dominant oncogenic mutations with two-hit recessive tumor suppressor mutations and intermediate phenotypes.",
+      "startsWith": "What does that look like in terms of mutations? It"
+    },
+    {
+      "id": 12,
+      "label": "Dominant-negative p53 mutations in tetrameric complex formation",
+      "groupedBecause": "The lecturer explains the mechanism by which single point mutations in the DNA-binding domain of tetrameric p53 exert a dominant-negative effect.",
+      "startsWith": "What does that mean? I'll give you one example"
+    },
+    {
+      "id": 13,
+      "label": "Chromosomal instability versus sequence instability in colorectal cancers",
+      "groupedBecause": "The lecturer contrasts karyotypic chromosomal instability with high-frequency sequence instability using two colorectal cancer cell line examples.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 14,
+      "label": "Cellular origins of genetic instability and demands for genome fidelity",
+      "groupedBecause": "The lecturer discusses how failure to accurately replicate and repair the genome leads to sequence and chromosomal instability.",
+      "startsWith": "So it has big implications for us thinking about how"
+    },
+    {
+      "id": 15,
+      "label": "Mismatch repair failure and microsatellite instability",
+      "groupedBecause": "The lecturer explains mismatch repair mechanisms, replication slippage, and the resulting microsatellite instability seen in colorectal cancer.",
+      "startsWith": "So we're just going to run through the main"
+    },
+    {
+      "id": 16,
+      "label": "Double-strand break repair pathways: Homologous recombination versus non-homologous end joining",
+      "groupedBecause": "The lecturer explains high-fidelity homologous recombination involving BRCA1/2 and contrasts it with error-prone end joining that causes chromosomal instability.",
+      "startsWith": "Obviously, that's not going to be the case for"
+    },
+    {
+      "id": 17,
+      "label": "DNA polymerase epsilon proofreading mutations and hypermutation",
+      "groupedBecause": "The lecturer describes how mutations in DNA polymerase epsilon disrupt proofreading and lead to hypermutated sequence instability.",
+      "startsWith": "Okay. So I've told you now this failure or"
+    },
+    {
+      "id": 18,
+      "label": "Mitotic errors, spindle assembly checkpoint, and lagging chromosomes",
+      "groupedBecause": "The lecturer explains how abnormal mitosis and defective spindle attachments produce lagging chromosomes during cell division.",
+      "startsWith": "In terms of chromosomal instability, I have a few movies"
+    },
+    {
+      "id": 19,
+      "label": "Consequences of lagging chromosomes: Micronuclei, chromothripsis, and cGAS-STING signaling",
+      "groupedBecause": "The lecturer details downstream consequences of missegregated chromosomes, including micronuclei formation, chromothripsis, and cellular stress signaling.",
+      "startsWith": "And just to say that in addition to this, there's"
+    },
+    {
+      "id": 20,
+      "label": "The Vogelstein model of stepwise mutation progression in colorectal cancer",
+      "groupedBecause": "The lecturer presents the multi-step genetic progression model from normal epithelium to adenoma and metastatic carcinoma.",
+      "startsWith": "Okay. Might want to pick up the pace here."
+    },
+    {
+      "id": 21,
+      "label": "Hereditary cancer predisposition and the two-hit acceleration",
+      "groupedBecause": "The lecturer explains how inherited germline mutations accelerate tumor progression by fulfilling the first step of Knudson's two-hit model.",
+      "startsWith": "So, what if you're unlucky enough to be born"
+    },
+    {
+      "id": 22,
+      "label": "Examples of hereditary syndromes: FAP, Lynch syndrome, BRCA, and retinoblastoma",
+      "groupedBecause": "The lecturer surveys specific inherited cancer syndromes, comparing gatekeeper and caretaker mutations across familial and sporadic presentations.",
+      "startsWith": "So just to give you some examples of the hereditary"
+    },
+    {
+      "id": 23,
+      "label": "BRCA2 reversion during chemotherapy and independence of malignancy from instability",
+      "groupedBecause": "The lecturer explains how secondary mutations can restore BRCA2 function during cisplatin therapy without reversing malignancy.",
+      "startsWith": "Right. So I forgot what I wanted to say"
+    },
+    {
+      "id": 24,
+      "label": "Lecture conclusion, recommended reading, and next session preview",
+      "groupedBecause": "The lecturer wraps up the lecture, provides an Easter reading recommendation, and previews the next lecture on cancer hallmarks.",
+      "startsWith": "So I hope that covers our learning outcomes for today."
+    }
+  ]
+}

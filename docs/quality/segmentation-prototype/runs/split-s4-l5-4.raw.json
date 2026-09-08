@@ -1,0 +1,88 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture overview and learning outcomes",
+      "groupedBecause": "The lecturer introduces the session, connects it to practicals, and outlines the day's learning outcomes on cellular transformation and cancer genetics.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+    },
+    {
+      "id": 2,
+      "label": "Historical development of cell theory, germ theory, and tumor virology",
+      "groupedBecause": "This passage describes the historical progression from early cell and germ theories to Peyton Rous's discovery of cancer-transmitting viruses.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Transforming retroviruses and the cellular origin of oncogenes",
+      "groupedBecause": "This section explains how retroviruses capture and misregulate cellular proto-oncogenes through proviral integration into the host genome.",
+      "startsWith": "But this principle of that there are some viruses that"
+    },
+    {
+      "id": 4,
+      "label": "Assays for cellular transformation and oncogenic mutations",
+      "groupedBecause": "This section details the laboratory assays used to test cell transformation and oncogenic mutations in culture and in animal models.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 5,
+      "label": "Classification of cancer mutations: oncogenes, tumor suppressors, drivers, and caretakers",
+      "groupedBecause": "This passage defines and compares the major classes of cancer-associated mutations, including oncogenes, tumor suppressors, drivers, passengers, gatekeepers, and caretakers.",
+      "startsWith": "So [lip smacks] in doing so, you're going to"
+    },
+    {
+      "id": 6,
+      "label": "G1/S cell cycle checkpoint regulation and oncogenic deregulation",
+      "groupedBecause": "This section explains how the G1/S cell cycle checkpoint is regulated by Rb, cyclins, CDKs, and inhibitors, and how oncogenic and tumor-suppressor mutations disrupt it.",
+      "startsWith": "So this should be basic revision for you in terms"
+    },
+    {
+      "id": 7,
+      "label": "Gene dosage and the dominant-negative mechanism of p53 mutations",
+      "groupedBecause": "This passage explores how mutation types and protein structure determine phenotype, illustrating dominant-negative effects using the p53 tetramer.",
+      "startsWith": "What does that look like in terms of mutations? It"
+    },
+    {
+      "id": 8,
+      "label": "Chromosomal instability versus sequence instability in cancer",
+      "groupedBecause": "This section introduces genetic instability and contrasts chromosomal instability with sequence instability using karyotypes and sequencing profiles of cancer cell lines.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 9,
+      "label": "DNA damage repair pathways and cancer defects",
+      "groupedBecause": "This section reviews DNA repair mechanisms—including base/nucleotide excision, mismatch repair, and double-strand break repair—and explains how repair failure causes cancer mutations.",
+      "startsWith": "So we're just going to run through the main"
+    },
+    {
+      "id": 10,
+      "label": "Replication and mitotic errors causing chromosomal instability and cellular stress",
+      "groupedBecause": "This section explains how DNA replication errors and mitotic chromosome segregation failures cause chromosomal instability and downstream cellular stress cascades.",
+      "startsWith": "Okay. So I've told you now this failure"
+    },
+    {
+      "id": 11,
+      "label": "The Vogelstein multistep model of colorectal cancer progression",
+      "groupedBecause": "This section explains the Vogelstein model of stepwise mutation accumulation and chromosomal instability during colorectal cancer progression.",
+      "startsWith": "So the Vogelstein model as I said there we"
+    },
+    {
+      "id": 12,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "This section explains hereditary cancer predisposition syndromes and contrasts germline mutations affecting genome caretakers versus growth gatekeepers.",
+      "startsWith": "So, what if you're unlucky enough to be"
+    },
+    {
+      "id": 13,
+      "label": "Dispensability of genetic instability for malignancy shown by BRCA2 reversion",
+      "groupedBecause": "This passage demonstrates through BRCA2 reversion after chemotherapy that ongoing genetic instability is dispensable once malignancy is established.",
+      "startsWith": "Right. But this is the last slide to tell"
+    },
+    {
+      "id": 14,
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "The lecturer concludes the session, offers to answer questions, recommends a book, and previews the next lecture.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes"
+    }
+  ]
+}

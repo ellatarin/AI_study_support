@@ -1,0 +1,88 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer frames the lecture, links it to recent practicals, and outlines the session's learning objectives.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory, germ theory, and Rous sarcoma virus",
+      "groupedBecause": "The lecturer traces the historical transition from cell and germ theories to Rous's discovery of a transmissible transforming sarcoma virus.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Transforming viruses and their epidemiological contribution to cancer",
+      "groupedBecause": "The lecturer discusses the search for tumor-causing viruses and evaluates the proportion of human cancers attributable to viral infections.",
+      "startsWith": "This idea that cancer is a transmissible disease kind"
+    },
+    {
+      "id": 4,
+      "label": "Retroviral integration and the identification of proto-oncogenes",
+      "groupedBecause": "The lecturer explains how retroviruses capture cellular genes like SRC to create viral oncogenes, establishing that cancer originates from altered normal host genes.",
+      "startsWith": "But this principle of that there are some viruses"
+    },
+    {
+      "id": 5,
+      "label": "Laboratory assays for cellular transformation and gene testing",
+      "groupedBecause": "The lecturer details in vitro and in vivo assays used to detect transformed cellular properties and assess candidate oncogenic mutations.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 6,
+      "label": "Classifying mutations: oncogenes, tumor suppressors, drivers, and caretakers",
+      "groupedBecause": "The lecturer defines key categories of cancer mutations including oncogenes versus tumor suppressors, drivers versus passengers, and gatekeepers versus caretakers.",
+      "startsWith": "So [lip smacks] in doing so, you're going"
+    },
+    {
+      "id": 7,
+      "label": "Regulation and oncogenic disruption of the G1/S cell cycle checkpoint",
+      "groupedBecause": "The lecturer explains the molecular control of the G1/S transition by Rb, CDK4/6, cyclins, and inhibitors, and how pathway mutations relieve this restraint.",
+      "startsWith": "Okay? So this should be basic revision for you"
+    },
+    {
+      "id": 8,
+      "label": "Dominant-negative mechanisms and p53 mutations",
+      "groupedBecause": "The lecturer contrasts recessive null mutations with dominant-negative point mutations using the tetrameric structure of p53 as the primary example.",
+      "startsWith": "What does that look like in terms of mutations?"
+    },
+    {
+      "id": 9,
+      "label": "Distinguishing chromosomal instability from sequence instability",
+      "groupedBecause": "The lecturer compares two cancer cell karyotypes to demonstrate the difference between chromosomal instability and nucleotide-level sequence instability.",
+      "startsWith": "Right. So we're going to move on to"
+    },
+    {
+      "id": 10,
+      "label": "DNA repair mechanisms in cancer",
+      "groupedBecause": "The lecturer reviews mismatch repair, homologous recombination, and non-homologous end joining, explaining how repair failures lead to genomic instability.",
+      "startsWith": "So there are a lot of different ways in"
+    },
+    {
+      "id": 11,
+      "label": "Replication errors, mitotic defects, and their cellular consequences",
+      "groupedBecause": "The lecturer describes polymerase proofreading errors, mitotic lagging chromosomes, and downstream cellular stresses like micronuclei formation and cGAS-STING activation.",
+      "startsWith": "Okay. So I've told you now this failure"
+    },
+    {
+      "id": 12,
+      "label": "Multi-step colorectal cancer progression in the Vogelstein model",
+      "groupedBecause": "The lecturer examines the stepwise accumulation and typical timing of specific genetic mutations in colorectal adenoma-to-carcinoma progression.",
+      "startsWith": "Okay. Might want to pick up the pace here."
+    },
+    {
+      "id": 13,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "The lecturer explains inherited cancer predispositions and discusses specific syndromes including FAP, Lynch syndrome, BRCA mutations, and retinoblastoma.",
+      "startsWith": "So, what if you're unlucky enough to be"
+    },
+    {
+      "id": 14,
+      "label": "Closing and reading recommendations",
+      "groupedBecause": "The lecturer concludes the session, suggests a book for further reading, and previews the next lecture.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes"
+    }
+  ]
+}

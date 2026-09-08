@@ -1,0 +1,76 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class, reviews previous practical work, and outlines the session's learning objectives.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory, viral etiology, and the discovery of oncogenes",
+      "groupedBecause": "This passage traces how the historical study of infectious tumor viruses led to discovering cellular proto-oncogenes captured by retroviruses.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Assays for cellular transformation and tumorigenicity",
+      "groupedBecause": "This section explains the laboratory methods and experimental assays used to test whether a gene or mutation transforms cells and forms tumors.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 4,
+      "label": "Classifications of cancer mutations",
+      "groupedBecause": "The lecturer defines key categories of cancer-associated mutations, contrasting oncogenes with tumor suppressors and drivers with passengers and caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going"
+    },
+    {
+      "id": 5,
+      "label": "Cell cycle regulation at the G1/S checkpoint",
+      "groupedBecause": "This passage explains the molecular mechanism of the G1 to S cell cycle checkpoint controlled by Rb phosphorylation and CDK regulation.",
+      "startsWith": "Okay? So this should be basic revision for you in"
+    },
+    {
+      "id": 6,
+      "label": "Gene dosage and dominant negative mutations in p53",
+      "groupedBecause": "This section examines how allele dosage and tetrameric complex assembly cause point mutant p53 to act in a dominant-negative manner.",
+      "startsWith": "What does that look like in terms of mutations? It"
+    },
+    {
+      "id": 7,
+      "label": "Chromosomal versus sequence genetic instability",
+      "groupedBecause": "The lecturer introduces genetic instability and contrasts large-scale chromosomal abnormalities with small-scale sequence mutations using karyotypes.",
+      "startsWith": "Right. So we're going to move on to this idea"
+    },
+    {
+      "id": 8,
+      "label": "DNA repair pathways and their failures",
+      "groupedBecause": "This passage details specific DNA repair mechanisms—mismatch repair and double-strand break repair—and how their breakdown causes distinct genomic instability phenotypes.",
+      "startsWith": "Okay. So we're just going to run through the"
+    },
+    {
+      "id": 9,
+      "label": "Mitotic errors, lagging chromosomes, and cellular stress responses",
+      "groupedBecause": "The lecturer explains how errors in replication and mitosis lead to lagging chromosomes, micronuclei, chromothripsis, and subsequent cellular stress pathways.",
+      "startsWith": "Okay. So I've told you now this failure or"
+    },
+    {
+      "id": 10,
+      "label": "The Vogelstein multi-step model of tumor progression",
+      "groupedBecause": "This section explores how sequential, dynamic mutations drive the progression from normal tissue through adenoma stages to invasive carcinoma.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 11,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "The lecturer discusses the genetics and phenotypes of inherited cancer predispositions including FAP, Lynch syndrome, BRCA-related breast cancer, and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be"
+    },
+    {
+      "id": 12,
+      "label": "Conclusion and recommended reading",
+      "groupedBecause": "The lecturer concludes the lecture, recommends supplemental reading, and previews the next topic.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for"
+    }
+  ]
+}

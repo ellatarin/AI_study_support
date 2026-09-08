@@ -1,0 +1,94 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture overview and learning outcomes",
+      "groupedBecause": "The lecturer opens the session by recapping histopathology practicals and setting out the learning outcomes for the lecture.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you guys"
+    },
+    {
+      "id": 2,
+      "label": "History of cell theory, germ theory, and tumor virology",
+      "groupedBecause": "The lecturer describes how microscopes led to cell and germ theories and early tumor virology experiments showing transmissible chicken sarcomas.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of cells"
+    },
+    {
+      "id": 3,
+      "label": "Tumor virus epidemiology and capture of proto-oncogenes",
+      "groupedBecause": "The lecturer explains the prevalence of human tumor viruses and the mechanism by which retroviruses capture and misregulate cellular proto-oncogenes.",
+      "startsWith": "This idea that cancer is a transmissible disease kind of took hold"
+    },
+    {
+      "id": 4,
+      "label": "Assays for cellular transformation",
+      "groupedBecause": "The lecturer explains experimental assays used in the laboratory to test whether specific genes or mutations can transform cells.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed to"
+    },
+    {
+      "id": 5,
+      "label": "Classifying oncogenes, tumor suppressors, drivers, and caretakers",
+      "groupedBecause": "The lecturer defines and contrasts oncogenic mutations, tumor-suppressive mutations, driver versus passenger mutations, and gatekeepers versus caretakers.",
+      "startsWith": "So [lip smacks] in doing so, you're going to say whether"
+    },
+    {
+      "id": 6,
+      "label": "Cell cycle regulation at the G1 to S checkpoint",
+      "groupedBecause": "The lecturer reviews cell cycle checkpoints, focusing on the regulation of Rb phosphorylation by cyclins, CDKs, and CDK inhibitors.",
+      "startsWith": "This should be basic revision for you in terms of the cell"
+    },
+    {
+      "id": 7,
+      "label": "Mutation dosage and dominant-negative p53 mutations",
+      "groupedBecause": "The lecturer explains why tumor suppressor mutations differ in phenotypic severity, using p53 tetramer disruption as an example of dominant-negative action.",
+      "startsWith": "What does that look like in terms of mutations? It kind of"
+    },
+    {
+      "id": 8,
+      "label": "Chromosomal versus sequence genetic instability",
+      "groupedBecause": "The lecturer introduces genetic instability as an intrinsic cancer cell defect and contrasts chromosomal instability with sequence instability using two colorectal cell lines.",
+      "startsWith": "Right. So we're going to move on to this idea now"
+    },
+    {
+      "id": 9,
+      "label": "Mismatch repair failure and microsatellite instability",
+      "groupedBecause": "The lecturer discusses DNA repair mechanisms, explaining how defects in mismatch repair cause replication slippage and microsatellite instability.",
+      "startsWith": "So we're just going to run through the main types of"
+    },
+    {
+      "id": 10,
+      "label": "Double-strand break repair and homologous recombination",
+      "groupedBecause": "The lecturer contrasts high-fidelity homologous recombination involving BRCA1/2 with error-prone non-homologous end joining and its link to chromosomal instability.",
+      "startsWith": "Obviously, that's not going to be the case for tumor B."
+    },
+    {
+      "id": 11,
+      "label": "Replication and mitotic segregation defects",
+      "groupedBecause": "The lecturer explains how polymerase epsilon mutations and mitotic spindle defects generate lagging chromosomes, micronuclei, chromothripsis, and cellular stress responses.",
+      "startsWith": "So I've told you now this failure or mutations in the"
+    },
+    {
+      "id": 12,
+      "label": "Multi-step progression and the Vogelstein model",
+      "groupedBecause": "The lecturer discusses the multi-step progression model of cancer development and the timing and acquisition order of oncogenic and tumor suppressor mutations.",
+      "startsWith": "Okay. Might want to pick up the pace here. So the"
+    },
+    {
+      "id": 13,
+      "label": "Hereditary cancer predispositions and caretaker versus gatekeeper syndromes",
+      "groupedBecause": "The lecturer explains hereditary cancer risk and compares inherited syndromes involving caretaker genes like BRCA and Lynch to gatekeeper genes like FAP and retinoblastoma.",
+      "startsWith": "So, what if you're unlucky enough to be born with a"
+    },
+    {
+      "id": 14,
+      "label": "Genetic instability and malignancy maintenance",
+      "groupedBecause": "The lecturer uses BRCA2 reversion mutations in cisplatin-treated tumors to demonstrate that ongoing genetic instability is not required to sustain malignancy.",
+      "startsWith": "Right. But this is the last slide to tell you again,"
+    },
+    {
+      "id": 15,
+      "label": "Closing housekeeping and recommended reading",
+      "groupedBecause": "The lecturer concludes the session, offers recommended reading, and previews the next lecture on cancer hallmarks.",
+      "startsWith": "So I hope that covers our learning outcomes for today. I'm"
+    }
+  ]
+}

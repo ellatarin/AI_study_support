@@ -1,0 +1,64 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Course Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer welcomes the students, sets the interdisciplinary context for the lecture series, and outlines the day's learning outcomes.",
+      "startsWith": "Okay, everyone, shall we get started? Yes. You're very welcome,"
+    },
+    {
+      "id": 2,
+      "label": "Genetic and Epigenetic Basis of Cancer Progression",
+      "groupedBecause": "This section explains the multi-step model of cancer initiation driven by accumulating mutations, chromosomal alterations, epigenetic changes, and viral factors.",
+      "startsWith": "Okay, so we're just going to start here with our core idea."
+    },
+    {
+      "id": 3,
+      "label": "Cancer as a Failure of Tissue Differentiation and Architecture",
+      "groupedBecause": "This section defines cancer as a breakdown in normal developmental differentiation and three-dimensional tissue organization, contrasting normal and aberrant histology and noting the challenges of cell culture models.",
+      "startsWith": "[chuckles] So what is cancer, really? So we've all, everybody sitting"
+    },
+    {
+      "id": 4,
+      "label": "Invasion, Metastasis, and Distinguishing Benign from Malignant Tumours",
+      "groupedBecause": "This section introduces the diagnostic distinction between benign and malignant tumours based on local tissue invasion, routes of metastatic dissemination, and histological presentation.",
+      "startsWith": "Okay. So with these tools in hand, I think the important concept"
+    },
+    {
+      "id": 5,
+      "label": "Stepwise Progression in Colorectal Cancer",
+      "groupedBecause": "This section examines colorectal cancer histology to illustrate how early benign adenomatous polyps breach the muscularis mucosa to progress into invasive adenocarcinoma.",
+      "startsWith": "Right. So, we're going to focus on colorectal cancer as an"
+    },
+    {
+      "id": 6,
+      "label": "Tumour Nomenclature",
+      "groupedBecause": "This section outlines the standard naming conventions and suffixes for benign and malignant neoplasms across different tissue origins, along with notable exceptions.",
+      "startsWith": "Okay? So just so that we're all on the same page in terms of"
+    },
+    {
+      "id": 7,
+      "label": "Mechanisms of Morbidity and Mortality in Cancer",
+      "groupedBecause": "This section details the anatomical and systemic mechanisms by which primary and metastatic tumours cause illness and death in patients.",
+      "startsWith": "Okay? So with that in mind, the question that often gets asked"
+    },
+    {
+      "id": 8,
+      "label": "Comparative Cancer Incidence Across Humans and Other Species",
+      "groupedBecause": "This section compares cancer incidence across human tissues and other animal taxa, demonstrating that cancer is a universal consequence of multicellular differentiation.",
+      "startsWith": "So just talking about incidence, about how often various tumors arise."
+    },
+    {
+      "id": 9,
+      "label": "Clinical Presentation and Screening Strategies",
+      "groupedBecause": "This section explains the clinical challenges of early detection and evaluates population screening approaches, focusing on the success of cervical screening compared to colorectal, breast, and prostate screening.",
+      "startsWith": "Okay, so what does this look like in the clinic? [chuckles] I"
+    },
+    {
+      "id": 10,
+      "label": "Closing Remarks",
+      "groupedBecause": "The lecturer concludes the lecture with references to upcoming practicals and subsequent sessions.",
+      "startsWith": "Okay? So I leave you with the learning outcomes. Hopefully,"
+    }
+  ]
+}

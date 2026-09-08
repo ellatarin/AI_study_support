@@ -1,0 +1,106 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Opening framing and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class, reviews histopathology practicals, and outlines the day's learning outcomes.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you guys"
+    },
+    {
+      "id": 2,
+      "label": "Historical development of cell and germ theories",
+      "groupedBecause": "The lecturer discusses early microscopy, the cellular theory of life, and the germ theory of disease.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+    },
+    {
+      "id": 3,
+      "label": "Peyton Rous experiments and Rous sarcoma virus discovery",
+      "groupedBecause": "The lecturer explains Peyton Rous's chicken sarcoma transmission experiments and the observation of cell transformation in culture.",
+      "startsWith": "And there are some very nice experiments at the turn of"
+    },
+    {
+      "id": 4,
+      "label": "Human tumor viruses and viral epidemiology",
+      "groupedBecause": "The lecturer discusses the prevalence of viral etiologies in cancer and lists major human oncogenic viruses.",
+      "startsWith": "This idea that cancer is a transmissible disease kind of took"
+    },
+    {
+      "id": 5,
+      "label": "Retroviral provirus integration and proto-oncogene capture",
+      "groupedBecause": "The lecturer explains how retroviruses integrate proviruses into host DNA, misregulate cellular genes like SRC, and reveal cellular proto-oncogenes.",
+      "startsWith": "But this principle of that there are some viruses that do"
+    },
+    {
+      "id": 6,
+      "label": "Assays for cellular transformation and oncogenic mutations",
+      "groupedBecause": "The lecturer details laboratory assays used to test cancer-associated mutations, including focus formation, soft agar growth, and mouse xenografts.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+    },
+    {
+      "id": 7,
+      "label": "Functional classifications of cancer mutations",
+      "groupedBecause": "The lecturer defines and contrasts oncogenes versus tumor suppressors, driver versus passenger mutations, and gatekeepers versus caretakers.",
+      "startsWith": "So [lip smacks] in doing so, you're going to say whether"
+    },
+    {
+      "id": 8,
+      "label": "G1/S cell cycle checkpoint regulation and Rb pathway alterations",
+      "groupedBecause": "The lecturer reviews the molecular regulation of the G1/S transition by Rb, CDK4/6, cyclins, and inhibitors, and how oncogenic/TSG mutations alter this checkpoint.",
+      "startsWith": "Okay? So this should be basic revision for you in terms"
+    },
+    {
+      "id": 9,
+      "label": "Allelic mutation types and p53 dominant-negative mechanism",
+      "groupedBecause": "The lecturer examines how single mutations versus double hits affect phenotypes, detailing the dominant-negative effect of p53 DNA-binding mutations in tetramers.",
+      "startsWith": "What does that look like in terms of mutations? It kind"
+    },
+    {
+      "id": 10,
+      "label": "Chromosomal instability versus sequence instability",
+      "groupedBecause": "The lecturer compares karyotype abnormalities in chromosomal instability with point mutation burdens in sequence instability using colorectal cancer cell line examples.",
+      "startsWith": "Right. So we're going to move on to this idea"
+    },
+    {
+      "id": 11,
+      "label": "Mismatch repair failure and microsatellite instability",
+      "groupedBecause": "The lecturer describes DNA damage repair mechanisms, focusing on mismatch repair defects and the resulting replication slippage at microsatellites.",
+      "startsWith": "Okay. So we're just going to run through the main"
+    },
+    {
+      "id": 12,
+      "label": "Double-strand break repair: homologous recombination versus non-homologous end joining",
+      "groupedBecause": "The lecturer compares high-fidelity homologous recombination mediated by BRCA1/2 with error-prone end joining that causes chromosomal chaos.",
+      "startsWith": "Obviously, that's not going to be the case for tumor"
+    },
+    {
+      "id": 13,
+      "label": "Polymerase epsilon mutations, mitotic defects, and downstream cellular stress",
+      "groupedBecause": "The lecturer explains how polymerase proofreading errors and mitotic spindle lagging chromosomes lead to micronuclei, chromothripsis, and cGAS-STING inflammatory stress.",
+      "startsWith": "Okay. So I've told you now this failure or mutations"
+    },
+    {
+      "id": 14,
+      "label": "Vogelstein multistep model of colorectal tumorigenesis",
+      "groupedBecause": "The lecturer illustrates the stepwise progression of colorectal cancer through sequential mutation acquisition and the timing of genomic instability.",
+      "startsWith": "Okay. Might want to pick up the pace here. So the"
+    },
+    {
+      "id": 15,
+      "label": "Hereditary cancer syndromes and germline predispositions",
+      "groupedBecause": "The lecturer discusses inherited cancer predispositions and compares FAP, Lynch syndrome, hereditary breast cancer (BRCA1/2), and retinoblastoma.",
+      "startsWith": "So, what if you're unlucky enough to be born with"
+    },
+    {
+      "id": 16,
+      "label": "BRCA2 reversion mutations and malignancy independence from genomic instability",
+      "groupedBecause": "The lecturer uses secondary reversion mutations in BRCA2 following cisplatin treatment to show that genetic instability is not strictly required to maintain malignancy.",
+      "startsWith": "Right. So I forgot what I wanted to say here [laughs]."
+    },
+    {
+      "id": 17,
+      "label": "Closing remarks and recommended reading",
+      "groupedBecause": "The lecturer concludes the session, suggests holiday reading, and previews the upcoming lecture on cancer hallmarks.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for today."
+    }
+  ]
+}

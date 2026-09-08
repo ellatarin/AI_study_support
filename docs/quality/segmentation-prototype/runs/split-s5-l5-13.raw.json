@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class, reviews observations from recent histopathology practicals, and outlines the main learning outcomes for the lecture.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+    },
+    {
+      "id": 2,
+      "label": "Historical development of cell theory and Peyton Rous's chicken sarcoma experiments",
+      "groupedBecause": "The lecturer traces the historical transition from cell and germ theories to early tumor virology experiments demonstrating transmissible sarcomas in chickens.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Transforming viruses and retroviral acquisition of cellular proto-oncogenes",
+      "groupedBecause": "The lecturer explains how retroviruses integrate into host genomes, pick up host proto-oncogenes to become transforming viruses, and led to the discovery of normal cellular origins of cancer genes.",
+      "startsWith": "This idea that cancer is a transmissible disease kind of"
+    },
+    {
+      "id": 4,
+      "label": "Experimental laboratory assays for testing cell transformation",
+      "groupedBecause": "The lecturer details the in vitro and in vivo assays used to detect cellular transformation and test the tumorigenic effects of specific genetic mutations.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 5,
+      "label": "Classifications of cancer genes and mutations",
+      "groupedBecause": "The lecturer defines and contrasts oncogenes versus tumor suppressors, driver versus passenger mutations, and gatekeeper versus caretaker genes.",
+      "startsWith": "So [lip smacks] in doing so, you're going to"
+    },
+    {
+      "id": 6,
+      "label": "Regulation of the G1/S cell cycle checkpoint by the retinoblastoma pathway",
+      "groupedBecause": "The lecturer explains how the retinoblastoma protein, cyclin-dependent kinases, cyclins, and kinase inhibitors regulate the G1 to S transition and how oncogenic alterations override this control.",
+      "startsWith": "Okay? So this should be basic revision for you in"
+    },
+    {
+      "id": 7,
+      "label": "Dominant versus recessive mutational effects and p53 dominant-negative mechanism",
+      "groupedBecause": "The lecturer illustrates how gene dosage and protein structure affect mutational phenotype, using the tetrameric structure of p53 to explain dominant-negative mutations.",
+      "startsWith": "What does that look like in terms of mutations? It"
+    },
+    {
+      "id": 8,
+      "label": "Sequence instability versus chromosomal instability in cancer cells",
+      "groupedBecause": "The lecturer introduces genetic instability as an intrinsic defect of cancer cells and contrasts diploid sequence-unstable tumors with aneuploid chromosomally unstable tumors.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 9,
+      "label": "DNA repair pathways and the origins of genetic instability",
+      "groupedBecause": "The lecturer explains different DNA damage repair mechanisms, detailing how defects in mismatch repair cause sequence instability and defects in homologous recombination cause chromosomal instability.",
+      "startsWith": "Okay. So we're just going to run through the"
+    },
+    {
+      "id": 10,
+      "label": "Mitotic chromosome segregation defects and cellular stress responses",
+      "groupedBecause": "The lecturer discusses mitotic errors, lagging chromosomes, and the downstream cellular stress pathways activated by extrachromosomal DNA in the cytoplasm.",
+      "startsWith": "Okay. So I've told you now this failure or"
+    },
+    {
+      "id": 11,
+      "label": "The Vogelstein multi-step model of colorectal tumorigenesis",
+      "groupedBecause": "The lecturer examines the stepwise accumulation and typical temporal order of mutations that drive tumor progression from normal epithelium to metastatic carcinoma.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 12,
+      "label": "Hereditary cancer predispositions and clinical syndromes",
+      "groupedBecause": "The lecturer explains the genetic basis and clinical manifestations of hereditary cancer syndromes, comparing inherited mutations in familial adenomatous polyposis, Lynch syndrome, hereditary breast cancer, and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be"
+    },
+    {
+      "id": 13,
+      "label": "Lecture conclusion and reading recommendations",
+      "groupedBecause": "The lecturer concludes the session, invites questions, recommends an Easter reading book, and previews the next lecture on the hallmarks of cancer.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class, reflects on the histopathology practicals, and introduces the lecture's learning outcomes.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you guys"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory, germ theory, and Rous sarcoma virus discovery",
+      "groupedBecause": "This passage traces the historical progression from early microscopy and germ theory to Peyton Rous's chicken sarcoma transmission experiments.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+    },
+    {
+      "id": 3,
+      "label": "Transforming viruses and retroviral oncogene capture",
+      "groupedBecause": "This passage outlines the discovery of human and animal tumor viruses and explains the mechanism by which retroviruses capture cellular proto-oncogenes.",
+      "startsWith": "This idea that cancer is a transmissible disease kind of took"
+    },
+    {
+      "id": 4,
+      "label": "Assays for measuring cellular transformation",
+      "groupedBecause": "This passage describes the experimental assays used in vitro and in vivo to test whether a gene or mutation promotes cellular transformation.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+    },
+    {
+      "id": 5,
+      "label": "Classification of cancer genes and mutations",
+      "groupedBecause": "This passage defines oncogenes versus tumor suppressors, dominant versus recessive mutations, and drivers, passengers, gatekeepers, and caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going to"
+    },
+    {
+      "id": 6,
+      "label": "G1 to S cell cycle checkpoint regulation and dysregulation",
+      "groupedBecause": "This passage details the molecular regulation of the G1 to S transition by Rb, Cyclin D-CDK4/6, p16, and p21, and how mutations disrupt it.",
+      "startsWith": "Okay? So this should be basic revision for you in"
+    },
+    {
+      "id": 7,
+      "label": "Dominant-negative mutations in tetrameric p53",
+      "groupedBecause": "This passage explains how point mutations in tetrameric p53 exert a dominant-negative effect that impairs tumor suppressor function.",
+      "startsWith": "What does that look like in terms of mutations? It"
+    },
+    {
+      "id": 8,
+      "label": "Chromosomal instability versus sequence instability",
+      "groupedBecause": "This passage contrasts chromosomal instability involving aneuploidy and translocations with sequence instability characterized by point mutations and indels.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 9,
+      "label": "Excision repair and mismatch repair defects",
+      "groupedBecause": "This passage reviews excision repair and explains how mismatch repair deficiencies cause replication slippage and microsatellite instability.",
+      "startsWith": "Okay. So we're just going to run through the"
+    },
+    {
+      "id": 10,
+      "label": "Double-strand break repair and chromosomal instability",
+      "groupedBecause": "This passage contrasts high-fidelity homologous recombination involving BRCA1/2 with error-prone non-homologous end joining.",
+      "startsWith": "Obviously, that's not going to be the case for"
+    },
+    {
+      "id": 11,
+      "label": "Replication and mitotic errors causing genomic instability",
+      "groupedBecause": "This passage discusses how polymerase epsilon mutations and mitotic segregation errors cause chromosomal chaos, micronuclei formation, and cellular stress.",
+      "startsWith": "Okay. So I've told you now this failure or"
+    },
+    {
+      "id": 12,
+      "label": "The Vogelstein multi-step model of colorectal carcinogenesis",
+      "groupedBecause": "This passage explains the stepwise accumulation and temporal ordering of mutations driving progression from normal epithelium to adenoma and carcinoma.",
+      "startsWith": "Okay. Might want to pick up the pace here."
+    },
+    {
+      "id": 13,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "This passage explains inherited cancer predispositions and compares caretaker syndromes like Lynch syndrome and BRCA mutations with gatekeeper syndromes like FAP and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be"
+    },
+    {
+      "id": 14,
+      "label": "BRCA2 reversion and maintenance of malignancy",
+      "groupedBecause": "This passage uses secondary BRCA2 reversion mutations under chemotherapy to demonstrate that active genetic instability is not required to maintain malignancy.",
+      "startsWith": "Right. So I forgot what I wanted to say"
+    },
+    {
+      "id": 15,
+      "label": "Lecture wrap-up and recommended reading",
+      "groupedBecause": "The lecturer concludes the session, offers to take questions, recommends a book, and previews the next lecture.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for"
+    }
+  ]
+}

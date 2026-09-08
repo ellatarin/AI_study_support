@@ -1,0 +1,76 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes students, reflects on previous practicals, and outlines the learning outcomes for the lecture.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you guys"
+    },
+    {
+      "id": 2,
+      "label": "History of tumor virology and discovery of cellular proto-oncogenes",
+      "groupedBecause": "The lecturer traces the historical transition from cell and germ theory to tumor virology and how retroviruses incorporate cellular proto-oncogenes.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+    },
+    {
+      "id": 3,
+      "label": "Laboratory assays for cellular transformation",
+      "groupedBecause": "The lecturer outlines the specific in vitro and in vivo laboratory assays used to test whether a gene or mutation induces cellular transformation.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+    },
+    {
+      "id": 4,
+      "label": "Classifications of cancer mutations",
+      "groupedBecause": "The lecturer defines and contrasts oncogenes, tumor suppressor genes, driver versus passenger mutations, and gatekeepers versus caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going to say"
+    },
+    {
+      "id": 5,
+      "label": "G1/S checkpoint regulation and Rb pathway alterations",
+      "groupedBecause": "The lecturer explains the mechanics of the G1 to S cell cycle checkpoint involving Rb, Cyclin D, and CDK4/6, and how oncogenic or tumor-suppressive mutations affect this regulation.",
+      "startsWith": "Okay? So this should be basic revision for you in terms"
+    },
+    {
+      "id": 6,
+      "label": "Mutation types and dominant-negative effects in p53",
+      "groupedBecause": "The lecturer examines how mutation type influences phenotypic outcome using the dominant-negative effect of p53 point mutations as an example.",
+      "startsWith": "What does that look like in terms of mutations? It kind"
+    },
+    {
+      "id": 7,
+      "label": "Sequence instability versus chromosomal instability",
+      "groupedBecause": "The lecturer introduces genetic instability and contrasts sequence instability with chromosomal instability using colorectal cancer cell line karyotypes.",
+      "startsWith": "Right. So we're going to move on to this idea now"
+    },
+    {
+      "id": 8,
+      "label": "DNA repair pathways and mechanisms of genomic instability",
+      "groupedBecause": "The lecturer walks through the major DNA repair mechanisms, detailing how defects in mismatch repair and double-strand break repair cause sequence or chromosomal instability.",
+      "startsWith": "Okay. So we're just going to run through the main"
+    },
+    {
+      "id": 9,
+      "label": "Replication and mitotic errors and cellular stress consequences",
+      "groupedBecause": "The lecturer explains how polymerase epsilon mutations and mitotic segregation defects generate lagging chromosomes, micronuclei, and downstream cellular stress cascades.",
+      "startsWith": "Okay. So I've told you now this failure or mutations"
+    },
+    {
+      "id": 10,
+      "label": "The Vogelstein model and stepwise accumulation of mutations",
+      "groupedBecause": "The lecturer discusses the multi-step progression model of colorectal cancer and how early genomic instability influences mutation acquisition.",
+      "startsWith": "Okay. Might want to pick up the pace here. So the"
+    },
+    {
+      "id": 11,
+      "label": "Hereditary predispositions to cancer",
+      "groupedBecause": "The lecturer explains how inherited germline mutations accelerate carcinogenesis through specific syndromes like FAP, Lynch syndrome, hereditary breast cancer, and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be born"
+    },
+    {
+      "id": 12,
+      "label": "Conclusion and recommended reading",
+      "groupedBecause": "The lecturer concludes the session with a book recommendation and housekeeping for the next lecture.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for today."
+    }
+  ]
+}

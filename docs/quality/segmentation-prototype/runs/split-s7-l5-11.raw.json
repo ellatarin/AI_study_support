@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class, reviews previous practical work, and outlines the learning outcomes for the lecture.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you guys"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory, germ theory, and discovery of tumor viruses",
+      "groupedBecause": "The lecturer traces the historical development of cell and germ theories to early tumor virology experiments showing transmissible cellular transformation by Rous sarcoma virus.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+    },
+    {
+      "id": 3,
+      "label": "Retroviral integration and the discovery of cellular proto-oncogenes",
+      "groupedBecause": "The lecturer explains how transforming retroviruses capture host proto-oncogenes during insertion, demonstrating that cancer arises from misregulated normal cellular genes.",
+      "startsWith": "But actually, overall when they were discovering these viruses, they kind"
+    },
+    {
+      "id": 4,
+      "label": "Assays for cellular transformation and cancer gene mutations",
+      "groupedBecause": "The lecturer describes laboratory methods and phenotypic assays used in cell culture and mouse models to test whether specific genes or mutations induce transformation.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+    },
+    {
+      "id": 5,
+      "label": "Classification of cancer genes and mutation types",
+      "groupedBecause": "The lecturer defines key categories used in cancer genetics, comparing oncogenes and tumor suppressors as well as drivers, passengers, gatekeepers, and caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going to"
+    },
+    {
+      "id": 6,
+      "label": "Regulation of the G1/S cell cycle checkpoint",
+      "groupedBecause": "The lecturer outlines the molecular control of the G1/S transition by Rb, D-type cyclins, CDK4/6, and CDK inhibitors, explaining how mutations compromise this checkpoint.",
+      "startsWith": "Okay? So this should be basic revision for you in terms"
+    },
+    {
+      "id": 7,
+      "label": "Mutation gene dosage and p53 dominant-negative mechanism",
+      "groupedBecause": "The lecturer explains how mutant allele dosage affects phenotype, using p53 multimeric tetramers to demonstrate why specific point mutations act as dominant negatives.",
+      "startsWith": "What does that look like in terms of mutations? It kind"
+    },
+    {
+      "id": 8,
+      "label": "Chromosomal instability versus sequence instability",
+      "groupedBecause": "The lecturer introduces genetic instability in cancer, contrasting chromosome-level aneuploidy and translocations with small-scale sequence-level mutations.",
+      "startsWith": "Right. So we're going to move on to this idea"
+    },
+    {
+      "id": 9,
+      "label": "DNA repair pathways: mismatch repair and double-strand break repair",
+      "groupedBecause": "The lecturer details specific DNA repair pathways, contrasting mismatch repair defects in microsatellite instability with homologous recombination and error-prone end joining in double-strand break repair.",
+      "startsWith": "Okay. So we're just going to run through the main"
+    },
+    {
+      "id": 10,
+      "label": "Mitotic chromosome segregation errors and downstream cellular consequences",
+      "groupedBecause": "The lecturer explains how replication errors and mitotic spindle defects cause lagging chromosomes, leading to micronuclei, chromothripsis, cGAS-STING activation, and adaptive stress responses.",
+      "startsWith": "Okay. So I've told you now this failure or mutations"
+    },
+    {
+      "id": 11,
+      "label": "Multistep tumor progression and the Vogelstein model",
+      "groupedBecause": "The lecturer discusses the sequential accumulation and timing of mutations driving colorectal cancer from normal epithelium to metastasis.",
+      "startsWith": "Okay. Might want to pick up the pace here. So the"
+    },
+    {
+      "id": 12,
+      "label": "Hereditary cancer predispositions and secondary resistance",
+      "groupedBecause": "The lecturer explains how inherited germline mutations accelerate carcinogenesis through caretaker and gatekeeper syndromes, concluding with an example of secondary reversion in BRCA2 tumors.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be"
+    },
+    {
+      "id": 13,
+      "label": "Lecture conclusion and reading recommendations",
+      "groupedBecause": "The lecturer concludes the session, suggests Easter reading material, and previews the next lecture topic.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for"
+    }
+  ]
+}

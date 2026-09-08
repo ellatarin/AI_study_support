@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the students, recaps the practical session, and outlines the main learning outcomes for the lecture.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you"
+    },
+    {
+      "id": 2,
+      "label": "History of cell theory and discovery of tumor viruses",
+      "groupedBecause": "This section outlines the historical development from cell theory and germ theory to Peyton Rous's discovery of transmissible transforming tumor viruses.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+    },
+    {
+      "id": 3,
+      "label": "Retroviral oncogene capture and proto-oncogenes",
+      "groupedBecause": "The lecturer explains how retroviruses integrate into host genomes to capture and alter normal cellular proto-oncogenes like SRC, Abl, and Ras.",
+      "startsWith": "But this principle of that there are some viruses that"
+    },
+    {
+      "id": 4,
+      "label": "Assays for cellular transformation",
+      "groupedBecause": "This passage details the experimental assays and model systems used in the laboratory to test the transforming capacity of specific mutated genes.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 5,
+      "label": "Classifying cancer genes and mutations",
+      "groupedBecause": "The lecturer defines and contrasts oncogenes versus tumor suppressors alongside functional mutation categories such as drivers, passengers, gatekeepers, and caretakers.",
+      "startsWith": "So [lip smacks] in doing so, you're going to"
+    },
+    {
+      "id": 6,
+      "label": "Cell cycle regulation at the G1/S checkpoint",
+      "groupedBecause": "This section explains the molecular mechanisms controlling the G1/S transition through the Rb protein, cyclin D-CDK4/6 complexes, and kinase inhibitors.",
+      "startsWith": "This should be basic revision for you in terms of"
+    },
+    {
+      "id": 7,
+      "label": "Mutational kinetics and dominant negative p53",
+      "groupedBecause": "The lecturer illustrates how mutation types affect phenotype using the single-hit versus two-hit model and the dominant negative effect of p53 tetramer mutations.",
+      "startsWith": "What does that look like in terms of mutations? It"
+    },
+    {
+      "id": 8,
+      "label": "Sequence instability versus chromosomal instability",
+      "groupedBecause": "The lecturer contrasts sequence instability with chromosomal instability using karyotypes and sequencing data from two distinct colorectal cancer cell lines.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 9,
+      "label": "DNA repair pathways in cancer",
+      "groupedBecause": "This passage describes the major DNA repair mechanisms—including mismatch repair, homologous recombination, and nonhomologous end joining—and how their failures generate instability.",
+      "startsWith": "So we're just going to run through the main"
+    },
+    {
+      "id": 10,
+      "label": "Mitotic errors and downstream cellular consequences",
+      "groupedBecause": "The lecturer details how replication errors, spindle defects, lagging chromosomes, and chromothripsis trigger cGAS-STING signaling and stress responses in cancer cells.",
+      "startsWith": "So I've told you now this failure or mutations"
+    },
+    {
+      "id": 11,
+      "label": "The Vogelstein multi-step model of tumor progression",
+      "groupedBecause": "This section reviews the stepwise accumulation and non-linear dynamics of genetic mutations that drive progression from normal tissue to metastatic carcinoma.",
+      "startsWith": "So the Vogelstein model as I said there we were"
+    },
+    {
+      "id": 12,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "The lecturer explains how inherited germline mutations accelerate cancer development using examples including FAP, Lynch syndrome, hereditary breast cancer, and retinoblastoma.",
+      "startsWith": "So, what if you're unlucky enough to be born"
+    },
+    {
+      "id": 13,
+      "label": "Conclusion and reading recommendations",
+      "groupedBecause": "The lecture concludes with a reading recommendation and administrative information about the upcoming session.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for"
+    }
+  ]
+}

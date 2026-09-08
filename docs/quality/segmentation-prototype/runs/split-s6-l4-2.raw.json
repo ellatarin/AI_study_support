@@ -1,0 +1,88 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "The lecturer introduces herself, frames the cancer lecture series, and outlines the specific learning objectives for the session.",
+      "startsWith": "[background chatter] Okay, good afternoon, everybody. We'll get started"
+    },
+    {
+      "id": 2,
+      "label": "Cancer as a genetic and microenvironmental disease",
+      "groupedBecause": "The passage explains cancer as a multi-step process involving genetic mutations, clonal evolution, and the requirement for a supportive microenvironment.",
+      "startsWith": "So what is cancer? So at its heart, it's a"
+    },
+    {
+      "id": 3,
+      "label": "Sources of mutations and cancer predisposition",
+      "groupedBecause": "The lecturer introduces the factors driving mutation accumulation, comparing endogenous cellular stress, environmental exposures, and inherited genetic predispositions.",
+      "startsWith": "So what is driving that? What is going on that"
+    },
+    {
+      "id": 4,
+      "label": "Environmental carcinogens and the bad luck versus exposure debate",
+      "groupedBecause": "The passage reviews diverse chemical and physical exposures and discusses the scientific and public debate over bad luck versus environmental causes of cancer.",
+      "startsWith": "And so I'm going to think a little bit"
+    },
+    {
+      "id": 5,
+      "label": "Epidemiological patterns and geographic variation in cancer incidence",
+      "groupedBecause": "The lecturer evaluates global epidemiological data and migrant studies to explore the relative contributions of genetics and environment to cancer rates.",
+      "startsWith": "And a lot of studies that have been done to"
+    },
+    {
+      "id": 6,
+      "label": "Infectious agents and oncogenic mechanisms",
+      "groupedBecause": "The passage surveys various pathogens including bacteria, parasites, fungi, and viruses that contribute to cancer development through inflammation or cell cycle disruption.",
+      "startsWith": "So what environmental cancers might be involved in this process?"
+    },
+    {
+      "id": 7,
+      "label": "Burkitt lymphoma etiology and mechanism",
+      "groupedBecause": "This case study details the discovery of Burkitt lymphoma, its geographical link to malaria, and the molecular mechanism of EBV-driven Myc translocation.",
+      "startsWith": "So I'm going to use the example of Burkitt"
+    },
+    {
+      "id": 8,
+      "label": "Chemical and physical mutagens: aflatoxin, UV, and polycyclic aromatic hydrocarbons",
+      "groupedBecause": "The lecturer explains the biochemical mechanisms by which dietary toxins, UV radiation, and hydrocarbons like benzo[a]pyrene and TCDD cause DNA adducts and damage.",
+      "startsWith": "Okay, so we can have infectious agents involved in the"
+    },
+    {
+      "id": 9,
+      "label": "Tissue-specific carcinogen activation: beta-naphthylamine in bladder cancer",
+      "groupedBecause": "This section explains how metabolic conversion and bladder-specific glucuronidase enzyme activity account for the tissue specificity of beta-naphthylamine carcinogenesis.",
+      "startsWith": "Where do we come to now? Back to cigarette smoke."
+    },
+    {
+      "id": 10,
+      "label": "Tumour promotion and the Berenbaum two-stage model",
+      "groupedBecause": "The lecturer contrasts mutational initiators with non-mutagenic promoters, illustrating the concept using asbestos-induced chronic inflammation and the DMBA/TPA skin carcinogenesis model.",
+      "startsWith": "There are also environmental exposures which we associate with cancer,"
+    },
+    {
+      "id": 11,
+      "label": "Developmental and physiological susceptibility to carcinogens",
+      "groupedBecause": "The passage explores how the developmental stage and active proliferation of target tissue influence susceptibility to mutagens such as alkylating agents and radiation.",
+      "startsWith": "And now I want to think about the cell host"
+    },
+    {
+      "id": 12,
+      "label": "Mutational signatures from high-throughput sequencing",
+      "groupedBecause": "The lecturer describes how whole-genome sequencing identifies characteristic mutational signatures left by specific carcinogens in cancer DNA.",
+      "startsWith": "So how can we work out what's causing cancer?"
+    },
+    {
+      "id": 13,
+      "label": "Methodologies for evaluating carcinogenicity",
+      "groupedBecause": "The passage compares epidemiological biobanks, in vivo animal bioassays, and in vitro tests like the Ames assay, highlighting their strengths and limitations.",
+      "startsWith": "So how can we prove carcinogenicity? How do we"
+    },
+    {
+      "id": 14,
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "The lecturer delivers the concluding summary on environmental cancer causation, risk-benefit decision making, and closes the lecture.",
+      "startsWith": "So we will end it there with this summary, that"
+    }
+  ]
+}

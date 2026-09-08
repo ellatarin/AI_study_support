@@ -1,0 +1,76 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the lecture's objectives, reviewing histology practicals and outlining the topics covering transformation, oncogenes, genetic instability, and hereditary cancer.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you"
+    },
+    {
+      "id": 2,
+      "label": "Cell and germ theories to tumor virology",
+      "groupedBecause": "The lecturer traces the historical development from cell theory to Peyton Rous's experiments and retroviruses, establishing that oncogenes originate from normal cellular genes.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+    },
+    {
+      "id": 3,
+      "label": "Assays for cellular transformation",
+      "groupedBecause": "The lecturer describes laboratory assays and cell culture models used to test whether a gene or mutation confers transformed cellular properties and tumorigenicity.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+    },
+    {
+      "id": 4,
+      "label": "Classifying cancer genes and mutations",
+      "groupedBecause": "The lecturer defines and contrasts oncogenes, tumor suppressor genes, drivers, passengers, gatekeepers, and caretakers.",
+      "startsWith": "So [lip smacks] in doing so, you're going to say"
+    },
+    {
+      "id": 5,
+      "label": "G1 to S cell cycle checkpoint regulation",
+      "groupedBecause": "The lecturer reviews the molecular regulation of the G1/S transition by Rb, CDKs, cyclins, and inhibitors, explaining how oncogenic and tumor-suppressive mutations perturb this checkpoint.",
+      "startsWith": "So this should be basic revision for you in terms of"
+    },
+    {
+      "id": 6,
+      "label": "Gene dosage and dominant-negative p53 mutations",
+      "groupedBecause": "The lecturer explains how specific mutation types alter protein function, using p53 tetramer formation and dominant-negative point mutations as an example.",
+      "startsWith": "What does that look like in terms of mutations? It kind"
+    },
+    {
+      "id": 7,
+      "label": "Chromosomal vs sequence genetic instability",
+      "groupedBecause": "The lecturer introduces genetic instability as an intrinsic defect of cancer cells and contrasts chromosomal instability with sequence instability using colorectal cell line karyotypes.",
+      "startsWith": "Right. So we're going to move on to this idea"
+    },
+    {
+      "id": 8,
+      "label": "DNA repair mechanisms and instability types",
+      "groupedBecause": "The lecturer explains mismatch repair failure leading to microsatellite instability and double-strand break repair pathways leading to chromosomal rearrangements.",
+      "startsWith": "So we're just going to run through the main types"
+    },
+    {
+      "id": 9,
+      "label": "Replication and mitotic errors in chromosomal instability",
+      "groupedBecause": "The lecturer describes how polymerase mutations, mitotic spindle checkpoint failures, and lagging chromosomes cause chromothripsis, micronuclei, and downstream cellular stress responses.",
+      "startsWith": "So I've told you now this failure or mutations in"
+    },
+    {
+      "id": 10,
+      "label": "Vogelstein multistep model of colorectal cancer",
+      "groupedBecause": "The lecturer explains the multistep progression model of colorectal tumorigenesis driven by sequential mutation acquisition and genomic instability.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 11,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "The lecturer discusses inherited cancer predispositions, comparing caretaker and gatekeeper syndromes including FAP, Lynch syndrome, BRCA1/2, and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be born"
+    },
+    {
+      "id": 12,
+      "label": "Conclusion and recommended reading",
+      "groupedBecause": "The lecturer concludes the session, recommends a book for Easter reading, and previews the next lecture on cancer hallmarks.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for"
+    }
+  ]
+}

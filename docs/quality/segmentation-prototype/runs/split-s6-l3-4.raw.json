@@ -1,0 +1,64 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes for the cancer biology module",
+      "groupedBecause": "The lecturer welcomes the class, outlines the scope of the course, and details the specific learning outcomes for the session.",
+      "startsWith": "Okay, everyone, shall we get started? Yes. You're very welcome,"
+    },
+    {
+      "id": 2,
+      "label": "Stepwise accumulation of genetic and epigenetic alterations in cancer",
+      "groupedBecause": "The lecturer explains the core multi-step model of cancer progression driven by genetic mutations, epigenetic modifications, and infectious agents.",
+      "startsWith": "Okay, so we're just going to start here with our core idea."
+    },
+    {
+      "id": 3,
+      "label": "Cancer as a failure of normal tissue differentiation and architecture",
+      "groupedBecause": "The lecturer defines cancer as a disruption of developmental programs and examines how tissue architecture and basement membranes are studied histologically and experimentally.",
+      "startsWith": "So what is cancer, really? So we've all, everybody sitting in"
+    },
+    {
+      "id": 4,
+      "label": "Principles and histological features of tumor invasion and metastasis",
+      "groupedBecause": "The lecturer contrasts movable benign tumors with immovable malignant tumors and details how invasive cells enter circulatory pathways to seed secondary organs.",
+      "startsWith": "Okay. So with these tools in hand, I think the important concept"
+    },
+    {
+      "id": 5,
+      "label": "Colorectal cancer progression from benign adenoma to invasive adenocarcinoma",
+      "groupedBecause": "The lecturer walks through histological sections of colonic polyps to show how epithelial cells breach the muscularis mucosa during the adenoma-to-carcinoma transition.",
+      "startsWith": "Right. So, we're going to focus on colorectal cancer as an example"
+    },
+    {
+      "id": 6,
+      "label": "Tumor nomenclature and clinical risks of benign neoplasms",
+      "groupedBecause": "The lecturer outlines the systematic naming rules and exceptions for benign and malignant neoplasms while explaining how benign tumors can still cause severe harm.",
+      "startsWith": "So some benign tumors become malignant, but they don't all become"
+    },
+    {
+      "id": 7,
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "The lecturer describes how primary and metastatic tumors cause systemic disease and death through physical obstruction, bone erosion, cytopenias, and organ failure.",
+      "startsWith": "Okay? So with that in mind, the question that often gets asked"
+    },
+    {
+      "id": 8,
+      "label": "Tumor epidemiology and comparative oncology across species",
+      "groupedBecause": "The lecturer compares tumor incidence rates across tissue lineages, human populations, companion animals, and other multicellular organisms.",
+      "startsWith": "So just talking about incidence, about how often various tumors arise."
+    },
+    {
+      "id": 9,
+      "label": "Clinical symptoms and cancer screening strategies",
+      "groupedBecause": "The lecturer discusses clinical presentation signs and evaluates the effectiveness of screening programs for cervical, colorectal, breast, and prostate cancers.",
+      "startsWith": "Okay, so what does this look like in the clinic? [chuckles]"
+    },
+    {
+      "id": 10,
+      "label": "Lecture closing and upcoming practicals",
+      "groupedBecause": "The lecturer concludes the lecture, refers students back to the learning outcomes, and gives details on upcoming practicals and lectures.",
+      "startsWith": "Okay? So I leave you with the learning outcomes. Hopefully, you will"
+    }
+  ]
+}

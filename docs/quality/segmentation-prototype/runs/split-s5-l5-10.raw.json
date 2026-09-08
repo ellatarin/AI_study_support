@@ -1,0 +1,88 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the students and outlines the learning objectives and topics to be covered during the lecture.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory, germ theory, and Rous sarcoma virus",
+      "groupedBecause": "This passage covers the historical origins of cell theory, germ theory, and Peyton Rous's discovery of viral cell transformation.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Tumor viruses and the capture of cellular proto-oncogenes",
+      "groupedBecause": "The lecturer discusses the epidemiology of viral cancers and explains how retroviruses capture host proto-oncogenes to become transforming viruses.",
+      "startsWith": "But actually, overall when they were discovering these viruses, they"
+    },
+    {
+      "id": 4,
+      "label": "Experimental assays for cellular transformation",
+      "groupedBecause": "This section details the in vitro and in vivo assays used to detect and measure transformed cellular phenotypes.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 5,
+      "label": "Classifications of cancer mutations and gene functions",
+      "groupedBecause": "The lecturer defines and contrasts oncogenes versus tumor suppressors, drivers versus passengers, and gatekeepers versus caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going"
+    },
+    {
+      "id": 6,
+      "label": "Regulation of the G1 to S cell cycle checkpoint",
+      "groupedBecause": "This subtopic explains the molecular mechanisms controlling the G1 to S transition, focusing on the Rb pathway, cyclins, CDKs, and CDK inhibitors.",
+      "startsWith": "Okay? So this should be basic revision for you in"
+    },
+    {
+      "id": 7,
+      "label": "Dominant versus recessive mutation dynamics and p53",
+      "groupedBecause": "The lecturer examines how mutation types affect cellular phenotypes, focusing on the dominant-negative mechanism of p53 tetramers.",
+      "startsWith": "What does that look like in terms of mutations? It"
+    },
+    {
+      "id": 8,
+      "label": "Chromosomal versus sequence genetic instability",
+      "groupedBecause": "This passage contrasts chromosome instability with sequence-level instability using karyotype and sequencing examples from colorectal cancer lines.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 9,
+      "label": "DNA repair pathways: mismatch repair and double-strand break repair",
+      "groupedBecause": "The lecturer reviews cellular DNA repair mechanisms, contrasting mismatch repair and homologous recombination with error-prone non-homologous joining.",
+      "startsWith": "Okay. So we're just going to run through the main"
+    },
+    {
+      "id": 10,
+      "label": "Replication errors, mitotic defects, and cellular stress",
+      "groupedBecause": "This section explores how polymerase mutations and spindle checkpoint failures during mitosis cause lagging chromosomes, micronuclei, and downstream cellular stress cascades.",
+      "startsWith": "Okay. So I've told you now this failure or"
+    },
+    {
+      "id": 11,
+      "label": "The Vogelstein model of multistep tumor progression",
+      "groupedBecause": "The lecturer discusses the stepwise accumulation and ordering of genetic mutations that drive the progression from normal tissue to metastatic cancer.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 12,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "This passage explains hereditary cancer risks and compares clinical syndromes involving caretaker and gatekeeper mutations, such as FAP, Lynch syndrome, BRCA, and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be"
+    },
+    {
+      "id": 13,
+      "label": "Reversion mutations and the role of genetic instability in malignancy",
+      "groupedBecause": "The lecturer uses secondary BRCA2 reversion mutations under cisplatin treatment to demonstrate that genetic instability is not strictly required to maintain malignancy.",
+      "startsWith": "Right. So I forgot what I wanted to say here"
+    },
+    {
+      "id": 14,
+      "label": "Lecture closing and recommended reading",
+      "groupedBecause": "The lecturer concludes the session with book recommendations and a preview of the next lecture topic.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for"
+    }
+  ]
+}

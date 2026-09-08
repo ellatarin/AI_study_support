@@ -1,0 +1,94 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Opening and lecture overview",
+      "groupedBecause": "The lecturer welcomes the class, reviews histopathology practical observations, and outlines the session's learning outcomes.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope you"
+    },
+    {
+      "id": 2,
+      "label": "Early cell theory, germ theory, and Rous sarcoma virus",
+      "groupedBecause": "This passage recounts the historical path from cell and germ theories to Peyton Rous's chicken sarcoma transmission experiments.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts of"
+    },
+    {
+      "id": 3,
+      "label": "Transforming viruses and human cancer etiology",
+      "groupedBecause": "The lecturer surveys the search for transforming viruses and the specific human tumor viruses responsible for cancer cases.",
+      "startsWith": "Okay.This idea that cancer is a transmissible disease kind of"
+    },
+    {
+      "id": 4,
+      "label": "Retroviral integration and proto-oncogene capture",
+      "groupedBecause": "This section explains how retroviral proviruses integrate near cellular proto-oncogenes to capture and alter them into oncogenes like v-Src.",
+      "startsWith": "But this principle of that there are some viruses that"
+    },
+    {
+      "id": 5,
+      "label": "Laboratory assays for cellular transformation",
+      "groupedBecause": "The lecturer describes in vitro and in vivo assays, including soft agar growth and mouse xenografts, used to test cellular transformation.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they aimed"
+    },
+    {
+      "id": 6,
+      "label": "Classifying mutations: oncogenes, tumor suppressors, drivers, and caretakers",
+      "groupedBecause": "This subtopic defines functional categories of cancer mutations including gain-of-function oncogenes, loss-of-function tumor suppressors, drivers, and caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're going to"
+    },
+    {
+      "id": 7,
+      "label": "Regulation of the G1/S checkpoint by Rb, Cyclin D/CDK, and kinase inhibitors",
+      "groupedBecause": "The lecturer details the molecular signaling pathway controlling the G1 to S cell cycle transition through Rb phosphorylation and its regulators.",
+      "startsWith": "Okay? So this should be basic revision for you in"
+    },
+    {
+      "id": 8,
+      "label": "Allelic mutation mechanisms and dominant-negative p53 tetramers",
+      "groupedBecause": "This passage contrasts dominant and recessive mutation dynamics, explaining how point mutations in tetrameric p53 act as dominant-negative alleles.",
+      "startsWith": "What does that look like in terms of mutations? It"
+    },
+    {
+      "id": 9,
+      "label": "Distinguishing sequence instability from chromosomal instability",
+      "groupedBecause": "The lecturer compares two colorectal cancer models to differentiate point-mutation sequence instability from gross chromosomal karyotype instability.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 10,
+      "label": "Single-strand excision repair, mismatch repair, and microsatellite instability",
+      "groupedBecause": "This section explains single-strand DNA repair mechanisms, focusing on how mismatch repair defects cause replication slippage and microsatellite instability.",
+      "startsWith": "Okay. So we're just going to run through the"
+    },
+    {
+      "id": 11,
+      "label": "Double-strand break repair: homologous recombination versus non-homologous end joining",
+      "groupedBecause": "The lecturer contrasts high-fidelity BRCA-mediated homologous recombination with error-prone non-homologous end joining.",
+      "startsWith": "Obviously, that's not going to be the case for"
+    },
+    {
+      "id": 12,
+      "label": "Mitotic errors, lagging chromosomes, and downstream cellular consequences",
+      "groupedBecause": "This subtopic describes how mitotic spindle defects produce lagging chromosomes, leading to micronuclei, chromothripsis, and cGAS-STING inflammatory signaling.",
+      "startsWith": "Okay. So I've told you now this failure or"
+    },
+    {
+      "id": 13,
+      "label": "The Vogelstein multi-step model of tumor progression",
+      "groupedBecause": "The lecturer explains the stepwise, dynamic acquisition of driver mutations during colorectal adenoma-to-carcinoma progression.",
+      "startsWith": "Okay. Might want to pick up the pace here. So"
+    },
+    {
+      "id": 14,
+      "label": "Hereditary cancer predispositions and two-hit kinetics",
+      "groupedBecause": "This section covers inherited cancer syndromes and two-hit kinetics across FAP, Lynch syndrome, hereditary breast cancer, and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to be"
+    },
+    {
+      "id": 15,
+      "label": "Closing and recommended reading",
+      "groupedBecause": "The lecturer wraps up the lecture, suggests an Easter reading book, and previews the next session on cancer hallmarks.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes for"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "The lecturer introduces herself, frames the cancer lecture series, and outlines the intended learning outcomes.",
+      "startsWith": "[background chatter] Okay, good afternoon, everybody. We'll get started now on"
+    },
+    {
+      "id": 2,
+      "label": "Cancer as a genetic disease and evolutionary microenvironment",
+      "groupedBecause": "The lecturer defines cancer as a clonal, evolutionary genetic disease that depends on a permissive microenvironment.",
+      "startsWith": "So what is cancer? So at its heart, it's a genetic disease,"
+    },
+    {
+      "id": 3,
+      "label": "The roulette wheel: endogenous damage, inherited risk, and target cells",
+      "groupedBecause": "The lecturer discusses intrinsic sources of mutation, DNA repair capacity, inherited cancer syndromes, and the susceptibility of different cell types.",
+      "startsWith": "And of course, we know that 50% of us will develop"
+    },
+    {
+      "id": 4,
+      "label": "Environmental mutagens and public perception of cancer risk",
+      "groupedBecause": "The lecturer surveys various environmental carcinogens and discusses the public debate surrounding bad luck versus environmental exposure.",
+      "startsWith": "And so I'm going to think a little bit about those"
+    },
+    {
+      "id": 5,
+      "label": "Epidemiological studies and geographic variations in cancer",
+      "groupedBecause": "The lecturer examines how international differences and migrant studies reveal the relative contributions of environmental and genetic factors.",
+      "startsWith": "Anyway, cancer, is it inevitable or is it caused? And again,"
+    },
+    {
+      "id": 6,
+      "label": "Infectious agents and oncogenesis",
+      "groupedBecause": "The lecturer reviews several pathogens—bacteria, helminths, fungi, and viruses—and their diverse mechanisms of promoting cancer.",
+      "startsWith": "So what environmental cancers might be involved in this process? So"
+    },
+    {
+      "id": 7,
+      "label": "Burkitt lymphoma: discovery, epidemiology, and pathogenesis",
+      "groupedBecause": "The lecturer details the discovery of Burkitt lymphoma, its geographic link to malaria, and the molecular mechanism of Myc translocation.",
+      "startsWith": "So I'm going to use the example of Burkitt lymphoma, because"
+    },
+    {
+      "id": 8,
+      "label": "Dietary aflatoxin and DNA adduct formation",
+      "groupedBecause": "The lecturer explains how dietary aflatoxin is metabolised into an epoxide that forms mutagenic bulky adducts with DNA bases.",
+      "startsWith": "Okay, so we can have infectious agents involved in the development"
+    },
+    {
+      "id": 9,
+      "label": "UV light and thymine dimer formation",
+      "groupedBecause": "The lecturer describes how UV radiation induces thymine dimers and the role of nucleotide excision repair in preventing mutations.",
+      "startsWith": "What about UV light? What does UV light do? Well, UV"
+    },
+    {
+      "id": 10,
+      "label": "Polycyclic aromatic hydrocarbons, xenobiotic metabolism, and tissue specificity",
+      "groupedBecause": "The lecturer explains how compounds like benzo[a]pyrene, TCDD, and beta-naphthylamine are processed by endogenous enzymes to generate mutagenic adducts or tissue-specific cancers.",
+      "startsWith": "Where are we now? Smoking cigarettes. So why are cigarettes so"
+    },
+    {
+      "id": 11,
+      "label": "Asbestos and chronic inflammation as a tumour promoter",
+      "groupedBecause": "The lecturer discusses how non-mutagenic asbestos fibres lodge in the mesothelium and induce chronic inflammation that promotes cancer.",
+      "startsWith": "There are also environmental exposures which we associate with cancer, and"
+    },
+    {
+      "id": 12,
+      "label": "The Berenbaum hypothesis: initiation versus promotion",
+      "groupedBecause": "The lecturer presents experimental evidence distinguishing tumour initiators from promoters and details how TPA mimics DAG to activate PKC.",
+      "startsWith": "And this was the first study that really gave rise to"
+    },
+    {
+      "id": 13,
+      "label": "Stage-of-life and cellular susceptibility to carcinogens",
+      "groupedBecause": "The lecturer explains how tissue remodelling and proliferative state during specific developmental windows alter susceptibility to mutagens like NMU and radiation.",
+      "startsWith": "Okay, so we have choices. We have random events that we"
+    },
+    {
+      "id": 14,
+      "label": "Mutational signatures in cancer genomes",
+      "groupedBecause": "The lecturer explains how whole-genome sequencing identifies specific mutational signatures corresponding to distinct carcinogen exposures.",
+      "startsWith": "So how can we work out what's causing cancer? We do"
+    },
+    {
+      "id": 15,
+      "label": "Methodologies for determining carcinogenicity",
+      "groupedBecause": "The lecturer evaluates epidemiological studies, biobanks, animal toxicological models, and the Ames in vitro test.",
+      "startsWith": "So how can we prove carcinogenicity? How do we prove it?"
+    },
+    {
+      "id": 16,
+      "label": "Summary and closing remarks",
+      "groupedBecause": "The lecturer concludes the lecture by summarising environmental cancer risks and the daily balance between benefit and risk.",
+      "startsWith": "So we will end it there with this summary, that much"
+    }
+  ]
+}

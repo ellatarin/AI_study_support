@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer frames the session with practical review and sets out the day's learning outcomes.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I hope"
+    },
+    {
+      "id": 2,
+      "label": "History of cell theory and tumor virology",
+      "groupedBecause": "The lecturer reviews the historical development from cell theory and germ theory to Rous sarcoma virus and transforming viruses.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Retroviral transduction and cellular proto-oncogenes",
+      "groupedBecause": "The lecturer explains how retroviruses capture cellular proto-oncogenes to become transforming viruses.",
+      "startsWith": "Right? You have to kind of understand a little bit"
+    },
+    {
+      "id": 4,
+      "label": "Experimental assays for cellular transformation",
+      "groupedBecause": "The lecturer outlines in vitro and in vivo assays used to test cell transformation and oncogenic mutations.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 5,
+      "label": "Classifying cancer mutations: oncogenes, tumor suppressors, drivers, and caretakers",
+      "groupedBecause": "The lecturer defines key categories of cancer gene mutations including oncogenes, tumor suppressor genes, drivers, passengers, gatekeepers, and caretakers.",
+      "startsWith": "Okay. So [lip smacks] in doing so, you're"
+    },
+    {
+      "id": 6,
+      "label": "The Rb pathway and G1/S cell cycle checkpoint",
+      "groupedBecause": "The lecturer details the mechanism of the G1/S checkpoint regulated by Rb, CDKs, cyclins, and kinase inhibitors.",
+      "startsWith": "Okay? So this should be basic revision for you"
+    },
+    {
+      "id": 7,
+      "label": "Allele dosage, two-hit hypothesis, and dominant negative p53 mutations",
+      "groupedBecause": "The lecturer explores why mutation type affects cellular phenotype, using p53 tetramerization and dominant negative point mutations as an example.",
+      "startsWith": "What does that look like in terms of mutations?"
+    },
+    {
+      "id": 8,
+      "label": "Chromosome instability versus sequence instability",
+      "groupedBecause": "The lecturer introduces genetic instability in cancer, distinguishing chromosomal instability from sequence instability.",
+      "startsWith": "Right. So we're going to move on to"
+    },
+    {
+      "id": 9,
+      "label": "DNA repair mechanisms and instability phenotypes",
+      "groupedBecause": "The lecturer compares DNA repair pathways, specifically mismatch repair and homologous recombination vs non-homologous end joining.",
+      "startsWith": "Okay. So we're just going to run through"
+    },
+    {
+      "id": 10,
+      "label": "Replication, mitotic defects, and cellular stress consequences",
+      "groupedBecause": "The lecturer discusses mitotic errors like lagging chromosomes and the resulting downstream stresses and adaptation mechanisms.",
+      "startsWith": "Okay. So I've told you now this failure"
+    },
+    {
+      "id": 11,
+      "label": "The Vogelstein multi-step model of colorectal tumorigenesis",
+      "groupedBecause": "The lecturer explains the stepwise accumulation and timing of mutations in the progression from adenoma to carcinoma.",
+      "startsWith": "Okay. Might want to pick up the pace here."
+    },
+    {
+      "id": 12,
+      "label": "Hereditary cancer predispositions and clinical syndromes",
+      "groupedBecause": "The lecturer covers inherited cancer risk syndromes, detailing FAP, Lynch syndrome, BRCA1/2, and retinoblastoma.",
+      "startsWith": "Okay? So, what if you're unlucky enough to"
+    },
+    {
+      "id": 13,
+      "label": "Lecture conclusion and reading recommendations",
+      "groupedBecause": "The lecturer concludes the lecture with reading recommendations and next-session announcements.",
+      "startsWith": "Okay? So I hope that covers our learning outcomes"
+    }
+  ]
+}
