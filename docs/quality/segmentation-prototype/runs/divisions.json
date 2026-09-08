@@ -1,0 +1,24 @@
+{
+  "_comment": "The user's ruled divisions, by lecture key. Hand judgements, exactly as runs/criteria.json holds pass two's. Positions are percentages of the transcript's characters, matched within 1.0 point. 'wanted' is every boundary the division requires; 'dontCare' is a boundary the user set aside, scored neither way; anything else a run proposes is unwanted. report-division.py reads this and never guesses.",
+  "l3": {
+    "ruledOn": "2026-09-08",
+    "sections": 17,
+    "note": "All four contested cuts rejected: 'all these cuts split topics'. The rejected ones are 18.7, 54.0, 88.5, 92.5 — 54.0 is the hard one, made by 6 of 9 runs.",
+    "wanted": [7.0, 12.8, 24.0, 27.5, 31.3, 36.1, 41.4, 62.4, 64.9, 68.6, 74.3, 78.8, 82.8, 86.0, 95.2, 99.4],
+    "dontCare": []
+  },
+  "l4": {
+    "ruledOn": null,
+    "sections": null,
+    "note": "NOT RULED. Five runs give 22 sections and pass all three of lecture 4's subtopic-level rubric criteria (preamble separated 5/5, animal testing separate from the Ames test 5/5, UV its own subtopic 4/5). Its vote distribution is the cleanest of the three lectures. Get it ruled — it is currently ASSUMED in the threshold calculation.",
+    "wanted": null,
+    "dontCare": null
+  },
+  "l5": {
+    "ruledOn": "2026-09-06",
+    "sections": 17,
+    "note": "Ruled from the seam-proof artifact. Seam D (71.3) was rejected twice and then accepted; 57.3 was rejected and then accepted. 40.9 is the single-worked-example cut, rejected.",
+    "wanted": [4.3, 14.1, 19.3, 25.0, 30.2, 37.5, 45.5, 54.9, 57.3, 61.5, 69.5, 71.3, 80.4, 86.8, 96.9, 99.2],
+    "dontCare": [7.4, 7.6, 10.5, 10.6]
+  }
+}
