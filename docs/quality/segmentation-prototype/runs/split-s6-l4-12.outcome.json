@@ -1,0 +1,15 @@
+{
+  "promptVersion": "s6",
+  "lecture": "l4",
+  "instance": "12",
+  "modelId": "google/gemini-3.7-flash",
+  "transcriptPath": "/Users/ellatarin/Lecture Notes/Biology of Disease/Pipeline processing/Lecture 4 - Causes of Cancer and Environmental Carcinogenesis - 2026-03-06/Transcript/transcript.txt",
+  "seconds": 29,
+  "promptTokens": 12586,
+  "completionTokens": 3872,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": null,
+  "subtopics": 11,
+  "fidelity": "EXACT"
+}

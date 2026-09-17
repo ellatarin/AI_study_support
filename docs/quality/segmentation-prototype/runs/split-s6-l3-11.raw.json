@@ -1,0 +1,64 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture course overview",
+      "groupedBecause": "The lecturer welcomes the students, introduces the lecture series format, and outlines the session's learning outcomes.",
+      "startsWith": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to"
+    },
+    {
+      "id": 2,
+      "label": "Accumulation of genetic and epigenetic alterations",
+      "groupedBecause": "This section explains the multistep model of carcinogenesis driven by accumulating mutations, epigenetic modifications, and infectious agents.",
+      "startsWith": "Okay, so we're just going to start here with our core idea."
+    },
+    {
+      "id": 3,
+      "label": "Cancer as a failure of differentiation and tissue architecture",
+      "groupedBecause": "The lecturer frames cancer as a breakdown in normal developmental differentiation and tissue structure, examining histological organization and the challenges of studying this in culture.",
+      "startsWith": "So what is cancer, really? So we've all, everybody sitting in this room,"
+    },
+    {
+      "id": 4,
+      "label": "Distinguishing benign and malignant tumors via invasion and metastasis",
+      "groupedBecause": "This section details the physical and histological criteria separating benign, encapsulated tumors from invasive, metastasizing malignancies.",
+      "startsWith": "Okay. So with these tools in hand, I think the important concept to"
+    },
+    {
+      "id": 5,
+      "label": "Stepwise progression in colorectal adenoma to adenocarcinoma",
+      "groupedBecause": "The lecturer uses colorectal polyps and cancer to demonstrate the histology of stepwise progression from precursor adenomas across the basement membrane into invasive adenocarcinoma.",
+      "startsWith": "Right. So, we're going to focus on colorectal cancer as an example of"
+    },
+    {
+      "id": 6,
+      "label": "Benign tumor complications and tumor nomenclature",
+      "groupedBecause": "This passage covers how benign growths can still cause severe pathology and details the systematic naming conventions used to classify tumor types.",
+      "startsWith": "Some benign tumors become malignant, but they don't all become malignant."
+    },
+    {
+      "id": 7,
+      "label": "Pathophysiological causes of cancer morbidity and mortality",
+      "groupedBecause": "The lecturer outlines the specific mechanical, physiological, and metabolic mechanisms by which primary and metastatic tumors cause illness and death.",
+      "startsWith": "Okay? So with that in mind, the question that often gets asked by"
+    },
+    {
+      "id": 8,
+      "label": "Comparative tumor incidence across humans and animal species",
+      "groupedBecause": "This section examines the incidence patterns of different cancers in humans, companion animals, and broader multicellular taxa.",
+      "startsWith": "So just talking about incidence, about how often various tumors arise."
+    },
+    {
+      "id": 9,
+      "label": "Clinical signs and cancer screening approaches",
+      "groupedBecause": "The lecturer reviews initial clinical presentations and evaluates population screening strategies across cervical, colorectal, breast, and prostate cancers.",
+      "startsWith": "Okay, so what does this look like in the clinic? [chuckles] I call"
+    },
+    {
+      "id": 10,
+      "label": "Lecture conclusion and practicals reminder",
+      "groupedBecause": "The lecturer wraps up the session by reiterating the learning outcomes and mentioning upcoming practicals and lectures.",
+      "startsWith": "Okay? So I leave you with the learning outcomes. Hopefully, you will recognize"
+    }
+  ]
+}

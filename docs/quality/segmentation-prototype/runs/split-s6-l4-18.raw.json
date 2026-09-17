@@ -1,0 +1,118 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces herself, contextualises the lecture within the cancer course, and outlines the session's key learning objectives.",
+      "startsWith": "[background chatter] Okay, good afternoon, everybody. We'll get started now on this second"
+    },
+    {
+      "id": 2,
+      "label": "Cancer as a genetic and microenvironmental disease",
+      "groupedBecause": "The lecturer defines cancer as an evolutionary, multi-step disease requiring both accumulated mutations and a permissive microenvironment.",
+      "startsWith": "So what is cancer? So at its heart, it's a genetic disease, right?"
+    },
+    {
+      "id": 3,
+      "label": "Sources of mutation: endogenous processes, environment, and genetics",
+      "groupedBecause": "The lecturer introduces the factors contributing to mutation accumulation, including internal cellular metabolism, external exposures, and inherited predispositions.",
+      "startsWith": "And this is where I'm going to introduce you to my roulette wheel of cancer."
+    },
+    {
+      "id": 4,
+      "label": "Survey of known and emerging environmental carcinogens",
+      "groupedBecause": "The lecturer surveys various environmental exposures and products linked to cancer risk, from tobacco to talc, pesticides, and microplastics.",
+      "startsWith": "And so I'm going to think a little bit about those environmental mutagens now."
+    },
+    {
+      "id": 5,
+      "label": "Bad luck versus environment and geographic epidemiological variation",
+      "groupedBecause": "The lecturer evaluates the debate between stochastic bad luck and environmental factors using worldwide epidemiological patterns of cancer incidence.",
+      "startsWith": "And I always like to think a little bit about public understanding of science when"
+    },
+    {
+      "id": 6,
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "The lecturer reviews how various bacteria, parasites, and viruses contribute to cancer development through inflammation or cell-cycle disruption.",
+      "startsWith": "So what environmental cancers might be involved in this process? So we'll come back"
+    },
+    {
+      "id": 7,
+      "label": "Case study: Burkitt lymphoma, EBV, and malaria",
+      "groupedBecause": "The lecturer details the historical discovery, geographic distribution, and mechanistic etiology of Burkitt lymphoma involving malaria, EBV, and MYC translocation.",
+      "startsWith": "So I'm going to use the example of Burkitt lymphoma, because this is a really"
+    },
+    {
+      "id": 8,
+      "label": "Aflatoxin and dietary mutagens",
+      "groupedBecause": "The lecturer explains how aflatoxin from fungal contamination is metabolically activated in the liver to form mutagenic DNA adducts.",
+      "startsWith": "What about diet? We know that in the US, there are very high rates of colorectal"
+    },
+    {
+      "id": 9,
+      "label": "UV radiation and thymine dimer formation",
+      "groupedBecause": "The lecturer explains how ultraviolet radiation induces thymine dimers and overwhelms nucleotide excision repair mechanisms.",
+      "startsWith": "What about UV light? What does UV light do? Well, UV light is a"
+    },
+    {
+      "id": 10,
+      "label": "Polycyclic aromatic hydrocarbons, xenobiotic metabolism, and DNA adducts",
+      "groupedBecause": "The lecturer describes how benzo[a]pyrene and TCDD are processed via the aryl hydrocarbon receptor and CYP1A1 to generate reactive epoxides and DNA transversions.",
+      "startsWith": "So where are we now? Smoking cigarettes. So why are cigarettes so bad for"
+    },
+    {
+      "id": 11,
+      "label": "Tissue-specific activation of aromatic amines in bladder cancer",
+      "groupedBecause": "The lecturer explains why beta-naphthylamine specifically causes bladder cancer due to tissue-restricted enzymatic reactivation by glucuronidase.",
+      "startsWith": "So where do we come to now? Back to cigarette smoke. So back to cigarette smoke."
+    },
+    {
+      "id": 12,
+      "label": "Asbestos and tumor promotion via chronic inflammation",
+      "groupedBecause": "The lecturer details how inhaled asbestos fibres induce mesothelioma by acting as non-mutagenic promoters driving chronic inflammation.",
+      "startsWith": "There are also environmental exposures which we associate with cancer, and I mentioned"
+    },
+    {
+      "id": 13,
+      "label": "The initiator-promoter paradigm and the Berenbaum hypothesis",
+      "groupedBecause": "The lecturer explains the experimental distinction between initiators and promoters using the Berenbaum model and TPA-mediated PKC activation.",
+      "startsWith": "And this was the first study that really gave rise to this idea. This is the Berenbaum"
+    },
+    {
+      "id": 14,
+      "label": "Developmental stage and tissue susceptibility to carcinogenesis",
+      "groupedBecause": "The lecturer explores how active cell proliferation during specific life stages, such as puberty or pregnancy, influences susceptibility to mutagens like NMU.",
+      "startsWith": "And now I want to think about the cell host of those mutations as well, because"
+    },
+    {
+      "id": 15,
+      "label": "Mutational signatures in cancer genome sequencing",
+      "groupedBecause": "The lecturer explains how high-throughput sequencing identifies specific DNA mutation signatures that trace cancer back to particular carcinogens.",
+      "startsWith": "So how can we work out what's causing cancer? We do the epidemiology. We can make"
+    },
+    {
+      "id": 16,
+      "label": "Epidemiology and biobanks for proving carcinogenicity",
+      "groupedBecause": "The lecturer discusses the use of population-level epidemiological studies, exposure biomarkers, and biobanks to establish causal links to cancer.",
+      "startsWith": "So how can we prove carcinogenicity? How do we prove it? And of course, it's unethical"
+    },
+    {
+      "id": 17,
+      "label": "In vivo animal testing for carcinogenicity",
+      "groupedBecause": "The lecturer examines the methods, toxicological dosing challenges, and limitations of using animal models to evaluate carcinogenic compounds.",
+      "startsWith": "What about the mouse studies? Well, these are a little bit more difficult."
+    },
+    {
+      "id": 18,
+      "label": "In vitro testing: The Ames test",
+      "groupedBecause": "The lecturer explains the bacterial Ames test for mutagenicity, the addition of liver extracts, and its limitations in capturing complex tumor biology.",
+      "startsWith": "So we can do epidemiology, we can do in vivo studies, and I also mentioned that in"
+    },
+    {
+      "id": 19,
+      "label": "Lecture summary and risk-benefit considerations",
+      "groupedBecause": "The lecturer concludes the lecture by discussing individual risk-benefit balances and summarising the key takeaways of environmental carcinogenesis.",
+      "startsWith": "So ultimately, it's all about the risks versus the benefits. We know that medical X-rays"
+    }
+  ]
+}

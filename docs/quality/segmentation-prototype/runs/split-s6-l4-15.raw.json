@@ -1,0 +1,106 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and outlines the key learning outcomes of the lecture.",
+      "startsWith": "[background chatter] Okay, good afternoon, everybody. We'll get started now"
+    },
+    {
+      "id": 2,
+      "label": "Cancer as a genetic disease and microenvironment",
+      "groupedBecause": "The lecturer explains that cancer arises from accumulated genetic mutations coupled with a permissive microenvironment supporting clonal evolution.",
+      "startsWith": "So what is cancer? So at its heart, it's a"
+    },
+    {
+      "id": 3,
+      "label": "Endogenous and exogenous sources of mutations",
+      "groupedBecause": "The lecturer details the internal and external sources of DNA mutations, from cellular metabolism and DNA repair failure to environmental carcinogens and inherited predispositions.",
+      "startsWith": "And this is where I'm going to introduce you to"
+    },
+    {
+      "id": 4,
+      "label": "Survey of environmental exposures and carcinogens",
+      "groupedBecause": "The lecturer surveys various known, emerging, and suspected environmental carcinogens encountered in daily life and consumer products.",
+      "startsWith": "And so I'm going to think a little bit about"
+    },
+    {
+      "id": 5,
+      "label": "Bad luck versus exposure in cancer epidemiology",
+      "groupedBecause": "The lecturer discusses the debate between random biological bad luck and environmental factors, supported by global epidemiological variations in cancer incidence.",
+      "startsWith": "So ultimately, we spend our lives with our cells endogenously"
+    },
+    {
+      "id": 6,
+      "label": "Infectious agents and oncogenesis",
+      "groupedBecause": "The lecturer explores how pathogens including bacteria, parasites, and viruses contribute to cancer development through inflammation, cell cycle disruption, or retroviral integration.",
+      "startsWith": "So what environmental cancers might be involved in this process?"
+    },
+    {
+      "id": 7,
+      "label": "Burkitt lymphoma, EBV, and malaria",
+      "groupedBecause": "The lecturer walks through the discovery and multi-step etiology of Burkitt lymphoma involving malaria-induced immunosuppression, EBV activation, and Myc translocation.",
+      "startsWith": "So I'm going to use the example of Burkitt lymphoma,"
+    },
+    {
+      "id": 8,
+      "label": "Aflatoxin and UV radiation mechanisms",
+      "groupedBecause": "The lecturer explains the biochemical mechanisms by which dietary aflatoxin and UV radiation damage DNA.",
+      "startsWith": "Okay, so we can have infectious agents involved in the"
+    },
+    {
+      "id": 9,
+      "label": "Polycyclic aromatic hydrocarbons and xenobiotic metabolism",
+      "groupedBecause": "The lecturer details how aryl hydrocarbons like benzo[a]pyrene and TCDD are metabolically activated via CYP1A1 to form bulky DNA adducts or reactive oxygen species.",
+      "startsWith": "Where are we now? Smoking cigarettes. So why are cigarettes"
+    },
+    {
+      "id": 10,
+      "label": "Tissue specificity and beta-naphthylamine",
+      "groupedBecause": "The lecturer explains how beta-naphthylamine specifically causes bladder cancer due to tissue-specific enzymatic reactivation by bladder glucuronidase.",
+      "startsWith": "Where do we come to now? Back to cigarette smoke."
+    },
+    {
+      "id": 11,
+      "label": "Promoters, inflammation, and the Berenbaum experiment",
+      "groupedBecause": "The lecturer contrasts mutational initiators with non-mutagenic promoters like asbestos and TPA that stimulate cell proliferation and chronic inflammation.",
+      "startsWith": "There are also environmental exposures which we associate with cancer,"
+    },
+    {
+      "id": 12,
+      "label": "Developmental timing and tissue susceptibility",
+      "groupedBecause": "The lecturer discusses how susceptibility to mutagens like alkylating agents depends on the developmental stage and proliferation status of host target tissues.",
+      "startsWith": "Okay, so we have choices. We have random events that"
+    },
+    {
+      "id": 13,
+      "label": "Mutational signatures and sequencing",
+      "groupedBecause": "The lecturer explains how high-throughput whole-genome sequencing identifies distinct mutational signatures characteristic of specific carcinogen exposures.",
+      "startsWith": "So how can we work out what's causing cancer? We"
+    },
+    {
+      "id": 14,
+      "label": "Epidemiological testing and biobanks",
+      "groupedBecause": "The lecturer discusses the use of human epidemiological studies, urine biomarkers, and large-scale biobanks to establish links between exposures and cancer.",
+      "startsWith": "So how can we prove carcinogenicity? How do we prove"
+    },
+    {
+      "id": 15,
+      "label": "Animal toxicology models and dosing challenges",
+      "groupedBecause": "The lecturer describes the strengths, ethical issues, species discrepancies, and dosing limitations of rodent in vivo carcinogenicity testing.",
+      "startsWith": "What about the mouse studies? Well, these are a little"
+    },
+    {
+      "id": 16,
+      "label": "The Ames test and in vitro limitations",
+      "groupedBecause": "The lecturer explains the Ames bacterial reversion test, the inclusion of liver extracts for metabolic activation, and the assay's inability to model whole-organism microenvironments.",
+      "startsWith": "So we can do epidemiology, we can do in vivo studies,"
+    },
+    {
+      "id": 17,
+      "label": "Conclusion and risk-benefit analysis",
+      "groupedBecause": "The lecturer concludes the lecture by framing carcinogenic exposure within daily risk-benefit decisions and summarizing the main themes.",
+      "startsWith": "Ultimately, it's all about the risks versus the benefits."
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces herself, outlines the cancer lecture series, and sets out the learning objectives for the session.",
+      "startsWith": "[background chatter] Okay, good afternoon, everybody. We'll get started now on this"
+    },
+    {
+      "id": 2,
+      "label": "The genetic and microenvironmental nature of cancer",
+      "groupedBecause": "The lecturer explains the fundamental view of cancer as an evolutionary process driven by acquired mutations in key genes within a supportive microenvironment.",
+      "startsWith": "So what is cancer? So at its heart, it's a genetic disease, right?"
+    },
+    {
+      "id": 3,
+      "label": "Sources of mutation: endogenous processes, environment, and genetics",
+      "groupedBecause": "The lecturer introduces the multiple sources of mutations that predispose cells to malignancy, including metabolic errors, lifestyle exposures, inherited defects, and stem cell longevity.",
+      "startsWith": "And this is where I'm going to introduce you to my roulette wheel"
+    },
+    {
+      "id": 4,
+      "label": "Environmental mutagens and the 'bad luck' debate",
+      "groupedBecause": "The lecturer surveys various environmental carcinogens and discusses the public and scientific debate surrounding Tomasetti and Vogelstein's paper on bad luck versus preventable exposure.",
+      "startsWith": "And so I'm going to think a little bit about those environmental"
+    },
+    {
+      "id": 5,
+      "label": "Geographical variation and epidemiology of cancer",
+      "groupedBecause": "The lecturer examines global epidemiological differences in cancer incidence and migrant studies showing how environment and genetics influence cancer rates.",
+      "startsWith": "And a lot of studies that have been done to try and link"
+    },
+    {
+      "id": 6,
+      "label": "Infectious agents and viral oncogenesis",
+      "groupedBecause": "The lecturer reviews various pathogens associated with cancer and explains the mechanisms by which viruses, bacteria, and parasites promote malignant transformation.",
+      "startsWith": "So what environmental cancers might be involved in this process? So we'll"
+    },
+    {
+      "id": 7,
+      "label": "Burkitt lymphoma and environmental synergy",
+      "groupedBecause": "The lecturer details the historical discovery, geographic distribution, and multi-step mechanism of Burkitt lymphoma involving malaria, EBV, and Myc translocation.",
+      "startsWith": "I'm going to use the example of Burkitt lymphoma, because this is"
+    },
+    {
+      "id": 8,
+      "label": "Chemical carcinogens and DNA adduct formation",
+      "groupedBecause": "The lecturer explains how dietary and environmental chemical carcinogens such as aflatoxin, benzo[a]pyrene, and TCDD undergo xenobiotic activation to form bulky DNA adducts and reactive oxygen species.",
+      "startsWith": "Okay, so we can have infectious agents involved in the development of"
+    },
+    {
+      "id": 9,
+      "label": "Tissue-specific activation: beta-naphthylamine",
+      "groupedBecause": "The lecturer describes how beta-naphthylamine is specifically reactivated in the bladder by glucuronidase to cause bladder cancer.",
+      "startsWith": "Where do we come to now? Back to cigarette smoke. So back"
+    },
+    {
+      "id": 10,
+      "label": "Promoters versus initiators in carcinogenesis",
+      "groupedBecause": "The lecturer contrasts mutational initiators with tumor promoters, illustrating the concept through asbestos-driven chronic inflammation and the Berenbaum two-stage DMBA/TPA model.",
+      "startsWith": "There are also environmental exposures which we associate with cancer, and I"
+    },
+    {
+      "id": 11,
+      "label": "Host cell context and developmental stage susceptibility",
+      "groupedBecause": "The lecturer explains how the susceptibility of tissues to carcinogens varies depending on cell proliferative state and stage of development, using NMU exposure in pubertal rats as an example.",
+      "startsWith": "And now I want to think about the cell host of those"
+    },
+    {
+      "id": 12,
+      "label": "Identifying carcinogen exposures via mutational signatures",
+      "groupedBecause": "The lecturer explains how whole genome sequencing is used to detect characteristic mutational signatures left in the DNA by specific carcinogens.",
+      "startsWith": "How can we work out what's causing cancer? We do the"
+    },
+    {
+      "id": 13,
+      "label": "Methodologies for determining carcinogenicity",
+      "groupedBecause": "The lecturer evaluates the primary tools used to determine carcinogenicity, comparing epidemiological biobanks, in vivo animal toxicology studies, and the in vitro Ames test.",
+      "startsWith": "How can we prove carcinogenicity? How do we prove it?"
+    },
+    {
+      "id": 14,
+      "label": "Summary and conclusion",
+      "groupedBecause": "The lecturer concludes the lecture by summarizing environmental cancer risks, the challenges of determining potency, and the concept of everyday risk-benefit analysis.",
+      "startsWith": "So we will end it there with this summary, that much"
+    }
+  ]
+}

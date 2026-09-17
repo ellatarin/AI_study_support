@@ -1,0 +1,64 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture learning outcomes",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the specific learning outcomes for the session.",
+      "startsWith": "[background chatter] Okay, good afternoon, everybody. We'll get started now on this"
+    },
+    {
+      "id": 2,
+      "label": "Cancer as a genetic disease and the roulette wheel of mutations",
+      "groupedBecause": "The lecturer outlines the core concept of cancer as an evolutionary genetic disease driven by endogenous errors, microenvironmental factors, and inherited predispositions.",
+      "startsWith": "So what is cancer? So at its heart, it's a genetic"
+    },
+    {
+      "id": 3,
+      "label": "Environmental carcinogens and the bad luck versus environment debate",
+      "groupedBecause": "The lecturer surveys examples of environmental carcinogens and discusses the public debate surrounding random biological bad luck versus environmental causes.",
+      "startsWith": "And so I'm going to think a little bit about those environmental"
+    },
+    {
+      "id": 4,
+      "label": "Epidemiological evidence and geographic variations in cancer",
+      "groupedBecause": "The lecturer examines how geographic patterns of cancer incidence and migrant studies illustrate the relative contributions of genetics and environment.",
+      "startsWith": "And a lot of studies that have been done to try and"
+    },
+    {
+      "id": 5,
+      "label": "Infectious agents and Burkitt lymphoma pathogenesis",
+      "groupedBecause": "The lecturer details how pathogens contribute to cancer, focusing on the discovery, geographic distribution, and biological mechanism of Burkitt lymphoma.",
+      "startsWith": "So what environmental cancers might be involved in this process? So we'll"
+    },
+    {
+      "id": 6,
+      "label": "Chemical and dietary mutagens, metabolic activation, and DNA adducts",
+      "groupedBecause": "The lecturer explains how chemical mutagens such as aflatoxin, benzo[a]pyrene, and aromatic amines are metabolized to form bulky DNA adducts and drive mutations.",
+      "startsWith": "Okay, so we can have infectious agents involved in the development of"
+    },
+    {
+      "id": 7,
+      "label": "Cancer promoters, chronic inflammation, and the Berenbaum model",
+      "groupedBecause": "The lecturer defines tumor promoters versus initiators using asbestos-induced chronic inflammation and the experimental DMBA and TPA model.",
+      "startsWith": "There are also environmental exposures which we associate with cancer, and I"
+    },
+    {
+      "id": 8,
+      "label": "Host cell developmental stage and cancer susceptibility",
+      "groupedBecause": "The lecturer explores how a cell's proliferative and developmental state, such as during puberty or pregnancy, dictates susceptibility to mutagens like NMU.",
+      "startsWith": "Okay, so we have choices. We have random events that we"
+    },
+    {
+      "id": 9,
+      "label": "Mutational signatures and methodologies for proving carcinogenicity",
+      "groupedBecause": "The lecturer discusses how carcinogenicity is investigated and established using genomic mutational signatures, biobanks, animal models, and the Ames test.",
+      "startsWith": "So how can we work out what's causing cancer? We do"
+    },
+    {
+      "id": 10,
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "The lecturer concludes the session with a summary of environmental causation and the balance between risk and benefit.",
+      "startsWith": "So we will end it there with this summary, that much"
+    }
+  ]
+}

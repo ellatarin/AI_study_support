@@ -1,0 +1,70 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Welcome and course learning outcomes",
+      "groupedBecause": "The lecturer introduces the course structure, the diverse background of the students, and the primary learning outcomes for the lecture series.",
+      "startsWith": "Okay, everyone, shall we get started? Yes. You're very welcome, all"
+    },
+    {
+      "id": 2,
+      "label": "Stepwise genetic and epigenetic changes in cancer",
+      "groupedBecause": "The lecturer explains the multistep model of tumor development driven by accumulating genetic mutations, epigenetic modifications, and infectious agents.",
+      "startsWith": "Okay, so we're just going to start here with our core idea."
+    },
+    {
+      "id": 3,
+      "label": "Cancer as a failure of differentiation and tissue architecture",
+      "groupedBecause": "The lecturer defines cancer as a disruption of developmental differentiation programs and tissue organization, illustrating structural breakdown through breast histology and cell culture methods.",
+      "startsWith": "So what is cancer, really? So we've all, everybody sitting in this"
+    },
+    {
+      "id": 4,
+      "label": "Invasion and metastasis in benign versus malignant tumors",
+      "groupedBecause": "The lecturer contrasts encapsulated movable benign lesions with invasive malignant tumors and outlines the anatomical routes of metastatic spread.",
+      "startsWith": "Okay. So with these tools in hand, I think the important concept"
+    },
+    {
+      "id": 5,
+      "label": "Colorectal cancer as a model of stepwise tumor progression",
+      "groupedBecause": "The lecturer uses histological examination of colorectal polyps to demonstrate the transition from non-invasive adenoma to invasive adenocarcinoma.",
+      "startsWith": "Right. So, we're going to focus on colorectal cancer as an example"
+    },
+    {
+      "id": 6,
+      "label": "Nomenclature of benign and malignant neoplasms",
+      "groupedBecause": "The lecturer outlines the standard histological naming conventions and key diagnostic suffixes and exceptions across epithelial, mesenchymal, hematopoietic, and neuroectodermal tumors.",
+      "startsWith": "Okay? So just so that we're all on the same page in terms"
+    },
+    {
+      "id": 7,
+      "label": "Mechanisms of morbidity and mortality in cancer",
+      "groupedBecause": "The lecturer reviews the physiological and metabolic causes of illness and death resulting from primary tumor mass effects and metastatic organ destruction.",
+      "startsWith": "Okay? So with that in mind, the question that often gets asked"
+    },
+    {
+      "id": 8,
+      "label": "Incidence and mortality of major cancer types",
+      "groupedBecause": "The lecturer examines the relative frequencies, mortality rates, and demographic distributions of major human benign and malignant cancers.",
+      "startsWith": "So just talking about incidence, about how often various tumors arise."
+    },
+    {
+      "id": 9,
+      "label": "Comparative oncology and cancer in multicellular organisms",
+      "groupedBecause": "The lecturer presents tumor incidence data in companion animals and other taxa to emphasize that cancer is an inherent risk of multicellular differentiation.",
+      "startsWith": "So, and just a-- Oops. Oh, God. It doesn't go backwards."
+    },
+    {
+      "id": 10,
+      "label": "Clinical presentation and cancer screening methods",
+      "groupedBecause": "The lecturer details the clinical signs of cancer and evaluates screening approaches for cervical, colorectal, breast, and prostate malignancies.",
+      "startsWith": "Okay, so what does this look like in the clinic? [chuckles] I"
+    },
+    {
+      "id": 11,
+      "label": "Lecture conclusion and next steps",
+      "groupedBecause": "The lecturer summarizes the session against the initial learning outcomes and directs students toward revision and practicals.",
+      "startsWith": "Okay? So I leave you with the learning outcomes. Hopefully, you will"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces herself, the lecture series, and outlines the key learning outcomes for the session.",
+      "startsWith": "[background chatter] Okay, good afternoon, everybody. We'll get started now"
+    },
+    {
+      "id": 2,
+      "label": "Cancer definition: genetic basis and microenvironment",
+      "groupedBecause": "The lecturer explains what cancer is fundamentally, emphasizing that it requires both accumulating genetic mutations and a permissive microenvironment.",
+      "startsWith": "So what is cancer? So at its heart, it's a genetic disease,"
+    },
+    {
+      "id": 3,
+      "label": "The roulette wheel: sources of mutations",
+      "groupedBecause": "The lecturer introduces the roulette wheel metaphor to categorize cancer drivers into endogenous processes, environmental exposures, and inherited predispositions.",
+      "startsWith": "And this is where I'm going to introduce you to my roulette wheel"
+    },
+    {
+      "id": 4,
+      "label": "Survey of known and emerging environmental carcinogens",
+      "groupedBecause": "The lecturer provides an overview of everyday environmental and consumer product exposures, ranging from well-established to newly investigated risks.",
+      "startsWith": "And so I'm going to think a little bit about those environmental mutagens"
+    },
+    {
+      "id": 5,
+      "label": "Bad luck versus environment: Tomasetti-Vogelstein debate",
+      "groupedBecause": "The lecturer discusses the scientific debate and public perception regarding whether cancer risk is predominantly driven by random bad luck or preventable environmental factors.",
+      "startsWith": "So ultimately, we spend our lives with our cells endogenously undergoing processes"
+    },
+    {
+      "id": 6,
+      "label": "Geographic and epidemiological variations in cancer incidence",
+      "groupedBecause": "The lecturer evaluates global epidemiological data and migration studies to illustrate the interplay between environmental exposures and genetic background.",
+      "startsWith": "And a lot of studies that have been done to try and link"
+    },
+    {
+      "id": 7,
+      "label": "Infectious agents and cancer",
+      "groupedBecause": "The lecturer reviews various pathogens, including bacteria, parasites, and oncogenic viruses, and how they contribute to cancer development.",
+      "startsWith": "So we'll come back to the roulette wheel, and we're going to"
+    },
+    {
+      "id": 8,
+      "label": "Case study: Burkitt lymphoma pathogenesis",
+      "groupedBecause": "The lecturer explores the historical discovery and multi-factor mechanism of Burkitt lymphoma involving geographic factors, malaria immunosuppression, EBV, and Myc translocation.",
+      "startsWith": "So I'm going to use the example of Burkitt lymphoma, because this is"
+    },
+    {
+      "id": 9,
+      "label": "Direct DNA damage: aflatoxin and UV radiation",
+      "groupedBecause": "The lecturer describes how natural toxins like aflatoxin and radiation like UV light directly induce DNA adducts and thymine dimers.",
+      "startsWith": "Okay, so we can have infectious agents involved in the development of cancer."
+    },
+    {
+      "id": 10,
+      "label": "Metabolic activation of polycyclic aromatic hydrocarbons",
+      "groupedBecause": "The lecturer details the molecular pathway by which unreactive benzo[a]pyrene is converted by the AhR-CYP1A1 axis into reactive epoxides that create DNA adducts.",
+      "startsWith": "Where are we now? Smoking cigarettes. So why are cigarettes so bad"
+    },
+    {
+      "id": 11,
+      "label": "Tissue-specific carcinogen activation: aromatic amines",
+      "groupedBecause": "The lecturer explains how beta-naphthylamine is specifically reactivated by glucuronidase in the bladder, illustrating tissue specificity in chemical carcinogenesis.",
+      "startsWith": "Where do we come to now? Back to cigarette smoke. So back"
+    },
+    {
+      "id": 12,
+      "label": "Asbestos and chronic inflammation",
+      "groupedBecause": "The lecturer examines how non-mutagenic asbestos fibers induce mesothelioma indirectly by triggering chronic inflammation and oxidative stress.",
+      "startsWith": "There are also environmental exposures which we associate with cancer, and I mentioned"
+    },
+    {
+      "id": 13,
+      "label": "The Berenbaum two-stage model: initiators and promoters",
+      "groupedBecause": "The lecturer introduces the experimental concept of tumor initiators versus promoters using DMBA, TPA, and PKC signaling pathway activation.",
+      "startsWith": "And this was the first study that really gave rise to this idea."
+    },
+    {
+      "id": 14,
+      "label": "Host cell developmental stage and susceptibility",
+      "groupedBecause": "The lecturer demonstrates how susceptibility to alkylating agents and radiation depends on specific proliferative life stages, such as puberty and pregnancy timing.",
+      "startsWith": "Okay, so we have choices. We have random events that we can't"
+    },
+    {
+      "id": 15,
+      "label": "Mutational signatures in cancer genomes",
+      "groupedBecause": "The lecturer explains how high-throughput whole-genome sequencing reveals characteristic mutational signatures that pinpoint prior carcinogen exposure.",
+      "startsWith": "So how can we work out what's causing cancer? We do the epidemiology."
+    },
+    {
+      "id": 16,
+      "label": "Methodologies for testing carcinogenicity",
+      "groupedBecause": "The lecturer evaluates the strengths and limitations of epidemiological cohorts, in vivo animal toxicology, and the in vitro Ames test.",
+      "startsWith": "So how can we prove carcinogenicity? How do we prove it? And"
+    },
+    {
+      "id": 17,
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "The lecturer delivers the concluding summary on environmental cancer risks, carcinogen potency, and benefit-risk analysis.",
+      "startsWith": "So we will end it there with this summary, that much cancer is"
+    }
+  ]
+}

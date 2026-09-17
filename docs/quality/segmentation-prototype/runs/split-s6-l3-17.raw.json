@@ -1,0 +1,64 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the students, outlines the course structure, and introduces the session's learning outcomes.",
+      "startsWith": "Okay, everyone, shall we get started? Yes. You're very welcome,"
+    },
+    {
+      "id": 2,
+      "label": "Accumulation of genetic and epigenetic changes",
+      "groupedBecause": "The lecturer explains the multi-step model of cancer progression driven by accumulating genetic mutations, epigenetic alterations, and viral factors.",
+      "startsWith": "Okay, so we're just going to start here with our core idea."
+    },
+    {
+      "id": 3,
+      "label": "Cancer as a failure of differentiation and tissue architecture",
+      "groupedBecause": "The lecturer defines cancer as a breakdown of normal differentiation and tissue organization, using skin and breast histology along with culture models as examples.",
+      "startsWith": "So what is cancer, really? So we've all, everybody sitting in"
+    },
+    {
+      "id": 4,
+      "label": "Invasion, metastasis, and benign versus malignant tumors",
+      "groupedBecause": "The lecturer distinguishes benign from malignant tumors through the mechanisms and histological features of tissue invasion and metastatic spread.",
+      "startsWith": "Okay. So with these tools in hand, I think the important"
+    },
+    {
+      "id": 5,
+      "label": "Stepwise tumor progression in colorectal cancer",
+      "groupedBecause": "The lecturer uses colorectal polyps to demonstrate the histological stepwise progression from a benign adenoma to an invasive adenocarcinoma.",
+      "startsWith": "Right. So, we're going to focus on colorectal cancer as an"
+    },
+    {
+      "id": 6,
+      "label": "Benign tumor pathology and tumor nomenclature",
+      "groupedBecause": "The lecturer explains the clinical risks of certain benign tumors and reviews the naming conventions and exceptions across different tumor types.",
+      "startsWith": "So some benign tumors become malignant, but they don't all become"
+    },
+    {
+      "id": 7,
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "The lecturer details the local, systemic, and metastatic processes that cause functional impairment, severe illness, and death in cancer patients.",
+      "startsWith": "Okay? So with that in mind, the question that often gets"
+    },
+    {
+      "id": 8,
+      "label": "Cancer incidence across tissues, populations, and species",
+      "groupedBecause": "The lecturer examines the epidemiological patterns of major cancers in humans and compares tumor occurrence across companion animals and other multicellular organisms.",
+      "startsWith": "So just talking about incidence, about how often various tumors arise."
+    },
+    {
+      "id": 9,
+      "label": "Clinical detection and cancer screening modalities",
+      "groupedBecause": "The lecturer outlines common clinical presentations and evaluates the efficacy of screening programs for cervical, colorectal, breast, and prostate cancers.",
+      "startsWith": "Okay, so what does this look like in the clinic? [chuckles]"
+    },
+    {
+      "id": 10,
+      "label": "Lecture conclusion and practical notices",
+      "groupedBecause": "The lecturer concludes the session with a recap of learning outcomes and reminders for upcoming practicals and lectures.",
+      "startsWith": "Okay? So I leave you with the learning outcomes. Hopefully,"
+    }
+  ]
+}

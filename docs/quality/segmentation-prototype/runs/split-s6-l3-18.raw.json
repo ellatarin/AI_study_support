@@ -1,0 +1,64 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the students, introduces the structure of the lecture series, and outlines the session's core learning outcomes.",
+      "startsWith": "Okay, everyone, shall we get started? Yes. You're very welcome,"
+    },
+    {
+      "id": 2,
+      "label": "Stepwise accumulation of genetic and epigenetic changes",
+      "groupedBecause": "The lecturer presents the core model of cancer arising from accumulating genetic, epigenetic, and infectious changes over time.",
+      "startsWith": "Okay, so we're just going to start here with our core idea."
+    },
+    {
+      "id": 3,
+      "label": "Cancer as a breakdown of differentiation and tissue architecture",
+      "groupedBecause": "The lecturer explains how cancer represents a failure of normal developmental differentiation and tissue organization, illustrating this through histology and cell culture models.",
+      "startsWith": "[chuckles] So what is cancer, really? So we've all, everybody sitting"
+    },
+    {
+      "id": 4,
+      "label": "Mechanisms of invasion, metastasis, and benign versus malignant tumors",
+      "groupedBecause": "The lecturer distinguishes between benign and malignant tumors based on invasion and routes of metastasis, illustrating with surgical and histological examples.",
+      "startsWith": "Okay. So with these tools in hand, I think the important concept"
+    },
+    {
+      "id": 5,
+      "label": "Colorectal cancer as a model of stepwise tumor progression",
+      "groupedBecause": "The lecturer uses colorectal cancer histology and polyps to illustrate the stepwise transition from benign adenoma to invasive adenocarcinoma.",
+      "startsWith": "Right. So, we're going to focus on colorectal cancer as"
+    },
+    {
+      "id": 6,
+      "label": "Dangers of benign tumors and tumor nomenclature conventions",
+      "groupedBecause": "The lecturer discusses how benign tumors can cause clinical harm and outlines the standard nomenclature rules and exceptions for naming tumors.",
+      "startsWith": "Some benign tumors become malignant, but they don't all become"
+    },
+    {
+      "id": 7,
+      "label": "Why cancer causes illness and death",
+      "groupedBecause": "The lecturer explains the physical, functional, and metabolic mechanisms by which primary and metastatic tumors cause morbidity and mortality.",
+      "startsWith": "Okay? So with that in mind, the question that often gets"
+    },
+    {
+      "id": 8,
+      "label": "Cancer incidence in humans and comparative oncology in animals",
+      "groupedBecause": "The lecturer reviews the incidence of different tumor types in humans and shows how cancer affects other multicellular species with differentiation programs.",
+      "startsWith": "So just talking about incidence, about how often various tumors arise."
+    },
+    {
+      "id": 9,
+      "label": "Clinical presentation and screening methods",
+      "groupedBecause": "The lecturer describes typical clinical presentations of cancer and compares screening methods and efficacy across cervical, colorectal, breast, and prostate cancers.",
+      "startsWith": "Okay, so what does this look like in the clinic?"
+    },
+    {
+      "id": 10,
+      "label": "Lecture conclusion and housekeeping",
+      "groupedBecause": "The lecturer concludes the lecture by referencing the learning outcomes and reminding students about practical sessions and the next lecture.",
+      "startsWith": "Okay? So I leave you with the learning outcomes. Hopefully,"
+    }
+  ]
+}

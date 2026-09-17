@@ -1,0 +1,70 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces herself, frames the lecture series, and outlines the core learning objectives regarding cancer causation.",
+      "startsWith": "[background chatter] Okay, good afternoon, everybody. We'll get started now on"
+    },
+    {
+      "id": 2,
+      "label": "Cancer as a genetic disease, microenvironment, and microevolution",
+      "groupedBecause": "The lecturer defines cancer as a multi-step genetic disease influenced by clonal evolution and permissive tissue microenvironments.",
+      "startsWith": "So what is cancer? So at its heart, it's a"
+    },
+    {
+      "id": 3,
+      "label": "Endogenous mutagenic processes and genetic predisposition",
+      "groupedBecause": "The lecturer explains how endogenous metabolic processes, stressful replication, and inherited genetic mutations contribute to cancer risk.",
+      "startsWith": "So what is driving that? What is going on that"
+    },
+    {
+      "id": 4,
+      "label": "Environmental carcinogens, public perception, and epidemiological evidence",
+      "groupedBecause": "The lecturer discusses various everyday environmental carcinogens, public debate over 'bad luck' versus exposure, and geographic epidemiological patterns.",
+      "startsWith": "And so I'm going to think a little bit about"
+    },
+    {
+      "id": 5,
+      "label": "Infectious agents and viral mechanisms of oncogenesis",
+      "groupedBecause": "The lecturer surveys various pathogens—including bacteria, helminths, and viruses—and explains how they promote oncogenesis through inflammation and cell cycle disruption.",
+      "startsWith": "So what environmental cancers might be involved in this process?"
+    },
+    {
+      "id": 6,
+      "label": "Case study: Burkitt lymphoma and Epstein-Barr virus",
+      "groupedBecause": "The lecturer details the historical discovery, geographic distribution, and biological mechanism linking malaria, EBV reactivation, and Myc translocation in Burkitt lymphoma.",
+      "startsWith": "I'm going to use the example of Burkitt lymphoma, because"
+    },
+    {
+      "id": 7,
+      "label": "Dietary and chemical mutagens: DNA adduct formation and metabolic activation",
+      "groupedBecause": "The lecturer explains how dietary toxins, UV radiation, polycyclic aromatic hydrocarbons, TCDD, and aromatic amines cause DNA damage and adducts via metabolic activation.",
+      "startsWith": "Okay, so we can have infectious agents involved in the"
+    },
+    {
+      "id": 8,
+      "label": "Tumor promoters, chronic inflammation, and the Berenbaum two-stage model",
+      "groupedBecause": "The lecturer distinguishes mutational initiators from non-mutagenic promoters like asbestos and phorbol esters that drive cell proliferation and chronic inflammation.",
+      "startsWith": "There are also environmental exposures which we associate with cancer,"
+    },
+    {
+      "id": 9,
+      "label": "Host cell context, developmental timing, and age susceptibility",
+      "groupedBecause": "The lecturer explains how tissue developmental state, age, and reproductive history influence cellular susceptibility to carcinogens.",
+      "startsWith": "And now I want to think about the cell host"
+    },
+    {
+      "id": 10,
+      "label": "Identifying carcinogen exposure through DNA mutational signatures",
+      "groupedBecause": "The lecturer explains how whole-genome sequencing reveals distinct mutational signatures that correlate with specific carcinogen exposures.",
+      "startsWith": "So how can we work out what's causing cancer?"
+    },
+    {
+      "id": 11,
+      "label": "Methodologies for determining carcinogenicity: epidemiology, animal models, and in vitro assays",
+      "groupedBecause": "The lecturer evaluates the strengths and limitations of epidemiological biobanks, animal toxicology studies, and the bacterial Ames test for determining carcinogenicity.",
+      "startsWith": "So how can we prove carcinogenicity? How do we"
+    }
+  ]
+}

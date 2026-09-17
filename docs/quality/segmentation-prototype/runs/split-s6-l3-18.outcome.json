@@ -1,0 +1,15 @@
+{
+  "promptVersion": "s6",
+  "lecture": "l3",
+  "instance": "18",
+  "modelId": "google/gemini-3.7-flash",
+  "transcriptPath": "/Users/ellatarin/Lecture Notes/Biology of Disease/Pipeline processing/Lecture 3 - The Nature and Biology of Cancer - 2026-03-04/Transcript/transcript.txt",
+  "seconds": 17,
+  "promptTokens": 11031,
+  "completionTokens": 2669,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": null,
+  "subtopics": 10,
+  "fidelity": "EXACT"
+}

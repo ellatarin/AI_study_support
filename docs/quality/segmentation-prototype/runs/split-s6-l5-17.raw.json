@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the session, connects it to prior practicals, and outlines the day's learning outcomes.",
+      "startsWith": "[background chatter] All righty. Shall we get going? I"
+    },
+    {
+      "id": 2,
+      "label": "Cell theory, germ theory, and discovery of viral oncogenes",
+      "groupedBecause": "Traces the historical progression from cell and germ theories to the discovery of tumor viruses and cellular proto-oncogenes.",
+      "startsWith": "Starting with cell and germ theories really, our modern concepts"
+    },
+    {
+      "id": 3,
+      "label": "Laboratory assays for cell transformation",
+      "groupedBecause": "Describes experimental techniques and in vitro and in vivo assays used to evaluate cellular transformation properties.",
+      "startsWith": "Taking these transforming viruses understanding genes present Within them they"
+    },
+    {
+      "id": 4,
+      "label": "Classification of cancer mutations and gene types",
+      "groupedBecause": "Defines and contrasts key cancer genetics terms including oncogenes, tumor suppressor genes, drivers, passengers, gatekeepers, and caretakers.",
+      "startsWith": "So [lip smacks] in doing so, you're going to"
+    },
+    {
+      "id": 5,
+      "label": "Regulation of the G1-to-S cell cycle checkpoint",
+      "groupedBecause": "Explains how the retinoblastoma protein, cyclins, CDKs, and CDK inhibitors regulate the G1-to-S cell cycle transition.",
+      "startsWith": "So this should be basic revision for you in terms"
+    },
+    {
+      "id": 6,
+      "label": "Dominant vs recessive mutations and p53 dominant-negative effects",
+      "groupedBecause": "Explains the phenotypic consequences of single versus double mutant alleles, focusing on the dominant-negative mechanism of p53 tetramers.",
+      "startsWith": "What does that look like in terms of mutations? It"
+    },
+    {
+      "id": 7,
+      "label": "Chromosomal instability versus sequence instability",
+      "groupedBecause": "Introduces genetic instability in cancer cells and contrasts chromosomal karyotype alterations with sequence-level mutations.",
+      "startsWith": "Right. So we're going to move on to this"
+    },
+    {
+      "id": 8,
+      "label": "DNA damage repair pathways and mismatch repair defects",
+      "groupedBecause": "Covers excision repair mechanisms and explains how mismatch repair failure leads to replication slippage and microsatellite instability.",
+      "startsWith": "So we're just going to run through the main"
+    },
+    {
+      "id": 9,
+      "label": "Homologous recombination and non-homologous end joining",
+      "groupedBecause": "Contrasts high-fidelity homologous recombination with error-prone non-homologous end joining and explains the role of BRCA proteins.",
+      "startsWith": "Obviously, that's not going to be the case for"
+    },
+    {
+      "id": 10,
+      "label": "Mitotic segregation defects and consequences of chromosome instability",
+      "groupedBecause": "Explains how replication errors and mitotic chromosome lagging produce micronuclei, chromothripsis, and cellular stress responses.",
+      "startsWith": "So I've told you now this failure or mutations"
+    },
+    {
+      "id": 11,
+      "label": "Vogelstein multi-step model of tumor progression",
+      "groupedBecause": "Details the sequential acquisition of specific mutations across the adenoma-to-carcinoma transition in colorectal cancer.",
+      "startsWith": "The Vogelstein model as I said there we were looking"
+    },
+    {
+      "id": 12,
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "Explains how inherited single-allele mutations accelerate tumor onset and compares syndromes including FAP, Lynch syndrome, BRCA breast cancer, and retinoblastoma.",
+      "startsWith": "So, what if you're unlucky enough to be born"
+    },
+    {
+      "id": 13,
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "Concludes the lecture by offering recommended reading, answering questions, and previewing the next lecture topic.",
+      "startsWith": "So I hope that covers our learning outcomes for today."
+    }
+  ]
+}

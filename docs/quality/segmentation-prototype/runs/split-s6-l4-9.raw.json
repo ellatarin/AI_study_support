@@ -1,0 +1,88 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the core learning objectives for the session.",
+      "startsWith": "[background chatter] Okay, good afternoon, everybody. We'll get started now on this second"
+    },
+    {
+      "id": 2,
+      "label": "Cancer as a genetic disease and the microenvironment",
+      "groupedBecause": "The lecturer explains how cancer develops through accumulated genetic mutations alongside a permissive tissue microenvironment.",
+      "startsWith": "So what is cancer? So at its heart, it's a genetic disease, right?"
+    },
+    {
+      "id": 3,
+      "label": "Endogenous and inherited sources of cancer risk",
+      "groupedBecause": "The lecturer introduces the multifactorial drivers of mutation, detailing endogenous metabolic stress, inherited genetic syndromes, and target cell types.",
+      "startsWith": "And this is where I'm going to introduce you to my roulette wheel"
+    },
+    {
+      "id": 4,
+      "label": "Environmental carcinogens and the bad luck debate",
+      "groupedBecause": "The lecturer reviews diverse environmental exposures and discusses the debate concerning bad luck versus environmental causes of cancer.",
+      "startsWith": "And so I'm going to think a little bit about those environmental mutagens"
+    },
+    {
+      "id": 5,
+      "label": "Epidemiology and geographic variation in cancer incidence",
+      "groupedBecause": "The lecturer analyzes geographic patterns in cancer rates to demonstrate the interplay between environmental factors and genetic background.",
+      "startsWith": "And a lot of studies that have been done to try and link"
+    },
+    {
+      "id": 6,
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "The lecturer surveys various pathogens, including bacteria, parasites, and oncogenic viruses, and their roles in driving carcinogenesis.",
+      "startsWith": "So what environmental cancers might be involved in this process? So we'll"
+    },
+    {
+      "id": 7,
+      "label": "Etiology and mechanism of Burkitt lymphoma",
+      "groupedBecause": "The lecturer details the historical discovery, geographic distribution, and multi-step mechanism involving malaria, EBV, and Myc translocation in Burkitt lymphoma.",
+      "startsWith": "I'm going to use the example of Burkitt lymphoma, because this is"
+    },
+    {
+      "id": 8,
+      "label": "Chemical carcinogens, dietary toxins, and DNA adducts",
+      "groupedBecause": "The lecturer explains how dietary mutagens like aflatoxin, UV radiation, and polycyclic hydrocarbons like benzo[a]pyrene undergo metabolic activation to form bulky DNA adducts.",
+      "startsWith": "Okay, so we can have infectious agents involved in the development of"
+    },
+    {
+      "id": 9,
+      "label": "Indirect carcinogens and tissue-specific metabolic activation",
+      "groupedBecause": "The lecturer describes how TCDD causes indirect oxidative damage and how beta-naphthylamine undergoes tissue-specific activation in the bladder.",
+      "startsWith": "This is another example of one of those compounds. So this is"
+    },
+    {
+      "id": 10,
+      "label": "Promoters, chronic inflammation, and the Berenbaum model",
+      "groupedBecause": "The lecturer explains the distinction between initiators and promoters using asbestos-driven inflammation and the Berenbaum DMBA/TPA skin cancer experiments.",
+      "startsWith": "There are also environmental exposures which we associate with cancer, and I"
+    },
+    {
+      "id": 11,
+      "label": "Target cell vulnerability and developmental timing",
+      "groupedBecause": "The lecturer discusses how cellular susceptibility to carcinogens depends on the developmental stage and proliferative state of the tissue.",
+      "startsWith": "Okay, so we have choices. We have random events that we can't"
+    },
+    {
+      "id": 12,
+      "label": "Mutational signatures and genome sequencing",
+      "groupedBecause": "The lecturer summarizes mutagenic mechanisms and explains how high-throughput DNA sequencing identifies distinct mutational signatures left by specific exposures.",
+      "startsWith": "So DNA damage underlies cancer development. Sometimes this damage is caused"
+    },
+    {
+      "id": 13,
+      "label": "Methods for determining carcinogenicity",
+      "groupedBecause": "The lecturer examines the methodologies, applications, and limitations of epidemiological biobanks, in vivo animal studies, and the Ames test.",
+      "startsWith": "How can we prove carcinogenicity? How do we prove it? And"
+    },
+    {
+      "id": 14,
+      "label": "Conclusion and risk-benefit analysis",
+      "groupedBecause": "The lecturer summarizes the lecture's core themes regarding environmental cancer risk, carcinogen potency, and everyday risk-benefit decisions.",
+      "startsWith": "Ultimately, it's all about the risks versus the benefits. We know"
+    }
+  ]
+}

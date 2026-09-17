@@ -1,0 +1,70 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the specific learning outcomes for the session.",
+      "startsWith": "[background chatter] Okay, good afternoon, everybody. We'll get started now on this"
+    },
+    {
+      "id": 2,
+      "label": "Genetic basis, microenvironment, and endogenous mutation risks",
+      "groupedBecause": "The lecturer describes cancer as an evolutionary genetic disease shaped by accumulating mutations, microenvironmental support, and endogenous metabolic stressors.",
+      "startsWith": "So what is cancer? So at its heart, it's a"
+    },
+    {
+      "id": 3,
+      "label": "Environmental carcinogens, bad luck debate, and global epidemiology",
+      "groupedBecause": "The lecturer explores environmental exposures, evaluates the 'bad luck' versus environmental causation debate, and reviews international epidemiological variations in cancer incidence.",
+      "startsWith": "And so I'm going to think a little bit about"
+    },
+    {
+      "id": 4,
+      "label": "Infectious pathogens in oncogenesis",
+      "groupedBecause": "The lecturer surveys various infectious agents—including bacteria, helminths, fungi, and oncogenic viruses—and the general mechanisms by which they drive malignancy.",
+      "startsWith": "So what environmental cancers might be involved in this process? So"
+    },
+    {
+      "id": 5,
+      "label": "Burkitt lymphoma, Epstein-Barr virus, and malaria",
+      "groupedBecause": "The lecturer details the discovery and multi-step etiology of Burkitt lymphoma, focusing on the geographic overlap with malaria, EBV activation, and Myc translocation.",
+      "startsWith": "So I'm going to use the example of Burkitt lymphoma,"
+    },
+    {
+      "id": 6,
+      "label": "Chemical carcinogens, DNA adduct formation, and metabolic activation",
+      "groupedBecause": "The lecturer explains how dietary and environmental chemical carcinogens undergo xenobiotic metabolism to form reactive bulky DNA adducts and transversion mutations.",
+      "startsWith": "Okay, so we can have infectious agents involved in the"
+    },
+    {
+      "id": 7,
+      "label": "Tumor promoters, chronic inflammation, and the Berenbaum model",
+      "groupedBecause": "The lecturer defines tumor promotion through non-mutagenic mechanisms like asbestos-driven inflammation and the classical DMBA/TPA two-stage carcinogenesis experiments.",
+      "startsWith": "There are also environmental exposures which we associate with cancer,"
+    },
+    {
+      "id": 8,
+      "label": "Target cell susceptibility and developmental timing",
+      "groupedBecause": "The lecturer discusses how tissue remodeling and hormonal status during specific life stages, such as puberty and pregnancy, affect cellular vulnerability to carcinogenesis.",
+      "startsWith": "And now I want to think about the cell host"
+    },
+    {
+      "id": 9,
+      "label": "Identifying carcinogen exposures via mutational signatures",
+      "groupedBecause": "The lecturer explains how whole-genome sequencing identifies characteristic mutational signatures that pinpoint the specific carcinogen responsible for a cancer.",
+      "startsWith": "So how can we work out what's causing cancer?"
+    },
+    {
+      "id": 10,
+      "label": "Methodologies for testing carcinogenicity",
+      "groupedBecause": "The lecturer evaluates the primary experimental approaches used to determine carcinogenicity, including epidemiological biobanks, in vivo animal models, and the bacterial Ames test.",
+      "startsWith": "So how can we prove carcinogenicity? How do we"
+    },
+    {
+      "id": 11,
+      "label": "Lecture summary and risk-benefit considerations",
+      "groupedBecause": "The lecturer concludes the session by summarizing key takeaways on environmental causes of cancer, carcinogen potency, and everyday risk-benefit decision-making.",
+      "startsWith": "So ultimately, it's all about the risks versus the"
+    }
+  ]
+}

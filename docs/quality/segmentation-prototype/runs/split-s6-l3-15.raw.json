@@ -1,0 +1,70 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the students, introduces the course structure and student backgrounds, and outlines the learning outcomes for the session.",
+      "startsWith": "Okay, everyone, shall we get started? Yes. You're very welcome,"
+    },
+    {
+      "id": 2,
+      "label": "Accumulation of genetic and epigenetic changes",
+      "groupedBecause": "This section explains the core model of cancer progression through the stepwise accumulation of genetic, epigenetic, and infectious alterations.",
+      "startsWith": "Okay, so we're just going to start here with our core idea."
+    },
+    {
+      "id": 3,
+      "label": "Cancer as a failure of tissue differentiation and architecture",
+      "groupedBecause": "The lecturer defines cancer as a breakdown of normal developmental differentiation and three-dimensional tissue organization, illustrating this with breast histology and the basement membrane.",
+      "startsWith": "[chuckles] So what is cancer, really? So we've all, everybody sitting in"
+    },
+    {
+      "id": 4,
+      "label": "Cell culture models and their limitations",
+      "groupedBecause": "This passage discusses the history and methodological challenges of culturing primary tumor cells in two dimensions compared to three-dimensional models.",
+      "startsWith": "The other thing to appreciate is that when, if you like, biologists are"
+    },
+    {
+      "id": 5,
+      "label": "Benign versus malignant tumors, invasion, and metastasis",
+      "groupedBecause": "The lecturer contrasts movable benign tumors with immovable malignant tumors, detailing routes of metastatic spread and their histological appearances in organs.",
+      "startsWith": "Okay. So with these tools in hand, I think the important concept to"
+    },
+    {
+      "id": 6,
+      "label": "Stepwise progression and invasion in colorectal cancer",
+      "groupedBecause": "Colorectal cancer polyps are used as a case study to demonstrate histological identification of benign adenomas transitioning into invasive adenocarcinomas across the muscularis mucosa.",
+      "startsWith": "Right. So, we're going to focus on colorectal cancer as an example of"
+    },
+    {
+      "id": 7,
+      "label": "Clinical risks of benign tumors and tumor nomenclature",
+      "groupedBecause": "This section explains how non-malignant tumors can cause harm and outlines the standard nomenclature rules and exceptions for naming benign and malignant neoplasms.",
+      "startsWith": "Some benign tumors become malignant, but they don't all become malignant."
+    },
+    {
+      "id": 8,
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "The lecturer details the specific physical, metabolic, and metastatic mechanisms through which primary and secondary tumors cause patient illness and death.",
+      "startsWith": "Okay? So with that in mind, the question that often gets asked by"
+    },
+    {
+      "id": 9,
+      "label": "Cancer incidence across humans and other animal species",
+      "groupedBecause": "This passage surveys the prevalence of different tumor types in humans and compares cancer occurrences across companion animals and other multicellular taxa.",
+      "startsWith": "So just talking about incidence, about how often various tumors arise."
+    },
+    {
+      "id": 10,
+      "label": "Clinical presentation and comparative cancer screening methods",
+      "groupedBecause": "The lecturer examines early clinical signs of cancer and evaluates the efficacy and mechanisms of screening programs for cervical, colorectal, breast, and prostate cancers.",
+      "startsWith": "Okay, so what does this look like in the clinic? [chuckles] I call"
+    },
+    {
+      "id": 11,
+      "label": "Concluding remarks and practical session notices",
+      "groupedBecause": "The lecture concludes with a brief reminder about reviewing learning outcomes and instructions for upcoming practicals and lectures.",
+      "startsWith": "Okay? So I leave you with the learning outcomes. Hopefully, you will"
+    }
+  ]
+}

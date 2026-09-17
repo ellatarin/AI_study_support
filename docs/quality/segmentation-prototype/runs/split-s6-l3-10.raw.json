@@ -1,0 +1,70 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the scope of the cancer biology lecture series, the multidisciplinary student audience, and the key learning outcomes for the session.",
+      "startsWith": "Okay, everyone, shall we get started? Yes. You're very welcome,"
+    },
+    {
+      "id": 2,
+      "label": "Stepwise accumulation of genetic and epigenetic alterations",
+      "groupedBecause": "This passage outlines the core concept of cancer progression through the accumulation of mutations, chromosomal abnormalities, epigenetic modifications, and infectious triggers.",
+      "startsWith": "Okay, so we're just going to start here with our core idea."
+    },
+    {
+      "id": 3,
+      "label": "Cancer as a failure of differentiation and tissue architecture",
+      "groupedBecause": "The lecturer explains how cancer represents a breakdown in normal developmental programs and multicellular tissue organization, contrasting healthy histology with aberrant tissue invasion.",
+      "startsWith": "So what is cancer, really? So we've all, everybody sitting in this room,"
+    },
+    {
+      "id": 4,
+      "label": "Clinical and histological concepts of invasion and metastasis",
+      "groupedBecause": "This section defines the fundamental differences between benign and malignant tumors using historical surgical observations, metastatic pathways, and anatomical case examples.",
+      "startsWith": "Okay. So with these tools in hand, I think the important concept to"
+    },
+    {
+      "id": 5,
+      "label": "Colorectal adenoma-to-carcinoma progression",
+      "groupedBecause": "The lecturer examines the histological stages of colorectal polyp development to illustrate how an invasive adenocarcinoma arises stepwise from a benign adenoma.",
+      "startsWith": "Right. So, we're going to focus on colorectal cancer as an example"
+    },
+    {
+      "id": 6,
+      "label": "Progression risk and clinical hazards of benign tumors",
+      "groupedBecause": "This passage explains why certain benign tumors rarely progress to malignancy and how non-malignant growths can nonetheless cause severe morbidity or death through mass effect and hormone secretion.",
+      "startsWith": "So some benign tumors become malignant, but they don't all become malignant."
+    },
+    {
+      "id": 7,
+      "label": "Tumor nomenclature and classification rules",
+      "groupedBecause": "The lecturer outlines the systematic naming conventions used to classify benign and malignant neoplasms across different tissue lineages alongside major clinical exceptions.",
+      "startsWith": "Okay? So just so that we're all on the same page in terms"
+    },
+    {
+      "id": 8,
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This section explains the direct anatomical and systemic mechanisms, including airway obstruction, marrow failure, bone erosion, and cachexia, that cause cancer-related illness and death.",
+      "startsWith": "Okay? So with that in mind, the question that often gets asked"
+    },
+    {
+      "id": 9,
+      "label": "Tumor incidence and comparative oncology across species",
+      "groupedBecause": "The lecturer reviews human cancer incidence statistics and compares tumor susceptibility across companion animals, reptiles, and invertebrates to show that all multicellular organisms can develop cancer.",
+      "startsWith": "So just talking about incidence, about how often various tumors arise."
+    },
+    {
+      "id": 10,
+      "label": "Clinical presentation and population screening strategies",
+      "groupedBecause": "This passage describes the clinical detection of tumors and evaluates population screening approaches, contrasting successful cervical screening with the limitations of colorectal, breast, and prostate tests.",
+      "startsWith": "Okay, so what does this look like in the clinic? [chuckles] I call this"
+    },
+    {
+      "id": 11,
+      "label": "Lecture conclusion and practical session preview",
+      "groupedBecause": "The lecturer concludes the lecture by reiterating the learning outcomes and announcing upcoming practical sessions and subsequent lectures.",
+      "startsWith": "Okay? So I leave you with the learning outcomes. Hopefully, you will recognize"
+    }
+  ]
+}
