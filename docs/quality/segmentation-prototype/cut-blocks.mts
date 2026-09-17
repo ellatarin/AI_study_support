@@ -80,11 +80,73 @@ function foldedIndex(text: string): { readonly folded: string; readonly origin: 
 }
 
 /**
+ * Words the lecturer hinges one subtopic to the next with, and which the model
+ * sometimes leaves out of the quote it hands back.
+ *
+ * The prompt tells it to copy the opening words verbatim, a leading "So"
+ * included, and it usually does. Where it does not, the located cut falls one
+ * word late and the connective is stranded at the foot of the block before —
+ * which reads, in the finished notes, as a sentence that stops halfway.
+ * Measured over the d7 runs: 12 such cuts in 565, every one of them a bare "So".
+ */
+const CONNECTIVES = new Set(["so", "and", "but", "now", "well", "right", "okay", "ok", "then"]);
+
+/** How many connectives in a row may be taken back into the block they open. */
+const MAX_CONNECTIVE_WORDS = 2;
+
+/**
+ * Where the sentence the cut lands inside actually begins.
+ *
+ * Only a connective that OPENS a sentence is taken back, which is why the run
+ * has to be preceded by the end of the one before. "and so can the others." ends
+ * a sentence with a connective in it and is left alone.
+ *
+ * @param options - Options object.
+ * @param options.sourceText - The transcript being cut.
+ * @param options.cut - Where the located quote begins.
+ * @param options.notBefore - The previous cut, which this one may never reach.
+ * @returns The cut, moved back over any connectives that open its sentence.
+ */
+function overLeadingConnectives({
+	sourceText,
+	cut,
+	notBefore,
+}: {
+	readonly sourceText: string;
+	readonly cut: number;
+	readonly notBefore: number;
+}): number {
+	let at = cut;
+	for (let taken = 0; taken < MAX_CONNECTIVE_WORDS; taken += 1) {
+		let end = at;
+		while (end > notBefore && /\s/u.test(sourceText[end - 1] ?? "")) {
+			end -= 1;
+		}
+		let begin = end;
+		while (begin > notBefore && !/\s/u.test(sourceText[begin - 1] ?? "")) {
+			begin -= 1;
+		}
+		const word = sourceText.slice(begin, end).replace(/[,;:]$/u, "").toLowerCase();
+		if (begin === end || !CONNECTIVES.has(word)) {
+			return cut;
+		}
+		at = begin;
+		const before = sourceText.slice(notBefore, begin).trimEnd();
+		if (before === "" || /[.?!]["')\]]?$/u.test(before)) {
+			return at;
+		}
+	}
+	return cut;
+}
+
+/**
  * Cuts the transcript at the positions the model named.
  *
  * Every block's text is sliced out of `sourceText`, so the result reproduces the
  * transcript exactly whatever the model returned. A quote that cannot be found
- * is reported rather than guessed at.
+ * is reported rather than guessed at. A quote that begins one or two words into
+ * its sentence — the model having dropped the lecturer's "So" — is cut at the
+ * start of that sentence instead, so no block ends mid-sentence.
  */
 export function applyCuts(
 	sourceText: string,
@@ -101,7 +163,13 @@ export function applyCuts(
 			misses.push(start.startsWith.slice(0, 40));
 			continue;
 		}
-		cuts.push(origin[found] ?? 0);
+		cuts.push(
+			overLeadingConnectives({
+				sourceText,
+				cut: origin[found] ?? 0,
+				notBefore: cuts[cuts.length - 1] ?? 0,
+			}),
+		);
 		searchFrom = found + 1;
 	}
 	cuts.push(sourceText.length);

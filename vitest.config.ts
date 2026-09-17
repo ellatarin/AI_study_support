@@ -6,7 +6,11 @@ export default defineConfig({
 		// `foo.integration.test.ts` for integration.
 		// Brace expansion below yields *.test.ts and *.integration.test.ts (and .tsx variants).
 		// Not scoped to src/: a suite beside a script in scripts/ must run too.
-		include: ["**/*.{test,integration.test}.{ts,tsx,js,mjs}"],
+		// `mts` is here so a suite can sit beside a .mts script and share its
+		// extension. eslint's file patterns do not match .mts, and nor does the
+		// TypeScript project, so a .ts suite in such a folder fails type-aware
+		// linting for want of a project rather than for anything it does.
+		include: ["**/*.{test,integration.test}.{ts,tsx,js,mjs,mts}"],
 
 		// Coverage: v8 provider (native, fast). The thresholds are a ratchet floor,
 		// set just under the measurement of the day and raised as coverage climbs,
