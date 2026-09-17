@@ -44,33 +44,34 @@ terms as pass two's `runs/criteria.json`. Nothing in the scorer guesses.
 
 ## Where it stands
 
-**`d11`, run nine times, keeping every boundary four of the nine propose** —
-0.17 mean errors across the three lectures, the best measured. Every later
-attempt trades one fragile boundary for another:
+**`d12`, run nine times, keeping every boundary three of the nine propose.**
+All three lectures come out exactly as ruled in **92% of panels**, at 0.08 mean
+errors — the best measured by a wide margin.
 
-| voted, 9 keep 4 | lecture 3 | lecture 4 | lecture 5 | total |
+| voted, panels of 9 | lecture 3 | lecture 4 | lecture 5 | all three |
 |---|---|---|---|---|
-| `d9` | 0.33, 67% | 0.00, 100% | 0.00, 100% | 0.33 |
-| **`d11`** | **0.02, 98%** | 0.15, 85% | 0.00, 100% | **0.17** |
-| `d12` | 0.02, 98% | 0.00, 100% | 0.32, 68% | 0.34 |
+| `d9`, keep 5 | 77% | 100% | 100% | 77% |
+| `d11`, keep 4 | 98% | 85% | 100% | 83% |
+| **`d12`, keep 3** | **100%** | **100%** | **92%** | **92%** |
+
+**`all three` is the figure that decides a setting**, and reading the
+per-lecture columns instead is how the best setting was missed for a while: it
+is the share of panels that get every lecture right at the same time, it is
+lower than the worst column because a panel can fail on different lectures, and
+it cannot be recovered from three separate averages. `report-division.py` now
+computes it, and walks bars from 2 upward rather than starting at 4.
+
+**Why a LOW bar is what `d12` wants, where earlier versions needed a high one.**
+`d12` proposes almost nothing spurious — 1 unwanted cut in 18 runs on lecture 3,
+none on lecture 4, 2 on lecture 5 — so the bar has almost nothing to exclude and
+is free to sit low. A low bar is then what rescues the weak wanted boundaries.
+`d9` and `d11` needed a high bar to suppress their own spurious cuts, and the
+high bar is what cost them the fragile ones. **Suppressing unwanted cuts in the
+prompt buys a lower bar, and the lower bar buys back the boundaries the prompt
+is shaky on.**
 
 All figures are over **18 runs per lecture**, which is what makes panels of nine
-nearly independent. **Measuring at 11 runs over-states the system**: panels of
-nine drawn from eleven share at least seven members, so 55 "panels" are one
-observation counted 55 times, and a bar of 6-of-9 that scored zero errors on all
-three lectures at 11 runs scores 0.59 on lecture 3 at 18. Sweep at 18.
-
-**The frontier has moved from the prompt to three intrinsically weak
-boundaries.** Nothing left is a rule saying the wrong thing; what is left is
-three boundaries that sit near the middle of the vote, and every caution added
-to the document strengthens one and weakens another:
-
-- **lecture 5's 57.3%** — the most fragile boundary in the set. Damaged by d3's
-  pivot extension (removed for it), by d7 (6 of 11), recovered by d9 and d11 (15
-  of 18), lost again by d12 (8 of 18). Four separate changes have moved it.
-- **lecture 3's 64.9%** — 11 of 18 under every recent version, and the ceiling on
-  any vote bar. Out of pass 1.5's reach: see below.
-- **lecture 4's 46.1%** — the one d11 buys and d12 removes.
+nearly independent. Measuring at 11 over-states everything.
 
 **What each version bought, in order:**
 

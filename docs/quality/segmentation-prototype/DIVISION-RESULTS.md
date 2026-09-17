@@ -40,22 +40,30 @@ exactly.
 ## Voting, on d12
 
 Run the pipeline *panel* times and keep a boundary *keep* of them propose.
-Every lecture has to tolerate the same bar, so the usable one is where no
-column is failing.
+**`all three` is the figure that decides a setting**: the share of panels that
+get every lecture right at the same time. It is lower than the worst column,
+because a panel can fail on different lectures, and it cannot be recovered from
+the per-lecture columns after the fact.
 
-| panel | keep | as % | l3 errors | l3 perfect | l4 errors | l4 perfect | l5 errors | l5 perfect |
-|---|---|---|---|---|---|---|---|---|
-| 5 | 2 | 40% | 0.05 | 95% | 0.00 | 100% | 0.36 | 68% |
-| 5 | 3 | 60% | 0.27 | 73% | 0.04 | 96% | 0.62 | 38% |
-| 7 | 3 | 43% | 0.04 | 96% | 0.00 | 100% | 0.28 | 72% |
-| 7 | 4 | 57% | 0.22 | 78% | 0.01 | 99% | 0.65 | 35% |
-| 7 | 5 | 71% | 0.58 | 42% | 0.14 | 86% | 0.91 | 9% |
-| 9 | 4 | 44% | 0.02 | 98% | 0.00 | 100% | 0.32 | 68% |
-| 9 | 5 | 56% | 0.17 | 83% | 0.00 | 100% | 0.68 | 32% |
-| 9 | 6 | 67% | 0.50 | 50% | 0.04 | 96% | 0.92 | 8% |
-| 11 | 5 | 45% | 0.01 | 99% | 0.00 | 100% | 0.35 | 65% |
-| 11 | 6 | 55% | 0.11 | 89% | 0.00 | 100% | 0.72 | 28% |
+| panel | keep | as % | l3 right | l4 right | l5 right | all three | mean error |
+|---|---|---|---|---|---|---|---|
+| 5 | 2 | 40% | 95% | 100% | 68% | **66%** | 0.41 |
+| 5 | 3 | 60% | 73% | 96% | 38% | **33%** | 0.93 |
+| 7 | 2 | 29% | 100% | 100% | 70% | **70%** | 0.33 |
+| 7 | 3 | 43% | 96% | 100% | 72% | **71%** | 0.32 |
+| 7 | 4 | 57% | 78% | 99% | 35% | **33%** | 0.88 |
+| 9 | 2 | 22% | 100% | 100% | 57% | **57%** | 0.48 |
+| 9 | 3 | 33% | 100% | 100% | 92% | **92%** | 0.08 |
+| 9 | 4 | 44% | 98% | 100% | 68% | **68%** | 0.34 |
+| 9 | 5 | 56% | 83% | 100% | 32% | **31%** | 0.85 |
+| 9 | 6 | 67% | 50% | 96% | 8% | **7%** | 1.46 |
+| 11 | 3 | 27% | 100% | 100% | 99% | **99%** | 0.01 |
+| 11 | 4 | 36% | 100% | 100% | 91% | **91%** | 0.09 |
+| 11 | 5 | 45% | 99% | 100% | 65% | **65%** | 0.36 |
 
-Panels drawn from one pool of runs overlap, so a panel size close to the pool
-size is one observation dressed as many. The narrowest pool here is 11 runs, so
-the 11-row is a single panel and proves nothing on its own.
+Panels are drawn from a pool of 18 runs per lecture, and panels from one pool
+overlap: the closer the panel size is to the pool, the more any two panels share,
+and the more a row is one observation dressed as many. Trust the smaller panels.
+Two panels of 17 out of 18 share all but two runs; panels of 9 out of 18 share
+at most seven. A bar of 6-of-9 scored zero errors on all three lectures when the
+pool was 11 and 0.59 on lecture 3 once it was 18 — that is this effect.

@@ -110,7 +110,8 @@ LEDGER_BASELINE = "d12"
 # can actually express. Written as (panel, keep) so the percentage is derived
 # and can never disagree with the pair it came from.
 LEDGER_BARS = (
-    (5, 2), (5, 3), (7, 3), (7, 4), (7, 5), (9, 4), (9, 5), (9, 6), (11, 5), (11, 6),
+    (5, 2), (5, 3), (7, 2), (7, 3), (7, 4), (9, 2), (9, 3), (9, 4), (9, 5), (9, 6),
+    (11, 3), (11, 4), (11, 5),
 )
 
 
@@ -139,8 +140,16 @@ def supporters(runs):
     return out
 
 
-def panel_result(runs, ruling, size, bar):
-    """What a panel of this size, keeping boundaries this many runs agree on, scores."""
+def panel_errors(runs, ruling, size, bar):
+    """One error count per panel of this size, keeping boundaries `bar` runs agree on.
+
+    The counts are returned rather than their average because the figure that
+    decides a setting is the share of panels that get EVERY lecture right at
+    once, and three separate averages cannot be made to yield it. Reading the
+    per-lecture columns alone hid the best setting measured: d12 at three of nine
+    gets all three lectures right in 92% of panels, on a row the ledger was not
+    printing.
+    """
     seams = supporters(runs)
     wanted_masks, unwanted_masks = [], []
     for position, mask in seams:
@@ -162,7 +171,7 @@ def panel_result(runs, ruling, size, bar):
             + sum(1 for m in wanted_masks if (m & mask).bit_count() < bar)
             + sum(1 for m in unwanted_masks if (m & mask).bit_count() >= bar)
         )
-    return statistics.mean(errors), 100 * sum(1 for e in errors if e == 0) / len(errors)
+    return errors
 
 
 def ledger():
@@ -219,29 +228,47 @@ def ledger():
         f"## Voting, on {latest}",
         "",
         "Run the pipeline *panel* times and keep a boundary *keep* of them propose.",
-        "Every lecture has to tolerate the same bar, so the usable one is where no",
-        "column is failing.",
+        "**`all three` is the figure that decides a setting**: the share of panels that",
+        "get every lecture right at the same time. It is lower than the worst column,",
+        "because a panel can fail on different lectures, and it cannot be recovered from",
+        "the per-lecture columns after the fact.",
         "",
         "| panel | keep | as % | "
-        + " | ".join(f"{lecture} errors | {lecture} perfect" for lecture in LEDGER_LECTURES)
-        + " |",
-        "|---|---|---|" + "---|" * (2 * len(LEDGER_LECTURES)),
+        + " | ".join(f"{lecture} right" for lecture in LEDGER_LECTURES)
+        + " | all three | mean error |",
+        "|---|---|---|" + "---|" * (len(LEDGER_LECTURES) + 2),
     ]
     for size, bar in LEDGER_BARS:
         row = f"| {size} | {bar} | {100 * bar / size:.0f}% |"
+        together, total, usable = None, 0.0, True
         for lecture in LEDGER_LECTURES:
             runs = loaded.get((lecture, latest))
             if not runs or size > len(runs):
-                row += " — | — |"
+                row += " — |"
+                usable = False
                 continue
-            mean, perfect = panel_result(runs, rulings[lecture], size, bar)
-            row += f" {mean:.2f} | {perfect:.0f}% |"
+            errors = panel_errors(runs, rulings[lecture], size, bar)
+            right = [e == 0 for e in errors]
+            row += f" {100 * sum(right) / len(right):.0f}% |"
+            total += statistics.mean(errors)
+            together = right if together is None else [a and b for a, b in zip(together, right)]
+        if usable and together is not None:
+            row += f" **{100 * sum(together) / len(together):.0f}%** | {total:.2f} |"
+        else:
+            row += " — | — |"
         lines.append(row)
+    pool = min(
+        (len(runs) for (lecture, version), runs in loaded.items() if version == latest),
+        default=0,
+    )
     lines += [
         "",
-        "Panels drawn from one pool of runs overlap, so a panel size close to the pool",
-        "size is one observation dressed as many. The narrowest pool here is 11 runs, so",
-        "the 11-row is a single panel and proves nothing on its own.",
+        f"Panels are drawn from a pool of {pool} runs per lecture, and panels from one pool",
+        "overlap: the closer the panel size is to the pool, the more any two panels share,",
+        "and the more a row is one observation dressed as many. Trust the smaller panels.",
+        f"Two panels of {pool - 1} out of {pool} share all but two runs; panels of 9 out of 18 share",
+        "at most seven. A bar of 6-of-9 scored zero errors on all three lectures when the",
+        "pool was 11 and 0.59 on lecture 3 once it was 18 — that is this effect.",
         "",
     ]
     path = os.path.join(HERE, "DIVISION-RESULTS.md")
