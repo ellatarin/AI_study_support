@@ -14,7 +14,7 @@ locates each quote in a whitespace-free, case-folded index and slices the
 **original** transcript, so losslessness is guaranteed by construction and a
 quote that cannot be found is reported rather than guessed at.
 
-**Pass 1.5** (`deepen-trial.mts`, prompt versions `d1`–`d10`) measures every
+**Pass 1.5** (`deepen-trial.mts`, prompt versions `d1`–`d11`) measures every
 section pass one produced and sends **only those over 600 words** back to the
 model on their own, asking where each divides further. It can only add cuts
 inside the passage it was given, so it can never move or lose a boundary pass one
@@ -44,26 +44,20 @@ terms as pass two's `runs/criteria.json`. Nothing in the scorer guesses.
 
 ## Where it stands
 
-**`d9`, run nine times, keeping every boundary five of the nine propose.**
-Measured over **18 runs per lecture**, which is what makes panels of nine nearly
-independent — the same sweep over 11 runs flattered every bar and showed a clean
-sweep at 6-of-9 that 18 runs does not reproduce.
+**`d11`, run nine times, keeping every boundary four of the nine propose** —
+0.17 mean errors across the three lectures, which is the best measured. `d9` at
+its own best bar (5 of 9) gives 0.23 and is the safer choice on lecture 4. The
+two are close and neither is clean; the comparison is in full below.
 
-| bar | lecture 3 | lecture 4 | lecture 5 |
-|---|---|---|---|
-| 9, keep 4 (44%) | 0.33 err, 67% right | perfect | perfect |
-| **9, keep 5 (56%)** | **0.23 err, 77% right** | **perfect** | **perfect** |
-| 9, keep 6 (67%) | 0.59 err, 49% right | 0.04 err, 96% | perfect |
+All figures are over **18 runs per lecture**, which is what makes panels of nine
+nearly independent. **Measuring at 11 runs over-states the system**: panels of
+nine drawn from eleven share at least seven members, so 55 "panels" are one
+observation counted 55 times, and a bar of 6-of-9 that scored zero errors on all
+three lectures at 11 runs scores 0.59 on lecture 3 at 18. Sweep at 18.
 
-The usable window per lecture, at 18 runs: **lecture 3 (33%, 61%]**, lecture 4
-(6%, 78%], lecture 5 (11%, 83%]. Lecture 3 sets both ends — its 18.7% cut, made
-by 6 of 18 runs, floors the bar, and its 64.9% boundary, made by 11 of 18, caps
-it. 56% sits inside that window, and the residual 0.23 is panels of nine that
-happen not to reach five votes for a boundary supported by 11 of 18.
-
-**Measuring at 11 runs over-states the system.** Every figure improved when the
-pool was small because panels of nine drawn from eleven share at least seven
-members, so 55 "panels" are one observation counted 55 times. Sweep at 18.
+The joint window is **above 28% and at or below 61%** under `d11`, and above 33%
+and at or below 61% under `d9`. Lecture 3's 64.9% sets the ceiling either way,
+and it is out of pass 1.5's reach.
 
 **What each version bought, in order:**
 
