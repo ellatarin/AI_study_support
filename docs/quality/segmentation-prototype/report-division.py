@@ -100,11 +100,11 @@ def score(positions, ruling):
 
 # Lectures and deepening versions the ledger reports on, in order.
 LEDGER_LECTURES = ("l3", "l4", "l5")
-LEDGER_VERSIONS = ("d4", "d5", "d6", "d7", "d8", "d9", "d10")
+LEDGER_VERSIONS = ("d4", "d5", "d6", "d7", "d8", "d9", "d10", "d11")
 
 # The version the voting table is computed for: the one chosen as the system,
 # not the one added most recently.
-LEDGER_BASELINE = "d9"
+LEDGER_BASELINE = "d11"
 
 # Panel sizes and bars the ledger's joint table walks, as fractions that a bar
 # can actually express. Written as (panel, keep) so the percentage is derived

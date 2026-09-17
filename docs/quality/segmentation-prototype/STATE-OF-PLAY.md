@@ -130,23 +130,50 @@ joined by "while", where a correct run gives two sections of 197 and 287 words.
 **484 words is under the 600-word gate, so that section is never sent.** No
 change to the pass-1.5 prompt can ever reach this boundary.
 
-## The two fixes, to be tried ONE AT A TIME
+## The two fixes — one run, one still to try
 
-1. **`d11` = `d9` + d6's showing rule. BUILT, NOT YET RUN. Agreed with the user.**
-   Aimed at 18.7%. d6 took that boundary from 6 of 11 runs to 1. d6 was set aside
-   because it also cost lecture 3's 31.3% and 36.1% — both now `dontCare`, so its
-   only measured cost is in a currency the score no longer counts. Run 18
-   instances on each of the three lectures and regenerate the ledger.
-2. **Lowering the gate below 484 words** (say 450) so the merged nomenclature
-   section is sent. Aimed at 64.9%. **The user's concern, recorded: a lower gate
-   may create more splits than wanted** — it sends many more sections across every
-   lecture, and each send is a chance for a spurious cut. Measure how many extra
-   sections a 450 gate sends before running it, and treat lectures 4 and 5 as the
-   regression test. **Not yet attempted.**
-   A third possibility, untried and worth weighing against the gate change: send a
-   section whose own `groupedBecause` joins two things with "while", "as well as",
-   "and also" — the model's reason as the trigger rather than the word count.
-   Cruder than the coverage tell that was measured and rejected, and unmeasured.
+**`d11` = `d9` + d6's showing rule. RUN, 18 instances per lecture, 2026-09-17.
+It does what it was aimed at and charges for it elsewhere.**
+
+18.7% falls from 6 of 18 runs to **1**, so lecture 3's floor drops from 33% to
+6% — that boundary is effectively gone. But a new unwanted cut appears on
+lecture 4 at 46.1%, made by 5 of 18, which raises lecture 4's floor from 6% to
+28%. It splits the Burkitt lymphoma passage between its history and its
+mechanism, and the runs that make it say so: *"the molecular and cellular
+mechanism of Burkitt lymphoma pathogenesis"*.
+
+| single run | lecture 3 | lecture 4 | lecture 5 |
+|---|---|---|---|
+| `d9` | 1.28 err, 28% right | **0.44, 67%** | **0.56, 67%** |
+| `d11` | **0.67, 50%** | 0.94, 44% | 0.61, 61% |
+
+Voted, `d11` is ahead on the total but not on every lecture:
+
+| bar | lecture 3 | lecture 4 | lecture 5 | total error |
+|---|---|---|---|---|
+| `d9`, 9 keep 5 | 0.23, 77% | 0.00, 100% | 0.00, 100% | 0.23 |
+| **`d11`, 9 keep 4** | **0.02, 98%** | 0.15, 85% | 0.00, 100% | **0.17** |
+| `d11`, 9 keep 5 | 0.17, 83% | 0.01, 99% | 0.00, 100% | 0.18 |
+
+The joint window under `d11` is **above 28% and at or below 61%** — lecture 4's
+46.1% sets the floor, lecture 3's 64.9% still the ceiling.
+
+**So the showing rule trades one spurious cut for another, and comes out a
+little ahead.** Neither version is clean. What is now worth knowing: whether the
+showing rule can be narrowed so it does not reach the history-then-mechanism
+seam, which the holds rule already forbids in substance.
+
+**Still to try: lowering the gate below 484 words** so pass one's merged
+nomenclature section is sent, aimed at 64.9% — the ceiling under both versions.
+**The user's concern is on the record: a lower gate may create more splits than
+wanted**, since it sends many more sections on every lecture and each send is a
+chance for a spurious cut. Count the extra sends before running it, and treat
+lectures 4 and 5 as the regression test.
+
+A third possibility, untried: send a section whose own `groupedBecause` joins
+two things with "while", "as well as", "and also" — the model's reason as the
+trigger rather than the word count. Cruder than the coverage tell that was
+measured and rejected, and unmeasured.
 
 ## Open items
 

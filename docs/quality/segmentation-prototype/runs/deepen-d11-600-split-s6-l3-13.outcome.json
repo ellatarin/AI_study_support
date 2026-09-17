@@ -1,0 +1,20 @@
+{
+  "promptVersion": "d11",
+  "source": "split-s6-l3-13",
+  "lecture": "l3",
+  "instance": "13",
+  "modelId": "google/gemini-3.7-flash",
+  "gateWords": 600,
+  "seconds": 23,
+  "promptTokens": 33861,
+  "completionTokens": 11255,
+  "sectionsSent": 9,
+  "heldAsOneStep": 3,
+  "cutsUnplaced": 0,
+  "calls": 9,
+  "retries": 0,
+  "failures": 0,
+  "subtopicsBefore": 10,
+  "subtopicsAfter": 17,
+  "fidelity": "EXACT"
+}
