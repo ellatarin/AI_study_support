@@ -1,18 +1,18 @@
 {
   "_comment": "The user's ruled divisions, by lecture key. Hand judgements, exactly as runs/criteria.json holds pass two's. Positions are percentages of the transcript's characters, matched within 1.0 point. 'wanted' is every boundary the division requires; 'dontCare' is a boundary the user set aside, scored neither way; anything else a run proposes is unwanted. report-division.py reads this and never guesses.",
   "l3": {
-    "ruledOn": "2026-09-08",
-    "sections": 17,
-    "note": "All four contested cuts rejected: 'all these cuts split topics'. The rejected ones are 18.7, 54.0, 88.5, 92.5 — 54.0 is the hard one, made by 6 of 9 runs.",
-    "wanted": [7.0, 12.8, 24.0, 27.5, 31.3, 36.1, 41.4, 62.4, 64.9, 68.6, 74.3, 78.8, 82.8, 86.0, 95.2, 99.4],
-    "dontCare": []
+    "ruledOn": "2026-09-17",
+    "sections": 15,
+    "note": "Ruled twice. 2026-09-08: all four contested cuts rejected — 'all these cuts split topics' — those being 18.7, 54.0, 88.5, 92.5, and the division 17 sections. 2026-09-17: shown the division d9 actually produces, the user accepted the single 1,137-word section that runs from 27.5 to 41.4 — invasion, then metastasis and its routes, then the benign-versus-invasive contrast — so 31.3 and 36.1 move to dontCare. They are not wrong boundaries; they are ones the user is content to do without, and a version that makes them is neither credited nor penalised.",
+    "wanted": [7.0, 12.8, 24.0, 27.5, 41.4, 62.4, 64.9, 68.6, 74.3, 78.8, 82.8, 86.0, 95.2, 99.4],
+    "dontCare": [31.3, 36.1]
   },
   "l4": {
-    "ruledOn": null,
-    "sections": null,
-    "note": "NOT RULED. Five runs give 22 sections and pass all three of lecture 4's subtopic-level rubric criteria (preamble separated 5/5, animal testing separate from the Ames test 5/5, UV its own subtopic 4/5). Its vote distribution is the cleanest of the three lectures. Get it ruled — it is currently ASSUMED in the threshold calculation.",
-    "wanted": null,
-    "dontCare": null
+    "ruledOn": "2026-09-17",
+    "sections": 22,
+    "note": "Ruled in two parts. Twenty of these twenty-one boundaries were already in front of the user when lecture 4's five criteria were judged, on divisions the old hierv3 prompt produced — sixteen of them in all six of those divisions — and none was objected to; every boundary those divisions made is still here. The twenty-first, the 150-word recap at 81.4%, appeared for the first time under d7 and was ruled its own section on 2026-09-17. All three subtopic-level criteria hold in 11 of 11 d7 runs: preamble separated, UV its own subtopic, animal testing separate from the Ames test.",
+    "wanted": [2.4, 7.8, 16.0, 23.3, 28.3, 34.8, 41.1, 49.6, 53.1, 54.3, 61.0, 63.0, 65.7, 69.7, 75.5, 81.4, 83.1, 86.7, 92.0, 95.5, 98.8],
+    "dontCare": []
   },
   "l5": {
     "ruledOn": "2026-09-06",
