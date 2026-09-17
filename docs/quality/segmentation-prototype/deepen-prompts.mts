@@ -45,6 +45,29 @@ export type DeepenPromptVersion = {
 const ROLE_DEEPEN = `You are being shown one section of a university lecture transcript that has already been divided into subtopics. Your job is to say where, if anywhere, this one section divides further.`;
 
 /**
+ * What the document calls the thing a section divides into.
+ *
+ * The rules imported from the splitting registry say "subtopic". The rules
+ * written here for this pass said "step", following the definition line that
+ * glosses one as the other — so d1 to d4 use both names for one thing in the
+ * same document. Every body and heading that names it is written once here and
+ * built in whichever wording the version carries, so the two can never drift
+ * into saying different things as well as different words.
+ */
+type Unit = {
+	/** Singular, as a rule says it: "one step", "one subtopic". */
+	readonly one: string;
+	/** Plural: "plenty of single steps are long". */
+	readonly many: string;
+};
+
+/** What d1 to d4 call it. */
+const STEP: Unit = { one: "step", many: "steps" };
+
+/** What d5 onward call it, matching the rules the splitting registry supplies. */
+const SUBTOPIC: Unit = { one: "subtopic", many: "subtopics" };
+
+/**
  * Why this passage arrived, and what that does and does not settle.
  *
  * The measurement is the reason to look hard; it is not the answer. Some steps
@@ -57,7 +80,10 @@ const WHY_SENT_BODY = `This section reached you for one reason: it was measured 
 const EVERY_PLACE_BODY = `Find EVERY place in this section where one step finishes and the next begins, not only the first. A section this long may have run two boundaries together, or three. Work through the passage from beginning to end and propose a cut at each one you find.`;
 
 /** Returning nothing is a first-class answer, and must stay one. */
-const MAY_HOLD_BODY = `"This is one step" is a real answer and you should give it whenever it is true. Do not manufacture a cut to justify the section having been sent. If you have read the passage and the lecturer does not finish with one thing and take up another anywhere inside it, say so and return no cuts.`;
+const mayHoldBody = (unit: Unit): string =>
+	`"This is one ${unit.one}" is a real answer and you should give it whenever it is true. Do not manufacture a cut to justify the section having been sent. If you have read the passage and the lecturer does not finish with one thing and take up another anywhere inside it, say so and return no cuts.`;
+
+const MAY_HOLD_BODY = mayHoldBody(STEP);
 
 /** The cuts belong inside this passage, and are quoted from it. */
 const INSIDE_ONLY_BODY = `Every cut you propose must fall INSIDE this section. The section's own first words are not a cut — that boundary already exists. Quote only from the text you were given, and do not propose a cut at its very end.`;
@@ -70,16 +96,25 @@ const INSIDE_ONLY_BODY = `Every cut you propose must fall INSIDE this section. T
  * sections came back whole. The measurement is a reason to look, and this says
  * only that.
  */
-const WHY_SENT_BODY_NEUTRAL = `This section reached you because its length was measured, and for no other reason. Nothing about its contents has been judged, by anyone, and its arrival is not evidence that it divides. Plenty of single steps are long: a lecturer may spend a great many words on one thing, and that is not a fault to be corrected. Read the passage and decide from the passage alone.`;
+const whySentNeutralBody = (unit: Unit): string =>
+	`This section reached you because its length was measured, and for no other reason. Nothing about its contents has been judged, by anyone, and its arrival is not evidence that it divides. Plenty of single ${unit.many} are long: a lecturer may spend a great many words on one thing, and that is not a fault to be corrected. Read the passage and decide from the passage alone.`;
+
+const WHY_SENT_BODY_NEUTRAL = whySentNeutralBody(STEP);
 
 /** Referring to a thing is not taking it up. */
 const MENTION_BODY = `Mentioning something is not taking it up. A lecturer constantly names neighbouring things in passing — to contrast with the thing under discussion, to set it up, to say what it is not, to recall something covered earlier. A boundary needs the lecturer to LEAVE the first thing behind and begin working on the second. A name in passing, however different the thing named, is not a boundary.`;
 
 /** The working state and the broken one are the same thing. */
-const WORKING_FAILING_BODY = `A thing shown working and then shown failing is one step. A lecture commonly explains how something operates and then what happens when it does not — the intact process and its breakdown, the rule and the exception, the normal case and the case that goes wrong. That is one thing examined from two sides, not two things. The move from the first to the second is not a boundary.`;
+const workingFailingBody = (unit: Unit): string =>
+	`A thing shown working and then shown failing is one ${unit.one}. A lecture commonly explains how something operates and then what happens when it does not — the intact process and its breakdown, the rule and the exception, the normal case and the case that goes wrong. That is one thing examined from two sides, not two things. The move from the first to the second is not a boundary.`;
+
+const WORKING_FAILING_BODY = workingFailingBody(STEP);
 
 /** Multiplicity, but only once dividing has been established. */
-const EVERY_PLACE_BODY_CONDITIONAL = `If — and only if — you have established that this section holds more than one step, then find every place it divides, not only the first. Work through from beginning to end. This rule tells you how thoroughly to look once you know there is something to find; it is not a reason to think there is.`;
+const everyPlaceConditionalBody = (unit: Unit): string =>
+	`If — and only if — you have established that this section holds more than one ${unit.one}, then find every place it divides, not only the first. Work through from beginning to end. This rule tells you how thoroughly to look once you know there is something to find; it is not a reason to think there is.`;
+
+const EVERY_PLACE_BODY_CONDITIONAL = everyPlaceConditionalBody(STEP);
 
 const WHY_SENT_RULE: NamedRule = {
 	key: "why-sent",
@@ -132,10 +167,11 @@ A pivot that sounds like a turn is not always a turn. When the lecturer announce
  * Where it failed, what happens when the process breaks down has its own name,
  * so the model classified it as a different mechanism and the rule never fired.
  */
-const WORKING_FAILING_BODY_NAMED = `${WORKING_FAILING_BODY}
+const workingFailingNamedBody = (unit: Unit): string => `${workingFailingBody(unit)}
 This holds however the second half is named. When the lecturer describes what happens if a process is absent, blocked or broken, that is still the same process — even when what happens instead carries a name of its own, and even when that name is introduced as though it were a separate thing.`;
 
-/** A run of items serving one point is one step, however many items there are. */
+const WORKING_FAILING_BODY_NAMED = workingFailingNamedBody(STEP);
+
 /**
  * The single example, which neither of the other two rules about examples covers.
  *
@@ -151,9 +187,16 @@ This holds however the second half is named. When the lecturer describes what ha
  * the one passage it came from — a worked example in another discipline has no
  * parts for things to happen to.
  */
-const SINGLE_EXAMPLE_BODY = `A single example worked through to show what a claim means belongs with that claim. When the lecturer states something and then takes one instance of it and follows that instance through in enough detail to show why the claim holds, the statement and the worked example are one step. This is the case of ONE example. Where the lecturer instead runs through several instances of a point, {{cases}} decides them.`;
+const singleExampleBody = (unit: Unit): string =>
+	`A single example worked through to show what a claim means belongs with that claim. When the lecturer states something and then takes one instance of it and follows that instance through in enough detail to show why the claim holds, the statement and the worked example are one ${unit.one}. This is the case of ONE example. Where the lecturer instead runs through several instances of a point, {{cases}} decides them.`;
 
-const PARALLEL_BODY = `When the lecturer works through a set of things to make one point about all of them — ordering them, contrasting them, ranking them by some property — the whole run is one step. The point being made is the thing; the items are how it is made. Do not put a boundary between one item of such a run and the next, however different the items are from each other.`;
+const SINGLE_EXAMPLE_BODY = singleExampleBody(STEP);
+
+/** A run of items serving one point is one subtopic, however many items there are. */
+const parallelBody = (unit: Unit): string =>
+	`When the lecturer works through a set of things to make one point about all of them — ordering them, contrasting them, ranking them by some property — the whole run is one ${unit.one}. The point being made is the thing; the items are how it is made. Do not put a boundary between one item of such a run and the next, however different the items are from each other.`;
+
+const PARALLEL_BODY = parallelBody(STEP);
 
 const SIGNAL_RULE_WITH_PIVOTS: NamedRule = {
 	key: "signal",
@@ -164,39 +207,189 @@ const SIGNAL_RULE_WITH_PIVOTS: NamedRule = {
 		"is any cut you propose at a pivot — a turn to the difficult, failing or exceptional case — rather than at a change of subject?",
 };
 
-const WORKING_FAILING_RULE_NAMED: NamedRule = {
+const workingFailingRuleNamed = (unit: Unit): NamedRule => ({
 	key: "working-failing",
 	checked: true,
 	heading: "Working and failing are one thing",
-	body: WORKING_FAILING_BODY_NAMED,
+	body: workingFailingNamedBody(unit),
 	check:
 		"is any cut you propose between a thing operating and the same thing breaking down, including where the breakdown is given a name of its own? If so, drop it.",
-};
+});
 
-const SINGLE_EXAMPLE_RULE: NamedRule = {
+const WORKING_FAILING_RULE_NAMED = workingFailingRuleNamed(STEP);
+
+const singleExampleRule = (unit: Unit): NamedRule => ({
 	key: "single-example",
 	checked: true,
 	heading: "One worked example belongs with the claim it explains",
-	body: SINGLE_EXAMPLE_BODY,
+	body: singleExampleBody(unit),
 	check:
 		"does any cut you propose separate a claim from the single example the lecturer works through to explain it? If so, drop it.",
-};
+});
 
-const PARALLEL_RULE: NamedRule = {
+const SINGLE_EXAMPLE_RULE = singleExampleRule(STEP);
+
+const parallelRule = (unit: Unit): NamedRule => ({
 	key: "parallel",
 	checked: true,
-	heading: "A run of items serving one point is one step",
-	body: PARALLEL_BODY,
+	heading: `A run of items serving one point is one ${unit.one}`,
+	body: parallelBody(unit),
 	check:
 		"does any cut you propose fall between two items of a set the lecturer is working through to make a single point? If so, drop it.",
-};
+});
 
-const WHY_SENT_RULE_NEUTRAL: NamedRule = {
+const PARALLEL_RULE = parallelRule(STEP);
+
+/**
+ * Showing a thing is not leaving it.
+ *
+ * Every boundary the user rejected on lecture 3 is the same move: the lecturer
+ * states something and then puts it in front of the room — the histology of the
+ * tissue she has just described, the slides of the polyps she has just said we
+ * study, the test for the state she has just said you want to catch — and the
+ * model reads going to the exhibit as taking up a new subject. It names the
+ * looking ("histological examination of…") and a named activity is a thing.
+ *
+ * The rule cannot simply forbid turning to an exhibit, because three of the
+ * boundaries the user KEPT do exactly that. What separates them is what is
+ * shown: the thing just described, or a different one. The last sentence is the
+ * other keeper — where the lecturer stops using a means of showing and starts
+ * discussing it, the means has become the subject.
+ *
+ * {@link CASES_BODY_WITH_SCOPE} governs a run of instances and
+ * {@link singleExampleBody} one instance worked through. This is neither: it is
+ * the thing itself, exhibited.
+ */
+const showingBody = (unit: Unit): string =>
+	`Showing a thing is not leaving it. A lecturer will often say what something is and then put it in front of you — an image of it, a specimen, a recording, a document, a set of measurements — and go through it in detail, pointing out what can be seen. All of that belongs with the statement it demonstrates, however long the going-through runs and however much detail it reaches.
+Ask what is being shown. If it is the thing just described, there is no boundary: the lecturer has not moved on, they are making good on what they said. A new ${unit.one} begins where what is shown is something they have not been discussing, or where the means of showing becomes the subject in its own right — how it works, what it costs, what it cannot tell you.`;
+
+/**
+ * Stages of one traced progression are one step.
+ *
+ * d6 left 54.0% untouched at 7 of 11 runs, and the runs say why in one voice:
+ * "the lecturer moves from analyzing an invasive tumor to examining precursor
+ * polyps". The model is not mistaking showing for a new subject there — it
+ * believes the OBJECT changed, from the tumour to its precursors. They are
+ * stages of the progression the lecturer announced she would trace, and nothing
+ * in the prompt says that a stage is not a different thing.
+ *
+ * It answers the starts rule in the starts rule's own words — "taking up a
+ * different thing" — rather than by citation. s6's precedence clause was stated
+ * as a citation and never engaged: the model does not experience two rules
+ * competing, so the refusal has to live inside the sentence that would
+ * otherwise grant permission.
+ *
+ * The announcement is load-bearing, and deliberately so. Without it the rule
+ * would swallow any passage that happens to move forward in time; with it, only
+ * a traversal the lecturer set out on is protected.
+ */
+const progressionBody = (unit: Unit): string =>
+	`When the lecturer sets out to follow something through a sequence — its stages, the steps of a process, how one state becomes the next — the whole traversal is one ${unit.one}. Moving from one stage to the next is not taking up a different thing, even though each stage carries a name of its own, looks quite different, and is shown with its own evidence.
+Ask what the sequence is a sequence OF, and where the lecturer said they were going. Everything from the point they announce the traversal to the point they finish it belongs together, and the next ${unit.one} begins where the traversal ENDS, not at a stage inside it.`;
+
+/**
+ * The progression rule, scoped to one thing's stages rather than the lecture's.
+ *
+ * Isolated by removal on lecture 4, eleven runs each: the recap at 81.4% is made
+ * by 8 of 11 runs under d4 and by 4 under d7, and d7 is d4 plus this rule and
+ * nothing else. The lecturer stops there to gather up the mechanisms covered so
+ * far, and a rule that protects a traversal from being cut up evidently reaches
+ * far enough to hold that inside it.
+ *
+ * So the rule keeps its work and loses its overreach: the traversal it protects
+ * is one THING passing through its stages, never the lecture passing through its
+ * topics, and a passage that stops to take stock is not a stage of anything.
+ */
+const progressionBodyScoped = (unit: Unit): string => `${progressionBody(unit)}
+This covers one thing passing through its stages, never the lecture passing through its subjects. ${TAKING_STOCK_SENTENCE}`;
+
+/**
+ * The half of d9's scoping that frees a recap, without the half that broke
+ * lecture 3.
+ *
+ * d9 added two sentences at once and they did opposite things. Lecture 4 went
+ * to the best score in the programme and lecture 5 recovered the boundary d7
+ * had cost it — but lecture 3's 31.3% and 36.1% fell from 8 of 11 runs to 1,
+ * because restating the rule as "one thing passing through its stages" invites
+ * reading a tumour's local growth, invasion and metastasis as exactly that.
+ * This is the other sentence, alone.
+ */
+const TAKING_STOCK_SENTENCE = `A passage where the lecturer stops to take stock — gathering up what has been covered, saying where things now stand — is not a stage of anything, and this rule does not hold it to what came before.`;
+
+const progressionBodyStockOnly = (unit: Unit): string =>
+	`${progressionBody(unit)}\n${TAKING_STOCK_SENTENCE}`;
+
+const progressionRule = (unit: Unit): NamedRule => ({
+	key: "progression",
+	checked: true,
+	heading: `Stages of one progression are one ${unit.one}`,
+	body: progressionBody(unit),
+	check:
+		"does any cut you propose fall between two stages of a sequence the lecturer set out to follow through? If so, drop it.",
+});
+
+const showingRule = (unit: Unit): NamedRule => ({
+	key: "showing",
+	checked: true,
+	heading: "Showing what was just described is not a new " + unit.one,
+	body: showingBody(unit),
+	check:
+		"does any cut you propose fall between a thing being described and that same thing being shown or gone through? If so, drop it.",
+});
+
+/**
+ * The whole boundary decision as one rule: the trigger, then what only looks
+ * like the trigger.
+ *
+ * Seven rules in d7 bear on the one question, and every failure this programme
+ * has measured is one of them granting permission before the ones that would
+ * refuse were consulted — s5's two rules where "the prohibition beats the
+ * permission", s6's precedence clause that never engaged, d6's showing rule
+ * that left 54.0% exactly where it found it. The one rule that worked first
+ * time, d7's, worked by putting the refusal INSIDE the sentence that would
+ * otherwise grant permission, in that sentence's own words. This is that
+ * shape applied to the whole decision.
+ *
+ * Nothing is added and nothing dropped: the six exceptions are d7's holds,
+ * working-and-failing, single-example, run-of-items, progression and mention
+ * rules, carrying their own words. It keeps the `starts` key because the cases
+ * rule cites it, and because it is still what decides where one begins.
+ *
+ * The merge forces one thing that is NOT neutral: d7 says "subtopic" in the
+ * rules it imports and "step" in the rules written here, and a single body
+ * cannot do both. It says {@link STEP}'s word, which is what four of the six
+ * exceptions already said — see d5 for what the other choice does to the grain.
+ */
+const boundaryBody = (unit: Unit): string =>
+	`A ${unit.one} is one thing together with what the lecturer brings to bear on it: that thing's own mechanism, what it in turn causes, the conclusion it is used to support. A new ${unit.one} begins where they leave that thing behind and take up a different one — another mechanism, another agent. Each new one begins its own ${unit.one}, however many the lecturer works through, and that holds even when they all serve the same overall point and all explain the same larger process.
+
+Six things look like a different thing and are not. **None of them is a boundary:**
+
+1. **A thing and its own workings.** Moving from a thing to that thing's own mechanism, from a cause to its effect, from a claim to the evidence for it.
+2. **A thing working and the same thing failing.** A lecture commonly explains how something operates and then what happens when it does not — the intact process and its breakdown, the rule and the exception, the normal case and the case that goes wrong. That is one thing examined from two sides. It holds however the second half is named: what happens when a process is absent, blocked or broken is still that process, even when what happens instead carries a name of its own and is introduced as though it were a separate thing.
+3. **A claim and the single example that explains it.** When the lecturer states something, takes one instance of it, and follows that instance through in enough detail to show why the claim holds, the statement and the worked example are one ${unit.one}. This is the case of ONE example; where they run through several instances of a point, {{cases}} decides them.
+4. **One item of a set and the next.** When the lecturer works through a set of things to make one point about all of them — ordering them, contrasting them, ranking them by some property — the whole run is one ${unit.one}. The point being made is the thing; the items are how it is made, however different the items are from each other.
+5. **One stage of a progression and the next.** When the lecturer sets out to follow something through a sequence — its stages, the steps of a process, how one state becomes the next — the whole traversal is one ${unit.one}. Each stage carries a name of its own, looks quite different, and is shown with its own evidence, and none of that makes it a different thing. Everything from the point they announce the traversal to the point they finish it belongs together, and the next ${unit.one} begins where the traversal ENDS, not at a stage inside it.
+6. **Something named in passing.** A lecturer constantly names neighbouring things — to contrast with what is under discussion, to set it up, to say what it is not, to recall something covered earlier. A boundary needs them to LEAVE the first thing behind and begin working on the second. A name in passing, however different the thing named, is not a boundary.`;
+
+const boundaryRule = (unit: Unit): NamedRule => ({
+	key: "starts",
+	checked: true,
+	heading: `When a new ${unit.one} begins, and when it only looks as though one does`,
+	body: boundaryBody(unit),
+	check:
+		"take each cut in turn and ask whether it falls at any of the six. Does it separate a thing from its own mechanism, a cause from its effect, or a claim from its evidence? A thing working from the same thing failing? A claim from the single example that explains it? One item of a set from the next? One stage of an announced sequence from the next? Or does it sit where the lecturer only names something in passing? Drop every cut that falls at any of them.",
+});
+
+const whySentRuleNeutral = (unit: Unit): NamedRule => ({
 	key: "why-sent",
 	checked: false,
 	heading: "Why this section reached you",
-	body: WHY_SENT_BODY_NEUTRAL,
-};
+	body: whySentNeutralBody(unit),
+});
+
+const WHY_SENT_RULE_NEUTRAL = whySentRuleNeutral(STEP);
 
 const MENTION_RULE: NamedRule = {
 	key: "mention",
@@ -216,23 +409,27 @@ const WORKING_FAILING_RULE: NamedRule = {
 		"is any cut you propose between a thing operating and the same thing breaking down? If so, drop it — that is one step.",
 };
 
-const EVERY_PLACE_RULE_CONDITIONAL: NamedRule = {
+const everyPlaceRuleConditional = (unit: Unit): NamedRule => ({
 	key: "every-place",
 	checked: true,
 	heading: "If it divides, find every place",
-	body: EVERY_PLACE_BODY_CONDITIONAL,
+	body: everyPlaceConditionalBody(unit),
 	check:
 		"having decided the section divides, did you read to the end of it, or stop at the first boundary?",
-};
+});
 
-const MAY_HOLD_RULE_FIRST: NamedRule = {
+const EVERY_PLACE_RULE_CONDITIONAL = everyPlaceRuleConditional(STEP);
+
+const mayHoldRuleFirst = (unit: Unit): NamedRule => ({
 	key: "may-hold",
 	checked: true,
-	heading: "One long step is the answer whenever it is true",
-	body: MAY_HOLD_BODY,
+	heading: `One long ${unit.one} is the answer whenever it is true`,
+	body: mayHoldBody(unit),
 	check:
 		"can you say, for each cut, what the lecturer finishes with and what they take up? If you cannot say both, drop that cut.",
-};
+});
+
+const MAY_HOLD_RULE_FIRST = mayHoldRuleFirst(STEP);
 
 const DEEPEN_METHOD: readonly string[] = [
 	"Read the whole section before proposing anything.",
@@ -241,7 +438,7 @@ const DEEPEN_METHOD: readonly string[] = [
 	"If nothing survives, return no cuts and say the section is one step.",
 ];
 
-const DEEPEN_REPLY = `You are not reproducing the passage. Each cut carries only its position:
+const deepenReply = (unit: Unit): string => `You are not reproducing the passage. Each cut carries only its position:
 - "startsWith" must be the first EIGHT to TWELVE words of the new subtopic, copied from the section exactly as they appear. Do not tidy them, do not drop a leading "So" or "Right", do not change capitalisation, do not paraphrase. It is used to locate the cut, so it must match character for character.
 - Cuts appear in the order they occur in the section.
 
@@ -258,13 +455,15 @@ Reply with a single JSON object and nothing else, in this exact shape:
   ]
 }
 
-When the section is one step, reply instead with:
+When the section is one ${unit.one}, reply instead with:
 
 {
-  "verdict": "one step",
+  "verdict": "one ${unit.one}",
   "cuts": [],
   "heldBecause": "one sentence on what makes the whole section one thing"
 }`;
+
+const DEEPEN_REPLY = deepenReply(STEP);
 
 /**
  * d1 — the rules that decide a boundary, plus the four that this pass needs.
@@ -300,13 +499,15 @@ const DEEPEN_PROMPT_V1 = ruleDocument({
  * step 2 and only reach "there are none" at step 4, so by the time the rules
  * were consulted it had already committed to a list.
  */
-const DEEPEN_METHOD_DECIDE_FIRST: readonly string[] = [
+const deepenMethodDecideFirst = (unit: Unit): readonly string[] => [
 	"Read the whole section.",
-	"Ask first whether the lecturer anywhere inside it finishes with one thing and takes up another. If not, the section is one step and you are done — reply with no cuts.",
+	`Ask first whether the lecturer anywhere inside it finishes with one thing and takes up another. If not, the section is one ${unit.one} and you are done — reply with no cuts.`,
 	"Only if it does: work through the section from beginning to end and note every place where that happens.",
 	"Check each place you noted against the rules below, by name, and drop the ones that do not hold.",
 	"If nothing survives, reply with no cuts.",
 ];
+
+const DEEPEN_METHOD_DECIDE_FIRST = deepenMethodDecideFirst(STEP);
 
 /**
  * d2 — the same rules, with what pushed d1 toward cutting taken out.
@@ -376,18 +577,18 @@ const DEEPEN_PROMPT_V3 = ruleDocument({
  * had also bought nothing else measurable. The signal rule reverts to the
  * shared constant, which is what pass one carries.
  */
-const DEEPEN_RULES_V4: readonly NamedRule[] = [
-	WHY_SENT_RULE_NEUTRAL,
+const deepenRulesV4 = (unit: Unit): readonly NamedRule[] => [
+	whySentRuleNeutral(unit),
 	SIGNAL_RULE,
 	HOLDS_RULE_OWN_MECHANISM,
-	WORKING_FAILING_RULE_NAMED,
-	SINGLE_EXAMPLE_RULE,
-	PARALLEL_RULE,
+	workingFailingRuleNamed(unit),
+	singleExampleRule(unit),
+	parallelRule(unit),
 	MENTION_RULE,
 	STARTS_RULE_PRECEDENCE,
 	CASES_RULE_WITH_SCOPE,
-	MAY_HOLD_RULE_FIRST,
-	EVERY_PLACE_RULE_CONDITIONAL,
+	mayHoldRuleFirst(unit),
+	everyPlaceRuleConditional(unit),
 	INSIDE_ONLY_RULE,
 ];
 
@@ -395,8 +596,221 @@ const DEEPEN_PROMPT_V4 = ruleDocument({
 	role: ROLE_DEEPEN,
 	definition: SUBTOPIC_DEFINITION_FLAT,
 	method: DEEPEN_METHOD_DECIDE_FIRST,
-	rules: DEEPEN_RULES_V4,
+	rules: deepenRulesV4(STEP),
 	replyFormat: DEEPEN_REPLY,
+});
+
+/**
+ * d5 — d4 in one vocabulary, with nothing else touched.
+ *
+ * d1 to d4 name the thing a section divides into twice over: the four rules
+ * imported from the splitting registry call it a subtopic, and the rules
+ * written here call it a step, after the definition line that glosses one as
+ * the other. Two names for one thing invite the model to read them as two
+ * things. "Subtopic" wins because it is the word the document defines, the word
+ * the reply's `label` and `startsWith` describe, and the word pass one uses.
+ *
+ * The definition line keeps "step" — there it explains the term rather than
+ * competing with it, and it is the splitting registry's constant, so changing
+ * it would change every version of pass one as well.
+ */
+/**
+ * A version that adds one rule, expressed as the insertion it is.
+ *
+ * Re-listing the whole set per version lets two lists drift apart in ways no
+ * one intended; this way the version IS its change, and a rule that moves or is
+ * renamed fails loudly rather than landing somewhere arbitrary.
+ *
+ * @param options - Options object.
+ * @param options.rules - The version being built on.
+ * @param options.after - Key of the rule the new one is to follow.
+ * @param options.rule - The rule to insert.
+ * @returns The rules, with the new one in place.
+ * @throws Error when no rule carries the key it is to follow.
+ */
+function withRuleAfter({
+	rules,
+	after,
+	rule,
+}: {
+	readonly rules: readonly NamedRule[];
+	readonly after: string;
+	readonly rule: NamedRule;
+}): readonly NamedRule[] {
+	const at = rules.findIndex((existing) => existing.key === after);
+	if (at < 0) {
+		throw new Error(`"${rule.key}" is to follow "${after}", which this version does not carry`);
+	}
+	return [...rules.slice(0, at + 1), rule, ...rules.slice(at + 1)];
+}
+
+/**
+ * d6's rules: d4's, with the showing rule beside the other two that say what
+ * belongs with a claim.
+ */
+const deepenRulesV6 = (unit: Unit): readonly NamedRule[] =>
+	withRuleAfter({ rules: deepenRulesV4(unit), after: "single-example", rule: showingRule(unit) });
+
+/**
+ * d7's rules: d4's, with the progression rule beside the run-of-items rule.
+ *
+ * Both govern a set of things the lecturer works through; the difference is
+ * that a progression's members are ordered by becoming one another, which is
+ * what the run-of-items rule does not say and what the 54.0% boundary turns on.
+ */
+const deepenRulesV7 = (unit: Unit): readonly NamedRule[] =>
+	withRuleAfter({ rules: deepenRulesV4(unit), after: "parallel", rule: progressionRule(unit) });
+
+/** d9's rules: d7's, with the progression rule scoped to one thing's stages. */
+const deepenRulesV9 = (unit: Unit): readonly NamedRule[] =>
+	withRuleAfter({ rules: deepenRulesV4(unit), after: "parallel", rule: progressionRuleScoped(unit) });
+
+/**
+ * The tail both scoped versions' checks carry. Their openings differ because
+ * their bodies do: d9 narrows the traversal to ONE THING and its check says so,
+ * d10 does not carry that sentence and so must not claim it.
+ */
+const TAKING_STOCK_CHECK =
+	" If so, drop it — but a passage that stops to take stock of what has been covered is not a stage, and may be cut from what precedes it.";
+
+/**
+ * The progression rule with a different body and check.
+ *
+ * Spelled out rather than spread over {@link progressionRule}: `NamedRule` is a
+ * discriminated union on `checked`, and spreading one loses the discriminant, so
+ * `check` is no longer known to belong. Naming the key and heading once here is
+ * what the two scoped versions share.
+ */
+const scopedProgressionRule = ({
+	unit,
+	body,
+	check,
+}: {
+	readonly unit: Unit;
+	readonly body: string;
+	readonly check: string;
+}): NamedRule => ({
+	key: "progression",
+	checked: true,
+	heading: `Stages of one progression are one ${unit.one}`,
+	body,
+	check,
+});
+
+const progressionRuleScoped = (unit: Unit): NamedRule =>
+	scopedProgressionRule({
+		unit,
+		body: progressionBodyScoped(unit),
+		check: `does any cut you propose fall between two stages of a sequence the lecturer set out to follow one thing through?${TAKING_STOCK_CHECK}`,
+	});
+
+const progressionRuleStockOnly = (unit: Unit): NamedRule =>
+	scopedProgressionRule({
+		unit,
+		body: progressionBodyStockOnly(unit),
+		check: `does any cut you propose fall between two stages of a sequence the lecturer set out to follow through?${TAKING_STOCK_CHECK}`,
+	});
+
+/**
+ * d11's rules: d9's, with d6's showing rule put back.
+ *
+ * The rule was measured in d6 and set aside for one reason: it took lecture 3's
+ * 31.3% and 36.1% from 10 runs of 11 down to 4 and 3. Both of those are now
+ * `dontCare` in the ruling — the user read the division d9 produces and accepted
+ * the single section that runs across them — so the rule's only measured cost is
+ * in a currency the score no longer counts.
+ *
+ * What it is aimed at: 18.7%, made by 6 of 18 d9 runs, which is what floors the
+ * vote bar at 33%. d6 took that boundary from 6 of 11 to 1. The runs that make it
+ * name the method as the subject — "using histology to examine tissue
+ * architecture" — which is exactly what the rule addresses.
+ */
+const deepenRulesV11 = (unit: Unit): readonly NamedRule[] =>
+	withRuleAfter({
+		rules: deepenRulesV9(unit),
+		after: "single-example",
+		rule: showingRule(unit),
+	});
+
+/** d10's rules: d7's, with only the taking-stock sentence added to the progression rule. */
+const deepenRulesV10 = (unit: Unit): readonly NamedRule[] =>
+	withRuleAfter({
+		rules: deepenRulesV4(unit),
+		after: "parallel",
+		rule: progressionRuleStockOnly(unit),
+	});
+
+const DEEPEN_PROMPT_V6 = ruleDocument({
+	role: ROLE_DEEPEN,
+	definition: SUBTOPIC_DEFINITION_FLAT,
+	method: DEEPEN_METHOD_DECIDE_FIRST,
+	rules: deepenRulesV6(STEP),
+	replyFormat: DEEPEN_REPLY,
+});
+
+/**
+ * d8's rules: d7's seven boundary rules said as one, the rest untouched.
+ *
+ * Thirteen rules become seven. What went in is exactly what came out — the
+ * merged rule carries all six prohibitions in their own words, and the cases
+ * rule still decides the case it always decided, cited from inside the merge.
+ */
+const deepenRulesV8 = (unit: Unit): readonly NamedRule[] => [
+	whySentRuleNeutral(unit),
+	SIGNAL_RULE,
+	boundaryRule(unit),
+	CASES_RULE_WITH_SCOPE,
+	mayHoldRuleFirst(unit),
+	everyPlaceRuleConditional(unit),
+	INSIDE_ONLY_RULE,
+];
+
+const DEEPEN_PROMPT_V11 = ruleDocument({
+	role: ROLE_DEEPEN,
+	definition: SUBTOPIC_DEFINITION_FLAT,
+	method: DEEPEN_METHOD_DECIDE_FIRST,
+	rules: deepenRulesV11(STEP),
+	replyFormat: DEEPEN_REPLY,
+});
+
+const DEEPEN_PROMPT_V10 = ruleDocument({
+	role: ROLE_DEEPEN,
+	definition: SUBTOPIC_DEFINITION_FLAT,
+	method: DEEPEN_METHOD_DECIDE_FIRST,
+	rules: deepenRulesV10(STEP),
+	replyFormat: DEEPEN_REPLY,
+});
+
+const DEEPEN_PROMPT_V9 = ruleDocument({
+	role: ROLE_DEEPEN,
+	definition: SUBTOPIC_DEFINITION_FLAT,
+	method: DEEPEN_METHOD_DECIDE_FIRST,
+	rules: deepenRulesV9(STEP),
+	replyFormat: DEEPEN_REPLY,
+});
+
+const DEEPEN_PROMPT_V8 = ruleDocument({
+	role: ROLE_DEEPEN,
+	definition: SUBTOPIC_DEFINITION_FLAT,
+	method: DEEPEN_METHOD_DECIDE_FIRST,
+	rules: deepenRulesV8(STEP),
+	replyFormat: DEEPEN_REPLY,
+});
+
+const DEEPEN_PROMPT_V7 = ruleDocument({
+	role: ROLE_DEEPEN,
+	definition: SUBTOPIC_DEFINITION_FLAT,
+	method: DEEPEN_METHOD_DECIDE_FIRST,
+	rules: deepenRulesV7(STEP),
+	replyFormat: DEEPEN_REPLY,
+});
+
+const DEEPEN_PROMPT_V5 = ruleDocument({
+	role: ROLE_DEEPEN,
+	definition: SUBTOPIC_DEFINITION_FLAT,
+	method: deepenMethodDecideFirst(SUBTOPIC),
+	rules: deepenRulesV4(SUBTOPIC),
+	replyFormat: deepenReply(SUBTOPIC),
 });
 
 /** Every deepening prompt that has been run, oldest first. */
@@ -432,6 +846,62 @@ export const DEEPEN_PROMPTS: readonly DeepenPromptVersion[] = [
 		changed:
 			"One rule added and one removed, both on evidence from d3's runs. Added: a single example worked through to show what a claim means belongs with that claim. Neither existing rule covered it — one governs a run of instances and the other a set of items — and it hands the several-instances case to the cases rule by reference so the two cannot overlap. Removed: the pivot extension to the signal rule, which was written to suppress the boundary at 57.3%; the user has since ruled that boundary correct, so the rule was pushing against the target, and it had bought nothing else measurable (the boundary went from 15 of 16 runs to 13, and nothing else moved). The signal rule reverts to the shared constant pass one carries. d3's other two changes stay: working-and-failing closed against the fallback having its own name, which removed its boundary completely, and the parallel-items rule, which has yet to show an effect.",
 		build: () => DEEPEN_PROMPT_V4,
+	},
+	{
+		id: "d5",
+		summary:
+			"d4 in one vocabulary: everything the document calls a step it now calls a subtopic. No rule changes what it says.",
+		changed:
+			"Wording only, and deliberately nothing else, so that what it costs or buys can be read off against d4 before any rule is added on top. d1 to d4 carry two names for the thing a section divides into: the four rules imported from the splitting registry say subtopic, the six written here say step, and the reply's verdict is the string \"one step\". The model is therefore told, in one document, that it is finding subtopics and that it is finding steps. Subtopic wins because it is the term the document defines, the term the reply's label and startsWith describe, and the term pass one uses; the harness never reads the verdict string, so renaming it is inert. Every body and heading that names the unit is now written once and built in whichever wording the version carries, and d1 to d4 were proved byte-identical after that refactor. The definition line still glosses a subtopic as 'a distinct step in the lecture' — there the word explains the term rather than competing with it, and it belongs to the splitting registry, so changing it would change every version of pass one too.",
+		build: () => DEEPEN_PROMPT_V5,
+	},
+	{
+		id: "d6",
+		summary:
+			"d4 plus one rule: showing what has just been described — the image of it, the specimen, the measurements — belongs with the description.",
+		changed:
+			"Built on d4, not on d5, because d5 was measured and its vocabulary makes the model merge more than lecture 3 can afford: it removed all four rejected boundaries and took three wanted ones with it (31.3% and 36.1% both fell from 10 of 11 runs to 4), and it narrowed the vote band lecture 5 tolerates from 82% to 73%. One rule is added. Every boundary the user rejected on lecture 3 is the same move — the lecturer states something and then puts it in front of the room, and the model reads going to the exhibit as taking up a new subject, because it names the looking and a named activity reads as a thing. The rule cannot forbid turning to an exhibit outright: three of the boundaries the user KEPT do exactly that, at 36.1%, 78.8% and 86.0%. What separates them is WHAT is shown — the thing just described, or a different one — so the rule turns on that, and closes with the other keeper: where the lecturer stops using a means of showing and starts discussing the means itself, that is a new step, which is what 24.0% is. Nothing else changes: same rule order but for the insertion, same method, same reply format, same wording for the unit.",
+		build: () => DEEPEN_PROMPT_V6,
+	},
+	{
+		id: "d7",
+		summary:
+			"d4 plus one rule: when the lecturer sets out to follow something through its stages, moving to the next stage is not taking up a different thing.",
+		changed:
+			"Built on d4, not on d6, so that it is one change from the measured baseline. d6's showing rule removed three of lecture 3's four rejected boundaries and left the only one that matters exactly where it was — 54.0%, in 7 runs of 11 under both d4 and d6 — while costing two wanted boundaries. The runs say plainly why it survived: every one of them reports moving 'from analyzing an invasive tumor to examining precursor polyps', so the model is not mistaking an exhibit for a new subject there, it believes the object itself changed. It has not: the precursors are stages of the progression the lecturer announced she would trace, and no rule in the prompt says a stage is not a different thing. The new rule says it, and says it in the starts rule's own words — 'taking up a different thing' — because a precedence clause stated as a citation was tried in s6 and never engaged. The announcement is load-bearing: only a traversal the lecturer sets out on is protected, so the rule cannot swallow any passage that merely moves forward in time. Placed next to the run-of-items rule, which governs the unordered case. The showing rule is not carried; it is held for a combined version once this is measured.",
+		build: () => DEEPEN_PROMPT_V7,
+	},
+	{
+		id: "d8",
+		summary:
+			"d7's seven boundary rules said as one: the trigger for a new step, then the six things that look like the trigger and are not.",
+		changed:
+			"Structure, not content. d7 spreads the one decision across seven rules — what a subtopic holds, working and failing, the single example, the run of items, the progression, the mention, and what starts a new subtopic — and every failure this programme has measured is one of them granting permission before the ones that would refuse were ever consulted: s5's pair where the prohibition beat the permission, s6's precedence clause that never engaged, d6's showing rule that left 54.0% exactly where it found it. The one rule that worked first time, d7's progression rule, worked by putting the refusal inside the sentence that would otherwise grant permission, in that sentence's own words. d8 applies that shape to the whole decision: one rule states when a new step begins and then lists, as six numbered cases in their own original wording, what only looks like a different thing. Nothing is added and nothing is dropped, the cases rule still decides illustrating cases and is still cited from inside the merge, and the checklist keeps all six questions under one bullet. Thirteen rules become seven. One thing the merge forces and which d5 showed is not free: d7 says 'subtopic' in the rules it imports from pass one and 'step' in the rules written for this pass, and a single body cannot say both — it says 'step', which is what four of the six exceptions already said.",
+		build: () => DEEPEN_PROMPT_V8,
+	},
+	{
+		id: "d9",
+		summary:
+			"d7 with the progression rule scoped: it protects one thing passing through its stages, not the lecture passing through its subjects, and a passage that stops to take stock is not a stage.",
+		changed:
+			"Two sentences added to one rule; d8's merge is not carried, having been measured a clear regression. The target was isolated by removal rather than guessed at: d7 is d4 plus the progression rule and nothing else, and on lecture 4 over eleven runs each the recap at 81.4% — the weakest wanted boundary in the programme, and the one that caps the vote bar at 36% — is made by 8 of 11 runs under d4 and by 4 under d7. The rule reaches too far: the lecturer stops there to gather up the mechanisms covered so far, and a rule that protects a traversal from being cut up holds that inside it. It keeps its work and loses its overreach — the traversal protected is one thing passing through its stages, never the lecture passing through its subjects, and a passage that stops to take stock is not a stage of anything. What must not move: lecture 3's 54.0%, which this rule took from 7 of 11 runs to none, and lecture 4's 46.1%, which it took from 3 to none.",
+		build: () => DEEPEN_PROMPT_V9,
+	},
+	{
+		id: "d10",
+		summary:
+			"d9's taking-stock sentence without d9's other one: the progression rule no longer holds a passage that stops to gather up what has been covered.",
+		changed:
+			"d9 added two sentences at once and they pulled in opposite directions. Lecture 4 reached the best score the programme has produced — 0.36 errors a run, exactly right in 73% of them, its weakest wanted boundary at 10 of 11 — and lecture 5 recovered the 57.3% boundary that d7 had cost it, from 6 of 11 back to 9. But lecture 3's 31.3% and 36.1% fell from 8 of 11 runs to 1, because restating the rule as 'one thing passing through its stages' invites reading a tumour's local growth, then invasion, then metastasis as exactly that, and the whole passage is held together. This version keeps only the other sentence — that a passage where the lecturer stops to take stock is not a stage of anything — so the recap is freed without the stages framing being restated and strengthened. Everything else is d7.",
+		build: () => DEEPEN_PROMPT_V10,
+	},
+	{
+		id: "d11",
+		summary:
+			"d9 with d6's showing rule put back, now that the only thing it cost is a pair of boundaries the ruling sets aside.",
+		changed:
+			"One rule, restored rather than written. d9 is the chosen baseline — nine runs keeping what five propose gives lectures 4 and 5 their division in every panel and lecture 3 its division in 77% of them — and its remaining error on lecture 3 is 18.7%, made by 6 of 18 runs, which is what floors the usable vote bar at 33%. That boundary was diagnosed rather than guessed at: pass one proposes it once in eighteen, so it is the deepening pass, and the runs that make it name the method as the subject ('using histology to examine tissue architecture and basement membrane invasion'), which is exactly the failure d6's showing rule was written for. d6 took the boundary from 6 of 11 runs to 1. It was set aside because it also took lecture 3's 31.3% and 36.1% from 10 of 11 down to 4 and 3 — and both of those are now dontCare, the user having read the division d9 produces and accepted the single section running across them. So the rule's only measured cost is in a currency the score no longer counts. Nothing else changes; the gate stays at 600.",
+		build: () => DEEPEN_PROMPT_V11,
 	},
 ];
 
