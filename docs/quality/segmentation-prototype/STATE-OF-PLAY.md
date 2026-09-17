@@ -42,33 +42,39 @@ terms as pass two's `runs/criteria.json`. Nothing in the scorer guesses.
   first under `d7` and was ruled its own section.
 - **Lecture 5 — 17 sections.** Ruled 2026-09-06.
 
-## Where it stands
+## Where it stands — THE SETTING, ruled 2026-09-17
 
-**`d12`, run nine times, keeping every boundary three of the nine propose.**
-All three lectures come out exactly as ruled in **92% of panels**, at 0.08 mean
-errors — the best measured by a wide margin.
+**`d9`, run nine times, keeping every boundary five of the nine propose.**
+Chosen by the user for margin rather than for its peak, and that is the reason
+to keep it:
 
 | voted, panels of 9 | lecture 3 | lecture 4 | lecture 5 | all three |
 |---|---|---|---|---|
-| `d9`, keep 5 | 77% | 100% | 100% | 77% |
+| **`d9`, keep 5** | 77% | **100%** | **100%** | 77% |
 | `d11`, keep 4 | 98% | 85% | 100% | 83% |
-| **`d12`, keep 3** | **100%** | **100%** | **92%** | **92%** |
+| `d12`, keep 3 | 100% | 100% | 92% | **92%** |
+
+`d12` wins on the day and wins narrowly. Under `d9`, lectures 4 and 5 stay at
+96% or better across **four consecutive bars** — 3, 4, 5 and 6 of nine — so
+lecture 3 is the only sensitive lecture. Under `d12`, lecture 5 runs
+57 → 92 → 68 → 32 → 8 across those same bars: its 92% is a single-row peak.
+**For a lecture nobody has seen yet, the width of the plateau is worth more than
+the height of the peak.**
 
 **`all three` is the figure that decides a setting**, and reading the
-per-lecture columns instead is how the best setting was missed for a while: it
-is the share of panels that get every lecture right at the same time, it is
+per-lecture columns instead is how `d12`'s peak went unnoticed for a while: it
+is the share of panels getting every lecture right at the same time, it is
 lower than the worst column because a panel can fail on different lectures, and
-it cannot be recovered from three separate averages. `report-division.py` now
-computes it, and walks bars from 2 upward rather than starting at 4.
+it cannot be recovered from three separate averages. `report-division.py`
+computes it and walks bars from 2 upward.
 
-**Why a LOW bar is what `d12` wants, where earlier versions needed a high one.**
-`d12` proposes almost nothing spurious — 1 unwanted cut in 18 runs on lecture 3,
-none on lecture 4, 2 on lecture 5 — so the bar has almost nothing to exclude and
-is free to sit low. A low bar is then what rescues the weak wanted boundaries.
-`d9` and `d11` needed a high bar to suppress their own spurious cuts, and the
-high bar is what cost them the fragile ones. **Suppressing unwanted cuts in the
-prompt buys a lower bar, and the lower bar buys back the boundaries the prompt
-is shaky on.**
+**Why `d12` can use a low bar at all**, which is worth remembering for any later
+version: it proposes almost nothing spurious — 1 unwanted cut in 18 runs on
+lecture 3, none on lecture 4, 2 on lecture 5 — so the bar has nothing much to
+exclude and is free to sit low, and a low bar is what rescues weak wanted
+boundaries. `d9` and `d11` need a high bar to suppress their own spurious cuts,
+and that high bar is what costs them the fragile ones. Suppressing unwanted cuts
+in the prompt buys a lower bar; the lower bar buys back the shaky boundaries.
 
 All figures are over **18 runs per lecture**, which is what makes panels of nine
 nearly independent. Measuring at 11 over-states everything.

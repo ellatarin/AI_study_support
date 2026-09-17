@@ -104,7 +104,11 @@ LEDGER_VERSIONS = ("d4", "d5", "d6", "d7", "d8", "d9", "d10", "d11", "d12")
 
 # The version the voting table is computed for: the one chosen as the system,
 # not the one added most recently.
-LEDGER_BASELINE = "d12"
+# d9: chosen 2026-09-17 for margin, not for its peak. Lectures 4 and 5 stay
+# at 96% or better across four consecutive bars under it, so lecture 3 is the
+# only sensitive one; d12 scores higher at one bar and its lecture-5 column
+# swings 57-92-68-32-8 either side of it.
+LEDGER_BASELINE = "d9"
 
 # Panel sizes and bars the ledger's joint table walks, as fractions that a bar
 # can actually express. Written as (panel, keep) so the percentage is derived
