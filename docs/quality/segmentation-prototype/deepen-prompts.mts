@@ -329,6 +329,38 @@ const progressionRule = (unit: Unit): NamedRule => ({
 		"does any cut you propose fall between two stages of a sequence the lecturer set out to follow through? If so, drop it.",
 });
 
+/**
+ * The showing rule with its permission clause taken out.
+ *
+ * d11 put the rule back and it did its job — lecture 3's 18.7% fell from 6 runs
+ * of 18 to 1 — while a new unwanted cut appeared on lecture 4 at 46.1%, in 5 of
+ * 18, splitting a case study between its history and its mechanism. That seam is
+ * already forbidden in substance by the holds rule, and the progression rule had
+ * been holding it: 46.1% is made by 3 of 11 d4 runs, none of d7's, and 1 of 18
+ * of d9's.
+ *
+ * What brought it back is the sentence in which this rule says when a boundary
+ * DOES begin. A permission in one rule defeating a prohibition in another is the
+ * failure this programme has measured more than any other — s5's two rules where
+ * the prohibition lost, s6's precedence clause that never engaged, d8's six
+ * prohibitions filed under one permission. So the rule stops granting anything:
+ * it withholds a boundary or it stands aside, and the case it used to license is
+ * stated as the limit of its own scope instead, handing the decision back in the
+ * words the starts rule uses.
+ */
+const showingBodyWithholdingOnly = (unit: Unit): string =>
+	`Showing a thing is not leaving it. A lecturer will often say what something is and then put it in front of you — an image of it, a specimen, a recording, a document, a set of measurements — and go through it in detail, pointing out what can be seen. All of that belongs with the statement it demonstrates, however long the going-through runs and however much detail it reaches. Ask what is being shown: if it is the thing just described, there is no boundary, because the lecturer has not moved on, they are making good on what they said.
+This rule only ever withholds a boundary. It never supplies a reason for one, and a passage it does not cover is not thereby a new ${unit.one}. Where the lecturer stops using a means of showing and begins discussing the means itself — how it works, what it costs, what it cannot tell you — this rule simply does not apply, and whether they have taken up a different thing is settled as it would be anywhere else.`;
+
+const showingRuleWithholdingOnly = (unit: Unit): NamedRule => ({
+	key: "showing",
+	checked: true,
+	heading: `Showing what was just described is not a new ${unit.one}`,
+	body: showingBodyWithholdingOnly(unit),
+	check:
+		"does any cut you propose fall between a thing being described and that same thing being shown or gone through? If so, drop it.",
+});
+
 const showingRule = (unit: Unit): NamedRule => ({
 	key: "showing",
 	checked: true,
@@ -732,6 +764,14 @@ const deepenRulesV11 = (unit: Unit): readonly NamedRule[] =>
 		rule: showingRule(unit),
 	});
 
+/** d12's rules: d11's, with the showing rule no longer granting a boundary. */
+const deepenRulesV12 = (unit: Unit): readonly NamedRule[] =>
+	withRuleAfter({
+		rules: deepenRulesV9(unit),
+		after: "single-example",
+		rule: showingRuleWithholdingOnly(unit),
+	});
+
 /** d10's rules: d7's, with only the taking-stock sentence added to the progression rule. */
 const deepenRulesV10 = (unit: Unit): readonly NamedRule[] =>
 	withRuleAfter({
@@ -764,6 +804,14 @@ const deepenRulesV8 = (unit: Unit): readonly NamedRule[] => [
 	everyPlaceRuleConditional(unit),
 	INSIDE_ONLY_RULE,
 ];
+
+const DEEPEN_PROMPT_V12 = ruleDocument({
+	role: ROLE_DEEPEN,
+	definition: SUBTOPIC_DEFINITION_FLAT,
+	method: DEEPEN_METHOD_DECIDE_FIRST,
+	rules: deepenRulesV12(STEP),
+	replyFormat: DEEPEN_REPLY,
+});
 
 const DEEPEN_PROMPT_V11 = ruleDocument({
 	role: ROLE_DEEPEN,
@@ -902,6 +950,14 @@ export const DEEPEN_PROMPTS: readonly DeepenPromptVersion[] = [
 		changed:
 			"One rule, restored rather than written. d9 is the chosen baseline — nine runs keeping what five propose gives lectures 4 and 5 their division in every panel and lecture 3 its division in 77% of them — and its remaining error on lecture 3 is 18.7%, made by 6 of 18 runs, which is what floors the usable vote bar at 33%. That boundary was diagnosed rather than guessed at: pass one proposes it once in eighteen, so it is the deepening pass, and the runs that make it name the method as the subject ('using histology to examine tissue architecture and basement membrane invasion'), which is exactly the failure d6's showing rule was written for. d6 took the boundary from 6 of 11 runs to 1. It was set aside because it also took lecture 3's 31.3% and 36.1% from 10 of 11 down to 4 and 3 — and both of those are now dontCare, the user having read the division d9 produces and accepted the single section running across them. So the rule's only measured cost is in a currency the score no longer counts. Nothing else changes; the gate stays at 600.",
 		build: () => DEEPEN_PROMPT_V11,
+	},
+	{
+		id: "d12",
+		summary:
+			"d11 with the showing rule no longer granting a boundary: it withholds one or it stands aside, and never supplies a reason for one.",
+		changed:
+			"One sentence removed from one rule, and the case it licensed restated as the limit of that rule's scope. d11 did what it was built for — lecture 3's 18.7% fell from 6 runs of 18 to 1 — but bought an unwanted cut on lecture 4 at 46.1%, made by 5 of 18, splitting a case study between its history and its mechanism. That seam is forbidden in substance by the holds rule and had been held by the progression rule: 46.1% is made by 3 of 11 d4 runs, none of d7's and 1 of 18 of d9's, and it returns only when the showing rule does. What brings it back is the sentence in which the showing rule says when a boundary DOES begin — 'a new step begins where what is shown is something they have not been discussing'. A permission in one rule defeating a prohibition in another is the failure this programme has measured more than any other: s5's two rules where the prohibition lost, s6's precedence clause that never engaged, d8's six prohibitions filed under one permission. So the rule now only ever withholds, and says so; the means-becomes-the-subject case is stated as what the rule does not cover, handing the decision back in the words the starts rule uses rather than issuing a licence of its own. Nothing else changes. What must not move: 18.7% at 1 of 18, and lecture 3's 24.0%, which the means-becomes-the-subject case exists to protect and which every run currently makes.",
+		build: () => DEEPEN_PROMPT_V12,
 	},
 ];
 

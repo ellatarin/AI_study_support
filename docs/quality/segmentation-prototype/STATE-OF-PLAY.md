@@ -14,7 +14,7 @@ locates each quote in a whitespace-free, case-folded index and slices the
 **original** transcript, so losslessness is guaranteed by construction and a
 quote that cannot be found is reported rather than guessed at.
 
-**Pass 1.5** (`deepen-trial.mts`, prompt versions `d1`–`d11`) measures every
+**Pass 1.5** (`deepen-trial.mts`, prompt versions `d1`–`d12`) measures every
 section pass one produced and sends **only those over 600 words** back to the
 model on their own, asking where each divides further. It can only add cuts
 inside the passage it was given, so it can never move or lose a boundary pass one
@@ -45,9 +45,14 @@ terms as pass two's `runs/criteria.json`. Nothing in the scorer guesses.
 ## Where it stands
 
 **`d11`, run nine times, keeping every boundary four of the nine propose** —
-0.17 mean errors across the three lectures, which is the best measured. `d9` at
-its own best bar (5 of 9) gives 0.23 and is the safer choice on lecture 4. The
-two are close and neither is clean; the comparison is in full below.
+0.17 mean errors across the three lectures, the best measured. Every later
+attempt trades one fragile boundary for another:
+
+| voted, 9 keep 4 | lecture 3 | lecture 4 | lecture 5 | total |
+|---|---|---|---|---|
+| `d9` | 0.33, 67% | 0.00, 100% | 0.00, 100% | 0.33 |
+| **`d11`** | **0.02, 98%** | 0.15, 85% | 0.00, 100% | **0.17** |
+| `d12` | 0.02, 98% | 0.00, 100% | 0.32, 68% | 0.34 |
 
 All figures are over **18 runs per lecture**, which is what makes panels of nine
 nearly independent. **Measuring at 11 runs over-states the system**: panels of
@@ -55,9 +60,17 @@ nine drawn from eleven share at least seven members, so 55 "panels" are one
 observation counted 55 times, and a bar of 6-of-9 that scored zero errors on all
 three lectures at 11 runs scores 0.59 on lecture 3 at 18. Sweep at 18.
 
-The joint window is **above 28% and at or below 61%** under `d11`, and above 33%
-and at or below 61% under `d9`. Lecture 3's 64.9% sets the ceiling either way,
-and it is out of pass 1.5's reach.
+**The frontier has moved from the prompt to three intrinsically weak
+boundaries.** Nothing left is a rule saying the wrong thing; what is left is
+three boundaries that sit near the middle of the vote, and every caution added
+to the document strengthens one and weakens another:
+
+- **lecture 5's 57.3%** — the most fragile boundary in the set. Damaged by d3's
+  pivot extension (removed for it), by d7 (6 of 11), recovered by d9 and d11 (15
+  of 18), lost again by d12 (8 of 18). Four separate changes have moved it.
+- **lecture 3's 64.9%** — 11 of 18 under every recent version, and the ceiling on
+  any vote bar. Out of pass 1.5's reach: see below.
+- **lecture 4's 46.1%** — the one d11 buys and d12 removes.
 
 **What each version bought, in order:**
 
@@ -80,6 +93,15 @@ and it is out of pass 1.5's reach.
   lecture 3's 31.3% and 36.1% fell from 8 of 11 runs to 1, which the user has
   since accepted.
 - `d10` — the freeing half of `d9`'s scoping alone. Middling everywhere.
+- `d11` — `d9` with d6's showing rule restored, the ruling having set aside the
+  only thing it had ever cost. Lecture 3's 18.7% fell from 6 of 18 to 1; a new
+  unwanted cut appeared on lecture 4 at 46.1% in 5 of 18. Best voted total.
+- `d12` — the showing rule stripped of its permission clause, so that it only
+  ever withholds a boundary. **The diagnosis was right and the fix exact**:
+  lecture 4's 46.1% went from 5 of 18 to none, confirming that what created it
+  was a permission in one rule defeating a prohibition in another. But the extra
+  caution cost lecture 5's 57.3%, from 15 of 18 to 8. A version that withholds
+  more merges more, wherever it is pointed.
 
 ## What is settled and should not be relitigated
 
