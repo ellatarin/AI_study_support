@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.47-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.48-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -80,7 +80,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `src/utils/progress.ts` — `createProgressBar` and `createUploadProgressStream` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`. `createParallelWorkBar` is specified in TD §10 but built in Phase 8, with the first stage that calls it
 - `src/utils/cost.ts` — `accumulateCost`, the arithmetic alone **(TD §7)**
 - `src/pipeline/reports.ts` — `createMoneyFormatter`, `formatCostReport` and the table engine beneath them **(TD §7, Cost and Reporting Modules)**
-- `src/utils/stage-id.ts` — `isStageId`, `unknownStageMessage`: recognising a stage name and reporting one that is not, for `--from-stage` and the config keys alike **(TD §6)**
+- `src/utils/stage-id.ts` — `isStageId`, `unknownStageMessage`: recognising a stage name and reporting one that is not, for the stage flags and the config keys alike; `isStageAfter`: one stage's position against another's in `STAGE_IDS`, asked by the CLI refusing a `--to-stage` before `--from-stage` and by the runner stopping at the bound **(TD §6; §4.7)**
 - `src/utils/model-id.ts` — `splitModelId`: a model ID's provider and its name, read by the provider exemption and by Stage 2, which want opposite halves **(TD §6; §5, Stage 2)**
 - `src/utils/language.ts` — `isOutputLanguage`, `unknownLanguageMessage`, `languageRule`: recognising a configured language, reporting one the pipeline cannot write, and wording the instruction every prose stage's prompt gives the model **(TD §6)**
 - `src/utils/record.ts` — `isRecord`: whether a parsed value has fields to read, shared by every check over something parsed from outside the pipeline — the config file, a manifest, a model's reply **(TD §6; §4.4; §7)**
@@ -186,9 +186,9 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 `src/index.ts` and `src/cli/` — the CLI. Invoked in docs and examples as `lecture-notes <cmd>` via the `bin/lecture-notes` wrapper installed by `scripts/setup`. During dev without the wrapper, equivalent to `pnpm exec tsx src/index.ts <cmd>`.
 - Commands: `run <date>`, `batch [<moduleRoot>]`, `cost-report [--date <YYYY-MM-DD>] [--module <moduleRoot>]`
-- Flags: `--from-stage <stageId>`, `--concurrency N`, `--continue-on-error`
+- Flags: `--from-stage <stageId>`, `--to-stage <stageId>`, `--concurrency N`, `--continue-on-error`
 - The identity-mutation commands (`rename`, `delete`, `change-date`) land with this deliverable too
-- Behaviour of each — the module layout, the multi-match picker, batch scope, what `--from-stage` resets and deletes, exit codes, and how each mutation leaves the module for Stage 0 to finish — is specified in **TD §4.7**
+- Behaviour of each — the module layout, the multi-match picker, batch scope, what `--from-stage` resets and deletes, where `--to-stage` stops the run, exit codes, and how each mutation leaves the module for Stage 0 to finish — is specified in **TD §4.7**
 
 `formatRunSummary` and `formatBatchSummary` in `src/pipeline/reports.ts` — the end-of-run and batch summaries the CLI prints (**TD §7**). Neither sums anything: the run summary ends at its last stage row, and the batch table shows lecture counts and status without a money column.
 
@@ -206,6 +206,13 @@ Runner lifecycle — integration tests (real temp directory with fixture manifes
 - `should record not-reached in run log when upstream stage fails`
 - `should reset nominated stage and all downstream stages to pending when --from-stage invoked`
 - `should leave upstream stages untouched when --from-stage invoked`
+- `should run no stage after the nominated one when --to-stage is given`
+- `should leave the stages beyond the bound pending when --to-stage is given` — nothing is reset and
+  nothing deleted, so a bounded run leaves the lecture resumable rather than finished
+- `should record the bound in the run log when --to-stage is given`
+- `should report success when --to-stage stopped the run short of the last stage`
+- `should run no lecture stage when --to-stage names a stage before them all` — the bound is a position
+  in `STAGE_IDS`, not a name matched against the stages the runner happens to hold
 - `should create timestamped run log file in runs/ for each invocation`
 - `should classify the run as $expected when from-stage targets a stage $state` — parametrised across
   every state the target can be in, so the run log's `runType` and TD §7's classification table stay
@@ -233,7 +240,11 @@ Manifest I/O and run status — integration and unit tests:
 CLI argument parsing — unit tests (no filesystem, no runner):
 - `should carry every run flag when they are all supplied`
 - `should reject the invocation when the date names a day the month does not have`
-- `should reject the invocation when --from-stage names no known stage`
+- `should reject the invocation when %s names no known stage` — parametrised across `--from-stage`
+  and `--to-stage`, which are validated the same way and must report themselves by their own name
+- `should reject the invocation when --to-stage precedes --from-stage`
+- `should accept the pair when both flags name the same stage` — the bound is inclusive at both ends,
+  so a single-stage run is what naming one stage twice means
 - `should reject --concurrency when it is zero` (and when fractional, negative, or not a number)
 - `should reject $flag when the command does not take it` — parametrised across every command/flag pair the usage lines exclude
 

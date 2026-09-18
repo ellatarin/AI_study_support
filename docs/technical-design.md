@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.47-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.48-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-08-14
 **Status:** For review
 
@@ -650,6 +650,7 @@ Each log records which stages were attempted, skipped, or re-run; cost and model
   "triggeredBy": "manual",          // 'manual' | 'from-stage'
   "runType": "normal",              // 'normal' | 'error-recovery' | 'experiment' — classified at run start (§7)
   "fromStage": null,                // stageId if --from-stage was used
+  "toStage": null,                  // stageId if --to-stage was used; the stages after it read `not-reached`
   "stages": {
     "audio-extraction":       { "action": "skipped" },
     "transcription":          { "action": "skipped" },
@@ -675,7 +676,7 @@ A run log records what each stage of that run cost and stops there — no figure
 
 The runner-facing types — `LectureMatch`, `RunOptions`, `BatchRunOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, and `BatchSummary` — are defined in `src/types/pipeline.ts` (single source of truth).
 
-`RunOptions` carries what any run can be told: which stage to restart from, and `onStageFailure`, `'halt' | 'continue'`, which the caller always states. `BatchRunOptions` extends it with `concurrency`, how many lectures are in flight at once; only a batch has more than one lecture to place, so the option lives on the batch's type alone and a single-lecture run cannot express it. What a caller who states no preference gets is named once, as `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`: halt at the first failed stage, one lecture at a time.
+`RunOptions` carries what any run can be told: which stage to restart from, which stage to stop after, and `onStageFailure`, `'halt' | 'continue'`, which the caller always states. `BatchRunOptions` extends it with `concurrency`, how many lectures are in flight at once; only a batch has more than one lecture to place, so the option lives on the batch's type alone and a single-lecture run cannot express it. What a caller who states no preference gets is named once, as `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`: halt at the first failed stage, one lecture at a time.
 
 The `PipelineRunner` surface:
 
@@ -739,7 +740,7 @@ A `RunSummary` lists its stages as `RunStageOutcome` — the run-log entry *pair
 
 **Reducing outcomes to a status.** The same rule applies at every level — a stage within a lecture, a lecture within a module, a module within a batch — so it is stated once in `src/pipeline/run-status.ts` and applied by both the runner and the reporting that prints its summaries.
 
-`OverallStatus` has two values, `success` and `failed`. The question a run answers is whether the work is done, and there are only two answers to it: a third would have to describe a lecture whose pipeline is incomplete without anything having failed, and nothing the runner sees can be that — it runs every stage it was given, a skipped stage's output is already on disk, and a stage it never reached was stopped by a failure that has already decided the run.
+`OverallStatus` has two values, `success` and `failed`. The question it answers is whether anything in this run failed, and there are only two answers to it: a skipped stage's output is already on disk, and a stage the run never reached — because a failure halted it, or because `--to-stage` bounded it — leaves nothing behind that could have failed.
 
 ```typescript
 stageOutcomeStatus(entry: RunLogStageEntry): OverallStatus            // failed where the stage ran and failed
@@ -758,13 +759,21 @@ hasSettledOutput(entry: ManifestStageEntry | QaManifestStageEntry | undefined): 
 // section. A type guard rather than a boolean, so a caller that has checked can read `filesWritten` without a cast.
 ```
 
-**Run outcome classification.** A `RunSummary.overallStatus` — and the aggregate `BatchSummary.overallStatus` across a batch's lectures — is `failed` when at least one stage failed, and `success` otherwise, a stage whose output already stood and was skipped included. It answers whether the lecture's work is done, not how much of it this particular run performed.
+**Run outcome classification.** A `RunSummary.overallStatus` — and the aggregate `BatchSummary.overallStatus` across a batch's lectures — is `failed` when at least one stage failed, and `success` otherwise, a stage whose output already stood and was skipped included. It reports on this run, not on the lecture: a run bounded by `--to-stage` succeeds with later stages still `pending`, and the manifest is where how far a lecture has got is read.
 
 **Pipeline order comes from `STAGE_IDS`.** `src/types/pipeline.ts` declares `STAGE_IDS` as the ordered stage list, and everything that walks the stages in order — the runner's `--from-stage` reset, the cost report's per-stage breakdown — iterates that array. A map elsewhere in the code is a lookup keyed *by* stage, and its key order is that map's own; the pipeline's order has one statement, and adding a stage to it is what puts the stage in the sequence.
 
 **`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes per-stage intermediate files for the stages being re-run (e.g. `Slide content/raw/*.md` when re-running Stage 5), so the re-run produces entirely fresh output. Upstream stages are untouched. Deletion targets hard-coded per-stage directories (see §4.4) — never `filesWritten` from the manifest — and in the module's `Final output/`, which is shared, it takes only this lecture's PDF.
 
 **The reset is confirmed before anything is deleted (NFR-4.3).** The CLI asks once per invocation, leading with the number of lectures that will lose work, and declining runs nothing at all rather than running without the reset. The count is what makes the question worth reading, because nothing the user typed states it: `run <date>` covers however many lectures that date matched and they then chose, and `batch` covers every lecture in the module named — or, with no module named, in every configured one. The question is asked wherever that set first becomes known, which is the CLI for a date and, for a batch, only after `countLectures` has scanned the modules (§4.7, "Counting a batch's scope"). Establishing the count costs that scan, so it is taken only when a stage is nominated; an ordinary run asks nothing and pays nothing. There is no flag to suppress the question.
+
+**`--to-stage <stageId>`:** The last stage the run performs. Stages after it are not run and are recorded `not-reached`, exactly as the stages after a halt are — the run stopped short of them, and the run log should say so in the words it already uses for that. Nothing is reset, nothing is deleted, and no confirmation is asked: a run that stops early destroys no work.
+
+It is a position in `STAGE_IDS`, not a name to match, so a stage the pipeline has not yet built still bounds the run: `--to-stage transcription` stops after Stage 2 whether or not the stages beyond it exist. Naming a stage the lecture runs before any lecture stage — Stage 0 — runs none of them, which is what a caller asking for normalisation alone means by it.
+
+Given with `--from-stage`, the two bound the run at both ends and the pair must be in pipeline order; `--from-stage transcript-structuring --to-stage transcription` is refused at parse time rather than silently running nothing.
+
+Its reason for existing is the cost of the stages downstream of what a run actually needs. Transcribing five lectures for a segmentation experiment reads `Transcript/transcript.txt` and nothing else, and without this flag that run also pays Stage 3 and Stage 4 on every lecture.
 
 **Natural restart after failure:** Does not clear intermediate files — per-slide markdown files from Stage 5 are preserved for resumability, allowing a failed run to pick up at the slide where it stopped.
 
@@ -879,7 +888,7 @@ EXIT_FAILURE: 1
 runCli(args: { argv; projectRoot?; write?; writeError? }): Promise<number>
 ```
 
-Parsing is validated in full before anything runs: the command must exist, its positional arguments must be present and well formed, `<date>` must be a real calendar date (`2025-02-30` is rejected as firmly as `yesterday`), `--from-stage` must name a stage that exists, and `--concurrency` must be a whole number of 1 or more.
+Parsing is validated in full before anything runs: the command must exist, its positional arguments must be present and well formed, `<date>` must be a real calendar date (`2025-02-30` is rejected as firmly as `yesterday`), `--from-stage` and `--to-stage` must each name a stage that exists and must not be given out of pipeline order, and `--concurrency` must be a whole number of 1 or more.
 
 **Flags belong to commands.** They are declared once for the whole CLI, so `parseArgs` will accept any of them anywhere; each command then declares the ones it acts on, and anything else is a usage error naming the flag and what the command does take. So `run --concurrency 4` is refused and says why: `--concurrency` counts lectures running at once, and only `batch` runs more than one.
 

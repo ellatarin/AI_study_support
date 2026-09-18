@@ -151,10 +151,14 @@ const manifest: RunManifest = makeManifest({
  * written by hand were five values claiming to matter, and none of them was even
  * in the form `deriveRunId` produces.
  *
+ * `toStage` comes with them because no run in this suite is bounded — the cost
+ * report reads what a run spent, which a bound does not bear on — so stating it
+ * per run log would be the same `null` written five times.
+ *
  * @param span - When the run began and ended.
  * @param span.startedAt - The instant the run began; the one section 2 prints.
  * @param span.endedAt - The instant it finished.
- * @returns The three fields every run log opens with.
+ * @returns The fields every run log in this suite opens with.
  */
 function ranFrom({
 	startedAt,
@@ -162,8 +166,8 @@ function ranFrom({
 }: {
 	readonly startedAt: string;
 	readonly endedAt: string;
-}): Pick<RunLog, "runId" | "startedAt" | "endedAt"> {
-	return { runId: `run-at-${startedAt}`, startedAt, endedAt };
+}): Pick<RunLog, "runId" | "startedAt" | "endedAt" | "toStage"> {
+	return { runId: `run-at-${startedAt}`, startedAt, endedAt, toStage: null };
 }
 
 // The original failure, as technical-design.md §7's worked example has it: an

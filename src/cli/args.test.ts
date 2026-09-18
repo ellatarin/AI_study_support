@@ -65,11 +65,23 @@ describe("parseCliArgs", () => {
 
 		it("should carry every flag run takes when they are all supplied", () => {
 			expect(
-				parse(["run", testLecture.date, "--from-stage", "transcription", "--continue-on-error"]),
+				parse([
+					"run",
+					testLecture.date,
+					"--from-stage",
+					"transcription",
+					"--to-stage",
+					"transcript-structuring",
+					"--continue-on-error",
+				]),
 			).toEqual({
 				command: "run",
 				lectureDate: testLecture.date,
-				options: { fromStage: "transcription", onStageFailure: "continue" },
+				options: {
+					fromStage: "transcription",
+					toStage: "transcript-structuring",
+					onStageFailure: "continue",
+				},
 			});
 		});
 
@@ -124,12 +136,19 @@ describe("parseCliArgs", () => {
 					"3",
 					"--from-stage",
 					"transcription",
+					"--to-stage",
+					"transcript-structuring",
 					"--continue-on-error",
 				]),
 			).toEqual({
 				command: "batch",
 				moduleRoot: null,
-				options: { fromStage: "transcription", concurrency: 3, onStageFailure: "continue" },
+				options: {
+					fromStage: "transcription",
+					toStage: "transcript-structuring",
+					concurrency: 3,
+					onStageFailure: "continue",
+				},
 			});
 		});
 	});
@@ -224,12 +243,51 @@ describe("parseCliArgs", () => {
 
 		// Its own case, because this message has to name both the flag and the value
 		// it was given — one row asserting one substring could not say that.
-		it("should reject the invocation when --from-stage names no known stage", () => {
-			const error = usageError(["run", testLecture.date, "--from-stage", "summarising"]);
+		it.each([
+			"--from-stage",
+			"--to-stage",
+		])("should reject the invocation when %s names no known stage", (flag) => {
+			const error = usageError(["run", testLecture.date, flag, "summarising"]);
 
 			expect(error).toBeInstanceOf(CliUsageError);
-			expect(error.message).toContain("--from-stage");
+			expect(error.message).toContain(flag);
 			expect(error.message).toContain("summarising");
+		});
+
+		it("should reject the invocation when --to-stage precedes --from-stage", () => {
+			const error = usageError([
+				"run",
+				testLecture.date,
+				"--from-stage",
+				"transcript-structuring",
+				"--to-stage",
+				"transcription",
+			]);
+
+			expect(error).toBeInstanceOf(CliUsageError);
+			expect(error.message).toContain("--to-stage");
+			expect(error.message).toContain("--from-stage");
+		});
+
+		it("should accept the pair when both flags name the same stage", () => {
+			expect(
+				parse([
+					"run",
+					testLecture.date,
+					"--from-stage",
+					"transcription",
+					"--to-stage",
+					"transcription",
+				]),
+			).toEqual({
+				command: "run",
+				lectureDate: testLecture.date,
+				options: {
+					fromStage: "transcription",
+					toStage: "transcription",
+					onStageFailure: DEFAULT_RUN_OPTIONS.onStageFailure,
+				},
+			});
 		});
 
 		it.each([

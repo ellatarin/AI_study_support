@@ -187,6 +187,39 @@ function outcomeMatching({
 	return { stageId, entry: expect.objectContaining(entry) };
 }
 
+/**
+ * Three stages spread across the pipeline order, so the middle one has a stage
+ * either side of it. Every case about where a run starts or stops drives the
+ * runner through exactly these.
+ */
+const SPANNING_STAGES = [
+	"audio-extraction",
+	"transcription",
+	"synthesis",
+] as const satisfies readonly StageId[];
+
+/**
+ * The outcomes of a run over {@link SPANNING_STAGES} that never reached the
+ * third: the first two are accounted for and the last is `not-reached`.
+ *
+ * Two runs end this way and differ only in why — one halted at a failed second
+ * stage, the other was bounded by `--to-stage` — which is what the parameter
+ * says.
+ *
+ * @param secondStageStatus - How the second stage ended.
+ * @returns The three outcomes, for use inside an `expect(...).toEqual`.
+ */
+function outcomesStoppingAfterTheSecond(
+	secondStageStatus: "complete" | "failed",
+): readonly unknown[] {
+	const [first, second, third] = SPANNING_STAGES;
+	return [
+		outcomeMatching({ stageId: first, action: "ran", status: "complete" }),
+		outcomeMatching({ stageId: second, action: "ran", status: secondStageStatus }),
+		{ stageId: third, entry: { action: "not-reached" } },
+	];
+}
+
 describe("PipelineRunner integration", () => {
 	let tempDir: string;
 	let moduleRoot: string;
@@ -538,11 +571,7 @@ describe("PipelineRunner integration", () => {
 
 			expect(thirdRun).not.toHaveBeenCalled();
 			expect(summary.overallStatus).toBe("failed");
-			expect(summary.stageOutcomes).toEqual([
-				outcomeMatching({ stageId: "audio-extraction", action: "ran", status: "complete" }),
-				outcomeMatching({ stageId: "transcription", action: "ran", status: "failed" }),
-				{ stageId: "synthesis", entry: { action: "not-reached" } },
-			]);
+			expect(summary.stageOutcomes).toEqual(outcomesStoppingAfterTheSecond("failed"));
 			const runLog = await readRunLog(workspaceRoot, summary.runId);
 			expect(runLog.stages.synthesis).toEqual({ action: "not-reached" });
 		});
@@ -602,14 +631,6 @@ describe("PipelineRunner integration", () => {
 	});
 
 	describe("runLecture with --from-stage", () => {
-		// Three stages spread across the pipeline order, so a --from-stage at the
-		// middle one has something both upstream and downstream of it.
-		const ALREADY_RUN_STAGES = [
-			"audio-extraction",
-			"transcription",
-			"synthesis",
-		] as const satisfies readonly StageId[];
-
 		/** The workspace directory a stage's output lives in; only a stage writing one. */
 		function stageDir(stageId: StageWithOutputFile): string {
 			return dirname(stageOutputPath({ workspaceRoot, stageId }));
@@ -644,7 +665,7 @@ describe("PipelineRunner integration", () => {
 
 		beforeEach(async () => {
 			const stages: Record<string, RunManifest["stages"][StageId]> = {};
-			for (const stageId of ALREADY_RUN_STAGES) {
+			for (const stageId of SPANNING_STAGES) {
 				stages[stageId] = finishedEntry({
 					status: "complete",
 					filesWritten: [await seedStageOutput({ workspaceRoot, stageId })],
@@ -762,6 +783,95 @@ describe("PipelineRunner integration", () => {
 				expect(await pathExists(join(finalOutput, testLecture.outputFile))).toBe(false);
 				expect(await pathExists(join(finalOutput, otherLecture.outputFile))).toBe(true);
 			});
+		});
+	});
+
+	describe("runLecture with --to-stage", () => {
+		beforeEach(async () => {
+			await writeManifest({ workspaceRoot, manifest: makeManifest() });
+		});
+
+		/**
+		 * The three stages, each spying on its own `run`, so a test can say which
+		 * of them the bound let through.
+		 *
+		 * @returns The stages in pipeline order, and each stage's spy by id.
+		 */
+		function spyingStages(): {
+			readonly stages: readonly PipelineStage<unknown, unknown>[];
+			readonly runs: ReadonlyMap<StageId, Mock<() => Promise<StageResult<unknown>>>>;
+		} {
+			const runs = new Map<StageId, Mock<() => Promise<StageResult<unknown>>>>();
+			const stages = SPANNING_STAGES.map((stageId) => {
+				const run = spyingRun();
+				runs.set(stageId, run);
+				return makeStubStage({ stageId, run });
+			});
+			return { stages, runs };
+		}
+
+		/**
+		 * Runs the lecture bounded at the nominated stage, leaving every other
+		 * option at its default.
+		 *
+		 * @param toStage - The last stage the run should perform.
+		 * @returns The run summary, and the stages' spies.
+		 */
+		async function runToStage(toStage: StageId): Promise<{
+			readonly summary: RunSummary;
+			readonly runs: ReadonlyMap<StageId, Mock<() => Promise<StageResult<unknown>>>>;
+		}> {
+			const { stages, runs } = spyingStages();
+			const summary = await makeRunner(stages).runLecture({
+				workspaceRoot,
+				options: { ...DEFAULT_RUN_OPTIONS, toStage },
+			});
+			return { summary, runs };
+		}
+
+		it("should run no stage after the nominated one when --to-stage is given", async () => {
+			const { summary, runs } = await runToStage("transcription");
+
+			expect(runs.get("audio-extraction")).toHaveBeenCalledTimes(1);
+			expect(runs.get("transcription")).toHaveBeenCalledTimes(1);
+			expect(runs.get("synthesis")).not.toHaveBeenCalled();
+			expect(summary.stageOutcomes).toEqual(outcomesStoppingAfterTheSecond("complete"));
+		});
+
+		it("should leave the stages beyond the bound pending when --to-stage is given", async () => {
+			await runToStage("transcription");
+
+			// Nothing was reset and nothing was deleted, so the lecture is resumable:
+			// an ordinary run afterwards picks up exactly where this one stopped.
+			const manifest = await readManifest({ workspaceRoot });
+			expect(manifest.stages.synthesis?.status).toBe("pending");
+		});
+
+		it("should record the bound in the run log when --to-stage is given", async () => {
+			const { summary } = await runToStage("transcription");
+
+			const runLog = await readRunLog(workspaceRoot, summary.runId);
+			expect(runLog.toStage).toBe("transcription");
+		});
+
+		it("should report success when --to-stage stopped the run short of the last stage", async () => {
+			const { summary } = await runToStage("transcription");
+
+			expect(summary.overallStatus).toBe("success");
+		});
+
+		it("should run no lecture stage when --to-stage names a stage before them all", async () => {
+			// The bound is a position in the pipeline, not a name matched against the
+			// stages the runner holds: Stage 0 precedes every lecture stage, so a run
+			// bounded there performs none of them.
+			const { summary, runs } = await runToStage("source-normalisation");
+
+			for (const stageId of SPANNING_STAGES) {
+				expect(runs.get(stageId)).not.toHaveBeenCalled();
+			}
+			expect(summary.stageOutcomes).toEqual(
+				SPANNING_STAGES.map((stageId) => ({ stageId, entry: { action: "not-reached" } })),
+			);
 		});
 	});
 
@@ -1002,6 +1112,7 @@ describe("PipelineRunner integration", () => {
 				triggeredBy: "manual",
 				runType: "normal",
 				fromStage: null,
+				toStage: null,
 				stages: {},
 			};
 			const runsDir = runsDirPath({ workspaceRoot });

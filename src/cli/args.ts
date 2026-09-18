@@ -4,7 +4,7 @@
  * Argument handling is kept apart from doing the work so a command's shape can
  * be verified without a runner, a filesystem, or a terminal. Parsing uses
  * `node:util`'s `parseArgs` rather than a CLI framework: the surface is six
- * commands and three flags, which the platform already covers
+ * commands and a handful of flags, which the platform already covers
  * (technical-design.md §4.7).
  */
 
@@ -13,7 +13,12 @@ import type { BatchRunOptions, RunOptions, StageId } from "../types/pipeline.js"
 import { DEFAULT_BATCH_OPTIONS, DEFAULT_RUN_OPTIONS } from "../types/pipeline.js";
 import { isCalendarDate } from "../utils/date.js";
 import { errorMessage, NamedError } from "../utils/errors.js";
-import { isStageId, unknownStageMessage } from "../utils/stage-id.js";
+import {
+	isStageAfter,
+	isStageId,
+	STAGES_IN_ORDER,
+	unknownStageMessage,
+} from "../utils/stage-id.js";
 
 /**
  * Thrown when a command line cannot be understood: an unknown command or option,
@@ -55,6 +60,7 @@ export type CliCommand =
 /** The flags every command draws from; each command consumes the ones it documents. */
 const OPTION_SPEC = {
 	"from-stage": { type: "string" },
+	"to-stage": { type: "string" },
 	concurrency: { type: "string" },
 	"continue-on-error": { type: "boolean" },
 	date: { type: "string" },
@@ -65,6 +71,7 @@ const OPTION_SPEC = {
 /** The parsed flag values, before per-command validation. */
 type ParsedFlags = {
 	readonly "from-stage"?: string;
+	readonly "to-stage"?: string;
 	readonly concurrency?: string;
 	readonly "continue-on-error"?: boolean;
 	readonly date?: string;
@@ -95,6 +102,10 @@ const FLAG_SPECS: Readonly<Record<FlagName, FlagSpec>> = {
 	"from-stage": {
 		form: "--from-stage <stage>",
 		summary: "Re-run from this stage, discarding it and everything downstream.",
+	},
+	"to-stage": {
+		form: "--to-stage <stage>",
+		summary: "Stop after this stage, leaving the stages beyond it unrun.",
 	},
 	concurrency: {
 		form: "--concurrency <n>",
@@ -187,18 +198,30 @@ function rejectExtraPositionals({
 }
 
 /**
- * Validates `--from-stage` against the stages that actually exist.
+ * Validates a flag that names a stage against the stages that actually exist.
  *
- * @param value - The flag's value, or `undefined` when it was not given.
+ * Both stage flags are validated here rather than each for itself, so that
+ * `--from-stage` and `--to-stage` cannot come to disagree about what a stage
+ * name is; each reports itself by its own name in the message.
+ *
+ * @param args - The flag and what it was given.
+ * @param args.value - The flag's value, or `undefined` when it was not given.
+ * @param args.flag - The flag as written, quoted back in the error.
  * @returns The stage id, or `undefined` when the flag was absent.
  * @throws {CliUsageError} When the value names no known stage.
  */
-function parseFromStage(value: string | undefined): StageId | undefined {
+function parseStageFlag({
+	value,
+	flag,
+}: {
+	readonly value: string | undefined;
+	readonly flag: string;
+}): StageId | undefined {
 	if (value === undefined) {
 		return undefined;
 	}
 	if (!isStageId(value)) {
-		throw new CliUsageError(unknownStageMessage({ subject: `--from-stage "${value}"` }));
+		throw new CliUsageError(unknownStageMessage({ subject: `${flag} "${value}"` }));
 	}
 	return value;
 }
@@ -228,12 +251,23 @@ function parseConcurrency(value: string | undefined): number | undefined {
  *
  * @param flags - The parsed flag values.
  * @returns The options for one lecture's run.
- * @throws {CliUsageError} When `--from-stage` is invalid.
+ * @throws {CliUsageError} When either stage flag is invalid, or when the two are given out of pipeline order.
  */
 function toRunOptions(flags: ParsedFlags): RunOptions {
-	const fromStage = parseFromStage(flags["from-stage"]);
+	const fromStage = parseStageFlag({ value: flags["from-stage"], flag: "--from-stage" });
+	const toStage = parseStageFlag({ value: flags["to-stage"], flag: "--to-stage" });
+	if (
+		fromStage !== undefined &&
+		toStage !== undefined &&
+		isStageAfter({ stageId: fromStage, other: toStage })
+	) {
+		throw new CliUsageError(
+			`--to-stage "${toStage}" runs before --from-stage "${fromStage}", so the run would do nothing. Stages run in this order: ${STAGES_IN_ORDER}`,
+		);
+	}
 	return {
 		...(fromStage === undefined ? {} : { fromStage }),
+		...(toStage === undefined ? {} : { toStage }),
 		onStageFailure:
 			flags["continue-on-error"] === true ? "continue" : DEFAULT_RUN_OPTIONS.onStageFailure,
 	};
@@ -245,7 +279,7 @@ function toRunOptions(flags: ParsedFlags): RunOptions {
  *
  * @param flags - The parsed flag values.
  * @returns The options for a batch run.
- * @throws {CliUsageError} When `--from-stage` or `--concurrency` is invalid.
+ * @throws {CliUsageError} When a stage flag or `--concurrency` is invalid.
  */
 function toBatchOptions(flags: ParsedFlags): BatchRunOptions {
 	return {
@@ -334,7 +368,7 @@ const COMMAND_SPECS: Readonly<Record<CommandName, CommandSpec>> = {
 	run: {
 		positionals: "<date>",
 		maxPositionals: 1,
-		flags: ["from-stage", "continue-on-error"],
+		flags: ["from-stage", "to-stage", "continue-on-error"],
 		summary: "Run one lecture, identified by its date (YYYY-MM-DD), through the pipeline.",
 		build: (input) => ({
 			command: "run",
@@ -345,7 +379,7 @@ const COMMAND_SPECS: Readonly<Record<CommandName, CommandSpec>> = {
 	batch: {
 		positionals: "[<moduleRoot>]",
 		maxPositionals: 1,
-		flags: ["concurrency", "from-stage", "continue-on-error"],
+		flags: ["concurrency", "from-stage", "to-stage", "continue-on-error"],
 		summary: "Run every lecture in one module, or in every configured module.",
 		build: (input) => ({
 			command: "batch",

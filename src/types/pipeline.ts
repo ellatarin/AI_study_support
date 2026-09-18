@@ -726,6 +726,8 @@ export type RunLog = TimeSpan & {
 	readonly triggeredBy: RunTrigger;
 	readonly runType: RunType;
 	readonly fromStage: StageId | null;
+	/** The `--to-stage` bound, or `null` for a run that was not bounded; the stages after it read `not-reached`. */
+	readonly toStage: StageId | null;
 	/** What each stage of this run did and cost. The run itself carries no figure (NFR-2.2). */
 	readonly stages: Readonly<Partial<Record<StageId, RunLogStageEntry>>>;
 };
@@ -759,6 +761,17 @@ export type LectureMatch = {
  */
 export type RunOptions = {
 	readonly fromStage?: StageId; // reset this stage + all downstream to pending before running
+	/**
+	 * The last stage the run performs. Stages after it are not run and are
+	 * recorded `not-reached`, exactly as the stages after a halt are; nothing is
+	 * reset and nothing is deleted, so a bounded run leaves the lecture resumable
+	 * rather than finished (technical-design.md §4.7).
+	 *
+	 * A position in {@link STAGE_IDS} rather than a name matched against the
+	 * stages the runner holds, so a stage the pipeline has not yet built still
+	 * bounds the run.
+	 */
+	readonly toStage?: StageId;
 	/**
 	 * What the runner does once a stage has failed: `halt` stops the run, leaving
 	 * the stages after it `not-reached`; `continue` logs the failure and moves on

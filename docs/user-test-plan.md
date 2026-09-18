@@ -196,11 +196,14 @@ Re-run the identical command.
 - The run summary table is **empty**, since it lists only the stages that did work; the skip lines above it are what say why
 - No file is rewritten (check modification times)
 
-### T7 — `--from-stage`
+### T7 — `--from-stage` and `--to-stage`
 
 - `--from-stage transcription` — `Transcript/` and `Structured transcript/` are discarded and rebuilt; `Audio/` untouched; **bills transcription again**
 - `--from-stage audio-extraction` — everything from Stage 1 down is rebuilt
 - `--from-stage synthesis` — accepted, no-op, exit 0 (see §1)
+- `--to-stage transcription` on a fresh lecture — Stages 0–2 run and stop there; `Transcript/transcript.txt` is written, `Structured transcript/` is never created, **Stage 4 is never billed**; exit 0 and the run log records `transcript-structuring` and `transcript-verification` as `not-reached`
+- Re-run that lecture with no flags — Stages 1–2 skip, 3–4 run; a bounded run leaves the lecture resumable, not finished
+- `--to-stage audio-extraction --from-stage transcription` — refused before anything runs, exit 1
 
 ### T8 — Failure and recovery
 

@@ -37,6 +37,7 @@ import {
 import { createStageLogger } from "../utils/logger.js";
 import { isRecord } from "../utils/record.js";
 import { configuredStage } from "../utils/stage-config.js";
+import { isStageAfter } from "../utils/stage-id.js";
 import { moduleDirs, resolveStageOutput, runsDirPath, type StageInWorkspace } from "./layout.js";
 import { removeDatedFile } from "./lecture-files.js";
 import { patchManifest, readManifest, readManifestSafe, writeManifest } from "./manifest.js";
@@ -558,6 +559,30 @@ async function resetFromStage({
 	return updated;
 }
 
+/**
+ * Whether a stage lies past the run's `--to-stage` bound, and so should not be
+ * reached.
+ *
+ * Position is compared against the declared pipeline order rather than against
+ * the stages the runner happens to hold, so a bound naming a stage that has no
+ * implementation — or one that runs before every lecture stage — still stops the
+ * run where it was told to (technical-design.md §4.7).
+ *
+ * @param args - The stage, and the bound it is measured against.
+ * @param args.stageId - The stage the run is about to reach.
+ * @param args.toStage - The last stage the run may perform, or `undefined` when the run is unbounded.
+ * @returns `true` when the stage lies beyond the bound.
+ */
+function beyondBound({
+	stageId,
+	toStage,
+}: {
+	readonly stageId: StageId;
+	readonly toStage: StageId | undefined;
+}): boolean {
+	return toStage !== undefined && isStageAfter({ stageId, other: toStage });
+}
+
 function buildRunLog({
 	runId,
 	startedAt,
@@ -584,6 +609,7 @@ function buildRunLog({
 		triggeredBy: options.fromStage === undefined ? "manual" : "from-stage",
 		runType,
 		fromStage: options.fromStage ?? null,
+		toStage: options.toStage ?? null,
 		stages,
 	};
 }
@@ -680,7 +706,10 @@ export class PipelineRunner {
 	 * skipped when its output already exists, run otherwise; a failure ends the
 	 * run (marking downstream stages `not-reached`) unless `onStageFailure` says
 	 * to continue. A `fromStage` option resets the nominated stage and everything
-	 * downstream first. Writes a timestamped run log and returns the run summary
+	 * downstream first; a `toStage` option bounds the run at that stage, leaving
+	 * the stages after it `not-reached` and their manifest entries untouched, so a
+	 * bounded run is resumable rather than finished. Writes a timestamped run log
+	 * and returns the run summary
 	 * (technical-design.md §4.7).
 	 *
 	 * @param args - The run inputs.
@@ -760,7 +789,7 @@ export class PipelineRunner {
 		let current = context;
 		let halted = false;
 		for (const stage of this.#lectureStages) {
-			if (halted) {
+			if (halted || beyondBound({ stageId: stage.stageId, toStage: options.toStage })) {
 				outcomes.push({ stageId: stage.stageId, entry: { action: "not-reached" } });
 				continue;
 			}
