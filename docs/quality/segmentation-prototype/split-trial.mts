@@ -18,12 +18,26 @@
 
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { applyCuts, judgeFidelity } from "./cut-blocks.mts";
+import { applyCuts, judgeFidelity, type Miss } from "./cut-blocks.mts";
 import { lectureKeyFor } from "./lecture-key.mts";
 import { splitPromptVersion } from "./split-prompts.mts";
 import { callTrialModel, loadTrialConfig, OUT_DIR } from "./trial-model.mts";
 
 const MODEL = process.env["TRIAL_MODEL"] ?? "google/gemini-3.7-flash";
+
+/**
+ * How many times the transcript is sent before a run keeps a division with a
+ * boundary missing from it.
+ *
+ * A quote the model mis-copies cannot be located, and the boundary it named is
+ * then dropped — silently, since the run simply comes back with one section
+ * fewer. Measured over every pass-one run made: 10 boundaries lost out of 2,713
+ * asked for, never more than one in a run. Asking again costs one call and
+ * restores the whole division, which is worth more than the independence a
+ * re-ask gives up: the vote is over runs, and a run missing a boundary votes
+ * wrongly on it.
+ */
+const MAX_ATTEMPTS = 3;
 
 /** What one run is worth knowing about, without opening its blocks. */
 type SplitOutcome = {
@@ -41,6 +55,10 @@ type SplitOutcome = {
 	readonly topics: number | null;
 	readonly subtopics: number | null;
 	readonly fidelity: string | null;
+	/** How many times the transcript was sent; more than one means a quote could not be placed. */
+	readonly attempts: number;
+	/** What was wrong with the quotes this run never placed, on the attempt it kept. */
+	readonly unplaced: readonly Miss[];
 };
 
 /** One subtopic as the model returns it: a label, a reason, and where it starts. */
@@ -126,6 +144,103 @@ function toCuts({ parsed }: { readonly parsed: SplitReply }): readonly Cut[] | n
 	);
 }
 
+/** One block as the page and the ledger read it: the text, with why it is here. */
+type RenderedBlock = {
+	label: string;
+	content: string;
+	topicLabel: string;
+	topicWhy: string;
+	why: string;
+	opensTopic: boolean;
+};
+
+/** What one send of the transcript produced. */
+type Attempt = {
+	readonly reply: Awaited<ReturnType<typeof callTrialModel>>;
+	readonly verdict: string;
+	readonly topics: number | null;
+	readonly subtopics: number | null;
+	readonly fidelity: string | null;
+	readonly blocks: readonly RenderedBlock[];
+	readonly misses: readonly Miss[];
+};
+
+/** The reply every attempt starts from, and what a failed call leaves behind. */
+const NO_REPLY = {
+	content: "",
+	promptTokens: null as number | null,
+	completionTokens: null as number | null,
+	finishReason: null as string | null,
+	nativeFinishReason: null as string | null,
+	provider: null as string | null,
+};
+
+/**
+ * Sends the transcript once and cuts it at whatever came back.
+ *
+ * @param options - Options object.
+ * @param options.config - The config carrying the OpenRouter credentials.
+ * @param options.systemPrompt - The splitting prompt for this version.
+ * @param options.transcriptText - The transcript to divide.
+ * @returns What this send produced, including the quotes it could not place.
+ */
+async function attemptSplit({
+	config,
+	systemPrompt,
+	transcriptText,
+}: {
+	readonly config: Awaited<ReturnType<typeof loadTrialConfig>>;
+	readonly systemPrompt: string;
+	readonly transcriptText: string;
+}): Promise<Attempt> {
+	const nothingCut = { topics: null, subtopics: null, fidelity: null, blocks: [], misses: [] };
+	let reply = NO_REPLY;
+	try {
+		reply = await callTrialModel({
+			config,
+			modelId: MODEL,
+			messages: [
+				{ role: "system", content: systemPrompt },
+				{ role: "user", content: `Transcript:\n${transcriptText}` },
+			],
+		});
+	} catch (error: unknown) {
+		return { reply, verdict: `THREW: ${String(error).slice(0, 120)}`, ...nothingCut };
+	}
+	if (reply.content.length === 0) {
+		return { reply, verdict: "EMPTY", ...nothingCut };
+	}
+	let parsed: SplitReply;
+	try {
+		parsed = JSON.parse(reply.content) as SplitReply;
+	} catch {
+		return { reply, verdict: "PARSE-FAIL", ...nothingCut };
+	}
+	const flat = toCuts({ parsed });
+	if (flat === null) {
+		return { reply, verdict: "SHAPE", ...nothingCut };
+	}
+	const { blocks, misses } = applyCuts(transcriptText, flat);
+	const judged = judgeFidelity(transcriptText, blocks);
+	return {
+		reply,
+		verdict: "OK",
+		// Null rather than zero for a version that was never asked for topics:
+		// the ledger must be able to tell "none proposed" from "none found".
+		topics: parsed.topics === undefined ? null : parsed.topics.length,
+		subtopics: blocks.length,
+		fidelity: misses.length === 0 ? judged : `${judged} MISSED:${misses.length}`,
+		blocks: blocks.map((block, index) => ({
+			...block,
+			topicLabel: flat[index]?.topicLabel ?? "",
+			topicWhy: flat[index]?.topicWhy ?? "",
+			why: flat[index]?.why ?? "",
+			opensTopic: flat[index]?.opensTopic ?? false,
+		})),
+		misses,
+	};
+}
+
 async function main(): Promise<void> {
 	const version = splitPromptVersion({ id: process.argv[2] ?? "s1" });
 	const transcriptPath = process.argv[3];
@@ -140,72 +255,21 @@ async function main(): Promise<void> {
 	const config = await loadTrialConfig({ modelId: MODEL });
 
 	const startedAt = performance.now();
-	let verdict = "OK";
-	let reply = {
-		content: "",
-		promptTokens: null as number | null,
-		completionTokens: null as number | null,
-		finishReason: null as string | null,
-		nativeFinishReason: null as string | null,
-		provider: null as string | null,
-	};
-	try {
-		reply = await callTrialModel({
-			config,
-			modelId: MODEL,
-			messages: [
-				{ role: "system", content: version.build() },
-				{ role: "user", content: `Transcript:\n${transcriptText}` },
-			],
-		});
-	} catch (error: unknown) {
-		verdict = `THREW: ${String(error).slice(0, 120)}`;
+	// The transcript goes back whenever a quote could not be placed: the division
+	// that comes back short of a boundary is not a division of this lecture, and
+	// keeping it would cost that boundary a vote it should have had.
+	let attempt = await attemptSplit({ config, systemPrompt: version.build(), transcriptText });
+	let attempts = 1;
+	while (attempt.misses.length > 0 && attempts < MAX_ATTEMPTS) {
+		attempt = await attemptSplit({ config, systemPrompt: version.build(), transcriptText });
+		attempts += 1;
 	}
 	const seconds = Math.round((performance.now() - startedAt) / 1000);
 
+	const { reply, verdict } = attempt;
 	const stem = `split-${version.id}-${lecture}-${instance}`;
 	await writeFile(join(OUT_DIR, `${stem}.raw.json`), reply.content, "utf8");
-
-	let topicCount: number | null = null;
-	let subtopicCount: number | null = null;
-	let fidelity: string | null = null;
-	let rendered: readonly {
-		label: string;
-		content: string;
-		topicLabel: string;
-		topicWhy: string;
-		why: string;
-		opensTopic: boolean;
-	}[] = [];
-
-	if (verdict === "OK" && reply.content.length === 0) {
-		verdict = "EMPTY";
-	} else if (verdict === "OK") {
-		try {
-			const parsed = JSON.parse(reply.content) as SplitReply;
-			const flat = toCuts({ parsed });
-			if (flat === null) {
-				verdict = "SHAPE";
-			} else {
-				const { blocks, misses } = applyCuts(transcriptText, flat);
-				// Null rather than zero for a version that was never asked for topics:
-				// the ledger must be able to tell "none proposed" from "none found".
-				topicCount = parsed.topics === undefined ? null : parsed.topics.length;
-				subtopicCount = blocks.length;
-				rendered = blocks.map((block, index) => ({
-					...block,
-					topicLabel: flat[index]?.topicLabel ?? "",
-					topicWhy: flat[index]?.topicWhy ?? "",
-					why: flat[index]?.why ?? "",
-					opensTopic: flat[index]?.opensTopic ?? false,
-				}));
-				const judged = judgeFidelity(transcriptText, blocks);
-				fidelity = misses.length === 0 ? judged : `${judged} MISSED:${misses.length}`;
-			}
-		} catch {
-			verdict = "PARSE-FAIL";
-		}
-	}
+	const rendered = attempt.blocks;
 
 	const outcome: SplitOutcome = {
 		promptVersion: version.id,
@@ -218,9 +282,11 @@ async function main(): Promise<void> {
 		completionTokens: reply.completionTokens,
 		finishReason: reply.finishReason,
 		verdict,
-		topics: topicCount,
-		subtopics: subtopicCount,
-		fidelity,
+		topics: attempt.topics,
+		subtopics: attempt.subtopics,
+		fidelity: attempt.fidelity,
+		attempts,
+		unplaced: attempt.misses,
 	};
 	await writeFile(join(OUT_DIR, `${stem}.outcome.json`), JSON.stringify(outcome, null, 2), "utf8");
 	if (rendered.length > 0) {
@@ -234,8 +300,9 @@ async function main(): Promise<void> {
 		`${stem.padEnd(20)} ${String(seconds).padStart(3)}s ` +
 			`prov=${(reply.provider ?? "-").padEnd(14)} ` +
 			`in=${String(reply.promptTokens ?? "-").padStart(6)} out=${String(reply.completionTokens ?? "-").padStart(6)} ` +
-			`t=${String(topicCount ?? "-").padStart(3)} s=${String(subtopicCount ?? "-").padStart(3)} ` +
-			`${verdict} ${fidelity ?? ""}`,
+			`t=${String(attempt.topics ?? "-").padStart(3)} s=${String(attempt.subtopics ?? "-").padStart(3)} ` +
+			`asked=${attempts} ` +
+			`${verdict} ${attempt.fidelity ?? ""}`,
 	);
 }
 

@@ -140,6 +140,50 @@ function overLeadingConnectives({
 }
 
 /**
+ * What was wrong with a quote the forward search could not find.
+ *
+ * Asked only once the search has failed, so the work of looking through the
+ * whole transcript is paid for by the rare run that needs it.
+ *
+ * @param options - Options object.
+ * @param options.folded - The whitespace-free, case-folded transcript.
+ * @param options.needle - The quote in the same form.
+ * @param options.used - The quotes earlier sections were placed by.
+ * @returns Which of the three things went wrong.
+ */
+function missCause({
+	folded,
+	needle,
+	used,
+}: {
+	readonly folded: string;
+	readonly needle: string;
+	readonly used: ReadonlySet<string>;
+}): MissCause {
+	if (used.has(needle)) {
+		return "already-used";
+	}
+	return folded.includes(needle) ? "earlier-than-previous" : "absent";
+}
+
+/**
+ * Why a quote could not be turned into a cut.
+ *
+ * Three different things go wrong and only one of them means the model invented
+ * text, so a run that reports them as one cannot be acted on: `absent` is a
+ * quote the lecture does not contain, `already-used` is the same opening given
+ * to two sections, and `earlier-than-previous` is a section claiming to begin
+ * before the one before it ended.
+ */
+export type MissCause = "absent" | "already-used" | "earlier-than-previous";
+
+/** A quote that could not be placed, and what was wrong with it. */
+export type Miss = { readonly quote: string; readonly cause: MissCause };
+
+/** How much of an unplaceable quote is worth keeping to recognise it by. */
+const MISS_QUOTE_LENGTH = 40;
+
+/**
  * Cuts the transcript at the positions the model named.
  *
  * Every block's text is sliced out of `sourceText`, so the result reproduces the
@@ -151,18 +195,23 @@ function overLeadingConnectives({
 export function applyCuts(
 	sourceText: string,
 	starts: readonly { id: number; label: string; startsWith: string }[],
-): { readonly blocks: readonly { label: string; content: string }[]; readonly misses: readonly string[] } {
+): { readonly blocks: readonly { label: string; content: string }[]; readonly misses: readonly Miss[] } {
 	const { folded, origin } = foldedIndex(sourceText);
-	const misses: string[] = [];
+	const misses: Miss[] = [];
+	const used = new Set<string>();
 	const cuts: number[] = [0];
 	let searchFrom = 0;
 	for (const start of starts.slice(1)) {
 		const needle = start.startsWith.replace(/\s+/gu, "").toLowerCase();
 		const found = needle === "" ? -1 : folded.indexOf(needle, searchFrom);
 		if (found === -1) {
-			misses.push(start.startsWith.slice(0, 40));
+			misses.push({
+				quote: start.startsWith.slice(0, MISS_QUOTE_LENGTH),
+				cause: missCause({ folded, needle, used }),
+			});
 			continue;
 		}
+		used.add(needle);
 		cuts.push(
 			overLeadingConnectives({
 				sourceText,

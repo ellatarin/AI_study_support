@@ -93,6 +93,47 @@ describe("applyCuts", () => {
 		]);
 
 		expect(misses).toHaveLength(1);
+		expect(misses[0]?.cause).toBe("absent");
 		expect(blocks).toHaveLength(1);
+	});
+
+	test("should say the quote was already used when an earlier section was given the same one", () => {
+		const transcript = "A first step that ends here. The sentinel cells activate. A third step follows.";
+
+		const { blocks, misses } = applyCuts(transcript, [
+			OPENING,
+			{ id: 1, label: "second", startsWith: "The sentinel cells activate" },
+			{ id: 2, label: "third", startsWith: "The sentinel cells activate" },
+		]);
+
+		// The quote occurs once and the second section took it, so the third names
+		// a boundary the model never said where to put.
+		expect(misses).toHaveLength(1);
+		expect(misses[0]?.cause).toBe("already-used");
+		expect(blocks).toHaveLength(2);
+	});
+
+	test("should say the quote lies earlier than the previous cut when the model works backwards", () => {
+		const transcript = "Alpha begins the lecture. Beta comes next of all. Gamma closes the lecture.";
+
+		const { misses } = applyCuts(transcript, [
+			OPENING,
+			{ id: 1, label: "second", startsWith: "Gamma closes the lecture" },
+			{ id: 2, label: "third", startsWith: "Beta comes next of all" },
+		]);
+
+		expect(misses).toHaveLength(1);
+		expect(misses[0]?.cause).toBe("earlier-than-previous");
+	});
+
+	test("should quote the words it could not place when it reports a miss", () => {
+		const transcript = "A first step that ends here. So where does that leave us?";
+
+		const { misses } = applyCuts(transcript, [
+			OPENING,
+			{ id: 1, label: "second", startsWith: "a phrase the lecturer never said" },
+		]);
+
+		expect(misses[0]?.quote).toContain("never said");
 	});
 });
