@@ -1,0 +1,64 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer welcomes the class, outlines the themes of cancer evolution and microenvironment, and states the learning outcomes for the lecture.",
+      "startsWith": "Okay. Good afternoon, everyone. Welcome to the fifth lecture of the Cancer Biology series."
+    },
+    {
+      "id": 2,
+      "label": "Clonal evolution and mutational selection in pre-malignant tissues",
+      "groupedBecause": "The lecturer explains how cancers evolve through successive clonal mutations and selective advantages, presenting experimental evidence from mouse esophagus and human eyelid studies.",
+      "startsWith": "So, of course, a lot of the studies that we've done to date have come"
+    },
+    {
+      "id": 3,
+      "label": "Epigenetic alterations in tumor initiation",
+      "groupedBecause": "The lecturer discusses how transient changes in the epigenetic and transcriptional landscape, such as polycomb repressive complex disruption in Drosophila, can drive cancer development in the absence of genetic mutations.",
+      "startsWith": "But what about epigenetics? Epigenetics must also play a role, right?"
+    },
+    {
+      "id": 4,
+      "label": "Cell of origin, hierarchy, and cancer stem cells",
+      "groupedBecause": "The lecturer examines normal stem cell hierarchies, evaluates the cancer stem cell model versus stochastic models, and presents evidence from leukemia and intestinal crypt APC knockout studies.",
+      "startsWith": "So is the cell of origin also important? Is it important what cell type these"
+    },
+    {
+      "id": 5,
+      "label": "Microenvironmental promoters and inflammation in lung cancer",
+      "groupedBecause": "The lecturer explains how non-mutagenic environmental promoters, such as particulate pollution and macrophage-secreted IL-1B, provide the permissive inflammatory stimulus required for mutated cells to become malignant in the lung.",
+      "startsWith": "Let's come back to that eyelid example. So why do these cells on the eyelid"
+    },
+    {
+      "id": 6,
+      "label": "Chronic inflammation and stem cell signature induction in the colon",
+      "groupedBecause": "The lecturer describes how chronic inflammation or K-RAS mutations combine with APC loss to activate NF-kappa B and beta-catenin signaling, conferring stemness to transit amplifying cells to form adenomas.",
+      "startsWith": "So if this is happening in lung cancer, is this happening in other cancers as"
+    },
+    {
+      "id": 7,
+      "label": "Stromal dependence of established tumors and therapeutic implications",
+      "groupedBecause": "The lecturer demonstrates that established tumors depend on microenvironmental and stromal cells for growth using basal cell carcinoma transplantation evidence, and discusses therapeutic strategies targeting this codependency.",
+      "startsWith": "So what about the established tumor? Because we know that in the established tumor,"
+    },
+    {
+      "id": 8,
+      "label": "Experimental and sequencing technologies for studying tumors",
+      "groupedBecause": "The lecturer outlines the laboratory and computational methods used to study cancer evolution and cell interactions, including single-cell sequencing and spatial transcriptomics and proteomics.",
+      "startsWith": "And so how are we doing this? How can we investigate this in the lab?"
+    },
+    {
+      "id": 9,
+      "label": "Integrated summary of cancer evolutionary mechanisms",
+      "groupedBecause": "The lecturer synthesizes the multifactorial nature of cancer evolution, summarizing the interplay among mutational burden, cell of origin, epigenetic plasticity, and permissive microenvironmental conditions.",
+      "startsWith": "So we're at the situation, I think, where there are potentially multiple routes to"
+    },
+    {
+      "id": 10,
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "The lecturer concludes the lecture and previews the upcoming session on therapy.",
+      "startsWith": "And with that, I will end today's lecture, and Monday we will talk about"
+    }
+  ]
+}

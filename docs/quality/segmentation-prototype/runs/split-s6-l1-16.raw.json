@@ -1,0 +1,94 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer welcomes the class and frames the lecture's focus on the initiation and resolution of inflammation.",
+      "startsWith": "Hi, everyone. Can everyone hear me okay? Super. Welcome back"
+    },
+    {
+      "id": 2,
+      "label": "Innate recognition: PAMPs and DAMPs",
+      "groupedBecause": "The lecturer explains how the innate immune system detects infection and cellular damage through PAMPs and DAMPs.",
+      "startsWith": "Now, the key to an immune reaction is, first of"
+    },
+    {
+      "id": 3,
+      "label": "Criteria for a good PAMP and self vs non-self",
+      "groupedBecause": "The lecturer discusses what molecular properties make an effective PAMP and how they distinguish self from non-self across pathogen classes.",
+      "startsWith": "So what makes a good PAMP? We want to have a"
+    },
+    {
+      "id": 4,
+      "label": "Pattern recognition receptor characteristics and localization",
+      "groupedBecause": "The lecturer describes the germline-encoded nature of PRRs and how their cellular location matches pathogen niches.",
+      "startsWith": "So the pattern recognition receptors, these are what detect the PAMPs"
+    },
+    {
+      "id": 5,
+      "label": "Toll-like receptors (TLRs) and signaling",
+      "groupedBecause": "The lecturer details toll-like receptor discovery, diversity, cellular positioning, and downstream signaling pathways.",
+      "startsWith": "Now, the most important class of PRRs, and the class"
+    },
+    {
+      "id": 6,
+      "label": "Other PRR families: CLRs, RLRs, and NLRs",
+      "groupedBecause": "The lecturer introduces additional pattern recognition receptor families and their roles in recognizing specific pathogen types and disease.",
+      "startsWith": "Now, toll-like receptors are very important, but they're not the"
+    },
+    {
+      "id": 7,
+      "label": "The inflammasome pathway and IL-1 beta",
+      "groupedBecause": "The lecturer outlines the assembly of the inflammasome, its activation of IL-1 beta, and its contribution to sterile chronic inflammation.",
+      "startsWith": "Now, another key pathway is the inflammasome pathway. These are"
+    },
+    {
+      "id": 8,
+      "label": "Sentinel cell activation and mediator effects",
+      "groupedBecause": "The lecturer explains how sentinel cells like mast cells and macrophages respond to danger signals and cause local and systemic effects.",
+      "startsWith": "Now, the key cells that activate are the sentinel cells."
+    },
+    {
+      "id": 9,
+      "label": "Leukocyte recruitment and extravasation",
+      "groupedBecause": "The lecturer details the multistep mechanism of immune cell deceleration, adhesion, extravasation, and chemokine navigation into tissue.",
+      "startsWith": "Now, one of the effects of the immediate inflammation response"
+    },
+    {
+      "id": 10,
+      "label": "Lymphatic drainage and adaptive priming",
+      "groupedBecause": "The lecturer describes dendritic cell migration via the lymphatic system to lymph nodes to initiate adaptive immunity.",
+      "startsWith": "Now, I do want to mention that we've been talking"
+    },
+    {
+      "id": 11,
+      "label": "Detrimental systemic inflammation: Septic shock",
+      "groupedBecause": "The lecturer discusses the pathology, triggers, and severe clinical consequences of excessive systemic cytokine release in septic shock.",
+      "startsWith": "Now, the other thing to mention here is we've largely"
+    },
+    {
+      "id": 12,
+      "label": "Resolution of inflammation: Passive and active mechanisms",
+      "groupedBecause": "The lecturer explains how inflammation is turned off through short-lived mediators, macrophage switching, and anti-inflammatory cytokines.",
+      "startsWith": "So this brings us to the final slides of the"
+    },
+    {
+      "id": 13,
+      "label": "Tissue repair, granulation tissue, and chronic inflammation",
+      "groupedBecause": "The lecturer outlines wound healing, ECM remodeling, aging effects, and triggers that cause inflammation to become chronic.",
+      "startsWith": "Now, just the final point I want to talk about"
+    },
+    {
+      "id": 14,
+      "label": "Granuloma formation as a protective response",
+      "groupedBecause": "The lecturer explains how granulomas contain persistent infections like tuberculosis when complete sterilization is not feasible.",
+      "startsWith": "And then just the last slide I want to point"
+    },
+    {
+      "id": 15,
+      "label": "Lecture closing",
+      "groupedBecause": "The lecturer ends the lecture and announces the topic of the next session.",
+      "startsWith": "Okay, that's it for me. Next lecture is complements."
+    }
+  ]
+}

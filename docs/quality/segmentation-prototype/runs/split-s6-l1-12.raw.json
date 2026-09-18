@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Course introduction and lecture overview",
+      "groupedBecause": "The lecturer welcomes the students and frames the goals and scope of the lecture on inflammation.",
+      "startsWith": "Hi, everyone. Can everyone hear me okay? Super. Welcome back to Biology of"
+    },
+    {
+      "id": 2,
+      "label": "Innate recognition of infection: PAMPs and DAMPs",
+      "groupedBecause": "This passage explains the necessity of pathogen recognition and introduces PAMPs and DAMPs as the primary signals sensed by innate sentinel cells.",
+      "startsWith": "Now, the key to an immune reaction is, first of all, recognizing"
+    },
+    {
+      "id": 3,
+      "label": "Characteristics of effective PAMPs and distinguishing self from non-self",
+      "groupedBecause": "The lecturer details the molecular properties that make products good PAMPs, including evolutionary conservation and distinguishability from host molecules.",
+      "startsWith": "So what makes a good PAMP? We want to have a product that"
+    },
+    {
+      "id": 4,
+      "label": "Pattern recognition receptors and Toll-like receptor signaling",
+      "groupedBecause": "This section introduces pattern recognition receptors, focusing on their genetic encoding, subcellular locations, and Toll-like receptor diversity and signaling mechanisms.",
+      "startsWith": "So the pattern recognition receptors, these are what detect the PAMPs and the"
+    },
+    {
+      "id": 5,
+      "label": "Non-TLR pattern recognition receptors and the inflammasome",
+      "groupedBecause": "The lecturer describes alternative PRRs like NLRs and explains the assembly and cytokine activation function of the inflammasome complex.",
+      "startsWith": "Now, toll-like receptors are very important, but they're not the only family of"
+    },
+    {
+      "id": 6,
+      "label": "Sentinel cell activation and mediator release",
+      "groupedBecause": "This passage examines how sentinel cells such as mast cells and macrophages detect threats and produce localized and systemic inflammatory signals.",
+      "startsWith": "Now, the key cells that activate are the sentinel cells. We'll just"
+    },
+    {
+      "id": 7,
+      "label": "Leukocyte recruitment, extravasation, and chemokine navigation",
+      "groupedBecause": "The lecturer explains the step-by-step mechanism of leukocyte capture, rolling, extravasation across the endothelium, and migration along chemokine gradients.",
+      "startsWith": "Now, one of the effects of the immediate inflammation response is to recruit"
+    },
+    {
+      "id": 8,
+      "label": "Dendritic cell migration and the lymphatic drainage system",
+      "groupedBecause": "This section explains how activated dendritic cells travel through the lymphatic system to present antigens and prime adaptive immune responses in lymph nodes.",
+      "startsWith": "Now, I do want to mention that we've been talking a lot about"
+    },
+    {
+      "id": 9,
+      "label": "Excessive inflammatory response and septic shock",
+      "groupedBecause": "The lecturer describes the pathology, mechanisms, and severe systemic risks associated with uncontrolled cytokine release leading to septic shock.",
+      "startsWith": "Now, the other thing to mention here is we've largely been talking about"
+    },
+    {
+      "id": 10,
+      "label": "Resolution of inflammation: passive and active mechanisms",
+      "groupedBecause": "This passage outlines the passive and active physiological mechanisms responsible for dampening and turning off an inflammatory response.",
+      "startsWith": "So this brings us to the final slides of the lecture, which is"
+    },
+    {
+      "id": 11,
+      "label": "Tissue repair, granulation, and causes of chronic inflammation",
+      "groupedBecause": "The lecturer explains the process of injury repair, granulation tissue formation, and how unresolvable damage leads to chronic inflammation and inflammaging.",
+      "startsWith": "Now, just the final point I want to talk about is injury repair."
+    },
+    {
+      "id": 12,
+      "label": "Granuloma formation as an evolved containment strategy",
+      "groupedBecause": "This section explores granuloma formation as an adaptive immune strategy to contain persistent pathogens like tuberculosis when complete clearance is impossible.",
+      "startsWith": "And then just the last slide I want to point out is that"
+    },
+    {
+      "id": 13,
+      "label": "Lecture conclusion and next topic announcement",
+      "groupedBecause": "The lecturer wraps up the lecture and gives a brief administrative note on the upcoming topic.",
+      "startsWith": "Okay, that's it for me. Next lecture is complements."
+    }
+  ]
+}

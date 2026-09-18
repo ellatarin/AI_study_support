@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "The lecturer opens the session by recapping prior lectures, stating the learning outcomes, and introducing Hanahan and Weinberg's cancer hallmarks framework.",
+      "startsWith": "So unfortunately, I'm going to have to start now. Otherwise,"
+    },
+    {
+      "id": 2,
+      "label": "Sustained proliferative signaling and evading growth suppressors",
+      "groupedBecause": "The lecturer details how oncogenic mutations deregulate external growth and inhibitory signaling pathways including Wnt/APC, RTK/Ras/PI3K, and TGF-beta.",
+      "startsWith": "So let's kind of go through them as I said."
+    },
+    {
+      "id": 3,
+      "label": "Differentiation block in leukemias and carcinomas",
+      "groupedBecause": "The lecturer explains how cancer cells fail to withdraw from the cell cycle and differentiate, illustrating this across hematopoietic lineages and intestinal crypt epithelium.",
+      "startsWith": "So we'll move on to something that is slightly less"
+    },
+    {
+      "id": 4,
+      "label": "Resisting cell death through p53 and apoptotic pathways",
+      "groupedBecause": "The lecturer examines the mechanisms cancer cells use to resist apoptosis through mutations in p53, MDM2, Bax, and BCL2.",
+      "startsWith": "Okay? So we're going to move on to resistance to"
+    },
+    {
+      "id": 5,
+      "label": "Enabling replicative immortality and bypassing senescence",
+      "groupedBecause": "The lecturer explores how cancer cells overcome the Hayflick limit and senescence through telomerase activation and TERT promoter alterations.",
+      "startsWith": "So the last one that I will talk about or"
+    },
+    {
+      "id": 6,
+      "label": "Deregulating cellular metabolism and the Warburg effect",
+      "groupedBecause": "The lecturer describes cancer metabolic rewiring, including aerobic glycolysis and Krebs cycle mutations producing oncometabolites that alter the epigenome.",
+      "startsWith": "Okay. So we'll move on to metabolism, because this is"
+    },
+    {
+      "id": 7,
+      "label": "Inducing angiogenesis",
+      "groupedBecause": "The lecturer discusses how tumor growth past diffusion limits requires an angiogenic switch governed by the balance of pro- and anti-angiogenic factors.",
+      "startsWith": "Similarly for angiogenesis, right, in terms of what that does"
+    },
+    {
+      "id": 8,
+      "label": "Activating invasion and metastasis",
+      "groupedBecause": "The lecturer covers the metastatic cascade, lymph node staging, circulating tumor cells, and the role of chromosomal instability and whole genome duplication.",
+      "startsWith": "Okay, so onto the last one. And I'll just"
+    },
+    {
+      "id": 9,
+      "label": "Conclusion and closing remarks",
+      "groupedBecause": "The lecturer summarizes the hallmarks framework, mentions recent literature extensions, and closes the lecture.",
+      "startsWith": "So what I also wanted to say and just finish"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture framing",
+      "groupedBecause": "The lecturer opens the session by welcoming students and framing the lecture's focus on the initiation and resolution of inflammation.",
+      "startsWith": "Hi, everyone. Can everyone hear me okay? Super. Welcome back to Biology"
+    },
+    {
+      "id": 2,
+      "label": "Innate recognition of infection via PAMPs and DAMPs",
+      "groupedBecause": "The lecturer explains the fundamental requirement for immune recognition through pathogen-associated and damage-associated molecular patterns.",
+      "startsWith": "Now, the key to an immune reaction is, first of all, recognizing"
+    },
+    {
+      "id": 3,
+      "label": "Properties of effective PAMPs and self versus non-self discrimination",
+      "groupedBecause": "This section outlines the evolutionary criteria that make microbial structures good targets for pattern recognition while distinguishing self from non-self.",
+      "startsWith": "So what makes a good PAMP? We want to have a"
+    },
+    {
+      "id": 4,
+      "label": "Germline encoding and subcellular localization of PRRs",
+      "groupedBecause": "The lecturer describes how pattern recognition receptors are hardwired in the genome and positioned in specific cellular compartments matching pathogen niches.",
+      "startsWith": "So the pattern recognition receptors, these are what detect the PAMPs"
+    },
+    {
+      "id": 5,
+      "label": "Toll-like receptors and the Drosophila Toll discovery",
+      "groupedBecause": "This passage introduces Toll-like receptors, illustrating their discovery and essential role in host defense using Drosophila Toll knockouts and human TLR4.",
+      "startsWith": "Now, the most important class of PRRs, and the class"
+    },
+    {
+      "id": 6,
+      "label": "TLR signaling cascades and location-dependent responses",
+      "groupedBecause": "The lecturer discusses how TLRs signal to the nucleus to trigger specific transcription factors based on whether the receptor is on the plasma membrane or in an endosome.",
+      "startsWith": "Now, when it comes to the signaling system, the signaling"
+    },
+    {
+      "id": 7,
+      "label": "Other PRR families: CLRs, RLRs, and NLRs",
+      "groupedBecause": "This section surveys alternative pattern recognition receptor families, focusing on their recognition of cytoplasmic ligands and links to inflammatory diseases like Crohn's.",
+      "startsWith": "Now, toll-like receptors are very important, but they're not the"
+    },
+    {
+      "id": 8,
+      "label": "The inflammasome assembly and IL-1 beta activation",
+      "groupedBecause": "The lecturer explains the molecular assembly of the inflammasome pinwheel structure, active caspase-1 cleavage, and the multi-signal regulation of IL-1 beta.",
+      "startsWith": "Now, another key pathway is the inflammasome pathway. These are"
+    },
+    {
+      "id": 9,
+      "label": "Sentinel cell activation and mediator release",
+      "groupedBecause": "This subtopic details how sentinel mast cells and macrophages sense infection and trigger both local tissue responses and systemic sickness effects.",
+      "startsWith": "Now, the key cells that activate are the sentinel cells."
+    },
+    {
+      "id": 10,
+      "label": "Leukocyte recruitment and extravasation cascade",
+      "groupedBecause": "The lecturer covers the sequential steps of leukocyte recruitment from circulating blood into inflamed tissue, including rolling, adhesion, extravasation, and chemotaxis.",
+      "startsWith": "Now, one of the effects of the immediate inflammation response"
+    },
+    {
+      "id": 11,
+      "label": "Lymphatic drainage and adaptive immune priming",
+      "groupedBecause": "This passage explains how activated dendritic cells and tissue fluids migrate through the lymphatic system to prime lymphocytes in draining lymph nodes.",
+      "startsWith": "Now, I do want to mention that we've been talking"
+    },
+    {
+      "id": 12,
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "The lecturer describes the pathology, high mortality, and long-term consequences of uncontrolled cytokine release leading to systemic vasodilation and septic shock.",
+      "startsWith": "Now, the other thing to mention here is we've largely"
+    },
+    {
+      "id": 13,
+      "label": "Resolution of inflammation: passive and active mechanisms",
+      "groupedBecause": "This section contrasts passive decay of short-lived inflammatory signals with active anti-inflammatory programs, including lipid mediator switching and anti-inflammatory cytokines.",
+      "startsWith": "So this brings us to the final slides of the lecture,"
+    },
+    {
+      "id": 14,
+      "label": "Injury repair and granulation tissue formation",
+      "groupedBecause": "The lecturer explains how fibroblasts, endothelial precursors, and M2 macrophages rebuild the extracellular matrix and blood vessels to repair damaged tissue.",
+      "startsWith": "Now, just the final point I want to talk about"
+    },
+    {
+      "id": 15,
+      "label": "Causes and consequences of persistent chronic inflammation",
+      "groupedBecause": "This passage explores factors that prevent the resolution of inflammation, such as aging, non-degradable particles, persistent pathogens, and autoimmunity.",
+      "startsWith": "As you get older, there's this process where your body"
+    },
+    {
+      "id": 16,
+      "label": "Granuloma formation as an evolved containment strategy",
+      "groupedBecause": "The lecturer explains how granulomas wall off chronic intracellular infections like tuberculosis to limit tissue destruction when clearance is impossible.",
+      "startsWith": "And then just the last slide I want to point"
+    },
+    {
+      "id": 17,
+      "label": "Closing and next lecture preview",
+      "groupedBecause": "The lecturer concludes the session and announces the topic for the subsequent lecture.",
+      "startsWith": "Okay, that's it for me. Next lecture is complements."
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture overview and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class and outlines the topics and learning outcomes for the lecture.",
+      "startsWith": "Okay. Good afternoon, everyone. Welcome to the fifth lecture of the Cancer"
+    },
+    {
+      "id": 2,
+      "label": "Clonal expansion and Darwinian selection in cancer development",
+      "groupedBecause": "The lecturer explains how successive genetic mutations confer a competitive growth advantage to clones in tissue spaces.",
+      "startsWith": "So, of course, a lot of the studies that we've done to date"
+    },
+    {
+      "id": 3,
+      "label": "Epigenetic plasticity in tumor initiation",
+      "groupedBecause": "The lecturer presents experimental evidence from Drosophila showing that transient epigenetic dysregulation alone can induce tumorigenesis.",
+      "startsWith": "But what about epigenetics? Epigenetics must also play a role, right?"
+    },
+    {
+      "id": 4,
+      "label": "Cell of origin and the cancer stem cell model",
+      "groupedBecause": "The lecturer explores stem cell hierarchies and evaluates evidence for cancer stem cells, focusing on leukemia.",
+      "startsWith": "So is the cell of origin also important? Is it important what"
+    },
+    {
+      "id": 5,
+      "label": "Bottom-up transformation in colorectal adenomas",
+      "groupedBecause": "The lecturer discusses mouse models comparing the effect of APC deletion in intestinal stem cells versus transit amplifying cells.",
+      "startsWith": "What about other cancers? What about cancers where the hierarchy, the"
+    },
+    {
+      "id": 6,
+      "label": "Environmental promoters and macrophage signaling in lung cancer",
+      "groupedBecause": "The lecturer describes how particulate pollution triggers macrophage IL-1B secretion to induce a stem-like state in mutant lung cells.",
+      "startsWith": "So let's come back to that eyelid example. So why do these"
+    },
+    {
+      "id": 7,
+      "label": "Chronic inflammation and K-RAS activation in intestinal transformation",
+      "groupedBecause": "The lecturer explains how chronic inflammation and mutant K-RAS cooperate with APC loss via NF-kappa B and beta-catenin to drive transformation in transit amplifying cells.",
+      "startsWith": "If this is happening in lung cancer, is this happening in other"
+    },
+    {
+      "id": 8,
+      "label": "Microenvironmental dependence of established tumors and therapeutic implications",
+      "groupedBecause": "The lecturer explains the requirement of stroma for established tumor growth and the therapeutic strategies targeting the tumor microenvironment.",
+      "startsWith": "So what about the established tumor? Because we know that in the"
+    },
+    {
+      "id": 9,
+      "label": "Technologies for investigating tumor evolution and microenvironment",
+      "groupedBecause": "The lecturer describes analytical methods including single-cell sequencing and spatial transcriptomics used to study tumor heterogeneity and cellular interactions.",
+      "startsWith": "And so how are we doing this? How can we investigate this in"
+    },
+    {
+      "id": 10,
+      "label": "Summary of multi-factor cancer evolution",
+      "groupedBecause": "The lecturer synthesizes how mutations, cell of origin, epigenetic plasticity, and the microenvironment converge in cancer development.",
+      "startsWith": "So we're at the situation, I think, where there are potentially multiple"
+    },
+    {
+      "id": 11,
+      "label": "Lecture closing",
+      "groupedBecause": "The lecturer concludes the session and previews the topic of the next lecture.",
+      "startsWith": "And with that, I will end today's lecture, and Monday we will"
+    }
+  ]
+}

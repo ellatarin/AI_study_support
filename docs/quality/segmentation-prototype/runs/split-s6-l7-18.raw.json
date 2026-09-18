@@ -1,0 +1,70 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the topic of cancer evolution and outlines the learning objectives for the session.",
+      "startsWith": "Okay. Good afternoon, everyone. Welcome to the fifth lecture of the"
+    },
+    {
+      "id": 2,
+      "label": "Clonal evolution and natural selection in cancer",
+      "groupedBecause": "The lecturer explains how tumors evolve through sequential mutations and clonal expansion, citing experimental evidence from esophagus and eyelid studies.",
+      "startsWith": "So, of course, a lot of the studies that we've done"
+    },
+    {
+      "id": 3,
+      "label": "Epigenetic alterations in tumor development",
+      "groupedBecause": "The lecturer discusses how transient disruption of epigenetic regulators like the polycomb repressive complex can initiate tumorigenesis independently of mutations.",
+      "startsWith": "But what about epigenetics? Epigenetics must also play a role, right?"
+    },
+    {
+      "id": 4,
+      "label": "Cell of origin and the cancer stem cell model",
+      "groupedBecause": "The lecturer explores whether tissue stem cells initiate cancers, comparing stem cell hallmarks and presenting evidence from leukemia models.",
+      "startsWith": "So is the cell of origin also important? Is it important"
+    },
+    {
+      "id": 5,
+      "label": "Bottom-up transformation in intestinal crypts",
+      "groupedBecause": "The lecturer explains how targeted APC deletion in intestinal LGR5-positive stem cells versus transit amplifying cells demonstrates bottom-up transformation.",
+      "startsWith": "What about other cancers? What about cancers where the hierarchy, the"
+    },
+    {
+      "id": 6,
+      "label": "Environmental promotion and microenvironment in lung cancer",
+      "groupedBecause": "The lecturer describes how particulate matter pollution induces macrophage IL-1B secretion, promoting a stem-like state in mutation-bearing lung cells.",
+      "startsWith": "So let's come back to that eyelid example. So why"
+    },
+    {
+      "id": 7,
+      "label": "Inflammation driving transformation of transit amplifying cells",
+      "groupedBecause": "The lecturer explains how chronic colitis or mutant KRAS can activate NF-kappa B and beta-catenin signaling to reprogram transit amplifying cells into adenomas.",
+      "startsWith": "So if this is happening in lung cancer, is this happening"
+    },
+    {
+      "id": 8,
+      "label": "Stromal dependency of established tumors and therapeutic targeting",
+      "groupedBecause": "The lecturer discusses how established tumors rely on their supportive microenvironment and how therapies target these stromal interactions.",
+      "startsWith": "So what about the established tumor? Because we know that in"
+    },
+    {
+      "id": 9,
+      "label": "Single-cell and spatial profiling technologies",
+      "groupedBecause": "The lecturer outlines experimental and computational methods, including single-cell sequencing and spatial transcriptomics and proteomics, used to study tumors.",
+      "startsWith": "And so how are we doing this? How can we"
+    },
+    {
+      "id": 10,
+      "label": "Multi-factorial model of cancer evolution",
+      "groupedBecause": "The lecturer synthesizes how mutations, cell of origin, epigenetic plasticity, and microenvironmental coevolution together drive malignant progression.",
+      "startsWith": "So we're at the situation, I think, where there are"
+    },
+    {
+      "id": 11,
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "The lecturer concludes the session and announces the topic for the upcoming lecture.",
+      "startsWith": "And with that, I will end today's lecture, and Monday"
+    }
+  ]
+}

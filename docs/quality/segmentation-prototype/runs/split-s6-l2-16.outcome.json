@@ -1,0 +1,15 @@
+{
+  "promptVersion": "s6",
+  "lecture": "l2",
+  "instance": "16",
+  "modelId": "google/gemini-3.7-flash",
+  "transcriptPath": "/Users/ellatarin/Lecture Notes/Biology of Disease/Pipeline processing/Lecture 2 - Complement on - 2025-10-17/Transcript/transcript.txt",
+  "seconds": 30,
+  "promptTokens": 8174,
+  "completionTokens": 4286,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": null,
+  "subtopics": 12,
+  "fidelity": "EXACT"
+}

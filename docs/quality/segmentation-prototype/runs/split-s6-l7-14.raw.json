@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "The lecturer welcomes the class, outlines the framework of cancer evolution and the microenvironment, and lists the learning outcomes for the session.",
+      "startsWith": "Okay. Good afternoon, everyone. Welcome to the fifth lecture of the Cancer"
+    },
+    {
+      "id": 2,
+      "label": "Clonal succession and Darwinian selection in cancer development",
+      "groupedBecause": "The lecturer explains how sequential genetic mutations confer selective growth advantages that drive clonal expansion in pre-neoplastic and normal tissues.",
+      "startsWith": "So, of course, a lot of the studies that we've done to date"
+    },
+    {
+      "id": 3,
+      "label": "Epigenetic plasticity in tumor initiation",
+      "groupedBecause": "The lecturer discusses experimental evidence from Drosophila showing that transient epigenetic alteration can drive tumor formation without permanent genetic mutations.",
+      "startsWith": "But what about epigenetics? Epigenetics must also play a role, right?"
+    },
+    {
+      "id": 4,
+      "label": "Cell of origin and the cancer stem cell model",
+      "groupedBecause": "The lecturer examines the hierarchy of tissue differentiation, comparing stem cell properties to cancer cells and presenting experimental evidence from leukemia and intestinal crypts.",
+      "startsWith": "So is the cell of origin also important? Is it important what cell"
+    },
+    {
+      "id": 5,
+      "label": "Microenvironmental and inflammatory promotion of incipient tumors",
+      "groupedBecause": "The lecturer explains why mutations alone are insufficient for malignant progression and details how inflammatory signals promote stem-like transformation in mutant lung and intestinal cells.",
+      "startsWith": "So let's come back to that eyelid example. So why do these cells"
+    },
+    {
+      "id": 6,
+      "label": "Stromal codependency in established tumors and therapeutic targets",
+      "groupedBecause": "The lecturer describes the dependency of established tumors on supportive stromal cells and how targeting this microenvironment informs modern cancer therapies.",
+      "startsWith": "So what about the established tumor? Because we know that in the established"
+    },
+    {
+      "id": 7,
+      "label": "Technologies for investigating tumor evolution and spatial biology",
+      "groupedBecause": "The lecturer reviews the experimental tools, sequencing methods, mathematical modeling, and spatial omics used to analyze tumor heterogeneity and cellular interactions.",
+      "startsWith": "And so how are we doing this? How can we investigate this in"
+    },
+    {
+      "id": 8,
+      "label": "Synthesis of evolutionary, cellular, and microenvironmental factors in cancer",
+      "groupedBecause": "The lecturer synthesizes the lecture's core themes into a unified model where cancer arises from the convergence of genetic fitness, cellular state, and permissive microenvironments.",
+      "startsWith": "So we're at the situation, I think, where there are potentially multiple routes"
+    },
+    {
+      "id": 9,
+      "label": "Lecture closing",
+      "groupedBecause": "The lecturer delivers a brief closing statement and announces the topic of the upcoming lecture.",
+      "startsWith": "And with that, I will end today's lecture, and Monday we will"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture framing",
+      "groupedBecause": "The lecturer introduces the topic of complement, compares its complexity to the Krebs cycle, and sets expectations for the session.",
+      "startsWith": "Welcome to today's lecture. Today's lecture is on complement. Is anyone"
+    },
+    {
+      "id": 2,
+      "label": "Overview and primary functions of complement",
+      "groupedBecause": "This section outlines the general nature of complement proteins in serum and summarizes the main effector and janitorial functions of complement activation.",
+      "startsWith": "So, let's start. This is an overview of complement. If you"
+    },
+    {
+      "id": 3,
+      "label": "Complement nomenclature conventions",
+      "groupedBecause": "The lecturer explains the historical naming conventions, numbering quirks, and cleavage fragment designations of complement components.",
+      "startsWith": "Now, a word on the naming. And this is important because"
+    },
+    {
+      "id": 4,
+      "label": "C3 activation and reactive properties",
+      "groupedBecause": "This passage focuses on complement component C3 as the central fulcrum of the cascade, detailing its cleavage into C3a and reactive C3b.",
+      "startsWith": "Now, the really key thing that you really should remember is"
+    },
+    {
+      "id": 5,
+      "label": "The alternative pathway of complement activation",
+      "groupedBecause": "The lecturer details the steps of the alternative pathway from spontaneous fluid phase convertase formation to surface convertase amplification.",
+      "startsWith": "So let's go to this slide, and we're going to start"
+    },
+    {
+      "id": 6,
+      "label": "The lectin pathway of complement activation",
+      "groupedBecause": "This section explains how pattern recognition by mannose-binding lectin triggers C4 and C2 cleavage to assemble the classical convertase.",
+      "startsWith": "Now, if we go to the lectin pathway, the lectin"
+    },
+    {
+      "id": 7,
+      "label": "The classical pathway and activation threshold",
+      "groupedBecause": "The lecturer explains antibody-dependent C1 activation and how converging pathways must exceed a local clearance threshold to trigger downstream effects.",
+      "startsWith": "Now, the third pathway to recognize a pathogen by complement is"
+    },
+    {
+      "id": 8,
+      "label": "Downstream effector mechanisms of complement",
+      "groupedBecause": "This section describes the three main effector outcomes of complement activation: opsonization, inflammation, and membrane attack complex lysis.",
+      "startsWith": "So how about the effector functions? So I mentioned at the"
+    },
+    {
+      "id": 9,
+      "label": "Host cell regulation and complement inhibitors",
+      "groupedBecause": "The lecturer details the regulatory proteins that protect host tissues from unintended complement attack, including properdin, Factor I, MCP, Factor H, DAF, and protectin.",
+      "startsWith": "So that's how complement works. That's how complement destroys bacteria"
+    },
+    {
+      "id": 10,
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This section surveys the distinct clinical presentations, susceptibility to infections, and autoimmune manifestations resulting from specific complement protein deficiencies.",
+      "startsWith": "Now, I mentioned at the start that for med students here,"
+    },
+    {
+      "id": 11,
+      "label": "Pathogen evasion mechanisms and Staphylococcus aureus",
+      "groupedBecause": "The lecturer examines evolutionary evasion strategies developed by pathogens to counter complement, focusing on the specific mechanisms and practical uses of Staphylococcus aureus proteins.",
+      "startsWith": "Now, the other thing that's quite interesting about complement, and"
+    },
+    {
+      "id": 12,
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "The lecturer wraps up the session and previews the subsequent lecture on the adaptive immune system.",
+      "startsWith": "Okay. So I think, with that, we can finish up"
+    }
+  ]
+}

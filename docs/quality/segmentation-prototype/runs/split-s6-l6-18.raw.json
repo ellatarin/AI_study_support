@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "The lecturer introduces the topic of the lecture, reviews learning outcomes, and frames the discussion around Hanahan and Weinberg's hallmarks of cancer.",
+      "startsWith": "So unfortunately, I'm going to have to start now."
+    },
+    {
+      "id": 2,
+      "label": "Growth signal autonomy and insensitivity to anti-growth signals",
+      "groupedBecause": "The lecturer explains how mutations in signaling pathways like Wnt/beta-catenin, RTK/Ras/PI3K, and TGF-beta drive cell proliferation and survival.",
+      "startsWith": "So we'll start with these first two, independence for growth stimulation"
+    },
+    {
+      "id": 3,
+      "label": "Differentiation block in hematopoiesis and colorectal cancer",
+      "groupedBecause": "The lecturer explains how cancer cells evade terminal differentiation, illustrating the concept with leukemias and colorectal crypt biology.",
+      "startsWith": "So we'll move on to something that is slightly less evident"
+    },
+    {
+      "id": 4,
+      "label": "Resistance to apoptosis and p53 regulation",
+      "groupedBecause": "The lecturer details the mechanisms by which tumors resist programmed cell death through alterations in p53, Bax, and BCL2 signaling.",
+      "startsWith": "Okay? So we're going to move on to resistance to apoptosis."
+    },
+    {
+      "id": 5,
+      "label": "Replicative immortality and telomere maintenance",
+      "groupedBecause": "The lecturer explains how tumors bypass the Hayflick limit and cellular senescence through TERT upregulation and telomere maintenance.",
+      "startsWith": "So the last one that I will talk about or hallmark"
+    },
+    {
+      "id": 6,
+      "label": "Metabolic reprogramming and the Warburg effect",
+      "groupedBecause": "The lecturer examines altered tumor metabolism, focusing on aerobic glycolysis and the epigenetic impact of oncometabolites.",
+      "startsWith": "Okay. So we'll move on to metabolism, because this is"
+    },
+    {
+      "id": 7,
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "The lecturer explains the requirement, timing, and regulatory balance of angiogenesis in supporting tumor growth and perfusion.",
+      "startsWith": "Similarly for angiogenesis, right, in terms of what that does"
+    },
+    {
+      "id": 8,
+      "label": "Metastatic cascade and clonal dissemination",
+      "groupedBecause": "The lecturer details the multi-step process of metastasis, diagnostic monitoring via lymph nodes and CTCs, and the genetic features of metastatic cells.",
+      "startsWith": "Okay, so onto the last one. And I'll just"
+    },
+    {
+      "id": 9,
+      "label": "Conclusion and practical housekeeping",
+      "groupedBecause": "The lecturer summarizes the overarching themes of cancer hallmarks, references recent literature, and concludes the lecture.",
+      "startsWith": "So what I also wanted to say and just finish"
+    }
+  ]
+}

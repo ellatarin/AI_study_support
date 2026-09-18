@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Course closing and lecture introduction",
+      "groupedBecause": "The lecturer welcomes students to the final course session and outlines the learning outcomes for the lecture on cancer therapy.",
+      "startsWith": "Okay, good afternoon, everyone. Welcome to your last"
+    },
+    {
+      "id": 2,
+      "label": "Surgical resection and radiotherapy",
+      "groupedBecause": "The lecturer explains physical approaches to removing or destroying localized tumors using surgery and targeted radiotherapy, highlighting the importance of early detection.",
+      "startsWith": "So cancer therapy. It's actually really easy to"
+    },
+    {
+      "id": 3,
+      "label": "Cytotoxic chemotherapy and drug resistance",
+      "groupedBecause": "The lecturer outlines the mechanisms of cytotoxic chemotherapy drugs, their systemic toxicities, and the role of multidrug resistance efflux pumps.",
+      "startsWith": "Of course, the next line of defense is cytotoxic"
+    },
+    {
+      "id": 4,
+      "label": "Targeting hormone-dependent signaling pathways",
+      "groupedBecause": "The lecturer introduces targeted therapy by discussing how receptor antagonists block hormone-dependent growth signaling in breast and prostate cancers.",
+      "startsWith": "So where are we moving to these days? I"
+    },
+    {
+      "id": 5,
+      "label": "Exploiting cell cycle checkpoint defects",
+      "groupedBecause": "The lecturer explains how checkpoint deficiencies in cancer cells can be exploited therapeutically using DNA damage and p53-selective oncolytic adenoviruses.",
+      "startsWith": "What about those cell cycle checkpoint defects? Well, of"
+    },
+    {
+      "id": 6,
+      "label": "Synthetic lethality with PARP inhibitors",
+      "groupedBecause": "The lecturer describes the synthetic lethal mechanism of using PARP inhibitors to selectively kill cancer cells lacking BRCA-mediated homologous recombination repair.",
+      "startsWith": "What about genetic instability? We know some cancers are"
+    },
+    {
+      "id": 7,
+      "label": "Kinase inhibitors and ATP binding pocket mutations",
+      "groupedBecause": "The lecturer explains the design of small-molecule inhibitors targeting oncogenic kinases and the development of resistance via gatekeeper pocket mutations.",
+      "startsWith": "So we can exploit cancer cell properties. We can"
+    },
+    {
+      "id": 8,
+      "label": "Pathway bypass, drug addiction, and metronomic dosing",
+      "groupedBecause": "The lecturer explores mechanisms of resistance to BRAF inhibitors, including pathway bypass, paradoxically driven drug addiction, and intermittent dosing strategies.",
+      "startsWith": "Now, resistance can develop by a number of other"
+    },
+    {
+      "id": 9,
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "The lecturer details how therapeutic monoclonal antibodies trigger immune effector mechanisms or deliver targeted cytotoxic payloads to antigen-expressing tumor cells.",
+      "startsWith": "What are the other options? Well, the immune system."
+    },
+    {
+      "id": 10,
+      "label": "Evidence for immune surveillance in cancer",
+      "groupedBecause": "The lecturer examines experimental and clinical evidence regarding immune surveillance and the role of adaptive immunity in viral versus non-viral cancers.",
+      "startsWith": "So we can use targeted agents, we can use"
+    },
+    {
+      "id": 11,
+      "label": "Immune checkpoint inhibition and neoantigens",
+      "groupedBecause": "The lecturer explains how blocking inhibitory receptors like CTLA-4 reactivates exhausted T cells against tumor neoantigens alongside the management of immune toxicities.",
+      "startsWith": "But of course, the proof is in the pudding,"
+    },
+    {
+      "id": 12,
+      "label": "BiTEs and CAR T-cell therapies",
+      "groupedBecause": "The lecturer covers engineered cell-based immunotherapies, comparing bispecific T-cell engagers and chimeric antigen receptor T cells along with their clinical limitations.",
+      "startsWith": "What other immunotherapy approaches are there? Well, there are"
+    },
+    {
+      "id": 13,
+      "label": "Future challenges and combination therapy in leukemia",
+      "groupedBecause": "The lecturer reflects on systemic challenges in oncology such as biomarkers and tumor heterogeneity, concluding with the historical success and dilemmas of combination chemotherapy in childhood leukemia.",
+      "startsWith": "So cancer therapy has many challenges. Most therapies only"
+    }
+  ]
+}

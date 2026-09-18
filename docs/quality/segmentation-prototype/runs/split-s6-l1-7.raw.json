@@ -1,0 +1,112 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer introduces the lecture topic on the initiation and resolution of inflammation and outlines how previously learned concepts will be integrated.",
+      "startsWith": "Hi, everyone. Can everyone hear me okay? Super. Welcome back"
+    },
+    {
+      "id": 2,
+      "label": "Innate pathogen recognition via PAMPs and DAMPs",
+      "groupedBecause": "This section explains how the innate immune system detects infections and tissue damage through pathogen-associated and damage-associated molecular patterns.",
+      "startsWith": "Now, the key to an immune reaction is, first of"
+    },
+    {
+      "id": 3,
+      "label": "Properties of effective PAMPs and self versus non-self discrimination",
+      "groupedBecause": "The lecturer discusses the evolutionary criteria that make microbial molecules effective PAMPs and how they enable distinguishing self from non-self.",
+      "startsWith": "So what makes a good PAMP? We want to"
+    },
+    {
+      "id": 4,
+      "label": "Pattern recognition receptors and subcellular localization",
+      "groupedBecause": "This passage describes the germline encoding of PRRs and why their placement in specific cellular compartments corresponds to pathogen types.",
+      "startsWith": "So the pattern recognition receptors, these are what detect the"
+    },
+    {
+      "id": 5,
+      "label": "Toll-like receptors structure and classes",
+      "groupedBecause": "The lecturer introduces toll-like receptors, their discovery in Drosophila, and their structural and functional diversity in humans.",
+      "startsWith": "Now, the most important class of PRRs, and the"
+    },
+    {
+      "id": 6,
+      "label": "TLR signaling pathways and stress synergy",
+      "groupedBecause": "This section explains how surface and endosomal TLR signaling cascades activate transcription factors and synergize with cellular stress pathways.",
+      "startsWith": "Now, when it comes to the signaling system, the"
+    },
+    {
+      "id": 7,
+      "label": "Non-TLR pattern recognition receptor families",
+      "groupedBecause": "The lecturer highlights other PRR families including C-type lectins, RIG-I-like receptors, and Nod-like receptors such as Nod-2.",
+      "startsWith": "Now, toll-like receptors are very important, but they're not"
+    },
+    {
+      "id": 8,
+      "label": "The inflammasome pathway and IL-1 beta processing",
+      "groupedBecause": "This section describes the assembly of the NLRP3 inflammasome, caspase-1 activation, and the two-signal regulation of pro-inflammatory cytokines like IL-1 beta.",
+      "startsWith": "Now, another key pathway is the inflammasome pathway. These"
+    },
+    {
+      "id": 9,
+      "label": "Sentinel cell activation and mediator release",
+      "groupedBecause": "The lecturer details how sentinel cells, specifically mast cells and macrophages, sense danger and coordinate local versus systemic inflammatory responses.",
+      "startsWith": "Now, the key cells that activate are the sentinel"
+    },
+    {
+      "id": 10,
+      "label": "Leukocyte recruitment and extravasation cascade",
+      "groupedBecause": "This passage covers the multi-step process of leukocyte rolling, firm adhesion, extravasation across endothelial barriers, and chemotactic migration.",
+      "startsWith": "Now, one of the effects of the immediate inflammation"
+    },
+    {
+      "id": 11,
+      "label": "Molecular integration of local inflammatory response",
+      "groupedBecause": "The lecturer synthesizes the preceding steps into a comprehensive overview of how pathogen entry triggers sentinel cells, endothelial adhesion, and cell recruitment.",
+      "startsWith": "So what we've just done here is put some"
+    },
+    {
+      "id": 12,
+      "label": "Dendritic cell migration and lymphatic drainage",
+      "groupedBecause": "This section explains how dendritic cells migrate via the lymphatic system to lymph nodes to prime adaptive immunity and how fluid balance is maintained.",
+      "startsWith": "Now, I do want to mention that we've been"
+    },
+    {
+      "id": 13,
+      "label": "Detrimental systemic inflammation and septic shock",
+      "groupedBecause": "The lecturer describes the pathophysiology, triggers, and severe clinical consequences of excessive systemic cytokine release and septic shock.",
+      "startsWith": "Now, the other thing to mention here is we've"
+    },
+    {
+      "id": 14,
+      "label": "Passive and active mechanisms of inflammatory resolution",
+      "groupedBecause": "This passage explains how inflammation resolves through passive decay of short-lived mediators and active anti-inflammatory cytokine and lipid mediator switching.",
+      "startsWith": "So this brings us to the final slides of the"
+    },
+    {
+      "id": 15,
+      "label": "Tissue repair, granulation, and macrophage remodeling",
+      "groupedBecause": "The lecturer explains the formation of granulation tissue, extracellular matrix synthesis by fibroblasts, and the janitorial repair functions of M2 macrophages.",
+      "startsWith": "Now, just the final point I want to talk"
+    },
+    {
+      "id": 16,
+      "label": "Chronic inflammation and inflammaging",
+      "groupedBecause": "This section examines why tissues fail to return to homeostasis, exploring aging-related inflammation and persistent drivers such as ulcers, foreign particles, and autoimmunity.",
+      "startsWith": "And in many cases, this is enough. So in"
+    },
+    {
+      "id": 17,
+      "label": "Granuloma formation as a protective containment response",
+      "groupedBecause": "The lecturer discusses how granulomas evolved as an active containment strategy to wall off persistent intracellular pathogens like Mycobacterium tuberculosis.",
+      "startsWith": "And then just the last slide I want to point"
+    },
+    {
+      "id": 18,
+      "label": "Lecture conclusion and next topic announcement",
+      "groupedBecause": "The lecturer concludes the session and announces the subject of the upcoming lecture.",
+      "startsWith": "Okay, that's it for me. Next lecture is complements."
+    }
+  ]
+}

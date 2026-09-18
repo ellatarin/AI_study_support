@@ -1,0 +1,70 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer welcomes the class, reviews previous concepts, and outlines the learning objectives regarding cancer evolution and the microenvironment.",
+      "startsWith": "Okay. Good afternoon, everyone. Welcome to the fifth lecture of the Cancer"
+    },
+    {
+      "id": 2,
+      "label": "Clonal succession and Darwinian selection in cancer development",
+      "groupedBecause": "The lecturer explains how sequential driver mutations confer competitive fitness advantages to cellular clones using pre-neoplastic staging, mouse esophageal tracking, and human eyelid sequencing studies.",
+      "startsWith": "So, of course, a lot of the studies that we've done"
+    },
+    {
+      "id": 3,
+      "label": "Epigenetic alterations and chromatin state in tumor initiation",
+      "groupedBecause": "The lecturer explores how transient loss of epigenetic repression can open chromatin and trigger tumorigenesis in the absence of genetic mutations.",
+      "startsWith": "But what about epigenetics? Epigenetics must also play a role, right?"
+    },
+    {
+      "id": 4,
+      "label": "Cell of origin and the cancer stem cell model",
+      "groupedBecause": "The lecturer compares normal stem cell hierarchy properties to cancer development models and reviews evidence for cancer stem cells from leukemia transplantation studies.",
+      "startsWith": "So is the cell of origin also important? Is it important"
+    },
+    {
+      "id": 5,
+      "label": "Bottom-up transformation in intestinal crypt stem cells",
+      "groupedBecause": "The lecturer demonstrates bottom-up transformation in colorectal cancer where targeting APC mutations to LGR5-positive crypt stem cells, rather than transit-amplifying cells, generates adenomas.",
+      "startsWith": "What about other cancers? What about cancers where the hierarchy,"
+    },
+    {
+      "id": 6,
+      "label": "Permissive microenvironments and inflammatory promotion in lung cancer",
+      "groupedBecause": "The lecturer discusses how environmental promoters such as air pollution trigger macrophage-derived IL-1B signaling that permits mutant cells to acquire stem-like malignancy.",
+      "startsWith": "So let's come back to that eyelid example. So why do"
+    },
+    {
+      "id": 7,
+      "label": "Inflammation-induced stemness and transformation in progenitor cells",
+      "groupedBecause": "The lecturer explains how chronic colitis or K-RAS signaling induces NF-kappa B and beta-catenin activation to confer stemness and drive adenoma formation from transit-amplifying cells.",
+      "startsWith": "So if this is happening in lung cancer, is this happening"
+    },
+    {
+      "id": 8,
+      "label": "Microenvironmental dependence in established tumors and therapeutic targeting",
+      "groupedBecause": "The lecturer examines the requirement of stromal and inflammatory support for established tumor growth and describes therapeutic strategies aimed at the tumor microenvironment.",
+      "startsWith": "So what about the established tumor? Because we know that in"
+    },
+    {
+      "id": 9,
+      "label": "Methodologies for investigating tumor evolution and spatial biology",
+      "groupedBecause": "The lecturer reviews modern experimental tools including single-cell sequencing, spatial transcriptomics, and spatial proteomics used to analyze tumor heterogeneity and cellular interactions.",
+      "startsWith": "And so how are we doing this? How can we investigate"
+    },
+    {
+      "id": 10,
+      "label": "Multifactorial synthesis of cancer evolution",
+      "groupedBecause": "The lecturer synthesizes how cell of origin, mutational burden, microenvironmental triggers, and transcriptional plasticity interact to shape cancer evolution.",
+      "startsWith": "So we're at the situation, I think, where there are"
+    },
+    {
+      "id": 11,
+      "label": "Lecture conclusion and outlook",
+      "groupedBecause": "The lecturer concludes the session and previews the topic for the next lecture.",
+      "startsWith": "And with that, I will end today's lecture, and Monday"
+    }
+  ]
+}

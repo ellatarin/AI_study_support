@@ -1,0 +1,118 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "The lecturer welcomes the students to the final BOD lecture and outlines the core learning objectives concerning cancer therapy.",
+      "startsWith": "Okay, good afternoon, everyone. Welcome to your last BOD lecture."
+    },
+    {
+      "id": 2,
+      "label": "The selectivity challenge, surgery, and radiotherapy",
+      "groupedBecause": "The lecturer explains the fundamental problem of non-specific cell killing and discusses localized interventions through surgery and radiotherapy.",
+      "startsWith": "So cancer therapy. It's actually really easy to kill cancer cells,"
+    },
+    {
+      "id": 3,
+      "label": "Cytotoxic chemotherapy classes and mechanisms",
+      "groupedBecause": "The lecturer outlines the major classes of cytotoxic chemotherapy drugs and the specific DNA-damaging mechanisms they employ.",
+      "startsWith": "Of course, the next line of defense is cytotoxic chemotherapy, and"
+    },
+    {
+      "id": 4,
+      "label": "Toxicity and resistance limitations of cytotoxic chemotherapy",
+      "groupedBecause": "The lecturer details the clinical limitations of cytotoxic agents, including systemic toxicity and multidrug resistance mediated by efflux pumps.",
+      "startsWith": "But as I said, they do have their problems. One"
+    },
+    {
+      "id": 5,
+      "label": "Targeted hormone receptor blockade in cancer",
+      "groupedBecause": "The lecturer introduces targeted therapy by discussing the inhibition of hormone signaling pathways in breast and prostate cancers.",
+      "startsWith": "So where are we moving to these days? I think"
+    },
+    {
+      "id": 6,
+      "label": "Exploiting cell cycle checkpoint deficiencies with radiation",
+      "groupedBecause": "The lecturer explains how cancer cell defects in checkpoint proteins like p21 sensitize tumors to radiation-induced apoptosis.",
+      "startsWith": "What about those cell cycle checkpoint defects? Well, of course,"
+    },
+    {
+      "id": 7,
+      "label": "Oncolytic adenoviruses targeting p53-deficient cells",
+      "groupedBecause": "The lecturer describes the mechanism of engineered oncolytic adenoviruses that replicate selectively within p53-mutant tumor cells.",
+      "startsWith": "And another thing that's been done to exploit cells that"
+    },
+    {
+      "id": 8,
+      "label": "Synthetic lethality using PARP inhibitors in BRCA-mutant tumors",
+      "groupedBecause": "The lecturer explains the principle of synthetic lethality where inhibiting PARP causes lethal double-strand breaks in BRCA-deficient cells.",
+      "startsWith": "What about genetic instability? We know some cancers are genetically"
+    },
+    {
+      "id": 9,
+      "label": "Oncogene addiction and molecular classification of tumors",
+      "groupedBecause": "The lecturer introduces the concept of oncogene addiction and the paradigm shift toward classifying and treating cancers by their driving genetic mutations.",
+      "startsWith": "So we can exploit cancer cell properties. We can exploit"
+    },
+    {
+      "id": 10,
+      "label": "Targeting hyperactivated kinases with ATP-competitive inhibitors",
+      "groupedBecause": "The lecturer explains how oncogenic kinase fusions and amplifications occur and how small-molecule drugs inhibit their ATP-binding pockets.",
+      "startsWith": "But kinases are particularly targetable, and there are many kinases"
+    },
+    {
+      "id": 11,
+      "label": "Kinase inhibitor cross-reactivity and gatekeeper resistance mutations",
+      "groupedBecause": "The lecturer covers the structural similarities causing off-target kinase inhibition and the emergence of steric resistance mutations like T315I.",
+      "startsWith": "However, one of the issues with kinase inhibitors is that"
+    },
+    {
+      "id": 12,
+      "label": "Pathway bypass, BRAF inhibition, and drug addiction",
+      "groupedBecause": "The lecturer describes bypass resistance mechanisms against BRAF inhibitors, the phenomenon of drug addiction, and the rationale for drug holidays.",
+      "startsWith": "Now, resistance can develop by a number of other mechanisms"
+    },
+    {
+      "id": 13,
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "The lecturer explains how chimeric monoclonal antibodies and targeted antibody-drug conjugates direct cytotoxicity against cell surface antigens.",
+      "startsWith": "What are the other options? Well, the immune system. We"
+    },
+    {
+      "id": 14,
+      "label": "Clinical evidence for immune surveillance against cancer",
+      "groupedBecause": "The lecturer reviews clinical and historical evidence from immunosuppressed and thymectomised patients to assess the immune system's baseline anti-tumor role.",
+      "startsWith": "So we can use targeted agents, we can use antibodies,"
+    },
+    {
+      "id": 15,
+      "label": "Immune checkpoint inhibitors and neoantigen targeting",
+      "groupedBecause": "The lecturer explains checkpoint blockade targeting CTLA4 and PD-1, its clinical toxicities, and the role of tumor mutational burden in generating neoantigens.",
+      "startsWith": "And of course, you touched upon this in your immunology"
+    },
+    {
+      "id": 16,
+      "label": "Bispecific T-cell engagers and CAR T-cell therapies",
+      "groupedBecause": "The lecturer discusses advanced immunotherapeutic platforms that redirect T cells against tumor antigens, highlighting their manufacture and clinical challenges.",
+      "startsWith": "What other immunotherapy approaches are there? Well, there are CAR"
+    },
+    {
+      "id": 17,
+      "label": "Therapeutic hurdles, tumor heterogeneity, and genomic profiling",
+      "groupedBecause": "The lecturer summarizes the challenges of drug resistance, tumor heterogeneity, and the integration of genomic sequencing into personalized treatment selection.",
+      "startsWith": "So cancer therapy has many challenges. Most therapies only work"
+    },
+    {
+      "id": 18,
+      "label": "Historical progress, cancer prevention, and future paradigms",
+      "groupedBecause": "The lecturer reviews historical trends in cancer incidence and survival while discussing the future importance of early detection, prevention, and vaccines.",
+      "startsWith": "So has therapy improved in the last 50 to 70"
+    },
+    {
+      "id": 19,
+      "label": "Pediatric leukemia success and trial ethics dilemmas",
+      "groupedBecause": "The lecturer contrasts the curative success of combination cytotoxic chemotherapy in childhood leukemia with the ethical dilemma of trialing new targeted therapies.",
+      "startsWith": "But I'm going to end with a success story of"
+    }
+  ]
+}

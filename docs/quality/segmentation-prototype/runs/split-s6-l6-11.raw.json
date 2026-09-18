@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction to the hallmarks of cancer framework",
+      "groupedBecause": "The lecturer outlines the learning outcomes, previous lecture context, and the Hanahan and Weinberg hallmarks framework.",
+      "startsWith": "So unfortunately, I'm going to have to start now."
+    },
+    {
+      "id": 2,
+      "label": "Growth signal independence and insensitivity to antigrowth signals",
+      "groupedBecause": "The lecturer explains how mutations in signaling cascades such as Wnt/beta-catenin, RTK/Ras/MAPK, PI3K/AKT, and TGF-beta drive cell proliferation and survival.",
+      "startsWith": "So we'll start with these first two, independence for growth"
+    },
+    {
+      "id": 3,
+      "label": "Differentiation block in leukemias and colorectal carcinoma",
+      "groupedBecause": "The lecturer explains how failure of cancer cells to complete terminal differentiation promotes malignancy across hematopoietic diseases and intestinal crypt epithelium.",
+      "startsWith": "So we'll move on to something that is slightly less"
+    },
+    {
+      "id": 4,
+      "label": "Evading apoptosis and the p53 pathway",
+      "groupedBecause": "The lecturer details the mechanisms by which tumors resist programmed cell death through p53, Bax, and BCL2 signaling at the mitochondrial membrane.",
+      "startsWith": "So we're going to move on to resistance to apoptosis."
+    },
+    {
+      "id": 5,
+      "label": "Replicative immortality, telomeres, and senescence",
+      "groupedBecause": "The lecturer discusses how cancer cells bypass the Hayflick limit and senescence by upregulating telomerase through TERT promoter mutations and rearrangements.",
+      "startsWith": "So the last one that I will talk about or"
+    },
+    {
+      "id": 6,
+      "label": "Deregulating cellular metabolism and oncometabolites",
+      "groupedBecause": "The lecturer explains the Warburg effect, aerobic glycolysis, Krebs cycle enzyme mutations, and the epigenetic consequences of oncometabolites.",
+      "startsWith": "So we'll move on to metabolism, because this is a"
+    },
+    {
+      "id": 7,
+      "label": "Inducing angiogenesis and the angiogenic switch",
+      "groupedBecause": "The lecturer discusses the requirement of blood vessel recruitment for tumor survival, its timing in premalignant stages, and the balance of activators and inhibitors.",
+      "startsWith": "Similarly for angiogenesis, right, in terms of what that does"
+    },
+    {
+      "id": 8,
+      "label": "Activating invasion and metastasis",
+      "groupedBecause": "The lecturer details the metastatic cascade, lymph node sampling, organ tropism, circulating tumor cells, and the seed and soil hypothesis.",
+      "startsWith": "Okay, so onto the last one. And I'll just"
+    },
+    {
+      "id": 9,
+      "label": "Closing summary and concluding remarks",
+      "groupedBecause": "The lecturer concludes the session with reference to recent hallmark literature updates and upcoming practicals.",
+      "startsWith": "So what I also wanted to say and just finish"
+    }
+  ]
+}

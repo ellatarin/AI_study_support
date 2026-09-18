@@ -1,0 +1,88 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction to complement and lecture overview",
+      "groupedBecause": "The lecturer introduces complement, explains its reputation for complexity, and frames its importance in immunology.",
+      "startsWith": "Welcome to today's lecture. Today's lecture is on complement."
+    },
+    {
+      "id": 2,
+      "label": "Overview of complement stages and functions",
+      "groupedBecause": "The lecturer outlines the three stages of complement action and summarizes its major protective and janitorial functions.",
+      "startsWith": "So, let's start. This is an overview of complement."
+    },
+    {
+      "id": 3,
+      "label": "Nomenclature of the complement cascade",
+      "groupedBecause": "The lecturer explains the historical numbering conventions, numerical anomalies, and cleavage fragment naming rules in complement.",
+      "startsWith": "Now, a word on the naming. And this is important because"
+    },
+    {
+      "id": 4,
+      "label": "Central role and properties of C3",
+      "groupedBecause": "The lecturer explains how C3 serves as the central fulcrum of the system and details the biochemical actions of its C3b and C3a cleavage products.",
+      "startsWith": "Now, the really key thing that you really should remember is"
+    },
+    {
+      "id": 5,
+      "label": "Alternative pathway of complement activation",
+      "groupedBecause": "The lecturer introduces the three activation pathways and details the fluid-phase and surface-bound mechanics of the alternative pathway.",
+      "startsWith": "So let's go to this slide, and we're going to"
+    },
+    {
+      "id": 6,
+      "label": "Lectin pathway of complement activation",
+      "groupedBecause": "The lecturer explains how mannose-binding lectin recognizes microbial sugars and generates the classical C3 convertase.",
+      "startsWith": "Now, if we go to the lectin pathway, the lectin"
+    },
+    {
+      "id": 7,
+      "label": "Classical pathway and the activation threshold",
+      "groupedBecause": "The lecturer describes antibody-mediated activation via C1 and explains how converging pathways must reach a localized concentration threshold.",
+      "startsWith": "Now, the third pathway to recognize a pathogen by complement is"
+    },
+    {
+      "id": 8,
+      "label": "Effector functions: Opsonization and inflammation",
+      "groupedBecause": "The lecturer explains how C3b and C5a coordinate phagocytic uptake and how C3a promotes generalized immune cell recruitment.",
+      "startsWith": "So how about the effector functions? So I mentioned at the"
+    },
+    {
+      "id": 9,
+      "label": "Effector functions: Membrane attack complex and lysis",
+      "groupedBecause": "The lecturer explains the assembly of the C5b-9 membrane attack complex pore and explains why its lytic action is effective against only certain pathogen types.",
+      "startsWith": "And then the third pathway is that of lysis of the"
+    },
+    {
+      "id": 10,
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "The lecturer describes how host regulatory proteins like factor I, MCP, Factor H, DAF, and protectin prevent complement-mediated self-destruction.",
+      "startsWith": "And then this brings up the question of why isn't it"
+    },
+    {
+      "id": 11,
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "The lecturer reviews the differing disease risks, infections, and autoimmune manifestations associated with specific complement protein deficiencies.",
+      "startsWith": "Now, I mentioned at the start that for med students here,"
+    },
+    {
+      "id": 12,
+      "label": "Pathogen evasion mechanisms and Staphylococcus aureus",
+      "groupedBecause": "The lecturer discusses general microbial evasion strategies and details the multi-step complement evasion mechanisms employed by Staphylococcus aureus.",
+      "startsWith": "Now, the other thing that's quite interesting about complement, and"
+    },
+    {
+      "id": 13,
+      "label": "Medical and laboratory applications of Protein A",
+      "groupedBecause": "The lecturer explains how staphylococcal protein A is applied clinically for serum antibody depletion and experimentally for antibody purification.",
+      "startsWith": "Now, we actually use protein A by Staphylococcus in a few"
+    },
+    {
+      "id": 14,
+      "label": "Lecture wrap-up and next session preview",
+      "groupedBecause": "The lecturer concludes the lecture and announces the upcoming session on the adaptive immune system.",
+      "startsWith": "Okay. So I think, with that, we can finish up"
+    }
+  ]
+}

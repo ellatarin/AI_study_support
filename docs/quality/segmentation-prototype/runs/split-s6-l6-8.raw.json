@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and overview of the hallmarks of cancer",
+      "groupedBecause": "The lecturer frames the session by reviewing prior content, presenting the learning outcomes, and introducing the Hanahan and Weinberg hallmarks of cancer framework.",
+      "startsWith": "So unfortunately, I'm going to have to start now. Otherwise, I'm going to"
+    },
+    {
+      "id": 2,
+      "label": "Growth signal autonomy and evading growth suppressors",
+      "groupedBecause": "This section examines mutations in signaling cascades including Wnt/beta-catenin, RTK/Ras/MAPK, PI3K/AKT, and TGF-beta that promote sustained proliferation and cell survival.",
+      "startsWith": "So we'll start with these first two, independence for growth stimulation and"
+    },
+    {
+      "id": 3,
+      "label": "Differentiation block in cancer progression",
+      "groupedBecause": "The lecturer explains how cancer cells can be blocked from terminal differentiation, illustrating the phenomenon in both hematopoietic leukemias and intestinal crypt-villus architecture.",
+      "startsWith": "So we'll move on to something that is slightly less evident"
+    },
+    {
+      "id": 4,
+      "label": "Resistance to apoptosis and p53 pathway regulation",
+      "groupedBecause": "This passage describes the mechanisms cancer cells use to resist programmed cell death through p53 pathway disruptions and the balance between pro-apoptotic Bax and anti-apoptotic BCL2.",
+      "startsWith": "So we're going to move on to resistance to apoptosis. God, I"
+    },
+    {
+      "id": 5,
+      "label": "Replicative immortality, telomeres, and senescence",
+      "groupedBecause": "The discussion covers the Hayflick limit, telomere shortening, TERT activation mechanisms, and how cells bypass senescence to achieve replicative immortality.",
+      "startsWith": "So the last one that I will talk about or hallmark"
+    },
+    {
+      "id": 6,
+      "label": "Deregulated cellular metabolism and onco-metabolites",
+      "groupedBecause": "This section explains metabolic reprogramming in tumors, including the Warburg effect, Krebs cycle mutations, and the epigenetic impact of onco-metabolites.",
+      "startsWith": "So you'll see that we'll kind of leave this set of"
+    },
+    {
+      "id": 7,
+      "label": "Inducing angiogenesis",
+      "groupedBecause": "The lecturer discusses the requirement for new blood vessel formation to supply growing tumors and how the balance between angiogenic activators and inhibitors operates during tumor development.",
+      "startsWith": "Similarly for angiogenesis, right, in terms of what that does for"
+    },
+    {
+      "id": 8,
+      "label": "Metastasis and systemic tumor spread",
+      "groupedBecause": "This part covers the metastatic cascade, diagnostic detection via sentinel lymph nodes and circulating tumor cells, the seed-and-soil concept, and genomic drivers like whole genome duplication.",
+      "startsWith": "And I'll just have a sip of water. Which is metastasis,"
+    },
+    {
+      "id": 9,
+      "label": "Closing remarks",
+      "groupedBecause": "The lecturer ends the lecture by inviting questions and referencing upcoming practical sessions.",
+      "startsWith": "All right. And I'm happy to take any questions, and I"
+    }
+  ]
+}

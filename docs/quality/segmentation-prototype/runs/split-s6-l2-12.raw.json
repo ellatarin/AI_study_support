@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture framing",
+      "groupedBecause": "The lecturer introduces the topic of complement and frames expectations for the session.",
+      "startsWith": "Welcome to today's lecture. Today's lecture is on complement. Is anyone"
+    },
+    {
+      "id": 2,
+      "label": "Overview and effector functions of complement",
+      "groupedBecause": "The lecturer provides a broad overview of complement phases and outlines its main effector and janitorial roles.",
+      "startsWith": "This is an overview of complement. If you are in the"
+    },
+    {
+      "id": 3,
+      "label": "Complement nomenclature",
+      "groupedBecause": "The lecturer explains the historical numbering and cleavage fragment naming conventions of complement proteins.",
+      "startsWith": "Now, a word on the naming. And this is important because"
+    },
+    {
+      "id": 4,
+      "label": "Activation and reactivity of complement C3",
+      "groupedBecause": "The lecturer describes the central role of C3, its cleavage into C3a and C3b, and the reactive thioester bond mechanism.",
+      "startsWith": "Now, the really key thing that you really should remember is"
+    },
+    {
+      "id": 5,
+      "label": "The alternative pathway of complement activation",
+      "groupedBecause": "The lecturer details the spontaneous activation mechanism and positive feedback loop of the alternative pathway.",
+      "startsWith": "So let's go to this slide, and we're going"
+    },
+    {
+      "id": 6,
+      "label": "The lectin pathway of complement activation",
+      "groupedBecause": "The lecturer explains how mannose-binding lectin recognizes bacterial sugars and forms the classical convertase.",
+      "startsWith": "Now, if we go to the lectin pathway, the lectin"
+    },
+    {
+      "id": 7,
+      "label": "The classical pathway and trigger threshold",
+      "groupedBecause": "The lecturer explains antibody-mediated complement activation and how local convertase concentration reaches the trigger threshold.",
+      "startsWith": "Now, the third pathway to recognize a pathogen by complement is"
+    },
+    {
+      "id": 8,
+      "label": "Effector mechanisms: Opsonization and inflammation",
+      "groupedBecause": "The lecturer describes how C3b mediates phagocytic opsonization and C3a drives non-specific inflammatory recruitment.",
+      "startsWith": "So how about the effector functions? So I mentioned at the"
+    },
+    {
+      "id": 9,
+      "label": "Effector mechanisms: Membrane attack complex and lysis",
+      "groupedBecause": "The lecturer details the assembly of the C5b-C9 membrane attack complex and why it selectively lyses certain pathogens.",
+      "startsWith": "And then the third pathway is that of lysis of the"
+    },
+    {
+      "id": 10,
+      "label": "Host cell regulation of complement",
+      "groupedBecause": "The lecturer explains the regulatory proteins that protect host cells by inhibiting or dismantling active complement complexes.",
+      "startsWith": "And then this brings up the question of why isn't it"
+    },
+    {
+      "id": 11,
+      "label": "Clinical complement deficiencies",
+      "groupedBecause": "The lecturer reviews the distinct clinical presentations and disease associations resulting from deficiencies in specific complement components.",
+      "startsWith": "Now, I mentioned at the start that for med students here,"
+    },
+    {
+      "id": 12,
+      "label": "Pathogen evasion mechanisms and Staphylococcus aureus",
+      "groupedBecause": "The lecturer examines how pathogens evade complement, using Staphylococcus aureus as a primary case study with biomedical applications.",
+      "startsWith": "Now, the other thing that's quite interesting about complement, and"
+    },
+    {
+      "id": 13,
+      "label": "Conclusion and next lecture preview",
+      "groupedBecause": "The lecturer concludes the session on complement and announces the topic for the next lecture.",
+      "startsWith": "Okay. So I think, with that, we can finish up"
+    }
+  ]
+}

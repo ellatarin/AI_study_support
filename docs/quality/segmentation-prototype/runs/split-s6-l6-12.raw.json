@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction to the hallmarks of cancer",
+      "groupedBecause": "The lecturer introduces the lecture topic, outlines the learning outcomes, and establishes the framework of cancer hallmarks.",
+      "startsWith": "So unfortunately, I'm going to have to start now."
+    },
+    {
+      "id": 2,
+      "label": "Growth signal autonomy and resistance to inhibitory signals",
+      "groupedBecause": "The lecturer explains how mutations in extracellular signaling pathways confer growth signal autonomy and resistance to growth inhibition.",
+      "startsWith": "So let's kind of go through them as I said. So we'll"
+    },
+    {
+      "id": 3,
+      "label": "Differentiation block in cancer",
+      "groupedBecause": "The lecturer discusses how cancer cells fail to terminally differentiate, using examples from hematologic malignancies and intestinal crypts.",
+      "startsWith": "So we'll move on to something that is slightly less evident or"
+    },
+    {
+      "id": 4,
+      "label": "Resistance to apoptosis and p53 regulation",
+      "groupedBecause": "The lecturer details the apoptotic pathway and explains how mutations in p53 and related proteins allow cancer cells to evade cell death.",
+      "startsWith": "Okay? So we're going to move on to resistance to apoptosis."
+    },
+    {
+      "id": 5,
+      "label": "Replicative immortality and telomere maintenance",
+      "groupedBecause": "The lecturer explains how telomere dynamics dictate cell lifespan and how cancer cells achieve immortality through telomerase reactivation and senescence bypass.",
+      "startsWith": "So the last one that I will talk about or hallmark"
+    },
+    {
+      "id": 6,
+      "label": "Metabolic rewiring and the Warburg effect",
+      "groupedBecause": "The lecturer describes how cancer cells shift toward aerobic glycolysis and how oncometabolites contribute to epigenetic changes.",
+      "startsWith": "So we'll move on to metabolism, because this is a very"
+    },
+    {
+      "id": 7,
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "The lecturer explains the necessity, timing, and regulatory balance of new blood vessel recruitment in growing tumors.",
+      "startsWith": "Similarly for angiogenesis, right, in terms of what that does for"
+    },
+    {
+      "id": 8,
+      "label": "Mechanisms and biology of metastasis",
+      "groupedBecause": "The lecturer details the multistep metastatic cascade, circulation routes, clinical monitoring, and underlying genomic traits.",
+      "startsWith": "Okay, so onto the last one. And I'll just have"
+    },
+    {
+      "id": 9,
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "The lecturer synthesizes the cancer hallmarks framework, references further reading, and concludes the lecture session.",
+      "startsWith": "So what I also wanted to say and just finish on"
+    }
+  ]
+}

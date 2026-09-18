@@ -1,0 +1,88 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines its learning objectives concerning cancer therapies and their modes of action.",
+      "startsWith": "Okay, good afternoon, everyone. Welcome to your last BOD"
+    },
+    {
+      "id": 2,
+      "label": "Challenges of cancer therapy, surgery, and radiotherapy",
+      "groupedBecause": "This section explains why cancer cells are difficult to target selectively and discusses physical removal through surgery and localized radiotherapy.",
+      "startsWith": "So cancer therapy. It's actually really easy to kill"
+    },
+    {
+      "id": 3,
+      "label": "Cytotoxic chemotherapy mechanisms, examples, and limitations",
+      "groupedBecause": "This passage covers standard cytotoxic chemotherapy classes, DNA-damaging mechanisms, success in testicular cancer, and drawbacks including toxicity and multidrug resistance.",
+      "startsWith": "Of course, the next line of defense is cytotoxic chemotherapy,"
+    },
+    {
+      "id": 4,
+      "label": "Targeting hormone-dependent signaling in cancer",
+      "groupedBecause": "The lecturer explains how cancers relying on outside-in hormonal signals can be treated with receptor-blocking agents like tamoxifen and enzalutamide.",
+      "startsWith": "So where are we moving to these days? I think"
+    },
+    {
+      "id": 5,
+      "label": "Exploiting cell cycle checkpoint defects and oncolytic viruses",
+      "groupedBecause": "This section details how checkpoint protein deficiencies like p21 and p53 loss can be exploited via irradiation or engineered oncolytic adenoviruses.",
+      "startsWith": "What about those cell cycle checkpoint defects? Well, of"
+    },
+    {
+      "id": 6,
+      "label": "Targeting DNA repair defects with PARP inhibitors",
+      "groupedBecause": "The lecturer describes synthetic lethality using PARP inhibitors in BRCA-deficient cancers lacking homologous recombination repair.",
+      "startsWith": "What about genetic instability? We know some cancers are"
+    },
+    {
+      "id": 7,
+      "label": "Oncogene addiction and small molecule kinase inhibitors",
+      "groupedBecause": "This passage introduces oncogene addiction and the design of ATP-competitive kinase inhibitors targeting translocated or mutated kinases.",
+      "startsWith": "So we can exploit cancer cell properties. We can"
+    },
+    {
+      "id": 8,
+      "label": "Kinase inhibitor resistance mechanisms and drug addiction",
+      "groupedBecause": "The lecturer explains how tumors evade kinase inhibitors through gatekeeper mutations, bypass pathways, and paradoxically developed drug addiction.",
+      "startsWith": "However, one of the issues with kinase inhibitors is"
+    },
+    {
+      "id": 9,
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "This section covers therapeutic monoclonal antibodies that block receptor activation or recruit immune effector mechanisms, as well as targeted toxin delivery via antibody-drug conjugates.",
+      "startsWith": "What are the other options? Well, the immune"
+    },
+    {
+      "id": 10,
+      "label": "Evidence for cancer immunosurveillance",
+      "groupedBecause": "The lecturer evaluates experimental and clinical evidence regarding whether the adaptive immune system actively protects against non-viral human cancers.",
+      "startsWith": "So we can use targeted agents, we can use"
+    },
+    {
+      "id": 11,
+      "label": "Immune checkpoint inhibitors and tumor neoantigens",
+      "groupedBecause": "This passage discusses reawakening exhausted T cells using CTLA-4 and PD-1 blockade, associated toxicities, and the role of tumor mutational burden.",
+      "startsWith": "And of course, you touched upon this in your"
+    },
+    {
+      "id": 12,
+      "label": "Bispecific T-cell engagers and CAR-T cell therapies",
+      "groupedBecause": "The lecturer explains engineered cellular therapies including BiTEs and CAR-T cells along with their manufacturing challenges and clinical limitations.",
+      "startsWith": "What other immunotherapy approaches are there? Well, there are"
+    },
+    {
+      "id": 13,
+      "label": "Current challenges, genomics, and future directions in cancer treatment",
+      "groupedBecause": "This section reviews overarching challenges such as tumor heterogeneity, genome sequencing for patient stratification, screening, and treatment paradigms.",
+      "startsWith": "So cancer therapy has many challenges. Most therapies only"
+    },
+    {
+      "id": 14,
+      "label": "Success and clinical dilemmas in pediatric leukemia therapy",
+      "groupedBecause": "The lecture concludes by highlighting survival gains achieved through combination cytotoxic therapy in childhood leukemia and the resulting dilemma in trialing newer targeted drugs.",
+      "startsWith": "But I'm going to end with a success story"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes on cancer hallmarks",
+      "groupedBecause": "The lecturer introduces the lecture topic, outlines the learning outcomes, and frames the discussion around Hanahan and Weinberg's cancer hallmarks model.",
+      "startsWith": "So unfortunately, I'm going to have to start"
+    },
+    {
+      "id": 2,
+      "label": "Growth signal autonomy and insensitivity to anti-growth signals",
+      "groupedBecause": "The lecturer explains the signaling pathways involved in growth stimulation and inhibition, focusing on mutations in Wnt/beta-catenin, receptor tyrosine kinases, PI3K/Akt, Ras/MAPK, and TGF-beta.",
+      "startsWith": "So let's kind of go through them as"
+    },
+    {
+      "id": 3,
+      "label": "Block of differentiation in cancer",
+      "groupedBecause": "The lecturer explains how differentiation arrest contributes to malignancy using hematopoiesis/leukemias and intestinal crypts with APC mutations as examples.",
+      "startsWith": "So we'll move on to something that is"
+    },
+    {
+      "id": 4,
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "The lecturer explains the mechanism of apoptotic evasion through regulation and mutations of p53, Bax, and BCL2.",
+      "startsWith": "So we're going to move on to resistance"
+    },
+    {
+      "id": 5,
+      "label": "Replicative immortality and telomere maintenance",
+      "groupedBecause": "The lecturer explains the Hayflick limit, telomere biology, TERT activation mechanisms, and the senescence fail-safe response mediated by p53.",
+      "startsWith": "So the last one that I will talk about"
+    },
+    {
+      "id": 6,
+      "label": "Deregulated cancer metabolism and oncometabolites",
+      "groupedBecause": "The lecturer discusses metabolic reprogramming in cancer, including the Warburg effect, aerobic glycolysis, Krebs cycle mutations, and epigenetic alterations by oncometabolites.",
+      "startsWith": "So we'll move on to metabolism, because this"
+    },
+    {
+      "id": 7,
+      "label": "Induction of angiogenesis",
+      "groupedBecause": "The lecturer discusses why and when tumors induce angiogenesis, the balance of activators and inhibitors, and its therapeutic relevance.",
+      "startsWith": "Similarly for angiogenesis, right, in terms of what"
+    },
+    {
+      "id": 8,
+      "label": "Tissue invasion and metastasis",
+      "groupedBecause": "The lecturer examines the metastatic cascade, lymph node staging, circulating tumor cells, the seed and soil hypothesis, and genomic characteristics of metastases.",
+      "startsWith": "Okay, so onto the last one. And I'll"
+    },
+    {
+      "id": 9,
+      "label": "Conclusion and closing remarks",
+      "groupedBecause": "The lecturer summarizes the overarching themes, references newer hallmark literature, and closes the lecture.",
+      "startsWith": "So what I also wanted to say and just"
+    }
+  ]
+}

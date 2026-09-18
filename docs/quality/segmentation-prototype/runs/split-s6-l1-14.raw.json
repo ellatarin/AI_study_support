@@ -1,0 +1,94 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer welcomes the class and outlines the lecture's focus on the initiation and resolution of inflammation using previously introduced immune components.",
+      "startsWith": "Hi, everyone. Can everyone hear me okay? Super. Welcome back to"
+    },
+    {
+      "id": 2,
+      "label": "Pathogen- and damage-associated molecular patterns (PAMPs and DAMPs)",
+      "groupedBecause": "The lecturer explains how the innate immune system recognizes infections directly through microbial products and indirectly through cellular damage signals.",
+      "startsWith": "Now, the key to an immune reaction is, first of all, recognizing"
+    },
+    {
+      "id": 3,
+      "label": "Criteria for effective PAMPs and distinguishing self from non-self",
+      "groupedBecause": "The lecturer describes the essential, highly conserved, and host-absent characteristics that define useful PAMPs across bacteria, viruses, and parasites.",
+      "startsWith": "So what makes a good PAMP? We want to have a product"
+    },
+    {
+      "id": 4,
+      "label": "Pattern recognition receptor genetics and subcellular localization",
+      "groupedBecause": "The lecturer explains that PRRs are germline-encoded and situated in specific cellular compartments corresponding to likely pathogen locations.",
+      "startsWith": "So the pattern recognition receptors, these are what detect the PAMPs and"
+    },
+    {
+      "id": 5,
+      "label": "Toll-like receptors and their signaling pathways",
+      "groupedBecause": "The lecturer details the discovery, types, ligand binding, and downstream transcriptional signaling of toll-like receptors at the plasma membrane and endosomes.",
+      "startsWith": "Now, the most important class of PRRs, and the class that you'll"
+    },
+    {
+      "id": 6,
+      "label": "Non-TLR pattern recognition receptors",
+      "groupedBecause": "The lecturer introduces other PRR families, including C-type lectins, RIG-I-like receptors, and Nod-like receptors such as Nod-2.",
+      "startsWith": "Now, toll-like receptors are very important, but they're not the only"
+    },
+    {
+      "id": 7,
+      "label": "Inflammasome assembly and IL-1 beta activation",
+      "groupedBecause": "The lecturer explains the structure and mechanism of the inflammasome in activating caspase-1 and processing pro-IL-1 beta in response to danger signals.",
+      "startsWith": "Now, another key pathway is the inflammasome pathway. These are a"
+    },
+    {
+      "id": 8,
+      "label": "Sentinel cell activation and cytokine signaling",
+      "groupedBecause": "The lecturer discusses how mast cells and macrophages detect danger and release mediators that produce both local and systemic inflammatory effects.",
+      "startsWith": "Now, the key cells that activate are the sentinel cells. We'll"
+    },
+    {
+      "id": 9,
+      "label": "Leukocyte recruitment, rolling, and extravasation",
+      "groupedBecause": "The lecturer details the sequential process of slowing, adhering, extravasating, and chemotactically directing circulating immune cells into infected tissue.",
+      "startsWith": "Now, one of the effects of the immediate inflammation response is to"
+    },
+    {
+      "id": 10,
+      "label": "Lymphatic drainage and priming of adaptive immunity",
+      "groupedBecause": "The lecturer describes how interstitial fluid and dendritic cells carrying antigens travel via lymphatics to lymph nodes to activate adaptive immune responses.",
+      "startsWith": "Now, I do want to mention that we've been talking a"
+    },
+    {
+      "id": 11,
+      "label": "Systemic inflammatory pathology and septic shock",
+      "groupedBecause": "The lecturer covers the life-threatening consequences of severe systemic immune overactivation and excessive TNF release.",
+      "startsWith": "Now, the other thing to mention here is we've largely been"
+    },
+    {
+      "id": 12,
+      "label": "Passive and active mechanisms of inflammation resolution",
+      "groupedBecause": "The lecturer explains the passive decay of short-lived mediators and active stop signals, such as lipid mediator switching and anti-inflammatory cytokines.",
+      "startsWith": "So this brings us to the final slides of the lecture,"
+    },
+    {
+      "id": 13,
+      "label": "Tissue repair, scarring, and chronic inflammation",
+      "groupedBecause": "The lecturer describes granulation tissue formation, macrophage repair roles, and the causes of non-resolving chronic inflammation and inflammaging.",
+      "startsWith": "Now, just the final point I want to talk about is"
+    },
+    {
+      "id": 14,
+      "label": "Granuloma formation as containment of chronic infection",
+      "groupedBecause": "The lecturer explains how the immune system forms granulomas as an evolved strategy to wall off persistent pathogens like Mycobacterium tuberculosis.",
+      "startsWith": "And then just the last slide I want to point out"
+    },
+    {
+      "id": 15,
+      "label": "Lecture closing",
+      "groupedBecause": "The lecturer concludes the session and announces the topic for the next lecture.",
+      "startsWith": "Okay, that's it for me. Next lecture is complements."
+    }
+  ]
+}

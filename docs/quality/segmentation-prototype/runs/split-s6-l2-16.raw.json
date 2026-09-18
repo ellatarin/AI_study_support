@@ -1,0 +1,76 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction to complement lecture",
+      "groupedBecause": "The lecturer introduces the topic, compares it to the Krebs cycle, and frames expectations for the session.",
+      "startsWith": "Welcome to today's lecture. Today's lecture is on complement."
+    },
+    {
+      "id": 2,
+      "label": "Overview of complement and its primary functions",
+      "groupedBecause": "The lecturer provides a high-level overview of complement activation, soluble serum proteins, and the main biological and janitorial functions of complement.",
+      "startsWith": "Okay. So, let's start. This is an overview of complement."
+    },
+    {
+      "id": 3,
+      "label": "Complement nomenclature",
+      "groupedBecause": "The lecturer explains the historical numbering conventions, letter designations, and common quirks in complement naming.",
+      "startsWith": "Now, a word on the naming. And this is important because"
+    },
+    {
+      "id": 4,
+      "label": "Central role and chemical activation of C3",
+      "groupedBecause": "The lecturer explains how C3 functions as the central fulcrum of the cascade and describes the chemical reactivity of its thioester bond upon cleavage.",
+      "startsWith": "Now, the really key thing that you really should remember is"
+    },
+    {
+      "id": 5,
+      "label": "The alternative pathway",
+      "groupedBecause": "The lecturer details the step-by-step mechanism of the alternative pathway from spontaneous fluid phase activation to surface convertase amplification.",
+      "startsWith": "So let's go to this slide, and we're going to"
+    },
+    {
+      "id": 6,
+      "label": "The lectin pathway",
+      "groupedBecause": "The lecturer explains how mannose-binding lectin recognizes bacterial carbohydrates and initiates the formation of the classical C3 convertase.",
+      "startsWith": "Now, if we go to the lectin pathway, the lectin"
+    },
+    {
+      "id": 7,
+      "label": "The classical pathway and the trigger threshold",
+      "groupedBecause": "The lecturer describes antibody-mediated activation through the classical pathway and explains how pathway convergence reaches the local threshold for full activation.",
+      "startsWith": "Now, the third pathway to recognize a pathogen by complement is"
+    },
+    {
+      "id": 8,
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "The lecturer explains the downstream effector functions including opsonization, inflammatory signaling, and membrane attack complex assembly for cell lysis.",
+      "startsWith": "So how about the effector functions? So I mentioned at the"
+    },
+    {
+      "id": 9,
+      "label": "Regulation of complement on host cells",
+      "groupedBecause": "The lecturer details the regulatory factors such as Factor I, MCP, Factor H, DAF, and protectin that prevent complement from destroying host tissues.",
+      "startsWith": "That's how complement destroys bacteria and viruses. And then this"
+    },
+    {
+      "id": 10,
+      "label": "Clinical complement deficiencies",
+      "groupedBecause": "The lecturer reviews the distinct clinical presentations and infection risks associated with deficiencies in various complement components and regulators.",
+      "startsWith": "Now, I mentioned at the start that for med students"
+    },
+    {
+      "id": 11,
+      "label": "Pathogen evasion mechanisms and Protein A",
+      "groupedBecause": "The lecturer discusses evolutionary evasion strategies used by Staphylococcus aureus against complement and the laboratory applications of protein A.",
+      "startsWith": "Now, the other thing that's quite interesting about complement, and"
+    },
+    {
+      "id": 12,
+      "label": "Lecture closing and next session preview",
+      "groupedBecause": "The lecturer wraps up the session and announces the topic of the upcoming lecture.",
+      "startsWith": "Okay. So I think, with that, we can finish up"
+    }
+  ]
+}

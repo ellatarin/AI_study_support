@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and overview of the hallmarks of cancer",
+      "groupedBecause": "The lecturer introduces the learning outcomes, the multi-step progression model, and Hanahan and Weinberg's framework of cancer hallmarks.",
+      "startsWith": "So unfortunately, I'm going to have to start now. Otherwise, I'm"
+    },
+    {
+      "id": 2,
+      "label": "Growth signal autonomy and evasion of inhibitory signaling",
+      "groupedBecause": "The lecturer explains how mutations in Wnt, RTK/Ras/MAPK, PI3K/AKT, and TGF-beta pathways drive uncontrolled cellular proliferation and survival.",
+      "startsWith": "So we'll start with these first two, independence for growth stimulation"
+    },
+    {
+      "id": 3,
+      "label": "Differentiation block in hematopoietic and epithelial cancers",
+      "groupedBecause": "The lecturer examines how cancer cells fail to terminally differentiate using examples from leukemias and intestinal crypt biology.",
+      "startsWith": "So we'll move on to something that is slightly less evident"
+    },
+    {
+      "id": 4,
+      "label": "Resistance to apoptosis and the p53 pathway",
+      "groupedBecause": "The lecturer describes the mechanisms preventing programmed cell death through p53 inactivation, Bax regulation, and BCL2 overexpression.",
+      "startsWith": "So we're going to move on to resistance to apoptosis. God,"
+    },
+    {
+      "id": 5,
+      "label": "Replicative immortality, telomeres, and senescence",
+      "groupedBecause": "The lecturer explains how cancer cells overcome the Hayflick limit and cellular senescence via telomerase activation and TERT promoter mutations.",
+      "startsWith": "So the last one that I will talk about or hallmark"
+    },
+    {
+      "id": 6,
+      "label": "Deregulated metabolism and the Warburg effect",
+      "groupedBecause": "The lecturer discusses aerobic glycolysis, metabolic rewiring, and Krebs cycle mutations that produce oncometabolites altering the epigenome.",
+      "startsWith": "So we'll move on to metabolism, because this is a very"
+    },
+    {
+      "id": 7,
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "The lecturer explains the necessity of new blood vessel formation for tumor growth and the balance of pro- and anti-angiogenic factors.",
+      "startsWith": "Similarly for angiogenesis, right, in terms of what that does for"
+    },
+    {
+      "id": 8,
+      "label": "Metastatic dissemination and systemic progression",
+      "groupedBecause": "The lecturer describes the multi-step invasion-metastasis cascade, diagnostic markers, seed-and-soil dynamics, and genomic duplication in metastases.",
+      "startsWith": "Okay, so onto the last one. And I'll just have"
+    },
+    {
+      "id": 9,
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "The lecturer summarizes the collective impact of cancer hallmarks, mentions further reading, and concludes the session.",
+      "startsWith": "So what I also wanted to say and just finish on"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and framing of complement",
+      "groupedBecause": "The lecturer opens the session by contextualizing complement's reputation, complexity, and place in the course.",
+      "startsWith": "Welcome to today's lecture. Today's lecture is on complement. Is anyone here"
+    },
+    {
+      "id": 2,
+      "label": "Overview and core functions of complement",
+      "groupedBecause": "This section outlines the basic three-stage framework of complement and the primary effector and janitorial roles it performs in the body.",
+      "startsWith": "Okay. So, let's start. This is an overview of complement."
+    },
+    {
+      "id": 3,
+      "label": "Complement nomenclature",
+      "groupedBecause": "The lecturer explains the historical numbering and cleavage letter conventions that govern complement naming.",
+      "startsWith": "Now, a word on the naming. And this is important because"
+    },
+    {
+      "id": 4,
+      "label": "Central role and activation of C3",
+      "groupedBecause": "This passage describes how C3 acts as the central fulcrum of the system and details the biochemical mechanism of its reactive thioester bond and cleavage products.",
+      "startsWith": "Now, the really key thing that you really should remember is complement"
+    },
+    {
+      "id": 5,
+      "label": "The alternative pathway",
+      "groupedBecause": "The lecturer explains how the alternative pathway initiates spontaneously through fluid-phase convertase and amplifies on pathogen surfaces.",
+      "startsWith": "So let's go to this slide, and we're going to start"
+    },
+    {
+      "id": 6,
+      "label": "The lectin pathway",
+      "groupedBecause": "This section details how mannose-binding lectin recognizes bacterial sugars and recruits C4 and C2 to form a surface convertase.",
+      "startsWith": "Now, if we go to the lectin pathway, the lectin pathway"
+    },
+    {
+      "id": 7,
+      "label": "The classical pathway and reaching the trigger threshold",
+      "groupedBecause": "The lecturer explains antibody-mediated activation via C1 and how local concentration of convertases allows the system to reach its activation threshold.",
+      "startsWith": "Now, the third pathway to recognize a pathogen by complement is the"
+    },
+    {
+      "id": 8,
+      "label": "Downstream effector mechanisms",
+      "groupedBecause": "This section details the execution of complement's three main effector outcomes: C3b opsonization, C3a/C5a inflammation, and membrane attack complex assembly.",
+      "startsWith": "How about the effector functions? So I mentioned at the start there's"
+    },
+    {
+      "id": 9,
+      "label": "Regulation and host cell protection",
+      "groupedBecause": "The lecturer explains the host regulatory proteins (properdin, Factor I, MCP, Factor H, DAF, protectin) that prevent complement-mediated self-destruction.",
+      "startsWith": "And then this brings up the question of why isn't it"
+    },
+    {
+      "id": 10,
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This passage breaks down the distinct clinical symptoms and diseases associated with deficiencies in specific complement components.",
+      "startsWith": "Now, I mentioned at the start that for med students here,"
+    },
+    {
+      "id": 11,
+      "label": "Pathogen evasion mechanisms and Staphylococcus aureus",
+      "groupedBecause": "The lecturer explores how pathogens evolve strategies to evade complement, using Staphylococcus aureus and its protein A applications as an extended case.",
+      "startsWith": "Now, the other thing that's quite interesting about complement, and it's"
+    },
+    {
+      "id": 12,
+      "label": "Lecture closing and next topic",
+      "groupedBecause": "The lecturer closes the session with concluding remarks and notes the subject of the upcoming lecture.",
+      "startsWith": "Okay. So I think, with that, we can finish up with complement."
+    }
+  ]
+}

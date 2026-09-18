@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction to the hallmarks of cancer framework",
+      "groupedBecause": "The lecturer introduces the lecture objectives, reviews tumor progression models, and frames the discussion around Hanahan and Weinberg's cancer hallmarks.",
+      "startsWith": "So unfortunately, I'm going to have to start now. Otherwise,"
+    },
+    {
+      "id": 2,
+      "label": "Growth signaling pathways and mutations",
+      "groupedBecause": "The lecturer explains how oncogenic mutations deregulate signaling cascades including Wnt/APC, receptor tyrosine kinases, Ras/MAPK, PI3K/Akt, and TGF-beta to promote proliferation and survival.",
+      "startsWith": "So we'll start with these first two, independence for growth stimulation"
+    },
+    {
+      "id": 3,
+      "label": "Block in cellular differentiation",
+      "groupedBecause": "The lecturer illustrates how cancer cells fail to terminally differentiate using examples from leukemias and intestinal crypt stem cell dynamics.",
+      "startsWith": "So we'll move on to something that is slightly less evident"
+    },
+    {
+      "id": 4,
+      "label": "Evasion of apoptosis and p53 regulation",
+      "groupedBecause": "The lecturer describes how mutations in p53, MDM2, and apoptotic regulators like Bax and BCL2 prevent programmed cell death.",
+      "startsWith": "So we're going to move on to resistance to apoptosis. God,"
+    },
+    {
+      "id": 5,
+      "label": "Replicative immortality, telomeres, and senescence",
+      "groupedBecause": "The lecturer details the Hayflick limit, telomere biology, mechanisms of TERT activation in cancer, and normal senescence stress pathways.",
+      "startsWith": "So the last one that I will talk about or hallmark"
+    },
+    {
+      "id": 6,
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "The lecturer explores aerobic glycolysis (the Warburg effect), metabolic rewiring across tumor types, and Krebs cycle mutations generating oncometabolites.",
+      "startsWith": "So we'll move on to metabolism, because this is a very"
+    },
+    {
+      "id": 7,
+      "label": "Induction of angiogenesis",
+      "groupedBecause": "The lecturer explains the requirement for vascularization to support tumor growth, its timing in premalignant lesions, and the angiogenic balance.",
+      "startsWith": "Similarly for angiogenesis, right, in terms of what that does for"
+    },
+    {
+      "id": 8,
+      "label": "Metastasis cascade and dissemination biology",
+      "groupedBecause": "The lecturer describes the metastatic process, lymphatic drainage, diagnostic approaches like sentinel node biopsy and circulating tumor cells, seed-and-soil dynamics, and genomic duplication.",
+      "startsWith": "Okay, so onto the last one. And I'll just have"
+    },
+    {
+      "id": 9,
+      "label": "Summary and lecture conclusion",
+      "groupedBecause": "The lecturer summarizes the key takeaways regarding cancer hallmarks, references updated literature, and closes the session.",
+      "startsWith": "So what I also wanted to say and just finish on"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the topic of cancer hallmarks and outlines the learning outcomes for the session.",
+      "startsWith": "So unfortunately, I'm going to have to start now. Otherwise, I'm going"
+    },
+    {
+      "id": 2,
+      "label": "Tumor progression model and the hallmarks framework",
+      "groupedBecause": "The lecturer introduces the sequential progression model and the Hanahan-Weinberg hallmarks framework unified by the loss of growth control.",
+      "startsWith": "And we're going to come back time and time again to this kind"
+    },
+    {
+      "id": 3,
+      "label": "Growth signaling pathways and mutations",
+      "groupedBecause": "The lecturer explains how mutations in Wnt, RTK, PI3K, and TGF-beta pathways drive growth signal independence and resistance to growth inhibition.",
+      "startsWith": "So we'll start with these first two, independence for growth stimulation"
+    },
+    {
+      "id": 4,
+      "label": "Differentiation block in leukemias and carcinomas",
+      "groupedBecause": "The lecturer explains how blocks in normal differentiation lineages contribute to tumorigenesis in hematopoietic diseases and intestinal crypts.",
+      "startsWith": "So we'll move on to something that is slightly less evident"
+    },
+    {
+      "id": 5,
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "The lecturer details the molecular mechanisms of apoptotic evasion through the p53, Bax, and BCL2 pathways.",
+      "startsWith": "So we're going to move on to resistance to apoptosis. God,"
+    },
+    {
+      "id": 6,
+      "label": "Replicative immortality, telomeres, and senescence",
+      "groupedBecause": "The lecturer examines how telomere shortening triggers senescence and how cancers bypass this via TERT upregulation to achieve immortality.",
+      "startsWith": "So the last one that I will talk about or hallmark"
+    },
+    {
+      "id": 7,
+      "label": "Metabolic rewiring and the Warburg effect",
+      "groupedBecause": "The lecturer describes aerobic glycolysis and how Krebs cycle mutations generate oncometabolites that alter the epigenome.",
+      "startsWith": "So we'll move on to metabolism, because this is a very"
+    },
+    {
+      "id": 8,
+      "label": "Angiogenesis and tumor vascularization",
+      "groupedBecause": "The lecturer explains the angiogenic switch, oxygen diffusion constraints, and the balance of angiogenic activators and inhibitors.",
+      "startsWith": "Similarly for angiogenesis, right, in terms of what that does for"
+    },
+    {
+      "id": 9,
+      "label": "Metastasis and circulatory dissemination",
+      "groupedBecause": "The lecturer explains the multi-step metastatic cascade, anatomical routes of spread, monitoring via liquid biopsies, and associated genomic features.",
+      "startsWith": "Which is metastasis, which is arguably the most important hallmark that"
+    },
+    {
+      "id": 10,
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "The lecturer summarizes the hallmarks framework, highlights recent literature, and concludes the lecture.",
+      "startsWith": "So what I also wanted to say and just finish on"
+    }
+  ]
+}

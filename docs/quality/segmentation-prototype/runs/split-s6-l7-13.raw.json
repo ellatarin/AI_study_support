@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "The lecturer frames the session by reviewing prior concepts and setting out the lecture's core learning outcomes regarding cancer evolution and the microenvironment.",
+      "startsWith": "Okay. Good afternoon, everyone. Welcome to the fifth lecture of the Cancer Biology"
+    },
+    {
+      "id": 2,
+      "label": "Clonal succession and Darwinian selection in cancer evolution",
+      "groupedBecause": "The lecturer describes how tumors evolve through sequential mutations conferring selective clonal growth advantages in tissues.",
+      "startsWith": "So, of course, a lot of the studies that we've done to date"
+    },
+    {
+      "id": 3,
+      "label": "Epigenetic plasticity in tumor initiation",
+      "groupedBecause": "The lecturer examines how transient epigenetic disruptions can alter transcriptional programs to permit oncogenic transformation independently of genetic mutations.",
+      "startsWith": "But what about epigenetics? Epigenetics must also play a role, right?"
+    },
+    {
+      "id": 4,
+      "label": "Cell of origin and the cancer stem cell model",
+      "groupedBecause": "The lecturer explores whether cancer initiates in normal stem cells or differentiated progenitors, reviewing evidence from leukemia and colorectal adenoma models.",
+      "startsWith": "So is the cell of origin also important? Is it important what cell"
+    },
+    {
+      "id": 5,
+      "label": "Inflammatory microenvironmental promoters of malignant transformation",
+      "groupedBecause": "The lecturer explains how microenvironmental factors and chronic inflammation act as promoters to unlock malignant potential in mutated incipient cells.",
+      "startsWith": "Let's come back to that eyelid example. So why do these cells"
+    },
+    {
+      "id": 6,
+      "label": "Tumor microenvironment dependence in established cancers and therapeutic targeting",
+      "groupedBecause": "The lecturer discusses how established cancers remain dependent on stromal support and how targeting the tumor microenvironment offers therapeutic opportunities.",
+      "startsWith": "So what about the established tumor? Because we know that in the"
+    },
+    {
+      "id": 7,
+      "label": "Methods for profiling tumor heterogeneity and microenvironments",
+      "groupedBecause": "The lecturer outlines single-cell sequencing and spatial omics technologies used to resolve tumor mutational timing and cellular interactions.",
+      "startsWith": "And so how are we doing this? How can we investigate this"
+    },
+    {
+      "id": 8,
+      "label": "Synthesis of multifactorial cancer evolution",
+      "groupedBecause": "The lecturer summarizes the combined contributions of mutations, cell of origin, epigenetics, and microenvironmental coevolution to cancer development.",
+      "startsWith": "So we're at the situation, I think, where there are potentially multiple"
+    },
+    {
+      "id": 9,
+      "label": "Lecture closing and upcoming topics",
+      "groupedBecause": "The lecturer concludes the session and provides an administrative look ahead to the next lecture.",
+      "startsWith": "And with that, I will end today's lecture, and Monday we"
+    }
+  ]
+}

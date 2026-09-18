@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes for the hallmarks of cancer",
+      "groupedBecause": "The lecturer frames the session by outlining the learning outcomes, the tumor progression model, and the evolution of the hallmarks of cancer framework.",
+      "startsWith": "So unfortunately, I'm going to have to start now. Otherwise, I'm"
+    },
+    {
+      "id": 2,
+      "label": "Growth signal independence and resistance to growth inhibitory signals",
+      "groupedBecause": "This section explains how mutations in upstream signaling cascades like Wnt/beta-catenin, RTKs, Ras-MAPK, PI3K-Akt, and TGF-beta drive cell proliferation and survival.",
+      "startsWith": "So let's kind of go through them as I said. So we'll start"
+    },
+    {
+      "id": 3,
+      "label": "Block to terminal differentiation",
+      "groupedBecause": "This section examines how tumors arrest differentiation while retaining proliferative capacity, illustrated using hematopoietic lineages and intestinal crypt APC mutations.",
+      "startsWith": "So we'll move on to something that is slightly less evident"
+    },
+    {
+      "id": 4,
+      "label": "Resistance to apoptosis through p53 and Bcl-2 family regulation",
+      "groupedBecause": "The lecturer details the molecular mechanisms that cancer cells use to evade programmed cell death via p53 inactivation and the balance between Bax and BCL2.",
+      "startsWith": "So we're going to move on to resistance to apoptosis. God, I forgot"
+    },
+    {
+      "id": 5,
+      "label": "Replicative immortality, telomeres, and senescence",
+      "groupedBecause": "The mechanism of overcoming the Hayflick limit via telomerase activation and bypassing p53-mediated senescence is analyzed.",
+      "startsWith": "So the last one that I will talk about or hallmark that"
+    },
+    {
+      "id": 6,
+      "label": "Metabolic rewiring and the Warburg effect",
+      "groupedBecause": "This section discusses the reprogramming of energy metabolism to aerobic glycolysis and the epigenetic consequences of Krebs cycle oncometabolites.",
+      "startsWith": "So we'll move on to metabolism, because this is a very important aspect"
+    },
+    {
+      "id": 7,
+      "label": "Induction of angiogenesis in tumor progression",
+      "groupedBecause": "The lecturer explains how tumors overcome hypoxia and nutrient limits by shifting the angiogenic balance to stimulate new blood vessel growth.",
+      "startsWith": "Similarly for angiogenesis, right, in terms of what that does for the cell."
+    },
+    {
+      "id": 8,
+      "label": "Mechanisms and barriers of tumor metastasis",
+      "groupedBecause": "This section explores the multi-step metastatic cascade, diagnostics such as sentinel lymph node biopsy and circulating tumor cells, and the seed and soil hypothesis.",
+      "startsWith": "And I'll just have a sip of water. Which is metastasis, which is"
+    },
+    {
+      "id": 9,
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "The lecturer concludes the lecture by summarizing how hallmarks converge across different tumors and providing closing housekeeping remarks.",
+      "startsWith": "So what I also wanted to say and just finish on in terms"
+    }
+  ]
+}

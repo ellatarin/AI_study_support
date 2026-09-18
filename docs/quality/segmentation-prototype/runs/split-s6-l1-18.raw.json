@@ -1,0 +1,94 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Welcome and lecture overview",
+      "groupedBecause": "The lecturer welcomes the class and outlines that the lecture will focus on the initiation and resolution of inflammation using previously introduced molecules and cells.",
+      "startsWith": "Hi, everyone. Can everyone hear me okay? Super."
+    },
+    {
+      "id": 2,
+      "label": "Innate immune recognition via PAMPs and DAMPs",
+      "groupedBecause": "The lecturer explains how the innate immune system senses infections and tissue injury through pathogen-associated and damage-associated molecular patterns.",
+      "startsWith": "Now, the key to an immune reaction is, first of all, recognizing"
+    },
+    {
+      "id": 3,
+      "label": "Characteristics of effective PAMPs",
+      "groupedBecause": "The lecturer defines the criteria that make a microbial molecule a good target for innate pattern recognition, including evolutionary conservation and distinction from host self-molecules.",
+      "startsWith": "So what makes a good PAMP? We want to have a"
+    },
+    {
+      "id": 4,
+      "label": "Properties and subcellular localization of PRRs",
+      "groupedBecause": "The lecturer explains that pattern recognition receptors are germline-encoded and positioned in specific cellular compartments corresponding to pathogen niches.",
+      "startsWith": "So the pattern recognition receptors, these are what detect the PAMPs"
+    },
+    {
+      "id": 5,
+      "label": "Toll-like receptors (TLRs)",
+      "groupedBecause": "The lecturer introduces the toll-like receptor family, discussing their discovery in Drosophila, structural forms, and major ligands such as LPS.",
+      "startsWith": "Now, the most important class of PRRs, and the class"
+    },
+    {
+      "id": 6,
+      "label": "TLR signaling and stress pathway synergy",
+      "groupedBecause": "The lecturer explains how surface and endosomal TLR signaling pathways activate transcription factors and synergize with cellular stress pathways.",
+      "startsWith": "Now, when it comes to the signaling system, the signaling"
+    },
+    {
+      "id": 7,
+      "label": "Non-TLR PRRs and the inflammasome pathway",
+      "groupedBecause": "The lecturer describes cytosolic PRR families and the assembly and activation mechanism of the multi-protein inflammasome that processes IL-1 beta.",
+      "startsWith": "Now, toll-like receptors are very important, but they're not the"
+    },
+    {
+      "id": 8,
+      "label": "Sentinel cells and local versus systemic effects",
+      "groupedBecause": "The lecturer details the roles of mast cells and macrophages as sentinel cells triggering localized mediator release and systemic inflammatory responses.",
+      "startsWith": "Now, the key cells that activate are the sentinel cells."
+    },
+    {
+      "id": 9,
+      "label": "Leukocyte recruitment, rolling, and extravasation",
+      "groupedBecause": "The lecturer explains the step-by-step mechanism of leukocyte recruitment into tissue, including endothelial adhesion flags, rolling, tight binding, extravasation, and chemokine chemotaxis.",
+      "startsWith": "Now, one of the effects of the immediate inflammation response"
+    },
+    {
+      "id": 10,
+      "label": "Lymphatic drainage and adaptive immune priming",
+      "groupedBecause": "The lecturer explains how dendritic cells migrate via the lymphatic system to lymph nodes to prime adaptive immune responses while restoring tissue fluid balance.",
+      "startsWith": "Now, I do want to mention that we've been talking"
+    },
+    {
+      "id": 11,
+      "label": "Pathology of excessive inflammation and septic shock",
+      "groupedBecause": "The lecturer examines the dangers of overactivated systemic inflammatory cytokine production leading to vasodilation, shock, and high mortality.",
+      "startsWith": "Now, the other thing to mention here is we've largely"
+    },
+    {
+      "id": 12,
+      "label": "Passive and active resolution of inflammation",
+      "groupedBecause": "The lecturer outlines the passive and active mechanisms that terminate inflammation, including mediator half-lives, macrophage class switches, and anti-inflammatory cytokines.",
+      "startsWith": "So this brings us to the final slides of the"
+    },
+    {
+      "id": 13,
+      "label": "Tissue repair, granulation tissue, and chronic inflammation",
+      "groupedBecause": "The lecturer explains the process of granulation tissue repair by fibroblasts and M2 macrophages, and how failure to resolve inflammation leads to chronic inflammatory states.",
+      "startsWith": "Now, just the final point I want to talk about"
+    },
+    {
+      "id": 14,
+      "label": "Granuloma formation as beneficial chronic containment",
+      "groupedBecause": "The lecturer explains how granulomas represent an evolved, beneficial immune strategy to contain persistent pathogens such as Mycobacterium tuberculosis.",
+      "startsWith": "And then just the last slide I want to point"
+    },
+    {
+      "id": 15,
+      "label": "Closing notices",
+      "groupedBecause": "The lecturer concludes the lecture and announces the topic for the next session.",
+      "startsWith": "Okay, that's it for me. Next lecture is complements."
+    }
+  ]
+}

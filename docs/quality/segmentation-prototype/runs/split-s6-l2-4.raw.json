@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "The lecturer introduces the complement system, frames its reputation and complexity, and outlines the scope of the lecture.",
+      "startsWith": "Welcome to today's lecture. Today's lecture is on complement. Is anyone"
+    },
+    {
+      "id": 2,
+      "label": "Overview and primary functions of complement",
+      "groupedBecause": "This passage outlines the three main stages of complement and describes its primary effector and clearance roles in the immune system.",
+      "startsWith": "This is an overview of complement. If you are in the natural"
+    },
+    {
+      "id": 3,
+      "label": "Complement nomenclature rules and exceptions",
+      "groupedBecause": "This section explains the historical numbering and cleavage naming conventions of complement proteins, noting specific exceptions like C4 and C2.",
+      "startsWith": "Now, a word on the naming. And this is important because the"
+    },
+    {
+      "id": 4,
+      "label": "Central role and biochemistry of complement component C3",
+      "groupedBecause": "This passage describes C3 as the central fulcrum of complement, focusing on its cleavage into active C3b with an exposed thioester bond and inflammatory C3a.",
+      "startsWith": "Now, the really key thing that you really should remember is"
+    },
+    {
+      "id": 5,
+      "label": "Alternative pathway of complement activation",
+      "groupedBecause": "This subtopic details the alternative pathway mechanism, from spontaneous fluid-phase C3 convertase generation to surface-bound convertase amplification.",
+      "startsWith": "So let's go to this slide, and we're going to start"
+    },
+    {
+      "id": 6,
+      "label": "Lectin pathway of complement activation",
+      "groupedBecause": "This passage explains how mannose-binding lectin recognizes bacterial sugars and activates C4 and C2 to form the classical C3 convertase.",
+      "startsWith": "Now, if we go to the lectin pathway, the lectin pathway is"
+    },
+    {
+      "id": 7,
+      "label": "Classical pathway of complement activation",
+      "groupedBecause": "This subtopic explains how antibodies bound to pathogens recruit C1 to activate C4 and C2 to form C3 convertase.",
+      "startsWith": "Now, the third pathway to recognize a pathogen by complement is the"
+    },
+    {
+      "id": 8,
+      "label": "Pathway convergence and the activation trigger threshold",
+      "groupedBecause": "This passage summarizes how the three recognition pathways converge on local C3b deposition and compete against clearance to surpass the activation threshold.",
+      "startsWith": "So we've got three different mechanisms by which C3 can start"
+    },
+    {
+      "id": 9,
+      "label": "Complement effector mechanisms: opsonization, inflammation, and lysis",
+      "groupedBecause": "This passage details the three effector outcomes of complement activation: C3b-mediated opsonization, C3a/C5a-mediated inflammation, and MAC assembly for cell lysis.",
+      "startsWith": "So how about the effector functions? So I mentioned at the"
+    },
+    {
+      "id": 10,
+      "label": "Host cell regulation of complement activation",
+      "groupedBecause": "This passage explains the regulatory proteins that protect host cells by inactivating C3 convertases or blocking the membrane attack complex.",
+      "startsWith": "That's how complement destroys bacteria and viruses. And then this brings"
+    },
+    {
+      "id": 11,
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This passage reviews the distinct clinical presentations associated with genetic or secondary deficiencies in various complement components and regulators.",
+      "startsWith": "Now, I mentioned at the start that for med students here,"
+    },
+    {
+      "id": 12,
+      "label": "Pathogen evasion mechanisms and Staphylococcus aureus",
+      "groupedBecause": "This passage describes how pathogens evolve mechanisms to evade complement, using Staphylococcus aureus as a detailed case study along with clinical applications of Protein A.",
+      "startsWith": "Now, the other thing that's quite interesting about complement, and it's"
+    },
+    {
+      "id": 13,
+      "label": "Lecture conclusion and next topic announcement",
+      "groupedBecause": "The lecturer concludes the lecture on complement and announces the topic of the next session.",
+      "startsWith": "Okay. So I think, with that, we can finish up with"
+    }
+  ]
+}

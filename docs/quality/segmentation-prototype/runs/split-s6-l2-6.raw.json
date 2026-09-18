@@ -1,0 +1,76 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Welcome and introduction to complement",
+      "groupedBecause": "The lecturer frames the session by introducing complement, acknowledging its difficult reputation and comparing it to the Krebs cycle.",
+      "startsWith": "Welcome to today's lecture. Today's lecture is on complement. Is anyone"
+    },
+    {
+      "id": 2,
+      "label": "Overview of complement cascade and basic functions",
+      "groupedBecause": "The lecturer outlines the general stages of complement and describes its primary immune and janitorial functions.",
+      "startsWith": "So, let's start. This is an overview of complement. If you"
+    },
+    {
+      "id": 3,
+      "label": "Complement nomenclature and naming conventions",
+      "groupedBecause": "The lecturer explains the historical numbering and cleavage naming rules of complement components along with their exceptions.",
+      "startsWith": "Now, a word on the naming. And this is important because"
+    },
+    {
+      "id": 4,
+      "label": "Central role and chemical activation of C3",
+      "groupedBecause": "The lecturer explains how C3 acts as the central fulcrum of complement and details the reactivity of C3b and C3a upon cleavage.",
+      "startsWith": "Now, the really key thing that you really should remember is"
+    },
+    {
+      "id": 5,
+      "label": "The alternative pathway of complement activation",
+      "groupedBecause": "The lecturer describes the mechanism of the alternative pathway from spontaneous fluid-phase convertase formation to surface amplification.",
+      "startsWith": "So let's go to this slide, and we're going to start"
+    },
+    {
+      "id": 6,
+      "label": "The lectin pathway of complement activation",
+      "groupedBecause": "The lecturer explains how mannose-binding lectin recognizes bacterial sugars and forms the C4bC2a convertase.",
+      "startsWith": "Now, if we go to the lectin pathway, the lectin"
+    },
+    {
+      "id": 7,
+      "label": "The classical pathway and reaching the trigger threshold",
+      "groupedBecause": "The lecturer details antibody-mediated C1 activation and explains how converging pathways reach the local concentration threshold.",
+      "startsWith": "Now, the third pathway to recognize a pathogen by complement is"
+    },
+    {
+      "id": 8,
+      "label": "Effector mechanisms: opsonization, inflammation, and membrane attack complex",
+      "groupedBecause": "The lecturer details the downstream effector actions of activated complement, including phagocytic clearance, inflammatory signaling, and target cell lysis.",
+      "startsWith": "So how about the effector functions? So I mentioned at the"
+    },
+    {
+      "id": 9,
+      "label": "Host regulation and protection against complement",
+      "groupedBecause": "The lecturer explains the regulatory proteins that protect host cells by inactivating C3 convertases and blocking membrane attack complex insertion.",
+      "startsWith": "And then this brings up the question of why isn't"
+    },
+    {
+      "id": 10,
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "The lecturer surveys the distinct clinical presentations and infection risks associated with genetic or acquired deficiencies in specific complement proteins.",
+      "startsWith": "Now, I mentioned at the start that for med students here,"
+    },
+    {
+      "id": 11,
+      "label": "Pathogen evasion strategies and Staphylococcus aureus mechanisms",
+      "groupedBecause": "The lecturer explains how pathogens evade complement destruction, focusing on specific molecular mechanisms evolved by Staphylococcus aureus and their biotechnological applications.",
+      "startsWith": "Now, the other thing that's quite interesting about complement,"
+    },
+    {
+      "id": 12,
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "The lecturer concludes the lecture series on innate complement mechanisms and announces the upcoming topic on adaptive immunity.",
+      "startsWith": "Okay. So I think, with that, we can finish up"
+    }
+  ]
+}

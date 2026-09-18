@@ -1,0 +1,15 @@
+{
+  "promptVersion": "s6",
+  "lecture": "l7",
+  "instance": "1",
+  "modelId": "google/gemini-3.7-flash",
+  "transcriptPath": "/Users/ellatarin/Lecture Notes/Biology of Disease/Pipeline processing/Lecture 7 - Cancer cell hierarchies plasticity and evolution on - 2026-03-13/Transcript/transcript.txt",
+  "seconds": 16,
+  "promptTokens": 9163,
+  "completionTokens": 2299,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": null,
+  "subtopics": 11,
+  "fidelity": "EXACT"
+}

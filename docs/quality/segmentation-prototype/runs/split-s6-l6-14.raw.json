@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes on the hallmarks of cancer",
+      "groupedBecause": "The lecturer frames the lecture by outlining learning outcomes, relating to prior lectures, and introducing the Hanahan and Weinberg framework of cancer hallmarks.",
+      "startsWith": "So unfortunately, I'm going to have to start now. Otherwise, I'm"
+    },
+    {
+      "id": 2,
+      "label": "Growth signal autonomy and insensitivity to antigrowth signals",
+      "groupedBecause": "This section explains how mutations in upstream signaling cascades, including Wnt/APC/beta-catenin, RTKs, and TGF-beta, deregulate proliferation and survival.",
+      "startsWith": "So we'll start with these first two, independence for growth stimulation"
+    },
+    {
+      "id": 3,
+      "label": "Differentiation block in leukemia and colorectal carcinoma",
+      "groupedBecause": "This section examines how cancer cells fail to complete terminal differentiation, contrasting hematopoietic leukemias with dysregulated crypt architecture in the colon.",
+      "startsWith": "So we'll move on to something that is slightly less evident"
+    },
+    {
+      "id": 4,
+      "label": "Evasion of apoptosis through p53 pathway alterations",
+      "groupedBecause": "This section details the molecular mechanisms of apoptotic resistance involving p53 inactivation, MDM2 regulation, Bax permeabilization, and BCL2 overexpression.",
+      "startsWith": "So we're going to move on to resistance to apoptosis. God,"
+    },
+    {
+      "id": 5,
+      "label": "Replicative immortality, telomeres, and senescence",
+      "groupedBecause": "This section covers the Hayflick limit, telomere biology, TERT activation mechanisms, and how cells bypass senescence to achieve immortalization.",
+      "startsWith": "So the last one that I will talk about or hallmark"
+    },
+    {
+      "id": 6,
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "This section explores cancer cell metabolism, including aerobic glycolysis via the Warburg effect, biosynthetic demands, and the epigenetic effects of oncometabolites.",
+      "startsWith": "So we'll move on to metabolism, because this is a very"
+    },
+    {
+      "id": 7,
+      "label": "Induction of angiogenesis in tumor growth",
+      "groupedBecause": "This section explains why expanding tumors require new blood vessel recruitment, the timing of the angiogenic switch, and the balance of pro- and anti-angiogenic signals.",
+      "startsWith": "Similarly for angiogenesis, right, in terms of what that does"
+    },
+    {
+      "id": 8,
+      "label": "Mechanisms, routes, and challenges of metastasis",
+      "groupedBecause": "This section discusses the multi-step invasion-metastasis cascade, anatomical circulatory routes, circulating tumor cell monitoring, and the genetic complexity of secondary colonization.",
+      "startsWith": "Okay, so onto the last one. And I'll just"
+    },
+    {
+      "id": 9,
+      "label": "Concluding summary and recommended reading",
+      "groupedBecause": "The lecturer concludes the lecture by summarizing how cancer hallmarks converge, mentioning recent literature expansions, and closing the session.",
+      "startsWith": "So what I also wanted to say and just finish on"
+    }
+  ]
+}

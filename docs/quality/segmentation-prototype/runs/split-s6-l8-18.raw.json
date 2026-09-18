@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Course closing and lecture introduction",
+      "groupedBecause": "The lecturer welcomes the class to the final lecture and introduces the learning outcomes on cancer therapy modes of action.",
+      "startsWith": "Okay, good afternoon, everyone. Welcome to your last BOD lecture."
+    },
+    {
+      "id": 2,
+      "label": "Challenges in cancer treatment and surgical approaches",
+      "groupedBecause": "The lecturer explains the fundamental difficulty of killing cancer cells without harming healthy tissue and discusses surgery and radiotherapy as primary localized treatments.",
+      "startsWith": "So cancer therapy. It's actually really easy to kill cancer cells,"
+    },
+    {
+      "id": 3,
+      "label": "Cytotoxic chemotherapy mechanisms, toxicity, and resistance",
+      "groupedBecause": "This section covers traditional cytotoxic chemotherapeutic agents, their mechanisms of inducing DNA damage, clinical success in testicular cancer, systemic side effects, and efflux pump-mediated resistance.",
+      "startsWith": "Of course, the next line of defense is cytotoxic chemotherapy, and"
+    },
+    {
+      "id": 4,
+      "label": "Targeting hormone-dependent signaling pathways",
+      "groupedBecause": "The lecturer discusses targeted therapies that inhibit outside-in growth signaling in hormone-dependent cancers using tamoxifen and enzalutamide.",
+      "startsWith": "So where are we moving to these days? I think"
+    },
+    {
+      "id": 5,
+      "label": "Exploiting cell cycle checkpoint defects and oncolytic viruses",
+      "groupedBecause": "This passage explains how defects in checkpoint proteins like p21, p53, and Rb are exploited through DNA-damaging radiation and engineered oncolytic adenoviruses.",
+      "startsWith": "What about those cell cycle checkpoint defects? Well, of course,"
+    },
+    {
+      "id": 6,
+      "label": "Synthetic lethality and PARP inhibitors in BRCA-deficient cancers",
+      "groupedBecause": "The lecturer details how defects in homologous recombination repair in BRCA mutant cells make them selectively vulnerable to PARP inhibition.",
+      "startsWith": "What about genetic instability? We know some cancers are genetically"
+    },
+    {
+      "id": 7,
+      "label": "Targeting oncogenic kinase activation and ATP-pocket inhibitors",
+      "groupedBecause": "This section examines hyperactivated kinase oncogenes and the mechanism, cross-reactivity, and steric resistance mutations of small-molecule ATP-competitive kinase inhibitors.",
+      "startsWith": "So we can exploit cancer cell properties. We can exploit"
+    },
+    {
+      "id": 8,
+      "label": "Bypass resistance, drug addiction, and BRAF V600E inhibitors",
+      "groupedBecause": "The lecturer describes secondary resistance mechanisms to vemurafenib in BRAF-mutant melanoma, including bypass pathways, paradoxical activation, drug addiction, and metronomic dosing.",
+      "startsWith": "Now, resistance can develop by a number of other mechanisms"
+    },
+    {
+      "id": 9,
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "This topic covers engineered monoclonal antibodies and antibody-drug conjugates that target surface antigens to block receptor signaling or selectively deliver cytotoxic payloads.",
+      "startsWith": "What are the other options? Well, the immune system. We"
+    },
+    {
+      "id": 10,
+      "label": "Evidence for natural cancer immunosurveillance",
+      "groupedBecause": "The lecturer evaluates clinical and experimental evidence for natural immune surveillance against tumors, including data from transplant patients and thymectomy cohorts.",
+      "startsWith": "So we can use targeted agents, we can use antibodies,"
+    },
+    {
+      "id": 11,
+      "label": "Immune checkpoint inhibitors and tumor neoantigens",
+      "groupedBecause": "This section explains how checkpoint blockade against CTLA4 and PD-1 reawakens exhausted T cells to target tumor neoantigens, alongside associated immune-related toxicities.",
+      "startsWith": "So there's sort of anecdotal evidence for the immune system"
+    },
+    {
+      "id": 12,
+      "label": "BiTEs and CAR T-cell therapies",
+      "groupedBecause": "The lecturer describes cellular immunotherapies including bispecific T-cell engagers and chimeric antigen receptor T cells, their manufacturing process, and their clinical limitations.",
+      "startsWith": "What other immunotherapy approaches are there? Well, there are CAR"
+    },
+    {
+      "id": 13,
+      "label": "Future directions, genomics, and pediatric leukemia combination therapy",
+      "groupedBecause": "The lecture concludes by summarizing current challenges in cancer treatment, tumor sequencing, historical epidemiological trends, and the ethical considerations highlighted by multi-agent cytotoxic cure in pediatric leukemia.",
+      "startsWith": "So cancer therapy has many challenges. Most therapies only work"
+    }
+  ]
+}

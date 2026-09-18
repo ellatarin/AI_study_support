@@ -1,0 +1,15 @@
+{
+  "promptVersion": "s6",
+  "lecture": "l6",
+  "instance": "17",
+  "modelId": "google/gemini-3.7-flash",
+  "transcriptPath": "/Users/ellatarin/Lecture Notes/Biology of Disease/Pipeline processing/Lecture 6 - Cancer Mechanisms on - 2026-03-11/Transcript/transcript.txt",
+  "seconds": 38,
+  "promptTokens": 12100,
+  "completionTokens": 5121,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": null,
+  "subtopics": 10,
+  "fidelity": "EXACT"
+}

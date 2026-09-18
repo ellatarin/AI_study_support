@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and hallmarks overview",
+      "groupedBecause": "The lecturer introduces the session's learning outcomes, reviews prior lecture concepts, and frames the Hanahan and Weinberg hallmarks of cancer.",
+      "startsWith": "So unfortunately, I'm going to have to start now. Otherwise, I'm going"
+    },
+    {
+      "id": 2,
+      "label": "Growth signaling pathways and mutations",
+      "groupedBecause": "The lecturer explains how oncogenic signaling pathways including Wnt/beta-catenin, RTKs, Ras, and TGF-beta drive growth signal independence and resistance to inhibition.",
+      "startsWith": "So let's kind of go through them as I said. So we'll"
+    },
+    {
+      "id": 3,
+      "label": "Differentiation block in leukemias and carcinomas",
+      "groupedBecause": "The lecturer explains how blocks in cellular differentiation prevent terminal maturation and promote cancer progression in hematopoietic lineages and the intestinal crypt.",
+      "startsWith": "So we'll move on to something that is slightly less evident or less"
+    },
+    {
+      "id": 4,
+      "label": "Resistance to apoptosis via p53 and BCL2",
+      "groupedBecause": "The lecturer details the molecular mechanisms of evading programmed cell death through p53 mutation, Bax regulation, and BCL2 anti-apoptotic balance.",
+      "startsWith": "So we're going to move on to resistance to apoptosis. God, I forgot"
+    },
+    {
+      "id": 5,
+      "label": "Telomeres, senescence, and immortalization",
+      "groupedBecause": "The lecturer describes the Hayflick limit, telomere shortening, senescence signaling, and how TERT promoter mutations enable replicative immortality.",
+      "startsWith": "So the last one that I will talk about or hallmark that I'm"
+    },
+    {
+      "id": 6,
+      "label": "Metabolic rewiring and the Warburg effect",
+      "groupedBecause": "The lecturer discusses metabolic reprogramming in tumors, covering aerobic glycolysis, onco-metabolites from Krebs cycle enzyme mutations, and epigenetic consequences.",
+      "startsWith": "So we'll move on to metabolism, because this is a very important aspect"
+    },
+    {
+      "id": 7,
+      "label": "Tumor angiogenesis and the angiogenic switch",
+      "groupedBecause": "The lecturer outlines the necessity of blood vessel recruitment for tumor perfusion and the balance between pro- and anti-angiogenic factors.",
+      "startsWith": "Similarly for angiogenesis, right, in terms of what that does for the cell."
+    },
+    {
+      "id": 8,
+      "label": "Metastasis cascade and dissemination",
+      "groupedBecause": "The lecturer explains the process of metastasis, circulatory dissemination, diagnostic biomarkers like circulating tumor cells, seed-and-soil dynamics, and whole genome duplication.",
+      "startsWith": "Okay, so onto the last one. And I'll just have a sip of"
+    },
+    {
+      "id": 9,
+      "label": "Summary and closing remarks",
+      "groupedBecause": "The lecturer concludes with a summary of the hallmarks framework, mentions recent literature updates, and gives administrative notices for upcoming practicals.",
+      "startsWith": "So what I also wanted to say and just finish on in terms"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the final lecture on cancer therapy and outlines the key learning outcomes.",
+      "startsWith": "Okay, good afternoon, everyone. Welcome to your last BOD lecture. I'm sure"
+    },
+    {
+      "id": 2,
+      "label": "Physical Interventions: Surgery and Radiotherapy",
+      "groupedBecause": "The lecturer discusses the fundamental challenge of targeting cancer versus healthy cells, and explains the application of surgical removal and radiotherapy.",
+      "startsWith": "So cancer therapy. It's actually really easy to kill cancer cells, and I"
+    },
+    {
+      "id": 3,
+      "label": "Cytotoxic Chemotherapy and Drug Resistance",
+      "groupedBecause": "The lecturer explains the mechanisms, clinical efficacy, systemic toxicities, and efflux-pump resistance associated with cytotoxic chemotherapy.",
+      "startsWith": "Of course, the next line of defense is cytotoxic chemotherapy, and that's"
+    },
+    {
+      "id": 4,
+      "label": "Targeting Hormone Receptor Signaling Vulnerabilities",
+      "groupedBecause": "The lecturer explains how cancers dependent on outside-in hormone signaling can be targeted by blocking estrogen and androgen receptors.",
+      "startsWith": "So where are we moving to these days? I think where we've"
+    },
+    {
+      "id": 5,
+      "label": "Exploiting Cell Cycle Checkpoint Deficiencies",
+      "groupedBecause": "The lecturer explains how cancer cell checkpoint defects can be exploited using irradiation and engineered oncolytic adenoviruses.",
+      "startsWith": "What about those cell cycle checkpoint defects? Well, of course, we know"
+    },
+    {
+      "id": 6,
+      "label": "Synthetic Lethality with PARP Inhibitors in BRCA-Deficient Cancers",
+      "groupedBecause": "The lecturer describes how defects in double-strand break repair in BRCA-mutant cancers are targeted via PARP inhibition.",
+      "startsWith": "What about genetic instability? We know some cancers are genetically unstable as"
+    },
+    {
+      "id": 7,
+      "label": "Kinase Inhibitors and Oncogene Addiction",
+      "groupedBecause": "The lecturer introduces oncogene addiction and details the design and limitations of ATP-competitive kinase inhibitors.",
+      "startsWith": "So we can exploit cancer cell properties. We can exploit those that"
+    },
+    {
+      "id": 8,
+      "label": "Resistance Mechanisms and Drug Addiction in BRAF Inhibitors",
+      "groupedBecause": "The lecturer details how tumors evade BRAF inhibition through bypass pathways, hyperactivation, and drug addiction, and how metronomic dosing addresses this.",
+      "startsWith": "Now, resistance can develop by a number of other mechanisms as well,"
+    },
+    {
+      "id": 9,
+      "label": "Therapeutic Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "The lecturer explains how monoclonal antibodies and antibody-drug conjugates target specific cell surface receptors to mediate tumor cell killing.",
+      "startsWith": "What are the other options? Well, the immune system. We can"
+    },
+    {
+      "id": 10,
+      "label": "Immune Surveillance and Immune Checkpoint Inhibitors",
+      "groupedBecause": "The lecturer examines the evidence for cancer immune surveillance and details how checkpoint inhibitor antibodies reactivate exhausted T cells against neoantigens.",
+      "startsWith": "So we can use targeted agents, we can use antibodies, we"
+    },
+    {
+      "id": 11,
+      "label": "Bispecific T Cell Engagers and CAR T-Cell Therapy",
+      "groupedBecause": "The lecturer discusses cellular immunotherapies, specifically bispecific T cell engagers and CAR T cells, along with their manufacturing and clinical challenges.",
+      "startsWith": "What other immunotherapy approaches are there? Well, there are CAR T"
+    },
+    {
+      "id": 12,
+      "label": "Current Challenges and Genomic Stratification in Oncology",
+      "groupedBecause": "The lecturer outlines key challenges in modern cancer treatment, including heterogeneity, resistance, and the application of genome sequencing and biomarkers.",
+      "startsWith": "So cancer therapy has many challenges. Most therapies only work in some"
+    },
+    {
+      "id": 13,
+      "label": "Historical Trends, Prevention, and Childhood Leukemia Treatment",
+      "groupedBecause": "The lecturer discusses long-term trends in cancer survival and prevention, concluding with the combination chemotherapy success story and trial dilemmas in pediatric leukemia.",
+      "startsWith": "So has therapy improved in the last 50 to 70 years? Well,"
+    }
+  ]
+}

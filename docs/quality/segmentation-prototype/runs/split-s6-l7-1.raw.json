@@ -1,0 +1,70 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class, outlines the themes of cancer evolution and the microenvironment, and states the learning objectives.",
+      "startsWith": "Okay. Good afternoon, everyone. Welcome to the fifth lecture of"
+    },
+    {
+      "id": 2,
+      "label": "Clonal succession and Darwinian evolution in pre-malignant tissues",
+      "groupedBecause": "The lecturer explores how sequential genetic mutations give cells a competitive growth advantage and clonal dominance using mouse esophagus and human eyelid studies.",
+      "startsWith": "So, of course, a lot of the studies that we've"
+    },
+    {
+      "id": 3,
+      "label": "Epigenetic alterations driving tumorigenesis",
+      "groupedBecause": "The lecturer discusses experimental evidence from Drosophila showing that transient disruption of the polycomb repressive complex can initiate cancer without genetic mutations.",
+      "startsWith": "But what about epigenetics? Epigenetics must also play a"
+    },
+    {
+      "id": 4,
+      "label": "Cell of origin and the cancer stem cell model in leukemia",
+      "groupedBecause": "The lecturer examines the parallels between stem cell properties and cancer hallmarks, highlighting evidence for a cancer stem cell hierarchy from leukemia studies.",
+      "startsWith": "So is the cell of origin also important? Is it"
+    },
+    {
+      "id": 5,
+      "label": "Bottom-up transformation in the intestinal crypt",
+      "groupedBecause": "The lecturer reviews mouse model evidence demonstrating that APC deletion initiates adenomas in LGR5-positive crypt stem cells rather than transit amplifying cells.",
+      "startsWith": "What about other cancers? What about cancers where the hierarchy,"
+    },
+    {
+      "id": 6,
+      "label": "Microenvironmental promotion of lung cancer by pollution",
+      "groupedBecause": "The lecturer explains how particulate matter from pollution induces macrophage inflammation and IL-1B signaling to trigger stem-like malignant outgrowth in mutant lung cells.",
+      "startsWith": "So let's come back to that eyelid example. So"
+    },
+    {
+      "id": 7,
+      "label": "Inflammation-driven stem cell reprogramming in transit amplifying cells",
+      "groupedBecause": "The lecturer shows how chronic inflammation or mutant K-RAS can synergize with APC loss via NF-kappa B and beta-catenin to drive transformation in non-stem cells.",
+      "startsWith": "So if this is happening in lung cancer, is"
+    },
+    {
+      "id": 8,
+      "label": "Microenvironmental codependency and therapeutic targeting in established tumors",
+      "groupedBecause": "The lecturer discusses the requirement of stromal and inflammatory support for established tumor growth and the resulting therapeutic strategies targeting the tumor microenvironment.",
+      "startsWith": "So what about the established tumor? Because we know that"
+    },
+    {
+      "id": 9,
+      "label": "Technologies for investigating tumor evolution and spatial architecture",
+      "groupedBecause": "The lecturer outlines laboratory and computational methods, including single-cell sequencing and spatial transcriptomics/proteomics, used to investigate tumor plasticity and interactions.",
+      "startsWith": "And so how are we doing this? How can"
+    },
+    {
+      "id": 10,
+      "label": "Synthesis of genetic, microenvironmental, and evolutionary factors",
+      "groupedBecause": "The lecturer summarizes how mutations, cell of origin, epigenetic plasticity, and environmental promoting factors coevolve to produce malignant disease.",
+      "startsWith": "So we're at the situation, I think, where there"
+    },
+    {
+      "id": 11,
+      "label": "Lecture closing",
+      "groupedBecause": "The lecturer concludes the session and previews the upcoming lecture topic.",
+      "startsWith": "And with that, I will end today's lecture, and"
+    }
+  ]
+}

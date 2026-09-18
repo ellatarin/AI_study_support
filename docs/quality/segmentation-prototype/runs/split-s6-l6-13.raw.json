@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction to the hallmarks of cancer and lecture learning outcomes",
+      "groupedBecause": "The lecturer introduces the session's topic, reviews learning outcomes, and outlines the Hanahan and Weinberg hallmarks framework.",
+      "startsWith": "So unfortunately, I'm going to have to start now. Otherwise, I'm"
+    },
+    {
+      "id": 2,
+      "label": "Growth signal independence and insensitivity to inhibitory signals",
+      "groupedBecause": "The lecturer explains how mutations in signaling cascades such as Wnt, RTK/Ras/MAPK, PI3K/AKT, and TGF-beta deregulate growth control and survival.",
+      "startsWith": "So we'll start with these first two, independence for growth stimulation"
+    },
+    {
+      "id": 3,
+      "label": "Differentiation block in leukemias and colorectal carcinoma",
+      "groupedBecause": "The lecturer explains how cancer cells fail to exit the cell cycle and differentiate, illustrating this mechanism in hematopoiesis and intestinal crypts.",
+      "startsWith": "So we'll move on to something that is slightly less evident"
+    },
+    {
+      "id": 4,
+      "label": "Resistance to apoptosis and p53 regulation",
+      "groupedBecause": "The lecturer describes the mitochondrial apoptotic pathway and how alterations in p53, MDM2, Bax, and BCL2 enable cancer cells to evade cell death.",
+      "startsWith": "So we're going to move on to resistance to apoptosis. God,"
+    },
+    {
+      "id": 5,
+      "label": "Replicative immortality, telomerase activation, and bypass of senescence",
+      "groupedBecause": "The lecturer covers the Hayflick limit, telomere biology, mechanisms of TERT reactivation, and how tumors overcome normal senescence barriers.",
+      "startsWith": "So the last one that I will talk about or hallmark"
+    },
+    {
+      "id": 6,
+      "label": "Metabolic rewiring and the Warburg effect",
+      "groupedBecause": "The lecturer discusses altered cancer metabolism, aerobic glycolysis, Krebs cycle enzyme mutations, and their epigenetic consequences.",
+      "startsWith": "So we'll move on to metabolism, because this is a very"
+    },
+    {
+      "id": 7,
+      "label": "Tumor angiogenesis and the angiogenic switch",
+      "groupedBecause": "The lecturer explains why tumors require blood vessel growth for nutrient perfusion and how the balance between pro- and anti-angiogenic signals controls this process.",
+      "startsWith": "Similarly for angiogenesis, right, in terms of what that does for"
+    },
+    {
+      "id": 8,
+      "label": "Mechanisms and clinical tracking of metastasis",
+      "groupedBecause": "The lecturer discusses the metastatic cascade, lymph node staging, circulating tumor cells, seed-and-soil dynamics, and genomic duplication.",
+      "startsWith": "Okay, so onto the last one. And I'll just have"
+    },
+    {
+      "id": 9,
+      "label": "Lecture summary and practical announcements",
+      "groupedBecause": "The lecturer concludes the session with overarching remarks on the hallmarks literature and housekeeping notes for upcoming practicals.",
+      "startsWith": "So what I also wanted to say and just finish on"
+    }
+  ]
+}

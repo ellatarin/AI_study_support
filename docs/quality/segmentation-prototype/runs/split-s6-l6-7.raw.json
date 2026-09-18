@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes on the hallmarks of cancer",
+      "groupedBecause": "The lecturer outlines the learning outcomes, recaps previous material on tumor progression, and introduces the hallmarks of cancer framework.",
+      "startsWith": "So unfortunately, I'm going to have to start now."
+    },
+    {
+      "id": 2,
+      "label": "Independence from growth signals and pathway deregulation",
+      "groupedBecause": "The lecturer explains how mutations in Wnt, receptor tyrosine kinase, and TGF-beta signaling pathways drive autonomous cell proliferation and survival.",
+      "startsWith": "So we'll start with these first two, independence for growth"
+    },
+    {
+      "id": 3,
+      "label": "Block in cellular differentiation",
+      "groupedBecause": "The lecturer examines how cancer cells fail to terminally differentiate using examples from hematopoiesis and colonic crypt architecture.",
+      "startsWith": "So we'll move on to something that is slightly less"
+    },
+    {
+      "id": 4,
+      "label": "Resistance to apoptosis through p53 and mitochondrial regulators",
+      "groupedBecause": "The lecturer describes the mechanisms by which cancer cells evade programmed cell death through alterations in p53, Bax, and BCL2.",
+      "startsWith": "Okay, so resistance to apoptosis. So what does that look"
+    },
+    {
+      "id": 5,
+      "label": "Replicative immortalization, telomeres, and bypass of senescence",
+      "groupedBecause": "The lecturer discusses the limits of normal cell division, telomere shortening, TERT upregulation, and how p53 mediates stress-induced senescence.",
+      "startsWith": "So the last one that I will talk about or"
+    },
+    {
+      "id": 6,
+      "label": "Metabolic rewiring, the Warburg effect, and onco-metabolites",
+      "groupedBecause": "The lecturer explains aerobic glycolysis in cancer cells and how mutations in Krebs cycle enzymes generate onco-metabolites that alter the epigenome.",
+      "startsWith": "Okay. So we'll move on to metabolism, because this"
+    },
+    {
+      "id": 7,
+      "label": "Sustained angiogenesis and the angiogenic switch",
+      "groupedBecause": "The lecturer explains the requirement for new blood vessel formation to support tumor growth and oxygenation during tumor progression.",
+      "startsWith": "Similarly for angiogenesis, right, in terms of what that does"
+    },
+    {
+      "id": 8,
+      "label": "Metastasis, circulatory dissemination, and seed and soil dynamics",
+      "groupedBecause": "The lecturer details the metastatic cascade, routes of dissemination, diagnostic detection via lymph nodes and circulating tumor cells, and the genetics of metastatic clones.",
+      "startsWith": "Okay, so onto the last one. And I'll just"
+    },
+    {
+      "id": 9,
+      "label": "Summary of cancer hallmarks and conclusion",
+      "groupedBecause": "The lecturer summarizes the overarching hallmarks model, mentions recent conceptual extensions in the literature, and concludes the session.",
+      "startsWith": "So what I also wanted to say and just finish"
+    }
+  ]
+}

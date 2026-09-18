@@ -1,0 +1,70 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes on cancer evolution",
+      "groupedBecause": "The lecturer introduces the lecture topic of cancer evolution and the microenvironment, outlining the session's key learning outcomes.",
+      "startsWith": "Okay. Good afternoon, everyone. Welcome to the fifth lecture of the Cancer"
+    },
+    {
+      "id": 2,
+      "label": "Clonal expansion and Darwinian selection in cancer evolution",
+      "groupedBecause": "The lecturer explains how tumors evolve through sequential mutations and clonal expansion giving selective growth advantages, evidenced by studies in mouse esophagus and human eyelid tissue.",
+      "startsWith": "So, of course, a lot of the studies that we've done"
+    },
+    {
+      "id": 3,
+      "label": "Epigenetic alterations in cancer initiation",
+      "groupedBecause": "The lecturer discusses how transient epigenetic deregulation can alter transcriptional landscapes and induce cancer hallmarks in Drosophila independently of genetic mutations.",
+      "startsWith": "But what about epigenetics? Epigenetics must also play a role,"
+    },
+    {
+      "id": 4,
+      "label": "Stem cell hierarchies and the cancer stem cell model",
+      "groupedBecause": "The lecturer explores the role of cell of origin, comparing stem cell hallmarks with cancer and presenting evidence from leukemia for the cancer stem cell model.",
+      "startsWith": "So is the cell of origin also important? Is it important"
+    },
+    {
+      "id": 5,
+      "label": "Cell of origin in colorectal cancer development",
+      "groupedBecause": "The lecturer examines how knocking out APC in intestinal LGR5+ stem cells versus transit-amplifying cells demonstrates bottom-up transformation in colorectal adenomas.",
+      "startsWith": "What about other cancers? What about cancers where the hierarchy,"
+    },
+    {
+      "id": 6,
+      "label": "Permissive microenvironments and inflammatory promotion in lung cancer",
+      "groupedBecause": "The lecturer explains how non-mutagenic environmental promoters like particulate pollution recruit macrophages that produce IL-1B to activate stem-like states in mutant lung cells.",
+      "startsWith": "So let's come back to that eyelid example. So why do"
+    },
+    {
+      "id": 7,
+      "label": "Inflammation and oncogenic signaling driving stemness in transit-amplifying cells",
+      "groupedBecause": "The lecturer demonstrates how chronic inflammation from dextran sulfate or KRAS activation cooperates with APC loss via NF-kappa B and beta-catenin signaling to drive adenomas in transit-amplifying cells.",
+      "startsWith": "If this is happening in lung cancer, is this happening in"
+    },
+    {
+      "id": 8,
+      "label": "Microenvironmental dependence in established tumors and therapeutic targeting",
+      "groupedBecause": "The lecturer discusses the requirement of supportive stromal and inflammatory cells for established tumor growth, as shown in basal cell carcinoma transplantation, and its implications for microenvironment-targeted therapies.",
+      "startsWith": "So what about the established tumor? Because we know that in"
+    },
+    {
+      "id": 9,
+      "label": "Technologies for investigating tumor evolution and spatial heterogeneity",
+      "groupedBecause": "The lecturer describes experimental and computational methods, including single-cell sequencing, spatial transcriptomics, and spatial proteomics, used to map tumor-microenvironment interactions.",
+      "startsWith": "And so how are we doing this? How can we investigate"
+    },
+    {
+      "id": 10,
+      "label": "Synthesis of cancer evolution, cell of origin, and microenvironmental coevolution",
+      "groupedBecause": "The lecturer synthesizes the main conceptual frameworks, summarizing how cancer progression relies on the convergence of mutations, cell of origin properties, epigenetics, and a permissive inflammatory microenvironment.",
+      "startsWith": "So we're at the situation, I think, where there are"
+    },
+    {
+      "id": 11,
+      "label": "Lecture closing and next session notice",
+      "groupedBecause": "The lecturer wraps up the lecture and gives a brief notice about the upcoming session on cancer therapy.",
+      "startsWith": "And with that, I will end today's lecture, and Monday"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "Framing the lecture topic on cancer evolution and introducing the key learning outcomes.",
+      "startsWith": "Okay. Good afternoon, everyone. Welcome to the fifth lecture of the"
+    },
+    {
+      "id": 2,
+      "label": "Clonal Evolution and Selection in Pre-Neoplastic Tissues",
+      "groupedBecause": "Explaining Darwinian clonal succession and selective growth advantage of mutations using adenoma progression, esophageal, and eyelid tissue studies.",
+      "startsWith": "So, of course, a lot of the studies that we've done to"
+    },
+    {
+      "id": 3,
+      "label": "Epigenetic Regulation in Tumor Development",
+      "groupedBecause": "Demonstrating how transient epigenetic disruption without permanent genetic mutations can initiate tumorigenesis using a Drosophila model.",
+      "startsWith": "But what about epigenetics? Epigenetics must also play a role, right?"
+    },
+    {
+      "id": 4,
+      "label": "Cell of Origin and the Cancer Stem Cell Model",
+      "groupedBecause": "Comparing normal stem cell hallmarks with cancer cell properties and presenting evidence for cancer stem cell hierarchies in leukemia.",
+      "startsWith": "So is the cell of origin also important? Is it important what cell"
+    },
+    {
+      "id": 5,
+      "label": "Bottom-Up Transformation in Intestinal Crypts",
+      "groupedBecause": "Demonstrating bottom-up transformation in colorectal adenomas through targeted APC deletion in basal crypt stem cells versus transit amplifying cells.",
+      "startsWith": "What about other cancers? What about cancers where the hierarchy, the normal"
+    },
+    {
+      "id": 6,
+      "label": "Permissive Microenvironments and Environmental Promoters in Lung Cancer",
+      "groupedBecause": "Explaining how environmental promoters like particulate air pollution stimulate macrophage inflammation and stemness to drive lung cancer outgrowth.",
+      "startsWith": "So let's come back to that eyelid example. So why do these"
+    },
+    {
+      "id": 7,
+      "label": "Chronic Inflammation Driving Transformation in Differentiated Progenitors",
+      "groupedBecause": "Illustrating how chronic colitis or K-RAS signaling cooperates with APC loss to activate stem cell programs and drive tumor formation in transit amplifying cells.",
+      "startsWith": "So if this is happening in lung cancer, is this happening in"
+    },
+    {
+      "id": 8,
+      "label": "Stromal Dependency and Targeting the Established Tumor Microenvironment",
+      "groupedBecause": "Describing the dependency of established tumors on supportive stroma and exploring therapeutic strategies targeting the tumor microenvironment.",
+      "startsWith": "So what about the established tumor? Because we know that in the"
+    },
+    {
+      "id": 9,
+      "label": "Methodologies for Investigating the Tumor Microenvironment",
+      "groupedBecause": "Outlining laboratory techniques such as single-cell sequencing and spatial omics used to map tumor heterogeneity and microenvironmental interactions.",
+      "startsWith": "And so how are we doing this? How can we investigate"
+    },
+    {
+      "id": 10,
+      "label": "Multi-Factorial Synthesis of Cancer Evolution",
+      "groupedBecause": "Synthesizing the converging contributions of genetic mutations, cell of origin, epigenetic plasticity, and microenvironmental promoters to cancer evolution.",
+      "startsWith": "So we're at the situation, I think, where there are potentially"
+    },
+    {
+      "id": 11,
+      "label": "Lecture Conclusion",
+      "groupedBecause": "Concluding the lecture and previewing the topic for the next session.",
+      "startsWith": "And with that, I will end today's lecture, and Monday"
+    }
+  ]
+}

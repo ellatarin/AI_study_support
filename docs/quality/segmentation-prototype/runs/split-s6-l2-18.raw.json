@@ -1,0 +1,70 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "The lecturer opens the session by welcoming students and framing complement's importance and notoriously complex nomenclature by comparing it to the Krebs cycle.",
+      "startsWith": "Welcome to today's lecture. Today's lecture is on"
+    },
+    {
+      "id": 2,
+      "label": "Overview and primary functions of complement",
+      "groupedBecause": "This section outlines the basic three-stage architecture of complement and introduces its core roles in opsonization, lysis, inflammation, and cellular clearance.",
+      "startsWith": "Okay. So, let's start. This is an overview"
+    },
+    {
+      "id": 3,
+      "label": "Complement nomenclature and C3 cleavage mechanism",
+      "groupedBecause": "The lecturer explains the naming conventions of complement fragments and describes how C3 is cleaved to expose a reactive thioester bond.",
+      "startsWith": "Now, a word on the naming. And this is"
+    },
+    {
+      "id": 4,
+      "label": "The alternative pathway",
+      "groupedBecause": "This passage details the spontaneous initiation of the alternative pathway through fluid-phase and surface-bound convertases.",
+      "startsWith": "So let's go to this slide, and we're"
+    },
+    {
+      "id": 5,
+      "label": "The lectin pathway",
+      "groupedBecause": "The lecturer explains how mannose-binding lectin recognizes bacterial sugars and recruits components to assemble the C4bC2a convertase.",
+      "startsWith": "Now, if we go to the lectin pathway, the"
+    },
+    {
+      "id": 6,
+      "label": "The classical pathway and activation threshold",
+      "groupedBecause": "This section covers antibody-mediated C1 activation and explains how concentrating convertase activity is necessary to reach the trigger threshold.",
+      "startsWith": "Now, the third pathway to recognize a pathogen by"
+    },
+    {
+      "id": 7,
+      "label": "Downstream effector mechanisms",
+      "groupedBecause": "The lecturer explains the three downstream effector actions of activated complement: opsonization, inflammatory signaling, and membrane attack complex lysis.",
+      "startsWith": "So how about the effector functions? So I mentioned"
+    },
+    {
+      "id": 8,
+      "label": "Host regulation and protection against complement",
+      "groupedBecause": "This passage details the positive regulator properdin and negative regulatory factors that protect host cells from complement-mediated destruction.",
+      "startsWith": "And then this brings up the question of why"
+    },
+    {
+      "id": 9,
+      "label": "Clinical complement deficiencies",
+      "groupedBecause": "The lecturer reviews the distinct clinical presentations, susceptibility to infections, and autoimmune manifestations associated with specific complement deficiencies.",
+      "startsWith": "Now, I mentioned at the start that for med"
+    },
+    {
+      "id": 10,
+      "label": "Pathogen evasion strategies and Staphylococcus aureus",
+      "groupedBecause": "This section details how pathogens evade complement destruction, focusing on the specific mechanisms evolved by Staphylococcus aureus and clinical uses of protein A.",
+      "startsWith": "Now, the other thing that's quite interesting about"
+    },
+    {
+      "id": 11,
+      "label": "Closing housekeeping and next lecture preview",
+      "groupedBecause": "The lecturer concludes the session, wraps up the first lecture series, and previews the upcoming lecture on the adaptive immune system.",
+      "startsWith": "Okay. So I think, with that, we can"
+    }
+  ]
+}

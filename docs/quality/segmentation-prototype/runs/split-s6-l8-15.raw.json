@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning objectives regarding cancer therapies and their modes of action.",
+      "startsWith": "Okay, good afternoon, everyone. Welcome to your last BOD"
+    },
+    {
+      "id": 2,
+      "label": "Selectivity challenge, surgical resection, and radiotherapy",
+      "groupedBecause": "The lecturer explains the fundamental challenge of sparing healthy cells while killing cancer cells and details physical debulking through surgery and localized radiotherapy.",
+      "startsWith": "So cancer therapy. It's actually really easy to"
+    },
+    {
+      "id": 3,
+      "label": "Cytotoxic chemotherapy, clinical success, and resistance mechanisms",
+      "groupedBecause": "The lecturer discusses the major classes of cytotoxic agents, their success in treating testicular cancer, systemic side effects, and multidrug resistance mediated by efflux pumps.",
+      "startsWith": "Of course, the next line of defense is cytotoxic"
+    },
+    {
+      "id": 4,
+      "label": "Targeting hormone receptor signaling",
+      "groupedBecause": "The lecturer explains how cancers reliant on outside-in signaling can be treated by inhibiting estrogen and androgen receptors.",
+      "startsWith": "So where are we moving to these days? I"
+    },
+    {
+      "id": 5,
+      "label": "Exploiting cell cycle checkpoint defects and oncolytic viruses",
+      "groupedBecause": "The lecturer examines how defects in checkpoint proteins like p21 and p53 can be leveraged via radiation sensitivity and selective oncolytic adenoviral replication.",
+      "startsWith": "What about those cell cycle checkpoint defects? Well, of"
+    },
+    {
+      "id": 6,
+      "label": "Targeting genetic instability with PARP inhibitors",
+      "groupedBecause": "The lecturer explains the synthetic lethal strategy of using PARP inhibitors to selectively kill BRCA-deficient cancer cells with defective double-strand break repair.",
+      "startsWith": "What about genetic instability? We know some cancers are"
+    },
+    {
+      "id": 7,
+      "label": "Oncogene addiction and small-molecule kinase inhibitors",
+      "groupedBecause": "The lecturer describes the concept of oncogene addiction and the design of ATP-competitive inhibitors targeting hyperactive fusion and mutant kinases.",
+      "startsWith": "So we can exploit cancer cell properties. We can"
+    },
+    {
+      "id": 8,
+      "label": "Kinase inhibitor resistance, bypass pathways, and drug addiction",
+      "groupedBecause": "The lecturer details the mechanisms through which tumors evade kinase inhibitors, highlighting BRAF mutations, bypass signaling, drug addiction, and metronomic dosing strategies.",
+      "startsWith": "However, one of the issues with kinase inhibitors is"
+    },
+    {
+      "id": 9,
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "The lecturer explains how therapeutic antibodies direct cytotoxic immune responses or deliver conjugated toxins specifically to antigen-bearing cancer cells.",
+      "startsWith": "What are the other options? Well, the immune"
+    },
+    {
+      "id": 10,
+      "label": "Tumor immune surveillance and immune checkpoint inhibition",
+      "groupedBecause": "The lecturer reviews the evidence for natural antitumor immunity and the mechanism and clinical toxicities of reactivating T cells with checkpoint inhibitors.",
+      "startsWith": "So we can use targeted agents, we can"
+    },
+    {
+      "id": 11,
+      "label": "Adoptive cellular therapy: BiTEs and CAR T cells",
+      "groupedBecause": "The lecturer covers engineered T-cell therapies, including bispecific T-cell engagers and chimeric antigen receptor T cells, along with their manufacturing and clinical challenges.",
+      "startsWith": "What other immunotherapy approaches are there? Well, there"
+    },
+    {
+      "id": 12,
+      "label": "Systemic challenges, genome sequencing, and future therapeutic directions",
+      "groupedBecause": "The lecturer reviews the broader landscape of cancer therapy, addressing tumor heterogeneity, genomic sequencing in the NHS, prevention, and clinical dilemmas.",
+      "startsWith": "So cancer therapy has many challenges. Most therapies only"
+    },
+    {
+      "id": 13,
+      "label": "Pediatric leukemia success and trial design dilemmas",
+      "groupedBecause": "The lecturer concludes with the historical success of combination cytotoxic therapy in pediatric leukemia and the ethical difficulties of testing novel targeted drugs against established regimens.",
+      "startsWith": "But I'm going to end with a success"
+    }
+  ]
+}

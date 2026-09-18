@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and learning outcomes on the hallmarks of cancer",
+      "groupedBecause": "The lecturer outlines the session's objectives, introduces the framework of cancer progression, and sets up the simplified set of cancer hallmarks.",
+      "startsWith": "So unfortunately, I'm going to have to start now. Otherwise, I'm going to"
+    },
+    {
+      "id": 2,
+      "label": "Independence for growth stimulation and resistance to growth inhibitory signals",
+      "groupedBecause": "This section explains how mutations in upstream signaling pathways like Wnt/APC, receptor tyrosine kinases, and TGF-beta allow cells to proliferate continuously and survive.",
+      "startsWith": "So let's kind of go through them as I said. So we'll start"
+    },
+    {
+      "id": 3,
+      "label": "Differentiation block in hematopoietic cancers and carcinomas",
+      "groupedBecause": "This section explores how cancer cells can fail to execute terminal differentiation, using leukemias and intestinal crypt biology as core examples.",
+      "startsWith": "So we'll move on to something that is slightly less evident or less"
+    },
+    {
+      "id": 4,
+      "label": "Resistance to apoptosis and regulation of p53",
+      "groupedBecause": "The lecturer explains how loss or inactivation of p53 and dysregulation of Bax and BCL2 prevent programmed cell death in cancer.",
+      "startsWith": "So we're going to move on to resistance to apoptosis. God, I forgot"
+    },
+    {
+      "id": 5,
+      "label": "Replicative immortalization, telomeres, and cellular senescence",
+      "groupedBecause": "This section details the mechanisms of replicative limits, telomere maintenance through TERT alterations, and how senescence functions as a stress response.",
+      "startsWith": "So the last one that I will talk about or hallmark that I'm"
+    },
+    {
+      "id": 6,
+      "label": "Metabolic rewiring and the Warburg effect",
+      "groupedBecause": "This section covers aerobic glycolysis in cancer cells, metabolic enzyme mutations, onco-metabolite production, and their epigenetic consequences.",
+      "startsWith": "So we'll move on to metabolism, because this is a very important aspect"
+    },
+    {
+      "id": 7,
+      "label": "Angiogenesis and the angiogenic switch",
+      "groupedBecause": "The lecturer discusses the requirement of new blood vessel formation for tumor growth, its onset in pre-malignant lesions, and the balance of activators and inhibitors.",
+      "startsWith": "Similarly for angiogenesis, right, in terms of what that does for the cell."
+    },
+    {
+      "id": 8,
+      "label": "Metastasis and the metastatic cascade",
+      "groupedBecause": "This section covers the mechanisms, clinical detection, circulatory dissemination patterns, and genomic characteristics of metastatic cancer cells.",
+      "startsWith": "Okay, so onto the last one. And I'll just have a sip of"
+    },
+    {
+      "id": 9,
+      "label": "Summary, further reading, and practical session notice",
+      "groupedBecause": "The lecturer provides concluding remarks on the hallmarks framework, mentions recent literature, and concludes the lecture with practical information.",
+      "startsWith": "So what I also wanted to say and just finish on in terms of"
+    }
+  ]
+}

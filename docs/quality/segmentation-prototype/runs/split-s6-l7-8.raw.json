@@ -1,0 +1,70 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture overview and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class, recaps prior material, and outlines the themes and learning objectives for the session on cancer evolution and the microenvironment.",
+      "startsWith": "Okay. Good afternoon, everyone. Welcome to the fifth lecture of the Cancer"
+    },
+    {
+      "id": 2,
+      "label": "Stepwise mutations and clonal evolution",
+      "groupedBecause": "The lecturer explains how cancers accumulate mutations over successive stages and reviews experimental evidence from mouse esophagus and human eyelid tissue showing clonal expansion under selective advantage.",
+      "startsWith": "So, of course, a lot of the studies that we've done to"
+    },
+    {
+      "id": 3,
+      "label": "Epigenetic alterations in tumor initiation",
+      "groupedBecause": "The lecturer explores how transient changes in the epigenetic and transcriptional landscape, demonstrated by Polycomb repressive complex studies in Drosophila, can drive cancer formation without mutations.",
+      "startsWith": "But what about epigenetics? Epigenetics must also play a role,"
+    },
+    {
+      "id": 4,
+      "label": "Cell of origin and the cancer stem cell model",
+      "groupedBecause": "The lecturer compares normal tissue hierarchies with cancer hierarchies, explaining the hallmarks of stem cells and presenting evidence for cancer stem cells from leukemia transplantation experiments.",
+      "startsWith": "So is the cell of origin also important? Is it important what"
+    },
+    {
+      "id": 5,
+      "label": "Bottom-up transformation in the intestinal crypt",
+      "groupedBecause": "The lecturer details the intestinal crypt hierarchy and explains mouse experiments showing that APC deletion initiates adenomas in Lgr5+ basal stem cells rather than transit-amplifying cells.",
+      "startsWith": "What about other cancers? What about cancers where the hierarchy,"
+    },
+    {
+      "id": 6,
+      "label": "Microenvironmental promotion and lung cancer",
+      "groupedBecause": "The lecturer examines how mutated cells require a permissive microenvironment, using a lung cancer study where pollution-induced macrophage inflammation drives a stem-like state in mutant cells.",
+      "startsWith": "So let's come back to that eyelid example. So why do these"
+    },
+    {
+      "id": 7,
+      "label": "Inflammation-induced stemness in colorectal transformation",
+      "groupedBecause": "The lecturer explains how chronic inflammation or oncogenic KRAS can cooperate with APC loss in transit-amplifying cells to activate NF-kappa B and beta-catenin signaling, conferring stemness and enabling adenoma growth.",
+      "startsWith": "So if this is happening in lung cancer, is this happening in"
+    },
+    {
+      "id": 8,
+      "label": "Stromal dependency in established tumors and therapeutic targets",
+      "groupedBecause": "The lecturer discusses the requirement of stromal and inflammatory cells to sustain established tumors, citing transplantation experiments and outlining therapies targeting the tumor microenvironment.",
+      "startsWith": "So what about the established tumor? Because we know that in"
+    },
+    {
+      "id": 9,
+      "label": "Methods for investigating tumor heterogeneity and microenvironments",
+      "groupedBecause": "The lecturer describes laboratory technologies used to map tumor cells and their environments, including single-cell sequencing, spatial transcriptomics, and spatial proteomics.",
+      "startsWith": "And so how are we doing this? How can we investigate this"
+    },
+    {
+      "id": 10,
+      "label": "Integrated summary of cancer evolution",
+      "groupedBecause": "The lecturer synthesizes the lecture's core themes, emphasizing that cancer development requires a convergence of genetic mutations, cell of origin properties, and permissive microenvironmental triggers.",
+      "startsWith": "So we're at the situation, I think, where there are potentially"
+    },
+    {
+      "id": 11,
+      "label": "Lecture closing",
+      "groupedBecause": "The lecturer concludes the session and provides an administrative forward reference to Monday's topic.",
+      "startsWith": "And with that, I will end today's lecture, and Monday we"
+    }
+  ]
+}

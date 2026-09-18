@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "The lecturer welcomes the class, compares complement to the Krebs cycle, and sets expectations for the lecture.",
+      "startsWith": "Welcome to today's lecture. Today's lecture is on complement."
+    },
+    {
+      "id": 2,
+      "label": "Overview of complement cascade and core functions",
+      "groupedBecause": "The lecturer introduces the three stages of the complement cascade and outlines its primary functions in opsonization, cell lysis, inflammation, and waste clearance.",
+      "startsWith": "Okay. So, let's start. This is an overview of"
+    },
+    {
+      "id": 3,
+      "label": "Complement nomenclature conventions",
+      "groupedBecause": "The lecturer explains the historical naming conventions, numbering order anomalies, and cleavage fragment labeling of complement components.",
+      "startsWith": "Now, a word on the naming. And this is important"
+    },
+    {
+      "id": 4,
+      "label": "Central role and activation mechanism of C3",
+      "groupedBecause": "The lecturer describes how C3 acts as the central fulcrum of complement through its cleavage into inflammatory C3a and reactive, surface-binding C3b.",
+      "startsWith": "Now, the really key thing that you really should remember"
+    },
+    {
+      "id": 5,
+      "label": "The alternative pathway",
+      "groupedBecause": "The lecturer explains how the alternative pathway initiates spontaneously through fluid phase and surface-bound C3 convertases.",
+      "startsWith": "So let's go to this slide, and we're going"
+    },
+    {
+      "id": 6,
+      "label": "The lectin pathway",
+      "groupedBecause": "The lecturer details how mannose-binding lectin recognizes bacterial carbohydrate residues to assemble the classical C4bC2a convertase.",
+      "startsWith": "Now, if we go to the lectin pathway, the"
+    },
+    {
+      "id": 7,
+      "label": "The classical pathway",
+      "groupedBecause": "The lecturer explains how antibody binding recruits C1 to assemble the classical convertase on pathogen surfaces.",
+      "startsWith": "Now, the third pathway to recognize a pathogen by complement"
+    },
+    {
+      "id": 8,
+      "label": "Pathway convergence and the trigger threshold",
+      "groupedBecause": "The lecturer synthesizes how all three activation pathways synergize to surpass the local threshold required for downstream complement activity.",
+      "startsWith": "So we've got three different mechanisms by which C3"
+    },
+    {
+      "id": 9,
+      "label": "Effector mechanisms: opsonization, inflammation, and lysis",
+      "groupedBecause": "The lecturer explains the downstream effector processes of complement, including phagocytic opsonization, inflammatory signaling, and membrane attack complex formation.",
+      "startsWith": "So how about the effector functions? So I mentioned at"
+    },
+    {
+      "id": 10,
+      "label": "Host regulation and protection mechanisms",
+      "groupedBecause": "The lecturer explains how host regulatory proteins like MCP, Factor H, Factor I, DAF, and protectin prevent complement from destroying host cells.",
+      "startsWith": "And then this brings up the question of why isn't"
+    },
+    {
+      "id": 11,
+      "label": "Clinical complement deficiencies",
+      "groupedBecause": "The lecturer outlines the distinct clinical presentations and disease vulnerabilities resulting from genetic or acquired deficiencies in various complement factors.",
+      "startsWith": "Now, I mentioned at the start that for med students"
+    },
+    {
+      "id": 12,
+      "label": "Pathogen evasion mechanisms and Staphylococcus aureus",
+      "groupedBecause": "The lecturer describes how pathogens evade complement, detailing specific evasion factors in Staphylococcus aureus and their laboratory applications.",
+      "startsWith": "Now, the other thing that's quite interesting about complement,"
+    },
+    {
+      "id": 13,
+      "label": "Lecture closing and next session preview",
+      "groupedBecause": "The lecturer concludes the lecture on complement and previews the upcoming session on the adaptive immune system.",
+      "startsWith": "Okay. So I think, with that, we can finish"
+    }
+  ]
+}

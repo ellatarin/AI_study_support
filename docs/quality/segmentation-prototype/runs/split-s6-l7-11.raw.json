@@ -1,0 +1,52 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer welcomes the class and outlines the learning outcomes and themes for the lecture on cancer evolution and microenvironment.",
+      "startsWith": "Okay. Good afternoon, everyone. Welcome to the fifth lecture of"
+    },
+    {
+      "id": 2,
+      "label": "Clonal succession and Darwinian selection in cancer development",
+      "groupedBecause": "The lecturer explains how stepwise genetic mutations confer selective growth advantages to clones using examples from premalignant lesions, mouse esophagus, and aged eyelid skin.",
+      "startsWith": "So, of course, a lot of the studies that we've"
+    },
+    {
+      "id": 3,
+      "label": "Epigenetic regulation in tumor transformation",
+      "groupedBecause": "The lecturer explores how transient changes in the epigenetic and transcriptional landscape, such as polycomb repressive complex loss, can drive cancer formation in the absence of new mutations.",
+      "startsWith": "But what about epigenetics? Epigenetics must also play a"
+    },
+    {
+      "id": 4,
+      "label": "Cell of origin and the cancer stem cell model",
+      "groupedBecause": "The lecturer discusses whether stem cells or differentiated cells initiate tumors, comparing stem cell hallmarks with cancer and evaluating evidence from leukemia and intestinal crypt models.",
+      "startsWith": "So is the cell of origin also important? Is it"
+    },
+    {
+      "id": 5,
+      "label": "Microenvironmental and environmental promotion in tumor development",
+      "groupedBecause": "The lecturer demonstrates how external mutational events require permissive inflammatory or microenvironmental stimuli to promote malignant outgrowth, drawing on lung pollution and colitis-associated colon cancer models.",
+      "startsWith": "So let's come back to that eyelid example. So"
+    },
+    {
+      "id": 6,
+      "label": "Stroma in established tumors and technologies for microenvironment analysis",
+      "groupedBecause": "The lecturer examines the dependency of established tumors on stromal support, the resulting therapeutic targets, and experimental tools like single-cell sequencing and spatial transcriptomics.",
+      "startsWith": "So what about the established tumor? Because we know that"
+    },
+    {
+      "id": 7,
+      "label": "Synthesis of multifactorial cancer evolution",
+      "groupedBecause": "The lecturer summarizes the key themes, emphasizing that cancer progression results from an evolutionary interplay of mutations, cell of origin, epigenetics, and microenvironmental conditions.",
+      "startsWith": "So we're at the situation, I think, where there"
+    },
+    {
+      "id": 8,
+      "label": "Lecture closing",
+      "groupedBecause": "The lecturer concludes the session and previews the topic of the next lecture.",
+      "startsWith": "And with that, I will end today's lecture, and"
+    }
+  ]
+}

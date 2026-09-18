@@ -1,0 +1,15 @@
+{
+  "promptVersion": "s6",
+  "lecture": "l8",
+  "instance": "18",
+  "modelId": "google/gemini-3.7-flash",
+  "transcriptPath": "/Users/ellatarin/Lecture Notes/Biology of Disease/Pipeline processing/Lecture 8 - Cancer Therapy on - 2026-03-16/Transcript/transcript.txt",
+  "seconds": 28,
+  "promptTokens": 12722,
+  "completionTokens": 3641,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": null,
+  "subtopics": 13,
+  "fidelity": "EXACT"
+}

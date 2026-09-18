@@ -1,0 +1,82 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and framing of the complement lecture",
+      "groupedBecause": "The lecturer introduces complement, compares its complexity to the Krebs cycle, and sets expectations for the single lecture format.",
+      "startsWith": "Welcome to today's lecture. Today's lecture is on complement. Is anyone"
+    },
+    {
+      "id": 2,
+      "label": "Overview and core stages of the complement cascade",
+      "groupedBecause": "This passage outlines the three key stages of complement—recognition, trigger threshold, and effector mechanisms—and defines complement as soluble, inactive circulating blood proteins.",
+      "startsWith": "So, let's start. This is an overview of complement. If you"
+    },
+    {
+      "id": 3,
+      "label": "Key physiological and janitorial roles of complement",
+      "groupedBecause": "The lecturer explains the broad functions of activated complement, including opsonization, direct cell lysis, inflammation, and cellular housekeeping like immune complex clearance.",
+      "startsWith": "Now, I'm going to skip a little bit to the end"
+    },
+    {
+      "id": 4,
+      "label": "Nomenclature rules and exceptions in complement",
+      "groupedBecause": "This section explains the historical numbering conventions, cleavage fragment labels, and notable naming anomalies in the complement cascade.",
+      "startsWith": "Now, a word on the naming. And this is important because"
+    },
+    {
+      "id": 5,
+      "label": "Central role and activation mechanism of C3",
+      "groupedBecause": "The lecturer describes C3 as the central fulcrum of complement and details how its cleavage exposes a reactive thioester bond alongside inflammatory C3a.",
+      "startsWith": "Now, the really key thing that you really should remember is"
+    },
+    {
+      "id": 6,
+      "label": "Overview of activation pathways and the alternative pathway",
+      "groupedBecause": "This passage introduces the three activation pathways and details the spontaneous fluid-phase convertase and surface amplification of the alternative pathway.",
+      "startsWith": "So let's go to this slide, and we're going to start"
+    },
+    {
+      "id": 7,
+      "label": "The lectin pathway of complement activation",
+      "groupedBecause": "The lecturer explains how mannose-binding lectin acts as a soluble pattern recognition receptor to form the C4bC2a convertase on bacterial surfaces.",
+      "startsWith": "Now, if we go to the lectin pathway, the lectin pathway"
+    },
+    {
+      "id": 8,
+      "label": "The classical pathway and the trigger threshold",
+      "groupedBecause": "This section details antibody-mediated activation via C1 to form the classical convertase and explains how local concentration surpasses the activation threshold.",
+      "startsWith": "Now, the third pathway to recognize a pathogen by complement is"
+    },
+    {
+      "id": 9,
+      "label": "Effector mechanisms: opsonization, inflammation, and the membrane attack complex",
+      "groupedBecause": "The lecturer walks through how activated complement mediates phagocytosis via C3b/C5a, triggers inflammation through C3a/C5a, and assembles the C5b-9 membrane attack pore.",
+      "startsWith": "So how about the effector functions? So I mentioned at the"
+    },
+    {
+      "id": 10,
+      "label": "Host cell regulation of complement activation",
+      "groupedBecause": "This passage covers the mechanisms host cells use to prevent self-damage, including positive regulator properdin and negative regulators Factor I, MCP, Factor H, DAF, and protectin.",
+      "startsWith": "And then this brings up the question of why isn't it"
+    },
+    {
+      "id": 11,
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "The lecturer reviews the distinct clinical presentations and infection risks associated with deficiencies in specific complement components and regulators.",
+      "startsWith": "Now, I mentioned at the start that for med students here,"
+    },
+    {
+      "id": 12,
+      "label": "Pathogen evasion strategies and Staphylococcus aureus",
+      "groupedBecause": "This section explains how pathogens evade complement, detailing the multifaceted mechanisms of Staphylococcus aureus and clinical/laboratory applications of Protein A.",
+      "startsWith": "Now, the other thing that's quite interesting about complement, and"
+    },
+    {
+      "id": 13,
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "The lecturer wraps up the session on complement and announces the topic of the upcoming lecture.",
+      "startsWith": "Okay. So I think, with that, we can finish up"
+    }
+  ]
+}

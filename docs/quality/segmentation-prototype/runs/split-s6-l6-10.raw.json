@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "The lecturer introduces the topic of cancer hallmarks, outlines the learning outcomes, and reviews the multi-step progression model of tumorigenesis.",
+      "startsWith": "So unfortunately, I'm going to have to start now. Otherwise, I'm"
+    },
+    {
+      "id": 2,
+      "label": "Signaling pathway mutations driving proliferation and survival",
+      "groupedBecause": "The lecturer explains how mutations in signaling cascades including Wnt/APC, receptor tyrosine kinases, and TGF-beta confer growth signal independence and resistance to growth inhibition.",
+      "startsWith": "So we'll start with these first two, independence for growth stimulation"
+    },
+    {
+      "id": 3,
+      "label": "Differentiation block in leukemias and colorectal carcinoma",
+      "groupedBecause": "The lecturer explains how cancer cells fail to terminally differentiate using examples from hematopoietic lineages and intestinal crypt architecture.",
+      "startsWith": "So we'll move on to something that is slightly less evident"
+    },
+    {
+      "id": 4,
+      "label": "Resistance to apoptosis through p53 and BCL2 regulation",
+      "groupedBecause": "The lecturer details how p53 inactivation, MDM2 regulation, Bax mitochondrial permeabilization, and BCL2 activity control apoptotic resistance.",
+      "startsWith": "So we're going to move on to resistance to apoptosis. God,"
+    },
+    {
+      "id": 5,
+      "label": "Replicative immortality, telomeres, and bypassing senescence",
+      "groupedBecause": "The lecturer discusses the Hayflick limit, telomere shortening, senescence signaling, and the mechanisms of TERT upregulation enabling cancer cell immortalization.",
+      "startsWith": "So the last one that I will talk about or hallmark"
+    },
+    {
+      "id": 6,
+      "label": "Deregulated cellular metabolism and the Warburg effect",
+      "groupedBecause": "The lecturer explores aerobic glycolysis, metabolic rewiring across tumor types, and the epigenetic consequences of oncometabolites.",
+      "startsWith": "So we'll move on to metabolism, because this is a very"
+    },
+    {
+      "id": 7,
+      "label": "Inducing angiogenesis and the angiogenic switch",
+      "groupedBecause": "The lecturer explains why tumors require vascular perfusion to avoid necrosis, the timing of the angiogenic switch, and the balance of angiogenic factors.",
+      "startsWith": "Similarly for angiogenesis, right, in terms of what that does for"
+    },
+    {
+      "id": 8,
+      "label": "Mechanisms, dissemination routes, and genetics of metastasis",
+      "groupedBecause": "The lecturer describes the stages of the metastatic cascade, routes of vascular and lymphatic dissemination, circulating tumor cells, and the clonal genetics of metastases.",
+      "startsWith": "Okay, so onto the last one. And I'll just have"
+    },
+    {
+      "id": 9,
+      "label": "Hallmarks summary, extended literature, and closing",
+      "groupedBecause": "The lecturer summarizes how hallmarks converge across diverse cancers, references recent literature, and concludes the lecture.",
+      "startsWith": "So what I also wanted to say and just finish on"
+    }
+  ]
+}

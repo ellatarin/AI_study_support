@@ -1,0 +1,94 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "The lecturer welcomes the class and frames the lecture's focus on the initiation and resolution of inflammation using previously introduced concepts.",
+      "startsWith": "Hi, everyone. Can everyone hear me okay? Super."
+    },
+    {
+      "id": 2,
+      "label": "Innate Immune Recognition: PAMPs and DAMPs",
+      "groupedBecause": "The lecturer explains the necessity of sensing infections and defines pathogen-associated molecular patterns (PAMPs) and damage-associated molecular patterns (DAMPs).",
+      "startsWith": "Now, the key to an immune reaction is, first of all, recognizing"
+    },
+    {
+      "id": 3,
+      "label": "Characteristics of Good PAMPs and Self vs. Non-Self Discrimination",
+      "groupedBecause": "The lecturer details the criteria for effective PAMPs, including conservation and indispensability, and how they allow the immune system to distinguish self from non-self.",
+      "startsWith": "So what makes a good PAMP? We want to have a"
+    },
+    {
+      "id": 4,
+      "label": "Pattern Recognition Receptors: Genetic Encoding and Subcellular Localization",
+      "groupedBecause": "The lecturer describes the germline encoding of PRRs compared to adaptive receptors and why PRRs must be positioned in specific cellular compartments.",
+      "startsWith": "So the pattern recognition receptors, these are what detect the PAMPs"
+    },
+    {
+      "id": 5,
+      "label": "Toll-like Receptors (TLRs)",
+      "groupedBecause": "The lecturer introduces the Toll-like receptor family, tracing their origin to Drosophila Toll and detailing human TLR diversity and ligand specificity, particularly TLR4.",
+      "startsWith": "Now, the most important class of PRRs, and the class that"
+    },
+    {
+      "id": 6,
+      "label": "TLR Signaling Cascades and Stress Synergy",
+      "groupedBecause": "The lecturer discusses how TLR signaling cascades differ by subcellular location and how infection pathways synergize with cellular stress pathways.",
+      "startsWith": "Now, when it comes to the signaling system, the signaling of"
+    },
+    {
+      "id": 7,
+      "label": "Non-TLR PRRs and the Inflammasome Pathway",
+      "groupedBecause": "The lecturer reviews other PRR families and explains the multi-protein assembly of the inflammasome that cleaves pro-IL-1beta into its active form.",
+      "startsWith": "Now, toll-like receptors are very important, but they're not the"
+    },
+    {
+      "id": 8,
+      "label": "Sentinel Cell Activation and Local vs. Systemic Mediators",
+      "groupedBecause": "The lecturer explains how sentinel cells like mast cells and macrophages trigger localized inflammation and high-concentration systemic responses.",
+      "startsWith": "Now, the key cells that activate are the sentinel cells."
+    },
+    {
+      "id": 9,
+      "label": "Leukocyte Recruitment, Extravasation, and Chemotaxis",
+      "groupedBecause": "The lecturer describes the multi-step mechanism of leukocyte recruitment through endothelial adhesion molecules, rolling, extravasation, and chemokine gradients.",
+      "startsWith": "Now, one of the effects of the immediate inflammation response is"
+    },
+    {
+      "id": 10,
+      "label": "Lymphatic Drainage and Priming of Adaptive Immunity",
+      "groupedBecause": "The lecturer explains how dendritic cells migrate via the lymphatic system to lymph nodes to prime adaptive immune cells while screening tissue fluid.",
+      "startsWith": "Now, I do want to mention that we've been talking"
+    },
+    {
+      "id": 11,
+      "label": "Systemic Hyperinflammation and Septic Shock",
+      "groupedBecause": "The lecturer discusses the pathological consequences of excessive systemic cytokine release, focusing on TNF-driven vasodilation and septic shock.",
+      "startsWith": "Now, the other thing to mention here is we've largely"
+    },
+    {
+      "id": 12,
+      "label": "Resolution of Inflammation: Passive and Active Mechanisms",
+      "groupedBecause": "The lecturer explains how inflammation is resolved through passive mediator decay and active anti-inflammatory switches like lipid mediator class switching.",
+      "startsWith": "So this brings us to the final slides of the lecture,"
+    },
+    {
+      "id": 13,
+      "label": "Tissue Repair, M2 Macrophages, and Chronic Inflammation",
+      "groupedBecause": "The lecturer details the formation of granulation tissue, the repair functions of M2 macrophages, and the failure of repair leading to chronic inflammation.",
+      "startsWith": "Now, just the final point I want to talk about is"
+    },
+    {
+      "id": 14,
+      "label": "Granuloma Formation as an Evolutionary Containment Strategy",
+      "groupedBecause": "The lecturer explains granuloma formation in persistent infections like tuberculosis as an evolved strategy to contain pathogens rather than attempting complete sterilization.",
+      "startsWith": "And then just the last slide I want to point out"
+    },
+    {
+      "id": 15,
+      "label": "Lecture Closing",
+      "groupedBecause": "The lecturer concludes the session and announces the topic for the subsequent lecture.",
+      "startsWith": "Okay, that's it for me. Next lecture is complements."
+    }
+  ]
+}

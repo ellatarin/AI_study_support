@@ -1,0 +1,88 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer welcomes the class and introduces the lecture's focus on the initiation and resolution of inflammation.",
+      "startsWith": "Hi, everyone. Can everyone hear me okay? Super. Welcome back to Biology"
+    },
+    {
+      "id": 2,
+      "label": "Recognition of infection via PAMPs and DAMPs",
+      "groupedBecause": "The lecturer explains how the innate immune system senses danger directly through microbial products and indirectly through cellular damage signals.",
+      "startsWith": "Now, the key to an immune reaction is, first of all, recognizing"
+    },
+    {
+      "id": 3,
+      "label": "Selection criteria for PAMPs and distinguishing self from non-self",
+      "groupedBecause": "The lecturer outlines the evolutionary requirements for effective pathogen-associated molecular patterns across bacteria, viruses, and eukaryotic pathogens.",
+      "startsWith": "So what makes a good PAMP? We want to have a product"
+    },
+    {
+      "id": 4,
+      "label": "Pattern recognition receptor genetics and cellular localization",
+      "groupedBecause": "The lecturer describes how pattern recognition receptors are germline encoded and positioned in specific cellular compartments to detect pathogens.",
+      "startsWith": "So the pattern recognition receptors, these are what detect the PAMPs"
+    },
+    {
+      "id": 5,
+      "label": "Toll-like receptors and intracellular signaling pathways",
+      "groupedBecause": "The lecturer details the structure, localization, and transcriptional signaling pathways of Toll-like receptors.",
+      "startsWith": "Now, the most important class of PRRs, and the class that"
+    },
+    {
+      "id": 6,
+      "label": "Cytoplasmic PRRs and the inflammasome pathway",
+      "groupedBecause": "The lecturer discusses intracellular receptor families and the assembly of the inflammasome to activate interleukin-1 beta.",
+      "startsWith": "Now, toll-like receptors are very important, but they're not the only family"
+    },
+    {
+      "id": 7,
+      "label": "Sentinel cells: mast cells and macrophages",
+      "groupedBecause": "The lecturer explains how mast cells and macrophages sense danger and mediate local and systemic inflammatory responses.",
+      "startsWith": "Now, the key cells that activate are the sentinel cells. We'll just"
+    },
+    {
+      "id": 8,
+      "label": "Leukocyte recruitment and extravasation into tissues",
+      "groupedBecause": "The lecturer describes the multi-step process of leukocyte rolling, adhesion, extravasation, and chemokine-directed migration.",
+      "startsWith": "Now, one of the effects of the immediate inflammation response is to recruit"
+    },
+    {
+      "id": 9,
+      "label": "Lymphatic drainage and priming adaptive immunity",
+      "groupedBecause": "The lecturer explains how dendritic cells migrate through the lymphatic system to activate adaptive immune responses in lymph nodes.",
+      "startsWith": "Now, I do want to mention that we've been talking a"
+    },
+    {
+      "id": 10,
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "The lecturer discusses the pathological consequences of uncontrolled systemic cytokine release leading to septic shock.",
+      "startsWith": "Now, the other thing to mention here is we've largely been talking about"
+    },
+    {
+      "id": 11,
+      "label": "Passive and active mechanisms for resolving inflammation",
+      "groupedBecause": "The lecturer details how inflammation is shut down through mediator decay, lipid mediator switching, and anti-inflammatory cytokines.",
+      "startsWith": "So this brings us to the final slides of the lecture,"
+    },
+    {
+      "id": 12,
+      "label": "Granulation tissue repair and chronic inflammation",
+      "groupedBecause": "The lecturer explains tissue remodeling by fibroblasts and M2 macrophages alongside causes of chronic inflammation and inflammaging.",
+      "startsWith": "Now, just the final point I want to talk about is injury"
+    },
+    {
+      "id": 13,
+      "label": "Granuloma formation as an evolved pathogen containment strategy",
+      "groupedBecause": "The lecturer describes how the immune system uses granulomas to wall off persistent infections like tuberculosis.",
+      "startsWith": "And then just the last slide I want to point out"
+    },
+    {
+      "id": 14,
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "The lecturer concludes the session and announces the topic for the following lecture.",
+      "startsWith": "Okay, that's it for me. Next lecture is complements."
+    }
+  ]
+}

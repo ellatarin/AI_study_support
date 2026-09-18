@@ -1,0 +1,76 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture introduction and framing of complement",
+      "groupedBecause": "The lecturer introduces the topic of complement, compares it to the Krebs cycle, and sets expectations for the lecture.",
+      "startsWith": "Welcome to today's lecture. Today's lecture is on complement."
+    },
+    {
+      "id": 2,
+      "label": "Overview of complement and its primary effector functions",
+      "groupedBecause": "The lecturer outlines the overall framework of complement, including recognition, trigger threshold, and key functions like opsonization, lysis, and clearance.",
+      "startsWith": "This is an overview of complement. If you are in"
+    },
+    {
+      "id": 3,
+      "label": "Complement nomenclature and naming conventions",
+      "groupedBecause": "The lecturer explains the historical numbering and cleavage letter rules used to name complement proteins and fragments.",
+      "startsWith": "Now, a word on the naming. And this is"
+    },
+    {
+      "id": 4,
+      "label": "Central role and activation of complement component C3",
+      "groupedBecause": "The lecturer describes the cleavage of C3 into C3a and C3b, including the reactive thioester bond and functional properties of the products.",
+      "startsWith": "Now, the really key thing that you really should"
+    },
+    {
+      "id": 5,
+      "label": "The alternative pathway of complement activation",
+      "groupedBecause": "The lecturer explains how spontaneous C3 tickover generates fluid-phase and surface-bound C3 convertases.",
+      "startsWith": "So let's go to this slide, and we're"
+    },
+    {
+      "id": 6,
+      "label": "The lectin pathway of complement activation",
+      "groupedBecause": "The lecturer details how mannose-binding lectin recognizes bacterial sugars and recruits C4 and C2 to form the classical convertase.",
+      "startsWith": "Now, if we go to the lectin pathway, the"
+    },
+    {
+      "id": 7,
+      "label": "The classical pathway and reaching the activation threshold",
+      "groupedBecause": "The lecturer describes antibody-mediated activation via C1 and how converging pathways overcome clearance to reach the trigger threshold.",
+      "startsWith": "Now, the third pathway to recognize a pathogen by"
+    },
+    {
+      "id": 8,
+      "label": "Complement effector mechanisms: opsonization, inflammation, and membrane attack complex",
+      "groupedBecause": "The lecturer explains how downstream complement activation drives phagocytosis, recruitment of inflammatory cells, and pore formation via the membrane attack complex.",
+      "startsWith": "How about the effector functions? So I mentioned at"
+    },
+    {
+      "id": 9,
+      "label": "Regulation of complement and protection of host cells",
+      "groupedBecause": "The lecturer details host regulatory proteins such as Factor I, MCP, Factor H, DAF, and protectin that prevent accidental complement activation on host tissues.",
+      "startsWith": "And then this brings up the question of why"
+    },
+    {
+      "id": 10,
+      "label": "Clinical consequences of specific complement deficiencies",
+      "groupedBecause": "The lecturer reviews the distinct clinical presentations and disease manifestations caused by deficiencies in various complement components and regulators.",
+      "startsWith": "Now, I mentioned at the start that for med"
+    },
+    {
+      "id": 11,
+      "label": "Pathogen evasion strategies and Staphylococcus aureus mechanisms",
+      "groupedBecause": "The lecturer discusses how pathogens evolve mechanisms to evade complement, detailing the specific evasive factors of Staphylococcus aureus and clinical uses of Protein A.",
+      "startsWith": "Now, the other thing that's quite interesting about"
+    },
+    {
+      "id": 12,
+      "label": "Lecture wrap-up and next session preview",
+      "groupedBecause": "The lecturer concludes the lecture and mentions the topic for the next lecture.",
+      "startsWith": "Okay. So I think, with that, we can"
+    }
+  ]
+}

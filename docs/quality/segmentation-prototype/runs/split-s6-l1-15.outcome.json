@@ -1,0 +1,15 @@
+{
+  "promptVersion": "s6",
+  "lecture": "l1",
+  "instance": "15",
+  "modelId": "google/gemini-3.7-flash",
+  "transcriptPath": "/Users/ellatarin/Lecture Notes/Biology of Disease/Pipeline processing/Lecture 1 - Initiation and resolution of inflammation on - 2025-10-15/Transcript/transcript.txt",
+  "seconds": 27,
+  "promptTokens": 10573,
+  "completionTokens": 3396,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": null,
+  "subtopics": 16,
+  "fidelity": "EXACT"
+}

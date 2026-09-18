@@ -1,0 +1,58 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer welcomes the class and outlines the learning objectives regarding cancer evolution, the microenvironment, and cells of origin.",
+      "startsWith": "Okay. Good afternoon, everyone. Welcome to the fifth lecture of the Cancer"
+    },
+    {
+      "id": 2,
+      "label": "Clonal succession and Darwinian selection in cancer",
+      "groupedBecause": "The lecturer explains how stepwise accumulation of mutations provides a selective growth advantage to clones, citing sequencing data, mouse esophageal studies, and human eyelid skin experiments.",
+      "startsWith": "So, of course, a lot of the studies that we've done to date"
+    },
+    {
+      "id": 3,
+      "label": "Epigenetic alterations in tumor development",
+      "groupedBecause": "The lecturer discusses how transient epigenetic deregulation, illustrated by a Drosophila Polycomb repressive complex study, can drive tumorigenesis without direct gene mutations.",
+      "startsWith": "But what about epigenetics? Epigenetics must also play a role, right?"
+    },
+    {
+      "id": 4,
+      "label": "Cell of origin and the cancer stem cell model",
+      "groupedBecause": "The lecturer examines whether stem cells or differentiated progenitors initiate malignancies, presenting evidence from stem cell hallmarks, leukemia populations, and intestinal crypt APC knockout models.",
+      "startsWith": "So is the cell of origin also important? Is it important what cell"
+    },
+    {
+      "id": 5,
+      "label": "Microenvironmental promotion in tumor initiation",
+      "groupedBecause": "The lecturer explains why mutated cells require a permissive microenvironment to progress, using asbestos and a study on pollution-induced macrophage IL-1B secretion in lung cancer as examples.",
+      "startsWith": "So let's come back to that eyelid example. So why do these"
+    },
+    {
+      "id": 6,
+      "label": "Inflammation-driven plasticity in colorectal cancer",
+      "groupedBecause": "The lecturer details how chronic inflammation or KRAS mutations combine with APC loss to activate stem-like transcriptional programs in intestinal transit-amplifying cells.",
+      "startsWith": "So if this is happening in lung cancer, is this happening in other"
+    },
+    {
+      "id": 7,
+      "label": "Established tumor microenvironment, therapies, and profiling methods",
+      "groupedBecause": "The lecturer discusses the stromal dependency of established tumors, therapeutic approaches targeting the microenvironment, and techniques such as single-cell sequencing and spatial transcriptomics.",
+      "startsWith": "So what about the established tumor? Because we know that in the"
+    },
+    {
+      "id": 8,
+      "label": "Synthesis of cancer evolution and microenvironmental coevolution",
+      "groupedBecause": "The lecturer summarizes how mutations, cell of origin, epigenetic plasticity, and microenvironmental factors integrate into an evolutionary framework of cancer progression.",
+      "startsWith": "So we're at the situation, I think, where there are potentially multiple"
+    },
+    {
+      "id": 9,
+      "label": "Closing remarks",
+      "groupedBecause": "The lecturer formally concludes the lecture and previews the upcoming session on therapy.",
+      "startsWith": "And with that, I will end today's lecture, and Monday we will"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer introduces the session's topic on the initiation and resolution of inflammation and explains how it connects with prior material.",
+      "startsWith": "Hi, everyone. Can everyone hear me okay? Super."
+    },
+    {
+      "id": 2,
+      "label": "Immune recognition via PAMPs, DAMPs, and self vs non-self",
+      "groupedBecause": "This section explains how the innate immune system detects pathogens directly through PAMPs and indirectly through DAMPs, along with the criteria that define an effective PAMP.",
+      "startsWith": "Now, the key to an immune reaction is, first of"
+    },
+    {
+      "id": 3,
+      "label": "Pattern recognition receptors and toll-like receptor signaling",
+      "groupedBecause": "This passage details the characteristics of pattern recognition receptors and focuses on the localization, ligand specificity, and downstream signaling pathways of toll-like receptors.",
+      "startsWith": "So the pattern recognition receptors, these are what detect the"
+    },
+    {
+      "id": 4,
+      "label": "Non-TLR pattern recognition receptors and the inflammasome pathway",
+      "groupedBecause": "This topic covers alternative PRR families including CLRs, RLRs, and NLRs, and details the assembly and cytokine-processing function of the inflammasome complex.",
+      "startsWith": "Now, toll-like receptors are very important, but they're not"
+    },
+    {
+      "id": 5,
+      "label": "Sentinel cell activation: mast cells and macrophages",
+      "groupedBecause": "This section describes how frontline sentinel cells such as mast cells and macrophages sense infection and trigger both local and systemic inflammatory signals.",
+      "startsWith": "Now, the key cells that activate are the sentinel cells."
+    },
+    {
+      "id": 6,
+      "label": "Leukocyte recruitment, rolling, extravasation, and chemotaxis",
+      "groupedBecause": "This passage outlines the multistep mechanism by which circulating immune cells adhere to the endothelium, extravasate into tissue, and migrate along chemokine gradients.",
+      "startsWith": "Now, one of the effects of the immediate inflammation response"
+    },
+    {
+      "id": 7,
+      "label": "Antigen transport to lymph nodes via the lymphatic system",
+      "groupedBecause": "This section explains how dendritic cells travel through the lymphatic drainage network to initiate adaptive immune priming in lymph nodes.",
+      "startsWith": "Now, I do want to mention that we've been"
+    },
+    {
+      "id": 8,
+      "label": "Pathology of excessive systemic inflammation and septic shock",
+      "groupedBecause": "This topic examines the clinical consequences and high mortality associated with uncontrolled systemic cytokine production and vasodilation during sepsis.",
+      "startsWith": "Now, the other thing to mention here is we've"
+    },
+    {
+      "id": 9,
+      "label": "Passive and active mechanisms of inflammation resolution",
+      "groupedBecause": "This passage explains the dual mechanisms of shutting down inflammation through mediator decay, lipid class switching, and anti-inflammatory cytokines.",
+      "startsWith": "So this brings us to the final slides of the"
+    },
+    {
+      "id": 10,
+      "label": "Tissue repair, granulation tissue, and causes of chronic inflammation",
+      "groupedBecause": "This section describes matrix remodeling by fibroblasts and M2 macrophages during tissue healing, and outlines why persistent stimuli lead to chronic inflammation.",
+      "startsWith": "Now, just the final point I want to talk"
+    },
+    {
+      "id": 11,
+      "label": "Granuloma formation as an evolutionary containment strategy",
+      "groupedBecause": "This passage explains why the immune system uses granulomas to wall off persistent intracellular pathogens like Mycobacterium tuberculosis when eradication is impossible.",
+      "startsWith": "And then just the last slide I want to point"
+    },
+    {
+      "id": 12,
+      "label": "Lecture conclusion and next topic announcement",
+      "groupedBecause": "The lecturer concludes the lecture and announces the topic for the subsequent session.",
+      "startsWith": "Okay, that's it for me. Next lecture is"
+    }
+  ]
+}

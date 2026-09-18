@@ -1,0 +1,94 @@
+{
+  "subtopics": [
+    {
+      "id": 1,
+      "label": "Lecture Introduction and Overview of Inflammation",
+      "groupedBecause": "The lecturer introduces the lecture topic on the initiation and resolution of inflammation and frames how it connects to prior material.",
+      "startsWith": "Hi, everyone. Can everyone hear me okay? Super. Welcome back"
+    },
+    {
+      "id": 2,
+      "label": "Innate Immune Recognition: PAMPs and DAMPs",
+      "groupedBecause": "The lecturer explains how the innate immune system detects infection through pathogen-associated and damage-associated molecular patterns.",
+      "startsWith": "Now, the key to an immune reaction is, first of all, recognizing"
+    },
+    {
+      "id": 3,
+      "label": "Criteria for Effective PAMPs",
+      "groupedBecause": "The lecturer defines the criteria that make a microbial molecule an effective target for innate immune recognition, including conservation and absence from the host.",
+      "startsWith": "So what makes a good PAMP? We want to have a"
+    },
+    {
+      "id": 4,
+      "label": "Pattern Recognition Receptors and Cellular Localization",
+      "groupedBecause": "The lecturer explains that pattern recognition receptors are germline-encoded and positioned in specific cellular compartments to detect different types of pathogens.",
+      "startsWith": "So the pattern recognition receptors, these are what detect the PAMPs"
+    },
+    {
+      "id": 5,
+      "label": "Toll-Like Receptors and Downstream Signaling",
+      "groupedBecause": "The lecturer describes toll-like receptors, their discovery in Drosophila, ligand recognition, and downstream signaling pathways.",
+      "startsWith": "Now, the most important class of PRRs, and the class that"
+    },
+    {
+      "id": 6,
+      "label": "Non-TLR Pattern Recognition Receptor Families",
+      "groupedBecause": "The lecturer introduces additional pattern recognition receptor families including C-type lectins, RIG-I-like receptors, and Nod-like receptors such as Nod-2.",
+      "startsWith": "Now, toll-like receptors are very important, but they're not the"
+    },
+    {
+      "id": 7,
+      "label": "The Inflammasome Pathway and IL-1β Activation",
+      "groupedBecause": "The lecturer details the structure and function of the inflammasome complex in processing pro-IL-1β into active inflammatory cytokines in response to PAMPs and DAMPs.",
+      "startsWith": "Now, another key pathway is the inflammasome pathway. These are"
+    },
+    {
+      "id": 8,
+      "label": "Sentinel Cell Activation: Mast Cells and Macrophages",
+      "groupedBecause": "The lecturer explains how sentinel cells like mast cells and macrophages respond to danger signals to drive both local and systemic inflammatory responses.",
+      "startsWith": "Now, the key cells that activate are the sentinel cells. We'll"
+    },
+    {
+      "id": 9,
+      "label": "Leukocyte Recruitment, Rolling, and Extravasation",
+      "groupedBecause": "The lecturer details the step-by-step mechanism of leukocyte recruitment from the blood into tissue, including rolling, adhesion, extravasation, and chemokine guidance.",
+      "startsWith": "Now, one of the effects of the immediate inflammation response is"
+    },
+    {
+      "id": 10,
+      "label": "Lymphatic Drainage and Adaptive Immune Priming",
+      "groupedBecause": "The lecturer explains how dendritic cells migrate via the lymphatic system to lymph nodes to activate adaptive immune cells.",
+      "startsWith": "Now, I do want to mention that we've been talking a"
+    },
+    {
+      "id": 11,
+      "label": "Excessive Systemic Inflammation and Septic Shock",
+      "groupedBecause": "The lecturer discusses the dangers of excessive systemic inflammation and cytokine release leading to septic shock.",
+      "startsWith": "Now, the other thing to mention here is we've largely been"
+    },
+    {
+      "id": 12,
+      "label": "Passive and Active Mechanisms of Inflammation Resolution",
+      "groupedBecause": "The lecturer describes how inflammation resolves through passive decay of mediators and active anti-inflammatory switching mechanisms.",
+      "startsWith": "So this brings us to the final slides of the lecture,"
+    },
+    {
+      "id": 13,
+      "label": "Tissue Repair, Granulation, and Chronic Inflammation",
+      "groupedBecause": "The lecturer discusses tissue repair, granulation, the role of M2 macrophages, and how persistent injury causes chronic inflammation and inflammaging.",
+      "startsWith": "Now, just the final point I want to talk about is"
+    },
+    {
+      "id": 14,
+      "label": "Granuloma Formation as a Protective Strategy",
+      "groupedBecause": "The lecturer explains how chronic inflammatory structures like granulomas evolved as an advantageous strategy to contain persistent pathogens like tuberculosis.",
+      "startsWith": "And then just the last slide I want to point out"
+    },
+    {
+      "id": 15,
+      "label": "Closing Remarks and Next Lecture Topic",
+      "groupedBecause": "The lecturer concludes the session and announces the topic for the next lecture.",
+      "startsWith": "Okay, that's it for me. Next lecture is complements."
+    }
+  ]
+}
