@@ -206,10 +206,10 @@ measured and rejected, and unmeasured.
    `GROUPING-RESULTS.md` came from `s1` subtopics. The grouping prompts `g1`–`g7`
    have never seen `s6` + `d7`/`d9` output on any lecture. **This is the largest
    untested link in the chain.**
-3. **Only three of eight lectures have transcripts.** Lectures 1, 2, 6, 7 and 8
-   have source video and slides under `Source files/`, and their manifests show
-   every pipeline stage `pending`. Running the divider across the whole module
-   needs them transcribed first.
+3. **Only three of eight lectures are ruled.** All eight now have transcripts,
+   and pass one (`s6`) and `d9` have 18 runs on each, but lectures 1, 2, 6, 7
+   and 8 have no ruling in `runs/divisions.json`, so their divisions can be
+   measured for consistency but not scored.
 4. **Nothing in this folder is linted or typechecked.** It sits outside `src/**`,
    where biome, eslint and jscpd are scoped. `cut-blocks.test.mts` and
    `deepen-division.test.mts` are the folder's only test files; vitest picks them
