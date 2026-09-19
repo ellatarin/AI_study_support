@@ -23,7 +23,13 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { groupPromptVersion } from "./group-prompts.mts";
 import { lectureKeyFor } from "./lecture-key.mts";
-import { callTrialModel, loadTrialConfig, OUT_DIR } from "./trial-model.mts";
+import {
+	callTrialModel,
+	loadTrialConfig,
+	OUT_DIR,
+	threwVerdict,
+	VERDICT,
+} from "./trial-model.mts";
 
 const MODEL = process.env["TRIAL_MODEL"] ?? "google/gemini-3.7-flash";
 
@@ -145,7 +151,7 @@ async function main(): Promise<void> {
 	const config = await loadTrialConfig({ modelId: MODEL });
 
 	const startedAt = performance.now();
-	let verdict = "OK";
+	let verdict: string = VERDICT.ok;
 	let reply = {
 		content: "",
 		promptTokens: null as number | null,
@@ -164,7 +170,7 @@ async function main(): Promise<void> {
 			],
 		});
 	} catch (error: unknown) {
-		verdict = `THREW: ${String(error).slice(0, 120)}`;
+		verdict = threwVerdict(error);
 	}
 	const seconds = Math.round((performance.now() - startedAt) / 1000);
 
@@ -182,9 +188,9 @@ async function main(): Promise<void> {
 		opensTopic: boolean;
 	}[] = [];
 
-	if (verdict === "OK" && reply.content.length === 0) {
-		verdict = "EMPTY";
-	} else if (verdict === "OK") {
+	if (verdict === VERDICT.ok && reply.content.length === 0) {
+		verdict = VERDICT.empty;
+	} else if (verdict === VERDICT.ok) {
 		try {
 			const parsed = JSON.parse(reply.content) as {
 				topics?: readonly {
@@ -194,7 +200,7 @@ async function main(): Promise<void> {
 				}[];
 			};
 			if (!Array.isArray(parsed.topics)) {
-				verdict = "SHAPE";
+				verdict = VERDICT.wrongShape;
 			} else {
 				const assignment = assignTopics({
 					starts: parsed.topics.map((topic) => topic.firstSubtopicId),
@@ -226,7 +232,7 @@ async function main(): Promise<void> {
 				}
 			}
 		} catch {
-			verdict = "PARSE-FAIL";
+			verdict = VERDICT.unparseable;
 		}
 	}
 

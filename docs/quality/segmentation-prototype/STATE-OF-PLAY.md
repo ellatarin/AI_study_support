@@ -211,14 +211,17 @@ measured and rejected, and unmeasured.
    every pipeline stage `pending`. Running the divider across the whole module
    needs them transcribed first.
 4. **Nothing in this folder is linted or typechecked.** It sits outside `src/**`,
-   where biome, eslint and jscpd are scoped. `cut-blocks.test.ts` is the folder's
-   only test file; vitest picks it up because `include` is not scoped to `src/**`,
+   where biome, eslint and jscpd are scoped. `cut-blocks.test.mts` and
+   `deepen-division.test.mts` are the folder's only test files; vitest picks them
+   up because `include` is not scoped to `src/**`,
    and coverage thresholds are unaffected because coverage `include` is.
 
 ## Running it
 
 From the **project root** — `trial-model.mts` resolves `.env` against the cwd, so
-running from this folder fails every call and still writes outcome files.
+running from this folder fails every call. Pass one still writes an outcome file
+recording the failure; pass 1.5 refuses the run, writes nothing and exits
+non-zero, naming each section whose call failed on every attempt.
 
 ```
 # pass one

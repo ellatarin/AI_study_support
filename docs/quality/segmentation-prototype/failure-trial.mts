@@ -13,6 +13,8 @@ import {
 	loadTrialConfig,
 	OUT_DIR,
 	PROJECT_ROOT,
+	threwVerdict,
+	VERDICT,
 } from "./trial-model.mts";
 
 const MODEL = process.env["TRIAL_MODEL"] ?? "google/gemini-3.7-flash";
@@ -309,7 +311,7 @@ async function main(): Promise<void> {
 	let finishReason: string | null = null;
 	let provider: string | null = null;
 	let nativeFinish: string | null = null;
-	let verdict = "OK";
+	let verdict: string = VERDICT.ok;
 
 	try {
 		if (usesLongPrompt) {
@@ -343,7 +345,7 @@ async function main(): Promise<void> {
 			provider = reply.provider;
 		}
 	} catch (error: unknown) {
-		verdict = `THREW: ${String(error).slice(0, 120)}`;
+		verdict = threwVerdict(error);
 	}
 
 	const seconds = Math.round((performance.now() - startedAt) / 1000);
@@ -366,9 +368,9 @@ async function main(): Promise<void> {
 	let topics: number | null = null;
 	/** How many subtopics the three-level mode found; null otherwise. */
 	let subtopics: number | null = null;
-	if (verdict === "OK") {
+	if (verdict === VERDICT.ok) {
 		if (content.length === 0) {
-			verdict = "EMPTY";
+			verdict = VERDICT.empty;
 		} else {
 			try {
 				if (mode === "hier3") {
@@ -382,7 +384,7 @@ async function main(): Promise<void> {
 						}[];
 					};
 					if (!Array.isArray(parsed.topics)) {
-						verdict = "SHAPE";
+						verdict = VERDICT.wrongShape;
 					} else {
 						const flat = parsed.topics.flatMap((topic) =>
 							(topic.subtopics ?? []).flatMap((subtopic, subIndex) =>
@@ -429,7 +431,7 @@ async function main(): Promise<void> {
 						}[];
 					};
 					if (!Array.isArray(parsed.topics)) {
-						verdict = "SHAPE";
+						verdict = VERDICT.wrongShape;
 					} else {
 						// Flattened to one ordered list of cuts; the hierarchy is carried
 						// alongside as labels, so the cutting stays a single operation.
@@ -465,7 +467,7 @@ async function main(): Promise<void> {
 						blocks?: readonly { id: number; label: string; startsWith: string }[];
 					};
 					if (!Array.isArray(parsed.blocks)) {
-						verdict = "SHAPE";
+						verdict = VERDICT.wrongShape;
 					} else {
 						const { blocks: cut, misses } = applyCuts(transcriptText, parsed.blocks);
 						blocks = cut.length;
@@ -480,14 +482,14 @@ async function main(): Promise<void> {
 						blocks?: readonly { label: string; content: string }[];
 					};
 					blocks = Array.isArray(parsed.blocks) ? parsed.blocks.length : null;
-					verdict = blocks === null ? "SHAPE" : "OK";
+					verdict = blocks === null ? VERDICT.wrongShape : VERDICT.ok;
 					if (parsed.blocks !== undefined) {
 						rendered = parsed.blocks;
 						fidelity = judgeFidelity(transcriptText, parsed.blocks);
 					}
 				}
 			} catch {
-				verdict = "PARSE-FAIL";
+				verdict = VERDICT.unparseable;
 			}
 		}
 	}

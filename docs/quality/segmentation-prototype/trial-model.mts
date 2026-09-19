@@ -44,6 +44,27 @@ export type TrialReply = {
 };
 
 /**
+ * The words a trial records as its verdict on one call. Every run file and
+ * report reads them, so each is spelled once here.
+ */
+export const VERDICT = {
+	ok: "OK",
+	empty: "EMPTY",
+	unparseable: "PARSE-FAIL",
+	wrongShape: "SHAPE",
+} as const;
+
+/**
+ * The verdict for a call that threw, carrying the start of what it threw.
+ *
+ * @param error - Whatever the call threw.
+ * @returns `THREW:` followed by the first 120 characters of the error.
+ */
+export function threwVerdict(error: unknown): string {
+	return `THREW: ${String(error).slice(0, 120)}`;
+}
+
+/**
  * Read the real pipeline config and point one stage at the trial model.
  *
  * @param options - Options object.

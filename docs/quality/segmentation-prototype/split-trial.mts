@@ -21,7 +21,13 @@ import { join } from "node:path";
 import { applyCuts, judgeFidelity, type Miss } from "./cut-blocks.mts";
 import { lectureKeyFor } from "./lecture-key.mts";
 import { splitPromptVersion } from "./split-prompts.mts";
-import { callTrialModel, loadTrialConfig, OUT_DIR } from "./trial-model.mts";
+import {
+	callTrialModel,
+	loadTrialConfig,
+	OUT_DIR,
+	threwVerdict,
+	VERDICT,
+} from "./trial-model.mts";
 
 const MODEL = process.env["TRIAL_MODEL"] ?? "google/gemini-3.7-flash";
 
@@ -205,26 +211,26 @@ async function attemptSplit({
 			],
 		});
 	} catch (error: unknown) {
-		return { reply, verdict: `THREW: ${String(error).slice(0, 120)}`, ...nothingCut };
+		return { reply, verdict: threwVerdict(error), ...nothingCut };
 	}
 	if (reply.content.length === 0) {
-		return { reply, verdict: "EMPTY", ...nothingCut };
+		return { reply, verdict: VERDICT.empty, ...nothingCut };
 	}
 	let parsed: SplitReply;
 	try {
 		parsed = JSON.parse(reply.content) as SplitReply;
 	} catch {
-		return { reply, verdict: "PARSE-FAIL", ...nothingCut };
+		return { reply, verdict: VERDICT.unparseable, ...nothingCut };
 	}
 	const flat = toCuts({ parsed });
 	if (flat === null) {
-		return { reply, verdict: "SHAPE", ...nothingCut };
+		return { reply, verdict: VERDICT.wrongShape, ...nothingCut };
 	}
 	const { blocks, misses } = applyCuts(transcriptText, flat);
 	const judged = judgeFidelity(transcriptText, blocks);
 	return {
 		reply,
-		verdict: "OK",
+		verdict: VERDICT.ok,
 		// Null rather than zero for a version that was never asked for topics:
 		// the ledger must be able to tell "none proposed" from "none found".
 		topics: parsed.topics === undefined ? null : parsed.topics.length,

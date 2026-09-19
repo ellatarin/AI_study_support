@@ -14,6 +14,11 @@
  * a deepening version can be measured against the same sixteen divisions every
  * time, and the two passes are never confounded.
  *
+ * The deepening itself is `deepen-division.mts`; this script reads the run,
+ * calls the model for it, and writes the result. A run in which any section's
+ * call failed on every attempt writes NOTHING and exits non-zero, so it can
+ * never enter the vote as though the model had chosen not to divide.
+ *
  * Usage:
  *   TRIAL_MODEL=google/gemini-3.7-flash \
  *     pnpm exec tsx deepen-trial.mts <version> <split-run-stem> <gate-words>
@@ -23,51 +28,19 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { applyCuts, judgeFidelity } from "./cut-blocks.mts";
+import {
+	type DeepenTally,
+	deepenDivision,
+	type Section,
+	type SectionFailure,
+} from "./deepen-division.mts";
 import { deepenPromptVersion } from "./deepen-prompts.mts";
 import { callTrialModel, loadTrialConfig, OUT_DIR } from "./trial-model.mts";
 
 const MODEL = process.env["TRIAL_MODEL"] ?? "google/gemini-3.7-flash";
 
-/** How many times a piece may be sent back after being split. */
-const MAX_ROUNDS = 2;
-
-/**
- * How many times one section's call is attempted before it is given up on.
- *
- * Running every section of every run at once makes a proportion of the calls
- * come back empty, and a section whose call fails is left whole — which reads
- * in the results as the model deciding it was one step. Without this the
- * measurement is of the rate limiter rather than of the prompt.
- */
-const MAX_ATTEMPTS = 3;
-
-/** Backs off between attempts, since the failures cluster when many calls are in flight. */
-function pause(milliseconds: number): Promise<void> {
-	return new Promise((resolve) => {
-		setTimeout(resolve, milliseconds);
-	});
-}
-
-/** One section of the division, and where it sits in the transcript. */
-type Section = {
-	readonly label: string;
-	readonly why: string;
-	readonly from: number;
-	readonly to: number;
-};
-
-/** What one call to the model came back with. */
-type DeepenReply = {
-	readonly verdict?: string;
-	readonly cuts?: readonly {
-		readonly label?: string;
-		readonly groupedBecause?: string;
-		readonly startsWith?: string;
-	}[];
-};
-
 /** What one run is worth knowing about, without opening its sections. */
-type DeepenOutcome = {
+type DeepenOutcome = DeepenTally & {
 	readonly promptVersion: string;
 	readonly source: string;
 	readonly lecture: string;
@@ -75,27 +48,33 @@ type DeepenOutcome = {
 	readonly modelId: string;
 	readonly gateWords: number;
 	readonly seconds: number;
-	readonly promptTokens: number;
-	readonly completionTokens: number;
-	/** Sections that were over the gate and so were sent, across all rounds. */
-	readonly sectionsSent: number;
-	/** Of those, how many came back as one step. */
-	readonly heldAsOneStep: number;
-	/** Cuts the model proposed that could not be located in their section. */
-	readonly cutsUnplaced: number;
+	/** One per section sent; retries are counted separately. */
 	readonly calls: number;
-	/** Attempts beyond the first, across every section. */
-	readonly retries: number;
-	/** Sections still failing after every attempt, and so left whole. */
-	readonly failures: number;
 	readonly subtopicsBefore: number;
 	readonly subtopicsAfter: number;
 	readonly fidelity: string;
 };
 
-/** Words, counted the one way this harness counts them. */
-function wordCount(text: string): number {
-	return text.split(/\s+/u).filter((word) => word.length > 0).length;
+/** A run refused because at least one section's call never succeeded. */
+class DeepeningRefusedError extends Error {
+	/**
+	 * @param options - Options object.
+	 * @param options.stem - The pass-one run that was being deepened.
+	 * @param options.failures - Each section that failed, and the verdict on its last attempt.
+	 */
+	constructor({
+		stem,
+		failures,
+	}: {
+		readonly stem: string;
+		readonly failures: readonly SectionFailure[];
+	}) {
+		super(
+			`${stem}: ${failures.length} section(s) failed on every attempt, so nothing was written — ` +
+				failures.map((failure) => `"${failure.label}": ${failure.reason}`).join("; "),
+		);
+		this.name = "DeepeningRefusedError";
+	}
 }
 
 /**
@@ -139,137 +118,6 @@ function sectionsOf({
 	});
 }
 
-/** What one round did to one section. */
-type Deepened = {
-	readonly sections: readonly Section[];
-	readonly sent: boolean;
-	readonly held: boolean;
-	readonly unplaced: number;
-	readonly promptTokens: number;
-	readonly completionTokens: number;
-	readonly failed: boolean;
-	/** Attempts beyond the first that this section needed. */
-	readonly retries: number;
-};
-
-/** A section that was never sent, reported as though a round had passed over it. */
-function untouched(section: Section): Deepened {
-	return {
-		sections: [section],
-		sent: false,
-		held: false,
-		unplaced: 0,
-		promptTokens: 0,
-		completionTokens: 0,
-		failed: false,
-		retries: 0,
-	};
-}
-
-/**
- * Ask the model where one section divides, and apply whatever it proposes.
- *
- * The cuts are located within the section's own text and never outside it, so
- * a reply this pass cannot place is dropped rather than guessed at, and the
- * section's own boundaries are untouchable.
- *
- * @param options - Options object.
- * @param options.config - The config carrying the OpenRouter credentials.
- * @param options.systemPrompt - The deepening prompt for this version.
- * @param options.transcriptText - The whole transcript, for slicing.
- * @param options.section - The section to deepen.
- * @returns What the section became, and what the call cost.
- */
-async function deepenSection({
-	config,
-	systemPrompt,
-	transcriptText,
-	section,
-}: {
-	readonly config: Awaited<ReturnType<typeof loadTrialConfig>>;
-	readonly systemPrompt: string;
-	readonly transcriptText: string;
-	readonly section: Section;
-}): Promise<Deepened> {
-	const passage = transcriptText.slice(section.from, section.to);
-	let promptTokens = 0;
-	let completionTokens = 0;
-	for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
-		const retries = attempt - 1;
-		const spent = { promptTokens, completionTokens, retries };
-		let reply: Awaited<ReturnType<typeof callTrialModel>>;
-		try {
-			reply = await callTrialModel({
-				config,
-				modelId: MODEL,
-				messages: [
-					{ role: "system", content: systemPrompt },
-					{ role: "user", content: `Section:\n${passage}` },
-				],
-			});
-		} catch {
-			await pause(attempt * 1500);
-			continue;
-		}
-		promptTokens += reply.promptTokens ?? 0;
-		completionTokens += reply.completionTokens ?? 0;
-		let parsed: DeepenReply | null = null;
-		if (reply.content.length > 0) {
-			try {
-				parsed = JSON.parse(reply.content) as DeepenReply;
-			} catch {
-				parsed = null;
-			}
-		}
-		if (parsed === null) {
-			await pause(attempt * 1500);
-			continue;
-		}
-		const proposed = (parsed.cuts ?? []).filter((cut) => (cut.startsWith ?? "").length > 0);
-		if (proposed.length === 0) {
-			return { ...untouched(section), sent: true, held: true, ...spent, promptTokens, completionTokens };
-		}
-		// The placeholder stands for the section's own start, which applyCuts skips.
-		const { blocks, misses } = applyCuts(passage, [
-			{ id: 0, label: section.label, startsWith: "" },
-			...proposed.map((cut, index) => ({
-				id: index + 1,
-				label: cut.label ?? "",
-				startsWith: cut.startsWith ?? "",
-			})),
-		]);
-		let offset = section.from;
-		const sections = blocks.map((block, index) => {
-			const from = offset;
-			offset += block.content.length;
-			return {
-				label: index === 0 ? section.label : block.label,
-				why: index === 0 ? section.why : (proposed[index - 1]?.groupedBecause ?? ""),
-				from,
-				to: offset,
-			};
-		});
-		return {
-			sections,
-			sent: true,
-			held: false,
-			unplaced: misses.length,
-			failed: false,
-			retries,
-			promptTokens,
-			completionTokens,
-		};
-	}
-	return {
-		...untouched(section),
-		sent: true,
-		failed: true,
-		retries: MAX_ATTEMPTS - 1,
-		promptTokens,
-		completionTokens,
-	};
-}
-
 async function main(): Promise<void> {
 	const version = deepenPromptVersion({ id: process.argv[2] ?? "d1" });
 	const stem = process.argv[3];
@@ -286,58 +134,20 @@ async function main(): Promise<void> {
 	const raw = await readFile(join(OUT_DIR, `${stem}.raw.json`), "utf8");
 
 	const config = await loadTrialConfig({ modelId: MODEL });
-	const systemPrompt = version.build();
 	const startedAt = performance.now();
 
-	let sections = sectionsOf({ transcriptText, raw });
-	const subtopicsBefore = sections.length;
-	let sectionsSent = 0;
-	let heldAsOneStep = 0;
-	let cutsUnplaced = 0;
-	let calls = 0;
-	let retries = 0;
-	let failures = 0;
-	let promptTokens = 0;
-	let completionTokens = 0;
-
-	for (let round = 0; round < MAX_ROUNDS; round += 1) {
-		const isOver = sections.map(
-			(section) => wordCount(transcriptText.slice(section.from, section.to)) > gateWords,
-		);
-		if (!isOver.some(Boolean)) {
-			break;
-		}
-		// Every over-gate section goes at once. They are independent — each is
-		// asked only about its own text and can only cut inside it — so nothing
-		// is lost by not waiting, and Promise.all keeps them in transcript order.
-		const results = await Promise.all(
-			sections.map(async (section, index) =>
-				isOver[index] === true
-					? deepenSection({ config, systemPrompt, transcriptText, section })
-					: untouched(section),
-			),
-		);
-		for (const result of results) {
-			if (!result.sent) {
-				continue;
-			}
-			calls += 1;
-			sectionsSent += 1;
-			retries += result.retries;
-			failures += result.failed ? 1 : 0;
-			heldAsOneStep += result.held ? 1 : 0;
-			cutsUnplaced += result.unplaced;
-			promptTokens += result.promptTokens;
-			completionTokens += result.completionTokens;
-		}
-		const next = results.flatMap((result) => result.sections);
-		// Nothing moved, so another round would ask the same questions again.
-		if (next.length === sections.length) {
-			sections = next;
-			break;
-		}
-		sections = next;
+	const sectionsBefore = sectionsOf({ transcriptText, raw });
+	const result = await deepenDivision({
+		transcriptText,
+		sections: sectionsBefore,
+		gateWords,
+		systemPrompt: version.build(),
+		callModel: (messages) => callTrialModel({ config, modelId: MODEL, messages }),
+	});
+	if (result.state === "refused") {
+		throw new DeepeningRefusedError({ stem, failures: result.failures });
 	}
+	const { sections, tally } = result;
 
 	const blocks = sections.map((section) => ({
 		label: section.label,
@@ -354,15 +164,9 @@ async function main(): Promise<void> {
 		modelId: MODEL,
 		gateWords,
 		seconds,
-		promptTokens,
-		completionTokens,
-		sectionsSent,
-		heldAsOneStep,
-		cutsUnplaced,
-		calls,
-		retries,
-		failures,
-		subtopicsBefore,
+		...tally,
+		calls: tally.sectionsSent,
+		subtopicsBefore: sectionsBefore.length,
 		subtopicsAfter: sections.length,
 		fidelity: judgeFidelity(transcriptText, blocks),
 	};
@@ -378,11 +182,11 @@ async function main(): Promise<void> {
 	);
 	console.log(
 		`${outStem.padEnd(34)} ${String(seconds).padStart(3)}s ` +
-			`sent=${String(sectionsSent).padStart(2)} held=${String(heldAsOneStep).padStart(2)} ` +
-			`retry=${String(retries).padStart(2)} fail=${String(failures).padStart(2)} ` +
-			`unplaced=${String(cutsUnplaced).padStart(2)} ` +
-			`${String(subtopicsBefore).padStart(2)}->${String(outcome.subtopicsAfter).padStart(2)} ` +
-			`in=${String(promptTokens).padStart(6)} out=${String(completionTokens).padStart(5)} ` +
+			`sent=${String(tally.sectionsSent).padStart(2)} held=${String(tally.heldAsOneStep).padStart(2)} ` +
+			`retry=${String(tally.retries).padStart(2)} ` +
+			`unplaced=${String(tally.cutsUnplaced).padStart(2)} ` +
+			`${String(sectionsBefore.length).padStart(2)}->${String(sections.length).padStart(2)} ` +
+			`in=${String(tally.promptTokens).padStart(6)} out=${String(tally.completionTokens).padStart(5)} ` +
 			`${outcome.fidelity}`,
 	);
 }
