@@ -99,8 +99,6 @@ const INSIDE_ONLY_BODY = `Every cut you propose must fall INSIDE this section. T
 const whySentNeutralBody = (unit: Unit): string =>
 	`This section reached you because its length was measured, and for no other reason. Nothing about its contents has been judged, by anyone, and its arrival is not evidence that it divides. Plenty of single ${unit.many} are long: a lecturer may spend a great many words on one thing, and that is not a fault to be corrected. Read the passage and decide from the passage alone.`;
 
-const WHY_SENT_BODY_NEUTRAL = whySentNeutralBody(STEP);
-
 /** Referring to a thing is not taking it up. */
 const MENTION_BODY = `Mentioning something is not taking it up. A lecturer constantly names neighbouring things in passing — to contrast with the thing under discussion, to set it up, to say what it is not, to recall something covered earlier. A boundary needs the lecturer to LEAVE the first thing behind and begin working on the second. A name in passing, however different the thing named, is not a boundary.`;
 
@@ -113,8 +111,6 @@ const WORKING_FAILING_BODY = workingFailingBody(STEP);
 /** Multiplicity, but only once dividing has been established. */
 const everyPlaceConditionalBody = (unit: Unit): string =>
 	`If — and only if — you have established that this section holds more than one ${unit.one}, then find every place it divides, not only the first. Work through from beginning to end. This rule tells you how thoroughly to look once you know there is something to find; it is not a reason to think there is.`;
-
-const EVERY_PLACE_BODY_CONDITIONAL = everyPlaceConditionalBody(STEP);
 
 const WHY_SENT_RULE: NamedRule = {
 	key: "why-sent",
@@ -170,13 +166,11 @@ A pivot that sounds like a turn is not always a turn. When the lecturer announce
 const workingFailingNamedBody = (unit: Unit): string => `${workingFailingBody(unit)}
 This holds however the second half is named. When the lecturer describes what happens if a process is absent, blocked or broken, that is still the same process — even when what happens instead carries a name of its own, and even when that name is introduced as though it were a separate thing.`;
 
-const WORKING_FAILING_BODY_NAMED = workingFailingNamedBody(STEP);
-
 /**
  * The single example, which neither of the other two rules about examples covers.
  *
  * {@link CASES_BODY_WITH_SCOPE} governs a RUN of instances and
- * {@link PARALLEL_BODY} a SET of items; one example worked through to show what
+ * {@link parallelBody} a SET of items; one example worked through to show what
  * a claim means is neither, and the d3 runs cut in front of it. The user's
  * distinction: a single example that directly explains a point is part of the
  * explanation, not an illustration hanging off it.
@@ -190,13 +184,9 @@ const WORKING_FAILING_BODY_NAMED = workingFailingNamedBody(STEP);
 const singleExampleBody = (unit: Unit): string =>
 	`A single example worked through to show what a claim means belongs with that claim. When the lecturer states something and then takes one instance of it and follows that instance through in enough detail to show why the claim holds, the statement and the worked example are one ${unit.one}. This is the case of ONE example. Where the lecturer instead runs through several instances of a point, {{cases}} decides them.`;
 
-const SINGLE_EXAMPLE_BODY = singleExampleBody(STEP);
-
 /** A run of items serving one point is one subtopic, however many items there are. */
 const parallelBody = (unit: Unit): string =>
 	`When the lecturer works through a set of things to make one point about all of them — ordering them, contrasting them, ranking them by some property — the whole run is one ${unit.one}. The point being made is the thing; the items are how it is made. Do not put a boundary between one item of such a run and the next, however different the items are from each other.`;
-
-const PARALLEL_BODY = parallelBody(STEP);
 
 const SIGNAL_RULE_WITH_PIVOTS: NamedRule = {
 	key: "signal",
@@ -226,8 +216,6 @@ const singleExampleRule = (unit: Unit): NamedRule => ({
 	check:
 		"does any cut you propose separate a claim from the single example the lecturer works through to explain it? If so, drop it.",
 });
-
-const SINGLE_EXAMPLE_RULE = singleExampleRule(STEP);
 
 const parallelRule = (unit: Unit): NamedRule => ({
 	key: "parallel",
