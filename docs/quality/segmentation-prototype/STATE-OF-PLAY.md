@@ -211,9 +211,11 @@ measured and rejected, and unmeasured.
    and 8 have no ruling in `runs/divisions.json`, so their divisions can be
    measured for consistency but not scored.
 4. **Nothing in this folder is linted or typechecked.** It sits outside `src/**`,
-   where biome, eslint and jscpd are scoped. `cut-blocks.test.mts` and
-   `deepen-division.test.mts` are the folder's only test files; vitest picks them
-   up because `include` is not scoped to `src/**`,
+   where biome, eslint and jscpd are scoped. `test_division_support.py` tests
+   the reports' cut-site rule under pytest, which the commit gate does not run
+   (see `requirements-dev.txt` for the virtual environment). The only TypeScript
+   test files are `cut-blocks.test.mts` and `deepen-division.test.mts`; vitest
+   picks them up because `include` is not scoped to `src/**`,
    and coverage thresholds are unaffected because coverage `include` is.
 
 ## Running it

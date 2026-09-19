@@ -51,16 +51,26 @@ def load_splitting_runs(pattern):
     return runs
 
 
-def cut_sites(runs, panel=None):
-    """Every cut site the panel's runs cut at, as (position, support)."""
-    members = range(len(runs)) if panel is None else panel
-    points = sorted(p for i in members for p in runs[i])
+def group_into_cut_sites(points):
+    """Sort cut positions into cut sites, each no wider than the tolerance.
+
+    A cut joins a cut site only if it is within the tolerance of the site's FIRST
+    cut. Measuring from the most recent cut instead would let a site grow cut by
+    cut, and could merge two genuinely different cut sites into one.
+    """
     groups = []
-    for point in points:
+    for point in sorted(points):
         if groups and point - groups[-1][0] <= TOLERANCE:
             groups[-1].append(point)
         else:
             groups.append([point])
+    return groups
+
+
+def cut_sites(runs, panel=None):
+    """Every cut site the panel's runs cut at, as (position, support)."""
+    members = range(len(runs)) if panel is None else panel
+    groups = group_into_cut_sites(p for i in members for p in runs[i])
     out = []
     for group in groups:
         low, high = min(group), max(group)
@@ -80,13 +90,7 @@ def cut_sites_with_runs(runs):
     makes the panel sweep finish: finding them again inside the loop is the same
     work repeated for each of the 48,620 panels of nine drawn from eighteen runs.
     """
-    points = sorted(p for run in runs for p in run)
-    groups = []
-    for point in points:
-        if groups and point - groups[-1][-1] <= TOLERANCE:
-            groups[-1].append(point)
-        else:
-            groups.append([point])
+    groups = group_into_cut_sites(p for run in runs for p in run)
     out = []
     for group in groups:
         low, high = min(group) - TOLERANCE / 2, max(group) + TOLERANCE / 2

@@ -15,3 +15,5 @@ pipeline-config.json
 .DS_Store
 # Python writes compiled copies of any module a script imports, beside it.
 __pycache__/
+# A Python virtual environment, rebuilt from its requirements file.
+.venv/

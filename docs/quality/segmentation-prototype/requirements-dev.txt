@@ -1,0 +1,7 @@
+# Test tools for the prototype's Python reports. Install into a virtual
+# environment beside this file:
+#   python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
+# and run one test file at a time:
+#   .venv/bin/pytest -v test_division_support.py
+pytest==9.1.1
+pytest-timeout==2.4.0
