@@ -1,18 +1,18 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
-import { type DeepenResult, deepenDivision, type Section } from "./deepen-division.mts";
+import { type DeepenResult, deepenDivision, type Subtopic } from "./deepen-division.mts";
 import type { TrialMessage, TrialReply } from "./trial-model.mts";
 
 /** Small enough that a sentence or two crosses it, so the passages stay readable. */
-const GATE_WORDS = 5;
+const SIZE_GATE_WORDS = 5;
 
-/** The prompt text is not under test; only that a call carries the section. */
-const SYSTEM_PROMPT = "divide this section";
+/** The prompt text is not under test; only that a call carries the subtopic. */
+const SYSTEM_PROMPT = "divide this subtopic";
 
 /** Tokens every faked reply reports, so the tally has something to add up. */
 const PROMPT_TOKENS = 100;
 const COMPLETION_TOKENS = 20;
 
-/** Eight words: over the gate whole, under it once divided at `SECOND_HALF`. */
+/** Eight words: over the size gate whole, under it once divided at `SECOND_HALF`. */
 const EIGHT_WORDS = "Cells divide quickly here. Then tumours invade tissue. ";
 const SECOND_HALF = "Then tumours invade tissue";
 
@@ -44,29 +44,29 @@ function cutsAt(...openings: readonly string[]): TrialReply {
 	);
 }
 
-/** A reply saying the section is one step. */
+/** A reply saying the subtopic is one step. */
 const ONE_STEP = replyWith(JSON.stringify({ verdict: "one step", cuts: [] }));
 
 /**
- * The transcript made by joining the passages, and one section per passage.
+ * The transcript made by joining the passages, and one subtopic per passage.
  *
- * @param passages - The sections' texts, in transcript order.
+ * @param passages - The subtopics' texts, in transcript order.
  * @returns The transcript and its division.
  */
 function divisionOf(passages: readonly string[]): {
 	readonly transcriptText: string;
-	readonly sections: readonly Section[];
+	readonly subtopics: readonly Subtopic[];
 } {
 	let offset = 0;
-	const sections = passages.map((passage, index) => {
+	const subtopics = passages.map((passage, index) => {
 		const from = offset;
 		offset += passage.length;
-		return { label: `section ${index}`, why: `because ${index}`, from, to: offset };
+		return { label: `subtopic ${index}`, why: `because ${index}`, from, to: offset };
 	});
-	return { transcriptText: passages.join(""), sections };
+	return { transcriptText: passages.join(""), subtopics };
 }
 
-/** The text each section of a completed result covers. */
+/** The text each subtopic of a completed result covers. */
 function textsOf({
 	result,
 	transcriptText,
@@ -77,10 +77,10 @@ function textsOf({
 	if (result.state !== "completed") {
 		throw new Error(`expected a completed run, got ${result.state}`);
 	}
-	return result.sections.map((section) => transcriptText.slice(section.from, section.to));
+	return result.subtopics.map((subtopic) => transcriptText.slice(subtopic.from, subtopic.to));
 }
 
-/** The section text a call was about, read back out of its user message. */
+/** The subtopic text a call was about, read back out of its user message. */
 function passageSent(messages: readonly TrialMessage[]): string {
 	return messages.find((message) => message.role === "user")?.content ?? "";
 }
@@ -103,32 +103,32 @@ describe("deepenDivision", () => {
 	async function deepen(passages: readonly string[]): Promise<{
 		readonly result: DeepenResult;
 		readonly transcriptText: string;
-		readonly sections: readonly Section[];
+		readonly subtopics: readonly Subtopic[];
 	}> {
-		const { transcriptText, sections } = divisionOf(passages);
+		const { transcriptText, subtopics } = divisionOf(passages);
 		const pending = deepenDivision({
 			transcriptText,
-			sections,
-			gateWords: GATE_WORDS,
+			subtopics,
+			sizeGateWords: SIZE_GATE_WORDS,
 			systemPrompt: SYSTEM_PROMPT,
 			callModel,
 		});
 		await vi.runAllTimersAsync();
-		return { result: await pending, transcriptText, sections };
+		return { result: await pending, transcriptText, subtopics };
 	}
 
-	test("should leave every section untouched and send none when all are under the gate", async () => {
-		const { result, sections } = await deepen([SHORT, SHORT]);
+	test("should leave every subtopic untouched and send none when all are under the size gate", async () => {
+		const { result, subtopics } = await deepen([SHORT, SHORT]);
 
 		expect(callModel).not.toHaveBeenCalled();
 		expect(result).toEqual({
 			state: "completed",
-			sections,
+			subtopics,
 			tally: expect.objectContaining({ sectionsSent: 0 }),
 		});
 	});
 
-	test("should divide a section where the model says when it is over the gate", async () => {
+	test("should divide a subtopic where the model says when it is over the size gate", async () => {
 		callModel.mockResolvedValue(cutsAt(SECOND_HALF));
 
 		const { result, transcriptText } = await deepen([SHORT, EIGHT_WORDS]);
@@ -139,9 +139,9 @@ describe("deepenDivision", () => {
 			"Then tumours invade tissue. ",
 		]);
 		expect(result).toMatchObject({
-			sections: [
-				{ label: "section 0" },
-				{ label: "section 1", why: "because 1" },
+			subtopics: [
+				{ label: "subtopic 0" },
+				{ label: "subtopic 1", why: "because 1" },
 				{ label: `from ${SECOND_HALF}`, why: `why ${SECOND_HALF}` },
 			],
 			tally: {
@@ -154,7 +154,7 @@ describe("deepenDivision", () => {
 		expect(passageSent(callModel.mock.calls[0]?.[0] ?? [])).toContain(EIGHT_WORDS);
 	});
 
-	test("should keep a section whole and count it held when the model calls it one step", async () => {
+	test("should keep a subtopic whole and count it held when the model calls it one step", async () => {
 		callModel.mockResolvedValue(ONE_STEP);
 
 		const { result, transcriptText } = await deepen([EIGHT_WORDS]);
@@ -176,7 +176,7 @@ describe("deepenDivision", () => {
 		["threw", () => callModel.mockRejectedValue(new Error("402 out of credit")), /^THREW: .*402 out of credit/u],
 		["came back empty", () => callModel.mockResolvedValue(replyWith("")), /^EMPTY$/u],
 		["came back unreadable", () => callModel.mockResolvedValue(replyWith("not json")), /^PARSE-FAIL$/u],
-	])("should refuse the whole run and name the reason when a section's call %s on every attempt", async (_name, arrange, reason) => {
+	])("should refuse the whole run and name the reason when a subtopic's call %s on every attempt", async (_name, arrange, reason) => {
 		arrange();
 
 		const { result } = await deepen([SHORT, EIGHT_WORDS]);
@@ -184,11 +184,11 @@ describe("deepenDivision", () => {
 		expect(callModel).toHaveBeenCalledTimes(3);
 		expect(result).toEqual({
 			state: "refused",
-			failures: [{ label: "section 1", reason: expect.stringMatching(reason) }],
+			failures: [{ label: "subtopic 1", reason: expect.stringMatching(reason) }],
 		});
 	});
 
-	test("should refuse the run when one section fails even though another succeeds", async () => {
+	test("should refuse the run when one subtopic fails even though another succeeds", async () => {
 		callModel.mockImplementation(async (messages) =>
 			passageSent(messages).includes("Alpha") ? cutsAt(SECOND_HALF) : replyWith(""),
 		);
@@ -197,11 +197,11 @@ describe("deepenDivision", () => {
 
 		expect(result).toEqual({
 			state: "refused",
-			failures: [{ label: "section 1", reason: "EMPTY" }],
+			failures: [{ label: "subtopic 1", reason: "EMPTY" }],
 		});
 	});
 
-	test("should drop and count a cut whose quote is not in the section", async () => {
+	test("should drop and count a cut whose quote is not in the subtopic", async () => {
 		callModel.mockResolvedValue(cutsAt("words the lecturer never said"));
 
 		const { result, transcriptText } = await deepen([EIGHT_WORDS]);
@@ -210,7 +210,7 @@ describe("deepenDivision", () => {
 		expect(result).toMatchObject({ tally: { cutsUnplaced: 1, heldAsOneStep: 0 } });
 	});
 
-	test("should send a piece again in a second round when it is still over the gate", async () => {
+	test("should send a piece again in a second round when it is still over the size gate", async () => {
 		const opening = "Growth signals switch on. ";
 		callModel.mockImplementation(async (messages) =>
 			passageSent(messages).includes(opening)
