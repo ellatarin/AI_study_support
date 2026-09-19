@@ -1,11 +1,11 @@
-"""Reading a set of division runs, and deciding when two runs name one boundary.
+"""Reading a set of splitting runs, and deciding when two runs' cuts are one cut site.
 
-Two reports ask different questions of the same runs — `report-division.py`
-whether a division is right, `report-consistency.py` whether the runs agree — and
-both stand on the same two decisions: where the runs are read from, and how close
-two positions have to be before they are the same boundary. Stated twice, those
-two reports could disagree about what a boundary is while appearing to describe
-the same lecture.
+Two reports ask different questions of the same splitting runs —
+`report-division.py` whether a division is right, `report-consistency.py` how
+consistent the runs are — and both stand on the same two decisions: where the
+runs are read from, and how close two cuts have to be before they are the same
+cut site. Stated twice, those two reports could disagree about what a cut site
+is while appearing to describe the same lecture.
 
 Named with an underscore because a module has to be importable, where the reports
 are commands and are named as such.
@@ -19,24 +19,24 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 RUNS = os.path.join(HERE, "runs")
 DIVISIONS = os.path.join(RUNS, "divisions.json")
 
-# Two runs naming the same boundary rarely land on the identical character, so
-# positions within this many percentage points of each other are one boundary.
-# Measured: real boundaries cluster inside 0.2 points, and the closest pair of
-# genuinely different boundaries in any lecture seen so far is 1.8 apart.
+# Two runs cutting at the same cut site rarely land on the identical character,
+# so cuts within this many percentage points of each other are one cut site.
+# Measured: real cut sites span under 0.2 points, and the closest pair of
+# genuinely different cut sites in any lecture seen so far is 1.8 apart.
 TOLERANCE = 1.0
 
 
-def near(a, b):
-    """Whether two positions name the same boundary."""
+def same_cut_site(a, b):
+    """Whether two cut positions are the same cut site."""
     return abs(a - b) < TOLERANCE
 
 
-def load_runs(pattern):
-    """Every run matching the glob, as a list of boundary positions in percent.
+def load_splitting_runs(pattern):
+    """Every splitting run matching the glob, as a list of cut positions in percent.
 
     Reads the `.blocks.json` files, whose blocks already hold the sliced text, so
-    a boundary is just a running character total. The opening of the transcript
-    is not a boundary and is excluded.
+    a cut is just a running character total. The opening of the transcript is not
+    a cut and is excluded.
     """
     runs = []
     for path in sorted(glob.glob(os.path.join(RUNS, pattern))):
@@ -51,8 +51,8 @@ def load_runs(pattern):
     return runs
 
 
-def cluster(runs, panel=None):
-    """Every distinct boundary the panel proposes, with how many runs proposed it."""
+def cut_sites(runs, panel=None):
+    """Every cut site the panel's runs cut at, as (position, support)."""
     members = range(len(runs)) if panel is None else panel
     points = sorted(p for i in members for p in runs[i])
     groups = []
@@ -64,21 +64,21 @@ def cluster(runs, panel=None):
     out = []
     for group in groups:
         low, high = min(group), max(group)
-        votes = sum(
+        support = sum(
             1
             for i in members
             if any(low - TOLERANCE / 2 <= p <= high + TOLERANCE / 2 for p in runs[i])
         )
-        out.append((sum(group) / len(group), votes))
+        out.append((sum(group) / len(group), support))
     return out
 
 
-def supporters(runs):
-    """Every boundary anyone proposed, as (position, bitmask of the runs that made it).
+def cut_sites_with_runs(runs):
+    """Every cut site any run cut at, as (position, bitmask of the runs that cut there).
 
-    Clustering once and carrying the supporters as a bitmask is what makes the
-    panel sweep finish: re-clustering inside the loop is the same work repeated
-    for each of the 48,620 panels of nine drawn from eighteen runs.
+    Finding the cut sites once and carrying their support as a bitmask is what
+    makes the panel sweep finish: finding them again inside the loop is the same
+    work repeated for each of the 48,620 panels of nine drawn from eighteen runs.
     """
     points = sorted(p for run in runs for p in run)
     groups = []

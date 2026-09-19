@@ -1,25 +1,26 @@
-"""How far a set of runs agree with each other about where the lecture divides.
+"""How consistent a lecture's splitting runs are about where the lecture divides.
 
 Separate from `report-division.py`, which asks whether a division is RIGHT and
-needs the user's ruling to answer. This asks only whether the runs AGREE, so it
-can be run on a lecture nobody has ruled — which is every lecture but three.
+needs the user's ruled division to answer. This asks only how CONSISTENT the runs
+are, so it can be run on a lecture nobody has ruled — which is every lecture but
+three.
 
-Agreement is what the vote spends: a boundary every run proposes survives any
-bar, and one that half the runs propose is decided by where the bar sits. So the
-figure that matters per lecture is not the mean number of sections but how the
-boundaries distribute across the vote.
+Consistency is what the vote spends: a cut site every run cuts at survives any
+bar, and one that half the runs cut at is decided by where the bar sits. So the
+figure that matters per lecture is not the mean number of subtopics but how the
+cut sites distribute across the vote.
 
-The clustering is `report-division.py`'s, imported rather than restated: two runs
-naming one boundary rarely land on the same character, and what counts as "the
-same boundary" has to be one decision.
+What counts as the same cut site comes from `division_support.py`, shared with
+`report-division.py`: two runs cutting at one cut site rarely land on the same
+character, and that has to be one decision.
 
 Usage — the pattern names the runs, with {lec} standing for the lecture key:
   python3 report-consistency.py 'split-s6-{lec}-*.blocks.json'
   python3 report-consistency.py 'deepen-d9-600-split-s6-{lec}-*.blocks.json' l3 l4 l5
 
-Taking a pattern rather than a version is what lets one report serve both passes:
-pass one's runs and the deepened runs sit in the same directory under different
-names, and agreement means the same thing for either.
+Taking a pattern rather than a version is what lets one report serve both
+initial subtopic splitting and deepening: their runs sit in the same directory
+under different names, and consistency means the same thing for either.
 """
 
 import glob
@@ -29,15 +30,15 @@ import os
 import statistics
 import sys
 
-from division_support import RUNS, cluster, load_runs, supporters
+from division_support import RUNS, cut_sites, cut_sites_with_runs, load_splitting_runs
 
-# Where the vote bar sits under the chosen setting: five of nine. A boundary at
-# or above this share of the runs is kept; one below it is dropped. Expressed as
+# The bar under the chosen setting: five of nine. A cut site whose support
+# reaches this share of the runs is kept; one below it is dropped. Expressed as
 # a share so a pool of any size can be read against it.
-KEPT_SHARE = 5 / 9
+BAR = 5 / 9
 
-# A boundary within this many runs of the bar, either side, is one the bar
-# decides rather than the model: these are where a division is actually at risk.
+# A cut site within this share of the runs of the bar, either side, is one the
+# bar decides rather than the model: these are where a division is at risk.
 CONTESTED_MARGIN = 0.15
 
 
@@ -51,15 +52,15 @@ def lectures_with_runs(pattern):
     return sorted(keys, key=lambda key: int(key[1:]))
 
 
-def agreement(runs):
-    """Mean pairwise agreement between runs, as a share of the boundaries either named.
+def consistency(runs):
+    """Mean pairwise consistency between runs, as a share of the cut sites either cut at.
 
-    Two runs proposing the same eleven boundaries score 1.0; two sharing none
+    Two runs cutting at the same eleven cut sites score 1.0; two sharing none
     score 0. Taken over every pair, this says how alike two runs picked at random
     would be — which is what a panel of nine is drawing from.
     """
-    seams = supporters(runs)
-    members = [{index for index, _ in enumerate(runs) if mask >> index & 1} for _, mask in seams]
+    sites = cut_sites_with_runs(runs)
+    members = [{index for index, _ in enumerate(runs) if mask >> index & 1} for _, mask in sites]
     scores = []
     for first, second in itertools.combinations(range(len(runs)), 2):
         shared = sum(1 for m in members if first in m and second in m)
@@ -69,38 +70,38 @@ def agreement(runs):
 
 
 def report(pattern, keys):
-    """Print the agreement table, one row per lecture."""
+    """Print the consistency table, one row per lecture."""
     header = (
-        f"{'lecture':>8} {'runs':>5} {'sections':>16} {'boundaries':>11} "
-        f"{'unanimous':>10} {'kept':>6} {'contested':>10} {'rare':>6} {'agreement':>10}"
+        f"{'lecture':>8} {'runs':>5} {'subtopics':>16} {'cut sites':>11} "
+        f"{'unanimous':>10} {'kept':>6} {'contested':>10} {'rare':>6} {'consistency':>12}"
     )
-    print(f"\n{pattern} — how far the runs agree with each other\n")
+    print(f"\n{pattern} — how consistent the splitting runs are\n")
     print(header)
     print("-" * len(header))
     for key in keys:
-        runs = load_runs(pattern.format(lec=key))
+        runs = load_splitting_runs(pattern.format(lec=key))
         if not runs:
             continue
         counts = sorted(len(run) + 1 for run in runs)
-        votes = [v for _, v in cluster(runs)]
+        support = [s for _, s in cut_sites(runs)]
         total = len(runs)
-        bar = KEPT_SHARE * total
+        bar = BAR * total
         margin = CONTESTED_MARGIN * total
-        unanimous = sum(1 for v in votes if v == total)
-        kept = sum(1 for v in votes if v >= bar)
-        contested = sum(1 for v in votes if bar - margin <= v <= bar + margin)
-        rare = sum(1 for v in votes if v <= 0.25 * total)
+        unanimous = sum(1 for s in support if s == total)
+        kept = sum(1 for s in support if s >= bar)
+        contested = sum(1 for s in support if bar - margin <= s <= bar + margin)
+        rare = sum(1 for s in support if s <= 0.25 * total)
         print(
             f"{key:>8} {total:>5} "
             f"{f'{counts[0]}-{statistics.median(counts):.0f}-{counts[-1]}':>16} "
-            f"{len(votes):>11} {unanimous:>10} {kept:>6} {contested:>10} {rare:>6} "
-            f"{agreement(runs):>9.2f}"
+            f"{len(support):>11} {unanimous:>10} {kept:>6} {contested:>10} {rare:>6} "
+            f"{consistency(runs):>11.2f}"
         )
     print(
-        "\nsections: fewest-median-most in one run.  boundaries: distinct positions any "
-        f"run proposed.\nkept: proposed by at least {KEPT_SHARE:.0%} of runs, the bar in use.  "
+        "\nsubtopics: fewest-median-most in one run.  cut sites: distinct places any "
+        f"run cut at.\nkept: support of at least {BAR:.0%} of runs, the bar in use.  "
         f"contested: within {CONTESTED_MARGIN:.0%} of that bar either side.\n"
-        "rare: a quarter of the runs or fewer.  agreement: mean share of boundaries "
+        "rare: a quarter of the runs or fewer.  consistency: mean share of cut sites "
         "two runs share."
     )
 
