@@ -13,3 +13,5 @@ pipeline-config.json
 # macOS writes one of these into any directory the Finder has opened, so they
 # appear beside files that are themselves worth committing.
 .DS_Store
+# Python writes compiled copies of any module a script imports, beside it.
+__pycache__/
