@@ -25,7 +25,7 @@ import sys
 
 from division_support import (
     DIVISIONS,
-    RUNS,
+    HERE,
     cut_sites,
     cut_sites_with_runs,
     load_splitting_runs,
