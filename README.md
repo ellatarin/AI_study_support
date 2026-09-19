@@ -1,4 +1,4 @@
-# Lecture notes and slides to textbook format
+# Lecture recordings and slides to textbook format
 
 A software harness that uses a number of AI models to turn video recordings of lectures, and the slides that go with them, into textbook-style chapters that can be used for study.
 
