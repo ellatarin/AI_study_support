@@ -1,4 +1,4 @@
-# Code review — whole tree at `a134389` (2026-08-22)
+# Code review — whole tree at `ff63e9d` (2026-08-22)
 
 Two-axis review (`/code-review`): **Standards** (conformance to `CLAUDE.md`) and **Spec** (fidelity to
 `requirements.md` / `technical-design.md`). Run over the entire tree rather than a diff — 8,101
