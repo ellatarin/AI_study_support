@@ -7,7 +7,7 @@ can disagree about one lecture.
 
 import pytest
 
-from division_support import cut_sites, cut_sites_with_runs, survives
+from division_support import cut_sites, cut_sites_with_runs, survives, voted_cuts
 
 
 def sites_by_count(runs):
@@ -67,3 +67,28 @@ def test_should_keep_a_cut_site_when_its_support_in_the_panel_reaches_the_bar(ba
 
     # Assert
     assert result is kept
+
+
+# Three runs over a 1,000-character transcript. Two agree exactly at 250 and the
+# third lands two characters later. Two cut near 600, two characters apart.
+CUTS_IN_CHARACTERS = [[250, 600], [250, 602], [252]]
+TRANSCRIPT_LENGTH = 1000
+
+
+@pytest.mark.parametrize(
+    "bar, expected",
+    [
+        (3, [250]),
+        # 600 and 602 are each used once: the earlier wins the tie.
+        (2, [250, 600]),
+    ],
+)
+def test_should_cut_at_the_most_used_character_when_a_cut_site_reaches_the_bar(bar, expected):
+    # Arrange
+    runs = CUTS_IN_CHARACTERS
+
+    # Act
+    cuts = voted_cuts(runs, TRANSCRIPT_LENGTH, bar)
+
+    # Assert
+    assert cuts == expected

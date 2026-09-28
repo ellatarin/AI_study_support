@@ -11,6 +11,7 @@ Named with an underscore because a module has to be importable, where the report
 are commands and are named as such.
 """
 
+import collections
 import glob
 import json
 import os
@@ -31,8 +32,8 @@ def same_cut_site(a, b):
     return abs(a - b) < TOLERANCE
 
 
-def load_splitting_runs(pattern):
-    """Every splitting run matching the glob, as a list of cut positions in percent.
+def load_splitting_runs_in_characters(pattern):
+    """Every splitting run matching the glob, as (blocks, cut offsets in characters).
 
     Reads the `.blocks.json` files, whose blocks already hold the sliced text, so
     a cut is just a running character total. The opening of the transcript is not
@@ -41,13 +42,21 @@ def load_splitting_runs(pattern):
     runs = []
     for path in sorted(glob.glob(os.path.join(RUNS, pattern))):
         blocks = json.load(open(path))["blocks"]
-        total = sum(len(b["content"]) for b in blocks)
-        offset, positions = 0, []
+        offset, cuts = 0, []
         for block in blocks:
             if offset > 0:
-                positions.append(offset / total * 100)
+                cuts.append(offset)
             offset += len(block["content"])
-        runs.append(positions)
+        runs.append((blocks, cuts))
+    return runs
+
+
+def load_splitting_runs(pattern):
+    """Every splitting run matching the glob, as a list of cut positions in percent."""
+    runs = []
+    for blocks, cuts in load_splitting_runs_in_characters(pattern):
+        total = sum(len(b["content"]) for b in blocks)
+        runs.append([cut / total * 100 for cut in cuts])
     return runs
 
 
@@ -109,3 +118,26 @@ def cut_sites_with_runs(runs):
                 mask |= 1 << index
         out.append((sum(group) / len(group), mask))
     return out
+
+
+def voted_cuts(runs, length, bar):
+    """Where the vote cuts the transcript, in characters.
+
+    Every run's cuts are pooled into cut sites exactly as the reports pool them,
+    and a site is kept when at least `bar` runs cut there. A kept site is cut at
+    the character the most runs chose, the earliest on a tie, so the voted cut
+    always falls where some run actually cut.
+
+    `runs` holds each run's cut offsets in characters; `length` is the
+    transcript's length in characters.
+    """
+    in_percent = [[cut / length * 100 for cut in run] for run in runs]
+    groups = group_into_cut_sites(p for run in in_percent for p in run)
+    sites = cut_sites_with_runs(in_percent)
+    kept = []
+    for group, (_, mask) in zip(groups, sites):
+        if mask.bit_count() < bar:
+            continue
+        offsets = collections.Counter(round(p * length / 100) for p in group)
+        kept.append(min(offsets, key=lambda offset: (-offsets[offset], offset)))
+    return kept
