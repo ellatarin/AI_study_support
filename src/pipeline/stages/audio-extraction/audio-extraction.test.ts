@@ -213,7 +213,7 @@ describe("createAudioExtractionStage", () => {
 
 			const [entry] = loggedAt({ entries: logged().entries, level: "debug" });
 			expect(entry?.message).toBe("Extracted audio track");
-			expect(entry?.bindings).toEqual({ stage: "audio-extraction" });
+			expect(entry?.bindings).toMatchObject({ stage: "audio-extraction" });
 			expect(entry?.payload).toEqual({
 				sourceVideoPath: join(videoDir, testLecture.videoFile),
 				audioPath: audioPath(),

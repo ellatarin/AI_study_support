@@ -1,4 +1,5 @@
 import { mkdir } from "node:fs/promises";
+import { basename } from "node:path";
 import type { Logger } from "pino";
 import type { PipelineStage, StageContext, StageId, StageResult } from "../../types/pipeline.js";
 import {
@@ -250,13 +251,16 @@ export async function writeStageOutputWithReadableView({
  * (technical-design.md §4.2). The stage's output directories are created and
  * cleared of `.tmp` leftovers before `run` begins (§4.3), which every stage
  * writing output needs and none of them should state for itself. And the run's
- * logger is bound to the stage **once, here**, so `run` receives a logger already
- * stamping `{ stage }` and no stage writes `.child()` for itself (§10).
+ * logger is bound **here**, so `run` receives a logger already stamping the stage
+ * and the lecture — `{ stage, module, lectureNumber, lectureDate }` — and no stage
+ * writes `.child()` for itself (§10). The stage is bound once, at construction;
+ * the lecture on each run, because a batch runs one stage object for several
+ * lectures at once.
  *
- * Binding at construction rather than per invocation is why `logger` appears on
- * this factory's `run` and not on {@link PipelineStage.run}: the runner calls a
- * stage with the input and the context, exactly as before, and never carries a
- * logger through the contract to do it.
+ * Binding here is why `logger` appears on this factory's `run` and not on
+ * {@link PipelineStage.run}: the runner calls a stage with the input and the
+ * context, exactly as before, and never carries a logger through the contract to
+ * do it.
  *
  * Building stages through here is what guarantees they cannot drift apart,
  * quietly skip a step, or log against the wrong stage.
@@ -294,7 +298,15 @@ export function createPipelineStage<TInput, TOutput>({
 		getInput,
 		run: async ({ input, context }) => {
 			await prepareStageDirectories({ workspaceRoot: context.workspaceRoot, stageId });
-			return run({ input, context, logger: stageLogger });
+			// Bound per run, not per stage: one stage object serves every lecture of a
+			// batch, and lectures run concurrently, so a line is only attributable if it
+			// names its lecture.
+			const lectureLogger = stageLogger.child({
+				module: basename(context.moduleRoot),
+				lectureNumber: context.lectureNumber,
+				lectureDate: context.lectureDate,
+			});
+			return run({ input, context, logger: lectureLogger });
 		},
 	};
 }

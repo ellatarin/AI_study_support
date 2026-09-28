@@ -1979,7 +1979,7 @@ src/
 
 ## 10. Logging
 
-`pino` is used for all structured logging. Each pipeline invocation creates one root logger, writing to a debug log named for the instant the invocation began. One binding is added beneath that root, and it is the stage's: every log entry a stage makes carries `{ stage: stageId }`, but a stage does not call `logger.child()` for itself: `createPipelineStage` binds the child once when the stage is built and hands that to `run` (§4.2). One binding site per stage means a stage cannot log against a stage it is not, and a stage that logs nothing still costs nothing.
+`pino` is used for all structured logging. Each pipeline invocation creates one root logger, writing to a debug log named for the instant the invocation began. Beneath that root, every log entry a stage makes carries the stage and the lecture — `{ stage, module, lectureNumber, lectureDate }` — but a stage does not call `logger.child()` for itself: `createPipelineStage` binds the stage once when the stage is built, binds the lecture each time `run` is called, and hands that to `run` (§4.2). The lecture is bound per call because a batch runs one stage object for several lectures at once, and a line that did not name its lecture could not be told apart from another lecture's. One binding site means a stage cannot log against a stage or a lecture it is not, and a stage that logs nothing still costs nothing.
 
 Each per-lecture stage factory therefore takes `{ logger }` and passes it to `createPipelineStage`; `source-normalisation`, which is not a `PipelineStage`, takes and binds its own. The runner keeps its own binding for the one thing it logs about a stage — the failure and its stack, which it must record for a stage that threw before it could log anything itself.
 
@@ -1992,7 +1992,7 @@ The pino file transport writes newline-delimited JSON to `<projectRoot>/runs/<ti
 - Per-slide processing times (`slide-conversion`)
 - File I/O errors: path and OS error code
 - **Decisions that name things downstream.** Which source video `audio-extraction` chose, since it selects by base name from whatever the video directory holds; and which of the three ways `transcript-structuring` settled the lecture's title (§5, `transcript-structuring`), since every later stage names its output from it
-- **Failures the run survives**, at `warn` — chiefly `transcription`'s audio-duration lookup, whose only other trace is a `null` in a cost report read days later
+- **Failures the run survives**, at `warn` — chiefly `transcription`'s audio-duration lookup, whose only other trace is a `null` in a cost report read days later, and every unusable model reply a panel stage resends (§5, "Dividing the transcript", Panel runs)
 - Every stage failure, with its stack, bound to the stage that raised it (§8)
 
 The debug log is for human inspection when diagnosing failures. Its JSON format also makes it trivially parseable if automated analysis is ever needed.

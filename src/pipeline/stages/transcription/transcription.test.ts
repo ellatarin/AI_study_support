@@ -254,7 +254,7 @@ describe("createTranscriptionStage", () => {
 
 		const [warning] = loggedAt({ entries: logged().entries, level: "warn" });
 		expect(warning?.message).toContain("ffprobe could not read the container");
-		expect(warning?.bindings).toEqual({ stage: "transcription" });
+		expect(warning?.bindings).toMatchObject({ stage: "transcription" });
 	});
 
 	it("should record the model, bytes uploaded and latency when the Scribe call completes", async () => {

@@ -1,5 +1,5 @@
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import type { Logger } from "pino";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { ManifestStageEntry, StageContext } from "../../types/pipeline.js";
@@ -164,22 +164,27 @@ describe("createPipelineStage", () => {
 	}
 
 	/**
-	 * Builds a stage whose `run` records what it was handed and reports what was
-	 * on disk when it began, then runs it.
+	 * Builds a stage whose `run` records what it was handed — its logger and its
+	 * lecture — and reports what was on disk when it began, then runs it.
 	 *
 	 * @returns What `run` observed.
 	 */
 	async function runRecordingStage(): Promise<{
 		readonly logger: Logger;
 		readonly namesOnEntry: readonly string[];
+		readonly context: StageContext;
 	}> {
-		let observed: { logger: Logger; namesOnEntry: readonly string[] } | null = null;
+		let observed: {
+			logger: Logger;
+			namesOnEntry: readonly string[];
+			context: StageContext;
+		} | null = null;
 		const stage = createPipelineStage({
 			stageId: STAGE_ID,
 			logger: logged().logger,
 			getInput: async () => undefined,
-			run: async ({ logger }) => {
-				observed = { logger, namesOnEntry: await readdir(stageDir()) };
+			run: async ({ logger, context }) => {
+				observed = { logger, namesOnEntry: await readdir(stageDir()), context };
 				return { output: undefined, cost: null, filesWritten: [] };
 			},
 		});
@@ -208,15 +213,20 @@ describe("createPipelineStage", () => {
 		expect(namesOnEntry).toStrictEqual(["keep.m4a"]);
 	});
 
-	it("should stamp the stage onto every entry when run logs through the logger it was given", async () => {
-		const { logger } = await runRecordingStage();
+	it("should stamp the stage and the lecture onto every entry when run logs through the logger it was given", async () => {
+		const { logger, context } = await runRecordingStage();
 
 		logger.debug({ detail: 1 }, "from inside the stage");
 
 		expect(logged().entries).toStrictEqual([
 			{
 				level: "debug",
-				bindings: { stage: STAGE_ID },
+				bindings: {
+					stage: STAGE_ID,
+					module: basename(moduleRoot),
+					lectureNumber: context.lectureNumber,
+					lectureDate: context.lectureDate,
+				},
 				payload: { detail: 1 },
 				message: "from inside the stage",
 			},
