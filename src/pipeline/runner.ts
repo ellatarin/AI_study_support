@@ -27,6 +27,7 @@ import type {
 	StageRunConfig,
 } from "../types/pipeline.js";
 import { DEFAULT_BATCH_OPTIONS, DEFAULT_RUN_OPTIONS, STAGE_IDS } from "../types/pipeline.js";
+import { mapWithConcurrency } from "../utils/concurrency.js";
 import { errorMessage } from "../utils/errors.js";
 import {
 	listSubdirectoryNames,
@@ -853,7 +854,11 @@ export class PipelineRunner {
 		const workspaces = (await this.#collectLectures(moduleRoots)).map(
 			(lecture) => lecture.workspaceRoot,
 		);
-		const lectures = await this.#runLecturesConcurrently({ workspaces, options });
+		const lectures = await mapWithConcurrency({
+			items: workspaces,
+			limit: options.concurrency,
+			work: ({ item: workspaceRoot }) => this.runLecture({ workspaceRoot, options }),
+		});
 		const endedAt = new Date().toISOString();
 		return { startedAt, endedAt, lectures, overallStatus: summariseLectures({ lectures }) };
 	}
@@ -865,39 +870,6 @@ export class PipelineRunner {
 			lectures.push(...(await listLecturesByDate({ moduleRoot })));
 		}
 		return lectures;
-	}
-
-	async #runLecturesConcurrently({
-		workspaces,
-		options,
-	}: {
-		readonly workspaces: readonly string[];
-		readonly options: BatchRunOptions;
-	}): Promise<readonly RunSummary[]> {
-		const results: RunSummary[] = new Array(workspaces.length);
-		// Clamped rather than trusted: the CLI rejects anything below 1, but a
-		// programmatic caller is only held to the type, and 0 would start no workers.
-		const limit = Math.max(1, options.concurrency);
-		let next = 0;
-		// The claimed entry decides whether there was work, so the bound is read
-		// once rather than checked against the length and then read again.
-		const worker = async (): Promise<void> => {
-			for (;;) {
-				const index = next;
-				next += 1;
-				const workspaceRoot = workspaces[index];
-				if (workspaceRoot === undefined) {
-					return;
-				}
-				results[index] = await this.runLecture({ workspaceRoot, options });
-			}
-		};
-		const workers: Promise<void>[] = [];
-		for (let count = 0; count < Math.min(limit, workspaces.length); count += 1) {
-			workers.push(worker());
-		}
-		await Promise.all(workers);
-		return results;
 	}
 
 	/**
