@@ -1,0 +1,29 @@
+{
+  "lecture": "l5",
+  "groupVersion": "g12",
+  "judgeVersion": "j1",
+  "instance": 5,
+  "modelId": "google/gemini-3.7-flash",
+  "seconds": 6,
+  "promptTokens": 10874,
+  "completionTokens": 575,
+  "verdict": "OK",
+  "shown": [
+    {
+      "letter": "A",
+      "key": "1,2,5,8,14,17",
+      "fromRun": 4
+    },
+    {
+      "letter": "B",
+      "key": "1,2,5,8,15,17",
+      "fromRun": 6
+    }
+  ],
+  "runsPerCandidate": {
+    "1,2,5,8,14,17": 11,
+    "1,2,5,8,15,17": 7
+  },
+  "chosenKey": "1,2,5,8,15,17",
+  "why": "Candidate B correctly keeps subtopic 14 with the preceding discussion on genetic instability and the multi-step progression model, cleanly separating it from subtopic 15 which starts a new major topic on hereditary cancer predisposition syndromes."
+}

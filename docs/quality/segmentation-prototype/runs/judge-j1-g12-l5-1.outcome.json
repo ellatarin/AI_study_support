@@ -1,0 +1,29 @@
+{
+  "lecture": "l5",
+  "groupVersion": "g12",
+  "judgeVersion": "j1",
+  "instance": 1,
+  "modelId": "google/gemini-3.7-flash",
+  "seconds": 13,
+  "promptTokens": 10861,
+  "completionTokens": 1762,
+  "verdict": "OK",
+  "shown": [
+    {
+      "letter": "A",
+      "key": "1,2,5,8,14,17",
+      "fromRun": 2
+    },
+    {
+      "letter": "B",
+      "key": "1,2,5,8,15,17",
+      "fromRun": 1
+    }
+  ],
+  "runsPerCandidate": {
+    "1,2,5,8,14,17": 11,
+    "1,2,5,8,15,17": 7
+  },
+  "chosenKey": "1,2,5,8,14,17",
+  "why": "Subtopic 14 shifts the lecture from the cellular mechanisms of DNA repair and mitotic errors to the multi-step model of mutation accumulation, which directly introduces the framework and specific gene examples (such as APC and Lynch syndrome) explored in the hereditary cancer predisposition discussion in subtopics 15 and 16."
+}

@@ -1,0 +1,29 @@
+{
+  "lecture": "l5",
+  "groupVersion": "g12",
+  "judgeVersion": "j1",
+  "instance": 2,
+  "modelId": "google/gemini-3.7-flash",
+  "seconds": 6,
+  "promptTokens": 10861,
+  "completionTokens": 617,
+  "verdict": "OK",
+  "shown": [
+    {
+      "letter": "A",
+      "key": "1,2,5,8,15,17",
+      "fromRun": 1
+    },
+    {
+      "letter": "B",
+      "key": "1,2,5,8,14,17",
+      "fromRun": 2
+    }
+  ],
+  "runsPerCandidate": {
+    "1,2,5,8,14,17": 11,
+    "1,2,5,8,15,17": 7
+  },
+  "chosenKey": "1,2,5,8,15,17",
+  "why": "Subtopic 14 applies the concepts of chromosomal and genetic instability to the Vogelstein multi-step model of tumor development, making it the natural culmination of the genetic instability section before the lecture explicitly transitions to hereditary cancer predispositions in subtopic 15."
+}

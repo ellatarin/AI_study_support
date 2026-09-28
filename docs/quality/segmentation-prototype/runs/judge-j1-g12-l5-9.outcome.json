@@ -1,0 +1,29 @@
+{
+  "lecture": "l5",
+  "groupVersion": "g12",
+  "judgeVersion": "j1",
+  "instance": 9,
+  "modelId": "google/gemini-3.7-flash",
+  "seconds": 7,
+  "promptTokens": 10871,
+  "completionTokens": 805,
+  "verdict": "OK",
+  "shown": [
+    {
+      "letter": "A",
+      "key": "1,2,5,8,14,17",
+      "fromRun": 9
+    },
+    {
+      "letter": "B",
+      "key": "1,2,5,8,15,17",
+      "fromRun": 12
+    }
+  ],
+  "runsPerCandidate": {
+    "1,2,5,8,14,17": 11,
+    "1,2,5,8,15,17": 7
+  },
+  "chosenKey": "1,2,5,8,14,17",
+  "why": "Subtopic 14 introduces the Vogelstein multistep progression model of mutation accumulation, which naturally groups with subtopics 15 and 16 exploring hereditary predispositions and tumor evolution within that progression framework."
+}

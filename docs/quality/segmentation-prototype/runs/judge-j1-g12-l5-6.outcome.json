@@ -1,0 +1,29 @@
+{
+  "lecture": "l5",
+  "groupVersion": "g12",
+  "judgeVersion": "j1",
+  "instance": 6,
+  "modelId": "google/gemini-3.7-flash",
+  "seconds": 8,
+  "promptTokens": 10874,
+  "completionTokens": 759,
+  "verdict": "OK",
+  "shown": [
+    {
+      "letter": "A",
+      "key": "1,2,5,8,15,17",
+      "fromRun": 6
+    },
+    {
+      "letter": "B",
+      "key": "1,2,5,8,14,17",
+      "fromRun": 4
+    }
+  ],
+  "runsPerCandidate": {
+    "1,2,5,8,14,17": 11,
+    "1,2,5,8,15,17": 7
+  },
+  "chosenKey": "1,2,5,8,15,17",
+  "why": "Subtopic 14 examines how chromosomal instability integrates into the multi-step Vogelstein model of tumor progression, concluding the discussion on genetic instability before subtopic 15 transitions to hereditary cancer predispositions."
+}

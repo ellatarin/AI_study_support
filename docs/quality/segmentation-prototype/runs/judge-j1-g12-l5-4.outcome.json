@@ -1,0 +1,29 @@
+{
+  "lecture": "l5",
+  "groupVersion": "g12",
+  "judgeVersion": "j1",
+  "instance": 4,
+  "modelId": "google/gemini-3.7-flash",
+  "seconds": 9,
+  "promptTokens": 10897,
+  "completionTokens": 1008,
+  "verdict": "OK",
+  "shown": [
+    {
+      "letter": "A",
+      "key": "1,2,5,8,15,17",
+      "fromRun": 5
+    },
+    {
+      "letter": "B",
+      "key": "1,2,5,8,14,17",
+      "fromRun": 3
+    }
+  ],
+  "runsPerCandidate": {
+    "1,2,5,8,14,17": 11,
+    "1,2,5,8,15,17": 7
+  },
+  "chosenKey": "1,2,5,8,14,17",
+  "why": "Subtopic 14 introduces the Vogelstein multistep progression model of mutation accumulation, which directly sets up and connects to the discussion of hereditary predispositions (such as inherited APC and Lynch syndrome) in subtopics 15 and 16."
+}

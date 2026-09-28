@@ -1,0 +1,29 @@
+{
+  "lecture": "l5",
+  "groupVersion": "g12",
+  "judgeVersion": "j1",
+  "instance": 10,
+  "modelId": "google/gemini-3.7-flash",
+  "seconds": 7,
+  "promptTokens": 10871,
+  "completionTokens": 820,
+  "verdict": "OK",
+  "shown": [
+    {
+      "letter": "A",
+      "key": "1,2,5,8,15,17",
+      "fromRun": 12
+    },
+    {
+      "letter": "B",
+      "key": "1,2,5,8,14,17",
+      "fromRun": 9
+    }
+  ],
+  "runsPerCandidate": {
+    "1,2,5,8,14,17": 11,
+    "1,2,5,8,15,17": 7
+  },
+  "chosenKey": "1,2,5,8,15,17",
+  "why": "Candidate A correctly groups subtopic 14 with the preceding section on genetic instability, where the Vogelstein model is used to show how chromosomal instability maps onto and accelerates multi-step tumour progression, before transitioning to hereditary predisposition in subtopic 15."
+}

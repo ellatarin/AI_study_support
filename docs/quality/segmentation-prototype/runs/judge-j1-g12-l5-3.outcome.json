@@ -1,0 +1,29 @@
+{
+  "lecture": "l5",
+  "groupVersion": "g12",
+  "judgeVersion": "j1",
+  "instance": 3,
+  "modelId": "google/gemini-3.7-flash",
+  "seconds": 9,
+  "promptTokens": 10897,
+  "completionTokens": 1153,
+  "verdict": "OK",
+  "shown": [
+    {
+      "letter": "A",
+      "key": "1,2,5,8,14,17",
+      "fromRun": 3
+    },
+    {
+      "letter": "B",
+      "key": "1,2,5,8,15,17",
+      "fromRun": 5
+    }
+  ],
+  "runsPerCandidate": {
+    "1,2,5,8,14,17": 11,
+    "1,2,5,8,15,17": 7
+  },
+  "chosenKey": "1,2,5,8,15,17",
+  "why": "Subtopic 14 synthesizes the mechanisms of genetic instability by mapping chromosomal instability onto the Vogelstein model of multi-step tumor progression, whereas subtopic 15 initiates a distinct major topic on hereditary cancer predisposition syndromes."
+}
