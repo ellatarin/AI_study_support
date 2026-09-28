@@ -8,8 +8,8 @@
  */
 
 import type OpenAI from "openai";
-import type { OutputLanguage } from "../../types/pipeline.js";
-import { languageRule } from "../../utils/language.js";
+import type { OutputLanguage } from "../../../types/pipeline.js";
+import { languageRule } from "../../../utils/language.js";
 
 /**
  * The reply contract, restated in the prompt. JSON mode alone does not

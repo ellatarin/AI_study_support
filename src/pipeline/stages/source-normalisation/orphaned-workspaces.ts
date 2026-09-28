@@ -23,11 +23,11 @@
 import { rm } from "node:fs/promises";
 import { join } from "node:path";
 import type { Logger } from "pino";
-import type { RunManifest } from "../../types/pipeline.js";
+import type { RunManifest } from "../../../types/pipeline.js";
 /* jscpd:ignore-end */
-import { listSubdirectoryNames } from "../../utils/files.js";
-import { moduleDirs, workspaceRootFor } from "../layout.js";
-import { readManifestSafe } from "../manifest.js";
+import { listSubdirectoryNames } from "../../../utils/files.js";
+import { moduleDirs, workspaceRootFor } from "../../layout.js";
+import { readManifestSafe } from "../../manifest.js";
 
 /**
  * Asks the user to approve an irreversible action, returning their answer. The

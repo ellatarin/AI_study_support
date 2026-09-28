@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import type { QaDeficiency, QaFindingsReport } from "../../types/pipeline.js";
-import { verificationCleared, verificationFinding, verificationReport } from "../fixtures.js";
+import type { QaDeficiency, QaFindingsReport } from "../../../types/pipeline.js";
+import { verificationCleared, verificationFinding, verificationReport } from "../../fixtures.js";
 import { renderVerificationReport } from "./transcript-verification.view.js";
 
 /**

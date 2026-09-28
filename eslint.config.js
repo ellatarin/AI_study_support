@@ -1,3 +1,4 @@
+import { readdirSync } from "node:fs";
 import vitest from "@vitest/eslint-plugin";
 import importPlugin from "eslint-plugin-import";
 import jsdoc from "eslint-plugin-jsdoc";
@@ -10,6 +11,24 @@ import tseslint from "typescript-eslint";
 const CODE_FILES = ["**/*.{ts,tsx,js,mjs,cjs}"];
 const TYPESCRIPT_FILES = ["**/*.{ts,tsx}"];
 const TEST_FILES = ["**/*.test.{ts,tsx,js,mjs}", "**/*.integration.test.{ts,tsx,js,mjs}"];
+
+// Each stage owns a folder under src/pipeline/stages; what several stages share
+// sits in that directory itself, beside the folders (technical-design.md §9).
+// The folders are read from disk rather than listed, so a new stage is fenced
+// off from its siblings the moment its folder exists.
+const STAGES_DIR = "./src/pipeline/stages";
+const STAGE_FOLDERS = readdirSync(STAGES_DIR, { withFileTypes: true })
+	.filter((entry) => entry.isDirectory())
+	.map((entry) => `${STAGES_DIR}/${entry.name}`);
+
+// A stage folder may reach the shared stage modules beside it, never another
+// stage's folder: one stage's internals changing must not break a second.
+const STAGE_ISOLATION_ZONES = STAGE_FOLDERS.map((folder) => ({
+	target: folder,
+	from: STAGE_FOLDERS.filter((other) => other !== folder),
+	message:
+		"A stage must not import from another stage's folder. Move what both need beside the stage folders in src/pipeline/stages — technical-design.md §9.",
+}));
 
 // The pattern is a raw regex string; the plugin compiles it and matches it
 // against the title argument. Both of vitest's title functions carry the same
@@ -74,7 +93,8 @@ export default [
 			// The pipeline's dependency direction, which was a convention nothing
 			// checked: stages are built on the pipeline, so pipeline infrastructure
 			// must never import from one. lecture-files.ts had been importing a
-			// naming helper straight out of Stage 0.
+			// naming helper straight out of `source-normalisation`. And no stage
+			// imports from another's folder.
 			"import/no-restricted-paths": [
 				"error",
 				{
@@ -85,6 +105,7 @@ export default [
 							message:
 								"Pipeline infrastructure must not import from a stage — stages depend on the pipeline, not the other way round. Move the shared code into src/utils or src/pipeline.",
 						},
+						...STAGE_ISOLATION_ZONES,
 					],
 				},
 			],

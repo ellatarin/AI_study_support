@@ -23,8 +23,8 @@
 import { rename } from "node:fs/promises";
 import { extname, join } from "node:path";
 import type { Logger } from "pino";
-import { pathExists, readDirSafe } from "../../utils/files.js";
-import type { ModuleDirs } from "../layout.js";
+import { pathExists, readDirSafe } from "../../../utils/files.js";
+import type { ModuleDirs } from "../../layout.js";
 import type { Lecture } from "./lecture-resolution.js";
 
 /**

@@ -22,8 +22,8 @@ import {
 	type QaFindingsReport,
 	type QaSeverity,
 	type QaSourceAnchor,
-} from "../../types/pipeline.js";
-import { pluralise } from "../../utils/text.js";
+} from "../../../types/pipeline.js";
+import { pluralise } from "../../../utils/text.js";
 
 /**
  * How each category is named to a reader, and how early it is read.

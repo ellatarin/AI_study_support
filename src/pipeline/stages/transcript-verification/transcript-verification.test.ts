@@ -13,7 +13,7 @@ import type {
 	RunManifest,
 	StageContext,
 	StageCost,
-} from "../../types/pipeline.js";
+} from "../../../types/pipeline.js";
 import {
 	captureError,
 	configuringStage,
@@ -30,16 +30,16 @@ import {
 	verificationCleared,
 	verificationFinding,
 	verificationReply,
-} from "../fixtures.js";
-import { type StageWithOutputFile, stageOutputPath } from "../layout.js";
-import { makeCompletionCall } from "../openrouter.js";
+} from "../../fixtures.js";
+import { type StageWithOutputFile, stageOutputPath } from "../../layout.js";
+import { makeCompletionCall } from "../../openrouter.js";
 import {
 	createTranscriptVerificationStage,
 	TranscriptVerificationError,
 } from "./transcript-verification.js";
 
 // Only the call is stubbed; everything else the module exports stays real.
-vi.mock(import("../openrouter.js"), async (importOriginal) => ({
+vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 	...(await importOriginal()),
 	makeCompletionCall: vi.fn(),
 }));

@@ -53,7 +53,7 @@ import { assembleContext } from "./stage-context.js";
 import {
 	API_KEY_VARIABLE as ELEVENLABS_KEY_VARIABLE,
 	ELEVENLABS_PATHS,
-} from "./stages/transcription.js";
+} from "./stages/transcription/transcription.js";
 
 /**
  * Awaits a promise that a test expects to reject and returns the rejection, so

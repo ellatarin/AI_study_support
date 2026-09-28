@@ -984,12 +984,12 @@ The temporary suffix sits outside the `.tmp` convention of §4.3, because the tw
 **Where the rules live.** `source-normalisation`'s file holds the order things happen in and what aborting a run means; three modules beside it hold the jobs that can be stated on their own. `lecture-resolution.ts` turns two lists of filenames into numbered lectures or into the problems that stop the run, and touches nothing — every rule under "Validate, then apply" and steps 1–4 above is checkable by calling it with two lists of names. `source-renames.ts` holds the two-pass rename and the recovery that only works by agreeing with it about the temporary suffix. `orphaned-workspaces.ts` holds workspace discovery by manifest date and the confirmation protocol, which is the only code in the project that permanently destroys a user's work. Neither of the latter two throws: each reports its refusal, and the stage decides what a refusal means. Numbering and manifest seeding stay in the stage, being short and used nowhere else.
 
 ```typescript
-// src/pipeline/stages/orphaned-workspaces.ts
+// src/pipeline/stages/source-normalisation/orphaned-workspaces.ts
 type ConfirmPrompt = (args: { message: string }) => Promise<boolean>
 // Declared by the layer with a question to ask and implemented in the CLI's prompts.ts, so the stage never
 // reaches for stdin: the CLI backs it with @inquirer/prompts and tests stub it.
 
-// src/pipeline/stages/source-normalisation.ts
+// src/pipeline/stages/source-normalisation/source-normalisation.ts
 createSourceNormalisationStage(args: { logger: Logger; confirm: ConfirmPrompt; modulePrefixes: readonly string[] }): SourceNormalisationStage
 // Throws SourceNormalisationError on any validation failure or declined confirmation, having made no
 // filesystem changes.
@@ -1011,7 +1011,7 @@ Extracts the audio track from the video using fluent-ffmpeg with `-acodec copy` 
 The source video is located by base name: the workspace folder name plus whatever extension the video carries, since `source-normalisation` gives the video, the slide, and the workspace folder the same base name but preserves the original container extension. A missing or ambiguous video is a stage failure, reported before ffmpeg is invoked. fluent-ffmpeg spawns with an explicit argv array, satisfying the no-shell-interpolation rule (§4.4). Extraction writes to a `.tmp` sibling and renames on success (§4.3), so a killed run never leaves a truncated `audio.m4a` that a later run would mistake for complete — and because that `.tmp` suffix stops ffmpeg inferring the container, the m4a muxer is named explicitly. This stage makes no billable call, so its recorded cost is `null`.
 
 ```typescript
-// src/pipeline/stages/audio-extraction.ts
+// src/pipeline/stages/audio-extraction/audio-extraction.ts
 type AudioExtractionInput = { sourceVideoPath: string }
 type AudioExtractionOutput = { audioPath: string }
 createAudioExtractionStage(args: { logger: Logger }): PipelineStage<AudioExtractionInput, AudioExtractionOutput>
@@ -1034,7 +1034,7 @@ The client is pointed at `elevenLabs.baseUrl` (§6) rather than left on the SDK'
 The SDK types `model_id` as the Scribe versions it shipped with, but the model is configuration (§6): a newer Scribe ID must be usable by editing `pipeline-config.json`, not by waiting for an SDK release, and ElevenLabs rejects an unknown ID itself. The stage therefore widens the configured value to the SDK's parameter type at the call site.
 
 ```typescript
-// src/pipeline/stages/transcription.ts
+// src/pipeline/stages/transcription/transcription.ts
 type TranscriptionInput = { audioPath: string; sizeBytes: number }
 type TranscriptionOutput = { transcriptPath: string }
 createTranscriptionStage(args: { logger: Logger }): PipelineStage<TranscriptionInput, TranscriptionOutput>
@@ -1215,13 +1215,13 @@ The last rule governs how the transcript's words are spelled, and the rule above
 **Context:** A 90-minute transcript is typically 15,000–30,000 tokens — a single call within any 128k-context model.
 
 ```typescript
-// src/pipeline/stages/transcript-structuring.prompt.ts
+// src/pipeline/stages/transcript-structuring/transcript-structuring.prompt.ts
 buildStructuringMessages(args: { transcriptText: string; provisionalTitle: string;
   language: OutputLanguage }): readonly ChatCompletionMessageParam[]
 // The title judgement and the structuring rules above, stated as messages. Asks for the JSON object in the
 // prompt as well as through `responseFormat`, which JSON mode requires (§6).
 
-// src/pipeline/stages/transcript-structuring.ts
+// src/pipeline/stages/transcript-structuring/transcript-structuring.ts
 type TranscriptStructuringInput = { transcriptText: string }
 type TranscriptStructuringOutput = { structuredTranscriptPath: string; lectureTitle: string }
 createTranscriptStructuringStage(args: { logger: Logger }): PipelineStage<TranscriptStructuringInput, TranscriptStructuringOutput>
@@ -1254,20 +1254,20 @@ The rendering is ours and is derived from the report already on disk, never from
 **The readable view is temporary.** It exists because the checker is being calibrated by hand: its reports are read, compared against the assessments in `docs/quality/`, and argued with, and a JSON file is the wrong medium for that. Once a checker is settled on, nobody reads these by eye and the stage goes back to writing the one machine-readable file — at which point `verification-report.md`, the renderer, and the layout's `readableView` come out together.
 
 ```typescript
-// src/pipeline/stages/transcript-verification.prompt.ts
+// src/pipeline/stages/transcript-verification/transcript-verification.prompt.ts
 buildVerificationMessages(args: { transcriptText: string; structuredTranscriptText: string }):
   readonly ChatCompletionMessageParam[]
 // The assessment method, with the reply contract appended. Asks for the JSON object in the prompt as well
 // as through `responseFormat`, which JSON mode requires (§6).
 
-// src/pipeline/stages/transcript-verification.view.ts
+// src/pipeline/stages/transcript-verification/transcript-verification.view.ts
 renderVerificationReport(args: { report: QaFindingsReport }): string
 // The report as the document described above. Pure: it is handed the stored report and returns text, calls
 // nothing, and reads no file — which is what makes every ordering and counting rule testable on its own.
 // Total over `QaDeficiencyType` rather than over the five categories this checker is offered, so the QA loop's
 // wider vocabulary could not produce a finding it silently drops.
 
-// src/pipeline/stages/transcript-verification.ts
+// src/pipeline/stages/transcript-verification/transcript-verification.ts
 type TranscriptVerificationInput = { transcriptText: string; structuredTranscriptText: string }
 type TranscriptVerificationOutput = { verificationReportPath: string; findingCount: number }
 createTranscriptVerificationStage(args: { logger: Logger; client: OpenRouterClient }):

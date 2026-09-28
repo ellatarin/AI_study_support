@@ -17,12 +17,12 @@
  */
 
 import type { Logger } from "pino";
-import type { RunManifest, SourceNormalisationStage } from "../../types/pipeline.js";
-import { extractDate, formatDateISO } from "../../utils/date.js";
-import { NamedError } from "../../utils/errors.js";
-import { listFileNames } from "../../utils/files.js";
-import { moduleDirs, workspaceRootFor } from "../layout.js";
-import { MANIFEST_VERSION, pendingStages, readManifest, writeManifest } from "../manifest.js";
+import type { RunManifest, SourceNormalisationStage } from "../../../types/pipeline.js";
+import { extractDate, formatDateISO } from "../../../utils/date.js";
+import { NamedError } from "../../../utils/errors.js";
+import { listFileNames } from "../../../utils/files.js";
+import { moduleDirs, workspaceRootFor } from "../../layout.js";
+import { MANIFEST_VERSION, pendingStages, readManifest, writeManifest } from "../../manifest.js";
 import { checkSources, type Lecture, orderLectures, toDatedFiles } from "./lecture-resolution.js";
 import {
 	type ConfirmPrompt,

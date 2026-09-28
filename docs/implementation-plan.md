@@ -283,7 +283,7 @@ End to end — integration tests through `runCli`:
 
 **Deliverables:**
 
-**TD §5, `source-normalisation`** in four files: date parsing, lecture numbering, slide-to-video matching and provisional titles in `src/pipeline/stages/lecture-resolution.ts`; collision-safe renaming and interrupted-rename recovery in `src/pipeline/stages/source-renames.ts`; the orphan direct-deletion guard (NFR-4.3) and workspace discovery in `src/pipeline/stages/orphaned-workspaces.ts`; and in `src/pipeline/stages/source-normalisation.ts` the order they run in, what aborting means, and workspace and manifest creation with renumbering on re-run.
+**TD §5, `source-normalisation`** in four files: date parsing, lecture numbering, slide-to-video matching and provisional titles in `src/pipeline/stages/source-normalisation/lecture-resolution.ts`; collision-safe renaming and interrupted-rename recovery in `src/pipeline/stages/source-normalisation/source-renames.ts`; the orphan direct-deletion guard (NFR-4.3) and workspace discovery in `src/pipeline/stages/source-normalisation/orphaned-workspaces.ts`; and in `src/pipeline/stages/source-normalisation/source-normalisation.ts` the order they run in, what aborting means, and workspace and manifest creation with renumbering on re-run.
 
 The CLI identity-mutation commands that drive this same machinery — `rename`, `delete`, `change-date` (FR-6.7, TD §4.7) — are built with the CLI, not in this phase.
 
@@ -341,9 +341,9 @@ Integration tests (real temp directory with fixture source files) — everything
 
 `src/utils/errors.ts` — `errorMessage`, the narrowing every catch site repeats **(TD §8)**.
 
-`src/pipeline/stages/audio-extraction.ts` — the whole of **TD §5, `audio-extraction`**: locating the source video by workspace base name whatever its extension, the fluent-ffmpeg `-acodec copy` extraction and its progress bar, and the `.tmp`-sibling write. Makes no billable call, so its cost is `null`.
+`src/pipeline/stages/audio-extraction/audio-extraction.ts` — the whole of **TD §5, `audio-extraction`**: locating the source video by workspace base name whatever its extension, the fluent-ffmpeg `-acodec copy` extraction and its progress bar, and the `.tmp`-sibling write. Makes no billable call, so its cost is `null`.
 
-`src/pipeline/stages/transcription.ts` — the whole of **TD §5, `transcription`**: the Scribe v2 call and its parameters, stripping the provider prefix from the configured model ID, upload progress via `createUploadProgressStream`, and cost derived from audio duration × the configured rate.
+`src/pipeline/stages/transcription/transcription.ts` — the whole of **TD §5, `transcription`**: the Scribe v2 call and its parameters, stripping the provider prefix from the configured model ID, upload progress via `createUploadProgressStream`, and cost derived from audio duration × the configured rate.
 
 Both are the first real `PipelineStage` implementations, so each defines its own `TInput`/`TOutput` pair.
 
@@ -406,9 +406,9 @@ The transcription integration test streams a real file through the real SDK but 
 
 `PipelineRunner` follows a relocated workspace **(TD §4.7, "Following a relocated workspace" and `StageContext` assembly)** — `findLectureByDate` extracted from `resolveLecturesByDate`; new `resolveWorkspace`; `updateManifest` takes and returns the manifest rather than re-reading it; `runStage` returns `StageOutcome`; `#runStages` carries each stage's context on to the next; the run log and `RunSummary.workspaceRoot` use the resolved path.
 
-`src/pipeline/stages/transcript-structuring.prompt.ts` **(TD §5, "Where prompts live")** — `buildStructuringMessages`, the first of the per-stage prompt modules. No test file of its own; the stage's tests exercise it.
+`src/pipeline/stages/transcript-structuring/transcript-structuring.prompt.ts` **(TD §5, "Where prompts live")** — `buildStructuringMessages`, the first of the per-stage prompt modules. No test file of its own; the stage's tests exercise it.
 
-`src/pipeline/stages/transcript-structuring.ts` **(TD §5, `transcript-structuring`)** — a single JSON-mode LLM call that judges the lecturer's provisional title against the transcript and structures the transcript into markdown, then performs the conditional rename in the documented order. Implement to TD §5, `transcript-structuring`, which specifies the response contract, the prefer-the-original title judgement, the `aiDerivedTitle`/`lectureTitle` semantics, the `userTitle` precedence, the order of operations, and the structuring rules (headings, filler removal, LaTeX, Q&A blockquotes, no added content). Output: `Structured transcript/structured-transcript.md`. Added to `lectureStages` in `src/cli/run-cli.ts`, which is what makes it run.
+`src/pipeline/stages/transcript-structuring/transcript-structuring.ts` **(TD §5, `transcript-structuring`)** — a single JSON-mode LLM call that judges the lecturer's provisional title against the transcript and structures the transcript into markdown, then performs the conditional rename in the documented order. Implement to TD §5, `transcript-structuring`, which specifies the response contract, the prefer-the-original title judgement, the `aiDerivedTitle`/`lectureTitle` semantics, the `userTitle` precedence, the order of operations, and the structuring rules (headings, filler removal, LaTeX, Q&A blockquotes, no added content). Output: `Structured transcript/structured-transcript.md`. Added to `lectureStages` in `src/cli/run-cli.ts`, which is what makes it run.
 
 **Tests:**
 
@@ -449,11 +449,11 @@ Integration tests for the runner following the move:
 
 **Deliverables:**
 
-`src/pipeline/stages/transcript-verification.prompt.ts` **(TD §5, "Where prompts live")** — `buildVerificationMessages`. The assessment method carried over verbatim from the prompt that produced `docs/quality/`, with the reply contract appended. No test file of its own; the stage's tests exercise it.
+`src/pipeline/stages/transcript-verification/transcript-verification.prompt.ts` **(TD §5, "Where prompts live")** — `buildVerificationMessages`. The assessment method carried over verbatim from the prompt that produced `docs/quality/`, with the reply contract appended. No test file of its own; the stage's tests exercise it.
 
-`src/pipeline/stages/transcript-verification.ts` **(TD §5, `transcript-verification`)** — a single JSON-mode call carrying the raw transcript and the structured one, writing the report to `Transcript verification/verification-report.json` and its readable view to `verification-report.md` beside it. Offers only the faithfulness categories of `QaDeficiencyType`. Added to `lectureStages` in `src/cli/run-cli.ts`, which is what makes it run.
+`src/pipeline/stages/transcript-verification/transcript-verification.ts` **(TD §5, `transcript-verification`)** — a single JSON-mode call carrying the raw transcript and the structured one, writing the report to `Transcript verification/verification-report.json` and its readable view to `verification-report.md` beside it. Offers only the faithfulness categories of `QaDeficiencyType`. Added to `lectureStages` in `src/cli/run-cli.ts`, which is what makes it run.
 
-`src/pipeline/stages/transcript-verification.view.ts` **(TD §5, `transcript-verification`, "The findings are also written as a document")** — `renderVerificationReport`, turning a stored report into the page a person reads. Its own file and its own suite, because the view is provisional: when the checker no longer needs reading by eye, this file and the layout's `readableView` come out together.
+`src/pipeline/stages/transcript-verification/transcript-verification.view.ts` **(TD §5, `transcript-verification`, "The findings are also written as a document")** — `renderVerificationReport`, turning a stored report into the page a person reads. Its own file and its own suite, because the view is provisional: when the checker no longer needs reading by eye, this file and the layout's `readableView` come out together.
 
 `readableView` in `STAGE_WORKSPACE`, with `StageWithReadableView`, `stageReadableViewEntry` and `stageReadableViewPath` **(TD §3.3)**, and `writeStageOutputWithReadableView` in `src/pipeline/stages/pipeline-stage.ts` **(TD §4.2)** — a stage's output may now be accompanied by a rendering of itself, written and recorded in the same act as the output. `transcript-verification` is the only stage that declares one.
 

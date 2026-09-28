@@ -6,8 +6,8 @@ import {
 	testModuleRoot,
 	vaccinationAsSecond,
 	vaccinationSources,
-} from "../fixtures.js";
-import { moduleDirs } from "../layout.js";
+} from "../../fixtures.js";
+import { moduleDirs } from "../../layout.js";
 import type { Lecture } from "./lecture-resolution.js";
 import { planRenames } from "./source-renames.js";
 

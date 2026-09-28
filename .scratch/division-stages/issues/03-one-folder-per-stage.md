@@ -4,11 +4,11 @@
 
 **Blocked by:** 02 — both touch every stage file, so the renaming lands first and this commit is a pure move: file locations and import paths only.
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] Each existing stage lives in its own folder, following the layout ticket 01 wrote down; shared stage machinery (the stage factory, the shared model-call code) has one home the stage folders reach.
-- [ ] No barrel files are introduced.
-- [ ] The architectural lint rules still hold, and are updated wherever they name old paths.
-- [ ] Every existing test passes unchanged in what it asserts; only import paths move.
-- [ ] Docs that name a moved file are updated in the same commit.
-- [ ] The full gate (Biome, ESLint, tsc, tests, jscpd) passes.
+- [x] Each existing stage lives in its own folder, following the layout ticket 01 wrote down; shared stage machinery (the stage factory, the shared model-call code) has one home the stage folders reach.
+- [x] No barrel files are introduced.
+- [x] The architectural lint rules still hold, and are updated wherever they name old paths.
+- [x] Every existing test passes unchanged in what it asserts; only import paths move.
+- [x] Docs that name a moved file are updated in the same commit.
+- [x] The full gate (Biome, ESLint, tsc, tests, jscpd) passes.

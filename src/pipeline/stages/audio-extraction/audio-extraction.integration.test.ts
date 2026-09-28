@@ -13,8 +13,8 @@ import {
 	renderFixtureMedia,
 	testLecture,
 	toneInput,
-} from "../fixtures.js";
-import { moduleDirs, stageOutputEntry, stageOutputPath } from "../layout.js";
+} from "../../fixtures.js";
+import { moduleDirs, stageOutputEntry, stageOutputPath } from "../../layout.js";
 import { createAudioExtractionStage } from "./audio-extraction.js";
 
 const FIXTURE_SECONDS = 1;

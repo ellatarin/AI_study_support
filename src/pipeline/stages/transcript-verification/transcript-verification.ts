@@ -13,16 +13,16 @@ import {
 	type QaSourceAnchor,
 	type StageContext,
 	type StageResult,
-} from "../../types/pipeline.js";
-import { errorMessage, NamedError } from "../../utils/errors.js";
-import { isRecord } from "../../utils/record.js";
-import { type StageWithOutputFile, stageOutputPath } from "../layout.js";
+} from "../../../types/pipeline.js";
+import { errorMessage, NamedError } from "../../../utils/errors.js";
+import { isRecord } from "../../../utils/record.js";
+import { type StageWithOutputFile, stageOutputPath } from "../../layout.js";
 import {
 	type ModelStageDependencies,
 	type ModelStageRunArgs,
 	requestJsonReply,
-} from "./model-stage.js";
-import { createPipelineStage, writeStageOutputWithReadableView } from "./pipeline-stage.js";
+} from "../model-stage.js";
+import { createPipelineStage, writeStageOutputWithReadableView } from "../pipeline-stage.js";
 import { buildVerificationMessages } from "./transcript-verification.prompt.js";
 import { renderVerificationReport } from "./transcript-verification.view.js";
 /* jscpd:ignore-end */

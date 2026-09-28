@@ -1,12 +1,12 @@
 import { basename, extname, join } from "node:path";
 import ffmpeg from "fluent-ffmpeg";
 import type { Logger } from "pino";
-import type { PipelineStage, StageContext, StageResult } from "../../types/pipeline.js";
-import { errorMessage, NamedError } from "../../utils/errors.js";
-import { listFileNames } from "../../utils/files.js";
-import { createProgressBar } from "../../utils/progress.js";
-import { moduleDirs } from "../layout.js";
-import { createPipelineStage, writeStageOutput } from "./pipeline-stage.js";
+import type { PipelineStage, StageContext, StageResult } from "../../../types/pipeline.js";
+import { errorMessage, NamedError } from "../../../utils/errors.js";
+import { listFileNames } from "../../../utils/files.js";
+import { createProgressBar } from "../../../utils/progress.js";
+import { moduleDirs } from "../../layout.js";
+import { createPipelineStage, writeStageOutput } from "../pipeline-stage.js";
 
 /**
  * Thrown when the lecture's source video cannot be located unambiguously, or

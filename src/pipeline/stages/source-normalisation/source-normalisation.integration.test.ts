@@ -2,8 +2,8 @@ import { mkdir, readdir, rename, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { RunManifest } from "../../types/pipeline.js";
-import type { LectureSources, LoggedEntry, LoggedLevel } from "../fixtures.js";
+import type { RunManifest } from "../../../types/pipeline.js";
+import type { LectureSources, LoggedEntry, LoggedLevel } from "../../fixtures.js";
 import {
 	cellInjuryAsFirst,
 	cellInjurySources,
@@ -18,9 +18,9 @@ import {
 	vaccinationAsSecond,
 	vaccinationAsThird,
 	vaccinationSources,
-} from "../fixtures.js";
-import { moduleDirs, workspaceRootFor } from "../layout.js";
-import { patchManifest, readManifest } from "../manifest.js";
+} from "../../fixtures.js";
+import { moduleDirs, workspaceRootFor } from "../../layout.js";
+import { patchManifest, readManifest } from "../../manifest.js";
 import {
 	createSourceNormalisationStage,
 	SourceNormalisationError,

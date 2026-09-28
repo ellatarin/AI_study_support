@@ -10,17 +10,17 @@ import type {
 	PipelineStage,
 	StageContext,
 	StageResult,
-} from "../../types/pipeline.js";
-import { errorMessage, NamedError } from "../../utils/errors.js";
-import { isRecord } from "../../utils/record.js";
-import { moduleDirs, stageOutputPath } from "../layout.js";
-import { baseNameForLecture, renameLectureFiles } from "../lecture-files.js";
+} from "../../../types/pipeline.js";
+import { errorMessage, NamedError } from "../../../utils/errors.js";
+import { isRecord } from "../../../utils/record.js";
+import { moduleDirs, stageOutputPath } from "../../layout.js";
+import { baseNameForLecture, renameLectureFiles } from "../../lecture-files.js";
 import {
 	type ModelStageDependencies,
 	type ModelStageRunArgs,
 	requestJsonReply,
-} from "./model-stage.js";
-import { createPipelineStage, writeStageOutput } from "./pipeline-stage.js";
+} from "../model-stage.js";
+import { createPipelineStage, writeStageOutput } from "../pipeline-stage.js";
 import { buildStructuringMessages } from "./transcript-structuring.prompt.js";
 /* jscpd:ignore-end */
 

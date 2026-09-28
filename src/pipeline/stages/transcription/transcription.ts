@@ -11,13 +11,13 @@ import type {
 	StageContext,
 	StageCost,
 	StageResult,
-} from "../../types/pipeline.js";
-import { errorMessage, NamedError } from "../../utils/errors.js";
-import { splitModelId } from "../../utils/model-id.js";
-import { createUploadProgressStream } from "../../utils/progress.js";
-import { configuredStage, unconfiguredStageMessage } from "../../utils/stage-config.js";
-import { stageOutputPath } from "../layout.js";
-import { createPipelineStage, writeStageOutput } from "./pipeline-stage.js";
+} from "../../../types/pipeline.js";
+import { errorMessage, NamedError } from "../../../utils/errors.js";
+import { splitModelId } from "../../../utils/model-id.js";
+import { createUploadProgressStream } from "../../../utils/progress.js";
+import { configuredStage, unconfiguredStageMessage } from "../../../utils/stage-config.js";
+import { stageOutputPath } from "../../layout.js";
+import { createPipelineStage, writeStageOutput } from "../pipeline-stage.js";
 
 /**
  * Thrown when transcription cannot proceed or cannot produce a transcript: the

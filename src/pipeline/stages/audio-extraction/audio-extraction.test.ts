@@ -2,7 +2,7 @@ import { access, mkdir, readdir, rm, writeFile } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import ffmpeg from "fluent-ffmpeg";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { ManifestStageEntry, StageContext, StageResult } from "../../types/pipeline.js";
+import type { ManifestStageEntry, StageContext, StageResult } from "../../../types/pipeline.js";
 import {
 	contextWithEntry,
 	contextWithOutput,
@@ -13,8 +13,8 @@ import {
 	seedStageOutput,
 	testLecture,
 	useStubLogger,
-} from "../fixtures.js";
-import { moduleDirs, stageOutputEntry, stageOutputPath } from "../layout.js";
+} from "../../fixtures.js";
+import { moduleDirs, stageOutputEntry, stageOutputPath } from "../../layout.js";
 import type { AudioExtractionOutput } from "./audio-extraction.js";
 import { AudioExtractionError, createAudioExtractionStage } from "./audio-extraction.js";
 

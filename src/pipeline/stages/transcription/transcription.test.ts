@@ -8,8 +8,8 @@ import type {
 	PipelineConfig,
 	StageContext,
 	StageResult,
-} from "../../types/pipeline.js";
-import { CONFIG_FILENAME } from "../../types/pipeline.js";
+} from "../../../types/pipeline.js";
+import { CONFIG_FILENAME } from "../../../types/pipeline.js";
 import {
 	exampleConfig,
 	finishedEntry,
@@ -26,8 +26,8 @@ import {
 	transcriptionModelId,
 	transcriptText,
 	useStubLogger,
-} from "../fixtures.js";
-import { stageOutputEntry, stageOutputPath } from "../layout.js";
+} from "../../fixtures.js";
+import { stageOutputEntry, stageOutputPath } from "../../layout.js";
 import type { TranscriptionOutput } from "./transcription.js";
 import { API_KEY_VARIABLE, createTranscriptionStage, TranscriptionError } from "./transcription.js";
 

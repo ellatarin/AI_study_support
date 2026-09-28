@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import type { RunManifest } from "../../types/pipeline.js";
+import type { RunManifest } from "../../../types/pipeline.js";
 import {
 	cellInjuryAsFirst,
 	cellInjurySources,
 	immunitySources,
 	makeManifest,
 	vaccinationSources,
-} from "../fixtures.js";
+} from "../../fixtures.js";
 import {
 	checkSources,
 	orderLectures,

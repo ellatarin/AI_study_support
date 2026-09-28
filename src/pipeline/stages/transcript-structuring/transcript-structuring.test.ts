@@ -8,8 +8,8 @@ import type {
 	StageContext,
 	StageCost,
 	StageResult,
-} from "../../types/pipeline.js";
-import { pathExists } from "../../utils/files.js";
+} from "../../../types/pipeline.js";
+import { pathExists } from "../../../utils/files.js";
 import {
 	aiDerivedLecture,
 	captureError,
@@ -29,10 +29,10 @@ import {
 	userChosenTitle,
 	useStubLogger,
 	useTranscribedWorkspace,
-} from "../fixtures.js";
-import { stageOutputEntry, stageOutputPath } from "../layout.js";
-import { manifestPath } from "../manifest.js";
-import { makeCompletionCall } from "../openrouter.js";
+} from "../../fixtures.js";
+import { stageOutputEntry, stageOutputPath } from "../../layout.js";
+import { manifestPath } from "../../manifest.js";
+import { makeCompletionCall } from "../../openrouter.js";
 import type { TranscriptStructuringOutput } from "./transcript-structuring.js";
 import {
 	createTranscriptStructuringStage,
@@ -41,7 +41,7 @@ import {
 
 // Only the call is stubbed; everything else the module exports — the endpoint
 // paths the fixtures build their URLs from — stays real.
-vi.mock(import("../openrouter.js"), async (importOriginal) => ({
+vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 	...(await importOriginal()),
 	makeCompletionCall: vi.fn(),
 }));

@@ -4,7 +4,7 @@ import {
 	immunitySources,
 	makeManifest,
 	vaccinationSources,
-} from "../fixtures.js";
+} from "../../fixtures.js";
 import { type ExistingWorkspace, findOrphans } from "./orphaned-workspaces.js";
 
 // Only the dates matter here: what makes a workspace an orphan is that its date

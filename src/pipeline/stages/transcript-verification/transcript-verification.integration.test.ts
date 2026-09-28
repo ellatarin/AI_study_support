@@ -1,8 +1,8 @@
 import { readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { QaFindingsReport, StageContext } from "../../types/pipeline.js";
-import { pathExists } from "../../utils/files.js";
+import type { QaFindingsReport, StageContext } from "../../../types/pipeline.js";
+import { pathExists } from "../../../utils/files.js";
 import {
 	configuringStage,
 	driveStage,
@@ -21,8 +21,8 @@ import {
 	transcriptText,
 	verificationFinding,
 	verificationReply,
-} from "../fixtures.js";
-import { writeManifest } from "../manifest.js";
+} from "../../fixtures.js";
+import { writeManifest } from "../../manifest.js";
 import { createTranscriptVerificationStage } from "./transcript-verification.js";
 
 const STAGE_ID = "transcript-verification";

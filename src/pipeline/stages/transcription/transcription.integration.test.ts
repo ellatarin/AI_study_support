@@ -16,8 +16,8 @@ import {
 	toneInput,
 	transcriptionModelId,
 	transcriptText,
-} from "../fixtures.js";
-import { stageOutputEntry, stageOutputPath } from "../layout.js";
+} from "../../fixtures.js";
+import { stageOutputEntry, stageOutputPath } from "../../layout.js";
 import { createTranscriptionStage } from "./transcription.js";
 
 const FIXTURE_SECONDS = 2;

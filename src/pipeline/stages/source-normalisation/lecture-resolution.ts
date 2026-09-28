@@ -14,9 +14,9 @@
  * See technical-design.md §3.2 (naming) and §5, `source-normalisation`.
  */
 
-import type { RunManifest } from "../../types/pipeline.js";
-import { extractDate, formatDateISO } from "../../utils/date.js";
-import { extractProvisionalTitle, lectureBaseName } from "../../utils/naming.js";
+import type { RunManifest } from "../../../types/pipeline.js";
+import { extractDate, formatDateISO } from "../../../utils/date.js";
+import { extractProvisionalTitle, lectureBaseName } from "../../../utils/naming.js";
 
 /** A source file identified only by its name and extracted `YYYY-MM-DD` date. */
 type SourceRef = { readonly name: string; readonly iso: string };

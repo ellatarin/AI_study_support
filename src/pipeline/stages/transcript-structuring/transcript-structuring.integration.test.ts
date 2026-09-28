@@ -1,8 +1,8 @@
 import { rm } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { LectureIdentityChanges, RunManifest, StageContext } from "../../types/pipeline.js";
-import { pathExists } from "../../utils/files.js";
+import type { LectureIdentityChanges, RunManifest, StageContext } from "../../../types/pipeline.js";
+import { pathExists } from "../../../utils/files.js";
 import {
 	aiDerivedLecture,
 	configuringStage,
@@ -24,9 +24,9 @@ import {
 	titleRejected,
 	transcriptText,
 	userChosenTitle,
-} from "../fixtures.js";
-import { type ModuleDirs, stageOutputPath, workspaceRootFor } from "../layout.js";
-import { readManifest, writeManifest } from "../manifest.js";
+} from "../../fixtures.js";
+import { type ModuleDirs, stageOutputPath, workspaceRootFor } from "../../layout.js";
+import { readManifest, writeManifest } from "../../manifest.js";
 import { createTranscriptStructuringStage } from "./transcript-structuring.js";
 
 describe("transcript structuring against a real module tree", () => {
