@@ -14,6 +14,15 @@
       "13": "This should be in the same topic. perhaps there is a topic title before subtopic 9 that neatly incorporates all subtopics before the next agreed upon boundary??"
     }
   },
+  "l3": {
+    "division": "voted-d9-l3-r1to9-k5",
+    "ruledOn": "2026-09-28",
+    "note": "Ruled from the 46 g6, g12 and g13 runs. 2, 5 and 12 were starts every run made, shown as agreed and not ruled one by one. Of the contested points, 8 (nomenclature), 9 (morbidity and mortality), 10 (incidence) and 15 (the closing) open topics, so 8 and 9 are topics of a single subtopic each; 7 (clinical risks of benign tumours) stays in the topic before.",
+    "topicStarts": [2, 5, 8, 9, 10, 12, 15],
+    "sameTopic": [7],
+    "either": [],
+    "notes": {}
+  },
   "l4": {
     "division": "voted-d9-l4-r1to9-k5",
     "ruledOn": "2026-09-28",
