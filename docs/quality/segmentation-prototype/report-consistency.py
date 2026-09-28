@@ -14,9 +14,15 @@ What counts as the same cut site comes from `division_support.py`, shared with
 `report-division.py`: two runs cutting at one cut site rarely land on the same
 character, and that has to be one decision.
 
+With `--by-bar`, it asks instead how consistent the VOTED division is at each
+bar: the runs are split into two panels of nine, in every possible way, each
+panel votes at the bar, and the two divisions are compared. That is running the
+pipeline twice and asking how far the answers differ.
+
 Usage — the pattern names the runs, with {lec} standing for the lecture key:
   python3 report-consistency.py 'split-s6-{lec}-*.blocks.json'
   python3 report-consistency.py 'deepen-d9-600-split-s6-{lec}-*.blocks.json' l3 l4 l5
+  python3 report-consistency.py --by-bar 'deepen-d9-600-split-s6-{lec}-*.blocks.json'
 
 Taking a pattern rather than a version is what lets one report serve both
 initial subtopic splitting and deepening: their runs sit in the same directory
@@ -29,13 +35,15 @@ import re
 import os
 import statistics
 import sys
+from typing import NamedTuple
 
-from division_support import RUNS, cut_sites, cut_sites_with_runs, load_splitting_runs
+from division_support import RUNS, cut_sites, cut_sites_with_runs, load_splitting_runs, survives
 
-# The bar under the chosen setting: five of nine. A cut site whose support
-# reaches this share of the runs is kept; one below it is dropped. Expressed as
-# a share so a pool of any size can be read against it.
-BAR = 5 / 9
+# The panel under the chosen setting, and its bar: five of nine. A cut site
+# whose support reaches this share of the runs is kept; one below it is
+# dropped. Expressed as a share so a pool of any size can be read against it.
+PANEL = 9
+BAR = 5 / PANEL
 
 # A cut site within this share of the runs of the bar, either side, is one the
 # bar decides rather than the model: these are where a division is at risk.
@@ -106,10 +114,94 @@ def report(pattern, keys):
     )
 
 
+class BarConsistency(NamedTuple):
+    """How alike two panels' voted divisions are at one bar, averaged over every split.
+
+    disagreeing: cut sites one panel keeps and the other drops.
+    identical: share of splits where the two divisions are the same.
+    kept: cut sites one panel keeps.
+    """
+
+    disagreeing: float
+    identical: float
+    kept: float
+
+
+def halves_by_bar(runs, panel):
+    """Split the runs into two panels of `panel`, every way, and compare their votes at each bar.
+
+    The pool must be exactly two panels, so the halves share no run and each
+    split stands for two independent runs of the pipeline. The first run is
+    held in the first half so no split is counted twice.
+    """
+    if len(runs) != 2 * panel:
+        raise ValueError(f"{len(runs)} runs cannot be split into two panels of {panel}")
+    sites = [mask for _, mask in cut_sites_with_runs(runs)]
+    everyone = (1 << len(runs)) - 1
+    totals = {bar: [0, 0, 0] for bar in range(1, panel + 1)}
+    splits = 0
+    for rest in itertools.combinations(range(1, len(runs)), panel - 1):
+        first = 1 | sum(1 << index for index in rest)
+        second = everyone ^ first
+        splits += 1
+        for bar, total in totals.items():
+            kept_first = {i for i, site in enumerate(sites) if survives(site, first, bar)}
+            kept_second = {i for i, site in enumerate(sites) if survives(site, second, bar)}
+            disagreeing = len(kept_first ^ kept_second)
+            total[0] += disagreeing
+            total[1] += disagreeing == 0
+            total[2] += (len(kept_first) + len(kept_second)) / 2
+    return {
+        bar: BarConsistency(
+            disagreeing=disagreeing / splits, identical=identical / splits, kept=kept / splits
+        )
+        for bar, (disagreeing, identical, kept) in totals.items()
+    }
+
+
+def report_by_bar(pattern, keys):
+    """Print, for each bar, how far two panels' voted divisions differ on each lecture."""
+    by_lecture = {}
+    for key in keys:
+        runs = load_splitting_runs(pattern.format(lec=key))
+        if len(runs) != 2 * PANEL:
+            print(f"{key}: {len(runs)} runs, not {2 * PANEL} — left out")
+            continue
+        by_lecture[key] = halves_by_bar(runs, PANEL)
+    print(f"\n{pattern} — two panels of {PANEL} voting at each bar\n")
+    header = (
+        f"{'bar':>5} "
+        + "".join(f"{key:>6}" for key in by_lecture)
+        + f" {'kept':>6} {'disagreeing':>12} {'identical':>10}"
+    )
+    print(header)
+    print("-" * len(header))
+    for bar in range(1, PANEL + 1):
+        rows = [by_lecture[key][bar] for key in by_lecture]
+        print(
+            f"{f'{bar}/{PANEL}':>5} "
+            + "".join(f"{row.disagreeing:>6.1f}" for row in rows)
+            + f" {sum(row.kept for row in rows):>6.0f}"
+            f" {sum(row.disagreeing for row in rows):>12.1f}"
+            f" {sum(row.identical for row in rows):>6.1f}/{len(rows)}"
+        )
+    print(
+        "\nPer lecture: cut sites one panel keeps and the other drops, averaged over "
+        f"every split of the {2 * PANEL} runs into two panels.\n"
+        "kept: cut sites one panel keeps, all lectures.  disagreeing: the per-lecture "
+        "columns summed.\nidentical: lectures where the two panels' divisions match, "
+        "expected count."
+    )
+
+
 def main():
-    pattern = sys.argv[1] if len(sys.argv) > 1 else "split-s6-{lec}-*.blocks.json"
-    keys = sys.argv[2:] or lectures_with_runs(pattern)
-    report(pattern, keys)
+    arguments = sys.argv[1:]
+    by_bar = arguments[:1] == ["--by-bar"]
+    if by_bar:
+        arguments = arguments[1:]
+    pattern = arguments[0] if arguments else "split-s6-{lec}-*.blocks.json"
+    keys = arguments[1:] or lectures_with_runs(pattern)
+    (report_by_bar if by_bar else report)(pattern, keys)
 
 
 if __name__ == "__main__":
