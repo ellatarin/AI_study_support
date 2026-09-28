@@ -4,7 +4,7 @@
 
 **Blocked by:** 04
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 - [ ] The stage runs after transcription and before the existing structuring stage; every existing stage still runs unchanged.
 - [ ] Each run sends the whole transcript with the prototype's `s6` prompt, byte-identical, and gets back each subtopic's opening words, label and `groupedBecause` — never text.

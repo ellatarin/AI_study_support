@@ -1073,7 +1073,7 @@ These three stages and `define-topics` (below) run after transcription and befor
 
 The retry sits above the SDK's own, which retries only failures at the HTTP level (§8, API Error Handling); an empty or malformed reply arrives as a success and reaches the stage.
 
-**The model never returns text.** Every call is asked only where a subtopic begins, as its first eight to twelve words. Code finds those words in the transcript and cuts there, so each subtopic is sliced from the original and the division always reproduces the transcript exactly. Every stage checks this before writing: its subtopics, joined in order, must equal the transcript character for character. A mismatch is a bug and fails the stage.
+**The model never returns text.** Every call is asked only where a subtopic begins, as its first eight to twelve words. Code finds those words in the transcript and cuts there, so each subtopic is sliced from the original and the division always reproduces the transcript exactly. Every stage checks this before writing: its subtopics, joined in order, must equal the transcript character for character. A mismatch is a bug and fails the stage. "The transcript" here is `transcript.txt` with the whitespace at its two ends removed, once, as it is read: several transcripts begin or end with stray spaces, which carry nothing, and removing them is what the prototype did, so the model is sent exactly what the prototype sent.
 
 **Finding a quote.** A quote is searched for with case and whitespace ignored, forward from the previous cut, because the model tidies capitalisation and spacing even when told not to. The cut is made in the original text at the matching position. When the quote begins one or two words into its sentence — the model having dropped the lecturer's opening "So", "Now" or similar — the cut moves back to the start of the sentence, so no subtopic ends halfway through one. A quote that cannot be found is never guessed at.
 
@@ -1114,16 +1114,17 @@ The stage fails when fewer than `panelSize` deepened runs are present.
 
 ```typescript
 // src/pipeline/stages/division.ts — shared by the three stages
-type Subtopic = { from: number; to: number; label: string; why: string }
+type Subtopic = { start: number; end: number; label: string; why: string }
 placeCuts(args: { text: string; quotes: readonly string[] }):
   { cuts: readonly number[] } | { unplaced: string }
-// Finds each quote in turn, forward from the previous cut, and returns the character positions to cut at.
+// Finds each quote in turn, forward from the previous cut, and returns where each subtopic starts —
+// the first always at 0, whatever its quote. The first quote that cannot be found is returned instead.
 sliceSubtopics(args: { text: string; cuts: readonly number[]; named: readonly { label: string; why: string }[] }): readonly Subtopic[]
 assertLossless(args: { text: string; subtopics: readonly Subtopic[] }): void
 
 // src/pipeline/stages/vote-cut-sites/vote-cut-sites.ts
 type CandidateLabel = { label: string; runs: number }
-type VotedSubtopic = { from: number; to: number; labels: readonly CandidateLabel[] }
+type VotedSubtopic = { start: number; end: number; labels: readonly CandidateLabel[] }
 voteCutSites(args: { text: string; runs: readonly (readonly Subtopic[])[]; bar: number }): readonly VotedSubtopic[]
 ```
 
