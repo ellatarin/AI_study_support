@@ -26,18 +26,18 @@
   "l4": {
     "division": "voted-d9-l4-r1to9-k5",
     "ruledOn": "2026-09-28",
-    "note": "Ruled in two sittings. First subtopic 22, the closing passage on risks versus benefits, from the g6, g11 and g12 runs: its own topic. Then 4 (the carcinogen survey) and 16 (developmental stage), from the g6 and g12 runs: both stay in the topic before. 2, 7, 9, 14 and 18 were starts most runs made, shown as agreed and not ruled one by one; 7, 9 and 14 are also what the five criteria in runs/criteria.json require.",
-    "topicStarts": [2, 7, 9, 14, 18, 22],
-    "sameTopic": [4, 16],
+    "note": "Ruled in three sittings. First subtopic 22, the closing passage on risks versus benefits, from the g6, g11 and g12 runs: its own topic. Then 4 (the carcinogen survey) and 16 (developmental stage), from the g6 and g12 runs: both stay in the topic before. Then 4 changed to a topic start, after seeing that Gemini 3.8 splits there in 6 of 10 g12 runs, following the lecturer's 'I'm going to think a little bit about those environmental mutagens now'. 2, 7, 9, 14 and 18 were starts most runs made, shown as agreed and not ruled one by one; 7, 9 and 14 are also what the five criteria in runs/criteria.json require.",
+    "topicStarts": [2, 4, 7, 9, 14, 18, 22],
+    "sameTopic": [16],
     "either": [],
     "notes": {}
   },
   "l5": {
     "division": "voted-d9-l5-r1to9-k5",
     "ruledOn": "2026-09-28",
-    "note": "Ruled from the 20 g6 and g12 runs. 2, 5, 8 and 17 were starts every run made, shown as agreed and not ruled one by one. Of the contested points, 14 (the multi-step model) opens a topic; 4 and 15 stay in the topic before.",
-    "topicStarts": [2, 5, 8, 14, 17],
-    "sameTopic": [4, 15],
+    "note": "Ruled from the 20 g6 and g12 runs, then revised. 2, 5, 8 and 17 were starts every run made, shown as agreed and not ruled one by one. First ruling: 14 (the multi-step model) opens a topic, 4 and 15 stay in the topic before. Revised to 15 (hereditary predisposition) opening the topic, with 14 staying with genetic instability, after 7 of 18 Gemini 3.7 runs, 7 of 10 judge calls and all 10 Gemini 3.8 runs read 14 as closing the instability section ('So where does chromosomal instability map in this?').",
+    "topicStarts": [2, 5, 8, 15, 17],
+    "sameTopic": [4, 14],
     "either": [],
     "notes": {}
   },
