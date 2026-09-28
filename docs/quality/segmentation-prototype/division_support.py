@@ -83,6 +83,15 @@ def cut_sites(runs, panel=None):
     return out
 
 
+def survives(site, panel, bar):
+    """Whether a panel keeps a cut site: at least `bar` of the panel's runs cut there.
+
+    Both arguments are bitmasks over the runs — `site` of the runs that cut at
+    it, from `cut_sites_with_runs`, and `panel` of the runs voting.
+    """
+    return (site & panel).bit_count() >= bar
+
+
 def cut_sites_with_runs(runs):
     """Every cut site any run cut at, as (position, bitmask of the runs that cut there).
 

@@ -30,6 +30,7 @@ from division_support import (
     cut_sites_with_runs,
     load_splitting_runs,
     same_cut_site,
+    survives,
 )
 
 # Panel sizes and bars worth reporting. The bar that has held across every
@@ -118,8 +119,8 @@ def panel_errors(runs, ruling, size, bar):
             mask |= 1 << index
         errors.append(
             never
-            + sum(1 for m in wanted_masks if (m & mask).bit_count() < bar)
-            + sum(1 for m in unwanted_masks if (m & mask).bit_count() >= bar)
+            + sum(1 for m in wanted_masks if not survives(m, mask, bar))
+            + sum(1 for m in unwanted_masks if survives(m, mask, bar))
         )
     return errors
 

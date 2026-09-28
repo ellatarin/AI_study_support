@@ -1,4 +1,4 @@
-"""Tests for when two splitting runs' cuts are one cut site.
+"""Tests for when two splitting runs' cuts are one cut site, and when a panel keeps one.
 
 Both ways of finding cut sites — with a support count, and with the runs that
 cut there — must answer the question the same way, or the reports built on each
@@ -7,7 +7,7 @@ can disagree about one lecture.
 
 import pytest
 
-from division_support import cut_sites, cut_sites_with_runs
+from division_support import cut_sites, cut_sites_with_runs, survives
 
 
 def sites_by_count(runs):
@@ -50,3 +50,20 @@ def test_should_count_every_run_that_cut_at_a_site_when_the_cuts_are_close(find)
 
     # Assert
     assert sites == [(25.0, 3), (60.1, 2)]
+
+
+# A cut site cut by runs 0 and 1, read by a panel of runs 0, 1 and 2.
+SITE_CUT_BY_FIRST_TWO = 0b011
+PANEL_OF_FIRST_THREE = 0b111
+
+
+@pytest.mark.parametrize("bar, kept", [(1, True), (2, True), (3, False)])
+def test_should_keep_a_cut_site_when_its_support_in_the_panel_reaches_the_bar(bar, kept):
+    # Arrange
+    site, panel = SITE_CUT_BY_FIRST_TWO, PANEL_OF_FIRST_THREE
+
+    # Act
+    result = survives(site, panel, bar)
+
+    # Assert
+    assert result is kept
