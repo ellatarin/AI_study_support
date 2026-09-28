@@ -31,7 +31,11 @@ import {
 	VERDICT,
 } from "./trial-model.mts";
 
-const MODEL = process.env["TRIAL_MODEL"] ?? "google/gemini-3.7-flash";
+const DEFAULT_MODEL = "google/gemini-3.7-flash";
+const MODEL = process.env["TRIAL_MODEL"] ?? DEFAULT_MODEL;
+// Runs on any other model carry it in their name, so they never overwrite the
+// default model's run of the same instance or get pooled with its runs.
+const MODEL_TAG = MODEL === DEFAULT_MODEL ? "" : `@${MODEL.split("/").pop() ?? MODEL}`;
 
 /** A subtopic as pass one left it: its label and the transcript it owns. */
 type SourceSubtopic = {
@@ -174,7 +178,7 @@ async function main(): Promise<void> {
 	}
 	const seconds = Math.round((performance.now() - startedAt) / 1000);
 
-	const stem = `group-${version.id}-${sourceRun}-${instance}`;
+	const stem = `group-${version.id}${MODEL_TAG}-${sourceRun}-${instance}`;
 	await writeFile(join(OUT_DIR, `${stem}.raw.json`), reply.content, "utf8");
 
 	let topicCount: number | null = null;
