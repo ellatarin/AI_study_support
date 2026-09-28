@@ -17,15 +17,15 @@ Five of the ten stages are built and wired in:
 | 3 | transcript-structuring | `Structured transcript/structured-transcript.md` |
 | 4 | transcript-verification | `Transcript verification/verification-report.json`, and `verification-report.md` beside it |
 
-Stages 5–9 (slide-conversion, image-extraction, synthesis, qa-loop, pdf-generation) **do not exist yet**.
+`slide-conversion`, `image-extraction`, `synthesis`, `qa-loop` and `pdf-generation` **do not exist yet**.
 
-**The runner will not try to call them.** It iterates the stage list it was given (`src/cli/run-cli.ts`), not the full set of stage IDs, so unbuilt stages are absent rather than skipped. A run ends after Stage 4, writes its run log, prints a cost summary, and exits 0.
+**The runner will not try to call them.** It iterates the stage list it was given (`src/cli/run-cli.ts`), not the full set of stage IDs, so unbuilt stages are absent rather than skipped. A run ends after `transcript-verification`, writes its run log, prints a cost summary, and exits 0.
 
 ### Three behaviours that look like faults and are not
 
-- **A run that produces no PDF is still reported as a success.** Only Stages 0–4 exist, so a run does everything there is to do and ends with a verification report. The status describes the run, not how far the pipeline reaches.
+- **A run that produces no PDF is still reported as a success.** Only the stages from `source-normalisation` to `transcript-verification` exist, so a run does everything there is to do and ends with a verification report. The status describes the run, not how far the pipeline reaches.
 - **`--from-stage` accepts stages that do not exist yet.** `--from-stage synthesis` is accepted, resets manifest entries for stages that never ran, then runs the built stages, which all skip. A no-op, not an error.
-- **A verification report full of findings is not a failed run.** Stage 4 reports and never gates: whatever it finds, the stage completes, the run summary is unchanged, and the exit code stays 0. The report is there to be read, not obeyed.
+- **A verification report full of findings is not a failed run.** `transcript-verification` reports and never gates: whatever it finds, the stage completes, the run summary is unchanged, and the exit code stays 0. The report is there to be read, not obeyed.
 
 ### What a run prints
 
@@ -45,9 +45,9 @@ Each lecture is named as its run begins, and each stage says what it did as it h
 | 4 | `ELEVENLABS_API_KEY` present | `.env` | ☑ added |
 | 5 | Lecture files copied into `Source files/` (§2.2, §2.3) | module folders | ☐ |
 
-Blockers 1 and 2 were cleared and verified: `lecture-notes run 1999-01-01` loads the config and runs Stage 0 across both modules, and the model ID is genuinely checked — pointing it at a nonexistent `google/…` model is rejected before anything runs. Both module trees exist and were verified against `moduleDirs()`.
+Blockers 1 and 2 were cleared and verified: `lecture-notes run 1999-01-01` loads the config and runs `source-normalisation` across both modules, and the model ID is genuinely checked — pointing it at a nonexistent `google/…` model is rejected before anything runs. Both module trees exist and were verified against `moduleDirs()`.
 
-Blockers 3 and 4 are recorded as added but **not verified**, and cannot be: `.env` is never read. The first run that reaches Stage 2 is what confirms them. A key present under a slightly wrong variable name reads identically to a missing one, so if either stage fails on authentication, check the name against §2.1 before the value.
+Blockers 3 and 4 are recorded as added but **not verified**, and cannot be: `.env` is never read. The first run that reaches `transcription` is what confirms them. A key present under a slightly wrong variable name reads identically to a missing one, so if either stage fails on authentication, check the name against §2.1 before the value.
 
 **Keep the `placeholder/` prefix on the four unbuilt stages, and the `placeholder` exemption alongside it.** It is what stops `loadConfig` rejecting a stage that has no real model yet. Strip each one as its stage is built — leaving it past that point disarms the check that exists to catch an un-substituted placeholder, and the failure then lands at that stage *after* the stages before it have been paid for. That is what nearly happened here with `transcript-structuring`.
 
@@ -57,7 +57,7 @@ The two keys fail differently, which matters when reading an error: transcriptio
 
 ### 2.2 Source file layout
 
-Stage 0 validates the **whole module** before touching anything, and refuses to proceed unless every video has a parseable date and a 1:1 slide match by date:
+`source-normalisation` validates the **whole module** before touching anything, and refuses to proceed unless every video has a parseable date and a 1:1 slide match by date:
 
 ```
 <moduleRoot>/Source files/Video files/<something with a date>.mp4
@@ -83,28 +83,28 @@ Also accepted: single-digit day and month (`1/2/2025` is the first of February),
 
 Dates written in words still work (`13 Oct 2025`, `10 October 2025`). **One trap there:** a prose date with no year is anchored to the *current* year, so `Fri 10th Oct` dates itself to whenever it was processed. Numeric formats have no such behaviour — prefer them.
 
-**What is rejected** — and rejection is loud, not silent: a filename with no extractable date, and a date naming no real day (`31022025`, `2025-13-10`). Stage 0 refuses the whole module and names each offending file rather than guessing.
+**What is rejected** — and rejection is loud, not silent: a filename with no extractable date, and a date naming no real day (`31022025`, `2025-13-10`). `source-normalisation` refuses the whole module and names each offending file rather than guessing.
 
 If a run finds nothing, the `"Normalising module sources"` line in `<repo root>/runs/<timestamp>-debug.log` carries the video and slide counts it actually saw. `videos: 0` means the filenames were never read — check the directory names first (§2.2), then the dates.
 
 ### 2.4 Use a scratch module
 
-**Stage 0 renames source files in place** to `Lecture N - Title - YYYY-MM-DD.ext`. Copy two or three lectures into a scratch module folder and point `moduleRoots` at that. Do not test against irreplaceable recordings.
+**`source-normalisation` renames source files in place** to `Lecture N - Title - YYYY-MM-DD.ext`. Copy two or three lectures into a scratch module folder and point `moduleRoots` at that. Do not test against irreplaceable recordings.
 
 Include at least one **short** lecture (2–5 minutes) — most tests below only need one, and transcription is billed by audio length.
 
 ### 2.5 Cost model
 
 - **Transcription** is reported at the configured `elevenLabs.costPerAudioHourUsd` (currently `0.22`), converted at `currency.gbpPerUsd` (currently `0.74`) — roughly **£0.16 per audio hour**, so a 5-minute lecture is about **£0.01**. The figure printed is derived from that configured rate, not from a bill; check it against the real invoice once.
-- **Stages 3 and 4** each cost OpenRouter tokens for one call per lecture, reported from the live generation endpoint, so those figures are actual. Stage 4 is the more expensive of the two: it sends both the raw transcript and the structured one, and its reply grows with the number of findings.
+- **`transcript-structuring` and `transcript-verification`** each cost OpenRouter tokens for one call per lecture, reported from the live generation endpoint, so those figures are actual. `transcript-verification` is the more expensive of the two: it sends both the raw transcript and the structured one, and its reply grows with the number of findings.
 - Always use `run <date>` for testing. **Never `batch`** — it takes every lecture in the module.
 
 ---
 
 ## 3. How to isolate stages
 
-- **Stage 0 alone:** `lecture-notes run 1999-01-01` — any date no lecture has. Sources are normalised across every configured module *before* the date is looked up, so Stage 0 does its full job, then the command reports that no lecture matches and exits 1. Nothing downstream runs and nothing is spent. The non-zero exit is the date lookup, not Stage 0.
-- **Stages 1–2 without 3:** there is no `--to-stage` or `--only` flag. Once a real lecture is named, all three built stages run. Either run all three and inspect each stage's output directory separately (recommended), or use test **P1** below, which reaches the same place deliberately.
+- **`source-normalisation` alone:** `lecture-notes run 1999-01-01` — any date no lecture has. Sources are normalised across every configured module *before* the date is looked up, so `source-normalisation` does its full job, then the command reports that no lecture matches and exits 1. Nothing downstream runs and nothing is spent. The non-zero exit is the date lookup, not `source-normalisation`.
+- **`audio-extraction` and `transcription` without `transcript-structuring`:** there is no `--to-stage` or `--only` flag. Once a real lecture is named, all three built stages run. Either run all three and inspect each stage's output directory separately (recommended), or use test **P1** below, which reaches the same place deliberately.
 
 ---
 
@@ -133,20 +133,20 @@ None of these should spend money. Run them in order.
 | `lecture-notes run` | Usage error naming the missing date, exit 1 |
 | `lecture-notes run 10-10-2025` | Rejects the date format, exit 1 |
 | `lecture-notes run 2025-10-10 --from-stage nonsense` | Names the flag and lists the valid stages, exit 1 |
-| `lecture-notes run 1999-01-01` | Stage 0 runs, then "No lecture is dated 1999-01-01…", exit 1 |
+| `lecture-notes run 1999-01-01` | `source-normalisation` runs, then "No lecture is dated 1999-01-01…", exit 1 |
 
 **Check:** no `Audio/` directory is created anywhere, and no ElevenLabs or OpenRouter request is made.
 
-### T2 — Stage 0 on the scratch module
+### T2 — `source-normalisation` on the scratch module
 
 Run `lecture-notes run 1999-01-01`, then inspect the module.
 
 - Source video and slides renamed to `Lecture N - Title - YYYY-MM-DD.ext`, numbering in date order
 - A workspace per lecture under `Pipeline processing/`, each with `manifest.json`
-- **Each workspace contains `manifest.json` and nothing else.** Stage 0 creates the workspace as a side effect of writing the manifest, and creates nothing inside it. `Audio/`, `Transcript/` and `Structured transcript/` appear only when their own stage runs; `runs/` appears when the runner writes its first run log. An otherwise-empty workspace here is correct, not a failure.
+- **Each workspace contains `manifest.json` and nothing else.** `source-normalisation` creates the workspace as a side effect of writing the manifest, and creates nothing inside it. `Audio/`, `Transcript/` and `Structured transcript/` appear only when their own stage runs; `runs/` appears when the runner writes its first run log. An otherwise-empty workspace here is correct, not a failure.
 - `Pipeline processing/` itself is created on demand, so it does not need to exist beforehand. **The only directories you must create by hand are the two under `Source files/`** (§2.2)
 - The manifest records lecture number, date, and provisional title
-- Re-run the same command: **no further changes** — Stage 0 is idempotent
+- Re-run the same command: **no further changes** — `source-normalisation` is idempotent
 - Add a video with no matching slide deck, re-run: the whole module is refused with a message naming the mismatch, and **nothing is renamed**
 - Remove a source pair whose workspace still exists, re-run: the orphan guard asks before deleting anything; decline it and confirm nothing changed
 
@@ -199,17 +199,17 @@ Re-run the identical command.
 ### T7 — `--from-stage` and `--to-stage`
 
 - `--from-stage transcription` — `Transcript/` and `Structured transcript/` are discarded and rebuilt; `Audio/` untouched; **bills transcription again**
-- `--from-stage audio-extraction` — everything from Stage 1 down is rebuilt
+- `--from-stage audio-extraction` — everything from `audio-extraction` down is rebuilt
 - `--from-stage synthesis` — accepted, no-op, exit 0 (see §1)
-- `--to-stage transcription` on a fresh lecture — Stages 0–2 run and stop there; `Transcript/transcript.txt` is written, `Structured transcript/` is never created, **Stage 4 is never billed**; exit 0 and the run log records `transcript-structuring` and `transcript-verification` as `not-reached`
-- Re-run that lecture with no flags — Stages 1–2 skip, 3–4 run; a bounded run leaves the lecture resumable, not finished
+- `--to-stage transcription` on a fresh lecture — `source-normalisation`, `audio-extraction` and `transcription` run and stop there; `Transcript/transcript.txt` is written, `Structured transcript/` is never created, **`transcript-verification` is never billed**; exit 0 and the run log records `transcript-structuring` and `transcript-verification` as `not-reached`
+- Re-run that lecture with no flags — `audio-extraction` and `transcription` skip, `transcript-structuring` and `transcript-verification` run; a bounded run leaves the lecture resumable, not finished
 - `--to-stage audio-extraction --from-stage transcription` — refused before anything runs, exit 1
 
 ### T8 — Failure and recovery
 
-- Delete `Transcript/transcript.txt` by hand and re-run: Stage 2 re-runs because a recorded file is missing, Stage 3 follows
-- Unset `ELEVENLABS_API_KEY` and run a fresh lecture: fails at Stage 2 with the named-variable message, exit 1, nothing downstream runs
-- Point `transcript-structuring.modelId` at a nonexistent model and run a fresh lecture: Stages 1–2 complete and are recorded complete, Stage 3 fails, exit 1. Restore the model and re-run — 1–2 skip, only Stage 3 runs. **This is the cheapest way to see resumability**, and doubles as the "Stages 1–2 only" case from §3.
+- Delete `Transcript/transcript.txt` by hand and re-run: `transcription` re-runs because a recorded file is missing, `transcript-structuring` follows
+- Unset `ELEVENLABS_API_KEY` and run a fresh lecture: fails at `transcription` with the named-variable message, exit 1, nothing downstream runs
+- Point `transcript-structuring.modelId` at a nonexistent model and run a fresh lecture: `audio-extraction` and `transcription` complete and are recorded complete, `transcript-structuring` fails, exit 1. Restore the model and re-run — those two skip, only `transcript-structuring` runs. **This is the cheapest way to see resumability**, and doubles as the "`audio-extraction` and `transcription` without `transcript-structuring`" case from §3.
 - Repeat that failure with `--continue-on-error` and confirm the run continues rather than halting
 - `lecture-notes cost-report` after these: spend attributed by run and by stage, failed runs included
 
@@ -226,4 +226,4 @@ For each test: the command, the exit code, what was printed, and pass/fail. For 
 Worth noting separately as they come up:
 - Wording that misleads, and any stage notice that says something other than what the stage did
 - Any cost figure that disagrees with the provider's own
-- Anything Stage 0 renames that you did not expect
+- Anything `source-normalisation` renames that you did not expect

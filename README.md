@@ -138,10 +138,10 @@ lecture-notes change-date <date> <new date>
 | `normalise-sources` | Built |
 | `extract-audio` | Built |
 | `transcribe` | Built |
-| `initial-subtopic-splitting` | Prototype |
-| `deepen-subtopic-splitting` | Prototype |
-| `vote-cut-sites` | Prototype |
-| `define-topics` | Prototype |
+| `initial-subtopic-splitting` | Prototype; designed, being built |
+| `deepen-subtopic-splitting` | Prototype; designed, being built |
+| `vote-cut-sites` | Prototype; designed, being built |
+| `define-topics` | Prototype; grouping designed, being built |
 | `render-slides` | Designed, not built |
 | `read-slides` | Designed, not built |
 | `verify-slides` | Planned |

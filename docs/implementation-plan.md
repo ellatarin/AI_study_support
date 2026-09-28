@@ -1,14 +1,14 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.48-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-08-14
+**Suite version:** 1.49-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-09-28
 **Status:** For review
 
 ---
 
 ## Overview
 
-The pipeline is built in thirteen phases. Phases 1–3 establish the project scaffold and shared infrastructure before any stage code is written. Phases 4–12 implement stages in pipeline order. Phase 13 validates the full pipeline end-to-end against a real lecture.
+The pipeline is built in nineteen phases. Phases 1–3 establish the project scaffold and shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to `transcript-verification`. Phases 8–13 divide the transcript: two groundwork phases, then the four division stages, which run after transcription with every existing stage unchanged. Phases 14–18 implement the remaining stages in pipeline order. Phase 19 validates the full pipeline end-to-end against a real lecture.
 
 Testing is not a final phase — unit tests are written alongside each deliverable per the project conventions. Integration tests are noted explicitly where unit testing alone is insufficient.
 
@@ -77,15 +77,15 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `src/utils/logger.ts` — `createRootLogger`, `createStageLogger` **(TD §10, Logging and Progress Helpers)**
 - `src/utils/date.ts` — `extractDate`, `formatDateISO`, `isCalendarDate` **(TD §3.2, Date and Naming Helpers)**
 - `src/utils/naming.ts` — `extractProvisionalTitle`, `lectureFolderName`, `lectureBaseName` **(TD §3.2)**; `filenameSafe` and the `EmptyNameError` it raises **(TD §4.4)**
-- `src/utils/progress.ts` — `createProgressBar` and `createUploadProgressStream` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`. `createParallelWorkBar` is specified in TD §10 but built in Phase 8, with the first stage that calls it
+- `src/utils/progress.ts` — `createProgressBar` and `createUploadProgressStream` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`. `createParallelWorkBar` is specified in TD §10 but built in Phase 14, with the first stage that calls it
 - `src/utils/cost.ts` — `accumulateCost`, the arithmetic alone **(TD §7)**
 - `src/pipeline/reports.ts` — `createMoneyFormatter`, `formatCostReport` and the table engine beneath them **(TD §7, Cost and Reporting Modules)**
 - `src/utils/stage-id.ts` — `isStageId`, `unknownStageMessage`: recognising a stage name and reporting one that is not, for the stage flags and the config keys alike; `isStageAfter`: one stage's position against another's in `STAGE_IDS`, asked by the CLI refusing a `--to-stage` before `--from-stage` and by the runner stopping at the bound **(TD §6; §4.7)**
-- `src/utils/model-id.ts` — `splitModelId`: a model ID's provider and its name, read by the provider exemption and by Stage 2, which want opposite halves **(TD §6; §5, Stage 2)**
+- `src/utils/model-id.ts` — `splitModelId`: a model ID's provider and its name, read by the provider exemption and by `transcription`, which want opposite halves **(TD §6; §5, `transcription`)**
 - `src/utils/language.ts` — `isOutputLanguage`, `unknownLanguageMessage`, `languageRule`: recognising a configured language, reporting one the pipeline cannot write, and wording the instruction every prose stage's prompt gives the model **(TD §6)**
 - `src/utils/record.ts` — `isRecord`: whether a parsed value has fields to read, shared by every check over something parsed from outside the pipeline — the config file, a manifest, a model's reply **(TD §6; §4.4; §7)**
 - `src/utils/text.ts` — `collapseWhitespace`: closing up the gaps that removing a fragment leaves, which both the naming rules and the date reader end by doing **(TD §3)**; `pluralise`: a count and its noun agreeing with each other, for every place that tells the user how many of something there are
-- `src/utils/stage-config.ts` — `configuredStage`, `unconfiguredStageMessage`: a stage's entry in the config file and the sentence reporting its absence, for the OpenRouter client, Stage 2 and the runner alike **(TD §6)**
+- `src/utils/stage-config.ts` — `configuredStage`, `unconfiguredStageMessage`: a stage's entry in the config file and the sentence reporting its absence, for the OpenRouter client, `transcription` and the runner alike **(TD §6)**
 - `src/pipeline/config.ts` — `loadConfig`, plus the model-ID resolution check and its provider exemptions **(TD §6)**
 - `src/pipeline/openrouter.ts` — `createOpenRouterClient`, `makeCompletionCall`, and the exported `UnconfiguredStageError`, `ContextLengthError`, `CompletionRejectedError` and `NoCompletionChoicesError` **(TD §6)**
 - `src/pipeline/fixtures.ts` — the shared test vocabulary: the example lecture and its derived file names, the module tree builders, the stub logger, the manifest and stage-entry builders. It belongs to this phase because it is what stops each later phase's suites inventing their own lecture, but it is the one deliverable that keeps growing: a phase that needs a fixture the suites will share extends this module rather than restating the value. Production code never imports it, which `eslint.config.js` exempts it in order to allow — it is the one file under `src/pipeline/` permitted to import from `src/pipeline/stages/`
@@ -164,7 +164,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `should throw after 120s when completion request times out`
 - `should time out cost lookup after 30s per attempt`
 
-`openrouter.integration.test.ts` intercepts with `nock` like the unit tests above. CLAUDE.md § Testing requires every external service to be mocked, so every suite here runs for anyone who clones the repo, with no key and no spend. Stage 2's integration test is built the same way: a real file streamed through the real SDK, against a stubbed endpoint.
+`openrouter.integration.test.ts` intercepts with `nock` like the unit tests above. CLAUDE.md § Testing requires every external service to be mocked, so every suite here runs for anyone who clones the repo, with no key and no spend. `transcription`'s integration test is built the same way: a real file streamed through the real SDK, against a stubbed endpoint.
 
 **Acceptance:** All unit and integration tests pass; `tsc --noEmit` clean.
 
@@ -178,7 +178,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 `src/pipeline/runner.ts` — the `PipelineRunner` class and its supporting module-level functions (`runStage`, `assembleContext`, `updateManifest`, `deriveRunId`, `classifyRunType`). Full surface and behaviour in **TD §4.7**.
 
-`src/pipeline/manifest.ts` — where `manifest.json` lives, how it is read and atomically written, and the schema version it is stamped with: `MANIFEST_VERSION`, `pendingStages`, `manifestPath`, `ManifestUnreadableError`, `ManifestNotJsonError`, `ManifestShapeError`, `readManifest`, `readManifestSafe`, `writeManifest`, `patchManifest`. Extracted because Stage 0, the runner, and the CLI all touch it (**TD §4.5**).
+`src/pipeline/manifest.ts` — where `manifest.json` lives, how it is read and atomically written, and the schema version it is stamped with: `MANIFEST_VERSION`, `pendingStages`, `manifestPath`, `ManifestUnreadableError`, `ManifestNotJsonError`, `ManifestShapeError`, `readManifest`, `readManifestSafe`, `writeManifest`, `patchManifest`. Extracted because `source-normalisation`, the runner, and the CLI all touch it (**TD §4.5**).
 
 `src/pipeline/run-status.ts` — the shared rule reducing stage and lecture outcomes to an `OverallStatus`: `stageOutcomeStatus`, `summariseOverallStatus`, `summariseLectures`, `hasSettledOutput` (**TD §4.7**).
 
@@ -188,7 +188,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - Commands: `run <date>`, `batch [<moduleRoot>]`, `cost-report [--date <YYYY-MM-DD>] [--module <moduleRoot>]`
 - Flags: `--from-stage <stageId>`, `--to-stage <stageId>`, `--concurrency N`, `--continue-on-error`
 - The identity-mutation commands (`rename`, `delete`, `change-date`) land with this deliverable too
-- Behaviour of each — the module layout, the multi-match picker, batch scope, what `--from-stage` resets and deletes, where `--to-stage` stops the run, exit codes, and how each mutation leaves the module for Stage 0 to finish — is specified in **TD §4.7**
+- Behaviour of each — the module layout, the multi-match picker, batch scope, what `--from-stage` resets and deletes, where `--to-stage` stops the run, exit codes, and how each mutation leaves the module for `source-normalisation` to finish — is specified in **TD §4.7**
 
 `formatRunSummary` and `formatBatchSummary` in `src/pipeline/reports.ts` — the end-of-run and batch summaries the CLI prints (**TD §7**). Neither sums anything: the run summary ends at its last stage row, and the batch table shows lecture counts and status without a money column.
 
@@ -277,13 +277,13 @@ End to end — integration tests through `runCli`:
 
 ---
 
-## Phase 4 — Stage 0: Source Normalisation
+## Phase 4 — `source-normalisation`
 
 **Goal:** Reliable batch normalisation of source files. The most file-system-intensive stage — correctness here gates all downstream work.
 
 **Deliverables:**
 
-**TD Stage 0** in four files: date parsing, lecture numbering, slide-to-video matching and provisional titles in `src/pipeline/stages/lecture-resolution.ts`; collision-safe renaming and interrupted-rename recovery in `src/pipeline/stages/source-renames.ts`; the orphan direct-deletion guard (NFR-4.3) and workspace discovery in `src/pipeline/stages/orphaned-workspaces.ts`; and in `src/pipeline/stages/source-normalisation.ts` the order they run in, what aborting means, and workspace and manifest creation with renumbering on re-run.
+**TD §5, `source-normalisation`** in four files: date parsing, lecture numbering, slide-to-video matching and provisional titles in `src/pipeline/stages/lecture-resolution.ts`; collision-safe renaming and interrupted-rename recovery in `src/pipeline/stages/source-renames.ts`; the orphan direct-deletion guard (NFR-4.3) and workspace discovery in `src/pipeline/stages/orphaned-workspaces.ts`; and in `src/pipeline/stages/source-normalisation.ts` the order they run in, what aborting means, and workspace and manifest creation with renumbering on re-run.
 
 The CLI identity-mutation commands that drive this same machinery — `rename`, `delete`, `change-date` (FR-6.7, TD §4.7) — are built with the CLI, not in this phase.
 
@@ -312,8 +312,8 @@ Integration tests (real temp directory with fixture source files) — everything
 - `should rename source files atomically when normalisation runs`
 - `should create workspace folder and write initial manifest when lecture is new`
 - `should seed initial manifest with lectureTitle equal to provisionalTitle and userTitle and aiDerivedTitle null`
-- `should name an existing lecture from its manifest lectureTitle when the title changed after Stage 0`
-- `should produce no filesystem changes when Stage 0 re-run on already-normalised sources`
+- `should name an existing lecture from its manifest lectureTitle when the title changed after source-normalisation`
+- `should produce no filesystem changes when source-normalisation re-run on already-normalised sources`
 - `should delete the workspace and its Final output PDF when an orphaned lecture is approved` — `test.each` for one orphan and for several orphans all approved
 - `should renumber the remaining lectures and log the prior number, title, and date when an orphan is deleted`
 - `should abort without filesystem changes when a confirmation is declined` — `test.each` for: an orphan declined, the final confirmation declined
@@ -321,11 +321,11 @@ Integration tests (real temp directory with fixture source files) — everything
 - `should restore a temporary source file to its target name when a previous run was interrupted` — and the same for a workspace folder
 - `should abort without filesystem changes when a temporary file's target name is taken`
 
-**Acceptance:** Given a folder of raw video and slide files, Stage 0 produces correct workspace folders, manifests, renamed source files, and handles mid-sequence insertion correctly.
+**Acceptance:** Given a folder of raw video and slide files, `source-normalisation` produces correct workspace folders, manifests, renamed source files, and handles mid-sequence insertion correctly.
 
 ---
 
-## Phase 5 — Stages 1 & 2: Audio Extraction and Transcription
+## Phase 5 — `audio-extraction` and `transcription`
 
 **Goal:** The first two `PipelineStage` implementations, and the first stages the runner drives end-to-end. Built from the contract, taking the proven API parameters from the `src/index.ts` prototype.
 
@@ -337,13 +337,13 @@ Integration tests (real temp directory with fixture source files) — everything
 
 `src/pipeline/stages/pipeline-stage.ts` — the shared `isComplete` check and the stage factory every per-lecture stage is assembled through **(TD §4.2)**. Both stages need identical completeness logic, so it is written once.
 
-`src/utils/files.ts` — `produceFileAtomic`, the caller-produces form of `writeFileAtomic`, needed because Stage 1's bytes come from ffmpeg rather than from memory **(TD §4.3)**.
+`src/utils/files.ts` — `produceFileAtomic`, the caller-produces form of `writeFileAtomic`, needed because `audio-extraction`'s bytes come from ffmpeg rather than from memory **(TD §4.3)**.
 
 `src/utils/errors.ts` — `errorMessage`, the narrowing every catch site repeats **(TD §8)**.
 
-`src/pipeline/stages/audio-extraction.ts` — the whole of **TD Stage 1**: locating the source video by workspace base name whatever its extension, the fluent-ffmpeg `-acodec copy` extraction and its progress bar, and the `.tmp`-sibling write. Makes no billable call, so its cost is `null`.
+`src/pipeline/stages/audio-extraction.ts` — the whole of **TD §5, `audio-extraction`**: locating the source video by workspace base name whatever its extension, the fluent-ffmpeg `-acodec copy` extraction and its progress bar, and the `.tmp`-sibling write. Makes no billable call, so its cost is `null`.
 
-`src/pipeline/stages/transcription.ts` — the whole of **TD Stage 2**: the Scribe v2 call and its parameters, stripping the provider prefix from the configured model ID, upload progress via `createUploadProgressStream`, and cost derived from audio duration × the configured rate.
+`src/pipeline/stages/transcription.ts` — the whole of **TD §5, `transcription`**: the Scribe v2 call and its parameters, stripping the provider prefix from the configured model ID, upload progress via `createUploadProgressStream`, and cost derived from audio duration × the configured rate.
 
 Both are the first real `PipelineStage` implementations, so each defines its own `TInput`/`TOutput` pair.
 
@@ -394,21 +394,21 @@ The transcription integration test streams a real file through the real SDK but 
 
 ---
 
-## Phase 6 — Stage 3: Transcript Structuring
+## Phase 6 — `transcript-structuring`
 
 **Goal:** Single LLM call to structure the transcript and determine the lecture title; conditional rename of the lecture's files, which the runner learns to follow.
 
 **Deliverables:**
 
-`src/pipeline/lecture-files.ts` **(TD §4.7, "Moving a lecture's files")** — `baseNameForLecture`, `findDatedFile`, `removeDatedFile` and `renameLectureFiles`, lifted out of the private helpers in `src/cli/lecture-identity.ts` so Stage 3 and `change-date` share one sweep rather than growing a second copy. `change-date` is rewritten onto it; the module sits under `src/pipeline/` because a stage may not import from `src/cli/`.
+`src/pipeline/lecture-files.ts` **(TD §4.7, "Moving a lecture's files")** — `baseNameForLecture`, `findDatedFile`, `removeDatedFile` and `renameLectureFiles`, lifted out of the private helpers in `src/cli/lecture-identity.ts` so `transcript-structuring` and `change-date` share one sweep rather than growing a second copy. `change-date` is rewritten onto it; the module sits under `src/pipeline/` because a stage may not import from `src/cli/`.
 
-`makeCompletionCall` gains `responseFormat` **(TD §6)** — `"text" | "json"`, stated on every call, setting the SDK's `response_format` to `json_object` for the stages that return structured data. Stage 3 is its first production caller.
+`makeCompletionCall` gains `responseFormat` **(TD §6)** — `"text" | "json"`, stated on every call, setting the SDK's `response_format` to `json_object` for the stages that return structured data. `transcript-structuring` is its first production caller.
 
 `PipelineRunner` follows a relocated workspace **(TD §4.7, "Following a relocated workspace" and `StageContext` assembly)** — `findLectureByDate` extracted from `resolveLecturesByDate`; new `resolveWorkspace`; `updateManifest` takes and returns the manifest rather than re-reading it; `runStage` returns `StageOutcome`; `#runStages` carries each stage's context on to the next; the run log and `RunSummary.workspaceRoot` use the resolved path.
 
 `src/pipeline/stages/transcript-structuring.prompt.ts` **(TD §5, "Where prompts live")** — `buildStructuringMessages`, the first of the per-stage prompt modules. No test file of its own; the stage's tests exercise it.
 
-`src/pipeline/stages/transcript-structuring.ts` **(TD Stage 3)** — a single JSON-mode LLM call that judges the lecturer's provisional title against the transcript and structures the transcript into markdown, then performs the conditional rename in the documented order. Implement to TD Stage 3, which specifies the response contract, the prefer-the-original title judgement, the `aiDerivedTitle`/`lectureTitle` semantics, the `userTitle` precedence, the order of operations, and the structuring rules (headings, filler removal, LaTeX, Q&A blockquotes, no added content). Output: `Structured transcript/structured-transcript.md`. Added to `lectureStages` in `src/cli/run-cli.ts`, which is what makes it run.
+`src/pipeline/stages/transcript-structuring.ts` **(TD §5, `transcript-structuring`)** — a single JSON-mode LLM call that judges the lecturer's provisional title against the transcript and structures the transcript into markdown, then performs the conditional rename in the documented order. Implement to TD §5, `transcript-structuring`, which specifies the response contract, the prefer-the-original title judgement, the `aiDerivedTitle`/`lectureTitle` semantics, the `userTitle` precedence, the order of operations, and the structuring rules (headings, filler removal, LaTeX, Q&A blockquotes, no added content). Output: `Structured transcript/structured-transcript.md`. Added to `lectureStages` in `src/cli/run-cli.ts`, which is what makes it run.
 
 **Tests:**
 
@@ -443,23 +443,23 @@ Integration tests for the runner following the move:
 
 ---
 
-## Phase 7 — Stage 4: Transcript Verification
+## Phase 7 — `transcript-verification`
 
-**Goal:** Report what Stage 3's structuring lost, underexplained, distorted, or invented, without letting the verdict stop anything.
+**Goal:** Report what `transcript-structuring` lost, underexplained, distorted, or invented, without letting the verdict stop anything.
 
 **Deliverables:**
 
 `src/pipeline/stages/transcript-verification.prompt.ts` **(TD §5, "Where prompts live")** — `buildVerificationMessages`. The assessment method carried over verbatim from the prompt that produced `docs/quality/`, with the reply contract appended. No test file of its own; the stage's tests exercise it.
 
-`src/pipeline/stages/transcript-verification.ts` **(TD Stage 4)** — a single JSON-mode call carrying the raw transcript and the structured one, writing the report to `Transcript verification/verification-report.json` and its readable view to `verification-report.md` beside it. Offers only the faithfulness categories of `QaDeficiencyType`. Added to `lectureStages` in `src/cli/run-cli.ts`, which is what makes it run.
+`src/pipeline/stages/transcript-verification.ts` **(TD §5, `transcript-verification`)** — a single JSON-mode call carrying the raw transcript and the structured one, writing the report to `Transcript verification/verification-report.json` and its readable view to `verification-report.md` beside it. Offers only the faithfulness categories of `QaDeficiencyType`. Added to `lectureStages` in `src/cli/run-cli.ts`, which is what makes it run.
 
-`src/pipeline/stages/transcript-verification.view.ts` **(TD Stage 4, "The findings are also written as a document")** — `renderVerificationReport`, turning a stored report into the page a person reads. Its own file and its own suite, because the view is provisional: when the checker no longer needs reading by eye, this file and the layout's `readableView` come out together.
+`src/pipeline/stages/transcript-verification.view.ts` **(TD §5, `transcript-verification`, "The findings are also written as a document")** — `renderVerificationReport`, turning a stored report into the page a person reads. Its own file and its own suite, because the view is provisional: when the checker no longer needs reading by eye, this file and the layout's `readableView` come out together.
 
-`readableView` in `STAGE_WORKSPACE`, with `StageWithReadableView`, `stageReadableViewEntry` and `stageReadableViewPath` **(TD §3.3)**, and `writeStageOutputWithReadableView` in `src/pipeline/stages/pipeline-stage.ts` **(TD §4.2)** — a stage's output may now be accompanied by a rendering of itself, written and recorded in the same act as the output. Stage 4 is the only stage that declares one.
+`readableView` in `STAGE_WORKSPACE`, with `StageWithReadableView`, `stageReadableViewEntry` and `stageReadableViewPath` **(TD §3.3)**, and `writeStageOutputWithReadableView` in `src/pipeline/stages/pipeline-stage.ts` **(TD §4.2)** — a stage's output may now be accompanied by a rendering of itself, written and recorded in the same act as the output. `transcript-verification` is the only stage that declares one.
 
 `QA_SEVERITIES` in `src/types/pipeline.ts` **(TD §4.1)** — the three severities as an ordered list, worst first, with `QaSeverity` derived from it as `StageId` is from `STAGE_IDS`. The stage validates a reply against it and the view orders findings by it, and an ordering written beside a membership check is the same fact twice.
 
-`src/pipeline/stages/model-stage.ts` **(TD §6, "A stage asks for a JSON reply through one shared act")** — `requestJsonReply`, plus the dependency pair and run arguments every model-calling stage takes. Extracted here because Stage 4 is the second stage to do all three, and Stage 3 moves onto it in the same change. No test file of its own; both stages' suites exercise it, each failure included.
+`src/pipeline/stages/model-stage.ts` **(TD §6, "A stage asks for a JSON reply through one shared act")** — `requestJsonReply`, plus the dependency pair and run arguments every model-calling stage takes. Extracted here because `transcript-verification` is the second stage to do all three, and `transcript-structuring` moves onto it in the same change. No test file of its own; both stages' suites exercise it, each failure included.
 
 The stage set gains a tenth entry **(TD §4.1)** — `STAGE_IDS`, `STAGE_WORKSPACE`, the cost report's labels and the config example all follow from it; the manifest, config keys, `--from-stage` validation and the run log derive from `STAGE_IDS` and need no edit.
 
@@ -510,15 +510,205 @@ Skipping when the report is present, re-running under `--from-stage`, recording 
 
 ---
 
-## Phase 8 — Stage 5: Slide Conversion
+## Phase 8 — One Folder per Stage
+
+**Goal:** Give every stage a folder of its own before the first stage made of several files arrives. Behaviour does not change.
+
+**Deliverables:**
+
+Each existing stage's module, prompt module, readable view, the parts only it uses, and their tests move into `src/pipeline/stages/<stage-id>/`; `pipeline-stage.ts` and `model-stage.ts` stay one level up **(TD §9, "Each stage owns a folder")**.
+
+An ESLint zone forbidding a stage folder from importing another's, beside the existing infrastructure-never-imports-a-stage zone **(TD §9)**.
+
+Every doc naming a moved file is updated in the same commit.
+
+**Tests:** None new. Every existing suite passes with only its import paths changed; a suite whose assertions change is a sign the move changed behaviour.
+
+**Acceptance:** A pipeline run produces what it did before the move; the gate passes; a stage folder importing another's fails lint.
+
+---
+
+## Phase 9 — Panel Runs
+
+**Goal:** One shared behaviour for any stage that makes a panel of independent model runs: bounded concurrency, each run saved as it completes, resume on relaunch, resend on an empty or malformed reply.
+
+**Deliverables:**
+
+`src/pipeline/stages/panel-runs.ts` **(TD §5, "Dividing the transcript", Panel runs; TD §8, "Intra-Stage Resumability")** — the whole of the panel-run behaviour the TD describes, each of its failures a named error.
+
+**Tests:**
+
+Unit tests (a stand-in stage; mock `makeCompletionCall`; fake timers for the pause):
+- `should return every run when all sends succeed`
+- `should resend a run when its reply is $failure` — `test.each` across empty, not JSON, and the wrong shape
+- `should keep the run when a resend succeeds after two failures`
+- `should fail naming the run and the last cause when a run fails its third send`
+- `should wait longer before each resend when a run keeps failing`
+- `should never have more runs in flight than the stage's concurrency when the panel is larger`
+- `should make runs one at a time when the stage sets no concurrency`
+- `should count the cost of every send when some sends failed`
+
+Integration tests (real temp directory):
+- `should save each run to its own file when it completes`
+- `should make only the missing runs when some were saved before a relaunch`
+- `should fail when a saved run cannot be read`
+- `should make every run again when the stage is reset with --from-stage`
+
+**Acceptance:** A stand-in stage's panel survives empty replies, a crash part-way, and a relaunch, paying only for the runs it had not yet made; the existing single-call stages behave as before.
+
+---
+
+## Phase 10 — `initial-subtopic-splitting`
+
+**Goal:** Cut the whole transcript into subtopics, once per splitting run in the panel.
+
+**Deliverables:**
+
+`src/pipeline/stages/division.ts` **(TD §5, "Dividing the transcript")** — `placeCuts`, `sliceSubtopics`, `assertLossless`, shared by the three division stages.
+
+`src/pipeline/stages/initial-subtopic-splitting/` **(TD §5, `initial-subtopic-splitting`)** — the stage and its prompt module, the prototype's `s6` byte for byte. Added to `lectureStages` after transcription.
+
+The stage set gains `initial-subtopic-splitting` after `transcription` in `STAGE_IDS`, with its `STAGE_WORKSPACE` entry and cost-report label **(TD §3.3, §4.1)**; each later division phase adds its own stage the same way, after the one before. Old manifests need no migration, since a missing entry reads as not yet run.
+
+The required `division` section — `panelSize`, `bar`, `sizeGateWords` — in `PipelineConfig`, its validation, `pipeline-config.example.json` and the user's own `pipeline-config.json`; the stage's entry in the example config **(TD §6)**.
+
+**Tests:**
+
+Unit tests for `division.ts` (no mocks):
+- `should cut at the quote when it matches the transcript exactly`
+- `should find the quote when its case or spacing differs from the transcript`
+- `should move the cut back to the sentence start when the quote begins $n words into its sentence` — `test.each` across one and two
+- `should search forward from the previous cut when the quote also appears earlier`
+- `should report the quote when it cannot be found`
+- `should reproduce the transcript exactly when the subtopics are joined`
+- `should fail when joined subtopics differ from the transcript`
+
+Unit tests for the stage (mock `makeCompletionCall`):
+- `should send the whole transcript with the s6 prompt when a run is made`
+- `should save each subtopic's start, end, label and reason when a run completes`
+- `should treat a run as failed when one of its quotes cannot be found`
+
+Unit tests for the config:
+- `should fail to load when the division section is $state` — `test.each` across missing, and each field missing or not a whole number of at least 1
+- `should fail to load when the bar exceeds the panel size`
+
+**Replay against the prototype:** a script in `docs/quality/segmentation-prototype/` feeds every saved prototype `s6` reply, across all eight lectures, through `placeCuts` and `sliceSubtopics`, and reports any run whose cut positions differ from the prototype's own run file. Every difference is explained or fixed. The script and its results stay in the prototype.
+
+**Live run:** the stage runs on one lecture; its subtopic counts and cut sites are compared with the range the prototype's `s6` runs showed on that lecture. The cost is stated before the run.
+
+**Acceptance:** A transcribed lecture gains nine initial splitting runs, each reproducing the transcript exactly; replay matches the prototype; the live run falls within the prototype's range.
+
+---
+
+## Phase 11 — `deepen-subtopic-splitting`
+
+**Goal:** Divide further, in every splitting run, each subtopic over the size gate.
+
+**Deliverables:**
+
+`src/pipeline/stages/deepen-subtopic-splitting/` **(TD §5, `deepen-subtopic-splitting`)** — the stage and its prompt module, the prototype's `d9` byte for byte; its entry in the example config. Added to `lectureStages`.
+
+**Tests:**
+
+Unit tests (mock `makeCompletionCall`):
+- `should send only the subtopics over the size gate when a run is deepened`
+- `should leave a subtopic unchanged when the reply says it is one step`
+- `should add the cuts inside the subtopic when the reply divides it`
+- `should ignore a cut proposed outside its subtopic when the reply places one there`
+- `should send a piece again when it is still over the gate after one round`
+- `should stop after two rounds when a piece stays over the gate`
+- `should fail the stage when a subtopic fails every send` — never recorded as one step
+- `should reproduce the transcript exactly when a deepened run is joined`
+
+**Replay against the prototype:** as Phase 10, with the prototype's saved `d9` replies and deepened runs.
+
+**Live run:** on the Phase 10 lecture, comparing deepened subtopic counts with the prototype's `d9` range.
+
+**Acceptance:** Every initial run gains a deepened run, with no subtopic over the gate unless two rounds could not divide it; replay matches; the live run falls within range.
+
+---
+
+## Phase 12 — `vote-cut-sites`
+
+**Goal:** Combine the deepened runs into one voted division. No model call.
+
+**Deliverables:**
+
+`src/pipeline/stages/vote-cut-sites/` **(TD §5, `vote-cut-sites`)** — `voteCutSites` and the stage around it. Added to `lectureStages`.
+
+**Tests:**
+
+Unit tests (no mocks):
+- `should put cuts in one site when they lie within one percent of the site's first cut`
+- `should open a new site when a cut lies beyond one percent of the site's first cut` — even when it is within one percent of the previous cut
+- `should keep a cut site when its support reaches the bar`
+- `should drop a cut site when its support falls short of the bar`
+- `should cut at the position most runs chose when a kept site holds several`
+- `should cut at the earliest position when two positions tie`
+- `should carry every run's label with its count when runs cut at a subtopic's start`
+- `should give the first subtopic every run's first label`
+- `should reproduce the transcript exactly when the voted subtopics are joined`
+- `should fail when fewer deepened runs are present than the panel size`
+
+**Replay against the prototype:** the prototype's deepened runs 1–9 for each of the eight lectures, voted at bar 5, must equal its saved voted divisions exactly.
+
+**Live run:** the vote over Phase 11's live deepened runs, compared with the prototype's voted subtopic count and cut sites on that lecture.
+
+**Acceptance:** A lecture gains one voted division reproducing the transcript exactly; replay matches on all eight lectures.
+
+---
+
+## Phase 13 — `define-topics`
+
+**Goal:** Group the voted subtopics into topics by a panel of grouping runs and keep the modal grouping. Choosing subtopic labels and judging the lecture title are not in this phase.
+
+**Deliverables:**
+
+`src/pipeline/stages/define-topics/` **(TD §5, `define-topics`)** — the stage, its prompt module (the prototype's `g12` without labels, byte for byte), and `modal-grouping.ts` with `chooseGrouping`. Added to `lectureStages`.
+
+The required `grouping` section — `panelSize` — in `PipelineConfig`, its validation, the example config and the user's own; the stage's entry in the example config **(TD §6)**.
+
+The manifest records a stage's own facts **(TD §4.5, "A stage may record facts of its own")**: `define-topics`' entry type carrying `grouping`, a way for a stage's result to carry it, the runner writing it with `complete`, and `skipped` carrying it over.
+
+**Tests:**
+
+Unit tests for `chooseGrouping` (no mocks):
+- `should choose the grouping most runs made when one leads`
+- `should treat runs as the same grouping when their starts match and their labels differ`
+- `should choose the tied run with least total disagreement when groupings tie`
+- `should choose the run with least total disagreement when no grouping repeats`
+- `should choose the earliest run when the disagreement totals also tie`
+- `should report how the grouping was chosen and how many runs made it`
+
+Unit tests for the stage (mock `makeCompletionCall`):
+- `should send each subtopic's position and trimmed text and no label when a run is made`
+- `should treat a reply as the wrong shape when $problem` — `test.each` across not starting at 1, starts not rising, a start past the last subtopic
+- `should write each topic's label and first subtopic from the chosen run when the stage completes`
+- `should leave groupedBecause out of the topics when the stage completes`
+
+Unit tests for the config: as Phase 10, for the `grouping` section.
+
+Integration tests (real temp directory):
+- `should record how the grouping was chosen in the manifest when the stage completes`
+- `should keep the grouping record when the stage is later skipped`
+
+**Replay against the prototype:** the prototype's saved `g12` Gemini 3.7 runs, per lecture, through `chooseGrouping`; the result must equal the modal grouping recomputed from the same runs. The prototype's own choosing script was lost, so the expected answer is recomputed, and the results say so.
+
+**Live run:** on the Phase 10 lecture, comparing topic count and starts with the prototype's `g12` range.
+
+**Acceptance:** A lecture gains nine grouping runs and a topics file holding the modal grouping, and its manifest records how that grouping was chosen, surviving a skip; replay matches.
+
+---
+
+## Phase 14 — `slide-conversion`
 
 **Goal:** Vision LLM extraction of content from each slide, with intra-stage resumability and controlled concurrency.
 
 **Deliverables:**
 
-`src/pipeline/stages/slide-conversion.ts` — the whole of **TD Stage 5**: PDF-to-PNG rendering, the per-slide vision call and its prompt, intra-stage resumability, bounded concurrency, the in-flight progress bar, concatenation, and `--from-stage` cleanup.
+`src/pipeline/stages/slide-conversion.ts` — the whole of **TD §5, `slide-conversion`**: PDF-to-PNG rendering, the per-slide vision call and its prompt, intra-stage resumability, bounded concurrency, the in-flight progress bar, concatenation, and `--from-stage` cleanup.
 
-`createParallelWorkBar` in `src/utils/progress.ts` **(TD §10)** — the in-flight-suffix bar, built here rather than in Phase 2 because this stage and Stage 6 are what it has to serve.
+`createParallelWorkBar` in `src/utils/progress.ts` **(TD §10)** — the in-flight-suffix bar, built here rather than in Phase 2 because this stage and `image-extraction` are what it has to serve.
 
 **Tests:**
 
@@ -536,13 +726,13 @@ Integration tests (real temp directory; real small PDF fixture):
 
 ---
 
-## Phase 9 — Stage 6: Image Extraction and Labelling
+## Phase 15 — `image-extraction`
 
 **Goal:** Identify academic figures within each slide PNG, crop them with `sharp`, and produce an `images-manifest.json`.
 
 **Deliverables:**
 
-`src/pipeline/stages/image-extraction.ts` — the whole of **TD Stage 6**: the per-slide vision call and its figure schema, the relevance and type exclusions, percentage-to-pixel cropping with `sharp`, the per-figure PNG and caption files, and `images-manifest.json`.
+`src/pipeline/stages/image-extraction.ts` — the whole of **TD §5, `image-extraction`**: the per-slide vision call and its figure schema, the relevance and type exclusions, percentage-to-pixel cropping with `sharp`, the per-figure PNG and caption files, and `images-manifest.json`.
 
 **Tests:**
 
@@ -559,13 +749,13 @@ Integration tests (real temp directory; real slide PNG fixture):
 
 ---
 
-## Phase 10 — Stage 7: Synthesis
+## Phase 16 — `synthesis`
 
 **Goal:** Single LLM call assembling transcript, slide content, and figure captions into textbook-style notes in British English.
 
 **Deliverables:**
 
-`src/pipeline/stages/synthesis.ts` — the whole of **TD Stage 7**: context assembly from the structured transcript, slide content, and figure captions; the token-budget estimate and the chunking fallback above it; and the synthesis prompt and its output structure.
+`src/pipeline/stages/synthesis.ts` — the whole of **TD §5, `synthesis`**: context assembly from the structured transcript, slide content, and figure captions; the token-budget estimate and the chunking fallback above it; and the synthesis prompt and its output structure.
 
 **Tests:**
 
@@ -580,13 +770,13 @@ Unit tests:
 
 ---
 
-## Phase 11 — Stage 8: QA Loop
+## Phase 17 — `qa-loop`
 
 **Goal:** Iterative quality check and revision cycle; writes the final `QA checked/notes.md`.
 
 **Deliverables:**
 
-`src/pipeline/stages/qa-loop.ts` — the whole of **TD Stage 8**: the two-prompt checker/reviser design and both prompts, the per-type reviser action table (including the NFR-1.3 prohibition on grounding an unsourced addition in a new source), the per-iteration files, all three loop-termination conditions, and the final `QA checked/` write.
+`src/pipeline/stages/qa-loop.ts` — the whole of **TD §5, `qa-loop`**: the two-prompt checker/reviser design and both prompts, the per-type reviser action table (including the NFR-1.3 prohibition on grounding an unsourced addition in a new source), the per-iteration files, all three loop-termination conditions, and the final `QA checked/` write.
 
 **Tests:**
 
@@ -608,13 +798,13 @@ Integration tests (real temp directory):
 
 ---
 
-## Phase 12 — Stage 9: PDF Generation
+## Phase 18 — `pdf-generation`
 
 **Goal:** Convert `QA checked/notes.md` to PDF via pandoc and deposit in `Final output/`, the module directory the stage owns.
 
 **Deliverables:**
 
-`src/pipeline/stages/pdf-generation.ts` — the whole of **TD Stage 9**: the cached `pandoc` and `xelatex` pre-flight checks and their install hints, the `spawn` invocation with its explicit argv array, stderr capture on a non-zero exit, and the output filename assembled from `StageContext` through `filenameSafe` (TD §4.4).
+`src/pipeline/stages/pdf-generation.ts` — the whole of **TD §5, `pdf-generation`**: the cached `pandoc` and `xelatex` pre-flight checks and their install hints, the `spawn` invocation with its explicit argv array, stderr capture on a non-zero exit, and the output filename assembled from `StageContext` through `filenameSafe` (TD §4.4).
 
 **Tests:**
 
@@ -635,18 +825,18 @@ Integration tests (`pdf-generation.integration.test.ts`) — requires pandoc and
 
 ---
 
-## Phase 13 — End-to-End Validation
+## Phase 19 — End-to-End Validation
 
 **Goal:** Run the full pipeline against a real lecture and verify output quality and pipeline mechanics.
 
 **Activities:**
-1. Run Stage 0 against the Biology of Disease source folder; verify workspace folders and renamed source files
+1. Run `source-normalisation` against the Biology of Disease source folder; verify workspace folders and renamed source files
 2. Run full pipeline on one lecture; verify manifest state and run log after each stage
 3. Verify the three-section cost report is correct and matches run log data
 4. Verify the final PDF opens and is readable
-5. Simulate a mid-run failure (kill process during Stage 5); verify resumability on restart
+5. Simulate a mid-run failure (kill process during `slide-conversion`); verify resumability on restart
 6. Run `--from-stage slide-conversion` on a completed lecture; verify fresh extraction and downstream re-run
-7. Add a new lecture to the source folder; re-run Stage 0; verify re-numbering propagates correctly
+7. Add a new lecture to the source folder; re-run `source-normalisation`; verify re-numbering propagates correctly
 8. Run batch mode across all lectures; verify sequential processing and batch summary output
 
 **Acceptance:** Full pipeline produces a readable, well-structured PDF from a real lecture video and slides; all pipeline mechanics (resumability, re-runs, re-numbering, cost reporting) work correctly against real data.

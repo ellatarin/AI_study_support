@@ -146,10 +146,11 @@ _Avoid_: review cycle, polish pass, refinement
 
 ### Dividing a transcript
 
-*Vocabulary of the segmentation work — the change of the unit of work from "the whole transcript" to one piece of it at a time. There are two levels of granularity, found by separate model calls: the transcript is cut into subtopics, and those subtopics are then grouped into topics. Not yet part of the pipeline.*
+*Vocabulary of the segmentation work — the change of the unit of work from "the whole transcript" to one piece of it at a time. There are two levels of granularity, found by separate model calls: the transcript is cut into subtopics, and those subtopics are then grouped into topics.*
 
 **Subtopic**:
 The finer of the two levels: one continuous stretch of transcript on a single point, and the unit the transcript is actually cut into. Fixed once cut — whatever groups them afterwards may not split one, merge two, reorder them, or alter their text.
+A subtopic is one thing together with what the lecturer brings to bear on it: its mechanism, what it causes, the conclusion it supports. Moving from a thing to its mechanism, a cause to its effect, or a claim to its evidence stays inside the subtopic. Taking up a different thing — another mechanism, another agent — starts a new one, even when all of them serve the same larger point. Cases that illustrate a point stay with it unless each is a substantial passage in its own right, and then all of them become subtopics, never some. The lecture's opening framing and its closing housekeeping are each a subtopic of their own.
 _Avoid_: section, block, topic block, chunk, segment
 
 **Topic**:
@@ -188,29 +189,41 @@ _Avoid_: clustering, merging, roll-up
 One attempt at grouping one lecture's finished subtopics into topics. Separate from a splitting run, and repeated for the same reason: the grouping of the same subtopics varies from one attempt to the next.
 _Avoid_: run (alone), trial
 
-**Singleton**:
-A topic made of exactly one subtopic. Not wrong in itself, but the rate of them is watched: a grouping that returns mostly singletons has not really grouped anything.
-_Avoid_: orphan, lone topic
-
-**Kind rule**:
-The constraint that subtopics differing in kind do not share a topic — a chemical agent and a biological one, an experiment in living animals and one in cultured cells — however adjacent they are in the lecture, and however much they serve the same argument. A thing and its own mechanism are exempt.
-_Avoid_: grouping rule, similarity rule, cohesion rule
+**Modal grouping**:
+The grouping that the most runs in a grouping panel made, where two runs made the same grouping if their topics start at the same subtopics, whatever they named them. When no grouping has the most runs, the tie goes to whichever of the tied runs disagrees least with the rest. The whole grouping is taken from one run. It is not a vote on each topic start, which could assemble a grouping no run made.
+_Avoid_: majority grouping, consensus, vote
 
 **Panel**:
-A set of repeated splitting runs over one lecture, voted over so that a cut site survives only if enough of the runs cut there. What turns a prompt that is usually right into a division that is reliably right.
+A set of repeated runs of one step over one lecture, combined into a single result. A splitting panel is voted over, so that a cut site survives only if enough of the runs cut there; a grouping panel yields its **modal grouping**. What turns a prompt that is usually right into a result that is reliably right.
 _Avoid_: sample, ensemble, trial set
 
 **Support**:
-How many of a panel's splitting runs cut at a cut site, said as a count out of the panel: "14 of 18".
+How many of a panel's splitting runs cut at a cut site, said as a count out of the panel: "6 of 9".
 _Avoid_: votes (as a count), supporters, frequency
 
 **Bar**:
-The share of a panel's splitting runs a cut site needs to be kept. Set by weighing how wide a range of bars still gives the right division, not by which single bar scores best, because a lecture nobody has ruled needs the margin.
+The number of a panel's splitting runs a cut site needs to be kept.
 _Avoid_: threshold, cutoff, quorum
 
-**Unanimous** / **Kept** / **Contested** / **Rare**:
-Where a cut site stands against the bar. Unanimous: every splitting run cut there. Kept: its support reaches the bar. Contested: its support sits so close to the bar, either side, that where the bar is set decides it rather than the model. Rare: a quarter of the runs or fewer cut there.
+**Kept**:
+A cut site whose support reaches the bar. Only kept cut sites divide the voted subtopics.
+_Avoid_: accepted, passed
+
+**Losslessness**:
+The guarantee that a divided transcript is still the original transcript: its subtopics, joined in order, are the transcript character for character. Any difference is a bug, never a tolerance.
+_Avoid_: fidelity, accuracy, integrity
+
+#### Measuring the division
+
+*Words for judging how well splitting and grouping work. The pipeline does not use them; they belong to testing a prompt or a model.*
+
+**Unanimous** / **Contested** / **Rare**:
+Where a cut site stands against the bar. Unanimous: every splitting run cut there. Contested: its support sits so close to the bar, either side, that where the bar is set decides it rather than the model. Rare: a quarter of the runs or fewer cut there.
 _Avoid_: strong, weak, borderline, noise
+
+**Singleton**:
+A topic made of exactly one subtopic. Not wrong in itself, but the rate of them is watched: a grouping that returns mostly singletons has not really grouped anything.
+_Avoid_: orphan, lone topic
 
 **Consistency**:
 How alike a panel's splitting runs are. For any two runs, the share of their cut sites that both cut at; averaged over every pair. Needs no ruled division, so it can be measured on a lecture nobody has ruled — unlike scoring, which asks whether a division is right and needs one.
@@ -223,7 +236,3 @@ _Avoid_: ground truth, gold standard, expected output
 **Rubric**:
 The topic-level counterpart to a ruled division: the named things one lecture's grouping must get right, taken from the user's critique of a grouping run. A lecture with no rubric of its own is unjudged rather than failed, and its grouping runs are scored as neither.
 _Avoid_: criteria (as a bare noun), checklist, test cases
-
-**Losslessness**:
-The guarantee that a divided transcript is still the original transcript: every change must be a deletion, and only a handful of characters may go. An insertion or a substitution is rejected however small, because a model tidying `50 mils` into `50 mm` is the same size of edit as tidying a seam.
-_Avoid_: fidelity, accuracy, integrity
