@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic frames the lecture by connecting it to earlier histopathology practicals and outlining the session's learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Viruses and the Discovery of Cellular Oncogenes",
+      "groupedBecause": "These subtopics explain how the investigation of transforming tumor viruses revealed cellular proto-oncogenes and established laboratory assays for testing cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Concepts and Mechanisms of Oncogenes and Tumor Suppressors",
+      "groupedBecause": "These subtopics define oncogenes and tumor suppressor genes and describe their distinct genetic mechanisms and regulatory effects in cell cycle control.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and Progression of Genetic Instability in Cancer",
+      "groupedBecause": "These subtopics examine the molecular failures in DNA repair, replication, and mitosis that generate genetic instability and explain how this instability accelerates multi-step tumor progression.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Hereditary Cancer Predisposition",
+      "groupedBecause": "These subtopics explore the genetics of inherited cancer predisposition syndromes and their implications for tumor evolution and malignancy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture Conclusion and Recommended Reading",
+      "groupedBecause": "This subtopic provides the concluding framing with an offer to answer questions, suggested reading, and a preview of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

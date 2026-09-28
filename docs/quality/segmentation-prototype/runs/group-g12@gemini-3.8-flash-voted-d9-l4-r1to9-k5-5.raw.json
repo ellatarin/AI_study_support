@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "This opening subtopic introduces the lecturer, outlines the scope of the lecture series, and presents the session's key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic mutational processes versus environmental drivers of cancer",
+      "groupedBecause": "These subtopics introduce cancer as an evolutionary genetic disease and explore the debate over whether malignancies are primarily driven by intrinsic random mutations or environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogen-driven carcinogenesis and Burkitt lymphoma",
+      "groupedBecause": "These subtopics examine how infectious pathogens drive oncogenesis, focusing on Burkitt lymphoma as a model of infection-associated malignant transformation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Biochemical mechanisms of chemical and physical mutagens",
+      "groupedBecause": "These subtopics explain the biochemical mechanisms through which physical radiation and metabolically activated chemical carcinogens induce DNA damage and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, microenvironment, and host tissue susceptibility",
+      "groupedBecause": "These subtopics explore how non-mutagenic promotional processes, microenvironmental inflammation, and cellular proliferative states cooperate with mutations to facilitate tumor development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying carcinogen exposure and proving carcinogenicity",
+      "groupedBecause": "These subtopics examine the experimental, genomic, and epidemiological methodologies used to identify carcinogen exposures and evaluate whether specific agents cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing remarks on cancer risk and exposure balance",
+      "groupedBecause": "This closing subtopic reviews the main takeaways on environmental carcinogenesis and reflects on how individuals weigh the risks and benefits of various exposures.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

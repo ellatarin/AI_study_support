@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, sets out the scope of the cancer lecture series, and outlines the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Biological Nature of Cancer and Origins of Mutations",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease and examine the primary endogenous and exogenous sources that generate oncogenic mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and the Bad Luck Debate",
+      "groupedBecause": "These subtopics examine known and suspected environmental carcinogens alongside the epidemiological evidence and debate concerning whether cancer incidence is primarily driven by external exposures or random intrinsic mutations.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Agents and Pathogen-Driven Carcinogenesis",
+      "groupedBecause": "These subtopics explain how biological pathogens can induce malignancy, using Burkitt lymphoma to illustrate how coinfection, immunosuppression, and rapid proliferation facilitate oncogenic translocations.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of DNA Damage by Chemical and Physical Mutagens",
+      "groupedBecause": "These subtopics describe how specific dietary, chemical, and physical agents induce DNA damage either directly or through xenobiotic metabolic activation into reactive compounds.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Developmental Susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic mechanisms of carcinogenesis, focusing on how chronic inflammation, tumor promoters, and host developmental timing provide a permissive microenvironment for malignancy.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, animal, and in vitro experimental approaches used to identify carcinogens and establish their carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "This subtopic concludes the lecture by framing carcinogenic exposure as a balance of risks and benefits and summarizing the primary challenges in assessing carcinogens.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

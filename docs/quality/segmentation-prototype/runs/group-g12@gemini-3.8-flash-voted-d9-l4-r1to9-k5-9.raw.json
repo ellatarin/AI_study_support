@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "This subtopic introduces the lecturer, places the session within the broader cancer course, and outlines the main learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as an Evolutionary Genetic Disease",
+      "groupedBecause": "These subtopics explain the fundamental biology of cancer as an evolutionary genetic disease driven by the cumulative acquisition of cellular mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence",
+      "groupedBecause": "These subtopics evaluate the evidence that environmental exposures, rather than purely random biological bad luck, drive population-level cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Agents and Oncogenesis",
+      "groupedBecause": "These subtopics explain how pathogens contribute to cancer development, using Burkitt lymphoma and its association with Epstein-Barr virus and malaria as a key example.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics describe the molecular mechanisms through which chemical and physical carcinogens cause DNA damage and genetic mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Promotion, Microenvironment, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine how non-mutagenic promotional processes and host tissue context provide the permissive conditions required for mutated cells to form tumours.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Determining Carcinogenicity",
+      "groupedBecause": "These subtopics review the scientific methodologies used to identify mutagenic exposures and evaluate whether environmental agents cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk Assessment",
+      "groupedBecause": "This subtopic provides the lecturer's concluding remarks on the everyday balance between carcinogenic risks and practical benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

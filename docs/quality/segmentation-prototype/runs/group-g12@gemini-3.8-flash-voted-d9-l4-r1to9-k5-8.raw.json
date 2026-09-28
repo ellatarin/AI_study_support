@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the scope of the cancer lecture series, and the specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Pathogenesis and the Origins of Oncogenic Mutations",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease and explain the fundamental biological processes that generate oncogenic mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and the 'Bad Luck' Debate",
+      "groupedBecause": "These subtopics evaluate the evidence for environmental causes of cancer in contrast to intrinsic random mutation or 'bad luck'.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens in Cancer Etiology",
+      "groupedBecause": "These subtopics explain how infectious pathogens contribute to oncogenesis, highlighting Burkitt lymphoma as a model of pathogen cooperation and chromosomal translocation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which physical and chemical mutagens cause DNA damage, particularly through metabolic activation and adduct formation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Context",
+      "groupedBecause": "These subtopics explore non-mutagenic factors and microenvironmental conditions that promote the proliferation and outgrowth of initiated cells.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Identifying and Testing Carcinogens",
+      "groupedBecause": "These subtopics evaluate the laboratory and observational methodologies used to detect carcinogen exposure and determine whether agents cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk–Benefit Perspectives",
+      "groupedBecause": "This subtopic concludes the lecture by summarising key themes and framing cancer prevention around daily risk-versus-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

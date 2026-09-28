@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer welcomes the class, outlines the scope of the cancer lecture series, and introduces the key learning objectives regarding cancer causation and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Biological Nature of Cancer and Mutational Origins",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease influenced by the cellular microenvironment and introduce the primary mechanisms generating oncogenic mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and the Cancer Causation Debate",
+      "groupedBecause": "These subtopics examine how environmental exposures influence cancer incidence in the context of the scientific debate and epidemiological evidence comparing intrinsic replicative errors to preventable external factors.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Agents and Pathogen-Driven Oncogenesis",
+      "groupedBecause": "These subtopics explore how biological pathogens contribute to malignancy through immune evasion, chronic inflammation, and genetic alteration, detailed through the paradigm of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens: Metabolic Activation and DNA Damage",
+      "groupedBecause": "These subtopics examine the biochemical pathways by which chemical carcinogens and physical radiation cause DNA adducts and mutations, emphasizing the role of xenobiotic metabolism.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Host Susceptibility, and Carcinogenesis Mechanisms",
+      "groupedBecause": "These subtopics explain non-mutagenic drivers of cancer, focusing on how tumor promoters, chronic inflammation, and the developmental proliferative state of host tissues facilitate malignant outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics outline the complementary scientific strategies used to assess carcinogen exposure and prove carcinogenic potential across genomics, population epidemiology, animal bioassays, and in vitro tests.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion: Risk-Benefit Analysis and Lecture Wrap-Up",
+      "groupedBecause": "The lecturer concludes the session by summarizing key concepts and framing carcinogen exposure as an everyday balance between risk and practical benefit.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

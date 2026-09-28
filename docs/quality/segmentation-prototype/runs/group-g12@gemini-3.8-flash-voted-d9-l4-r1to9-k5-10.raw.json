@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, sets the course context, and outlines the key learning outcomes regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal evolution and mutational origins of cancer",
+      "groupedBecause": "These subtopics define cancer as an evolutionary process driven by cumulative mutations that arise from endogenous cellular stresses, environmental exposures, and inherited predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental versus intrinsic contributions to cancer risk",
+      "groupedBecause": "These subtopics examine the debate and epidemiological evidence regarding the extent to which cancer development is driven by external environmental exposures compared to random intrinsic mutations.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "These subtopics explain how viral and bacterial infections contribute to malignancy, examining Burkitt lymphoma as a detailed case study of pathogen-driven cancer.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Biochemical mechanisms of chemical and physical mutagens",
+      "groupedBecause": "These subtopics detail the biochemical pathways through which environmental, dietary, and physical carcinogens undergo metabolic activation to induce DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, chronic inflammation, and host tissue susceptibility",
+      "groupedBecause": "These subtopics examine how non-mutagenic factors, inflammatory responses, and host developmental stages establish permissive environments that foster tumor development alongside mutational initiation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics review the laboratory, computational, and epidemiological methodologies used to establish carcinogenic exposure and evaluate the cancer-causing potential of various agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Risk-benefit tradeoffs and lecture conclusion",
+      "groupedBecause": "This subtopic closes the lecture by framing carcinogen exposure within everyday risk-benefit decision-making and summarising the main themes.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

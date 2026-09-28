@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic provides the opening framing by introducing the lecturer, setting the lecture within the course, and outlining key learning objectives on cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Intrinsic Factors, Environment, and the 'Bad Luck' Debate",
+      "groupedBecause": "These subtopics establish cancer as an evolutionary genetic disease and evaluate whether its development is primarily governed by intrinsic biological chance or preventable environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and Infectious Drivers of Malignancy",
+      "groupedBecause": "These subtopics examine how infectious pathogens drive oncogenesis, focusing on Burkitt lymphoma as a primary case study of pathogen interplay and chromosomal translocation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which chemical and physical mutagens damage DNA, emphasizing metabolic activation, adduct formation, and reactive intermediates.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Two-Stage Carcinogenesis, and Host Susceptibility",
+      "groupedBecause": "These subtopics distinguish tumor promoters and chronic inflammatory microenvironments from direct mutagens, analyzing two-stage carcinogenesis and host developmental susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Identifying and Testing Carcinogens",
+      "groupedBecause": "These subtopics evaluate the complementary genomic, epidemiological, and experimental methodologies used to identify and prove the carcinogenicity of environmental agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing Framing and Risk-Benefit Decisions",
+      "groupedBecause": "This subtopic provides the closing framing for the lecture, summarizing key takeaways and framing cancer prevention around individual and societal risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}
