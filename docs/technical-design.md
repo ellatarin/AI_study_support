@@ -1017,6 +1017,68 @@ The `v1` in that route is the ElevenLabs **API** version, not the Scribe version
 
 ---
 
+### Dividing the transcript — `initial-subtopic-splitting`, `deepen-subtopic-splitting`, `vote-cut-sites`
+
+Three stages turn the transcript into subtopics. No single splitting run is reliable enough on its own: the same prompt on the same transcript cuts in different places from one run to the next. So the lecture is divided nine times over, and a cut survives only where enough of the nine agree. The first two stages make the nine splitting runs; the third votes over them and makes no model call, so the vote can be re-run at a different bar without paying for anything again.
+
+The design was settled in the segmentation prototype (`docs/quality/segmentation-prototype/`), which holds the measurements behind every number below. The prompts are the prototype's `s6` and `d9`, carried over word for word.
+
+**The model never returns text.** Every call is asked only where a subtopic begins, as its first eight to twelve words. Code finds those words in the transcript and cuts there, so each subtopic is sliced from the original and the division always reproduces the transcript exactly. Every stage checks this before writing: its subtopics, joined in order, must equal the transcript character for character. A mismatch is a bug and fails the stage.
+
+**Finding a quote.** A quote is searched for with case and whitespace ignored, forward from the previous cut, because the model tidies capitalisation and spacing even when told not to. The cut is made in the original text at the matching position. When the quote begins one or two words into its sentence — the model having dropped the lecturer's opening "So", "Now" or similar — the cut moves back to the start of the sentence, so no subtopic ends halfway through one. A quote that cannot be found is never guessed at.
+
+**Configuration.** Each of the two model-calling stages has its own model, as every stage does (§6). The division's own settings live in one `division` section of `pipeline-config.json`: `panelSize` (9), `bar` (5, the number of the panel's runs a cut site needs), and `sizeGateWords` (600). The tolerance within which two cuts are one cut site — one percent of the transcript's length — is fixed in code, not configured: it is a measured property of how runs disagree, not a choice.
+
+#### `initial-subtopic-splitting`
+
+**Input:** `Transcript/transcript.txt`
+**Output:** `Initial subtopics/run-01.json` … `run-09.json`
+
+Makes `panelSize` splitting runs, each an independent call that sends the whole transcript with the `s6` prompt and gets back the opening words of every subtopic. Each run is written as soon as it is complete, holding each subtopic's start and end position in the transcript, its label, and the model's one-sentence reason for grouping it. A re-launched stage keeps the run files already written and makes only the missing ones.
+
+A send can fail in four ways: no reply, a reply that is not JSON, a reply of the wrong shape, or a quote that cannot be found. Any of them sends the transcript again, up to three sends for one run. A run still failing after the third send fails the stage: a division missing a cut would cast a wrong vote on that cut site, and the principle is to fail loudly rather than record a partial result.
+
+#### `deepen-subtopic-splitting`
+
+**Input:** `Transcript/transcript.txt`, `Initial subtopics/run-*.json`
+**Output:** `Deepened subtopics/run-01.json` … `run-09.json`
+
+For each initial run, every subtopic over the size gate is sent on its own with the `d9` prompt, which asks whether it divides further and, if so, where. The reply is either "one step" or a list of cuts, and a cut is looked for only inside the subtopic it was proposed for, so deepening can add cuts but never move or remove one. Subtopics at or under the size gate are never sent and cannot be disturbed. A piece still over the gate after being cut is sent again, for at most two rounds. Word counts are made by code.
+
+A call that fails — no reply, not JSON, the wrong shape — is tried again after a pause that grows with each attempt, up to three attempts. A subtopic that fails all three fails the stage. Leaving it whole would record "this subtopic is one step", which the model never said, and the vote would count it.
+
+Calls are made a few at a time rather than all at once: one run can have a dozen subtopics over the gate, and nine runs sent together overload the provider. Each deepened run is written as soon as it is complete, and a re-launched stage makes only the missing ones.
+
+#### `vote-cut-sites`
+
+**Input:** `Transcript/transcript.txt`, `Deepened subtopics/run-*.json`
+**Output:** `Voted subtopics/subtopics.json`
+
+Makes no model call. The cuts of all the deepened runs are pooled and sorted by position, and grouped into cut sites: a cut belongs to the current cut site when it lies within one percent of the transcript's length of that site's **first** cut, and otherwise opens a new one. Measuring from the first cut rather than the latest stops a site growing cut by cut until it has swallowed a neighbour. A cut site's support is the number of runs with a cut in it; one with support of at least `bar` is kept.
+
+A kept cut site is cut at the exact position most of its runs chose — the earliest, if two positions tie — so the voted cut always falls exactly where some run's cut fell and never between two runs' choices.
+
+Each voted subtopic carries the labels its runs gave it: every run that cut at the subtopic's start contributes its label, identical labels are counted together, and the list is written with each label's count. The first subtopic takes every run's first label. `define-topics` chooses each subtopic's label from this list; the vote does not choose one, because choosing needs judgement and the vote makes no model call.
+
+The stage fails when fewer than `panelSize` deepened runs are present.
+
+```typescript
+// src/pipeline/stages/division.ts — shared by the three stages
+type Subtopic = { from: number; to: number; label: string; why: string }
+placeCuts(args: { text: string; quotes: readonly string[] }):
+  { cuts: readonly number[] } | { unplaced: string }
+// Finds each quote in turn, forward from the previous cut, and returns the character positions to cut at.
+sliceSubtopics(args: { text: string; cuts: readonly number[]; named: readonly { label: string; why: string }[] }): readonly Subtopic[]
+assertLossless(args: { text: string; subtopics: readonly Subtopic[] }): void
+
+// src/pipeline/stages/vote-cut-sites.ts
+type CandidateLabel = { label: string; runs: number }
+type VotedSubtopic = { from: number; to: number; labels: readonly CandidateLabel[] }
+voteCutSites(args: { text: string; runs: readonly (readonly Subtopic[])[]; bar: number }): readonly VotedSubtopic[]
+```
+
+---
+
 ### Stage 3 — Transcript Structuring (includes title determination)
 
 **Input:** `Transcript/transcript.txt`

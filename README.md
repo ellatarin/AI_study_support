@@ -50,40 +50,42 @@ re-run from it or stop after it.
    the files consistent names, and creates a working folder for each new lecture.
 2. **`extract-audio`.** Takes the audio track from the recording.
 3. **`transcribe`.** Sends the audio to ElevenLabs for a verbatim transcript.
-4. **`initial-subtopic-splitting`.** Cuts the whole transcript into **subtopics**. This and the next two
-   stages divide the transcript so that later stages work on one part of the lecture at a time rather
-   than the whole of it at once. Splitting the work up into small pieces leads to much more reliable
-   performance against the key faithfulness requirements.
-5. **`deepen-subtopic-splitting`.** Sends back only the subtopics that came out too long (over 600
-   words), to be divided further.
-6. **`define-topics`.** Groups the subtopics into **topics**, and judges whether the lecturer's title is
-   meaningful.
-7. **`render-slides`.** Renders each slide as an image.
-8. **`read-slides`.** A vision model writes out everything on each slide.
-9. **`verify-slides`.** A checker compares each slide's written-out content with the slide image and
-   lists anything missed, misread or added, and a separate reviser corrects it.
-10. **`extract-figures`.** Finds the academically useful figures on the slides, crops and captions them,
+4. **`initial-subtopic-splitting`.** Cuts the whole transcript into **subtopics**, nine separate times.
+   This and the next three stages divide the transcript so that later stages work on one part of the
+   lecture at a time rather than the whole of it at once. Splitting the work up into small pieces leads
+   to much more reliable performance against the key faithfulness requirements.
+5. **`deepen-subtopic-splitting`.** In each of the nine divisions, sends back only the subtopics that
+   came out too long (over 600 words), to be divided further.
+6. **`vote-cut-sites`.** Keeps a cut only where at least five of the nine divisions made it. No single
+   division is reliable on its own; the vote is. It uses no AI model, so it can be re-run for free.
+7. **`define-topics`.** Chooses each subtopic's label from the ones the nine divisions gave it, groups
+   the subtopics into **topics**, and judges whether the lecturer's title is meaningful.
+8. **`render-slides`.** Renders each slide as an image.
+9. **`read-slides`.** A vision model writes out everything on each slide.
+10. **`verify-slides`.** A checker compares each slide's written-out content with the slide image and
+    lists anything missed, misread or added, and a separate reviser corrects it.
+11. **`extract-figures`.** Finds the academically useful figures on the slides, crops and captions them,
     and leaves out logos and decoration.
-11. **`verify-figures`.** A checker confirms each caption matches its figure, that the figure was
+12. **`verify-figures`.** A checker confirms each caption matches its figure, that the figure was
     captured whole, and that nothing academic was left out as decoration, and a separate reviser
     corrects what it finds.
-12. **`assign-slides`.** Decides which slides, with their figures, belong to which topic. A slide that
+13. **`assign-slides`.** Decides which slides, with their figures, belong to which topic. A slide that
     belongs to no topic is flagged: it holds content the lecturer never spoke about.
-13. **`merge-slides`.** Adds each topic's slide content and figures into the lecturer's words, at the
+14. **`merge-slides`.** Adds each topic's slide content and figures into the lecturer's words, at the
     points where they are discussed. The model says only where each slide fact or figure belongs; code
     inserts it, so the lecturer's words come through untouched.
-14. **`verify-merge`.** Checks that every slide fact and figure was placed, in a sensible place, and that
+15. **`verify-merge`.** Checks that every slide fact and figure was placed, in a sensible place, and that
     nothing was added that is not on a slide, and a separate reviser corrects what it finds.
-15. **`write-topics`.** Rewrites each merged topic as textbook prose. This is the one rewrite, made with
+16. **`write-topics`.** Rewrites each merged topic as textbook prose. This is the one rewrite, made with
     everything already in hand.
-16. **`verify-topics`.** Checks each topic's prose against its merged topic: nothing lost, nothing
+17. **`verify-topics`.** Checks each topic's prose against its merged topic: nothing lost, nothing
     added, nothing distorted. A separate reviser fixes what it finds, and the check repeats until it
     passes.
-17. **`assemble-chapter`.** Joins the topics into one chapter, with transitions between them and a
+18. **`assemble-chapter`.** Joins the topics into one chapter, with transitions between them and a
     glossary.
-18. **`verify-chapter`.** Checks that joining the topics lost nothing and added nothing, and fixes what
+19. **`verify-chapter`.** Checks that joining the topics lost nothing and added nothing, and fixes what
     it finds.
-19. **`generate-pdf`.** Converts the chapter to a PDF and places it in `Final output/`.
+20. **`generate-pdf`.** Converts the chapter to a PDF and places it in `Final output/`.
 
 
 Transcription uses ElevenLabs. Every other model call goes through OpenRouter, so any model it offers can be assigned to any stage.
@@ -138,6 +140,7 @@ lecture-notes change-date <date> <new date>
 | `transcribe` | Built |
 | `initial-subtopic-splitting` | Prototype |
 | `deepen-subtopic-splitting` | Prototype |
+| `vote-cut-sites` | Prototype |
 | `define-topics` | Prototype |
 | `render-slides` | Designed, not built |
 | `read-slides` | Designed, not built |
