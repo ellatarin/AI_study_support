@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Welcome and Context",
+      "groupedBecause": "The lecturer opens the session by framing the significance, complexity, and scope of complement within the broader immunology course.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of Complement and C3 Activation",
+      "groupedBecause": "These subtopics establish the core organizational principles, nomenclature conventions, and central biochemical mechanics of C3 activation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of Complement Activation",
+      "groupedBecause": "These subtopics explain the three upstream recognition pathways that drive C3 convertase formation and establish the complement activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Mechanisms of Complement",
+      "groupedBecause": "These subtopics detail the downstream effector mechanisms by which activated complement clears pathogens through opsonization, inflammation, and direct lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation and Self-Protection Mechanisms",
+      "groupedBecause": "This subtopic explains how regulatory proteins prevent host cell destruction by modulating and inactivating complement on host surfaces.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Consequences of Complement Deficiencies",
+      "groupedBecause": "This subtopic examines how genetic or acquired deficiencies across different complement proteins produce distinct clinical pathologies.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion Strategies and Applications",
+      "groupedBecause": "This subtopic describes the evolutionary mechanisms used by pathogens to circumvent complement-mediated destruction and their practical uses in the laboratory.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Outlook",
+      "groupedBecause": "The lecturer closes the session and previews the upcoming lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

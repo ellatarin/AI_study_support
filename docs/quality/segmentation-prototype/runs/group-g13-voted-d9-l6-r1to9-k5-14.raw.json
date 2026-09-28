@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks",
+      "groupedBecause": "These remarks introduce the lecture topic, learning outcomes, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Proliferative Signaling and Growth Inhibition Pathways",
+      "groupedBecause": "These subtopics explain how mutations in signaling cascades such as Wnt/beta-catenin, RTK-MAPK, and PI3K-AKT drive sustained proliferation and evade growth suppression.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumor Development",
+      "groupedBecause": "These subtopics examine how blocks in terminal cell differentiation contribute to malignancy in both hematological and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic details how mutations in p53 and apoptotic regulatory proteins enable cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Signaling",
+      "groupedBecause": "These subtopics explore how cancer cells overcome the Hayflick limit via telomerase activation alongside the normal p53-mediated stress and senescence response.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Rewiring and the Warburg Effect",
+      "groupedBecause": "These subtopics transition to complex cancer hallmarks and examine the mechanisms of altered cellular metabolism, including aerobic glycolysis and oncometabolite signaling.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics describe the biological necessity, timing, and regulatory balance of new blood vessel formation in supporting tumor growth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Metastasis and Circulatory Dissemination",
+      "groupedBecause": "This subtopic details the multistep cascade of metastatic spread, its anatomical routes, diagnostic tracking, and associated genomic alterations.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Summary and Closing Remarks",
+      "groupedBecause": "These remarks conclude the lecture by summarising the integration of cancer hallmarks, referencing recent literature, and inviting questions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

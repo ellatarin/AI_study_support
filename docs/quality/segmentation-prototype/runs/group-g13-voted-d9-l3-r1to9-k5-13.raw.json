@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines intended learning outcomes, and welcomes students from various academic backgrounds.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a genetic and developmental disease of differentiation",
+      "groupedBecause": "These subtopics explain how cumulative genetic and epigenetic changes cause a breakdown in normal cellular differentiation, tissue architecture, and cellular models.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, malignancy, and nomenclature",
+      "groupedBecause": "These subtopics characterize the transition from benign to invasive malignant neoplasms through histological progression models and standard clinical naming conventions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the mechanical, metabolic, and metastatic mechanisms through which localized and disseminated tumors cause illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence and comparative oncology",
+      "groupedBecause": "These subtopics examine the epidemiological frequency and mortality of tumor types across human populations and diverse animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and practices of cancer screening",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, diagnostic methods, and relative efficacy of screening programs across different cancer types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This subtopic provides the closing framing by recapping the lecture outcomes and giving instructions for upcoming practicals and sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

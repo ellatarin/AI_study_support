@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and sets out the learning aims regarding cancer treatment approaches and their modes of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics cover traditional treatment modalities including surgical resection, radiotherapy, and cytotoxic chemotherapeutics, detailing their mechanisms, systemic toxicities, and drug resistance via efflux pumps.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cellular Vulnerabilities and Checkpoint Defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that selectively target cancer cell vulnerabilities, such as hormone dependence, defective cell cycle checkpoints, oncolytic viral sensitivity, and synthetic lethality in DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting Oncogenic Kinases and Mechanisms of Resistance",
+      "groupedBecause": "These subtopics explain the rationale of oncogene addiction, the design of small-molecule kinase inhibitors targeting ATP-binding pockets, and the subsequent emergence of resistance mutations, bypass pathways, and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Therapeutic Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics describe antibody-based interventions used to block receptor signaling, recruit immune effector mechanisms, or deliver targeted cytotoxic payloads directly to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune Surveillance and Immune Checkpoint Blockade",
+      "groupedBecause": "These subtopics evaluate the evidence for anti-tumor immune responses and examine the therapeutic reactivation of exhausted T cells using checkpoint inhibitors against tumor neoantigens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Cellular and Bispecific Immunotherapies",
+      "groupedBecause": "These subtopics discuss engineered immunological strategies designed to redirect or enhance T-cell cytotoxicity against cancer cells, specifically bispecific T-cell engagers and chimeric antigen receptor T-cell therapies.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Systemic Challenges, Historical Progress, and Future Directions",
+      "groupedBecause": "These subtopics synthesise the broader landscape of cancer treatment by considering tumor heterogeneity, historical survival trends, early detection, and the future clinical and ethical dilemmas of patient management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

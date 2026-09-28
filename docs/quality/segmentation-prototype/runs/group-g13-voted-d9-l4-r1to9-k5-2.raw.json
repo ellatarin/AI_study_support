@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the course structure, and the core learning objectives concerning the causes and mechanisms of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of Cancer Etiology: Genetics, Bad Luck, and Environmental Influences",
+      "groupedBecause": "These subtopics introduce cancer as an evolutionary and genetic disease, exploring how intrinsic cellular processes, stochastic bad luck, and environmental exposures interact based on epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogen-Driven Carcinogenesis and the Burkitt Lymphoma Model",
+      "groupedBecause": "These subtopics discuss how infectious pathogens contribute to malignancy, focusing on Burkitt lymphoma as a case study of viral and parasitic co-factors driving genetic translocations.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Xenobiotic Activation",
+      "groupedBecause": "These subtopics examine how physical radiation and chemical exposures undergo direct action or metabolic activation via xenobiotic pathways to form mutagenic DNA adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics address non-mutagenic mechanisms of carcinogenesis, illustrating how promoters, inflammatory microenvironments, and host developmental stages permit tumor outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Identifying and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics explore the genomic, epidemiological, in vivo, and in vitro experimental strategies used to detect carcinogen exposures and evaluate carcinogenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Summary and Risk-Benefit Considerations",
+      "groupedBecause": "The lecturer concludes the lecture by summarising the environmental basis of cancer and discussing the balance between practical benefits and carcinogenic risks in daily life.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

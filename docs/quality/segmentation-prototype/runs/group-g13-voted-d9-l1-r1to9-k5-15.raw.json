@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "This subtopic introduces the lecture by outlining its focus on the initiation and resolution of inflammation using previously introduced immune concepts.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen Recognition Receptors and Danger Sensing",
+      "groupedBecause": "These subtopics explain how the innate immune system identifies infections and cellular damage through pattern recognition receptors, specific ligand properties, and intracellular signaling complexes like the inflammasome.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Sentinel Cell Signaling, Leukocyte Recruitment, and Systemic Inflammation",
+      "groupedBecause": "These subtopics explain how activated sentinel cells orchestrate leukocyte recruitment and lymphatic trafficking during an immune response and discuss the clinical danger of systemic inflammatory escalation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammatory Responses",
+      "groupedBecause": "These subtopics examine how acute inflammatory responses are resolved, how damaged tissue is repaired, and how unresolved inflammation develops into chronic disease or granuloma formation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on complement.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

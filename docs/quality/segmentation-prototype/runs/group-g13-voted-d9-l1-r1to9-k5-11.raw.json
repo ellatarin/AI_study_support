@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer introduces the scope of the lecture on how immune components coordinate the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and damage recognition by pattern recognition receptors",
+      "groupedBecause": "These subtopics explain the molecular mechanisms and receptor pathways used by the innate immune system to detect signs of infection and cellular damage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory mediator release, leukocyte recruitment, and systemic effects",
+      "groupedBecause": "These subtopics trace how innate immune activation drives cellular signaling, leukocyte migration to tissues and lymph nodes, and potentially dangerous systemic consequences.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "These subtopics examine how the immune system terminates inflammatory responses, repairs damaged tissue, and manages persistent insults through chronic inflammation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing remarks",
+      "groupedBecause": "The lecturer concludes the session and announces the topic for the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Tumor Progression",
+      "groupedBecause": "The lecturer introduces the learning objectives, the multistep model of tumor progression, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Autonomy and Evasion of Inhibitory Pathways",
+      "groupedBecause": "These subtopics explain how mutations in cell-surface receptors and downstream intracellular cascades drive uncontrolled cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumor Development",
+      "groupedBecause": "These subtopics examine how mutations disrupt normal cell differentiation across hematopoietic and intestinal tissues to maintain an immature, proliferative state.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This section details how genetic alterations in p53 and mitochondrial apoptotic regulators allow cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics describe how cancer cells overcome the Hayflick limit and normal p53-mediated stress responses through telomerase reactivation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Rewiring and the Warburg Effect",
+      "groupedBecause": "These subtopics explore how tumor cells shift toward aerobic glycolysis and accumulate oncometabolites that drive epigenetic and transcriptional reprogramming.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "These subtopics address the requirement for new blood vessel formation to supply growing tumors with oxygen and nutrients.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Dynamics of Cancer Metastasis",
+      "groupedBecause": "This section analyzes the multi-step metastatic cascade, dissemination routes, and the seed-and-soil interactions governing distant tumor colonization.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Summary and Closing Remarks",
+      "groupedBecause": "The lecturer concludes the session with a recap of cancer hallmarks and information regarding practical sessions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer introduces the lecture, links it to previous practical work, and outlines the session's learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Virology and Identification of Transforming Oncogenes",
+      "groupedBecause": "These subtopics trace how the study of transforming tumor viruses revealed cellular proto-oncogenes and established experimental assays for cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenes, Tumor Suppressor Genes, and Mutation Phenotypes",
+      "groupedBecause": "These subtopics define the mechanistic classifications of cancer genes and illustrate how dominant, recessive, and dominant-negative mutations disrupt cell cycle control.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Forms, Mechanisms, and Progression of Genetic Instability",
+      "groupedBecause": "These subtopics examine how specific defects in DNA repair, replication, and mitotic chromosome segregation cause sequence or chromosomal instability during multistep tumorigenesis.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Hereditary Cancer Predisposition Syndromes",
+      "groupedBecause": "These subtopics explain how inherited germline mutations accelerate cancer development and influence tumor evolution.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer closes the session, provides a recommended reading resource, and previews the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "This subtopic introduces the lecture on the initiation and resolution of inflammation and outlines how familiar immune components will be integrated.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Recognition of Pathogens and Cellular Damage",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which the innate immune system senses microbial infections and tissue injury through PAMPs, DAMPs, pattern recognition receptors, and downstream signaling complexes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular Dynamics and Physiological Consequences of Inflammation",
+      "groupedBecause": "These subtopics describe how activated immune and endothelial cells coordinate leukocyte recruitment and trafficking, as well as the systemic physiological consequences of severe inflammatory activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Pathology",
+      "groupedBecause": "These subtopics examine how acute inflammation is resolved, how damaged tissue undergoes repair, and how persistent stimuli lead to chronic inflammation and granuloma formation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Next Lecture Preview",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on the complement system.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

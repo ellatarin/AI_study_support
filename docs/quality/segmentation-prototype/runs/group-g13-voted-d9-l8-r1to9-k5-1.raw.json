@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer welcomes the class and outlines the core learning objectives for the final lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Localized Modalities: Surgery and Radiotherapy",
+      "groupedBecause": "This subtopic explores localized intervention modalities including surgical resection and radiotherapy alongside the fundamental challenge of sparing healthy tissue.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic Chemotherapy and Drug Resistance",
+      "groupedBecause": "These subtopics discuss the mechanisms of action, clinical applications, systemic toxicities, and efflux-mediated resistance pathways of conventional cytotoxic drugs.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Exploiting Cancer Cell Vulnerabilities and Repair Defects",
+      "groupedBecause": "These subtopics explain therapeutic strategies that leverage cancer-specific vulnerabilities, including hormonal dependencies, checkpoint defects, and synthetic lethality in DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase Inhibitors and Mechanisms of Resistance",
+      "groupedBecause": "These subtopics examine targeted small-molecule inhibitors of hyperactivated oncogenic kinases and the molecular adaptations driving drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics describe therapeutics that use monoclonal antibodies to directly inhibit tumor signaling, initiate immune cytotoxicity, or selectively deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumor Immunosurveillance and Checkpoint Blockade",
+      "groupedBecause": "These subtopics explore host immune responses to tumors and the reactivation of exhausted T cells using immune checkpoint inhibitors targeting neoantigens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Adoptive and Engineered T-Cell Immunotherapies",
+      "groupedBecause": "These subtopics evaluate engineered immunotherapy strategies, including bispecific engagers and CAR T cells, designed to redirect cytotoxic T cells to tumor antigens.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Challenges, Progress, and Future Perspectives in Oncology",
+      "groupedBecause": "These subtopics reflect on historical clinical successes, contemporary therapeutic challenges, and future paradigms in cancer detection, prevention, and treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

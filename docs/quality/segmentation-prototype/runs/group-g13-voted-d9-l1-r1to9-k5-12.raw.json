@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic introduces the lecture topic on the initiation and resolution of inflammation and outlines how previously introduced immune components will be integrated.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition via PAMPs and DAMPs",
+      "groupedBecause": "These subtopics establish how the innate immune system detects infection and tissue injury by identifying conserved microbial and damage-associated molecular patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor pathways and the inflammasome",
+      "groupedBecause": "These subtopics examine specific receptor families and their downstream signaling mechanisms that drive pro-inflammatory gene transcription and cytokine maturation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Inflammatory cell recruitment, trafficking, and systemic effects",
+      "groupedBecause": "These subtopics trace how activated sentinel cells direct leukocyte extravasation into inflamed tissue, facilitate lymphatic drainage to lymph nodes, and potentially trigger severe systemic complications such as septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics explain the mechanisms that shut down acute inflammatory responses, mediate tissue healing, and manage persistent insults through chronic inflammation and granuloma formation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and next lecture preview",
+      "groupedBecause": "This subtopic concludes the presentation and announces the topic of the upcoming lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

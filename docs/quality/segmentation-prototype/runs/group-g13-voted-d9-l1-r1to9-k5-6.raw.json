@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "The lecturer introduces the session's focus on the initiation and resolution of inflammation, explaining how previously introduced immune components integrate to generate immune responses.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and Damage Recognition by the Innate Immune System",
+      "groupedBecause": "These subtopics examine how the innate immune system detects infections and tissue injury through conserved molecular patterns and dedicated pattern recognition receptor signaling cascades.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory Cascade, Leukocyte Recruitment, and Systemic Effects",
+      "groupedBecause": "These subtopics detail the cellular and vascular events that propagate the acute inflammatory response, coordinate leukocyte trafficking to tissues and lymphatics, and trigger systemic outcomes.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics address the mechanisms that shut down acute inflammation, direct tissue repair, and sustain chronic inflammatory conditions when resolution is incomplete.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the lecture and announces the upcoming topic.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

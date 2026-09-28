@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Course Overview",
+      "groupedBecause": "This subtopic welcomes the students, introduces the scope of the cancer biology lecture series, and outlines the primary learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Genetic Regulation and Tissue Architecture",
+      "groupedBecause": "These subtopics define cancer as a multistep disruption of genetic programming and developmental tissue organization while addressing the methods and challenges of modeling these cellular changes in culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Stepwise Progression",
+      "groupedBecause": "These subtopics detail the biological processes and histological hallmarks of local tissue invasion and distant metastasis, using the colorectal adenoma-to-carcinoma sequence as a primary example.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Benign Tumor Behavior and Tumor Nomenclature",
+      "groupedBecause": "These subtopics explain the clinical significance and physical risks associated with benign neoplasms alongside the standardized naming conventions used to classify benign and malignant tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Pathophysiology of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic describes the physiological mechanisms, mechanical obstructions, and systemic failures through which primary tumors and distant metastases cause patient illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Incidence and Comparative Oncology",
+      "groupedBecause": "These subtopics analyze patterns of cancer incidence and tissue susceptibility across human populations and diverse animal species to highlight cancer as a universal disease of multicellular differentiation.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Clinical Applications of Cancer Screening",
+      "groupedBecause": "These subtopics examine the clinical rationale for early cancer detection and compare the diagnostic approaches, effectiveness, and limitations of screening programs across different anatomical sites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion and Practical Preview",
+      "groupedBecause": "This subtopic concludes the session by reiterating the core learning outcomes and previewing the upcoming practical coursework.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

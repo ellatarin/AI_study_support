@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Therapy",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning objectives regarding cancer treatment approaches and mechanisms of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Modalities and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics examine traditional treatment approaches including surgery, radiotherapy, and cytotoxic chemotherapy, detailing their mechanisms of action, systemic toxicity, and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Cell Cycle and DNA Repair Vulnerabilities",
+      "groupedBecause": "These subtopics discuss strategies designed to exploit intrinsic cancer cell defects, including hormone receptor dependencies, cell cycle checkpoint alterations, and synthetic lethality in DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting Oncogenic Drivers and Kinase Inhibitors",
+      "groupedBecause": "These subtopics focus on targeted therapies directed against hyperactivated oncogenes and kinases, detailing small-molecule inhibitor design as well as mechanisms of pathway bypass and resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Therapeutic Monoclonal Antibodies and Conjugates",
+      "groupedBecause": "These subtopics cover the use of engineered antibodies to target cell-surface antigens, either through receptor blockade, immune-mediated cytotoxicity, or targeted delivery of cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Activation",
+      "groupedBecause": "These subtopics explore the immune system's role in tumor control and detail advanced immunotherapies, including immune checkpoint blockade, bispecific antibodies, and CAR T-cell engineering.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical Challenges, Future Perspectives, and Treatment Progress",
+      "groupedBecause": "These subtopics synthesize current hurdles in oncology such as tumor heterogeneity, historical trends in cancer incidence and survival, and emerging directions in personalized cancer medicine.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

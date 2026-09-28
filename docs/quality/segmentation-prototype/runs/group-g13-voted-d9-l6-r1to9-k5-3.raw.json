@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Hallmarks of Cancer",
+      "groupedBecause": "This opening subtopic introduces the lecture aims, context, and framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signaling and Insensitivity to Growth Inhibitors",
+      "groupedBecause": "These subtopics explain the molecular mechanisms and mutations underlying self-sufficient growth signaling and evasion of inhibitory pathways, focusing on Wnt, RTK, and TGF-beta cascades.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer",
+      "groupedBecause": "These subtopics examine how cancer cells fail to undergo terminal differentiation in both hematopoietic malignancies and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic explores how cancer cells evade programmed cell death through alterations in p53 and mitochondrial regulatory proteins like Bax and BCL2.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence",
+      "groupedBecause": "These subtopics discuss telomere biology, telomerase activation, and the normal stress-induced senescence mechanisms mediated by p53.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Metabolism and Rewiring",
+      "groupedBecause": "These subtopics transition to complex cellular phenotypes by examining aerobic glycolysis, the Warburg effect, oncometabolites, and metabolic interactions with the epigenome.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics cover the requirement for new blood vessel formation, the timing of the angiogenic switch during tumor progression, and its molecular balance.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Invasion and Metastasis",
+      "groupedBecause": "This subtopic examines the physical and biological processes of tumor dissemination, circulation survival, liquid biopsies, and the genetic features of metastatic disease.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Summary and Conclusion",
+      "groupedBecause": "This final subtopic provides concluding remarks on the integration of cancer hallmarks, references recent literature, and closes the lecture.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

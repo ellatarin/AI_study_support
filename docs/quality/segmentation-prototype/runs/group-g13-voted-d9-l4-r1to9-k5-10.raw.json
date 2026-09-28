@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This topic contains the lecturer's opening remarks, course overview, and learning objectives for the lecture on the causes of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Nature of Cancer and the Balance Between Intrinsic and Environmental Causes",
+      "groupedBecause": "These subtopics establish the biological basis of cancer development and explore the relative contributions of intrinsic cellular processes, genetics, and environmental exposures to overall cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and Infectious Drivers of Cancer",
+      "groupedBecause": "These subtopics explain how infectious pathogens drive carcinogenesis, detailing the collaborative role of Epstein-Barr virus and malaria in the etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical, Dietary, and Radiation Carcinogenesis",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms by which chemical carcinogens and radiation interact with cellular metabolism to induce DNA damage and mutational changes.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion and Chronic Inflammation",
+      "groupedBecause": "These subtopics explain the concept of tumor promotion, demonstrating how non-mutagenic stimuli and chronic inflammation facilitate the outgrowth of primed cells.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Developmental Timing and Summary of Carcinogenic Mechanisms",
+      "groupedBecause": "These subtopics examine how tissue developmental stage and host timing dictate susceptibility to carcinogens, concluding with a synthesis of carcinogenic mechanisms.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Identifying and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics survey the genomic, epidemiological, in vivo, and in vitro methodologies used to detect and prove the carcinogenicity of environmental agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "This topic concludes the lecture with a summary of environmental cancer risks, the challenges of determining carcinogenic potency, and the daily balance of risk versus benefit.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

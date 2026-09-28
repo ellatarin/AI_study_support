@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic provides the framing and introductory remarks for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals and central role of C3 in complement",
+      "groupedBecause": "These subtopics introduce the core architecture of the complement cascade, its naming conventions, and the pivotal biochemical role of C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways",
+      "groupedBecause": "These subtopics explain the three upstream recognition pathways that drive complement activation and surface deposition.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics describe the downstream immune processes through which activated complement destroys pathogens and clears infection.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement activation",
+      "groupedBecause": "This subtopic details the regulatory factors and mechanisms that protect host cells from accidental complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic examines the distinct pathological conditions and infection risks associated with deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic explores the molecular strategies pathogens deploy to overcome complement attacks, along with their clinical and laboratory applications.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic provides the concluding remarks and previews the next lecture in the series.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

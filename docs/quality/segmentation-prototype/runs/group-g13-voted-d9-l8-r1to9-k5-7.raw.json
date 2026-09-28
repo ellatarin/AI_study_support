@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "It introduces the final lecture of the course and outlines the learning objectives regarding cancer therapies and their modes of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Modalities: Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "They examine traditional local and systemic cancer treatments—including surgical resection, radiation, and cytotoxic drugs—along with their systemic toxicities and efflux-mediated drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Vulnerabilities and Repair Defects",
+      "groupedBecause": "They explore therapeutic strategies that exploit cancer-specific weaknesses, such as hormone receptor dependencies, cell-cycle checkpoint deficiencies, and DNA repair defects through synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase Inhibitors, Resistance Pathways, and Drug Addiction",
+      "groupedBecause": "They examine targeted therapies directed at oncogenic kinases, detailing ATP-binding site inhibition, gatekeeper mutations, bypass resistance mechanisms, and paradoxical drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Therapeutic Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "They describe the use of monoclonal antibodies to target tumor surface proteins, either directly through signaling blockade and effector cytotoxicity or as conjugates delivering cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Engineering",
+      "groupedBecause": "They discuss methods for mobilizing the adaptive immune system against cancer, covering immune surveillance, immune checkpoint inhibitors, neoantigens, bispecific antibodies, and chimeric antigen receptor T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, Historical Progress, and Future Paradigms in Cancer Care",
+      "groupedBecause": "They evaluate the overarching challenges in clinical oncology, long-term survival trends, emerging prevention and biomarker strategies, and concluding insights from combination chemotherapy successes.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, its multidisciplinary audience, and the key learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Disruption of Cellular Differentiation and Tissue Architecture",
+      "groupedBecause": "These subtopics define cancer as a failure of normal developmental differentiation and genetic control, discussing how these changes alter tissue architecture and how researchers attempt to model them in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Metastasis, and Histological Progression of Tumors",
+      "groupedBecause": "These subtopics explore the clinical and histological distinction between benign and malignant tumors, using the colorectal adenoma-to-carcinoma sequence to demonstrate how invasiveness and metastatic spread develop.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature and Classification",
+      "groupedBecause": "This subtopic outlines the standard conventions and notable exceptions for naming tumors based on their tissue of origin and malignant potential.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic describes how primary mass effects, organ obstruction, bone erosion, and widespread metastatic colonization cause severe illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative Cancer Incidence Across Humans and Other Species",
+      "groupedBecause": "These subtopics review epidemiological frequencies of major human tumor types and compare cancer occurrence across domestic animals and diverse multicellular organisms.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical Principles and Organ-Specific Modalities of Cancer Screening",
+      "groupedBecause": "These subtopics evaluate the rationale, effectiveness, and limitations of screening programs for detecting pre-malignant and early-stage cancers across different anatomical sites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion and Practical Preparation",
+      "groupedBecause": "This subtopic concludes the lecture by reiterating the core learning outcomes and pointing forward to upcoming practical sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

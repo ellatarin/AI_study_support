@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer frames the session by reviewing prior histopathology practicals and setting out the core learning outcomes on cellular transformation, oncogenes, and genetic instability.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Discovery of oncogenes through tumor virology and transformation assays",
+      "groupedBecause": "These subtopics explore the historical study of transforming viruses, the realization that viral oncogenes derive from cellular proto-oncogenes, and the experimental laboratory assays used to measure cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Functional properties and mutation mechanics of oncogenes and tumor suppressor genes",
+      "groupedBecause": "These subtopics define the functional categories of cancer-associated genes, illustrate their regulatory roles in cell cycle checkpoints, and examine the genetic consequences of dominant, recessive, and dominant-negative mutations.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms, pathways, and consequences of genetic instability",
+      "groupedBecause": "These subtopics describe the distinctions between sequence and chromosomal instability, detailing the specific failures in DNA repair, replication, and mitotic segregation that generate genome-wide abnormalities.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep tumor progression and hereditary cancer predisposition",
+      "groupedBecause": "These subtopics explain the stepwise accumulation of mutations in tumor development and how inherited germline mutations accelerate this progression across distinct cancer predisposition syndromes.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "The lecturer concludes the presentation by confirming the coverage of learning objectives, recommending follow-up reading, and previewing the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

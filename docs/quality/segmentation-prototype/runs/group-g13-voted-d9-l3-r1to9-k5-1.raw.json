@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Course Overview",
+      "groupedBecause": "The lecturer introduces the cancer biology lecture series, the interdisciplinary student audience, and the core learning outcomes of the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Normal Differentiation and Genetic Regulation",
+      "groupedBecause": "They explore the fundamental nature of cancer as a breakdown of developmental differentiation and tissue architecture driven by accumulated genetic and epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinctions, Progression, and Nomenclature of Benign and Malignant Tumours",
+      "groupedBecause": "They establish the diagnostic criteria, histological progression, and standardized nomenclature used to differentiate benign from malignant neoplasms.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer-Induced Disease and Death",
+      "groupedBecause": "It explains the physiological and anatomical mechanisms by which primary and metastatic tumors impair organ function and cause patient mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Incidence Across Human Populations and Animal Species",
+      "groupedBecause": "They examine the epidemiology, frequency, and tissue distribution of tumors across human populations and diverse animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Practice of Cancer Screening",
+      "groupedBecause": "They evaluate the clinical rationale, methodologies, and relative effectiveness of screening programs for early cancer detection across different organ sites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion and Practical Briefing",
+      "groupedBecause": "The lecturer concludes the session by referencing the learning outcomes and outlining expectations for upcoming practicals and lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

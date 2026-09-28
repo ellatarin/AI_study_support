@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Inflammation Initiation and Resolution",
+      "groupedBecause": "The lecturer introduces the lecture topic on how immune components coordinate to initiate and resolve inflammatory reactions.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and Damage Recognition by Pattern Recognition Receptors",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which the innate immune system detects infection and cellular injury through conserved molecular patterns, receptor families, and intracellular sensing complexes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory Cascade: Cellular Activation, Trafficking, and Systemic Effects",
+      "groupedBecause": "These subtopics describe the cellular and physiological processes that execute an inflammatory response, from sentinel cell activation and leukocyte recruitment to lymphatic drainage and systemic pathology.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics detail the mechanisms responsible for shutting down inflammation, repairing damaged tissue, and establishing chronic or granulomatous responses when inflammation cannot be fully resolved.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Next Topic",
+      "groupedBecause": "The lecturer concludes the session and announces the subject of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

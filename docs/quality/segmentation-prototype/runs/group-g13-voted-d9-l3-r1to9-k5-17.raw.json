@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture series, outlines the expected learning outcomes, and welcomes students from diverse academic backgrounds.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of cellular differentiation and tissue architecture",
+      "groupedBecause": "They frame cancer as an accumulation of genetic and epigenetic changes that disrupt normal developmental differentiation and tissue organisation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and the benign-to-malignant transition",
+      "groupedBecause": "They describe the morphological and clinical distinctions between benign and malignant tumors and illustrate how tumors invade local tissues and progress toward malignancy.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Neoplasm nomenclature and classification",
+      "groupedBecause": "It outlines the naming conventions and clinical exceptions used to classify benign and malignant tumors according to their tissue of origin.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "It explains the local, mechanical, and systemic physiological mechanisms through which primary and metastatic tumors cause illness and patient death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor incidence in humans and comparative oncology",
+      "groupedBecause": "They examine the epidemiology of major cancer types across human populations and compare tumor incidence and vulnerability across diverse animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical presentation and cancer screening strategies",
+      "groupedBecause": "They examine initial clinical signs of cancer and evaluate the efficacy, methods, and limitations of population screening programs across various tumor types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "It concludes the lecture by reiterating the core learning outcomes and directing students to upcoming practical sessions and revision.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

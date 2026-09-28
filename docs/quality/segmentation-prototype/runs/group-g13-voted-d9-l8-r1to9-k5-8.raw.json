@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the final lecture and outlines the core learning objectives regarding cancer treatments and their modes of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics explore standard therapeutic approaches such as surgical resection, radiotherapy, and cytotoxic chemotherapy alongside their systemic toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics discuss therapeutic strategies that take advantage of cancer-specific vulnerabilities, including hormone dependencies, cell cycle checkpoint failures, and defective DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase inhibitors and mechanisms of drug resistance",
+      "groupedBecause": "These subtopics examine targeted small-molecule inhibitors directed at hyperactive oncogenic kinases and detail the molecular mechanisms that lead to drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the use of engineered antibodies to directly target tumor surface receptors, mediate cytotoxicity, and deliver lethal chemical payloads to malignant cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell redirection strategies",
+      "groupedBecause": "These subtopics examine how the immune system interacts with tumors and explore therapeutic strategies to activate and engineer T cells through checkpoint inhibitors, bispecific engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Broader challenges, historical progress, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics evaluate the overall clinical landscape of cancer treatment, including historical survival trends, barriers like tumor heterogeneity, and future directions in personalized care and trial design.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

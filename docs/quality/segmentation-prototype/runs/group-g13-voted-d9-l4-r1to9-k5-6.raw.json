@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic opens the lecture with administrative framing, the lecturer's background, and the primary learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic and Environmental Drivers of Cancer",
+      "groupedBecause": "These subtopics explore the biological basis of cancer development by contrasting intrinsic random mutations with environmental exposures and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Oncogenesis",
+      "groupedBecause": "These subtopics examine how infectious agents drive malignant transformation, focusing on chronic infection and the mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Carcinogens and Metabolic Activation",
+      "groupedBecause": "These subtopics explain how physical radiation and chemical compounds interact with host metabolic processes to induce DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics describe non-mutagenic mechanisms of carcinogenesis, focusing on how promotional signaling, chronic inflammation, and host developmental timing permit tumor outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Determining Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro experimental strategies used to detect and demonstrate carcinogenic effects.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Analysis",
+      "groupedBecause": "This subtopic concludes the lecture with framing remarks on evaluating carcinogen potency, exposure, and daily risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

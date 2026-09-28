@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer evolution",
+      "groupedBecause": "The lecturer introduces the core themes of the lecture including evolutionary selection, cellular origin, and microenvironmental influences alongside the key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cell-intrinsic genetic and epigenetic drivers of clonal selection",
+      "groupedBecause": "These subtopics explore how cell-intrinsic alterations confer selective fitness advantages and activate tumorigenic programs to drive clonal expansion.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and stem cell hierarchies in tumor initiation",
+      "groupedBecause": "These subtopics evaluate the role of tissue hierarchy and stemness properties in determining which cell types initiate and propagate tumors.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammatory microenvironmental promotion of incipient tumors",
+      "groupedBecause": "These subtopics demonstrate how external and local inflammatory signals act as promoters to induce stem-like oncogenic programs in cells carrying pre-existing mutations.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Stromal dependency in established tumors and therapeutic targeting",
+      "groupedBecause": "This subtopic addresses how established neoplasms depend on non-malignant microenvironmental cells for growth and how these interactions offer targets for therapy.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Methodologies for investigating tumor evolution and spatial architecture",
+      "groupedBecause": "This subtopic reviews the genomic, spatial transcriptomic, and computational techniques used to map cellular interactions and evolutionary lineages in tumors.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Integrated multi-factorial model of cancer evolution",
+      "groupedBecause": "This subtopic synthesises how genetic mutations, cellular origins, transcriptional plasticity, and microenvironmental forces converge to drive malignant progression.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer delivers concluding remarks and previews the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

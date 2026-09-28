@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture course overview",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, student background contexts, and the session's core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Carcinogenesis as a failure of genetic regulation and tissue differentiation",
+      "groupedBecause": "These subtopics describe how the accumulation of genetic alterations disrupts normal developmental differentiation programs and tissue architecture to initiate tumor growth.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and tumor progression",
+      "groupedBecause": "These subtopics explain how neoplasms are evaluated histologically for invasiveness and how benign lesions can progress into metastatic disease.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Neoplasm nomenclature",
+      "groupedBecause": "This subtopic outlines the standard conventions and exceptions used to name benign and malignant tumors according to their tissue of origin.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the anatomical and systemic mechanisms through which primary and metastatic tumors cause debilitating illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence across tissues and animal species",
+      "groupedBecause": "These subtopics examine patterns of tumor prevalence, tissue susceptibility, and mortality across human populations and other multicellular taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and clinical modalities of cancer screening",
+      "groupedBecause": "These subtopics evaluate the rationale, histological basis, and comparative efficacy of population screening programmes for early tumor detection.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion and practical preview",
+      "groupedBecause": "This subtopic closes the lecture with a recap of learning outcomes and practical course arrangements.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

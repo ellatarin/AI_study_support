@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Course Overview",
+      "groupedBecause": "This subtopic introduces the scope of the cancer biology lecture series, its multidisciplinary audience, and the key learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Cellular Differentiation and Tissue Organization",
+      "groupedBecause": "These subtopics establish the biological foundation of cancer as a multistep breakdown of normal developmental differentiation and three-dimensional tissue architecture, noting the challenges of modeling this in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Progression, and Nomenclature of Benign and Malignant Neoplasms",
+      "groupedBecause": "These subtopics examine how benign and malignant tumors are distinguished by basement membrane invasion and metastasis, illustrated through colorectal tumor progression and standard pathological nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic details the mechanical, systemic, and metabolic disruptions through which primary tumors and secondary metastases cause physical decline and patient death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative Oncology and Cancer Incidence Across Tissues and Species",
+      "groupedBecause": "These subtopics compare cancer incidence patterns across human tissue types and diverse animal taxa to demonstrate that neoplasia is a fundamental vulnerability of multicellular life.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical Presentation and Diagnostic Screening Strategies",
+      "groupedBecause": "These subtopics evaluate the principles, clinical efficacy, and practical challenges of population-level screening programs for early cancer detection.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion and Practical Briefing",
+      "groupedBecause": "This subtopic concludes the lecture by reviewing the learning outcomes and providing housekeeping notes for upcoming practicals and lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

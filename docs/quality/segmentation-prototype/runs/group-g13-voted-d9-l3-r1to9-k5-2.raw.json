@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Course Overview",
+      "groupedBecause": "This subtopic provides the introductory welcome, lecture framing, and learning outcomes for the cancer biology module.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Breakdown in Differentiation and Tissue Organization",
+      "groupedBecause": "These subtopics define cancer as a failure of regulated developmental programs and tissue architecture resulting from accumulated genetic changes, while considering how these cellular behaviors are modeled in the laboratory.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Malignant Progression",
+      "groupedBecause": "These subtopics examine how tumors transition from localized benign growths to invasive and metastatic malignancies, using histological criteria and the adenoma-carcinoma sequence as a model.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature and Classification",
+      "groupedBecause": "This subtopic outlines the standard terminology and clinical naming conventions used to categorize benign and malignant neoplasms across different tissue lineages.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mechanisms of Cancer Pathogenesis and Mortality",
+      "groupedBecause": "This subtopic explains the physical and systemic mechanisms by which primary and metastatic tumors impair normal organ function and lead to patient morbidity and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer Incidence Across Human Populations and Animal Species",
+      "groupedBecause": "These subtopics analyze the epidemiological distribution of tumor types in humans and examine comparative cancer incidence across multicellular animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Clinical Applications of Cancer Screening",
+      "groupedBecause": "These subtopics explore the rationale, diagnostic criteria, and clinical trade-offs of population screening strategies designed to detect pre-malignant lesions across various organs.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Conclusion and Practical Reminders",
+      "groupedBecause": "This subtopic concludes the lecture with a summary review of learning outcomes and practical session announcements.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

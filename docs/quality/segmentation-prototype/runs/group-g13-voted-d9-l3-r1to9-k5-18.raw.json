@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the multidisciplinary learning objectives, and sets out the scope of cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Developmental Foundations of Cancer",
+      "groupedBecause": "These subtopics define cancer as a stepwise breakdown of normal genetic regulation and developmental tissue differentiation and consider the laboratory approaches used to study these cellular changes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Progression",
+      "groupedBecause": "These subtopics examine the clinical and histological progression of tumors from localized, benign states to invasive and metastatic malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature and Classification",
+      "groupedBecause": "This subtopic outlines the systematic naming conventions and exceptions used to classify benign and malignant tumors across different tissue origins.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic explains the physical, functional, and systemic mechanisms through which primary and metastatic tumors cause clinical illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative Incidence of Tumors Across Species",
+      "groupedBecause": "These subtopics examine the incidence and prevalence of various benign and malignant tumor types in humans and across other multicellular animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical Detection and Cancer Screening",
+      "groupedBecause": "These subtopics discuss the rationale for early tumor detection and evaluate the implementation and effectiveness of screening programs across different cancer types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Summary and Closing Remarks",
+      "groupedBecause": "This subtopic wraps up the lecture by revisiting the learning outcomes and providing logistical instructions for upcoming practicals and sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer welcomes the class, outlines the framework for cancer evolution, and presents the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Selection and Epigenetic Dynamics in Cancer Development",
+      "groupedBecause": "These subtopics explain how pre-malignant growths evolve toward malignancy through the Darwinian selection of advantageous mutations alongside non-mutational epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem Cell Hierarchies and Cell of Origin in Tumorigenesis",
+      "groupedBecause": "These subtopics examine whether cancers initiate within tissue-specific stem cells or differentiated progenitor cells through hierarchical and stochastic models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Influences on Tumor Progression",
+      "groupedBecause": "These subtopics demonstrate how inflammatory signals, environmental promoting factors, and supportive stromal cells cooperate to enable both incipient and established tumor outgrowth.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Methodologies for Studying Cancer Evolution and the Microenvironment",
+      "groupedBecause": "This subtopic reviews the genomic, spatial, and computational technologies employed in the laboratory to map tumor evolution and microenvironmental interactions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Multi-Factor Evolutionary Framework of Cancer",
+      "groupedBecause": "This subtopic synthesizes how the convergence of mutational burden, cell of origin, epigenetic plasticity, and microenvironmental conditions drives cancer evolution.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer ends the lecture and previews the next session on cancer therapy.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

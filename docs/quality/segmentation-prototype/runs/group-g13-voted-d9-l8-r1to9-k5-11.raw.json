@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the final lecture of the course and outlines its learning objectives regarding cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics address foundational cancer treatment modalities, detailing the use of surgery, radiotherapy, and cytotoxic chemotherapy alongside mechanisms of drug action and resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer cell vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic cancer vulnerabilities, including hormone receptor dependency, cell cycle checkpoint defects, and synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics examine targeted therapy driven by oncogene addiction, detailing the design, application, resistance mechanisms, and paradoxical addiction associated with small-molecule kinase inhibitors.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe antibody-based therapeutics targeting cell-surface antigens, covering both unconjugated antibodies and antibody-drug conjugates delivering cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immune surveillance and immune checkpoint inhibition",
+      "groupedBecause": "These subtopics examine the evidence for immune surveillance against tumors and the application of immune checkpoint inhibitors to reinvigorate antitumor T-cell responses against neoantigens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Engineered T-cell immunotherapies",
+      "groupedBecause": "These subtopics discuss advanced immunotherapies that redirect or genetically reprogram T cells to target cancer cells, focusing on bispecific T-cell engagers and chimeric antigen receptor T cells.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Challenges, progress, and future directions in cancer therapy",
+      "groupedBecause": "These subtopics evaluate the broader clinical landscape of oncology, discussing systemic therapeutic challenges, historical survival trends, future treatment strategies, and clinical dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

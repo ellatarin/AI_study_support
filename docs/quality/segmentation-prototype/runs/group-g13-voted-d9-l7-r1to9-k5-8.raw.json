@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "The lecturer introduces the themes of cancer evolution, cell of origin, and the tumor microenvironment alongside the session's learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Selection and Epigenetic Drivers in Cancer Evolution",
+      "groupedBecause": "These subtopics explain how pre-malignant tissues evolve into cancer through the selective growth advantage of successive genetic mutations and epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Hierarchies",
+      "groupedBecause": "These subtopics investigate how tissue stem cells and progenitor hierarchies influence cancer initiation and propagation in leukemia and intestinal cancers.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Promotion of Tumor Outgrowth",
+      "groupedBecause": "These subtopics examine how external promoters, inflammatory signaling, and stromal dependencies provide permissive conditions for mutant cell expansion and established tumor maintenance.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Experimental Technologies for Mapping Tumor Evolution",
+      "groupedBecause": "This subtopic reviews the genomic, transcriptomic, and spatial profiling tools used to reconstruct the evolutionary history and cellular interactions of tumors.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Integrated Model of Cancer Evolution",
+      "groupedBecause": "This subtopic synthesizes the lecture by reviewing how mutational burden, epigenetic plasticity, cell of origin, and microenvironmental conditions intersect to drive malignancy.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Closing Framing",
+      "groupedBecause": "The lecturer concludes the session and previews the subsequent lecture on cancer therapy.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

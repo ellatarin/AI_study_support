@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecture theme on cancer evolution, contextualises it within previous lectures, and outlines the session's learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic Clonal Succession and Epigenetic Plasticity in Tumor Evolution",
+      "groupedBecause": "These subtopics explain how tumor progression is driven by the Darwinian selection of successive genetic mutations alongside non-mutational epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Stem Cell Hierarchies in Carcinogenesis",
+      "groupedBecause": "These subtopics evaluate how normal tissue hierarchies and stemness properties influence which cell types are susceptible to initiating and sustaining malignant growth.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Drivers of Tumor Progression",
+      "groupedBecause": "These subtopics demonstrate how environmental promoters, inflammatory signaling, and supportive stroma create permissive conditions necessary for malignant outgrowth and maintenance.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Experimental and Computational Methods for Profiling Tumors and Microenvironments",
+      "groupedBecause": "This subtopic details the modern sequencing, spatial transcriptomic, and proteomic technologies used to map tumor heterogeneity and microenvironmental interactions in human tissues.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Integrated Evolutionary Model of Cancer Progression",
+      "groupedBecause": "This subtopic integrates the multi-layered contributions of mutational burden, epigenetic state, cell of origin, and microenvironmental co-evolution into a unified evolutionary framework.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and indicates the topic for the following session.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

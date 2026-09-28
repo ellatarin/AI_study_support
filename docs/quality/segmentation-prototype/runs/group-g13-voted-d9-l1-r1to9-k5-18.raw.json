@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Lecture",
+      "groupedBecause": "This subtopic introduces the lecture by outlining how previously learned immune components interact during the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Immune Recognition via PAMPs, DAMPs, and Pattern Recognition Receptors",
+      "groupedBecause": "These subtopics explain how the innate immune system detects microbes and cellular damage through conserved molecular patterns and intracellular or surface receptor signaling pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular Responses, Leukocyte Trafficking, and Systemic Inflammation",
+      "groupedBecause": "These subtopics describe how sentinel cell activation coordinates local leukocyte recruitment, lymphatic drainage, and systemic physiological responses during inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammatory States",
+      "groupedBecause": "These subtopics examine the passive and active mechanisms that shut down inflammation, rebuild damaged tissue, and manage chronic or persistent immune challenges.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Next Lecture Preview",
+      "groupedBecause": "This subtopic concludes the lecture and announces the upcoming session on the complement system.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

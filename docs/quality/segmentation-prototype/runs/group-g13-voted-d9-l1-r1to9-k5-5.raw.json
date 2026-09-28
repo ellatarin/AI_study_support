@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "The lecturer welcomes the class and outlines how the session will integrate previously learned components of the immune system to examine the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and Damage Recognition by the Innate Immune System",
+      "groupedBecause": "These subtopics explain how the innate immune system detects infections and tissue injury through conserved molecular patterns and diverse pattern recognition receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory Cell Activation, Trafficking, and Systemic Manifestations",
+      "groupedBecause": "These subtopics detail how activated sentinel cells direct immune cell recruitment, lymphatic transit, and systemic physiological responses during inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Containment",
+      "groupedBecause": "These subtopics address how the body ceases inflammatory signaling, repairs damaged tissue, and manages persistent insults through chronic structures like granulomas.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing Remarks and Next Lecture Topic",
+      "groupedBecause": "The lecturer concludes the session and previews the subject of the upcoming lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "It introduces the final lecture of the course and outlines the learning objectives regarding cancer therapy approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgical, Radiotherapeutic, and Cytotoxic Approaches",
+      "groupedBecause": "They discuss conventional physical and cytotoxic cancer treatment modalities along with their associated mechanisms, systemic toxicities, and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting Tumor-Specific Vulnerabilities and Repair Defects",
+      "groupedBecause": "They explore therapeutic strategies that exploit intrinsic vulnerabilities of cancer cells, including hormone signaling dependence, cell cycle checkpoint loss, and defective DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogenic Drivers and Kinase Inhibitor Therapies",
+      "groupedBecause": "They focus on targeting oncogenic driver mutations with small-molecule kinase inhibitors while examining the emergence of resistance, bypass signaling, and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "They examine therapeutic strategies that utilize antibody specificity to target tumor surface markers directly or deliver conjugated cytotoxic agents.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Engineering",
+      "groupedBecause": "They explain approaches to harness and engineer the immune system to fight cancer, including immune checkpoint inhibitors, neoantigen targeting, BiTEs, and CAR T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic Challenges, Progress, and Future Perspectives",
+      "groupedBecause": "They evaluate the overarching clinical challenges, historical survival outcomes, and future therapeutic directions in cancer care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

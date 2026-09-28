@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, outlines the lecture objectives, and sets the stage for examining the causes of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of Cancer Etiology: Intrinsic versus Extrinsic Factors",
+      "groupedBecause": "These subtopics explore the foundational concepts of cancer etiology, focusing on the interplay between intrinsic random mutational processes and extrinsic environmental risk factors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Carcinogenesis",
+      "groupedBecause": "These subtopics explain how infectious pathogens contribute to malignant transformation, illustrated through the mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics examine how specific chemical and physical agents undergo metabolic activation to form DNA adducts and induce genetic mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Context",
+      "groupedBecause": "These subtopics describe how non-mutagenic tumor promotion, chronic inflammation, and host developmental timing provide permissive conditions for tumor outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro methodologies used to determine whether agents are carcinogenic.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of environmental risk versus benefit considerations.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

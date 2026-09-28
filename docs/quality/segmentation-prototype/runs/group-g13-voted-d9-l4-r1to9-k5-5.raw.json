@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Lecture Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, sets the context within the cancer lecture series, and outlines the primary learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conceptual Foundations and Determinants of Cancer Risk",
+      "groupedBecause": "These subtopics explore the multi-factorial nature of cancer development, examining the relative contributions of intrinsic mutations, environmental exposures, and epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics detail how pathogens drive oncogenesis, using Burkitt lymphoma to illustrate the interplay between viral infection, co-factors, and genetic alterations.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Molecular Mechanisms of Chemical and Physical Mutagens",
+      "groupedBecause": "These subtopics describe how specific chemical and physical carcinogens interact with cellular metabolism to induce DNA damage and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Microenvironment, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of carcinogenesis, focusing on the distinction between initiators and promoters as well as tissue and developmental susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, animal, and cellular assay methods used to evaluate and verify carcinogenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion: Risk-Benefit Balance and Key Takeaways",
+      "groupedBecause": "This subtopic concludes the lecture by summarizing key themes regarding environmental risks and the challenges of evaluating carcinogen potency.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

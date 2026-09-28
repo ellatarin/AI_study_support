@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the course structure, learning outcomes, and the central question of what causes cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of Cancer: Intrinsic Factors, Environmental Exposures, and Epidemiology",
+      "groupedBecause": "These subtopics explore the nature of cancer as an evolutionary genetic disease and examine the interplay between intrinsic biological processes, environmental exposures, and global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Carcinogenesis",
+      "groupedBecause": "These subtopics explain how bacterial, parasitic, and viral infections drive cancer development, using Burkitt lymphoma as a detailed case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical DNA Damage",
+      "groupedBecause": "These subtopics detail how specific chemical compounds, metabolic activation pathways, and UV radiation induce DNA adducts and mutational changes.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion and Non-Mutagenic Carcinogenesis",
+      "groupedBecause": "These subtopics differentiate cancer initiators from promoters, explaining how non-mutagenic exposures drive tumorigenesis through chronic inflammation and intracellular signalling activation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Susceptibility and Principles of Carcinogenesis",
+      "groupedBecause": "These subtopics examine how tissue developmental stage, host age, and reproductive history modulate susceptibility to carcinogens before summarizing the core mechanisms of carcinogenesis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methods for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the genomic mutational signatures, epidemiological biobanks, in vivo animal models, and in vitro assays used to establish carcinogenic risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "The lecturer concludes the lecture by discussing everyday risk-benefit decisions regarding carcinogen exposure and summarizing the main takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

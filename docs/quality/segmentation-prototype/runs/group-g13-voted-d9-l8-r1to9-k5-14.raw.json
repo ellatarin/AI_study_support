@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer therapy lecture",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and defines its primary learning objectives regarding cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics cover traditional treatment modalities including surgery, radiotherapy, and cytotoxic chemotherapy, detailing their mechanisms, systemic toxicities, and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting tumor-specific vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics explain strategies that target intrinsic vulnerabilities of cancer cells, including hormone receptors, cell cycle checkpoint deficiencies, and DNA repair pathways through synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic kinases and mechanisms of resistance",
+      "groupedBecause": "These subtopics examine oncogene addiction and small-molecule kinase inhibitors, detailing their structural design, therapeutic applications, and mechanisms of acquired drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics discuss antibody-based therapeutic approaches, including receptor blockade, immune-mediated cytotoxicity, and targeted delivery of cytotoxic drugs.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and cellular immune responses",
+      "groupedBecause": "These subtopics explore tumor immune surveillance and cellular immunotherapies, focusing on checkpoint inhibitors, bispecific T-cell engagers, and chimeric antigen receptor T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overarching challenges, progress, and future perspectives in cancer therapy",
+      "groupedBecause": "These subtopics evaluate the broader trajectory of cancer treatment, synthesizing major clinical challenges, historical improvements in survival, and emerging future strategies.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

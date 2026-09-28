@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Hallmarks of Cancer Overview",
+      "groupedBecause": "The lecturer introduces the session, recaps previous material, outlines the learning objectives, and establishes the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferative Signaling and Growth Regulation",
+      "groupedBecause": "These subtopics explain how mutations in signaling cascades, including Wnt, receptor tyrosine kinases, Ras/MAPK, PI3K, and TGF-beta, confer independence from growth stimulation and resistance to growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Blockades in Tumorigenesis",
+      "groupedBecause": "These subtopics demonstrate how oncogenic mutations arrest cells in immature, proliferative stages using examples from hematopoietic malignancies and intestinal crypt epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis, Replicative Immortality, and p53 Stress Responses",
+      "groupedBecause": "These subtopics address the mechanisms by which cancer cells overcome intrinsic tumor-suppressive fail-safes through apoptotic resistance, telomere maintenance, and the bypass of p53-mediated stress and senescence pathways.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Cancer Metabolism and Metabolic Rewiring",
+      "groupedBecause": "These subtopics explore the shift to aerobic glycolysis, the metabolic adaptations across different tumor types, and the role of onco-metabolites in driving epigenetic alterations.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis and the Angiogenic Switch",
+      "groupedBecause": "These subtopics discuss the necessity of vascular recruitment for tumor survival beyond oxygen diffusion limits, the timing of blood vessel formation, and the balance of angiogenic regulators.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Clinical Monitoring of Metastasis",
+      "groupedBecause": "This subtopic provides a comprehensive analysis of metastatic dissemination, lymphatic and hematogenous spread, circulating tumor cell monitoring, and the genetic and microenvironmental determinants of secondary colonization.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Practical Preview",
+      "groupedBecause": "The lecturer concludes the lecture by reflecting on hallmark literature complexity, summarizing the core takeaways, and previewing the upcoming practical sessions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

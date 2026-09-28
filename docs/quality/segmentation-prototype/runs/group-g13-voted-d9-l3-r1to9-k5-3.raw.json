@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "It welcomes the students, introduces the lecture series, and outlines the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular, Developmental, and Experimental Concepts of Cancer",
+      "groupedBecause": "They describe cancer as a multistep breakdown of normal cellular differentiation and tissue architecture alongside the methods used to study tumor cells.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinction, Progression, and Nomenclature of Benign and Malignant Tumors",
+      "groupedBecause": "They define the pathological and histological criteria that distinguish benign from malignant neoplasms, including their progression, invasion, and naming conventions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "It explains the mechanical, local, and systemic mechanisms through which primary and metastatic tumors cause disease and death in patients.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative Incidence of Cancer Across Tissues and Species",
+      "groupedBecause": "They evaluate the distribution and patterns of tumor incidence across different tissue lineages in humans and across diverse animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Modalities of Cancer Screening",
+      "groupedBecause": "They examine the clinical principles of early cancer detection and compare the effectiveness and challenges of screening approaches across different tumor types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion and Practical Reminders",
+      "groupedBecause": "It concludes the lecture with a review of the learning outcomes and housekeeping reminders for upcoming practicals and lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

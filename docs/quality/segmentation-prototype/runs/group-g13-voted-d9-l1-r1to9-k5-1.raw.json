@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "The lecturer welcomes the class and introduces the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen Recognition and PRR Signaling",
+      "groupedBecause": "These subtopics explain how the innate immune system detects infections and tissue damage through pattern recognition receptors and their intracellular signaling pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Leukocyte Recruitment, Trafficking, and Systemic Inflammation",
+      "groupedBecause": "These subtopics describe how sentinel cell activation directs immune cell migration into tissues and lymph nodes, as well as the pathological outcomes of runaway systemic inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics explain how the immune system terminates acute inflammatory responses, coordinates tissue repair, and adapts to persistent stimuli through chronic inflammation and granuloma formation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Preview",
+      "groupedBecause": "The lecturer concludes the session and announces that the next lecture will cover the complement system.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

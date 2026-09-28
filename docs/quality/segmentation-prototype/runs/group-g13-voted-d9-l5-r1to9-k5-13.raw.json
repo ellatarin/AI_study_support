@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Opening Framing",
+      "groupedBecause": "The lecturer welcomes the class, connects the lecture to the preceding histopathology practicals, and outlines the learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Discovery of Proto-Oncogenes and Cellular Transformation Assays",
+      "groupedBecause": "These subtopics trace the historical study of tumor viruses that uncovered cellular proto-oncogenes and describe the laboratory assays used to test cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classification and Genetic Mechanisms of Oncogenes and Tumor Suppressors",
+      "groupedBecause": "These subtopics define the functional categories of cancer mutations and explain how dominant, recessive, and dominant-negative alterations deregulate critical pathways such as the cell cycle.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of Genetic Instability and Multi-Step Tumor Progression",
+      "groupedBecause": "These subtopics explore the DNA repair, replication, and mitotic defects that cause sequence and chromosomal instability, and how these alterations drive multi-step tumor progression.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Hereditary Cancer Predisposition Syndromes",
+      "groupedBecause": "These subtopics examine how inherited germline mutations accelerate cancer development across specific syndromes and how these defects behave during tumor progression and treatment.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Closing Framing",
+      "groupedBecause": "The lecturer concludes the lecture by reviewing the learning outcomes, suggesting supplementary reading, and previewing the next session.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

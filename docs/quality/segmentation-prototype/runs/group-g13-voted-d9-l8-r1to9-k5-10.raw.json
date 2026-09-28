@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines its learning objectives concerning cancer therapies and their modes of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Treatment Modalities: Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics examine traditional approaches to cancer management—including surgical resection, radiation, and cytotoxic chemotherapy—along with the problems of non-specific systemic toxicity and efflux pump-mediated resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting Cellular Dependencies, Checkpoint Deficiencies, and DNA Repair",
+      "groupedBecause": "These subtopics describe therapeutic strategies designed to exploit inherent molecular vulnerabilities in cancer cells, including hormone dependence, defective cell cycle checkpoints, and impaired DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene Addiction, Kinase Inhibitors, and Resistance Mechanisms",
+      "groupedBecause": "These subtopics discuss how hyperactivated oncogenic kinases are targeted by small-molecule inhibitors and detail the molecular and pathway bypass mechanisms through which tumor cells develop drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics cover targeted therapeutic strategies that utilize monoclonal antibodies to directly neutralize cell-surface receptors, recruit immune effector functions, or selectively deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumor Immunology and Immunotherapeutic Strategies",
+      "groupedBecause": "These subtopics explore the relationship between the immune system and cancer alongside therapeutic interventions that reactivate or engineer immune cells to eliminate tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, Historical Progress, and Future Directions in Cancer Treatment",
+      "groupedBecause": "These subtopics evaluate the broader landscape of cancer therapy by examining historical survival trends, persistent clinical challenges like heterogeneity, and future directions in early detection and trial design.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

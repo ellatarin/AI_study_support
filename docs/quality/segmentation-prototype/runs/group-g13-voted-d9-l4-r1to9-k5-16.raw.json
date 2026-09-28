@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Course Overview",
+      "groupedBecause": "This subtopic frames the lecture series, introduces the lecturer, and outlines the key learning outcomes regarding environmental exposures and cancer development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of Cancer: Intrinsic Factors, Environment, and Epidemiology",
+      "groupedBecause": "These subtopics examine the fundamental nature of cancer as an evolutionary genetic disease while weighing intrinsic cellular errors against environmental exposures through epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Oncogenesis",
+      "groupedBecause": "These subtopics detail how microbial and viral infections drive oncogenesis, illustrated in depth by the epidemiology and molecular mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics explain the biochemical and molecular pathways through which physical radiation and chemical carcinogens induce DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics describe how non-mutagenic promoters, chronic inflammatory microenvironments, and developmental life stages influence cancer progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Identifying and Testing Carcinogens",
+      "groupedBecause": "These subtopics survey the analytical, epidemiological, in vivo, and in vitro methods used to identify carcinogen exposure and evaluate mutagenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Perspective",
+      "groupedBecause": "This subtopic concludes the lecture by summarising the balance of everyday risks versus benefits regarding environmental carcinogen exposure.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

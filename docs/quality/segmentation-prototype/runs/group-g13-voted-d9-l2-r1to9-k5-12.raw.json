@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "It introduces the lecture by framing the importance and complexity of the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Core Principles and the Central Role of C3",
+      "groupedBecause": "They establish the fundamental architecture of the complement cascade, explaining its general functions, nomenclature conventions, and the central mechanism of C3 activation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of Complement Activation",
+      "groupedBecause": "They detail the three distinct recognition routes—alternative, lectin, and classical—that initiate the complement cascade and converge on surface C3 convertase deposition.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Mechanisms of Complement",
+      "groupedBecause": "They explain the primary downstream immunological outcomes of complement activation: opsonization, inflammation recruitment, and direct membrane lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation of Complement Activation",
+      "groupedBecause": "It describes the surface and soluble regulatory proteins that protect host tissues from accidental complement attack by inactivating convertases and blocking pore formation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Consequences of Complement Deficiencies",
+      "groupedBecause": "It details how genetic and acquired deficiencies in specific complement components lead to distinct clinical pathologies, from recurrent bacterial infections to autoimmune manifestations.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion of Complement Defenses",
+      "groupedBecause": "It examines the evolutionary strategies and molecular mechanisms used by pathogens, particularly Staphylococcus aureus, to circumvent complement-mediated destruction.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "It concludes the lecture session and previews the subsequent topic on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

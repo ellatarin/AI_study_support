@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Hallmarks of Cancer Overview",
+      "groupedBecause": "The lecturer introduces the learning outcomes and frames the session around the multi-step mutation model and the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signaling Cascades and Proliferative Autonomy",
+      "groupedBecause": "These subtopics explain how oncogenic mutations across receptor pathways including Wnt, RTK, and TGF-beta drive autonomous cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumorigenesis",
+      "groupedBecause": "These subtopics examine how malignancies in both the hematopoietic system and colorectal epithelium arrest terminal cell differentiation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic details the molecular regulation of cell death and how mutations affecting p53, Bax, and BCL2 confer apoptosis resistance.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Regulation",
+      "groupedBecause": "These subtopics explore telomere maintenance mechanisms alongside the protective p53-mediated stress pathways that trigger senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Metabolism and Metabolic Rewiring",
+      "groupedBecause": "These subtopics investigate the Warburg effect, metabolic reprogramming across tissues, and the oncogenic impact of Krebs cycle mutations.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics examine the tumor requirement for neovascularization, the timing of the angiogenic switch, and its regulatory balance.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Detection of Metastasis",
+      "groupedBecause": "This subtopic analyzes the invasion-metastasis cascade, clinical methods for tracking disseminated tumor cells, and the clonal genetics of secondary tumors.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Summary",
+      "groupedBecause": "The lecturer summarizes the overarching principles of cancer hallmarks, references updated literature, and closes the session.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

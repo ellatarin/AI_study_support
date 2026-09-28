@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This opening subtopic introduces the lecturer, sets the lecture's scope within the broader cancer course, and outlines the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Factors, Environment, and Epidemiology",
+      "groupedBecause": "These subtopics examine the fundamental nature of cancer as an evolutionary genetic disease, contrasting intrinsic stochastic mutation accumulation with environmental risk factors and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and Oncogenesis",
+      "groupedBecause": "These subtopics detail how microbial and viral pathogens drive malignancy through mechanisms including chronic inflammation, cell-cycle deregulation, and synergistic immune suppression.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Metabolic Activation",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which radiation and chemical carcinogens damage DNA, emphasizing the role of host metabolic activation and DNA adduct formation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Microenvironment, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of carcinogenesis, focusing on tumor promotion, inflammatory microenvironments, and host developmental susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Identifying and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the laboratory and epidemiological methods used to establish carcinogenicity and attribute cancers to specific exposures.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Perspective",
+      "groupedBecause": "This closing subtopic synthesizes the lecture's core themes and reflects on the practical balance between carcinogenic risks and everyday benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

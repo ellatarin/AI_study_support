@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Overview of the Hallmarks of Cancer",
+      "groupedBecause": "The lecturer introduces the learning outcomes and outlines the framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferative Signaling and Growth Suppressor Evasion",
+      "groupedBecause": "These subtopics examine how mutations in signaling cascades drive sustained proliferative signaling and overcome growth suppression.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Malignancies",
+      "groupedBecause": "These subtopics demonstrate how cancer cells maintain an undifferentiated proliferative state across hematological and solid tissue models.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic explains how cancer cells evade programmed cell death through the deregulation of p53 and mitochondrial apoptotic regulators.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Signaling",
+      "groupedBecause": "These subtopics explain the mechanisms of replicative immortality, telomere maintenance, and p53-mediated cellular senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Reprogramming Energy Metabolism",
+      "groupedBecause": "These subtopics explore the biochemical reprogramming and epigenetic consequences of altered cellular metabolism in cancer.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics examine the role, temporal onset, and regulatory balance of angiogenesis in supporting tumor progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Biology of Metastasis",
+      "groupedBecause": "This subtopic details the multistep cascade, clinical monitoring, and genomic characteristics of tumor metastasis.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "The lecturer summarizes the overarching framework of cancer hallmarks and concludes the lecture.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Hallmarks of Cancer",
+      "groupedBecause": "The lecturer opens the lecture by establishing the learning outcomes and introducing the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signaling and Proliferative Pathways",
+      "groupedBecause": "These subtopics examine how mutations in signaling cascades such as Wnt/beta-catenin, receptor tyrosine kinases, and TGF-beta drive autonomous cell proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Hematopoietic Cancers and Carcinomas",
+      "groupedBecause": "These subtopics explain how differentiation blocks stall maturation and sustain proliferation across leukemias and colorectal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic details how cancer cells evade programmed cell death through alterations in p53 regulation and the balance between pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Signaling",
+      "groupedBecause": "These subtopics describe how cancer cells achieve indefinite replication through telomerase reactivation while bypassing p53-mediated senescence and stress signaling.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Rewiring and Oncometabolites in Cancer",
+      "groupedBecause": "These subtopics explore the shift toward aerobic glycolysis and how metabolic enzyme mutations generate oncometabolites that alter epigenetic regulation.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics discuss the necessity of new blood vessel formation to supply growing tumors, the timing of the angiogenic switch, and therapeutic targeting.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Detection of Metastasis",
+      "groupedBecause": "This subtopic addresses the multistep progression of metastatic dissemination, seed-and-soil interactions, genomic signatures, and clinical tracking via biomarkers.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "The lecturer concludes the session with summarizing remarks on hallmark integration, notes further reading, and invites questions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

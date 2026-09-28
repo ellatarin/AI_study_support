@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the key learning outcomes regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of Cancer: Genetic, Endogenous, and Environmental Influences",
+      "groupedBecause": "These subtopics establish how cancer arises through genetic and evolutionary processes influenced by the interplay between endogenous mutations and environmental risk factors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogen-Driven Carcinogenesis and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics examine how infectious pathogens drive oncogenesis, illustrated through the etiology and mechanisms of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagens",
+      "groupedBecause": "These subtopics detail how physical and chemical carcinogens undergo metabolic processing to induce DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Initiation and Promotion",
+      "groupedBecause": "These subtopics define the distinction between mutagenic initiation and non-mutagenic promotion in driving tumour outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Susceptibility, Life Stages, and Mechanistic Summary",
+      "groupedBecause": "These subtopics explore how host life stages and tissue context influence cancer development and summarise the overall mechanisms of carcinogenesis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, in vivo, and in vitro approaches used to identify carcinogens and assess their cancer-causing potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Concluding Remarks on Risk and Benefit",
+      "groupedBecause": "This subtopic provides the lecture's closing summary on assessing carcinogenic risks versus practical benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the learning objectives for the session on cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Factors, Genetics, and Environmental Exposures",
+      "groupedBecause": "These subtopics explore the origins of cancer by evaluating the balance between endogenous cellular errors, inherited genetic predispositions, and environmental influences supported by epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and Agents of Carcinogenesis",
+      "groupedBecause": "These subtopics examine how specific biological, chemical, and physical agents drive neoplastic transformation through direct mutagenesis, xenobiotic metabolism, and tumor promotion.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Determining and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro experimental approaches used to identify and confirm carcinogenic agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk Assessment",
+      "groupedBecause": "This subtopic concludes the lecture with a summary on evaluating carcinogenic risks and benefits in everyday life.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

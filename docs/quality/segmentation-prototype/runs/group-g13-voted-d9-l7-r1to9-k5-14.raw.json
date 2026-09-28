@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecture framework on cancer evolution and outlines the core learning objectives regarding Darwinian selection and microenvironmental factors.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Drivers of Clonal Evolution",
+      "groupedBecause": "These subtopics describe how Darwinian natural selection operates through successive genetic mutations and epigenetic transcriptional alterations to confer competitive growth advantages on cell clones.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Stem Cell Hierarchies in Tumorigenesis",
+      "groupedBecause": "These subtopics evaluate how normal tissue hierarchies and the developmental state of the initiating cell dictate susceptibility to malignant transformation and tumor propagation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Environmental Promotion and Inflammatory Signaling in Tumor Progression",
+      "groupedBecause": "These subtopics demonstrate that cancer-predisposing mutations require permissive promotional signals from environmental stimuli and chronic inflammation to drive tumor outgrowth.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Stromal Dependency in Established Tumors and Therapeutic Targeting",
+      "groupedBecause": "This subtopic explains why established tumors require supportive stromal microenvironments for survival and explores how targeting these non-cancerous supporting cells provides therapeutic opportunities.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Experimental and Computational Technologies for Tumor Profiling",
+      "groupedBecause": "This subtopic outlines the modern genomic, computational, and spatial profiling tools used to investigate cancer evolutionary dynamics and cellular interactions within tissues.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Integrative Framework of Cancer Evolution",
+      "groupedBecause": "This subtopic synthesizes how genetic mutations, cellular origin, epigenetic plasticity, and microenvironmental pressures converge to enable cancer evolution.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Closing Remarks",
+      "groupedBecause": "This subtopic concludes the lecture and previews the next session on cancer therapy.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

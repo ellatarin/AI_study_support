@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Lecture Overview",
+      "groupedBecause": "This subtopic welcomes students and introduces the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Innate Immune Recognition: PAMPs, DAMPs, and PRRs",
+      "groupedBecause": "These subtopics explain the evolutionary requirements and fundamental mechanisms by which the innate immune system detects microbes and tissue damage using conserved molecular patterns and germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern Recognition Receptor Families, Signaling Pathways, and the Inflammasome",
+      "groupedBecause": "These subtopics detail the specialized functions, cellular locations, and downstream activation pathways of key pattern recognition systems, including Toll-like receptors, cytosolic sensors, and the inflammasome.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Sentinel Cell Activation, Endothelial Signaling, and Leukocyte Recruitment",
+      "groupedBecause": "These subtopics describe how tissue sentinel cells detect infection and coordinate vascular adhesion cascades and chemokine gradients to guide circulating leukocytes into infected tissues.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic Drainage and Antigen Transport to Lymph Nodes",
+      "groupedBecause": "This subtopic explains how the lymphatic system maintains fluid balance and provides a pathway for activated dendritic cells to carry antigens to lymph nodes for adaptive immune priming.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Systemic Hyperinflammation and Septic Shock",
+      "groupedBecause": "This subtopic addresses the severe clinical consequences and mortality associated with uncontrolled, systemic activation of inflammatory cytokines.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammatory Responses",
+      "groupedBecause": "These subtopics examine the passive and active mechanisms that terminate inflammation, the cellular processes of tissue healing, and the chronic inflammatory states that arise when resolution fails.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Next Lecture Preview",
+      "groupedBecause": "This subtopic wraps up the lecture and introduces the upcoming topic on the complement system.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

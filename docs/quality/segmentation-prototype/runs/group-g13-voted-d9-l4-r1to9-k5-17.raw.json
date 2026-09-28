@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, frames the lecture series, and outlines the core learning objectives concerning cancer causation and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Intrinsic Luck, Genetics, and Epidemiological Evidence",
+      "groupedBecause": "These subtopics establish the foundational debate over what drives cancer, contrasting intrinsic biological bad luck and genetic predisposition with environmental exposures and global epidemiological variation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and Viral Oncogenesis",
+      "groupedBecause": "These subtopics focus on how infectious agents contribute to cancer development, highlighted by a detailed case study of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagenesis and Metabolic Activation",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which chemical and physical mutagens undergo host metabolic processing to induce direct DNA damage and adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Developmental Susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic drivers of carcinogenesis, including tumor promoter biology, inflammatory microenvironments, and host tissue developmental susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics survey the genomic, epidemiological, animal, and in vitro experimental approaches used to identify carcinogen exposure and verify carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Analysis",
+      "groupedBecause": "The lecture concludes with framing remarks summarising environmental risk factors, testing challenges, and everyday risk-benefit calculations.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

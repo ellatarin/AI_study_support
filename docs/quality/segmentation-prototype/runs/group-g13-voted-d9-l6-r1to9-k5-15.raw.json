@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks",
+      "groupedBecause": "The lecturer sets out the lecture's learning objectives, contextualizes the timeline model of tumor progression, and introduces Hanahan and Weinberg's hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated Growth and Survival Signaling",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell surface receptor pathways, such as Wnt, receptor tyrosine kinases, and TGF-beta, promote autonomous proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer",
+      "groupedBecause": "These subtopics examine how cancer cells become arrested in an immature proliferative state instead of executing terminal differentiation, illustrating the process in both hematologic malignancies and intestinal epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic explores how cancer cells bypass programmed cell death through mutations in p53 and disruptions in the balance between pro- and anti-apoptotic proteins like Bax and Bcl-2.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics describe how cancer cells achieve indefinite replication by maintaining telomeres through telomerase activation and overcoming p53-driven senescence checkpoints.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered Energy Metabolism and Epigenetic Rewiring",
+      "groupedBecause": "These subtopics analyze how cancer cells rewire their metabolic machinery through the Warburg effect and how metabolic enzyme mutations produce oncometabolites that alter the epigenome.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics describe the necessity of new blood vessel growth for sustaining expanding tumors, the timing of the angiogenic switch, and the balance between angiogenic activators and inhibitors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Biology of Metastasis",
+      "groupedBecause": "This subtopic details the multi-step cascade of metastatic dissemination, covering circulatory transit, the seed-and-soil concept, diagnostic biomarkers, and the genomic features of metastatic clones.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Summary",
+      "groupedBecause": "The lecturer wraps up the session by summarizing the convergence of genetic mutations onto cancer hallmarks and providing closing housekeeping remarks.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

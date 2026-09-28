@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Overview of Cancer Hallmarks",
+      "groupedBecause": "The lecturer introduces the session's learning objectives, the stepwise model of tumor progression, and the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signaling and Proliferative Independence",
+      "groupedBecause": "These subtopics explain how mutations in receptor pathways and intracellular signaling cascades drive sustained proliferation and resistance to growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blockade of Cellular Differentiation",
+      "groupedBecause": "These subtopics examine how cancer cells evade terminal differentiation to maintain proliferative capacity in hematopoietic and intestinal tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Programmed Cell Death",
+      "groupedBecause": "This subtopic details how mutations altering p53 and mitochondrial balance prevent apoptosis in cancer cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Regulation",
+      "groupedBecause": "These subtopics explain how cancer cells bypass the Hayflick limit via telomerase reactivation and how normal stress-induced senescence is controlled by p53.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Reprogramming and Oncometabolites",
+      "groupedBecause": "These subtopics explore the shift to complex non-growth hallmarks, focusing on the Warburg effect, aerobic glycolysis, and Krebs cycle mutations driving epigenetic change.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics describe the requirement for new blood vessel growth to sustain tumors, its timing during lesion progression, and the balance of angiogenic factors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Metastatic Dissemination and Colonization",
+      "groupedBecause": "This subtopic addresses the multistep metastatic cascade, circulatory routes, diagnostic detection methods, and genomic factors enabling distant tumor outgrowth.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Summary",
+      "groupedBecause": "The lecturer concludes the lecture with closing reflections on hallmark literature and reminders for upcoming practicals.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

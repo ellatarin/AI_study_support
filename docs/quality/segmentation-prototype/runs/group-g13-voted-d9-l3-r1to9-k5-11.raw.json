@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "It provides the opening framing, course context, and learning objectives for the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Foundations and Experimental Modeling of Cancer",
+      "groupedBecause": "They examine how cancer originates through accumulated genetic alterations and disrupted tissue differentiation, as well as how tumor cells are cultured and investigated experimentally.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasiveness, Stepwise Progression, and Classification",
+      "groupedBecause": "They explain the histological distinction between benign and malignant tumors, detailing the stepwise progression of invasion and the standard nomenclature used to categorize neoplasms.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "It details the physiological mechanisms through which primary and metastatic tumors disrupt normal organ function to cause illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Human and Comparative Cancer Epidemiology",
+      "groupedBecause": "They analyze the incidence, prevalence, and mortality patterns of different tumor types across human populations and diverse animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Modalities of Clinical Cancer Screening",
+      "groupedBecause": "They evaluate the clinical rationale, histological indicators, and practical efficacy of early detection and screening strategies across various tumor types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "It provides the closing framing and concluding housekeeping remarks for the lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

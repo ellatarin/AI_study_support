@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Evolution",
+      "groupedBecause": "This subtopic introduces the lecture by outlining the conceptual framework of cancer evolution, the role of the microenvironment, and the session's learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Selection and Epigenetic Dynamics in Tumor Progression",
+      "groupedBecause": "These subtopics demonstrate how tumors evolve through successive clonal selection driven by genetic mutations as well as non-mutational epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Stem Cell Hierarchies in Cancer",
+      "groupedBecause": "These subtopics examine how tissue hierarchies, stemness characteristics, and the specific cell of origin influence tumor initiation and hierarchical cancer growth.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Promotion and Stromal Codependency",
+      "groupedBecause": "These subtopics examine how environmental promoters, inflammatory microenvironments, and supportive stromal interactions are required for initiating and sustaining tumor growth.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Modern Experimental and Computational Methods for Studying Tumors",
+      "groupedBecause": "This subtopic reviews the advanced sequencing, spatial transcriptomic, and computational techniques used to map clonal evolution and cellular interactions in tumor tissue.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Multi-Factor Synthesis of Cancer Evolution",
+      "groupedBecause": "This subtopic synthesizes the lecture's core themes by integrating mutational burden, cell of origin, epigenetic plasticity, and microenvironmental factors into a unified evolutionary model.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Lecture Conclusion and Outlook",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on cancer therapy.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

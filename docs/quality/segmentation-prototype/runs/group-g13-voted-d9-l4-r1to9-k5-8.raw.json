@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the course topic on cancer causation and outlines the main learning objectives of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Factors, Environmental Exposures, and Epidemiology",
+      "groupedBecause": "These subtopics introduce the fundamental drivers of cancer development, examining the interaction between endogenous biological processes, environmental exposures, and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Cancer Development",
+      "groupedBecause": "These subtopics examine how infectious agents drive oncogenesis, focusing in detail on the multi-step pathogenesis of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Mechanisms of DNA Damage",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which dietary, environmental, and chemical mutagens undergo physical or metabolic activation to induce DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Promotion, Host Susceptibility, and Mechanisms of Carcinogenesis",
+      "groupedBecause": "These subtopics examine non-mutagenic tumour promotion, host developmental and tissue susceptibilities, and summarize the diverse mechanisms driving malignant transformation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Identifying and Testing Carcinogens",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro methodologies used to determine and validate the carcinogenicity of environmental agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Analysis",
+      "groupedBecause": "The lecturer concludes the session by reflecting on personal risk-benefit assessments regarding carcinogen exposure and providing closing summary remarks.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

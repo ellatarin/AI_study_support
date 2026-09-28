@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Hallmarks of Cancer and Progression Model",
+      "groupedBecause": "The lecturer introduces the learning outcomes, the multi-step progression model, and the conceptual framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferative Signaling and Evasion of Growth Suppressors",
+      "groupedBecause": "These subtopics explain the molecular signaling cascades and mutations that drive sustained cell proliferation and resistance to growth-inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Malignancy",
+      "groupedBecause": "These subtopics examine how cancer cells evade terminal maturation by undergoing a differentiation block in hematopoietic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic describes how mutations affecting p53 and apoptotic regulators allow cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Signaling",
+      "groupedBecause": "These subtopics explore how tumor cells bypass the Hayflick limit via telomerase reactivation and overcome normal senescence stress pathways.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Reprogramming in Cancer",
+      "groupedBecause": "These subtopics address the biochemical mechanisms, metabolic rewiring, and oncometabolite signaling that support cancer cell growth.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "These subtopics describe how tumors stimulate and regulate new blood vessel formation to supply oxygen and nutrients.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Invasion and Metastasis",
+      "groupedBecause": "This subtopic details the multistep metastatic cascade, clinical detection methods, and clonal genetics of cancer dissemination.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Summary and Closing Remarks",
+      "groupedBecause": "The lecturer provides concluding remarks, summarizes the convergence of cancer hallmarks, and references upcoming coursework.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

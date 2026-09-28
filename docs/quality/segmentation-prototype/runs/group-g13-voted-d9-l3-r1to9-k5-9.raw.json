@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, its multidisciplinary audience, and the key learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological and experimental definitions of cancer",
+      "groupedBecause": "These subtopics explore cancer as a multi-step breakdown of normal developmental differentiation and tissue architecture, alongside the experimental models used to study tumor cells.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and benign versus malignant progression",
+      "groupedBecause": "These subtopics explain how tumors progress from contained benign lesions to invasive and metastatic malignancies, using histological features and tissue models to illustrate the transition.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification",
+      "groupedBecause": "This subtopic outlines the standard conventions and exceptions used to name and classify tumors according to their tissue of origin and malignancy.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathophysiological causes of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the local, systemic, and metastatic mechanisms through which tumors impair normal physiological function and cause patient death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Patterns of cancer incidence across species",
+      "groupedBecause": "These subtopics analyze the comparative frequency and tissue distribution of tumors in human populations and across diverse multicellular animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and applications of cancer screening",
+      "groupedBecause": "These subtopics evaluate the clinical necessity, methodology, and varying efficacy of population screening programs for detecting pre-malignant and early-stage cancers.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion and practical preview",
+      "groupedBecause": "This subtopic concludes the lecture with a reminder of the learning outcomes and logistical framing for upcoming practical sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

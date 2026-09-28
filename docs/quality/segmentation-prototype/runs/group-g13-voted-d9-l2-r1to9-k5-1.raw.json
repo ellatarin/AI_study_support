@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "It opens the lecture by framing the importance and complexity of the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Core principles and nomenclature of the complement system",
+      "groupedBecause": "They establish the overarching structure, naming conventions, and central role of C3 cleavage in complement function.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of complement activation",
+      "groupedBecause": "They explain the three upstream pathways that recognize pathogens and converge to activate C3.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Downstream effector mechanisms of complement",
+      "groupedBecause": "They describe the primary effector outcomes of complement activation, including opsonization, inflammation, and pathogen lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement and host cell protection",
+      "groupedBecause": "It explains the regulatory mechanisms and proteins that protect host tissues from unintended complement destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical manifestations of complement deficiencies",
+      "groupedBecause": "It details the pathological consequences and disease patterns resulting from deficiencies in different complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "It examines the evolutionary strategies and mechanisms used by pathogens, particularly Staphylococcus aureus, to evade complement-mediated destruction.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture wrap-up",
+      "groupedBecause": "It provides the closing remarks for the lecture and previews the upcoming topic.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

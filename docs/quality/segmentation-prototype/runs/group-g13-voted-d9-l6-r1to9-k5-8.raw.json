@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Hallmarks of Cancer",
+      "groupedBecause": "This topic introduces the lecture's learning objectives and the conceptual framework of cancer hallmarks centered on the loss of growth control.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferative Signaling and Growth Control Evasion",
+      "groupedBecause": "These subtopics explain how mutations in signaling pathways like Wnt, RTK/Ras/MAPK, PI3K/Akt, and TGF-beta drive independent proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Blocks in Tumorigenesis",
+      "groupedBecause": "These subtopics explore how cancer cells disrupt normal maturation in both hematopoietic lineages and colonic epithelial crypts.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic details the apoptotic pathway and the mechanisms by which mutations in p53, Bax, and BCL-2 prevent programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics examine telomere maintenance, telomerase activation mechanisms, and the stress-induced senescence pathways cancer cells must overcome to achieve indefinite replication.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Reprogramming of Cellular Metabolism",
+      "groupedBecause": "These subtopics cover the metabolic alterations in cancer cells, including aerobic glycolysis, metabolic rewiring across tissues, and the epigenetic consequences of oncometabolites.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Induction and Regulation of Angiogenesis",
+      "groupedBecause": "These subtopics describe the necessity of new blood vessel formation for tumor growth, its onset during tumor progression, and its therapeutic regulation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Invasion and Metastasis",
+      "groupedBecause": "This subtopic covers the multistep metastatic cascade, dissemination pathways, diagnostic methods, seed-and-soil interactions, and genomic duplication in metastatic clones.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Summary and Closing Remarks",
+      "groupedBecause": "This topic closes the lecture with summary reflections on the hallmarks literature and invitations for student questions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

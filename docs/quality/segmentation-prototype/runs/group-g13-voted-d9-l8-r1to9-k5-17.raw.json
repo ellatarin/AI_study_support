@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic provides the framing for the lecture by welcoming students and setting out the learning objectives for cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Modalities and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics discuss standard cancer therapies including surgery, radiotherapy, and cytotoxic drugs, alongside their mechanisms of action, systemic toxicities, and drug-efflux resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Vulnerabilities and DNA Repair Defects",
+      "groupedBecause": "These subtopics cover therapeutic strategies that take advantage of specific vulnerabilities in cancer cells, including hormone dependence, cell-cycle checkpoint defects, and synthetic lethality in DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase Inhibitors, Oncogene Addiction, and Targeted Resistance",
+      "groupedBecause": "These subtopics focus on targeting hyperactivated oncogenic kinases with small-molecule inhibitors and detail the mechanisms of acquired drug resistance, pathway bypass, and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-Based Therapeutics and Drug Conjugates",
+      "groupedBecause": "These subtopics examine the design and clinical application of monoclonal antibodies that target cell-surface antigens directly or deliver targeted cytotoxic payloads as antibody-drug conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and Cell-Based Treatments",
+      "groupedBecause": "These subtopics explore the biological basis of tumor immunosurveillance and therapies that engage or re-engineer the host immune system, including checkpoint blockade, BiTEs, and CAR T-cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Systemic Challenges, Historical Progress, and Future Directions",
+      "groupedBecause": "These subtopics review the broader landscape of cancer treatment by examining clinical challenges, historical survival trends, emerging prevention strategies, and ethical considerations.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

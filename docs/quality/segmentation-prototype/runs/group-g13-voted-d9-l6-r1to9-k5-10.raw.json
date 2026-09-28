@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Lecture Objectives",
+      "groupedBecause": "The lecturer introduces the learning outcomes and establishes the framework of cancer hallmarks and multistep tumor progression for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated Growth and Survival Signaling Pathways",
+      "groupedBecause": "These subtopics explain how mutations in cell-surface receptors and intracellular cascades drive independent proliferation and resistance to growth-inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumor Development",
+      "groupedBecause": "These subtopics examine how impaired terminal differentiation allows cells to remain proliferative across hematopoietic malignancies and epithelial carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic explores how cancer cells resist programmed cell death through mutations disrupting p53, Bax, and BCL2 signaling.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Mechanisms",
+      "groupedBecause": "These subtopics explain how cancer cells achieve infinite replicative potential by overcoming telomere shortening, senescence barriers, and p53-dependent stress responses.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Rewiring in Cancer",
+      "groupedBecause": "These subtopics detail how cancer cells alter their metabolic pathways to support rapid growth and reprogram the epigenome.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Induction of Angiogenesis",
+      "groupedBecause": "These subtopics describe how tumors stimulate new blood vessel growth to overcome hypoxia and sustain progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Patterns of Metastasis",
+      "groupedBecause": "This subtopic addresses the multistage metastatic cascade, circulatory dissemination, and genomic factors enabling secondary tumor formation.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Conclusion and Hallmark Synthesis",
+      "groupedBecause": "The lecturer summarises the core takeaways on cancer hallmarks and concludes the session with practical logistics.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

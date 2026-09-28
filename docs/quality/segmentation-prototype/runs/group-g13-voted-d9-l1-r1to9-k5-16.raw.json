@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "The lecturer welcomes the class and introduces the session's objective of examining the initiation and resolution of inflammatory responses.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and Damage Recognition Mechanisms",
+      "groupedBecause": "Innate immune detection relies on identifying conserved microbial and damage-associated molecular patterns through germline-encoded pattern recognition receptors and intracellular inflammasome complexes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory Cell Recruitment, Trafficking, and Systemic Consequences",
+      "groupedBecause": "Activated tissue sentinel cells coordinate the recruitment and migration of circulating leukocytes into damaged tissues, route antigens to draining lymph nodes, and risk triggering severe systemic shock when mediator release is uncontrolled.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Containment",
+      "groupedBecause": "Following acute activation, the immune system terminates inflammation via passive and active braking mechanisms, mediates macrophage-driven tissue repair, and initiates chronic containment strategies like granulomas when threats cannot be cleared.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the lecture and announces the complement system as the subject of the next session.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

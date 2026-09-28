@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "The lecturer welcomes the class and outlines the lecture's focus on the molecular and cellular mechanisms governing the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Recognition of Pathogens and Tissue Damage",
+      "groupedBecause": "These subtopics explain how the innate immune system detects microbial and cellular danger signals through pattern recognition receptors, toll-like receptor signaling cascades, and the inflammasome complex.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Sentinel Cell Activation and Leukocyte Recruitment",
+      "groupedBecause": "These subtopics describe how activated tissue sentinel cells stimulate endothelial adhesion flags to mediate the rolling, extravasation, and chemotactic recruitment of circulating leukocytes to the infection site.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic Drainage and Antigen Transport to Lymph Nodes",
+      "groupedBecause": "This subtopic addresses how dendritic cells transport antigens away from the infection site through the lymphatic drainage network to initiate adaptive immune priming in lymph nodes.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Systemic Inflammatory Pathology and Septic Shock",
+      "groupedBecause": "This subtopic details the life-threatening clinical consequences that occur when excessive inflammatory cytokine production triggers uncontrolled systemic vasodilation and sepsis.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Pathology",
+      "groupedBecause": "These subtopics explain the passive and active mechanisms that terminate inflammation, how damaged tissue is repaired, and the outcomes when inflammatory responses become chronic or form granulomas.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the session and announces the topic for the following lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

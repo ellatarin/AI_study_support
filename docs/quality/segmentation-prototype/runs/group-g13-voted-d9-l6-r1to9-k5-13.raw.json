@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Tumor Progression",
+      "groupedBecause": "The lecturer introduces the learning objectives, lecture framing, and the foundational framework of cancer hallmarks across tumor progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signaling Autonomy and Pathway Deregulation",
+      "groupedBecause": "These subtopics explain how oncogenic signaling pathways and mutations enable cancer cells to achieve growth signal autonomy and resist inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Leukemias and Carcinomas",
+      "groupedBecause": "These subtopics explore how cancer cells disrupt normal maturation pathways and maintain proliferative precursor states across hematologic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis and p53 Regulation",
+      "groupedBecause": "This subtopic details the mechanisms through which cancer cells evade programmed cell death via alterations in p53 and the Bcl-2 family.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Signaling",
+      "groupedBecause": "These subtopics examine how cancer cells bypass the Hayflick limit via telomerase reactivation while avoiding stress-induced senescence mechanisms.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Metabolic Reprogramming and Epigenetic Interactions",
+      "groupedBecause": "These subtopics address the shift to complex cancer hallmarks by analyzing the Warburg effect, metabolic rewiring, and the reciprocal regulation between oncometabolites and the epigenome.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Angiogenesis in Tumor Development",
+      "groupedBecause": "These subtopics detail the requirement, timing, and molecular balance of pro- and anti-angiogenic factors supporting tumor vascularization.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Clinical Monitoring of Metastasis",
+      "groupedBecause": "This subtopic explains the multi-step cascade of metastatic dissemination, systemic circulation, seed-and-soil compatibility, and diagnostic approaches.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Summary and Concluding Remarks",
+      "groupedBecause": "The lecturer concludes the session with closing remarks on cancer hallmark integration and instructions for future practicals.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

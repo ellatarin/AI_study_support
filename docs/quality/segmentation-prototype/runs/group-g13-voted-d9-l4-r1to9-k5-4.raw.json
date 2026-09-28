@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, frames the cancer lecture series, and outlines the key learning objectives regarding environmental exposures and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Factors, Environment, and Epidemiology",
+      "groupedBecause": "These subtopics explore the conceptual framework of cancer development as an interplay between endogenous cellular processes, environmental exposures, and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents in Carcinogenesis",
+      "groupedBecause": "These subtopics examine how biological pathogens contribute to malignancy, illustrated in detail by the epidemiology and etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens: DNA Damage and Metabolic Activation",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which specific chemical and physical mutagens damage DNA directly or following xenobiotic metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Tissue Susceptibility",
+      "groupedBecause": "These subtopics address non-mutagenic drivers of cancer, focusing on how chronic inflammation, promoting agents, and host developmental stages facilitate clonal outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Assessing and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the analytical, epidemiological, and experimental methodologies used to identify mutational signatures and evaluate carcinogenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk–Benefit Considerations",
+      "groupedBecause": "The lecture concludes with a summary of environmental cancer risks and the everyday appraisal of risks against benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

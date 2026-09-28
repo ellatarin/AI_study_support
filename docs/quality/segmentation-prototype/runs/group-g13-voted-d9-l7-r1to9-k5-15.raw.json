@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecture framework on cancer evolution and the tumor microenvironment and outlines the intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutational Selection and Epigenetic Changes in Cancer Evolution",
+      "groupedBecause": "These subtopics explain how genetic mutations and epigenetic modifications confer competitive growth advantages that drive micro-scale clonal evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Stem Cell Hierarchy in Tumor Development",
+      "groupedBecause": "These subtopics examine how normal tissue hierarchy and stemness characteristics determine which cell populations initiate and propagate cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammatory and Microenvironmental Promotion of Tumor Initiation",
+      "groupedBecause": "These subtopics demonstrate how external promoters and inflammatory signaling are necessary to induce stem-like states and drive malignant outgrowth in cells carrying dormant mutations.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Stromal Dependency of Established Tumors and Therapeutic Targeting",
+      "groupedBecause": "This subtopic explores how established tumors require supportive stromal cells for growth and how targeting this microenvironmental codependency informs cancer therapies.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Methodologies for Profiling Tumor Evolution and Spatial Architecture",
+      "groupedBecause": "This subtopic describes single-cell sequencing and spatial omics technologies used to trace mutational histories and map cell-cell interactions within tumor tissues.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Multifactorial Synthesis of Cancer Evolution",
+      "groupedBecause": "This subtopic integrates how mutational burden, cell of origin, epigenetic plasticity, and microenvironmental conditions act together to govern cancer development.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Lecture Conclusion and Next Steps",
+      "groupedBecause": "This subtopic concludes the session and previews the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

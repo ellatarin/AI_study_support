@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer introduces herself, sets out the scope of the lecture on the causes of cancer, and presents the core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Interplay of Genetics, Environment, and Chance in Cancer Causation",
+      "groupedBecause": "Cancer development is driven by a combination of endogenous mutational processes, inherited predispositions, and environmental exposures, as supported by population and migrant epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenic Pathogens and the Etiology of Burkitt Lymphoma",
+      "groupedBecause": "Infectious agents contribute to carcinogenesis through chronic inflammation, immunosuppression, and disruptions of host cell proliferation, as exemplified by Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens: Mechanisms of DNA Damage and Metabolic Activation",
+      "groupedBecause": "Physical radiation and chemical carcinogens damage DNA directly or require endogenous xenobiotic metabolism to generate reactive intermediates that form bulky DNA adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Initiation versus Promotion and Non-Mutagenic Carcinogenesis",
+      "groupedBecause": "Non-mutagenic carcinogenic agents act as tumor promoters by inducing chronic inflammation or stimulating cellular proliferation pathways.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Context, Developmental Stage, and Tissue-Specific Susceptibility",
+      "groupedBecause": "Carcinogenic outcomes depend on host biological context, including tissue-specific enzyme distribution, proliferative states during puberty, and reproductive history.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Experimental and Epidemiological Methods for Assessing Carcinogenicity",
+      "groupedBecause": "Evaluating carcinogens and identifying exposures relies on genomic mutational signatures, population biobanks, in vivo animal models, and in vitro mutagenicity assays.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion: Environmental Risks and Benefit Analysis",
+      "groupedBecause": "The lecturer concludes the lecture by summarising key takeaways regarding environmental risk, carcinogen potency, and everyday risk-benefit decision-making.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

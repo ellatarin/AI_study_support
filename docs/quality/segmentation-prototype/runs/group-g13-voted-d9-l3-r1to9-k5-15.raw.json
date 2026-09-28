@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer introduces the cancer biology course, outlines the multidisciplinary audience, and presents the core learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Genetic Regulation and Differentiation",
+      "groupedBecause": "These subtopics explore how cancer arises from accumulating genetic and epigenetic alterations that disrupt normal tissue differentiation programs and discuss the challenges of modeling this complex architecture in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Metastasis, and Stepwise Tumor Progression",
+      "groupedBecause": "These subtopics explain the distinction between benign and malignant tumors through histopathological evidence of basement membrane invasion, metastatic dissemination, and adenoma-to-carcinoma progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature and Pathophysiological Effects",
+      "groupedBecause": "These subtopics establish the standard naming conventions for different tumor classes and describe the physiological mechanisms by which neoplastic growths cause severe morbidity and death.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Incidence Across Humans and Other Species",
+      "groupedBecause": "These subtopics survey cancer frequency and mortality trends in human populations and demonstrate how cancer acts as a universal disease of multicellular development across diverse animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Modalities of Cancer Screening",
+      "groupedBecause": "These subtopics examine the clinical rationale, histological foundations, and comparative efficacy of screening programs for early cancer detection across different tissue sites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion and Practical Reminders",
+      "groupedBecause": "The lecturer closes the session by reinforcing the learning outcomes and providing logistical instructions for upcoming practicals.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

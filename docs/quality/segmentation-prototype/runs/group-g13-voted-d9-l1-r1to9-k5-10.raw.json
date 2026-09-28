@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic introduces the lecture topic and outlines the scope of the material to be covered.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate recognition of infection and tissue damage",
+      "groupedBecause": "These subtopics explain how innate immune cells detect microbial infection and cellular damage through molecular patterns and pattern recognition receptor signaling cascades.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Sentinel cell activation and leukocyte recruitment",
+      "groupedBecause": "These subtopics describe how activated sentinel cells prompt endothelial adhesion and chemokine gradients to recruit circulating leukocytes into inflamed tissue.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic drainage and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how dendritic cells migrate through the lymphatic vasculature to lymph nodes to initiate adaptive immune responses.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Pathology and mortality of septic shock",
+      "groupedBecause": "This subtopic details the clinical dangers and physiological consequences of excessive systemic cytokine release.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics describe the mechanisms that terminate acute inflammation, rebuild damaged tissue, and establish chronic inflammatory states such as granulomas.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the session and previews the subject of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

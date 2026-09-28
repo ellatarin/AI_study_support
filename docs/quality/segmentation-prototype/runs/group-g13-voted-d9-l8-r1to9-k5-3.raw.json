@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer welcomes the students and outlines the core aims and comparative learning outcomes of the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Modalities and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics examine traditional cancer treatments—including surgery, radiotherapy, and cytotoxic chemotherapeutic agents—along with their systemic toxicities and efflux-mediated drug resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities and Repair Defects",
+      "groupedBecause": "These subtopics focus on therapeutic strategies designed to exploit specific cancer cell weaknesses, such as hormone dependence, cell cycle checkpoint failures, and synthetic lethality in DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene Addiction and Kinase Inhibitor Therapies",
+      "groupedBecause": "These subtopics address how hyperactivated driver kinases are targeted based on oncogene addiction, as well as the structural and bypass resistance mechanisms that emerge during treatment.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics cover the design and therapeutic application of monoclonal antibodies and antibody-drug conjugates directed against tumor-associated surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Exploitation",
+      "groupedBecause": "These subtopics discuss the concepts and clinical modalities used to harness and re-engineer the host immune response against tumors, including checkpoint inhibitors, BiTEs, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, Long-Term Progress, and Future Directions in Cancer Therapy",
+      "groupedBecause": "These subtopics evaluate the historical progress, persistent clinical challenges, future perspectives, and ethical dilemmas surrounding cancer treatment paradigms.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course Welcome and Lecture Overview",
+      "groupedBecause": "This subtopic welcomes the students and outlines the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Innate Pathogen and Damage Recognition",
+      "groupedBecause": "These subtopics establish how the innate immune system detects infections and cellular injury by recognizing conserved molecular patterns while distinguishing self from non-self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern Recognition Receptor Families, Signaling, and Inflammasomes",
+      "groupedBecause": "These subtopics examine the major pattern recognition receptor families, their intracellular signaling cascades, and the assembly and regulation of the inflammasome.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Sentinel Cell Activation, Leukocyte Recruitment, and Systemic Complications",
+      "groupedBecause": "These subtopics describe how sentinel cells coordinate leukocyte extravasation into inflamed tissues and lymphatic drainage, as well as the life-threatening risks of uncontrolled systemic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Containment",
+      "groupedBecause": "These subtopics explain the passive and active mechanisms that resolve inflammation, restore tissue integrity, and form granulomas when infections persist.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Next Lecture Preview",
+      "groupedBecause": "This subtopic concludes the presentation and announces the next lecture on the complement system.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "This subtopic provides the introductory framing and sets the scope for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and Damage Recognition by Pattern Recognition Receptors",
+      "groupedBecause": "These subtopics describe the molecular mechanisms by which the innate immune system senses microbial products and tissue damage through pattern recognition receptors and inflammasome activation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory Cell Mobilization, Trafficking, and Systemic Consequences",
+      "groupedBecause": "These subtopics detail how activated sentinel cells direct immune cell trafficking into tissues and lymph nodes, as well as the physiological hazards of uncontrolled systemic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics examine the mechanisms that shut down acute inflammation, restore tissue integrity, and manage persistent challenges through chronic inflammation and granuloma formation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic provides the closing framing and indicates the topic of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

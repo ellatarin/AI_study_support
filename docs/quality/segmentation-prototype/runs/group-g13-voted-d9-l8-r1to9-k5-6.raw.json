@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the final lecture and outlines the learning objectives regarding cancer therapies and their mechanisms of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Modalities and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics examine standard treatment modalities including surgery, radiotherapy, and cytotoxic chemotherapies along with their systemic toxicities and efflux-mediated resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Vulnerabilities and Checkpoint Defects",
+      "groupedBecause": "These subtopics describe strategies designed to exploit tumor-specific biological vulnerabilities, including hormone dependencies, cell cycle checkpoint defects, and synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene Addiction, Kinase Inhibitors, and Resistance",
+      "groupedBecause": "These subtopics explain the therapeutic targeting of hyperactivated oncogenic kinases and the molecular mechanisms that drive drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Targeted Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics detail the development and mechanisms of therapeutic monoclonal antibodies and antibody-drug conjugates directed against tumor surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune Surveillance and Checkpoint Blockade",
+      "groupedBecause": "These subtopics explore anti-tumor immunity, neoantigen recognition, and the reactivation of exhausted T cells using immune checkpoint inhibitors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Bispecific Engagers and Engineered Cellular Immunotherapies",
+      "groupedBecause": "These subtopics discuss advanced immunotherapies that redirect or genetically reprogram T cells to target cancer cells.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Challenges, Historical Progress, and Future Outlook",
+      "groupedBecause": "These subtopics assess the systemic challenges, historical improvements in patient survival, and emerging directions in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

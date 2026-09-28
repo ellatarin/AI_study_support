@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the scope of the cancer lecture series, and the specific learning objectives regarding cancer causation and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Concepts of Cancer Causation and Epidemiological Evidence",
+      "groupedBecause": "These subtopics explore the multi-factorial nature of cancer development, weighing intrinsic biological errors and genetic predisposition against environmental exposures and population-level epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents in Carcinogenesis",
+      "groupedBecause": "These subtopics explain how viral and bacterial pathogens contribute to malignancy, illustrated through the etiology and chromosomal translocation mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Molecular Mechanisms of Chemical and Physical Mutagens",
+      "groupedBecause": "These subtopics detail how environmental chemicals, dietary toxins, and radiation undergo metabolic processing to form DNA adducts and genetic mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion and the Multi-Stage Model of Carcinogenesis",
+      "groupedBecause": "These subtopics differentiate tumor initiators from promoters by examining how non-mutagenic stimuli like chronic inflammation and signaling agonists drive the clonal expansion of mutated cells.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Susceptibility Factors and Carcinogenesis Summary",
+      "groupedBecause": "These subtopics examine how tissue development and life stages influence vulnerability to malignant transformation, followed by a synthesis of carcinogenic mechanisms.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Assessing and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro experimental approaches used to determine whether specific agents cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Risk Analysis and Lecture Conclusion",
+      "groupedBecause": "This subtopic closes the lecture by reviewing the everyday trade-offs between carcinogenic risks and practical benefits alongside final concluding remarks.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

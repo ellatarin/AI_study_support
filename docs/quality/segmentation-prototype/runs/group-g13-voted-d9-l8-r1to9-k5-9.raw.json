@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer welcomes students and outlines the learning objectives for the final lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics examine traditional cancer treatment modalities along with their associated systemic toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities",
+      "groupedBecause": "These subtopics describe therapeutic strategies designed to exploit specific intrinsic molecular vulnerabilities and DNA repair defects in cancer cells.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase Inhibitors and Mechanisms of Resistance",
+      "groupedBecause": "These subtopics discuss the identification and pharmacological inhibition of oncogenic kinases alongside the emergence of drug resistance and adaptive bypass mechanisms.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-Based Cancer Therapies",
+      "groupedBecause": "These subtopics examine the design, therapeutic mechanisms, and clinical considerations of monoclonal antibodies and antibody-drug conjugates directed against tumor antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Activation",
+      "groupedBecause": "These subtopics examine the role of the immune system in tumor surveillance and the therapeutic approaches developed to reactivate or engineer immune responses against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Progress, Systemic Challenges, and Future Directions in Cancer Treatment",
+      "groupedBecause": "These subtopics evaluate the broader progress, systemic challenges, and future clinical and ethical perspectives in cancer therapy.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

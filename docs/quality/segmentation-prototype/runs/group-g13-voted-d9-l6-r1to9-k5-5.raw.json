@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic provides the opening framing, learning outcomes, and a foundational overview of the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and pathway deregulation",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in surface receptors and downstream cascades such as Wnt/beta-catenin and RTK signaling drive self-sufficient cellular proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in tumorigenesis",
+      "groupedBecause": "These subtopics explore how cancer cells fail to undergo terminal lineage differentiation in both hematopoietic malignancies and colorectal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic details how alterations in p53 and mitochondrial regulatory proteins disrupt programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and cellular senescence",
+      "groupedBecause": "These subtopics examine how telomere dynamics and senescence barriers regulate the Hayflick limit and how cancer cells achieve infinite replication via telomerase activation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics address the transition to complex cancer hallmarks through aerobic glycolysis, pathway rewiring, and Krebs cycle mutations generating oncometabolites.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "These subtopics describe the necessity, timing, and molecular balance of regulatory factors required to induce blood vessel growth for tumor survival.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Metastasis and systemic dissemination",
+      "groupedBecause": "This subtopic examines the multi-step metastatic cascade, vascular transit, liquid biopsy biomarkers, and the genomic landscape governing secondary site colonization.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and closing remarks",
+      "groupedBecause": "This subtopic provides closing remarks on hallmark integration, recent literature, and practical session housekeeping.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

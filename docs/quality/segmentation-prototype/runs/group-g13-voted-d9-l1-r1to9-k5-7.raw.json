@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "This subtopic introduces the lecture topic on the initiation and resolution of inflammation within the Biology of Disease course.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and Damage Recognition Mechanisms",
+      "groupedBecause": "These subtopics explain how the innate immune system detects microbes and cellular injury through pattern recognition receptors and downstream signaling cascades.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Sentinel Cell Activation and Leukocyte Recruitment",
+      "groupedBecause": "These subtopics describe how activated sentinel cells signal endothelial cells to recruit circulating leukocytes into inflamed tissues.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic Drainage and Adaptive Immune Priming",
+      "groupedBecause": "This subtopic explains how sentinel cells migrate via the lymphatic system to lymph nodes to initiate adaptive immune responses.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Systemic Inflammation and Septic Shock",
+      "groupedBecause": "This subtopic addresses the severe physiological consequences that occur when inflammatory signaling becomes excessively activated throughout the body.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Outcomes",
+      "groupedBecause": "These subtopics detail the mechanisms that shut down inflammation, rebuild damaged tissue, and manage persistent triggers through chronic inflammation and granulomas.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and announces the topic of the upcoming session.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "It provides the opening framing, welcome, and key learning objectives for the lecture on the causes of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology and the Interplay of Genetics, Environment, and Chance",
+      "groupedBecause": "These subtopics introduce the fundamental nature of cancer as an evolutionary and genetic disease shaped by endogenous mutations, environmental exposures, and epidemiological variation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and Infectious Agents in Cancer",
+      "groupedBecause": "These subtopics examine how infectious agents drive malignancy, focusing on oncogenic viruses and the mechanistic case study of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Mechanisms of DNA Damage",
+      "groupedBecause": "These subtopics detail how dietary toxins, ultraviolet radiation, and chemical carcinogens cause DNA damage directly or via metabolic activation into reactive intermediates.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promoters, Chronic Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics explain how non-mutagenic factors, including tumor promoters, chronic inflammation, and developmental or tissue-specific contexts, drive cancer progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Detecting and Evaluating Carcinogenicity",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, in vivo, and in vitro experimental methodologies used to identify carcinogens and determine their potency.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "It provides closing remarks and summarizing thoughts on weighing environmental risks against daily life benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

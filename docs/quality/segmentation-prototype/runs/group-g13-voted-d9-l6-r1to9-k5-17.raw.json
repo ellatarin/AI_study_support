@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Mechanisms",
+      "groupedBecause": "The lecturer introduces the lecture scope, learning outcomes, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of Proliferative and Growth-Inhibitory Signaling",
+      "groupedBecause": "These subtopics explain how mutations in cell-surface receptors and downstream intracellular cascades drive autonomous cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer",
+      "groupedBecause": "These subtopics demonstrate how malignancies in both hematopoietic and epithelial tissues arrest cellular differentiation to maintain a proliferative state.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic describes how cancer cells evade programmed cell death through alterations in the p53 tumor suppressor pathway and BCL2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics examine how telomere maintenance and evasion of p53-mediated stress senescence grant cancer cells unlimited replicative potential.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered Energy Metabolism and Metabolic Rewiring",
+      "groupedBecause": "These subtopics explore the shift to aerobic glycolysis and the epigenetic consequences of metabolic enzyme mutations in cancer.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "These subtopics analyze the requirement, timing, and molecular balance governing new blood vessel recruitment in growing tumors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Invasion and Metastasis",
+      "groupedBecause": "This subtopic details the multi-step metastatic cascade, clinical detection of circulating tumor cells, and genomic features of distant dissemination.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Summary and Closing Remarks",
+      "groupedBecause": "The lecturer concludes the session by contextualizing modern hallmark literature and directing students to upcoming practicals.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

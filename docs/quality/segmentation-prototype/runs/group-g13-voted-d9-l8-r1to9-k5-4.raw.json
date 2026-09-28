@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "These remarks introduce the final lecture of the course and state its core learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics discuss traditional physical and cytotoxic modalities used to treat tumors along with their associated toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities and Repair Defects",
+      "groupedBecause": "These subtopics focus on therapeutic strategies that exploit intrinsic biological vulnerabilities of cancer cells such as hormone dependence, checkpoint loss, and defective DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted Kinase Inhibitors and Mechanisms of Drug Resistance",
+      "groupedBecause": "These subtopics explore targeted small-molecule inhibitors directed against hyperactive oncogenic kinases and the subsequent emergence of resistance and drug dependence.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics describe the use of engineered antibodies to target tumor surface markers directly or to deliver cytotoxic agents into malignant cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumor Immunology and Cell-Mediated Immunotherapies",
+      "groupedBecause": "These subtopics examine how the immune system interacts with tumors and detail therapeutic methods designed to harness or engineer T cells to eliminate cancer cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Systemic Challenges, Progress, and Future Horizons in Cancer Therapy",
+      "groupedBecause": "These subtopics evaluate the overall clinical landscape of oncology, assessing historical progress, current therapeutic hurdles, and prospective directions for patient management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

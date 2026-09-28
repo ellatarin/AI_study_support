@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Biology and Course Overview",
+      "groupedBecause": "It introduces the lecture series, outlines key learning outcomes, and frames the clinical and biological significance of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular Foundations and Developmental Basis of Cancer",
+      "groupedBecause": "They describe how cancer arises from accumulated genetic changes and the breakdown of normal tissue differentiation programs, along with experimental approaches to study these cells.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Stepwise Progression, and Classification",
+      "groupedBecause": "They explore the histological criteria separating benign from malignant tumors through tissue invasion, metastatic pathways, stepwise progression models, and standard nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "It explains the physiological, structural, and systemic mechanisms through which primary and metastatic tumors impair normal tissue function and cause patient death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Patterns of Cancer Incidence in Humans and Other Species",
+      "groupedBecause": "They examine the epidemiology of cancer across various human tissue lineages as well as comparative incidence patterns across diverse animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Applications of Clinical Cancer Screening",
+      "groupedBecause": "They evaluate the rationale, clinical benefits, and organ-specific limitations of screening protocols designed to detect precursor and malignant lesions.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion and Practical Preview",
+      "groupedBecause": "It summarizes the session, directs students to review learning outcomes, and provides housekeeping for upcoming practicals.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

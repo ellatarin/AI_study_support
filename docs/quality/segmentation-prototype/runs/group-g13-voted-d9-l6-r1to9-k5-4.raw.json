@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Hallmarks of Cancer Overview",
+      "groupedBecause": "The lecturer introduces the lecture scope, learning outcomes, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Autonomous Growth Signaling and Proliferation Pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations within cell surface receptors and intracellular signaling cascades drive uncontrolled cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer Development",
+      "groupedBecause": "These subtopics examine how impaired terminal differentiation halts maturation and perpetuates proliferative states across hematological and epithelial cancers.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptotic Cell Death",
+      "groupedBecause": "This subtopic describes the molecular mechanisms by which cancer cells disrupt pro- and anti-apoptotic signaling balances to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Regulation",
+      "groupedBecause": "These subtopics explain how cancer cells overcome telomere-induced proliferative limits and bypass normal senescence checkpoints to achieve indefinite replication.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Metabolism and Metabolic Reprogramming",
+      "groupedBecause": "These subtopics introduce complex cancer hallmarks and explore the rewiring of metabolic pathways toward aerobic glycolysis and epigenetic modification.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics address the physiological requirement, progression timeline, and regulatory balance of new blood vessel recruitment in tumors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Dynamics of Tumor Metastasis",
+      "groupedBecause": "This subtopic outlines the biological stages, dissemination routes, diagnostic tracking methods, and genetic factors involved in metastatic cancer spread.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Final Summary",
+      "groupedBecause": "The lecturer provides concluding thoughts on hallmark integration and finishes the lecture.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

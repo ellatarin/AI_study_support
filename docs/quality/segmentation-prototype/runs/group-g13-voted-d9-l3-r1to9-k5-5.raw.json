@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "This section welcomes the students, introduces the scope of the cancer biology lecture series, and outlines the primary learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and Developmental Origins of Cancer",
+      "groupedBecause": "These subtopics explore how cancer develops from accumulated molecular alterations and the breakdown of normal tissue differentiation and cellular architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Progression, Invasion, and Classification",
+      "groupedBecause": "These subtopics examine how tumors progress from precursor lesions to invasive disease and how neoplasms are classified and named based on their pathological behavior.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathophysiology, Mortality, and Cancer Incidence",
+      "groupedBecause": "These subtopics describe the mechanisms of cancer-induced morbidity and death while evaluating the patterns of tumor incidence across tissues, populations, and animal species.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Principles and Applications of Cancer Screening",
+      "groupedBecause": "These subtopics assess the clinical rationale, histological basis, and comparative effectiveness of screening programs across different cancer types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Wrap-Up and Next Steps",
+      "groupedBecause": "This section concludes the presentation by referencing the learning outcomes and providing logistical details for the upcoming practical sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

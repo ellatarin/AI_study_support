@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the lecture",
+      "groupedBecause": "This subtopic introduces the lecture topic on the initiation and resolution of inflammation and outlines how previously learned concepts will be integrated.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate sensing via PAMPs, DAMPs, and PRRs",
+      "groupedBecause": "These subtopics explain the fundamental requirements and cellular localization strategies used by pattern recognition receptors to detect conserved microbial products and signs of tissue damage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor families and inflammasome activation",
+      "groupedBecause": "These subtopics examine specific receptor systems including toll-like receptors, cytoplasmic sensors, and the inflammasome complex that coordinate downstream inflammatory signaling.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Sentinel cell activation and leukocyte recruitment",
+      "groupedBecause": "These subtopics describe how activated tissue sentinel cells stimulate endothelial adhesion molecules and chemokine gradients to guide circulating leukocytes into infected tissue.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic drainage and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how fluid drainage through the lymphatic system enables dendritic cells to transport antigens to lymph nodes for adaptive immune activation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Pathology of excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic examines the severe physiological consequences and high mortality associated with uncontrolled systemic cytokine release during sepsis.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "These subtopics explore the passive and active mechanisms that terminate inflammation, drive wound healing and scar formation, and lead to persistent adaptations such as granulomas.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion of the lecture",
+      "groupedBecause": "This subtopic marks the conclusion of the session and previews the subject of the upcoming lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

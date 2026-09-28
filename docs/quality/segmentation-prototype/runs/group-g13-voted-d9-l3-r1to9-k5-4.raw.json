@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, setting expectations and outlining the core learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Differentiation and Genetic Control",
+      "groupedBecause": "These subtopics define cancer as a breakdown in normal cellular differentiation, genetic regulation, and three-dimensional tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Metastasis, and Stepwise Tumor Progression",
+      "groupedBecause": "These subtopics explain the biology and histology of tumor invasion and metastasis, using colorectal adenoma-to-carcinoma progression as a primary model.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Benign versus Malignant Tumor Behavior and Nomenclature",
+      "groupedBecause": "These subtopics contrast the clinical behavior of benign and malignant tumors and outline the systematic nomenclature used to classify them.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Disease and Death",
+      "groupedBecause": "This subtopic addresses the specific mechanical, metabolic, and systemic mechanisms by which primary and metastatic tumors cause patient morbidity and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer Incidence Across Human Tissues and Animal Species",
+      "groupedBecause": "These subtopics examine patterns of cancer incidence and mortality across different human organ systems and in comparative animal oncology.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical Presentation and Cancer Screening Strategies",
+      "groupedBecause": "These subtopics cover the symptoms of cancer and evaluate the approaches, efficacy, and challenges of screening programs across major cancer types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Summary and Practical Information",
+      "groupedBecause": "This subtopic concludes the lecture with a review of learning outcomes and reminders for upcoming practicals.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

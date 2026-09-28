@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Lecture Objectives",
+      "groupedBecause": "This subtopic frames the lecture by outlining its learning outcomes, review background, and overarching thematic structure.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Autonomy and Intracellular Proliferative Pathways",
+      "groupedBecause": "These subtopics explain how mutations in growth factor receptors and downstream signaling cascades drive sustained cellular proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Leukemias and Carcinomas",
+      "groupedBecause": "These subtopics examine how oncogenic mutations arrest normal lineage differentiation in both hematopoietic and intestinal tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of Resistance to Apoptosis",
+      "groupedBecause": "This subtopic explores how p53 disruption and the balance of mitochondrial Bcl-2 family proteins allow cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics address how cancer cells overcome telomere-mediated division limits by reactivating telomerase and bypassing p53-dependent senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Reprogrammed Cancer Metabolism and the Warburg Effect",
+      "groupedBecause": "These subtopics explain the metabolic shift of cancer cells toward aerobic glycolysis and how metabolic mutations generate oncometabolites that alter gene regulation.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "These subtopics detail how developing tumors overcome hypoxia by tipping the regulatory balance of signaling factors to stimulate new blood vessel formation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms, Dissemination, and Diagnostics of Metastasis",
+      "groupedBecause": "This subtopic discusses the multistep metastatic cascade, circulatory dissemination, diagnostic tracking via liquid biopsies, and clonal genomic features of metastases.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Practical Preview",
+      "groupedBecause": "This subtopic provides closing lecture framing by summarizing the cancer hallmarks framework and pointing students to upcoming practical sessions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Complement System",
+      "groupedBecause": "This opening framing introduces the lecture topic, contextualizes its complexity, and sets expectations for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals, Nomenclature, and Central Role of C3",
+      "groupedBecause": "These subtopics establish the foundational principles of the complement cascade, explain its naming conventions, and highlight the central biochemical role of C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement Activation Pathways",
+      "groupedBecause": "These subtopics explain the three distinct biochemical pathways that detect pathogens and converge on activating surface-bound complement.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement Effector Mechanisms",
+      "groupedBecause": "These subtopics describe the downstream processes through which activated complement coordinates pathogen elimination and immune recruitment.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of Complement and Host Cell Protection",
+      "groupedBecause": "This subtopic addresses how host regulatory proteins prevent unintended complement activation and membrane damage on self tissue.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Consequences of Complement Deficiencies",
+      "groupedBecause": "This subtopic examines how deficiencies in specific complement components result in distinct clinical disease presentations and infection susceptibilities.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion Strategies",
+      "groupedBecause": "This subtopic explores the evolutionary adaptations used by microbes to circumvent complement-mediated destruction and their practical applications.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing Remarks and Preview of Next Lecture",
+      "groupedBecause": "This closing framing concludes the lecture on complement and previews the upcoming session on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

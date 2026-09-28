@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "It provides the introductory framing for the lecture series, outlining course structure and intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Basis of Neoplastic Transformation and Tissue Architecture",
+      "groupedBecause": "These subtopics explain how the accumulation of genetic alterations causes cancer through the progressive failure of normal cellular differentiation and tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology of Tumor Invasion, Metastasis, and Malignant Progression",
+      "groupedBecause": "These subtopics examine how benign neoplasms advance to invasive and metastatic malignancies across histological boundaries.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Nomenclature and Classification of Neoplasms",
+      "groupedBecause": "It sets out the standard rules, suffixes, and clinical conventions used to classify and name benign and malignant tumors.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "It explains the physiological, structural, and metabolic processes through which primary and metastatic tumors cause systemic disease and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative Incidence of Tumors Across Species and Tissues",
+      "groupedBecause": "These subtopics compare the prevalence and tissue distribution of neoplasms across human populations and diverse animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Clinical Methods of Cancer Screening",
+      "groupedBecause": "These subtopics evaluate the diagnostic rationale, techniques, and practical efficacy of screening programs for early cancer detection.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion and Administrative Wrap-Up",
+      "groupedBecause": "It provides the concluding framing, directing students toward practical sessions and upcoming lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

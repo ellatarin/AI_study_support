@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer welcomes students to the final lecture of the course and outlines the learning objectives regarding cancer treatment approaches and their modes of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Modalities and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics discuss standard cancer treatment modalities—including physical debulking and cytotoxic agents—along with the physiological toxicity and efflux-mediated drug resistance they provoke.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities and DNA Repair Defects",
+      "groupedBecause": "These subtopics examine strategies that exploit intrinsic cancer vulnerabilities, such as hormone receptor signaling dependencies, cell cycle checkpoint losses, and defective DNA damage repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase Inhibitors, Resistance, and Drug Addiction",
+      "groupedBecause": "These subtopics explore the development of targeted kinase inhibitors for oncogene-driven cancers and detail the molecular mechanisms through which tumor cells develop drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics describe how engineered monoclonal antibodies and antibody-toxin conjugates target cell-surface antigens to direct cytotoxic effects against tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumor Immune Surveillance and Checkpoint Inhibitors",
+      "groupedBecause": "These subtopics explore the evidence for immune surveillance against cancer and explain how immune checkpoint blockade reactivates T-cell responses against tumor neoantigens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Engineered Cellular and Bispecific Immunotherapies",
+      "groupedBecause": "These subtopics describe synthetic immunotherapy strategies that redirect or engineer T cells to target specific tumor antigens, focusing on bispecific T-cell engagers and chimeric antigen receptor T cells.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Challenges, Progress, and Future Directions in Oncology",
+      "groupedBecause": "These subtopics review the systemic challenges, epidemiological progress, ethical considerations, and emerging paradigms shaping the future of cancer therapy.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

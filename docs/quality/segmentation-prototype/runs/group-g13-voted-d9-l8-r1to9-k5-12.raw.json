@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer welcomes the class to the final course session and outlines the key learning goals regarding cancer treatment approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional cancer treatment modalities and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics discuss conventional cancer treatment approaches, including surgery, radiotherapy, and cytotoxic chemotherapeutic agents alongside their mechanisms, toxicities, and resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting cancer cell vulnerabilities, checkpoint defects, and synthetic lethality",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic cancer cell defects, including hormone dependence, cell cycle checkpoint loss, and homologous recombination repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene addiction, kinase inhibitors, and mechanisms of targeted resistance",
+      "groupedBecause": "These subtopics focus on targeting oncogenic driver kinases with small-molecule inhibitors and the molecular mechanisms and management of acquired drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe using engineered antibodies to block oncogenic receptors, recruit immune effector functions, and deliver cytotoxic payloads directly to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumor immune surveillance and cellular immunotherapy strategies",
+      "groupedBecause": "These subtopics address the role of the immune system in cancer surveillance and methods for unleashing antitumor immune responses using checkpoint inhibitors, BiTEs, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic challenges, clinical progress, and future directions in oncology",
+      "groupedBecause": "These subtopics evaluate systemic challenges in cancer treatment, historical survival trends, emerging clinical paradigms, and the ethical considerations of developing novel therapies.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

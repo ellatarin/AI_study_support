@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Complement",
+      "groupedBecause": "It opens the lecture by framing the importance and complexity of the complement system in immunology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational Concepts, Nomenclature, and C3 Function",
+      "groupedBecause": "They establish the overarching architecture, naming rules, and central molecular role of C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement Activation Pathways",
+      "groupedBecause": "They describe the mechanisms through which the alternative, lectin, and classical pathways trigger complement activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement Effector Mechanisms",
+      "groupedBecause": "They detail the primary downstream immunological processes by which activated complement clears pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation of Complement",
+      "groupedBecause": "It explains the regulatory mechanisms that prevent complement activation from damaging host tissues.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Complement Deficiencies",
+      "groupedBecause": "It analyzes the distinct disease manifestations and diagnostic presentations associated with deficiencies in complement proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion of Complement",
+      "groupedBecause": "It examines how microbial pathogens have evolved strategies to counteract and survive complement-mediated destruction.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Upcoming Topics",
+      "groupedBecause": "It provides the closing framing for the session and introduces the subject of the next lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

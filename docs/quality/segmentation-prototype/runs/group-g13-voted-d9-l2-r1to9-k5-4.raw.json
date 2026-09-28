@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "The lecturer introduces the complement system and contextualizes its importance and complexity in immunology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals and core concepts of the complement system",
+      "groupedBecause": "These subtopics introduce the foundational organizational principles and molecular mechanisms that govern the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three biochemical pathways that recognize targets and drive activation toward the threshold of C3 convertase deposition.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail the functional downstream processes through which activated complement eliminates pathogens and stimulates immune activity.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement",
+      "groupedBecause": "This subtopic explains the cellular and soluble regulatory mechanisms that prevent complement from damaging healthy host tissues.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical complement deficiencies",
+      "groupedBecause": "This subtopic examines how deficiencies across individual complement components manifest in specific clinical diseases and pathologies.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic explores the molecular strategies evolved by microorganisms to circumvent complement defenses and how these mechanisms are applied in the laboratory.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer wraps up the lecture on complement and previews the upcoming lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

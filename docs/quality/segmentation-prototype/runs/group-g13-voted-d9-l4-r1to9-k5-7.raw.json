@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic provides the opening framing by introducing the lecturer, the course context, and the lecture's core learning goals.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Concepts of Cancer Etiology: Genetics, Environment, and Chance",
+      "groupedBecause": "These subtopics establish the foundational principles of cancer development by examining the interplay between intrinsic replication errors, inherited genetic risk, environmental mutagens, and epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Oncogenesis",
+      "groupedBecause": "These subtopics explore how viral and bacterial infections drive malignant transformation through immune suppression, chronic inflammation, and genomic rearrangements, focusing in detail on Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Radiation Mutagenesis and Metabolic Activation",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which radiation and chemical carcinogens damage DNA, including their metabolic activation into reactive electrophilic adducts by xenobiotic pathways.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine how non-mutagenic promoters, chronic inflammatory states, and developmental or tissue-specific contexts foster an environment permissive to tumor outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Detecting and Evaluating Carcinogenicity",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, in vivo, and in vitro experimental approaches used to identify mutational signatures and assess the carcinogenic risk of various agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Summary",
+      "groupedBecause": "This subtopic provides the concluding framing for the lecture, summarizing key takeaways and the daily risk-benefit evaluations associated with environmental exposures.",
+      "firstSubtopicId": 22
+    }
+  ]
+}
