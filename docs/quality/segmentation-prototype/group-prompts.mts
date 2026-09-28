@@ -188,6 +188,28 @@ const SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2 = `${SPLIT_UNLESS_IT_STRANDS
 /** g12's checklist question for R5: g11's, with the opening and closing excepted. */
 const SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2_CHECK = `${SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_CHECK.replace(/\?$/, "")} (the opening and the closing under R2 excepted)?`;
 
+/** g6's R6 body: a reason that only works as a list of kinds means divide. */
+const LIST_IS_NOT_A_REASON = `If a \`groupedBecause\` has to name the different kinds of thing in the topic in order to say what they share, it is not describing one topic. Read it back: if the sentence only works as a list — this kind, and that kind, and the other kind — then the subtopics do not share a topic and you must divide them. What they share must be sayable as one thing.`;
+
+/** g6's checklist question for R6. */
+const LIST_IS_NOT_A_REASON_CHECK = "is any `groupedBecause` written as a list of kinds? If so, split that topic.";
+
+/**
+ * g14's R6. On lectures 4 and 5 the user's ruled topics hold together because
+ * they answer one question the lecture poses, with answers of different kinds,
+ * so every run that found them named them as a list — and the runs that split
+ * them were obeying R6. The exception is written inside R6's own sentence, with
+ * a guard against a question broad enough to swallow the neighbouring topics.
+ */
+const LIST_IS_NOT_A_REASON_UNLESS_ONE_QUESTION = `${LIST_IS_NOT_A_REASON.replace(
+	"you must divide them.",
+	"you must divide them, unless the kinds are the lecture's own answers to a single question it poses for this stretch; then that question is what they share, and the `groupedBecause` should state it. The question must be one the lecture asks of these subtopics alone, not one broad enough to take in the neighbouring topics too.",
+)}`;
+
+/** g14's checklist question for R6. */
+const LIST_IS_NOT_A_REASON_UNLESS_ONE_QUESTION_CHECK =
+	"is any `groupedBecause` written as a list of kinds? If so, split that topic — unless the kinds answer one question the lecture poses for that stretch alone.";
+
 /**
  * g13's addition to Method step 1, as agreed with the user: the model may use
  * what it knows of the subject to see where topics divide. Stated with no
@@ -213,6 +235,8 @@ const STRUCTURED_PROMPT = ({
 	r2 = OPENING_RULE,
 	r2Check = OPENING_RULE_CHECK,
 	subjectKnowledge = "",
+	r6 = LIST_IS_NOT_A_REASON,
+	r6Check = LIST_IS_NOT_A_REASON_CHECK,
 }: {
 	readonly labelsShown: boolean;
 	readonly r4: string;
@@ -223,6 +247,8 @@ const STRUCTURED_PROMPT = ({
 	readonly r5Check?: string;
 	/** Appended to Method step 1; empty for every version before g13. */
 	readonly subjectKnowledge?: string;
+	readonly r6?: string;
+	readonly r6Check?: string;
 }): string => `# Task
 
 You are given the subtopics of a university lecture, in order, each with its full text. Group them into TOPICS.
@@ -263,14 +289,14 @@ ${r5}
 
 ### R6 — A reason that is a list is not a reason
 
-If a \`groupedBecause\` has to name the different kinds of thing in the topic in order to say what they share, it is not describing one topic. Read it back: if the sentence only works as a list — this kind, and that kind, and the other kind — then the subtopics do not share a topic and you must divide them. What they share must be sayable as one thing.
+${r6}
 
 ## Check before replying
 
 - **R2**: ${r2Check}
 - **R3**: does every label describe only what its own subtopics carry?
 - **R5**: ${r5Check}
-- **R6**: is any \`groupedBecause\` written as a list of kinds? If so, split that topic.
+- **R6**: ${r6Check}
 
 ${REPLY_FORMAT_SECTION}`;
 
@@ -489,6 +515,23 @@ export const GROUP_PROMPTS: readonly GroupPromptVersion[] = [
 				r5: SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2,
 				r5Check: SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2_CHECK,
 				subjectKnowledge: USE_SUBJECT_KNOWLEDGE,
+			}),
+	},
+	{
+		id: "g14",
+		summary: "g12 with R6 excepting a topic whose kinds are the lecture's answers to one question it poses for that stretch.",
+		changed:
+			"R6 and its checklist question only. A list-shaped groupedBecause no longer forces a split when the kinds answer a single question the lecture asks of those subtopics alone, and the groupedBecause should then state the question; a question broad enough to take in the neighbouring topics does not count. On lectures 4 and 5 every run that made the ruled topic named it as a list, and the runs that split it were obeying R6. Everything else is g12 byte for byte.",
+		build: ({ labelsShown }) =>
+			STRUCTURED_PROMPT({
+				labelsShown,
+				r4: R4_STATES_WHY,
+				r2: OPENING_AND_CLOSING_RULE,
+				r2Check: OPENING_AND_CLOSING_RULE_CHECK,
+				r5: SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2,
+				r5Check: SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2_CHECK,
+				r6: LIST_IS_NOT_A_REASON_UNLESS_ONE_QUESTION,
+				r6Check: LIST_IS_NOT_A_REASON_UNLESS_ONE_QUESTION_CHECK,
 			}),
 	},
 ];
