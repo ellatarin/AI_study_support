@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture series by outlining the multidisciplinary audience, course structure, and specific learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and developmental origins of cancer",
+      "groupedBecause": "These subtopics examine cancer fundamentally as a disruption of normal differentiation programs, tissue architecture, and cellular regulation through accumulated genetic and epigenetic changes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and the benign-to-malignant transition",
+      "groupedBecause": "These subtopics address the diagnostic and histological distinction between benign and malignant tumors, focusing on basement membrane invasion, metastatic pathways, and stepwise progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification",
+      "groupedBecause": "This subtopic details the standard conventions and exceptions used to name and categorize benign and malignant tumors based on their tissue of origin.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathophysiological causes of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physical and systemic mechanisms through which primary and metastatic tumors impair physiological function and lead to death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics explore the prevalence of different neoplasms in human populations and across diverse multicellular animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles, methods, and efficacy of cancer screening",
+      "groupedBecause": "These subtopics evaluate the clinical rationale for early tumor detection and compare screening modalities across various cancer types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic provides the closing remarks by revisiting the core learning outcomes and looking ahead to practical sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

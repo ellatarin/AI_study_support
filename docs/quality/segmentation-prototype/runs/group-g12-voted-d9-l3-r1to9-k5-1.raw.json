@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, outlining its structure, core themes, and specific learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular, genetic, and tissue foundations of cancer",
+      "groupedBecause": "These subtopics explain cancer as a disease arising from accumulated genetic alterations, disrupted developmental differentiation, and altered tissue architecture studied in vivo and in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and tumor progression",
+      "groupedBecause": "These subtopics explore the histological and clinical distinctions between benign and malignant tumors, focusing on basement membrane invasion, metastatic routes, and the stepwise adenoma-to-carcinoma sequence.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Neoplasm nomenclature and mechanisms of clinical morbidity",
+      "groupedBecause": "These subtopics describe the standardized classification system for benign and malignant tumors alongside the physical and metabolic mechanisms by which they cause disease and death.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer incidence across humans and animal taxa",
+      "groupedBecause": "These subtopics examine epidemiological patterns of tumor frequency and mortality in human populations and compare cancer occurrence across diverse animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and practice of cancer screening",
+      "groupedBecause": "These subtopics outline the clinical rationale for early cancer detection and evaluate the implementation and effectiveness of screening methods across various organ sites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion and next steps",
+      "groupedBecause": "This subtopic concludes the lecture by reviewing learning outcomes and reminding students of upcoming practicals and lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

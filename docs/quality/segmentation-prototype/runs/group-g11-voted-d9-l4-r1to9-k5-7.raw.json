@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the core learning objectives regarding cancer causation and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology and the interplay of genetics, environment, and chance",
+      "groupedBecause": "These subtopics explore how cancer arises through somatic mutations and microenvironmental support, assessing the relative contributions of intrinsic biological chance, inherited genetics, and environmental exposures across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of initiation, metabolic activation, and tumor promotion",
+      "groupedBecause": "These subtopics examine the biochemical and cellular mechanisms through which environmental agents damage DNA, undergo host metabolic activation, and act as tumor promoters or initiators across susceptible tissues.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for determining carcinogenicity and evaluating risk",
+      "groupedBecause": "These subtopics evaluate the experimental, sequencing, and epidemiological approaches used to identify carcinogens and their mutagenic signatures, concluding with practical risk-benefit considerations.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

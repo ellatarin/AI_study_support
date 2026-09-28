@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic provides the introductory framing, lecturer background, and key learning outcomes for the lecture on cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conceptual Frameworks and Evidence for Cancer Causation",
+      "groupedBecause": "These subtopics evaluate the relative contributions of intrinsic biological bad luck, genetic predisposition, and environmental exposures to cancer development through conceptual models and epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Carcinogenesis",
+      "groupedBecause": "These subtopics explain how viral, bacterial, and parasitic infections promote malignancy, highlighted by the epidemiology and molecular mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Direct and Metabolically Activated Mutagens",
+      "groupedBecause": "These subtopics describe the molecular mechanisms by which dietary, physical, and chemical carcinogens undergo metabolic processing and cause direct DNA adducts or damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promoters, Chronic Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine how non-mutagenic promoters, inflammatory microenvironments, and specific host developmental stages facilitate the outgrowth of mutated cells.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Assessing Carcinogenicity",
+      "groupedBecause": "These subtopics outline the genomic mutational signature analyses, epidemiological biobanks, in vivo animal studies, and in vitro tests used to identify and validate carcinogens.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of environmental cancer drivers and the everyday balance between carcinogen risks and practical benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

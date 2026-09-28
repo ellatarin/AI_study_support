@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer opens the class by connecting cancer histology to cellular biology and outlining the session's key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Virology, Proto-Oncogenes, and Transformation Assays",
+      "groupedBecause": "These subtopics explain how the discovery of transforming viruses led to the identification of cellular proto-oncogenes and experimental assays for testing cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classification and Mechanisms of Oncogenes and Tumor Suppressor Genes",
+      "groupedBecause": "These subtopics define the major classes of cancer-associated genes and examine their genetic mechanisms in cell cycle regulation and mutant protein function.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Forms and Molecular Mechanisms of Genetic Instability",
+      "groupedBecause": "These subtopics explore how defects in DNA repair pathways, replication proofreading, and chromosome segregation produce sequence and chromosomal instability in cancer.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep Progression, Hereditary Cancer Predispositions, and Clonal Evolution",
+      "groupedBecause": "These subtopics examine how sequential somatic mutations and inherited genetic defects accelerate tumor development and influence clinical progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Recommended Reading",
+      "groupedBecause": "The lecturer concludes the presentation by reviewing the learning outcomes, suggesting a textbook, and previewing the next session.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

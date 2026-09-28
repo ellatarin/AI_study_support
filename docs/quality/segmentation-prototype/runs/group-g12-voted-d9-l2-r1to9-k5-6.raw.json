@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "This subtopic introduces the lecture topic and sets expectations regarding the complexity and importance of the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Overview and Core Mechanics of Complement",
+      "groupedBecause": "These subtopics establish the fundamental organization, terminology, and central role of C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement Activation Pathways",
+      "groupedBecause": "These subtopics describe the recognition pathways that initiate complement activation and converge to form surface-bound C3 convertases.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Functions of Complement",
+      "groupedBecause": "These subtopics explain the downstream mechanisms through which activated complement carries out pathogen destruction and immune clearance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation of Complement",
+      "groupedBecause": "This subtopic explains the regulatory proteins that control the complement cascade and prevent accidental destruction of host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Complement Deficiencies",
+      "groupedBecause": "This subtopic examines the distinct clinical presentations and disease risks associated with deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion of Complement",
+      "groupedBecause": "This subtopic details the evolutionary mechanisms employed by pathogens to evade and inhibit complement-mediated immune destruction.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the session and previews the upcoming lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

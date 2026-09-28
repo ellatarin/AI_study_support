@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer welcomes the class and outlines the learning objectives for the final lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Treatments and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics discuss standard frontline cancer treatment modalities and the clinical limitations imposed by systemic toxicity and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cellular Vulnerabilities and DNA Repair Defects",
+      "groupedBecause": "These subtopics focus on therapeutic strategies that exploit intrinsic vulnerabilities in cancer cells, including hormone signaling, cell cycle checkpoint loss, and defective DNA repair.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene-Targeted Kinase Inhibitors and Resistance Mechanisms",
+      "groupedBecause": "These subtopics detail small molecule kinase inhibitors designed to block hyperactive oncogenic drivers and the biological mechanisms through which cancers develop resistance to them.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics address targeted antibody therapies that direct receptor inhibition, immune-mediated cytotoxicity, or cytotoxic drug payloads directly to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune Checkpoint Inhibition and T-Cell-Based Immunotherapies",
+      "groupedBecause": "These subtopics explore the principles and modalities of cell-mediated immunotherapy designed to unleash or engineer T-cell responses against tumor antigens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic Progress, Persistent Challenges, and Future Directions",
+      "groupedBecause": "These subtopics review the overall progress, persisting therapeutic challenges, and future biological and clinical directions in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

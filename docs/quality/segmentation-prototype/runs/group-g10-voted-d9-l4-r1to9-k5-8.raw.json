@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the lecture series, her background, and the core learning outcomes concerning cancer causation and carcinogen appraisal.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The biological basis and drivers of cancer development",
+      "groupedBecause": "These subtopics establish cancer as an evolutionary genetic disease influenced by the microenvironment and driven by accumulated mutations from intrinsic cellular stress and genetic predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epidemiological evidence and environmental versus intrinsic risk",
+      "groupedBecause": "These subtopics explore how population-level geographic patterns, migrant studies, and public scientific debates illustrate the relative contributions of environmental exposures versus random intrinsic mutations.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Pathogens and oncogenesis",
+      "groupedBecause": "These subtopics detail how infectious agents contribute to malignancy, highlighting the multi-factor oncogenic mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mechanisms of DNA mutagenesis",
+      "groupedBecause": "These subtopics describe how specific exogenous agents and their metabolic derivatives induce DNA damage, adducts, and mutational transitions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, inflammation, and host tissue susceptibility",
+      "groupedBecause": "These subtopics explain how non-mutagenic factors, including chemical promoters, chronic inflammation, and developmental timing, create permissive conditions for mutated cells to expand.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for assessing and identifying carcinogens",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, animal, and in vitro testing models used to evaluate carcinogenicity and identify characteristic mutational signatures.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Risk-benefit analysis and lecture conclusion",
+      "groupedBecause": "The lecturer summarizes the key takeaways of the lecture and considers how environmental carcinogen risks are weighed against practical benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

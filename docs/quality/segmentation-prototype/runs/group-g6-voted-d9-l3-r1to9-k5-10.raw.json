@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Biology and Course Framing",
+      "groupedBecause": "This subtopic introduces the course structure, central themes, and learning outcomes for understanding cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Mechanisms and In Vitro Modeling of Cancer",
+      "groupedBecause": "These subtopics explain how genetic and epigenetic changes disrupt normal developmental differentiation and tissue architecture, alongside the experimental considerations of studying tumor cells in culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign and Malignant Tumor Progression, Invasion, and Metastasis",
+      "groupedBecause": "These subtopics describe the biological distinction, histological indicators, and stepwise progression from benign precursor lesions to invasive and metastatic malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Classification and Nomenclature",
+      "groupedBecause": "This subtopic defines the standard naming conventions and notable exceptions used to classify benign and malignant tumors by tissue of origin.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathophysiological Causes of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic explains the anatomical, metabolic, and systemic mechanisms through which local and metastatic tumors cause clinical complications and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer Incidence Across Tissues and Animal Species",
+      "groupedBecause": "These subtopics evaluate the frequency and distribution of tumor types in human populations and across diverse multicellular animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical Detection and Cancer Screening Methods",
+      "groupedBecause": "These subtopics assess early clinical signs of cancer and the effectiveness, histological methods, and trade-offs of screening programs across different tumor types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Conclusion and Learning Outcomes Review",
+      "groupedBecause": "This subtopic concludes the lecture by reiterating the core learning outcomes and looking forward to subsequent practical sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "It introduces the lecture's scope, recaps histological practicals, and outlines the learning objectives on oncogenes, tumor suppressors, and genetic instability.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Virology and the Cellular Origins of Oncogenes",
+      "groupedBecause": "They trace the historical discovery of tumor viruses and how studying their transforming mechanisms revealed that oncogenes originate from captured and mutated normal cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental Assays for Cellular Transformation",
+      "groupedBecause": "It details the laboratory assays and cell culture methods used to evaluate whether specific genes or mutations can drive cellular transformation and tumorigenesis.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Classification of Cancer Mutations and Cell Cycle Control",
+      "groupedBecause": "They define oncogenic versus tumor-suppressive mutations and explain how these alterations disrupt cell cycle checkpoints and gene function through mechanisms like dominant-negative effects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and Cellular Effects of Genetic Instability",
+      "groupedBecause": "They explain how defects in DNA repair pathways, replication fidelity, and mitotic chromosome segregation produce sequence and chromosomal instability in cancer cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "The Multistep Model of Tumor Progression",
+      "groupedBecause": "It describes the Vogelstein model illustrating how the stepwise accumulation and timing of mutations in oncogenes and tumor suppressor genes drive cancer progression from normal tissue to malignancy.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Hereditary Cancer Predisposition and Tumor Evolution",
+      "groupedBecause": "They discuss how inheriting germline mutations accelerates tumorigenesis across specific familial syndromes and how secondary mutations can drive ongoing tumor evolution.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture Conclusion and Recommended Reading",
+      "groupedBecause": "It concludes the session by referencing the learning outcomes, suggesting supplementary reading, and previewing the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Overview and Objectives",
+      "groupedBecause": "The lecturer welcomes students, introduces cancer evolution as the lecture's focus, and outlines key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Selection and Multistep Genetic Evolution",
+      "groupedBecause": "The subtopic explains how sequential genetic mutations provide competitive growth advantages driving Darwinian clonal expansion in tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epigenetic Regulation in Malignant Transformation",
+      "groupedBecause": "The subtopic explores how non-mutational, transient disruptions to the epigenetic landscape can open chromatin and induce tumorigenic phenotypes.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Models",
+      "groupedBecause": "These subtopics evaluate how tissue differentiation hierarchies and stemness properties influence tumor initiation and progression.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Tumor Promoters",
+      "groupedBecause": "These subtopics examine how environmental exposures and chronic inflammation act as critical promotional stimuli enabling mutated cells to expand and transform.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Microenvironment Dependency and Therapeutic Targeting",
+      "groupedBecause": "The subtopic describes how established tumors depend on supportive stroma and discusses how targeting this codependency offers therapeutic avenues.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Techniques for Investigating Tumor Evolution and Microenvironments",
+      "groupedBecause": "The subtopic outlines sequencing and spatial omics technologies used to resolve cellular heterogeneity and microenvironmental interactions in tumors.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Synthesis and Conclusion",
+      "groupedBecause": "These subtopics integrate the lecture's core concepts regarding the multifactorial nature of cancer evolution and provide concluding remarks.",
+      "firstSubtopicId": 10
+    }
+  ]
+}

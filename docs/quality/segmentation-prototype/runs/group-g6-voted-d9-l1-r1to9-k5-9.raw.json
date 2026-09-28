@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "This subtopic opens the lecture with a welcome and outlines the focus on the molecular mechanisms of inflammation initiation and resolution.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Innate Immune Recognition",
+      "groupedBecause": "These subtopics explain the core principles of innate immune recognition, including the essential features of PAMPs and DAMPs and the cellular localization of pattern recognition receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern Recognition Receptor Families and Signaling",
+      "groupedBecause": "These subtopics examine specific PRR families, their downstream intracellular signaling pathways, and the assembly of the inflammasome complex.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Sentinel Cell Activation and Leukocyte Extravasation",
+      "groupedBecause": "These subtopics explain how activated sentinel cells and endothelial adhesion molecules coordinate the recruitment, rolling, and extravasation of circulating leukocytes into inflamed tissues.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic Drainage and Antigen Transport",
+      "groupedBecause": "This subtopic explains how lymphatic drainage transports fluid and activated dendritic cells from inflamed tissues to lymph nodes to prime adaptive immune responses.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Systemic Inflammatory Pathology and Septic Shock",
+      "groupedBecause": "This subtopic discusses the severe pathological consequences of excessive systemic cytokine production, leading to loss of blood pressure and septic shock.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Pathology",
+      "groupedBecause": "These subtopics detail the mechanisms required to terminate inflammation, restore damaged tissue via repair processes, and manage persistent stimuli through chronic responses like granulomas.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on the complement system.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

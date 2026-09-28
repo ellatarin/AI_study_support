@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Progression and Hallmarks",
+      "groupedBecause": "These introductory remarks outline the lecture aims, review the multistep model of tumor progression, and introduce the cancer hallmarks framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated Growth and Survival Signaling Pathways",
+      "groupedBecause": "These subtopics explain how mutations in cell-surface receptors and downstream intracellular cascades drive autonomous proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer Development",
+      "groupedBecause": "These subtopics illustrate how arrested terminal differentiation contributes to malignancy in both hematological and intestinal cancers.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evading Cell Death, Senescence, and p53-Mediated Stress Responses",
+      "groupedBecause": "These subtopics explore how cancer cells circumvent intrinsic fail-safe mechanisms including apoptosis, telomere-driven senescence, and p53 tumor suppressor activity.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic Reprogramming and Epigenetic Alterations",
+      "groupedBecause": "These subtopics examine how tumors alter cellular metabolism through aerobic glycolysis, metabolic enzyme mutations, and epigenetic feedback loops.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Angiogenesis in Tumor Growth and Progression",
+      "groupedBecause": "These subtopics explain the physiological requirement, developmental timing, and regulatory balance of new blood vessel recruitment in tumors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms, Detection, and Genetics of Metastasis",
+      "groupedBecause": "This subtopic details the multi-step metastatic cascade, diagnostic tracking methods, and clonal genetic features associated with secondary tumor colonization.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Final Remarks",
+      "groupedBecause": "This concluding section wraps up the lecture with summary observations on cancer hallmarks, recommended further reading, and practical session information.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

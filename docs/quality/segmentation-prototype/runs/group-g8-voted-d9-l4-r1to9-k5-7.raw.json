@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "It introduces the lecturer, the overarching themes of the lecture series, and the specific learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conceptual Frameworks and Epidemiological Evidence for Cancer Causation",
+      "groupedBecause": "These subtopics establish the foundational concepts of cancer etiology by examining the interplay between endogenous genetic processes, environmental exposures, and global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenic Agents, Initiation, and Promotion",
+      "groupedBecause": "These subtopics detail how diverse biological, physical, and chemical agents induce or promote cancer through direct mutagenesis, metabolic conversion, or microenvironmental inflammation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for Determining Carcinogenicity and Assessing Risk",
+      "groupedBecause": "These subtopics describe the sequencing, epidemiological, in vivo, and in vitro methodologies used to detect carcinogen exposure and evaluate cancer risk.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

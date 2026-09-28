@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Lecture Series and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the scope of the cancer lecture course, and the learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Nature of Cancer and Interacting Mutation Drivers",
+      "groupedBecause": "These subtopics explain cancer as an evolutionary genetic disease driven by a combination of endogenous cellular processes, genetic predispositions, and external exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures, Public Perception, and Epidemiological Evidence",
+      "groupedBecause": "These subtopics examine how environmental exposures correlate with cancer incidence across populations and how the public interprets cancer causation versus chance.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Pathogens and Infectious Drivers of Malignancy",
+      "groupedBecause": "These subtopics explore how infectious agents contribute to oncogenesis, illustrated in detail by the discovery and mechanism of Epstein-Barr virus in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Molecular Mechanisms of Chemical and Physical Mutagens",
+      "groupedBecause": "These subtopics describe how specific dietary, environmental, and chemical agents undergo metabolic processing to cause DNA adducts, transversions, and cellular damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammatory Microenvironments, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of carcinogenesis including tumor promoters, chronic inflammation, tissue microenvironments, and developmental windows of vulnerability.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Assessing Carcinogenicity and Risk Evaluation",
+      "groupedBecause": "These subtopics evaluate the experimental assays, genomic mutational signatures, and epidemiological models used to prove carcinogenicity and balance human risk.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

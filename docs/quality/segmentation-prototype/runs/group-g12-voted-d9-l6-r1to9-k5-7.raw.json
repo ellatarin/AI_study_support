@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Hallmarks of Cancer Overview",
+      "groupedBecause": "This subtopic frames the lecture by outlining the learning objectives, referencing tumor progression models, and introducing Hanahan and Weinberg's hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Factor Independence and Proliferative Signaling Pathways",
+      "groupedBecause": "These subtopics describe how mutations in signaling cascades including Wnt/beta-catenin, receptor tyrosine kinases, MAPK, PI3K/Akt, and TGF-beta drive autonomous cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Hematological and Epithelial Cancers",
+      "groupedBecause": "These subtopics explain how impaired cellular differentiation arrests maturation and promotes malignant expansion in both the hematopoietic lineage and colonic crypt epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evading Cell Death, Replicative Immortality, and p53 Stress Responses",
+      "groupedBecause": "These subtopics detail how cancer cells overcome intrinsic tumor suppressor fail-safes by resisting apoptosis, reactivating telomerase to bypass senescence, and circumventing p53-mediated stress checkpoints.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Deregulated Cellular Metabolism and Metabolic Rewiring",
+      "groupedBecause": "These subtopics explore aerobic glycolysis via the Warburg effect, broader metabolic reprogramming across cancer types, and how oncometabolites alter the cancer epigenome.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor Angiogenesis and Neovascularisation",
+      "groupedBecause": "These subtopics examine the requirement of blood vessel recruitment to overcome hypoxia and support tumor growth, including its developmental timing and regulatory balance.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms, Circulation, and Genetics of Metastasis",
+      "groupedBecause": "This subtopic addresses the multistep metastatic cascade, circulatory routes and clinical monitoring, the seed-and-soil hypothesis, and the genomic features underlying metastatic competence.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "This subtopic closes the lecture by summarising the convergence of cancer hallmarks, recommending further reading, and opening the floor for questions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

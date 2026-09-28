@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic frames the lecture series, introduces the speaker, and sets out the core learning outcomes regarding cancer etiology and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins of Cancer: Intrinsic Errors, Environment, and Epidemiology",
+      "groupedBecause": "These subtopics explore the fundamental origins of cancer by comparing intrinsic biological processes, inherited genetics, and environmental exposures through epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and Pathogen-Driven Carcinogenesis",
+      "groupedBecause": "These subtopics explain how viral, bacterial, and parasitic infections drive cancer development, with a focused examination of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Direct and Metabolically Activated Mutagens",
+      "groupedBecause": "These subtopics detail how physical radiation, dietary toxins, and chemical carcinogens undergo metabolic activation to induce DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of tumorigenesis, focusing on how tumor promoters, chronic inflammation, and developmental timing drive cancer development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Detecting and Assessing Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro methodologies used to determine carcinogenicity and assess human exposure risk.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "The lecturer welcomes the class and outlines the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Immune Recognition: PAMPs, DAMPs, and Pattern Recognition Receptors",
+      "groupedBecause": "These subtopics explain the molecular mechanisms and receptor pathways used by the innate immune system to recognize pathogens and cellular damage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "The Acute Inflammatory Cascade, Leukocyte Trafficking, and Systemic Outcomes",
+      "groupedBecause": "These subtopics describe the cellular execution of acute inflammation, covering leukocyte recruitment and trafficking, adaptive priming via lymphatics, and the danger of septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammatory States",
+      "groupedBecause": "These subtopics explain the passive and active mechanisms that resolve inflammation, tissue repair processes, and the development and function of chronic inflammation and granulomas.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the session and announces the topic of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

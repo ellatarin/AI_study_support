@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "These remarks introduce the lecturer, outline the lecture series structure, and present the learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamental Concepts and Drivers of Carcinogenesis",
+      "groupedBecause": "These subtopics outline the fundamental nature of cancer as an evolutionary genetic disease driven by endogenous errors, microenvironmental factors, and inherited risks.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures, Bad Luck, and Epidemiological Evidence",
+      "groupedBecause": "These subtopics explore the relationship between environmental carcinogens and random chance, supported by population-level epidemiological evidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Agents in Carcinogenesis and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics explain how infectious pathogens drive cancer development, highlighting the combined roles of EBV and malaria in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagens",
+      "groupedBecause": "These subtopics detail how physical radiation and metabolically activated chemical compounds directly cause DNA mutations and adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Promoters, Inflammation, and Two-Stage Carcinogenesis",
+      "groupedBecause": "These subtopics explain how non-mutagenic factors and chronic inflammation act as tumour promoters to drive the expansion of initiated cells.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Cell Susceptibility and Summary of Carcinogenic Mechanisms",
+      "groupedBecause": "These subtopics examine how host developmental timing influences susceptibility to carcinogens, concluding with a recap of carcinogenesis mechanisms.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methods for Identifying and Testing Carcinogens",
+      "groupedBecause": "These subtopics describe the sequencing, epidemiological, and experimental laboratory methodologies used to detect and evaluate carcinogenic activity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Risk-Benefit Decision Making and Conclusion",
+      "groupedBecause": "These concluding remarks summarize the key takeaways of the lecture and frame cancer prevention around daily risk-benefit evaluations.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

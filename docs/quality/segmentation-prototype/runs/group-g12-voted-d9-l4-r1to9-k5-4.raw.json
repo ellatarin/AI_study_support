@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer opens the session by introducing the course themes and outlining the learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Concepts and epidemiology of cancer causation",
+      "groupedBecause": "These subtopics explore the interplay between intrinsic genetic mutations, bad luck, and environmental exposures in driving cancer development and population-level incidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and infectious agents in carcinogenesis",
+      "groupedBecause": "These subtopics examine how infectious pathogens contribute to cancer development, focusing on the mechanism and epidemiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics explain how various chemical and physical agents undergo metabolic activation to induce DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion and non-mutagenic mechanisms",
+      "groupedBecause": "These subtopics distinguish tumor promoters from initiators, examining how non-mutagenic stimuli like chronic inflammation drive cell proliferation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host tissue susceptibility and summary of carcinogenic mechanisms",
+      "groupedBecause": "These subtopics examine how host developmental timing influences cancer susceptibility and summarize the major mechanisms of carcinogenesis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics evaluate the molecular, epidemiological, in vivo, and in vitro approaches used to determine whether specific agents cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk-benefit perspective",
+      "groupedBecause": "The lecturer concludes the presentation by considering everyday risk-benefit decisions regarding carcinogen exposure and summarizing the lecture.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

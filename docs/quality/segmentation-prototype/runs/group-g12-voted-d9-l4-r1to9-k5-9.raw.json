@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the key learning outcomes regarding cancer causes and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Biological and Genetic Nature of Cancer",
+      "groupedBecause": "These subtopics explain the core nature of cancer as a micro-evolutionary genetic disease driven by endogenous cellular processes, microenvironmental factors, and mutation accumulation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence",
+      "groupedBecause": "These subtopics examine how external exposures, the debate over intrinsic versus environmental risks, and global epidemiological variations demonstrate the impact of external factors on cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Pathogens and Infectious Drivers of Cancer",
+      "groupedBecause": "These subtopics explore how infectious agents contribute to oncogenesis through immune disruption and chronic inflammation, highlighted by the case study of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagenesis and Metabolic Activation",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms by which environmental, dietary, and physical agents undergo metabolic conversion to induce DNA damage and mutagenic adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Tissue Context, and Host Susceptibility",
+      "groupedBecause": "These subtopics analyse how non-mutagenic promoters, chronic inflammation, tissue specificity, and host developmental timing provide the permissive conditions required for tumor development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics survey the genomic, epidemiological, in vivo, and in vitro experimental approaches used to identify mutational signatures and determine carcinogenic risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Summary and Carcinogenic Risk-Benefit Assessment",
+      "groupedBecause": "The lecturer concludes the session with a summary of environmental cancer causation and reflections on evaluating everyday exposure risks against practical benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

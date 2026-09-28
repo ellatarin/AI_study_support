@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "The lecturer welcomes the class to the final lecture of the course and outlines the session's core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics examine traditional treatment modalities—including surgery, radiotherapy, and cytotoxic chemotherapy—along with their systemic toxicities and efflux-mediated resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer cell vulnerabilities",
+      "groupedBecause": "These subtopics discuss strategies that target distinct cancer cell weaknesses, such as hormone dependence, disrupted cell cycle checkpoints, and defective DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogenic kinase inhibitors and resistance pathways",
+      "groupedBecause": "These subtopics focus on designing small-molecule inhibitors against hyperactive driver kinases and analyze the biological mechanisms that drive acquired drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe how therapeutic antibodies can target surface antigens directly to trigger immune effector functions or selectively deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and immunotherapies",
+      "groupedBecause": "These subtopics explore natural antitumor immune responses and therapeutic approaches to enhance immunity, including checkpoint inhibition, bispecific T-cell engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Current challenges, clinical progress, and future directions",
+      "groupedBecause": "These subtopics synthesize the overarching challenges of tumor heterogeneity, historical treatment outcomes, future therapeutic horizons, and clinical dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

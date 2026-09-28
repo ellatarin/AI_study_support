@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Course Overview",
+      "groupedBecause": "The lecturer introduces the cancer biology lecture series, student cohorts, and the session's learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Disruption of Developmental Differentiation and Architecture",
+      "groupedBecause": "These subtopics explore how cumulative genetic and epigenetic changes cause cells to fail their developmental programs and disrupt normal tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Malignant Progression",
+      "groupedBecause": "These subtopics explain the histological and clinical criteria that distinguish benign from malignant tumors through the processes of tissue invasion, metastasis, and stepwise progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature",
+      "groupedBecause": "This subtopic details the standard naming rules and notable exceptions used to classify benign and malignant neoplasms across different tissue origins.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Clinical Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic describes the mechanical, metabolic, and organ-destructive mechanisms through which primary and metastatic tumors cause disease and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Incidence in Humans and Across Species",
+      "groupedBecause": "These subtopics analyze the epidemiological prevalence and mortality of tumors in human populations alongside the evolutionary occurrence of neoplasia across animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Applications of Cancer Screening",
+      "groupedBecause": "These subtopics examine the clinical rationale, histological requirements, and relative efficacy of screening programs designed to detect pre-malignant and early malignant lesions.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Conclusion and Practical Reminders",
+      "groupedBecause": "The lecturer concludes the session by reviewing the learning outcomes and framing upcoming practical sessions and lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

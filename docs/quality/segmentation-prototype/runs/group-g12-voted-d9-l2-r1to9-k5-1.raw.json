@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "It frames the lecture topic, difficulty, and context without introducing substantive course content.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement system overview and C3 mechanics",
+      "groupedBecause": "These subtopics establish the fundamental organisation, naming conventions, and central biochemical role of C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways",
+      "groupedBecause": "These subtopics explain the three upstream pathways and concentration thresholds that drive complement activation on pathogen surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail the downstream effector processes by which activated complement clears pathogens and drives inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation and host protection",
+      "groupedBecause": "This subtopic explains the regulatory factors that prevent complement activation from damaging host tissues.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical complement deficiencies",
+      "groupedBecause": "This subtopic explores the diverse clinical presentations and disease phenotypes resulting from deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion strategies",
+      "groupedBecause": "This subtopic examines how pathogens subvert complement mechanisms and how these bacterial factors are applied in medicine and research.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "It concludes the session, wraps up the lecture block, and previews the next topic.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

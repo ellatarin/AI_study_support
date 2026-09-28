@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer introduces the course structure, audience background, and core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Differentiation and Tissue Architecture",
+      "groupedBecause": "These subtopics explore how accumulated genetic and epigenetic changes cause cells to fail their normal developmental programs and disrupt structured tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Progression",
+      "groupedBecause": "These subtopics detail the histological and biological differences between benign and malignant tumors through the mechanisms of local invasion and distant metastasis.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Neoplasm Nomenclature",
+      "groupedBecause": "This subtopic outlines the standard naming rules, tissue suffixes, and exceptions used to classify benign and malignant neoplasms.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mechanisms of Cancer Pathophysiology and Mortality",
+      "groupedBecause": "This subtopic explains the physical and systemic mechanisms by which primary and metastatic tumors cause morbidity and patient death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer Incidence and Comparative Oncology",
+      "groupedBecause": "These subtopics examine the distribution of tumor types across human tissues and illustrate cancer occurrence across diverse multicellular organisms.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical Presentation and Cancer Screening Modalities",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, histological detection methods, and relative effectiveness of population screening for various cancer types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the presentation by reviewing the learning outcomes and giving practical reminders.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and sets out the core learning objectives concerning cancer treatment modalities.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgical and radiation approaches to localized tumors",
+      "groupedBecause": "This subtopic explores the fundamental difficulty of selective cancer cell killing and the clinical application of surgery and radiotherapy to eradicate localized tumors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic chemotherapy and drug resistance",
+      "groupedBecause": "These subtopics describe the mechanisms, toxicities, and efflux pump-mediated resistance associated with conventional cytotoxic chemotherapy.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and genetic defects",
+      "groupedBecause": "These subtopics explain how therapeutic strategies can selectively target tumor cell vulnerabilities resulting from hormone dependence, defective checkpoints, and impaired DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogenic kinase inhibitors and resistance mechanisms",
+      "groupedBecause": "These subtopics discuss the targeted inhibition of hyperactive oncogenic kinases and the molecular pathways driving resistance and drug addiction to these inhibitors.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based cancer therapeutics",
+      "groupedBecause": "These subtopics examine how monoclonal antibodies and antibody-drug conjugates specifically recognize cell surface markers to eliminate tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell targeting",
+      "groupedBecause": "These subtopics cover the biological basis of tumor immune surveillance and therapeutic strategies that harness or engineer T cells to destroy cancer cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics synthesize the systemic challenges, clinical survival improvements, and future paradigms in cancer detection and treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

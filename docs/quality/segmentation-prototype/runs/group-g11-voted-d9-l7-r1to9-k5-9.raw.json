@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "The lecture opens with a welcome, an overview of the lecture themes, and the intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cell-Intrinsic Genetic and Epigenetic Mechanisms in Cancer Evolution",
+      "groupedBecause": "These subtopics examine how cell-intrinsic alterations modify cellular competence and drive clonal expansion during neoplastic development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Stem Cell Hierarchies in Cancer Initiation",
+      "groupedBecause": "These subtopics explore how tissue differentiation hierarchies and the stemness properties of the cell of origin determine tumor initiation potential.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Signals, Inflammation, and Stromal Support",
+      "groupedBecause": "These subtopics demonstrate how extrinsic microenvironmental cues, inflammatory signals, and supportive stroma promote tumor formation and sustain cancer growth.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Technologies for Investigating Tumor Heterogeneity and Microenvironments",
+      "groupedBecause": "This subtopic reviews the experimental and computational technologies used to profile single-cell genetics, cellular plasticity, and spatial microenvironments in tumors.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Summary of Multi-Factorial Cancer Evolution and Conclusion",
+      "groupedBecause": "These subtopics synthesize the multi-factorial evolutionary framework of cancer and provide concluding remarks for the lecture.",
+      "firstSubtopicId": 10
+    }
+  ]
+}

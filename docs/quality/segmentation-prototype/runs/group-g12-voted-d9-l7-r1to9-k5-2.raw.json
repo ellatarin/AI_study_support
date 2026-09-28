@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture theme on cancer evolution and outlines the core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of clonal selection",
+      "groupedBecause": "These subtopics examine how genetic mutations and epigenetic modifications drive clonal expansion and Darwinian selection in pre-malignant tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and stem cell models in tumor initiation",
+      "groupedBecause": "These subtopics explore how normal tissue hierarchies and stemness properties dictate which cell types can initiate and propagate tumors.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory drivers of tumor progression",
+      "groupedBecause": "These subtopics examine how external promoters, chronic inflammation, and stromal cells in the microenvironment support tumor initiation and maintenance.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Methods for investigating tumor heterogeneity and spatial biology",
+      "groupedBecause": "This subtopic describes sequencing, spatial transcriptomics, and computational techniques used to study tumor evolution and cell interactions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Synthesis of multi-factorial cancer evolution",
+      "groupedBecause": "This subtopic integrates mutations, cell state, inflammation, and microenvironmental factors into a unified model of cancer development.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Lecture closing and next steps",
+      "groupedBecause": "This subtopic concludes the session and previews the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

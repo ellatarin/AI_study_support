@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecturer, sets out the scope of the cancer lecture series, and outlines the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic and environmental drivers of cancer risk",
+      "groupedBecause": "These subtopics introduce the fundamental nature of cancer and explore the interplay between endogenous mutational processes, environmental exposures, and epidemiological evidence in determining cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and cancer pathogenesis",
+      "groupedBecause": "These subtopics examine how various pathogens drive oncogenesis, with a detailed focus on the co-factors and molecular events underlying Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical and physical mutagens",
+      "groupedBecause": "These subtopics detail how specific environmental, dietary, and chemical carcinogens, alongside UV radiation, undergo metabolic activation to induce DNA damage and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, inflammation, and host susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic drivers of cancer, distinguishing initiation from promotional processes driven by inflammation, signaling activation, and developmental susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and evaluating carcinogens",
+      "groupedBecause": "These subtopics describe the genomic signatures, epidemiological biobanks, in vivo models, and in vitro assays used to identify and test carcinogenic agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk-benefit considerations",
+      "groupedBecause": "This subtopic provides the lecture's closing framing, summarising environmental carcinogenicity in the context of everyday risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

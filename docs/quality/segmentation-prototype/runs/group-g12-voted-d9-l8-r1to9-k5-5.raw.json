@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the core learning objectives concerning cancer treatment approaches and their mechanisms of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Treatments: Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics explain standard modalities of cancer treatment—including surgery, radiotherapy, and cytotoxic chemotherapeutic agents—along with their systemic toxicities and mechanisms of drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities and Checkpoint Defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that selectively exploit cancer-specific biological vulnerabilities, including hormone dependencies, cell cycle checkpoint deficiencies, oncolytic viral selectivity, and synthetic lethality in DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene Addiction and Kinase Inhibitor Therapies",
+      "groupedBecause": "These subtopics focus on targeting driver mutations through small-molecule kinase inhibitors, detailing their therapeutic mechanism, the emergence of gatekeeper mutations and bypass resistance, and dosing strategies.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Therapeutic Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics describe the design and mechanisms of antibody-based therapies used to block surface receptors, recruit immune effector responses, and deliver targeted cytotoxic payloads to cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell-Directed Therapies",
+      "groupedBecause": "These subtopics detail the biological principles and clinical applications of mobilizing host immunity against tumors, including immune checkpoint inhibitors, neoantigen recognition, bispecific T-cell engagers, and CAR T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Current Challenges, Historical Progress, and Future Directions in Cancer Therapy",
+      "groupedBecause": "These subtopics synthesize the clinical challenges of tumor heterogeneity and trial design with historical improvements in cancer survival and prospective strategies in early detection, cancer vaccines, and personalised medicine.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

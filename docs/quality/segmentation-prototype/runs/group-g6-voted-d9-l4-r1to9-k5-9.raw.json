@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic frames the lecture series, introduces the lecturer, and outlines the core learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology and environmental versus intrinsic factors",
+      "groupedBecause": "These subtopics explore the foundational nature of cancer as a multi-step genetic and microenvironmental disease, examining the debate and epidemiological evidence regarding intrinsic bad luck versus environmental exposure.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and Burkitt lymphoma",
+      "groupedBecause": "These subtopics explain how pathogens contribute to oncogenesis, using the discovery and multi-factorial etiology of Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "DNA damage mechanisms of physical and chemical carcinogens",
+      "groupedBecause": "These subtopics describe how physical radiation, dietary toxins, and xenobiotically metabolized chemical compounds induce DNA mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promoters and two-stage carcinogenesis",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of cancer development, highlighting how chronic inflammation and tumor promoters cooperate with initiators to drive tumor outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host developmental susceptibility and summary of carcinogenesis mechanisms",
+      "groupedBecause": "These subtopics illustrate how cellular proliferative state and life stage influence cancer vulnerability, concluding with a synthesis of carcinogenic mechanisms.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and testing mutagenicity",
+      "groupedBecause": "These subtopics examine the genomic, epidemiological, in vivo, and in vitro approaches used to identify carcinogens and assess mutagenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Carcinogenic risk-benefit assessment and concluding summary",
+      "groupedBecause": "This subtopic concludes the lecture by discussing how individuals and societies weigh the risks and benefits of carcinogenic exposures.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

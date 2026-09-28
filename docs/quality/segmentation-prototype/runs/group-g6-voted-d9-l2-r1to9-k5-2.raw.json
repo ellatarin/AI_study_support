@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the lecture",
+      "groupedBecause": "The lecturer introduces the topic of complement and sets expectations regarding its complexity and importance.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement system overview and core biochemistry",
+      "groupedBecause": "These subtopics establish the foundational concepts, naming conventions, and central biochemical role of C3 in the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three biochemical cascades through which complement is recognized and deposited onto pathogen surfaces to reach the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail the downstream functional outcomes generated once complement activation takes place.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement",
+      "groupedBecause": "This subtopic explains the regulatory factors and mechanisms that protect host cells from unintended complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical complement deficiencies",
+      "groupedBecause": "This subtopic explores how deficiencies in specific complement proteins lead to distinct clinical disease phenotypes.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic examines how pathogens circumvent complement defenses and how these bacterial factors are applied in biotechnology.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer concludes the discussion on complement and outlines the subject of the upcoming lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

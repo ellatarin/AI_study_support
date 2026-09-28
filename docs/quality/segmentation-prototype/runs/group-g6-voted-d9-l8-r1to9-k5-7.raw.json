@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional Cancer Modalities and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics examine conventional cancer interventions—chiefly surgery, radiation, and cytotoxic chemotherapy—along with the severe toxicities and drug resistance mechanisms they entail.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities",
+      "groupedBecause": "These subtopics describe therapeutic strategies designed to exploit the inherent biological vulnerabilities and specific molecular defects of cancer cells.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase Inhibitors and Mechanisms of Resistance",
+      "groupedBecause": "These subtopics focus on designing small-molecule inhibitors to target hyperactivated oncogenic kinases and addressing the subsequent emergence of drug resistance and bypass signaling.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics describe using engineered antibodies to target cancer cell surface proteins directly or to selectively deliver cytotoxic payloads to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and Cellular Therapies",
+      "groupedBecause": "These subtopics evaluate tumor immune surveillance and examine immunotherapeutic strategies that harness, reactivate, or genetically engineer T cells to eliminate cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, Progress, and Future Directions in Cancer Treatment",
+      "groupedBecause": "These subtopics review the systemic challenges, historical survival trends, emerging approaches, and clinical dilemmas shaping the future of cancer therapy.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

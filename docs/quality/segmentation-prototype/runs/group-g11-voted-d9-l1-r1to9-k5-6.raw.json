@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Initiation and Resolution of Inflammation",
+      "groupedBecause": "The lecturer welcomes the class and outlines how the session will integrate previously introduced immunological components to examine inflammatory reactions.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Innate Immune Recognition",
+      "groupedBecause": "These subtopics introduce the fundamental requirements and molecular strategies by which the innate immune system detects danger and discriminates self from non-self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern Recognition Receptor Families and Inflammasomes",
+      "groupedBecause": "These subtopics detail the major families of pattern recognition receptors, their compartmentalized signaling cascades, and the assembly of the inflammasome complex.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Sentinel Cell Activation and Leukocyte Recruitment",
+      "groupedBecause": "These subtopics explain how activated tissue sentinel cells coordinate the multi-step extravasation and targeted migration of circulating leukocytes to the site of infection.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic Drainage and Antigen Transport",
+      "groupedBecause": "This subtopic describes how dendritic cells leave inflamed tissue via the lymphatic system to present antigens in draining lymph nodes.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Systemic Consequences of Excessive Inflammation",
+      "groupedBecause": "This subtopic explores the life-threatening pathological complications that arise when localized inflammatory signaling spills over into systemic circulation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Mechanisms of Inflammatory Resolution",
+      "groupedBecause": "This subtopic details the passive and active physiological processes that arrest immune activation and shut down acute inflammation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Tissue Repair, Chronic Inflammation, and Granuloma Formation",
+      "groupedBecause": "These subtopics describe post-inflammatory wound healing and the persistence of non-resolving inflammatory states such as granulomas.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Conclusion and Upcoming Topics",
+      "groupedBecause": "The lecturer wraps up the presentation and announces the subject of the subsequent lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

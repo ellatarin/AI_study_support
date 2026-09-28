@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Objectives",
+      "groupedBecause": "The lecture opens with introductory remarks and an outline of learning objectives concerning cancer causation and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamental Drivers and Origins of Cancer",
+      "groupedBecause": "These subtopics establish cancer as an evolutionary genetic disease influenced by endogenous errors, DNA repair capacity, and inherited predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Variation",
+      "groupedBecause": "These subtopics examine environmental risk factors alongside the epidemiological evidence and debates regarding preventable versus chance mutations.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Pathogen-Driven Carcinogenesis",
+      "groupedBecause": "These subtopics explore how infectious agents contribute to malignancy, using the interaction between Epstein-Barr virus and malaria in Burkitt lymphoma as a primary model.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms by which physical radiation and metabolically activated chemicals induce direct DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics analyze non-mutagenic tumor promoters, the multi-stage model of carcinogenesis, and the impact of host developmental timing on cancer risk.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic signatures, epidemiological approaches, and experimental assays used to establish carcinogenic potential and weigh environmental risks.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Framing of Cancer Hallmarks",
+      "groupedBecause": "This subtopic establishes the lecture's learning objectives, contextualizes them within previous lectures, and introduces Hanahan and Weinberg's cancer hallmarks model.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferative Signaling and Growth Factor Independence",
+      "groupedBecause": "These subtopics examine the signaling pathways and upstream receptor mutations that drive autonomous cancer cell proliferation and survival, focusing on Wnt, RTK/MAPK, and PI3K signaling.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Malignancies",
+      "groupedBecause": "These subtopics explain how failure of progenitor and epithelial cells to terminally differentiate promotes malignant expansion in leukemias and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Programmed Cell Death",
+      "groupedBecause": "This subtopic details how cancer cells evade apoptosis through the deregulation of p53 and the disruption of the mitochondrial Bax and BCL2 balance.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics explain how cancer cells achieve indefinite replication through telomerase reactivation and the circumvention of p53-mediated senescence and stress signaling.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Metabolism and Metabolic Rewiring",
+      "groupedBecause": "These subtopics transition to complex physiological hallmarks and examine how cancer cells rewire their metabolic pathways via aerobic glycolysis, Krebs cycle mutations, and epigenetic alterations.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics explore the angiogenic switch required for supplying oxygen and nutrients to growing tumors, detailing its timing, regulatory balance, and therapeutic implications.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Invasion, Circulation, and Metastasis",
+      "groupedBecause": "This subtopic describes the multi-step metastatic cascade, covering vascular dissemination, lymphatic detection, circulating tumor cell monitoring, and the genetic and microenvironmental factors governing secondary site colonization.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Summary and Closing Remarks",
+      "groupedBecause": "This subtopic provides the concluding synthesis of cancer hallmarks, offers recommended reading, and handles closing logistical remarks for students.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

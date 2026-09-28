@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "This subtopic introduces the lecturer, the course structure, and the core learning objectives regarding cancer causation and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Factors, Environmental Exposures, and Epidemiology",
+      "groupedBecause": "These subtopics explore the origins of cancer as an evolutionary genetic disease shaped by the balance between endogenous cellular errors, inherited traits, and environmental exposures supported by epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Cancer Development",
+      "groupedBecause": "These subtopics detail how biological agents such as viruses, bacteria, and parasites drive oncogenesis, illustrated through the mechanisms and discovery of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mechanisms of DNA Damage",
+      "groupedBecause": "These subtopics examine how specific physical agents and chemical mutagens undergo metabolic activation to induce DNA adducts, transversions, and oxidative damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Promotion, Inflammation, and Host Tissue Context",
+      "groupedBecause": "These subtopics explain how non-mutagenic promoters, chronic inflammatory microenvironments, and developmental stages of host tissues facilitate the outgrowth of mutated cells.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Determining Carcinogenicity and Assessing Risk",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro approaches used to identify carcinogens and make risk-benefit assessments.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

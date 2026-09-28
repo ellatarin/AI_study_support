@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer causation and lecture objectives",
+      "groupedBecause": "This subtopic introduces the lecture series, lecturer, and core learning outcomes concerning cancer etiology, environmental exposures, and carcinogenicity testing.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and biological drivers of cancer development",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease driven by a combination of endogenous cellular processes, external mutagens, and inherited predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental exposures and epidemiological patterns of cancer",
+      "groupedBecause": "These subtopics examine environmental risk factors, the debate over bad luck versus exposure, and epidemiological evidence demonstrating geographic variations in cancer rates.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents and the pathogenesis of Burkitt lymphoma",
+      "groupedBecause": "These subtopics describe how microbial pathogens contribute to cancer, illustrating the concept through the detailed epidemiological and molecular mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical and physical mutagenesis",
+      "groupedBecause": "These subtopics detail how specific chemical mutagens, metabolic activation pathways, and physical radiation induce structural DNA damage and adduct formation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, inflammation, and host susceptibility",
+      "groupedBecause": "These subtopics explain the distinction between tumor initiators and promoters, focusing on the roles of chronic inflammation, signaling mimicry, and developmental life stages in tumor progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Experimental and epidemiological methods for assessing carcinogenicity",
+      "groupedBecause": "These subtopics outline the genomic mutational signatures, population biobanks, animal models, and in vitro assays used to identify and evaluate carcinogenic agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and risk-benefit considerations",
+      "groupedBecause": "This subtopic concludes the lecture by synthesizing the role of environmental factors in cancer and the practical risk-benefit decisions surrounding carcinogen exposure.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

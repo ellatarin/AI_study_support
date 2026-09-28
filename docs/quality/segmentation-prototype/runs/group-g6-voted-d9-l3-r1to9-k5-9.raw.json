@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic opens the lecture series with a welcome, course framing across disciplines, and the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Basis of Cancer: Genetic Alterations and Differentiation Failure",
+      "groupedBecause": "These subtopics explain how the accumulation of genetic and epigenetic changes disrupts normal developmental programs, differentiation, and tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Metastasis, and the Benign-to-Malignant Transition",
+      "groupedBecause": "These subtopics explore the defining characteristics of benign versus malignant tumors, illustrating stepwise progression and tissue invasion through histological examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Nomenclature of Benign and Malignant Neoplasms",
+      "groupedBecause": "This subtopic details the standard naming conventions and clinical exceptions used to classify tumors based on their tissue origin and malignant behavior.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mechanisms of Disease and Mortality in Cancer",
+      "groupedBecause": "This subtopic examines the systemic and organ-specific physiological processes through which primary and metastatic tumors cause illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Incidence across Tissues and Species",
+      "groupedBecause": "These subtopics evaluate the frequency of different cancer types in human populations and compare tumor patterns across multicellular organisms.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Clinical Application of Cancer Screening",
+      "groupedBecause": "These subtopics discuss clinical presentation signs and evaluate the effectiveness, methods, and limitations of population screening across major tumor types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion and Revision Reminders",
+      "groupedBecause": "This subtopic concludes the lecture by referencing the core learning outcomes and upcoming practical sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

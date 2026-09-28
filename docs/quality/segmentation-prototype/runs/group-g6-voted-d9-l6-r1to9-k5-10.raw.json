@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Mechanisms",
+      "groupedBecause": "This section outlines the lecture aims, background, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signaling Autonomy and Pathway Deregulation",
+      "groupedBecause": "These subtopics explore how mutations in major cell signaling cascades confer self-sufficiency in growth signals and insensitivity to anti-growth signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumor Development",
+      "groupedBecause": "These subtopics explain how impaired cellular differentiation arrests cells in proliferative progenitor states in both hematological and epithelial cancers.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This section details the molecular mechanisms and regulatory balance between pro- and anti-apoptotic factors enabling cancer cell survival.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics describe how cells overcome telomere shortening and normal stress-induced senescence pathways to achieve unlimited replication.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Deregulated Cellular Metabolism and the Warburg Effect",
+      "groupedBecause": "These subtopics examine how cancer cells rewire their metabolic pathways to support rapid growth and how metabolic mutations alter cellular regulation.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics explain the requirement, timing, and molecular regulation of new blood vessel recruitment to sustain growing tumors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Invasion and Metastasis",
+      "groupedBecause": "This subtopic explores the biological stages, physical and environmental constraints, and diagnostic biomarkers of tumor metastasis.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Final Summary",
+      "groupedBecause": "This section provides concluding remarks on the integrative nature of cancer hallmarks and finishes the lecture.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

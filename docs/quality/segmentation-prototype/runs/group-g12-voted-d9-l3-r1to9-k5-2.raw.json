@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Biology and Lecture Outcomes",
+      "groupedBecause": "This subtopic introduces the lecture series, framing the clinical significance of cancer and outlining the session's core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic Basis and Cellular Differentiation in Cancer",
+      "groupedBecause": "These subtopics describe how cancers arise through stepwise genetic and epigenetic alterations that disrupt normal tissue architecture and developmental differentiation programs.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Stepwise Progression",
+      "groupedBecause": "These subtopics define the pathological distinctions between benign and malignant tumors by detailing the processes of basement membrane invasion, metastatic dissemination, and adenoma-to-carcinoma progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Neoplasm Nomenclature and Classification",
+      "groupedBecause": "This subtopic outlines the systematic naming conventions and notable exceptions used to classify benign and malignant tumors across various tissue lineages.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mechanisms of Morbidity and Mortality in Cancer",
+      "groupedBecause": "This subtopic explains the anatomical, metabolic, and metastatic mechanisms through which tumors compromise organ function and cause patient death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative Tumor Incidence Across Species",
+      "groupedBecause": "These subtopics examine patterns of cancer incidence and tissue susceptibility in humans alongside comparative findings across companion animals and other multicellular taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Cancer Screening Principles and Clinical Applications",
+      "groupedBecause": "These subtopics evaluate the rationale, diagnostic techniques, and relative success rates of population-level screening programs across different anatomical sites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Summary and Next Steps",
+      "groupedBecause": "This subtopic concludes the session by reviewing the learning outcomes and pointing forward to upcoming practicals and lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

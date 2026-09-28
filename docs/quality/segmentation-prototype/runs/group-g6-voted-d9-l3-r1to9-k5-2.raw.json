@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Lecture Learning Outcomes",
+      "groupedBecause": "The opening section introduces the structure and scope of the cancer biology lecture series and outlines the specific learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular, Genetic, and Experimental Foundations of Cancer",
+      "groupedBecause": "These subtopics explore how cancer arises through accumulated genetic changes and disrupted cellular differentiation, along with the laboratory methods used to examine these cellular behaviors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Stepwise Progression",
+      "groupedBecause": "These subtopics explain the histological and clinical distinctions between benign and malignant lesions through the mechanisms of tissue invasion, metastatic dissemination, and colorectal tumor progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Principles of Tumor Nomenclature",
+      "groupedBecause": "This subtopic outlines the standard conventions and notable exceptions for classifying and naming benign and malignant neoplasms based on their tissue of origin.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic explains the physiological and anatomical mechanisms by which primary and metastatic tumors disrupt organ function and cause patient death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative Epidemiology and Cross-Species Incidence of Cancer",
+      "groupedBecause": "These subtopics examine patterns of cancer incidence and tissue susceptibility in humans as well as across diverse multicellular animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical Detection and Cancer Screening Strategies",
+      "groupedBecause": "These subtopics discuss early clinical presentation and evaluate the diagnostic principles, benefits, and limitations of population screening across major cancer types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "This closing subtopic reiterates the core learning outcomes and wraps up the lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

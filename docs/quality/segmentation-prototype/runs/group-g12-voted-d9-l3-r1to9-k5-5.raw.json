@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Course Overview",
+      "groupedBecause": "This topic introduces the cancer biology lecture series, student cohorts, and the primary learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Disruption of Cellular Differentiation and Tissue Architecture",
+      "groupedBecause": "They establish how cancer develops through cumulative genetic and epigenetic alterations that break down normal multicellular differentiation and tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Metastasis, and Tumor Progression",
+      "groupedBecause": "They explain the histological and clinical distinctions between benign lesions and invasive, metastasizing malignancies, using the adenoma-carcinoma sequence as a prime example.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature and Classification",
+      "groupedBecause": "This topic outlines the standardized naming conventions and exceptions used to classify tumors based on their tissue origin and malignancy status.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This topic details the anatomical, functional, and systemic mechanisms by which primary and metastatic tumors cause illness and death in patients.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer Incidence Across Tissues and Animal Species",
+      "groupedBecause": "They examine the prevalence and tissue distribution of tumors in human populations and across diverse multicellular animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Clinical Application of Cancer Screening",
+      "groupedBecause": "They explore the rationale, diagnostic methods, and comparative efficacy of screening programs for early cancer detection across different organ systems.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion and Practical Briefing",
+      "groupedBecause": "This topic concludes the lecture with a reminder of the learning outcomes and instructions for upcoming practical sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

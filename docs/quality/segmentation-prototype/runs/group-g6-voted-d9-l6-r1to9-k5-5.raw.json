@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks",
+      "groupedBecause": "This subtopic introduces the lecture's learning objectives and the conceptual framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Autonomy and Proliferation Pathways",
+      "groupedBecause": "These subtopics detail how mutations in cell surface receptors and downstream intracellular cascades drive sustained proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer",
+      "groupedBecause": "These subtopics illustrate how cancers arrest terminal differentiation and maintain proliferative precursor states in both hematopoietic lineages and the intestinal epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic describes how mutations in p53 and the balance between pro- and anti-apoptotic proteins prevent programmed cell death in cancer cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics explain how cancer cells achieve indefinite division by maintaining telomeres and escaping p53-mediated senescence checkpoints.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered Energy Metabolism and Oncometabolites",
+      "groupedBecause": "These subtopics explore how cancer cells rewire metabolic pathways toward aerobic glycolysis and generate oncometabolites that alter gene regulation.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics examine the necessity, early onset, and regulatory balance of activators and inhibitors governing blood vessel formation in tumors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Diagnostics of Cancer Metastasis",
+      "groupedBecause": "This subtopic outlines the multi-step metastatic cascade, diagnostic tracking via lymph node biopsies and circulating tumor cells, and the genomic features of disseminated tumors.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Summary and Conclusion",
+      "groupedBecause": "This subtopic concludes the lecture by reflecting on the collective nature of cancer hallmarks and recent conceptual frameworks.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

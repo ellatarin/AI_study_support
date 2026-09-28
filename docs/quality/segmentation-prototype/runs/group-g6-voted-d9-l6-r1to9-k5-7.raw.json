@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Hallmarks of Cancer",
+      "groupedBecause": "This subtopic introduces the lecture by outlining the learning objectives and framing the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signaling Pathways and Proliferation",
+      "groupedBecause": "These subtopics examine how mutations in cell surface receptors and intracellular signaling cascades drive sustained proliferative signaling and escape from growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer",
+      "groupedBecause": "These subtopics explain how cancer cells arrest normal lineage differentiation across hematological malignancies and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic explains the molecular mechanisms and regulatory balance by which cancer cells evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Telomere Maintenance",
+      "groupedBecause": "This subtopic details how cancer cells achieve infinite replicative potential by overcoming the Hayflick limit through telomerase reactivation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53 and Cellular Stress Responses",
+      "groupedBecause": "This subtopic describes how p53 functions as a master regulator to coordinate cellular stress responses and preserve genome integrity.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer Metabolism and Metabolic Rewiring",
+      "groupedBecause": "These subtopics discuss the metabolic adaptations of tumors, focusing on aerobic glycolysis, metabolic rewiring, and the epigenetic effects of oncometabolites.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics examine the necessity, developmental timing, and molecular regulation of new blood vessel formation to support tumor growth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Patterns of Metastasis",
+      "groupedBecause": "This subtopic explores the biological stages, dissemination routes, diagnostic approaches, and genomic features underlying tumor metastasis.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Summary of Hallmarks",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of the hallmarks of cancer and final remarks on emerging frameworks.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

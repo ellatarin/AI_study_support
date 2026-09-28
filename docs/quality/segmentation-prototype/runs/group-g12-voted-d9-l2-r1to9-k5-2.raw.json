@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "The lecturer welcomes the class and introduces the complement system as the subject of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Overview of Complement and C3 Function",
+      "groupedBecause": "These subtopics establish the foundational concepts of the complement cascade, its nomenclature, and the central role of C3 cleavage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement Activation Pathways",
+      "groupedBecause": "These subtopics explain the three distinct upstream recognition pathways that generate surface-bound convertases to activate C3.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Functions of Complement",
+      "groupedBecause": "These subtopics describe the downstream immune mechanisms executed by activated complement components to destroy pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of Complement and Host Protection",
+      "groupedBecause": "This subtopic explains the regulatory proteins that protect host cells from accidental complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Manifestations of Complement Deficiencies",
+      "groupedBecause": "This subtopic details the distinct disease presentations and clinical consequences associated with deficiencies across different complement proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion of Complement",
+      "groupedBecause": "This subtopic examines the evolutionary strategies pathogens use to circumvent complement activity, highlighting Staphylococcus aureus and related biomedical applications.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the presentation and announces the next lecture topic.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

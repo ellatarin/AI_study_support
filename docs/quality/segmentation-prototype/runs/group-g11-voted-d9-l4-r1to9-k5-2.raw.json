@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "It introduces the lecturer, sets out the scope of the cancer lecture series, and outlines the key learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conceptual foundations and epidemiological evidence of cancer causation",
+      "groupedBecause": "They explore the genetic and evolutionary nature of cancer, debating the relative contributions of endogenous cellular errors versus environmental and geographic factors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and oncogenesis",
+      "groupedBecause": "They detail how viral, bacterial, and parasitic pathogens drive cancer, highlighted by the case study of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical, dietary, and physical mutagenesis",
+      "groupedBecause": "They describe how specific chemical, dietary, and radiation exposures directly damage DNA or require xenobiotic activation to induce mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, inflammatory microenvironments, and developmental susceptibility",
+      "groupedBecause": "They examine how non-mutagenic factors like chronic inflammation, chemical promotion, and host developmental stages contribute to carcinogenesis.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for determining carcinogenicity and assessing risk",
+      "groupedBecause": "They discuss the sequencing, epidemiological, and experimental methods used to identify carcinogens, concluding with the practical challenges of evaluating human exposure risks.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

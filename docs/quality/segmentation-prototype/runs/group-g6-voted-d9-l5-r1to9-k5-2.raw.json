@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "These remarks introduce the lecture topic, connect it to previous practical work, and outline the day's learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Viruses, Proto-Oncogenes, and Assays for Cellular Transformation",
+      "groupedBecause": "These subtopics trace how the study of viral transmission and retroviruses led to the discovery of cellular proto-oncogenes and experimental methods for testing cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Functional Mechanisms of Oncogenes and Tumor Suppressor Genes",
+      "groupedBecause": "These subtopics explain the definitions, cell-cycle regulatory roles, and mutational mechanisms distinguishing oncogenes from tumor suppressor genes.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and Consequences of Genetic Instability",
+      "groupedBecause": "These subtopics examine how defects in DNA repair, replication proofreading, and mitotic chromosome segregation produce sequence and chromosomal instability in cancer cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep Tumor Progression and Hereditary Cancer Predisposition",
+      "groupedBecause": "These subtopics discuss how the sequential accumulation of somatic and germline mutations drives tumor progression, hereditary cancer syndromes, and subsequent tumor evolution.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Recommended Reading",
+      "groupedBecause": "These remarks conclude the lecture, summarize the covered outcomes, and provide suggested reading materials.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

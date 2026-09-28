@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Hallmarks of Cancer",
+      "groupedBecause": "The lecturer introduces the learning objectives, context, and overall framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustaining Proliferative Signaling",
+      "groupedBecause": "These subtopics explain the receptor signaling cascades and genetic mutations that allow cancer cells to achieve autonomous growth and evade inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Blocks in Tumorigenesis",
+      "groupedBecause": "These subtopics describe how blocks in normal terminal differentiation promote malignancy across both hematopoietic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic details the molecular mechanisms and regulatory factors that enable cancer cells to avoid programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence",
+      "groupedBecause": "These subtopics explain how cancer cells achieve unlimited replicative potential by overcoming telomere shortening and bypassing normal stress-induced senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Reprogramming of Cancer Metabolism",
+      "groupedBecause": "These subtopics explore the Warburg effect, metabolic rewiring, and the role of oncometabolites in altering tumor epigenetics.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics examine the necessity, progression, and molecular balance governing new blood vessel recruitment in developing tumors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Invasion and Metastasis",
+      "groupedBecause": "This subtopic details the multistep cascade of cancer cell dissemination, diagnostic tracking methods, and metastatic inefficiency.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Summary and Conclusion",
+      "groupedBecause": "The lecturer synthesizes the commonalities among cancer hallmarks and concludes the lecture.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

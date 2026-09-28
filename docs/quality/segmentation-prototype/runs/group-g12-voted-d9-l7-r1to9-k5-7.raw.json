@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "The lecturer welcomes the class and outlines the learning objectives regarding cancer evolution, cell of origin, and the microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Selection and Epigenetic Drivers of Tumor Evolution",
+      "groupedBecause": "These subtopics examine how genetic mutations and epigenetic modifications confer competitive fitness and drive clonal expansion in pre-malignant tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Stem Cell Hierarchies",
+      "groupedBecause": "These subtopics explore how tissue stem cell hierarchies and cell-of-origin properties influence tumor initiation and propagation across hematological and solid cancers.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Influences on Tumorigenesis",
+      "groupedBecause": "These subtopics evaluate how inflammatory stimuli and supportive stromal microenvironments promote stem-like states, tumor outgrowth, and therapeutic opportunities.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Methodologies for Investigating Tumor Evolution and Spatial Interactions",
+      "groupedBecause": "This subtopic details sequencing technologies, computational modeling, and spatial profiling methods used to study cancer evolution and cell interactions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Integrative Multi-Factorial Model of Cancer Evolution",
+      "groupedBecause": "This subtopic synthesizes how genetic, epigenetic, cell-of-origin, and microenvironmental factors interact to drive the evolutionary process of malignancy.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Conclusion and Next Lecture Preview",
+      "groupedBecause": "The lecturer concludes the presentation and announces the topic for the following session.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

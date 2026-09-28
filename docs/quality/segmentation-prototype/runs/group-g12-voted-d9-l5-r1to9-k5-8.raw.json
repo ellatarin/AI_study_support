@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic frames the lecture by linking prior histopathology practicals to the day's learning outcomes regarding cellular transformation, cancer genetics, and genetic instability.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Virology and Experimental Assays of Cellular Transformation",
+      "groupedBecause": "These subtopics trace how the study of transforming viruses revealed cellular proto-oncogenes and established laboratory assays to measure cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classification and Genetic Mechanics of Oncogenes and Tumor Suppressors",
+      "groupedBecause": "These subtopics define the major classes of cancer-associated genes and explain how mutations disrupt cell cycle control and protein function through dominant, recessive, and dominant-negative mechanisms.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of Genetic Instability and Multi-Step Tumor Progression",
+      "groupedBecause": "These subtopics describe how failures in DNA repair, replication, and chromosome segregation generate genetic instability to accelerate the stepwise accumulation of mutations in tumor progression.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Hereditary Cancer Predisposition and Tumor Evolution",
+      "groupedBecause": "These subtopics examine how inherited germline mutations accelerate cancer onset and shape ongoing tumor evolution and therapy response.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture Conclusion and Recommended Reading",
+      "groupedBecause": "This subtopic concludes the lecture with closing housekeeping, an invitation for questions, recommended reading, and a look ahead to the next session.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

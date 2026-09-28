@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "It introduces the lecture's core themes on cancer evolution, cell of origin, and the influence of the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Darwinian clonal selection and mutation accumulation",
+      "groupedBecause": "It illustrates how successive genetic mutations provide competitive growth advantages that drive Darwinian clonal expansion in tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epigenetic alterations in tumor initiation",
+      "groupedBecause": "It demonstrates how transient chromatin changes and altered transcriptional states can initiate tumor development independently of genetic mutations.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Cell of origin and stem cell hierarchies in cancer",
+      "groupedBecause": "They investigate how tissue stem cell properties and the specific differentiation state of the cell of origin influence malignant transformation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory drivers of cancer progression",
+      "groupedBecause": "They show that inflammatory signals and supportive stroma within the microenvironment are essential for both incipient tumor outgrowth and established tumor maintenance.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Technologies for analyzing tumor evolution and the microenvironment",
+      "groupedBecause": "It describes the single-cell sequencing and spatial omics technologies used to map mutational timing, cell plasticity, and microenvironmental interactions in tumors.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Synthesis of multi-factorial cancer evolution and conclusion",
+      "groupedBecause": "They integrate the combined contributions of mutations, epigenetics, cell of origin, and microenvironment to cancer evolution before closing the lecture.",
+      "firstSubtopicId": 10
+    }
+  ]
+}

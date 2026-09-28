@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "This subtopic introduces the lecture topic and frames the importance and complexity of studying the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Overview and Functions of the Complement System",
+      "groupedBecause": "This subtopic outlines the general three-step framework and physiological functions of complement in pathogen defense and clearance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement Nomenclature and Numbering Conventions",
+      "groupedBecause": "This subtopic explains the historical rules and exceptions governing complement component naming and cleavage fragments.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Central Role and Chemical Reactivity of C3",
+      "groupedBecause": "This subtopic describes the pivotal role of C3 cleavage and thioester bond reactivity as the central fulcrum of complement activation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Complement Activation Pathways and Trigger Threshold",
+      "groupedBecause": "These subtopics explain the alternative, lectin, and classical pathways through which pathogen recognition triggers concentrated C3 deposition.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Mechanisms of Activated Complement",
+      "groupedBecause": "These subtopics describe the downstream processes of opsonization, inflammation, and membrane attack complex lysis that eliminate pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation of Complement Activation",
+      "groupedBecause": "This subtopic explains the regulatory proteins and mechanisms that protect host cells from accidental complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Consequences of Complement Deficiencies",
+      "groupedBecause": "This subtopic details the distinct clinical presentations and disease phenotypes caused by deficiencies in specific complement components and regulators.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion of Complement Defenses",
+      "groupedBecause": "This subtopic examines the evolutionary strategies and molecular mechanisms used by pathogens to evade complement clearance.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic wraps up the lecture on complement and previews the upcoming topic on adaptive immunity.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

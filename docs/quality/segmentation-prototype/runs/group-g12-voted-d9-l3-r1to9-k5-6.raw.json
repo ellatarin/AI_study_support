@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Course Overview",
+      "groupedBecause": "This subtopic frames the cancer biology lecture series and outlines the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mechanisms and Experimental Models of Tumor Development",
+      "groupedBecause": "These subtopics describe how accumulated genetic alterations disrupt normal developmental differentiation and tissue architecture, alongside laboratory approaches to culture tumor cells.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Metastasis, and Stepwise Tumor Progression",
+      "groupedBecause": "These subtopics explain how local tissue invasion and metastatic spread distinguish malignant tumors from benign precursors using colorectal cancer progression as a histological model.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature and Classification",
+      "groupedBecause": "This subtopic outlines the standard conventions and notable exceptions for naming benign and malignant neoplasms based on their tissue of origin.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathological Causes of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic details the physiological disruptions, systemic complications, and organ failures through which primary and metastatic tumors cause disease and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer Epidemiology Across Humans and Animals",
+      "groupedBecause": "These subtopics examine the distribution and frequency of various tumor types in human populations and across diverse multicellular species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Methods of Cancer Screening",
+      "groupedBecause": "These subtopics discuss the rationale, clinical execution, and relative effectiveness of screening protocols for detecting pre-malignant and early-stage cancers.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Conclusion and Next Steps",
+      "groupedBecause": "This subtopic concludes the lecture with a review of learning outcomes and practical session housekeeping.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

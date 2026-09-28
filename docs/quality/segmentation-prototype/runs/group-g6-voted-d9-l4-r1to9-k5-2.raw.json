@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer causation and lecture overview",
+      "groupedBecause": "It introduces the lecturer, context of the cancer lecture series, and the specific learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiological factors and epidemiological patterns in cancer risk",
+      "groupedBecause": "These subtopics introduce the fundamental balance between intrinsic genetic processes, environmental exposures, and epidemiological patterns that determine cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenic pathogens and Burkitt lymphoma",
+      "groupedBecause": "These subtopics examine how infectious agents promote cancer development, using Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics detail how specific chemical and physical carcinogens undergo metabolic processing to cause DNA adducts, transversions, and oxidative damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, microenvironmental factors, and host susceptibility",
+      "groupedBecause": "These subtopics explain how non-mutagenic promoters, chronic inflammation, and host developmental stages influence cancer development alongside mutational events.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, in vivo, and in vitro methodologies used to detect carcinogen exposure and evaluate carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and risk-benefit considerations",
+      "groupedBecause": "It concludes the lecture by summarising the challenges of determining carcinogenicity and discussing daily risk-benefit decisions regarding exposure.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

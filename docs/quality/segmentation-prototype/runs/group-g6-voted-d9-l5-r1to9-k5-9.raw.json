@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer introduces the lecture by linking to practical sessions and outlining the learning objectives on cancer genetics and instability.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Virology and Transformation Assays",
+      "groupedBecause": "These subtopics explore the discovery of proto-oncogenes via transforming viruses and the experimental assays used to test cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Oncogenes and Tumor Suppressors",
+      "groupedBecause": "These subtopics define cancer mutation categories and illustrate how oncogenic and tumor-suppressive alterations disrupt cell cycle control and cellular function.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Genetic Instability and Multi-Step Tumor Progression",
+      "groupedBecause": "These subtopics examine how specific defects in DNA repair, replication, and mitosis generate genetic instability to accelerate multi-step tumor progression.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Hereditary Cancer Predisposition",
+      "groupedBecause": "These subtopics explain how inherited gene mutations accelerate cancer onset in hereditary syndromes and evaluate whether genetic instability is required for tumor maintenance.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Conclusion and Further Reading",
+      "groupedBecause": "The lecturer concludes the session by reviewing the learning outcomes, recommending background reading, and previewing the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

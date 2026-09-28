@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces herself, sets the context for the cancer lecture series, and outlines the core learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations and origin factors of cancer",
+      "groupedBecause": "These subtopics establish cancer as an evolutionary genetic disease and explain how endogenous cellular errors, environmental mutagens, and inherited traits contribute to its onset.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental exposures, chance, and epidemiological patterns",
+      "groupedBecause": "These subtopics explore common environmental mutagens, the scientific debate over bad luck versus exposure, and global epidemiological variations in cancer rates.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents and oncogenesis",
+      "groupedBecause": "These subtopics examine how pathogens promote cancer, focusing on the epidemiological and molecular link between Epstein-Barr virus, malaria, and Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical and physical carcinogens",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which dietary toxins, UV radiation, and metabolically activated chemicals induce DNA damage and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host context, and carcinogenic mechanisms",
+      "groupedBecause": "These subtopics examine how non-mutagenic factors like chronic inflammation, tumor promotion, and host developmental stages facilitate cancer development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics describe the genomic signatures, epidemiological approaches, and experimental assays used to detect and evaluate carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk-benefit considerations",
+      "groupedBecause": "The lecturer summarizes the lecture and discusses the practical balancing of risks and benefits associated with environmental carcinogen exposures.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

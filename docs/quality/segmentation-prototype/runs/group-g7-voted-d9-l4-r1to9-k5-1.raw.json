@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the course context, outlines the theme of cancer causation, and specifies the learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Biology and Sources of Oncogenic Mutations",
+      "groupedBecause": "These subtopics establish cancer as an evolutionary genetic disease and explore the intrinsic, inherited, and external drivers that generate oncogenic mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures, Epidemiology, and the Role of Chance",
+      "groupedBecause": "These subtopics examine the contribution of environmental carcinogens to cancer risk alongside public debates over biological bad luck and global epidemiological variations.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Agents and Viral Oncogenesis",
+      "groupedBecause": "These subtopics examine how pathogens contribute to cancer development, using the relationship between Epstein-Barr virus, malaria, and Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Carcinogens and Xenobiotic Metabolism",
+      "groupedBecause": "These subtopics describe how physical agents and chemical compounds undergo metabolic activation to induce DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Promoters and the Initiator-Promoter Model",
+      "groupedBecause": "These subtopics explain how non-mutagenic substances promote tumor formation by driving chronic inflammation and mitogenic signaling pathways.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Developmental Susceptibility and Carcinogenic Mechanisms Summary",
+      "groupedBecause": "These subtopics examine how host life stages and cellular proliferation influence vulnerability to carcinogens, concluding with a summary of carcinogenic mechanisms.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Identifying and Assessing Carcinogens",
+      "groupedBecause": "These subtopics survey genomic, epidemiological, in vivo, and in vitro approaches used to determine carcinogenicity, concluding with risk-benefit considerations.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

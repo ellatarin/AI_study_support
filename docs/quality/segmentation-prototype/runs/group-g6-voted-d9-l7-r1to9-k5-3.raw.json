@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "These remarks welcome students and establish the lecture's framing, scope, and intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of clonal evolution",
+      "groupedBecause": "These subtopics explain how cell-intrinsic genetic mutations and epigenetic alterations confer selective growth advantages during tumor evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and stem cell hierarchies in cancer",
+      "groupedBecause": "These subtopics explore how normal tissue stem cell hierarchies and the cell of origin determine susceptibility to malignant transformation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory promotion of tumor growth",
+      "groupedBecause": "These subtopics examine how external environmental promoters, chronic inflammation, and stromal microenvironments drive and sustain tumor progression.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Technological approaches for studying tumor evolution",
+      "groupedBecause": "This subtopic reviews genomic, spatial, and computational techniques used to investigate tumor architecture and evolutionary dynamics.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lecture synthesis and concluding remarks",
+      "groupedBecause": "These subtopics synthesize the multifactorial drivers of cancer evolution and conclude the lecture.",
+      "firstSubtopicId": 10
+    }
+  ]
+}

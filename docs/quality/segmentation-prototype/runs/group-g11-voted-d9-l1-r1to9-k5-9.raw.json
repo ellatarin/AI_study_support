@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "The lecturer welcomes the class and outlines how the session will integrate previously learned components to explain the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Recognition of Pathogens and Cellular Damage",
+      "groupedBecause": "These subtopics explain how the innate immune system detects microbial infections and cellular injury through pattern recognition receptors, their molecular ligands, and intracellular signaling complexes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory Cascade, Cell Trafficking, and Systemic Consequences",
+      "groupedBecause": "These subtopics detail how sentinel cell activation coordinates leukocyte recruitment into tissues, enables antigen trafficking to lymph nodes, and can produce severe systemic pathologies such as septic shock when overactivated.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Responses",
+      "groupedBecause": "These subtopics describe the mechanisms that shut down acute inflammation, govern tissue repair, and manage persistent inflammatory conditions through adaptations such as granuloma formation.",
+      "firstSubtopicId": 14
+    }
+  ]
+}

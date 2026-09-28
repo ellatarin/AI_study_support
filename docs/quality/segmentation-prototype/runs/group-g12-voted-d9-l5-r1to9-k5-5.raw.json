@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer genetics",
+      "groupedBecause": "The lecturer introduces the session's learning objectives and connects prior practical histopathology observations to the cellular and genetic mechanisms of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and experimental assays for cellular transformation",
+      "groupedBecause": "These subtopics trace how the historical investigation of transforming viruses revealed cellular proto-oncogenes and established experimental assays to test cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Genetic characteristics and mechanisms of oncogenes and tumor suppressor genes",
+      "groupedBecause": "These subtopics define the functional classifications of oncogenes and tumor suppressor genes and illustrate their genetic behaviors through cell cycle control and dominant-negative mutations.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and multi-step progression of genetic instability in cancer",
+      "groupedBecause": "These subtopics examine how specific defects in DNA repair, replication, and mitotic chromosome segregation generate genetic instability and drive multi-step tumor development.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Hereditary cancer predisposition and tumor evolution",
+      "groupedBecause": "These subtopics explore how inherited germline mutations in gatekeeper and caretaker genes accelerate cancer onset and influence ongoing tumor evolution.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "The lecturer concludes the session with reading recommendations and administrative framing for the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

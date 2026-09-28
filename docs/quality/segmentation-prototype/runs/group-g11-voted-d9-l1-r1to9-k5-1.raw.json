@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction: Initiation and resolution of inflammation",
+      "groupedBecause": "The lecturer opens the session by outlining the lecture's focus on deepening knowledge of known immune cells and molecules during inflammatory responses.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate recognition: PAMPs, DAMPs, and PRRs",
+      "groupedBecause": "These subtopics define the fundamental mechanisms of innate recognition, including the nature of PAMPs and DAMPs, criteria for pathogen targets, and receptor localization.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor families, signaling, and the inflammasome",
+      "groupedBecause": "These subtopics detail the major families of pattern recognition receptors, their intracellular signaling cascades, and the assembly of the inflammasome to produce inflammatory cytokines.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Sentinel cell activation and leukocyte recruitment",
+      "groupedBecause": "These subtopics explain how tissue sentinel cells detect infection and coordinate the multi-step recruitment and extravasation of circulating leukocytes to the inflammatory site.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic drainage and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how dendritic cells carry antigens through lymphatic vessels to lymph nodes to activate adaptive immune responses.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Pathophysiology and clinical severity of septic shock",
+      "groupedBecause": "This subtopic addresses the lethal systemic consequences that arise when massive, uncontrolled pro-inflammatory cytokine production triggers widespread vasodilation and organ failure.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic responses",
+      "groupedBecause": "These subtopics examine how acute inflammation is terminated, how damaged tissue is repaired, and how persistent stimuli lead to chronic inflammation or granuloma formation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and next lecture preview",
+      "groupedBecause": "The lecturer wraps up the presentation and announces the topic of the upcoming lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

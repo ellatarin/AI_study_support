@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "The lecturer welcomes the class and outlines how the session will integrate previously learned immune mechanisms to explain the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate recognition of pathogens and cellular damage",
+      "groupedBecause": "These subtopics explain how sentinel cells and pattern recognition receptors detect microbial components and cellular damage to initiate an innate immune response.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Leukocyte recruitment and systemic inflammatory consequences",
+      "groupedBecause": "These subtopics describe how immune cells migrate into inflamed tissues and lymphatic vessels, as well as the physiological hazards of uncontrolled systemic inflammation.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Inflammation resolution, tissue repair, and chronic inflammatory states",
+      "groupedBecause": "These subtopics explain the mechanisms responsible for shutting down acute inflammation, restoring damaged tissue, and establishing chronic inflammatory or granulomatous responses when resolution fails.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer concludes the lecture and previews the subject of the upcoming class.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

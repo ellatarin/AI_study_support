@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Lecture",
+      "groupedBecause": "The lecturer introduces the complement system and frames its complexity and significance within immunology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations and Architecture of the Complement System",
+      "groupedBecause": "These subtopics provide an overview of complement, explaining its general organization, nomenclature conventions, and the central role of C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of Complement Activation",
+      "groupedBecause": "These subtopics detail the three pathways responsible for recognizing pathogens and initiating the complement cascade.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Mechanisms of Complement",
+      "groupedBecause": "These subtopics explain the downstream processes by which activated complement eliminates pathogens and recruits immune cells.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation and Host Cell Protection",
+      "groupedBecause": "This subtopic details the regulatory proteins and mechanisms that prevent complement from damaging host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Complement Deficiencies",
+      "groupedBecause": "This subtopic reviews the clinical consequences and disease presentations associated with deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Mechanisms of Pathogen Evasion",
+      "groupedBecause": "This subtopic examines how pathogens evolve strategies to evade complement-mediated destruction, using Staphylococcus aureus as an example.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer wraps up the lecture and introduces the topic of the upcoming session.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

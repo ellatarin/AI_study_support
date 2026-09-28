@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer introduces the session by connecting it to earlier practicals and outlining the day's learning outcomes on cancer genetics.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Virology, Proto-Oncogenes, and Transformation Assays",
+      "groupedBecause": "These subtopics explain how the historical study of tumor viruses led to the discovery of cellular proto-oncogenes and the experimental assays used to measure cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenes, Tumor Suppressor Genes, and Cell Cycle Control",
+      "groupedBecause": "These subtopics define the functional classifications of oncogenes and tumor suppressor genes and illustrate their mechanisms through cell cycle regulation and mutation dosage effects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and Types of Genetic Instability",
+      "groupedBecause": "These subtopics detail how specific failures in DNA repair pathways, replication fidelity, and chromosome segregation during mitosis cause sequence and chromosomal instability.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep Progression and Hereditary Cancer Predisposition",
+      "groupedBecause": "These subtopics examine how sequential somatic mutations and inherited genetic predispositions drive and accelerate tumor progression and evolution.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Recommended Reading",
+      "groupedBecause": "The lecturer concludes the session, suggests further reading, and previews the next lecture on cancer hallmarks.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

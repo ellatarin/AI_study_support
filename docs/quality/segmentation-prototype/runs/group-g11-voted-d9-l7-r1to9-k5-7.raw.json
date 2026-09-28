@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer evolution",
+      "groupedBecause": "This subtopic introduces the lecture theme, sets the learning objectives, and outlines the evolutionary framework of cancer development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms of clonal selection",
+      "groupedBecause": "These subtopics examine how successive genetic mutations and epigenetic alterations confer selective growth advantages to expanding cellular clones.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and stem cell hierarchies in tumorigenesis",
+      "groupedBecause": "These subtopics explore the influence of normal tissue hierarchy and stemness on a cell's susceptibility to malignant transformation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory drivers of tumor progression",
+      "groupedBecause": "These subtopics investigate how external promotional signals, chronic inflammation, and supportive stroma permit transformed cells to progress into invasive cancers.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Experimental methods for investigating tumor evolution and spatial biology",
+      "groupedBecause": "This subtopic outlines modern computational and spatial profiling technologies used to study cancer cell states and cellular interactions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "These subtopics synthesise the multifactorial model of cancer evolution and conclude the session.",
+      "firstSubtopicId": 10
+    }
+  ]
+}

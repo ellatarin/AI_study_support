@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and the Hallmarks of Cancer Framework",
+      "groupedBecause": "The lecturer introduces the learning outcomes, previous lecture context, and the Hallmarks of Cancer framework used to study tumor progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Autonomy and Proliferative Signaling Cascades",
+      "groupedBecause": "These subtopics examine how mutations in signaling pathways such as Wnt, receptor tyrosine kinases, and TGF-beta drive cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Leukemias and Epithelial Cancers",
+      "groupedBecause": "These subtopics explain how cancer cells fail to undergo terminal differentiation and remain trapped in proliferative states across hematopoietic lineages and intestinal crypts.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis and Mitochondrial Permeabilization",
+      "groupedBecause": "This subtopic addresses how tumor cells resist programmed cell death through alterations in p53, Bax, and Bcl-2 signaling.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality, Telomere Maintenance, and Senescence",
+      "groupedBecause": "These subtopics detail how cancer cells overcome the Hayflick limit and senescence via telomerase activation while contrasting this with normal p53-mediated stress responses.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered Cancer Metabolism and Epigenetic Feedback",
+      "groupedBecause": "These subtopics transition to complex hallmarks and explain how tumor cells rewire cellular metabolism through aerobic glycolysis and oncometabolite-driven epigenetic modifications.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis and Neovascularization",
+      "groupedBecause": "These subtopics explore the necessity, timing, and molecular balance of angiogenic signaling required to sustain tumor growth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "The Metastatic Cascade and Clonal Evolution in Secondary Sites",
+      "groupedBecause": "This subtopic describes the biological stages, physical and environmental barriers, diagnostics, and genomic features underlying cancer metastasis.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Closing Summary and Practical Information",
+      "groupedBecause": "The lecturer concludes the session with a recap of cancer hallmarks, references to further reading, and practical announcements.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the cancer lecture series, outlines the core learning objectives, and sets out the central question of what causes malignancy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Drivers of Cancer and Mutation Sources",
+      "groupedBecause": "These subtopics explain the fundamental nature of cancer as a micro-evolutionary genetic disease driven by mutations from endogenous cellular processes, environmental agents, and inherited traits.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence",
+      "groupedBecause": "These subtopics examine real-world environmental exposures, evaluate the debate between intrinsic bad luck and preventable external factors, and review epidemiological evidence showing global variations in cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Pathogen-Driven Carcinogenesis and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics explain how various infectious pathogens drive oncogenesis and examine Burkitt lymphoma as a primary model of infection-associated cancer development.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Molecular Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics detail how specific chemical carcinogens and UV radiation induce DNA damage either directly or following metabolic activation into reactive intermediates.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Multi-Stage Carcinogenesis, and Host Susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic tumor promotion through chronic inflammation and intracellular signaling, the classical multi-stage model of carcinogenesis, and how host developmental stages influence cancer risk.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Testing Carcinogenicity and Risk Evaluation",
+      "groupedBecause": "These subtopics examine the genomic, epidemiological, animal, and in vitro methods used to identify carcinogens and assess the practical balance of risks and benefits.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

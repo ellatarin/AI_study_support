@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces her background, course themes, and the core learning outcomes on cancer etiology and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Biological Nature of Cancer and Sources of Oncogenic Mutations",
+      "groupedBecause": "These subtopics explain cancer as an evolutionary genetic process and describe the interplay of endogenous errors, heredity, and external mutagens.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epidemiological and Environmental Evidence for Cancer Causes",
+      "groupedBecause": "These subtopics examine environmental exposures, geographic and migrant epidemiology, and the debate regarding intrinsic luck versus environmental causation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Pathogens and Infectious Agents in Carcinogenesis",
+      "groupedBecause": "These subtopics explore how infectious agents drive oncogenesis, illustrated in detail by the epidemiology and molecular etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical, Dietary, and Physical Mutagens",
+      "groupedBecause": "These subtopics explain the molecular pathways and metabolic activations through which specific dietary, radiation, and chemical exposures damage cellular DNA.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promoters and the Two-Stage Carcinogenesis Model",
+      "groupedBecause": "These subtopics describe how non-mutagenic stimuli promote tumor outgrowth through chronic inflammation, receptor signaling, and sustained cellular proliferation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Susceptibility Factors and Summary of Carcinogenic Mechanisms",
+      "groupedBecause": "These subtopics explore how developmental life stages and tissue specificity modulate carcinogen susceptibility, accompanied by a synthesis of carcinogenic modes.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methods for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the experimental and observational methodologies used to establish carcinogenic potential, from mutational signatures to in vivo and in vitro assays.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "The lecture concludes by balancing practical risk-benefit trade-offs of environmental exposures alongside the key principles of carcinogenicity.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic introduces the lecture topic on the initiation and resolution of inflammation and outlines the scope of the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate recognition of pathogens and cellular damage",
+      "groupedBecause": "These subtopics explain how the innate immune system identifies infections and tissue injury through molecular patterns and pattern recognition receptor pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular dynamics and physiological outcomes of acute inflammation",
+      "groupedBecause": "These subtopics describe the cellular signaling, leukocyte recruitment, and systemic physiological effects that occur during acute inflammatory responses.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "These subtopics describe the passive and active mechanisms that terminate inflammation, drive tissue healing, and manage persistent inflammatory conditions.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the presentation and previews the upcoming lecture on the complement system.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

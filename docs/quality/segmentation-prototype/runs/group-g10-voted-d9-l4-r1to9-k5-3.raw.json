@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "This opening subtopic introduces the lecturer, sets the context within the cancer course, and outlines the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Concepts of Cancer Causation: Genetics, Environment, and Epidemiology",
+      "groupedBecause": "These subtopics define cancer as an evolving genetic disease and evaluate the relative contributions of intrinsic biological errors versus environmental exposures through global epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Oncogenesis",
+      "groupedBecause": "These subtopics examine how infectious agents drive malignancy, using Burkitt lymphoma as a primary case study of pathogen-induced oncogenesis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagens",
+      "groupedBecause": "These subtopics detail how specific environmental mutagens and metabolic activation pathways cause direct DNA damage and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Promoters, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics explain the two-stage carcinogenesis model by differentiating non-mutagenic promoters and inflammatory microenvironments from initiators across varying host developmental stages.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Assessing and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the scientific methodologies employed to detect carcinogens and establish their causal link to cancer, including mutational signatures, biobanks, animal models, and in vitro tests.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion: Risk Assessment and Summary",
+      "groupedBecause": "This closing subtopic synthesizes the lecture's key insights on environmental carcinogenicity and reflects on everyday risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

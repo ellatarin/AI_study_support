@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer therapy",
+      "groupedBecause": "It outlines the lecture's structure and learning objectives regarding cancer treatment approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics explain the mechanisms, toxicities, and drug resistance associated with conventional cancer treatments.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer cell vulnerabilities",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit specific biological defects in cancer cells, including checkpoint and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene targeting and kinase inhibitors",
+      "groupedBecause": "These subtopics focus on small molecule inhibition of oncogenic kinase signaling and the molecular mechanisms of acquired drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody and antibody-drug conjugate therapies",
+      "groupedBecause": "These subtopics cover therapeutic approaches utilizing targeted antibodies to directly eliminate tumor cells or deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell redirection",
+      "groupedBecause": "These subtopics examine the relationship between the immune system and cancer along with strategies to harness and engineer T cells against tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic challenges, progress, and future directions",
+      "groupedBecause": "These subtopics review clinical hurdles, historical treatment achievements, and emerging considerations for future cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

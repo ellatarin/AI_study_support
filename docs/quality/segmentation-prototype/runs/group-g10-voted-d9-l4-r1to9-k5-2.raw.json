@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course and Lecture Introduction",
+      "groupedBecause": "This subtopic introduces the lecturer, course structure, and key learning objectives concerning cancer causes and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Factors, Environmental Exposures, and Epidemiology",
+      "groupedBecause": "These subtopics explore the fundamental origins of cancer by contrasting intrinsic biological errors with environmental risks and examining global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and Carcinogenesis",
+      "groupedBecause": "These subtopics examine how viral, bacterial, and parasitic pathogens drive malignancy, using Burkitt lymphoma as a detailed case study of infectious synergy and genetic translocation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Carcinogens and Metabolic Activation",
+      "groupedBecause": "These subtopics describe how physical agents and metabolically activated chemical carcinogens induce direct DNA adducts, damage, and mutational transversions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion and the Multi-Stage Carcinogenesis Model",
+      "groupedBecause": "These subtopics distinguish non-mutagenic tumor promoters and chronic inflammatory agents from mutational initiators using experimental models and asbestos pathology.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Susceptibility, Developmental Timing, and Carcinogenesis Summary",
+      "groupedBecause": "These subtopics explain how cellular proliferative states across host life stages modulate susceptibility to carcinogens and summarize the mechanistic causes of cancer.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methods for Determining Carcinogenicity and Risk Assessment",
+      "groupedBecause": "These subtopics evaluate the analytical, epidemiological, in vivo, and in vitro methodologies used to prove carcinogenicity alongside considerations of exposure risk and benefit.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

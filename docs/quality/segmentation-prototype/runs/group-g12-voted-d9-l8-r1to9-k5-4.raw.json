@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the key learning objectives regarding cancer treatment approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Modalities: Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics discuss standard non-specific cancer treatments, detailing their mechanisms of action, clinical successes, systemic toxicities, and drug resistance via efflux pumps.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities and Repair Defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit inherent biological weaknesses in cancer cells, such as hormone receptor dependence, cell cycle checkpoint defects, oncolytic viral sensitivity, and synthetic lethality through PARP inhibition.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase-Targeted Therapies, Oncogene Addiction, and Resistance",
+      "groupedBecause": "These subtopics explain the principles of oncogene addiction, small-molecule kinase inhibitor design, and the molecular mechanisms underlying acquired drug resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-Based Therapies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics cover the therapeutic use of targeted monoclonal antibodies and antibody-drug conjugates to recognise tumor-specific surface markers and deliver cytotoxic agents.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Modulation",
+      "groupedBecause": "These subtopics examine the evidence for immune surveillance and discuss therapeutic strategies that activate or engineer T cells against tumors, including immune checkpoint inhibitors, BiTEs, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, Long-Term Progress, and Future Directions in Cancer Therapy",
+      "groupedBecause": "These subtopics evaluate the broader clinical challenges, historical survival trends, emerging paradigms in prevention and early detection, and the ethical dilemmas surrounding cancer care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

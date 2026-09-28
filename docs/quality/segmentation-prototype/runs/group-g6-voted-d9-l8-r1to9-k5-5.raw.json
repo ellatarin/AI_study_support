@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer therapy",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and sets out the learning objectives regarding cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional therapies, cytotoxic chemotherapy, and mechanisms of resistance",
+      "groupedBecause": "These subtopics examine standard non-targeted cancer treatment modalities alongside the fundamental limitations of systemic toxicity and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic cancer cell vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics detail therapeutic strategies that exploit intrinsic biological vulnerabilities in cancer cells, including signaling dependencies, checkpoint deficiencies, and defective DNA repair.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene-targeted kinase inhibitors and resistance pathways",
+      "groupedBecause": "These subtopics focus on small-molecule inhibition of oncogenic driver kinases and the diverse molecular mechanisms tumors use to develop resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the design and therapeutic mechanisms of monoclonal antibodies and antibody-drug conjugates targeted to tumor surface proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immunotherapy and cellular immune targeting",
+      "groupedBecause": "These subtopics address approaches for harnessing and re-engineering the host immune system to recognize and destroy tumor cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics reflect on the systemic challenges, historical progress, and future clinical directions in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Outcomes",
+      "groupedBecause": "It covers the lecturer's welcome, course framing, and the intended learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Principles and Drivers of Oncogenesis",
+      "groupedBecause": "They describe the fundamental biological processes underlying cancer development, including somatic evolution, endogenous mutations, and inherited predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence",
+      "groupedBecause": "They examine the relative contributions of environmental hazards versus intrinsic biological chance to cancer incidence across populations.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Pathogen-Driven Carcinogenesis",
+      "groupedBecause": "They detail how viral and bacterial infections contribute to malignant transformation and the development of specific cancers.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Radiation Mutagenesis",
+      "groupedBecause": "They explain the biochemical pathways through which physical radiation and metabolized chemical carcinogens induce direct DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Initiation, Promotion, and Chronic Inflammation",
+      "groupedBecause": "They differentiate between direct mutational initiation and non-mutagenic promotion driven by inflammatory signaling and sustained cell proliferation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Developmental and Tissue Susceptibility to Carcinogens",
+      "groupedBecause": "They explore how host physiological factors, such as organ maturity and life-stage developmental timing, modulate cellular vulnerability to cancer.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogens",
+      "groupedBecause": "They review the genomic, epidemiological, animal, and in vitro experimental strategies used to identify carcinogens and their mutational signatures.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Risk-Benefit Evaluation and Summary",
+      "groupedBecause": "It concludes the lecture by evaluating the practical trade-offs involved in navigating everyday carcinogen exposures.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

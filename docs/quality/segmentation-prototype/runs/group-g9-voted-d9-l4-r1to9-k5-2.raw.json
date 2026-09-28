@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer introduces herself and outlines the objectives of the lecture on cancer causes, environmental exposures, and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Foundations and Drivers of Cancer",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease driven by mutations arising from endogenous cellular processes, replicative stress, and inherited predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Risk",
+      "groupedBecause": "These subtopics survey diverse environmental carcinogens and examine epidemiological evidence showing how lifestyle, geography, and migration impact cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Agents and Oncogenesis",
+      "groupedBecause": "These subtopics explore how pathogens such as viruses, bacteria, and parasites contribute to cancer, featuring Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics detail the biochemical pathways through which specific dietary toxins, radiation, and xenobiotic compounds cause DNA damage and mutational changes.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine how non-mutagenic factors like chronic inflammation, cellular promoters, and host developmental timing facilitate tumor development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Detecting Carcinogenicity and Assessing Risk",
+      "groupedBecause": "These subtopics describe genomic, epidemiological, animal, and in vitro experimental approaches used to identify carcinogens and evaluate cancer risk.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

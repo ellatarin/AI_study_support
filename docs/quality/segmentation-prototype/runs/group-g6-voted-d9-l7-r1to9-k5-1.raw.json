@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecture begins with opening framing that outlines the learning objectives and conceptual framework for understanding cancer evolution and the microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Selection and Darwinian Evolution in Cancer",
+      "groupedBecause": "This subtopic presents experimental evidence demonstrating that tumors develop through Darwinian selection and clonal expansion of cells carrying advantageous driver mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epigenetic Regulation in Tumor Formation",
+      "groupedBecause": "This subtopic explores how transient alterations in the epigenetic and transcriptional landscape can drive tumor development independently of genetic mutations.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Cell of Origin and Hierarchical Models of Tumorigenesis",
+      "groupedBecause": "These subtopics investigate how normal tissue stem cell hierarchies and cell-of-origin properties influence susceptibility to oncogenic transformation and tumor propagation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Promotion and Chronic Inflammation in Cancer Growth",
+      "groupedBecause": "These subtopics demonstrate how extrinsic microenvironmental stimuli, chronic inflammation, and supportive stroma act alongside mutations to promote malignant initiation and maintain tumor growth.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Methods for Investigating Cancer Evolution and the Microenvironment",
+      "groupedBecause": "This subtopic describes experimental and computational methods, such as single-cell sequencing and spatial omics, used to analyse mutational timing and tumor-microenvironment interactions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Synthesis of Multi-Factorial Cancer Evolution and Conclusion",
+      "groupedBecause": "These subtopics synthesize the combined contributions of genetic, epigenetic, cell-of-origin, and microenvironmental factors to cancer evolution before concluding the lecture.",
+      "firstSubtopicId": 10
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This opening section introduces the lecturer, sets out the lecture series framing, and outlines the key learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Factors, Environment, and Epidemiology",
+      "groupedBecause": "These subtopics explore the balance between intrinsic replicative errors, inherited genetics, and external exposures through epidemiological and public perspectives.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and Pathogen-Driven Carcinogenesis",
+      "groupedBecause": "These subtopics examine how infectious pathogens contribute to malignant transformation, illustrated in detail by the discovery and mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens: Activation and DNA Damage",
+      "groupedBecause": "These subtopics detail how environmental chemicals, dietary toxins, and radiation undergo xenobiotic metabolism to form mutagenic DNA adducts and lesions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Promotion, Chronic Inflammation, and Host Context",
+      "groupedBecause": "These subtopics address the role of non-mutagenic tumour promoters, inflammatory microenvironments, and developmental tissue stages in driving cancer outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Demonstrating Carcinogenicity and Assessing Risk",
+      "groupedBecause": "These subtopics describe the sequencing signatures, epidemiological biobanks, in vivo models, and in vitro assays used to evaluate carcinogenic potential and risk.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

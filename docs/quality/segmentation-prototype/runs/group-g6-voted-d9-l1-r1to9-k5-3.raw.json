@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and lecture overview",
+      "groupedBecause": "The lecturer welcomes the class and outlines that the lecture will focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition: PAMPs, DAMPs, and PRRs",
+      "groupedBecause": "These subtopics explain how the innate immune system detects infection and cellular damage using conserved molecular patterns and strategically localized germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor systems, signaling, and inflammasomes",
+      "groupedBecause": "These subtopics explore specific pattern recognition receptor families, their intracellular signaling pathways, and the assembly of inflammasomes that activate inflammatory cytokines.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Sentinel cell activation and leukocyte recruitment to inflamed tissue",
+      "groupedBecause": "These subtopics detail how activated sentinel cells stimulate the vascular endothelium to orchestrate leukocyte rolling, extravasation, and chemokine-directed migration into infected tissues.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic drainage and antigen transport to lymph nodes",
+      "groupedBecause": "This subtopic describes how sentinel dendritic cells and interstitial fluid drain through the lymphatic system to prime adaptive immune cells within lymph nodes.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Pathology of excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic explains the dangerous clinical consequences when uncontrolled, widespread cytokine release induces systemic vasodilation and septic shock.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic responses",
+      "groupedBecause": "These subtopics detail the passive and active mechanisms that extinguish acute inflammation, rebuild damaged tissue, and establish long-term containment structures such as granulomas.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer concludes the presentation and announces the topic of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

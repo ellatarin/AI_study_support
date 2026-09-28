@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "The lecturer introduces the session's learning outcomes and sets the context for studying cancer genetics.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Virology and Experimental Transformation Assays",
+      "groupedBecause": "These subtopics trace the historical discovery of viral and cellular transforming genes alongside the experimental assays used to test cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenes, Tumor Suppressors, and Cell Cycle Regulation",
+      "groupedBecause": "These subtopics examine the classifications, genetic mechanisms, and cell cycle targets of oncogenic and tumor-suppressive mutations.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and Types of Genetic Instability",
+      "groupedBecause": "These subtopics detail the underlying DNA repair failures, replication errors, and mitotic defects that drive sequence and chromosomal instability in cancer.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep Genetic Progression in Tumorigenesis",
+      "groupedBecause": "This subtopic illustrates the stepwise accumulation of driver mutations during colorectal tumorigenesis using the Vogelstein model.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Hereditary Cancer Predisposition and Tumor Evolution",
+      "groupedBecause": "These subtopics explore inherited cancer predisposition syndromes and their role in accelerating tumor evolution.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Conclusion and Further Reading",
+      "groupedBecause": "This subtopic provides the concluding remarks, student question session, and reading recommendations for the lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

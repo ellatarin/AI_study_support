@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Hallmarks of Cancer Overview",
+      "groupedBecause": "The lecturer introduces the lecture objectives, outlines the historical framework of cancer hallmarks, and establishes the central role of loss of growth control in tumorigenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Autonomous Proliferation and Growth Signal Transduction",
+      "groupedBecause": "These subtopics examine how oncogenic mutations in cell-surface receptor pathways, including Wnt, RTK, and TGF-beta cascades, drive sustained proliferation and survival signaling.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumorigenesis",
+      "groupedBecause": "These subtopics explain how cancer cells arrest normal maturation programs across hematological lineages and intestinal crypt epithelium to maintain an uncommitted proliferative state.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic explores how cancer cells evade programmed cell death through mutations disrupting p53 regulation and altering the balance between pro- and anti-apoptotic mitochondrial factors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Cellular Senescence",
+      "groupedBecause": "These subtopics explain how cancer cells achieve indefinite replication through telomerase reactivation while bypassing p53-mediated DNA damage arrest and cellular senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Reprogramming in Cancer",
+      "groupedBecause": "These subtopics explore the Warburg effect, metabolic rewiring across different tumor types, and the role of metabolic enzyme mutations in producing oncometabolites that alter the epigenome.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics address why expanding tumors require new blood vessel formation, when the angiogenic switch occurs, and how the balance between activating and inhibitory factors governs vascularisation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Metastatic Dissemination and Colonisation",
+      "groupedBecause": "This subtopic details the multi-step metastatic cascade from local tissue invasion and circulatory transport to the seed-and-soil dynamics and genomic traits of secondary tumors.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "The lecturer summarises the collective action of cancer hallmarks, references advanced literature, and concludes the session before the practicals.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

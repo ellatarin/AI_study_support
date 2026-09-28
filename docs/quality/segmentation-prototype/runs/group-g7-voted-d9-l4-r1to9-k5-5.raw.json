@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, outlines the scope of the cancer lecture series, and sets the learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Foundations of Cancer and Drivers of Mutation",
+      "groupedBecause": "These subtopics define cancer as an evolutionary, microenvironment-dependent genetic disease and outline the balance of intrinsic, inherited, and environmental factors driving DNA damage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence",
+      "groupedBecause": "These subtopics examine how environmental exposures contribute to cancer risk and analyze epidemiological data and public debates comparing environmental causes with random biological chance.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens in Carcinogenesis",
+      "groupedBecause": "These subtopics describe the role of viruses, bacteria, and parasites in oncogenesis, using Burkitt lymphoma to illustrate how infection and immune perturbation drive malignant transformation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mechanisms of DNA Mutagenesis",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which radiation and chemical carcinogens undergo metabolic activation to induce DNA adducts, mutations, and oxidative damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Promotion and Non-Mutagenic Carcinogenesis",
+      "groupedBecause": "These subtopics distinguish cancer initiators from promoters by showing how non-mutagenic stimuli such as asbestos and phorbol esters drive chronic inflammation and cell proliferation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Susceptibility, Developmental Timing, and Mechanistic Synthesis",
+      "groupedBecause": "These subtopics analyze how host developmental windows and tissue specificity influence carcinogenic risk and synthesize the core mechanistic principles of cancer development.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Identifying and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, animal, and in vitro experimental approaches used to determine whether agents cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Carcinogen Risk-Benefit Appraisal and Conclusion",
+      "groupedBecause": "The lecturer concludes the lecture by evaluating the practical trade-offs between carcinogen exposure risks and daily life benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

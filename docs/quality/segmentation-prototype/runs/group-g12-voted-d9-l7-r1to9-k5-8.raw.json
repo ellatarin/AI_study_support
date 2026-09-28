@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Evolution",
+      "groupedBecause": "The lecturer introduces the fifth lecture of the series, outlines the learning objectives, and establishes the core themes of cancer evolution and the microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Drivers of Clonal Evolution",
+      "groupedBecause": "These subtopics explain how cell-intrinsic genetic mutations and epigenetic alterations confer selective advantages that drive clonal expansion and progression.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Stem Cell Hierarchies in Cancer Initiation",
+      "groupedBecause": "These subtopics examine how tissue hierarchy and the differentiation state of the cell of origin influence susceptibility to malignant transformation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "The Tumor Microenvironment and Inflammatory Promotion",
+      "groupedBecause": "These subtopics demonstrate how environmental promoters, chronic inflammation, and supportive stroma cooperate with cellular alterations to permit tumor initiation, plasticity, and maintenance.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Methods for Investigating Clonal Evolution and the Microenvironment",
+      "groupedBecause": "This subtopic describes the experimental, sequencing, and spatial profiling technologies used to investigate tumor heterogeneity and microenvironmental interactions in the lab.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Integrated Evolutionary Model of Cancer Development",
+      "groupedBecause": "This subtopic synthesizes the multi-factorial contributions of mutational burden, epigenetics, cell of origin, and microenvironmental conditions into a unified evolutionary framework of cancer progression.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Closing Remarks",
+      "groupedBecause": "The lecturer concludes the lecture and previews the upcoming session on cancer therapy.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

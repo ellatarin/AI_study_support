@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "The lecturer introduces the session and frames the scope of the lecture on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and Damage Recognition Mechanisms",
+      "groupedBecause": "These subtopics explain how the innate immune system senses infection and cellular damage through molecular patterns and pattern recognition receptor pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory Response and Leukocyte Recruitment",
+      "groupedBecause": "These subtopics describe how activated sentinel cells mobilize leukocytes, coordinate tissue trafficking, and drive local and systemic inflammatory processes.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Repair, and Chronic Responses",
+      "groupedBecause": "These subtopics detail how the immune system shuts down active inflammation, restores injured tissue, and adapts to persistent challenges.",
+      "firstSubtopicId": 14
+    }
+  ]
+}

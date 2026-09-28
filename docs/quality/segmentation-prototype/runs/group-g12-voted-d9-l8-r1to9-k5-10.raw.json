@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Modalities and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics explain the principles, adverse effects, and resistance mechanisms of traditional cancer treatments including surgery, radiotherapy, and cytotoxic drugs.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities and Repair Defects",
+      "groupedBecause": "These subtopics focus on therapeutic strategies that exploit cancer-specific weaknesses such as hormone dependence, cell cycle checkpoint loss, and defective DNA repair.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene Targeting and Kinase Inhibitors",
+      "groupedBecause": "These subtopics examine the targeting of oncogenic driver mutations and kinases along with the pathways leading to drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics describe therapeutic antibodies designed to target tumor surface markers directly or deliver attached cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immunotherapy and T-Cell-Directed Strategies",
+      "groupedBecause": "These subtopics discuss the relationship between the immune system and tumors, exploring methods to reactivate or genetically engineer T cells for cancer treatment.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic Challenges, Progress, and Future Outlook",
+      "groupedBecause": "These subtopics review clinical progress, current systemic challenges such as tumor heterogeneity, and future directions in cancer treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

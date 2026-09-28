@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "It introduces the lecture series, outlines the learning objectives, and frames the clinical and biological scope of cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Foundations of Cancer and Experimental Models",
+      "groupedBecause": "They frame cancer as a progressive failure of normal cellular differentiation and tissue architecture driven by accumulated genetic alterations, alongside the laboratory models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Stepwise Malignant Progression",
+      "groupedBecause": "They explain the transition from localized lesions to invasive and metastatic malignancies, using colorectal tumor histology as a model of stepwise progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Benign Versus Malignant Tumor Behavior and Nomenclature",
+      "groupedBecause": "They contrast the clinical risks of benign versus malignant neoplasms and outline the standard pathological naming conventions across tissue types.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Pathophysiological Causes of Cancer Morbidity and Mortality",
+      "groupedBecause": "It explains the direct physical and systemic mechanisms through which primary and metastatic tumors impair organ function and cause fatal disease.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer Incidence and Prevalence Across Species",
+      "groupedBecause": "They examine the frequency and mortality patterns of different tumor types across human populations and diverse animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Clinical Applications of Cancer Screening",
+      "groupedBecause": "They assess the clinical necessity, diagnostic techniques, and variable effectiveness of population screening programs for identifying early and pre-malignant lesions.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion and Housekeeping",
+      "groupedBecause": "It concludes the lecture by referencing the learning outcomes and providing information on upcoming practicals and sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

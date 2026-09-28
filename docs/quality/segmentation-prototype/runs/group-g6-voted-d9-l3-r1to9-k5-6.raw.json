@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic introduces the course, welcomes students from multiple disciplines, and establishes the core learning objectives of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and Developmental Basis of Cancer",
+      "groupedBecause": "These subtopics explain how cancer develops from accumulated genetic alterations that disrupt normal tissue differentiation programs and discuss the histology and culture methods used to study this biology.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Progression, Invasion, and Metastasis",
+      "groupedBecause": "These subtopics explore the functional and histological distinctions between benign and malignant tumors, illustrating how invasive and metastatic phenotypes emerge through stepwise progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Principles and Exceptions of Tumor Nomenclature",
+      "groupedBecause": "This subtopic details the naming conventions used to classify neoplasms according to their tissue of origin and malignant potential.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic explains the anatomical obstructions, organ disruption, and systemic complications through which primary and metastatic tumors cause illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative Epidemiology and Species Incidence of Cancer",
+      "groupedBecause": "These subtopics examine the distribution and frequency of various tumor types across human populations and other multicellular animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical Detection and Cancer Screening Strategies",
+      "groupedBecause": "These subtopics assess the clinical rationale, effectiveness, and diagnostic limitations of early detection and screening programs for major tumor types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Summary and Next Steps",
+      "groupedBecause": "This subtopic concludes the session by directing students to review the stated learning outcomes in preparation for subsequent practicals and lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

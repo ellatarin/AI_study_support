@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer evolution and microenvironmental influences",
+      "groupedBecause": "The lecturer introduces the aims, context, and key themes of the lecture on cancer evolution and microenvironmental interactions.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic clonal selection and epigenetic mechanisms in tumor evolution",
+      "groupedBecause": "These subtopics explore how cells acquire competitive advantages and transform through sequential genetic mutations and epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and stem cell hierarchy in tumor development",
+      "groupedBecause": "These subtopics examine whether cancers initiate from tissue-specific stem cells versus progenitor cells across hematological and intestinal models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental, stromal, and inflammatory promotion of cancer",
+      "groupedBecause": "These subtopics demonstrate how environmental promoters, inflammatory signaling, and supportive stromal interactions are required for tumor outgrowth and malignancy.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Experimental and computational methods for analyzing tumor biology",
+      "groupedBecause": "This subtopic reviews sequencing, spatial transcriptomic, and proteomic techniques used to investigate tumor evolution and cellular interactions in the laboratory.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Synthesis of multi-factorial cancer evolution and lecture conclusion",
+      "groupedBecause": "These subtopics summarise the combined roles of mutations, cell origin, and microenvironmental factors in cancer development before closing the lecture.",
+      "firstSubtopicId": 10
+    }
+  ]
+}

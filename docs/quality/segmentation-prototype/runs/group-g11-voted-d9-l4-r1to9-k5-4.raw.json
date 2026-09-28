@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer introduces the cancer course, outlines the learning objectives, and defines the scope of the lecture on the causes of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic and Inherited Drivers of Cancer Development",
+      "groupedBecause": "These subtopics characterize cancer as an evolutionary genetic disease shaped by the microenvironment, intrinsic cellular processes, and inherited predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence",
+      "groupedBecause": "These subtopics explore environmental carcinogens, the debate surrounding random bad luck versus external causes, and geographic and migration data linking environment to cancer risk.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens in Carcinogenesis",
+      "groupedBecause": "These subtopics describe how viral, bacterial, and parasitic infections drive cancer development, highlighting Burkitt lymphoma as a paradigm of co-infection and translocation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics explain how physical radiation and chemical agents damage DNA directly or require endogenous metabolic activation to form mutagenic adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Promotion, Inflammation, and Cellular Susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic tumor promotion, chronic inflammation, tissue susceptibility, and developmental timing in driving malignant outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Determining and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics present the genomic signatures, epidemiological surveys, biobanks, animal models, and in vitro assays used to evaluate whether an agent causes cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Decisions",
+      "groupedBecause": "This concluding subtopic summarizes the primary causes and challenges of evaluating carcinogens while framing exposure within everyday risk-versus-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

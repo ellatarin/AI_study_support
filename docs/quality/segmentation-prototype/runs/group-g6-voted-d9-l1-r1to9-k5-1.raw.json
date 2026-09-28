@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "This subtopic welcomes the students and introduces the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Innate Immune Recognition",
+      "groupedBecause": "These subtopics establish the foundational concepts of how the innate immune system detects danger through microbial patterns, cellular damage, and germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern Recognition Receptor Families and Signaling",
+      "groupedBecause": "These subtopics describe the specific receptor families, downstream signaling cascades, and inflammasome complexes that translate danger detection into inflammatory mediator production.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cellular Activation and Leukocyte Recruitment",
+      "groupedBecause": "These subtopics detail how sentinel cells initiate local responses and guide circulating leukocytes through the vasculature into infected tissue.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic Drainage and Adaptive Immune Priming",
+      "groupedBecause": "This subtopic explains how activated dendritic cells exit infected tissue through the lymphatic network to prime adaptive immune cells in lymph nodes.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Pathophysiology of Systemic Inflammation and Sepsis",
+      "groupedBecause": "This subtopic examines the severe physiological damage and high mortality that result when inflammatory cytokine production becomes systemic.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Mechanisms of Inflammatory Resolution",
+      "groupedBecause": "This subtopic analyzes the passive decay mechanisms and active biochemical switches that terminate acute inflammatory responses.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Tissue Repair and Chronic Inflammatory Responses",
+      "groupedBecause": "These subtopics explore the process of tissue reconstruction and the containment strategies that develop when inflammatory triggers cannot be cleared.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the session and provides a preview of the upcoming lecture on the complement system.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

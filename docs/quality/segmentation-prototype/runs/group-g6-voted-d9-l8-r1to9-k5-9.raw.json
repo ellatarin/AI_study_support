@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the final lecture on cancer therapy and outlines the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics examine conventional non-targeted therapeutic modalities along with their mechanisms of toxicity and resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Checkpoint Loss and DNA Repair Deficiencies",
+      "groupedBecause": "These subtopics discuss therapeutic strategies that exploit intrinsic tumor vulnerabilities arising from defective cell cycle checkpoints and DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene Addiction and Kinase Inhibitors",
+      "groupedBecause": "These subtopics address targeted therapies directed against hyperactive oncogenic kinases and the cellular mechanisms that drive drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-Based Therapies and Conjugates",
+      "groupedBecause": "These subtopics explain the therapeutic application of tumor-targeting monoclonal antibodies and antibody-drug conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune Checkpoint Blockade and Cellular Immunotherapies",
+      "groupedBecause": "These subtopics examine tumor immunology and explore methods to activate or engineer patient T-cell responses against cancer cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic Challenges, Progress, and Future Outlook",
+      "groupedBecause": "These subtopics assess the overarching clinical challenges, historical progress, and future directions of modern cancer medicine.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "The lecture opens with an introduction to the speaker, course outline, and the core learning outcomes on cancer causes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of Cancer Etiology and Environmental Risk",
+      "groupedBecause": "These subtopics establish the foundational concepts of cancer etiology by examining the interaction between intrinsic cellular errors, environmental mutagens, and population-level epidemiology.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Carcinogenesis",
+      "groupedBecause": "These subtopics illustrate how infectious pathogens drive cancer development, focusing on Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Direct Mutagens and Metabolic Activation",
+      "groupedBecause": "These subtopics detail how chemical and physical agents cause direct DNA damage and bulky adducts following host metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer Initiation and Promotion",
+      "groupedBecause": "These subtopics explore non-mutagenic carcinogenesis by differentiating tumor initiators from promoters that drive cellular proliferation and chronic inflammation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Developmental Susceptibility and Mechanistic Summary",
+      "groupedBecause": "These subtopics explain how host developmental timing influences cancer susceptibility and provide a consolidated summary of carcinogenic pathways.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Demonstrating Carcinogenicity and Assessing Risk",
+      "groupedBecause": "These subtopics review the analytical, experimental, and epidemiological methods used to demonstrate carcinogenicity and weigh health risks.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer introduces the session's themes, relates them to histopathology practicals, and outlines the lecture learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Discovery and laboratory validation of transforming oncogenes",
+      "groupedBecause": "These subtopics trace the historical discovery of viral and cellular transforming genes and describe the experimental assays used to demonstrate cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classification and mechanisms of oncogenes and tumor suppressor genes",
+      "groupedBecause": "These subtopics define the major categories of cancer mutations and illustrate their biochemical actions and phenotypic effects using the Rb pathway and p53.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and forms of genetic instability in cancer",
+      "groupedBecause": "These subtopics examine how specific failures in DNA repair pathways, replication fidelity, and mitotic segregation generate sequence and chromosomal instability.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-step tumor progression and hereditary cancer predisposition",
+      "groupedBecause": "These subtopics explain how sequential somatic mutation acquisition and inherited germline defects accelerate tumor development and shape cancer evolution.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and reading recommendations",
+      "groupedBecause": "The lecturer concludes the presentation, offers recommended reading, and previews the upcoming lecture on the hallmarks of cancer.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

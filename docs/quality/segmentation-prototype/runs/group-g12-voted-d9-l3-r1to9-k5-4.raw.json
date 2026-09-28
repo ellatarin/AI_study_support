@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, outlines the interdisciplinary audience, and presents the specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Multistep Disruption of Differentiation and Tissue Architecture",
+      "groupedBecause": "These subtopics explain how cumulative genetic and epigenetic alterations disrupt normal developmental differentiation programs and tissue architecture to initiate malignancy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and Models of Tumor Invasion and Progression",
+      "groupedBecause": "These subtopics examine how tumors progress from benign to invasive and metastatic states, using histological criteria and colorectal cancer as a stepwise model.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Principles of Tumor Nomenclature",
+      "groupedBecause": "This subtopic defines the systematic naming conventions and notable exceptions used to classify benign and malignant neoplasms based on tissue of origin.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic details the anatomical, metabolic, and metastatic processes by which primary and secondary tumors cause illness and patient death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative Tumor Incidence Across Tissues and Animal Taxa",
+      "groupedBecause": "These subtopics analyse the frequency and mortality of different tumor types in human populations and across diverse multicellular animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical Presentation and Cancer Screening Modalities",
+      "groupedBecause": "These subtopics review the clinical signs of cancer and assess the utility, histological targets, and limitations of population screening across various organ sites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion and Practical Session Preview",
+      "groupedBecause": "This subtopic provides the closing framing by reiterating the learning outcomes and providing housekeeping directions for upcoming practicals.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

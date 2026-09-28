@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Outcomes",
+      "groupedBecause": "This opening section introduces the cancer biology lecture series and outlines the learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Definition and Modeling of Cancer",
+      "groupedBecause": "These subtopics define cancer as a failure of normal cellular differentiation driven by accumulated genetic alterations and discuss the challenges of modeling tissue architecture in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Metastasis, and Stepwise Tumor Progression",
+      "groupedBecause": "These subtopics examine the clinical and histological differences between benign and malignant tumors, focusing on tissue invasion, metastasis, and stepwise progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Classification and Nomenclature",
+      "groupedBecause": "This subtopic details the standard rules and common exceptions used to name benign and malignant neoplasms.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic describes the physiological mechanisms by which local tumor growth and distant metastases cause systemic illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Neoplastic Incidence Across Tissues and Species",
+      "groupedBecause": "These subtopics examine the epidemiological patterns of tumor incidence across human tissues and throughout multicellular animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Practice of Cancer Screening",
+      "groupedBecause": "These subtopics discuss the rationale, clinical execution, and diagnostic efficacy of screening modalities across different cancer types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This concluding section wraps up the lecture and refers students back to the initial learning outcomes.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

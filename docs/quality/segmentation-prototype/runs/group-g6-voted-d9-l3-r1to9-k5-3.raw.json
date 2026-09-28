@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "The subtopic introduces the lecture series, outlines student backgrounds, and establishes the foundational learning outcomes for cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and Developmental Foundations of Cancer",
+      "groupedBecause": "These subtopics explain the core concept of cancer as a progressive failure of normal differentiation and tissue architecture driven by accumulated genetic and epigenetic changes, alongside experimental models used to study these cellular behaviors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and Histological Features of Invasion and Metastasis",
+      "groupedBecause": "These subtopics describe the transition of tumors from benign confined growths to invasive and metastatic malignancies, highlighting histological identification using colorectal cancer progression as a model.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature, Clinical Behavior, and Pathological Impacts",
+      "groupedBecause": "These subtopics define the standard naming conventions for different tumor types and explain the specific physiological mechanisms through which benign and malignant growths cause illness and death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Epidemiology and Comparative Oncology Across Species",
+      "groupedBecause": "These subtopics examine patterns of cancer incidence and tissue vulnerabilities in human populations and across diverse animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical Detection and Screening Strategies",
+      "groupedBecause": "These subtopics explore the principles, histological detection methods, and clinical effectiveness of screening programs designed to identify pre-malignant lesions in various organ systems.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic wraps up the session by revisiting the core learning outcomes and giving directions for upcoming practicals.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

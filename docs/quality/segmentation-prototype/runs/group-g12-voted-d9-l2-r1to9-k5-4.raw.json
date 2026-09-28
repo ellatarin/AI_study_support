@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the lecture on complement",
+      "groupedBecause": "This subtopic opens the lecture with introductory remarks comparing complement to other complex biological pathways.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Overview, nomenclature, and the central role of C3",
+      "groupedBecause": "These subtopics introduce the complement system's general architecture, naming conventions, and the central role of C3 cleavage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways",
+      "groupedBecause": "These subtopics explain the three distinct recognition pathways that drive C3 convertase formation and trigger complement activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail the primary downstream effector functions of complement, including opsonization, inflammation, and direct cell lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation and host cell protection",
+      "groupedBecause": "This subtopic explains the regulatory proteins and mechanisms that prevent complement from damaging host tissues.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic outlines the varied disease manifestations and clinical risks associated with deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic examines the evolutionary mechanisms pathogens use to circumvent complement-mediated destruction, using Staphylococcus aureus as a primary model.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview",
+      "groupedBecause": "This subtopic concludes the complement lecture and previews the upcoming session on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

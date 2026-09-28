@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "This subtopic welcomes the students, introduces the lecture theme on the initiation and resolution of inflammation, and frames how the concepts connect to prior material.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of PAMPs, DAMPs, and Pattern Recognition Receptors",
+      "groupedBecause": "These subtopics explain the molecular signatures of infection and damage and the general properties and subcellular localization of pattern recognition receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-Like Receptors and Intracellular Signaling",
+      "groupedBecause": "These subtopics describe the diversity, cellular localization, and downstream transcriptional signaling pathways of Toll-like receptors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Non-TLR Pattern Recognition Receptors and the Inflammasome",
+      "groupedBecause": "These subtopics examine additional pattern recognition receptor families and the multi-protein inflammasome complex responsible for processing pro-inflammatory cytokines.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel Cell Activation and Leukocyte Recruitment",
+      "groupedBecause": "These subtopics detail how sentinel cells respond to detection events and coordinate leukocyte recruitment from the bloodstream into infected tissue.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antigen Trafficking via the Lymphatic System",
+      "groupedBecause": "This subtopic explains how dendritic cells transport antigens through the lymphatic system to prime adaptive immune cells in lymph nodes.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Pathology of Systemic Inflammation and Septic Shock",
+      "groupedBecause": "This subtopic addresses the life-threatening systemic consequences of excessive pro-inflammatory cytokine release during septic shock.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Mechanisms of Inflammation Resolution",
+      "groupedBecause": "This subtopic describes the passive decay and active biochemical regulatory mechanisms that terminate acute inflammatory signaling.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Tissue Repair, Chronic Inflammation, and Granuloma Formation",
+      "groupedBecause": "These subtopics explore the biological processes of tissue repair, the transition to chronic inflammation, and the formation of granulomas to contain persistent pathogens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and previews the next session on the complement system.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

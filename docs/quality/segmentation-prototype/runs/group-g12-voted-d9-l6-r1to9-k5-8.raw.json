@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Hallmarks of Cancer Framework",
+      "groupedBecause": "The lecturer outlines the learning objectives, context from previous lectures, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated Signaling Pathways Promoting Growth and Survival",
+      "groupedBecause": "These subtopics examine how mutations in signaling cascades such as Wnt/beta-catenin, receptor tyrosine kinases, and TGF-beta drive independent proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumor Development",
+      "groupedBecause": "These subtopics explain how differentiation arrest prevents cells from exiting the cell cycle across both hematopoietic malignancies and colorectal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis via the Mitochondrial Pathway",
+      "groupedBecause": "This subtopic explores how cancer cells evade programmed cell death through mutations in p53 and the dysregulation of pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality, Telomere Maintenance, and Senescence",
+      "groupedBecause": "These subtopics detail the mechanisms of telomerase activation that allow cells to bypass the Hayflick limit and overcome protective stress-induced senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Rewiring and Oncometabolites in Cancer",
+      "groupedBecause": "These subtopics transition to systemic hallmarks by explaining the Warburg effect, global metabolic shifts, and epigenetic deregulation driven by mutated Krebs cycle enzymes.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Induction and Regulation of Tumor Angiogenesis",
+      "groupedBecause": "These subtopics address why growing tumors require new blood vessels, when angiogenic switching occurs during progression, and how activator-inhibitor balances guide therapy.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Inefficiencies of the Metastatic Cascade",
+      "groupedBecause": "This subtopic analyzes the multi-step process of metastasis, circulatory dissemination, diagnostic biomarkers, and the genomic features underlying secondary site colonization.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Conclusion and Future Perspectives on Hallmarks",
+      "groupedBecause": "The lecturer concludes the session with final remarks on evolving hallmark frameworks, recommended reading, and upcoming practicals.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

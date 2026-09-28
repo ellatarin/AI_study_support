@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Hallmarks of Cancer",
+      "groupedBecause": "The lecturer introduces the learning objectives, historical framework, and general concept of Hanahan and Weinberg's hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signaling Autonomy and Pathway Deregulation",
+      "groupedBecause": "These subtopics explain how mutations in cell-surface receptors and downstream cascades such as Wnt, RTK, and TGF-beta drive sustained proliferative signaling and escape from growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blockade of Terminal Cell Differentiation",
+      "groupedBecause": "These subtopics examine how cancer cells disrupt normal tissue maturation and remain proliferative, using hematological malignancies and colonic crypt architecture as key models.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Programmed Cell Death",
+      "groupedBecause": "This subtopic details how neoplastic cells evade apoptosis through the loss of p53 tumor suppressor activity and alterations in the Bax-BCL2 mitochondrial pathway.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics describe the mechanisms of overcoming the Hayflick limit and cellular senescence via telomere maintenance and TERT activation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Rewiring and the Warburg Effect",
+      "groupedBecause": "These subtopics explore how tumor cells alter cellular metabolism through aerobic glycolysis, enzymatic mutations, and oncometabolite signaling to support high biosynthetic demands.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "These subtopics discuss the necessity, timing, and regulatory balance of new blood vessel recruitment to sustain tumor oxygenation and growth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Dynamics of Metastasis",
+      "groupedBecause": "This subtopic details the multi-step invasion-metastasis cascade, diagnostic tracking via lymph nodes and circulating tumor cells, and the genetic complexity underlying distant organ colonization.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "The lecturer concludes the session with a summary of the hallmarks framework, references to recent literature extensions, and housekeeping remarks.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

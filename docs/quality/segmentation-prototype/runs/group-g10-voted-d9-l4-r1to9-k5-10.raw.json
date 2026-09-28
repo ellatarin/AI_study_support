@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic provides the opening framing for the lecture, outlining the course structure, lecturer background, and key learning goals.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Origins of Cancer and Sources of DNA Mutations",
+      "groupedBecause": "These subtopics establish cancer as a micro-evolutionary genetic disease and outline the intrinsic and extrinsic processes driving the accumulation of mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures, Public Perception, and Geographic Epidemiology",
+      "groupedBecause": "These subtopics examine common environmental carcinogen exposures, public debates regarding cancer causation, and epidemiological evidence demonstrating geographical variations in cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Agents and Pathogen-Driven Carcinogenesis",
+      "groupedBecause": "These subtopics detail how biological pathogens drive cancer development, focusing on the epidemiological and molecular mechanisms of Epstein-Barr virus in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Mutagenesis by Chemical and Physical Agents",
+      "groupedBecause": "These subtopics explore how dietary toxins, radiation, and chemical carcinogens undergo metabolic activation to induce DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Multi-Stage Carcinogenesis, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine the distinction between cancer initiators and promoters, the role of chronic inflammation, and how host developmental stages affect cancer vulnerability.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, in vivo, and in vitro techniques used to establish whether substances are carcinogenic and evaluate overall risk.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

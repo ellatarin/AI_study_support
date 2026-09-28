@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Course Overview",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the learning outcomes, and frames the clinical and biological scope of cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Cellular and Developmental Basis of Tumorigenesis",
+      "groupedBecause": "These subtopics explain how cancer develops as a failure of normal differentiation programs and tissue architecture driven by accumulated genetic and epigenetic alterations, emphasizing the importance of three-dimensional tissue context.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign versus Malignant Tumors and Invasive Progression",
+      "groupedBecause": "These subtopics describe the defining features of benign and malignant tumors, focusing on tissue invasion, metastatic pathways, and the stepwise progression from precursor adenomas to invasive carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature and Classification",
+      "groupedBecause": "This subtopic details the standard naming conventions, suffixes, and clinical exceptions used to classify benign and malignant neoplasms across different tissues of origin.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic examines the pathophysiological mechanisms through which primary and metastatic tumors cause systemic disease, organ failure, and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Epidemiology and Comparative Incidence Across Species",
+      "groupedBecause": "These subtopics compare tumor incidence patterns and mortality across human tissue types, companion animals, and multicellular taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Clinical Applications of Cancer Screening",
+      "groupedBecause": "These subtopics discuss the rationale, clinical challenges, and practical implementations of screening programs for early cancer detection across different organ systems.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic closes the lecture with a summary reminder of the learning outcomes and housekeeping for upcoming sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

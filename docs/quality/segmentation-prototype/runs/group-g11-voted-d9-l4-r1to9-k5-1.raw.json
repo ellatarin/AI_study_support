@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic introduces the lecturer, frames the lecture series on cancer biology, and outlines the key learning outcomes regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Factors, Genetics, and Environmental Epidemiology",
+      "groupedBecause": "These subtopics explore the conceptual basis of cancer development by examining how intrinsic mutational processes, inherited genetics, and environmental exposures interact to drive cancer incidence across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and Infectious Agents in Cancer Etiology",
+      "groupedBecause": "These subtopics examine how viral, bacterial, and parasitic pathogens promote malignancy, using the multi-factorial etiology of Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics describe the molecular mechanisms by which dietary, environmental, and physical mutagens undergo metabolic activation to form DNA adducts and induce genetic mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammatory Microenvironments, and Host Susceptibility",
+      "groupedBecause": "These subtopics detail how non-mutagenic factors promote cancer growth through chronic inflammation and cellular signaling, highlighting the interplay between tumor promotion, tissue context, and host developmental timing.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Determining and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, in vivo, and in vitro experimental methodologies employed to identify carcinogens, assess mutational signatures, and weigh carcinogenic risks.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

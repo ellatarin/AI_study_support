@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer opens the session by outlining the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen recognition and pattern recognition receptor signaling",
+      "groupedBecause": "These subtopics explain how the innate immune system detects microbial and damage signals through pattern recognition receptors and downstream inflammatory complexes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Sentinel cell activation and leukocyte recruitment",
+      "groupedBecause": "These subtopics describe how activated sentinel cells signal the vascular endothelium to guide leukocyte extravasation and migration to sites of infection.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic drainage and immune cell trafficking to lymph nodes",
+      "groupedBecause": "This subtopic explains how dendritic cells use the lymphatic drainage system to carry antigens from infected tissues to lymph nodes for adaptive immune priming.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Systemic inflammatory complications and septic shock",
+      "groupedBecause": "This subtopic explains the pathological cardiovascular consequences and high mortality resulting from excessive systemic cytokine production.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Mechanisms of inflammatory resolution",
+      "groupedBecause": "This subtopic explains the passive decay processes and active stop signals that terminate inflammatory responses.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Tissue repair, chronic inflammation, and granuloma formation",
+      "groupedBecause": "These subtopics explain the wound healing process and the development of chronic inflammatory structures when damage or infection persists.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Closing remarks",
+      "groupedBecause": "The lecturer concludes the lecture and announces the topic for the next session.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

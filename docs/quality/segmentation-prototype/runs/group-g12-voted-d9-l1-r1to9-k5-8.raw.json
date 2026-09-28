@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "The lecturer welcomes the class, outlines the lecture scope on the initiation and resolution of inflammation, and frames how the concepts build on previously introduced immunology material.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Immune Recognition of Infection and Tissue Damage",
+      "groupedBecause": "These subtopics explain how the innate immune system senses microbial threats and cellular injury using pathogen- and damage-associated molecular patterns detected by pattern recognition receptor families and the inflammasome.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory Cascade, Leukocyte Recruitment, and Systemic Effects",
+      "groupedBecause": "These subtopics detail how activated sentinel cells trigger leukocyte trafficking and extravasation to affected tissues and draining lymph nodes, as well as the life-threatening systemic risks of uncontrolled acute activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics explain the active and passive mechanisms that terminate acute inflammation, mediate tissue healing, and give rise to chronic inflammation and granuloma containment when insults persist.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the presentation and announces the topic of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

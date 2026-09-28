@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This topic introduces the lecturer, module overview, and core learning objectives before substantive lecture content begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology and Epidemiological Evidence",
+      "groupedBecause": "These subtopics introduce fundamental concepts of cancer development, examining how genetic mutations, endogenous processes, environmental exposures, and epidemiological data explain cancer incidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenic Pathogens and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics examine how infectious agents promote cancer development, using Burkitt lymphoma as a detailed case study of pathogen-driven oncogenesis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagens",
+      "groupedBecause": "These subtopics detail how specific chemical compounds and physical radiation undergo metabolic activation and induce DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic mechanisms of carcinogenesis, focusing on the distinction between initiators and promoters, chronic inflammation, and host developmental susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Identifying and Assessing Carcinogens",
+      "groupedBecause": "These subtopics evaluate the experimental, genomic, and epidemiological methodologies used to detect carcinogenicity and assess cancer risk.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

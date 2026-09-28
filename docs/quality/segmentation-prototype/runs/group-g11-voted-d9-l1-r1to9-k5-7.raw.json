@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the initiation and resolution of inflammation",
+      "groupedBecause": "The lecturer introduces the lecture topic, framing the session as an integration of previously introduced immune mechanisms and cell types.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mechanisms and requirements of innate immune recognition",
+      "groupedBecause": "These subtopics establish how the innate immune system distinguishes self from non-self by sensing pathogen- and damage-associated molecular patterns through germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor families, signaling, and inflammasome activation",
+      "groupedBecause": "These subtopics detail major pattern recognition receptor families, their subcellular signaling cascades, and the inflammasome complex that processes inflammatory cytokines.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Leukocyte recruitment, trafficking, and systemic inflammatory responses",
+      "groupedBecause": "These subtopics describe how activated sentinel cells orchestrate leukocyte extravasation into tissues, lymphatic drainage to lymph nodes, and potential systemic outcomes such as septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammatory adaptations",
+      "groupedBecause": "These subtopics examine how acute inflammation is resolved, how tissues are repaired, and how chronic inflammation and granulomas develop when resolution fails.",
+      "firstSubtopicId": 14
+    }
+  ]
+}

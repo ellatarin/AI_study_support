@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer welcomes the class to the final lecture of the course and sets out the core learning objectives regarding cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional therapies: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics examine standard non-targeted treatment modalities, detailing physical resection, radiation, cytotoxic mechanisms of action, and systemic drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer vulnerabilities and synthetic lethality",
+      "groupedBecause": "These subtopics discuss strategies designed to exploit the inherent biological weaknesses of tumor cells, including hormone dependence, checkpoint loss, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene targeting and kinase inhibitor resistance",
+      "groupedBecause": "These subtopics address the inhibition of oncogenic driver kinases alongside the structural mutations and pathway bypasses that cause drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain the use of engineered antibodies to target cell surface antigens directly or deliver conjugated cytotoxic agents.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immune surveillance and cellular immunotherapy",
+      "groupedBecause": "These subtopics explore the immune system's role in cancer control and detail therapeutic strategies such as checkpoint blockade and engineered T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, progress, and future directions in cancer management",
+      "groupedBecause": "These subtopics evaluate broader clinical considerations across cancer treatment, including tumor heterogeneity, early detection, ethical tradeoffs, and future therapeutic strategies.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

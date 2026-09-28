@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "It introduces the lecture themes on cancer evolution, the role of the microenvironment, and the intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Expansion and Darwinian Selection in Premalignant Tissues",
+      "groupedBecause": "It examines how sequential driver mutations confer competitive fitness advantages to drive clonal expansion in tissues prior to full malignant transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epigenetic Regulation of Tumor Transformation",
+      "groupedBecause": "It demonstrates how transient chromatin and transcriptional remodeling can trigger malignant transformation independently of genetic mutations.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Hierarchies",
+      "groupedBecause": "They evaluate how normal tissue differentiation hierarchies and inherent stemness properties influence which cell types are capable of initiating cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Environmental Promoters and Inflammatory Signaling in Tumor Progression",
+      "groupedBecause": "They explain how chronic inflammation and environmental stimuli act as tumor promoters by reprogramming mutated cells into stem-like states.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Microenvironmental Support in Established Tumors and Therapeutic Strategies",
+      "groupedBecause": "It highlights the reliance of established tumors on supportive stromal environments and the therapeutic opportunities of targeting these non-cancerous components.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Technological Approaches for Mapping Tumor Evolution and Spatial Biology",
+      "groupedBecause": "It details the computational, sequencing, and spatial profiling methods used to reconstruct tumor evolutionary trajectories and cellular interactions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Conclusion and Synthesis of Cancer Evolution",
+      "groupedBecause": "They synthesize the interplay between mutations, epigenetic plasticity, cell of origin, and microenvironmental forces in cancer progression, and conclude the lecture.",
+      "firstSubtopicId": 10
+    }
+  ]
+}

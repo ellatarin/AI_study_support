@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to inflammation mechanisms",
+      "groupedBecause": "The lecturer introduces the session's focus on the initiation and resolution of inflammation by connecting previously introduced immunological components.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and damage recognition mechanisms",
+      "groupedBecause": "These subtopics detail how innate immune sensors identify molecular patterns of microbes and cellular injury to trigger intracellular inflammatory signaling.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Leukocyte recruitment and inflammatory propagation",
+      "groupedBecause": "These subtopics examine how sentinel cells coordinate leukocyte trafficking and propagate inflammatory responses across local tissues and systemic circulation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation and tissue repair",
+      "groupedBecause": "These subtopics explain the mechanisms that terminate acute inflammation, mediate tissue regeneration, and sustain controlled chronic responses when clearance fails.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer concludes the presentation and previews the topic for the subsequent lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

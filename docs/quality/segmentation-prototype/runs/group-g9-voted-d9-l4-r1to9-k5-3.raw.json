@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the structure of the cancer lecture series, and the key learning outcomes regarding cancer causes and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Foundations and Drivers of Cancer Development",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease and explore the interplay between endogenous mutation processes, clonal selection, and microenvironmental factors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence",
+      "groupedBecause": "These subtopics examine real-world environmental carcinogen exposures, public debates regarding bad luck versus causation, and international epidemiological differences in cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Agents and Pathogens in Carcinogenesis",
+      "groupedBecause": "These subtopics describe how infectious pathogens promote cancer, illustrating the mechanism through the case of Epstein-Barr virus and malaria in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Mechanisms of DNA Damage",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which dietary, environmental, and chemical mutagens undergo metabolic activation and induce DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion and the Multi-Stage Carcinogenesis Model",
+      "groupedBecause": "These subtopics describe the two-stage model of carcinogenesis, demonstrating how non-mutagenic tumor promoters and chronic inflammation stimulate cell proliferation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Susceptibility and Carcinogenesis Summary",
+      "groupedBecause": "These subtopics examine how tissue development and host life stages influence carcinogen vulnerability, providing a comprehensive recap of carcinogenesis mechanisms.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Investigating and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, animal, and in vitro testing strategies utilized to detect carcinogen exposures and establish carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Risk-Benefit Analysis and Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the lecture by discussing the daily risk-versus-benefit trade-offs associated with carcinogen exposure and summarizing the primary takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

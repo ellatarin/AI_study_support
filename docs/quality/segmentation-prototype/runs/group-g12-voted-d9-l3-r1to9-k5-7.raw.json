@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "This topic provides the opening framing, course structure, and learning outcomes for the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Differentiation and Tissue Architecture",
+      "groupedBecause": "These subtopics explain how cancer develops as a failure of normal cellular differentiation and tissue architecture driven by genetic and epigenetic alterations, and how this biology is investigated.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and Histology of Invasion and Metastasis",
+      "groupedBecause": "These subtopics illustrate the mechanisms of tumor invasion and metastasis, highlighting the adenoma-to-carcinoma sequence as a histological model of progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Behavior and Nomenclature of Benign and Malignant Tumors",
+      "groupedBecause": "These subtopics examine the clinical behavior, risks, and standardized naming conventions that distinguish benign from malignant neoplasms.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic details the physical, metabolic, and metastatic mechanisms through which tumors cause patient morbidity and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Epidemiology and Comparative Oncology Across Species",
+      "groupedBecause": "These subtopics survey the distribution, frequency, and evolutionary occurrence of cancer across human populations and other animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Modalities of Cancer Screening",
+      "groupedBecause": "These subtopics assess the rationale, implementation, and varying efficacy of population-level cancer screening strategies.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This topic provides the closing framing, summarizing the session and pointing toward upcoming practicals and lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

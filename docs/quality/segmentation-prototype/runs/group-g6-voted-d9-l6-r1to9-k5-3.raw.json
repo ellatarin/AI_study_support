@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Hallmarks of Cancer",
+      "groupedBecause": "The lecturer introduces the learning outcomes and outlines the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated Growth Signaling Pathways",
+      "groupedBecause": "These subtopics examine how oncogenic and tumor suppressor mutations alter cell-surface and intracellular signaling cascades to drive sustained proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to Differentiation",
+      "groupedBecause": "These subtopics explain how cancer cells arrest in progenitor or incomplete stages of lineage development using examples from hematopoiesis and the intestinal crypt.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic explores how disruptions in the p53 and BCL2 family regulatory pathways enable cancer cells to avoid programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence",
+      "groupedBecause": "These subtopics detail how telomere dynamics and senescence signaling regulate cellular lifespan and how tumors bypass these mechanisms.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Metabolism and Metabolic Rewiring",
+      "groupedBecause": "These subtopics address the shifts toward aerobic glycolysis, metabolic rewiring, and the role of oncometabolites in tumor progression.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics discuss the necessity, timing, and molecular regulation of new blood vessel recruitment to support tumor growth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Invasion and Metastasis",
+      "groupedBecause": "This subtopic covers the metastatic cascade, diagnostic tracking methods, and genetic factors governing tumor spread to distant sites.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Summary and Conclusions",
+      "groupedBecause": "This subtopic summarizes the collective significance of cancer hallmarks and concludes the lecture.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

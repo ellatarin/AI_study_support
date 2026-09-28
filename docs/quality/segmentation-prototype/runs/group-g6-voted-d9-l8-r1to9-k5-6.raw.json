@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "This topic frames the lecture by welcoming students and introducing the learning outcomes on cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Modalities and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics cover traditional cancer treatment modalities with an emphasis on the mechanisms, toxicities, and drug resistance associated with cytotoxic chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities",
+      "groupedBecause": "These subtopics explore therapeutic strategies designed to exploit inherent cellular vulnerabilities and DNA repair defects in cancer cells.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted Oncogene and Kinase Inhibitors",
+      "groupedBecause": "These subtopics focus on targeted therapies that inhibit oncogenic kinase pathways alongside the mechanisms driving acquired resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-Based Cancer Therapies",
+      "groupedBecause": "These subtopics describe the design and mechanisms of monoclonal antibodies and antibody-drug conjugates directed against tumor cell-surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and Engineered Immune Approaches",
+      "groupedBecause": "These subtopics examine concepts and methods for mobilizing the host immune system and engineering immune cells to target tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, Progress, and Future Directions in Cancer Treatment",
+      "groupedBecause": "These subtopics evaluate overarching clinical challenges, historical treatment progress, and emerging paradigms shaping the future of cancer care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

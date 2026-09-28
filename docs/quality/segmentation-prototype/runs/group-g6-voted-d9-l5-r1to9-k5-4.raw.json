@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic introduces the lecture by recapping prior practical work and outlining the day's learning objectives regarding cancer genetics.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Virology, Proto-Oncogenes, and Transformation Assays",
+      "groupedBecause": "These subtopics trace how the study of tumor viruses revealed cellular proto-oncogenes and established laboratory assays for testing cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classification and Dynamics of Oncogenes and Tumor Suppressors",
+      "groupedBecause": "These subtopics explain the functional definitions, cell cycle regulatory roles, and mutational behaviors of oncogenes and tumor suppressor genes.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and Consequences of Genetic Instability",
+      "groupedBecause": "These subtopics detail the distinctions between sequence and chromosomal instability and examine their origins in defective DNA repair, replication, and mitosis.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-Step Tumorigenesis and the Vogelstein Model",
+      "groupedBecause": "This subtopic explores the stepwise accumulation and temporal ordering of mutations during cancer progression using the Vogelstein model.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Hereditary Cancer Predisposition Syndromes",
+      "groupedBecause": "These subtopics describe how inherited mutations in gatekeeper and caretaker genes predispose individuals to cancer and influence subsequent tumor evolution.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture Conclusion and Recommended Reading",
+      "groupedBecause": "This subtopic concludes the lecture with recommended reading and a preview of upcoming material.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

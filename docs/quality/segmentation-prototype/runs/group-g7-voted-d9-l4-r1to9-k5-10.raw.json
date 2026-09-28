@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "It introduces the lecturer, the lecture series, and the specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Nature of Cancer and the Interplay of Chance and Environment",
+      "groupedBecause": "They explore the foundational concept of cancer as an evolutionary genetic disease shaped by the balance between intrinsic cellular errors and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Geographic and Epidemiological Variation in Cancer Incidence",
+      "groupedBecause": "It investigates how worldwide variations and migration data demonstrate the relative influences of environmental factors versus inherited genetics.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Infectious Pathogens and Carcinogenesis",
+      "groupedBecause": "They explain how infectious agents contribute to oncogenesis, highlighting Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Physical and Chemical Mutagens",
+      "groupedBecause": "They detail the biochemical mechanisms by which direct and metabolically activated environmental mutagens induce DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion and the Multi-Stage Model of Cancer",
+      "groupedBecause": "They describe the role of non-mutagenic tumor promoters and inflammatory microenvironments using experimental models and asbestos exposure.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Developmental Susceptibility and Mechanisms Summary",
+      "groupedBecause": "They explore how specific developmental windows influence cancer risk and summarize the diverse pathways of carcinogenesis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Determining Carcinogenicity",
+      "groupedBecause": "They evaluate the genomic, epidemiological, in vivo, and in vitro approaches used to detect and validate carcinogenic agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Risk-Benefit Evaluation and Concluding Remarks",
+      "groupedBecause": "It concludes the lecture by framing carcinogenic exposure within the context of everyday risk-benefit decisions and summarising the key takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Progression",
+      "groupedBecause": "The lecturer introduces the learning outcomes, reviews prior lecture concepts, and frames the session around the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferative Signaling and Growth Pathways",
+      "groupedBecause": "These subtopics explain how mutations across cell surface receptors and intracellular signaling cascades, such as Wnt/beta-catenin and RTKs, drive autonomous cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumor Development",
+      "groupedBecause": "These subtopics examine how arrested terminal differentiation prevents cells from exiting the cell cycle across both hematopoietic malignancies and colorectal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic examines how genetic alterations affecting p53 and the balance between pro- and anti-apoptotic proteins allow cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Signaling",
+      "groupedBecause": "These subtopics explain how cancer cells overcome the Hayflick limit via telomerase reactivation and bypass normal p53-mediated senescence and stress responses.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Reprogramming and Epigenetic Alterations",
+      "groupedBecause": "These subtopics discuss the shift toward aerobic glycolysis in cancer cells and how metabolic enzyme mutations produce oncometabolites that drive epigenetic deregulation.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics describe the requirement for new blood vessel recruitment to supply growing tumors, including its early onset and regulatory control.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Metastatic Dissemination and Colonisation",
+      "groupedBecause": "This subtopic details the multi-step invasion-metastasis cascade, clinical methods for tracking disseminated tumor cells, and the genetic features of metastatic clones.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Summary of Cancer Hallmarks",
+      "groupedBecause": "The lecturer concludes the session with summary reflections on hallmark integration, recommended literature, and logistical closing remarks.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

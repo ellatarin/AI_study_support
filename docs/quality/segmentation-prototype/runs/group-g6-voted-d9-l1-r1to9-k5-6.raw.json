@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "The lecturer introduces the lecture topic on the initiation and resolution of inflammation and establishes the scope of the material.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Innate Immune Recognition",
+      "groupedBecause": "These subtopics explain the fundamental principles and cellular localization of innate immune recognition using pathogen- and damage-associated molecular patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern Recognition Receptor Families and Signaling Pathways",
+      "groupedBecause": "These subtopics describe the structure, signaling cascades, and effector pathways of specific pattern recognition receptor families and the cytosolic inflammasome.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Sentinel Cell Activation and Leukocyte Extravasation",
+      "groupedBecause": "These subtopics describe how sentinel cells initiate acute inflammation and guide circulating leukocytes from blood vessels into infected tissues.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antigen Transport and Lymphatic Drainage",
+      "groupedBecause": "This subtopic explains how dendritic cells and lymphatic vessels transport antigens from inflamed tissues to lymph nodes to initiate adaptive immunity.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Pathology of Systemic Inflammation and Septic Shock",
+      "groupedBecause": "This subtopic addresses the pathological consequences and clinical risks associated with uncontrolled systemic inflammation and septic shock.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Mechanisms of Inflammatory Resolution",
+      "groupedBecause": "This subtopic details the passive clearance mechanisms and active cellular signals required to terminate the acute inflammatory response.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Tissue Repair, Chronic Inflammation, and Granuloma Formation",
+      "groupedBecause": "These subtopics explore the mechanisms of tissue healing after injury and the long-term containment strategies that arise during unresolved inflammation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the session and previews the subject of the upcoming lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

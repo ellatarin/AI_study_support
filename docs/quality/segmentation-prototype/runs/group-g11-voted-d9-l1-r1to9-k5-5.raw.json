@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "The lecturer introduces the scope of the lecture, framing how the session will explore the initiation and resolution of inflammation using previously introduced immune concepts.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition",
+      "groupedBecause": "These subtopics define the molecular signals of infection and cellular damage detected by the innate immune system and the general properties required for effective pathogen recognition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor families and intracellular signaling",
+      "groupedBecause": "These subtopics detail the mechanisms, cellular localizations, and downstream signaling cascades of specific pattern recognition systems, focusing on toll-like receptors, cytosolic sensors, and inflammasomes.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cellular dynamics and physiological outcomes of acute inflammation",
+      "groupedBecause": "These subtopics trace the cellular and systemic cascade of acute inflammation triggered by activated tissue sentinels, from local leukocyte extravasation to whole-body physiological effects.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics examine the post-inflammatory phases of immune responses, focusing on the mechanisms that shut down inflammation, rebuild tissue homeostasis, and manage persistent inflammatory stimuli.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer concludes the session and previews the upcoming lecture on the complement system.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

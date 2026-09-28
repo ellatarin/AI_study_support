@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview of Cancer Hallmarks",
+      "groupedBecause": "The lecturer introduces the learning objectives, tumor progression model, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferation and Growth Signaling Deregulation",
+      "groupedBecause": "These subtopics explain how mutations in signaling pathways such as Wnt, RTK, and TGF-beta confer autonomous cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Hematologic and Epithelial Tissues",
+      "groupedBecause": "These subtopics examine how cancer cells fail to undergo terminal differentiation using leukemias and colorectal crypt architecture as examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptotic Cell Death",
+      "groupedBecause": "This subtopic explains the regulation of apoptosis through p53, Bax, and BCL2 and how cancer cells evade cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics explore telomere maintenance, telomerase reactivation, and how tumors overcome normal p53-mediated senescence checkpoints.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Reprogramming of Cancer Cell Metabolism",
+      "groupedBecause": "These subtopics describe the shift to aerobic glycolysis, metabolic rewiring across tumor types, and the generation of oncometabolites.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Induction and Regulation of Angiogenesis",
+      "groupedBecause": "These subtopics discuss the necessity, developmental timing, and balance of activator and inhibitor signals in tumor vascularization.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Detection of Metastasis",
+      "groupedBecause": "This subtopic covers the metastatic cascade, diagnostic tracking via lymph nodes and circulating tumor cells, and the clonal genetics of secondary tumors.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "The lecturer summarizes the overarching hallmarks model and concludes the presentation.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

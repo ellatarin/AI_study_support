@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Objectives",
+      "groupedBecause": "This subtopic provides the administrative opening and learning objectives for the final lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Modalities and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics explain standard non-targeted cancer treatments including surgery, radiotherapy, and cytotoxic drugs alongside their clinical toxicities and efflux-mediated resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities",
+      "groupedBecause": "These subtopics examine therapeutic strategies that selectively target tumors by exploiting their hormone receptor dependencies, cell cycle checkpoint losses, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogenic Kinase Inhibitors and Resistance Mechanisms",
+      "groupedBecause": "These subtopics focus on designing small-molecule inhibitors against hyperactive driver kinases and addressing the cellular mechanisms that lead to drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal Antibody and Conjugate Therapies",
+      "groupedBecause": "These subtopics discuss antibody-mediated cancer therapies that function by directly blocking receptor signaling, triggering immune cytotoxicity, or delivering linked cytotoxic agents.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immunotherapy and T-Cell Engagement",
+      "groupedBecause": "These subtopics explore approaches for harnessing adaptive immunity against tumors through checkpoint blockade, neoantigen recognition, bispecific engagers, and engineered CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical Progress, Challenges, and Future Perspectives",
+      "groupedBecause": "These subtopics synthesize the overarching challenges, historical survival trends, and future dilemmas in optimizing cancer detection and therapy.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

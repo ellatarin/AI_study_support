@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the introductory framing for the lecture series, presenting the broader context of cancer biology, the diverse student backgrounds, and the specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of genetic regulation and cellular differentiation",
+      "groupedBecause": "These subtopics establish the biological basis of cancer as an accumulation of genetic and epigenetic alterations that disrupt normal differentiation programs and tissue architecture, alongside experimental approaches used to study tumor cells.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and the benign-to-malignant spectrum",
+      "groupedBecause": "These subtopics explain the distinction between benign and malignant tumors, detailing how invasive and metastatic phenotypes develop through stepwise tissue progression as exemplified by colorectal cancer.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification rules",
+      "groupedBecause": "This subtopic outlines the standard conventions and exceptions used to name and classify tumors according to their tissue origin and malignant potential.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mechanisms of cancer-induced morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physical, metabolic, and systemic mechanisms through which primary and metastatic tumors cause illness and death in patients.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Patterns of cancer incidence across tissues and species",
+      "groupedBecause": "These subtopics examine epidemiological incidence patterns across human cancer types and demonstrate the comparative occurrence of neoplasms across diverse animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and clinical practice of cancer screening",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, histological indicators, and practical effectiveness of early detection and screening programs across different anatomical sites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion and upcoming sessions",
+      "groupedBecause": "This subtopic provides the closing framing of the lecture, referencing the learning outcomes and looking ahead to forthcoming practicals and lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

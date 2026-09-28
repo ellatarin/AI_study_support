@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "This opening framing introduces the lecturer, sets the lecture in the context of the series, and outlines the session's learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of Cancer: Intrinsic Mutagenesis Versus Environmental Exposures",
+      "groupedBecause": "These subtopics explore the foundational causes of cancer, contrasting intrinsic biological mutagenesis and bad luck with extrinsic environmental risk factors supported by epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogen-Driven Oncogenesis and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics examine how infectious pathogens drive oncogenesis, using Burkitt lymphoma as a detailed mechanistic case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Mutagenesis by Chemical and Physical Carcinogens",
+      "groupedBecause": "These subtopics detail how physical radiation and chemical agents induce DNA damage directly or through endogenous metabolic activation and oxidative stress.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion and the Multi-Stage Model of Carcinogenesis",
+      "groupedBecause": "These subtopics define the concept of tumor promotion, illustrating how non-mutagenic stimuli such as chronic inflammation and aberrant signaling drive the expansion of initiated cells.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Susceptibility Factors and Carcinogenesis Summary",
+      "groupedBecause": "These subtopics address how host developmental stages and tissue contexts modulate cancer risk, providing a synthesis of carcinogenic mechanisms.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Identifying and Assessing Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, animal, and in vitro methodologies used to detect and establish the carcinogenicity of various agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Summary and Risk-Benefit Framing",
+      "groupedBecause": "This closing framing concludes the lecture with a summary of environmental cancer risks and a perspective on everyday risk-benefit decision-making.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

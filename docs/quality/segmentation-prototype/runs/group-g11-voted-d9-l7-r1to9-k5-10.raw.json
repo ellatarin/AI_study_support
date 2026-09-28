@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "The lecturer introduces the topic of cancer evolution, outlines the learning objectives, and previews the factors that shape tumor development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Evolution and Epigenetic Drivers",
+      "groupedBecause": "These subtopics demonstrate how tumors evolve through the progressive selection of fitter clones driven by genetic mutations and epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and the Cancer Stem Cell Model",
+      "groupedBecause": "These subtopics investigate how normal tissue stem cell hierarchies and cellular origin influence cancer initiation and propagation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Influences on Tumor Growth",
+      "groupedBecause": "These subtopics explore how extrinsic microenvironmental signals, chronic inflammation, and supportive stroma enable mutant cells to expand and maintain tumor growth.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Experimental Technologies for Investigating Tumor Biology",
+      "groupedBecause": "This subtopic describes the genomic, single-cell, and spatial profiling methods used to map tumor heterogeneity and cell-microenvironment interactions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Synthesis of Cancer Evolution and Conclusion",
+      "groupedBecause": "These subtopics synthesise the lecture's core themes regarding the multi-factorial nature of cancer evolution and conclude the session.",
+      "firstSubtopicId": 10
+    }
+  ]
+}

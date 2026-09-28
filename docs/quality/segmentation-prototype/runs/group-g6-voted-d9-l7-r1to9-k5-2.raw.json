@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer evolution",
+      "groupedBecause": "This section introduces the lecture's aims and frames the concepts of cancer evolution, cell of origin, and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal selection and Darwinian evolution driven by somatic mutations",
+      "groupedBecause": "This section presents experimental evidence that tumors develop through the stepwise acquisition of mutations conferring competitive growth advantages to cellular clones.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epigenetic regulation and transcriptional changes in tumor development",
+      "groupedBecause": "This section demonstrates how non-mutational, transient disruptions in chromatin regulation can drive oncogenic transformation.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Cell of origin and stem cell hierarchies in cancer initiation",
+      "groupedBecause": "These subtopics evaluate the role of tissue stem cells, progenitor hierarchies, and cellular plasticity in tumor initiation using leukemia and intestinal crypt models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Environmental promoters and inflammatory signaling in tumor outgrowth",
+      "groupedBecause": "These subtopics illustrate how environmental promoters and chronic inflammatory signals cooperate with pre-existing mutations to enable malignant outgrowth.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Stromal dependence of established tumors and therapeutic targeting",
+      "groupedBecause": "This section examines the requirement of stromal and supportive cells for maintaining established tumors and discusses microenvironment-targeted therapies.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Methodological tools for studying tumor evolution and microenvironment",
+      "groupedBecause": "This section reviews single-cell sequencing, spatial omics, and computational methods used to investigate tumor evolution and cellular interactions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Synthesis of evolutionary and microenvironmental drivers of cancer",
+      "groupedBecause": "These subtopics provide an integrative summary of cancer evolution as an interplay between mutations, cell state, and microenvironment, and conclude the lecture.",
+      "firstSubtopicId": 10
+    }
+  ]
+}

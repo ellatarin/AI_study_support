@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture overview",
+      "groupedBecause": "This subtopic provides the framing for the lecture by welcoming students, outlining learning objectives, and introducing the topic of cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: the interplay of intrinsic mutations, chance, and environmental exposures",
+      "groupedBecause": "These subtopics introduce the fundamental nature of cancer and explore how intrinsic cellular processes, stochastic mutations, inherited risks, and environmental factors interact across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogen-driven carcinogenesis and the Burkitt lymphoma paradigm",
+      "groupedBecause": "These subtopics examine how infectious agents promote cancer, using the specific discovery, epidemiology, and pathogenesis of Epstein-Barr virus in Burkitt lymphoma as a primary model.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens: bioactivation, oxidative damage, and DNA adducts",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which chemical carcinogens and radiation undergo metabolic processing to induce DNA adducts, transversions, and oxidative stress.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, chronic inflammation, and host susceptibility factors",
+      "groupedBecause": "These subtopics explore non-mutagenic mechanisms in cancer development, focusing on how chronic inflammation, promotional signaling, and host developmental stages create permissive environments for tumorigenesis.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Approaches for identifying mutational signatures and testing carcinogenicity",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, in vivo, and in vitro methodologies used to detect carcinogen-induced mutational patterns and evaluate chemical safety.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This subtopic provides the closing framing by summarizing the key themes of environmental cancer risks, testing challenges, and risk-benefit considerations.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and the Hallmarks of Cancer Framework",
+      "groupedBecause": "This subtopic opens the lecture by setting out the learning outcomes, progression models of tumorigenesis, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Independence and Proliferative Signaling Cascades",
+      "groupedBecause": "These subtopics explain how mutations in cell surface receptors and intracellular signaling cascades constitutively activate cell proliferation and survival pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Leukemias and Carcinomas",
+      "groupedBecause": "These subtopics examine how defects in terminal differentiation prevent mature cell cycle withdrawal and maintain proliferative precursor states in tissue.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis, Telomere Maintenance, and Senescence Bypass",
+      "groupedBecause": "These subtopics describe how cancer cells evade programmed cell death and bypass replicative senescence through telomerase reactivation and disruption of p53 stress signaling.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Cancer Metabolism and Epigenetic Reprogramming",
+      "groupedBecause": "These subtopics detail how tumors rewire metabolic pathways through aerobic glycolysis and Krebs cycle mutations that produce onco-metabolites and alter the epigenome.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis and the Angiogenic Switch",
+      "groupedBecause": "These subtopics describe the necessity of blood vessel recruitment for tumor perfusion, its timing during lesion development, and its regulatory balance.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Dissemination Routes of Cancer Metastasis",
+      "groupedBecause": "This subtopic addresses the multistep invasion-metastasis cascade, vascular dissemination patterns, circulating tumor cell monitoring, and underlying genomic features.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Summary and Concluding Remarks",
+      "groupedBecause": "This subtopic concludes the lecture by summarising how hallmarks co-occur across diverse cancer trajectories and reviewing core learning goals.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

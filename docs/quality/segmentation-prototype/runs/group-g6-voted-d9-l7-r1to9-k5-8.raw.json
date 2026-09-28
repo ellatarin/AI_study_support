@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the lecture on cancer evolution, summarizing previous concepts and outlining the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Evolution and Darwinian Selection",
+      "groupedBecause": "The lecturer explains how sequential genetic mutations provide competitive fitness advantages to drive clonal expansion across pre-malignant tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epigenetic Regulation in Malignant Transformation",
+      "groupedBecause": "The lecturer demonstrates how transient epigenetic reprogramming can trigger tumorigenic properties independently of permanent DNA mutations.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Stem Cell Hierarchies and the Cell of Origin",
+      "groupedBecause": "These subtopics examine how stem cell properties and cellular differentiation hierarchies influence tumor initiation and progression across blood and solid tissue models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Environmental Promoters and Inflammatory Signaling in Tumor Initiation",
+      "groupedBecause": "These subtopics illustrate how external promoters and chronic inflammation create permissive microenvironments that enable mutated cells to transform.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Stromal Dependencies in Established Tumors and Therapeutic Implications",
+      "groupedBecause": "The lecturer explains the ongoing dependence of mature tumors on their surrounding stroma and the potential for microenvironment-targeted therapies.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Technologies for Profiling Tumor Evolution and Microenvironments",
+      "groupedBecause": "The lecturer reviews single-cell sequencing and spatial omics techniques used to analyze cellular interactions and mutational histories in tumor tissues.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Synthesis of Cancer Evolution and Lecture Conclusion",
+      "groupedBecause": "These subtopics summarize the combined evolutionary contributions of mutations, stemness, epigenetics, and microenvironment before concluding the lecture.",
+      "firstSubtopicId": 10
+    }
+  ]
+}

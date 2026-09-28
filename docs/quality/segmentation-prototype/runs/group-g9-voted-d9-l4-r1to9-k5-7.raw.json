@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Lecture Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the cancer lecture series, and the specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Mechanisms of Cancer Development and Mutation Sources",
+      "groupedBecause": "These subtopics introduce cancer as an evolutionary genetic disease driven by accumulating mutations from endogenous processes, environmental factors, and inherited predispositions within a permissive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures, Public Debates, and Cancer Epidemiology",
+      "groupedBecause": "These subtopics explore various everyday environmental carcinogens, discuss the debate between random bad luck and external exposures, and analyze geographic variations in cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Pathogens and Oncogenesis",
+      "groupedBecause": "These subtopics explore how infectious agents drive oncogenesis, examining multiple viral, bacterial, and parasitic examples with an in-depth case study of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Xenobiotic Activation",
+      "groupedBecause": "These subtopics explain how physical radiation and dietary or chemical compounds undergo metabolic activation into reactive agents that form DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of carcinogenesis, focusing on tumor promoters, chronic inflammatory microenvironments, and developmental stages that increase tissue susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Identifying and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, in vivo animal, and in vitro experimental approaches used to detect and demonstrate carcinogenic activity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Summary and Risk-Benefit Considerations",
+      "groupedBecause": "This subtopic concludes the lecture by summarizing environmental cancer risks and the daily balance between carcinogen exposures and practical benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "sourceRun": "voted-d9-l4-r1to9-k5",
+  "promptVersion": "g9",
+  "lecture": "l4",
+  "instance": "3",
+  "modelId": "google/gemini-3.7-flash",
+  "labelsShown": false,
+  "seconds": 32,
+  "promptTokens": 12396,
+  "completionTokens": 4569,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": 9,
+  "subtopics": 22,
+  "topicSizes": [
+    1,
+    2,
+    3,
+    2,
+    5,
+    2,
+    2,
+    4,
+    1
+  ]
+}

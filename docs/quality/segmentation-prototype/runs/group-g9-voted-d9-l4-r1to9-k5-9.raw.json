@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces herself, outlines the scope of the cancer lecture series, and sets out the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations of cancer and sources of mutation",
+      "groupedBecause": "These subtopics explain how cancer develops through accumulated mutations and microenvironmental support resulting from both intrinsic cellular processes and external pressures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental carcinogens and epidemiological patterns",
+      "groupedBecause": "These subtopics examine how environmental exposures and geographic population differences influence cancer incidence and public perceptions of risk.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Pathogen-driven carcinogenesis and Burkitt lymphoma",
+      "groupedBecause": "These subtopics examine how infectious agents promote malignant transformation, using the geographic and molecular epidemiology of Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Molecular mechanisms of chemical and physical mutagens",
+      "groupedBecause": "These subtopics detail how dietary toxins, UV radiation, and chemical carcinogens undergo metabolic activation to induce specific DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and the initiator-promoter model",
+      "groupedBecause": "These subtopics distinguish non-mutagenic promoters that drive chronic inflammation and cell proliferation from direct tumor-initiating mutagens.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host cell susceptibility and summary of carcinogenic mechanisms",
+      "groupedBecause": "These subtopics explain how developmental timing and tissue context influence mutagen susceptibility before summarizing the discussed mechanisms of carcinogenesis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro approaches used to determine the carcinogenicity of substances.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk-benefit perspective",
+      "groupedBecause": "This concluding subtopic summarises the lecture themes and reflects on the daily risk-benefit assessments surrounding carcinogen exposure.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

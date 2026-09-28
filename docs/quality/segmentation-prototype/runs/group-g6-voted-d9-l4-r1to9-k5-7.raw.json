@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer and outlines the core learning objectives of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins and Risk Factors of Cancer",
+      "groupedBecause": "These subtopics examine the fundamental origins of cancer through the interplay of intrinsic genetic processes and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents in Carcinogenesis",
+      "groupedBecause": "These subtopics explore the role and mechanisms of infectious pathogens in driving oncogenesis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagenesis Mechanisms",
+      "groupedBecause": "These subtopics describe how physical and chemical agents induce DNA damage directly or via host metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics explain how tumor promoters, chronic inflammation, and host developmental context drive malignant progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Identifying Carcinogens and Assessing Risk",
+      "groupedBecause": "These subtopics evaluate the experimental and epidemiological methodologies used to identify carcinogens and assess exposure risks.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

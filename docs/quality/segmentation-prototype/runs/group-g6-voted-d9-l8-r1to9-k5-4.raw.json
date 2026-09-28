@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class and introduces the learning objectives for this final session on cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics cover traditional treatment modalities—including surgery, radiotherapy, and cytotoxic chemotherapy—along with their associated toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting tumor-specific biological vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics describe therapeutic strategies that exploit intrinsic defects of cancer cells, such as hormone dependency, checkpoint loss, oncolytic virus susceptibility, and synthetic lethality from DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors, oncogene addiction, and drug resistance",
+      "groupedBecause": "These subtopics explain the rationale of targeting hyperactivated oncogenic kinases and detail the cellular mechanisms through which tumors develop resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Therapeutic monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics examine how engineered monoclonal antibodies are utilized to disrupt oncogenic surface signaling or selectively deliver cytotoxic payloads to cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and cellular immune treatments",
+      "groupedBecause": "These subtopics explore the interaction between tumors and the immune system alongside immunotherapeutic interventions, including immune checkpoint blockade, BiTEs, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overarching challenges, historical progress, and future directions in cancer therapy",
+      "groupedBecause": "These subtopics synthesize the broader clinical challenges, historical survival trends, early detection strategies, and ethical dilemmas shaping the future of cancer treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic frames the lecture series, outlines the speaker's background, and introduces the key learning objectives regarding cancer causation and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Biological and Evolutionary Nature of Cancer",
+      "groupedBecause": "These subtopics establish cancer as a clonal, evolutionary disease driven by genetic mutations, microenvironmental factors, and intrinsic cellular processes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence",
+      "groupedBecause": "These subtopics investigate external cancer risk factors, the debate surrounding intrinsic chance versus external causation, and global epidemiological patterns of cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens in Carcinogenesis",
+      "groupedBecause": "These subtopics examine the role of viral, bacterial, and parasitic infections in driving cancer, highlighting Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mechanisms of DNA Mutagenesis",
+      "groupedBecause": "These subtopics describe how physical radiation and chemical carcinogens induce DNA adducts and mutations directly or through metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Initiation versus Promotion in Carcinogenesis",
+      "groupedBecause": "These subtopics differentiate between mutational initiators and non-mutagenic promoters that drive tumorigenesis through inflammation and sustained cell proliferation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Cell Susceptibility and Mechanistic Summary",
+      "groupedBecause": "These subtopics examine how target tissue states and developmental windows modulate cancer susceptibility, concluding with a synthesis of carcinogenic mechanisms.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methods for Identifying Carcinogens and Assessing Risk",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, experimental, and risk-assessment methodologies used to identify carcinogens and evaluate cancer etiology.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning objectives regarding cancer treatments and their mechanisms of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgical and radiation therapies in cancer treatment",
+      "groupedBecause": "This subtopic outlines localized treatment approaches, emphasizing the role of surgical resection, radiotherapy, and early detection in tumor removal.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic chemotherapy and drug resistance mechanisms",
+      "groupedBecause": "These subtopics examine the mechanisms of action, systemic toxicities, and efflux-mediated drug resistance associated with conventional cytotoxic chemotherapy.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Targeting intrinsic cellular vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies designed to exploit intrinsic cancer cell vulnerabilities, including hormone dependencies, cell cycle checkpoint loss, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene addiction and small-molecule kinase inhibitors",
+      "groupedBecause": "These subtopics cover the rationale of oncogene addiction alongside the therapeutic mechanisms, structural targeting, and resistance pathways of small-molecule kinase inhibitors.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the design and therapeutic actions of monoclonal antibodies and antibody-drug conjugates directed against tumor cell-surface markers.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-based treatments",
+      "groupedBecause": "These subtopics examine tumor immune surveillance and methods to harness or engineer T cells to destroy cancer cells using checkpoint inhibitors, bispecific engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future perspectives in cancer therapy",
+      "groupedBecause": "These subtopics evaluate broad clinical challenges, historical improvements in patient survival, and emerging future strategies in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

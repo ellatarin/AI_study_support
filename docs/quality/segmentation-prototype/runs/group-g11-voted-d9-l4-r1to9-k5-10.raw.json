@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer causation",
+      "groupedBecause": "The lecturer introduces the course structure, learning objectives, and central questions regarding the origin and causes of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: endogenous mutations, genetics, and epidemiological evidence",
+      "groupedBecause": "These subtopics explore the broad conceptual frameworks of cancer development, comparing intrinsic replicative errors with inherited genetics and environmental risks demonstrated by epidemiological trends.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and viral mechanisms in carcinogenesis",
+      "groupedBecause": "These subtopics examine how infectious agents contribute to malignancy, illustrated in detail by the mechanism and epidemiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics detail how environmental chemicals and radiation undergo metabolic processing to form reactive intermediates that cause direct DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promoters, inflammation, and multi-stage carcinogenesis",
+      "groupedBecause": "These subtopics contrast non-mutagenic tumor promoters that stimulate proliferation and chronic inflammation with mutagenic initiators in the multi-stage model of cancer.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host developmental susceptibility and summary of carcinogenic mechanisms",
+      "groupedBecause": "These subtopics address how tissue context and life stage determine vulnerability to carcinogens, followed by a summary of the direct and indirect mechanisms of DNA damage.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and evaluating cancer risk",
+      "groupedBecause": "These subtopics survey sequencing, epidemiological, in vivo, and in vitro approaches used to determine mutagenic signatures and test chemical carcinogenicity.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

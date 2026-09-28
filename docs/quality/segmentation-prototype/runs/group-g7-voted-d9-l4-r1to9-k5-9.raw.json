@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the course structure and sets out the key learning objectives regarding the environmental causes and mechanisms of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Multifactorial Origins and Epidemiology of Cancer",
+      "groupedBecause": "These subtopics explore how cancer arises from an interplay between intrinsic cellular processes, inherited genetics, and external exposures as demonstrated by population-level epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogen-Driven Carcinogenesis and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics explain the mechanisms through which infectious pathogens drive malignant transformation, focusing on the epidemiological and molecular link between Epstein-Barr virus, malaria, and Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics examine how various environmental chemicals, dietary toxins, and radiation undergo metabolic processing and directly alter DNA structure to cause mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion and the Initiation-Promotion Paradigm",
+      "groupedBecause": "These subtopics describe how non-mutagenic agents foster cancer development by creating inflammatory microenvironments and stimulating cell proliferation to promote initiated cells.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Developmental Susceptibility and Summary of Carcinogenic Mechanisms",
+      "groupedBecause": "These subtopics address how tissue context and stages of life modulate cancer vulnerability, before reviewing the primary mechanisms through which carcinogens act.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics describe the scientific approaches used to determine carcinogenicity and identify exposures through genomic sequencing, epidemiological biobanks, animal testing, and bacterial assays.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Risk-Benefit Evaluation and Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the lecture by reflecting on the challenges of determining carcinogenic potency and the everyday calculation of exposure risks versus benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

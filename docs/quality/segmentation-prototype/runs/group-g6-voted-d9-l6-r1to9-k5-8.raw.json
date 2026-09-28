@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Tumor Progression",
+      "groupedBecause": "The lecturer introduces the lecture structure, learning outcomes, and the historical framework of cancer hallmarks centered on the loss of growth control.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Autonomy and Intracellular Signaling Cascades",
+      "groupedBecause": "These subtopics explain how mutations in cell surface receptors and downstream intracellular cascades drive sustained proliferation and cell survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumor Development",
+      "groupedBecause": "These subtopics explore how oncogenic alterations prevent cells from withdrawing from the cell cycle into terminally differentiated states across different tissue types.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptotic Cell Death",
+      "groupedBecause": "This subtopic details how mutations impairing the p53 regulatory network and altering the balance of mitochondrial proteins allow cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics describe how cancer cells overcome the Hayflick limit via telomerase activation while bypassing normal protective senescence and stress checkpoints.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Deregulating Cellular Metabolism and Oncometabolite Signaling",
+      "groupedBecause": "These subtopics examine how cancer cells rewire metabolic pathways toward aerobic glycolysis and how metabolic enzyme mutations generate oncometabolites that perturb gene expression.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "These subtopics discuss the requirement for new blood vessel recruitment to support tumor expansion and the regulatory balance governing the angiogenic switch.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Invasion, Metastasis, and Systemic Colonization",
+      "groupedBecause": "This subtopic addresses the multistep metastatic cascade, the clinical detection of disseminating tumor cells, and the factors enabling colonization at distant sites.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Hallmarks Framework Summary",
+      "groupedBecause": "The lecturer summarizes the overarching concepts of cancer hallmarks and concludes the lecture.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

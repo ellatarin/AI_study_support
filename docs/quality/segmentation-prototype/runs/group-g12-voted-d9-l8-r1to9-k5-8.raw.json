@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This topic frames the final lecture by outlining the learning objectives regarding cancer therapy approaches and mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and resistance mechanisms",
+      "groupedBecause": "These subtopics discuss standard treatment modalities including surgery, radiotherapy, and cytotoxic chemotherapy, alongside the problem of systemic toxicity and drug efflux pumps.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer cell vulnerabilities and defects",
+      "groupedBecause": "These subtopics cover strategies that selectively target cancer cell weaknesses, including hormone dependence, cell cycle checkpoint deficiencies, and DNA repair defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and acquired resistance",
+      "groupedBecause": "These subtopics examine small molecule inhibitors directed against driver oncogenes and kinases, as well as the molecular pathways causing drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody and antibody-drug conjugate therapies",
+      "groupedBecause": "These subtopics explain the design and application of therapeutic monoclonal antibodies that block receptors, mediate immune cytotoxicity, or deliver targeted toxins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-directed strategies",
+      "groupedBecause": "These subtopics explore approaches for harnessing the patient's immune system against tumors, ranging from immune surveillance and checkpoint inhibitors to bispecific antibodies and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic challenges, historical progress, and future directions",
+      "groupedBecause": "These subtopics evaluate the broader landscape of cancer treatment by reviewing therapy limitations, historical survival trends, emerging approaches, and clinical decision-making.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

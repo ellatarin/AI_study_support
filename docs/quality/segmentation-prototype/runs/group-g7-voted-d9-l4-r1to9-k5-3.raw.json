@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, outlines the scope of the cancer lecture series, and sets out the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, intrinsic mutations, and epidemiological patterns",
+      "groupedBecause": "These subtopics explore cancer as an evolutionary genetic disease shaped by intrinsic biological errors, inherited predispositions, and environmental exposures evident in global epidemiological trends.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of carcinogens, tumor initiation, and promotion",
+      "groupedBecause": "These subtopics detail how biological, physical, and chemical agents induce neoplastic transformation through direct mutagenesis, xenobiotic metabolic activation, microenvironmental promotion, and host tissue susceptibility.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for proving carcinogenicity and assessing risk",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, and experimental testing methods used to establish carcinogenicity and assess human exposure risks.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

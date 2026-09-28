@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the session's learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals of Cancer Evolution and Mutational Drivers",
+      "groupedBecause": "These subtopics explain the core concept of cancer as an evolutionary genetic disease driven by somatic mutations from intrinsic and extrinsic sources.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Carcinogens, Public Perception, and Epidemiology",
+      "groupedBecause": "These subtopics examine environmental exposures, the debate over random chance versus lifestyle factors, and geographic variations in cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens in Cancer Development",
+      "groupedBecause": "These subtopics detail how infectious agents and regional co-factors drive oncogenesis, using Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Molecular Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics describe the biochemical pathways through which radiation, dietary toxins, and xenobiotically metabolized chemicals cause DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Host Susceptibility, and Mechanism Summary",
+      "groupedBecause": "These subtopics explore how non-mutagenic promoters, tissue inflammation, and host proliferative states enable cancer outgrowth before summarizing carcinogenic mechanisms.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Detecting Carcinogenicity and Mutational Signatures",
+      "groupedBecause": "These subtopics detail genomic, epidemiological, in vivo, and in vitro experimental approaches used to determine whether agents cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Summary and Risk-Benefit Considerations",
+      "groupedBecause": "The lecturer concludes the lecture by reflecting on everyday risk-benefit decisions and summarizing the complexity of identifying carcinogens.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

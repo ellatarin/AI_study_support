@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer welcomes the students, explains the scope and multi-disciplinary context of the lecture series, and outlines the primary learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mechanisms of Malignant Transformation and In Vitro Tumor Models",
+      "groupedBecause": "These subtopics explore how cumulative genetic and epigenetic alterations disrupt normal differentiation and tissue architecture to drive tumorigenesis, and how these processes are modeled experimentally.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Benign-to-Malignant Progression",
+      "groupedBecause": "These subtopics explain the clinical and histological distinctions between benign and malignant tumors, focusing on basement membrane invasion, metastatic routes, and the stepwise adenoma-to-carcinoma sequence.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Classification and Nomenclature",
+      "groupedBecause": "This subtopic outlines the standard conventions, tissue suffixes, and notable exceptions used to name benign and malignant neoplasms.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathological Causes of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic describes the mechanical, metabolic, and metastatic mechanisms through which primary and secondary tumors cause systemic illness and patient death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Patterns of Cancer Incidence Across Human and Animal Species",
+      "groupedBecause": "These subtopics compare the frequency, tissue distribution, and malignancy rates of tumors across human populations and diverse animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Clinical Applications of Cancer Screening",
+      "groupedBecause": "These subtopics examine clinical cancer presentation and evaluate the effectiveness, methodologies, and limitations of population screening programs across various tumor types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Wrap-up and Learning Outcomes Review",
+      "groupedBecause": "The lecturer concludes the session by referring students back to the learning outcomes for revision and practical preparations.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

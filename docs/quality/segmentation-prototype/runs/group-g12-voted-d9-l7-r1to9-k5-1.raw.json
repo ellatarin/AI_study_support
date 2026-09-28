@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "It introduces the lecture series, outlines the learning outcomes, and previews the key themes of cancer evolution and the microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of clonal evolution",
+      "groupedBecause": "They examine the cell-intrinsic molecular alterations that confer growth advantages and drive the evolutionary progression of incipient tumors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and stem cell hierarchies in tumor initiation",
+      "groupedBecause": "They investigate how a cell's position within normal tissue differentiation hierarchies influences its susceptibility to malignant transformation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory drivers of tumor development",
+      "groupedBecause": "They examine how inflammatory signals, environmental promoters, and supportive stromal cells create permissive conditions for tumor outgrowth and maintenance.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Experimental and computational methods for studying cancer biology",
+      "groupedBecause": "It outlines the laboratory models, sequencing technologies, and spatial omics methods used to investigate clonal dynamics and microenvironments.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Integrated evolutionary model of cancer progression",
+      "groupedBecause": "It synthesizes how mutational accumulation, cell-of-origin properties, and permissive microenvironments interact to drive malignancy.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Lecture conclusion and next steps",
+      "groupedBecause": "It concludes the session and previews the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

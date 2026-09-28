@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic introduces the lecturer, sets out the scope of the cancer lecture series, and outlines the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Intrinsic Risks, Environmental Exposures, and Epidemiology",
+      "groupedBecause": "These subtopics establish the foundational concepts of cancer etiology by evaluating how intrinsic mutational processes, genetic predisposition, and environmental exposures interact to drive malignancy across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics examine how infectious agents drive malignant transformation, focusing on the cooperative mechanism between malaria and Epstein-Barr virus in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical Mutagens, Metabolism, and DNA Adducts",
+      "groupedBecause": "These subtopics detail how specific dietary, environmental, and chemical agents undergo metabolic activation to induce direct DNA damage, adducts, and mutational transversions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Initiation and Promotion Mechanisms",
+      "groupedBecause": "These subtopics examine how non-mutagenic promoters and chronic inflammation drive the clonal proliferation of initiated cells through signaling pathways.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Developmental Susceptibility and Principles of Carcinogenesis",
+      "groupedBecause": "These subtopics describe how developmental timing and tissue context govern susceptibility to carcinogens, synthesizing the mechanistic principles of cancer development discussed so far.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogens",
+      "groupedBecause": "These subtopics review the sequencing, epidemiological, in vivo, and in vitro experimental approaches used to determine and evaluate the carcinogenicity of environmental agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Summary and Risk-Benefit Considerations",
+      "groupedBecause": "This subtopic concludes the lecture by summarising key takeaways regarding environmental causes of cancer and contextualising exposure within everyday risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic introduces the lecturer, the position of the lecture in the series, and the key learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Endogenous and environmental contributions to cancer development",
+      "groupedBecause": "These subtopics explore what cancer is and evaluate the relative roles of intrinsic biological processes, genetics, and environmental exposures in driving malignancy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and infectious agents in carcinogenesis",
+      "groupedBecause": "These subtopics examine how viral, bacterial, and parasitic infections contribute to cancer, illustrated in detail by the pathogenesis of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics describe how various dietary, chemical, and physical agents undergo metabolic activation and induce DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, inflammation, and host susceptibility",
+      "groupedBecause": "These subtopics analyze non-mutagenic mechanisms of carcinogenesis, focusing on the distinction between initiators and promoters, inflammatory microenvironments, and host susceptibility factors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, in vivo, and in vitro methods used to identify mutational signatures and evaluate carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic concludes the lecture by summarising the core themes of environmental risk, the challenges of carcinogen assessment, and everyday risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

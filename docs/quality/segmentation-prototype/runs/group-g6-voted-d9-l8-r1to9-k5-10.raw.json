@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "These remarks introduce the final lecture of the course and state its learning outcomes regarding cancer treatment approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics examine traditional treatment modalities including surgery, radiotherapy, and cytotoxic chemotherapy alongside their associated systemic toxicities and drug resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities and Checkpoint Defects",
+      "groupedBecause": "These subtopics describe therapeutic strategies designed to exploit inherent cancer cell vulnerabilities such as hormone signaling dependence, defective cell cycle checkpoints, and impaired DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting Oncogenic Kinases and Mechanisms of Inhibitor Resistance",
+      "groupedBecause": "These subtopics focus on targeting oncogenic driver kinases with small-molecule inhibitors and understanding the molecular mechanisms behind drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody Therapies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics examine antibody-based therapeutics, focusing on how monoclonal antibodies and antibody-drug conjugates target cancer cell surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell-Mediated Therapies",
+      "groupedBecause": "These subtopics address the role of the immune system in cancer and methods to harness T-cell cytotoxicity using checkpoint inhibitors, bispecific engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic Challenges, Long-Term Progress, and Future Directions",
+      "groupedBecause": "These subtopics evaluate the overall clinical progress, persisting challenges, ethical considerations, and future avenues in cancer therapy.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

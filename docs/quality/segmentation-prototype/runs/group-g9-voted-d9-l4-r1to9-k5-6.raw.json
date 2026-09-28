@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Lecture Objectives",
+      "groupedBecause": "This subtopic provides the framing for the lecture, introducing the lecturer, the course context, and the learning outcomes on cancer causes and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamental Biology and Drivers of Cancer",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease and explain how intrinsic metabolic damage, DNA repair capacity, and inherited predispositions drive mutation accumulation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence",
+      "groupedBecause": "These subtopics discuss known environmental hazards, explore the debate between intrinsic bad luck and external exposures, and review geographical variations in cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Agents in Carcinogenesis",
+      "groupedBecause": "These subtopics examine how viral, bacterial, and parasitic infections contribute to malignancy, featuring Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Metabolic Activation",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which radiation and dietary or chemical mutagens undergo metabolic activation to induce DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics describe non-mutagenic mechanisms of carcinogenesis, focusing on chronic inflammation, the two-stage initiation-promotion model, and host developmental vulnerability.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Identifying and Assessing Carcinogens",
+      "groupedBecause": "These subtopics review mutational signatures, biobanks, animal models, and in vitro assays used to evaluate carcinogenicity alongside the clinical and personal risk-benefit considerations.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

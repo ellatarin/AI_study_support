@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecture theme of cancer evolution and outlines the core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Drivers of Clonal Evolution",
+      "groupedBecause": "These subtopics explain how cell-intrinsic genetic mutations and epigenetic alterations confer competitive fitness and drive Darwinian clonal selection.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tissue Hierarchy and the Cell of Origin",
+      "groupedBecause": "These subtopics examine how tissue stem cell hierarchies and the differentiation state of the cell of origin influence tumor initiation and progression.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Influences on Tumorigenesis",
+      "groupedBecause": "These subtopics explore how environmental promoters, inflammatory signals, and supportive stroma enable malignant outgrowth in incipient and established tumors.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Methodologies for Studying Tumor Evolution and Spatial Architecture",
+      "groupedBecause": "This subtopic outlines the single-cell sequencing and spatial transcriptomic and proteomic methods used to investigate tumor evolution and cell interactions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Multi-Factorial Synthesis of Cancer Evolution and Conclusion",
+      "groupedBecause": "These subtopics integrate the complementary roles of genetics, epigenetics, cell of origin, and microenvironment into a unified evolutionary model and conclude the lecture.",
+      "firstSubtopicId": 10
+    }
+  ]
+}

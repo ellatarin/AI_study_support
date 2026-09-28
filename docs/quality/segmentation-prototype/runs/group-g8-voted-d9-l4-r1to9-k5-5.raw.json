@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Causation and Lecture Objectives",
+      "groupedBecause": "The lecturer introduces the course scope, learning objectives, and primary themes concerning environmental and biological causes of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamental Concepts, Etiology, and Epidemiology of Cancer",
+      "groupedBecause": "These subtopics explain the nature of cancer as a genetic and microenvironmental disease while examining how endogenous errors, genetics, and environmental exposures contribute across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious, Physical, and Chemical Carcinogenic Agents",
+      "groupedBecause": "These subtopics describe specific pathogens, radiation, and chemical xenobiotics alongside the biological and metabolic mechanisms through which they induce DNA damage.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics analyze how non-mutagenic promoters, inflammatory microenvironments, and developmental tissue states facilitate the outgrowth of mutated cells.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting Carcinogenicity and Assessing Risk",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, animal, and in vitro approaches used to identify carcinogens and evaluate cancer risk.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

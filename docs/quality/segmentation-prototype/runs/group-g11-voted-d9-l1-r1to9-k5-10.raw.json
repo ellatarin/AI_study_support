@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Framing",
+      "groupedBecause": "The lecturer introduces the lecture topic on the initiation and resolution of inflammation and outlines how familiar immune components will be examined in mechanistic detail.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Pathogen and Damage Recognition",
+      "groupedBecause": "These subtopics define the essential properties of pathogen-associated and damage-associated molecular patterns and explain the germline encoding and cellular localization of pattern recognition receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern Recognition Receptor Families and Signaling Mechanisms",
+      "groupedBecause": "These subtopics detail the major families of pattern recognition receptors, their intracellular signaling pathways, and the assembly of the inflammasome to activate inflammatory cytokines.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Sentinel Cell Activation and Leukocyte Recruitment",
+      "groupedBecause": "These subtopics explain how activated sentinel cells induce vascular endothelial adhesion molecules to coordinate the rolling, extravasation, and chemokine-directed migration of leukocytes to the site of infection.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic Drainage and Antigen Transport",
+      "groupedBecause": "This subtopic explains how tissue fluid drainage through the lymphatic system enables dendritic cells to carry antigens to lymph nodes for the activation of adaptive immunity.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Systemic Hyperinflammation and Septic Shock",
+      "groupedBecause": "This subtopic addresses the life-threatening consequences of uncontrolled cytokine release causing widespread vasodilation and septic shock.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics describe the passive and active mechanisms that resolve acute inflammation, the process of tissue repair, and the development of chronic inflammation and protective granulomas.",
+      "firstSubtopicId": 14
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Hallmarks of Cancer Overview",
+      "groupedBecause": "This topic introduces the lecture by outlining its learning outcomes and framing tumorigenesis through Hanahan and Weinberg's Hallmarks of Cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated Growth and Proliferative Signaling Pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations deregulate signaling cascades such as Wnt, RTK/Ras/MAPK, and TGF-beta to sustain proliferation and evade growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer",
+      "groupedBecause": "These subtopics explore how differentiation blocks halt normal lineage maturation in hematopoietic malignancies and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This topic explains how cancer cells resist programmed cell death through alterations in p53 and the balance of pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Signaling",
+      "groupedBecause": "These subtopics describe cellular senescence and telomere dynamics, detailing how cancer cells bypass stress checkpoints and telomerase silencing to achieve immortalization.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Metabolism and Metabolic Rewiring",
+      "groupedBecause": "These subtopics discuss the metabolic reprogramming of cancer cells, focusing on aerobic glycolysis, the Warburg effect, and oncometabolite-driven epigenetic changes.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "These subtopics examine how tumors induce new blood vessel growth for nutrient perfusion through shifts in the balance of angiogenic regulators.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Dynamics of Metastasis",
+      "groupedBecause": "This topic examines the multi-step metastatic cascade, covering circulatory dissemination, sentinel lymph node diagnostics, circulating tumor cells, and the seed-and-soil hypothesis.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "This topic concludes the lecture with closing remarks on hallmark integration, supplementary literature, and upcoming practicals.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

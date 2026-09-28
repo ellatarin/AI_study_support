@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and the Hallmarks of Cancer Framework",
+      "groupedBecause": "The lecturer introduces the lecture's learning objectives, the colorectal cancer progression model, and the overall framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferative Signaling and Evasion of Growth Suppressors",
+      "groupedBecause": "These subtopics examine how mutations in signaling cascades such as Wnt, receptor tyrosine kinases, and TGF-beta deregulate cell cycle entry and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer",
+      "groupedBecause": "These subtopics explain how impaired terminal differentiation sustains a proliferative progenitor-like state in leukemias and colorectal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic details the molecular mechanisms and balance of pro- and anti-apoptotic factors that allow cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Signaling",
+      "groupedBecause": "These subtopics discuss how telomere maintenance overcomes cellular senescence and how normal stress responses feed through p53 to regulate cell fate.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Rewiring and the Warburg Effect",
+      "groupedBecause": "These subtopics transition to complex physiological adaptations by examining aerobic glycolysis, Krebs cycle mutations, and epigenetic metabolic feedback loops in tumors.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics describe the necessity, timing, and molecular balance of angiogenic switch mechanisms required for tumor vascularization.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Dynamics of Metastasis",
+      "groupedBecause": "This subtopic explores the biological stages, systemic circulation routes, clonal genetics, and liquid-biopsy tracking associated with metastatic tumor spread.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Summary and Closing Remarks",
+      "groupedBecause": "The lecturer concludes the session by reviewing the overarching hallmark concepts and wrapping up with housekeeping instructions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

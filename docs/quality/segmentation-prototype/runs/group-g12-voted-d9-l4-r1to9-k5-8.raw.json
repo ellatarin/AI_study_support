@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the opening framing by introducing the lecturer, the course context, and the key learning objectives on cancer etiology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The nature of cancer and sources of genetic mutations",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease and outline how endogenous cellular processes, environmental agents, and inherited predispositions generate mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epidemiological evidence and the environmental cancer risk debate",
+      "groupedBecause": "These subtopics examine common environmental exposures and global epidemiological variations to evaluate the relative contributions of environmental factors versus intrinsic biological chance to cancer risk.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents and pathogen-driven carcinogenesis",
+      "groupedBecause": "These subtopics explain how pathogens drive malignancy, using the multi-step pathogenesis of Burkitt lymphoma to illustrate the interaction between infection, immune suppression, and genetic translocation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics detail how dietary toxins, UV radiation, and chemical mutagens cause direct and indirect DNA damage through metabolic activation, bulky adduct formation, and oxidative stress.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, contextual susceptibility, and mechanisms of carcinogenesis",
+      "groupedBecause": "These subtopics explore how non-mutagenic promoters, chronic inflammation, and developmental stage susceptibility drive tumor outgrowth, concluding with a comprehensive summary of carcinogenic mechanisms.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and assessing carcinogenicity",
+      "groupedBecause": "These subtopics review the mutational signature sequencing, epidemiological biobank tracking, animal model testing, and in vitro bacterial assays used to detect and evaluate carcinogens.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Risk-benefit considerations and lecture conclusion",
+      "groupedBecause": "This subtopic provides the closing framing by addressing the real-world risk-benefit trade-offs of carcinogen exposures and summarizing the lecture's core takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

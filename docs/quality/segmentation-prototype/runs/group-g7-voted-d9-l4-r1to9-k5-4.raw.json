@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Framing",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the learning objectives regarding cancer etiology and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Nature of Cancer and Sources of Cellular Mutations",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease driven by a combination of endogenous cellular errors, inherited traits, and permissive microenvironments.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Patterns in Cancer Risk",
+      "groupedBecause": "These subtopics explore common environmental exposures and the epidemiological evidence showing how geographical and lifestyle factors influence cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Agents and Pathogen-Driven Carcinogenesis",
+      "groupedBecause": "These subtopics explain how oncogenic pathogens contribute to malignancy, illustrated through the multi-factorial etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Radiation-Induced Mutagenesis",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms through which radiation, dietary toxins, and chemical carcinogens damage DNA directly or via host metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Host Tissue Susceptibility",
+      "groupedBecause": "These subtopics differentiate tumor initiators from non-mutagenic promoters and explain how chronic inflammation and host tissue proliferation status enable malignant outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Determining Carcinogenicity and Assessing Exposure Risk",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, in vivo, in vitro, and risk-assessment frameworks used to evaluate whether environmental agents cause cancer.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

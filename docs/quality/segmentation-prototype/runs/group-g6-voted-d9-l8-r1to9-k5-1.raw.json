@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer welcomes the class and outlines the learning outcomes for the cancer therapy lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional therapeutic modalities and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics explore standard non-targeted cancer treatments and the clinical challenges of systemic toxicity and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular defects and vulnerabilities",
+      "groupedBecause": "These subtopics examine therapeutic approaches that exploit intrinsic signaling dependencies, checkpoint defects, and DNA repair deficiencies in cancer cells.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene addiction and small-molecule kinase inhibitors",
+      "groupedBecause": "These subtopics focus on targeting hyperactivated oncogenic kinases and the mechanisms driving acquired resistance and signaling bypass.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based therapeutics and targeted drug delivery",
+      "groupedBecause": "These subtopics explain the design and application of antibody-based agents for direct receptor targeting and selective toxin delivery.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and engineered cellular therapies",
+      "groupedBecause": "These subtopics evaluate the role of the immune system in cancer surveillance and methods for therapeutically activating and engineering immune responses.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical challenges, future directions, and treatment outcomes",
+      "groupedBecause": "These subtopics evaluate broader systemic challenges in oncology, historical improvements in patient survival, and emerging directions in cancer care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

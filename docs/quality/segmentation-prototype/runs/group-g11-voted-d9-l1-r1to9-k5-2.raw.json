@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer introduces the session by framing how known cellular and molecular components will be integrated to explain the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate recognition via PAMPs, DAMPs, and pattern recognition receptors",
+      "groupedBecause": "These subtopics explain how the innate immune system senses microbial presence and tissue damage through conserved molecular patterns, receptor localization, and downstream signaling complexes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Sentinel cell activation, leukocyte recruitment, and systemic inflammation",
+      "groupedBecause": "These subtopics describe how sentinel cells initiate local leukocyte recruitment into tissues, drain fluids toward lymph nodes, and potentially trigger dangerous systemic inflammatory responses.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic adaptations",
+      "groupedBecause": "These subtopics address how acute inflammation is actively and passively terminated, how damaged tissue is repaired, and how persistent stimuli lead to chronic inflammation and granuloma formation.",
+      "firstSubtopicId": 14
+    }
+  ]
+}

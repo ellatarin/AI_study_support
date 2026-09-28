@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This section establishes the lecturer introductions, scope, and overarching learning objectives for understanding the causes of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of Cancer Causation: Intrinsic vs. Environmental Factors",
+      "groupedBecause": "These subtopics introduce the biological nature of cancer development and evaluate the interplay between endogenous mutation risks, environmental exposures, and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents in Carcinogenesis",
+      "groupedBecause": "These subtopics examine how biological pathogens and viral infections contribute to oncogenesis, focusing on Burkitt lymphoma as a key paradigm.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical DNA Damage",
+      "groupedBecause": "These subtopics explain how various dietary, chemical, and physical agents are metabolically activated to cause structural DNA damage and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic drivers of cancer growth, focusing on chronic inflammation, the initiator-promoter concept, and host developmental vulnerability.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Assessing and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, animal, and in vitro experimental approaches used to determine whether agents cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Carcinogen Risk-Benefit Assessment and Lecture Conclusion",
+      "groupedBecause": "This closing section summarizes the core themes of the lecture and considers the everyday risk-benefit decisions associated with environmental exposures.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

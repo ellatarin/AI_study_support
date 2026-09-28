@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Lecture Objectives",
+      "groupedBecause": "The lecturer introduces the session's learning objectives, reviews tumor progression models, and establishes the Hanahan and Weinberg hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferation and Growth Signaling Pathways",
+      "groupedBecause": "These subtopics explore how oncogenic mutations in cell surface receptor pathways and intracellular cascades drive autonomous proliferation and evade growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to Differentiation in Hematopoietic and Epithelial Cancers",
+      "groupedBecause": "These subtopics describe how cancer cells evade terminal lineage specification in both hematopoietic lineages and the intestinal crypt epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic explains how mutations disrupting the balance of pro-apoptotic and anti-apoptotic factors prevent programmed cell death in cancer cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere Maintenance, Senescence, and Stress Signaling",
+      "groupedBecause": "These subtopics examine how telomere maintenance overcomes cellular senescence limits and how stress signaling activates tumor-suppressive p53 checkpoints.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered Cancer Metabolism and Oncometabolites",
+      "groupedBecause": "These subtopics detail how tumors reprogram cellular metabolism toward aerobic glycolysis and how metabolic enzyme mutations produce epigenetic-modifying oncometabolites.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis and the Angiogenic Switch",
+      "groupedBecause": "These subtopics discuss the requirement, timing, and regulatory balance of blood vessel recruitment to sustain tumor growth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Progression of Cancer Metastasis",
+      "groupedBecause": "This subtopic examines the biological steps, clinical detection, and clonal characteristics of tumor dissemination to distant organs.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Summary and Final Remarks",
+      "groupedBecause": "This subtopic concludes the lecture by summarizing the integration of cancer hallmarks and referencing recent updates to the conceptual framework.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Objectives",
+      "groupedBecause": "This opening section welcomes students, introduces the lecture series, and outlines the core learning outcomes on cancer etiology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Heredity, Environment, and Chance",
+      "groupedBecause": "These subtopics explore the fundamental biology of cancer as a genetic and microenvironmental disease while evaluating the relative contributions of endogenous mutations, lifestyle exposures, and epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenesis: Initiators, Promoters, and Specific Agents",
+      "groupedBecause": "These subtopics examine how diverse biological, physical, and chemical agents drive malignancy through direct DNA damage, metabolic activation, tumor promotion, and host tissue susceptibility.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, in vivo, and in vitro methodologies used to determine whether agents cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Balancing Carcinogenic Risk",
+      "groupedBecause": "This concluding section summarizes the lecture's key concepts and frames carcinogenic exposure in terms of real-world risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

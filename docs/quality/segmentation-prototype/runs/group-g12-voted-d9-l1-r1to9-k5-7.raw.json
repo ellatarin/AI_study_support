@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "It introduces the lecture topic on the initiation and resolution of inflammation within the Biology of Disease course.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and Damage Recognition by Pattern Recognition Receptors",
+      "groupedBecause": "They describe the molecular principles and receptor pathways used by the innate immune system to detect microbial products and cellular damage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Leukocyte Recruitment and Systemic Inflammatory Dynamics",
+      "groupedBecause": "They explain how activated sentinel cells direct immune cell migration through tissues and the lymphatic system, as well as the physiological hazards of uncontrolled systemic inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "They address the mechanisms responsible for terminating acute inflammation and restoring damaged tissue, alongside the causes and protective adaptations of persistent chronic inflammation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "It concludes the lecture session and announces the subject of the following lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

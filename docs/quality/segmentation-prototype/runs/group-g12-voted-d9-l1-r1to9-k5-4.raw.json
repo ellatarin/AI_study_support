@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "This subtopic opens the lecture, welcomes the students, and outlines the themes of inflammation initiation and resolution.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Recognition of Pathogens and Damage via PRR Pathways",
+      "groupedBecause": "These subtopics explain how the innate immune system senses infection and cellular damage through molecular patterns, pattern recognition receptors, and downstream signaling complexes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Leukocyte Recruitment, Cell Trafficking, and Systemic Inflammation",
+      "groupedBecause": "These subtopics examine how innate activation coordinates the recruitment of circulating immune cells into tissues, their exit via the lymphatic system, and the dangers of systemic inflammatory overactivation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics address the mechanisms that terminate acute inflammation, rebuild damaged tissue, and govern chronic inflammatory outcomes such as granuloma formation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic provides the brief closing remark and indicates the topic for the subsequent lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

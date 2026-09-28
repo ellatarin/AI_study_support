@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "The subtopic establishes the lecture's framing by connecting to histopathology practicals and detailing the learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Viral Origins of Cancer and Oncogene Discovery",
+      "groupedBecause": "These subtopics explore the history of tumor virology and explain how retroviral gene capture led to the identification of cellular proto-oncogenes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental Assays for Cellular Transformation",
+      "groupedBecause": "This subtopic focuses on the in vitro and in vivo assays used to evaluate the transforming capacity of candidate cancer genes and mutations.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Mechanisms and Cellular Consequences of Oncogenic Mutations",
+      "groupedBecause": "These subtopics describe the classification of cancer genes and examine how specific mutational mechanisms alter cell cycle regulation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Forms and Pathways of Genetic Instability in Cancer",
+      "groupedBecause": "These subtopics analyze the cellular defects in DNA repair, replication fidelity, and mitosis that generate sequence and chromosomal instability.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep Genetic Progression of Tumors",
+      "groupedBecause": "This subtopic outlines the stepwise accumulation and temporal ordering of mutations driving the progression from normal tissue to malignancy.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Hereditary Cancer Predisposition and Tumor Evolution",
+      "groupedBecause": "These subtopics explain how inherited germline mutations accelerate tumorigenesis and influence ongoing tumor adaptation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture Wrap-Up and Recommended Reading",
+      "groupedBecause": "The subtopic concludes the lecture by summarizing coverage, offering reading material, and previewing upcoming topics.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

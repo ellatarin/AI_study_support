@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This opening section welcomes students and outlines the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition of infection and damage",
+      "groupedBecause": "These subtopics explain how the innate immune system identifies danger by detecting pathogen- and damage-associated molecular patterns through pattern recognition receptor signaling.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Execution and systemic effects of acute inflammation",
+      "groupedBecause": "These subtopics detail the cellular and vascular mechanisms through which sentinel cells coordinate leukocyte recruitment, fluid drainage, and potential systemic inflammatory consequences.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Inflammatory resolution, tissue repair, and chronic inflammation",
+      "groupedBecause": "These subtopics explore the mechanisms required to terminate acute inflammation, rebuild damaged tissues, and manage chronic inflammatory states.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and next steps",
+      "groupedBecause": "This closing remark concludes the presentation and introduces the topic of the following lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

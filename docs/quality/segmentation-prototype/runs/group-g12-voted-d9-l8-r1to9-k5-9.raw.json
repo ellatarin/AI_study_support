@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The opening introduces the final lecture of the course and outlines its learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatments and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics describe foundational cancer treatment modalities—surgery, radiotherapy, and cytotoxic chemotherapy—along with their mechanisms, toxicities, and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics explain therapeutic strategies designed to exploit tumor-specific vulnerabilities, such as hormone dependence, checkpoint loss, and defective DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene targeting, kinase inhibitors, and mechanisms of resistance",
+      "groupedBecause": "These subtopics examine small molecule inhibitors targeting hyperactivated oncogenic kinases and the mutational, bypass, and addiction mechanisms that lead to drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics cover targeted antibody therapeutics that recognize tumor surface antigens to inhibit signaling, direct immune-mediated killing, or deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and cellular immune engagement",
+      "groupedBecause": "These subtopics address the role of host immunity in cancer and therapeutic modalities that reactivate or engineer T cells to eliminate tumor cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overarching challenges, progress, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics evaluate historical progress in cancer survival alongside persistent clinical challenges, emerging treatment paradigms, and clinical trial dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

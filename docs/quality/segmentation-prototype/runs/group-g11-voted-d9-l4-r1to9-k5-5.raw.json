@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, sets out the course structure, and outlines the core learning objectives on cancer etiology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Chance, Genetics, and Environmental Evidence",
+      "groupedBecause": "These subtopics explore the foundational debate over how much cancer is driven by intrinsic biological chance and genetics versus modifiable environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenic Pathogens and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics examine how infectious agents and co-infections contribute to carcinogenesis, illustrated through the etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens: Mechanisms of DNA Damage and Activation",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms by which dietary, environmental, and chemical mutagens damage DNA directly or following host metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promoters, Chronic Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics address non-mutagenic mechanisms of carcinogenesis, focusing on tumor promoters, inflammatory microenvironments, and developmental windows of cellular susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Identifying Carcinogens and Final Conclusions",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, animal, and in vitro methodologies used to determine carcinogenicity, concluding with overall risk appraisal.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Inflammation Mechanisms",
+      "groupedBecause": "The lecturer opens the lecture by framing the session's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and Damage Recognition Principles",
+      "groupedBecause": "These subtopics outline how the innate immune system senses danger by detecting pathogen-associated and damage-associated molecular patterns using germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "PRR Families, Signaling Cascades, and the Inflammasome",
+      "groupedBecause": "These subtopics examine specific pattern recognition receptor classes, their intracellular signaling pathways, and the assembly of the inflammasome to activate inflammatory cytokines.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Inflammatory Mediator Action, Leukocyte Trafficking, and Systemic Impacts",
+      "groupedBecause": "These subtopics explain how sentinel cells initiate the inflammatory response, coordinate leukocyte entry and egress across tissues and vessels, and risk causing systemic pathology when overactivated.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics describe the mechanisms that terminate acute inflammation, rebuild damaged tissue, and mediate long-term outcomes such as chronic inflammation and granulomas.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the session and announces the topic of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

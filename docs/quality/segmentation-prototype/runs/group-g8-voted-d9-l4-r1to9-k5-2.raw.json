@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "This subtopic introduces the lecturer, sets the context within the cancer lecture series, and outlines the primary learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Genetic Basis, Environmental Exposure, and Epidemiology",
+      "groupedBecause": "These subtopics establish cancer as a genetic and microenvironmental disease while evaluating the relative contributions of endogenous mutations, environmental exposures, and geographic epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogen Action and Tumor Promotion",
+      "groupedBecause": "These subtopics explain the molecular and physiological mechanisms by which diverse agents initiate DNA damage, undergo metabolic activation, or promote malignancy through inflammation and tissue-specific processes.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for Detecting Carcinogenicity and Assessing Risk",
+      "groupedBecause": "These subtopics present the experimental, sequencing, and epidemiological methodologies used to identify carcinogen exposure and evaluate carcinogenic risk.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

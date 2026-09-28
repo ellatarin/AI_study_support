@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "This opening subtopic introduces the lecturer, contextualizes the lecture within the course, and outlines the key learning outcomes regarding cancer causation and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Determinants of Cancer Risk: Genetics, Environment, and Chance",
+      "groupedBecause": "These subtopics explore the biological definition of cancer and evaluate the relative contributions of intrinsic cellular processes, environmental exposures, public perception, and geographic epidemiological variation to cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and Infectious Drivers of Cancer",
+      "groupedBecause": "These subtopics describe how bacterial, parasitic, and viral infections contribute to oncogenesis, illustrated through the detailed epidemiological and molecular mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Metabolic Activation",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which dietary toxins, UV radiation, and environmental chemicals undergo metabolic processing to form DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Initiator-Promoter Models, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic promoters, experimental models distinguishing initiation from promotion, host developmental vulnerabilities, and provide an integrative summary of carcinogenic mechanisms.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Detecting and Testing Carcinogens",
+      "groupedBecause": "These subtopics review the range of experimental and analytical approaches used to demonstrate carcinogenicity, including mutational signature sequencing, epidemiological biobanks, in vivo models, and in vitro assays.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Risk-Benefit Decision Making and Conclusion",
+      "groupedBecause": "This concluding subtopic summarises the lecture and considers the practical balance between environmental risks and daily benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

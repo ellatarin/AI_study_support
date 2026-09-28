@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "This subtopic introduces the lecturer, sets out the core themes of cancer causation, and outlines the learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic and Extrinsic Factors in Cancer Development",
+      "groupedBecause": "These subtopics explore the fundamental nature of cancer as a genetic disease and assess the relative contributions of random endogenous mutations, environmental exposures, and epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Biological, Chemical, and Physical Carcinogenic Agents",
+      "groupedBecause": "These subtopics examine specific infectious, dietary, radiant, and chemical agents, focusing on the biochemical and metabolic pathways that generate DNA damage.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Context",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of carcinogenesis, contrasting tumor initiators with promoters and highlighting the influence of chronic inflammation and host developmental timing.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Assessing and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic signatures, epidemiological approaches, and experimental assays used to establish carcinogenic risk and identify causative agents.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

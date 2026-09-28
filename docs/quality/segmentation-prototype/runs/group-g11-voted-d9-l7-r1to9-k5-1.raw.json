@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "It introduces the lecture's aims and sets out the key themes regarding cancer evolution, cell of origin, and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of clonal evolution",
+      "groupedBecause": "These subtopics explain how clonal progression is driven by the selection of advantageous genetic mutations and alterations in the epigenetic landscape.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and stem cell models of tumorigenesis",
+      "groupedBecause": "These subtopics explore the contribution of tissue hierarchy and cell of origin to tumor initiation across blood and intestinal models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory promotion of tumorigenesis",
+      "groupedBecause": "These subtopics examine how external environmental promoters and chronic inflammation cooperate with driver mutations to enable tumor outgrowth.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Microenvironmental dependency in established tumors and therapeutic avenues",
+      "groupedBecause": "It examines how established tumors depend on their supportive stromal microenvironment and how this dependency can be therapeutically targeted.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Technologies for investigating tumor evolution and microenvironments",
+      "groupedBecause": "It outlines the genomic, transcriptomic, and spatial technologies used to investigate tumor evolution and cellular interactions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "These subtopics synthesize the multifactorial nature of cancer evolution and conclude the session.",
+      "firstSubtopicId": 10
+    }
+  ]
+}

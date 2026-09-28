@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This opening subtopic introduces the lecturer, sets the context within the cancer lecture series, and outlines the primary learning objectives regarding cancer etiology and carcinogens.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of Cancer and Epidemiological Patterns",
+      "groupedBecause": "These subtopics discuss the fundamental nature of cancer as a multi-factorial evolutionary process driven by intrinsic cellular errors, genetic predispositions, and geographically variable environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenic Agents and Tumor Promotion",
+      "groupedBecause": "These subtopics analyze the biological and chemical mechanisms by which pathogens, environmental chemicals, radiation, metabolic activation, and tumor promoters drive malignant transformation and clonal outgrowth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Assessing and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics describe the scientific approaches, tools, and challenges involved in identifying carcinogens, ranging from mutational signature analysis and biobank epidemiology to in vivo toxicology and in vitro assays.",
+      "firstSubtopicId": 18
+    }
+  ]
+}
