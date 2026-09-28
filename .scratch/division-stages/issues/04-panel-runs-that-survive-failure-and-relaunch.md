@@ -4,7 +4,7 @@
 
 **Blocked by:** 03
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 - [ ] A stage can ask for N runs and receives them all or a named failure — never a partial panel.
 - [ ] Runs are made a few at a time; the number in flight is bounded, not all N at once.
