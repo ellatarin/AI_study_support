@@ -189,6 +189,15 @@ const SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2 = `${SPLIT_UNLESS_IT_STRANDS
 const SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2_CHECK = `${SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_CHECK.replace(/\?$/, "")} (the opening and the closing under R2 excepted)?`;
 
 /**
+ * g13's addition to Method step 1, as agreed with the user: the model may use
+ * what it knows of the subject to see where topics divide. Stated with no
+ * direction — a clause saying knowledge must not ADD divisions was dropped as
+ * one-sided, since it restrained splitting and never joining.
+ */
+const USE_SUBJECT_KNOWLEDGE =
+	" Use your knowledge of the subject to judge which subtopics belong together: how the field itself relates this material is evidence of where one topic ends and the next begins.";
+
+/**
  * g6 restates g5's rules as a structured document: markdown headings, numbered
  * and NAMED rules, and a checklist that names each rule it is checking. Not one
  * rule is added, removed or reworded in substance — the only variable is whether
@@ -203,6 +212,7 @@ const STRUCTURED_PROMPT = ({
 	r5Check = SPLIT_FOR_BETTER_REASONS_CHECK,
 	r2 = OPENING_RULE,
 	r2Check = OPENING_RULE_CHECK,
+	subjectKnowledge = "",
 }: {
 	readonly labelsShown: boolean;
 	readonly r4: string;
@@ -211,6 +221,8 @@ const STRUCTURED_PROMPT = ({
 	readonly r2Check?: string;
 	readonly r5?: string;
 	readonly r5Check?: string;
+	/** Appended to Method step 1; empty for every version before g13. */
+	readonly subjectKnowledge?: string;
 }): string => `# Task
 
 You are given the subtopics of a university lecture, in order, each with its full text. Group them into TOPICS.
@@ -226,7 +238,7 @@ ${topicDefinition}
 
 ## Method
 
-1. Read all the subtopic content and analyse which subtopics should live together under a topic, and which should live apart in separate topics. The goal is the optimum arrangement of subtopics under topics.
+1. Read all the subtopic content and analyse which subtopics should live together under a topic, and which should live apart in separate topics. The goal is the optimum arrangement of subtopics under topics.${subjectKnowledge}
 2. Decide the topics.
 3. Write each topic's label and \`groupedBecause\`.
 4. Check your answer against every rule below, by name, before replying.
@@ -461,6 +473,22 @@ export const GROUP_PROMPTS: readonly GroupPromptVersion[] = [
 				r2Check: OPENING_AND_CLOSING_RULE_CHECK,
 				r5: SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2,
 				r5Check: SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2_CHECK,
+			}),
+	},
+	{
+		id: "g13",
+		summary: "g12 with the model told to use its knowledge of the subject to judge where topics divide.",
+		changed:
+			"Method step 1 only: one sentence asking the model to use how the field relates the material as evidence of where one topic ends and the next begins. Aimed at lecture 5, whose last substantive topic g12 starts at the multi-step model in 11 of 18 runs and at hereditary predisposition in 7. Everything else is g12 byte for byte.",
+		build: ({ labelsShown }) =>
+			STRUCTURED_PROMPT({
+				labelsShown,
+				r4: R4_STATES_WHY,
+				r2: OPENING_AND_CLOSING_RULE,
+				r2Check: OPENING_AND_CLOSING_RULE_CHECK,
+				r5: SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2,
+				r5Check: SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2_CHECK,
+				subjectKnowledge: USE_SUBJECT_KNOWLEDGE,
 			}),
 	},
 ];
