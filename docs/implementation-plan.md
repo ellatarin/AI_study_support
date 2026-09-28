@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.52-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.53-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-09-28
 **Status:** For review
 
@@ -549,6 +549,7 @@ Unit tests for `tryJsonReply` (mock `makeCompletionCall`):
 Unit tests for `sendWithResends` (fake timers for the pause):
 - `should return the reply and one send's cost when the first send succeeds`
 - `should keep the reply and count every send's cost when two sends fail first`
+- `should log each unusable reply with what was sent, which send it was and why when sends fail`
 - `should fail naming what was sent and the last reason when all three sends fail`
 - `should wait two seconds and then four before the second and third sends when sends keep failing`
 - `should let an error from the call itself through without resending when the call throws`

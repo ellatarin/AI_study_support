@@ -1,5 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { captureError, stubbedCallCost, stubbedCallsCost } from "../fixtures.js";
+import {
+	captureError,
+	loggedAt,
+	stubbedCallCost,
+	stubbedCallsCost,
+	useStubLogger,
+} from "../fixtures.js";
 import type { JsonReplyOutcome } from "./model-stage.js";
 import { ResendsExhaustedError, sendWithResends } from "./panel-runs.js";
 
@@ -27,6 +33,8 @@ function sendAnswering(
 }
 
 describe("sendWithResends", () => {
+	const logged = useStubLogger();
+
 	beforeEach(() => {
 		vi.useFakeTimers();
 	});
@@ -34,6 +42,17 @@ describe("sendWithResends", () => {
 	afterEach(() => {
 		vi.useRealTimers();
 	});
+
+	/** Sends `send` as `what`, logging to the test's stub logger. */
+	function resending({
+		send,
+		what = "run 1",
+	}: {
+		readonly send: () => Promise<JsonReplyOutcome<typeof REPLY>>;
+		readonly what?: string;
+	}): ReturnType<typeof sendWithResends<typeof REPLY>> {
+		return sendWithResends({ send, what, logger: logged().logger });
+	}
 
 	/** Sends through the pauses, which the fake clock runs straight through. */
 	async function settle<TResult>(pending: Promise<TResult>): Promise<TResult> {
@@ -53,7 +72,7 @@ describe("sendWithResends", () => {
 
 	it("should return the reply and one send's cost when the first send succeeds", async () => {
 		const send = sendAnswering(GOOD);
-		expect(await settle(sendWithResends({ send, what: "run 1" }))).toEqual({
+		expect(await settle(resending({ send }))).toEqual({
 			reply: REPLY,
 			cost: stubbedCallsCost({ calls: 1 }),
 		});
@@ -62,15 +81,25 @@ describe("sendWithResends", () => {
 
 	it("should keep the reply and count every send's cost when two sends fail first", async () => {
 		const send = sendAnswering(EMPTY, PROSE, GOOD);
-		expect(await settle(sendWithResends({ send, what: "run 1" }))).toEqual({
+		expect(await settle(resending({ send }))).toEqual({
 			reply: REPLY,
 			cost: stubbedCallsCost({ calls: 3 }),
 		});
 	});
 
+	it("should log each unusable reply with what was sent, which send it was and why when sends fail", async () => {
+		await settle(resending({ send: sendAnswering(EMPTY, PROSE, GOOD), what: "run 2" }));
+		expect(
+			loggedAt({ entries: logged().entries, level: "warn" }).map((entry) => entry.payload),
+		).toEqual([
+			{ what: "run 2", send: 1, reason: EMPTY.failure },
+			{ what: "run 2", send: 2, reason: PROSE.failure },
+		]);
+	});
+
 	it("should fail naming what was sent and the last reason when all three sends fail", async () => {
 		const send = sendAnswering(EMPTY, EMPTY, PROSE);
-		const error = await failureOf(sendWithResends({ send, what: "run 4" }));
+		const error = await failureOf(resending({ send, what: "run 4" }));
 		expect(error).toBeInstanceOf(ResendsExhaustedError);
 		expect(error.message).toBe(
 			"run 4 failed after 3 sends: The model answered with something other than JSON",
@@ -79,7 +108,7 @@ describe("sendWithResends", () => {
 
 	it("should wait two seconds and then four before the second and third sends when sends keep failing", async () => {
 		const send = sendAnswering(EMPTY, EMPTY, GOOD);
-		const pending = sendWithResends({ send, what: "run 1" });
+		const pending = resending({ send });
 
 		await vi.advanceTimersByTimeAsync(1999);
 		expect(send).toHaveBeenCalledTimes(1);
@@ -95,7 +124,7 @@ describe("sendWithResends", () => {
 	it("should let an error from the call itself through without resending when the call throws", async () => {
 		const refused = new Error("context length exceeded");
 		const send = vi.fn<() => Promise<JsonReplyOutcome<typeof REPLY>>>().mockRejectedValue(refused);
-		expect(await failureOf(sendWithResends({ send, what: "run 1" }))).toBe(refused);
+		expect(await failureOf(resending({ send }))).toBe(refused);
 		expect(send).toHaveBeenCalledTimes(1);
 	});
 });

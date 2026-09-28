@@ -181,6 +181,7 @@ async function splitTranscript({
 		}): Promise<{ readonly run: readonly Subtopic[]; readonly cost: StageCost }> => {
 			const sent = await sendWithResends({
 				what: `Splitting run ${runNumber}`,
+				logger,
 				send: () => divideOnce({ transcript: input.transcript, context, logger, client }),
 			});
 			return { run: sent.reply, cost: sent.cost };

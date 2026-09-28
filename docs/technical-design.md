@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.52-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.53-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-09-28
 **Status:** For review
 
@@ -1070,6 +1070,7 @@ These three stages and `define-topics` (below) run after transcription and befor
 - A relaunched stage reads the runs already saved and makes only the missing ones. A saved run file that cannot be read is a named error rather than a run to remake: the file was written whole or not at all (§4.3), so an unreadable one means something outside the pipeline changed it.
 - A reply that is empty, is not JSON, or is the wrong shape is sent again after a pause that grows with each attempt, up to three sends. Empty replies are the common case: a provider occasionally answers with success and no content, and a plain resend has always worked. After the third failure the stage fails with an error naming the run and the last cause. A stage never goes on with fewer runs than its panel, because a missing run changes what the vote or the modal grouping means.
 - Every send is costed, failed ones included.
+- Every unusable reply is logged as a warning naming the run, which send it was and why it was unusable, so how often replies fail, and in what way, can be read from the run's log even when a later send succeeds.
 
 The retry sits above the SDK's own, which retries only failures at the HTTP level (§8, API Error Handling); an empty or malformed reply arrives as a success and reaches the stage.
 

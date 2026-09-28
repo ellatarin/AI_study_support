@@ -5,6 +5,7 @@
  */
 
 import { join } from "node:path";
+import type { Logger } from "pino";
 import type { StageCost } from "../../types/pipeline.js";
 import { mapWithConcurrency } from "../../utils/concurrency.js";
 import { accumulateCost } from "../../utils/cost.js";
@@ -55,19 +56,27 @@ function pause({ milliseconds }: { readonly milliseconds: number }): Promise<voi
  * retried what is worth retrying at the HTTP level (technical-design.md §8), and
  * the rest, such as a prompt too long for the model, would fail the same way again.
  *
- * @param args - The call, and what to call it in a failure.
+ * Every unusable reply is logged as a warning naming the call, which send it
+ * was and why, so how often a model's replies are unusable, and in what way,
+ * can be read back from the run's log even when a later send succeeds.
+ *
+ * @param args - The call, what to call it, and where to log.
  * @param args.send - Makes the call once.
- * @param args.what - Names the call for a failure, e.g. "run 3".
+ * @param args.what - Names the call in the log and in a failure, e.g. "run 3".
+ * @param args.logger - The stage's logger, on which each unusable reply is recorded.
  * @returns The usable reply and what every send cost together.
  * @throws {ResendsExhaustedError} When the third send is still unusable.
  * @typeParam TReply - The reply the call expects back.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 export async function sendWithResends<TReply>({
 	send,
 	what,
+	logger,
 }: {
 	readonly send: () => Promise<JsonReplyOutcome<TReply>>;
 	readonly what: string;
+	readonly logger: Logger;
 }): Promise<{ readonly reply: TReply; readonly cost: StageCost }> {
 	let cost: StageCost | null = null;
 	let pauseMs = FIRST_PAUSE_MS;
@@ -77,6 +86,7 @@ export async function sendWithResends<TReply>({
 		if (!("failure" in outcome)) {
 			return { reply: outcome.reply, cost };
 		}
+		logger.warn({ what, send: sends, reason: outcome.failure }, "Unusable reply");
 		if (sends === MAX_SENDS) {
 			throw new ResendsExhaustedError(
 				`${what} failed after ${MAX_SENDS} sends: ${outcome.failure}`,
