@@ -1,11 +1,11 @@
 {
   "_comment": "The user's ruled divisions, by lecture key. Hand judgements, exactly as runs/criteria.json holds pass two's. Positions are percentages of the transcript's characters, matched within 1.0 point. 'wanted' is every boundary the division requires; 'dontCare' is a boundary the user set aside, scored neither way; anything else a run proposes is unwanted. report-division.py reads this and never guesses.",
   "l3": {
-    "ruledOn": "2026-09-17",
+    "ruledOn": "2026-09-19",
     "sections": 15,
-    "note": "Ruled twice. 2026-09-08: all four contested cuts rejected — 'all these cuts split topics' — those being 18.7, 54.0, 88.5, 92.5, and the division 17 sections. 2026-09-17: shown the division d9 actually produces, the user accepted the single 1,137-word section that runs from 27.5 to 41.4 — invasion, then metastasis and its routes, then the benign-versus-invasive contrast — so 31.3 and 36.1 move to dontCare. They are not wrong boundaries; they are ones the user is content to do without, and a version that makes them is neither credited nor penalised.",
+    "note": "Ruled three times. 2026-09-08: all four contested cuts rejected — 'all these cuts split topics' — those being 18.7, 54.0, 88.5, 92.5, and the division 17 sections. 2026-09-17: shown the division d9 actually produces, the user accepted the single 1,137-word section that runs from 27.5 to 41.4 — invasion, then metastasis and its routes, then the benign-versus-invasive contrast — so 31.3 and 36.1 move to dontCare. They are not wrong boundaries; they are ones the user is content to do without, and a version that makes them is neither credited nor penalised. 2026-09-19, from the cut-site ruling sheet: 18.7 (L3-03, the move to histology) changes from unwanted to dontCare; 64.9 (L3-10) confirmed wanted.",
     "wanted": [7.0, 12.8, 24.0, 27.5, 41.4, 62.4, 64.9, 68.6, 74.3, 78.8, 82.8, 86.0, 95.2, 99.4],
-    "dontCare": [31.3, 36.1]
+    "dontCare": [18.7, 31.3, 36.1]
   },
   "l4": {
     "ruledOn": "2026-09-17",
@@ -15,10 +15,45 @@
     "dontCare": []
   },
   "l5": {
-    "ruledOn": "2026-09-06",
+    "ruledOn": "2026-09-19",
     "sections": 17,
-    "note": "Ruled from the seam-proof artifact. Seam D (71.3) was rejected twice and then accepted; 57.3 was rejected and then accepted. 40.9 is the single-worked-example cut, rejected.",
+    "note": "Ruled from the seam-proof artifact. Seam D (71.3) was rejected twice and then accepted; 57.3 was rejected and then accepted. 40.9 is the single-worked-example cut, rejected. 2026-09-19, from the cut-site ruling sheet: 10.5 (L5-03) changes from dontCare to unwanted, so 10.5 and 10.6 — the same cut site — leave dontCare.",
     "wanted": [4.3, 14.1, 19.3, 25.0, 30.2, 37.5, 45.5, 54.9, 57.3, 61.5, 69.5, 71.3, 80.4, 86.8, 96.9, 99.2],
-    "dontCare": [7.4, 7.6, 10.5, 10.6]
+    "dontCare": [7.4, 7.6]
+  },
+  "l1": {
+    "ruledOn": "2026-09-19",
+    "sections": 16,
+    "note": "Ruled from the cut-site ruling sheet (d9, 18 runs). The user ruled the contested cut sites: 69.2 (L1-11, the recap on the summary diagram) wanted; 32.6 (L1-06, TLR signalling) dontCare. Every unanimous and kept cut site was recorded as wanted at the user's instruction without being ruled one by one; every rare one is unwanted.",
+    "wanted": [1.4, 10.3, 18.3, 23.5, 40.6, 43.0, 49.4, 54.4, 69.2, 71.3, 75.9, 79.8, 86.2, 94.6, 99.9],
+    "dontCare": [32.6]
+  },
+  "l2": {
+    "ruledOn": "2026-09-19",
+    "sections": 14,
+    "note": "Ruled from the cut-site ruling sheet (d9, 18 runs). The user ruled the contested cut site: 50.5 (L2-12, C3a inflammation) unwanted — 'all complement'. Every unanimous and kept cut site was recorded as wanted at the user's instruction without being ruled one by one; every rare one is unwanted.",
+    "wanted": [2.1, 12.2, 16.4, 21.7, 24.2, 34.8, 40.9, 47.4, 51.7, 58.4, 72.2, 85.1, 99.4],
+    "dontCare": []
+  },
+  "l6": {
+    "ruledOn": "2026-09-19",
+    "sections": 17,
+    "note": "Ruled from the cut-site ruling sheet (d9, 18 runs). The user ruled the contested cut sites: 76.2 and 78.9 (L6-16, L6-17) unwanted — 'all angiogenesis'; 91.5 (L6-20, metastatic inefficiency and seed and soil) wanted; 94.7 (L6-21, the genetics of metastasis) unwanted — 'just part of metastasis'. Every unanimous and kept cut site was recorded as wanted at the user's instruction without being ruled one by one; every rare one is unwanted.",
+    "wanted": [7.6, 11.4, 15.6, 21.3, 28.9, 35.4, 41.7, 53.5, 57.7, 59.4, 63.6, 67.1, 73.0, 80.2, 91.5, 97.7],
+    "dontCare": []
+  },
+  "l7": {
+    "ruledOn": "2026-09-19",
+    "sections": 11,
+    "note": "Ruled from the cut-site ruling sheet (d9, 18 runs). The user ruled the contested cut site: 40.4 (L7-05, the evidence for cancer stem cells) dontCare. Every unanimous and kept cut site was recorded as wanted at the user's instruction without being ruled one by one; every rare one is unwanted.",
+    "wanted": [3.4, 22.1, 26.5, 48.4, 57.3, 68.9, 78.3, 83.2, 88.0, 99.8],
+    "dontCare": [40.4]
+  },
+  "l8": {
+    "ruledOn": "2026-09-19",
+    "sections": 23,
+    "note": "Ruled from the cut-site ruling sheet (d9, 18 runs). The user ruled the contested cut sites: 42.8 (L8-11, kinase inhibitor off-target effects and resistance) wanted; 56.7 (L8-13, kinase inhibitors as chronic therapy) unwanted — 'just part of kinase therapy'. Every unanimous and kept cut site was recorded as wanted at the user's instruction without being ruled one by one; every rare one is unwanted.",
+    "wanted": [0.8, 5.3, 13.9, 15.8, 20.0, 23.3, 26.5, 31.4, 37.1, 42.8, 47.4, 58.1, 62.2, 64.6, 72.1, 77.3, 79.5, 81.3, 87.2, 92.8, 94.9, 97.8],
+    "dontCare": []
   }
 }
