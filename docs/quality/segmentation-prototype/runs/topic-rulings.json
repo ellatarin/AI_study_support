@@ -17,9 +17,9 @@
   "l4": {
     "division": "voted-d9-l4-r1to9-k5",
     "ruledOn": "2026-09-28",
-    "note": "Only subtopic 22, the closing passage on risks versus benefits, has been ruled: its own topic. Lecture 4's pathogens and promotion topics are covered by the five criteria in runs/criteria.json. The soft points at 4 and 16 are unruled.",
-    "topicStarts": [22],
-    "sameTopic": [],
+    "note": "Ruled in two sittings. First subtopic 22, the closing passage on risks versus benefits, from the g6, g11 and g12 runs: its own topic. Then 4 (the carcinogen survey) and 16 (developmental stage), from the g6 and g12 runs: both stay in the topic before. 2, 7, 9, 14 and 18 were starts most runs made, shown as agreed and not ruled one by one; 7, 9 and 14 are also what the five criteria in runs/criteria.json require.",
+    "topicStarts": [2, 7, 9, 14, 18, 22],
+    "sameTopic": [4, 16],
     "either": [],
     "notes": {}
   },
