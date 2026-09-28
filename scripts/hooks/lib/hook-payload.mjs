@@ -10,14 +10,24 @@
  *   flag saying the payload could not be parsed.
  */
 export async function readCommandFromStdin() {
-	const chunks = [];
-	for await (const chunk of process.stdin) {
-		chunks.push(chunk);
-	}
 	try {
-		const payload = JSON.parse(chunks.join(""));
+		const payload = JSON.parse(await readStdin());
 		return { parsed: true, command: String(payload?.tool_input?.command ?? "") };
 	} catch {
 		return { parsed: false };
 	}
+}
+
+/**
+ * Reads the whole of stdin as text. Shared by the hook scripts that are handed
+ * something on stdin — a hook payload, or a check's output.
+ *
+ * @returns {Promise<string>} Everything written to stdin.
+ */
+export async function readStdin() {
+	const chunks = [];
+	for await (const chunk of process.stdin) {
+		chunks.push(chunk);
+	}
+	return chunks.join("");
 }
