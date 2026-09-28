@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "The lecturer welcomes the class and outlines the lecture's focus on the molecular and cellular mechanisms governing the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and Damage Recognition by Pattern Recognition Receptors",
+      "groupedBecause": "These subtopics explain how the innate immune system identifies infections and tissue injury through molecular patterns and diverse families of pattern recognition receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular Dynamics and Systemic Impacts of the Inflammatory Response",
+      "groupedBecause": "These subtopics describe the cellular processes that execute and propagate acute inflammation, from leukocyte recruitment and lymphatic trafficking to severe systemic consequences.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Pathology",
+      "groupedBecause": "These subtopics examine the mechanisms responsible for shutting down inflammation and repairing damaged tissues, alongside the chronic pathologies that develop when resolution fails.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Next Topic Preview",
+      "groupedBecause": "The lecturer wraps up the presentation and announces the topic of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

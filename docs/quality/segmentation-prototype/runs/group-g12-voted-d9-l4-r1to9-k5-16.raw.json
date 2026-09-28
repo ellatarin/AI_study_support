@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the course context, outlines the main lecture goals, and sets up the central question of what causes cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer development and the balance of genetics, environment, and chance",
+      "groupedBecause": "These subtopics examine how cancer arises from genetic mutations and microenvironmental factors, contrasting intrinsic bad luck with external exposures and global epidemiological variation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and viral mechanisms in cancer",
+      "groupedBecause": "These subtopics explain how pathogens such as viruses and bacteria contribute to malignancy, detailing the specific etiology and mechanisms of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical and radiation-induced DNA damage",
+      "groupedBecause": "These subtopics detail how environmental agents, dietary toxins, and radiation directly or metabolically modify DNA to produce mutagenic damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host susceptibility, and mechanisms of carcinogenesis",
+      "groupedBecause": "These subtopics contrast mutational initiation with promotional processes like chronic inflammation and highlight how host tissue state and life stages influence malignant transformation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogenicity",
+      "groupedBecause": "These subtopics describe experimental, epidemiological, and genomic approaches used to detect mutagenic signatures and establish whether exposures cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and risk-benefit considerations",
+      "groupedBecause": "The lecturer concludes the lecture by weighing environmental risks against daily benefits and summarizing the challenges of establishing carcinogenicity.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

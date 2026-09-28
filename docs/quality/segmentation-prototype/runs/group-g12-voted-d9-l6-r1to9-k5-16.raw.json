@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and the Hallmarks of Cancer Framework",
+      "groupedBecause": "This subtopic establishes the lecture's learning objectives and introduces the foundational framework of cancer hallmarks and multistep tumor progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Autonomy and Deregulated Signaling Cascades",
+      "groupedBecause": "These subtopics explain how mutations in cell surface receptors and intracellular signaling pathways allow cancer cells to sustain proliferative signaling and resist growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumorigenesis",
+      "groupedBecause": "These subtopics explore how cancer cells disrupt lineage maturation and terminal differentiation in both hematopoietic malignancies and colonic epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic details how tumor cells avoid programmed cell death through alterations in p53 regulation and the balance of pro- and anti-apoptotic mitochondrial proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Cellular Senescence",
+      "groupedBecause": "These subtopics describe how cancer cells bypass the Hayflick limit and normal senescence barriers through telomerase activation and altered stress-response signaling.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Metabolic Rewiring and the Warburg Effect",
+      "groupedBecause": "These subtopics introduce complex hallmarks and examine how cancer cells rewire metabolic pathways toward aerobic glycolysis and altered Krebs cycle activity.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "These subtopics describe the necessity, progression timing, and molecular balance governing new blood vessel formation to support tumor growth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Inefficiencies of Metastasis",
+      "groupedBecause": "This subtopic examines the biological steps, anatomical constraints, diagnostic markers, and genomic features underlying metastatic dissemination.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Final Summary",
+      "groupedBecause": "This subtopic concludes the lecture with summarizing remarks on cancer hallmark complexity and housekeeping for upcoming sessions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

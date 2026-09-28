@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture by introducing the course structure, the lecturer, and the core learning outcomes on cancer etiology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational concepts and epidemiological evidence of cancer causation",
+      "groupedBecause": "These subtopics explore the conceptual basis of cancer etiology, contrasting endogenous biological errors and inherited predispositions with environmental exposures and population-level epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens as drivers of malignancy",
+      "groupedBecause": "These subtopics explain how viral and bacterial pathogens contribute to cancer development, focusing on Burkitt lymphoma as a primary mechanistic case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical and physical mutagens",
+      "groupedBecause": "These subtopics detail how dietary toxins, radiation, and metabolic byproducts induce direct DNA damage, adducts, and mutational transversions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, chronic inflammation, and host susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic promoters, inflammatory microenvironments, and developmental stages of vulnerability in cancer pathogenesis.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for determining and proving carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomics, biobanking, animal models, and in vitro assays used to identify carcinogens and validate their cancer-causing mechanisms.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Summary and risk-benefit perspective",
+      "groupedBecause": "This subtopic concludes the lecture with framing on everyday risk-benefit decisions regarding carcinogens before closing the session.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

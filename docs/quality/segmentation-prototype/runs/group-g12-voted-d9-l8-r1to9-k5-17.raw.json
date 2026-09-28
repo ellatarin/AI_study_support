@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic introduces the final lecture of the course and outlines the learning objectives regarding cancer therapy approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional Therapies: Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics cover traditional treatment modalities—including surgery, radiation, and cytotoxic chemotherapy—along with their mechanisms, systemic toxicities, and drug resistance via efflux pumps.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting Intrinsic Vulnerabilities and DNA Repair Defects",
+      "groupedBecause": "These subtopics explain how therapeutic strategies exploit intrinsic cellular weaknesses, such as hormone dependencies, cell cycle checkpoint losses, oncolytic viral sensitivity, and synthetic lethality in DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene Targeting and Kinase Inhibitors",
+      "groupedBecause": "These subtopics address therapies targeting oncogenic driver mutations, focusing on kinase inhibitor mechanisms, structural selectivity, and mechanisms of resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-Based Cancer Therapeutics",
+      "groupedBecause": "These subtopics detail the mechanisms and applications of engineered monoclonal antibodies and antibody-drug conjugates directed against tumor-associated surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunosurveillance and Immunotherapies",
+      "groupedBecause": "These subtopics explore the immune system's relationship with cancer and detail immunotherapeutic strategies, including immune checkpoint inhibitors, neoantigen targeting, BiTEs, and CAR T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic Challenges, Progress, and Future Directions",
+      "groupedBecause": "These subtopics evaluate the broader landscape of cancer therapy, reflecting on epidemiological trends, genomic stratification, ongoing clinical challenges, and future prospects.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

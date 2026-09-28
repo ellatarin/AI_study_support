@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic provides the opening framing, contextualizing the complexity and importance of the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations and central role of C3",
+      "groupedBecause": "These subtopics establish the core organization, nomenclature rules, and central biochemical role of C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways",
+      "groupedBecause": "These subtopics explain the three distinct biochemical recognition pathways that trigger complement activation on pathogen surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics describe the primary immunological actions through which activated complement neutralizes and destroys pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation and host protection",
+      "groupedBecause": "This subtopic explains the regulatory mechanisms that prevent complement activation on healthy host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic explores the specific disease presentations and immunodeficiencies resulting from defects in different complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic details the evolutionary strategies microbes use to resist and circumvent complement-mediated destruction.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic delivers the closing framing and previews the next lecture in the series.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

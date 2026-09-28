@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Introduction to Complement",
+      "groupedBecause": "The lecturer welcomes the class and introduces the complement system while setting expectations regarding its complexity and nomenclature.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement Fundamentals, Nomenclature, and the Central Role of C3",
+      "groupedBecause": "These subtopics establish the foundational principles of the complement cascade, explaining its general organization, naming conventions, and the biochemical fulcrum of C3 activation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of Complement Activation",
+      "groupedBecause": "These subtopics explain the three distinct recognition pathways that converge to deposit C3b and trigger the complement cascade on pathogen surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Mechanisms of Complement",
+      "groupedBecause": "These subtopics describe the downstream processes through which activated complement targets and eliminates pathogens, including opsonization, recruitment-driven inflammation, and direct membrane lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation of Complement Activation",
+      "groupedBecause": "This subtopic explains the regulatory proteins and mechanisms that prevent complement from causing collateral damage to host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Consequences of Complement Deficiencies",
+      "groupedBecause": "This subtopic examines how genetic or acquired deficiencies in individual complement components produce distinct clinical pathologies and disease presentations.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion of Complement",
+      "groupedBecause": "This subtopic details the evolutionary strategies and mechanisms pathogens employ to evade complement destruction, focusing on Staphylococcus aureus.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Next Steps",
+      "groupedBecause": "The lecturer concludes the session and provides framing for the next lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

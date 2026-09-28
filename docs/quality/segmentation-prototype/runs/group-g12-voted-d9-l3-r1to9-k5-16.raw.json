@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture overview",
+      "groupedBecause": "This subtopic frames the cancer biology lecture series, introduces the instructors, and outlines the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of cellular differentiation and tissue architecture",
+      "groupedBecause": "These subtopics explain cancer as a disease driven by accumulated genetic and epigenetic changes that disrupt normal multicellular differentiation and tissue architecture, and consider the experimental challenges of modelling these structures in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign versus malignant tumors, invasion, and metastatic progression",
+      "groupedBecause": "These subtopics define the differences between benign and malignant neoplasms, detailing the histological criteria for tissue invasion and metastasis using colorectal cancer progression as a primary model.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Nomenclature of benign and malignant neoplasms",
+      "groupedBecause": "This subtopic sets out the standard rules, suffixes, and notable exceptions used to classify and name tumors according to their tissue of origin and malignant potential.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic describes the local, structural, and systemic mechanisms through which primary and metastatic tumors cause debilitating disease and patient death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Epidemiology and comparative biology of cancer incidence",
+      "groupedBecause": "These subtopics examine statistical patterns of cancer incidence and mortality in human populations and compare tumor occurrence across diverse animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical detection and cancer screening strategies",
+      "groupedBecause": "These subtopics address the clinical rationale for early tumor detection and evaluate the effectiveness and limitations of screening programs across different cancer types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic wraps up the lecture by reiterating the learning outcomes and providing logistical reminders for upcoming practicals and future lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

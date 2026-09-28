@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "These opening remarks introduce the structure of the lecture series, the interdisciplinary audience, and the session's core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as Disrupted Differentiation and Tissue Architecture",
+      "groupedBecause": "These subtopics conceptualize cancer development as a failure of normal developmental programming, cellular differentiation, and tissue architecture driven by genetic and epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Progression, Invasion, and Classification of Benign and Malignant Tumors",
+      "groupedBecause": "These subtopics examine the distinction between benign and malignant tumors through tissue invasion, metastatic pathways, stepwise progression, and standard pathological nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathology, Mortality, and Comparative Incidence of Cancers",
+      "groupedBecause": "These subtopics describe the physiological mechanisms by which tumors cause illness and compare patterns of cancer incidence and mortality across human tissues and multicellular animal taxa.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Clinical Detection and Cancer Screening Modalities",
+      "groupedBecause": "These subtopics evaluate the principles, histological basis, and practical efficacy of clinical screening programs across different anatomical cancer sites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion and Practical Briefing",
+      "groupedBecause": "These closing remarks conclude the session by referencing the learning outcomes and setting expectations for upcoming practical sessions and lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

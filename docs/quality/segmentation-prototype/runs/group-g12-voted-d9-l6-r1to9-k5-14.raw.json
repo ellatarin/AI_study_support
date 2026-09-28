@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and cancer hallmarks overview",
+      "groupedBecause": "The lecturer introduces the lecture topic, outlines learning objectives regarding cancer hallmarks, and frames the multi-step progression model.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and signaling cascades",
+      "groupedBecause": "These subtopics explain how mutations in cell-surface receptors and downstream intracellular cascades drive autonomous proliferation and escape from growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in tumorigenesis",
+      "groupedBecause": "These subtopics examine how cancer cells experience a differentiation block that arrests maturation and maintains proliferative states in hematopoietic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic explores the molecular mechanisms and regulatory alterations that enable cancer cells to resist apoptotic cell death via the p53 and Bcl-2 pathways.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and senescence bypass",
+      "groupedBecause": "These subtopics describe how cancer cells achieve replicative immortality by overcoming telomere shortening and bypassing p53-mediated senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and metabolic reprogramming",
+      "groupedBecause": "These subtopics examine metabolic alterations in cancer cells, including the Warburg effect, metabolic pathway rewiring, and the epigenetic impact of oncometabolites.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "These subtopics detail the physiological necessity of tumor vascularization, its onset during neoplastic progression, and the balance of signals controlling vessel formation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Invasion, dissemination, and metastasis",
+      "groupedBecause": "This subtopic examines the multi-step cascade of tumor metastasis, clinical methods for detecting disseminated cells, and genomic factors supporting colonization.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and lecture wrap-up",
+      "groupedBecause": "The lecturer provides concluding remarks on the synthesis of cancer hallmarks, suggests further reading, and closes the session.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecture series on cancer causes, outlines the core biological concepts to be covered, and sets the learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Evolution and the Sources of Mutations",
+      "groupedBecause": "These subtopics define cancer as an evolutionary disease driven by genetic mutations and the microenvironment, outlining the endogenous, inherited, and environmental origins of these mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence",
+      "groupedBecause": "These subtopics examine common environmental carcinogen exposures, public perceptions of intrinsic cancer risk, and global epidemiological evidence demonstrating environmental influences on cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Agents in Carcinogenesis",
+      "groupedBecause": "These subtopics explore how pathogens contribute to malignancy through mechanisms such as chronic inflammation and oncogene activation, highlighted by the case study of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Biochemical Mechanisms of Chemical and Physical Mutagens",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which dietary, environmental, and chemical carcinogens damage DNA, including metabolic activation, adduct formation, and oxidative stress.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Host Susceptibility, and Mechanistic Principles",
+      "groupedBecause": "These subtopics discuss how non-mutagenic promoters, chronic inflammation, and host developmental stages cooperate with initiating mutations, concluding with a summary of carcinogenic principles.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogens",
+      "groupedBecause": "These subtopics review the experimental and investigative techniques used to assess carcinogenicity, including mutational signature sequencing, epidemiology, animal bioassays, and in vitro tests.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Summary and Risk-Benefit Considerations",
+      "groupedBecause": "This subtopic concludes the lecture by summarising the environmental basis of cancer and the practical considerations of assessing exposure risks against benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecture and outlines the intended learning outcomes regarding cancer treatment approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Treatments and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics examine traditional modalities of cancer treatment, specifically surgery, radiotherapy, and cytotoxic chemotherapy alongside their mechanisms of action, toxicities, and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities and Defects",
+      "groupedBecause": "These subtopics discuss therapeutic strategies that selectively target inherent cellular defects in cancer cells, including hormone dependencies, cell cycle checkpoint abnormalities, and defective DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene Addiction and Kinase Inhibitor Therapies",
+      "groupedBecause": "These subtopics cover targeted therapies directed against hyperactivated oncogenic kinases, exploring their structural design, therapeutic mechanisms, and the emergence of drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal Antibody and Antibody-Drug Conjugate Therapies",
+      "groupedBecause": "These subtopics describe antibody-based cancer therapeutics, detailing how naked monoclonal antibodies and antibody-drug conjugates target specific cell-surface proteins to destroy tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Engagement",
+      "groupedBecause": "These subtopics examine how the immune system interacts with tumors and detail immunotherapeutic strategies, including immune checkpoint inhibitors, bispecific antibodies, and CAR T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, Future Directions, and Clinical Progress in Cancer Therapy",
+      "groupedBecause": "These subtopics review broader clinical considerations in oncology, discussing systemic challenges such as resistance and heterogeneity, future therapeutic directions, and historical progress in patient outcomes.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer welcomes students to the final lecture and outlines the core learning objectives regarding cancer therapy approaches and mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional treatments: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics explain the principles and limitations of traditional cancer interventions, detailing the mechanisms, systemic toxicity, and resistance problems of cytotoxic chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cellular vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics focus on therapeutic strategies that exploit inherent biological vulnerabilities of cancer cells, including hormone signaling dependence, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted therapies and kinase inhibitors",
+      "groupedBecause": "These subtopics discuss the rationale, design, and clinical resistance mechanisms associated with therapies targeting specific oncogenic drivers and hyperactive kinases.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based cancer therapeutics",
+      "groupedBecause": "These subtopics describe how monoclonal antibodies and antibody-drug conjugates are engineered to target tumor cell-surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and immunotherapies",
+      "groupedBecause": "These subtopics examine the role of immune surveillance in cancer and detail therapeutic strategies that harness, reactivate, or genetically engineer T cells to eliminate tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical trends, and future directions in cancer therapy",
+      "groupedBecause": "These subtopics evaluate systemic challenges, historical improvements in survival, future strategies, and the clinical dilemmas surrounding novel versus traditional cancer treatments.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "The lecturer introduces the learning objectives, tumor progression model, and the framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained proliferative signaling and growth factor independence",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in receptor tyrosine kinase, Wnt, and downstream signaling cascades disrupt normal growth control to drive continuous cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation arrest in hematological and epithelial cancers",
+      "groupedBecause": "These subtopics examine how genetic alterations block terminal cellular differentiation across leukemias and colorectal carcinomas to sustain precursor cell expansion.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of programmed cell death and apoptosis regulation",
+      "groupedBecause": "This subtopic explores how cancer cells resist apoptosis through mutations impairing the p53 tumor suppressor pathway and shifting the balance between pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance, senescence bypass, and cellular immortalization",
+      "groupedBecause": "These subtopics explain how cancer cells overcome the Hayflick limit and normal p53-mediated senescence through telomerase activation to achieve replicative immortality.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolite signaling in cancer",
+      "groupedBecause": "These subtopics explore how cancer cells rewire metabolic pathways toward aerobic glycolysis and how metabolic enzyme mutations alter the epigenome to promote tumorigenesis.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor angiogenesis and vascular supply",
+      "groupedBecause": "These subtopics address the requirement for new blood vessel formation to overcome diffusion limits, its timing during progression, and the balance between pro- and anti-angiogenic signals.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms, dissemination, and barriers of cancer metastasis",
+      "groupedBecause": "This subtopic details the multistep cascade of metastatic dissemination, clinical monitoring methods, and the genetic and microenvironmental factors governing secondary site colonization.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "The lecturer concludes the session with final remarks on unifying cancer hallmarks, recommended reading, and practical session information.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines student learning outcomes, and frames the clinical and biological importance of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a breakdown of genetic regulation and tissue differentiation",
+      "groupedBecause": "These subtopics establish how genetic alterations and disrupted developmental differentiation programs lead to the failure of normal tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and benign-to-malignant progression",
+      "groupedBecause": "These subtopics explain the distinction between benign and malignant tumors by detailing the histological and clinical features of tissue invasion and metastatic spread.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification conventions",
+      "groupedBecause": "This subtopic defines the systematic terminology used to name benign and malignant neoplasms based on their cell and tissue of origin.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic describes the local, structural, and systemic ways that primary and metastatic tumors cause clinical illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative cancer incidence across humans and other species",
+      "groupedBecause": "These subtopics analyse the frequency and mortality patterns of various cancers across human populations and diverse animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and clinical methods of cancer screening",
+      "groupedBecause": "These subtopics assess the rationale, histological basis, and practical effectiveness of screening programs for early cancer detection.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic concludes the session by referencing the learning outcomes and providing housekeeping details for upcoming practicals and lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

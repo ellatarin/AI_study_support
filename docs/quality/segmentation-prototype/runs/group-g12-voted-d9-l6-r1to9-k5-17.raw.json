@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Tumor Progression",
+      "groupedBecause": "This opening section sets out the lecture aims and introduces the multi-step framework of cancer hallmarks driving loss of growth control.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Proliferative and Growth-Inhibitory Signaling Pathways",
+      "groupedBecause": "These subtopics explain how mutations in cell-surface receptors and downstream intracellular cascades dysregulate growth stimulation and inhibitory control.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blockade of Cell Differentiation in Malignancies",
+      "groupedBecause": "These subtopics examine how cancer cells disrupt normal terminal differentiation across hematopoietic lineages and intestinal crypt architecture.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic details how mutations altering the balance of pro- and anti-apoptotic proteins allow cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality, Telomere Maintenance, and Senescence",
+      "groupedBecause": "These subtopics explore how cancer cells overcome the Hayflick limit and bypass stress-induced senescence through telomerase reactivation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Metabolism and Metabolic Rewiring",
+      "groupedBecause": "These subtopics explore how tumors alter cellular energy generation via aerobic glycolysis and oncometabolite-driven epigenetic feedback.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis and Vasculature Development",
+      "groupedBecause": "These subtopics discuss the requirement, timing, and molecular balance of angiogenic signaling necessary to sustain tumor oxygenation and growth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Detection of Tumor Metastasis",
+      "groupedBecause": "This subtopic addresses the multistep dissemination cascade, diagnostic detection methods, and clonal genetics underlying metastatic disease.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Final Summary of Cancer Hallmarks",
+      "groupedBecause": "This closing section summarizes the collective role of cancer hallmarks and provides concluding administrative remarks.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "This subtopic welcomes students and outlines the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Immune Recognition and Receptor Signaling",
+      "groupedBecause": "These subtopics explain the molecular mechanisms and receptor signaling pathways by which the innate immune system detects pathogens and cellular damage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Leukocyte Recruitment and Inflammatory Responses",
+      "groupedBecause": "These subtopics examine how initial inflammatory activation drives leukocyte recruitment, lymphatic trafficking, and systemic physiological effects.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics describe how the body terminates acute inflammation, repairs damaged tissue, and manages persistent chronic inflammation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and previews the subject of the next session.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

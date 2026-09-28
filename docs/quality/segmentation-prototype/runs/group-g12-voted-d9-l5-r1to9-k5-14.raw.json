@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the session's themes on cancer transformation and genetics, connecting them to prior practicals and outlining the learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumour viruses and the identification of transforming genes",
+      "groupedBecause": "These subtopics trace how the study of transmissible tumour viruses led to the discovery of cellular proto-oncogenes and the experimental assays used to measure cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classification and mechanisms of oncogenes and tumour suppressors",
+      "groupedBecause": "These subtopics explain the functional definitions and genetic mechanisms of oncogenes and tumour suppressor genes, illustrating their effects through cell cycle control and dominant-negative mutations.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Sources and mechanisms of genetic instability",
+      "groupedBecause": "These subtopics examine how defects in DNA repair pathways, replication fidelity, and chromosome segregation generate sequence and chromosomal instability in cancer.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-step tumour progression and hereditary cancer predisposition",
+      "groupedBecause": "These subtopics explore how sequential mutation accumulation drives tumour evolution in both sporadic cancers and inherited cancer syndromes.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "The lecturer concludes the session, suggests supplementary reading, and previews the next lecture topic.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

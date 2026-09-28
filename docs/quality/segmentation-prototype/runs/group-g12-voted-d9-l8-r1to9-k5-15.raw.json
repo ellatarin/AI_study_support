@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the framing for the final lecture of the course, outlining its core aims regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics address the primary conventional treatment modalities—surgery, radiotherapy, and cytotoxic chemotherapeutic agents—alongside the challenges of systemic toxicity and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting tumor-specific defects and synthetic lethality",
+      "groupedBecause": "These subtopics examine therapeutic strategies designed to exploit intrinsic vulnerabilities in cancer cells, including hormone dependence, cell-cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic kinases and overcoming resistance",
+      "groupedBecause": "These subtopics focus on designing small-molecule inhibitors against oncogenic kinases and examine the molecular mechanisms driving drug resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics detail therapeutic approaches that use engineered antibodies to target cell-surface tumor antigens, either directly or linked to cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-directed therapies",
+      "groupedBecause": "These subtopics evaluate the evidence for anti-tumor immune surveillance and describe immunotherapies that harness or engineer T cells, including checkpoint inhibitors, BiTEs, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future perspectives in cancer therapy",
+      "groupedBecause": "These subtopics synthesize the overarching challenges in oncology, historical improvements in patient survival, emerging therapeutic directions, and ethical considerations in treatment design.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "This subtopic welcomes the students, introduces the lecturer, and outlines the learning objectives for the session on cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins and Drivers of Cancer: Genetics, Bad Luck, and the Environment",
+      "groupedBecause": "These subtopics establish the fundamental nature of cancer as an evolutionary genetic disease and examine the evidence balancing intrinsic biological errors, inherited predispositions, and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and Infectious Drivers of Cancer",
+      "groupedBecause": "These subtopics explore how infectious agents contribute to oncogenesis, using the relationship between Epstein-Barr virus, malaria, and Burkitt lymphoma as an illustrative case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics explain how specific physical mutagens and metabolically activated chemicals cause direct DNA damage and bulky adduct formation across various tissues.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Cellular Susceptibility",
+      "groupedBecause": "These subtopics contrast direct mutagens with tumor promoters to explain how chronic inflammation, aberrant signaling pathways, and tissue developmental timing drive clonal expansion.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the mutational signature analyses, epidemiological tools, in vivo animal models, and in vitro bioassays used to establish carcinogenic risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Perspective",
+      "groupedBecause": "This subtopic closes the lecture by summarizing key concepts and framing carcinogen exposure within everyday risk-benefit decision-making.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

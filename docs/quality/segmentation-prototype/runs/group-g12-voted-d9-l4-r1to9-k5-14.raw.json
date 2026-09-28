@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic welcomes the students, introduces the lecturer, and outlines the core learning objectives of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis of cancer development",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease driven by endogenous cellular processes, mutation accumulation, and host predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental contributions and epidemiological evidence",
+      "groupedBecause": "These subtopics examine how environmental exposures contribute to cancer incidence through the lens of global epidemiology and the bad-luck versus environment debate.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in carcinogenesis",
+      "groupedBecause": "These subtopics explore how pathogens drive malignant transformation, focusing in detail on the etiology and mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics detail how physical radiation and chemical carcinogens damage DNA directly or through reactive intermediates produced by xenobiotic metabolism.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion and non-mutagenic mechanisms",
+      "groupedBecause": "These subtopics explain the two-stage carcinogenesis model, demonstrating how non-mutagenic promoters drive tumor development via inflammation and altered cellular signaling.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host susceptibility factors and mechanistic recap",
+      "groupedBecause": "These subtopics describe how developmental timing and target tissues dictate carcinogen susceptibility and review the spectrum of cancer-causing mechanisms.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for determining carcinogenicity",
+      "groupedBecause": "These subtopics explain the experimental, genomic, epidemiological, and bioassay tools used to assess mutagenicity and prove that exposures cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion on exposure risk and benefit",
+      "groupedBecause": "This subtopic closes the lecture with a concluding summary on carcinogen exposure and real-world risk-benefit considerations.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

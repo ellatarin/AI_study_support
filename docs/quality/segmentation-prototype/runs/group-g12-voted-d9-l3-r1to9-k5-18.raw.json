@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture series, outlines the learning outcomes, and sets the pedagogical context for studying cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Carcinogenesis as a failure of cellular differentiation and tissue architecture",
+      "groupedBecause": "They explain how stepwise genetic and epigenetic alterations disrupt normal developmental differentiation and three-dimensional tissue organization.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and the progression from benign to malignant tumors",
+      "groupedBecause": "They explore the histological and clinical distinctions between benign and malignant tumors through mechanisms of local tissue invasion and metastatic spread.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Neoplasm nomenclature and classification conventions",
+      "groupedBecause": "It outlines the naming rules and notable exceptions used to categorize benign and malignant tumors by their tissue of origin.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "It explains how primary tumor expansion and distant metastases physically and metabolically disrupt organ function to cause severe illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor incidence and comparative oncology across species",
+      "groupedBecause": "They analyze the frequency of benign and malignant tumor types across human populations and throughout diverse animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical cancer detection and screening modalities",
+      "groupedBecause": "They assess the clinical rationale, diagnostic methods, and relative effectiveness of population screening programs across various cancer types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture summary and next steps",
+      "groupedBecause": "It concludes the lecture by reiterating the learning outcomes and directing students to upcoming practical sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

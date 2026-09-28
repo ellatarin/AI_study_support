@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Framing",
+      "groupedBecause": "The lecturer opens the session by welcoming the class and outlining the scope of the lecture on inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen Recognition and PRR Signaling",
+      "groupedBecause": "These subtopics explain how the innate immune system senses microbial presence and tissue damage through molecular patterns and pattern recognition receptor pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory Response and Leukocyte Recruitment",
+      "groupedBecause": "These subtopics detail how sentinel cell activation directs the mobilization and trafficking of immune cells during an inflammatory response and the risks of excessive systemic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Inflammation Resolution, Tissue Repair, and Chronic Pathology",
+      "groupedBecause": "These subtopics explore the mechanisms required to terminate inflammatory responses and heal tissue, along with the chronic outcomes that arise when inflammation cannot be fully resolved.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the session and previews the subject of the upcoming lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

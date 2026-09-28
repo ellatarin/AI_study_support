@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "It introduces the lecture series, outlines the learning outcomes, and sets the clinical and biological scope of cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Stepwise Failure of Differentiation",
+      "groupedBecause": "They establish the fundamental concept of cancer as an accumulation of genetic changes leading to a failure of cellular differentiation, and examine the challenges of studying this in tissue architecture and culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Metastasis, and Tumor Progression",
+      "groupedBecause": "They explain how tumors progress from benign to invasive and metastatic malignancies, using colorectal cancer as a histological model of stepwise transformation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Principles of Tumor Nomenclature",
+      "groupedBecause": "It outlines the standardized terminology and suffix conventions used to classify benign and malignant tumors across different tissue origins.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mechanisms of Disease and Mortality in Cancer",
+      "groupedBecause": "It describes the physical and systemic mechanisms by which primary tumors and secondary metastases cause clinical illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative Incidence and Cancer Across Species",
+      "groupedBecause": "They analyze patterns of tumor incidence and mortality across human tissues and examine how cancer affects diverse multicellular animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Cancer Detection and Population Screening",
+      "groupedBecause": "They evaluate the clinical principles of early cancer detection and compare screening strategies and outcomes across different tumor types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion and Practical Preparation",
+      "groupedBecause": "It concludes the lecture with a reminder of the learning outcomes and upcoming practical sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

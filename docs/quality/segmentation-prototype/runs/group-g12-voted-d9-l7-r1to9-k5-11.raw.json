@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Evolution and the Microenvironment",
+      "groupedBecause": "It introduces the lecture themes, learning outcomes, and foundational concepts regarding cancer evolution and microenvironmental interactions.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Drivers of Clonal Evolution",
+      "groupedBecause": "They examine how sequential genetic mutations and epigenetic modifications confer selective advantages and alter transcriptional states during early tumor evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Hierarchies",
+      "groupedBecause": "They evaluate the role of normal tissue hierarchies and stem cell properties in determining tumor initiation across leukemia and colorectal cancer models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Stromal Promotion of Tumor Growth",
+      "groupedBecause": "They demonstrate how inflammatory signals, external promoters, and supportive stroma are required to enable malignant outgrowth in incipient and established tumors.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Methods for Studying Tumor Evolution and Spatial Biology",
+      "groupedBecause": "It details the experimental models, sequencing technologies, and spatial profiling tools used to analyse tumor cell interactions and mutational histories in the laboratory.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Integrative Framework of Cancer Evolution",
+      "groupedBecause": "It synthesizes how mutational burden, cell of origin, epigenetic plasticity, and microenvironmental conditions converge to drive cancer progression.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Closing Framing",
+      "groupedBecause": "It concludes the session and previews the subject of the following lecture.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

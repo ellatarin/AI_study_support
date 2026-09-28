@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "The lecturer welcomes the students and outlines the purpose and scope of the lecture on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and Damage Recognition by Pattern Recognition Receptors",
+      "groupedBecause": "These subtopics explain how the innate immune system senses microbial presence and tissue damage using molecular patterns, receptor families, and downstream signaling complexes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular Activation, Leukocyte Recruitment, and Inflammatory Responses",
+      "groupedBecause": "These subtopics detail the cellular events triggered by sentinel cell activation, from endothelial signaling and leukocyte extravasation to lymphatic migration and systemic complications.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Pathology",
+      "groupedBecause": "These subtopics examine the mechanisms that turn off acute inflammation, promote tissue healing, and manage persistent infection or injury through chronic inflammation and granulomas.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the presentation and introduces the topic of the upcoming lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Biology and Lecture Learning Outcomes",
+      "groupedBecause": "The lecturer introduces the course structure, welcomes students from different backgrounds, and outlines the key learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Disruption of Normal Differentiation and Tissue Architecture",
+      "groupedBecause": "These subtopics explain how cancer initiates through accumulated genetic and epigenetic changes that disrupt normal multicellular differentiation and tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and Histology of Tumor Progression, Invasion, and Metastasis",
+      "groupedBecause": "These subtopics examine how tumors progress from contained benign states to invasive and metastatic malignancies, using histological features and colorectal cancer as a primary model.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Principles of Tumor Nomenclature",
+      "groupedBecause": "This subtopic outlines the standard conventions and exceptions used to name benign and malignant neoplasms across different tissue lineages.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Illness and Mortality",
+      "groupedBecause": "This subtopic details how local primary tumor mass effects and widespread metastatic dissemination lead to clinical illness and patient death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Incidence Across Human Tissues and Comparative Animal Taxa",
+      "groupedBecause": "These subtopics explore the epidemiological frequency of different tumor types in humans and their comparative occurrence across diverse multicellular organisms.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical Screening and Early Detection Strategies for Cancer",
+      "groupedBecause": "These subtopics discuss the rationale, histological targets, and practical challenges of population screening and early detection across different cancer types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Concluding Remarks and Next Steps",
+      "groupedBecause": "The lecturer concludes the lecture by directing students to review the learning outcomes ahead of practical sessions and future classes.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Overview of Cancer Hallmarks",
+      "groupedBecause": "This subtopic provides the opening framing, learning outcomes, and background framework for understanding the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Autonomy and Evading Growth Suppression",
+      "groupedBecause": "These subtopics examine how oncogenic mutations deregulate signaling pathways like Wnt, RTK/Ras, and TGF-beta to drive cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumorigenesis",
+      "groupedBecause": "These subtopics explain how cancer cells arrest normal lineage differentiation across hematopoietic malignancies and intestinal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic explores how cancer cells bypass programmed cell death through mutations affecting p53, Bax, and BCL2.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Cellular Senescence",
+      "groupedBecause": "These subtopics describe the mechanisms of telomere maintenance and how cells bypass senescence barriers to achieve unlimited division.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Reprogramming and Oncometabolites",
+      "groupedBecause": "These subtopics detail how cancer cells rewire metabolic pathways toward aerobic glycolysis and how metabolic alterations feed back into epigenetic regulation.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Induction of Angiogenesis",
+      "groupedBecause": "These subtopics address the requirement, timing, and regulatory balance of new blood vessel formation to sustain tumor growth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Invasion and Metastatic Dissemination",
+      "groupedBecause": "This subtopic outlines the mechanical, physiological, and genomic factors that govern how cancer cells migrate, survive in circulation, and colonize distant sites.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Wrap-up and Concluding Remarks",
+      "groupedBecause": "This subtopic provides the concluding framing, summarizing the integration of hallmarks and closing the lecture.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the course themes, personal background, and core learning goals regarding cancer causation and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Biological Nature of Cancer and Mutation Drivers",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease shaped by the microenvironment and outline the intrinsic and extrinsic forces driving cellular mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Risk Factors and Epidemiological Evidence",
+      "groupedBecause": "These subtopics evaluate known environmental exposures, public perception of cancer etiology, and geographic epidemiological patterns to demonstrate the environmental contribution to cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogenic Pathogens and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics detail how infectious agents drive malignancy, using Burkitt lymphoma to illustrate the interaction between geographic infection patterns, immunosuppression, and oncogenic transformation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Carcinogenesis",
+      "groupedBecause": "These subtopics explain how specific physical agents and metabolized chemical compounds cause direct DNA damage, bulky adducts, and mutational transversions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Host Context, and Carcinogenic Mechanisms",
+      "groupedBecause": "These subtopics examine non-mutagenic aspects of carcinogenesis, focusing on the role of promoters, chronic inflammation, developmental susceptibility, and summarizing these integrated mechanisms.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Identifying and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, in vivo, and in vitro experimental approaches used to determine whether agents cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Everyday Risk Assessment",
+      "groupedBecause": "The lecturer concludes the session with final remarks on balancing exposure risks against everyday benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

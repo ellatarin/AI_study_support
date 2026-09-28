@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Lecture on Inflammation",
+      "groupedBecause": "The lecturer welcomes the class and outlines how previously introduced immune components integrate to drive the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and Damage Recognition via Pattern Recognition Receptors",
+      "groupedBecause": "These subtopics explain how the innate immune system identifies infections and cellular injury through molecular patterns and dedicated receptor signaling systems.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory Cascade, Leukocyte Recruitment, and Systemic Consequences",
+      "groupedBecause": "These subtopics explore how activated sentinel cells direct immune cell trafficking and lymphatic drainage to fight infection, along with the risks of uncontrolled systemic inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Pathology",
+      "groupedBecause": "These subtopics examine how acute inflammation is terminated, how tissues are repaired, and what occurs when unresolved inflammation leads to chronic disease or granuloma formation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the presentation and introduces the topic of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

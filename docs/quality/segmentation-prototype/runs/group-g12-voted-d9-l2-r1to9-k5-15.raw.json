@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the lecture on complement",
+      "groupedBecause": "This subtopic provides the lecturer's opening remarks and sets expectations regarding the complexity and importance of the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational framework and core mechanics of complement",
+      "groupedBecause": "These subtopics establish the general organization, nomenclature rules, and pivotal molecular role of C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Recognition and activation pathways of complement",
+      "groupedBecause": "These subtopics explain the three distinct upstream pathways that recognize pathogens and drive C3 deposition on target surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Downstream effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail the processes through which activated complement destroys pathogens and enhances immune clearance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host cell regulation of complement activation",
+      "groupedBecause": "This subtopic explains the regulatory proteins and inhibitory mechanisms that protect host tissues from accidental complement attack.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic discusses the distinct clinical presentations and disease vulnerabilities caused by deficiencies in specific complement proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen strategies for complement evasion",
+      "groupedBecause": "This subtopic examines the molecular mechanisms evolved by pathogens to evade complement-mediated destruction.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing framing and conclusion",
+      "groupedBecause": "This subtopic concludes the lecture with final remarks and frames the upcoming topic in the lecture series.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

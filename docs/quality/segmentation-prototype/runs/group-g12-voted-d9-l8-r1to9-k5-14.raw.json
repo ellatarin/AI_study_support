@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the final lecture on cancer therapy and outlines its core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies and Their Limitations",
+      "groupedBecause": "These subtopics examine the application, mechanisms, and therapeutic limitations of conventional cancer treatment modalities.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities",
+      "groupedBecause": "These subtopics discuss strategies that target the intrinsic molecular vulnerabilities and checkpoint deficiencies of cancer cells.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting Oncogenes and Kinase Inhibitor Resistance",
+      "groupedBecause": "These subtopics explore the principles of targeting oncogene addiction with kinase inhibitors and the mechanisms underlying therapy resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics describe how engineered monoclonal antibodies and antibody-drug conjugates are used to target tumor cell-surface markers.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunology and T-Cell-Directed Therapies",
+      "groupedBecause": "These subtopics detail the role of the immune system in cancer and the therapeutic approaches used to mobilize or engineer T cells against tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic Progress, Persistent Challenges, and Future Perspectives",
+      "groupedBecause": "These subtopics synthesize the broader clinical progress, persistent challenges, and future avenues in cancer therapy and patient care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

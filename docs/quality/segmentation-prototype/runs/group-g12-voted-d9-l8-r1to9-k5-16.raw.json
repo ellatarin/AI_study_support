@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course and Lecture Introduction",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines its learning objectives regarding cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics explain the principles, mechanisms, successes, and adverse limitations of standard cancer treatments, including surgery, radiotherapy, and cytotoxic chemotherapeutic agents.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting Tumor Vulnerabilities, Checkpoint Defects, and DNA Repair Deficiencies",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic cancer cell defects, including hormone receptor dependency, cell cycle checkpoint loss, and synthetic lethality in DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene Addiction and Kinase Inhibitors",
+      "groupedBecause": "These subtopics discuss the identification of driver oncogenes, the design of small-molecule kinase inhibitors, and the biological mechanisms of resistance and addiction that develop against them.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics detail therapeutic approaches that use engineered monoclonal antibodies and antibody-drug conjugates to target cancer cell surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune Surveillance and Immune Checkpoint Inhibition",
+      "groupedBecause": "These subtopics address the body's natural antitumor immunity and the mechanism of reactivating exhausted T cells using immune checkpoint inhibitors targeting tumor neoantigens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Engineered T-Cell Therapies and Bispecific Engagers",
+      "groupedBecause": "These subtopics examine advanced immunotherapies that physically engage or genetically reprogram immune cells against tumor antigens, including BiTEs and CAR T cells.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Challenges, Progress, and Future Directions in Cancer Therapy",
+      "groupedBecause": "These subtopics review the systemic challenges, historical progress, future opportunities, and clinical dilemmas in treating cancer and improving patient outcomes.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and sets out its learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies and Resistance",
+      "groupedBecause": "These subtopics examine conventional cancer treatment modalities—including surgery, radiotherapy, and cytotoxic chemotherapy—along with their associated toxicities and drug resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic defects in cancer cells, including hormone dependence, cell-cycle checkpoint deficiencies, and DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene Targeting and Kinase Inhibitors",
+      "groupedBecause": "These subtopics discuss therapies directed against oncogenic driver mutations and hyperactive kinases, detailing their molecular mechanisms, resistance pathways, and dosing strategies.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics explain how engineered monoclonal antibodies and antibody-drug conjugates target specific cell-surface antigens to eliminate cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Modulation",
+      "groupedBecause": "These subtopics cover the principles and applications of cancer immunotherapy, focusing on immune surveillance, checkpoint blockade, and engineered T-cell technologies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, Progress, and Future Directions in Cancer Therapy",
+      "groupedBecause": "These subtopics evaluate overarching challenges in cancer management, historical trends in patient survival, and emerging directions in clinical translation and ethics.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

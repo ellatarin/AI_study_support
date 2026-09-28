@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the key learning outcomes, and establishes the clinical and biological scope of cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological origins of cancer and tissue disruption",
+      "groupedBecause": "These subtopics describe how the accumulation of genetic and epigenetic alterations causes cancer by disrupting normal cellular differentiation, tissue architecture, and cell-matrix interactions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and benign-to-malignant progression",
+      "groupedBecause": "These subtopics explain the pathological differences between benign and malignant tumors, focusing on basement membrane invasion, metastatic routes, and the stepwise progression from pre-invasive polyps to invasive carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor classification and nomenclature",
+      "groupedBecause": "This subtopic outlines the standard conventions and exceptions used to name benign and malignant tumors based on their tissue and cellular lineage of origin.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physical, functional, and systemic mechanisms through which primary and metastatic tumors impair normal physiology to cause illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence across human organs and animal species",
+      "groupedBecause": "These subtopics analyze the epidemiological distribution of common cancer types in humans and compare cancer patterns across companion animals and diverse multicellular taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and modalities of cancer screening",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, diagnostic techniques, and relative efficacy of screening programs aimed at detecting pre-malignant lesions and early-stage tumors.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion and upcoming practicals",
+      "groupedBecause": "This subtopic closes the lecture with a review of the learning objectives and instructions for upcoming practical sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

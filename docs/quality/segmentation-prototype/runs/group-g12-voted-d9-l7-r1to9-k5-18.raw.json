@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecture topic on cancer evolution and outlines the core learning objectives regarding mechanisms of development, Darwinian selection, and microenvironmental interactions.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Drivers of Clonal Evolution",
+      "groupedBecause": "These subtopics demonstrate how tumors initiate and progress through natural selection acting on cells that acquire competitive fitness advantages via genetic mutations or epigenetic changes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem Cell Hierarchies and the Cell of Origin",
+      "groupedBecause": "These subtopics evaluate the role of tissue differentiation hierarchies and stemness in cancer development by investigating whether malignancies originate from tissue stem cells or committed progenitor cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Influences on Tumor Growth",
+      "groupedBecause": "These subtopics illustrate how local inflammation, external promoters, and stromal cell interactions in the microenvironment are required to stimulate neoplastic transformation and sustain tumor viability.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Techniques for Investigating Cancer Evolution and Spatial Biology",
+      "groupedBecause": "This subtopic describes the genomic sequencing, transcriptomic, and spatial profiling technologies used to map tumor heterogeneity and cell-microenvironment interactions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Multifactorial Framework of Cancer Evolution",
+      "groupedBecause": "This subtopic synthesizes the lecture's concepts into a comprehensive evolutionary framework showing how genetic alterations, cell of origin, epigenetic plasticity, and microenvironmental conditions converge to drive cancer.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Lecture Conclusion and Next Session Preview",
+      "groupedBecause": "This subtopic provides the closing housekeeping and indicates the topic for the following lecture.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

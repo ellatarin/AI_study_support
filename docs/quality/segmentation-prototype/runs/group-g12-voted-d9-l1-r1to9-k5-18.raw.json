@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "The lecturer welcomes the class, introduces the lecture on the initiation and resolution of inflammation, and outlines the approach for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and Damage Recognition by Innate Immune Receptors",
+      "groupedBecause": "These subtopics explain the molecular features of microbial and damage signals and the pattern recognition receptor systems that detect them to initiate inflammation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "The Cellular Inflammatory Cascade and Its Systemic Consequences",
+      "groupedBecause": "These subtopics detail how sentinel cells coordinate leukocyte trafficking to and from tissues and how unchecked inflammatory signaling can escalate to severe systemic pathology.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Pathology",
+      "groupedBecause": "These subtopics describe the mechanisms that terminate acute inflammation, the processes that repair damaged tissue, and the physiological consequences of chronic inflammation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the presentation and announces the topic of the upcoming lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

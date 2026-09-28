@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Hallmarks of Cancer",
+      "groupedBecause": "This opening subtopic frames the lecture, sets out the learning outcomes, recaps previous material, and introduces the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Autonomy and Proliferative Signaling Cascades",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell surface receptors and downstream intracellular cascades drive self-sufficient proliferation and insensitivity to growth-inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Blocks in Tumorigenesis",
+      "groupedBecause": "These subtopics examine how cancer cells arrest normal lineage maturation across hematological malignancies and solid carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "It details the molecular mechanisms and regulatory balance between p53, pro-apoptotic Bax, and anti-apoptotic BCL2 that allow cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality, Cellular Senescence, and Stress Responses",
+      "groupedBecause": "These subtopics explain how cancer cells bypass telomere shortening and p53-mediated senescence checkpoints to achieve replicative immortality while transitioning toward complex systemic hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Reprogramming of Cellular Metabolism",
+      "groupedBecause": "These subtopics explain the metabolic rewiring of cancer cells, focusing on aerobic glycolysis, onco-metabolite production, and epigenetic feedback loops.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics examine how tumors induce new blood vessel growth to sustain oxygenation and growth through the angiogenic switch and therapeutic targeting of this pathway.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Dynamics of Metastasis",
+      "groupedBecause": "It explains the multi-step metastatic cascade, highlighting dissemination routes, biomarkers, microenvironmental requirements, and clonal genomic features enabling distant colonization.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Summary and Closing",
+      "groupedBecause": "This concluding subtopic summarizes the hallmarks of cancer framework, references further reading, and closes the lecture.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

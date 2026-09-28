@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the cancer course context, sets out the questions surrounding cancer causation, and outlines the session's learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Concepts and Epidemiology of Cancer Causation",
+      "groupedBecause": "These subtopics establish cancer as a multifactorial genetic disease by evaluating the relative contributions of intrinsic biological errors, inherited risk, and environmental exposures evidenced through population epidemiology.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogen-Driven Carcinogenesis and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics examine how infectious agents promote oncogenesis, using the discovery and molecular etiology of Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Carcinogenesis",
+      "groupedBecause": "These subtopics explain how physical radiation and chemical compounds interact with cellular processes and xenobiotic metabolism to cause DNA damage and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic mechanisms of cancer development, focusing on inflammatory tumor promoters, tissue microenvironments, and developmental stages of host vulnerability.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the analytical tools, population biobanks, animal models, and in vitro assays used to identify mutational signatures and test whether agents cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Concluding Summary and Risk-Benefit Considerations",
+      "groupedBecause": "The lecturer concludes the session by summarizing the central themes of the lecture and discussing real-world risk-benefit evaluations regarding carcinogen exposures.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

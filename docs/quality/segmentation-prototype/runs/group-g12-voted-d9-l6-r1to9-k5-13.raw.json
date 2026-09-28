@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Progression",
+      "groupedBecause": "This opening section sets the lecture learning outcomes and outlines the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Signaling Cascades in Growth Stimulation and Survival",
+      "groupedBecause": "These subtopics explain how mutations in cell surface receptors and downstream intracellular cascades enable cells to sustain proliferative signaling and ignore growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to Differentiation in Cancer",
+      "groupedBecause": "These subtopics illustrate how failure to exit the cell cycle and complete terminal differentiation contributes to neoplastic growth in hematologic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic explores how malignant cells shift the balance between pro- and anti-apoptotic factors through p53 pathway disruptions to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics detail how cancer cells maintain telomeres and overcome p53-mediated stress and senescence checkpoints to achieve indefinite division.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Rewiring and Oncometabolites",
+      "groupedBecause": "These subtopics analyze how tumor cells alter cellular energetics via aerobic glycolysis and generate oncometabolites that drive epigenetic modifications.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Induction of Angiogenesis",
+      "groupedBecause": "These subtopics discuss the necessity, timing, and molecular equilibrium of blood vessel formation required to sustain expanding tumor tissues.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Metastasis and Systemic Dissemination",
+      "groupedBecause": "This subtopic details the multi-step physiological pathway, clonal genetics, and clinical tracking of tumor cell invasion and distant colonization.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Summary and Closing",
+      "groupedBecause": "This closing section summarises the combined impact of cancer hallmarks and concludes the lecture.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

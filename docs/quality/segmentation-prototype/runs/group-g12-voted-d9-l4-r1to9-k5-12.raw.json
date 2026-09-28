@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, sets out the scope of the cancer lecture course, and outlines the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Determinants of Cancer Risk: Intrinsic Errors versus Environmental Exposures",
+      "groupedBecause": "These subtopics examine how cancer arises from genetic and microenvironmental alterations, debating the relative contributions of random intrinsic errors versus environmental factors supported by epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Biological Mechanisms of Carcinogenesis, Tumor Promotion, and Host Context",
+      "groupedBecause": "These subtopics explain the molecular and cellular mechanisms through which carcinogenic agents and tumor promoters interact with cellular metabolism and host tissues to induce malignant transformation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, in vivo, and in vitro experimental approaches used to identify mutational signatures and evaluate the carcinogenic potential of exposures.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "This subtopic closes the lecture with a concluding summary on environmental carcinogenesis and the everyday appraisal of exposure risks versus benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

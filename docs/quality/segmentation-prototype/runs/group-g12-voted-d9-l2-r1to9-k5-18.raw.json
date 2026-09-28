@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Framing",
+      "groupedBecause": "This subtopic welcomes the students, introduces complement as the lecture subject, and frames its complexity and importance.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals of the Complement System and C3",
+      "groupedBecause": "These subtopics establish the foundational principles of complement, explaining its general architecture, naming conventions, and the central role of C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of Complement Activation",
+      "groupedBecause": "These subtopics detail the three recognition pathways—alternative, lectin, and classical—that initiate complement activation and converge on C3 deposition.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement Effector Mechanisms",
+      "groupedBecause": "These subtopics explain the three downstream effector functions triggered by complement activation to eliminate pathogens: opsonization, inflammation, and membrane lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation of Complement Activation",
+      "groupedBecause": "This subtopic details the regulatory proteins and inhibitory mechanisms that protect host cells from accidental complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Consequences of Complement Deficiencies",
+      "groupedBecause": "This subtopic examines how genetic and acquired deficiencies in specific complement proteins result in distinct clinical disease presentations.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion of Complement",
+      "groupedBecause": "This subtopic describes the strategies evolved by pathogens, particularly Staphylococcus aureus, to circumvent and neutralize complement activity.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing Remarks and Next Lecture Preview",
+      "groupedBecause": "This subtopic concludes the lecture on complement and outlines the topic of the upcoming lecture in the series.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

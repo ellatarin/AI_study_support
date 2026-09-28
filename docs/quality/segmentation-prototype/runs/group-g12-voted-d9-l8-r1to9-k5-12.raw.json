@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics examine traditional modalities of cancer treatment and the systemic toxicities and resistance mechanisms associated with cytotoxic drugs.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer cell vulnerabilities",
+      "groupedBecause": "These subtopics discuss therapeutic strategies that exploit cancer-specific biological weaknesses such as hormone dependence, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene addiction and kinase inhibitor resistance",
+      "groupedBecause": "These subtopics describe small-molecule inhibitors targeting hyperactivated oncogenic kinases and the molecular mechanisms that lead to treatment resistance and bypass.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics examine how engineered antibodies and antibody-drug conjugates are used to target cancer cell surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immunotherapy and cellular therapies",
+      "groupedBecause": "These subtopics explore how the immune system interacts with tumors and can be harnessed therapeutically through checkpoint blockade, bispecific engagers, and engineered T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future directions",
+      "groupedBecause": "These subtopics evaluate overall treatment progress, ongoing clinical challenges, and future perspectives in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer hallmarks",
+      "groupedBecause": "This subtopic introduces the lecture objectives, reviews background concepts, and outlines the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth and survival signaling pathways",
+      "groupedBecause": "These subtopics examine how mutations in cascades such as Wnt, receptor tyrosine kinases, and TGF-beta drive autonomous cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "These subtopics explain how impaired cellular differentiation maintains proliferative progenitor states in hematologic malignancies and intestinal epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how genetic alterations in p53 and mitochondrial regulatory proteins prevent programmed cell death in cancer cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomeres, and cellular senescence",
+      "groupedBecause": "These subtopics explore how cancer cells overcome proliferative limits through telomerase activation and evade p53-mediated senescence responses.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and metabolic rewiring",
+      "groupedBecause": "These subtopics explore how oncogenic mutations rewire cellular metabolism toward aerobic glycolysis and how oncometabolites alter the epigenome.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "These subtopics examine the requirement of vascular recruitment for tumor growth, the timing of vascularization during progression, and the balance of angiogenic factors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and clinical detection of metastasis",
+      "groupedBecause": "This subtopic details the biological stages of tumor dissemination, the seed-and-soil hypothesis, and clinical approaches for tracking metastatic cells.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture conclusion and final remarks",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of hallmark integration and final administrative remarks.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

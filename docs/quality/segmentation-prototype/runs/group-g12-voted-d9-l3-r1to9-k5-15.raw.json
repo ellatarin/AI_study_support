@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and course overview",
+      "groupedBecause": "It introduces the lecture series, outlines the learning objectives, and frames cancer biology for the interdisciplinary student audience.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular differentiation, genetic alterations, and tumor modeling",
+      "groupedBecause": "They explain how cancer originates from accumulated genetic alterations and disrupted tissue differentiation programs, along with the laboratory methods used to study them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and the colorectal progression model",
+      "groupedBecause": "They examine the mechanisms and histological features of local invasion and metastasis, illustrated by the stepwise adenoma-to-carcinoma sequence in colorectal cancer.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Classification and nomenclature of benign and malignant tumors",
+      "groupedBecause": "They outline the clinical behavior, physical risks, and systematic naming conventions used to categorize benign and malignant neoplasms.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Pathophysiological causes of cancer morbidity and mortality",
+      "groupedBecause": "It explains the physiological mechanisms by which primary and metastatic tumors cause organ dysfunction, systemic complications, and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative cancer incidence across humans and animal taxa",
+      "groupedBecause": "They analyze the epidemiological incidence and mortality of cancers in human populations and across diverse animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical detection and cancer screening strategies",
+      "groupedBecause": "They evaluate the clinical rationale, procedures, and varying effectiveness of screening programs for detecting early and pre-malignant tumors.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Conclusion and session closing",
+      "groupedBecause": "It concludes the lecture with a reminder of the learning outcomes and housekeeping for upcoming practicals and lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}
