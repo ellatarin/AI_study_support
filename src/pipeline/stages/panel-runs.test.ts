@@ -1,26 +1,18 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { StageCost } from "../../types/pipeline.js";
-import { captureError, stubbedCostUsd } from "../fixtures.js";
+import { captureError, stubbedCallCost, stubbedCallsCost } from "../fixtures.js";
 import type { JsonReplyOutcome } from "./model-stage.js";
 import { ResendsExhaustedError, sendWithResends } from "./panel-runs.js";
 
-/** What one send costs in these tests, whether its reply was usable or not. */
-const SEND_COST: StageCost = {
-	promptTokens: 1000,
-	completionTokens: 200,
-	callCount: 1,
-	costUsd: stubbedCostUsd,
-};
-
+// Every send costs one stubbed call, whether its reply was usable or not.
 const REPLY = { answer: 42 } as const;
-const GOOD: JsonReplyOutcome<typeof REPLY> = { reply: REPLY, cost: SEND_COST };
+const GOOD: JsonReplyOutcome<typeof REPLY> = { reply: REPLY, cost: stubbedCallCost };
 const EMPTY: JsonReplyOutcome<typeof REPLY> = {
 	failure: "The model's reply was empty",
-	cost: SEND_COST,
+	cost: stubbedCallCost,
 };
 const PROSE: JsonReplyOutcome<typeof REPLY> = {
 	failure: "The model answered with something other than JSON",
-	cost: SEND_COST,
+	cost: stubbedCallCost,
 };
 
 /** A send that answers with each outcome in turn, one per call. */
@@ -32,16 +24,6 @@ function sendAnswering(
 		send.mockResolvedValueOnce(outcome);
 	}
 	return send;
-}
-
-/** SEND_COST taken `sends` times over, as the panel adds it up. */
-function costOf(sends: number): StageCost {
-	return {
-		promptTokens: SEND_COST.promptTokens * sends,
-		completionTokens: SEND_COST.completionTokens * sends,
-		callCount: sends,
-		costUsd: stubbedCostUsd * sends,
-	};
 }
 
 describe("sendWithResends", () => {
@@ -73,7 +55,7 @@ describe("sendWithResends", () => {
 		const send = sendAnswering(GOOD);
 		expect(await settle(sendWithResends({ send, what: "run 1" }))).toEqual({
 			reply: REPLY,
-			cost: costOf(1),
+			cost: stubbedCallsCost({ calls: 1 }),
 		});
 		expect(send).toHaveBeenCalledTimes(1);
 	});
@@ -82,7 +64,7 @@ describe("sendWithResends", () => {
 		const send = sendAnswering(EMPTY, PROSE, GOOD);
 		expect(await settle(sendWithResends({ send, what: "run 1" }))).toEqual({
 			reply: REPLY,
-			cost: costOf(3),
+			cost: stubbedCallsCost({ calls: 3 }),
 		});
 	});
 

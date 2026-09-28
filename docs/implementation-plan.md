@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.50-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.51-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-09-28
 **Status:** For review
 
@@ -534,25 +534,41 @@ Every doc naming a moved file is updated in the same commit.
 
 **Deliverables:**
 
-`src/pipeline/stages/panel-runs.ts` **(TD §5, "Dividing the transcript", Panel runs; TD §8, "Intra-Stage Resumability")** — the whole of the panel-run behaviour the TD describes, each of its failures a named error.
+`src/pipeline/stages/panel-runs.ts` **(TD §5, "Dividing the transcript", Panel runs; TD §8, "Intra-Stage Resumability")** — the whole of the panel-run behaviour the TD describes, each of its failures a named error: `sendWithResends` for one call, `runPanel` for the panel.
+
+`tryJsonReply` in `src/pipeline/stages/model-stage.ts` **(TD §6, "A stage asks for a JSON reply through one shared act")** — the JSON call that returns a bad reply with its cost rather than throwing it; `requestJsonReply` is rebuilt on it.
+
+`mapWithConcurrency` in `src/utils/concurrency.ts` — the batch runner's bounded-concurrency loop, moved out so the panel shares it. `accumulateCost` accepts a running total of `null`, meaning nothing counted yet.
 
 **Tests:**
 
-Unit tests (a stand-in stage; mock `makeCompletionCall`; fake timers for the pause):
-- `should return every run when all sends succeed`
-- `should resend a run when its reply is $failure` — `test.each` across empty, not JSON, and the wrong shape
-- `should keep the run when a resend succeeds after two failures`
-- `should fail naming the run and the last cause when a run fails its third send`
-- `should wait longer before each resend when a run keeps failing`
-- `should never have more runs in flight than the stage's concurrency when the panel is larger`
-- `should make runs one at a time when the stage sets no concurrency`
-- `should count the cost of every send when some sends failed`
+Unit tests for `tryJsonReply` (mock `makeCompletionCall`):
+- `should hand back the reply and its cost when the reply is the documented shape`
+- `should give the reason and the call's cost when the reply is $label` — `test.each` across empty, not JSON, and the wrong shape
 
-Integration tests (real temp directory):
-- `should save each run to its own file when it completes`
-- `should make only the missing runs when some were saved before a relaunch`
-- `should fail when a saved run cannot be read`
-- `should make every run again when the stage is reset with --from-stage`
+Unit tests for `sendWithResends` (fake timers for the pause):
+- `should return the reply and one send's cost when the first send succeeds`
+- `should keep the reply and count every send's cost when two sends fail first`
+- `should fail naming what was sent and the last reason when all three sends fail`
+- `should wait two seconds and then four before the second and third sends when sends keep failing`
+- `should let an error from the call itself through without resending when the call throws`
+
+Unit tests for `mapWithConcurrency`:
+- `should return every result in input order when items finish out of order`
+- `should have at most $expected in flight when the limit is $limit` — `test.each`, a limit of 0 included
+- `should return no results when given no items`
+
+Integration tests for `runPanel` (a stand-in run maker; real temp directory):
+- `should return every run in run order when the panel is made from scratch`
+- `should save each run to its own numbered file when the run completes`
+- `should make only the missing runs when some were saved by an earlier launch`
+- `should add up the cost of the runs it made when some were saved by an earlier launch`
+- `should report no cost when every run was saved by an earlier launch`
+- `should fail naming the file when a saved run is $problem` — `test.each` across not JSON and not a run
+- `should keep the runs already saved when a later run fails`
+- `should make one run at a time when the stage sets no concurrency`
+
+Clearing a stage's run files under `--from-stage` is the runner's reset of the stage's directories, which `runner.integration.test.ts` already covers against a stub stage.
 
 **Acceptance:** A stand-in stage's panel survives empty replies, a crash part-way, and a relaunch, paying only for the runs it had not yet made; the existing single-call stages behave as before.
 

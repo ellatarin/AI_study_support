@@ -24,18 +24,24 @@ import type { StageCost } from "../types/pipeline.js";
  * `null` the result is `null` and the errors are joined, so a stage that could
  * not price one of its calls reports `n/a` rather than the part that came back.
  *
+ * A running accumulator of `null` means nothing has been counted yet, so a fold
+ * can start from the first call's cost rather than from an invented zero.
+ *
  * @param args - The two costs to combine.
- * @param args.current - The running accumulator.
+ * @param args.current - The running accumulator, or `null` before the first call.
  * @param args.incoming - The call's cost to fold in.
- * @returns A new `StageCost` carrying the combined counts and cost.
+ * @returns A `StageCost` carrying the combined counts and cost.
  */
 export function accumulateCost({
 	current,
 	incoming,
 }: {
-	readonly current: StageCost;
+	readonly current: StageCost | null;
 	readonly incoming: StageCost;
 }): StageCost {
+	if (current === null) {
+		return incoming;
+	}
 	const base = {
 		promptTokens: current.promptTokens + incoming.promptTokens,
 		completionTokens: current.completionTokens + incoming.completionTokens,

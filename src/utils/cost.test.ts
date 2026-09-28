@@ -85,4 +85,9 @@ describe("accumulateCost", () => {
 
 		expect(result).toEqual({ ...FOLDED, costUsd: null, costResolutionError: expectedError });
 	});
+
+	it("should take the incoming cost as it is when nothing has been counted yet", () => {
+		const incoming = { ...INCOMING_CALL, costUsd: 0.03 };
+		expect(accumulateCost({ current: null, incoming })).toBe(incoming);
+	});
 });

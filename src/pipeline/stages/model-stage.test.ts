@@ -5,12 +5,11 @@
    Only the preamble is exempt; the suite below is checked as normal. */
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { StageCost } from "../../types/pipeline.js";
 import {
 	configuringStage,
 	makeStageContext,
 	openRouterClientFor,
-	stubbedCostUsd,
+	stubbedCallCost,
 	useStubLogger,
 } from "../fixtures.js";
 import { makeCompletionCall } from "../openrouter.js";
@@ -27,13 +26,6 @@ const completionMock = makeCompletionCall as unknown as Mock;
 
 const STAGE_ID = "transcript-verification";
 
-const COST: StageCost = {
-	promptTokens: 1200,
-	completionTokens: 300,
-	callCount: 1,
-	costUsd: stubbedCostUsd,
-};
-
 /** The reply the tests document: an object carrying a greeting. */
 type Greeting = { readonly greeting: string };
 
@@ -47,7 +39,7 @@ describe("tryJsonReply", () => {
 
 	/** Asks for a greeting, with the model answering `content`. */
 	function ask(content: string): ReturnType<typeof tryJsonReply<Greeting>> {
-		completionMock.mockResolvedValue({ content, cost: COST });
+		completionMock.mockResolvedValue({ content, cost: stubbedCallCost });
 		return tryJsonReply<Greeting>({
 			messages: [{ role: "user", content: "Say hello." }],
 			stageId: STAGE_ID,
@@ -61,7 +53,10 @@ describe("tryJsonReply", () => {
 	}
 
 	it("should hand back the reply and its cost when the reply is the documented shape", async () => {
-		expect(await ask('{"greeting":"hello"}')).toEqual({ reply: { greeting: "hello" }, cost: COST });
+		expect(await ask('{"greeting":"hello"}')).toEqual({
+			reply: { greeting: "hello" },
+			cost: stubbedCallCost,
+		});
 	});
 
 	it.each([
@@ -80,6 +75,6 @@ describe("tryJsonReply", () => {
 		content,
 		failure,
 	}) => {
-		expect(await ask(content)).toEqual({ failure, cost: COST });
+		expect(await ask(content)).toEqual({ failure, cost: stubbedCallCost });
 	});
 });

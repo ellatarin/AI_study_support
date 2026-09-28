@@ -369,6 +369,30 @@ export const stubbedTokenUsage = { promptTokens: 120, completionTokens: 45 } as 
 /** What the stubbed LLM call is billed at, where a suite needs a settled figure. */
 export const stubbedCostUsd = 0.004;
 
+/** The whole cost of one stubbed, priced call: its tokens, one call, and its price. */
+export const stubbedCallCost: StageCost = {
+	...stubbedTokenUsage,
+	callCount: 1,
+	costUsd: stubbedCostUsd,
+};
+
+/**
+ * {@link stubbedCallCost} taken `calls` times over — what a stage that made that
+ * many stubbed calls should have added up to.
+ *
+ * @param args - How many calls.
+ * @param args.calls - The number of stubbed calls made.
+ * @returns Their combined cost.
+ */
+export function stubbedCallsCost({ calls }: { readonly calls: number }): StageCost {
+	return {
+		promptTokens: stubbedTokenUsage.promptTokens * calls,
+		completionTokens: stubbedTokenUsage.completionTokens * calls,
+		callCount: calls,
+		costUsd: stubbedCostUsd * calls,
+	};
+}
+
 /**
  * How long a test that renders real media with ffmpeg may take. Well beyond the
  * default: these encode and probe an actual file rather than stub one.
