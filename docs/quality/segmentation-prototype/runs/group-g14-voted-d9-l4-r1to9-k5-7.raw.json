@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the topic of cancer causation and sets out the learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of cancer: endogenous mutations versus environmental influences",
+      "groupedBecause": "These subtopics explore how cancer arises through an interplay of endogenous mutational processes, environmental exposures, and inherited predispositions as shown by epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Biological and chemical mechanisms of carcinogenesis",
+      "groupedBecause": "These subtopics detail the specific biochemical and cellular mechanisms through which infectious agents, chemical mutagens, radiation, and tumor promoters drive malignant transformation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for evaluating carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, in vivo, and in vitro approaches used to determine and validate whether agents cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Summary and risk-benefit considerations",
+      "groupedBecause": "The lecturer concludes the session by summarizing key takeaways on environmental cancer risks and everyday decision-making.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

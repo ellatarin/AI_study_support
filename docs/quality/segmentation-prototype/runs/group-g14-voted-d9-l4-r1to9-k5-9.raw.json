@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecturer, sets the scope of the lecture on cancer causes, and outlines the key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: intrinsic mutations, environmental factors, and epidemiology",
+      "groupedBecause": "These subtopics explore the origins of cancer by evaluating the relative contributions of intrinsic biological processes, inherited genetics, and environmental exposures through conceptual frameworks and epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "These subtopics examine how biological pathogens drive oncogenesis, illustrated in detail by the multifactorial etiology and mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and xenobiotic metabolism",
+      "groupedBecause": "These subtopics explain how physical radiation and dietary or environmental chemicals induce DNA damage, focusing on metabolic activation, reactive epoxides, and adduct formation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promoters, chronic inflammation, and host susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic factors in cancer development, including chronic inflammatory promoters, the initiator-promoter paradigm, and host developmental stage susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics describe the genomic mutational signatures, epidemiological biobanks, in vivo models, and in vitro assays used to evaluate carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk-benefit considerations",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of environmental carcinogenesis and reflections on everyday risk-benefit decision making.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

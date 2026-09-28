@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the course context, her background, and the key learning outcomes regarding cancer causes, carcinogenicity, and tumor promotion.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Intrinsic Bad Luck versus Environmental Exposure",
+      "groupedBecause": "These subtopics explore what drives cancer by weighing intrinsic cellular errors and bad luck against environmental exposures, supported by global epidemiological and migration data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Mutagenesis by Infectious, Chemical, and Physical Carcinogens",
+      "groupedBecause": "These subtopics detail how specific pathogens, dietary toxins, radiation, and xenobiotic chemicals interact with host metabolism to cause direct or indirect DNA damage.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Tumor Initiation, Promotion, and Host Context",
+      "groupedBecause": "These subtopics explain how non-mutagenic promoters, chronic inflammation, and host developmental timing cooperate with mutagenic initiators to enable neoplastic outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Evaluating and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics examine the genomic, epidemiological, in vivo animal, and in vitro bacterial testing methods used to establish whether an agent causes cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Everyday Risk-Benefit Analysis",
+      "groupedBecause": "The lecturer concludes the session with final framing on balancing daily risks and benefits associated with environmental carcinogens.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

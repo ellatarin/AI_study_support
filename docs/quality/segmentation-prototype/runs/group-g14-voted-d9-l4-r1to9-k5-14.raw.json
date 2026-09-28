@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "The lecturer introduces the lecture series, outlines the learning outcomes, and sets the agenda for examining the causes of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Nature of Cancer and Sources of Cellular Mutations",
+      "groupedBecause": "These subtopics define cancer as an evolutionary process of acquiring mutations and introduce the balance of endogenous, inherited, and environmental factors that generate DNA damage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Risk Factors and Epidemiological Evidence",
+      "groupedBecause": "These subtopics explore known environmental carcinogens, the debate surrounding intrinsic bad luck versus preventable exposure, and global epidemiological patterns in cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens in Carcinogenesis",
+      "groupedBecause": "These subtopics examine how viral, bacterial, and parasitic infections drive oncogenesis, illustrated through the mechanisms underlying Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Metabolic Activation",
+      "groupedBecause": "These subtopics describe how physical radiation and chemical agents are converted through metabolic and xenobiotic pathways to cause DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Initiation, Promotion, and Host Susceptibility",
+      "groupedBecause": "These subtopics differentiate between tumor initiators and promoters, highlighting the roles of chronic inflammation, signaling activation, host developmental timing, and tissue context.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Assessing Carcinogenicity and Exposure",
+      "groupedBecause": "These subtopics review the experimental and statistical methods used to detect carcinogen exposure and evaluate carcinogenic risk, spanning genomic signatures, epidemiology, animal models, and in vitro assays.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "The lecturer concludes the lecture by reflecting on daily risk-benefit decisions regarding carcinogens and summarising the overarching takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

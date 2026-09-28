@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "It introduces the lecturer, the scope of the lecture series, and the key learning outcomes regarding environmental carcinogenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of cancer: intrinsic factors, environmental exposures, and epidemiology",
+      "groupedBecause": "They examine the fundamental nature of cancer development, debating the relative contributions of endogenous cellular errors, genetic predisposition, and environmental exposures supported by epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and infectious agents in carcinogenesis",
+      "groupedBecause": "They explain how viral and bacterial infections contribute to malignant transformation, focusing on Burkitt lymphoma as an example of infectious oncogenesis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical and physical mutagens",
+      "groupedBecause": "They detail the biochemical pathways and metabolic activation processes through which dietary toxins, UV radiation, cigarette smoke, and chemical pollutants damage DNA.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promoters and multi-stage carcinogenesis",
+      "groupedBecause": "They explain the distinction between tumor initiators and promoters, showing how non-mutagenic agents drive chronic inflammation and cell proliferation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host tissue susceptibility and summary of carcinogenic mechanisms",
+      "groupedBecause": "They examine how developmental timing and organ-specific factors modulate cancer risk, concluding with a comprehensive summary of carcinogenic mechanisms.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for identifying and proving carcinogenicity",
+      "groupedBecause": "They review the genomic, epidemiological, in vivo, and in vitro experimental approaches used to determine whether agents are carcinogenic.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Summary and closing remarks",
+      "groupedBecause": "It concludes the lecture with a summary of environmental risks, carcinogenic potency evaluation, and personal risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

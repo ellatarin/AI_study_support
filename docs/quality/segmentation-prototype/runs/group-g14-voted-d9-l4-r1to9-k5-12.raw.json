@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the learning objectives for the lecture on cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins of cancer: endogenous factors, genetic predisposition, and environmental epidemiology",
+      "groupedBecause": "These subtopics explore the multi-factorial origins of cancer, examining the relative contributions of endogenous biological processes, genetic predisposition, and environmental exposures evidenced by population epidemiology.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and the etiology of Burkitt lymphoma",
+      "groupedBecause": "These subtopics examine how oncogenic pathogens contribute to cancer development, illustrated through the discovery and mechanism of Epstein-Barr virus and malaria in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical, dietary, and physical mutagens",
+      "groupedBecause": "These subtopics examine the biochemical pathways through which physical agents, dietary toxins, and chemical carcinogens undergo metabolic activation and induce DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, chronic inflammation, and host tissue susceptibility",
+      "groupedBecause": "These subtopics explain non-mutagenic mechanisms in carcinogenesis, focusing on the roles of tumor promoters, inflammatory microenvironments, and developmental timing in malignant transformation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and mutational signatures",
+      "groupedBecause": "These subtopics describe genomic, epidemiological, in vivo, and in vitro approaches used to identify carcinogen exposure and evaluate carcinogenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and risk-benefit analysis",
+      "groupedBecause": "This subtopic concludes the lecture with a synthesis of environmental carcinogenesis concepts and final thoughts on personal risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

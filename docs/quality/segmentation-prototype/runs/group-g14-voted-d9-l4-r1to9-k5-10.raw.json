@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "This subtopic serves as the opening framing for the lecture, introducing the lecturer, context within the course, and key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Factors, Environment, and Epidemiology",
+      "groupedBecause": "These subtopics explore what drives cancer development by evaluating the relative contributions of endogenous cellular processes, environmental exposures, and population-level epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and Infectious Causes of Cancer",
+      "groupedBecause": "These subtopics examine how infectious agents contribute to oncogenesis, detailing the collaborative role of viral and parasitic infections in the pathogenesis of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics describe how physical radiation and chemical carcinogens induce DNA damage directly or via metabolic activation into reactive intermediates.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Host Susceptibility, and Mechanistic Summary",
+      "groupedBecause": "These subtopics address non-mutagenic aspects of carcinogenesis—including the distinction between initiators and promoters, tissue and life-stage susceptibility—and summarize the diversity of carcinogenic mechanisms.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Identifying and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics outline the analytical, epidemiological, animal, and in vitro methods used to identify mutational signatures and evaluate whether substances are carcinogenic.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion: Risk-Benefit Decisions and Summary",
+      "groupedBecause": "This subtopic provides the closing framing of the lecture, summarizing key takeaways and highlighting how individuals and societies navigate exposure risks.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

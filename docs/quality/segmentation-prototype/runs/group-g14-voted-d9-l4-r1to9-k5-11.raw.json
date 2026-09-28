@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the scope of the cancer lecture series, and the specific learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Drivers of cancer: intrinsic mutations, environmental exposures, and epidemiology",
+      "groupedBecause": "These subtopics explore the foundational causes of cancer by examining the relative contributions of intrinsic biological processes, environmental exposures, and epidemiological evidence across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "These subtopics explain how biological agents such as viruses and bacteria drive malignant transformation, focusing on the epidemiological and molecular evidence in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics detail how physical radiation and chemical carcinogens—both directly and through host metabolic bioactivation—cause DNA damage and mutational changes.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation versus promotion",
+      "groupedBecause": "These subtopics distinguish mutational initiation from non-mutagenic promotion in carcinogenesis, illustrating how inflammatory and signalling agents drive clonal outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host susceptibility and summary of carcinogenic mechanisms",
+      "groupedBecause": "These subtopics describe how tissue developmental timing and host factors influence susceptibility to carcinogens, concluding with a synthesis of the mechanisms of cancer causation.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and proving carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro experimental strategies used to detect carcinogens and assess their potency.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk-benefit considerations",
+      "groupedBecause": "This subtopic concludes the lecture with framing on the daily risk-benefit decisions surrounding carcinogen exposure alongside key summary takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

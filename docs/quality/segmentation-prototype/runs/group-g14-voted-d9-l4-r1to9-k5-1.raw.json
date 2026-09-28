@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic provides the opening framing for the lecture, introducing the lecturer, the course context, and the primary learning outcomes regarding cancer etiology and carcinogens.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic and Environmental Determinants of Cancer Risk",
+      "groupedBecause": "These subtopics explore the foundational concepts of cancer etiology by examining how intrinsic genetic mutations, endogenous metabolic errors, lifestyle factors, and epidemiological variations combine to influence cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and the Burkitt Lymphoma Paradigm",
+      "groupedBecause": "These subtopics explain how pathogens contribute to oncogenesis, highlighting Denis Burkitt's epidemiological findings and the cooperative mechanisms between malaria and Epstein-Barr virus in driving Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Mechanisms of DNA Damage",
+      "groupedBecause": "These subtopics examine how physical radiation and dietary or industrial chemicals undergo metabolic activation to induce direct DNA adducts, transversions, and oxidative damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Initiation versus Promotion in Carcinogenesis",
+      "groupedBecause": "These subtopics differentiate between direct DNA-damaging initiators and non-mutagenic promoters that drive cancer development through chronic inflammation and proliferative signaling pathways.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Context, Developmental Susceptibility, and Mechanistic Summary",
+      "groupedBecause": "These subtopics discuss how developmental timing and hormonal context influence susceptibility to carcinogens before summarizing the core biological mechanisms of carcinogenesis presented in the lecture.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics describe genomic mutational signatures, epidemiological biobanks, in vivo animal models, and the in vitro Ames test used to identify and evaluate carcinogenic agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Summary and Risk–Benefit Considerations",
+      "groupedBecause": "This subtopic provides the closing framing of the lecture, summarizing the main takeaways on environmental cancer risks and personal risk–benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

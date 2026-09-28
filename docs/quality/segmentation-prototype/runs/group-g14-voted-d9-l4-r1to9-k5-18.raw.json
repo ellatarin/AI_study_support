@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, outlines the cancer lecture series, and presents the key learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Intrinsic Factors versus Environmental Exposures",
+      "groupedBecause": "These subtopics explore the core nature of cancer development and debate the relative contributions of intrinsic random mutations versus environmental and lifestyle exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and Infectious Drivers of Cancer",
+      "groupedBecause": "These subtopics examine how infectious agents drive oncogenesis, focusing on pathogen mechanisms and the specific etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics explain the biochemical and metabolic mechanisms through which physical radiation and chemical carcinogens induce DNA damage and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Promotion, Inflammation, and Host Tissue Susceptibility",
+      "groupedBecause": "These subtopics address how non-mutagenic factors such as chronic inflammation, tumour promotion, and host developmental stages facilitate cancer outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Investigating and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, in vivo, and in vitro approaches used to identify carcinogens and determine their potency.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Concluding Remarks on Risk, Benefit, and Environmental Exposure",
+      "groupedBecause": "The lecturer concludes the session by discussing the everyday balance of risk versus benefit regarding carcinogenic exposures and summarizing key themes.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

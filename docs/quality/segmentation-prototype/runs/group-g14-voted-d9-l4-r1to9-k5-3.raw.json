@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This section introduces the lecturer, the scope of the cancer lecture series, and the learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Factors, Heredity, and Environmental Exposure",
+      "groupedBecause": "These subtopics explore the conceptual basis of cancer as a multi-factorial disease driven by intrinsic cellular processes, genetic predispositions, and environmental exposures supported by global epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Viral Carcinogenesis",
+      "groupedBecause": "These subtopics explain how biological agents, particularly oncogenic viruses and chronic infections, contribute to malignancy, illustrated by the mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Radiation-Induced DNA Damage",
+      "groupedBecause": "These subtopics detail how physical radiation and various chemical agents, directly or via xenobiotic metabolic activation, form DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics address non-mutagenic drivers of cancer, focusing on chronic inflammation, the distinction between initiators and promoters, and the influence of host developmental stages.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Investigating and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, in vivo, and in vitro approaches used to identify carcinogens and assess their mutagenic capacity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Perspective",
+      "groupedBecause": "This section concludes the lecture by summarising the everyday balance of environmental cancer risks against practical benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

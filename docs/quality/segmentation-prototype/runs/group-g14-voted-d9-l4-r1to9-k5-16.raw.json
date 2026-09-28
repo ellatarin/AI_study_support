@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecturer, lecture series context, and key learning outcomes regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins and drivers of cancer: intrinsic factors, genetics, and environment",
+      "groupedBecause": "These subtopics explore the fundamental origins of cancer by evaluating how intrinsic biological errors, inherited genetic predispositions, and environmental exposures contribute to cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and cancer",
+      "groupedBecause": "These subtopics explain how biological pathogens can drive malignancy, illustrated by the epidemiology and molecular mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics examine how specific dietary, environmental, and chemical mutagens cause DNA damage directly or through metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promoters and host contextual factors in carcinogenesis",
+      "groupedBecause": "These subtopics examine how non-mutagenic factors, including tumor promotion, chronic inflammation, and tissue developmental stages, contribute to malignancy alongside initial mutations.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for determining and proving carcinogenicity",
+      "groupedBecause": "These subtopics describe the sequencing, epidemiological, in vivo, and in vitro approaches used to identify carcinogens and assess their cancer-causing potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of environmental cancer risks, carcinogen evaluation challenges, and closing remarks.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecturer, sets the course context, and outlines the learning objectives regarding environmental exposures and cancer development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology and the balance between intrinsic and environmental risks",
+      "groupedBecause": "These subtopics explore the biological basis of cancer as a genetic and evolutionary disease, examining the debate and epidemiological evidence regarding intrinsic bad luck versus environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and oncogenesis",
+      "groupedBecause": "These subtopics explain how biological pathogens contribute to cancer development, highlighting Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Direct and metabolically activated physical and chemical mutagens",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms by which chemical carcinogens and radiation cause DNA adducts and mutations, often through endogenous metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promoters, chronic inflammation, and host susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic factors that facilitate cancer development, focusing on promotional stimuli, chronic inflammation, and developmental or tissue-specific susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and assessing carcinogens",
+      "groupedBecause": "These subtopics present the genomic, epidemiological, in vivo, and in vitro techniques used to prove carcinogenicity and determine mutagenic mechanisms.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk-benefit considerations",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of environmental cancer causation and reflections on balancing carcinogenic risk against practical benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

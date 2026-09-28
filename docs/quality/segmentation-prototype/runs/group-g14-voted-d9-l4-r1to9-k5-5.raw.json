@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "This subtopic introduces the lecturer, the course structure, and the core learning objectives concerning environmental carcinogens and cancer mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, Endogenous, and Environmental Contributions to Cancer Risk",
+      "groupedBecause": "These subtopics examine the nature of cancer as an evolutionary genetic disease and evaluate how intrinsic endogenous mutations, inherited genetics, and environmental exposures interact to determine cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and Oncogenesis",
+      "groupedBecause": "These subtopics explain how pathogens induce cancer, using the specific etiology and chromosomal translocation of Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Metabolic Activation",
+      "groupedBecause": "These subtopics detail how radiation, dietary toxins, and environmental hydrocarbons undergo metabolic processing to form DNA-damaging adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics address non-mutagenic pathways to cancer, exploring chronic inflammation, the distinction between cancer initiators and promoters, and the influence of host developmental timing.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Identifying and Testing Carcinogens",
+      "groupedBecause": "These subtopics review the genomic mutational signatures, population epidemiology, animal models, and in vitro assays used to evaluate carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Carcinogen Risk-Benefit Assessment",
+      "groupedBecause": "This subtopic wraps up the lecture by summarizing environmental risk factors and considering the daily balance between carcinogenic risks and practical benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}
