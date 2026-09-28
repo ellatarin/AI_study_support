@@ -75,6 +75,23 @@ function requireNumber(args: LabelledValue): number {
  * @returns The number, or `undefined` where the field is unset.
  * @throws {ConfigError} If the value is neither a number nor an explicit `null`.
  */
+/**
+ * Requires a count: a whole number of at least 1, such as a panel size.
+ *
+ * @param args - The raw value and the key it reports against.
+ * @param args.value - The raw value.
+ * @param args.label - The value's config key.
+ * @returns The count.
+ * @throws {ConfigError} If the value is not a whole number of at least 1.
+ */
+function requireCount(args: LabelledValue): number {
+	const value = requireNumber(args);
+	if (!Number.isInteger(value) || value < 1) {
+		throw configFault({ ...args, expected: "a whole number of at least 1" });
+	}
+	return value;
+}
+
 function requireOptionalNumber(args: LabelledValue): number | undefined {
 	if (args.value === undefined || args.value === null) {
 		return undefined;
@@ -135,6 +152,7 @@ function requireStringArray(args: LabelledValue): readonly string[] {
 type ConfigSection = {
 	readonly string: (field: string) => string;
 	readonly number: (field: string) => number;
+	readonly count: (field: string) => number;
 	readonly optionalNumber: (field: string) => number | undefined;
 	readonly url: (field: string) => string;
 	readonly stringArray: (field: string) => readonly string[];
@@ -170,6 +188,7 @@ function requireSection(args: LabelledValue): ConfigSection {
 	return {
 		string: (field) => read({ field, require: requireString }),
 		number: (field) => read({ field, require: requireNumber }),
+		count: (field) => read({ field, require: requireCount }),
 		optionalNumber: (field) => read({ field, require: requireOptionalNumber }),
 		url: (field) => read({ field, require: requireUrl }),
 		stringArray: (field) => read({ field, require: requireStringArray }),
@@ -241,6 +260,27 @@ function requireNaming(value: unknown): PipelineConfig["naming"] {
 		throw new ConfigError("naming.modulePrefixes must not contain a blank module prefix");
 	}
 	return { modulePrefixes };
+}
+
+/**
+ * Validates the `division` section: the splitting panel's size, the bar a cut
+ * site must reach, and the size gate for deepening (technical-design.md §6).
+ *
+ * @param value - The raw `division` section.
+ * @returns The validated section.
+ * @throws {ConfigError} If the section is not an object, a field is not a whole
+ *   number of at least 1, or the bar exceeds the panel size — no cut site could then be kept.
+ */
+function requireDivision(value: unknown): PipelineConfig["division"] {
+	const division = requireSection({ value, label: "division" });
+	const panelSize = division.count("panelSize");
+	const bar = division.count("bar");
+	if (bar > panelSize) {
+		throw new ConfigError(
+			`division.bar (${bar}) must not exceed division.panelSize (${panelSize}): no cut site could be kept`,
+		);
+	}
+	return { panelSize, bar, sizeGateWords: division.count("sizeGateWords") };
 }
 
 function requireStageConfig(args: {
@@ -329,6 +369,7 @@ export function parseConfig(raw: unknown): PipelineConfig {
 		},
 		modelIdCheck: requireModelIdCheck(root.modelIdCheck),
 		naming: requireNaming(root.naming),
+		division: requireDivision(root.division),
 		stages: requireStages(root.stages),
 		output: requireOutput(root.output),
 	};

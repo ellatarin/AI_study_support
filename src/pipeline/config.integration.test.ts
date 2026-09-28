@@ -103,6 +103,7 @@ const openRouterSection = sectionCorrupter("openRouter");
 const elevenLabsSection = sectionCorrupter("elevenLabs");
 const outputSection = sectionCorrupter("output");
 const namingSection = sectionCorrupter("naming");
+const divisionSection = sectionCorrupter("division");
 
 /**
  * The config's stages record, as raw entries these tests read and retune field
@@ -649,6 +650,30 @@ const shapeCases: readonly {
 			config.output = outputSection({ pandocEngine: 9 });
 		},
 		match: /pandocEngine/,
+	},
+	{
+		name: "division is missing",
+		mutate: (config: Record<string, unknown>) => delete config.division,
+		match: /division/,
+	},
+	...[
+		{ field: "panelSize", value: "9", problem: "not a number" },
+		{ field: "panelSize", value: 2.5, problem: "not a whole number" },
+		{ field: "bar", value: 0, problem: "below 1" },
+		{ field: "sizeGateWords", value: undefined, problem: "missing" },
+	].map(({ field, value, problem }) => ({
+		name: `division.${field} is ${problem}`,
+		mutate: (config: Record<string, unknown>) => {
+			config.division = divisionSection({ [field]: value });
+		},
+		match: new RegExp(`division\\.${field}`),
+	})),
+	{
+		name: "division.bar exceeds the panel size, so no cut site could be kept",
+		mutate: (config: Record<string, unknown>) => {
+			config.division = divisionSection({ panelSize: 9, bar: 10 });
+		},
+		match: /division\.bar/,
 	},
 ];
 

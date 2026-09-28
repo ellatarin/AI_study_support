@@ -22,6 +22,11 @@
 	"naming": {
 		"modulePrefixes": ["BOD", "Biology of Disease", "ANA"]
 	},
+	"division": {
+		"panelSize": 9,
+		"bar": 5,
+		"sizeGateWords": 600
+	},
 	"stages": {
 		"transcription": {
 			"modelId": "elevenlabs/scribe_v2"

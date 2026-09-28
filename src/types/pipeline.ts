@@ -216,6 +216,18 @@ export type PipelineConfig = {
 		 */
 		readonly exemptProviders: readonly string[];
 	};
+	/**
+	 * How the transcript is divided into subtopics by a panel of splitting runs
+	 * (technical-design.md §5, "Dividing the transcript").
+	 */
+	readonly division: {
+		/** How many splitting runs make up the panel. */
+		readonly panelSize: number;
+		/** How many of the panel's runs a cut site needs to be kept; at most `panelSize`. */
+		readonly bar: number;
+		/** The word count above which a subtopic is sent for deepening. */
+		readonly sizeGateWords: number;
+	};
 	readonly naming: {
 		/**
 		 * How a lecturer names their module at the front of a filename, stripped
