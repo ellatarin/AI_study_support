@@ -4,7 +4,7 @@
 
 **Blocked by:** 04
 
-**Status:** claimed
+**Status:** resolved
 
 - [x] The stage runs after transcription and before the existing structuring stage; every existing stage still runs unchanged.
 - [x] Each run sends the whole transcript with the prototype's `s6` prompt, byte-identical, and gets back each subtopic's opening words, label and `groupedBecause` — never text.
@@ -14,7 +14,7 @@
 - [x] Panel size, retries, saving and relaunch use ticket 04's shared behaviour.
 - [x] A required `division` section with `panelSize` (9) is added to the settings, the example settings file and the user's own settings file; the stage's model is set per stage, `google/gemini-3.7-flash` in the example.
 - [x] **Replay against the prototype:** a one-off script in the prototype folder feeds every saved prototype `s6` reply, across all 8 lectures, through the new cut-finding and slicing code, and the positions match the prototype's own run files exactly. Any difference is explained or fixed.
-- [ ] **Live run:** the stage runs for real on one lecture (cost stated to the user first). Its subtopic counts and cut sites fall within the range the prototype's `s6` runs showed on that lecture.
+- [x] **Live run:** the stage runs for real on one lecture (cost stated to the user first). Its subtopic counts and cut sites fall within the range the prototype's `s6` runs showed on that lecture.
 - [x] The replay script and comparison results stay in the prototype folder, not in the pipeline's tests.
 
 ## Comments
@@ -37,8 +37,14 @@ The old structuring and verification stages repeat three passages of the new cod
 
 **Replay.** `replay-initial-splitting.mts` in the prototype folder, results in `REPLAY-INITIAL-SPLITTING.md`. Of 144 saved `s6` runs (18 per lecture), 136 match the prototype's blocks exactly and no quote goes unfound. The other 8 (two in lecture 3, six in lecture 4) differ only where a subtopic opens with the lecturer's "So": the pipeline takes it into the new subtopic, the saved blocks left it at the end of the one before. Those runs were saved before the prototype's cutter gained that same rule, and cutting them with the cutter as it stands today matches the pipeline exactly.
 
-Still to do:
-- one live run: state the cost first, and stop at this stage.
+**Live run, lecture 6 (2026-03-11).** Lecture 6 rather than 3: the transcripts of lectures 3, 4 and 5 still hold the transcriber's `[chuckles]`-style notes, and the prototype cut those tagged versions, so re-transcribing any of them would compare against runs made on a different text. Lecture 6's transcript has no tags and is exactly what the prototype cut.
+
+- Subtopic counts: live 9 runs of 9 and one of 10; prototype 17 runs of 9 and one of 10.
+- Every live cut but one falls at a character position some prototype run also cut at. The one exception, in the run of 10, opens "So I just want to say that senescent signalling…"; no prototype run cut within 1% of it.
+- Every run joins back into the transcript exactly.
+- 9 calls, 108,900 tokens in and 26,310 out, about $0.18. The run summary shows the cost as n/a: every cost lookup returned "404 Generation … not found", the existing lookup-timing defect (issue #10), not this stage.
+
+Found along the way, not fixed here: when a stage fails partway, the panel's calls already in flight run on, cost money and save their files. Nothing is lost, since a relaunch reuses those files, but the spend continues after the failure.
 
 Rulings made along the way:
 - A missing quote resends the whole run.
