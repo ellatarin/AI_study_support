@@ -26,7 +26,7 @@ import {
 	SourceNormalisationError,
 } from "./source-normalisation.js";
 
-// The raw sources and the canonical names Stage 0 gives them are fixtures. They
+// The raw sources and the canonical names `source-normalisation` gives them are fixtures. They
 // are still written out rather than derived — this suite tests the naming rule,
 // so deriving them would assert it against itself — but they are written out in
 // one place, because the unit suite over the resolution rules asserts the same
@@ -136,7 +136,7 @@ describe("createSourceNormalisationStage", () => {
 		await writeInto(slideDir(moduleRoot), slide);
 	}
 
-	/** Normalises a single new lecture and returns the manifest Stage 0 wrote. */
+	/** Normalises a single new lecture and returns the manifest `source-normalisation` wrote. */
 	async function normaliseNewLecture(): Promise<RunManifest> {
 		await writeLecture(cellInjurySources);
 		await stage.normaliseModule({ moduleRoot });
@@ -161,7 +161,7 @@ describe("createSourceNormalisationStage", () => {
 		};
 	}
 
-	/** The pair of names Stage 0 renames a lecture's sources to. */
+	/** The pair of names `source-normalisation` renames a lecture's sources to. */
 	function sourcesNamed(baseName: string): {
 		readonly videos: string[];
 		readonly slides: string[];
@@ -236,7 +236,7 @@ describe("createSourceNormalisationStage", () => {
 		expect(manifest.aiDerivedTitle).toBeNull();
 	});
 
-	it("should name an existing lecture from its manifest lectureTitle when the title changed after Stage 0", async () => {
+	it("should name an existing lecture from its manifest lectureTitle when the title changed after source-normalisation", async () => {
 		const retitled = "Lecture 1 - Innate Immune Response - 2025-10-10";
 		await writeLecture(cellInjurySources);
 		await stage.normaliseModule({ moduleRoot });

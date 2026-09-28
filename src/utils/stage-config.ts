@@ -3,7 +3,7 @@
  *
  * Two unrelated callers ask the same question of the config file and act on the
  * same answer: the OpenRouter client, resolving the model and tuning for a
- * completion, and Stage 2, resolving the model to transcribe with. Both must
+ * completion, and `transcription`, resolving the model to transcribe with. Both must
  * fail when the file configures no such stage, and the remedy is the same edit
  * to the same file — so the lookup and the sentence are written once here rather
  * than at each of them, exactly as `stage-id.ts` does for a stage *name*

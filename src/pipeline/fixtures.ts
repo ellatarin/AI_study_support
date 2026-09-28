@@ -344,7 +344,7 @@ export function exampleStageConfig(stageId: StageId): StageConfig {
 	return configured;
 }
 
-/** The Scribe model the example configures, provider-qualified as Stage 2 expects. */
+/** The Scribe model the example configures, provider-qualified as `transcription` expects. */
 export const transcriptionModelId = exampleStageConfig("transcription").modelId;
 
 /**
@@ -553,12 +553,12 @@ export type TestLecture = {
 };
 
 /**
- * Names a lecture the way Stage 0 would, so a fixture can never describe a
+ * Names a lecture the way `source-normalisation` would, so a fixture can never describe a
  * lecture the pipeline would not produce — a folder name that disagreed with its
  * own date would fail suites for a reason unrelated to what they test.
  *
  * The source video, slide deck and finished PDF all share that folder name, as
- * Stage 0 leaves them, so they are derived here too rather than reassembled from
+ * `source-normalisation` leaves them, so they are derived here too rather than reassembled from
  * `${folderName}.mp4` wherever a suite happens to need one.
  *
  * @param lecture - The lecture's number, date, and title.
@@ -612,9 +612,9 @@ export type LectureSources = {
 };
 
 /**
- * Raw sources, and the canonical names Stage 0 gives them.
+ * Raw sources, and the canonical names `source-normalisation` gives them.
  *
- * Two suites work in these terms: Stage 0's own, which lays them out on disk,
+ * Two suites work in these terms: `source-normalisation`'s own, which lays them out on disk,
  * and the resolution rules', which reads the same names without one. They must
  * agree about what the rule produces, so the names are stated once.
  *
@@ -664,7 +664,7 @@ export const vaccinationAsThird = "Lecture 3 - Vaccination - 2025-10-17";
 export const vaccinationAsFirst = "Lecture 1 - Vaccination - 2025-10-17";
 
 /**
- * The markdown Stage 3's model returns, shared by the two suites that stub the
+ * The markdown `transcript-structuring`'s model returns, shared by the two suites that stub the
  * call — they assert the same body reaches disk, so it is one value.
  */
 export const structuredMarkdown = "## The Innate Immune Response\n\nBarrier defences come first.";
@@ -722,7 +722,7 @@ export function interceptScribeUpload({
 	return { scope, uploadedBody: () => uploaded };
 }
 
-/** The title Stage 3's model proposes when it judges the lecturer's inadequate. */
+/** The title `transcript-structuring`'s model proposes when it judges the lecturer's inadequate. */
 export const aiDerivedLecture = describeLecture({
 	number: testLecture.number,
 	date: testLecture.date,
@@ -734,7 +734,7 @@ export const titleKept = { provisionalTitleMeaningful: true, suggestedTitle: nul
 
 /**
  * The model's verdict when it rejects the provisional title and proposes
- * {@link aiDerivedLecture}'s in its place — the case both Stage 3 suites write
+ * {@link aiDerivedLecture}'s in its place — the case both `transcript-structuring` suites write
  * every title test across.
  */
 export const titleRejected = {
@@ -743,7 +743,7 @@ export const titleRejected = {
 };
 
 /**
- * A well-formed Stage 3 reply: the model's verdict on the provisional title and
+ * A well-formed `transcript-structuring` reply: the model's verdict on the provisional title and
  * the markdown it structured. The shape is the stage's documented contract
  * rather than either suite's business, so both state it through here and
  * override only the field the test at hand is about.
@@ -1074,7 +1074,7 @@ export type WorkspaceTree = {
 };
 
 /**
- * Gives a suite a workspace with Stage 2's transcript already in it, made afresh
+ * Gives a suite a workspace with `transcription`'s transcript already in it, made afresh
  * before each test and removed after.
  *
  * Every stage downstream of transcription starts from exactly this state, and
@@ -1121,12 +1121,12 @@ export function useTranscribedWorkspace({
 }
 
 /**
- * Lays a whole lecture out on disk as Stage 0 leaves it: the module's four
+ * Lays a whole lecture out on disk as `source-normalisation` leaves it: the module's four
  * directories, a source video and slide deck sharing the workspace's base name,
  * a finished PDF, and the empty workspace itself.
  *
  * Anything that moves a lecture needs all of this — the `change-date` command
- * and Stage 3 both rename the four together — so the layout is built here rather
+ * and `transcript-structuring` both rename the four together — so the layout is built here rather
  * than restated by each suite that exercises a rename. The caller writes
  * whatever else its stage reads (a transcript, a manifest) and removes
  * `tempDir` afterwards.

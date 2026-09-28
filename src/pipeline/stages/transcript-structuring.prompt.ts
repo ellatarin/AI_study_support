@@ -1,5 +1,5 @@
 /**
- * Stage 3's prompt: the title judgement and the transcript-structuring rules,
+ * `transcript-structuring`'s prompt: the title judgement and the transcript-structuring rules,
  * stated as chat messages.
  *
  * Kept beside the stage rather than inside it so that prompt changes — the part
@@ -30,7 +30,7 @@ const REPLY_CONTRACT = `Reply with a single JSON object and nothing else, in thi
  * The language rule sits alongside "add nothing that is not in the transcript"
  * and does not contradict it, because it corrects rather than adds: speech
  * carries no spelling, so the transcript's spelling is the transcriber's rather
- * than the lecturer's, and Stage 2 cannot influence it — ElevenLabs takes an
+ * than the lecturer's, and `transcription` cannot influence it — ElevenLabs takes an
  * ISO-639-1 or ISO-639-3 language code, neither of which can express a regional
  * variant, so `eng` names English and nothing more. An LLM call is the first
  * point in the pipeline at which the output's language can be chosen at all.
@@ -58,11 +58,11 @@ Put the structured transcript in "structuredMarkdown", following these rules:
 }
 
 /**
- * Builds the messages for Stage 3's single call.
+ * Builds the messages for `transcript-structuring`'s single call.
  *
  * @param args - What the model is being asked to judge and structure.
- * @param args.transcriptText - The raw transcript from Stage 2.
- * @param args.provisionalTitle - The title Stage 0 derived from the filename; may be empty.
+ * @param args.transcriptText - The raw transcript from `transcription`.
+ * @param args.provisionalTitle - The title `source-normalisation` derived from the filename; may be empty.
  * @param args.language - The configured language the structured transcript is written in.
  * @returns The chat messages to send.
  */

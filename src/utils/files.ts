@@ -122,10 +122,10 @@ export function writeFileAtomic({
  * The atomic write and the sweep that clears what a crash left behind are the
  * two halves of one convention, and only agreement between them makes it work: a
  * writer using a suffix the sweep does not recognise leaves its debris for ever,
- * and a sweep recognising one the writer does not use deletes nothing. Stage 0's
+ * and a sweep recognising one the writer does not use deletes nothing. `source-normalisation`'s
  * rename uses a suffix of its own deliberately, and says why — a `.tmp` there
  * would name a complete file mid-move rather than a partial one, and this sweep
- * would delete it (technical-design.md §4.3, §5 Stage 0).
+ * would delete it (technical-design.md §4.3; §5, `source-normalisation`).
  */
 const TMP_SUFFIX = ".tmp";
 
@@ -176,8 +176,8 @@ export type ProduceFile = (tmpPath: string) => Promise<void>;
  * partial `.tmp` and rethrows, so the real path never holds partial output
  * (technical-design.md §4.3).
  *
- * Used where the bytes come from a subprocess rather than from memory — Stage 1
- * has ffmpeg write the audio track directly to the `.tmp` sibling.
+ * Used where the bytes come from a subprocess rather than from memory —
+ * `audio-extraction` has ffmpeg write the audio track directly to the `.tmp` sibling.
  *
  * @param args - The destination and the producer.
  * @param args.path - The final path; the `.tmp` sibling is derived from it.

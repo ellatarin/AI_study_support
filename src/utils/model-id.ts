@@ -4,10 +4,10 @@
  * A model ID is written `<provider>/<name>`, and its halves are wanted by
  * parties that never meet: the config loader matches the provider against
  * `modelIdCheck.exemptProviders` to decide whether the ID must appear in
- * OpenRouter's list, and Stage 2 sends ElevenLabs the name alone, which is the
+ * OpenRouter's list, and `transcription` sends ElevenLabs the name alone, which is the
  * only form that API accepts. Splitting it here is what stops those two drifting
  * over what separates the halves or which side of it each is reading
- * (technical-design.md §5 Stage 2, §6).
+ * (technical-design.md §5, `transcription`; §6).
  */
 
 /** What separates a model ID's provider from the name that provider knows it by. */
@@ -27,7 +27,7 @@ export type ModelIdParts = {
  *
  * An ID carrying no separator yields a `null` provider rather than an empty
  * one, so it cannot be matched against a list of exempt providers: an
- * unqualified ID has nothing to opt out with, which is the rule §5 Stage 2
+ * unqualified ID has nothing to opt out with, which is the rule §5, `transcription`
  * states and the reason config keeps the qualified form.
  *
  * @param modelId - The configured model ID.

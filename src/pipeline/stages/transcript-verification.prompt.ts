@@ -1,5 +1,5 @@
 /**
- * Stage 4's prompt: the fidelity-assessment method, stated as chat messages.
+ * `transcript-verification`'s prompt: the fidelity-assessment method, stated as chat messages.
  *
  * Kept beside the stage rather than inside it so that prompt changes — the part
  * iterated on hardest once real lectures run — read as their own diffs
@@ -16,7 +16,7 @@ import type OpenAI from "openai";
  * assessments are the calibration corpus every later change to this stage is
  * measured against: reword the method and the corpus stops describing what the
  * stage does, so a change in the findings could no longer be attributed to the
- * change that caused it (technical-design.md §5, Stage 4).
+ * change that caused it (technical-design.md §5, `transcript-verification`).
  *
  * Edit it only deliberately, and expect to re-read the corpus when you do.
  */
@@ -38,7 +38,7 @@ Approach:
  * names translate the method's own words into the shared vocabulary every
  * checker reports in — "lost" is an `omission`, the reverse-direction check
  * yields an `unsourced-addition` — so two stages cannot end up naming the same
- * fault differently (`QaDeficiencyType`, technical-design.md Stage 8). The prose
+ * fault differently (`QaDeficiencyType`, technical-design.md §5, `qa-loop`). The prose
  * categories that union also carries are deliberately absent: this call compares
  * two transcripts and has no notes to judge the writing of.
  *
@@ -80,11 +80,11 @@ Items you classify as preserved or as compressed but intact are not findings and
 Order "deficiencies" by severity, most severe first.`;
 
 /**
- * Builds the messages for Stage 4's single call.
+ * Builds the messages for `transcript-verification`'s single call.
  *
  * @param args - The two versions being compared.
- * @param args.transcriptText - The raw transcript from Stage 2.
- * @param args.structuredTranscriptText - The structured transcript from Stage 3.
+ * @param args.transcriptText - The raw transcript from `transcription`.
+ * @param args.structuredTranscriptText - The structured transcript from `transcript-structuring`.
  * @returns The chat messages to send.
  */
 export function buildVerificationMessages({

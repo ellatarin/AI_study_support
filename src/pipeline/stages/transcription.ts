@@ -24,11 +24,11 @@ import { createPipelineStage, writeStageOutput } from "./pipeline-stage.js";
  * extracted audio is missing, `ELEVENLABS_API_KEY` is unset, the stage has no
  * configured model, or the API returns a response carrying no transcript text.
  * A failed cost lookup is NOT one of these — cost telemetry never gates pipeline
- * progress (technical-design.md §5, Stage 2; §7).
+ * progress (technical-design.md §5, `transcription`; §7).
  */
 export class TranscriptionError extends NamedError {}
 
-/** The extracted audio Stage 2 uploads. */
+/** The extracted audio `transcription` uploads. */
 export type TranscriptionInput = {
 	/** Absolute path to `Audio/audio.m4a`. */
 	readonly audioPath: string;
@@ -36,7 +36,7 @@ export type TranscriptionInput = {
 	readonly sizeBytes: number;
 };
 
-/** The transcript Stage 2 produces. */
+/** The transcript `transcription` produces. */
 export type TranscriptionOutput = {
 	/** Absolute path to the written `Transcript/transcript.txt`. */
 	readonly transcriptPath: string;
@@ -80,7 +80,7 @@ type ScribeModelId = Parameters<ElevenLabsClient["speechToText"]["convert"]>[0][
  *
  * @param context - The current lecture run context.
  * @returns The audio path and byte size.
- * @throws {TranscriptionError} If Stage 1's audio is not on disk.
+ * @throws {TranscriptionError} If `audio-extraction`'s audio is not on disk.
  */
 async function locateAudio(context: StageContext): Promise<TranscriptionInput> {
 	const audioPath = stageOutputPath({
@@ -115,7 +115,7 @@ function requireApiKey(): string {
  * Resolves the configured model ID and strips its provider prefix. Config holds
  * the provider-qualified `elevenlabs/scribe_v2` because only a qualified ID can
  * be matched by `modelIdCheck.exemptProviders`, but the ElevenLabs API expects
- * the bare `scribe_v2` (technical-design.md §5, Stage 2).
+ * the bare `scribe_v2` (technical-design.md §5, `transcription`).
  *
  * @param context - The current lecture run context.
  * @returns The bare model ID to send to ElevenLabs.
@@ -261,7 +261,7 @@ async function priceAudio({
 /**
  * Transcribes the extracted audio and writes `Transcript/transcript.txt`
  * atomically. The API key and model are resolved before any upload begins, so a
- * misconfigured run fails without spending (technical-design.md §5, Stage 2).
+ * misconfigured run fails without spending (technical-design.md §5, `transcription`).
  *
  * The upload is a billable model call, so it is logged like one — the model, the
  * bytes sent, and how long it took (technical-design.md §10).
@@ -316,9 +316,9 @@ async function transcribeAudio({
 }
 
 /**
- * Builds Stage 2, which uploads `Audio/audio.m4a` to ElevenLabs Scribe v2 and
+ * Builds `transcription`, which uploads `Audio/audio.m4a` to ElevenLabs Scribe v2 and
  * writes the returned transcript to `Transcript/transcript.txt`
- * (technical-design.md §5, Stage 2).
+ * (technical-design.md §5, `transcription`).
  *
  * @param args - The stage's dependencies.
  * @param args.logger - The run's logger; the factory binds it to this stage.

@@ -533,7 +533,7 @@ async function confirmReset({
 }
 
 /**
- * Applies an identity change to the chosen lecture, then re-runs Stage 0 over
+ * Applies an identity change to the chosen lecture, then re-runs `source-normalisation` over
  * its module so numbering and file names catch up (technical-design.md §4.7).
  * A change the user declines leaves the module alone, so nothing is normalised.
  *

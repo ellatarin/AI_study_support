@@ -6,7 +6,7 @@
  * (`copy`, `co`, `v2`), and a descriptive title may each be present or absent.
  * {@link extractProvisionalTitle} recovers a best-effort title by removing
  * whichever of those noise elements it finds; the result may be thin or empty,
- * and Stage 3's LLM later judges its adequacy against the transcript.
+ * and `transcript-structuring`'s LLM later judges its adequacy against the transcript.
  * {@link lectureFolderName} builds the canonical workspace name, and
  * {@link filenameSafe} sanitises any title before it reaches the filesystem.
  *
@@ -55,7 +55,7 @@ function modulePrefixPattern(modulePrefixes: readonly string[]): RegExp | null {
 
 /**
  * An embedded lecture-number token (`Lecture 1`, `Lectures 2`). Stripped so the
- * provisional title never duplicates the number Stage 0 assigns separately.
+ * provisional title never duplicates the number `source-normalisation` assigns separately.
  */
 const LECTURE_NUMBER_TOKEN = /\bLectures?\s*\d+\b/gi;
 
@@ -111,7 +111,7 @@ function stripControlChars(text: string): string {
  * debris at either end, and trailing artefacts. Filenames vary: a rich filename yields
  * a full title, while a `date + Lecture N` filename yields an **empty string**.
  * Callers must fall back (e.g. to the bare `Lecture N` name) on an empty result;
- * Stage 3's LLM later judges whether the title is meaningful.
+ * `transcript-structuring`'s LLM later judges whether the title is meaningful.
  *
  * **The lecturer's capitalisation is kept exactly as they typed it.** The title
  * becomes the workspace folder name and the final PDF name, so re-casing it
@@ -244,7 +244,7 @@ export function lectureFolderName(parts: LectureNameParts): string {
  * `Lecture N - YYYY-MM-DD` when the provisional title is empty
  * (technical-design.md §3.2, §4.7).
  *
- * Lives here rather than in Stage 0, which is where it began: `lecture-files.ts`
+ * Lives here rather than in `source-normalisation`, which is where it began: `lecture-files.ts`
  * needs it, and pipeline infrastructure importing from a stage inverts the
  * dependency the pipeline is built on. It is a naming rule and depends on
  * nothing but the other naming rules.

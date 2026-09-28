@@ -6,7 +6,7 @@
  * slides, its pipeline workspace, and its finished PDF. Editing any of them by
  * hand desynchronises the manifest from the filesystem, so these commands are
  * the only supported way to change it. Each makes its change and leaves the
- * module in a state Stage 0 can finish — renumbering, and renaming anything the
+ * module in a state `source-normalisation` can finish — renumbering, and renaming anything the
  * change made stale (technical-design.md §4.7).
  */
 
@@ -52,10 +52,11 @@ async function openLecture(match: LectureMatch): Promise<{
  * Sets a lecture's title to one the user chose.
  *
  * The title is recorded as `userTitle`, which outranks both the provisional
- * title and any title Stage 3 derives, so it survives every later run. Only the
- * manifest changes here: the renaming of the video, slides, workspace, and PDF
- * falls out of the Stage 0 pass the command runs afterwards, which is the same
- * code path that names them in the first place (technical-design.md §5, Stage 0).
+ * title and any title `transcript-structuring` derives, so it survives every later
+ * run. Only the manifest changes here: the renaming of the video, slides,
+ * workspace, and PDF falls out of the `source-normalisation` pass the command runs
+ * afterwards, which is the same code path that names them in the first place
+ * (technical-design.md §5, `source-normalisation`).
  *
  * @param args - The lecture and its new title.
  * @param args.workspaceRoot - Absolute path to the lecture's workspace.
@@ -91,10 +92,10 @@ export async function renameLecture({
  * everything the pipeline produced in it, and its finished PDF.
  *
  * Deleting the sources as well as the workspace is what keeps the module
- * consistent — a workspace left without sources is an orphan Stage 0 would stop
+ * consistent — a workspace left without sources is an orphan `source-normalisation` would stop
  * to ask about, and sources left without a workspace would simply be normalised
  * back into one. The renumbering of the lectures that follow falls out of the
- * Stage 0 pass the command runs afterwards (technical-design.md §4.7, §5).
+ * `source-normalisation` pass the command runs afterwards (technical-design.md §4.7, §5).
  *
  * @param args - The lecture to remove.
  * @param args.match - The lecture, as resolved from its date.
@@ -113,7 +114,7 @@ export async function deleteLecture({ match }: { readonly match: LectureMatch })
 
 /**
  * Insists a lecture still has both its sources before its date is changed: a
- * lecture without both is not one Stage 0 produced, and moving half of it would
+ * lecture without both is not one `source-normalisation` produced, and moving half of it would
  * leave the module in a state normalisation would reject.
  *
  * @param args - Where to look and for which lecture.
@@ -173,8 +174,8 @@ async function assertDateIsFree({
  * Moves a lecture to another date: its source video and slides, its workspace,
  * its finished PDF, and the date recorded in its manifest.
  *
- * The files are given the name Stage 0 would give them at the new date, so the
- * Stage 0 pass the command runs afterwards has only the renumbering left to do —
+ * The files are given the name `source-normalisation` would give them at the new
+ * date, so the `source-normalisation` pass the command runs afterwards has only the renumbering left to do —
  * and will rename them again if the new date changes the lecture's number
  * (technical-design.md §4.7, §5).
  *

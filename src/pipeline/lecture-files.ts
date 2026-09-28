@@ -4,8 +4,9 @@
  * A lecture is four things on disk — its source video, its source slides, its
  * pipeline workspace, and its finished PDF — and they share one base name.
  * Whenever that name changes they all have to move together, which happens in
- * two unrelated places: the CLI's `change-date` command (§4.7) and Stage 3, when
- * the LLM replaces the lecturer's provisional title (§5, Stage 3). The sweep
+ * two unrelated places: the CLI's `change-date` command (§4.7) and
+ * `transcript-structuring`, when the LLM replaces the lecturer's provisional
+ * title (§5, `transcript-structuring`). The sweep
  * lives here so those two cannot drift apart.
  *
  * Three of those four sit in directories shared with every other lecture in the
@@ -29,7 +30,7 @@ import { datedFileDirs, type ModuleDirs } from "./layout.js";
 /**
  * The canonical base name for a lecture sitting on an ISO date.
  *
- * Both callers that rename a lecture — `change-date` and Stage 3 — hold the date
+ * Both callers that rename a lecture — `change-date` and `transcript-structuring` — hold the date
  * as the `YYYY-MM-DD` string the manifest stores, while {@link lectureBaseName}
  * takes a `Date`. Converting it in one place keeps the trap in one place too:
  * the string must be read as **local** midnight, matching how dates are read out
@@ -79,7 +80,7 @@ type DatedFileQuery = {
  * (technical-design.md §3.2).
  *
  * The **last** date in the name is the one compared. These directories hold
- * names Stage 0 has normalised, and {@link lectureBaseName} puts the title
+ * names `source-normalisation` has normalised, and {@link lectureBaseName} puts the title
  * before the date — so a title naming a date of its own (a cohort, a study, a
  * historical event) precedes the lecture's own date and the last one is it.
  *
@@ -110,7 +111,7 @@ export async function findDatedFile({ dir, lectureDate }: DatedFileQuery): Promi
  * (technical-design.md §3.2).
  *
  * Two callers need exactly this: `delete` clears a lecture out of all three
- * directories, and a `--from-stage` re-run at or before Stage 9 clears that
+ * directories, and a `--from-stage` re-run at or before `pdf-generation` clears that
  * lecture's PDF out of `Final output/`.
  *
  * @param args - Where to look and whose file to remove.
@@ -155,7 +156,7 @@ async function renameToBase({
  * slides, its `Final output/` PDF, and its workspace folder.
  *
  * Anything absent is skipped rather than treated as an error, since a lecture
- * legitimately has no PDF until Stage 9 has run. A caller that needs a file to
+ * legitimately has no PDF until `pdf-generation` has run. A caller that needs a file to
  * be there checks for it first and says so in its own terms — `change-date`
  * refuses to move a lecture whose source pair is missing.
  *

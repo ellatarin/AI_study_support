@@ -96,7 +96,7 @@ export type StageStatus = "pending" | "running" | "complete" | "failed" | "skipp
  *
  * Declared apart from {@link StageCost} because the two parties that establish a
  * cost answer in exactly this shape before any token count joins it: the
- * OpenRouter generation lookup, and Stage 2's reading of the audio's duration.
+ * OpenRouter generation lookup, and `transcription`'s reading of the audio's duration.
  */
 export type CostResolution =
 	| { readonly costUsd: number }
@@ -190,7 +190,7 @@ export type PipelineConfig = {
 		 */
 		readonly languageCode: string;
 		/**
-		 * The rate Stage 2 multiplies by audio duration to attribute transcription
+		 * The rate `transcription` multiplies by audio duration to attribute transcription
 		 * spend, since the Scribe API returns no price with a transcript. Accurate
 		 * only for the call this pipeline makes — batch Scribe v2 with no
 		 * diarization, entity detection, or keyterm prompting, each of which
@@ -219,7 +219,7 @@ export type PipelineConfig = {
 	readonly naming: {
 		/**
 		 * How a lecturer names their module at the front of a filename, stripped
-		 * from the title Stage 0 derives. Either a code (`BOD_Cell injury`) or the
+		 * from the title `source-normalisation` derives. Either a code (`BOD_Cell injury`) or the
 		 * module written out (`Biology of Disease - Cell injury`), since lecturers
 		 * do both, and matched without regard to case for the same reason.
 		 *
@@ -245,13 +245,13 @@ export type PipelineConfig = {
 };
 
 /**
- * The checker's verdict for a single QA iteration (technical-design.md Stage 8).
+ * The checker's verdict for a single QA iteration (technical-design.md §5, `qa-loop`).
  */
 export type QaVerdict = "pass" | "fail";
 
 /**
  * A single QA iteration's outcome, summarised for the manifest
- * (technical-design.md Stage 8).
+ * (technical-design.md §5, `qa-loop`).
  */
 export type QaIterationSummary = {
 	readonly iteration: number;
@@ -262,7 +262,7 @@ export type QaIterationSummary = {
 };
 
 /**
- * The condition that terminated the QA loop (technical-design.md Stage 8).
+ * The condition that terminated the QA loop (technical-design.md §5, `qa-loop`).
  */
 export type TerminationReason = "qa-passed" | "max-iterations-reached" | "stalled";
 
@@ -353,7 +353,7 @@ export type ManifestStageEntry = SharedStageEntry | StageEntryComplete;
 /**
  * The `qa-loop` stage's manifest entry. Identical to {@link ManifestStageEntry}
  * except that a completed entry additionally records the per-iteration
- * summaries and the reason the loop terminated (technical-design.md Stage 8).
+ * summaries and the reason the loop terminated (technical-design.md §5, `qa-loop`).
  */
 export type QaManifestStageEntry = SharedStageEntry | StageEntryQaComplete;
 
@@ -370,7 +370,7 @@ type ManifestStages = {
 type LectureIdentity = {
 	readonly lectureNumber: number;
 	/**
-	 * `YYYY-MM-DD`. Unique within its `moduleRoot` (guaranteed by Stage 0) and
+	 * `YYYY-MM-DD`. Unique within its `moduleRoot` (guaranteed by `source-normalisation`) and
 	 * the user-facing identifier the CLI accepts, e.g. `run <date>`
 	 * (technical-design.md §4.7).
 	 */
@@ -378,8 +378,8 @@ type LectureIdentity = {
 	/** Best-effort title from the source filename; may be thin (see naming.ts). */
 	readonly provisionalTitle: string;
 	/**
-	 * The final title. Seeded at Stage 0 to `provisionalTitle`; replaced by
-	 * `aiDerivedTitle` at Stage 3 only when the LLM judges the lecturer's
+	 * The final title. Seeded by `source-normalisation` to `provisionalTitle`; replaced by
+	 * `aiDerivedTitle` in `transcript-structuring` only when the LLM judges the lecturer's
 	 * provisional title not meaningful for the content. Always non-null so
 	 * downstream stages read it without a guard.
 	 */
@@ -398,13 +398,13 @@ export type RunManifest = {
 		 * The title the user set explicitly through the CLI `rename` command.
 		 * `null` until they rename the lecture. It wins the title precedence
 		 * outright — `userTitle` › `aiDerivedTitle` › `provisionalTitle` — so once
-		 * set, neither Stage 0 nor Stage 3 overwrites `lectureTitle`
-		 * (technical-design.md §5, Stage 0).
+		 * set, neither `source-normalisation` nor `transcript-structuring` overwrites
+		 * `lectureTitle` (technical-design.md §5, `source-normalisation`).
 		 */
 		readonly userTitle: string | null;
 		/**
-		 * The replacement title Stage 3's LLM proposes from the transcript.
-		 * `null` before Stage 3 runs, and `null` afterwards when Stage 3 keeps the
+		 * The replacement title `transcript-structuring`'s LLM proposes from the transcript.
+		 * `null` before that stage runs, and `null` afterwards when it keeps the
 		 * lecturer's provisional title (the LLM prefers a meaningful original and
 		 * proposes nothing). Set only when the provisional is judged not
 		 * meaningful, in which case `lectureTitle` becomes this value and the
@@ -436,9 +436,9 @@ export type StageContext = LectureIdentity & {
 
 /**
  * The lecture-identity fields a stage may settle, for the runner to write into
- * the manifest. Only Stage 3 ever settles any: it judges the lecturer's
+ * the manifest. Only `transcript-structuring` ever settles any: it judges the lecturer's
  * provisional title and, when it replaces it, renames the lecture's files onto
- * a new base name (technical-design.md §4.2; §5, Stage 3).
+ * a new base name (technical-design.md §4.2; §5, `transcript-structuring`).
  */
 export type LectureIdentityChanges = Partial<
 	Pick<RunManifest, "lectureTitle" | "aiDerivedTitle" | "workspaceFolderName">
@@ -462,7 +462,7 @@ export type StageResult<TOutput> = StageRunRecord & {
 	 * (technical-design.md §4.2).
 	 *
 	 * Absent and `{}` both mean the stage settled nothing; the runner spreads it
-	 * either way. Only Stage 3 settles anything, which is why the field is
+	 * either way. Only `transcript-structuring` settles anything, which is why the field is
 	 * optional rather than required of every stage.
 	 */
 	readonly identityChanges?: LectureIdentityChanges;
@@ -504,7 +504,7 @@ export type PipelineStage<TInput, TOutput> = {
 };
 
 /**
- * Stage 0's per-module contract. Unlike a per-lecture {@link PipelineStage}, it
+ * `source-normalisation`'s per-module contract. Unlike a per-lecture {@link PipelineStage}, it
  * processes ALL of a module's currently-present raw sources together in one batch
  * pass, not one lecture at a time. It is re-run over the module's life as further
  * lectures are added (they arrive weekly): each run picks up new sources, leaves
@@ -513,7 +513,7 @@ export type PipelineStage<TInput, TOutput> = {
  * precisely because sequential date-ordered numbering means a new earlier lecture
  * shifts later numbers — which demands collision-safe (temp-first) renames across
  * the whole module, impossible to do lecture-in-isolation (technical-design.md §5,
- * Stage 0).
+ * `source-normalisation`).
  */
 export type SourceNormalisationStage = {
 	readonly stageId: "source-normalisation";
@@ -528,7 +528,7 @@ export type SourceNormalisationStage = {
 
 /**
  * Every severity a QA deficiency may carry, worst first
- * (technical-design.md Stage 8).
+ * (technical-design.md §5, `qa-loop`).
  *
  * Ordered rather than merely listed, because the order is a fact two parties
  * rely on: a checker's reply is validated against this set, and a report shown
@@ -541,7 +541,7 @@ export type SourceNormalisationStage = {
 export const QA_SEVERITIES = ["critical", "major", "minor"] as const;
 
 /**
- * Severity of a single QA deficiency (technical-design.md Stage 8).
+ * Severity of a single QA deficiency (technical-design.md §5, `qa-loop`).
  * Derived from {@link QA_SEVERITIES}.
  */
 export type QaSeverity = (typeof QA_SEVERITIES)[number];
@@ -562,7 +562,7 @@ export type QaSeverity = (typeof QA_SEVERITIES)[number];
  * that line is the whole reason they are separate categories: a distortion
  * contradicts the source and is corrected against it, an unsourced addition is
  * absent from the source and is deleted. Looking for a source that would
- * support one instead would violate NFR-1.3 (technical-design.md Stage 8).
+ * support one instead would violate NFR-1.3 (technical-design.md §5, `qa-loop`).
  */
 export type QaDeficiencyType =
 	// Faithfulness to the source: transcript verification and the QA loop.
@@ -593,7 +593,7 @@ export type QaSourceAnchor = {
 
 /**
  * A single issue found by a quality checker, with the evidence and the
- * suggested remedy the reviser will act on (technical-design.md Stage 8).
+ * suggested remedy the reviser will act on (technical-design.md §5, `qa-loop`).
  *
  * A finding locates both ends. `outputLocation` is where in the output the
  * fault sits, or — for an omission, where nothing sits yet — the place the
@@ -619,7 +619,7 @@ export type QaDeficiency = {
  * missed something from one that looked at it and cleared it, and only the
  * first is a reason to distrust the checker. A lecturer's aside, an
  * administrative announcement, or a filler phrase dropped on purpose belongs
- * here rather than going unmentioned (technical-design.md Stage 8).
+ * here rather than going unmentioned (technical-design.md §5, `qa-loop`).
  */
 export type QaConsideration = {
 	readonly source: QaSourceAnchor;
@@ -633,7 +633,7 @@ export type QaConsideration = {
  * Separate from {@link QaDeficienciesReport} because the iteration number is not
  * the model's to supply — it is a fact about the loop calling it, and a checker
  * asked for it would have to guess. Transcript verification runs once and has no
- * iteration at all (technical-design.md Stage 4, Stage 8).
+ * iteration at all (technical-design.md §5, `transcript-verification` and `qa-loop`).
  */
 export type QaFindingsReport = {
 	readonly overallVerdict: QaVerdict;
@@ -644,7 +644,7 @@ export type QaFindingsReport = {
 
 /**
  * One iteration's findings as the QA loop records them: what the checker said,
- * stamped with which pass said it (technical-design.md Stage 8).
+ * stamped with which pass said it (technical-design.md §5, `qa-loop`).
  */
 export type QaDeficienciesReport = QaFindingsReport & {
 	readonly iteration: number;

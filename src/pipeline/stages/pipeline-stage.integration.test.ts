@@ -30,7 +30,7 @@ import {
 	writeStageOutputWithReadableView,
 } from "./pipeline-stage.js";
 
-// Any stage with a single output file would do; Stage 1's is the simplest.
+// Any stage with a single output file would do; `audio-extraction`'s is the simplest.
 const STAGE_ID = "audio-extraction";
 
 // The two ways a stage finishes with its output on disk. `skipped` is what the

@@ -209,8 +209,8 @@ describe("createTranscriptStructuringStage", () => {
 	});
 
 	// The runner hands a stage the context as it stood before the stage began, so a
-	// stage writing the manifest back reverts its own `running` entry (§4.2). Stage 3
-	// settles the lecture's identity and is the likeliest stage to try; it must not.
+	// stage writing the manifest back reverts its own `running` entry (§4.2).
+	// `transcript-structuring` settles the lecture's identity and is the likeliest stage to try; it must not.
 	it.each([
 		{ what: "the provisional title stands", reply: titleKept },
 		{ what: "the title is replaced", reply: titleRejected },

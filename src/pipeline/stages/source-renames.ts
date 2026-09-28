@@ -17,7 +17,7 @@
  * lecture onto a new base name in a single pass: one lecture moving on its own
  * cannot collide with anything, so it needs none of this.
  *
- * See technical-design.md §5, Stage 0.
+ * See technical-design.md §5, `source-normalisation`.
  */
 
 import { rename } from "node:fs/promises";

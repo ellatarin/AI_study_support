@@ -97,7 +97,7 @@ export function runsDirPath({ workspaceRoot }: { readonly workspaceRoot: string 
  *
  * Anchored to the project rather than to a workspace, because an invocation is
  * a wider thing than a lecture run: `batch` covers every lecture in every
- * configured module, and Stage 0's work over a module happens before any lecture
+ * configured module, and `source-normalisation`'s work over a module happens before any lecture
  * has been chosen, so no single workspace could hold the log of it. The project
  * root is also the one location that does not move with the directory the user
  * happened to invoke from (technical-design.md §10).
@@ -446,7 +446,7 @@ export type StageWithOutputFile = {
  *
  * Derived from {@link STAGE_WORKSPACE} exactly as {@link StageWithOutputFile}
  * is, so the table stays the single statement of which stages render one. The
- * view is provisional (technical-design.md §5, Stage 4): when it is withdrawn
+ * view is provisional (technical-design.md §5, `transcript-verification`): when it is withdrawn
  * this set is empty and every caller of the two resolvers below stops compiling,
  * which is how the withdrawal is made to be complete rather than partial.
  */

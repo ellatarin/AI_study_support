@@ -106,7 +106,7 @@ describe("lecture identity commands", () => {
 	});
 
 	describe("changeLectureDate", () => {
-		// The name Stage 0 would give this lecture at its new date, derived rather
+		// The name `source-normalisation` would give this lecture at its new date, derived rather
 		// than written out so the expectation follows the naming rule.
 		const MOVED_FOLDER = baseNameForLecture({
 			lectureNumber: testLecture.number,

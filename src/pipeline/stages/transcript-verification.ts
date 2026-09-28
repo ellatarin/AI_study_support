@@ -33,26 +33,26 @@ import { renderVerificationReport } from "./transcript-verification.view.js";
  *
  * A report full of findings is emphatically NOT one of these — that is the stage
  * working. Nothing about a verdict fails this stage (technical-design.md §5,
- * Stage 4).
+ * `transcript-verification`).
  */
 export class TranscriptVerificationError extends NamedError {}
 
-/** The two versions Stage 4 compares. */
+/** The two versions `transcript-verification` compares. */
 export type TranscriptVerificationInput = {
-	/** The full text of `Transcript/transcript.txt`, as Stage 2 wrote it. */
+	/** The full text of `Transcript/transcript.txt`, as `transcription` wrote it. */
 	readonly transcriptText: string;
-	/** The full text of `Structured transcript/structured-transcript.md`, as Stage 3 wrote it. */
+	/** The full text of `Structured transcript/structured-transcript.md`, as `transcript-structuring` wrote it. */
 	readonly structuredTranscriptText: string;
 };
 
-/** Where Stage 4's report landed, and how much it found. */
+/** Where this stage's report landed, and how much it found. */
 export type TranscriptVerificationOutput = {
 	/** Absolute path to the written `Transcript verification/verification-report.json`. */
 	readonly verificationReportPath: string;
 	/**
 	 * How many findings the report carries. Surfaced so the runner can say what
 	 * the stage did without reading the file — and never acted on: no count
-	 * fails a stage or a run (technical-design.md §5, Stage 4).
+	 * fails a stage or a run (technical-design.md §5, `transcript-verification`).
 	 */
 	readonly findingCount: number;
 };
@@ -68,7 +68,7 @@ const REPORT_INDENT = 2;
  * The faithfulness half of `QaDeficiencyType`. The prose categories are absent
  * because this call compares two transcripts and has no notes to judge the
  * writing of, and a checker offered a category it cannot judge will find one
- * (technical-design.md Stage 8).
+ * (technical-design.md §5, `qa-loop`).
  */
 const VERIFICATION_TYPES = new Set([
 	"omission",
@@ -224,7 +224,7 @@ const DOCUMENTED_REPORT_SHAPE =
 /**
  * Compares the structured transcript with the raw one and writes what the
  * checker found, both as the stored report and as a page a person reads
- * (technical-design.md §5, Stage 4).
+ * (technical-design.md §5, `transcript-verification`).
  *
  * The verdict is recorded and never acted on. A report saying the structuring
  * lost half the lecture completes exactly as a clean one does: this stage exists
@@ -281,10 +281,10 @@ async function verifyTranscript({
 }
 
 /**
- * Builds Stage 4, which compares `Structured transcript/structured-transcript.md`
+ * Builds `transcript-verification`, which compares `Structured transcript/structured-transcript.md`
  * with the `Transcript/transcript.txt` it was made from and writes
  * `Transcript verification/verification-report.json`, with a readable
- * `verification-report.md` beside it (technical-design.md §5, Stage 4).
+ * `verification-report.md` beside it (technical-design.md §5, `transcript-verification`).
  *
  * @param args - The stage's dependencies.
  * @param args.logger - The run's logger; the factory binds it to this stage.

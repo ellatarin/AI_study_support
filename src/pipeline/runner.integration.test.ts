@@ -65,10 +65,10 @@ const EMPTY_FOLDER = "L-empty";
 // stamping its own, which a value that could plausibly be either would hide.
 const BEFORE_THIS_RUN = "earlier";
 
-/** The folder a lecture moves to once Stage 3 has replaced its title. */
+/** The folder a lecture moves to once `transcript-structuring` has replaced its title. */
 const RENAMED_FOLDER = `${LECTURE_FOLDER} - ${aiDerivedLecture.title}`;
 
-// What Stage 3 settles when it replaces the lecture's title: the new title, the
+// What `transcript-structuring` settles when it replaces the lecture's title: the new title, the
 // record of what the model derived, and the base name the files move onto. Two
 // suites need it — one with the rename, one without — so it is stated here.
 const SETTLED_IDENTITY: LectureIdentityChanges = {
@@ -771,7 +771,7 @@ describe("PipelineRunner integration", () => {
 				}
 			});
 
-			// Every --from-stage at or before Stage 9 sweeps through it, so each is a
+			// Every --from-stage at or before `pdf-generation` sweeps through it, so each is a
 			// route to the same directory.
 			it.each([
 				"pdf-generation",
@@ -862,7 +862,7 @@ describe("PipelineRunner integration", () => {
 
 		it("should run no lecture stage when --to-stage names a stage before them all", async () => {
 			// The bound is a position in the pipeline, not a name matched against the
-			// stages the runner holds: Stage 0 precedes every lecture stage, so a run
+			// stages the runner holds: `source-normalisation` precedes every lecture stage, so a run
 			// bounded there performs none of them.
 			const { summary, runs } = await runToStage("source-normalisation");
 
@@ -1310,7 +1310,7 @@ describe("PipelineRunner integration", () => {
 		const RENAMING_STAGE = "audio-extraction";
 
 		/**
-		 * A stage that does what Stage 3 does when it replaces a lecture's title:
+		 * A stage that does what `transcript-structuring` does when it replaces a lecture's title:
 		 * moves the workspace out from under the runner and reports the identity it
 		 * settled, leaving the manifest write to the runner.
 		 */

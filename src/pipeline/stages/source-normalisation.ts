@@ -1,5 +1,5 @@
 /**
- * Stage 0 — normalising a module's raw sources.
+ * `source-normalisation` — normalising a module's raw sources.
  *
  * The stage the runner drives once per module, before any lecture is processed.
  * It finishes any rename an earlier run was interrupted partway through, checks
@@ -13,7 +13,7 @@
  * `orphaned-workspaces.ts`. What is left here is the order those things happen
  * in, and what aborting means.
  *
- * See technical-design.md §5, Stage 0.
+ * See technical-design.md §5, `source-normalisation`.
  */
 
 import type { Logger } from "pino";
@@ -36,14 +36,14 @@ import { applyRenames, completeInterruptedRenames, planRenames } from "./source-
 /**
  * Thrown when a module's raw sources cannot be normalised: an undateable video or
  * slide, a video or slide with no 1:1 date match, or a duplicate video or slide
- * date. Carries every problem found so the CLI can list them; Stage 0 makes no
- * filesystem changes when it throws (technical-design.md §5, Stage 0).
+ * date. Carries every problem found so the CLI can list them; the stage makes no
+ * filesystem changes when it throws (technical-design.md §5, `source-normalisation`).
  */
 export class SourceNormalisationError extends NamedError {}
 
 /**
  * Aborts the run before anything is applied: logs every problem found at `error`
- * and throws, having made no filesystem change (technical-design.md §5, Stage 0).
+ * and throws, having made no filesystem change (technical-design.md §5, `source-normalisation`).
  *
  * @param args - The abort context.
  * @param args.logger - The run logger.
@@ -140,7 +140,7 @@ function projectWorkspaces<TValue>({
 }
 
 /**
- * Builds the initial manifest for a brand-new lecture: identity from Stage 0,
+ * Builds the initial manifest for a brand-new lecture: identity from this stage,
  * `lectureTitle` seeded to the provisional, `userTitle` and `aiDerivedTitle`
  * null, every stage pending, and zeroed cost.
  *
@@ -208,10 +208,10 @@ async function reconcileManifest({
 }
 
 /**
- * Builds Stage 0, the per-module source-normalisation stage. The returned stage
+ * Builds `source-normalisation`, the per-module stage. The returned stage
  * validates a module's raw sources and, when valid, renames them and creates or
  * renumbers lecture workspaces; when invalid it logs every problem and throws
- * without touching the filesystem (technical-design.md §5, Stage 0).
+ * without touching the filesystem (technical-design.md §5, `source-normalisation`).
  *
  * @param args - The stage dependencies.
  * @param args.logger - The pino logger that records every action and any failure.

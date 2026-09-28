@@ -14,7 +14,7 @@
  * A whole source folder moved by mistake therefore costs nothing, which a
  * "delete the ones you approved" reading would not give.
  *
- * See technical-design.md §5, Stage 0.
+ * See technical-design.md §5, `source-normalisation`.
  */
 
 /* jscpd:ignore-start -- these first lines are character-for-character runner.ts's, because both modules
@@ -32,8 +32,8 @@ import { readManifestSafe } from "../manifest.js";
 /**
  * Asks the user to approve an irreversible action, returning their answer. The
  * CLI backs this with `@inquirer/prompts`; tests stub it. Injected rather than
- * imported so Stage 0 never reaches for stdin itself (technical-design.md §5,
- * Stage 0).
+ * imported so `source-normalisation` never reaches for stdin itself
+ * (technical-design.md §5, `source-normalisation`).
  */
 export type ConfirmPrompt = (args: { readonly message: string }) => Promise<boolean>;
 
@@ -83,8 +83,9 @@ export async function discoverWorkspaces({
 
 /**
  * The workspaces whose lecture date no longer has a source pair present. Their
- * sources were deleted directly rather than through the CLI, so Stage 0 must ask
- * before discarding the work (technical-design.md §5, Stage 0).
+ * sources were deleted directly rather than through the CLI, so
+ * `source-normalisation` must ask before discarding the work
+ * (technical-design.md §5, `source-normalisation`).
  *
  * @param args - The discovered workspaces and the dates still backed by sources.
  * @param args.workspaces - Existing workspaces keyed by lecture date.

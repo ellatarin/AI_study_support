@@ -151,7 +151,7 @@ type LocatedWorkspace = {
  * `Pipeline processing/` that holds a readable manifest, paired with it
  * (technical-design.md §4.7).
  *
- * A folder without one is passed over. Both Stage 0 and the runner scan those
+ * A folder without one is passed over. Both `source-normalisation` and the runner scan those
  * folders speculatively, so anything else the user has left in there is not a
  * lecture rather than a fault (technical-design.md §4.5).
  *
@@ -186,7 +186,7 @@ async function listLecturesByDate({
  * than the folder names — the folder is named for the lecture's number and
  * title, both of which change, while the date is what identifies it.
  *
- * A module holds at most one lecture per date (Stage 0 guarantees it), so the
+ * A module holds at most one lecture per date (`source-normalisation` guarantees it), so the
  * first match is the match. Shared by {@link resolveWorkspace} and
  * `resolveLecturesByDate`, which apply that same identity rule to different ends
  * (technical-design.md §4.7).
@@ -211,7 +211,7 @@ async function findLectureByDate({
  * Where a lecture's workspace is now, and what its manifest says.
  *
  * Normally the answer is the path already held, and this costs the one manifest
- * read the caller needed anyway. But Stage 3 renames the workspace when it
+ * read the caller needed anyway. But `transcript-structuring` renames the workspace when it
  * replaces the lecture's title, which invalidates that path mid-run — so a path
  * with no readable manifest sends the runner to look the lecture up by date
  * instead, rather than obliging every stage to report a move only one of them
@@ -280,7 +280,7 @@ function patchStages({
  * @param args.manifest - The manifest to patch, already read by the caller.
  * @param args.stageId - The stage whose entry is being set.
  * @param args.entry - The entry to record for that stage.
- * @param args.identityChanges - The lecture-identity fields the stage settled; empty for every stage but Stage 3.
+ * @param args.identityChanges - The lecture-identity fields the stage settled; empty for every stage but `transcript-structuring`.
  * @param args.timestamp - The instant to stamp the manifest with.
  * @returns The manifest as written.
  */
@@ -675,7 +675,7 @@ export class PipelineRunner {
 	/**
 	 * @param deps - The runner's injected configuration and stages.
 	 * @param deps.config - The validated pipeline configuration.
-	 * @param deps.sourceNormalisation - The per-module Stage 0 implementation.
+	 * @param deps.sourceNormalisation - The per-module `source-normalisation` implementation.
 	 * @param deps.lectureStages - The per-lecture stages, in execution order.
 	 * @param deps.logger - The run's logger, which records each stage failure with its stack.
 	 */
@@ -689,7 +689,7 @@ export class PipelineRunner {
 	}
 
 	/**
-	 * Runs Stage 0 for each module, creating or refreshing its lecture workspaces.
+	 * Runs `source-normalisation` for each module, creating or refreshing its lecture workspaces.
 	 *
 	 * @param args - The modules to normalise.
 	 * @param args.moduleRoots - Absolute paths to the module directories.

@@ -11,17 +11,17 @@ import { createPipelineStage, writeStageOutput } from "./pipeline-stage.js";
 /**
  * Thrown when the lecture's source video cannot be located unambiguously, or
  * when ffmpeg fails to extract its audio track. Either way no `audio.m4a` is
- * left behind (technical-design.md §5, Stage 1).
+ * left behind (technical-design.md §5, `audio-extraction`).
  */
 export class AudioExtractionError extends NamedError {}
 
-/** The source video Stage 1 extracts audio from. */
+/** The source video `audio-extraction` extracts audio from. */
 export type AudioExtractionInput = {
 	/** Absolute path to the lecture's source video, whatever container it uses. */
 	readonly sourceVideoPath: string;
 };
 
-/** The extracted audio Stage 1 produces. */
+/** The extracted audio `audio-extraction` produces. */
 export type AudioExtractionOutput = {
 	/** Absolute path to the extracted `Audio/audio.m4a`. */
 	readonly audioPath: string;
@@ -39,10 +39,10 @@ const PERCENT_COMPLETE = 100;
 const PERCENT_BEFORE_END = 99;
 
 /**
- * Locates the lecture's source video by base name. Stage 0 gives the video, the
+ * Locates the lecture's source video by base name. `source-normalisation` gives the video, the
  * slide, and the workspace folder the same base name but preserves the original
  * container extension, so the video is whichever file in the module's video
- * directory shares the workspace folder's name (technical-design.md §5, Stage 1).
+ * directory shares the workspace folder's name (technical-design.md §5, `audio-extraction`).
  *
  * @param context - The current lecture run context.
  * @returns The located source video.
@@ -171,9 +171,9 @@ async function extractAudio({
 }
 
 /**
- * Builds Stage 1, which extracts the lecture video's audio track to
+ * Builds `audio-extraction`, which extracts the lecture video's audio track to
  * `Audio/audio.m4a` with `-acodec copy` — no re-encoding — and retains it for the
- * life of the workspace (technical-design.md §5, Stage 1).
+ * life of the workspace (technical-design.md §5, `audio-extraction`).
  *
  * @param args - The stage's dependencies.
  * @param args.logger - The run's logger; the factory binds it to this stage.

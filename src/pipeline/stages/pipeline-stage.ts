@@ -171,7 +171,7 @@ type StageOutputSource =
  * (technical-design.md §4.3, §4.5).
  *
  * Where the bytes come from is the one thing that varies and the reason this
- * takes a {@link StageOutputSource}: Stage 1 has ffmpeg write the audio track,
+ * takes a {@link StageOutputSource}: `audio-extraction` has ffmpeg write the audio track,
  * so its output is produced rather than handed over, and it would otherwise have
  * to name the file at one end and record it at the other.
  *

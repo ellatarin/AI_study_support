@@ -303,7 +303,7 @@ function parseDateSpans(text: string): readonly ParsedResult[] {
  * A chrono span overlapping a numeric one is dropped — chrono reads `10/11/2025`
  * as the eleventh of October, and the numeric reading is the one that carries
  * the British convention. The fallback is last because six bare digits are as
- * likely to be an identifier as a date; where one does slip through, Stage 0's
+ * likely to be an identifier as a date; where one does slip through, `source-normalisation`'s
  * 1:1 video-to-slide date match is what catches it (technical-design.md §3.2).
  *
  * @param text - Arbitrary text, typically a filename.
@@ -370,8 +370,8 @@ export function extractDate(filename: string): Date | null {
  * Extracts every date a filename carries, in the order they appear.
  *
  * A filename can name more than one: a canonical lecture name puts its title
- * before its date, and titles come from lecturer filenames or from Stage 3's
- * model, either of which may name a date of its own. A caller that must know
+ * before its date, and titles come from lecturer filenames or from
+ * `transcript-structuring`'s model, either of which may name a date of its own. A caller that must know
  * *which* date it is looking at needs them all rather than the first
  * (technical-design.md §3.2, §4.7).
  *

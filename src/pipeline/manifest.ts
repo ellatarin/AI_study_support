@@ -2,8 +2,8 @@
  * Reading and writing a lecture's `manifest.json`.
  *
  * The manifest is the pipeline's single record of a lecture's identity, stage
- * states, and accumulated cost, and three separate callers touch it: Stage 0
- * creates and renumbers it, the runner patches a stage entry after every stage,
+ * states, and accumulated cost, and three separate callers touch it:
+ * `source-normalisation` creates and renumbers it, the runner patches a stage entry after every stage,
  * and the CLI's identity commands rewrite the lecture's title or date. Its
  * location and on-disk format live here so those callers share one definition
  * rather than each rebuilding the path and the JSON formatting
@@ -50,7 +50,7 @@ export class ManifestShapeError extends NamedError {}
  * The schema version stamped into every manifest this pipeline writes.
  *
  * It belongs beside the read and write it describes, because the two parties that
- * put a version into a manifest — Stage 0, which creates one, and the fixtures,
+ * put a version into a manifest — `source-normalisation`, which creates one, and the fixtures,
  * which seed one for every suite — would otherwise each hold their own copy, and
  * nothing reads `version` back to notice they had diverged. Bumping it here bumps
  * what the suites seed, which is the only way a future migration gets tested
@@ -59,10 +59,10 @@ export class ManifestShapeError extends NamedError {}
 export const MANIFEST_VERSION = "1";
 
 /**
- * A manifest stage map with every stage `pending`, as Stage 0 writes it for a
+ * A manifest stage map with every stage `pending`, as `source-normalisation` writes it for a
  * newly created lecture workspace.
  *
- * Here for the reason {@link MANIFEST_VERSION} is here: Stage 0 writes this map
+ * Here for the reason {@link MANIFEST_VERSION} is here: `source-normalisation` writes this map
  * and the fixtures seed it, and each had been building its own. The two were
  * identical down to the assertion below, and nothing reads the map back in a way
  * that would have caught them diverging.

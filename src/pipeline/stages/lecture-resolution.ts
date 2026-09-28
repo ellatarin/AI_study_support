@@ -11,7 +11,7 @@
  * what counts as a matched pair, and which lecture is Lecture 1 — and checking
  * one should not mean laying out video files in a directory tree.
  *
- * See technical-design.md §3.2 (naming) and §5, Stage 0.
+ * See technical-design.md §3.2 (naming) and §5, `source-normalisation`.
  */
 
 import type { RunManifest } from "../../types/pipeline.js";
@@ -195,7 +195,7 @@ export function checkSources({
  * each lecture's title, base name, and matched slide. A new lecture's title is
  * freshly extracted from its raw filename; an existing lecture's title is taken
  * from its manifest, so a re-run neither re-parses an already-canonical filename
- * (which would corrupt the title) nor reverts a Stage 3 AI-derived rename.
+ * (which would corrupt the title) nor reverts a `transcript-structuring` AI-derived rename.
  *
  * @param args - The matched sources, the manifests already on disk, and what counts as a module prefix.
  * @param args.pairs - Each video with the slide {@link checkSources} matched to it.

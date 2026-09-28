@@ -29,27 +29,27 @@ import { buildStructuringMessages } from "./transcript-structuring.prompt.js";
  * model's reply is not the documented JSON object, or the model judged the
  * lecturer's title unusable yet proposed nothing that can stand in its place. A
  * failed cost lookup is NOT one of these — cost telemetry never gates pipeline
- * progress (technical-design.md §5, Stage 3; §7).
+ * progress (technical-design.md §5, `transcript-structuring`; §7).
  */
 export class TranscriptStructuringError extends NamedError {}
 
-/** The transcript Stage 3 structures. */
+/** The transcript `transcript-structuring` structures. */
 export type TranscriptStructuringInput = {
 	/** The full text of `Transcript/transcript.txt`. */
 	readonly transcriptText: string;
 };
 
-/** The structured transcript Stage 3 produces, and the title it settled on. */
+/** The structured transcript `transcript-structuring` produces, and the title it settled on. */
 export type TranscriptStructuringOutput = {
 	/** Absolute path to the written `Structured transcript/structured-transcript.md`. */
 	readonly structuredTranscriptPath: string;
-	/** The lecture's title after Stage 3, which downstream stages name output from. */
+	/** The lecture's title after this stage, which downstream stages name output from. */
 	readonly lectureTitle: string;
 };
 
 const STAGE_ID = "transcript-structuring";
 
-/** The object Stage 3's single call is contracted to return. */
+/** The object this stage's single call is contracted to return. */
 type StructuringReply = {
 	readonly provisionalTitleMeaningful: boolean;
 	readonly suggestedTitle: string | null;
@@ -57,7 +57,7 @@ type StructuringReply = {
 };
 
 /**
- * Reads and validates the transcript Stage 2 wrote.
+ * Reads and validates the transcript `transcription` wrote.
  *
  * @param context - The current lecture run context.
  * @returns The transcript text.
@@ -125,7 +125,7 @@ function requireSuggestedTitle(suggestedTitle: string | null): string {
 }
 
 /**
- * Where the lecture stands once Stage 3 has settled its title: the title itself,
+ * Where the lecture stands once this stage has settled its title: the title itself,
  * the workspace's path (which the stage may just have moved), and the identity
  * the runner is to write into the manifest (technical-design.md §4.2).
  */
@@ -171,7 +171,7 @@ function deriveBaseName({
  * The rename comes after the structured transcript has been written, so that
  * write lands at a path that still exists; the manifest is the runner's to write
  * afterwards, and it re-locates the workspace by date to do it
- * (technical-design.md §5, Stage 3; §4.2, §4.7).
+ * (technical-design.md §5, `transcript-structuring`; §4.2, §4.7).
  *
  * @param args - The lecture and the title to adopt.
  * @param args.context - The current lecture run context.
@@ -209,7 +209,7 @@ async function adoptDerivedTitle({
  * Three outcomes: the lecturer's title stands and nothing is settled; the user
  * has named the lecture themselves, so their title outranks the model's and only
  * `aiDerivedTitle` is settled; or the model's title is adopted and the lecture's
- * files move with it (technical-design.md §5, Stage 3).
+ * files move with it (technical-design.md §5, `transcript-structuring`).
  *
  * Each outcome is logged, because which one happened is what explains the
  * lecture's name from here on: every later stage names its output from the title
@@ -273,7 +273,7 @@ function settleTitle({
  * Structures the transcript and settles the lecture's title in a single call,
  * writing `Structured transcript/structured-transcript.md` and renaming the
  * lecture's files when the model replaces the title (technical-design.md §5,
- * Stage 3).
+ * `transcript-structuring`).
  *
  * @param args - The run inputs.
  * @param args.input - The transcript to structure.
@@ -334,10 +334,10 @@ async function structureTranscript({
 }
 
 /**
- * Builds Stage 3, which structures `Transcript/transcript.txt` into
+ * Builds `transcript-structuring`, which structures `Transcript/transcript.txt` into
  * `Structured transcript/structured-transcript.md` and settles the lecture's
  * title, renaming the lecture's files when it replaces one
- * (technical-design.md §5, Stage 3).
+ * (technical-design.md §5, `transcript-structuring`).
  *
  * @param args - The stage's dependencies.
  * @param args.logger - The run's logger; the factory binds it to this stage.

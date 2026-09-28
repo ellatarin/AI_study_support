@@ -58,7 +58,7 @@ describe("createTranscriptionStage", () => {
 		await rm(moduleRoot, { recursive: true, force: true });
 	});
 
-	/** The audio Stage 1 is required to have left, for the workspace under test. */
+	/** The audio `audio-extraction` is required to have left, for the workspace under test. */
 	function audioPath(): string {
 		return stageOutputPath({ workspaceRoot, stageId: "audio-extraction" });
 	}

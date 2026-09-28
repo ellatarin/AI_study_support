@@ -1,5 +1,5 @@
 /**
- * Stage 4's report as a page a person reads.
+ * `transcript-verification`'s report as a page a person reads.
  *
  * The same findings as `verification-report.json`, projected into markdown: this
  * module is handed the report that was already stored and returns text, so the
@@ -10,8 +10,8 @@
  * hand against the assessments in `docs/quality/`, which is work done by reading
  * reports and arguing with them; a JSON file is the wrong medium for that. When
  * a checker is settled on, this file goes, along with the stage's `readableView`
- * declaration (technical-design.md §5, Stage 4, "The readable view is
- * temporary").
+ * declaration (technical-design.md §5, `transcript-verification`, "The readable
+ * view is temporary").
  */
 
 import {
@@ -232,7 +232,7 @@ function renderConsidered(considered: readonly QaConsideration[]): string {
  *
  * Pure — it is handed the stored report and returns text, calls nothing and
  * reads no file, which is what makes every ordering and counting rule here
- * testable on its own (technical-design.md §5, Stage 4).
+ * testable on its own (technical-design.md §5, `transcript-verification`).
  *
  * @param args - What to render.
  * @param args.report - The report the checker returned, as it was stored.

@@ -1,7 +1,7 @@
 /**
  * The CLI's terminal prompts.
  *
- * Every question the pipeline asks is asked here. Stage 0 takes a
+ * Every question the pipeline asks is asked here. `source-normalisation` takes a
  * {@link ConfirmPrompt} rather than reaching for stdin itself, and the runner
  * returns date matches rather than choosing between them, so the only code that
  * touches the terminal is this module — which is what lets both be driven by
