@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.51-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.52-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-09-28
 **Status:** For review
 
@@ -1121,6 +1121,10 @@ placeCuts(args: { text: string; quotes: readonly string[] }):
 // the first always at 0, whatever its quote. The first quote that cannot be found is returned instead.
 sliceSubtopics(args: { text: string; cuts: readonly number[]; named: readonly { label: string; why: string }[] }): readonly Subtopic[]
 assertLossless(args: { text: string; subtopics: readonly Subtopic[] }): void
+
+// src/pipeline/stages/stage-input.ts — shared by the four division stages, which each read the transcript
+readStageText(args: { context: StageContext; stageId: StageWithOutputFile; purpose: string; fail: (message: string) => Error }): Promise<string>
+// The earlier stage's output as written; a missing or blank file throws the error `fail` builds from the message.
 
 // src/pipeline/stages/vote-cut-sites/vote-cut-sites.ts
 type CandidateLabel = { label: string; runs: number }

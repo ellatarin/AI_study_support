@@ -79,6 +79,8 @@ Items you classify as preserved or as compressed but intact are not findings and
 
 Order "deficiencies" by severity, most severe first.`;
 
+/* jscpd:ignore-start -- the division stages build their messages in this same
+   shape; this stage is kept untouched until it is deleted. */
 /**
  * Builds the messages for `transcript-verification`'s single call.
  *
@@ -102,3 +104,4 @@ export function buildVerificationMessages({
 		},
 	];
 }
+/* jscpd:ignore-end */

@@ -81,6 +81,8 @@ const VERIFICATION_TYPES = new Set([
 /** The severities a finding may carry, as `QA_SEVERITIES` declares them. */
 const SEVERITIES = new Set<string>(QA_SEVERITIES);
 
+/* jscpd:ignore-start -- the division stages share this reader as stage-input.ts;
+   this stage keeps its own copy, untouched, until the stage is deleted. */
 /**
  * Reads one of the two versions being compared, insisting it holds text.
  *
@@ -121,6 +123,7 @@ async function readStageText({
 	}
 	return text;
 }
+/* jscpd:ignore-end */
 
 /**
  * Reads both versions the checker compares.

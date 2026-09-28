@@ -16,3 +16,25 @@
 - [ ] **Replay against the prototype:** a one-off script in the prototype folder feeds every saved prototype `s6` reply, across all 8 lectures, through the new cut-finding and slicing code, and the positions match the prototype's own run files exactly. Any difference is explained or fixed.
 - [ ] **Live run:** the stage runs for real on one lecture (cost stated to the user first). Its subtopic counts and cut sites fall within the range the prototype's `s6` runs showed on that lecture.
 - [ ] The replay script and comparison results stay in the prototype folder, not in the pipeline's tests.
+
+## Comments
+
+**2026-09-28, progress.** Done and committed:
+- `6f7ed45`: cutting, `division.ts`
+- `183bd46`: the required `division` settings section
+
+The ported `s6` prompt is verified byte-identical to the prototype.
+
+Then committed together:
+- the stage itself, its prompt and its tests, all passing
+- the shared transcript reader (`stage-input.ts`), for the division stages only
+- the stage's id, folder, label, place in the run order and settings entry
+- the plan's test names; suite version 1.52-draft
+
+Still to do:
+- the replay, then one live run: state the cost first, and stop at this stage.
+
+Rulings made along the way:
+- A missing quote resends the whole run.
+- The transcript is trimmed once, when it is read.
+- The old structuring and verification stages are left untouched.

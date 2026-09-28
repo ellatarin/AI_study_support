@@ -394,6 +394,11 @@ export const STAGE_WORKSPACE = {
 	"source-normalisation": { outputLocation: inWorkspace([]), outputFile: null, readableView: null },
 	"audio-extraction": writesInto({ directory: "Audio", file: "audio.m4a" }),
 	transcription: writesInto({ directory: "Transcript", file: "transcript.txt" }),
+	"initial-subtopic-splitting": {
+		outputLocation: inWorkspace([declaredName("Initial subtopics")]),
+		outputFile: null,
+		readableView: null,
+	},
 	"transcript-structuring": writesInto({
 		directory: "Structured transcript",
 		file: "structured-transcript.md",

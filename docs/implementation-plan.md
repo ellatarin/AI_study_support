@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.51-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.52-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-09-28
 **Status:** For review
 
@@ -582,6 +582,8 @@ Clearing a stage's run files under `--from-stage` is the runner's reset of the s
 
 `src/pipeline/stages/division.ts` **(TD §5, "Dividing the transcript")** — `placeCuts`, `sliceSubtopics`, `assertLossless`, shared by the three division stages.
 
+`src/pipeline/stages/stage-input.ts` **(TD §5, "Dividing the transcript")** — `readStageText`, reading an earlier stage's output and failing with the reading stage's own error when it is missing or blank; shared by the four division stages.
+
 `src/pipeline/stages/initial-subtopic-splitting/` **(TD §5, `initial-subtopic-splitting`)** — the stage and its prompt module, the prototype's `s6` byte for byte. Added to `lectureStages` after transcription.
 
 The stage set gains `initial-subtopic-splitting` after `transcription` in `STAGE_IDS`, with its `STAGE_WORKSPACE` entry and cost-report label **(TD §3.3, §4.1)**; each later division phase adds its own stage the same way, after the one before. Old manifests need no migration, since a missing entry reads as not yet run.
@@ -591,22 +593,31 @@ The required `division` section — `panelSize`, `bar`, `sizeGateWords` — in `
 **Tests:**
 
 Unit tests for `division.ts` (no mocks):
-- `should cut at the quote when it matches the transcript exactly`
-- `should find the quote when its case or spacing differs from the transcript`
-- `should move the cut back to the sentence start when the quote begins $n words into its sentence` — `test.each` across one and two
+- `should start the first subtopic at the start of the text when its quote names somewhere else`
+- `should cut at the quote when it matches the text exactly`
+- `should find a quote when its case and spacing differ from the text`
+- `should move the cut back to the sentence start when the quote drops a leading $dropped` — `test.each` across one and two words
+- `should leave the cut where it is when the word before it does not open its sentence`
 - `should search forward from the previous cut when the quote also appears earlier`
-- `should report the quote when it cannot be found`
-- `should reproduce the transcript exactly when the subtopics are joined`
-- `should fail when joined subtopics differ from the transcript`
+- `should report the quote rather than guess when it is not in the text`
+- `should reproduce the text exactly when the subtopics are joined`
+- `should give each subtopic its span, label and reason when the text is cut`
+- `should accept the division only when its subtopics leave $shape` — `test.each` across no gap, a gap, an overlap and a short ending
+
+Integration tests for `stage-input.ts` (real temp directory):
+- `should return the file's text when the stage's output holds text`
+- `should raise the reading stage's own error naming the file when it is $state` — `test.each` across missing and blank
 
 Unit tests for the stage (mock `makeCompletionCall`):
-- `should send the whole transcript with the s6 prompt when a run is made`
-- `should save each subtopic's start, end, label and reason when a run completes`
-- `should treat a run as failed when one of its quotes cannot be found`
+- `should send the transcript without its surrounding whitespace when a run is made`
+- `should save every run of the panel with each subtopic's span, label and reason when the stage completes`
+- `should record every run file as written when the stage completes`
+- `should resend a run when the reply $problem` — `test.each` across opening words the transcript does not contain, not an object, no list of subtopics, an empty list, and a subtopic without its opening words
+- `should make only the missing runs when an earlier launch saved some`
+- `should fail when a saved run holds $problem` — `test.each` across not a list and a subtopic without its reason
+- `should fail when the transcript is $state` — `test.each` across missing and blank
 
-Unit tests for the config:
-- `should fail to load when the division section is $state` — `test.each` across missing, and each field missing or not a whole number of at least 1
-- `should fail to load when the bar exceeds the panel size`
+Config tests — rows added to the existing `should throw ConfigError when $case` table: the division section missing; a field missing, not a number, not a whole number, or below 1; the bar exceeding the panel size.
 
 **Replay against the prototype:** a script in `docs/quality/segmentation-prototype/` feeds every saved prototype `s6` reply, across all eight lectures, through `placeCuts` and `sliceSubtopics`, and reports any run whose cut positions differ from the prototype's own run file. Every difference is explained or fixed. The script and its results stay in the prototype.
 

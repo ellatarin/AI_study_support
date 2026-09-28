@@ -35,6 +35,7 @@ export const STAGE_IDS = [
 	"source-normalisation",
 	"audio-extraction",
 	"transcription",
+	"initial-subtopic-splitting",
 	"transcript-structuring",
 	"transcript-verification",
 	"slide-conversion",

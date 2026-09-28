@@ -333,6 +333,8 @@ async function structureTranscript({
 	};
 }
 
+/* jscpd:ignore-start -- the division stages are assembled in this same shape;
+   this stage is kept untouched until it is deleted. */
 /**
  * Builds `transcript-structuring`, which structures `Transcript/transcript.txt` into
  * `Structured transcript/structured-transcript.md` and settles the lecture's
@@ -356,3 +358,4 @@ export function createTranscriptStructuringStage({
 		run: (args) => structureTranscript({ ...args, client }),
 	});
 }
+/* jscpd:ignore-end */
