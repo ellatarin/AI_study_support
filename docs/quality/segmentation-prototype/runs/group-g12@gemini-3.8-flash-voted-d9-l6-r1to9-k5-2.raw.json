@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and cancer hallmarks framework",
+      "groupedBecause": "This subtopic introduces the lecture by outlining its learning outcomes, context, and the Hanahan and Weinberg hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics examine how oncogenic mutations in cell-surface receptors and downstream cascades promote independent cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in cancer",
+      "groupedBecause": "These subtopics explain how cancer cells experience blocks in terminal differentiation, illustrating the process in hematopoietic leukemias and intestinal epithelial architecture.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains the molecular mechanisms by which cancer cells evade programmed cell death through alterations in p53, Bax, and BCL2 signaling.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and senescence signaling",
+      "groupedBecause": "These subtopics explain how cancer cells achieve replicative immortality by overcoming telomere shortening and the p53-mediated stress signaling that normally enforces senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Complex hallmarks and metabolic reprogramming",
+      "groupedBecause": "These subtopics introduce the complex functional hallmarks of cancer and examine how metabolic reprogramming through aerobic glycolysis and enzyme mutations supports tumor growth.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "These subtopics explain the requirement for new blood vessel growth to sustain tumor expansion, its timing during lesion progression, and the balance of its regulatory factors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Cancer invasion and metastasis",
+      "groupedBecause": "This subtopic examines the metastatic cascade, diagnostic detection of disseminated cells, and the biological factors that govern distant colonization.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Closing remarks and summary",
+      "groupedBecause": "This subtopic concludes the lecture by summarising the convergence of cancer hallmarks and providing closing practical instructions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This topic introduces the lecture and outlines its core learning objectives regarding cancer evolution.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Selection and Intrinsic Drivers of Early Transformation",
+      "groupedBecause": "These subtopics demonstrate how cell-intrinsic alterations drive clonal expansion and early cancer evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Influence of Cell of Origin and Tissue Hierarchy on Malignancy",
+      "groupedBecause": "These subtopics examine how the differentiation state and hierarchical position of the cell of origin determine susceptibility to oncogenic transformation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Role of the Microenvironment in Tumor Promotion and Growth",
+      "groupedBecause": "These subtopics examine how external microenvironmental cues and supportive stroma enable tumor growth and progression.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Technologies for Studying Tumor Evolution and Microenvironments",
+      "groupedBecause": "This topic explains the modern experimental and computational technologies used to study tumor evolution and cellular interactions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Integrated Evolutionary Model of Cancer Development",
+      "groupedBecause": "This topic synthesizes the diverse intrinsic and extrinsic factors that converge to drive cancer evolution.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Closing Remarks",
+      "groupedBecause": "This topic concludes the lecture and previews the upcoming session on cancer therapy.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

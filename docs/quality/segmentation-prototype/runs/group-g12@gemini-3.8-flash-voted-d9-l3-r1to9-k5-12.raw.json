@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the learning outcomes, and sets the course context for the students.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of genetic regulation and tissue differentiation",
+      "groupedBecause": "These subtopics introduce cancer as a multistep disease driven by genetic changes and a failure of developmental tissue architecture, discussing the models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing benign and malignant tumors",
+      "groupedBecause": "These subtopics establish the clinical criteria, invasive behaviors, and nomenclature that distinguish benign neoplasms from malignant tumors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physical and systemic mechanisms through which primary and metastatic tumors impair normal physiological functions to cause illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor incidence across humans and other species",
+      "groupedBecause": "These subtopics compare the frequency and distribution of different tumor types in human populations and across other animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical presentation and cancer screening",
+      "groupedBecause": "These subtopics examine how tumors present clinically and the methods and challenges of screening populations for pre-malignant and early-stage disease.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture with a review of the learning outcomes and housekeeping remarks for upcoming sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

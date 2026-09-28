@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, sets the context within the cancer lecture series, and outlines the session's key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Nature of Cancer and Mutational Drivers",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease and explain how endogenous and inherited processes drive the accumulation of cellular mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and the 'Bad Luck' versus Extrinsic Risk Debate",
+      "groupedBecause": "These subtopics evaluate whether cancer risk is driven primarily by environmental exposures or random intrinsic bad luck through everyday examples, public debate, and global epidemiological data.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens and Viral Oncogenesis",
+      "groupedBecause": "These subtopics examine how infectious pathogens contribute to oncogenesis, focusing in detail on the mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "DNA Damage Mechanisms of Chemical Carcinogens and Radiation",
+      "groupedBecause": "These subtopics describe the molecular mechanisms by which radiation and chemical carcinogens—often activated through xenobiotic metabolism—inflict DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics address non-mutagenic aspects of carcinogenesis, showing how tumor promoters, chronic inflammation, and host developmental timing facilitate tumor outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, animal, and in vitro experimental methodologies used to identify carcinogen exposure and evaluate carcinogenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk–Benefit Decisions",
+      "groupedBecause": "This subtopic provides the closing summary of the lecture, reflecting on environmental cancer causation and individual risk–benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

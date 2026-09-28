@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "This subtopic welcomes the students, sets the scope of the lecture on the initiation and resolution of inflammation, and explains how previously introduced concepts fit together.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Recognition of Pathogens and Cellular Damage",
+      "groupedBecause": "These subtopics explain the molecular targets, receptors, and signaling mechanisms used by the innate immune system to detect infection and tissue injury.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Acute Inflammatory Signaling and Leukocyte Trafficking",
+      "groupedBecause": "These subtopics describe how the acute inflammatory response coordinates the recruitment and trafficking of immune cells, as well as the systemic risks when this activation becomes excessive.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation and Chronic Tissue Responses",
+      "groupedBecause": "These subtopics examine how acute inflammation is terminated and the tissue repair or chronic inflammatory states that follow.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic provides the concluding framing for the lecture and announces the upcoming topic.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the final lecture of the course and outlines its intended learning outcomes regarding cancer treatment approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics explore non-targeted cancer therapies that physically remove or broadly damage dividing cells, addressing their clinical utility, systemic side effects, and efflux-mediated resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics address therapeutic approaches that selectively eliminate cancer cells by exploiting their intrinsic pathway dependencies and genetic repair defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic drivers and kinase inhibitor resistance",
+      "groupedBecause": "These subtopics focus on therapies that inhibit driving oncogenic kinases and examine the biochemical mechanisms through which tumors develop resistance or drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics discuss the application of monoclonal antibodies and antibody-drug conjugates to selectively bind cell-surface antigens and eliminate tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and cellular immune redirection",
+      "groupedBecause": "These subtopics examine how host immune surveillance can be harnessed or engineered to eliminate tumors through checkpoint blockade and T-cell-directed therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Global challenges, historical progress, and future perspectives in cancer treatment",
+      "groupedBecause": "These subtopics reflect on the broader landscape of cancer medicine by analyzing the factors that dictate overall clinical success, historical progress, and future management strategies.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

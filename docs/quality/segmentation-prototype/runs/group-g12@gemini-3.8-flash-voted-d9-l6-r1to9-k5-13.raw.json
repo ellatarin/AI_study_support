@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Hallmarks of Cancer",
+      "groupedBecause": "The lecturer introduces the lecture's learning objectives and reviews the conceptual framework of cancer hallmarks in tumor progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signaling Autonomy and Proliferative Pathways",
+      "groupedBecause": "These subtopics explain how mutations in cell-surface receptors and downstream signaling cascades drive sustained proliferative signaling.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Blocks in Cancer",
+      "groupedBecause": "These subtopics describe how oncogenic mutations prevent proliferating cells from reaching terminal differentiation in both hematological and solid tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic details how alterations in the p53 and Bcl-2 family pathways allow cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics discuss how normal cells enforce replicative limits through telomeres and senescence, and how cancer cells bypass these barriers to achieve unlimited division.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Deregulation of Cellular Metabolism",
+      "groupedBecause": "These subtopics examine how cancer cells rewire their metabolic networks to support growth through aerobic glycolysis and onco-metabolite generation.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics explain the requirement, timing, and molecular balance of new blood vessel formation that supports tumor expansion.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Dissemination of Metastasis",
+      "groupedBecause": "This subtopic examines how tumor cells navigate the metastatic cascade to disseminate and colonize distant organs.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Summary",
+      "groupedBecause": "The lecturer concludes the presentation by summarizing the integration of cancer hallmarks and providing closing remarks.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

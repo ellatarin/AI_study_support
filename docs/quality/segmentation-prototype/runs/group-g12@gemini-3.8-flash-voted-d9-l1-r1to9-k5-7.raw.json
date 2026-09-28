@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "The lecturer introduces the topic of the lecture, outlines the focus on inflammation initiation and resolution, and explains how the session builds on prior knowledge.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Innate Immune Recognition",
+      "groupedBecause": "These subtopics establish the foundational concepts of innate immune sensing, including how molecular patterns of pathogens and tissue damage are distinguished from self and detected by host receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern Recognition Receptor Families and Signaling",
+      "groupedBecause": "These subtopics examine the major classes of pattern recognition receptors, their intracellular signaling cascades, and the activation of downstream inflammatory pathways such as the inflammasome.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Acute Inflammatory Cascade and Cell Trafficking",
+      "groupedBecause": "These subtopics trace the cellular and systemic progression of acute inflammation, showing how local immune activation coordinates leukocyte movement and can escalate into systemic disease.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation and Tissue Repair",
+      "groupedBecause": "These subtopics explain how the immune system terminates inflammation and repairs damaged tissue, as well as the chronic inflammatory and containment states that occur when resolution is incomplete.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the session and announces the subject of the upcoming lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

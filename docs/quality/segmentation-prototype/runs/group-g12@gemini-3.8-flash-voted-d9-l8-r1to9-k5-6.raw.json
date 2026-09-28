@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecture topic and outlines the key learning objectives regarding cancer therapy approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies and Their Limitations",
+      "groupedBecause": "These subtopics examine traditional treatment modalities and the problems of non-specific systemic toxicity and acquired drug resistance that limit their clinical effectiveness.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities",
+      "groupedBecause": "These subtopics describe therapeutic approaches designed to exploit intrinsic molecular and genetic vulnerabilities specific to cancer cells.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting Oncogenic Drivers with Kinase Inhibitors",
+      "groupedBecause": "These subtopics focus on inhibiting hyperactivated oncogenic kinases and examine the molecular mechanisms that lead to drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-Based Targeted Therapies",
+      "groupedBecause": "These subtopics describe therapeutic strategies that employ antibody-based targeting of tumor cell-surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Activation",
+      "groupedBecause": "These subtopics explore the interaction between cancer and the immune system, focusing on strategies that harness, redirect, or genetically engineer T cells to destroy tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, Historical Progress, and Future Directions in Cancer Treatment",
+      "groupedBecause": "These subtopics provide an overarching evaluation of clinical progress, ongoing systemic challenges, and future prospects in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

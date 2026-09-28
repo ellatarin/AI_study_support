@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the series on cancer biology, and the core learning objectives concerning environmental exposures, testing methodologies, and tumor initiators and promoters.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: intrinsic mutations versus environmental exposures",
+      "groupedBecause": "These subtopics examine the fundamental nature of cancer as an evolutionary genetic disease and evaluate the relative contributions of intrinsic biological errors versus environmental risks through epidemiological patterns and public debates.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and biological carcinogenesis",
+      "groupedBecause": "These subtopics explain how biological pathogens drive malignant transformation through chronic inflammation and immunosuppression, using Burkitt lymphoma as a detailed case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens: DNA damage and metabolic activation",
+      "groupedBecause": "These subtopics detail how physical radiation and chemical agents damage DNA, focusing on how xenobiotic metabolism converts inert compounds into reactive, mutagenic adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, initiators, and host susceptibility",
+      "groupedBecause": "These subtopics examine tumor promotion, demonstrating how non-mutagenic factors like chronic inflammation, cellular proliferation, and developmental timing foster cancer development alongside mutational initiators.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics assess the laboratory and epidemiological methodologies used to detect carcinogen exposure and evaluate carcinogenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion: balancing risks and benefits of exposures",
+      "groupedBecause": "This subtopic concludes the lecture by framing carcinogenic exposure within everyday risk-versus-benefit decisions and summarizing the main takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

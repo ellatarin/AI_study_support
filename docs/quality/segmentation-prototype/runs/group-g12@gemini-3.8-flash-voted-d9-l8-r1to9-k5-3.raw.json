@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Welcome and Lecture Introduction",
+      "groupedBecause": "This subtopic introduces the final lecture of the course and outlines its learning objectives concerning cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies",
+      "groupedBecause": "These subtopics examine traditional non-targeted cancer therapies, detailing their mechanisms of tissue elimination, systemic toxicities, and cellular resistance pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities",
+      "groupedBecause": "These subtopics describe therapeutic approaches designed to target cancer cells through their intrinsic biological vulnerabilities and repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted Kinase Inhibitors and Resistance",
+      "groupedBecause": "These subtopics address the rational design of small-molecule kinase inhibitors against oncogenic drivers and the diverse molecular pathways through which tumors develop resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics examine the application of engineered antibodies to selectively target surface antigens on cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Modulation",
+      "groupedBecause": "These subtopics explore the interaction between tumors and the immune system, focusing on therapeutic strategies that activate and engineer T cells to eliminate cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, Progress, and Future Directions in Cancer Care",
+      "groupedBecause": "These subtopics evaluate the broader landscape of cancer treatment, assessing overall therapeutic progress, persistent clinical challenges, and future care paradigms.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

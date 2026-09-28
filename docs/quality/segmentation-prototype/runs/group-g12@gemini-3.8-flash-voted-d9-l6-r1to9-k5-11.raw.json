@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "This opening subtopic introduces the lecture by outlining the learning outcomes, recalling the progression model of tumorigenesis, and setting up the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and pathway mutations",
+      "groupedBecause": "These subtopics examine how oncogenic mutations across cell-surface receptors and downstream cascades drive sustained proliferation and overcome growth-inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in cancer",
+      "groupedBecause": "These subtopics illustrate how malignant transformation can arrest cells in an immature, non-terminally differentiated state while preserving their capacity to divide.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how alterations in p53 regulation and the mitochondrial apoptotic machinery allow cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and cellular senescence",
+      "groupedBecause": "These subtopics explain how telomere shortening and stress signaling enforce senescence, and how cancer cells bypass this barrier by upregulating telomerase.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics describe how cancer cells shift toward aerobic glycolysis and how metabolic enzyme mutations generate oncometabolites that drive epigenetic alterations.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "These subtopics outline the requirement for new blood vessel growth to sustain tumor tissue beyond the diffusion limit of oxygen and the regulatory balance controlling this switch.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "The metastatic cascade and clonal dissemination",
+      "groupedBecause": "This subtopic addresses the multistep progression of metastasis, including circulatory dissemination, diagnostic biomarkers, seed-and-soil interactions, and underlying genomic features.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture wrap-up and practical session preview",
+      "groupedBecause": "This closing subtopic concludes the presentation with framing comments on recent hallmark literature, expectations for student revision, and directions for upcoming practicals.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

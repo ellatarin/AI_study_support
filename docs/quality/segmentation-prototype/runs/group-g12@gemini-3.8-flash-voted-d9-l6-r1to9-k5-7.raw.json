@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Mechanisms",
+      "groupedBecause": "This subtopic frames the lecture by outlining the learning objectives and introducing Hanahan and Weinberg's hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated Signaling Pathways Driving Proliferation and Survival",
+      "groupedBecause": "These subtopics examine how mutations in cell-surface receptors and intracellular signaling cascades, such as Wnt, RTK/Ras/MAPK, PI3K/Akt, and TGF-beta, confer growth-signal autonomy and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Blocks in Tumorigenesis",
+      "groupedBecause": "These subtopics explore how cancer cells undergo differentiation arrest, preventing terminal maturation and trapping cells in a proliferative state across hematopoietic and intestinal tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic focuses on how cancer cells resist programmed cell death through mutations in p53 and shifts in the balance between pro- and anti-apoptotic proteins such as Bax and Bcl-2.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics explain how cancer cells overcome the Hayflick limit via telomerase reactivation and bypass normal p53-mediated stress responses that enforce cell cycle arrest and senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Reprogramming and Onco-Metabolites",
+      "groupedBecause": "These subtopics introduce complex cancer hallmarks and explain how tumor cells rewire cellular metabolism through aerobic glycolysis, Krebs cycle enzyme mutations, and epigenetic alterations.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis and the Angiogenic Switch",
+      "groupedBecause": "These subtopics describe the requirement for new blood vessel growth to sustain tumor oxygenation and examine how the balance of pro- and anti-angiogenic signals controls vessel formation during progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "The Metastatic Cascade and Secondary Colonization",
+      "groupedBecause": "This subtopic analyzes the biological mechanisms of cancer metastasis, including invasion, vascular transit, organ tropism, and the genomic features underlying metastatic survival.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Conclusion and Future Perspectives",
+      "groupedBecause": "This subtopic provides the closing framing of the lecture, summarizing the hallmark paradigm, pointing to recent literature extensions, and inviting questions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

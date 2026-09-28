@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This opening subtopic welcomes the students to the final lecture of the course and outlines the learning objectives regarding cancer therapies and their modes of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies and Limitations",
+      "groupedBecause": "These subtopics address conventional therapeutic modalities, detailing how physical intervention and cytotoxic agents eliminate tumors while causing significant systemic toxicity and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Vulnerabilities in Cancer Cells",
+      "groupedBecause": "These subtopics describe therapeutic strategies that selectively destroy cancer cells by exploiting their intrinsic functional defects and genetic vulnerabilities.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene-Targeted Kinase Inhibitors and Resistance",
+      "groupedBecause": "These subtopics focus on targeted therapies directed against driver oncogenes and hyperactivated kinases, examining their inhibitory mechanisms and the pathways through which tumors acquire resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Therapeutic Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics explain how engineered monoclonal antibodies target tumor cell surface antigens to disrupt oncogenic signaling, engage immune effectors, or deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "T-Cell Immunotherapy and Immune Checkpoint Modulation",
+      "groupedBecause": "These subtopics explore host immune surveillance and the development of cellular and checkpoint-directed immunotherapies to mobilize T-cell responses against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical Progress, Systemic Challenges, and Future Directions",
+      "groupedBecause": "These subtopics evaluate the broader clinical trajectory of cancer management, considering historical gains in survival, persistent systemic hurdles, and future strategic priorities.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

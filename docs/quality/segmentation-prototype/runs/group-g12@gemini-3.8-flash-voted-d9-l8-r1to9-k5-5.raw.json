@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the introductory framing for the lecture, establishing the session's scope and key learning outcomes regarding cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatments and their limitations",
+      "groupedBecause": "These subtopics examine standard therapeutic modalities used to eliminate tumor mass and the significant limitations imposed by systemic toxicity and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic cancer cell vulnerabilities and defects",
+      "groupedBecause": "These subtopics describe therapeutic approaches that exploit intrinsic cellular vulnerabilities and genetic deficiencies specific to cancer cells.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Inhibiting oncogenic kinases and overcoming resistance",
+      "groupedBecause": "These subtopics explore the inhibition of hyperactive oncogenic kinases and the diverse mechanisms through which cancer cells develop resistance to these targeted therapies.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based targeted therapies",
+      "groupedBecause": "These subtopics explain how monoclonal antibodies, used either directly or as conjugates delivering cytotoxic payloads, selectively target cancer cell-surface proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Harnessing T-cell immunity against cancer",
+      "groupedBecause": "These subtopics examine the evidence for anti-tumor immune responses and the therapeutic strategies developed to mobilize or engineer T cells to eradicate cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overall progress, clinical challenges, and future perspectives",
+      "groupedBecause": "These subtopics evaluate the broader historical progress of cancer therapy alongside the persistent clinical challenges, ethical dilemmas, and future directions in patient care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

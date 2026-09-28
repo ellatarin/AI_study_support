@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the lecture",
+      "groupedBecause": "This subtopic welcomes the class and introduces complement as a challenging but essential topic for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational principles of the complement system",
+      "groupedBecause": "These subtopics establish the foundational concepts required to understand the complement cascade prior to examining specific pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three upstream recognition mechanisms that converge on C3 activation to trigger the complement cascade.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail the primary downstream mechanisms through which activated complement eliminates pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement",
+      "groupedBecause": "This subtopic explains the regulatory mechanisms that prevent complement from inadvertently attacking and destroying host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic examines how deficiencies in specific complement components manifest in distinct clinical presentations.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic explores how pathogens circumvent complement-mediated immunity, using Staphylococcus aureus as a primary example.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the complement lecture and previews the upcoming session on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

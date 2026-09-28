@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Framing",
+      "groupedBecause": "This subtopic introduces the lecture topic on the initiation and resolution of inflammation and frames its relationship to previous course material.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Innate Immune Recognition",
+      "groupedBecause": "These subtopics explain how the innate immune system identifies infections and damage by recognizing molecular patterns through germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-Like Receptor Function and Signaling",
+      "groupedBecause": "These subtopics describe the molecular properties, localization, and downstream signaling pathways of toll-like receptors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cytoplasmic Sensors and Inflammasome Activation",
+      "groupedBecause": "These subtopics examine intracellular pattern recognition receptors and the formation of the inflammasome complex to process inflammatory cytokines.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Cellular Recruitment and Acute Inflammatory Dynamics",
+      "groupedBecause": "These subtopics explain how activated sentinel cells direct immune cell migration and mediate the physiological effects of acute inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Inflammatory Resolution and Post-Inflammatory Tissue Outcomes",
+      "groupedBecause": "These subtopics describe the mechanisms that terminate acute inflammation and determine post-inflammatory tissue outcomes.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Preview of Next Lecture",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming topic on the complement system.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

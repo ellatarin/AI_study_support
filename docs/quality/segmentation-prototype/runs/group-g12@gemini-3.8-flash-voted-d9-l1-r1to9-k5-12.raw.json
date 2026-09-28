@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Inflammation Mechanisms",
+      "groupedBecause": "The lecturer introduces the lecture by outlining its focus on integrating known molecular and cellular components to explain the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Recognition of Pathogens and Damage",
+      "groupedBecause": "These subtopics explain the molecular mechanisms and receptor systems by which the innate immune system detects infection and cellular damage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Leukocyte Recruitment and Inflammatory Signaling",
+      "groupedBecause": "These subtopics examine how activated sentinel cells orchestrate the migration of immune cells into tissues and the broader physiological consequences of that response.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation and Tissue Repair",
+      "groupedBecause": "These subtopics describe the processes through which the body resolves acute inflammation and manages post-inflammatory tissue outcomes.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Next Lecture",
+      "groupedBecause": "The lecturer concludes the session and announces the subject of the upcoming lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

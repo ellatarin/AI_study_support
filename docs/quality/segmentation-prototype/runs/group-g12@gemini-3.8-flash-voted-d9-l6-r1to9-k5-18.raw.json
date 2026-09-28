@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Hallmarks of Cancer",
+      "groupedBecause": "This subtopic introduces the lecture's objectives, reviewing the progression of cancer mutations and framing the discussion around Hanahan and Weinberg's hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of Proliferative and Growth-Inhibitory Signaling",
+      "groupedBecause": "These subtopics examine how mutations in cell surface receptors and intracellular signaling cascades confer self-sufficiency in growth signals and insensitivity to growth-inhibitory cues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer",
+      "groupedBecause": "These subtopics explain how cancer cells arrest in an immature proliferative state instead of completing terminal lineage differentiation, using hematopoietic malignancies and colorectal carcinoma as models.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis and Cellular Senescence",
+      "groupedBecause": "These subtopics describe how cancer cells overcome intrinsic anti-oncogenic fail-safes by disrupting apoptotic machinery, maintaining telomere length, and bypassing p53-mediated stress responses.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Reprogramming of Cellular Metabolism",
+      "groupedBecause": "These subtopics introduce complex phenotypic hallmarks and examine how cancer cells rewire their metabolic pathways through aerobic glycolysis and oncometabolite-driven epigenetic alterations.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics discuss how growing tumors overcome diffusion limits by inducing new blood vessel formation through an imbalance of angiogenic activators and inhibitors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Progression of Metastasis",
+      "groupedBecause": "This subtopic details the multistep metastatic cascade, examining how cancer cells invade, survive circulation, and colonize distant organs despite significant mechanical and biological inefficiencies.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Summary",
+      "groupedBecause": "This subtopic concludes the lecture by reflecting on the convergence of cancer hallmarks across diverse mutational paths, highlighting recent conceptual literature, and inviting student questions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

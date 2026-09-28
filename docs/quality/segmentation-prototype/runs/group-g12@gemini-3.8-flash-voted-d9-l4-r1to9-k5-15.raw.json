@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "This subtopic introduces the lecturer, outlines the scope of the cancer lecture series, and sets the learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as an Evolutionary Genetic Disease and Sources of Mutation",
+      "groupedBecause": "These subtopics establish that cancer is an evolutionary genetic disease driven by accumulated mutations from endogenous cellular errors, inherited predispositions, and external exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and the Debate Over Cancer Causation",
+      "groupedBecause": "These subtopics evaluate everyday environmental exposures and epidemiological evidence to address whether cancer incidence is primarily preventable or the result of mutational bad luck.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens in Cancer Development",
+      "groupedBecause": "These subtopics examine how infectious agents promote malignant transformation, focusing on the cooperative roles of viral infection and immune disruption in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics detail how specific chemical and physical mutagens damage DNA, emphasizing the role of xenobiotic metabolism in converting inert compounds into reactive mutagens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Permissive Microenvironments, and Host Susceptibility",
+      "groupedBecause": "These subtopics explain how non-mutagenic tumor promoters, chronic inflammation, and host developmental stages create permissive environments for initiated cells to proliferate into tumors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Identifying and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics assess the laboratory and epidemiological methodologies used to identify mutational patterns and determine the carcinogenicity of environmental agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Balance",
+      "groupedBecause": "This subtopic concludes the lecture by framing carcinogenic risk within everyday decision-making and summarizing key takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

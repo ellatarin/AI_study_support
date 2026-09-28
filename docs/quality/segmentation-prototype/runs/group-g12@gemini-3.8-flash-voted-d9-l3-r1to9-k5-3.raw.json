@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, its multidisciplinary audience, and the session's learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Disruption of Differentiation and Architecture",
+      "groupedBecause": "These subtopics frame cancer as an accumulation of alterations leading to a breakdown in normal cellular differentiation and tissue architecture, and consider the challenge of modeling this architecture in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Progression, Invasion, and Classification",
+      "groupedBecause": "These subtopics explain how tumors are distinguished and classified as benign or malignant based on tissue invasion, metastatic potential, and stepwise progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of Tumor Morbidity and Mortality",
+      "groupedBecause": "This subtopic explains the specific physiological and mechanical mechanisms by which tumors cause illness and death in patients.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Incidence Across Species and Populations",
+      "groupedBecause": "These subtopics examine the comparative incidence and distribution of tumors across human populations and diverse animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical Detection and Cancer Screening",
+      "groupedBecause": "These subtopics evaluate the clinical presentation of tumors and the effectiveness and limitations of screening programs for early cancer detection.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the lecture with a reminder of the learning outcomes and logistical details for upcoming sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

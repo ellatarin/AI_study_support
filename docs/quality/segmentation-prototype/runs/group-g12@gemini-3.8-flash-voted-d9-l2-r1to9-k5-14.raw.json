@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic introduces the lecture on complement and sets expectations regarding its complexity and nomenclature.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational principles and architecture of complement",
+      "groupedBecause": "These subtopics introduce the fundamental framework and operating principles of the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three distinct pathways that recognize pathogens and initiate complement activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail the primary downstream effector mechanisms by which complement eliminates pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement",
+      "groupedBecause": "This subtopic explains how regulatory proteins protect host cells from unintended complement destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical complement deficiencies",
+      "groupedBecause": "This subtopic examines the distinct clinical presentations and pathology associated with deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic describes the mechanisms by which pathogens evade complement-mediated destruction, highlighting Staphylococcus aureus as a case study.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming topic in the course.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

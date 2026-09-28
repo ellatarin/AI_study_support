@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "This subtopic introduces the final lecture of the course and outlines its core learning objectives concerning cancer treatment approaches and mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies and Their Limitations",
+      "groupedBecause": "These subtopics examine conventional non-targeted treatment modalities and the systemic toxicity and drug resistance mechanisms that restrict their clinical effectiveness.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Tumor Vulnerabilities",
+      "groupedBecause": "These subtopics examine therapeutic strategies that selectively target tumors by exploiting their intrinsic physiological vulnerabilities and genetic defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted Kinase Inhibitors and Resistance Mechanisms",
+      "groupedBecause": "These subtopics examine therapies designed to inhibit hyperactivated oncogenic kinases and explore the molecular mechanisms through which cancer cells develop resistance or addiction to these agents.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-Based Cancer Therapies",
+      "groupedBecause": "These subtopics examine therapeutic strategies that use engineered monoclonal antibodies to target tumor surface antigens and deliver cytotoxic effects.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune Surveillance and Checkpoint Blockade",
+      "groupedBecause": "These subtopics examine the evidence for natural immune surveillance against cancer and the clinical application of checkpoint inhibitors that release T-cell inhibition against tumor neoantigens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Engineered T-Cell Therapies",
+      "groupedBecause": "These subtopics discuss synthetic immunotherapeutic approaches that physically recruit or genetically reprogram T cells to recognize and destroy cancer cells.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Clinical Realities, Progress, and Future Outlook of Cancer Therapy",
+      "groupedBecause": "These subtopics reflect on the overall trajectory of oncology by evaluating long-term clinical outcomes against ongoing biological challenges and emerging ethical questions.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

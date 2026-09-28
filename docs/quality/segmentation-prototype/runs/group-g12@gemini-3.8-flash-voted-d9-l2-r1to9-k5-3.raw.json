@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic introduces the lecture topic, sets expectations regarding nomenclature complexity, and provides opening framing.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations and central mechanics of complement",
+      "groupedBecause": "These subtopics establish the foundational principles and central molecular mechanics of the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics describe the three recognition pathways that drive C3 convertase assembly and establish the trigger threshold for activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics detail the primary downstream mechanisms through which activated complement eliminates pathogens and promotes immune defense.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement",
+      "groupedBecause": "This subtopic addresses how regulatory proteins protect host cells from unintended complement-mediated damage.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical complement deficiencies",
+      "groupedBecause": "This subtopic examines the distinct pathological consequences and disease phenotypes associated with deficiencies in various complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic explores how pathogenic microorganisms evolve targeted strategies to evade and neutralize complement defenses.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing remarks",
+      "groupedBecause": "This subtopic concludes the lecture, previews the upcoming topic on adaptive immunity, and provides closing framing.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

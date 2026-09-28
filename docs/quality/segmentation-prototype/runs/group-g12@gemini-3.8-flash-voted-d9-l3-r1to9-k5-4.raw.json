@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic welcomes the students, introduces the lecture series, and outlines the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis of cancer in cellular regulation and tissue architecture",
+      "groupedBecause": "These subtopics explain how cancer develops as a progressive failure of cellular differentiation, genetic regulation, and three-dimensional tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and tumor classification",
+      "groupedBecause": "These subtopics examine how neoplasms are evaluated, differentiated, and categorized based on their invasive behavior, progression, and diagnostic nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physiological and mechanical processes through which primary and metastatic tumors impair organ function to cause illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative incidence of tumors across tissues and species",
+      "groupedBecause": "These subtopics survey the relative frequency of different tumor types across human tissues and compare these patterns across other multicellular animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and efficacy of cancer screening",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, diagnostic methods, and comparative efficacy of screening programs designed to detect tumors before they become malignant.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic concludes the lecture by reiterating the learning outcomes and previewing the upcoming practical sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

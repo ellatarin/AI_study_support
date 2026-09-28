@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the final lecture of the course and outlines the learning objectives for cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Treatments and Clinical Limitations",
+      "groupedBecause": "These subtopics explore conventional cancer treatments and the clinical challenges of systemic toxicity and drug resistance that limit their effectiveness.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting Intrinsic Cancer Cell Vulnerabilities",
+      "groupedBecause": "These subtopics examine therapeutic strategies designed to exploit the intrinsic genetic and cellular vulnerabilities of cancer cells.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted Kinase Inhibitors and Resistance",
+      "groupedBecause": "These subtopics explain the targeting of oncogenic driver kinases and the molecular mechanisms that lead to acquired drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-Based Therapies",
+      "groupedBecause": "These subtopics describe the use of engineered monoclonal antibodies to inhibit receptor signalling or deliver cytotoxic agents directly to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immunotherapy and T-Cell Engagement",
+      "groupedBecause": "These subtopics examine tumor immune surveillance and explore immunotherapy strategies that reactivate or engineer T cells to eliminate cancer cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Progress, Challenges, and Future Perspectives",
+      "groupedBecause": "These subtopics assess the historical progress, ongoing clinical challenges, and future prospects of cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

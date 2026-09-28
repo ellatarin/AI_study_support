@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer hallmarks",
+      "groupedBecause": "It introduces the lecture's aims, learning outcomes, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained proliferative signaling and growth signal autonomy",
+      "groupedBecause": "These subtopics explain how mutations in cell-surface receptors and downstream signaling cascades drive cancer cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block of terminal differentiation",
+      "groupedBecause": "These subtopics examine how an inability to complete terminal differentiation keeps cancer cells proliferative in both leukemias and carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of programmed cell death",
+      "groupedBecause": "It details how cancer cells resist apoptosis through p53 mutation and alterations in mitochondrial outer membrane permeabilization proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and senescence bypass",
+      "groupedBecause": "These subtopics explain how cancer cells overcome the Hayflick limit through telomerase activation and bypass p53-mediated stress and senescence barriers.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Reprogramming of cellular metabolism",
+      "groupedBecause": "These subtopics examine how cancer cells rewire their metabolic pathways to fulfill biosynthetic demands through aerobic glycolysis, oncometabolites, and epigenetic alteration.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "These subtopics discuss the necessity, timing, and regulatory balance of blood vessel recruitment required for tumor growth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms, dissemination, and detection of metastasis",
+      "groupedBecause": "It explores the biological stages, physical and environmental constraints, and clinical tracking of cancer cells spreading to distant organs.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture conclusion and summary of cancer hallmarks",
+      "groupedBecause": "It concludes the lecture with reflections on recent literature, summarizes the collective hallmark framework, and transitions to practicals.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

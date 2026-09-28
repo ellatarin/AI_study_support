@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic welcomes the students, outlines the course structure and student backgrounds, and introduces the core learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis of cancer development",
+      "groupedBecause": "These subtopics define cancer as a progressive failure of cellular differentiation and tissue architecture driven by accumulated genetic changes, and address the challenge of modeling this in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing benign from malignant tumors",
+      "groupedBecause": "These subtopics explain the diagnostic criteria that separate benign from malignant neoplasms, including their capacity for invasion and metastasis, their morphological progression, and their formal nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physiological and mechanical processes through which primary and metastatic tumors cause systemic illness and patient death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor incidence across tissues and species",
+      "groupedBecause": "These subtopics compare patterns of tumor frequency and mortality across human tissue types and diverse animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical detection and cancer screening",
+      "groupedBecause": "These subtopics evaluate the clinical presentation of tumors and the rationale, efficacy, and challenges of screening programs across various cancer types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture by revisiting the learning outcomes and providing closing announcements.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Outcomes",
+      "groupedBecause": "It introduces the lecture series, describes the audience and scope, and establishes the learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Differentiation and Tissue Architecture",
+      "groupedBecause": "They examine how cancer arises from accumulated genetic changes that disrupt normal cellular differentiation programs and three-dimensional tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Malignant Progression",
+      "groupedBecause": "They examine how tumors progress from contained benign lesions into invasive and metastatic malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature and Classification",
+      "groupedBecause": "It outlines the standardized rules and exceptions for naming benign and malignant neoplasms according to their tissue origin.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "It explains the physiological mechanisms by which primary and metastatic tumors cause systemic disease and patient death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer Incidence Across Tissues and Species",
+      "groupedBecause": "They survey the comparative incidence and mortality of cancer across different human organ systems and diverse animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Practice of Cancer Screening",
+      "groupedBecause": "They evaluate the clinical rationale, methodology, and varying effectiveness of screening programs for detecting early-stage cancers.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Wrap-Up and Next Steps",
+      "groupedBecause": "It concludes the session by reviewing the learning outcomes and reminding students about upcoming practicals.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

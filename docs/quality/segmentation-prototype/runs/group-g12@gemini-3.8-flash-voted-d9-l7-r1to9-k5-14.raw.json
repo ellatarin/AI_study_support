@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Outcomes",
+      "groupedBecause": "It welcomes the students, introduces the lecture on cancer evolution, and outlines the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Drivers of Clonal Selection",
+      "groupedBecause": "They describe how cell-intrinsic alterations, encompassing both genetic mutations and epigenetic modifications, confer selective growth advantages during cancer evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Stem Cell Hierarchies in Cancer",
+      "groupedBecause": "They explore whether tumors initiate within tissue-specific stem cells or differentiated progenitor cells along normal tissue hierarchies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Influences on Tumor Growth",
+      "groupedBecause": "They demonstrate how microenvironmental cues and inflammatory signals provide the necessary permissive conditions to initiate and sustain tumor growth.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Technologies for Investigating Tumor Heterogeneity and Microenvironments",
+      "groupedBecause": "It outlines the experimental and computational technologies used to profile tumor cell plasticity and spatial interactions within the microenvironment.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Integrated Evolutionary Framework of Cancer Development",
+      "groupedBecause": "It synthesizes genetic mutations, cellular hierarchies, and microenvironmental factors into a comprehensive model of Darwinian cancer evolution.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Closing Remarks",
+      "groupedBecause": "It concludes the lecture session and previews the upcoming topic on cancer therapy.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

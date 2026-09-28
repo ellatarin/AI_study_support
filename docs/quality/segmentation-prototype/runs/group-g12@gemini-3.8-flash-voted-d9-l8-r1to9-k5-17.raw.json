@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the final lecture of the course by welcoming students and setting out the core learning objectives on cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics examine non-targeted modalities for debulking and killing cancer cells, highlighting the mechanisms, systemic toxicities, and drug-resistance pathways of cytotoxic chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic molecular dependencies of cancer cells, including hormone receptor requirements, cell cycle checkpoint defects, and impaired DNA repair.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene Addiction and Small-Molecule Kinase Inhibitors",
+      "groupedBecause": "These subtopics discuss the rationale, clinical applications, and diverse resistance mechanisms associated with small-molecule kinase inhibitors targeting driver oncogenes.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Therapeutic Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics describe the design and therapeutic actions of engineered monoclonal antibodies that target cancer cell surface antigens either to recruit immune effectors or to selectively deliver cytotoxic drugs.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Modulation",
+      "groupedBecause": "These subtopics examine cancer immunotherapy strategies centered on mobilizing, disinhibiting, or genetically engineering T cells to eliminate tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overarching Challenges, Progress, and Future Directions in Cancer Care",
+      "groupedBecause": "These subtopics evaluate the broader clinical trajectory of cancer care, reviewing pervasive challenges, long-term survival trends, and future therapeutic and ethical priorities.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

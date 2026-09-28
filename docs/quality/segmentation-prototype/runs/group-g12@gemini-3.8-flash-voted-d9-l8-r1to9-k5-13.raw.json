@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the final course lecture and outlines the core learning outcomes regarding cancer therapy approaches and mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics explain conventional cancer treatments aimed at physically removing or non-specifically destroying dividing cells, detailing their administration, toxicities, and drug resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities",
+      "groupedBecause": "These subtopics examine how intrinsic cellular defects and physiological dependencies unique to cancer cells can be selectively targeted to induce growth arrest or apoptosis.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene Addiction and Kinase Inhibitor Therapies",
+      "groupedBecause": "These subtopics explore the identification of driver oncogenes, the application of small-molecule kinase inhibitors to exploit oncogene addiction, and the diverse mechanisms by which tumors acquire drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-Based Therapeutics",
+      "groupedBecause": "These subtopics describe how engineered antibodies targeting tumor-cell surface antigens are used to block oncogenic signaling, induce immune-mediated cytotoxicity, or selectively deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumor Immune Surveillance and Checkpoint Inhibition",
+      "groupedBecause": "These subtopics examine the evidence for immune surveillance against tumors and explain how immune checkpoint inhibitors reactivate endogenous T cells to target cancer neoantigens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Engineered T-Cell Immunotherapies",
+      "groupedBecause": "These subtopics discuss engineered immunotherapies that artificially bridge or genetically reprogram T cells to destroy cancer cells, highlighting their mechanisms, clinical efficacy, and current limitations.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Overarching Challenges, Outcomes, and Future Perspectives",
+      "groupedBecause": "These subtopics provide a broad appraisal of cancer therapy by addressing population-level survival trends, treatment barriers such as heterogeneity, and emerging future priorities in clinical practice.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

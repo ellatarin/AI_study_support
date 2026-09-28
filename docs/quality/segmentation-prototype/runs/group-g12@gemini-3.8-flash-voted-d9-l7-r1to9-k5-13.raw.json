@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "It introduces the lecture's scope on cancer evolution and outlines the key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Selection and Epigenetic Plasticity in Cancer Progression",
+      "groupedBecause": "They explain how cancer evolves through sequential clonal selection of driving mutations and non-mutational epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Stem Cell Hierarchies in Tumorigenesis",
+      "groupedBecause": "They examine how tissue differentiation hierarchies and the cell of origin influence cancer initiation and tumor-propagating capacity.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Influences on Tumor Growth",
+      "groupedBecause": "They demonstrate how inflammatory stimuli and supportive stromal environments provide the permissive signals required for tumor outgrowth and maintenance.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Experimental and Computational Methods in Cancer Evolution Research",
+      "groupedBecause": "It describes the analytical tools and experimental approaches used to investigate tumor evolution and cell-microenvironment interactions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Multi-Factorial Evolutionary Framework of Cancer Development",
+      "groupedBecause": "It synthesizes how genetic alterations, cell intrinsic properties, and environmental conditions converge to drive cancer evolution.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Lecture Conclusion and Next Session Preview",
+      "groupedBecause": "It concludes the presentation and previews the upcoming session on cancer therapy.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the final lecture of the course and outlines its core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies and Limitations",
+      "groupedBecause": "These subtopics examine conventional methods for removing or destroying tumors alongside the clinical challenges of non-specific toxicity and acquired resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities",
+      "groupedBecause": "These subtopics explore therapeutic strategies that selectively eliminate tumor cells by exploiting their intrinsic genetic and physiological defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting Oncogenic Kinases and Mechanisms of Resistance",
+      "groupedBecause": "These subtopics focus on small-molecule inhibitors directed against hyperactivated oncogenic kinases and the molecular mechanisms causing therapeutic resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-Based Targeted Therapies",
+      "groupedBecause": "These subtopics cover the use of monoclonal antibodies and antibody-drug conjugates to specifically deliver cytotoxic effects against tumor cell surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy",
+      "groupedBecause": "These subtopics examine approaches that mobilize and re-engineer the host immune system to recognize and destroy tumor cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, Progress, and Future Directions in Cancer Management",
+      "groupedBecause": "These subtopics evaluate the broad systemic challenges, historical improvements in survival, and emerging considerations for future cancer care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

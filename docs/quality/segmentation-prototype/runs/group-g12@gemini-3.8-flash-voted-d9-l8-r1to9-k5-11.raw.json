@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic welcomes students to the final lecture and outlines the core learning objectives regarding cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "These subtopics examine the clinical mechanisms, adverse toxicities, and resistance pathways associated with conventional cancer treatments.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic cancer cell vulnerabilities and defects",
+      "groupedBecause": "These subtopics explore therapeutic approaches designed to selectively exploit intrinsic genetic and molecular vulnerabilities in cancer cells.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic drivers and kinase inhibitor resistance",
+      "groupedBecause": "These subtopics address the targeted inhibition of hyperactive oncogenic kinases and the molecular mechanisms underlying therapy resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody and antibody-drug conjugate therapies",
+      "groupedBecause": "These subtopics explain the therapeutic application of engineered monoclonal antibodies to target tumor cells directly and to deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "T-cell-mediated anti-tumor immunity and immunotherapy",
+      "groupedBecause": "These subtopics examine the role of host anti-tumor immunity and the development of strategies that reactivate or genetically engineer T cells to eliminate tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Progress, challenges, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics synthesize the broader clinical progress, persistent biological challenges, and future ethical and therapeutic directions in oncology.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

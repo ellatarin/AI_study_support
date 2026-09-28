@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and the Hallmarks of Cancer Framework",
+      "groupedBecause": "This subtopic introduces the lecture by outlining learning objectives, previous lecture context, and the general framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferative Signaling and Evasion of Growth Suppressors",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell-surface receptors and downstream signaling cascades enable cancer cells to sustain proliferation and overcome inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumorigenesis",
+      "groupedBecause": "These subtopics examine how cancer cells undergo a block in terminal differentiation, illustrating the process across hematopoietic malignancies and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic addresses how cancer cells evade programmed cell death through mutations in p53 and the dysregulation of apoptotic regulators.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Senescence and Replicative Immortality",
+      "groupedBecause": "These subtopics explain how telomere shortening and cellular stress trigger protective senescence, and how cancer cells bypass these mechanisms to achieve replicative immortality.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Deregulating Cellular Metabolism",
+      "groupedBecause": "These subtopics introduce systemic tumor adaptations and examine how cancer cells rewire their metabolism through aerobic glycolysis, Krebs cycle mutations, and oncometabolites.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Inducing Angiogenesis",
+      "groupedBecause": "These subtopics explain why expanding tumors require new vasculature, the timing of vascularisation during tumor progression, and the balance of signals controlling the angiogenic switch.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Invasion and Metastasis",
+      "groupedBecause": "This subtopic examines the biological steps, circulatory dynamics, diagnostic markers, and clonal origins of cancer metastasis.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of how hallmarks interact, concluding advice on review literature, and practical announcements.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

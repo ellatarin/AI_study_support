@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "It introduces the lecture series, outlines the key learning outcomes, and sets the biological and clinical context for studying cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Cellular Differentiation and Tissue Architecture",
+      "groupedBecause": "They define cancer biologically as a progressive breakdown of normal cellular differentiation and tissue organization resulting from accumulated mutations, and discuss how this is modeled experimentally.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Characteristics, Progression, and Nomenclature of Benign and Malignant Tumors",
+      "groupedBecause": "They establish the criteria for distinguishing benign from malignant neoplasms through tissue invasion, metastatic progression, and pathological naming conventions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "It explains the local and systemic mechanisms by which primary and metastatic tumors cause clinical illness and death in patients.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer Incidence Across Human Populations and Animal Species",
+      "groupedBecause": "They analyze the epidemiological frequency and tissue distribution of tumors in humans and compare these patterns across diverse animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical Presentation and Cancer Screening Strategies",
+      "groupedBecause": "They examine the clinical signs of tumors and evaluate the principles, effectiveness, and limitations of population screening programs using specific organ systems as examples.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "It concludes the lecture with a reminder of the learning outcomes and practical session details.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

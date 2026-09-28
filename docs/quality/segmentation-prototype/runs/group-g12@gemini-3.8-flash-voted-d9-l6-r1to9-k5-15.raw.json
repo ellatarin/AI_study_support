@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Hallmarks of Cancer",
+      "groupedBecause": "This opening section frames the lecture by reviewing previous content, defining learning outcomes, and introducing the hallmarks of cancer conceptual framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferative Signaling and Growth Suppressor Evasion",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell-surface receptors and intracellular cascades drive cell-autonomous proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer",
+      "groupedBecause": "These subtopics examine how malignant transformation prevents progenitor cells from completing terminal differentiation, using leukemias and intestinal crypts as examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic describes how mutations in p53 and imbalance among Bcl-2 family members prevent cancer cells from triggering programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Cellular Senescence",
+      "groupedBecause": "These subtopics explore how tumor cells bypass telomere-dependent senescence and stress-induced arrest to acquire indefinite proliferative capacity, concluding the survey of cell-intrinsic growth control.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Metabolism and Metabolic Reprogramming",
+      "groupedBecause": "These subtopics detail how cancer cells alter their energy metabolism through aerobic glycolysis and how metabolic enzyme mutations produce onco-metabolites that remodel the epigenome.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics address the physiological necessity, developmental timing, and molecular balance of activators and inhibitors governing new blood vessel recruitment in tumors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Tumor Invasion and Metastasis",
+      "groupedBecause": "This subtopic explains the metastatic cascade, diagnostic tracking using sentinel lymph nodes and circulating tumor cells, and the seed-and-soil requirements for secondary colonization.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Final Summary",
+      "groupedBecause": "This closing section provides concluding framing by synthesizing the hallmarks framework, citing recent literature, and directing students to upcoming practical sessions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

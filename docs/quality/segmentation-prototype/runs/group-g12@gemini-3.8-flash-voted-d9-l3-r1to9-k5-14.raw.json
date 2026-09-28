@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the students, outlines the structure and perspectives of the cancer biology lecture series, and introduces the specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a disease of genetic changes and differentiation failure",
+      "groupedBecause": "These subtopics describe how cancer arises from accumulated genetic and epigenetic alterations that disrupt normal cellular differentiation, tissue architecture, and regulatory multicellular behavior.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing and classifying benign and malignant tumors",
+      "groupedBecause": "These subtopics establish the biological, histological, and terminological criteria used to distinguish benign from malignant tumors and trace their stepwise invasive progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physical, functional, and systemic mechanisms by which primary tumors and distant metastases produce disease symptoms and cause death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence in humans and other animal species",
+      "groupedBecause": "These subtopics evaluate the frequency, tissue distribution, and mortality of various tumors across human populations and diverse multicellular organisms.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and clinical practice of cancer screening",
+      "groupedBecause": "These subtopics examine the clinical rationale, diagnostic methods, and comparative efficacy of population screening programs designed to detect pre-malignant and early-stage tumors.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion and wrap-up",
+      "groupedBecause": "The lecturer concludes the session by referencing the learning outcomes and providing housekeeping details for subsequent practicals and lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

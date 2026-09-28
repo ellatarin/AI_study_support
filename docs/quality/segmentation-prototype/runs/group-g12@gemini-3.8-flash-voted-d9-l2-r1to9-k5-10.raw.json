@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic frames the lecture by welcoming students and introducing the importance and notorious complexity of complement.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational principles of the complement system",
+      "groupedBecause": "These subtopics establish the foundational concepts and operating logic of the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics detail the three pathways through which complement recognizes pathogens and initiates activation on target surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics describe the downstream mechanisms through which the complement cascade eliminates pathogens and drives inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement on host cells",
+      "groupedBecause": "This subtopic explains the regulatory proteins that protect host cells from accidental complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic details the distinct clinical presentations and disease vulnerabilities resulting from genetic or acquired deficiencies in complement proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic examines the strategies pathogens use to circumvent complement attack, using Staphylococcus aureus as a primary example.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing remarks",
+      "groupedBecause": "This subtopic concludes the lecture by wrapping up complement and previewing the upcoming lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecture, recaps prior material, and outlines the learning objectives and framework for the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling autonomy and pathway deregulation",
+      "groupedBecause": "These subtopics examine how oncogenic mutations within cell surface receptor pathways and downstream cascades drive autonomous proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in cancer",
+      "groupedBecause": "These subtopics demonstrate how blocks to terminal differentiation contribute to tumorigenesis in both haematological malignancies and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and replicative immortality",
+      "groupedBecause": "These subtopics explain how tumour cells circumvent intrinsic death and senescence barriers through disruptions in apoptosis regulation and telomere maintenance.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic reprogramming in cancer",
+      "groupedBecause": "These subtopics introduce complex cancer hallmarks and explore the mechanisms, functional significance, and epigenetic impacts of metabolic rewiring.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumour angiogenesis",
+      "groupedBecause": "These subtopics describe the necessity of new blood vessel recruitment for tumour growth, the timing of its onset, and the balance of regulatory signals controlling it.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Metastatic dissemination and colonization",
+      "groupedBecause": "This subtopic examines the multi-step cascade of cancer metastasis, the mechanisms governing distant colonization, and the genetic and mechanical factors involved.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic concludes the lecture with a synthesis of how cancer hallmarks integrate during progression and closing administrative remarks.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

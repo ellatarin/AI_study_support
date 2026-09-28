@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class, relates the material to histopathology practicals, and outlines the lecture's learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor viruses and cellular transformation assays",
+      "groupedBecause": "These subtopics trace how the study of transforming viruses revealed the cellular origin of oncogenes and established laboratory assays to assess cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and classifications of oncogenes and tumor suppressor genes",
+      "groupedBecause": "These subtopics define the functional classifications of cancer-associated genes and illustrate their genetic mechanisms using the cell cycle checkpoint and p53.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Genetic instability mechanisms and tumor progression",
+      "groupedBecause": "These subtopics explain the molecular origins of sequence and chromosomal instability and how this genomic instability accelerates the multi-step progression of cancer.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Hereditary cancer predisposition and tumor evolution",
+      "groupedBecause": "These subtopics examine how inherited gene mutations predispose individuals to cancer and affect the subsequent development and maintenance of tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "The lecturer concludes the session, suggests further reading, and previews the next lecture on the hallmarks of cancer.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

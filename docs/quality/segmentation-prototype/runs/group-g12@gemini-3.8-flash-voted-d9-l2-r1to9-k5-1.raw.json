@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and framing",
+      "groupedBecause": "This subtopic provides the opening framing, welcoming students and contextualizing the lecture on complement.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals of the complement cascade",
+      "groupedBecause": "These subtopics establish the foundational principles, nomenclature conventions, and central biochemical role of C3 that organize the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement recognition and activation pathways",
+      "groupedBecause": "These subtopics explain the upstream pathways through which complement detects pathogens and deposits convertases to reach the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics describe the downstream effector functions through which activated complement destroys pathogens and amplifies the immune response.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement",
+      "groupedBecause": "This subtopic explains the regulatory proteins that protect host cells by suppressing accidental complement activation and membrane attack complex assembly.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic examines how genetic and acquired deficiencies across different complement components produce distinct clinical presentations and disease susceptibilities.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic analyzes the evolutionary strategies and molecular mechanisms used by pathogens to circumvent complement attack.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic provides the closing framing, concluding the lecture and previewing the next topic in the series.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

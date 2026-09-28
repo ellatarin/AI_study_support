@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and course overview",
+      "groupedBecause": "This subtopic welcomes the students, outlines the course structure across disciplines, and introduces the key learning outcomes of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological origins of cancer: genetic alterations and differentiation failure",
+      "groupedBecause": "These subtopics explain the fundamental biology of cancer as an accumulation of genetic alterations that causes cells to fail normal differentiation and tissue architecture programs, along with the laboratory models used to investigate them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing benign from malignant tumors",
+      "groupedBecause": "These subtopics detail the histological, clinical, and nomenclatural criteria used to differentiate benign tumors from invasive and metastatic malignant neoplasms.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer-induced illness and mortality",
+      "groupedBecause": "This subtopic explains the physical, functional, and systemic mechanisms through which primary and metastatic tumors cause morbidity and death in patients.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence in humans and comparative species",
+      "groupedBecause": "These subtopics compare the frequency and tissue distribution of tumors across human populations and diverse animal species, highlighting cancer as an inherent vulnerability of multicellular life.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and practice of cancer screening",
+      "groupedBecause": "These subtopics examine the clinical rationale for early tumor detection and evaluate the effectiveness and limitations of screening programs across different cancer types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion and revision guidance",
+      "groupedBecause": "This subtopic wraps up the lecture by revisiting the learning outcomes and providing directions for upcoming practicals and future sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic provides the framing for the lecture by welcoming students and setting out the core learning objectives concerning cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies and Resistance Mechanisms",
+      "groupedBecause": "These subtopics examine traditional treatment modalities including surgery, radiotherapy, and cytotoxic chemotherapy alongside the biological mechanisms that cause systemic toxicity and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting Intrinsic Vulnerabilities and Checkpoint Defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that selectively destroy cancer cells by exploiting intrinsic biological defects such as hormone dependence, checkpoint loss, and impaired DNA repair.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene Addiction and Kinase Inhibitors",
+      "groupedBecause": "These subtopics focus on identifying driver mutations and inhibiting oncogenic kinases, detailing the pathways through which tumors acquire resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Therapeutic Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics explain how engineered monoclonal antibodies and antibody-drug conjugates target specific cell-surface receptors to eliminate malignant cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune Surveillance and T-Cell-Directed Immunotherapies",
+      "groupedBecause": "These subtopics investigate the relationship between cancer and host immunity, detailing therapeutic strategies that reactivate endogenous T cells or deploy engineered cellular platforms against tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Systemic Challenges, Historical Progress, and Future Directions in Oncology",
+      "groupedBecause": "These subtopics synthesize the broader clinical realities of cancer medicine by evaluating long-term survival trends, persistent biological hurdles, and emerging ethical dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

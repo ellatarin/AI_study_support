@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course and lecture introduction",
+      "groupedBecause": "This subtopic provides the administrative welcome and introduces the learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "These subtopics explain conventional cancer treatment approaches that physically remove or non-specifically damage dividing cells, alongside their systemic toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities and checkpoint defects",
+      "groupedBecause": "These subtopics focus on selectively eliminating cancer cells by exploiting their intrinsic vulnerabilities, such as hormonal dependencies, checkpoint deficiencies, and impaired DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic kinases and overcoming resistance",
+      "groupedBecause": "These subtopics examine how small-molecule inhibitors target hyperactivated oncogenic kinases and address the subsequent emergence of drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics focus on engineered monoclonal antibodies used as targeted therapeutics, both as direct receptor inhibitors and as delivery vehicles for cytotoxic drugs.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-directed therapies",
+      "groupedBecause": "These subtopics examine the biological principles and clinical approaches involved in mobilizing and engineering the adaptive immune system against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical progress, challenges, and future perspectives",
+      "groupedBecause": "These subtopics provide an overarching assessment of clinical progress in cancer therapy while considering persistent challenges, future innovations, and ethical dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

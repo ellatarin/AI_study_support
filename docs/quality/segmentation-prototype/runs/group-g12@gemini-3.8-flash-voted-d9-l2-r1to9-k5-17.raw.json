@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and introduction",
+      "groupedBecause": "This subtopic provides the opening framing, contextualising the complement system within immunology and setting expectations for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational principles and core components of complement",
+      "groupedBecause": "These subtopics establish the foundational concepts and central biochemical mechanics that govern the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the upstream recognition mechanisms that trigger complement and drive surface deposition to reach the critical activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics describe the downstream mechanisms by which activated complement coordinates pathogen eradication and immune clearance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement on host cells",
+      "groupedBecause": "This subtopic explains the regulatory mechanisms that prevent complement activation from damaging host tissues.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical manifestations of complement deficiencies",
+      "groupedBecause": "This subtopic surveys how specific deficiencies across the complement cascade produce distinct clinical pathologies and disease vulnerabilities.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of the complement system",
+      "groupedBecause": "This subtopic examines the strategies used by pathogens such as Staphylococcus aureus to circumvent complement-mediated immunity.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic provides the closing framing, concluding the lecture on complement and announcing the upcoming topic.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

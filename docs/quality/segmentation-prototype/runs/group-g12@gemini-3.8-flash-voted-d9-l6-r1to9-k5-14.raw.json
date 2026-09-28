@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and the Hallmarks of Cancer Framework",
+      "groupedBecause": "This topic frames the lecture by outlining learning outcomes, introducing the multistep tumor progression model, and establishing the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Autonomy and Evasion of Growth Suppressors",
+      "groupedBecause": "These subtopics explain how mutations in signaling cascades including Wnt, receptor tyrosine kinases, and TGF-beta enable cancer cells to sustain proliferation and evade growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer Cells",
+      "groupedBecause": "These subtopics explain how cancer cells become arrested in an undifferentiated progenitor state, using examples from hematological malignancies and colorectal crypts.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic explains how cancer cells avoid programmed cell death through mutations in p53 and the dysregulation of mitochondrial Bax and BCL2 proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality, Senescence, and Mutation-Driven Hallmarks",
+      "groupedBecause": "These subtopics explain how cancer cells bypass telomere shortening and p53-mediated senescence to achieve immortalization, concluding the survey of direct mutation-driven hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Reprogramming in Cancer",
+      "groupedBecause": "These subtopics explain how cancer cells alter their metabolism through aerobic glycolysis and Krebs cycle mutations to satisfy biosynthetic demands and modify the epigenome.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics explain the requirement for tumor angiogenesis, its onset during progression, and how the balance of angiogenic activators and inhibitors controls new blood vessel formation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Clinical Detection of Metastasis",
+      "groupedBecause": "This subtopic explains the metastatic cascade, methods for detecting circulating and nodal tumor cells, and the clonal and genomic characteristics of metastases.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Conclusion and Hallmark Perspectives",
+      "groupedBecause": "This topic closes the lecture by reviewing the convergence of cancer hallmarks, discussing recent literature expansions, and providing concluding housekeeping instructions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

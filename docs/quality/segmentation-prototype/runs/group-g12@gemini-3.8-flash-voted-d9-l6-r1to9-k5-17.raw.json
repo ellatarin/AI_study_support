@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks",
+      "groupedBecause": "This subtopic frames the lecture by introducing the hallmarks of cancer framework, outlining learning outcomes, and reviewing prior concepts of tumorigenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferative Signaling and Evasion of Growth Suppressors",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell-surface receptors and downstream signaling cascades, such as Wnt/beta-catenin and RTK/Ras/PI3K pathways, drive autonomous proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer",
+      "groupedBecause": "These subtopics examine how cancer cells exhibit a differentiation block across hematopoietic malignancies and intestinal epithelial carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic explains how cancer cells evade programmed cell death through genetic alterations affecting p53, Bax, and Bcl-2 signaling.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescent Stress Signaling",
+      "groupedBecause": "These subtopics explore how cancer cells achieve replicative immortality by maintaining telomeres and overcoming p53-mediated senescence stress responses.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered Cancer Metabolism and Complex Hallmarks",
+      "groupedBecause": "These subtopics introduce complex physiological hallmarks and detail how cancer cells reprogram their metabolism through aerobic glycolysis and Krebs cycle mutations.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "These subtopics explain the requirement for tumor vascularization, its onset during neoplastic progression, and the balance of angiogenic activators and inhibitors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Bottlenecks of Metastasis",
+      "groupedBecause": "This subtopic analyzes the multi-step metastatic cascade, diagnostic detection of disseminated cells, and the genomic features underlying metastatic capability.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Final Summary",
+      "groupedBecause": "This subtopic concludes the lecture with closing reflections on the evolution of cancer hallmarks, recommended literature, and session wrap-up.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

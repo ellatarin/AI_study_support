@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecture by outlining the framework of cancer evolution and the intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Evolution and Epigenetic Alterations",
+      "groupedBecause": "These subtopics examine how cell-intrinsic advantages during early tumorigenesis are acquired through both genetic clonal selection and epigenetic reprogramming.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cells",
+      "groupedBecause": "These subtopics evaluate the evidence for a cellular hierarchy in cancer and demonstrate that malignancies frequently arise from tissue-specific stem cells possessing intrinsic self-renewal capacity.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Drivers of Cancer",
+      "groupedBecause": "These subtopics demonstrate that extrinsic inflammatory signals and stromal support are required alongside mutations to permit tumor initiation, progression, and maintenance.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Experimental and Computational Methods for Studying Tumors",
+      "groupedBecause": "This subtopic describes the single-cell sequencing and spatial omics technologies used to investigate tumor evolution and microenvironmental interactions in the laboratory.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Multifactorial Model of Cancer Evolution",
+      "groupedBecause": "This subtopic synthesizes how genetic alterations, cellular stemness, and microenvironmental factors integrate into a unified evolutionary model of cancer development.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Closing Framing",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on cancer therapy.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

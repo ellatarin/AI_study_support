@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, sets the lecture in the context of the broader cancer series, and outlines the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Biology and Sources of Mutation",
+      "groupedBecause": "These subtopics explain the nature of cancer as an evolutionary genetic disease and introduce the intrinsic and extrinsic processes that generate somatic mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and the 'Bad Luck' Debate",
+      "groupedBecause": "These subtopics examine environmental carcinogen exposures and evaluate the epidemiological evidence and scientific debate surrounding intrinsic 'bad luck' versus preventable causation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens in Cancer Development",
+      "groupedBecause": "These subtopics examine how infectious agents drive oncogenesis, focusing in detail on the discovery and molecular etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Mutagenesis by Chemical and Physical Agents",
+      "groupedBecause": "These subtopics explain how chemical mutagens and radiation damage DNA, emphasizing how host metabolic processes can activate inert compounds into reactive carcinogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics explain how non-mutagenic promoters, chronic inflammation, and host developmental susceptibility cooperate with initiating mutations to facilitate malignant outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Evaluating Carcinogenicity",
+      "groupedBecause": "These subtopics assess the complementary genomic, observational, and experimental methodologies used to identify carcinogen exposure and evaluate carcinogenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Balance",
+      "groupedBecause": "This subtopic concludes the lecture by framing cancer risk as a practical benefit-risk balance and summarizing the main takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

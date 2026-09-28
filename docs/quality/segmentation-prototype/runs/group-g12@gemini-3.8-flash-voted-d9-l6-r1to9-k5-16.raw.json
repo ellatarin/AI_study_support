@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Overview of Cancer Hallmarks",
+      "groupedBecause": "It introduces the lecture's learning outcomes, the multistep model of tumor progression, and the conceptual framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated Growth and Survival Signaling",
+      "groupedBecause": "They explain how oncogenic mutations in pathways like Wnt/beta-catenin, RTK/Ras/MAPK, and TGF-beta confer growth signal autonomy and resistance to inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumorigenesis",
+      "groupedBecause": "They demonstrate how cancer cells arrest terminal differentiation while sustaining proliferation, using examples from hematological malignancies and intestinal crypts.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "It examines how cancer cells evade programmed cell death through alterations in p53, Bax, and BCL2 that prevent mitochondrial permeabilization.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "They describe how cancer cells achieve limitless replicative potential by maintaining telomeres and overcoming p53-mediated senescence and stress responses.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Transition to Complex Hallmarks and Metabolic Reprogramming",
+      "groupedBecause": "They transition from cell-autonomous growth mutations to broader phenotypic hallmarks and explore metabolic alterations, including aerobic glycolysis and oncometabolite signaling.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "They explain the necessity of angiogenesis for overcoming oxygen diffusion limits in tumor growth, its early onset in progression, and the balance of activators and inhibitors governing it.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Dynamics of Metastasis",
+      "groupedBecause": "It details the metastatic cascade, diagnostic detection through sentinel nodes and circulating tumor cells, the seed and soil hypothesis, and the lack of specific driver mutations beyond whole genome duplication.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Conclusion and Final Remarks",
+      "groupedBecause": "It concludes the lecture by reflecting on the diversity of evolutionary routes to cancer hallmarks, pointing to further reading, and opening for questions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

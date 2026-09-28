@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, its interdisciplinary audience, and the key learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of genetic regulation and tissue differentiation",
+      "groupedBecause": "These subtopics define cancer at the cellular and tissue levels as a breakdown of normal differentiation programs and architecture driven by accumulated mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, malignancy, and nomenclature",
+      "groupedBecause": "These subtopics explain the distinction between benign and malignant tumors through tissue invasion, metastatic progression, and standardized naming conventions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physiological and mechanical processes by which primary and metastatic tumors impair organ function and cause death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence across tissues and species",
+      "groupedBecause": "These subtopics compare the frequency, tissue distribution, and mortality rates of tumors in human populations and across animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Cancer detection and clinical screening",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, methods, and varying effectiveness of population screening across different cancer types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion and learning outcomes review",
+      "groupedBecause": "This subtopic concludes the lecture by reiterating the learning outcomes and providing logistical closing remarks for upcoming sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

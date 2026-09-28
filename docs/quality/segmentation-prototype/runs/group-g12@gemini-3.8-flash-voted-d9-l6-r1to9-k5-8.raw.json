@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer mechanisms and hallmarks",
+      "groupedBecause": "This subtopic outlines the lecture's learning outcomes and introduces the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and growth factor independence",
+      "groupedBecause": "These subtopics explain how mutations in cell-surface receptors and downstream intracellular cascades drive proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in hematologic and solid tumors",
+      "groupedBecause": "These subtopics examine how impaired differentiation contributes to malignancy using leukemia and intestinal crypt models.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic describes how mutations in p53 and dysregulation of BCL-2 family proteins prevent cancer cells from undergoing programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and cellular senescence",
+      "groupedBecause": "These subtopics explain how cancer cells overcome the Hayflick limit and bypass the p53-mediated senescence barrier to achieve indefinite replication.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Deregulating cellular metabolism",
+      "groupedBecause": "These subtopics examine how cancer cells rewire their metabolic pathways toward aerobic glycolysis and produce oncometabolites that alter gene expression.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Inducing tumor angiogenesis",
+      "groupedBecause": "These subtopics detail the necessity, progression, and molecular balance of new blood vessel formation in supporting tumor growth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and detection of metastasis",
+      "groupedBecause": "This subtopic explores the biological barriers, circulatory dissemination, and genomic features associated with tumor spread to distant tissues.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic concludes the lecture by reviewing the learning outcomes, discussing recent hallmark literature, and inviting student questions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

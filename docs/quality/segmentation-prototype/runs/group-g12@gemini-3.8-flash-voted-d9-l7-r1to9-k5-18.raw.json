@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic introduces the lecture by outlining its main objectives regarding cancer evolution, cellular predisposition, and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms of clonal evolution",
+      "groupedBecause": "These subtopics explain how pre-malignant cells acquire competitive advantages and transform through stepwise genetic mutations and epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and stem cell hierarchies in cancer",
+      "groupedBecause": "These subtopics explore whether tumors initiate within tissue-specific stem cells or differentiated progenitors, examining how stemness hierarchies influence malignant progression.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Role of the microenvironment and inflammation in cancer progression",
+      "groupedBecause": "These subtopics demonstrate that both incipient and established tumors depend on non-cell-autonomous environmental signals to promote and sustain malignant growth.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Technological methods for studying tumor evolution and microenvironments",
+      "groupedBecause": "This subtopic addresses the experimental and computational technologies used to reconstruct mutation timing and map spatial cellular interactions in human tumors.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Integrative evolutionary model of cancer development",
+      "groupedBecause": "This subtopic synthesizes the lecture's core themes into an integrated framework of cancer as a multi-step evolutionary process shaped by intrinsic and extrinsic factors.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Closing remarks",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on cancer therapies.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course welcome and lecture overview",
+      "groupedBecause": "This subtopic introduces the final course lecture and outlines its core learning objectives concerning cancer treatment approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "These subtopics examine conventional cancer treatment modalities alongside the clinical challenges, including systemic toxicity and multidrug resistance, that restrict their success.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer cell vulnerabilities",
+      "groupedBecause": "These subtopics describe therapeutic approaches that selectively destroy tumor cells by taking advantage of their intrinsic functional and genetic vulnerabilities.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and resistance mechanisms",
+      "groupedBecause": "These subtopics examine the design of targeted therapies against oncogenic driver kinases and the diverse molecular mechanisms through which cancer cells develop resistance to them.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based cancer therapies",
+      "groupedBecause": "These subtopics explain how engineered antibodies are used to recognize tumor-associated cell-surface proteins to direct cytotoxicity or deliver lethal payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cellular immunotherapy and immune checkpoint modulation",
+      "groupedBecause": "These subtopics explore the relationship between the immune system and cancer, detailing methods to harness and engineer host immune responses against tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical challenges, progress, and future directions",
+      "groupedBecause": "These subtopics provide an overarching evaluation of historical improvements in cancer outcomes, current systemic challenges, and future clinical considerations.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

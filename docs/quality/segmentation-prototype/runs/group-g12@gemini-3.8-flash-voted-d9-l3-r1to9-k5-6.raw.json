@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Biology and lecture overview",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, sets expectations for the cohort, and outlines the session's learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of cellular differentiation and tissue architecture",
+      "groupedBecause": "These subtopics explain how cancer develops as a failure of normal cellular differentiation and tissue architecture, and address the experimental models used to study this multicellular organisation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing and classifying benign and malignant tumors",
+      "groupedBecause": "These subtopics establish how benign and malignant tumors are distinguished through their invasive properties, histological progression, and pathological nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physical, physiological, and systemic mechanisms by which primary tumors and metastatic lesions cause disease and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative incidence of cancer across tissues and species",
+      "groupedBecause": "These subtopics examine the comparative incidence and patterns of tumor development across different human tissue lineages and multicellular animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and practice of cancer screening",
+      "groupedBecause": "These subtopics examine the clinical rationale, diagnostic methods, and practical challenges of screening for cancer across different anatomical sites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion and upcoming practicals",
+      "groupedBecause": "This subtopic concludes the lecture by reviewing the learning outcomes and announcing arrangements for subsequent practicals and sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

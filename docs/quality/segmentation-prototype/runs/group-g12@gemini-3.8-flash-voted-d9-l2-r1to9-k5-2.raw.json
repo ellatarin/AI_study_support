@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic opens the lecture by framing the challenge and importance of studying complement within the immunology course.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals and core architecture of complement",
+      "groupedBecause": "These subtopics introduce the fundamental operating principles and molecular machinery of the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three biochemical pathways through which complement recognizes pathogens to deposit C3b on target surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics describe the three downstream effector mechanisms by which complement destroys pathogens and coordinates immune defense.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement",
+      "groupedBecause": "This subtopic explains how host cells use regulatory proteins to prevent complement from attacking self-tissues.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic explores the distinct clinical presentations that arise when specific complement pathway components are deficient.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic examines the strategies pathogens use to circumvent complement defenses, focusing on the example of Staphylococcus aureus.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic closes the lecture and announces the topic of the upcoming lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

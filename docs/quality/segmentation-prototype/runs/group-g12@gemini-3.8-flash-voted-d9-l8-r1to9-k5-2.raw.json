@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer welcomes the students to the final course lecture and introduces the key aims and topics to be covered regarding cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics discuss conventional cancer treatment modalities—surgery, radiotherapy, and cytotoxic chemotherapy—along with their associated systemic toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that selectively target malignant cells by exploiting their intrinsic defects in signaling dependencies, cell cycle checkpoints, and DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene-targeted therapies and kinase inhibition",
+      "groupedBecause": "These subtopics explain the concept of oncogene addiction, the development of small-molecule kinase inhibitors against driving mutations, and the clinical challenges of drug resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the use of engineered monoclonal antibodies and antibody-drug conjugates to specifically bind cancer cell-surface targets and induce tumor cell destruction.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell activation",
+      "groupedBecause": "These subtopics explore tumor interactions with the immune system and detail methods of activating host T cells against cancer using checkpoint inhibitors, bispecific engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic challenges, historical progress, and future directions",
+      "groupedBecause": "These subtopics evaluate the broader landscape of oncology by examining persistent therapeutic challenges, historical gains in survival, future clinical strategies, and the ethical dilemmas of trialing new treatments.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

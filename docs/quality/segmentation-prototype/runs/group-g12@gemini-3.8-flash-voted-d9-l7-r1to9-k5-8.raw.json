@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This topic introduces the lecture, outlines the learning outcomes, and establishes the conceptual framework of cancer evolution.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cell-Intrinsic Drivers of Clonal Evolution",
+      "groupedBecause": "These subtopics explain how cell-intrinsic alterations enable competitive clonal expansion and progression toward malignancy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tissue Hierarchies and the Cell of Origin",
+      "groupedBecause": "These subtopics explore how normal tissue hierarchies and stem cell properties influence cancer initiation and tumor-propagating potential.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Drivers of Tumor Progression",
+      "groupedBecause": "These subtopics demonstrate how inflammatory signals and supportive microenvironmental cells promote neoplastic transformation and sustain tumor growth.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Technologies for Investigating Tumor Microenvironments and Evolution",
+      "groupedBecause": "This topic examines the experimental and spatial technologies used to profile clonal evolution and cellular interactions within tumor tissues.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Synthesizing the Multidimensional Drivers of Cancer Evolution",
+      "groupedBecause": "This topic synthesizes the multiple converging factors that drive clonal selection and cancer evolution.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Closing Remarks",
+      "groupedBecause": "This topic concludes the lecture and previews the upcoming session on cancer therapy.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

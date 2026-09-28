@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "The lecturer introduces the topic of inflammation and frames the scope and approach of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition of infection and cellular damage",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which the innate immune system detects pathogens and cellular damage to initiate immune activation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular and vascular mechanisms of the inflammatory response",
+      "groupedBecause": "These subtopics describe the cellular, vascular, and systemic processes that recruit immune cells and execute the inflammatory response.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation and tissue repair",
+      "groupedBecause": "These subtopics explain how inflammation is brought to resolution and how tissues are repaired or structurally adapted when inflammation persists.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer concludes the session and previews the topic of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

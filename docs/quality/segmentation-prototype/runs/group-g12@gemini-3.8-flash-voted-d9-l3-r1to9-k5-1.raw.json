@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines student learning outcomes, and previews the core themes of cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Cellular Differentiation and Architecture",
+      "groupedBecause": "These subtopics explain the biological basis of cancer as a breakdown in cellular differentiation and tissue organization, alongside the experimental challenges of modeling this architecture in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinction and Classification of Benign and Malignant Tumors",
+      "groupedBecause": "These subtopics establish how benign and malignant tumors are differentiated by their invasive capacity, progression potential, and diagnostic nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic explains the physical and systemic mechanisms through which local tumor expansion and metastatic dissemination cause disease and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Incidence Across Humans and Animal Species",
+      "groupedBecause": "These subtopics examine patterns of tumor incidence and mortality in human populations and compare them with cancer occurrence across diverse animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical Detection and Screening Strategies",
+      "groupedBecause": "These subtopics examine the clinical rationale for early cancer detection and compare the effectiveness of screening methods across different tumor types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion and Practical Reminders",
+      "groupedBecause": "This subtopic concludes the lecture by reviewing the learning outcomes and providing reminders for upcoming practical sessions.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

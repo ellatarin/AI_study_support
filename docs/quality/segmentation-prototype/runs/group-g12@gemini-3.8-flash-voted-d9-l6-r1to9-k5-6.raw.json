@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Progression",
+      "groupedBecause": "This subtopic frames the lecture by presenting the learning outcomes, the multistep colorectal tumor progression model, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Autonomy and Evasion of Inhibitory Signals",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell-surface receptors and downstream cascades like Wnt, RTKs, and TGF-beta drive independent proliferation and overcome inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Hematological and Epithelial Cancers",
+      "groupedBecause": "These subtopics examine how impaired terminal differentiation prevents cells from exiting the cell cycle, using examples from leukemias and colonic crypts.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic explains how cancer cells evade programmed cell death through mutations in p53 and the dysregulation of mitochondrial apoptotic proteins like Bax and BCL2.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics describe how cells normally enter senescence in response to telomere erosion and stress, and how cancer cells bypass this limit through telomerase activation to achieve immortalization.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Deregulation of Cellular Metabolism",
+      "groupedBecause": "These subtopics address the emergence of complex cancer hallmarks and detail how tumors rewire cellular metabolism via aerobic glycolysis and oncometabolite accumulation.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "These subtopics explain the requirement, timing, and molecular balancing act governing new blood vessel formation to supply oxygen and nutrients to growing tumors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mechanisms and Detection of Metastasis",
+      "groupedBecause": "This subtopic explores the biological stages, detection strategies, and clonal genetics underlying the dissemination and colonization of cancer cells at distant sites.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "This subtopic provides closing framing by summarizing the collective nature of cancer hallmarks, discussing recent literature, and opening the floor to questions.",
+      "firstSubtopicId": 18
+    }
+  ]
+}

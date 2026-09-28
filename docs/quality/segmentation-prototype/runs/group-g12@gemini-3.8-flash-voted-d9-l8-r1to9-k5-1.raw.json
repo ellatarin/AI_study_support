@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "The lecturer opens the session by welcoming students and setting out the lecture's core objectives regarding cancer treatment approaches and mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "These subtopics examine traditional modalities that physically remove tumors or kill dividing cells, detailing their mechanisms, systemic toxicities, and drug resistance via efflux pumps.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer cell vulnerabilities",
+      "groupedBecause": "These subtopics focus on therapies that exploit intrinsic biological weaknesses in cancer cells, including hormone dependence, defective cell cycle checkpoints, and impaired DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Inhibiting oncogenic kinases and overcoming resistance",
+      "groupedBecause": "These subtopics address targeted small-molecule therapies directed against hyperactivated oncogenic kinases, detailing their molecular mechanisms, structural vulnerabilities, and pathways of acquired resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based targeted therapeutics",
+      "groupedBecause": "These subtopics describe therapeutic antibodies directed at cell-surface antigens to inhibit oncogenic signaling, engage cytotoxic effector mechanisms, or selectively deliver toxic chemical payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and immune system engagement",
+      "groupedBecause": "These subtopics explore cancer immunotherapy approaches that harness, reactivate, or genetically engineer the adaptive immune system to recognize and eradicate tumor cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Current challenges, historical progress, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics evaluate the broader landscape of cancer therapy by reviewing systemic clinical hurdles, historical gains in survival, future treatment avenues, and ethical dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic provides the lecturer's opening remarks, framing complement's complexity and introducing the scope of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational principles of the complement cascade",
+      "groupedBecause": "These subtopics provide the overarching operational framework, nomenclature, and central biochemical role of C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics detail the three distinct recognition pathways that converge on activating C3 to reach the trigger threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics explain the primary effector outcomes by which activated complement eliminates pathogens and enhances immune defense.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement on host cells",
+      "groupedBecause": "This subtopic explains the regulatory mechanisms and proteins that protect host tissues from accidental complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic outlines the distinct pathological presentations and disease susceptibilities associated with deficiencies across the complement cascade.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Microbial evasion of complement",
+      "groupedBecause": "This subtopic examines the evolutionary strategies pathogens use to circumvent complement activity, focusing on Staphylococcus aureus.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the session and announces the subject of the next lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

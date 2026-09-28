@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "The lecturer welcomes the class and outlines how the lecture will integrate previously learned immune components to explain the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate recognition of pathogens and cellular damage",
+      "groupedBecause": "These subtopics detail the molecular mechanisms by which innate immune receptors identify microbial patterns and cellular injury to trigger inflammatory signaling.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Leukocyte recruitment and inflammatory responses",
+      "groupedBecause": "These subtopics describe how sentinel cells coordinate the mobilization and trafficking of immune cells to inflamed tissues and the physiological consequences of inflammatory activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, repair, and chronic outcomes",
+      "groupedBecause": "These subtopics examine how inflammatory responses are brought to a conclusion and how tissues either heal or transition into persistent inflammation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer concludes the session and previews the upcoming lecture on the complement system.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

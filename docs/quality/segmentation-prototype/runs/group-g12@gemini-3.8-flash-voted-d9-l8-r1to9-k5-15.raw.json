@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines its main learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies: Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics explore traditional approaches to eliminating tumors and the associated limitations of systemic toxicity and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting Intrinsic Vulnerabilities and Repair Defects in Cancer Cells",
+      "groupedBecause": "These subtopics explain therapeutic strategies that selectively eliminate tumor cells by exploiting their specific genetic defects, checkpoint alterations, and hormone dependencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene Targeting and Kinase Inhibitors",
+      "groupedBecause": "These subtopics examine small-molecule inhibitors targeting oncogenic driver kinases alongside the mechanisms of acquired drug resistance and pathway bypass.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-Based Cancer Therapies",
+      "groupedBecause": "These subtopics describe how engineered monoclonal antibodies and antibody-drug conjugates target specific cell surface antigens on cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Activation",
+      "groupedBecause": "These subtopics discuss the immune system's capacity to recognize tumors and the clinical approaches used to activate or engineer T cells to attack cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical Progress, Challenges, and Future Directions in Cancer Therapy",
+      "groupedBecause": "These subtopics evaluate the broader historical achievements, persistent clinical challenges, and future therapeutic and ethical directions in cancer care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

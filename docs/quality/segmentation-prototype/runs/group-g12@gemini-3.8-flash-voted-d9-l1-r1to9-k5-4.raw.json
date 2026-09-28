@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction: Initiation and Resolution of Inflammation",
+      "groupedBecause": "This subtopic introduces the lecture by framing the session as a deeper exploration into the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Innate Immune Recognition",
+      "groupedBecause": "These subtopics explain the fundamental concepts of innate immune sensing, including how molecular patterns of pathogens and tissue damage are defined, distinguished from self, and targeted by cellular receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern Recognition Receptor Families and Signaling",
+      "groupedBecause": "These subtopics detail the major classes of pattern recognition receptors, their subcellular signaling pathways, and the assembly of inflammasome complexes to activate inflammatory cytokines.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Leukocyte Recruitment, Trafficking, and Systemic Inflammation",
+      "groupedBecause": "These subtopics trace the cellular mechanisms and physiological consequences of leukocyte activation, tissue extravasation, and lymphatic trafficking during an inflammatory response.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics describe the mechanisms that terminate acute inflammation and govern subsequent tissue outcomes, ranging from healing to chronic inflammatory states.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on the complement system.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

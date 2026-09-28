@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the final lecture of the course and outlines its intended learning outcomes regarding cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies and Their Limitations",
+      "groupedBecause": "These subtopics examine traditional modalities of cancer treatment—including surgery, radiotherapy, and cytotoxic chemotherapy—along with the challenges of systemic toxicity and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities",
+      "groupedBecause": "These subtopics explore therapeutic strategies that selectively target the intrinsic molecular defects and signaling dependencies of cancer cells.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene Targeting and Kinase Inhibitor Resistance",
+      "groupedBecause": "These subtopics focus on therapies directed against hyperactivated oncogenic driver kinases and the molecular mechanisms underlying acquired drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-Based Cancer Therapies",
+      "groupedBecause": "These subtopics discuss the use of engineered monoclonal antibodies and antibody-drug conjugates to selectively target cancer cell surface proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Mobilization",
+      "groupedBecause": "These subtopics examine how the immune system interacts with tumors and the therapeutic methods developed to harness and engineer T cells to destroy cancer cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, Progress, and Future Directions in Cancer Therapy",
+      "groupedBecause": "These subtopics evaluate the overarching progress, clinical challenges, and future prospects of cancer treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

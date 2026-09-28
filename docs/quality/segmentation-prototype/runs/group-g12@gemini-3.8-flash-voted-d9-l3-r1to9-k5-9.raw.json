@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and course overview",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, outlines the multidisciplinary student cohort, and sets out the key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic origins and differentiation failure in cancer",
+      "groupedBecause": "These subtopics define cancer as a breakdown of normal cellular differentiation and tissue architecture driven by accumulated genetic alterations, while evaluating laboratory models used to study tumor cells.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, progression, and classification of benign and malignant tumors",
+      "groupedBecause": "These subtopics examine how benign and malignant tumors are distinguished from one another through their capacity for tissue invasion, histological progression, and diagnostic nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physical, physiological, and systemic processes through which primary and metastatic tumors cause clinical illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Epidemiological and comparative incidence of cancer",
+      "groupedBecause": "These subtopics analyze patterns of cancer incidence and mortality across different human tissue types and examine comparative tumor occurrence across animal species.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Clinical presentation and cancer screening strategies",
+      "groupedBecause": "These subtopics examine the clinical presentation of tumors and assess the efficacy, histological basis, and diagnostic challenges of population screening methods.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Conclusion and practical briefing",
+      "groupedBecause": "This subtopic concludes the lecture by reiterating the core learning outcomes and directing students toward their upcoming practical sessions and subsequent lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

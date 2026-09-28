@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture by outlining its historical perspective and core learning outcomes on transformation, oncogenes, and genetic instability.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Discovery of tumor viruses and cellular transformation assays",
+      "groupedBecause": "These subtopics trace how the discovery of transforming viruses revealed cellular proto-oncogenes and established laboratory assays for testing cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classification and mechanistic actions of oncogenes and tumor suppressor genes",
+      "groupedBecause": "These subtopics define the classes of cancer mutations and illustrate how specific molecular mechanisms and protein structures govern their phenotypic effects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of genetic instability and multi-step tumor progression",
+      "groupedBecause": "These subtopics explore the cellular errors that generate genetic instability and explain how this instability accelerates stepwise tumor development.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Hereditary cancer predisposition syndromes",
+      "groupedBecause": "These subtopics examine how inheriting germline mutations accelerates the pathway to malignancy and influences tumor evolution.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture conclusion and reading recommendations",
+      "groupedBecause": "This subtopic closes the lecture by offering reading recommendations and previewing the subsequent lecture topic.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

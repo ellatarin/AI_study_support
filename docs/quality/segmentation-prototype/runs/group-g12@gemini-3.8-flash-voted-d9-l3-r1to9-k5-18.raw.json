@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and course overview",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, its learning objectives, and the pedagogical approach for the diverse student audience.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of cellular differentiation and tissue architecture",
+      "groupedBecause": "These subtopics explore how genetic alterations disrupt normal differentiation programs and tissue organization, and address the experimental approaches used to study these cellular abnormalities.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing benign and malignant tumors",
+      "groupedBecause": "These subtopics examine how benign and malignant tumors are differentiated through their invasive behavior, histological progression, and diagnostic nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic addresses the mechanical and physiological processes through which primary and metastatic tumors cause illness and death in patients.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence across humans and animal species",
+      "groupedBecause": "These subtopics examine the epidemiological distribution of cancer types in humans and compare tumor incidence across diverse animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and applications of clinical cancer screening",
+      "groupedBecause": "These subtopics explain the clinical rationale for early cancer detection and evaluate the methods and effectiveness of population screening programs across various cancer types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture by referencing the learning outcomes and providing directions for upcoming practicals and lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

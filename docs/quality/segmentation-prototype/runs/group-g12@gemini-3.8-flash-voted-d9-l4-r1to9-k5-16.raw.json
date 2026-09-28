@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the key learning outcomes regarding cancer causes and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic mutations versus environmental causes of cancer",
+      "groupedBecause": "These subtopics examine whether cancer is primarily driven by unavoidable internal mutations or external environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in cancer development",
+      "groupedBecause": "These subtopics explain how infectious agents drive oncogenesis, using the mechanisms underlying Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mutagenic mechanisms of chemical and radiation carcinogens",
+      "groupedBecause": "These subtopics describe how physical radiation and chemical carcinogens damage DNA, highlighting the role of xenobiotic metabolism in generating reactive mutagens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, microenvironment, and host susceptibility",
+      "groupedBecause": "These subtopics explore how non-mutagenic tumour promoters, inflammatory microenvironments, and host developmental stages combine to facilitate malignant outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, and laboratory methods used to identify carcinogens and prove their carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion and risk-benefit considerations",
+      "groupedBecause": "This subtopic closes the lecture by summarising the core themes and discussing how individuals weigh the risks and benefits of carcinogen exposures.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

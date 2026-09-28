@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecture theme on cancer evolution and outlines the session's key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Mechanisms of Clonal Evolution",
+      "groupedBecause": "Both subtopics examine how cell-intrinsic alterations drive clonal fitness and progression toward malignancy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Stem Cell Hierarchies in Cancer",
+      "groupedBecause": "Both subtopics investigate how a cell's position within the normal tissue differentiation hierarchy influences its potential to initiate cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Role of the Microenvironment in Tumor Initiation and Progression",
+      "groupedBecause": "These subtopics demonstrate that tumor initiation and progression require supportive signaling from the surrounding microenvironment.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Technologies for Interrogating Tumor-Microenvironment Interactions",
+      "groupedBecause": "This subtopic describes the single-cell and spatial profiling methodologies used to map cellular interactions within tumor tissue.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Synthesis of the Evolutionary Model of Cancer",
+      "groupedBecause": "This subtopic synthesizes the lecture's core themes into a unified evolutionary model of cancer development.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Lecture Closing and Next Steps",
+      "groupedBecause": "This subtopic concludes the lecture and previews the topic of the next session.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

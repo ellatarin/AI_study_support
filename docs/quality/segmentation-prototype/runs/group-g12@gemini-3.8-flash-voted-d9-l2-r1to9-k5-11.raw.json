@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "The lecturer welcomes the class and introduces the difficulty and scope of the complement lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations and core principles of complement",
+      "groupedBecause": "These subtopics establish the fundamental architecture, naming conventions, and central biochemical mechanisms of the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the distinct recognition pathways that detect pathogens and converge to deposit complement on target surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics describe the downstream effector functions through which activated complement coordinates pathogen eradication and immune recruitment.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement activation",
+      "groupedBecause": "This subtopic explains the regulatory mechanisms that prevent complement from causing damage to host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical complement deficiencies",
+      "groupedBecause": "This subtopic examines the pathological consequences and disease presentations resulting from deficiencies in various complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic explores the molecular mechanisms that pathogens have evolved to avoid complement-mediated clearance.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer ends the lecture and previews the next topic in the course.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

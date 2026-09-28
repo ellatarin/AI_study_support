@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This topic provides the opening framing, introducing the lecture's core themes on cancer evolution and outlining the expected learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cell-Intrinsic Drivers of Cancer Evolution and Clonal Selection",
+      "groupedBecause": "They explain how cell-intrinsic molecular alterations confer competitive growth advantages and drive clonal expansion in pre-neoplastic tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Stem Cell Hierarchies in Tumor Initiation",
+      "groupedBecause": "They investigate how tissue stem cell hierarchies, self-renewal capacity, and cellular differentiation states determine susceptibility to malignant transformation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Role of the Microenvironment in Tumor Promotion and Maintenance",
+      "groupedBecause": "They demonstrate that neoplastic outgrowth and tumor survival depend on supportive microenvironmental signals rather than mutational burden alone.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Technologies for Investigating Tumor Evolution and Cellular Interactions",
+      "groupedBecause": "This subtopic addresses the experimental, sequencing, and spatial profiling methods used to investigate cancer evolution and cellular interactions in the laboratory.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Synthesis of the Evolutionary Model of Cancer",
+      "groupedBecause": "This subtopic synthesizes the lecture's conceptual model, concluding that cancer progression is a multi-factorial evolutionary process shaped by coevolution between cells and their environment.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This topic provides the closing framing, concluding the lecture and looking ahead to the upcoming session on cancer therapy.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic opens the lecture with introductory remarks on the nature and complexity of the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Core principles and central role of C3",
+      "groupedBecause": "These subtopics establish the foundational conceptual framework and molecular operating principles of the complement cascade before detailing its individual pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the recognition pathways that converge to trigger C3 deposition on target surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics describe the downstream effector mechanisms by which activated complement eliminates targeted pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement",
+      "groupedBecause": "This subtopic explains the regulatory proteins and mechanisms that protect host cells from accidental complement-mediated attack.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical complement deficiencies",
+      "groupedBecause": "This subtopic outlines the distinct clinical presentations and disease susceptibilities associated with deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic details the mechanisms evolved by pathogens to evade complement-mediated destruction, using Staphylococcus aureus as a primary example.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture with closing remarks and a preview of the upcoming session on adaptive immunity.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

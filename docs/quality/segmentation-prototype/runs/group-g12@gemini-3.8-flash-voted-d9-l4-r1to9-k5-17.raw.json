@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the scope of the cancer lecture series, and the key learning outcomes regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Nature and Biological Drivers of Cancer",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease and explain how endogenous cellular errors and inherited predispositions drive the accumulation of oncogenic mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and the 'Bad Luck' Debate",
+      "groupedBecause": "These subtopics explore suspected environmental carcinogens and evaluate epidemiological evidence and scientific debate regarding whether cancer is primarily driven by preventable exposures or random bad luck.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Pathogens and Infectious Causes of Cancer",
+      "groupedBecause": "These subtopics explore how infectious agents contribute to oncogenesis, focusing in detail on the cooperative mechanisms driving Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mutagenic Mechanisms of Environmental Carcinogens",
+      "groupedBecause": "These subtopics explain the molecular mechanisms through which environmental mutagens damage DNA, either directly or following metabolic activation into reactive derivatives.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion and Host Tissue Susceptibility",
+      "groupedBecause": "These subtopics examine how non-mutagenic tumor promoters, chronic inflammation, and host developmental stages cooperate with mutational events to drive cancer progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Determining Carcinogenicity",
+      "groupedBecause": "These subtopics examine the laboratory and epidemiological methodologies used to detect mutational signatures and evaluate whether environmental exposures are carcinogenic.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of environmental cancer risks and reflections on balancing risk against practical benefits in everyday life.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

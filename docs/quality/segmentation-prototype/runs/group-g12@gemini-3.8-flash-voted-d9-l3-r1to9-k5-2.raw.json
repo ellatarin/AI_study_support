@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Course Overview",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, outlines key learning outcomes, and sets the clinical and biological context for the upcoming material.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and Developmental Basis of Cancer",
+      "groupedBecause": "These subtopics examine how cancer develops from a stepwise breakdown in genetic regulation and tissue differentiation, and address the experimental challenges of modeling this loss of tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing Benign and Malignant Tumors",
+      "groupedBecause": "These subtopics define the differences between benign and malignant neoplasms through their invasive capacity, progression patterns, clinical hazards, and histological nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic explains the specific physiological and mechanical processes by which primary and metastatic tumors cause systemic illness and patient death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Patterns of Tumor Incidence Across Tissues and Species",
+      "groupedBecause": "These subtopics analyze the epidemiological frequency and mortality of tumors across different human tissues and compare cancer susceptibility across diverse animal taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and Evaluation of Cancer Screening",
+      "groupedBecause": "These subtopics assess the clinical rationale, diagnostic techniques, and varying success rates of screening programs designed for early tumor detection.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the presentation by reviewing the learning outcomes and previewing the upcoming practicals and future lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

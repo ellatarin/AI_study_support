@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the session by connecting histopathology practicals to cellular changes and outlining the topics to be covered.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Viral origins of oncogenes and transformation assays",
+      "groupedBecause": "These subtopics trace how studying transforming tumor viruses uncovered cellular proto-oncogenes and established experimental methods for assaying malignant cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Functional classes and molecular mechanisms of cancer genes",
+      "groupedBecause": "These subtopics define the operational categories of cancer-associated genes and illustrate how specific mutations disrupt cell cycle controls to drive tumorigenesis.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of genetic instability and multistep tumor progression",
+      "groupedBecause": "These subtopics explore how cellular failures in maintaining genome integrity produce genetic instability and accelerate the stepwise accumulation of mutations during cancer progression.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Hereditary cancer predispositions and tumor maintenance",
+      "groupedBecause": "These subtopics examine how germline mutations predispose individuals to cancer and consider whether ongoing genetic instability is required to sustain malignancy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture conclusion and suggested reading",
+      "groupedBecause": "The lecturer wraps up the lecture, offers supplementary reading recommendations, and previews the next lecture on cancer hallmarks.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

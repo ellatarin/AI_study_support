@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the cancer lecture series, and the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological nature and multifactorial drivers of cancer",
+      "groupedBecause": "These subtopics describe cancer as a micro-evolutionary genetic disease and introduce the roulette wheel framework of intrinsic, inherited, and environmental mutagenic drivers.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental exposures and the etiology debate",
+      "groupedBecause": "These subtopics discuss recognized environmental carcinogens, the debate between intrinsic biological chance and extrinsic causes, and epidemiological evidence demonstrating environmental impacts on cancer rates.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious pathogens in oncogenesis",
+      "groupedBecause": "These subtopics explore how infectious agents promote cancer, using Burkitt lymphoma as an illustrative case study of viral oncogenesis and environmental co-factors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of mutagenesis by chemical and physical carcinogens",
+      "groupedBecause": "These subtopics examine how external carcinogens induce DNA damage directly, through oxidative stress, or via metabolic conversion into reactive DNA-binding intermediates.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host context, and carcinogenic mechanisms",
+      "groupedBecause": "These subtopics examine how non-mutagenic factors, such as tumor promoters, chronic inflammation, and host developmental states, facilitate malignant outgrowth, concluding with a synthesis of carcinogenic mechanisms.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for determining carcinogenicity",
+      "groupedBecause": "These subtopics examine the experimental and observational methodologies used to detect carcinogen exposure and establish carcinogenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion and risk-benefit considerations",
+      "groupedBecause": "This subtopic concludes the lecture by framing carcinogen exposure within personal risk-benefit decisions and summarizing the main takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

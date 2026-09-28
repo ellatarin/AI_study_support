@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and course overview",
+      "groupedBecause": "This opening subtopic welcomes the students, introduces the lecture series, outlines the learning outcomes, and contextualises cancer biology across multiple disciplines.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of cellular differentiation and tissue architecture",
+      "groupedBecause": "These subtopics describe cancer as a multistep disruption of normal cellular differentiation and three-dimensional tissue architecture, alongside the experimental models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign versus malignant tumors: invasion, progression, and nomenclature",
+      "groupedBecause": "These subtopics define the differences between benign and malignant tumors through their capacity for tissue invasion, their stepwise histological progression, and their standard clinical nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathological mechanisms of cancer-induced disease and death",
+      "groupedBecause": "This subtopic explains the specific physiological and mechanical mechanisms by which primary and metastatic tumors cause systemic illness, organ dysfunction, and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Epidemiological and cross-species incidence of cancer",
+      "groupedBecause": "These subtopics examine the incidence and tissue distribution of tumors across human populations and compare cancer patterns across companion animals and diverse multicellular taxa.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Principles and clinical efficacy of cancer screening",
+      "groupedBecause": "These subtopics examine the clinical rationale for early cancer detection and evaluate the diagnostic approaches, benefits, and limitations of screening programs across different cancer types.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Lecture conclusion and practical preview",
+      "groupedBecause": "This closing subtopic revisits the learning outcomes for student revision and provides logistical framing for upcoming practical sessions and future lectures.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

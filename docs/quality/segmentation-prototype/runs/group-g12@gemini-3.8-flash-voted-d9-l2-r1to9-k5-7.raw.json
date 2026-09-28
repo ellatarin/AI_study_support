@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "It introduces the lecture topic and sets expectations regarding the complexity of complement nomenclature.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement system overview and fundamental concepts",
+      "groupedBecause": "They introduce the fundamental principles and mechanics that govern how the complement system operates.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways",
+      "groupedBecause": "They describe the recognition pathways that initiate the complement cascade and converge on activating C3 on pathogen surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "They explain the mechanisms by which activated complement eliminates pathogens and recruits immune responses.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement activation",
+      "groupedBecause": "It explains the regulatory mechanisms that prevent complement from inadvertently attacking and destroying host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical complement deficiencies",
+      "groupedBecause": "It details the distinct clinical manifestations and disease risks resulting from deficiencies in various complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Microbial evasion of complement",
+      "groupedBecause": "It examines the strategies pathogens use to circumvent complement-mediated destruction, using Staphylococcus aureus as a primary example.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing remarks",
+      "groupedBecause": "It concludes the lecture and previews the next topic in the lecture series.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

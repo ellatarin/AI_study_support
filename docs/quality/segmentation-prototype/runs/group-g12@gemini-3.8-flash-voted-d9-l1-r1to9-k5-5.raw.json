@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "This subtopic frames the lecture's scope and objectives regarding the molecular and cellular mechanisms governing the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Innate Immune Recognition",
+      "groupedBecause": "These subtopics explain the molecular criteria and spatial requirements that allow innate immune sensors to distinguish microbial and damaged non-self from self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern Recognition Receptor Families and Signaling Platforms",
+      "groupedBecause": "These subtopics detail the major families of innate pattern recognition receptors and the intracellular signaling pathways and complexes that trigger inflammatory mediator production.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Leukocyte Mobilization and Physiological Consequences of Inflammation",
+      "groupedBecause": "These subtopics examine how inflammatory activation coordinates the local and systemic trafficking of immune cells as well as the clinical risks of severe systemic inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics explain how acute inflammatory responses are resolved, how damaged tissues are repaired, and how persistent insults lead to chronic or protective containment states.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic provides the concluding closing remarks and announces the subject of the subsequent lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}
