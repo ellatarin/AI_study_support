@@ -13,7 +13,7 @@
 - [x] Calls are made a few at a time; each deepened run is saved as it completes and a relaunch makes only the missing ones (ticket 04).
 - [x] Every deepened run's subtopics joined in order equal the transcript character for character.
 - [x] `sizeGateWords` (600) is added to the `division` settings section; the stage's model is set per stage.
-- [ ] **Live run:** the stage runs for real on one lecture (cost stated first); its deepened subtopic counts fall within the prototype's `d13` range on that lecture.
+- [x] **Live run:** the stage runs for real on one lecture (cost stated first); its deepened subtopic counts fall within the prototype's `d13` range on that lecture.
 - [ ] **Side by side with the prototype, in place of a replay:** the prototype saved its deepened runs but not the replies that made them, so nothing can be replayed. A one-off script sets the live deepened runs beside the prototype's for that lecture, subtopic by subtopic, and the user reads them.
 - [x] The side-by-side script and its output stay in the prototype folder.
 
@@ -38,3 +38,10 @@
 
 - The user chose deepening prompt `d13` over `d9`: steadier panels and better topics and titles (technical design §5, `deepen-subtopic-splitting`). The prompt item and the live run are reopened; the live run and side-by-side view above were made with `d9` and are redone with `d13`.
 - The live prompt was checked byte-identical to the prototype's `d13` (9,724 characters); `compare-live-splitting.mts deepened` now reads the prototype's `d13` runs.
+
+2026-09-29, live run on lecture 6 with `d13`:
+
+- Deepened subtopic counts 17–22 (prototype `d13` 15–22). Every live cut falls at a position some prototype run used (162 of 162). The two panels keep the same 19 cut sites at the bar, and neither keeps a site the other drops; no site's support differs beyond chance (Fisher exact, 0 of 24 below p = 0.05).
+- 119 calls, 407,010 tokens in and 136,093 out, about 9 minutes at 3 runs at once, one call at a time within a run. Cost again n/a: every lookup returned 404 (issue #10).
+- `LIVE-DEEPENED-SPLITTING.md` regenerated from these runs for the user to read.
+- Built since: `callConcurrency` (calls at once within a run, deepening only), `batch.concurrency` in the config, and the user's config set to 6 runs × 10 calls. Not yet run live at those settings.
