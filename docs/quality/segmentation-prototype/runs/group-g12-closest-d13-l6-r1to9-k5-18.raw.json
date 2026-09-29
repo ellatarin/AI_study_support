@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture topic, reviews prior lecture context, and outlines the learning outcomes regarding the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and signaling pathway mutations",
+      "groupedBecause": "These subtopics explain how mutations in cell surface receptor pathways and downstream cascades confer growth signal autonomy and resistance to inhibitory signals in cancer cells.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation",
+      "groupedBecause": "These subtopics examine how blocks in terminal differentiation prevent cells from exiting the cell cycle and contribute to tumorigenesis in hematopoietic tissues and colonic epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic describes how cancer cells evade programmed cell death through the disruption of p53 signaling and the balance of Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomeres, and cellular senescence",
+      "groupedBecause": "These subtopics discuss telomere biology, mechanisms of telomerase reactivation, and how bypassing senescence and p53-mediated stress responses allows cancer cells to achieve replicative immortality.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics transition to complex hallmarks and explain how metabolic reprogramming, aerobic glycolysis, and oncometabolites support tumor growth and epigenetic alteration.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explains the angiogenic switch and the role of new blood vessel formation in providing oxygen and nutrients to sustain growing tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genetics of metastasis",
+      "groupedBecause": "These subtopics explore the metastatic cascade, circulating tumor cells, seed-and-soil interactions, and the genomic features underlying distant tumor colonization.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of cancer hallmarks, reflections on recent literature, and final reminders for practical sessions.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

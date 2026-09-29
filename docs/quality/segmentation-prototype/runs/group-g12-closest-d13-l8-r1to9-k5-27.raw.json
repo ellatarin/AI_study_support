@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture topic and outlines the key learning objectives for understanding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and resistance mechanisms",
+      "groupedBecause": "These subtopics address non-targeted therapeutic modalities—including surgery, radiotherapy, and cytotoxic chemotherapy—along with the systemic toxicities and efflux-mediated drug resistance that limit them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and repair deficiencies",
+      "groupedBecause": "These subtopics examine therapeutic strategies that exploit intrinsic cancer cell defects, including hormone signaling reliance, checkpoint protein loss, and synthetic lethality in DNA repair.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics focus on kinase oncogene addiction, the design of small-molecule ATP-competitive inhibitors, and the diverse molecular mechanisms underlying acquired drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the use of engineered antibodies to target tumor surface antigens directly or deliver cytotoxic payloads via antibody-drug conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and immune-mediated targeting",
+      "groupedBecause": "These subtopics explore the relationship between tumors and the immune system, detailing immune surveillance, checkpoint inhibition, and engineered T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Historical progress, therapeutic challenges, and future directions",
+      "groupedBecause": "These subtopics evaluate long-term trends in cancer survival, the interplay between treatment and prevention, and the practical and ethical challenges shaping future oncology paradigms.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

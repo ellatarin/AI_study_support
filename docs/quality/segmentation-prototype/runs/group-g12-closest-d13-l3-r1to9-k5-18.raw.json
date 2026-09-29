@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic introduces the scope, target audience, and key learning objectives of the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Basis of Cancer and Experimental Tissue Models",
+      "groupedBecause": "These subtopics explain how cancer develops from accumulating genetic and epigenetic defects that disrupt cellular differentiation and tissue architecture, alongside the models used to study these processes in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Metastasis, and Stepwise Tumor Progression",
+      "groupedBecause": "These subtopics examine the pathological distinction between benign and malignant tumors through tissue invasion, metastatic spread, and the stepwise histological progression of lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature and Classification",
+      "groupedBecause": "This subtopic establishes the standard conventions and notable exceptions used to categorize and name tumors based on their cell lineage and malignant potential.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic details how physical obstruction, tissue destruction, and systemic metastatic burden lead to clinical illness and death in cancer patients.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative Tumor Incidence in Humans and Other Animals",
+      "groupedBecause": "These subtopics analyze the epidemiological patterns of tumor frequency across human tissues and throughout diverse multicellular animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Cancer Detection and Screening Approaches",
+      "groupedBecause": "These subtopics evaluate the clinical principles, effectiveness, and limitations of early cancer detection and screening programmes across different tumor types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Practical Reminders",
+      "groupedBecause": "This subtopic provides the concluding framing for the lecture, summarizing the session and offering instructions for upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

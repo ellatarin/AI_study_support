@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the introductory framing, course overview, and intended learning outcomes for the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and developmental basis of cancer",
+      "groupedBecause": "These subtopics introduce cancer as a multistep disease driven by genetic and epigenetic changes that disrupt normal cellular differentiation, tissue architecture, and growth controls.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing benign and malignant tumours",
+      "groupedBecause": "These subtopics explain how benign and malignant tumours are differentiated and classified through their tissue invasion, metastatic potential, histological progression, and nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic describes the physiological and physical processes by which localized and metastatic tumours cause disease symptoms, organ failure, and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumour incidence across humans and other species",
+      "groupedBecause": "These subtopics compare patterns of tumour frequency and tissue distribution across human populations and diverse animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening and early detection",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, histological diagnostic criteria, and practical limitations of screening programs for early-stage tumours.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture with a review of the learning objectives and reminders for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

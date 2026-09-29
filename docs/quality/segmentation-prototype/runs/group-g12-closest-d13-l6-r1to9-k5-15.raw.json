@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for the hallmarks of cancer",
+      "groupedBecause": "This opening section sets out the lecture aims and introduces the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and oncogenic mutations",
+      "groupedBecause": "These subtopics explain how oncogenic mutations across membrane receptor signaling pathways confer autonomous proliferation and survival signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics describe how failure to complete terminal differentiation preserves proliferative progenitor states in hematopoietic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis, replicative immortality, and p53 regulation",
+      "groupedBecause": "These subtopics examine how cancer cells bypass intrinsic growth-limiting checkpoints, cell death, and senescence through telomere maintenance and p53 pathway deregulation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Cancer metabolism, the Warburg effect, and oncometabolites",
+      "groupedBecause": "These subtopics detail how cancer cells alter their metabolic wiring and generate oncometabolites to support biosynthetic demands and epigenetic regulation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and the angiogenic switch",
+      "groupedBecause": "This subtopic addresses how tumors overcome diffusion limits to stimulate new blood vessel growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, detection, and genomics of tumor metastasis",
+      "groupedBecause": "These subtopics explore the biological hurdles of cancer dissemination, circulating tumor cell monitoring, and the genomic features of secondary metastatic sites.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "This closing section summarises the key themes of the lecture and provides concluding administrative remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "It introduces the lecture and outlines the focus on the initiation and resolution of the inflammatory response.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen recognition, PAMPs, and PRR properties",
+      "groupedBecause": "They explain how the innate immune system detects infection and tissue damage using germline-encoded pattern recognition receptors targeted against conserved microbial and cellular danger signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptors and downstream signaling",
+      "groupedBecause": "They detail the diversity, ligand recognition, and spatially regulated intracellular signaling pathways of Toll-like receptors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cytoplasmic receptors and inflammasome activation",
+      "groupedBecause": "They describe intracellular pattern recognition systems and the multi-protein assembly of the inflammasome that matures pro-inflammatory cytokines.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Leukocyte recruitment, trafficking, and systemic inflammation",
+      "groupedBecause": "They describe how sentinel cells initiate leukocyte extravasation into tissues, promote drainage into lymphatics, and can trigger severe systemic pathology when excessively activated.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Inflammation resolution, tissue repair, and chronic outcomes",
+      "groupedBecause": "They explain the mechanisms that shut down acute inflammation, how damaged tissue is repaired, and the pathological or adaptive chronic states that arise when resolution fails.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "It concludes the lecture session and previews the upcoming lecture on the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

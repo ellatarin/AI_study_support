@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "Opening framing introducing the lecturer, course context, and the lecture's core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, mutation sources, and epidemiological variation",
+      "groupedBecause": "These subtopics explore the foundational drivers of cancer, examining how intrinsic biological mutations, inherited predisposition, and environmental exposures interact across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and viral oncogenesis",
+      "groupedBecause": "These subtopics explain how biological pathogens, particularly viruses like Epstein-Barr virus, contribute to carcinogenesis through chronic inflammation and cellular dysregulation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical carcinogens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics examine how physical radiation and chemical carcinogens induce direct or indirect DNA damage through adduct formation, oxidative stress, and metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, two-stage carcinogenesis, and host susceptibility",
+      "groupedBecause": "These subtopics discuss non-mutagenic tumor promoters, the multi-stage model of carcinogenesis, and how host developmental timing influences cancer susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying carcinogens and evaluating exposure risk",
+      "groupedBecause": "These subtopics describe genomic, epidemiological, in vivo, and in vitro approaches used to determine carcinogenicity alongside practical risk-benefit considerations.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "Closing framing providing a concluding summary of key lecture takeaways.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

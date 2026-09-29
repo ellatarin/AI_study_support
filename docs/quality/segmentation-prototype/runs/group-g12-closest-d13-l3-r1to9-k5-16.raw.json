@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This topic contains the introductory framing, course overview, and learning outcomes for the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations, tissue architecture, and cell culture models of cancer",
+      "groupedBecause": "These subtopics explain the core concept of cancer as an accumulation of genetic and epigenetic changes causing a failure of differentiation and tissue architecture, alongside the experimental models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and histological progression",
+      "groupedBecause": "These subtopics detail the mechanisms, routes, and histological manifestations of tumor invasion and metastasis, focusing on distinguishing benign from malignant lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature, clinical dangers, and mechanisms of mortality",
+      "groupedBecause": "These subtopics explain the standard naming systems for tumors and the physical and physiological mechanisms by which benign and malignant growths cause patient morbidity and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative tumor incidence in humans and other animal species",
+      "groupedBecause": "These subtopics analyze the epidemiological patterns of tumor incidence across human populations and diverse animal species as a feature of multicellularity.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical cancer screening modalities and limitations",
+      "groupedBecause": "These subtopics evaluate the diagnostic rationale, clinical successes, and practical limitations of population screening methods across various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This topic provides the concluding summary and administrative framing for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the opening framing by introducing the lecture series, audience background, and core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological principles of cancer development and tissue architecture",
+      "groupedBecause": "These subtopics explain the core concept of cancer as an accumulation of genetic and epigenetic alterations leading to disrupted differentiation, loss of tissue architecture, and the experimental challenges of modeling these processes in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and histological progression",
+      "groupedBecause": "These subtopics explore the biological and histological characteristics distinguishing benign from malignant tumors through local invasion across basement membranes, metastatic spread, and stepwise progression illustrated by colorectal cancer.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and mechanisms of clinical pathology",
+      "groupedBecause": "These subtopics examine standard naming conventions for neoplasms alongside the mechanical and physiological processes through which benign and malignant tumors cause clinical illness and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor incidence in humans and other multicellular organisms",
+      "groupedBecause": "These subtopics analyze patterns of cancer incidence across human populations and diverse animal species, framing neoplasia as a fundamental vulnerability of multicellular organisms with differentiation programs.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer detection and clinical screening methods",
+      "groupedBecause": "These subtopics discuss the principles, histological indicators, and practical limitations of population screening strategies across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic provides the closing framing by concluding the lecture and reminding students of upcoming practicals and review tasks.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

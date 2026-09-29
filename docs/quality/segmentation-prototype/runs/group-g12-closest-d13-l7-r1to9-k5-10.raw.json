@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The opening framing introduces the lecture, outlines the themes of cancer evolution and the microenvironment, and states the learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of clonal evolution",
+      "groupedBecause": "These subtopics examine how tumor development is driven by Darwinian selection of advantageous somatic mutations and complementary non-mutational epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer stem cells and cell of origin",
+      "groupedBecause": "These subtopics explore the relationship between normal tissue hierarchies and tumorigenesis, evaluating theoretical models and experimental evidence for cancer stem cells and cells of origin in leukemia and colorectal cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental, inflammatory, and stromal influences on cancer",
+      "groupedBecause": "These subtopics explain how microenvironmental signals, chronic inflammation, and supportive stroma promote tumor growth and provide avenues for microenvironment-targeted therapies.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental and computational methods for studying tumor evolution",
+      "groupedBecause": "This subtopic details the sequencing, modeling, and spatial profiling technologies used to investigate tumor evolution and cellular interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrative synthesis of cancer evolution",
+      "groupedBecause": "This subtopic synthesizes how mutational accumulation, cell-of-origin properties, and microenvironmental context collectively drive cancer development as an evolutionary process.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "The closing framing concludes the presentation and announces the topic of the next lecture.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

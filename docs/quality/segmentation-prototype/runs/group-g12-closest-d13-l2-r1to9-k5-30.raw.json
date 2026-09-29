@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "This subtopic introduces the lecture and sets expectations regarding the complexity and importance of the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational principles, nomenclature, and the central role of C3",
+      "groupedBecause": "These subtopics establish the foundational overview of complement biology, including naming conventions, general functions, and the central role of C3 activation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics detail the three recognition pathways that initiate complement activation and lead to reaching the activation threshold on target surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics examine the primary downstream effector functions through which complement clears pathogens, including opsonization, inflammation, and membrane lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement and host cell protection",
+      "groupedBecause": "This subtopic explains the regulatory factors and mechanisms that keep complement activation in check and prevent damage to host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic outlines the distinct clinical presentations, infection risks, and autoimmune-like manifestations resulting from deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen strategies for complement evasion",
+      "groupedBecause": "This subtopic explores how pathogens employ specialized molecular mechanisms to counteract and evade complement-mediated destruction.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing remarks and next lecture preview",
+      "groupedBecause": "This subtopic concludes the complement lecture and previews the upcoming session on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

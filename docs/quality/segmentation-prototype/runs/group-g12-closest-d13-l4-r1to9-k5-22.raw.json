@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This topic introduces the cancer lecture series and outlines the key learning objectives regarding the causes of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiological concepts, mutation sources, and epidemiological patterns",
+      "groupedBecause": "These subtopics explore what drives cancer development by comparing intrinsic mutational processes and inherited predispositions with environmental exposures and global epidemiological variation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "These subtopics explain how biological agents drive oncogenesis, focusing on oncogenic viral and bacterial mechanisms and the detailed etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical carcinogens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics detail the molecular mechanisms by which physical radiation and chemical carcinogens induce direct DNA damage, metabolic activation, or oxidative stress.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and contextual susceptibility in carcinogenesis",
+      "groupedBecause": "These subtopics explain how non-mutagenic tumor promotion, inflammatory microenvironments, and developmental susceptibility interact with initial mutations to enable tumor outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for detecting carcinogenicity and evaluating risk",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, in vivo, and in vitro experimental strategies used to identify carcinogens and evaluate human health risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This topic concludes the lecture with a final recap of key themes and concluding remarks.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

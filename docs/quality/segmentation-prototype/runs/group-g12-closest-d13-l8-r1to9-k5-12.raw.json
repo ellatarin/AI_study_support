@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer therapy and learning objectives",
+      "groupedBecause": "This subtopic provides the introductory framing and intended learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics discuss standard therapeutic modalities including surgery, radiotherapy, and cytotoxic chemotherapy alongside their associated systemic toxicities and efflux-mediated drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic cancer cell vulnerabilities and defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic tumor vulnerabilities such as hormone receptor dependence, cell cycle checkpoint deficiencies, and DNA repair defects through synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics describe the rationale, structural mechanism, and emergence of drug resistance and addiction associated with small-molecule kinase inhibitors targeting oncogenic driver proteins.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based targeted therapies",
+      "groupedBecause": "These subtopics describe the design and cytotoxic mechanisms of therapeutic monoclonal antibodies and antibody-drug conjugates directed against tumor cell-surface markers.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and cellular therapies",
+      "groupedBecause": "These subtopics cover the principles of tumor immune surveillance and the development of immunotherapies designed to harness or engineer T cells against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Historical progress, future directions, and therapeutic dilemmas",
+      "groupedBecause": "These subtopics assess long-term trends in cancer survival while addressing the broader clinical challenges, preventative strategies, and ethical dilemmas involved in evolving cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

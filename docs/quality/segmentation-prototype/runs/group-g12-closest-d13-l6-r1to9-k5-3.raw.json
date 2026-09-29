@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and overview of cancer hallmarks",
+      "groupedBecause": "These subtopics establish the lecture framework, learning objectives, and historical model of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and proliferative independence",
+      "groupedBecause": "These subtopics examine how oncogenic mutations across cell-surface receptors and intracellular cascades drive self-sufficient proliferation and override growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics explain how failure to complete lineage differentiation sustains abnormal progenitor expansion in leukemias and carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis and cell death evasion",
+      "groupedBecause": "This subtopic addresses how cancer cells evade programmed cell death through disruptions in p53 transactivation and Bcl-2 family mitochondrial regulation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and telomere maintenance",
+      "groupedBecause": "These subtopics explore how cells respond to critical telomere shortening and how cancer cells bypass senescence via telomerase upregulation and stress checkpoint evasion.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Complex hallmarks and cancer metabolic rewiring",
+      "groupedBecause": "These subtopics transition to complex hallmarks and describe how cancer cells reprogram core metabolic pathways to support rapid biosynthesis.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explores how developing neoplasms activate new blood vessel formation to overcome diffusion limits for oxygen and nutrients.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, barriers, and genetics of tumor metastasis",
+      "groupedBecause": "These subtopics examine the anatomical routes, clinical monitoring, biological inefficiencies, and clonal genomics involved in metastatic cancer spread.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "These subtopics provide the concluding lecture framing by summarizing the collective nature of cancer hallmarks and closing the session.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

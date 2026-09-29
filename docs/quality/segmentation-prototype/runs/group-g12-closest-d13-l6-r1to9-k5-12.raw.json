@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer hallmarks",
+      "groupedBecause": "The lecturer introduces the learning outcomes, historical context, and conceptual framework for studying the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in receptor tyrosine kinase and Wnt/beta-catenin pathways drive sustained proliferation and growth factor independence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blockade of terminal cell differentiation",
+      "groupedBecause": "These subtopics explore how cancer cells arrest normal maturation pathways in both hematopoietic lineages and the intestinal epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis via p53 and Bcl-2 regulation",
+      "groupedBecause": "This subtopic describes how mutations disrupting p53 and Bcl-2 family interactions enable cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomere biology, and senescence bypass",
+      "groupedBecause": "These subtopics detail the mechanisms of telomere shortening, senescence barriers, and telomerase reactivation that confer unlimited proliferative potential.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Transition to complex hallmarks and cancer metabolic reprogramming",
+      "groupedBecause": "These subtopics bridge from cell-autonomous growth to complex cancer hallmarks, detailing the Warburg effect, global metabolic changes, and oncometabolites.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Angiogenic switch and tumor vascularization",
+      "groupedBecause": "This subtopic examines how tumors overcome diffusion limits by activating endothelial growth and vessel formation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and biology of metastasis",
+      "groupedBecause": "These subtopics investigate how cancer cells invade, circulate, overcome metastatic inefficiency, and colonize distant tissues.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "The lecturer concludes the session with a recap of hallmark integration and final housekeeping comments.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

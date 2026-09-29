@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the core learning objectives of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: genetic mechanisms, environmental exposures, and chance",
+      "groupedBecause": "These subtopics establish the foundational concepts of cancer development by exploring intrinsic mutations, microenvironmental requirements, inherited predisposition, and the epidemiological debate over environmental exposure versus random chance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in cancer development",
+      "groupedBecause": "These subtopics explain the oncogenic mechanisms of infectious agents, using the etiology and geographic distribution of Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics examine how physical radiation and chemical carcinogens—including dietary toxins, combustion products, and xenobiotically metabolized compounds—cause direct and indirect DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, host susceptibility, and mechanisms of carcinogenesis",
+      "groupedBecause": "These subtopics explore how non-mutagenic tumor promoters, inflammatory microenvironments, and host developmental timing collaborate with initiating mutations to facilitate malignant outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and evaluating risk",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, in vivo, and in vitro experimental strategies used to detect carcinogenic agents and assess their real-world risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and lecture summary",
+      "groupedBecause": "This subtopic delivers the final summary and concluding thoughts on cancer causation and carcinogen risk evaluation.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

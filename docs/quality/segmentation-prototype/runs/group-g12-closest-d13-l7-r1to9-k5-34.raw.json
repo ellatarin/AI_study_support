@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the session by reviewing prior concepts and defining the learning objectives centered on cancer evolution, cell of origin, and microenvironments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms in clonal selection",
+      "groupedBecause": "These subtopics explain how intrinsic genetic mutations and chromatin-level epigenetic alterations confer selective advantages that drive clonal expansion.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchies and cell of origin in tumorigenesis",
+      "groupedBecause": "These subtopics evaluate the cancer stem cell model and investigate the cellular origin of tumors using experimental evidence from leukemia and colorectal systems.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental cues, inflammation, and stromal support in tumor progression",
+      "groupedBecause": "These subtopics explore how external factors such as inflammation, paracrine cytokines, and supportive stromal interactions are essential to promote and sustain malignant growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental and computational tools for analyzing tumor evolution",
+      "groupedBecause": "This subtopic surveys sequencing technologies, spatial omics, and computational algorithms applied to investigate clonal dynamics and tumor-microenvironment interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated framework of cancer evolution",
+      "groupedBecause": "This subtopic synthesizes the multi-factorial interplay among accumulated mutations, cell-of-origin plasticity, and microenvironmental pressures into an overall model of cancer development.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "The lecturer wraps up the lecture and provides a brief look ahead to the next session on therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

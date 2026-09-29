@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "These opening remarks introduce the lecture topic of cancer therapy and outline the intended learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics examine traditional therapeutic modalities including surgery, radiotherapy, and cytotoxic chemotherapeutics alongside associated systemic toxicities and efflux-mediated drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting tumor signaling dependencies and checkpoint defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic biological vulnerabilities in cancer cells, including hormone dependence, cell cycle checkpoint deficiencies, and DNA repair defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and resistance pathways",
+      "groupedBecause": "These subtopics address oncogene addiction, the design of small-molecule kinase inhibitors, and mechanisms of acquired resistance such as gatekeeper mutations and bypass signaling pathways.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based targeted therapies",
+      "groupedBecause": "These subtopics describe the mechanisms and clinical utility of monoclonal antibodies and antibody-drug conjugates designed to selectively target tumor cell-surface markers.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and cellular therapies",
+      "groupedBecause": "These subtopics examine the evidence for natural immune surveillance and evaluate immunotherapeutic strategies including immune checkpoint blockade, bispecific T-cell engagers, and CAR T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future paradigms in cancer management",
+      "groupedBecause": "These subtopics evaluate historical survival trends, ongoing clinical challenges such as tumor heterogeneity, and future directions and ethical dilemmas in oncological treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and sets out its learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics cover traditional treatment modalities including surgery, radiotherapy, and cytotoxic drugs together with their associated toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic tumor vulnerabilities and synthetic lethality",
+      "groupedBecause": "These subtopics examine therapeutic strategies that exploit intrinsic cancer vulnerabilities such as hormone dependence, cell cycle checkpoint failures, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Small-molecule kinase inhibitors and resistance mechanisms",
+      "groupedBecause": "These subtopics focus on small-molecule kinase inhibitors targeting oncogenic driver mutations and the clinical challenges posed by bypass resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Therapeutic monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain how monoclonal antibodies and antibody-drug conjugates are engineered to recognize surface antigens and deliver targeted cytotoxicity.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and cellular therapies",
+      "groupedBecause": "These subtopics address the role of immune surveillance in oncology and the therapeutic mechanisms of checkpoint blockade, bispecific engagers, and engineered CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical challenges, historical progress, and future directions",
+      "groupedBecause": "These subtopics evaluate long-term trends in cancer mortality, persistent clinical challenges, and future paradigms for managing oncological disease.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

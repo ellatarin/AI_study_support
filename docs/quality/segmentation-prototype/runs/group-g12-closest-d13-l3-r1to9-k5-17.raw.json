@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the course structure, student audience, and core learning outcomes for the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of differentiation, tissue architecture, and cellular regulation",
+      "groupedBecause": "These subtopics define cancer at the cellular and tissue levels as a multistep breakdown in differentiation and three-dimensional tissue architecture, alongside the experimental models used to study these properties.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and histological tumor progression",
+      "groupedBecause": "These subtopics explain the cellular mechanisms and histological criteria that distinguish benign from malignant tumors through local tissue invasion, dissemination pathways, and progression from precursor lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor classification, nomenclature, and clinical mechanisms of disease",
+      "groupedBecause": "These subtopics cover the standard naming conventions for different tumor types and the physiological mechanisms through which benign and malignant growths cause patient morbidity and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics examine epidemiological patterns of tumor incidence in humans and other animal taxa, demonstrating that cancer is a fundamental vulnerability of multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical modalities of cancer screening",
+      "groupedBecause": "These subtopics discuss the rationale, histological techniques, and clinical utility and limitations of screening programs designed to detect cancers at early or pre-malignant stages.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "The lecturer concludes the session with a recap of the learning outcomes and reminders regarding upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

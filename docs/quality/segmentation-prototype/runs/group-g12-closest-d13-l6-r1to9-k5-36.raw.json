@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for cancer hallmarks",
+      "groupedBecause": "The lecturer introduces the lecture structure, learning outcomes, and the multi-step model of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and oncogenic mutations",
+      "groupedBecause": "These subtopics explain how mutations in growth factor receptors and downstream signaling cascades drive growth signal independence and sustained proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics explore how differentiation blocks prevent cells from maturing and exiting the cell cycle in both hematological malignancies and intestinal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis and p53 regulation",
+      "groupedBecause": "This subtopic details how cancer cells evade programmed cell death through alterations in p53 and Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomeres, senescence bypass, and cellular stress surveillance",
+      "groupedBecause": "These subtopics explain the mechanisms of telomere shortening, senescence induction, TERT reactivation, and p53-mediated stress responses that govern replicative lifespan and cell-autonomous growth.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic rewiring and oncometabolites in cancer",
+      "groupedBecause": "These subtopics examine how cancer cells rewire their metabolism via aerobic glycolysis and Krebs cycle mutations to support biosynthetic demands.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and vascularization",
+      "groupedBecause": "This subtopic explains why growing tumors require an angiogenic switch to supply oxygen and nutrients, and how this balance is regulated.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genomics of metastasis",
+      "groupedBecause": "These subtopics cover the multi-step metastatic cascade, clinical detection via liquid biopsies, metastatic inefficiency, and the genomic features of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "The lecturer concludes the lecture by summarizing the convergence of cancer hallmarks and providing closing practical information.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

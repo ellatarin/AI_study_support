@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning objectives on cancer therapy approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics discuss standard modalities of cancer treatment and the general mechanisms underlying cytotoxic drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer vulnerabilities and synthetic lethality",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic molecular defects and pathway dependencies specific to cancer cells.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics detail the development and therapeutic mechanisms of targeted kinase inhibitors alongside the molecular pathways driving resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain the design and therapeutic applications of monoclonal antibodies and antibody-drug conjugates targeted to tumor surface proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell activation",
+      "groupedBecause": "These subtopics examine the evidence for immune surveillance and the strategies used to harness and engineer cytotoxic T cells against tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic progress, ongoing challenges, and future perspectives",
+      "groupedBecause": "These subtopics review the overall clinical progress and systemic challenges across cancer treatments while discussing future therapeutic paradigms.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

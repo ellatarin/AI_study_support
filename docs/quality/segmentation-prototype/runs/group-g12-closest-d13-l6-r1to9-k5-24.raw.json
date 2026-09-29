@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for the hallmarks of cancer",
+      "groupedBecause": "This subtopic provides the lecture opening, setting out the learning outcomes and the overarching conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and proliferative autonomy in cancer",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in major signaling cascades, including Wnt/beta-catenin, receptor tyrosine kinases, and TGF-beta, drive sustained proliferation and growth signal autonomy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in hematologic and epithelial cancers",
+      "groupedBecause": "These subtopics illustrate how failure to undergo terminal differentiation prevents cells from exiting the cell cycle and drives malignancy in both leukemias and intestinal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of resistance to apoptosis",
+      "groupedBecause": "This subtopic describes how cancer cells evade programmed cell death through alterations in p53 signaling and the balance of pro- and anti-apoptotic Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomere regulation, and senescence bypass",
+      "groupedBecause": "These subtopics explore the regulation of cellular lifespan by telomeres, the induction of senescence by stress signals, and how cancer cells bypass these barriers by reactivating telomerase.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Transition to complex hallmarks and cancer metabolic rewiring",
+      "groupedBecause": "These subtopics introduce the transition to complex cancer hallmarks and detail the mechanisms, global tissue patterns, and oncometabolite drivers of metabolic reprogramming.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of angiogenesis in tumor progression",
+      "groupedBecause": "This subtopic explains the angiogenic switch and how expanding tumors stimulate new blood vessel formation to overcome nutrient and oxygen limitations.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genetics of tumor metastasis",
+      "groupedBecause": "These subtopics cover the multi-step cascade of metastatic dissemination, including physical and microenvironmental barriers, liquid biopsy tracking, and associated genomic characteristics.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "This subtopic provides the closing framing of the lecture, reviewing the convergence of hallmarks and concluding with final remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

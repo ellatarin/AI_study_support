@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "This opening section introduces the lecturer, the course context, and the key learning objectives regarding the causes of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology and the balance of genetics, environment, and chance",
+      "groupedBecause": "These subtopics explore the foundational drivers of cancer development by examining how genetic predisposition, endogenous random mutations, and environmental exposures interact across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "These subtopics explain how biological infectious agents drive oncogenesis, using Burkitt lymphoma as a primary case study of pathogen-driven malignancy.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics examine how specific chemical and physical agents cause direct or indirect DNA damage, including their requirements for metabolic activation and tissue-specific processing.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host susceptibility, and mechanistic summary",
+      "groupedBecause": "These subtopics examine non-mutagenic factors that facilitate cancer outgrowth, including promotional stimuli, host developmental windows, and an integrated summary of carcinogenic mechanisms.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying carcinogens and evaluating cancer risk",
+      "groupedBecause": "These subtopics discuss the genomic, epidemiological, and experimental methodologies used to prove carcinogenicity and evaluate practical exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This closing section summarises the key takeaways of the lecture and brings the presentation to a conclusion.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

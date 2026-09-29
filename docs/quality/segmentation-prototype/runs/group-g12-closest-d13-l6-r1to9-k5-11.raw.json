@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "The lecturer introduces the learning objectives and frames the discussion around tumor progression models and cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and pathway deregulation",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell-surface receptors and downstream cascades allow cancer cells to sustain proliferation independently of external growth signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics examine how impaired cellular differentiation contributes to malignancy across hematopoietic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic explores how cancer cells avoid programmed cell death by disrupting the balance of pro- and anti-apoptotic regulators downstream of p53.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and bypass of senescence",
+      "groupedBecause": "These subtopics detail the mechanisms of telomere shortening, normal senescence barriers, and how tumors overcome proliferative limits through telomerase activation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics explore how tumor cells rewire their metabolic pathways, shift toward aerobic glycolysis, and generate oncometabolites to sustain growth.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic describes the angiogenic switch required to establish new blood vessels for supplying oxygen and nutrients to growing tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, detection, and biology of metastasis",
+      "groupedBecause": "These subtopics address the physiological steps, clinical monitoring methods, selective pressures, and genomic features associated with cancer dissemination.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "The lecturer summarizes the key concepts of the lecture and provides closing remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

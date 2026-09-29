@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "It introduces the lecture by outlining the learning outcomes, cancer progression model, and the framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and signaling pathway mutations",
+      "groupedBecause": "They detail how oncogenic mutations in receptor tyrosine kinase and Wnt/beta-catenin pathways enable growth signal independence and resistance to growth-inhibitory cues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks to terminal differentiation in cancer",
+      "groupedBecause": "They examine how differentiation arrest contributes to tumorigenesis using hematological malignancies and colorectal intestinal epithelium as examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis through p53 and Bcl-2 regulation",
+      "groupedBecause": "It explains the molecular balance between pro- and anti-apoptotic proteins and how p53 pathway disruptions allow cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomere regulation, and senescence bypass",
+      "groupedBecause": "They describe telomere maintenance, telomerase reactivation, and how cancer cells bypass senescence and p53-mediated stress responses to achieve replicative immortality.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolic rewiring and oncometabolites",
+      "groupedBecause": "They introduce complex non-cell-autonomous hallmarks and describe how cancer cells rewire their metabolism through aerobic glycolysis, tissue-specific profiles, and oncometabolite-generating mutations.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "It explains the angiogenic switch and the molecular balance regulating blood vessel recruitment required for tumor growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genetics of tumor metastasis",
+      "groupedBecause": "They cover the multistep metastatic cascade, circulation dynamics, liquid biopsy detection, metastatic inefficiency, and the genomic features of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "It concludes the lecture with a summary of how cancer hallmarks integrate and offers closing remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

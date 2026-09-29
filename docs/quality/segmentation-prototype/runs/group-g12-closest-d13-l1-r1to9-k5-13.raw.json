@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic provides the opening framing and overview for the lecture on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and damage sensing via PAMPs and DAMPs",
+      "groupedBecause": "These subtopics explain the molecular criteria and principles used by the innate immune system to identify infections and tissue damage while distinguishing self from non-self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor biology and downstream signaling",
+      "groupedBecause": "These subtopics cover the genetics, cellular localization, and transcriptional signaling pathways of Toll-like receptors in mediating immune defense.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cytoplasmic PRRs and inflammasome activation",
+      "groupedBecause": "These subtopics explore intracellular pattern recognition receptors and the assembly of the multi-protein inflammasome structure to mature pro-inflammatory cytokines.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel cell activation, leukocyte recruitment, and systemic inflammation",
+      "groupedBecause": "These subtopics trace the cellular execution of acute inflammation from sentinel cell activation and leukocyte extravasation to adaptive immune priming and systemic complications like sepsis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "These subtopics address the mechanisms that shut down acute inflammation, facilitate tissue healing, and lead to chronic inflammatory states or granuloma formation when unresolved.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "This subtopic provides the closing framing and previews the topic of the following lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

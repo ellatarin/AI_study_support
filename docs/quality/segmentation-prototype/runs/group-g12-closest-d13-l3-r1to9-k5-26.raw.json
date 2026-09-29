@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "It frames the lecture series by introducing the scope of cancer biology, the student cohort, and the core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamental concepts of cancer development and tissue architecture",
+      "groupedBecause": "They establish the core definition of cancer as an accumulation of genetic alterations leading to a failure of cellular differentiation and tissue architecture, alongside the experimental models used to study these processes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and the distinction between benign and malignant tumors",
+      "groupedBecause": "They explain how invasion and metastasis distinguish malignant from benign neoplasms, illustrating the stepwise progression and clinical behavior of tumors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Conventions and exceptions in tumor nomenclature",
+      "groupedBecause": "It defines the standard pathological naming conventions and key exceptions used to classify benign and malignant tumors across different tissue origins.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "It details the mechanical and systemic ways in which primary and metastatic tumors impair organ function to cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence and comparative oncology across species",
+      "groupedBecause": "They examine the patterns of cancer incidence and mortality across human populations and other multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles, implementation, and limitations of cancer screening",
+      "groupedBecause": "They evaluate the clinical strategies, histological markers, and practical limitations of screening for early-stage and precursor lesions in various cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "It concludes the lecture with a review of the learning outcomes and administrative reminders for upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture and outlines the key learning objectives regarding cancer causation and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: genetics, environmental exposures, and epidemiology",
+      "groupedBecause": "These subtopics establish the conceptual framework of cancer causation by exploring the interplay between intrinsic mutational processes, environmental exposures, and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and oncogenesis",
+      "groupedBecause": "These subtopics explore how infectious pathogens drive cancer development, illustrated in detail through the etiology and mechanisms of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical, physical, and promotional carcinogenesis",
+      "groupedBecause": "These subtopics detail the biochemical and cellular mechanisms by which mutagens, metabolic activation pathways, and tumour promoters induce DNA damage and support malignancy.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methods for detecting, testing, and evaluating carcinogens",
+      "groupedBecause": "These subtopics examine the genomic, epidemiological, and experimental methodologies used to identify carcinogens, test mutagenicity, and evaluate associated health risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This subtopic provides the closing summary of the lecture's central themes concerning environmental cancer risks and carcinogen potency.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

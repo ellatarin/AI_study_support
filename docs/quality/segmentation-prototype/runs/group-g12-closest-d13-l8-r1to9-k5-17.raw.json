@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the framing for the final lecture by outlining the learning objectives and scope of cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics discuss traditional local and systemic cancer interventions alongside the toxicities and multidrug resistance mechanisms associated with cytotoxic chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and genetic defects",
+      "groupedBecause": "These subtopics explain therapeutic strategies that selectively target cancer cells by exploiting hormone dependence, cell cycle checkpoint deficiencies, and DNA repair synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase inhibitors, oncogene addiction, and resistance",
+      "groupedBecause": "These subtopics focus on designing small-molecule inhibitors against oncogenic kinases and managing the emergence of gatekeeper mutations, bypass signaling, and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based targeted therapies",
+      "groupedBecause": "These subtopics examine the design, mechanism of action, and clinical application of naked monoclonal antibodies and toxin-linked antibody-drug conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and immune surveillance",
+      "groupedBecause": "These subtopics evaluate the evidence for anti-tumor immune surveillance and the development of cellular and receptor-targeted immunotherapies, including checkpoint inhibitors, BiTEs, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical challenges, historical progress, and future perspectives",
+      "groupedBecause": "These subtopics synthesize broader therapeutic challenges, mortality trends, and ethical considerations surrounding the integration of novel targeted agents alongside proven combination regimens.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

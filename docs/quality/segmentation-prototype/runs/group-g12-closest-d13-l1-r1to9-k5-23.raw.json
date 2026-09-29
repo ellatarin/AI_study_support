@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "The lecturer introduces the session's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate sensing via PAMPs and DAMPs",
+      "groupedBecause": "These subtopics explain how the innate immune system detects pathogens and tissue damage while distinguishing self from non-self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptors and intracellular sensing pathways",
+      "groupedBecause": "These subtopics examine the genetics, cellular localization, and downstream signaling cascades of pattern recognition receptor families, including TLRs and the inflammasome.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Sentinel cell activation, leukocyte recruitment, and systemic inflammation",
+      "groupedBecause": "These subtopics trace the cellular propagation of the inflammatory response from sentinel cell signaling and leukocyte extravasation to systemic complications like septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics describe the mechanisms that terminate acute inflammation, govern wound healing, and result in persistent chronic states such as granulomas.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer wraps up the lecture and introduces the topic for the following session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

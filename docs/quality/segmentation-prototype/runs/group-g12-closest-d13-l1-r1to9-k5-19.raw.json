@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic opens the lecture by framing the learning goals and outlining how previously introduced concepts will be integrated.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sensing infection and damage via PAMPs and DAMPs",
+      "groupedBecause": "These subtopics explain the molecular criteria that allow the innate immune system to detect microbial presence and tissue damage while distinguishing self from non-self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptors and downstream signaling cascades",
+      "groupedBecause": "These subtopics detail the cellular localization, receptor families, and intracellular signaling mechanisms that translate danger signals into inflammatory gene expression.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cellular recruitment and systemic inflammatory dynamics",
+      "groupedBecause": "These subtopics describe how sentinel cells coordinate the recruitment and migration of leukocytes into tissues and lymph nodes, alongside the pathological risks of excessive systemic inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics examine how acute inflammation is terminated to permit tissue regeneration, and how persistent stimuli lead to chronic inflammation and pathogen containment.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and upcoming topic",
+      "groupedBecause": "This subtopic concludes the presentation and introduces the topic of the following lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "These introductory remarks welcome the students and set out the learning objectives for the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies, systemic toxicity, and resistance",
+      "groupedBecause": "These subtopics discuss traditional cancer treatment modalities, including surgery, radiotherapy, and cytotoxic chemotherapy, alongside systemic toxicity and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics describe strategies for targeting cancer-specific cellular vulnerabilities, including hormone dependencies, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors, oncogene addiction, and resistance",
+      "groupedBecause": "These subtopics examine targeted kinase inhibition, exploring oncogene addiction, drug mechanisms of action, and resistance pathways such as gatekeeper mutations and pathway bypass.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain the use of monoclonal antibodies and antibody-drug conjugates to specifically bind tumor antigens and deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics explore cancer immunology and cellular immunotherapies, including immune surveillance, immune checkpoint inhibition, bispecific T-cell engagers, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Historical progress, therapeutic challenges, and future directions",
+      "groupedBecause": "These subtopics evaluate the broader landscape of cancer therapy, reviewing historical mortality trends, clinical trial dilemmas, and future paradigms such as early detection and biomarker-driven care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

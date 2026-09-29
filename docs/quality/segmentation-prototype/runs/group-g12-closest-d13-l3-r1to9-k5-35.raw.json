@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This topic provides the introductory framing and pedagogical overview for the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a disruption of cellular differentiation and tissue architecture",
+      "groupedBecause": "These subtopics define cancer as a breakdown of genetic programs, cellular differentiation, and three-dimensional tissue architecture, while addressing the limitations of studying this biology in two-dimensional cell culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing benign and malignant tumors by invasion, progression, and nomenclature",
+      "groupedBecause": "These subtopics explain the clinical, histological, and terminological distinctions between benign and malignant neoplasms, focusing on basement membrane invasion and metastatic potential.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic addresses the specific physiological and systemic mechanisms through which primary and metastatic tumors cause disease and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence in humans and across multicellular organisms",
+      "groupedBecause": "These subtopics evaluate the frequency of different tumor types in human populations and across animal species, framing cancer as a universal consequence of multicellular development.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening principles and clinical diagnostic methods",
+      "groupedBecause": "These subtopics examine the clinical rationale, histological indicators, and practical challenges of population screening programs for early cancer detection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This topic provides the closing framing, concluding the lecture and directing students toward their upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

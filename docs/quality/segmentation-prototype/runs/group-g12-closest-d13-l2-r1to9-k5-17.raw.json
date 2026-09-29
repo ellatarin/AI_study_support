@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "It introduces the topic of complement, setting pedagogical expectations and framing the scope of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement fundamentals, nomenclature, and C3 activation",
+      "groupedBecause": "These subtopics establish the foundational principles, naming conventions, and central role of C3 cleavage in complement function.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three distinct recognition pathways that initiate complement and converge to reach the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics detail the primary downstream outcomes of complement activation, including opsonization, inflammation, and membrane lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement and host protection",
+      "groupedBecause": "It examines the regulatory mechanisms and surface proteins that prevent complement from attacking host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "It analyzes how genetic or acquired deficiencies in various complement components lead to specific clinical phenotypes.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "It explores the mechanisms pathogens employ to evade complement destruction, focusing on Staphylococcus aureus adaptations.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "It concludes the lecture with closing remarks and a preview of the upcoming topic.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

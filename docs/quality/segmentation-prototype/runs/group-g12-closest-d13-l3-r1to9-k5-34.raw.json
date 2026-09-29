@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series and outlines the core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a multi-step failure of differentiation and tissue architecture",
+      "groupedBecause": "These subtopics explain the core concept of cancer as a progressive failure of cellular differentiation and tissue architecture along with the experimental models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and progression of benign to malignant tumors",
+      "groupedBecause": "These subtopics examine how benign and malignant tumors differ in invasive capacity, metastatic potential, and histological progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature conventions and exceptions",
+      "groupedBecause": "This subtopic outlines the systematic naming conventions and clinical exceptions used to classify neoplasms according to tissue origin and malignancy.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the physiological and anatomical mechanisms by which primary and metastatic tumors cause illness and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence in humans and across multicellular organisms",
+      "groupedBecause": "These subtopics examine the epidemiological frequency of tumors in humans and across diverse animal taxa as a fundamental consequence of multicellular development.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening strategies",
+      "groupedBecause": "These subtopics evaluate the principles, histological methods, and clinical effectiveness of screening programs for early cancer detection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic concludes the lecture by reviewing the learning outcomes and framing the upcoming practical coursework.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

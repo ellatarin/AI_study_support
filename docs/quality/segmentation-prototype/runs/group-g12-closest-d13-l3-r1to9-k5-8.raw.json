@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecture opens with introductory remarks on the course structure, audience, and core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular differentiation failure, tissue architecture, and culture models",
+      "groupedBecause": "These subtopics explain how genetic and epigenetic changes disrupt normal tissue differentiation and examine the methods and limitations of modeling this process in culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign and malignant tumour progression, classification, and morbidity",
+      "groupedBecause": "These subtopics detail the biological and clinical distinctions between benign and malignant tumours, covering invasive growth, metastasis, stepwise progression, standard nomenclature, and mechanisms of patient morbidity.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour incidence across humans and other animal species",
+      "groupedBecause": "These subtopics examine the patterns and mortality of tumour occurrence in human populations and compare cancer incidence across diverse multicellular animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening methods and clinical detection",
+      "groupedBecause": "These subtopics discuss the principles, diagnostic techniques, and practical limitations of population screening programmes for various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "The lecture closes with a wrap-up referring back to the learning outcomes and reminders for upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

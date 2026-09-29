@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the introductory framing and pedagogical goals for the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics cover traditional therapeutic modalities including surgery, radiation, and cytotoxic chemotherapy, alongside the physiological barriers and efflux mechanisms that drive drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic cellular vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies designed to exploit inherent cancer cell vulnerabilities, ranging from signaling dependence and checkpoint deficiencies to synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics focus on targeting oncogenic driver kinases with small-molecule inhibitors and the molecular mechanisms that lead to therapeutic resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based therapies and cytotoxic delivery",
+      "groupedBecause": "These subtopics examine how engineered monoclonal antibodies are utilized to selectively target tumor surface antigens, both directly and as targeted delivery vehicles for cytotoxic agents.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune surveillance and checkpoint blockade",
+      "groupedBecause": "These subtopics investigate the biological evidence for natural anti-tumor immunity and the reactivation of endogenous T cells using immune checkpoint inhibitors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Engineered cellular and bispecific T-cell therapies",
+      "groupedBecause": "These subtopics describe synthetic immunotherapy platforms that physically redirect or genetically reprogram T cells to destroy cancer cells.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Challenges, future directions, and clinical dilemmas in cancer management",
+      "groupedBecause": "These subtopics evaluate the broader landscape of oncology, assessing historical progress, emerging diagnostic paradigms, and the ethical dilemmas of clinical trial implementation.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

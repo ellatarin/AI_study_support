@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the key learning objectives, and frames the clinical and biological scope of the course.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and developmental foundations of cancer",
+      "groupedBecause": "These subtopics explain how cancer develops as a failure of normal tissue differentiation and architecture driven by the accumulation of genetic and epigenetic changes, alongside the experimental models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumour invasion, metastasis, and histological progression",
+      "groupedBecause": "These subtopics explore how tumor invasion and metastatic spread define malignancy, illustrated through gross pathology and histological stages of tumor progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour nomenclature, clinical dangers, and mechanisms of mortality",
+      "groupedBecause": "These subtopics examine how benign and malignant tumors are classified and named, the risks posed even by non-invasive growths, and the physical mechanisms by which tumors cause disease and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour incidence across tissues, populations, and animal species",
+      "groupedBecause": "These subtopics compare patterns of cancer incidence and mortality across human tissue types, demographic groups, and diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical modalities of cancer screening",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, diagnostic methods, successes, and practical limitations of screening for precursor and early-stage cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic closes the lecture with a review of the learning outcomes and instructions for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

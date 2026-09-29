@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "It introduces the lecture topics on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen recognition and pattern recognition receptor signaling",
+      "groupedBecause": "They explain how innate immune cells detect infection and tissue damage using molecular patterns and pattern recognition receptor pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory response propagation and leukocyte recruitment",
+      "groupedBecause": "They detail the cellular mechanisms that recruit leukocytes into tissues and drive both local and systemic inflammatory responses.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "They examine the mechanisms that terminate inflammatory responses and govern subsequent tissue healing or chronic containment.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "It concludes the session and announces the upcoming lecture topic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

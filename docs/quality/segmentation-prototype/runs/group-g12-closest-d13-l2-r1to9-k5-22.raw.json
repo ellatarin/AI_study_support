@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to complement",
+      "groupedBecause": "The lecturer introduces the complement system, outlining its importance and setting up the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations, nomenclature, and the central role of C3",
+      "groupedBecause": "These subtopics provide the foundational overview of the complement cascade, explain its naming conventions, and establish C3 as the central reaction hub.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways",
+      "groupedBecause": "These subtopics explain the three distinct upstream pathways that recognize pathogens, form convertases, and drive complement to its activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics describe the downstream mechanisms by which activated complement eliminates pathogens and stimulates an immune response.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement",
+      "groupedBecause": "This subtopic explains the regulatory proteins and inhibitory mechanisms that prevent complement from damaging host tissues.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic examines the distinct disease presentations and infection susceptibilities resulting from deficiencies in various complement components and regulators.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic details the strategies evolved by pathogens to neutralize complement activity and survive immune attack.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and next lecture preview",
+      "groupedBecause": "The lecturer concludes the session on complement and provides a brief forward look to the upcoming lecture on adaptive immunity.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and sets out the key learning objectives regarding cancer therapies and their modes of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Interventions, Cytotoxic Chemotherapy, and Multidrug Resistance",
+      "groupedBecause": "These subtopics explain the principles, toxicities, and drug resistance mechanisms associated with conventional cancer treatments such as surgery, radiotherapy, and cytotoxic agents.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Vulnerabilities: Hormone Pathways, Checkpoint Defects, and Synthetic Lethality",
+      "groupedBecause": "These subtopics explore therapeutic approaches that target specific cancer vulnerabilities, including hormone dependence, cell-cycle checkpoint deficiencies, and DNA repair defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting Oncogenic Kinases, Resistance Mechanisms, and Drug Addiction",
+      "groupedBecause": "These subtopics address the design of small-molecule inhibitors targeting oncogenic driver kinases and examine the molecular mechanisms driving drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Targeted Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics describe the mechanisms, design, and therapeutic applications of monoclonal antibodies and toxin-linked antibody conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumour Immunology, Checkpoint Blockade, and Engineered Cell Therapies",
+      "groupedBecause": "These subtopics examine natural immune surveillance and various immunotherapeutic strategies, including immune checkpoint inhibitors, bispecific T-cell engagers, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Systemic Challenges, Historical Trends, and Future Paradigms in Cancer Care",
+      "groupedBecause": "These subtopics evaluate broad clinical challenges, epidemiological progress, emerging paradigms, and ethical dilemmas in modern oncology.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

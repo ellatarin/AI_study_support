@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Hallmarks of Cancer and Lecture Overview",
+      "groupedBecause": "This subtopic provides the opening framing, learning outcomes, and conceptual overview for studying the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated Growth Signaling and Pathway Mutations",
+      "groupedBecause": "These subtopics examine how mutations in pathways such as Wnt/beta-catenin and receptor tyrosine kinases drive growth factor independence and sustained proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to Terminal Differentiation in Hematopoietic and Epithelial Tissues",
+      "groupedBecause": "These subtopics describe how oncogenic alterations prevent cells from exiting the cell cycle into fully differentiated functional states in leukemia and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of Resistance to Apoptosis",
+      "groupedBecause": "This subtopic details how alterations in p53 and Bcl-2 family proteins allow cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere Dynamics, Replicative Immortality, and Senescence",
+      "groupedBecause": "These subtopics address the mechanisms of telomere shortening, senescence induction, cancer-specific telomerase reactivation, and p53-mediated stress responses.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Metabolic Rewiring and Oncometabolites",
+      "groupedBecause": "These subtopics transition to complex cancer hallmarks and explain aerobic glycolysis, tissue metabolic differences, and Krebs cycle mutations producing oncometabolites.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor Angiogenesis and Vascularization",
+      "groupedBecause": "This subtopic explores how tumors overcome hypoxia and nutrient limits by activating the angiogenic switch to form new blood vessels.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, Inefficiency, and Genomics of Tumor Metastasis",
+      "groupedBecause": "These subtopics examine the metastatic cascade, circulating tumor cells for monitoring, the seed-and-soil hypothesis, and genomic characteristics of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and Concluding Remarks",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of the hallmarks and closing administrative remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

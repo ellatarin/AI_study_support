@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "The lecturer introduces the complement system and sets the scope and framing for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals of complement and the central role of C3",
+      "groupedBecause": "These subtopics establish the foundational architecture, nomenclature conventions, and central functional role of C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation and threshold dynamics",
+      "groupedBecause": "These subtopics detail the three recognition pathways that converge to achieve threshold complement activation on target surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics explain how activated complement executes pathogen destruction and clearance through downstream effector mechanisms.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation and prevention of complement self-damage",
+      "groupedBecause": "This subtopic details the regulatory proteins that prevent accidental complement activation and damage on host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical manifestations of complement deficiencies",
+      "groupedBecause": "This subtopic examines the distinct disease phenotypes and clinical consequences resulting from deficiencies across the complement cascade.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion strategies and biotechnology applications",
+      "groupedBecause": "This subtopic explores how pathogens subvert complement defenses and how these bacterial mechanisms are utilized in laboratory and clinical settings.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview of next session",
+      "groupedBecause": "The lecturer concludes the session on complement and previews the upcoming lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

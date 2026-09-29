@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the core learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: genetics, environment, and chance",
+      "groupedBecause": "These subtopics explore the foundational concepts of how cancer arises through an interplay of intrinsic mutations, genetic predisposition, environmental exposures, and epidemiological variation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and viral oncogenesis",
+      "groupedBecause": "These subtopics examine how infectious pathogens contribute to cancer development, detailing oncogenic mechanisms and the etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics describe how physical radiation and chemical carcinogens induce direct and indirect DNA damage through metabolic activation and adduct formation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, host susceptibility, and carcinogenesis mechanisms",
+      "groupedBecause": "These subtopics explain the principles of tumour promotion, the two-stage model of carcinogenesis, and host developmental susceptibility in cancer progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for detecting carcinogens and assessing cancer risk",
+      "groupedBecause": "These subtopics present the genomic, epidemiological, in vivo, and in vitro methodologies used to identify carcinogens and evaluate cancer risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and lecture summary",
+      "groupedBecause": "This subtopic provides the concluding remarks and final summary of the lecture's key concepts.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

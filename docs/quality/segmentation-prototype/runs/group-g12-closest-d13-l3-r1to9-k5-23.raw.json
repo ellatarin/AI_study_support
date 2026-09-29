@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series and outlines the specific learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a disruption of cellular genetics, differentiation, and tissue architecture",
+      "groupedBecause": "These subtopics define cancer fundamentally as a progressive failure of genetic regulation, cellular differentiation, and tissue architecture, while addressing the laboratory models used to investigate these processes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign versus malignant tumors: invasion, metastasis, and progression",
+      "groupedBecause": "These subtopics examine the biological and pathological distinctions between benign and malignant neoplasms, focusing on basement membrane invasion, metastatic routes, and stepwise histological progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification conventions",
+      "groupedBecause": "This subtopic outlines the standard terminology and naming exceptions used to classify benign and malignant neoplasms across different tissue types.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physiological and anatomical mechanisms through which local tumor growth and widespread metastases cause clinical illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative tumor incidence across humans and other species",
+      "groupedBecause": "These subtopics examine patterns of tumor frequency across human tissue types and populations, as well as in other animal species as a feature of multicellular life.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening modalities",
+      "groupedBecause": "These subtopics discuss the clinical rationale, histological basis, and diagnostic efficacy of population screening programs across various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic provides the concluding remarks, revisits the learning outcomes, and gives housekeeping details for upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

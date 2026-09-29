@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This opening subtopic introduces the course structure, target audience, and key learning outcomes for the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic alterations, differentiation failure, and tissue architecture",
+      "groupedBecause": "They explain how accumulated genetic and epigenetic changes cause cancer by disrupting normal cellular differentiation programs and three-dimensional tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign versus malignant tumors, invasion, and stepwise progression",
+      "groupedBecause": "They characterize the pathological, histological, and terminological distinctions between benign and malignant tumors, focusing on mechanisms of invasion, metastasis, and stepwise neoplastic progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer morbidity, mortality, and comparative incidence",
+      "groupedBecause": "They examine the physiological mechanisms by which tumors cause illness and death alongside cancer incidence patterns across human populations and other multicellular organisms.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Principles and clinical modalities of cancer screening",
+      "groupedBecause": "They evaluate the clinical rationale, histological indicators, and practical challenges of population screening programs for detecting precursor and early-stage cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This closing subtopic concludes the session by summarizing learning expectations and providing reminders for upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

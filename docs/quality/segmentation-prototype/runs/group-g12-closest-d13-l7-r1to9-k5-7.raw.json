@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This topic introduces the lecture framework, topics of discussion, and intended learning outcomes on cancer evolution and the microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic selection and epigenetic drivers in tumor clonal evolution",
+      "groupedBecause": "These subtopics explain how clonal succession operates through Darwinian selection of somatic mutations alongside non-mutational epigenetic alterations that modify cell transcriptional states.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and the cancer stem cell model",
+      "groupedBecause": "These subtopics evaluate the cellular hierarchy of cancer by examining tissue stem cell properties and experimental evidence for cancer stem cells across leukemia and colorectal systems.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion, inflammation, and stromal dependence",
+      "groupedBecause": "These subtopics demonstrate how extrinsic microenvironmental signals, inflammatory responses, and supporting stromal cells promote tumor initiation, progression, and therapeutic vulnerabilities.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for mapping tumor evolution and microenvironments",
+      "groupedBecause": "This subtopic explores experimental, computational, single-cell sequencing, and spatial profiling technologies used to track clonal evolution and cellular interactions within tumors.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated multifactorial model of cancer evolution",
+      "groupedBecause": "This subtopic synthesizes the interplay among mutational burden, cell-of-origin plasticity, and microenvironmental factors in driving malignant outgrowth.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "This topic concludes the session and previews the upcoming lecture on cancer therapies.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

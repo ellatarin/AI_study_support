@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the primary learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, intrinsic mutations, and environmental risk",
+      "groupedBecause": "These subtopics explore the foundational concepts of cancer etiology by examining how intrinsic mutational processes, genetic predisposition, and environmental exposures interact to drive malignancy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents in carcinogenesis",
+      "groupedBecause": "These subtopics describe the mechanisms through which infectious pathogens drive carcinogenesis, using Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics examine the molecular pathways through which physical radiation and chemical carcinogens induce DNA damage directly or via metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, host susceptibility, and mechanistic factors",
+      "groupedBecause": "These subtopics explore non-mutagenic tumour promotion, host developmental susceptibility, and synthesize the biological mechanisms underlying carcinogenesis.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying carcinogens and assessing risk",
+      "groupedBecause": "These subtopics review the analytical, epidemiological, and experimental methodologies used to identify carcinogens and evaluate cancer risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and final summary",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of the key themes regarding environmental cancer risk and carcinogen potency.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

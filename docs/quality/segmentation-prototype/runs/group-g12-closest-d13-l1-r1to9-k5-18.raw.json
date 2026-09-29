@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and introduction",
+      "groupedBecause": "The lecturer welcomes the class and introduces the scope of the lecture on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and damage sensing through molecular patterns",
+      "groupedBecause": "These subtopics explain the criteria by which the innate immune system detects infections and tissue damage while distinguishing self from non-self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor localization and signaling",
+      "groupedBecause": "These subtopics detail the genomic encoding, subcellular distribution, and intracellular signaling pathways of pattern recognition receptors with a focus on Toll-like receptors.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cytoplasmic PRRs and inflammasome activation",
+      "groupedBecause": "These subtopics examine cytosolic danger-sensing receptors and the multi-protein inflammasome platform that processes mature inflammatory cytokines.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel cell activation, leukocyte recruitment, and systemic consequences",
+      "groupedBecause": "These subtopics trace how initial sentinel cell activation orchestrates leukocyte extravasation into tissues, lymphatic priming, and systemic complications like sepsis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic containment",
+      "groupedBecause": "These subtopics cover the mechanisms required to extinguish inflammatory signals, repair damaged tissues, and manage persistent pathology via granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and preview",
+      "groupedBecause": "The lecturer concludes the presentation and announces the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

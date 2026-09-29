@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "It introduces the lecturer, the course context, and the core learning objectives of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, intrinsic mutations, and environmental risk factors",
+      "groupedBecause": "These subtopics explore the fundamentals of cancer development by evaluating intrinsic genetic mutations and random processes alongside environmental exposures and global epidemiological variation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens and cancer development",
+      "groupedBecause": "These subtopics explain how biological infectious agents contribute to tumorigenesis, illustrated by the specific etiology and mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics detail how chemical and physical agents induce DNA damage directly or through metabolic activation and oxidative stress.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, microenvironmental factors, and host susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic drivers of carcinogenesis, including tumor promotion, inflammatory microenvironments, and developmental or tissue-specific host susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying carcinogens and evaluating exposure risk",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, in vivo, and in vitro approaches used to establish carcinogenicity and weigh human exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "It provides the concluding remarks and final summary of the main themes discussed throughout the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

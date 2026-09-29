@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines its learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic drug resistance",
+      "groupedBecause": "These subtopics examine traditional local interventions and systemic cytotoxic chemotherapies alongside the physiological challenges and resistance mechanisms associated with them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer cell vulnerabilities and synthetic lethality",
+      "groupedBecause": "These subtopics explore therapeutic strategies that capitalize on intrinsic cancer cell defects, including hormone dependence, checkpoint loss, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and resistance mechanisms",
+      "groupedBecause": "These subtopics detail the rationale of oncogene addiction, the design of small-molecule kinase inhibitors, and the evolutionary pathways through which tumors develop drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics focus on using engineered antibodies to selectively target cancer cell surface antigens and deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell based interventions",
+      "groupedBecause": "These subtopics examine the biological basis of antitumor immune surveillance and the therapeutic approaches designed to reactivate or genetically engineer T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics evaluate the broader trajectory of cancer care, reflecting on historical survival trends, systemic clinical challenges, and future management paradigms.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

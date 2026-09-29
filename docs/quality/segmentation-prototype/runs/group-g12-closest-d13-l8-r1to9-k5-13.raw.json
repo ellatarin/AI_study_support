@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and learning objectives",
+      "groupedBecause": "This subtopic provides the introductory welcome and outlines the learning objectives for the lecture before substantive content begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance mechanisms",
+      "groupedBecause": "These subtopics address traditional cancer treatment modalities—including surgery, radiotherapy, and cytotoxic chemotherapy—along with their systemic toxicities and efflux pump resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics explain therapeutic strategies that exploit intrinsic defects in cancer cells, including hormone dependence, cell cycle checkpoint losses, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic kinases and overcoming resistance",
+      "groupedBecause": "These subtopics examine kinase-driven oncogene addiction, small-molecule kinase inhibitors, and the diverse molecular mechanisms and dosing strategies associated with kinase inhibitor resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics discuss the design, mechanisms of action, and clinical limitations of therapeutic monoclonal antibodies and antibody-drug conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and engineered T-cell therapies",
+      "groupedBecause": "These subtopics explore the biological basis of tumor immune surveillance and clinical immunotherapies designed to harness or genetically engineer T-cell responses against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Current challenges, progress, and future directions in cancer management",
+      "groupedBecause": "These subtopics evaluate historical progress in cancer survival, overarching clinical challenges, and future paradigms in personalized oncology.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

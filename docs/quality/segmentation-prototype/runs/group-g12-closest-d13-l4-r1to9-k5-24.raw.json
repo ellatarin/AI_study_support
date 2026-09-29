@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This subtopic provides the introductory framing and pedagogical objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of cancer etiology: genetics, environment, and epidemiology",
+      "groupedBecause": "These subtopics establish core concepts of cancer development by exploring intrinsic mutations, the microenvironment, environmental risk factors, and geographic epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and oncogenesis",
+      "groupedBecause": "These subtopics examine how biological pathogens promote carcinogenesis, highlighting the specific etiology and translocation mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Direct and metabolically activated chemical and physical mutagens",
+      "groupedBecause": "These subtopics describe how physical radiation and various chemical mutagens cause DNA damage, adduct formation, and mutations either directly or following xenobiotic metabolism.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, physiological susceptibility, and carcinogenesis mechanisms",
+      "groupedBecause": "These subtopics address non-mutagenic aspects of carcinogenesis, including promotion mechanisms, developmental windows of vulnerability, and an integrated summary of carcinogenic pathways.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for detecting carcinogens and assessing risk",
+      "groupedBecause": "These subtopics review the experimental, epidemiological, and genomic tools used to identify carcinogens alongside practical considerations in weighing exposure risks against benefits.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic provides the concluding remarks and final summary framing for the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, its overarching themes, and the specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis of cancer in genetic changes and tissue architecture",
+      "groupedBecause": "These subtopics explain cancer as a disease arising from accumulated genetic alterations that disrupt normal cellular differentiation and three-dimensional tissue architecture, alongside experimental models used to study these cellular behaviors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and the spectrum from benign to malignant tumours",
+      "groupedBecause": "These subtopics examine the pathological characteristics distinguishing benign from malignant tumors, detailing the mechanics of tissue invasion, routes of metastatic dissemination, and the stepwise histological progression from precursor lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour classification and nomenclature conventions",
+      "groupedBecause": "This subtopic defines the standard naming rules and suffix conventions used to classify benign and malignant tumors according to their tissue of origin, highlighting notable clinical exceptions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological causes of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the anatomical and systemic mechanisms by which primary tumor expansion and widespread metastatic colonization cause severe clinical complications and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Epidemiological and comparative incidence of cancer across species",
+      "groupedBecause": "These subtopics explore the relative prevalence of different tumor types across human demographics and examine comparative oncology data demonstrating cancer as a fundamental vulnerability of multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer detection strategies and organ-specific screening modalities",
+      "groupedBecause": "These subtopics analyze the clinical rationale, histological diagnostic criteria, and practical limitations of population-based screening programs across diverse cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic provides the concluding framing for the lecture, summarizing the session goals and reminding students about upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

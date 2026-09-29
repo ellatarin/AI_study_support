@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the introductory framing and pedagogical objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, mutation sources, and epidemiological variation",
+      "groupedBecause": "These subtopics examine how intrinsic mutational processes and environmental exposures interact to determine cancer risk across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and viral oncogenesis",
+      "groupedBecause": "These subtopics explore how infectious pathogens contribute to cancer development, illustrated through the mechanism and epidemiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics explain how physical radiation and chemical agents undergo metabolic processing to form DNA adducts and induce mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and the two-stage model",
+      "groupedBecause": "These subtopics explain non-mutagenic mechanisms of carcinogenesis where promoters drive clonal expansion and chronic inflammation following initiation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host susceptibility factors and carcinogenic mechanisms",
+      "groupedBecause": "These subtopics examine how developmental timing and physiological states influence susceptibility to carcinogens alongside a synthesis of the mechanisms discussed.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for evaluating carcinogenicity and risk",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, and experimental methods used to determine carcinogenicity and assess exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and lecture summary",
+      "groupedBecause": "This subtopic delivers the closing summary and final concluding remarks for the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture on cancer therapy and outlines the session's core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional therapies and cytotoxic drug resistance",
+      "groupedBecause": "These subtopics examine traditional local and systemic cancer interventions alongside the challenges of non-specific toxicity and multidrug resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer cell vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics address therapeutic approaches that exploit intrinsic cancer vulnerabilities, including hormone dependence, checkpoint loss, and synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibition and mechanisms of resistance",
+      "groupedBecause": "These subtopics explore the mechanistic targeting of hyperactivated oncogenic kinases and the subsequent emergence of gatekeeper mutations, bypass pathways, and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the design and clinical application of antibody-based therapeutics for targeted tumor antigen recognition and cytotoxic delivery.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and cellular immunotherapy",
+      "groupedBecause": "These subtopics evaluate the evidence for natural immune surveillance and detail therapeutic modalities that reactivate or engineer T-cell responses against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overall progress, ongoing challenges, and future perspectives",
+      "groupedBecause": "These subtopics synthesize long-term clinical outcomes and survival trends while considering remaining barriers and emerging paradigms in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

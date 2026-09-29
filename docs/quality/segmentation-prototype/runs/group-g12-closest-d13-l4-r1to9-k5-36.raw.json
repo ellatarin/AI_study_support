@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "These remarks introduce the lecturer and define the learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology and the role of environmental exposure versus chance",
+      "groupedBecause": "These subtopics explore how genetic mutations and microenvironmental factors interact with environmental exposures and random biological chance to influence cancer incidence across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and viral oncogenesis",
+      "groupedBecause": "These subtopics examine how infectious pathogens drive cancer development, focusing in detail on the etiology and pathogenesis of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics describe how physical radiation and chemical agents undergo metabolic processing to induce direct and indirect DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host susceptibility, and carcinogenesis mechanisms",
+      "groupedBecause": "These subtopics address non-mutagenic tumor promotion mechanisms, developmental windows of vulnerability, and the interplay between cellular initiation and tissue environment.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying and evaluating carcinogens",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, in vivo, and in vitro approaches used to identify carcinogen exposure and assess carcinogenic risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and final summary",
+      "groupedBecause": "These concluding remarks summarize the primary themes of the lecture and bring the session to a close.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

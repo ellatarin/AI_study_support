@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the hallmarks of cancer",
+      "groupedBecause": "It introduces the lecture themes, learning outcomes, and multi-step model for understanding the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and oncogenic mutations",
+      "groupedBecause": "They explain how mutations in receptor tyrosine kinase and Wnt/beta-catenin pathways enable cancer cells to achieve growth signal independence and evade growth inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks to terminal differentiation in cancer",
+      "groupedBecause": "They explore how differentiation is arrested in hematopoietic malignancies and intestinal epithelium to sustain an immature, proliferative cellular state.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis through p53 and Bcl-2 regulation",
+      "groupedBecause": "It details how alterations in p53, Bax, and Bcl-2 shift the apoptotic threshold to allow cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and p53 genome surveillance",
+      "groupedBecause": "They examine how telomere shortening and cellular stress signals trigger p53-dependent senescence, and how cancer cells bypass these barriers to achieve unlimited replication.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolic rewiring and oncometabolites",
+      "groupedBecause": "They transition to complex cancer hallmarks and explain the mechanisms, functional advantages, and epigenetic consequences of metabolic reprogramming such as the Warburg effect.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor angiogenesis and the angiogenic switch",
+      "groupedBecause": "It explains how growing tumors overcome nutrient and oxygen diffusion limits by activating the angiogenic switch to recruit vasculature.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genomics of tumor metastasis",
+      "groupedBecause": "They describe the cellular barriers of the metastatic cascade, seed-and-soil dynamics, clinical monitoring via circulating tumor cells, and associated genomic features.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "It concludes the lecture with a summary of cancer hallmark integration and reminders for upcoming practical sessions.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "It introduces the lecturer, the course context, and the core learning objectives of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, intrinsic mutations, and epidemiological variation",
+      "groupedBecause": "They explore the fundamental interplay between intrinsic genetic mutations, environmental exposures, and global epidemiological patterns in cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "They examine how infectious pathogens and associated immune disruption contribute to oncogenesis, illustrated by Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical and physical mutagens",
+      "groupedBecause": "They explain how chemical agents and physical radiation cause DNA damage directly, through reactive oxidative stress, or via metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and host susceptibility factors",
+      "groupedBecause": "They explain the mechanisms of non-mutagenic tumour promotion and how host developmental stages influence susceptibility to carcinogenesis.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying and assessing carcinogens",
+      "groupedBecause": "They detail the mutational signature, epidemiological, animal, and in vitro approaches used to determine carcinogenicity and evaluate human risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "It summarises the main conclusions of the lecture and closes the presentation.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

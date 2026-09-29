@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, its multidisciplinary audience, and the session's core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations and modeling of cancer development",
+      "groupedBecause": "These subtopics establish the fundamental view of cancer as a progressive failure of cellular differentiation, genetic regulation, and tissue architecture, alongside the experimental systems used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and malignant progression",
+      "groupedBecause": "These subtopics explore the histological and clinical distinctions between benign and malignant tumors, focusing on the mechanisms and stepwise pathways of tissue invasion and metastatic spread.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Conventions and exceptions in tumor nomenclature",
+      "groupedBecause": "This subtopic outlines the standard linguistic rules and notable exceptions used to classify and name benign and malignant neoplasms across various tissue types.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physical and physiological processes through which primary and metastatic tumors cause systemic disease and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative incidence and evolutionary scope of tumors",
+      "groupedBecause": "These subtopics examine cancer frequency across human populations and demonstrate that tumor development is a universal feature of multicellular animal life.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical principles, practices, and limitations of cancer screening",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, diagnostic techniques, and relative effectiveness of early tumor detection and screening programs across different anatomical sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture wrap-up and practical instructions",
+      "groupedBecause": "This subtopic provides the concluding framing, directing students to review key learning outcomes and prepare for subsequent practical work.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

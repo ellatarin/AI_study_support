@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines key learning outcomes, and establishes the clinical and biological framework for studying cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological nature and experimental modeling of cancer",
+      "groupedBecause": "These subtopics establish the core biological definition of cancer as a multistep disease of genetic alterations and disrupted tissue differentiation while examining the strengths and limits of cellular models.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing, classifying, and diagnosing benign and malignant tumors",
+      "groupedBecause": "These subtopics explore the morphological, histological, and taxonomic criteria used to distinguish benign tumors from invasive and metastatic malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the specific physical and physiological mechanisms by which primary and metastatic tumors impair normal tissue function and cause patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence across humans and other animal species",
+      "groupedBecause": "These subtopics examine patterns of tumor frequency and tissue distribution across human demographics and diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical implementation of cancer screening",
+      "groupedBecause": "These subtopics evaluate the diagnostic rationale, cellular markers, and practical effectiveness of screening strategies across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic provides the concluding framing for the lecture, summarizing the session and directing students toward practical work.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the hallmarks of cancer",
+      "groupedBecause": "It introduces the lecture themes, learning objectives, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth signaling pathways",
+      "groupedBecause": "They explain how mutations in cell-surface receptors and downstream cascades such as Wnt and RTK pathways confer growth signal independence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in leukemia and solid tumors",
+      "groupedBecause": "They examine how blocks to terminal differentiation impair normal tissue maturation in hematopoietic malignancies and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and replicative senescence",
+      "groupedBecause": "They address how cancer cells overcome intrinsic cellular fail-safes by resisting apoptosis, reactivating telomerase, and disabling p53-mediated stress responses.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "They introduce complex cancer hallmarks and explain the mechanisms, tissue patterns, and genetic drivers of altered tumor metabolism.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "It explains the requirement, timing, and regulatory balance necessary for vascularizing solid tumors to sustain growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genetics of tumor metastasis",
+      "groupedBecause": "They detail the multi-step metastatic cascade, including vascular dissemination, biomarker tracking, metastatic inefficiency, and associated genomic features.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "It provides closing remarks summarizing the hallmarks of cancer and concludes the lecture.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

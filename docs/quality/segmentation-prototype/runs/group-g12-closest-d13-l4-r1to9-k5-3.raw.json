@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This subtopic provides the introductory framing and sets out the learning objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: intrinsic mutations, environmental exposures, and epidemiological evidence",
+      "groupedBecause": "These subtopics explore the fundamental origins of cancer by examining the interplay between intrinsic genetic mutations, environmental exposures, and global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and viral oncogenesis",
+      "groupedBecause": "These subtopics examine how infectious pathogens drive malignant transformation, highlighting the specific mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms by which chemical and physical mutagens induce DNA damage and bulky adducts, often through xenobiotic metabolism.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, two-stage carcinogenesis, and host susceptibility",
+      "groupedBecause": "These subtopics explain the concept of tumor promotion distinct from initiation, including the Berenbaum two-stage model and host developmental vulnerabilities.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for detecting carcinogens and assessing cancer risk",
+      "groupedBecause": "These subtopics cover the epidemiological, genomic, in vivo, and in vitro strategies used to detect carcinogenic substances and evaluate risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This subtopic provides the closing framing and final summary of the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

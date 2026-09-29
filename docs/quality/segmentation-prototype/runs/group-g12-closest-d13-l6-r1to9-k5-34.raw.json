@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for the hallmarks of cancer",
+      "groupedBecause": "The lecturer introduces the session's learning objectives and provides an overview of cancer hallmarks and progression models.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and signaling pathway deregulation",
+      "groupedBecause": "These subtopics explain how cancer cells achieve self-sufficiency in growth signals and resist inhibitory signals through mutations in Wnt/beta-catenin, receptor tyrosine kinase, and TGF-beta pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation",
+      "groupedBecause": "These subtopics examine how genetic mutations arrest normal cell maturation in both hematopoietic malignancies and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and cell death regulation",
+      "groupedBecause": "This subtopic details how cancer cells resist programmed cell death through alterations in p53 signaling and the balance of Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomere biology, and senescence bypass",
+      "groupedBecause": "These subtopics discuss how normal cells encounter replicative senescence via telomere shortening and how cancer cells bypass this barrier and p53-mediated stress responses by activating telomerase.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolism",
+      "groupedBecause": "These subtopics introduce complex cancer hallmarks and explore how tumor cells alter cellular metabolism through aerobic glycolysis, global metabolic rewiring, and oncometabolite-producing Krebs cycle mutations.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic describes the angiogenic switch and mechanisms by which developing tumors stimulate new blood vessel growth to sustain oxygen and nutrient delivery.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, barriers, and genetics of cancer metastasis",
+      "groupedBecause": "These subtopics cover the multi-step metastatic cascade, including circulatory dissemination, circulating tumor cell monitoring, seed-and-soil inefficiencies, and genomic duplication in metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "The lecturer concludes the lecture by summarising the hallmarks framework and outlining practical sessions.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

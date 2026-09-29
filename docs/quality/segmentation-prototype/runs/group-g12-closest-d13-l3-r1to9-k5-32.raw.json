@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, its multidisciplinary audience, and the key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular, genetic, and tissue basis of cancer",
+      "groupedBecause": "These subtopics explain how cancer develops through genetic and epigenetic changes that disrupt normal tissue architecture and differentiation programs, as well as the experimental models used to study these processes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Characterization, progression, and nomenclature of benign and malignant tumors",
+      "groupedBecause": "These subtopics define the pathological distinctions, progression stages, metastatic pathways, and standard naming systems for benign and malignant neoplasms.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the physical, metabolic, and systemic mechanisms through which primary tumors and distant metastases cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence across humans and other species",
+      "groupedBecause": "These subtopics examine patterns of tumor frequency and cancer mortality across human populations and diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening principles and clinical modalities",
+      "groupedBecause": "These subtopics assess the rationale, histological basis, and diagnostic efficacy of population screening methods across various organ sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic wraps up the lecture with a concluding review of learning objectives and reminders for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic introduces the lecture scope on the initiation and resolution of inflammation within the context of the course.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen- and damage-associated molecular patterns",
+      "groupedBecause": "These subtopics explore the molecular criteria used by the innate immune system to recognize signs of infection and cellular damage while distinguishing self from non-self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptors and downstream signaling",
+      "groupedBecause": "These subtopics describe the cellular localization, genetics, and signaling mechanisms of host receptors that detect danger signals to trigger inflammatory responses.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammatory cell dynamics and physiological consequences",
+      "groupedBecause": "These subtopics trace how sentinel cell activation orchestrates leukocyte recruitment into tissues, lymphatic fluid trafficking, and potential systemic complications such as septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation and tissue repair",
+      "groupedBecause": "These subtopics explain the mechanisms that terminate acute inflammation and drive tissue healing, as well as the long-term containment outcomes that arise when inflammation fails to resolve.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic provides the closing remarks and previews the upcoming lecture on the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

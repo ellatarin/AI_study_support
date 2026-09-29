@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "The lecturer introduces the learning outcomes, the historical framework of cancer hallmarks, and the roadmap for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and mutations driving proliferative independence",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in receptor tyrosine kinase, Wnt/beta-catenin, and related signaling cascades enable cells to sustain proliferative signaling and resist growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in tumorigenesis",
+      "groupedBecause": "These subtopics examine how cancer cells evade terminal differentiation and arrest in proliferative progenitor-like states across hematological malignancies and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of resistance to apoptosis",
+      "groupedBecause": "This subtopic addresses how tumor cells evade programmed cell death through mutations disrupting p53 signaling and the balance of Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomere regulation, and senescence",
+      "groupedBecause": "These subtopics explain the limits of cellular replication, how cancer cells bypass senescence via telomerase activation, and how p53 mediates stress responses to protect genomic integrity.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and metabolic rewiring",
+      "groupedBecause": "These subtopics introduce the transition to complex hallmarks and explain how oncogenic alterations and oncometabolites drive aerobic glycolysis and metabolic reprogramming.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction and regulation of tumor angiogenesis",
+      "groupedBecause": "This subtopic explores how tumors activate the angiogenic switch to develop a vasculature that supplies oxygen and nutrients required for growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genetics of tumor metastasis",
+      "groupedBecause": "These subtopics examine the metastatic cascade, circulating tumor cells as biomarkers, the seed-and-soil hypothesis, and the genomic features of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "The lecturer summarizes the key themes, contextualizes the hallmarks within broader cancer biology literature, and concludes the session.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

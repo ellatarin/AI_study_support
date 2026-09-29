@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "It introduces the lecture series and outlines the specific learning objectives regarding cancer causation and environmental carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic versus environmental drivers of cancer risk",
+      "groupedBecause": "They explore how genetic, environmental, and stochastic factors interact to determine overall cancer risk and drive observed geographic variations in incidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and viral oncogenesis",
+      "groupedBecause": "They examine how infectious pathogens and co-infections contribute to cancer development through cell cycle disruption and chronic immune stimulation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "They detail the molecular mechanisms by which chemical and physical mutagens undergo metabolic activation and produce direct or indirect DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, two-stage carcinogenesis, and host susceptibility",
+      "groupedBecause": "They explain how non-mutagenic tumour promoters, inflammatory microenvironments, and developmental timing interact with mutagenic initiators to facilitate cancer outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and evaluating carcinogenicity",
+      "groupedBecause": "They describe the genomic, epidemiological, in vivo, and in vitro methodologies used to detect, test, and assess carcinogenic risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "It provides concluding framing that summarizes the lecture's core themes on environmental cancer causes and risk assessment.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

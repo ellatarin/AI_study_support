@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the opening framing for the lecture, outlining the learning outcomes and introducing the framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling and pathway mutations",
+      "groupedBecause": "These subtopics describe how mutations in key signaling cascades, such as the Wnt/beta-catenin and receptor tyrosine kinase pathways, drive growth factor independence and sustained cell proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics examine how differentiation blocks prevent cells from reaching functional maturity and exiting the cell cycle in hematopoietic malignancies and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis, replicative immortality, and p53 regulation",
+      "groupedBecause": "These subtopics explain how cancer cells circumvent programmed cell death, bypass replicative senescence via telomerase activation, and overcome p53-mediated genome protection.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Complex hallmarks and metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics introduce complex cancer hallmarks and explain how cancer cells rewire their metabolism through aerobic glycolysis, Krebs cycle enzyme mutations, and oncometabolite production.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor angiogenesis and the angiogenic switch",
+      "groupedBecause": "This subtopic explores how developing tumors stimulate new blood vessel growth to overcome diffusion limits for oxygen and nutrients.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, detection, and genomics of tumor metastasis",
+      "groupedBecause": "These subtopics examine the metastatic cascade, barriers to tumor dissemination, liquid biopsy monitoring using circulating tumor cells, and the genomic characteristics of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "This subtopic provides the closing framing for the lecture, summarizing the convergence of cancer hallmarks and offering concluding remarks and recommended reading.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

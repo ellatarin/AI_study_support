@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "The lecturer introduces the module and sets out the key learning objectives for exploring the causes of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Determinants of cancer development: genetics, environment, and chance",
+      "groupedBecause": "These subtopics explore how cancer arises from the interplay of acquired mutations, inherited predisposition, environmental exposures, and chance, supported by epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenic pathogens and infectious causes of cancer",
+      "groupedBecause": "These subtopics explain the mechanisms by which infectious agents promote malignancy, illustrating these principles through the etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms through which physical radiation and metabolized chemical carcinogens cause DNA damage and adduct formation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host susceptibility, and two-stage carcinogenesis",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms in cancer development, including tumor promotion through chronic inflammation, stage-of-life host susceptibility, and the two-stage model.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying carcinogens and evaluating cancer risk",
+      "groupedBecause": "These subtopics review the analytical, in vivo, and in vitro methodologies used to detect carcinogenicity and assess exposure risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and summary",
+      "groupedBecause": "The lecturer concludes the session by summarizing the central themes of environmental carcinogenesis and risk assessment.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "It introduces the final lecture of the course and establishes the core learning objectives concerning cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional modalities, cytotoxic chemotherapy, and drug resistance",
+      "groupedBecause": "They examine foundational cancer treatments—including surgery, radiotherapy, and cytotoxic chemotherapy—alongside associated systemic toxicities and efflux-mediated resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cellular vulnerabilities, checkpoint defects, and synthetic lethality",
+      "groupedBecause": "They detail therapeutic strategies that selectively target intrinsic cancer cell vulnerabilities such as hormone dependence, cell-cycle checkpoint deficiencies, and DNA repair defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase inhibitors, oncogene addiction, and resistance mechanisms",
+      "groupedBecause": "They focus on targeted small-molecule inhibitors of hyperactivated kinases and address the clinical challenges of oncogene addiction, gatekeeper mutations, and bypass resistance pathways.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based therapies and antibody-drug conjugates",
+      "groupedBecause": "They explain how monoclonal antibodies and antibody-drug conjugates are engineered to recognize surface targets and deliver targeted cytotoxic effects to cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumor immunology and immunotherapy strategies",
+      "groupedBecause": "They explore the immunological dynamics of cancer alongside therapeutic approaches that reactivate, redirect, or genetically engineer T cells to eradicate tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Broader perspectives, clinical challenges, and future directions",
+      "groupedBecause": "They review historical progress in cancer survival, evaluate the roles of genomics and prevention, and consider the practical and ethical dilemmas in clinical oncology.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

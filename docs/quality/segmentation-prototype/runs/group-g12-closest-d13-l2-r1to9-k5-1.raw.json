@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic introduces the lecture topic, contextualizes complement within immunology, and sets up the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals and central mechanism of complement",
+      "groupedBecause": "These subtopics establish the foundational organization, naming conventions, and central C3 activation step of the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways",
+      "groupedBecause": "These subtopics explain the three upstream recognition pathways—alternative, lectin, and classical—that drive convertase formation and reach the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail the downstream immune effector outcomes of complement activation, encompassing opsonization, inflammation, and membrane attack complex lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement",
+      "groupedBecause": "This subtopic explains the regulatory proteins and mechanisms that protect host cells from accidental complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic addresses the diverse clinical presentations and disease phenotypes resulting from deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic examines the evolutionary strategies used by pathogens to subvert and survive complement attack.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the session and previews the subsequent lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic introduces the lecture topic on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen recognition via PAMPs and DAMPs",
+      "groupedBecause": "These subtopics define molecular patterns of infection and cellular damage and outline the criteria used to distinguish foreign pathogens from host tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptors and intracellular inflammatory signaling",
+      "groupedBecause": "These subtopics explain the genetics, cellular localization, and downstream signaling cascades of pattern recognition receptors and inflammasomes.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cellular inflammatory response, leukocyte trafficking, and systemic pathology",
+      "groupedBecause": "These subtopics examine how sentinel cells initiate inflammation, how leukocytes are recruited and drained through tissues, and how excessive activation causes septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "These subtopics explain how inflammatory responses are resolved, how damaged tissues are repaired, and how chronic inflammation or granulomas arise when resolution fails.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming topic on the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

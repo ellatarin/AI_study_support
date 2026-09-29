@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This subtopic provides the opening framing, outlining the lecture structure and intended learning outcomes on cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: genetic mechanisms, environmental exposures, and epidemiology",
+      "groupedBecause": "These subtopics introduce fundamental concepts of cancer causation, contrasting intrinsic and stochastic mutation processes with environmental exposures and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents in carcinogenesis",
+      "groupedBecause": "These subtopics explore how viral, bacterial, and parasitic pathogens drive cancer development, using Burkitt lymphoma as an illustrative case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics explain how physical radiation and chemical compounds undergo cellular metabolism to form reactive intermediates and direct DNA adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, host susceptibility, and mechanisms of carcinogenesis",
+      "groupedBecause": "These subtopics examine how non-mutagenic tumor promotion, inflammatory microenvironments, and host developmental stage interact with initiation to drive malignancy.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying, testing, and evaluating carcinogens",
+      "groupedBecause": "These subtopics cover genomic, epidemiological, and experimental methodologies used to identify mutational signatures, test carcinogenicity, and weigh exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This subtopic provides the closing framing, summarizing the lecture's key themes regarding environmental cancer risk and benefit analysis.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

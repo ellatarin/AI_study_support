@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for the hallmarks of cancer",
+      "groupedBecause": "It introduces the lecture, outlines the learning outcomes, and establishes the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and signaling pathway mutations",
+      "groupedBecause": "They examine how mutations in signaling cascades such as Wnt and receptor tyrosine kinases confer growth signal independence and resistance to growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks to terminal differentiation in cancer",
+      "groupedBecause": "They demonstrate how differentiation blocks in hematopoietic lineages and the intestinal epithelium prevent terminal maturation and sustain proliferation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis through p53 and Bcl-2 regulation",
+      "groupedBecause": "It details how cancer cells resist programmed cell death through mutations in p53 and the dysregulation of pro- and anti-apoptotic Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomeres, and senescence bypass",
+      "groupedBecause": "They explain how telomere shortening triggers senescence and how cancer cells bypass this barrier through telomerase reactivation and overcome p53-mediated stress responses.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and complex cancer hallmarks",
+      "groupedBecause": "They introduce complex cancer hallmarks and explore the mechanisms and drivers of metabolic rewiring, including aerobic glycolysis and oncometabolites.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "It explains the requirement for new blood vessel formation to sustain tumor growth and the regulatory balance between angiogenic activators and inhibitors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, detection, and genomics of tumor metastasis",
+      "groupedBecause": "They cover the multi-step metastatic cascade, the utility of circulating tumor cells in treatment monitoring, metastatic inefficiency, and the genomic features of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "It concludes the lecture with a summary of how cancer hallmarks integrate across disease progression and provides closing guidance.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

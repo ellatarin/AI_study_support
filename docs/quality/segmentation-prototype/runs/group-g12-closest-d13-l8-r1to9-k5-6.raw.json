@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and learning outcomes",
+      "groupedBecause": "This subtopic provides the introductory framing and intended learning objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional modalities, cytotoxic chemotherapy, and drug resistance",
+      "groupedBecause": "These subtopics examine traditional local and systemic cancer therapies alongside the toxicity and efflux-mediated resistance mechanisms that limit their efficacy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Therapies exploiting intrinsic tumor vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that selectively target tumor cell-cycle defects, hormone dependencies, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Small-molecule kinase inhibitors and resistance pathways",
+      "groupedBecause": "These subtopics focus on designing small-molecule inhibitors against oncogenic kinases and the subsequent emergence of structural, bypass, and paradoxical drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the application of therapeutic antibodies to selectively block tumor surface receptors or deliver cytotoxic payloads directly to cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell redirection strategies",
+      "groupedBecause": "These subtopics examine the evidence for immune surveillance and describe modern immunotherapeutic strategies that harness or genetically engineer T cells to eliminate tumor cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Systemic challenges, historical progress, and future directions in oncology",
+      "groupedBecause": "These subtopics synthesize broad clinical challenges, historical therapeutic advancements, and emerging conceptual paradigms in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "These introductory remarks establish the lecture's objectives, historical context, and key themes in cancer genetics.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the discovery of transforming genes",
+      "groupedBecause": "These subtopics trace how the study of transforming tumor viruses revealed that cancer arises from altered cellular genes and established laboratory assays for cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classification and mechanisms of oncogenes and tumor suppressor genes",
+      "groupedBecause": "These subtopics examine how cancer-associated mutations are defined and how they disrupt cellular regulation through pathway control and differing allele dosage effects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and consequences of genetic instability",
+      "groupedBecause": "These subtopics explain how failures in distinct DNA repair pathways and mitotic processes generate sequence and chromosomal instability, driving cellular stress and adaptation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-step tumorigenesis and hereditary cancer predispositions",
+      "groupedBecause": "These subtopics explore how the stepwise accumulation of mutations and inherited predispositions accelerate tumor progression and determine clinical cancer phenotypes.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and reading recommendations",
+      "groupedBecause": "These closing remarks conclude the presentation, suggest follow-up reading, and preview the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

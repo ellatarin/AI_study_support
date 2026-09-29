@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic welcomes the students and outlines the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate pathogen sensing and pattern recognition",
+      "groupedBecause": "These subtopics describe the fundamental concepts of innate immune detection, including the defining characteristics of PAMPs and DAMPs as well as the genomic encoding and cellular localization of pattern recognition receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor pathways and the inflammasome",
+      "groupedBecause": "These subtopics examine specific pattern recognition receptor systems, focusing on Toll-like receptor signaling, cytosolic sensors, and the inflammasome pathway that activates inflammatory cytokines.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cellular dynamics and systemic consequences of acute inflammation",
+      "groupedBecause": "These subtopics trace the cellular execution of acute inflammation, from sentinel cell signaling and leukocyte recruitment to lymphatic drainage and systemic inflammatory complications.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "These subtopics explain the mechanisms that terminate acute inflammation, the processes involved in tissue repair, and the conditions that lead to chronic inflammation and granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and announces the upcoming topic on complement.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

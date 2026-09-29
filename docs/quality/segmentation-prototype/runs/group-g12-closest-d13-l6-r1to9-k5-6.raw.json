@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for the hallmarks of cancer",
+      "groupedBecause": "This subtopic introduces the lecture's objectives, historical framework, and foundational concepts regarding the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and deregulated proliferative pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in key signaling cascades confer growth signal independence and resistance to inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics illustrate how arrests in terminal differentiation drive malignant progression across hematopoietic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis, senescence, and cell-autonomous growth limits",
+      "groupedBecause": "These subtopics describe how cancer cells overcome intrinsic tumor-suppressive fail-safes, including programmed cell death, telomere shortening, and p53 stress responses.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics examine how cancer cells rewire their energy metabolism through aerobic glycolysis, metabolic enzyme mutations, and epigenetic remodeling.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic addresses how developing tumors overcome oxygen diffusion limits by triggering the angiogenic switch to recruit new blood supply.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and barriers of cancer metastasis",
+      "groupedBecause": "These subtopics explore the multi-step metastatic cascade, methods for clinical monitoring, environmental constraints on colonization, and associated genomic features.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "This subtopic concludes the lecture with a synthesis of the cancer hallmarks and final housekeeping remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

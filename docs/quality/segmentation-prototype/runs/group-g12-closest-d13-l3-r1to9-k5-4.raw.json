@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the structure, audience, and core learning outcomes of the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations of tumor development and tissue architecture",
+      "groupedBecause": "These subtopics explain how accumulated genetic alterations disrupt normal cellular differentiation and three-dimensional tissue organization.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Hallmarks of tumor invasion and metastatic dissemination",
+      "groupedBecause": "These subtopics examine how tissue invasion and pathways of metastasis distinguish malignant cancers from benign tumors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise tumor progression and behavior of benign lesions",
+      "groupedBecause": "These subtopics describe the stepwise transition of benign precursor polyps into invasive carcinomas and the clinical risks posed by benign growths.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor nomenclature conventions and exceptions",
+      "groupedBecause": "This subtopic outlines the standard naming conventions and notable exceptions used to classify benign and malignant neoplasms.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Physiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the pathological and systemic ways in which primary tumors and metastatic disease cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence in humans and comparative animal biology",
+      "groupedBecause": "These subtopics evaluate patterns of cancer incidence and mortality across human populations and diverse animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles, methods, and limitations of cancer screening",
+      "groupedBecause": "These subtopics discuss the rationale, diagnostic techniques, and clinical challenges associated with screening for various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical session reminders",
+      "groupedBecause": "This subtopic concludes the lecture by recapping the learning objectives and providing housekeeping details for practical classes.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

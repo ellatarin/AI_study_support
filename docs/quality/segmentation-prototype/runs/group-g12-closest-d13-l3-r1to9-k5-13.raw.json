@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology course, outlines the interdisciplinary audience, and presents the lecture's core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis of cancer as a failure of differentiation and tissue architecture",
+      "groupedBecause": "These subtopics establish the core concept of cancer as a progressive failure of cellular differentiation and tissue organization arising from accumulated genetic and epigenetic changes, alongside the experimental models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and benign-to-malignant tumor progression",
+      "groupedBecause": "These subtopics explain how tumors are distinguished as benign or malignant through the biological and histological processes of local tissue invasion, metastatic dissemination, and stepwise progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature conventions and exceptions",
+      "groupedBecause": "This subtopic outlines the standard pathological rules and notable exceptions used to name benign and malignant tumors based on their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the physiological, mechanical, and systemic mechanisms by which primary and metastatic tumors cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence across humans and other animal species",
+      "groupedBecause": "These subtopics examine patterns of tumor occurrence across human populations, companion animals, and diverse taxa to illustrate cancer as a universal consequence of multicellularity.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical modalities of cancer screening",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, diagnostic methods, benefits, and limitations of population screening and early detection across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic concludes the lecture with a review of learning outcomes and practical session reminders.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

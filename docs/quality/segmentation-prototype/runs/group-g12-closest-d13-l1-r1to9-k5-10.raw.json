@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic introduces the lecture and outlines its focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen recognition and pattern recognition receptor signaling",
+      "groupedBecause": "These subtopics explain how the innate immune system detects microbial and cellular damage signals through pattern recognition receptors and triggers downstream transcriptional pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular activation, leukocyte recruitment, and systemic inflammatory responses",
+      "groupedBecause": "These subtopics describe how activated sentinel cells orchestrate leukocyte recruitment to tissues and coordinate both lymphatic trafficking and systemic inflammatory effects.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "These subtopics examine the mechanisms responsible for turning off inflammation, healing damaged tissues, and managing persistent inflammatory states.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming topic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

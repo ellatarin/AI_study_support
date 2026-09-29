@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the opening administrative framing and learning outcomes for the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer pathogenesis: Genetic changes, tissue architecture, and experimental models",
+      "groupedBecause": "These subtopics define cancer as an accumulation of genetic and epigenetic alterations that disrupt normal cellular differentiation and tissue architecture, and discuss the experimental models used to study these properties.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and the transition from benign to malignant disease",
+      "groupedBecause": "These subtopics detail how tumors are distinguished as benign or malignant based on invasion and metastasis, illustrating histological progression from non-invasive precursor lesions to invasive disease.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and mechanisms of clinical morbidity and mortality",
+      "groupedBecause": "These subtopics establish the nomenclature rules for classifying neoplasms and describe the physical and physiological mechanisms by which tumors cause illness and death.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics examine the incidence rates of different tumor types in humans and compare cancer occurrence across diverse animal species as a feature of multicellularity.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening principles and clinical detection methods",
+      "groupedBecause": "These subtopics evaluate the rationale, histological basis, and clinical effectiveness and limitations of population screening for major cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic provides the closing framing, reiterating the learning outcomes and providing reminders for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

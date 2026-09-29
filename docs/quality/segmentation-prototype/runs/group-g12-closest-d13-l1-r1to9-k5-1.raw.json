@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This topic introduces the lecture and outlines its focus on the cellular and molecular mechanisms underlying the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen- and damage-associated molecular patterns in immune recognition",
+      "groupedBecause": "These subtopics define the microbial and cellular damage patterns that trigger innate immunity and establish the evolutionary criteria for distinguishing self from non-self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptors and downstream inflammatory signaling",
+      "groupedBecause": "These subtopics detail the genetics, subcellular localization, and downstream signaling cascades of key pattern recognition receptor families, including Toll-like receptors and cytosolic inflammasomes.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cellular mediation, leukocyte trafficking, and systemic inflammatory responses",
+      "groupedBecause": "These subtopics describe how sentinel cells coordinate the acute inflammatory cascade, orchestrate leukocyte recruitment and lymphatic priming, and risk triggering severe systemic complications like sepsis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic adaptations",
+      "groupedBecause": "These subtopics examine how acute inflammation is brought to a close, how tissue architecture is repaired, and how failed clearance leads to chronic inflammation or granuloma containment.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "This topic concludes the lecture and previews the upcoming session on the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

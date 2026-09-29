@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer welcomes the class and introduces the scope of the lecture on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate pathogen recognition and pattern recognition receptors",
+      "groupedBecause": "These subtopics explain how the innate immune system detects infection and tissue injury by recognizing PAMPs and DAMPs using germline-encoded pattern recognition receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor functions and downstream signaling",
+      "groupedBecause": "These subtopics detail the localization, ligand specificity, and intracellular signaling mechanisms of Toll-like receptors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cytoplasmic PRRs and inflammasome activation",
+      "groupedBecause": "These subtopics examine intracellular sensing mechanisms and the assembly of the inflammasome complex to mature pro-inflammatory cytokines.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel cell activation, leukocyte recruitment, and systemic inflammation",
+      "groupedBecause": "These subtopics describe how tissue sentinel cells detect danger, direct the extravasation of circulating leukocytes, facilitate lymphatic drainage, and can trigger severe systemic outcomes like septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "These subtopics address the active and passive mechanisms that terminate inflammation, drive tissue healing, and lead to chronic inflammation or granuloma formation when unresolved.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "The lecturer concludes the session and previews the topic of the following lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This topic introduces the final lecture of the course and outlines its learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics examine traditional therapeutic modalities including surgery, radiotherapy, and cytotoxic chemotherapy along with systemic toxicity and efflux-mediated drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting tumor vulnerabilities, checkpoint defects, and synthetic lethality",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic tumor dependencies, cell cycle checkpoint deficiencies, and DNA repair defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Small-molecule kinase inhibitors and resistance pathways",
+      "groupedBecause": "These subtopics focus on targeting oncogenic kinases with ATP-competitive inhibitors and analyzing molecular mechanisms of drug resistance and bypass signaling.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Therapeutic monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the use of monoclonal antibodies and conjugated cytotoxic payloads to target cancer cell surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-directed interventions",
+      "groupedBecause": "These subtopics address host immune surveillance against tumors and therapeutic approaches to mobilize T cells, including immune checkpoint inhibitors, bispecific engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Progress, ongoing challenges, and future paradigms in cancer management",
+      "groupedBecause": "These subtopics evaluate long-term survival trends, modern diagnostic and therapeutic challenges, and ethical and clinical considerations in future cancer treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

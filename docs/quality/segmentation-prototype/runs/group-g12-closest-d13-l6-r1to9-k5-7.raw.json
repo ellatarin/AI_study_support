@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecture by setting out the learning outcomes, the multi-step mutation progression model, and the framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustaining proliferative signaling and evading growth suppressors",
+      "groupedBecause": "These subtopics explain how mutations in receptor tyrosine kinase, Wnt/beta-catenin, and downstream signaling pathways enable cancer cells to acquire growth signal autonomy and resist growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics examine how differentiation blocks arrest cells in proliferative progenitor-like states across hematopoietic malignancies and intestinal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evading apoptosis, achieving replicative immortality, and cell-autonomous growth control",
+      "groupedBecause": "These subtopics explain how cancer cells circumvent programmed cell death and replicative limits through p53 and telomerase deregulation, concluding the examination of cell-autonomous growth hallmarks.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Cancer metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics detail how cancer cells rewire metabolic pathways toward aerobic glycolysis and how Krebs cycle mutations generate oncometabolites that drive epigenetic alterations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explains the biological switch requiring new blood vessel formation to overcome hypoxia and supply nutrients for sustained tumor progression.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, clinical monitoring, and genomics of tumor metastasis",
+      "groupedBecause": "These subtopics address the metastatic cascade, the seed-and-soil hypothesis, liquid biopsy monitoring using circulating tumor cells, and the genomic characteristics of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "This subtopic concludes the lecture with closing remarks on synthesizing the cancer hallmarks and revisiting the core learning outcomes.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series and outlines the core learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis of cancer and tissue architecture failure",
+      "groupedBecause": "These subtopics explore the fundamental nature of cancer as a breakdown of normal cellular differentiation and tissue architecture driven by accumulated genetic and epigenetic changes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and malignant progression",
+      "groupedBecause": "These subtopics examine how invasion and metastasis distinguish malignant from benign tumors and illustrate the stepwise pathological progression of neoplastic lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Conventions and exceptions in tumor nomenclature",
+      "groupedBecause": "This subtopic outlines the standard rules and pathological exceptions used to name and classify benign and malignant neoplasms across different tissue lineages.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer-induced morbidity and mortality",
+      "groupedBecause": "This subtopic explains the mechanical, metabolic, and physiological processes through which primary tumors and distant metastases cause severe illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative cancer incidence across humans and other animal species",
+      "groupedBecause": "These subtopics analyse the epidemiological patterns of tumor frequency across human populations and examine cancer incidence across diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and efficacy of clinical cancer screening",
+      "groupedBecause": "These subtopics evaluate the diagnostic rationale, histological detection methods, and clinical limitations associated with population-level cancer screening programs.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic concludes the session by reviewing the learning outcomes and providing logistical instructions for upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

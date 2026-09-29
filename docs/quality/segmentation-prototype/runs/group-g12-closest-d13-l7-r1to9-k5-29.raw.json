@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the opening framing and learning objectives for the lecture on cancer evolution and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms in clonal selection",
+      "groupedBecause": "These subtopics explain how cell-intrinsic genetic mutations and epigenetic transcriptional changes confer selective fitness advantages during clonal evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and cancer stem cell hierarchies",
+      "groupedBecause": "These subtopics explore the conceptual models and experimental evidence for how normal tissue stem cell hierarchies and cell of origin dictate tumor development.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory promotion of tumor growth",
+      "groupedBecause": "These subtopics examine how external environmental promoters, inflammatory signaling, and supportive stromal interactions enable cancer initiation and progression.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodological approaches to studying tumor evolution",
+      "groupedBecause": "This subtopic reviews the experimental, sequencing, and spatial profiling technologies used to investigate tumor evolution and cellular heterogeneity.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated multifactorial model of cancer evolution",
+      "groupedBecause": "This subtopic synthesises how genetic mutations, cell-of-origin properties, and microenvironmental factors co-evolve to permit malignant outgrowth.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "This subtopic provides the concluding closing remarks and previews the upcoming lecture topic.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

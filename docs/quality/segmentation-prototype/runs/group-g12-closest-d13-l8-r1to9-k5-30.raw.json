@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the final lecture of the course and outlines its core learning objectives concerning cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and mechanisms of resistance",
+      "groupedBecause": "These subtopics address traditional cancer interventions—including surgery, radiotherapy, and cytotoxic chemotherapy—along with the major challenges of systemic toxicity and multidrug efflux resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer cell vulnerabilities and genetic defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that capitalize on tumor-specific weaknesses, such as hormone dependence, cell cycle checkpoint loss, and synthetic lethality in DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Small-molecule kinase inhibitors and targeted therapy resistance",
+      "groupedBecause": "These subtopics discuss targeting oncogene-addicted kinases with ATP-competitive inhibitors and analyzing the structural, bypass, and paradoxical resistance mechanisms that subsequently evolve.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Targeted monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics examine engineered antibodies directed against cancer cell surface antigens, both as receptor-blocking agents and as delivery systems for targeted cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-directed therapies",
+      "groupedBecause": "These subtopics evaluate the biological basis for antitumor immunity and explore therapeutic methods for activating or engineering T cells to destroy tumor cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overall progress, clinical challenges, and future directions in cancer management",
+      "groupedBecause": "These subtopics synthesise historical treatment trends, persistent hurdles such as tumor heterogeneity, and emerging paradigms for future clinical cancer care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

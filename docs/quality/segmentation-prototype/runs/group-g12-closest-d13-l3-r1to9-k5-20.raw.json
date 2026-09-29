@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer biology and lecture learning outcomes",
+      "groupedBecause": "This subtopic introduces the course structure, audience, overarching themes, and specific learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations: Genetic alterations, tissue architecture, and cell models",
+      "groupedBecause": "These subtopics explore cancer as a stepwise accumulation of genetic and epigenetic changes that disrupt normal differentiation and three-dimensional tissue architecture, alongside the experimental models used to study these processes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign versus malignant tumors: Invasion, progression, and nomenclature",
+      "groupedBecause": "These subtopics establish the distinction between benign and malignant neoplasms through their capacity for local invasion and metastasis, their histological progression, and their diagnostic naming conventions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the specific mechanical, systemic, and metastatic processes through which primary and secondary tumors cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative incidence of tumors across human tissues and animal species",
+      "groupedBecause": "These subtopics examine patterns of cancer incidence across different human tissues and across diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles, methods, and limitations of clinical cancer screening",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, histological criteria, and practical challenges of screening programs aimed at early cancer detection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic closes the lecture by referencing the learning outcomes and providing logistical reminders for upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

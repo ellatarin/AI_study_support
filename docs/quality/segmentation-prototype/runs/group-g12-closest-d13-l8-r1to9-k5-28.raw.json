@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This opening subtopic sets up the structure and learning goals for the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and systemic limitations",
+      "groupedBecause": "These subtopics examine traditional treatment modalities, including surgical resection, radiotherapy, and non-targeted cytotoxic chemotherapy, alongside the systemic toxicities and resistance mechanisms that constrain them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular defects and vulnerabilities",
+      "groupedBecause": "These subtopics discuss targeted strategies that leverage specific intrinsic weaknesses of cancer cells, such as hormone signaling dependence, cell cycle checkpoint loss, and defective DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibition and resistance mechanisms",
+      "groupedBecause": "These subtopics focus on targeting oncogenic driver kinases with small-molecule inhibitors, detailing mechanisms of action, off-target effects, and pathways of acquired resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and targeted drug conjugates",
+      "groupedBecause": "These subtopics describe antibody-based strategies that selectively bind surface antigens to directly impede tumor signaling or deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics explore the interaction between tumors and the host immune system, encompassing natural immune surveillance, immune checkpoint inhibition, and engineered T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Historical progress, future paradigms, and clinical challenges",
+      "groupedBecause": "These subtopics synthesize broad perspectives on cancer mortality trends, treatment resistance, future diagnostic and therapeutic paradigms, and ethical dilemmas in clinical trial design.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

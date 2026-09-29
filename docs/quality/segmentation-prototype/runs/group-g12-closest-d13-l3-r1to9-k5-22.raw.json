@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the course structure, audience background, and core learning outcomes for the cancer biology module.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and tissue basis of cancer",
+      "groupedBecause": "These subtopics define cancer as a failure of normal cellular differentiation and tissue architecture driven by accumulated genetic and epigenetic alterations, noting the methods and limitations involved in studying these processes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and progression",
+      "groupedBecause": "These subtopics explain how benign and malignant tumors differ in their capacity for invasion and metastasis, illustrating the stepwise progression from pre-malignant lesions to invasive cancer.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification",
+      "groupedBecause": "This subtopic outlines the standard conventions and notable exceptions used to name and classify tumors according to their tissue of origin and malignancy.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the anatomical, physiological, and systemic mechanisms by which primary and metastatic tumors cause clinical illness and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence across humans and other species",
+      "groupedBecause": "These subtopics examine patterns of tumor incidence across human demographics and diverse animal taxa, highlighting cancer as a fundamental vulnerability of multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening and early detection",
+      "groupedBecause": "These subtopics evaluate the clinical principles, efficacy, and practical challenges of population screening methods for detecting pre-invasive and early-stage cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical session preview",
+      "groupedBecause": "The lecturer closes the session by reviewing learning outcomes and reminding students of upcoming practical classes.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

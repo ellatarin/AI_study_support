@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This topic provides the opening framing, outlining the course structure and intended learning outcomes for the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, cellular, and structural disruptions in cancer development",
+      "groupedBecause": "These subtopics explain how cancer arises from accumulating genetic alterations, failed differentiation programs, and lost tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and the benign-to-malignant transition",
+      "groupedBecause": "These subtopics explore how benign and malignant tumors are distinguished clinically and histologically through local invasion, metastatic spread, and stepwise tissue progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Conventions and exceptions of tumor nomenclature",
+      "groupedBecause": "This subtopic outlines the standard naming rules and notable exceptions used to classify tumors based on their cell lineage and malignant potential.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological causes of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physiological mechanisms and systemic consequences by which primary and metastatic tumors produce illness and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence across human populations and multicellular species",
+      "groupedBecause": "These subtopics examine patterns of tumor frequency and cancer mortality across tissues, human demographics, and diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles, histology, and limitations of clinical cancer screening",
+      "groupedBecause": "These subtopics evaluate the diagnostic rationale, tissue-level detection methods, and clinical effectiveness of screening programs across various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This topic provides the closing framing, summarizing learning objectives and offering practical session reminders.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for cancer hallmarks",
+      "groupedBecause": "These remarks introduce the lecture objectives and outline the framework of cancer hallmarks across tumor progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and signaling pathway mutations",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell-surface receptors and downstream cascades enable cancer cells to achieve growth signal independence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in hematopoietic and epithelial malignancies",
+      "groupedBecause": "These subtopics examine how genetic alterations prevent cells from exiting the cell cycle and executing terminal differentiation in blood and intestinal cancers.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis through p53 and Bcl-2 regulation",
+      "groupedBecause": "This subtopic details how cancer cells evade programmed cell death through genetic disruptions of the apoptotic machinery.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomeres, and senescence bypass",
+      "groupedBecause": "These subtopics explore how tumor cells circumvent normal division limits and senescence through telomere maintenance and stress response evasion.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Complex hallmarks and cancer metabolic reprogramming",
+      "groupedBecause": "These subtopics introduce complex tissue-level hallmarks and examine the mechanisms and drivers of altered tumor metabolism.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Angiogenesis induction in tumor progression",
+      "groupedBecause": "This subtopic explains how developing tumors stimulate new blood vessel growth to sustain oxygen and nutrient supply.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, tracking, and genomics of tumor metastasis",
+      "groupedBecause": "These subtopics analyze the multi-step metastatic cascade, circulating tumor cell monitoring, and the genomic features of secondary tumors.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "These closing remarks summarize the collective role of cancer hallmarks and conclude the lecture.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

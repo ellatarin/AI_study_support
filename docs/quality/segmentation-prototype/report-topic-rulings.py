@@ -16,6 +16,7 @@ a grouping.
 Usage:
   python3 report-topic-rulings.py <version> [<version> ...]
   python3 report-topic-rulings.py d9 d13
+  python3 report-topic-rulings.py d13 closest-d13
 """
 
 import collections
@@ -42,7 +43,9 @@ class Ruling(NamedTuple):
 
 
 def voted_division(version, lecture):
-    """The stem of a version's voted division for a lecture."""
+    """The stem of a version's division for a lecture: voted, or the run closest to the vote when named `closest-<version>`."""
+    if version.startswith("closest-"):
+        return f"{version}-{lecture}-r1to9-k5"
     return f"voted-{version}-{lecture}-r1to9-k5"
 
 

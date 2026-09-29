@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic provides the lecturer's opening remarks and introduces the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen- and damage-associated molecular patterns",
+      "groupedBecause": "These subtopics outline how the innate immune system detects infection and cellular injury through molecular patterns that distinguish foreign and damaged structures from healthy self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptors and inflammatory signaling cascades",
+      "groupedBecause": "These subtopics detail the genomic encoding, cellular localization, and downstream activation pathways of key pattern recognition receptor families and the inflammasome complex.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cellular activation, leukocyte recruitment, and systemic inflammatory consequences",
+      "groupedBecause": "These subtopics follow the physiological progression of an inflammatory response from sentinel cell stimulation and leukocyte tissue recruitment to lymphatic antigen transport and the systemic danger of septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Inflammation resolution, tissue repair, and chronic inflammatory adaptations",
+      "groupedBecause": "These subtopics explain the active and passive mechanisms that terminate inflammation, drive tissue healing, and manage persistent or unresolvable insults through chronic structures such as granulomas.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and preview of the next topic",
+      "groupedBecause": "This subtopic marks the conclusion of the lecture and announces the topic of the following session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

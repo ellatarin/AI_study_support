@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "These introductory remarks welcome the students and outline the learning objectives for the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics examine traditional therapeutic modalities and their limitations, focusing on surgery, radiotherapy, cytotoxic chemotherapy, and efflux-mediated drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular defects and hormone dependence",
+      "groupedBecause": "These subtopics describe targeted therapeutic strategies designed to exploit cancer-specific biological vulnerabilities, such as hormone receptor reliance, cell cycle checkpoint defects, and synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic kinases and overcoming resistance",
+      "groupedBecause": "These subtopics explore the principles, molecular mechanisms, and resistance pathways associated with small-molecule kinase inhibitors targeting driver oncogenes.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics cover antibody-based therapeutic approaches that leverage cell-surface target specificity to block signaling pathways or selectively deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumor immunology and immunotherapeutic strategies",
+      "groupedBecause": "These subtopics examine the evidence for natural immune surveillance and explore clinical strategies to mobilize host T-cell responses against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Current challenges, future directions, and therapeutic dilemmas",
+      "groupedBecause": "These subtopics reflect on broader paradigms in cancer management, addressing historical progress, early detection, and the ethical dilemmas of integrating novel therapies into clinical practice.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

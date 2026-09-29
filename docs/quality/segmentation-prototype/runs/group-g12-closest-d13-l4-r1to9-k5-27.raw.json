@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the primary learning objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic and environmental factors in cancer risk",
+      "groupedBecause": "These subtopics explore the relative contributions of intrinsic biological processes, bad luck, and environmental exposures to cancer development through genetic and epidemiological perspectives.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics examine how pathogens and oncogenic viruses contribute to carcinogenesis, focusing on the cooperative mechanism in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics describe how physical radiation and chemical agents, directly or through metabolic activation, cause DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, host susceptibility, and mechanistic integration",
+      "groupedBecause": "These subtopics explain the non-mutagenic drivers of cancer, including tumor promoters, host developmental susceptibility, and how they integrate with mutagens to enable malignancy.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying and evaluating carcinogens",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, in vivo, and in vitro methodologies used to determine carcinogenicity and evaluate exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and final summary",
+      "groupedBecause": "This subtopic provides the final concluding remarks and summary points for the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

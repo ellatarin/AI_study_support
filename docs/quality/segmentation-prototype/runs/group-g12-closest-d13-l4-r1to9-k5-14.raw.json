@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This section serves as the opening framing of the lecture, introducing the lecturer, topic outline, and key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic mutations, environmental exposure, and epidemiological variation in cancer",
+      "groupedBecause": "These subtopics address the fundamental question of whether cancer is driven primarily by intrinsic biological bad luck or environmental exposures, supported by global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenic pathogens and infectious causes of cancer",
+      "groupedBecause": "These subtopics explore how infectious agents promote malignant transformation, illustrating the concept through general pathogen mechanisms and the specific etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of direct and metabolically activated chemical and physical carcinogens",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms by which chemical and physical mutagens undergo metabolic activation to induce DNA adducts and oxidative cellular damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host susceptibility, and carcinogenic mechanisms",
+      "groupedBecause": "These subtopics explain how non-mutagenic tumor promoters, inflammatory microenvironments, and host developmental susceptibility cooperate to drive cancer progression, followed by a mechanistic summary.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying carcinogens and evaluating cancer risk",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, and experimental methodologies used to prove carcinogenicity and evaluate cancer risk against practical benefits.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This section serves as the closing framing of the lecture, providing concluding remarks and summarizing the key takeaways.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

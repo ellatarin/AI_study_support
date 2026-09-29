@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "It frames the lecture by introducing the evolutionary view of cancer and outlining the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of clonal evolution",
+      "groupedBecause": "These subtopics explain how mutations and epigenetic alterations confer selective growth advantages that drive Darwinian clonal succession in tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchy and cell of origin in tumorigenesis",
+      "groupedBecause": "These subtopics explore the relationship between normal stem cell hierarchies, cancer stem cell models, and the cell of origin in cancer development.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory promotion of tumor growth",
+      "groupedBecause": "These subtopics demonstrate how non-mutagenic microenvironmental factors, chronic inflammation, and supportive stroma promote cancer progression and provide therapeutic targets.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for investigating tumor evolution and tissue architecture",
+      "groupedBecause": "It examines the experimental models, single-cell sequencing technologies, and spatial profiling tools used to study cancer evolution and cell interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Synthesis of multifactorial cancer evolution",
+      "groupedBecause": "It provides a comprehensive summary integrating genetic mutations, transcriptional states, cell of origin, and microenvironmental dynamics into a unified evolutionary framework of cancer.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "It concludes the session and previews the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture by introducing the topic of cancer therapy and stating the intended learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics cover traditional local and systemic interventions—including surgery, radiotherapy, and cytotoxic chemotherapy—along with their associated toxicities and drug-efflux resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cellular vulnerabilities and repair deficiencies",
+      "groupedBecause": "These subtopics focus on selective treatment approaches that exploit cancer-specific vulnerabilities, including hormone receptor dependencies, cell cycle checkpoint losses, and DNA repair defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics address the therapeutic targeting of hyperactivated oncogenic kinases and the molecular pathways driving resistance and drug addiction to kinase inhibitors.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based therapies and drug conjugates",
+      "groupedBecause": "These subtopics discuss the use of monoclonal antibodies to directly target tumor surface antigens or selectively deliver cytotoxic payloads to cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell exploitation",
+      "groupedBecause": "These subtopics examine evidence for immune surveillance and strategies to engage host immunity through immune checkpoint blockade, bispecific T-cell engagers, and engineered CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic progress, future paradigms, and clinical dilemmas",
+      "groupedBecause": "These subtopics synthesize historical trends in cancer survival against the challenges of tumor heterogeneity, biomarker-driven medicine, early detection, and the ethical dilemmas of clinical trial design.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

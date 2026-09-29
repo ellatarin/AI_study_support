@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This topic provides the opening framing and learning objectives for the lecture on cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, environmental, and stochastic contributions to cancer development",
+      "groupedBecause": "These subtopics explore the conceptual foundations of cancer etiology by examining how genetic predisposition, endogenous replication errors, environmental exposures, and epidemiological patterns shape cancer incidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and viral oncogenesis",
+      "groupedBecause": "These subtopics explain how biological pathogens drive malignant transformation, focusing on the cooperative viral and environmental etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics examine how physical radiation and chemical compounds undergo metabolic activation to generate DNA adducts, mutations, and oxidative stress.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, host susceptibility, and mechanisms of carcinogenesis",
+      "groupedBecause": "These subtopics examine how non-mutagenic tumor promoters, chronic inflammation, and host developmental susceptibility cooperate to drive malignant outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and evaluating cancer risk",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, and experimental methods used to determine carcinogenicity and assess human exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This topic provides the closing summary and final conclusions for the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture and outlines the intended learning outcomes regarding cancer treatment approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics examine conventional cancer treatment modalities, including surgery, radiotherapy, and cytotoxic chemotherapy, alongside the biological mechanisms responsible for systemic toxicity and drug efflux resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer cell vulnerabilities and genetic defects",
+      "groupedBecause": "These subtopics explain therapeutic strategies that exploit intrinsic vulnerabilities in cancer cells, including hormone receptor dependency, cell cycle checkpoint deficiencies, and defective DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogenic kinase targeting and resistance mechanisms",
+      "groupedBecause": "These subtopics discuss the design and application of small-molecule kinase inhibitors against oncogenic drivers and analyze the molecular mechanisms underlying therapy resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics examine targeted antibody-based therapies, including naked monoclonal antibodies that trigger immune effector functions and antibody-drug conjugates that deliver cytotoxic payloads directly to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune surveillance and checkpoint inhibition",
+      "groupedBecause": "These subtopics evaluate the evidence for natural antitumor immune surveillance and describe how checkpoint inhibitors disinhibit endogenous T-cell responses against tumor neoantigens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Engineered T-cell therapies",
+      "groupedBecause": "These subtopics detail synthetic immunotherapeutic approaches, specifically bispecific T-cell engagers and chimeric antigen receptor T cells, designed to redirect cytotoxic immune responses against cancer cells.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Clinical progress, systemic challenges, and future perspectives",
+      "groupedBecause": "These subtopics synthesize the overarching achievements and limitations of modern oncology while outlining future paradigms in cancer management and clinical trial design.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

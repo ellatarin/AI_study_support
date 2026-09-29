@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the students and outlines the core learning outcomes regarding cancer evolution and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms of clonal evolution",
+      "groupedBecause": "These subtopics explain how sequential genetic mutations and epigenetic modifications drive clonal fitness, expansion, and Darwinian selection in cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stemness, cancer stem cells, and cell of origin",
+      "groupedBecause": "These subtopics examine how tissue stem cell hierarchies, cancer stem cell models, and the cell of origin contribute to tumor initiation and progression.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion, inflammation, and stromal dependence",
+      "groupedBecause": "These subtopics explore how extrinsic factors such as inflammatory signals, microenvironmental promoters, and supportive stroma permit and sustain tumor outgrowth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Technologies for investigating tumor evolution and spatial architecture",
+      "groupedBecause": "This subtopic reviews the genomic, computational, and spatial omics methodologies used to analyze tumor cell interactions and mutational histories.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated multi-factorial model of cancer evolution",
+      "groupedBecause": "This subtopic synthesizes how genetic alterations, cell-of-origin properties, and permissive microenvironments converge in an evolutionary framework to drive malignancy.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "The lecturer concludes the presentation and introduces the topic of cancer therapy for the following lecture.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

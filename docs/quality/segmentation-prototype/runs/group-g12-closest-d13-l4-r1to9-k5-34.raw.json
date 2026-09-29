@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic frames the lecture with an introduction from the lecturer and an outline of the learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, mutation sources, and epidemiological variation",
+      "groupedBecause": "These subtopics introduce the fundamental drivers of cancer development, examining the balance between endogenous bad luck and environmental exposures across global populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "These subtopics explain how infectious agents drive oncogenesis, focusing on direct mechanisms and the specific etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical carcinogens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics detail how physical radiation and chemical agents cause DNA damage directly or through endogenous metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, microenvironmental factors, and host susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms that advance carcinogenesis, including tumor promotion pathways, inflammation, and host developmental susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying carcinogens and evaluating risk",
+      "groupedBecause": "These subtopics survey experimental, genomic, and epidemiological approaches for detecting carcinogenic agents and assessing their real-world risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and final summary",
+      "groupedBecause": "This subtopic provides the concluding remarks and final summary of the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

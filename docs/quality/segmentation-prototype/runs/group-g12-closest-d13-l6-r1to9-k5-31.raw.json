@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for cancer hallmarks",
+      "groupedBecause": "This topic introduces the lecture structure, learning objectives, and the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and evasion of inhibitory signaling",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in membrane receptor and downstream signaling pathways drive cell-autonomous proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks to terminal differentiation in tumorigenesis",
+      "groupedBecause": "These subtopics explore how halting normal terminal differentiation maintains progenitor cells in a proliferative state across hematopoietic and intestinal tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis, replicative immortality, and p53 stress responses",
+      "groupedBecause": "These subtopics examine how cancer cells bypass intrinsic growth-limiting barriers such as programmed cell death and telomere-induced senescence through p53-regulated pathways.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics describe how cancer cells rewire cellular bioenergetics towards aerobic glycolysis and how metabolic enzyme mutations drive epigenetic and transcriptional deregulation.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor angiogenesis and vascular recruitment",
+      "groupedBecause": "This subtopic addresses how developing tumors overcome oxygen and nutrient diffusion limits by inducing new blood vessel formation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genomics of tumor metastasis",
+      "groupedBecause": "These subtopics analyze the sequential biological barriers, clinical tracking methods, microenvironmental interactions, and genomic features underlying metastatic dissemination.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "This topic provides final summary thoughts and concludes the lecture.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

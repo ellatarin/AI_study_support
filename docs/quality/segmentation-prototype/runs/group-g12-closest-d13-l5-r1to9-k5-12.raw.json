@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This subtopic outlines the introductory framing, practical context, and learning objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology, proto-oncogenes, and transformation assays",
+      "groupedBecause": "These subtopics trace the historical discovery of cellular proto-oncogenes through tumor viruses and detail the laboratory assays used to evaluate cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classification of cancer mutations and tumor suppressor mechanisms",
+      "groupedBecause": "These subtopics examine how cancer mutations are classified and demonstrate the functional mechanics of tumor suppressor pathways and mutant allele dosage.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and consequences of genetic instability",
+      "groupedBecause": "These subtopics explore the molecular sources, DNA repair defects, and cellular consequences of sequence and chromosomal instability in cancer cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-step progression, hereditary cancer syndromes, and tumor evolution",
+      "groupedBecause": "These subtopics describe how sequential mutation acquisition, inherited cancer predispositions, and selective pressures govern tumor development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and reading recommendations",
+      "groupedBecause": "This subtopic closes the lecture with concluding remarks, reading recommendations, and a preview of the next session.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

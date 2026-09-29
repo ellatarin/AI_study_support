@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer hallmarks",
+      "groupedBecause": "These remarks introduce the lecture, outlining its learning outcomes and framing the discussion of cancer progression and hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal deregulation and oncogenic signaling pathways",
+      "groupedBecause": "These subtopics explain how mutations in cell surface receptors and intracellular signaling cascades confer growth signal autonomy and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics explore how cancer cells fail to undergo normal terminal differentiation using examples from hematopoiesis and the intestinal epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis through p53 and Bcl-2 regulation",
+      "groupedBecause": "This subtopic describes how alterations in p53 and Bcl-2 family proteins allow cancer cells to resist apoptotic cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomeres, and cellular stress responses",
+      "groupedBecause": "These subtopics examine how telomere shortening triggers senescence and how cancer cells bypass stress checkpoints and reactivate telomerase to achieve immortalization.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolic rewiring and oncometabolites",
+      "groupedBecause": "These subtopics introduce complex cancer hallmarks and explain how tumor cells alter cellular metabolism, including the Warburg effect and oncometabolite signaling.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explains how growing tumors overcome nutrient and oxygen limits by stimulating new blood vessel formation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genomics of tumor metastasis",
+      "groupedBecause": "These subtopics examine the multi-step metastatic cascade, the use of circulating tumor cells for monitoring, and the genomic features of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "These remarks conclude the lecture by summarizing key concepts across cancer hallmarks and closing the session.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

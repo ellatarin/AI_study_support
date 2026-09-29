@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer introduces herself, sets the context within the cancer lecture series, and outlines the primary learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conceptual frameworks and epidemiology of cancer causation",
+      "groupedBecause": "These subtopics explore the interplay between intrinsic stochastic mutations, inherited predisposition, and environmental exposures in driving cancer development across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents in carcinogenesis",
+      "groupedBecause": "These subtopics explain how biological pathogens induce malignancy, featuring a detailed analysis of Epstein-Barr virus and Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics examine the biochemical pathways through which exogenous agents undergo metabolic conversion to induce direct and indirect DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and host susceptibility factors",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms that facilitate cancer outgrowth, focusing on tumor promotion, inflammatory microenvironments, and tissue developmental windows.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying carcinogens and assessing risk",
+      "groupedBecause": "These subtopics examine experimental, genomic, and epidemiological methodologies used to establish carcinogenicity and weigh exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This section provides the lecturer's concluding remarks and final summary of the core principles covered in the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

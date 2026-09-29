@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic outlines the scope of the lecture on cancer evolution and introduces the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms in clonal selection",
+      "groupedBecause": "These subtopics explain how intrinsic genetic mutations and epigenetic alterations confer selective advantages that drive clonal evolution in tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchies and cell of origin in cancer",
+      "groupedBecause": "These subtopics examine the relationship between normal tissue hierarchies and cancer stemness, providing evidence from leukemia and colorectal models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion, inflammation, and stromal dependence",
+      "groupedBecause": "These subtopics address how extrinsic microenvironmental signals, inflammatory responses, and supportive stroma cooperate with mutations to drive tumor growth and inform therapy.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental and computational methods for studying tumor evolution",
+      "groupedBecause": "This subtopic details the laboratory models, sequencing technologies, and spatial profiling tools used to investigate tumor evolution and cellular interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrative evolutionary framework of cancer progression",
+      "groupedBecause": "This subtopic synthesises the interplay of genetic mutations, epigenetic states, cell of origin, and microenvironmental factors into a unified evolutionary model of malignancy.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and preview of cancer therapy",
+      "groupedBecause": "This subtopic marks the conclusion of the lecture and previews the following session on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the introductory framing and sets out the learning objectives for the lecture on cancer causes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, environmental, and stochastic contributions to cancer risk",
+      "groupedBecause": "These subtopics explore the foundational interplay between acquired genetic mutations, environmental exposures, and stochastic biological processes in determining cancer risk across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens and oncogenesis",
+      "groupedBecause": "These subtopics discuss how infectious pathogens drive malignancy, focusing on oncogenic mechanisms and the specific etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical, physical, and promotional carcinogenesis",
+      "groupedBecause": "These subtopics examine how mutagens, metabolic activation pathways, host susceptibility, and non-mutagenic tumor promoters induce DNA damage and drive cancer development.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and evaluating cancer risk",
+      "groupedBecause": "These subtopics explore the genomic, epidemiological, in vivo, and in vitro tools used to identify carcinogens and assess the practical risks of exposure.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This subtopic provides the closing summary of the lecture's core themes and final concluding remarks.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

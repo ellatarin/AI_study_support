@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The opening outlines the lecture's objectives and scope regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and resistance",
+      "groupedBecause": "These subtopics examine conventional local and systemic cancer therapies alongside mechanisms of non-specific toxicity and multidrug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cellular vulnerabilities and hormone dependence",
+      "groupedBecause": "These subtopics address therapeutic approaches that selectively exploit tumor cell vulnerabilities, DNA repair deficiencies, and hormonal dependencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase inhibitors and targeted drug resistance",
+      "groupedBecause": "These subtopics explain the design of targeted small-molecule kinase inhibitors and the molecular mechanisms driving drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based therapies and drug conjugates",
+      "groupedBecause": "These subtopics explore the mechanism of action and clinical application of targeted monoclonal antibodies and antibody-drug conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and immune-mediated targeting",
+      "groupedBecause": "These subtopics examine natural immune surveillance against tumors and therapeutic strategies that harness the immune system to eliminate cancer cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics synthesize the broader clinical challenges, historical outcomes, and future directions in cancer therapy and management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

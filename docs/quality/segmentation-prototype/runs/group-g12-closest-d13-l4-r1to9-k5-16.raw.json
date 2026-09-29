@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the module structure, personal background, and key learning outcomes regarding cancer causation and carcinogen evaluation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, intrinsic risk, and environmental epidemiology",
+      "groupedBecause": "These subtopics explore how cancer arises from an interplay between intrinsic genetic mutations and environmental exposures, evaluating population-level epidemiological patterns and the bad-luck hypothesis.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenic pathogens and viral carcinogenesis",
+      "groupedBecause": "These subtopics examine the mechanisms by which infectious agents, particularly Epstein-Barr virus in Burkitt lymphoma, contribute to malignant transformation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic DNA damage",
+      "groupedBecause": "These subtopics detail how physical radiation and chemical carcinogens undergo metabolic processing to form DNA adducts and induce genetic damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, microenvironmental factors, and host susceptibility",
+      "groupedBecause": "These subtopics describe non-mutagenic mechanisms of carcinogenesis, including two-stage tumor promotion, tissue-specific timing, and host physiological susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying, testing, and assessing carcinogens",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, animal, and in vitro approaches used to identify carcinogens and evaluate their associated health risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "The lecturer concludes the lecture by summarizing the core takeaways on environmental carcinogenicity and risk assessment.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

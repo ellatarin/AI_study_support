@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "It frames the lecture by outlining the learning outcomes and introducing the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and signaling pathway mutations",
+      "groupedBecause": "They describe how oncogenic mutations in cell-surface receptor pathways, including Wnt and receptor tyrosine kinases, drive constitutive proliferation and cell survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in cancer",
+      "groupedBecause": "They examine how malignant transformation disrupts normal maturation and arrests terminal differentiation in hematopoietic lineages and the intestinal epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis, replicative immortality, and p53 regulation",
+      "groupedBecause": "They explain how cancer cells overcome intrinsic barriers to unlimited growth by resisting apoptosis, bypassing telomere-driven senescence, and disabling p53-mediated stress responses.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Cancer metabolic rewiring and oncometabolites",
+      "groupedBecause": "They introduce complex cancer hallmarks and describe how altered cellular metabolism, the Warburg effect, and oncometabolites drive tumorigenesis.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "It explains the requirement of new blood vessel formation for tumor nutrient supply and how the balance of activators and inhibitors controls the angiogenic switch.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, detection, and genomics of tumor metastasis",
+      "groupedBecause": "They examine the biological barriers to metastatic dissemination, the utility of circulating tumor cells as biomarkers, and the genomic features supporting distant colonization.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "It concludes the lecture with a summary of the hallmarks of cancer and closing remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

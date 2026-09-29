@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing of complement",
+      "groupedBecause": "This subtopic introduces the lecture and frames complement within the broader study of immunology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals, nomenclature, and central role of C3",
+      "groupedBecause": "These subtopics establish the basic architecture, naming conventions, and central role of C3 activation in the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three distinct upstream pathways that initiate complement activation on pathogen surfaces to reach the trigger threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics describe the downstream biological mechanisms through which complement destroys pathogens and mediates immune clearance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement and host protection",
+      "groupedBecause": "This subtopic explains the regulatory factors and mechanisms that prevent complement activation from damaging host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic details the distinct clinical manifestations and disease presentations resulting from deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic examines the molecular strategies evolved by pathogens to evade complement destruction, focusing on Staphylococcus aureus.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and next session preview",
+      "groupedBecause": "This subtopic provides the lecture wrap-up and previews the upcoming session on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

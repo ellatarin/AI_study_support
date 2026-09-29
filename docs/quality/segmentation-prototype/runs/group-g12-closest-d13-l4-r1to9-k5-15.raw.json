@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This subtopic provides the administrative opening, lecturer introduction, and learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations of cancer and sources of mutation",
+      "groupedBecause": "These subtopics explain the core concept of cancer as a clonal, genetic, and microenvironmental disease driven by endogenous processes, replication stress, and inherited genetic predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental exposure, bad luck, and epidemiological variation",
+      "groupedBecause": "These subtopics explore the debate between intrinsic 'bad luck' and environmental mutagens in causing cancer, supported by global epidemiological and migration data.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious pathogens and mechanisms of oncogenesis",
+      "groupedBecause": "These subtopics examine how biological pathogens and chronic infections, exemplified by Epstein-Barr virus in Burkitt lymphoma, contribute to malignant transformation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical and physical carcinogenesis",
+      "groupedBecause": "These subtopics describe how physical radiation and chemical agents undergo metabolic activation to induce DNA damage through adducts, dimers, oxidative stress, and tissue-specific processes.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, host susceptibility, and mechanistic concepts",
+      "groupedBecause": "These subtopics explain non-mutagenic tumour promotion mechanisms, host developmental timing, and summarize the diverse factors governing carcinogenesis.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for evaluating carcinogenicity and risk",
+      "groupedBecause": "These subtopics discuss the experimental, genomic, epidemiological, and risk-benefit approaches used to identify and evaluate carcinogenic agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This subtopic provides the concluding remarks and final summary of the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

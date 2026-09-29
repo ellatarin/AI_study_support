@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and sets out the learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic drug resistance",
+      "groupedBecause": "These subtopics examine conventional cancer treatment modalities alongside the systemic toxicities and efflux pump mechanisms that limit their efficacy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and checkpoint defects",
+      "groupedBecause": "These subtopics explain therapeutic strategies designed to exploit specific intrinsic vulnerabilities and checkpoint defects in cancer cells.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibition and resistance mechanisms",
+      "groupedBecause": "These subtopics explore the mechanism of small-molecule kinase inhibitors against oncogenic drivers and the molecular mechanisms underlying treatment resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody and antibody-drug conjugate therapies",
+      "groupedBecause": "These subtopics describe the design and therapeutic applications of monoclonal antibodies and antibody-drug conjugates directed against tumor cell-surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell activation strategies",
+      "groupedBecause": "These subtopics evaluate the evidence for immune surveillance and examine clinical strategies to reactivate or engineer T cells against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overall progress, clinical challenges, and future perspectives in cancer management",
+      "groupedBecause": "These subtopics synthesize broad trends in cancer mortality, clinical trial complexities, and future therapeutic strategies across oncology.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

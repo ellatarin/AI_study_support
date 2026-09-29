@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the introductory framing and sets the learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional cancer therapies, cytotoxic chemotherapy, and resistance mechanisms",
+      "groupedBecause": "These subtopics examine conventional non-targeted interventions—including surgery, radiotherapy, and cytotoxic drugs—and the physiological challenges and resistance mechanisms associated with them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer vulnerabilities and synthetic lethality",
+      "groupedBecause": "These subtopics focus on therapeutic strategies designed to exploit inherent defects in cancer cells, including hormone dependence, cell-cycle checkpoint deficiencies, and DNA repair pathway mutations.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors, oncogene addiction, and resistance",
+      "groupedBecause": "These subtopics discuss the rationale for inhibiting hyperactivated oncogenic kinases and detail the molecular mechanisms through which cancer cells develop resistance to small-molecule kinase inhibitors.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics detail therapeutic approaches that use engineered monoclonal antibodies to disrupt receptor signaling or deliver cytotoxic payloads specifically to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and cellular therapies",
+      "groupedBecause": "These subtopics explore the biological basis of tumor immune surveillance and methods to harness the immune system against cancer using checkpoint inhibitors, bispecific engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overarching challenges, historical trends, and future directions in cancer management",
+      "groupedBecause": "These subtopics synthesize broad perspectives on cancer mortality trends, treatment personalization, and the ongoing ethical and clinical challenges in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the pedagogical structure, multi-disciplinary audience, and core learning objectives for the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological concepts of oncogenesis, differentiation, and tissue architecture",
+      "groupedBecause": "These subtopics describe cancer as a progressive disease arising from genetic alterations and disrupted tissue differentiation, alongside laboratory approaches and limitations in modeling these multicellular structures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and the transition from benign to malignant tumours",
+      "groupedBecause": "These subtopics explore the biological and diagnostic differences between benign and malignant neoplasms, focusing on basement membrane invasion, metastatic dissemination, and stepwise disease progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Neoplasm nomenclature and classification",
+      "groupedBecause": "It outlines the standardized rules, suffixes, and clinical exceptions used to name and classify benign and malignant tumors based on their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer-induced morbidity and mortality",
+      "groupedBecause": "It details the anatomical, functional, and systemic pathways through which primary and metastatic tumors cause clinical illness and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative oncology and cancer incidence across species",
+      "groupedBecause": "These subtopics analyse cancer prevalence across human populations and diverse animal taxa to demonstrate that tumorigenesis is a fundamental vulnerability of multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles, histology, and modalities of cancer screening",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, histological indicators, and practical efficacy of early screening programs across various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "It wraps up the lecture with a concluding reminder of learning outcomes and practical session arrangements.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

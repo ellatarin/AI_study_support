@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the topic of cancer therapy and outlines the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics evaluate standard local and systemic treatment modalities alongside non-specific toxicity and efflux-mediated drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and synthetic lethality",
+      "groupedBecause": "These subtopics explore therapeutic strategies that leverage cancer-specific vulnerabilities, checkpoint defects, and synthetic lethal DNA repair mechanisms.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics detail how oncogenic kinases are therapeutically targeted with small-molecule inhibitors and analyse the mechanisms by which tumors develop drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Therapeutic monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics examine how engineered antibodies and antibody-drug conjugates specifically target tumor-associated surface antigens to destroy cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and immunotherapy approaches",
+      "groupedBecause": "These subtopics discuss the biology of immune surveillance and examine therapeutic approaches to reactivate or engineer T cells against tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical challenges, historical progress, and future perspectives in oncology",
+      "groupedBecause": "These subtopics reflect on historical treatment successes, ongoing clinical complexities, and future ethical and therapeutic paradigms in cancer care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

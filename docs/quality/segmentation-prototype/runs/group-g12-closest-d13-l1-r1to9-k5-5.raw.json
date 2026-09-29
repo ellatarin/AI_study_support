@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "It introduces the lecture's focus on the molecular and cellular mechanisms governing the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen recognition and innate receptor signaling",
+      "groupedBecause": "They explain how the innate immune system senses microbial threats and tissue damage through molecular patterns and pattern recognition receptor signaling pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular inflammatory response, leukocyte recruitment, and systemic effects",
+      "groupedBecause": "They detail the downstream cellular events of inflammation, from sentinel cell activation and leukocyte extravasation into tissues to systemic inflammatory consequences.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammatory containment",
+      "groupedBecause": "They examine the physiological mechanisms responsible for shutting down inflammation, repairing injured tissue, and containing persistent pathology through chronic responses.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "It closes the lecture and announces the topic for the subsequent session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

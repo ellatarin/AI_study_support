@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "This subtopic frames the lecture by introducing complement, its significance, and its historical reputation in immunology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Core principles, nomenclature, and central C3 activation",
+      "groupedBecause": "These subtopics introduce the general architecture, naming conventions, and central C3 cleavage reaction of the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics detail the alternative, lectin, and classical pathways that trigger complement activation and converge on C3 deposition.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics explain the downstream immune outcomes mediated by activated complement components, including opsonization, inflammation, and pathogen lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Complement regulation and host protection",
+      "groupedBecause": "This subtopic explores the regulatory proteins and mechanisms that prevent complement from damaging host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic details the diverse clinical presentations and disease phenotypes that arise from deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic explains the evolutionary strategies pathogens deploy to circumvent complement attack, focusing on Staphylococcus aureus mechanisms.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview",
+      "groupedBecause": "This subtopic concludes the complement lecture and previews the upcoming session on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

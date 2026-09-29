@@ -7,9 +7,13 @@ be run on it many times and its own consistency measured apart from splitting's.
 Each voted subtopic takes its label and reason from the first run in the panel
 that starts a subtopic at the same character.
 
+With `closest` it instead writes, whole and with its own labels, the panel's run
+nearest the voted division — what the `choose-division` stage keeps.
+
 Usage:
-  python3 write-voted-division.py <run-glob> <bar> <out-stem>
+  python3 write-voted-division.py <run-glob> <bar> <out-stem> [closest]
   python3 write-voted-division.py 'deepen-d9-600-split-s6-l4-[1-9].blocks.json' 5 voted-d9-l4-r1to9-k5
+  python3 write-voted-division.py 'deepen-d13-600-split-s6-l4-[1-9].blocks.json' 5 closest-d13-l4-r1to9-k5 closest
 """
 
 import glob
@@ -17,7 +21,16 @@ import json
 import os
 import sys
 
-from division_support import RUNS, load_splitting_runs_in_characters, voted_cuts
+from division_support import (
+    RUNS,
+    closest_to_vote_run,
+    cut_sites_with_runs,
+    load_splitting_runs,
+    load_splitting_runs_in_characters,
+    site_sets,
+    survives,
+    voted_cuts,
+)
 
 
 def run_metadata(pattern):
@@ -48,21 +61,41 @@ def voted_blocks(runs, cuts):
     ]
 
 
+def closest_run(pattern, bar):
+    """The index of the panel's run nearest the voted division, and how many cut sites it differs by."""
+    runs = load_splitting_runs(pattern)
+    sites = cut_sites_with_runs(runs)
+    sets = site_sets(sites, len(runs))
+    panel = range(len(runs))
+    mask = (1 << len(runs)) - 1
+    voted = frozenset(i for i, (_, site) in enumerate(sites) if survives(site, mask, bar))
+    chosen = closest_to_vote_run(sets, panel, voted)
+    return chosen, len(sets[chosen] ^ voted)
+
+
 def main():
     pattern, bar, out_stem = sys.argv[1], int(sys.argv[2]), sys.argv[3]
+    closest = sys.argv[4:] == ["closest"]
     runs = load_splitting_runs_in_characters(pattern)
     length = sum(len(block["content"]) for block in runs[0][0])
-    cuts = voted_cuts([run_cuts for _, run_cuts in runs], length, bar)
     lecture, transcript_path = run_metadata(pattern)
-    blocks = voted_blocks(runs, cuts)
     out = {
         "lecture": lecture,
         "transcriptPath": transcript_path,
         "panel": pattern,
         "panelSize": len(runs),
         "bar": bar,
-        "blocks": blocks,
     }
+    if closest:
+        chosen, distance = closest_run(pattern, bar)
+        blocks = runs[chosen][0]
+        cuts = runs[chosen][1]
+        out |= {"chosenRun": sorted(glob.glob(os.path.join(RUNS, pattern)))[chosen].split("/")[-1],
+                "distanceFromVote": distance}
+    else:
+        cuts = voted_cuts([run_cuts for _, run_cuts in runs], length, bar)
+        blocks = voted_blocks(runs, cuts)
+    out["blocks"] = blocks
     with open(os.path.join(RUNS, f"{out_stem}.blocks.json"), "w") as handle:
         json.dump(out, handle, indent=2)
     print(f"{out_stem}: {len(runs)} runs, keep {bar}, {len(blocks)} subtopics")

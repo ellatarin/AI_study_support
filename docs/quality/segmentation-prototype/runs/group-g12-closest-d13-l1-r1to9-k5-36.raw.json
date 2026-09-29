@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the initiation and resolution of inflammation",
+      "groupedBecause": "This subtopic introduces the lecture and outlines its focus on integrating immune system components to understand inflammatory reactions.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition via PAMPs, DAMPs, and PRRs",
+      "groupedBecause": "These subtopics explain how the innate immune system detects infection and cellular damage through conserved molecular patterns and germline-encoded pattern recognition receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and signaling pathways",
+      "groupedBecause": "These subtopics describe the structure, ligand diversity, cellular localization, and downstream signaling cascades of Toll-like receptors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cytoplasmic pattern recognition receptors and the inflammasome",
+      "groupedBecause": "These subtopics detail intracellular sensing mechanisms, focusing on Nod-like receptors and inflammasome assembly that processes pro-inflammatory cytokines.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Cellular dynamics and physiological outcomes of acute inflammation",
+      "groupedBecause": "These subtopics explain how sentinel cells coordinate leukocyte recruitment into tissues, fluid drainage, and the systemic consequences of excessive inflammatory signaling.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic containment",
+      "groupedBecause": "These subtopics examine how the immune system actively shuts down acute inflammation, repairs damaged tissue, and manages persistent insults through chronic granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "This subtopic marks the end of the lecture and previews the topic of the next session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

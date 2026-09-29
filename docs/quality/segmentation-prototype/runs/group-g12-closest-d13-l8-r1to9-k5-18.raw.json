@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer welcomes the class to the final lecture of the course and outlines the learning objectives regarding cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional modalities, cytotoxic chemotherapy, and multidrug resistance",
+      "groupedBecause": "These subtopics cover traditional cancer management approaches including surgery, radiotherapy, and cytotoxic chemotherapy alongside their systemic toxicities and efflux-mediated resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting hormone dependence, checkpoint defects, and synthetic lethality",
+      "groupedBecause": "These subtopics explain how therapeutic strategies exploit intrinsic cellular vulnerabilities such as hormone signaling pathways, cell cycle checkpoint deficiencies, and defective DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Small-molecule kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics discuss the rationale, clinical mechanisms, and complex resistance and addiction pathways associated with targeted kinase inhibitors.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the engineering and therapeutic application of monoclonal antibodies to directly inhibit receptor signaling or selectively deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy, immune checkpoint blockade, and adoptive cell therapies",
+      "groupedBecause": "These subtopics review the biological basis of tumor immune surveillance and detail strategies to harness or engineer T cells to eliminate malignant cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical trends, and future paradigms in cancer therapy",
+      "groupedBecause": "These subtopics synthesize overarching therapeutic challenges, historical changes in cancer mortality, and future clinical paradigms.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture topic and outlines its core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics discuss conventional cancer treatment modalities alongside the systemic toxicities and efflux-mediated resistance mechanisms associated with cytotoxic agents.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities and checkpoint defects",
+      "groupedBecause": "These subtopics examine therapeutic strategies that exploit intrinsic cancer vulnerabilities, including hormone dependencies, cell-cycle checkpoint deficiencies, and synthetic lethality in DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibition and mechanisms of resistance",
+      "groupedBecause": "These subtopics cover targeted kinase inhibition driven by oncogene addiction and the molecular mechanisms that lead to resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the mechanisms and clinical utility of targeted monoclonal antibodies and antibody-drug conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and cellular immunotherapy",
+      "groupedBecause": "These subtopics explore cancer immunology and immunotherapeutic interventions ranging from immune checkpoint blockade to engineered T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical progress, treatment challenges, and future paradigms",
+      "groupedBecause": "These subtopics reflect on historical clinical progress, contemporary challenges in treatment resistance, and emerging paradigms in future cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

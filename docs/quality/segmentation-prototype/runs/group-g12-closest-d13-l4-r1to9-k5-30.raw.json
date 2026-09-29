@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This topic contains the opening framing, outlining the scope and learning objectives of the lecture on cancer causes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, mutation sources, and epidemiological variation",
+      "groupedBecause": "These subtopics explore the foundational origins of cancer, contrasting endogenous mutational processes and bad luck with environmental exposures and geographic epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and oncogenesis",
+      "groupedBecause": "These subtopics examine how biological pathogens and chronic infections contribute to malignancy, illustrated through the etiology and mechanisms of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical carcinogens and DNA damage mechanisms",
+      "groupedBecause": "These subtopics detail how physical radiation and chemical agents undergo metabolic activation to form bulky DNA adducts and induce mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host context, and mechanistic synthesis",
+      "groupedBecause": "These subtopics explain how non-mutagenic promotional factors, microenvironmental inflammation, and host developmental susceptibility cooperate to drive cancer progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying carcinogens and evaluating cancer risk",
+      "groupedBecause": "These subtopics examine genomic, epidemiological, in vivo, and in vitro methodologies used to determine carcinogenicity and assess real-world exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and summary",
+      "groupedBecause": "This topic contains the closing framing, summarizing the lecture's core themes on environmental cancer causation and concluding the session.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

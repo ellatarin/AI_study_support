@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It provides the introductory framing for the lecture series, outlining course objectives, student cohorts, and key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological concepts of cancer development and tissue architecture",
+      "groupedBecause": "They establish the fundamental concept of cancer as a breakdown in genetic regulation, cellular differentiation, and three-dimensional tissue architecture, alongside experimental models used to study these changes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and histological progression",
+      "groupedBecause": "They examine the pathological hallmarks of tumor invasion through the basement membrane, routes of metastatic dissemination, and histological progression from localized precursor lesions to invasive malignancy.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature, clinical risks, and mechanisms of mortality",
+      "groupedBecause": "They describe the conventions used to name tumors and the physical and physiological mechanisms through which both benign and malignant neoplasms cause clinical disease, complications, and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence across humans and other animal species",
+      "groupedBecause": "They compare epidemiological patterns, common organ sites, and mortality rates of tumors across human populations and diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer detection, screening methods, and clinical limitations",
+      "groupedBecause": "They explore clinical strategies and histological criteria for detecting pre-malignant and early-stage tumors across different organ sites, evaluating their effectiveness and practical limitations.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "It provides the closing framing for the lecture, summarizing final reminders for practical sessions and upcoming classes.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

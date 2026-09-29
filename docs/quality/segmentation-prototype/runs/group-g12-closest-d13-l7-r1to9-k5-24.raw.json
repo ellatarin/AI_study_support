@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the administrative opening, framing, and learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms of clonal evolution",
+      "groupedBecause": "These subtopics describe how cells acquire selective growth advantages and undergo clonal expansion through mutational accumulation and epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchies and cell of origin in cancer",
+      "groupedBecause": "These subtopics explore how normal tissue differentiation hierarchies and stemness properties determine the cell types capable of initiating and propagating tumors.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental signals and inflammation in tumor progression",
+      "groupedBecause": "These subtopics examine how external promotional stimuli, inflammatory pathways, and non-malignant stromal cells create permissive conditions for tumor outgrowth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental and computational methods for studying tumor evolution",
+      "groupedBecause": "This subtopic explores the laboratory techniques, sequencing technologies, and computational approaches used to investigate tumor heterogeneity and evolution.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Multifactorial synthesis of cancer evolution",
+      "groupedBecause": "This subtopic integrates the mutational, cellular, and microenvironmental determinants into a unified evolutionary model of cancer progression.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "This subtopic contains the concluding remarks and a preview of the subsequent lecture topic.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

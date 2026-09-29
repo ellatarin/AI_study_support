@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "These introductory remarks welcome the students and set out the lecture's learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional modalities and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics examine traditional approaches to cancer management, focusing on local interventions and the mechanisms, toxicities, and efflux-mediated resistance of cytotoxic chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting tumor-specific biological vulnerabilities",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic biological defects in cancer cells, including hormone signaling dependencies, checkpoint deficiencies, and DNA repair vulnerabilities.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Small-molecule kinase inhibitors and resistance mechanisms",
+      "groupedBecause": "These subtopics discuss the targeting of hyperactive oncogenic kinases and the various molecular mechanisms through which tumor cells develop drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody and antibody-drug conjugate therapies",
+      "groupedBecause": "These subtopics describe the design and mechanisms of action of therapeutic monoclonal antibodies and antibody-drug conjugates directed against tumor cell-surface markers.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics examine the evidence for tumor immunosurveillance and evaluate strategies to activate or engineer T cells to eliminate cancer cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, mortality trends, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics provide an overarching evaluation of modern cancer therapy, discussing systemic challenges, historical changes in mortality, and future therapeutic paradigms.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

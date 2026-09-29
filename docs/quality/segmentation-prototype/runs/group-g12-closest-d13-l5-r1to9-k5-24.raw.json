@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture and outlines its core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the discovery of cellular oncogenes",
+      "groupedBecause": "These subtopics trace how the study of tumor viruses and experimental transformation assays led to the discovery and characterisation of cellular proto-oncogenes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and classifications of oncogenes and tumor suppressors",
+      "groupedBecause": "These subtopics explain the functional classification of cancer genes and illustrate how mutations alter cell cycle regulation and allele dosage dynamics.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Origins and cellular consequences of genetic instability",
+      "groupedBecause": "These subtopics examine the molecular pathways and cellular defects that generate sequence and chromosomal instability in cancer.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-step tumor progression and hereditary cancer predisposition",
+      "groupedBecause": "These subtopics examine how the stepwise accumulation of somatic and inherited mutations drives cancer progression and tumor evolution.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and reading recommendations",
+      "groupedBecause": "This subtopic concludes the lecture with a summary, reading recommendations, and an outlook on the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

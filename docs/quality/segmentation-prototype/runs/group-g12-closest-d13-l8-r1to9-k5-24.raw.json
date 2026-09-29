@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The opening introduces the scope of the lecture on cancer therapy and outlines its core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional modalities, cytotoxic chemotherapy, and drug resistance",
+      "groupedBecause": "These subtopics examine traditional local and systemic interventions—including surgery, radiotherapy, and cytotoxic chemotherapeutics—along with their systemic toxicities and efflux-mediated resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cellular vulnerabilities, checkpoint defects, and synthetic lethality",
+      "groupedBecause": "These subtopics discuss therapeutic approaches that exploit intrinsic cancer cell weaknesses, including hormone dependence, cell cycle checkpoint deficiencies, and DNA repair defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic kinases and overcoming inhibitor resistance",
+      "groupedBecause": "These subtopics address the inhibition of aberrant kinase drivers and the molecular mechanisms underlying resistance and addiction to kinase-targeted therapies.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain the design and therapeutic applications of engineered monoclonal antibodies and antibody-cytotoxin conjugates targeting surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and immune-cell engagement",
+      "groupedBecause": "These subtopics explore the biological basis of tumor immune surveillance and examine immunotherapies including checkpoint inhibitors, bispecific engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic challenges, historical progress, and future directions",
+      "groupedBecause": "These subtopics evaluate the broader clinical challenges, long-term mortality trends, ethical dilemmas, and emerging strategies shaping the future of cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

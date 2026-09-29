@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the scope of the course, student expectations, and the key learning outcomes for the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and developmental basis of cancer",
+      "groupedBecause": "These subtopics describe how cancer develops through accumulated genetic and epigenetic alterations that disrupt normal differentiation programs and tissue architecture, highlighting the experimental models used to study them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, progression, and nomenclature",
+      "groupedBecause": "These subtopics detail the clinical and histological distinctions between benign and malignant tumors, the process of invasion and metastasis, and the standard nomenclature used to classify them.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of mortality and tumor incidence across species",
+      "groupedBecause": "These subtopics examine how tumors cause systemic illness and death, alongside the patterns of cancer incidence and mortality observed in humans and other animal species.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer screening and early detection",
+      "groupedBecause": "These subtopics evaluate the rationale, methods, histological basis, and limitations of clinical screening programs for detecting pre-cancerous and malignant lesions.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "The lecturer concludes the session by reviewing the learning outcomes and providing reminders for upcoming practical classes.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

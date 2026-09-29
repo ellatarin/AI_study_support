@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The subtopic establishes the lecture framing, course context, and core learning objectives for cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics cover the principles, systemic toxicities, and drug-efflux resistance mechanisms associated with local interventions and cytotoxic chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer-specific defects and pathway vulnerabilities",
+      "groupedBecause": "These subtopics focus on therapeutic strategies designed to exploit intrinsic cancer vulnerabilities, including hormone dependency, checkpoint loss, and defective DNA repair.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase-targeted therapies and resistance mechanisms",
+      "groupedBecause": "These subtopics examine small-molecule inhibition of hyperactivated oncogenic kinases alongside the mutational, bypass, and paradoxical activation mechanisms driving drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody and antibody-drug conjugate therapies",
+      "groupedBecause": "These subtopics describe how targeted antibody platforms are engineered to block receptor signaling or deliver cytotoxic payloads directly to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune surveillance and cancer immunotherapies",
+      "groupedBecause": "These subtopics explore the biological basis of immune surveillance and the clinical modalities used to re-engage T cells against tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical progress, persistent dilemmas, and future directions",
+      "groupedBecause": "These subtopics evaluate historical trends in cancer survival and discuss ongoing challenges regarding heterogeneity, clinical trial ethics, and future treatment paradigms.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

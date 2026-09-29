@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This topic provides the opening framing, outlining the scope of the course and the learning outcomes for the cancer biology lectures.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a disruption of genetic regulation and tissue architecture",
+      "groupedBecause": "These subtopics examine how accumulated genetic and epigenetic changes cause failures in normal cellular differentiation and tissue architecture, and consider the limitations of cell culture models used to study these processes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and benign-to-malignant progression",
+      "groupedBecause": "These subtopics describe the criteria distinguishing benign from malignant tumors, examining the mechanisms of invasion and metastasis alongside the stepwise progression of lesions using colorectal cancer as a model.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification rules",
+      "groupedBecause": "This subtopic outlines the standard conventions and notable exceptions used to classify and name benign and malignant tumors according to their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains how primary tumors and widespread metastases cause clinical disease, physiological impairment, and death in patients.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence in humans and across animal species",
+      "groupedBecause": "These subtopics examine the epidemiological frequency of major cancer types in humans and compare tumor incidence across companion animals and other multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening modalities",
+      "groupedBecause": "These subtopics address the clinical rationale, histological indicators, and practical limitations of screening programs for early tumor detection across different organs.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This topic provides the closing framing, concluding the lecture with practical reminders and references to the learning outcomes.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

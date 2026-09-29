@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the introductory framing for the lecture series, outlining course objectives, student backgrounds, and key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular basis, tissue architecture, and study models of cancer",
+      "groupedBecause": "These subtopics establish cancer as a multi-step disease arising from genetic and epigenetic changes that disrupt cellular differentiation and tissue architecture, and consider the experimental models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor progression, classification, and clinical pathophysiology",
+      "groupedBecause": "These subtopics examine how benign and malignant tumors differ in invasive capacity, histological progression, diagnostic nomenclature, and mechanisms of host morbidity and mortality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Comparative cancer incidence across humans and animal species",
+      "groupedBecause": "These subtopics analyze the epidemiological distribution of common human cancers and demonstrate that neoplastic transformation is a universal vulnerability of multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles, methods, and limitations of cancer screening",
+      "groupedBecause": "These subtopics explain the clinical rationale, histological detection methods, and diagnostic trade-offs of population screening programs across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic provides the closing framing by reiterating the learning outcomes and giving logistical reminders for upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

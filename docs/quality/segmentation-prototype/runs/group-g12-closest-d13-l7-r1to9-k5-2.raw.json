@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This topic introduces the lecture framework and outlines the core learning outcomes regarding cancer evolution and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of tumor evolution",
+      "groupedBecause": "These subtopics explore how genetic clonal selection and epigenetic chromatin modifications contribute to cancer initiation and evolutionary progression.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchy and cell of origin in cancer",
+      "groupedBecause": "These subtopics examine the relationship between normal tissue stem cell hierarchies and cancer development through theoretical models and experimental evidence across tissues.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion, inflammation, and stromal dependence",
+      "groupedBecause": "These subtopics address how external promotional factors, inflammatory signaling, and supportive stromal interactions facilitate tumor progression and maintenance.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for investigating tumor evolution and spatial biology",
+      "groupedBecause": "This topic outlines the experimental sequencing techniques, computational modeling, and spatial omics technologies used to study tumor evolution and cellular interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated multifactorial model of cancer evolution",
+      "groupedBecause": "This topic synthesizes how mutational burden, cell-of-origin properties, and microenvironmental conditions interact to drive cancer evolution.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "This topic provides the lecture's closing remarks and previews the upcoming session on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

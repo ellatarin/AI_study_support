@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the opening framing, course welcome, and learning objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics discuss non-targeted modalities including surgery, radiotherapy, and cytotoxic chemotherapeutic agents along with their mechanisms of toxicity and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer cell vulnerabilities and synthetic lethality",
+      "groupedBecause": "These subtopics explore therapeutic strategies that target intrinsic cancer cell vulnerabilities, including hormone dependency, checkpoint deficiencies, and DNA repair defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics examine oncogenic kinase signaling, small-molecule kinase inhibitors, and the molecular mechanisms underlying resistance and bypass pathways.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics focus on the design and therapeutic applications of targeted monoclonal antibodies and cytotoxic antibody-drug conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-directed therapies",
+      "groupedBecause": "These subtopics cover the principles of immune surveillance and modern immunotherapies designed to harness and direct T-cell responses against tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Perspectives, challenges, and future directions in cancer management",
+      "groupedBecause": "These subtopics evaluate broad historical progress, persistent clinical challenges, prevention strategies, and emerging paradigms in cancer care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the instructor background, and sets out the core learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiological concepts, environmental risk, and cancer epidemiology",
+      "groupedBecause": "These subtopics explore the foundational concepts of cancer as a genetic and microenvironmental disease, balancing intrinsic mutation risk against environmental exposures through epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and viral mechanisms in carcinogenesis",
+      "groupedBecause": "These subtopics examine how biological pathogens and oncogenic viruses drive malignancy, using Burkitt lymphoma as a detailed mechanistic case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics explain the biochemical mechanisms through which physical radiation and chemical compounds undergo metabolic activation to induce DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, host susceptibility, and two-stage carcinogenesis",
+      "groupedBecause": "These subtopics investigate how non-mutagenic promoters, developmental windows, and tissue-specific microenvironments facilitate the expansion of initiated cells into malignancies.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying, testing, and evaluating carcinogenicity",
+      "groupedBecause": "These subtopics present the experimental, genomic, and epidemiological approaches used to establish carcinogen causality and assess exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and final summary",
+      "groupedBecause": "This subtopic concludes the lecture with a final wrap-up of the main themes and closing remarks.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

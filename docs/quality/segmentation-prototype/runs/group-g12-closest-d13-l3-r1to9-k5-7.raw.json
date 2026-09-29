@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, its interdisciplinary scope, and the specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis of cancer development and tissue architecture",
+      "groupedBecause": "These subtopics explain how accumulating genetic and epigenetic changes cause a failure of cellular differentiation and tissue architecture, and how these processes are modeled experimentally.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and malignant progression",
+      "groupedBecause": "These subtopics examine the distinctions between benign and malignant tumors, focusing on tissue invasion, metastatic dissemination, histological progression, and clinical behavior.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification",
+      "groupedBecause": "This subtopic outlines the standard conventions and notable exceptions used to classify and name benign and malignant tumors according to their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the localized and systemic pathophysiological mechanisms through which primary and metastatic tumors impair organ function and cause death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence across humans and other species",
+      "groupedBecause": "These subtopics compare the occurrence and mortality patterns of different tumor types across human populations and diverse multicellular animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening principles and clinical modalities",
+      "groupedBecause": "These subtopics examine the rationale, histological methods, and relative clinical efficacy of population screening programs across various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical session guidance",
+      "groupedBecause": "This subtopic concludes the lecture with a recap of the learning outcomes and guidance for upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

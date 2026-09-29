@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for cancer hallmarks",
+      "groupedBecause": "It sets the aims and overview for understanding the hallmarks of cancer and their underlying genetic mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics explain how oncogenic and tumor suppressor mutations alter cell-surface and intracellular signaling cascades to sustain proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal cell differentiation",
+      "groupedBecause": "These subtopics explore how cancer cells disrupt normal maturation lineages in hematopoietic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "It details how alterations in p53 and Bcl-2 family proteins prevent programmed cell death in cancer cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and stress responses",
+      "groupedBecause": "These subtopics examine how cells regulate lifespan through telomeres and senescence, how tumors bypass these barriers, and how p53 mediates protective stress responses.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Reprogramming of cellular metabolism in cancer",
+      "groupedBecause": "These subtopics introduce complex cancer hallmarks and explain how tumor cells alter metabolic pathways, aerobic glycolysis, and Krebs cycle enzymes to support growth.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "It explains the requirement and regulation of new blood vessel formation to supply growing tumors with oxygen and nutrients.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, barriers, and genetics of tumor metastasis",
+      "groupedBecause": "These subtopics describe the metastatic cascade, the monitoring of circulating tumor cells, factors affecting metastatic efficiency, and genomic features of secondary tumors.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and summary of cancer hallmarks",
+      "groupedBecause": "It reviews the integration of cancer hallmarks and concludes the lecture.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

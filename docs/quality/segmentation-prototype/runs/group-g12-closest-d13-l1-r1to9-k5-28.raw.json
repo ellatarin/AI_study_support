@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the initiation and resolution of inflammation",
+      "groupedBecause": "The lecturer opens the session by outlining how previously introduced immune cells and molecules combine to drive and resolve inflammatory responses.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pattern recognition receptors and danger sensing pathways",
+      "groupedBecause": "These subtopics explain how the innate immune system detects danger through pathogen- and damage-associated molecular patterns acting on cell-surface and intracellular pattern recognition receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular and vascular events in acute and systemic inflammation",
+      "groupedBecause": "These subtopics examine how sentinel cells trigger leukocyte recruitment into inflamed tissues and how excessive inflammatory signaling can escalate to systemic pathology.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic responses",
+      "groupedBecause": "These subtopics detail the mechanisms responsible for terminating inflammation, repairing injured tissue, and managing persistent insults through chronic inflammation and granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "The lecturer concludes the presentation and announces the topic of the following lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

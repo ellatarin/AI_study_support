@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The opening introduces the lecture's scope, links it to histopathology practicals, and outlines the day's learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Discovery of cellular oncogenes and transformation assays",
+      "groupedBecause": "These subtopics explore how the study of tumor viruses revealed endogenous cellular genes that drive cancer and provided experimental assays to measure cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Functional classifications and genetic mechanisms of cancer genes",
+      "groupedBecause": "These subtopics define how cancer-associated mutations alter gene function and cell cycle control, using pathways such as Rb and p53 to demonstrate dominance, recessiveness, and allele dosage.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and cellular consequences of genomic instability",
+      "groupedBecause": "These subtopics examine how specific defects in DNA repair pathways, replication, and mitotic chromosome segregation generate sequence and chromosomal instability.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-step progression and hereditary cancer predisposition",
+      "groupedBecause": "These subtopics explain how the sequential accumulation or inheritance of mutations accelerates tumor development and influences malignancy.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "The closing concludes the lecture, recommends background reading, and previews the next lecture's topic.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

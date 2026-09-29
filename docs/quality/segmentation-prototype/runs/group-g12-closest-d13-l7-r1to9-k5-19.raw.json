@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The opening framing introduces the lecture series context and outlines the learning objectives regarding cancer evolution and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms of clonal selection",
+      "groupedBecause": "These subtopics examine how genetic mutations and epigenetic modifications drive clonal fitness and Darwinian selection in early neoplastic tissue.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchy and cell of origin in cancer",
+      "groupedBecause": "These subtopics explore the cancer stem cell hypothesis and present experimental evidence for how tissue hierarchy and specific cells of origin influence tumor initiation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory influences on tumor development",
+      "groupedBecause": "These subtopics analyze how chronic inflammation, paracrine signals, and supportive stromal interactions promote neoplastic progression and sustain tumor growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Technologies for investigating tumor evolution",
+      "groupedBecause": "This subtopic explains the laboratory, computational, and spatial profiling methods used to track mutational timing and cellular interactions within tumors.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Multifactorial synthesis of cancer evolution",
+      "groupedBecause": "This subtopic synthesizes the interplay among mutational acquisition, cell-of-origin properties, and permissive microenvironmental conditions that drive malignant progression.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "The closing framing concludes the session and previews the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

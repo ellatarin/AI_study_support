@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "The lecturer introduces complement as an essential yet complex immunological system and sets expectations for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles, nomenclature, and core component of complement",
+      "groupedBecause": "These subtopics establish the foundational concepts, naming conventions, and central functional role of component C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways and threshold",
+      "groupedBecause": "These subtopics detail the three distinct recognition pathways that drive C3 activation to reach the critical trigger threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics describe the downstream processes activated by complement to mediate opsonization, inflammation, and direct pathogen lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation and self-protection mechanisms",
+      "groupedBecause": "This subtopic explains the regulatory proteins that protect host cells from unintended complement activation and tissue damage.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic explores how genetic or acquired deficiencies in specific complement components result in distinct clinical pathologies.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic examines the molecular strategies evolved by pathogens to resist and evade complement-mediated destruction.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview",
+      "groupedBecause": "The lecturer concludes the complement topic and previews the upcoming lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

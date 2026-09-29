@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This opening section introduces the lecture's scope and outlines the intended learning outcomes regarding cancer evolution and the microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms in tumor evolution",
+      "groupedBecause": "These subtopics examine how mutational clonal selection and non-mutational epigenetic alterations drive competitive cellular fitness and tumor development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchy and the cell of origin",
+      "groupedBecause": "These subtopics evaluate the cancer stem cell model and investigate how normal tissue hierarchies and specific cells of origin influence cancer initiation across tissues.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental signals, inflammation, and stromal support",
+      "groupedBecause": "These subtopics demonstrate how inflammatory signals, environmental promoters, and supportive stromal interactions are essential to initiate and sustain tumor growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Techniques for investigating tumor heterogeneity and evolution",
+      "groupedBecause": "This subtopic surveys single-cell sequencing, spatial profiling technologies, and computational approaches used to map tumor dynamics and cellular interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated evolutionary model of cancer development",
+      "groupedBecause": "This subtopic synthesizes mutational accumulation, cell-of-origin properties, and microenvironmental coevolution into a comprehensive framework of malignancy.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "This closing section concludes the lecture and previews the upcoming session on cancer therapies.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

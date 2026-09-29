@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture series, lecturer, and key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: intrinsic mutations, environmental factors, and epidemiology",
+      "groupedBecause": "They explore the fundamental causes of cancer, comparing intrinsic genetic and microenvironmental factors with environmental exposures and epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in cancer development",
+      "groupedBecause": "They examine how infectious pathogens drive cancer development, using Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "They detail the molecular mechanisms by which specific physical and chemical mutagens cause DNA damage, often through xenobiotic metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, host susceptibility, and carcinogenic mechanisms",
+      "groupedBecause": "They explain how non-mutagenic tumour promoters, developmental stages, and host physiological factors cooperate with initial DNA damage to drive carcinogenesis.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying carcinogens and assessing cancer risk",
+      "groupedBecause": "They describe the analytical, experimental, and epidemiological methodologies used to detect carcinogenicity and evaluate cancer risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing remarks and lecture summary",
+      "groupedBecause": "This subtopic provides the concluding summary and wraps up the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

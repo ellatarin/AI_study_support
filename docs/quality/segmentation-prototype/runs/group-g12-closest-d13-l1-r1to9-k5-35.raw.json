@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer introduces the focus of the lecture on the initiation and resolution of inflammation and frames how the concepts build on previously introduced immune components.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate pathogen recognition and pattern recognition receptors",
+      "groupedBecause": "These subtopics explain the fundamental mechanisms of innate immune sensing via PAMPs and DAMPs, the evolutionary selection criteria for microbial targets, and the general genetic and spatial properties of pattern recognition receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor families and intracellular signaling pathways",
+      "groupedBecause": "These subtopics detail specific PRR systems—focusing on Toll-like receptors, cytoplasmic sensors, and the inflammasome—and explain how their intracellular signaling mechanisms govern downstream inflammatory gene activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Sentinel cell activation, leukocyte recruitment, and systemic inflammation",
+      "groupedBecause": "These subtopics describe the cellular dynamics of acute inflammation, tracing how tissue sentinel cells detect infection, orchestrate leukocyte extravasation and migration, interact with lymphatic drainage, and can trigger severe systemic effects such as septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammatory responses",
+      "groupedBecause": "These subtopics examine how inflammatory responses are shut down via passive and active mechanisms, how tissues undergo healing and remodeling, and why chronic inflammation or protective granuloma formation can persist.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and preview of next topic",
+      "groupedBecause": "The lecturer concludes the session and announces the subject of the upcoming lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

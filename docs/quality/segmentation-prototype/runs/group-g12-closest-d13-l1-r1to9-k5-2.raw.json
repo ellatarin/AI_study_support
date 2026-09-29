@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic introduces the lecture scope on the initiation, cellular mechanisms, and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of pathogen and damage recognition",
+      "groupedBecause": "These subtopics establish the foundational concepts of how the innate immune system detects infection and tissue injury by recognizing conserved molecular patterns through germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor localization and signaling pathways",
+      "groupedBecause": "These subtopics detail the structure, cellular distribution, and intracellular signaling cascades of Toll-like receptors in generating distinct antimicrobial responses.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cytoplasmic pattern recognition receptors and inflammasome activation",
+      "groupedBecause": "These subtopics examine intracellular sensing mechanisms, focusing on Nod-like receptors and the assembly of inflammasome complexes required for activating pro-inflammatory cytokines.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel cell activation, leukocyte trafficking, and systemic inflammation",
+      "groupedBecause": "These subtopics trace the progression from sentinel cell activation and leukocyte extravasation into tissues to lymphatic drainage and the pathological risks of excessive systemic inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics explain the active and passive mechanisms that shut down inflammation and coordinate tissue repair, alongside the chronic pathology and granuloma formation that occur when resolution is incomplete.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "This subtopic concludes the lecture and provides a forward reference to the upcoming topic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

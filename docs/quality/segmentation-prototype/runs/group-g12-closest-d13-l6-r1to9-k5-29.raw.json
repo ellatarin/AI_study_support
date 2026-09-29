@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecture objectives, background, and framework for examining the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and deregulation in cancer",
+      "groupedBecause": "These subtopics explain how mutations in key signaling cascades, including Wnt/beta-catenin and receptor tyrosine kinase pathways, drive growth signal independence and sustained cell proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in hematopoietic and epithelial cancers",
+      "groupedBecause": "These subtopics explore how a block to terminal differentiation prevents cells from exiting the cell cycle and contributes to malignancy in blood and intestinal tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis and p53-Bcl-2 pathway regulation",
+      "groupedBecause": "This subtopic addresses how cancer cells evade programmed cell death through mutations in p53 and imbalance among Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere regulation, senescence bypass, and p53-mediated stress responses",
+      "groupedBecause": "These subtopics describe the limits of cellular replication, how cancer cells reactivate telomerase to achieve immortality, and how p53 mediates stress responses to maintain genome integrity.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic rewiring and oncometabolites in cancer",
+      "groupedBecause": "These subtopics transition to non-autonomous hallmarks and investigate how cancer cells alter their metabolism through aerobic glycolysis, Krebs cycle enzyme mutations, and epigenetic modification.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Angiogenesis and tumor vascularization",
+      "groupedBecause": "This subtopic details the angiogenic switch and how tumors stimulate new blood vessel growth to sustain nutrient and oxygen delivery.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, detection, and genomics of tumor metastasis",
+      "groupedBecause": "These subtopics examine the metastatic cascade, the monitoring of circulating tumor cells, metastatic inefficiency, and the genomic characteristics of secondary tumors.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "This subtopic provides the concluding review of the hallmarks and closing housekeeping remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

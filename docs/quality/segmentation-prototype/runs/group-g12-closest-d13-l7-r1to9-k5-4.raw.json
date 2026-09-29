@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "These remarks introduce the lecture topic and outline the intended learning outcomes regarding cancer evolution and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of clonal cancer evolution",
+      "groupedBecause": "These subtopics explore how tumor development is driven by Darwinian selection of genetically mutated clones as well as non-mutational epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and cancer stem cell hierarchies",
+      "groupedBecause": "These subtopics examine whether cancers arise from and are maintained by stem-like cells possessing intrinsic self-renewal capabilities, supported by evidence from leukemia and colorectal models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion, inflammation, and stromal support",
+      "groupedBecause": "These subtopics demonstrate how environmental promoters, inflammatory signaling, and supportive stromal cells create permissive conditions necessary for tumor initiation, progression, and survival.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental and computational methods for studying tumor evolution",
+      "groupedBecause": "This subtopic reviews genomic, transcriptomic, and spatial technologies used to investigate tumor evolution and cellular interactions within tissues.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Multifactorial synthesis of cancer evolution",
+      "groupedBecause": "This subtopic synthesizes the interplay among mutational accumulation, cell-of-origin properties, and microenvironmental factors into an integrated evolutionary framework for cancer development.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and preview of the next session",
+      "groupedBecause": "These remarks conclude the lecture and preview the upcoming session on cancer therapies.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "It provides the opening framing, setting expectations and introducing the topic of complement before substantive teaching begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Overview and fundamental principles of complement",
+      "groupedBecause": "These subtopics introduce the basic nature of complement proteins, the naming conventions, and the pivotal role of component C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics describe the three upstream recognition pathways that generate convertases to reach the complement activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics explain the primary immune outcomes triggered by activated complement, including opsonization, inflammation, and cell lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement",
+      "groupedBecause": "It examines the regulatory proteins that protect host cells from accidental complement activation and damage.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "It details how deficiencies in specific complement components result in distinct clinical vulnerabilities and disease presentations.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "It explores the mechanisms pathogens employ to evade and suppress complement-mediated destruction.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "It provides the closing framing to wrap up the lecture and preview the next topic in the course.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer introduces the session on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition via molecular patterns and pattern recognition receptors",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which the innate immune system senses pathogens and cellular damage through pattern recognition receptors and downstream signaling cascades.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory cascade, leukocyte trafficking, and systemic consequences",
+      "groupedBecause": "These subtopics describe how sentinel cells propagate inflammation, coordinate leukocyte recruitment into tissues, and the physiological risks when inflammatory activation escalates systemically.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics detail the passive and active mechanisms that extinguish inflammation, guide tissue healing, and manage persistent inflammatory stimuli through chronic pathology or granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "The lecturer concludes the lecture and announces the upcoming topic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

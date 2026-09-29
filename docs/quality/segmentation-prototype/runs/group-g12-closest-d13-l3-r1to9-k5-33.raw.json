@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the administrative opening, course overview, and learning outcomes for the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and tissue foundations of cancer development",
+      "groupedBecause": "These subtopics describe how cancer originates from accumulated genetic and epigenetic alterations leading to a failure of cellular differentiation and tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Characteristics, progression, and nomenclature of benign and malignant tumors",
+      "groupedBecause": "These subtopics examine how benign and malignant tumors are distinguished through invasion, metastasis, histological progression, and systematic nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physical and systemic mechanisms by which primary tumors and distant metastases cause illness and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative incidence of cancer across humans and other species",
+      "groupedBecause": "These subtopics discuss the epidemiology and incidence of different cancer types in humans and across diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and methods of cancer screening and early detection",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, tissue-specific techniques, and practical limitations of population screening for various cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic provides the concluding closing remarks and instructions for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

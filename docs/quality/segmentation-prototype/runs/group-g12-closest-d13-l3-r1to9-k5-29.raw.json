@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides opening framing for the lecture series, introducing the multidisciplinary approach to cancer biology and outlining the session's key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a progressive failure of cellular differentiation and tissue architecture",
+      "groupedBecause": "These subtopics describe cancer development as a stepwise accumulation of genetic and epigenetic alterations that disrupt normal differentiation and three-dimensional tissue organization, alongside the experimental models used to study these cellular changes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathological characteristics, classification, and clinical consequences of benign and malignant tumors",
+      "groupedBecause": "These subtopics detail the distinguishing features of benign and malignant neoplasms, covering their capacity for invasion and metastasis, histological progression, standard nomenclature, and the physiological mechanisms causing patient morbidity and mortality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Comparative tumor incidence across human tissues and multicellular species",
+      "groupedBecause": "These subtopics examine the distribution and frequency of different tumor types in human populations and compare cancer patterns across diverse animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles, methods, and clinical efficacy of cancer screening",
+      "groupedBecause": "These subtopics explore the rationale for early tumor detection and assess specific screening modalities, successes, and diagnostic limitations across various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic provides closing framing, concluding the lecture with a review of the learning outcomes and reminders for upcoming practical classes.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

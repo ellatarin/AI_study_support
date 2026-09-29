@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "These remarks introduce the lecture topic on cancer evolution and outline the session's core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of tumor evolution",
+      "groupedBecause": "These subtopics explain how intrinsic genetic mutations and non-mutational epigenetic alterations drive clonal selection and cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and cancer stem cell hierarchies",
+      "groupedBecause": "These subtopics evaluate the cancer stem cell paradigm and present experimental evidence identifying the cellular origins of malignancy.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion and stromal dependence in cancer",
+      "groupedBecause": "These subtopics demonstrate how inflammatory signals and supportive stromal interactions promote neoplastic progression and sustain established tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Technological methods for investigating tumor evolution",
+      "groupedBecause": "This subtopic details the experimental, sequencing, and computational approaches used to resolve the spatial and temporal dynamics of tumor evolution.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrative synthesis of evolutionary factors in cancer",
+      "groupedBecause": "This subtopic synthesizes how genetic, epigenetic, cell-of-origin, and microenvironmental dynamics converge to drive malignant cancer progression.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "These closing remarks conclude the session and preview the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

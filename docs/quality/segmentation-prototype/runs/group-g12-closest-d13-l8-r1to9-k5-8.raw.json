@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "These remarks introduce the final lecture and outline the core learning objectives regarding cancer therapy modalities.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics explain the principles, therapeutic mechanisms, systemic toxicities, and drug resistance issues associated with traditional surgery, radiotherapy, and cytotoxic chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting tumor-specific defects and synthetic lethality",
+      "groupedBecause": "These subtopics examine therapeutic strategies designed to exploit distinct biological vulnerabilities of cancer cells, including hormone signaling dependence, cell cycle checkpoint deficiencies, and DNA repair defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibition and mechanisms of drug resistance",
+      "groupedBecause": "These subtopics describe how hyperactivated oncogenic kinases are targeted with small-molecule inhibitors and detail the subsequent emergence of resistance via gatekeeper mutations, bypass signaling, and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics detail the application of therapeutic monoclonal antibodies to disrupt receptor signaling, recruit immune effector functions, and deliver targeted cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics explore the evidence for host immune surveillance against tumors and the implementation of immunotherapies, including immune checkpoint inhibitors, bispecific engagers, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical progress, challenges, and future therapeutic paradigms",
+      "groupedBecause": "These subtopics synthesize broad perspectives on historical improvements in cancer survival, the persistence of tumor heterogeneity, and the practical dilemmas surrounding clinical trials and future cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

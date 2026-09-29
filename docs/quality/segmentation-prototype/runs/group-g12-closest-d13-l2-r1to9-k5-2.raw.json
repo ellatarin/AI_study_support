@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "The lecturer introduces the complement system and frames the scope of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals and core principles of the complement system",
+      "groupedBecause": "These subtopics establish the foundational principles, naming conventions, and central role of C3 that govern the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics detail the three upstream pathways that converge to trigger complement activation on target surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics describe the downstream processes through which activated complement destroys pathogens and drives inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host cell regulation of complement",
+      "groupedBecause": "This subtopic explains the regulatory mechanisms that prevent complement from damaging host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic examines the distinct disease presentations resulting from deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic explores how pathogens, specifically Staphylococcus aureus, counteract and evade complement-mediated killing.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview of next session",
+      "groupedBecause": "The lecturer concludes the discussion on complement and previews the upcoming lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

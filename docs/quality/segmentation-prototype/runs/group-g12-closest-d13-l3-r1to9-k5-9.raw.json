@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines student learning outcomes, and sets the clinical and biological scope of the course.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations and experimental models of cancer",
+      "groupedBecause": "These subtopics describe how cancer develops through accumulated genetic alterations and disrupted tissue differentiation programs, as well as the experimental models used to study these cellular changes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and histological progression of tumors",
+      "groupedBecause": "These subtopics explain the pathological mechanisms of tumor invasion and metastasis, illustrated by the stepwise histological progression from benign adenoma to malignant adenocarcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and mechanisms of clinical harm",
+      "groupedBecause": "These subtopics describe the classification conventions for benign and malignant tumors and explain how both types cause patient morbidity and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative tumor incidence in humans and animals",
+      "groupedBecause": "These subtopics analyze patterns of tumor incidence across human organ systems and diverse animal species as manifestations of multicellular differentiation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening principles and modalities",
+      "groupedBecause": "These subtopics examine the clinical rationale, histological indicators, and practical limitations of screening programs for various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical session reminders",
+      "groupedBecause": "This subtopic concludes the lecture with a summary review of learning outcomes and reminders for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

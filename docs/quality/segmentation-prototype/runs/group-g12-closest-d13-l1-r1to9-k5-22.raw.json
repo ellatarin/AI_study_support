@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and overview",
+      "groupedBecause": "This opening subtopic introduces the lecture's scope and sets out how the initiation and resolution of inflammation will be explored.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition via PAMPs, DAMPs, and PRRs",
+      "groupedBecause": "These subtopics explain the fundamental concepts of how the innate immune system detects infection and tissue damage while distinguishing self from non-self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor sensing and intracellular signaling",
+      "groupedBecause": "These subtopics detail the localization, ligand recognition, and downstream signaling mechanisms of Toll-like receptors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cytoplasmic PRRs and inflammasome activation",
+      "groupedBecause": "These subtopics describe intracellular pattern recognition receptors and the assembly of the inflammasome complex to mature pro-inflammatory cytokines.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Inflammatory response coordination, leukocyte trafficking, and systemic pathology",
+      "groupedBecause": "These subtopics examine how activated sentinel cells direct cell recruitment, mediate lymphatic drainage, and can cause systemic complications such as septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics cover the active and passive mechanisms that terminate inflammation, drive tissue healing, and lead to chronic inflammatory structures like granulomas.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This closing subtopic concludes the presentation and announces the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

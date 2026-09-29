@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture series, student cohorts, and the foundational learning outcomes for cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and structural basis of cancer development",
+      "groupedBecause": "They establish that cancer arises through accumulated genetic and epigenetic changes that disrupt normal tissue differentiation and three-dimensional architecture, alongside the experimental models used to study these cells.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, malignant progression, and nomenclature",
+      "groupedBecause": "They define the clinical and histological distinctions between benign, invasive, and metastatic tumors, illustrate their stepwise progression, and outline standard tumor nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cancer morbidity, mortality, and comparative incidence",
+      "groupedBecause": "They explain the pathological mechanisms causing cancer-related illness and death, and survey the epidemiological incidence of tumors across human populations and diverse animal species.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Clinical detection and cancer screening modalities",
+      "groupedBecause": "They examine the clinical rationale, histological indicators, and practical effectiveness of screening programs for detecting pre-malignant lesions across different organs.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical preview",
+      "groupedBecause": "It concludes the lecture with a reminder of the learning outcomes and upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

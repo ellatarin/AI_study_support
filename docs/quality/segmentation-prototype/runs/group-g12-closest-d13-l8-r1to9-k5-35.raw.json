@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer opens the session by introducing the scope of the lecture and its learning objectives regarding cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and mechanisms of resistance",
+      "groupedBecause": "These subtopics describe traditional cancer interventions—including surgery, radiotherapy, and cytotoxic chemotherapy—along with the systemic toxicities and efflux pump mechanisms that limit their effectiveness.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics address therapeutic strategies designed to selectively exploit specific cancer cell weaknesses, including hormone dependence, cell cycle checkpoint deficiencies, and synthetic lethality in DNA repair.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogenic kinase targeting, inhibitor mechanisms, and resistance pathways",
+      "groupedBecause": "These subtopics explain the rationale of treating oncogene-addicted cancers with small-molecule kinase inhibitors, detailing their structural binding mechanisms, resistance mutations, bypass pathways, and metronomic dosing strategies.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics discuss antibody-mediated therapeutics that selectively engage cell-surface receptors to trigger cytotoxicity or deliver attached chemotherapeutic payloads directly to cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumor immunology and immunotherapy strategies",
+      "groupedBecause": "These subtopics examine the clinical evidence for immune surveillance and the modern therapeutic approaches that reactivate or engineer T cells to target cancer antigens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Broader challenges, historical progress, and future directions in cancer management",
+      "groupedBecause": "These subtopics evaluate historical trends in cancer mortality alongside the clinical, biological, and ethical challenges involved in evaluating and implementing new cancer therapies.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

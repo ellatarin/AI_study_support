@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and overview of cancer hallmarks",
+      "groupedBecause": "This subtopic introduces the lecture structure, learning outcomes, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways",
+      "groupedBecause": "These subtopics examine how oncogenic mutations in receptor tyrosine kinase and Wnt/beta-catenin pathways drive growth signal autonomy and cell proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics explore how cancer cells disrupt normal tissue maturation by arresting terminal differentiation across hematological and epithelial systems.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis, senescence, and tumor suppression",
+      "groupedBecause": "These subtopics explain the molecular mechanisms cancer cells use to bypass intrinsic death and senescence barriers, focusing on p53 regulation, telomerase reactivation, and apoptotic control.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolism",
+      "groupedBecause": "These subtopics introduce complex cancer hallmarks and examine how cancer cells rewire cellular metabolism through aerobic glycolysis, tissue-specific adaptations, and oncometabolite production.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic addresses how growing tumors overcome hypoxia and nutrient limitations by stimulating new blood vessel growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, clinical tracking, and biology of metastasis",
+      "groupedBecause": "These subtopics examine the metastatic cascade, from vascular invasion and liquid biopsy monitoring to metastatic inefficiency and clonal genomic adaptations.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "This subtopic concludes the lecture with a review of how cancer hallmarks integrate and provides final framing.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

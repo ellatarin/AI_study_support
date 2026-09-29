@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture framing",
+      "groupedBecause": "The lecture opens with framing on the hallmarks of cancer, learning outcomes, and the progression model of tumorigenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and pathway deregulation",
+      "groupedBecause": "These subtopics explain how cancer cells achieve growth signal independence and resist inhibitory cues through mutations in Wnt, receptor tyrosine kinase, and downstream signaling cascades.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation",
+      "groupedBecause": "These subtopics describe how failure to undergo terminal differentiation contributes to neoplastic growth in hematopoietic lineages and the intestinal epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic details how tumor cells evade programmed cell death through mutations disrupting the balance of p53 and Bcl-2 family regulators at the mitochondrial membrane.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and stress-response barriers",
+      "groupedBecause": "These subtopics explain telomere biology and senescence, how cancer cells reactivate telomerase to achieve immortality, and how stress pathways converge on p53 to safeguard genome integrity.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and metabolic reprogramming",
+      "groupedBecause": "These subtopics examine metabolic alterations in tumors, including aerobic glycolysis, tissue-specific metabolic wiring, and the oncogenic role of Krebs cycle mutations and oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "This subtopic addresses how expanding tumors activate the angiogenic switch to overcome hypoxia and obtain sufficient blood supply.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, detection, and genomics of tumor metastasis",
+      "groupedBecause": "These subtopics explore the dissemination of tumor cells through the circulation, clinical monitoring via liquid biopsies, metastatic inefficiency, and the genomic characteristics of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "The lecture concludes with a summary of cancer hallmarks, reflections on literature, and administrative housekeeping for upcoming practicals.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

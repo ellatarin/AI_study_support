@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer introduces herself, outlines the lecture series, and presents the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, intrinsic mutation risk, and epidemiological evidence",
+      "groupedBecause": "These subtopics explore the foundational drivers of cancer by examining the balance between intrinsic replication errors, inherited predisposition, and environmental exposures alongside global epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "These subtopics explain the oncogenic mechanisms of infectious agents and illustrate them in detail through the etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics detail how physical and chemical agents induce DNA damage through direct adduct formation, oxidative stress, and host xenobiotic metabolic processing.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion and the two-stage model of carcinogenesis",
+      "groupedBecause": "These subtopics explain how non-mutagenic promoter substances stimulate signaling pathways and chronic inflammation to drive the clonal outgrowth of initiated cells.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host susceptibility factors and summary of carcinogenic mechanisms",
+      "groupedBecause": "These subtopics analyze how developmental timing and physiological states modify cancer vulnerability and synthesize the discussed mechanisms of carcinogenesis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methods for identifying carcinogens and evaluating human risk",
+      "groupedBecause": "These subtopics review analytical, epidemiological, in vivo, and in vitro experimental approaches used to determine carcinogenicity and assess human exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and closing remarks",
+      "groupedBecause": "The lecturer delivers concluding remarks summarizing the core lecture themes and completes the presentation.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

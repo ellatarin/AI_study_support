@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This subtopic provides the opening framing, speaker introduction, and learning objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, intrinsic, and environmental contributions to cancer development",
+      "groupedBecause": "These subtopics introduce the fundamental drivers of cancer by exploring the interplay between intrinsic cellular errors, genetic predisposition, and environmental risk factors supported by epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents in carcinogenesis",
+      "groupedBecause": "These subtopics explain how viral, bacterial, and parasitic pathogens drive oncogenesis, using the multi-step pathogenesis of Burkitt lymphoma as a detailed case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics describe how physical radiation and chemical carcinogens undergo metabolic activation and induce DNA damage through adduct formation and oxidative stress.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and physiological susceptibility",
+      "groupedBecause": "These subtopics explain non-mutagenic tumour promotion mechanisms and demonstrate how tissue inflammation, signaling activation, and developmental timing contribute to malignant outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying carcinogens and evaluating cancer risk",
+      "groupedBecause": "These subtopics survey genomic, epidemiological, in vivo, and in vitro methodologies used to determine carcinogenicity and assess human cancer risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and lecture summary",
+      "groupedBecause": "This subtopic provides the closing summary and final takeaways of the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

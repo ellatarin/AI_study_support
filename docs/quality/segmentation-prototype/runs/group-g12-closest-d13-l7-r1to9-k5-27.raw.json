@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture framing",
+      "groupedBecause": "The lecturer introduces the session's focus on cancer evolution, the microenvironment, and the Darwinian model of tumorigenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal selection and epigenetic mechanisms in tumor evolution",
+      "groupedBecause": "These subtopics explain how cancer cells acquire competitive fitness advantages through sequential genetic mutations and transient epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchy and cell of origin in cancer development",
+      "groupedBecause": "These subtopics evaluate the cancer stem cell model and present experimental evidence from leukemias and intestinal adenomas identifying which cell types initiate malignancies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion, inflammation, and stromal dependence",
+      "groupedBecause": "These subtopics examine how non-mutagenic promotional stimuli, inflammatory signaling, and supportive stroma permit and sustain tumor progression.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for investigating tumor evolution and spatial architecture",
+      "groupedBecause": "This subtopic details the experimental and computational tools used to map mutational timing, cell plasticity, and microenvironmental interactions in tumors.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Comprehensive synthesis of cancer evolutionary dynamics",
+      "groupedBecause": "This subtopic synthesizes the lecture's core concepts by integrating mutational accumulation, cell-of-origin traits, and microenvironmental pressures into an overall evolutionary model.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and preview of the next session",
+      "groupedBecause": "The lecturer concludes the presentation and previews the upcoming session on cancer therapies.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

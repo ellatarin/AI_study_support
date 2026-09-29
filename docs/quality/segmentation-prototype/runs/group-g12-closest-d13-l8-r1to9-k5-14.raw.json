@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture on cancer therapy and outlines the session's core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatments and cytotoxic drug resistance",
+      "groupedBecause": "These subtopics examine traditional local and systemic cancer therapies along with the mechanisms underlying cytotoxic toxicity and cellular drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and checkpoint defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic cancer vulnerabilities, including hormone dependence, cell cycle checkpoint loss, and synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics explain the rationale and molecular mechanisms of targeted oncogenic kinase inhibition alongside the pathways through which tumors acquire resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics address targeted antibody modalities designed to recognize tumor surface markers and deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and immunotherapeutic strategies",
+      "groupedBecause": "These subtopics examine the evidence for natural immune surveillance and the clinical application of checkpoint inhibitors and engineered T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical challenges, historical progress, and future directions in cancer management",
+      "groupedBecause": "These subtopics review overall progress and systemic challenges in cancer treatment, evaluating future therapeutic paradigms and clinical trial dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

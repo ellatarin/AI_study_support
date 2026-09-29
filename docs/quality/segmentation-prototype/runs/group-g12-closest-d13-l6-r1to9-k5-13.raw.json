@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for cancer hallmarks",
+      "groupedBecause": "This opening subtopic introduces the lecture structure, learning outcomes, and the progression model of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling and pathway mutations",
+      "groupedBecause": "These subtopics examine how oncogenic mutations in receptor tyrosine kinase and Wnt/beta-catenin pathways drive self-sufficiency in growth signals and escape from growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics explain how differentiation arrest contributes to tumor development in both hematopoietic malignancies and intestinal epithelial carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic addresses how cancer cells evade programmed cell death through alterations in p53 regulation and Bcl-2 family protein interactions.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomere maintenance, and senescence bypass",
+      "groupedBecause": "These subtopics detail how cancer cells overcome the Hayflick limit and cellular senescence by reactivating telomerase and bypassing p53-mediated stress surveillance.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic rewiring and oncometabolites in cancer",
+      "groupedBecause": "These subtopics introduce complex hallmark capabilities and examine the mechanisms, phenotypes, and enzymatic drivers of cancer metabolic reprogramming.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic describes how expanding tumors switch on vascular recruitment to overcome hypoxia and sustain nutrient supply.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genetics of tumor metastasis",
+      "groupedBecause": "These subtopics explore the multi-step cascade of cancer dissemination, circulating tumor cell monitoring, metastatic inefficiency, and associated genomic alterations.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "This closing subtopic synthesizes the lecture themes and provides concluding framing for upcoming practical sessions.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture series, outlines student expectations across disciplines, and presents the session's key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis of cancer as a failure of differentiation and tissue architecture",
+      "groupedBecause": "They describe cancer as a disruption of cellular differentiation and three-dimensional tissue organization caused by accumulated alterations, along with experimental models used to study these properties.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing benign from malignant tumors through invasion and metastasis",
+      "groupedBecause": "They explore how tumors are evaluated as benign or malignant based on tissue invasion and metastatic spread, using gross anatomy, histology, and stepwise colorectal progression as examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Conventions and exceptions of tumor nomenclature",
+      "groupedBecause": "It explains the standard suffix rules and notable clinical exceptions used to name tumors based on their tissue of origin and malignant potential.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "It details the physical obstructions, organ failures, and systemic complications through which primary and metastatic tumors cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence across human populations and multicellular species",
+      "groupedBecause": "They compare tumor frequencies across human organs and diverse animal taxa, demonstrating that cancer is an inherent risk across multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical screening modalities and early tumor detection",
+      "groupedBecause": "They evaluate the rationale, histological criteria, and practical utility of population-based screening programs for detecting precursor lesions before malignancy develops.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "It wraps up the lecture with concluding remarks, a reminder of the learning outcomes, and notice of upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

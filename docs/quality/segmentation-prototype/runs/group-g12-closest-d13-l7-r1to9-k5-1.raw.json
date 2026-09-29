@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the fifth lecture of the cancer biology series and outlines the learning objectives regarding cancer evolution, stemness, and the microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal selection and epigenetic changes in cancer development",
+      "groupedBecause": "These subtopics examine how cancer evolves through the Darwinian selection of fit mutant clones and non-mutational epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchies and cell of origin in cancer",
+      "groupedBecause": "These subtopics explore the contribution of stem cell properties, differentiation hierarchies, and specific cells of origin to tumor initiation and propagation across experimental models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion, inflammation, and stromal support",
+      "groupedBecause": "These subtopics demonstrate how microenvironmental factors, including chronic inflammation and supportive stromal interactions, promote tumor outgrowth and sustain established malignancies.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental and computational methods for studying tumor evolution",
+      "groupedBecause": "This subtopic addresses the experimental and computational tools used to investigate tumor evolution and cellular interactions within tissues.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated multifactorial model of cancer evolution",
+      "groupedBecause": "This subtopic synthesizes how cell-of-origin properties, acquired mutations, epigenetic plasticity, and microenvironmental factors collectively drive cancer evolution.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "The lecturer concludes the session and previews the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

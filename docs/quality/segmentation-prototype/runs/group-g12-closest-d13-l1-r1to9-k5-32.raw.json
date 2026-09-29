@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic sets the stage for the lecture on the mechanisms driving the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition via PAMPs, DAMPs, and PRRs",
+      "groupedBecause": "These subtopics establish how the innate immune system distinguishes self from non-self by detecting conserved microbial and damage-associated molecular patterns using germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor organization and signaling",
+      "groupedBecause": "These subtopics examine the classification, spatial distribution, and downstream signaling pathways of Toll-like receptors in response to pathogens.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cytoplasmic PRRs and the inflammasome pathway",
+      "groupedBecause": "These subtopics describe intracellular pattern recognition receptor families and the multi-protein assembly of the inflammasome required for cytokine activation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel cell activation, leukocyte recruitment, and systemic inflammation",
+      "groupedBecause": "These subtopics cover how tissue-resident sentinel cells trigger leukocyte trafficking and lymphatic drainage, as well as the physiological hazards of excessive systemic cytokine release.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammatory states",
+      "groupedBecause": "These subtopics explore the active and passive mechanisms that terminate acute inflammation, mediate tissue reconstruction, and give rise to persistent chronic conditions or granulomas.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic provides the concluding remarks and previews the next lecture on the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

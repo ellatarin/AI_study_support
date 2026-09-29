@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This topic introduces the lecture framework and outlines the learning objectives regarding cancer development and tumor evolution.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of clonal evolution in cancer",
+      "groupedBecause": "These subtopics explain how both mutational accumulation and epigenetic alterations confer competitive fitness to cell clones during cancer progression.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and the cancer stem cell model",
+      "groupedBecause": "These subtopics examine how tissue hierarchies and stemness properties determine the cell of origin and drive tumor propagation across different cancers.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion, inflammation, and stromal dependency",
+      "groupedBecause": "These subtopics explore how environmental promoters, inflammatory signaling, and supportive stroma create permissive conditions for tumor initiation and progression.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental and computational methods for studying tumor evolution",
+      "groupedBecause": "This subtopic describes the single-cell and spatial profiling technologies used to investigate clonal dynamics and microenvironmental interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated evolutionary model of cancer development",
+      "groupedBecause": "This subtopic synthesizes the interplay among mutational burden, cell-of-origin properties, transcriptional plasticity, and microenvironmental factors in driving malignancy.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "This topic concludes the lecture and previews the upcoming session on cancer therapies.",
+      "firstSubtopicId": 12
+    }
+  ]
+}
