@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.57-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.58-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-09-29
 **Status:** For review
 
@@ -634,7 +634,7 @@ Config tests — rows added to the existing `should throw ConfigError when $case
 
 **Deliverables:**
 
-`src/pipeline/stages/deepen-subtopic-splitting/` **(TD §5, `deepen-subtopic-splitting`)** — the stage and its prompt module, the prototype's `d9` byte for byte; its entry in the example config, `STAGE_IDS`, `STAGE_WORKSPACE` and the cost-report label. Added to `lectureStages`.
+`src/pipeline/stages/deepen-subtopic-splitting/` **(TD §5, `deepen-subtopic-splitting`)** — the stage and its prompt module, the prototype's `d13` byte for byte; its entry in the example config, `STAGE_IDS`, `STAGE_WORKSPACE` and the cost-report label. Added to `lectureStages`.
 
 What it shares with `initial-subtopic-splitting`, moved out of that stage rather than copied **(TD §5, §6)**: `readTranscript` in `stage-input.ts`; `isDivision`, `isReplySubtopic` and `subtopicText` in `division.ts`; `runStagePanel`, `readPanel` and `panelDirectory` in `panel-runs.ts`, where a run needing no call now reports no cost; `tryJsonReplyAs`, `promptMessages` and `defineModelStage` in `model-stage.ts`.
 
@@ -659,9 +659,9 @@ Unit tests (mock `makeCompletionCall`):
 
 Tests for the shared pieces: `isDivision` and `isReplySubtopic` (`test.each`, in `division.test.ts`); `readPanel` — every run in order, the caller's error for a missing run, an unreadable run — and `runPanel` reporting no cost when its runs needed no calls (`panel-runs.integration.test.ts`); `readTranscript` trimming the transcript (`stage-input.integration.test.ts`); `promptMessages` and `tryJsonReplyAs` (`model-stage.test.ts`).
 
-**Side by side with the prototype, in place of a replay:** the prototype saved its deepened runs but not the `d9` replies that made them, so there is nothing to replay. A one-off script sets the live deepened runs beside the prototype's for the same lecture, subtopic by subtopic, for the user to read.
+**Side by side with the prototype, in place of a replay:** the prototype saved its deepened runs but not the replies that made them, so there is nothing to replay. A one-off script sets the live deepened runs beside the prototype's for the same lecture, subtopic by subtopic, for the user to read.
 
-**Live run:** on the Phase 10 lecture, comparing deepened subtopic counts with the prototype's `d9` range.
+**Live run:** on the Phase 10 lecture, comparing deepened subtopic counts with the prototype's `d13` range.
 
 **Acceptance:** Every initial run gains a deepened run, with no subtopic over the gate unless two rounds could not divide it; the live run falls within range; the user has read the side-by-side view.
 

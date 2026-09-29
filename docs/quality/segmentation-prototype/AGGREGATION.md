@@ -68,3 +68,27 @@ runs make its most common division, on average.
 
 The vote's stability total matches `report-consistency.py --by-bar` at 5 of 9
 (3.9 in `LATER-ROUNDS.md`).
+
+## The vote on `d13`
+
+The same comparison on the recorded `d13` runs
+(`runs/deepen-d13-600-split-s6-*`, 18 per lecture), 2026-09-29. The vote is
+still as good as any whole-run method (central 3.36 / 5.76, most common
+4.38 / 6.08), so only the vote is set beside `d9`'s here.
+
+| lecture | `d9` stability | `d13` stability | `d9` errors | `d13` errors |
+|---|---|---|---|---|
+| l1 | 0.67 | 0.33 | 0.32 | 1.17 |
+| l2 | 0.13 | 0.33 | 0.93 | 0.83 |
+| l3 | 0.47 | 0.47 | 0.17 | 0.17 |
+| l4 | 0.00 | 0.03 | 0.00 | 0.01 |
+| l5 | 0.03 | 0.33 | 0.01 | 0.17 |
+| l6 | 1.29 | 0.50 | 3.35 | 2.91 |
+| l7 | 1.00 | 0.64 | 0.00 | 0.00 |
+| l8 | 0.36 | 0.63 | 0.18 | 0.31 |
+| all 8 | 3.95 | 3.26 | 4.97 | 5.58 |
+
+`d13` is steadier and scores more errors against the subtopic rulings, most of
+the rise on l1. The pipeline uses `d13`: grouping on its voted divisions gave
+better topics and titles in the user's judgement, and the topic rulings can
+change with the titles.

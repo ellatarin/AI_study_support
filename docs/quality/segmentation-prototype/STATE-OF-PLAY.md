@@ -44,6 +44,11 @@ terms as pass two's `runs/criteria.json`. Nothing in the scorer guesses.
 
 ## Where it stands — THE SETTING, ruled 2026-09-17
 
+**Superseded 2026-09-29: the user chose `d13` over `d9`**, keeping five of nine.
+The reasons and numbers are in `AGGREGATION.md`, "The vote on `d13`"; `d13`
+is in the version list below. The account of `d9` that follows is kept as the
+record of that ruling.
+
 **`d9`, run nine times, keeping every boundary five of the nine propose.**
 Chosen by the user for margin rather than for its peak, and that is the reason
 to keep it:
@@ -109,6 +114,10 @@ nearly independent. Measuring at 11 over-states everything.
   was a permission in one rule defeating a prohibition in another. But the extra
   caution cost lecture 5's 57.3%, from 15 of 18 to 8. A version that withholds
   more merges more, wherever it is pointed.
+- `d13` — `d9` with three sentences added to the signal rule: judge a boundary
+  by whether someone who knows the field would say the subject has moved on,
+  marked or not. Steadier than `d9` across all eight lectures, with more errors
+  against the subtopic rulings; chosen for its topics and titles.
 
 ## What is settled and should not be relitigated
 
