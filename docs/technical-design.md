@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.56-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.57-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-09-29
 **Status:** For review
 
@@ -1094,7 +1094,7 @@ A send can fail in four ways: no reply, a reply that is not JSON, a reply of the
 **Input:** `Transcript/transcript.txt`, `Initial subtopics/run-*.json`
 **Output:** `Deepened subtopics/run-01.json` … `run-09.json`
 
-For each initial run, every subtopic over the size gate is sent on its own with the `d9` prompt, which asks whether it divides further and, if so, where. The reply is either "one step" or a list of cuts, and a cut is looked for only inside the subtopic it was proposed for, so deepening can add cuts but never move or remove one. Subtopics at or under the size gate are never sent and cannot be disturbed. There are at most two rounds. When the first round cut anything, the second sends every subtopic still over the gate — a piece just cut, and also a subtopic the model called one step the first time. Asking that subtopic again looks redundant but makes the vote steadier: a cut the model makes only some of the time gets a second chance, which moves its cut site away from the bar instead of leaving the vote to chance. Across the prototype's eight lectures, two panels of nine disagreed on 3.9 cut sites this way against 9.2 when only cut pieces went back, for about a fifth more calls (`docs/quality/segmentation-prototype/LATER-ROUNDS.md`). When the first round cut nothing, a second would ask the same questions again, so there is none. Word counts are made by code.
+For each initial run, every subtopic over the size gate is sent on its own with the `d9` prompt, which asks whether it divides further and, if so, where. The reply is either "one step" or a list of cuts, and a cut is looked for only inside the subtopic it was proposed for, so deepening can add cuts but never move or remove one. A cut that cannot be found there is dropped rather than guessed at, and the rest of the reply is kept; the prototype found every cut in 1,499 sends. Subtopics at or under the size gate are never sent and cannot be disturbed. There are at most two rounds. When the first round cut anything, the second sends every subtopic still over the gate — a piece just cut, and also a subtopic the model called one step the first time. Asking that subtopic again looks redundant but makes the vote steadier: a cut the model makes only some of the time gets a second chance, which moves its cut site away from the bar instead of leaving the vote to chance. Across the prototype's eight lectures, two panels of nine disagreed on 3.9 cut sites this way against 9.2 when only cut pieces went back, for about a fifth more calls (`docs/quality/segmentation-prototype/LATER-ROUNDS.md`). When the first round cut nothing, a second would ask the same questions again, so there is none. Word counts are made by code.
 
 A call that fails — no reply, not JSON, the wrong shape — takes the panel's retry, and a subtopic that fails all three sends fails the stage. Leaving it whole would record "this subtopic is one step", which the model never said, and the vote would count it.
 
@@ -1122,10 +1122,23 @@ placeCuts(args: { text: string; quotes: readonly string[] }):
 // the first always at 0, whatever its quote. The first quote that cannot be found is returned instead.
 sliceSubtopics(args: { text: string; cuts: readonly number[]; named: readonly { label: string; why: string }[] }): readonly Subtopic[]
 assertLossless(args: { text: string; subtopics: readonly Subtopic[] }): void
+subtopicText(args: { text: string; subtopic: Pick<Subtopic, "start" | "end"> }): string
+isDivision(value: unknown): value is readonly Subtopic[]   // a run file read back
+type ReplySubtopic = { label: string; groupedBecause: string; startsWith: string }
+isReplySubtopic(value: unknown): value is ReplySubtopic   // one subtopic or cut as a reply names it
 
 // src/pipeline/stages/stage-input.ts — shared by the four division stages, which each read the transcript
 readStageText(args: { context: StageContext; stageId: StageWithOutputFile; purpose: string; fail: (message: string) => Error }): Promise<string>
 // The earlier stage's output as written; a missing or blank file throws the error `fail` builds from the message.
+readTranscript(args: { context: StageContext; fail: (message: string) => Error }): Promise<string>
+// The transcript, with the whitespace at its two ends removed.
+
+// src/pipeline/stages/panel-runs.ts — shared by the panel stages
+runStagePanel<TRun>(args: { stageId: StageId; context: StageContext; isRun; makeRun }): Promise<StageResult<{ runs: readonly TRun[] }>>
+// Makes the stage's panel in its own directory at its configured concurrency; a run needing no call reports no cost.
+readPanel<TRun>(args: { panelSize: number; directory: string; isRun; fail }): Promise<readonly TRun[]>
+// Reads back a panel an earlier stage finished; a missing run throws the error `fail` builds.
+panelDirectory(args: { workspaceRoot: string; stageId: StageId }): string
 
 // src/pipeline/stages/vote-cut-sites/vote-cut-sites.ts
 type CandidateLabel = { label: string; runs: number }
@@ -1564,6 +1577,8 @@ OpenRouter's own parameter reference states that JSON mode requires the prompt t
 
 `requestJsonReply` is built on `tryJsonReply`, which makes the same call and returns a bad reply instead of throwing it: the reply, or the reason it cannot be used — empty, not JSON, the wrong shape — and the call's cost either way. The panel stages resend a bad reply (§5, "Dividing the transcript", Panel runs), and a resend needs the failed call's cost, which a thrown error would lose. An empty reply has its own reason because it is the common case and says something different from prose: the provider answered with nothing, not with the wrong thing.
 
+`tryJsonReplyAs` is `tryJsonReply` followed by the stage turning the reply into what it keeps — where the stage may still find it unusable, as a splitting reply naming words the transcript does not contain — so that failure is resent like any other. The same module builds the two messages a stage sends (`promptMessages`: the prompt as the system message, the material as the user message) and defines a model-calling stage from its id, input reader and run (`defineModelStage`), returning the factory the CLI calls with the logger and client.
+
 **A rejection can arrive inside an accepted reply.** OpenRouter answers some upstream failures with HTTP 200 and a body carrying `{"error": {…}}` where the choices should be, which the SDK reports as a success. The provider's own sentence is the only account of what happened — it says whether the failure is transient and whether retrying is the remedy — so an accepted reply carrying one is a `CompletionRejectedError` quoting it beside the stage and the model, and is recorded on the stage's logger at `debug`. It is reported, never retried: the reply may already have been billed, so what to do about a busy provider is the caller's decision rather than this module's. A reply carrying neither choices nor an explanation is the `NoCompletionChoicesError` above.
 
 **A tuning parameter can be left unset out loud.** Every optional field of a stage entry — `temperature`, `maxTokens`, `concurrency`, `maxIterations` — may be written as `null`, which means what leaving the key out means: the request carries no such parameter. There are two ways to say it because the choice is worth writing down. Under the routing restriction above, the parameters a request carries decide which endpoints may serve it, and providers differ in what they accept — the same model reached through one provider takes a `temperature` and through another does not. Which tuning a stage sets is therefore part of choosing what can answer it, and a `null` records a deliberate omission beside the tuning that is set, where a missing key reads as an oversight.
@@ -1937,7 +1952,7 @@ src/
 │   │                                 # the temp-directory trees. Production code never imports it
 │   └── stages/                       # One folder per stage; shared stage machinery at this level
 │       ├── pipeline-stage.ts         # The shared isComplete check and the stage factory (§4.2)
-│       ├── model-stage.ts            # requestJsonReply and the arguments every model stage takes (§6)
+│       ├── model-stage.ts            # The JSON-reply calls, prompt messages, and the model-stage factory (§6)
 │       ├── panel-runs.ts             # Panel runs: bounded concurrency, save-as-you-go, resume, resend (§5)
 │       ├── division.ts               # Placing cuts, slicing subtopics, the lossless check — shared by the
 │       │                             # three division stages (§5, "Dividing the transcript")

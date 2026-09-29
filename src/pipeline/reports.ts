@@ -36,6 +36,7 @@ const STAGE_LABELS: Readonly<Record<StageId, string>> = {
 	"audio-extraction": "Audio extraction",
 	transcription: "Transcription",
 	"initial-subtopic-splitting": "Initial subtopic splitting",
+	"deepen-subtopic-splitting": "Deepen subtopic splitting",
 	"transcript-structuring": "Transcript structuring",
 	"transcript-verification": "Transcript verification",
 	"slide-conversion": "Slide conversion",

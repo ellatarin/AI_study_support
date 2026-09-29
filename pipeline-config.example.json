@@ -35,6 +35,10 @@
 			"modelId": "<FAST_LONG_CONTEXT_MODEL>",
 			"concurrency": 3
 		},
+		"deepen-subtopic-splitting": {
+			"modelId": "<FAST_LONG_CONTEXT_MODEL>",
+			"concurrency": 3
+		},
 		"transcript-structuring": {
 			"modelId": "<REASONING_MODEL>",
 			"temperature": 0.2,

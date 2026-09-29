@@ -8,7 +8,7 @@
  * a change belongs there first, as a new version with runs against it.
  */
 
-import type OpenAI from "openai";
+import { type PromptMessages, promptMessages } from "../model-stage.js";
 
 /** The prototype's `s6` prompt, byte for byte. */
 const S6_PROMPT = `# Task
@@ -113,9 +113,6 @@ export function buildSplittingMessages({
 	transcript,
 }: {
 	readonly transcript: string;
-}): readonly OpenAI.Chat.Completions.ChatCompletionMessageParam[] {
-	return [
-		{ role: "system", content: S6_PROMPT },
-		{ role: "user", content: `Transcript:\n${transcript}` },
-	];
+}): PromptMessages {
+	return promptMessages({ system: S6_PROMPT, user: `Transcript:\n${transcript}` });
 }

@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
+import { joinedSubtopics } from "../fixtures.js";
 import {
 	assertLossless,
 	DivisionNotLosslessError,
+	isDivision,
+	isReplySubtopic,
 	placeCuts,
 	type Subtopic,
 	sliceSubtopics,
@@ -79,9 +82,7 @@ describe("sliceSubtopics", () => {
 
 	it("should reproduce the text exactly when the subtopics are joined", () => {
 		const subtopics = sliceSubtopics({ text: TEXT, cuts: [0, at("So the first")], named });
-		expect(subtopics.map((subtopic) => TEXT.slice(subtopic.start, subtopic.end)).join("")).toBe(
-			TEXT,
-		);
+		expect(joinedSubtopics({ text: TEXT, subtopics })).toBe(TEXT);
 	});
 
 	it("should give each subtopic its span, label and reason when the text is cut", () => {
@@ -114,5 +115,30 @@ describe("assertLossless", () => {
 		} else {
 			expect(check).toThrow(DivisionNotLosslessError);
 		}
+	});
+});
+
+describe("isDivision", () => {
+	it.each([
+		{ held: "a list of subtopics", value: [{ start: 0, end: 5, label: "a", why: "b" }], is: true },
+		{ held: "not a list", value: { start: 0 }, is: false },
+		{ held: "a subtopic without its reason", value: [{ start: 0, end: 1, label: "a" }], is: false },
+		{ held: "a subtopic without its span", value: [{ label: "a", why: "b" }], is: false },
+	])("should recognise a saved value as a division only when it holds $held", ({ value, is }) => {
+		expect(isDivision(value)).toBe(is);
+	});
+});
+
+describe("isReplySubtopic", () => {
+	it.each([
+		{
+			held: "a label, a reason and opening words",
+			value: { label: "a", groupedBecause: "b", startsWith: "c" },
+			is: true,
+		},
+		{ held: "no opening words", value: { label: "a", groupedBecause: "b" }, is: false },
+		{ held: "a string", value: "a", is: false },
+	])("should recognise a reply entry as a subtopic only when it holds $held", ({ value, is }) => {
+		expect(isReplySubtopic(value)).toBe(is);
 	});
 });

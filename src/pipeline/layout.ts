@@ -337,9 +337,25 @@ type WritesIntoArgs<TName extends string> = {
 
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- string literal types, which have nothing to mutate; the rule cannot see through the unresolved LiteralName conditional
 function writesInto<TName extends string>(args: WritesIntoArgs<TName>): StageWorkspaceWithFile {
+	return { ...writesSetInto<TName>(args), outputFile: join(args.directory, args.file) };
+}
+
+/**
+ * A stage that owns one workspace directory and writes a set of files into it
+ * rather than one: a panel's runs, or a slide's images. There is no single file
+ * a later stage could be pointed at, so it names none.
+ *
+ * @param args - What the stage owns.
+ * @param args.directory - The workspace directory's name, as a literal.
+ * @returns The stage's workspace.
+ */
+function writesSetInto<TName extends string>(
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- string literal types, which have nothing to mutate; the rule cannot see through the unresolved LiteralName conditional
+	args: Pick<WritesIntoArgs<TName>, "directory">,
+): StageWorkspace & { readonly outputFile: null; readonly readableView: null } {
 	return {
 		outputLocation: inWorkspace([declaredName<TName>(args.directory)]),
-		outputFile: join(args.directory, args.file),
+		outputFile: null,
 		readableView: null,
 	};
 }
@@ -394,11 +410,8 @@ export const STAGE_WORKSPACE = {
 	"source-normalisation": { outputLocation: inWorkspace([]), outputFile: null, readableView: null },
 	"audio-extraction": writesInto({ directory: "Audio", file: "audio.m4a" }),
 	transcription: writesInto({ directory: "Transcript", file: "transcript.txt" }),
-	"initial-subtopic-splitting": {
-		outputLocation: inWorkspace([declaredName("Initial subtopics")]),
-		outputFile: null,
-		readableView: null,
-	},
+	"initial-subtopic-splitting": writesSetInto({ directory: "Initial subtopics" }),
+	"deepen-subtopic-splitting": writesSetInto({ directory: "Deepened subtopics" }),
 	"transcript-structuring": writesInto({
 		directory: "Structured transcript",
 		file: "structured-transcript.md",
@@ -409,11 +422,7 @@ export const STAGE_WORKSPACE = {
 		readableView: "verification-report.md",
 	}),
 	"slide-conversion": writesInto({ directory: "Slide content", file: "slides.md" }),
-	"image-extraction": {
-		outputLocation: inWorkspace([declaredName("Slide images")]),
-		outputFile: null,
-		readableView: null,
-	},
+	"image-extraction": writesSetInto({ directory: "Slide images" }),
 	synthesis: writesInto({ directory: "Synthesised notes", file: "synthesised-notes.md" }),
 	"qa-loop": {
 		outputLocation: inWorkspace([declaredName("QA iterations"), declaredName("QA checked")]),

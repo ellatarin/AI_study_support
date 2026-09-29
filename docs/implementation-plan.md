@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.56-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.57-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-09-29
 **Status:** For review
 
@@ -634,20 +634,30 @@ Config tests — rows added to the existing `should throw ConfigError when $case
 
 **Deliverables:**
 
-`src/pipeline/stages/deepen-subtopic-splitting/` **(TD §5, `deepen-subtopic-splitting`)** — the stage and its prompt module, the prototype's `d9` byte for byte; its entry in the example config. Added to `lectureStages`.
+`src/pipeline/stages/deepen-subtopic-splitting/` **(TD §5, `deepen-subtopic-splitting`)** — the stage and its prompt module, the prototype's `d9` byte for byte; its entry in the example config, `STAGE_IDS`, `STAGE_WORKSPACE` and the cost-report label. Added to `lectureStages`.
+
+What it shares with `initial-subtopic-splitting`, moved out of that stage rather than copied **(TD §5, §6)**: `readTranscript` in `stage-input.ts`; `isDivision`, `isReplySubtopic` and `subtopicText` in `division.ts`; `runStagePanel`, `readPanel` and `panelDirectory` in `panel-runs.ts`, where a run needing no call now reports no cost; `tryJsonReplyAs`, `promptMessages` and `defineModelStage` in `model-stage.ts`.
 
 **Tests:**
 
 Unit tests (mock `makeCompletionCall`):
 - `should send only the subtopics over the size gate when a run is deepened`
+- `should cut the transcript without its surrounding whitespace when a run is deepened`
 - `should leave a subtopic unchanged when the reply says it is one step`
 - `should add the cuts inside the subtopic when the reply divides it`
 - `should ignore a cut proposed outside its subtopic when the reply places one there`
 - `should send every subtopic still over the gate again when the first round cut anything` — one held as one step included
 - `should make no second round when the first round cut nothing`
 - `should stop after two rounds when a piece stays over the gate`
-- `should fail the stage when a subtopic fails every send` — never recorded as one step
 - `should reproduce the transcript exactly when a deepened run is joined`
+- `should record every deepened run file as written when the stage completes`
+- `should resend a subtopic when the reply $problem` — `test.each` across not an object, no list of cuts, a cut without its opening words
+- `should fail the stage without saving the run when a subtopic fails every send` — never recorded as one step
+- `should make only the missing runs when an earlier launch saved some`
+- `should fail when an initial splitting run is missing`
+- `should fail when the transcript is $state` — `test.each` across missing and blank
+
+Tests for the shared pieces: `isDivision` and `isReplySubtopic` (`test.each`, in `division.test.ts`); `readPanel` — every run in order, the caller's error for a missing run, an unreadable run — and `runPanel` reporting no cost when its runs needed no calls (`panel-runs.integration.test.ts`); `readTranscript` trimming the transcript (`stage-input.integration.test.ts`); `promptMessages` and `tryJsonReplyAs` (`model-stage.test.ts`).
 
 **Side by side with the prototype, in place of a replay:** the prototype saved its deepened runs but not the `d9` replies that made them, so there is nothing to replay. A one-off script sets the live deepened runs beside the prototype's for the same lecture, subtopic by subtopic, for the user to read.
 

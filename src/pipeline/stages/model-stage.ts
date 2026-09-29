@@ -10,14 +10,16 @@
  * models and should not start to (technical-design.md §5, §6).
  */
 
+import type OpenAI from "openai";
 import type { Logger } from "pino";
-import type { StageContext, StageCost } from "../../types/pipeline.js";
+import type { PipelineStage, StageContext, StageCost, StageResult } from "../../types/pipeline.js";
 import { errorMessage } from "../../utils/errors.js";
 import {
 	type CompletionRequest,
 	makeCompletionCall,
 	type OpenRouterClient,
 } from "../openrouter.js";
+import { createPipelineStage } from "./pipeline-stage.js";
 
 /**
  * The two things a model-calling stage is handed at construction: where to log,
@@ -148,4 +150,92 @@ export async function requestJsonReply<TReply>({
 		throw fail(outcome.failure);
 	}
 	return outcome;
+}
+
+/** The messages a stage sends: its prompt, then the material the prompt is about. */
+export type PromptMessages = readonly OpenAI.Chat.Completions.ChatCompletionMessageParam[];
+
+/**
+ * Builds the two messages a stage sends: the prompt as the system message, and
+ * the material it is about as the user message.
+ *
+ * @param args - The prompt, and the material.
+ * @param args.system - The stage's prompt.
+ * @param args.user - What the prompt is applied to, under whatever heading the prompt expects.
+ * @returns The system message, then the user message.
+ */
+export function promptMessages({
+	system,
+	user,
+}: {
+	readonly system: string;
+	readonly user: string;
+}): PromptMessages {
+	return [
+		{ role: "system", content: system },
+		{ role: "user", content: user },
+	];
+}
+
+/**
+ * {@link tryJsonReply}, then turning a usable reply into what the stage keeps.
+ * The stage may still find the reply unusable — it names a place the text does
+ * not contain, say — and that is reported like any other bad reply, with the
+ * call's cost, so a caller resending it treats every failure alike.
+ *
+ * @param args - As for {@link tryJsonReply}, plus what to make of the reply.
+ * @param args.use - Turns the documented reply into what the stage keeps, or says why it cannot.
+ * @returns What the stage keeps or why the reply could not be used, with what the call cost.
+ * @typeParam TReply - The reply the stage expects back.
+ * @typeParam TKept - What the stage makes of it.
+ */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- as for tryJsonReply: library types that are not deeply readonly
+export async function tryJsonReplyAs<TReply, TKept>({
+	use,
+	...request
+}: JsonReplyRequest<TReply> & {
+	readonly use: (reply: TReply) => { readonly reply: TKept } | { readonly failure: string };
+}): Promise<JsonReplyOutcome<TKept>> {
+	const outcome = await tryJsonReply(request);
+	if ("failure" in outcome) {
+		return outcome;
+	}
+	return { ...use(outcome.reply), cost: outcome.cost };
+}
+
+/**
+ * What the CLI builds a model-calling stage with: the run's logger and the
+ * invocation's client in, the stage out.
+ *
+ * @typeParam TInput - The stage's input.
+ * @typeParam TOutput - The stage's output.
+ */
+export type ModelStageFactory<TInput, TOutput> = (
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+	dependencies: ModelStageDependencies,
+) => PipelineStage<TInput, TOutput>;
+
+/**
+ * Defines a stage that calls a model, and returns the factory the CLI builds it
+ * with: {@link createPipelineStage}, with the invocation's client handed to
+ * `run` beside the logger the factory binds (technical-design.md §4.7).
+ *
+ * @param definition - The stage's identity and behaviour.
+ * @param definition.stageId - The stage this implements.
+ * @param definition.getInput - Gathers and validates the stage's input.
+ * @param definition.run - Executes the stage.
+ * @returns A factory taking the run's logger and the invocation's client.
+ * @typeParam TInput - The input `getInput` produces and `run` consumes.
+ * @typeParam TOutput - The output `run` produces.
+ */
+export function defineModelStage<TInput, TOutput>({
+	stageId,
+	getInput,
+	run,
+}: Pick<Parameters<typeof createPipelineStage<TInput, TOutput>>[0], "stageId" | "getInput"> & {
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+	readonly run: (args: ModelStageRunArgs<TInput>) => Promise<StageResult<TOutput>>;
+}): ModelStageFactory<TInput, TOutput> {
+	return ({ logger, client }) =>
+		createPipelineStage({ stageId, logger, getInput, run: (args) => run({ ...args, client }) });
 }

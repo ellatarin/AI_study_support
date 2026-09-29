@@ -5,28 +5,33 @@
  * (technical-design.md §5, "Dividing the transcript").
  */
 
-import { relative } from "node:path";
-import type {
-	PipelineStage,
-	StageContext,
-	StageCost,
-	StageResult,
-} from "../../../types/pipeline.js";
+/* jscpd:ignore-start -- the division stages pull in the same pipeline types,
+   division helpers and model-stage helpers, so their import blocks match line
+   for line. There is nothing to extract: imports cannot be shared, and barrel
+   files are forbidden (CLAUDE.md, File Organisation). Only the imports are
+   exempt; the code below is checked as normal. */
+import type { StageContext, StageCost, StageResult } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
 import { isRecord } from "../../../utils/record.js";
-import { configuredStage } from "../../../utils/stage-config.js";
-import { stageDirectoryPaths } from "../../layout.js";
-import { assertLossless, placeCuts, type Subtopic, sliceSubtopics } from "../division.js";
 import {
-	type JsonReplyOutcome,
-	type ModelStageDependencies,
+	assertLossless,
+	isDivision,
+	isReplySubtopic,
+	placeCuts,
+	type ReplySubtopic,
+	type Subtopic,
+	sliceSubtopics,
+} from "../division.js";
+import {
+	defineModelStage,
+	type ModelStageFactory,
 	type ModelStageRunArgs,
-	tryJsonReply,
+	tryJsonReplyAs,
 } from "../model-stage.js";
-import { runPanel, sendWithResends } from "../panel-runs.js";
-import { createPipelineStage } from "../pipeline-stage.js";
-import { readStageText } from "../stage-input.js";
+import { runStagePanel, sendWithResends } from "../panel-runs.js";
+import { readTranscript } from "../stage-input.js";
 import { buildSplittingMessages } from "./initial-subtopic-splitting.prompt.js";
+/* jscpd:ignore-end */
 
 /**
  * Thrown when the transcript cannot be divided: it is missing or empty. A run
@@ -41,13 +46,6 @@ export type InitialSubtopicSplittingInput = { readonly transcript: string };
 
 /** Every splitting run of the panel, in run order. */
 export type InitialSubtopicSplittingOutput = { readonly runs: readonly (readonly Subtopic[])[] };
-
-/** One subtopic as the `s6` reply gives it. */
-type ReplySubtopic = {
-	readonly label: string;
-	readonly groupedBecause: string;
-	readonly startsWith: string;
-};
 
 /** The object the `s6` prompt asks for. */
 type SplitReply = { readonly subtopics: readonly ReplySubtopic[] };
@@ -65,70 +63,26 @@ function isSplitReply(value: unknown): value is SplitReply {
 	if (!isRecord(value) || !Array.isArray(value.subtopics) || value.subtopics.length === 0) {
 		return false;
 	}
-	return value.subtopics.every(
-		(subtopic: unknown) =>
-			isRecord(subtopic) &&
-			typeof subtopic.label === "string" &&
-			typeof subtopic.groupedBecause === "string" &&
-			typeof subtopic.startsWith === "string",
-	);
+	return value.subtopics.every(isReplySubtopic);
 }
 
 /**
- * Whether a value read back from a run file is a run: a list of subtopics.
+ * Cuts the transcript where a reply says each subtopic begins. A reply naming an
+ * opening the transcript does not contain is as unusable as one that is not
+ * JSON, so it is returned as a failure for the panel to resend.
  *
- * @param value - The parsed run file.
- * @returns `true` when every entry carries a span, a label and a reason.
- */
-function isSplittingRun(value: unknown): value is readonly Subtopic[] {
-	return (
-		Array.isArray(value) &&
-		value.every(
-			(subtopic: unknown) =>
-				isRecord(subtopic) &&
-				typeof subtopic.start === "number" &&
-				typeof subtopic.end === "number" &&
-				typeof subtopic.label === "string" &&
-				typeof subtopic.why === "string",
-		)
-	);
-}
-
-/**
- * Sends the transcript once and turns a usable reply into a division. A reply
- * naming an opening the transcript does not contain is as unusable as one that
- * is not JSON, so it is returned as a failure for the panel to resend.
- *
- * @param args - The transcript, the run context, and the model dependencies.
+ * @param args - The transcript, and the reply's subtopics.
  * @param args.transcript - The transcript to divide.
- * @param args.context - The current lecture run context.
- * @param args.logger - The stage's logger.
- * @param args.client - The OpenAI client the call goes through.
- * @returns The division, or why the reply could not be used, with the call's cost.
+ * @param args.subtopics - The subtopics the reply named, in order.
+ * @returns The division, or why the reply could not be used.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino Logger and OpenAI client are library types that are not deeply readonly
-async function divideOnce({
+function divideAsReplied({
 	transcript,
-	context,
-	logger,
-	client,
+	subtopics,
 }: {
 	readonly transcript: string;
-	readonly context: StageContext;
-} & ModelStageDependencies): Promise<JsonReplyOutcome<readonly Subtopic[]>> {
-	const outcome = await tryJsonReply({
-		messages: buildSplittingMessages({ transcript }),
-		stageId: STAGE_ID,
-		context,
-		isReply: isSplitReply,
-		documentedShape: DOCUMENTED_REPLY_SHAPE,
-		logger,
-		client,
-	});
-	if ("failure" in outcome) {
-		return outcome;
-	}
-	const { subtopics } = outcome.reply;
+	readonly subtopics: readonly ReplySubtopic[];
+}): { readonly reply: readonly Subtopic[] } | { readonly failure: string } {
 	const placed = placeCuts({
 		text: transcript,
 		quotes: subtopics.map((subtopic) => subtopic.startsWith),
@@ -136,7 +90,6 @@ async function divideOnce({
 	if ("unplaced" in placed) {
 		return {
 			failure: `The model's opening words "${placed.unplaced}" are not in the transcript after the previous cut`,
-			cost: outcome.cost,
 		};
 	}
 	const division = sliceSubtopics({
@@ -145,7 +98,7 @@ async function divideOnce({
 		named: subtopics.map((subtopic) => ({ label: subtopic.label, why: subtopic.groupedBecause })),
 	});
 	assertLossless({ text: transcript, subtopics: division });
-	return { reply: division, cost: outcome.cost };
+	return { reply: division };
 }
 
 /**
@@ -159,7 +112,7 @@ async function divideOnce({
  * @returns Every run, what this launch's calls cost, and the run files.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
-async function splitTranscript({
+function splitTranscript({
 	input,
 	context,
 	logger,
@@ -167,31 +120,31 @@ async function splitTranscript({
 }: ModelStageRunArgs<InitialSubtopicSplittingInput>): Promise<
 	StageResult<InitialSubtopicSplittingOutput>
 > {
-	const [directory = context.workspaceRoot] = stageDirectoryPaths({
-		workspaceRoot: context.workspaceRoot,
+	return runStagePanel({
 		stageId: STAGE_ID,
-	});
-	const { runs, cost, runFiles } = await runPanel({
-		panelSize: context.config.division.panelSize,
-		concurrency: configuredStage({ config: context.config, stageId: STAGE_ID })?.concurrency,
-		directory,
-		isRun: isSplittingRun,
+		context,
+		isRun: isDivision,
 		makeRun: async ({
 			runNumber,
 		}): Promise<{ readonly run: readonly Subtopic[]; readonly cost: StageCost }> => {
 			const sent = await sendWithResends({
 				what: `Splitting run ${runNumber}`,
 				logger,
-				send: () => divideOnce({ transcript: input.transcript, context, logger, client }),
+				send: () =>
+					tryJsonReplyAs({
+						messages: buildSplittingMessages({ transcript: input.transcript }),
+						stageId: STAGE_ID,
+						context,
+						isReply: isSplitReply,
+						documentedShape: DOCUMENTED_REPLY_SHAPE,
+						logger,
+						client,
+						use: ({ subtopics }) => divideAsReplied({ transcript: input.transcript, subtopics }),
+					}),
 			});
 			return { run: sent.reply, cost: sent.cost };
 		},
 	});
-	return {
-		output: { runs },
-		cost,
-		filesWritten: runFiles.map((file) => relative(context.workspaceRoot, file)),
-	};
 }
 
 /**
@@ -201,36 +154,20 @@ async function splitTranscript({
  * @returns The transcript, with the whitespace at its ends removed.
  * @throws {InitialSubtopicSplittingError} If the transcript is missing or holds no text.
  */
-async function readTranscript(context: StageContext): Promise<InitialSubtopicSplittingInput> {
-	const text = await readStageText({
-		context,
-		stageId: "transcription",
-		purpose: "divide",
-		fail: (message) => new InitialSubtopicSplittingError(message),
-	});
-	return { transcript: text.trim() };
+async function readInput(context: StageContext): Promise<InitialSubtopicSplittingInput> {
+	return {
+		transcript: await readTranscript({
+			context,
+			fail: (message) => new InitialSubtopicSplittingError(message),
+		}),
+	};
 }
 
 /**
- * Builds the `initial-subtopic-splitting` stage.
- *
- * @param dependencies - The logger and OpenAI client provider the stage runs with.
- * @param dependencies.logger - The run's logger; the factory binds it to this stage.
- * @param dependencies.client - The invocation's OpenAI client, handed to the stage as the logger is (§4.7).
- * @returns The stage.
+ * Builds the `initial-subtopic-splitting` stage from the run's logger and the
+ * invocation's OpenAI client.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
-export function createInitialSubtopicSplittingStage({
-	logger,
-	client,
-}: ModelStageDependencies): PipelineStage<
+export const createInitialSubtopicSplittingStage: ModelStageFactory<
 	InitialSubtopicSplittingInput,
 	InitialSubtopicSplittingOutput
-> {
-	return createPipelineStage({
-		stageId: STAGE_ID,
-		logger,
-		getInput: readTranscript,
-		run: (args) => splitTranscript({ ...args, client }),
-	});
-}
+> = defineModelStage({ stageId: STAGE_ID, getInput: readInput, run: splitTranscript });

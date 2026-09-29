@@ -6,13 +6,23 @@
 
 **Status:** ready-for-agent
 
-- [ ] Each subtopic over `sizeGateWords` (600, counted by code) is sent on its own with the prototype's `d9` prompt, byte-identical; subtopics at or under the gate are never sent.
-- [ ] The reply is either "one step" or a list of cuts; each cut is looked for only inside the subtopic it was proposed for, so deepening adds cuts but never moves or removes one.
-- [ ] At most two rounds. When the first round cut anything, the second sends every subtopic still over the gate, one the model called one step included (the prototype's behaviour; measured against re-sending only cut pieces in `LATER-ROUNDS.md`).
-- [ ] A call failing all 3 attempts fails the stage; a failed subtopic is never recorded as "one step".
-- [ ] Calls are made a few at a time; each deepened run is saved as it completes and a relaunch makes only the missing ones (ticket 04).
-- [ ] Every deepened run's subtopics joined in order equal the transcript character for character.
-- [ ] `sizeGateWords` (600) is added to the `division` settings section; the stage's model is set per stage.
+- [x] Each subtopic over `sizeGateWords` (600, counted by code) is sent on its own with the prototype's `d9` prompt, byte-identical; subtopics at or under the gate are never sent.
+- [x] The reply is either "one step" or a list of cuts; each cut is looked for only inside the subtopic it was proposed for, so deepening adds cuts but never moves or removes one.
+- [x] At most two rounds. When the first round cut anything, the second sends every subtopic still over the gate, one the model called one step included (the prototype's behaviour; measured against re-sending only cut pieces in `LATER-ROUNDS.md`).
+- [x] A call failing all 3 attempts fails the stage; a failed subtopic is never recorded as "one step".
+- [x] Calls are made a few at a time; each deepened run is saved as it completes and a relaunch makes only the missing ones (ticket 04).
+- [x] Every deepened run's subtopics joined in order equal the transcript character for character.
+- [x] `sizeGateWords` (600) is added to the `division` settings section; the stage's model is set per stage.
 - [ ] **Live run:** the stage runs for real on one lecture (cost stated first); its deepened subtopic counts fall within the prototype's `d9` range on that lecture.
 - [ ] **Side by side with the prototype, in place of a replay:** the prototype saved its deepened runs but not the `d9` replies that made them, so nothing can be replayed. A one-off script sets the live deepened runs beside the prototype's for that lecture, subtopic by subtopic, and the user reads them.
 - [ ] The side-by-side script and its output stay in the prototype folder.
+
+## Comments
+
+2026-09-29, built:
+
+- The `d9` prompt was checked byte-identical to the prototype's (9,328 characters), and the user message keeps the prototype's `Section:` heading.
+- A proposed cut that cannot be found inside its subtopic is dropped, not resent, as the prototype did; the prototype found every cut in 1,499 sends of its 144 `d9` runs, so this has never been exercised live. The technical design now says so.
+- "A few at a time": up to the stage's `concurrency` runs are in flight at once, and within a run its subtopics are sent one after another, so no more than `concurrency` calls are ever in flight. The prototype sent all of a run's subtopics at once.
+- `sizeGateWords` already existed (added in ticket 05).
+- What deepening shared with initial splitting was moved out of that stage rather than copied: reading the trimmed transcript, recognising a saved division and a reply's subtopic, the panel scaffold and reading a finished panel, the JSON reply turned into what a stage keeps, the prompt message pair, and the model-stage factory.

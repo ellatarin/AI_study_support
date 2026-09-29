@@ -9,6 +9,7 @@
  */
 
 import { NamedError } from "../../utils/errors.js";
+import { isRecord } from "../../utils/record.js";
 
 /** One subtopic: its span of the transcript, and the model's label and reason for it. */
 export type Subtopic = {
@@ -17,6 +18,69 @@ export type Subtopic = {
 	readonly label: string;
 	readonly why: string;
 };
+
+/**
+ * The text of one subtopic: its span of the transcript.
+ *
+ * @param args - The transcript, and the subtopic.
+ * @param args.text - The transcript the subtopic's span indexes into.
+ * @param args.subtopic - The subtopic, or anything carrying its span.
+ * @returns The subtopic's text.
+ */
+export function subtopicText({
+	text,
+	subtopic,
+}: {
+	readonly text: string;
+	readonly subtopic: Pick<Subtopic, "start" | "end">;
+}): string {
+	return text.slice(subtopic.start, subtopic.end);
+}
+
+/**
+ * One subtopic as a model's reply names it: what to call it, why it is one
+ * thing, and the words it opens with, which say where to cut.
+ */
+export type ReplySubtopic = {
+	readonly label: string;
+	readonly groupedBecause: string;
+	readonly startsWith: string;
+};
+
+/**
+ * Whether a value in a parsed reply is a subtopic as the model names one.
+ *
+ * @param value - One entry of the reply's list.
+ * @returns `true` when it carries its three strings.
+ */
+export function isReplySubtopic(value: unknown): value is ReplySubtopic {
+	return (
+		isRecord(value) &&
+		typeof value.label === "string" &&
+		typeof value.groupedBecause === "string" &&
+		typeof value.startsWith === "string"
+	);
+}
+
+/**
+ * Whether a value read back from a run file is a division: a list of subtopics.
+ *
+ * @param value - The parsed run file.
+ * @returns `true` when every entry carries a span, a label and a reason.
+ */
+export function isDivision(value: unknown): value is readonly Subtopic[] {
+	return (
+		Array.isArray(value) &&
+		value.every(
+			(subtopic: unknown) =>
+				isRecord(subtopic) &&
+				typeof subtopic.start === "number" &&
+				typeof subtopic.end === "number" &&
+				typeof subtopic.label === "string" &&
+				typeof subtopic.why === "string",
+		)
+	);
+}
 
 /** A division whose subtopics do not join back into the transcript. Always a bug. */
 export class DivisionNotLosslessError extends NamedError {}

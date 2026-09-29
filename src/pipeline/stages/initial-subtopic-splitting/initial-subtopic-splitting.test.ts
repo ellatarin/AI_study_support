@@ -3,22 +3,26 @@
    imports cannot be shared and barrel files are forbidden (CLAUDE.md, File
    Organisation), and vi.mock is hoisted, so it must sit in the file that mocks.
    Only the preamble is exempt; the suite below is checked as normal. */
-import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { join } from "node:path";
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
 	captureError,
 	configuringStage,
-	driveStage,
-	makeStageContext,
-	openRouterClientFor,
+	driveModelStage,
+	earlierLaunchRun,
+	paddedTranscriptText,
+	readPanelRun,
+	seedPanelRun,
+	seedStageOutput,
 	stubbedCallCost,
+	transcriptDivision,
+	transcriptSecondOpening,
 	transcriptText,
+	unusableTranscripts,
 	useStubLogger,
 	useTranscribedWorkspace,
 } from "../../fixtures.js";
-import { stageDirectoryPaths, stageOutputPath } from "../../layout.js";
 import { makeCompletionCall } from "../../openrouter.js";
 import { SavedRunUnreadableError } from "../panel-runs.js";
 import {
@@ -37,26 +41,24 @@ const completionMock = makeCompletionCall as unknown as Mock;
 
 const STAGE_ID = "initial-subtopic-splitting";
 
-/** Where the second subtopic starts in the fixture transcript. */
-const SECOND_OPENING = "cell injury and the immune system";
-
-/** A reply dividing the fixture transcript in two, the second opening at `secondQuote`. */
+/**
+ * A reply dividing the fixture transcript as {@link transcriptDivision} does,
+ * the second subtopic opening at `secondQuote`.
+ */
 function splitReply({ secondQuote }: { readonly secondQuote: string }): string {
+	const quotes = ["Today we are covering", secondQuote];
 	return JSON.stringify({
-		subtopics: [
-			{
-				id: 1,
-				label: "Opening",
-				groupedBecause: "The framing.",
-				startsWith: "Today we are covering",
-			},
-			{ id: 2, label: "Cell injury", groupedBecause: "One topic.", startsWith: secondQuote },
-		],
+		subtopics: transcriptDivision.map((subtopic, index) => ({
+			id: index + 1,
+			label: subtopic.label,
+			groupedBecause: subtopic.why,
+			startsWith: quotes[index],
+		})),
 	});
 }
 
 /** Every run's model reply, when the model divides the transcript as intended. */
-const GOOD_REPLY = splitReply({ secondQuote: SECOND_OPENING });
+const GOOD_REPLY = splitReply({ secondQuote: transcriptSecondOpening });
 
 /** How many runs the example config's panel holds. */
 const PANEL_SIZE = configuringStage({ stageId: STAGE_ID }).division.panelSize;
@@ -75,41 +77,36 @@ describe("createInitialSubtopicSplittingStage", () => {
 	});
 
 	/** Runs the stage against the prepared workspace, the way the runner would. */
-	function run(): ReturnType<typeof driveStage> {
-		return driveStage({
-			stage: createInitialSubtopicSplittingStage({
-				logger: logged().logger,
-				client: openRouterClientFor({ config }),
-			}),
-			context: makeStageContext({ workspaceRoot: workspaceRoot(), config }),
-		});
-	}
-
-	/** Where the stage saves run `runNumber`. */
-	function runFile(runNumber: number): string {
-		const [directory = ""] = stageDirectoryPaths({
+	function run(): ReturnType<typeof driveModelStage> {
+		return driveModelStage({
+			factory: createInitialSubtopicSplittingStage,
+			config,
 			workspaceRoot: workspaceRoot(),
-			stageId: STAGE_ID,
+			logger: logged().logger,
 		});
-		return join(directory, `run-${String(runNumber).padStart(2, "0")}.json`);
 	}
 
 	/** The run file the stage saved for run `runNumber`, parsed back off disk. */
-	async function savedRun(runNumber: number): Promise<unknown> {
-		return JSON.parse(await readFile(runFile(runNumber), "utf8"));
+	function savedRun(runNumber: number): Promise<unknown> {
+		return readPanelRun({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID, runNumber });
 	}
 
 	/** Leaves run 1 on disk as an earlier launch would have, holding `contents`. */
-	async function leaveFirstRun(contents: unknown): Promise<void> {
-		await mkdir(dirname(runFile(1)), { recursive: true });
-		await writeFile(runFile(1), JSON.stringify(contents));
+	function leaveFirstRun(contents: unknown): Promise<void> {
+		return seedPanelRun({
+			workspaceRoot: workspaceRoot(),
+			stageId: STAGE_ID,
+			runNumber: 1,
+			contents,
+		});
 	}
 
 	it("should send the transcript without its surrounding whitespace when a run is made", async () => {
-		await writeFile(
-			stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: "transcription" }),
-			`  ${transcriptText}\n\n`,
-		);
+		await seedStageOutput({
+			workspaceRoot: workspaceRoot(),
+			stageId: "transcription",
+			contents: paddedTranscriptText,
+		});
 		await run();
 		const [{ messages }] = completionMock.mock.calls[0] as [{ messages: { content: string }[] }];
 		expect(messages[1]?.content).toBe(`Transcript:\n${transcriptText}`);
@@ -117,14 +114,9 @@ describe("createInitialSubtopicSplittingStage", () => {
 
 	it("should save every run of the panel with each subtopic's span, label and reason when the stage completes", async () => {
 		await run();
-		const cut = transcriptText.indexOf(SECOND_OPENING);
-		const expected = [
-			{ start: 0, end: cut, label: "Opening", why: "The framing." },
-			{ start: cut, end: transcriptText.length, label: "Cell injury", why: "One topic." },
-		];
 		expect(completionMock).toHaveBeenCalledTimes(PANEL_SIZE);
-		expect(await savedRun(1)).toEqual(expected);
-		expect(await savedRun(PANEL_SIZE)).toEqual(expected);
+		expect(await savedRun(1)).toEqual(transcriptDivision);
+		expect(await savedRun(PANEL_SIZE)).toEqual(transcriptDivision);
 	});
 
 	it("should record every run file as written when the stage completes", async () => {
@@ -153,11 +145,10 @@ describe("createInitialSubtopicSplittingStage", () => {
 	});
 
 	it("should make only the missing runs when an earlier launch saved some", async () => {
-		const earlier = [{ start: 0, end: transcriptText.length, label: "Whole", why: "Earlier." }];
-		await leaveFirstRun(earlier);
+		await leaveFirstRun(earlierLaunchRun);
 		await run();
 		expect(completionMock).toHaveBeenCalledTimes(PANEL_SIZE - 1);
-		expect(await savedRun(1)).toEqual(earlier);
+		expect(await savedRun(1)).toEqual(earlierLaunchRun);
 	});
 
 	it.each([
@@ -170,11 +161,8 @@ describe("createInitialSubtopicSplittingStage", () => {
 		expect(await captureError(run())).toBeInstanceOf(SavedRunUnreadableError);
 	});
 
-	it.each([
-		{ state: "missing", leave: (path: string): Promise<void> => rm(path) },
-		{ state: "blank", leave: (path: string): Promise<void> => writeFile(path, " \n") },
-	])("should fail when the transcript is $state", async ({ leave }) => {
-		await leave(stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: "transcription" }));
+	it.each(unusableTranscripts)("should fail when the transcript is $state", async ({ spoil }) => {
+		await spoil(workspaceRoot());
 		expect(await captureError(run())).toBeInstanceOf(InitialSubtopicSplittingError);
 		expect(completionMock).not.toHaveBeenCalled();
 	});

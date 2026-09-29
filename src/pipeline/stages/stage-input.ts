@@ -10,6 +10,14 @@ import type { StageContext } from "../../types/pipeline.js";
 import { errorMessage } from "../../utils/errors.js";
 import { type StageWithOutputFile, stageOutputPath } from "../layout.js";
 
+/** The stage doing the reading: which lecture it is on, and how it fails. */
+type ReadingStage = {
+	/** The current lecture run context. */
+	readonly context: StageContext;
+	/** Builds the reading stage's own error from a message. */
+	readonly fail: (message: string) => Error;
+};
+
 /**
  * Reads the file an earlier stage wrote, insisting it holds text. The caller
  * supplies how to fail, so each stage raises its own named error while the two
@@ -28,11 +36,9 @@ export async function readStageText({
 	stageId,
 	purpose,
 	fail,
-}: {
-	readonly context: StageContext;
+}: ReadingStage & {
 	readonly stageId: StageWithOutputFile;
 	readonly purpose: string;
-	readonly fail: (message: string) => Error;
 }): Promise<string> {
 	const path = stageOutputPath({ workspaceRoot: context.workspaceRoot, stageId });
 	let text: string;
@@ -45,4 +51,20 @@ export async function readStageText({
 		throw fail(`The file at ${path} holds no text; there is nothing to ${purpose}`);
 	}
 	return text;
+}
+
+/**
+ * Reads the transcript a division stage divides, with the whitespace at its two
+ * ends removed: what the prototype sent, and what every run's positions index
+ * into (technical-design.md §5, "The model never returns text").
+ *
+ * @param args - The lecture, and how to fail.
+ * @param args.context - The current lecture run context.
+ * @param args.fail - Builds the reading stage's own error from a message.
+ * @returns The transcript, trimmed.
+ * @throws The error `fail` builds, if the transcript is missing or holds no text.
+ */
+export async function readTranscript({ context, fail }: ReadingStage): Promise<string> {
+	const text = await readStageText({ context, stageId: "transcription", purpose: "divide", fail });
+	return text.trim();
 }

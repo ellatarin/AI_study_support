@@ -10,7 +10,7 @@
 
 import { spawn } from "node:child_process";
 import { readFileSync } from "node:fs";
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import nock from "nock";
@@ -50,6 +50,9 @@ import {
 } from "./openrouter.js";
 import { createMoneyFormatter, type MoneyFormatter } from "./reports.js";
 import { assembleContext } from "./stage-context.js";
+import { type Subtopic, subtopicText } from "./stages/division.js";
+import type { ModelStageFactory } from "./stages/model-stage.js";
+import { panelDirectory } from "./stages/panel-runs.js";
 import {
 	API_KEY_VARIABLE as ELEVENLABS_KEY_VARIABLE,
 	ELEVENLABS_PATHS,
@@ -700,6 +703,57 @@ export const structuredMarkdown = "## The Innate Immune Response\n\nBarrier defe
  * it is one value, and a suite that states its own is claiming otherwise.
  */
 export const transcriptText = "Today we are covering cell injury and the immune system.";
+
+/** {@link transcriptText} as a transcript file may hold it, with whitespace at both ends. */
+export const paddedTranscriptText = `  ${transcriptText}\n\n`;
+
+/** Where the second subtopic of {@link transcriptDivision} opens. */
+export const transcriptSecondOpening = "cell injury and the immune system";
+
+/** Where {@link transcriptSecondOpening} begins in {@link transcriptText}. */
+const SECOND_START = transcriptText.indexOf(transcriptSecondOpening);
+
+/**
+ * {@link transcriptText} divided in two, as a splitting run saves it: what the
+ * initial splitting suite expects a run to hold, and what the deepening suite
+ * starts from.
+ */
+export const transcriptDivision: readonly Subtopic[] = [
+	{ start: 0, end: SECOND_START, label: "Opening", why: "The framing." },
+	{ start: SECOND_START, end: transcriptText.length, label: "Cell injury", why: "One topic." },
+];
+
+/**
+ * A run an earlier launch saved, holding {@link transcriptText} whole: unlike
+ * any run the division suites' stubbed replies make, so a suite finding it
+ * afterwards knows the stage kept it rather than making the run again.
+ */
+export const earlierLaunchRun: readonly Subtopic[] = [
+	{ start: 0, end: transcriptText.length, label: "Whole", why: "Earlier." },
+];
+
+/**
+ * The ways the transcript a division stage reads can be unusable, each with how
+ * to leave a workspace's transcript that way and what the failure then says,
+ * for a suite's `it.each`.
+ */
+export const unusableTranscripts: readonly {
+	readonly state: string;
+	readonly spoil: (workspaceRoot: string) => Promise<void>;
+	readonly says: string;
+}[] = [
+	{
+		state: "missing",
+		spoil: (workspaceRoot) => rm(stageOutputPath({ workspaceRoot, stageId: "transcription" })),
+		says: "run transcription first",
+	},
+	{
+		state: "blank",
+		spoil: (workspaceRoot) =>
+			writeFile(stageOutputPath({ workspaceRoot, stageId: "transcription" }), " \n"),
+		says: "holds no text; there is nothing to divide",
+	},
+];
 
 /** A Scribe upload a suite has intercepted, and what the stage sent with it. */
 export type ScribeUpload = {
@@ -1424,6 +1478,111 @@ export async function seedStageOutput({
 	await mkdir(dirname(path), { recursive: true });
 	await writeFile(path, contents);
 	return stageOutputEntry(stageId);
+}
+
+/**
+ * Builds a model-calling stage with the suite's logger and a client for its
+ * config, and drives it against a workspace the way the runner would.
+ *
+ * @param args - The stage's factory, and what to run it with and against.
+ * @param args.factory - The stage's factory, as the CLI calls it.
+ * @param args.config - The configuration the stage and its client read.
+ * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args.logger - The suite's stub logger.
+ * @returns The stage's result.
+ * @typeParam TInput - The stage's input.
+ * @typeParam TOutput - The stage's output.
+ */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only handed on from here
+export function driveModelStage<TInput, TOutput>({
+	factory,
+	config,
+	workspaceRoot,
+	logger,
+}: {
+	readonly factory: ModelStageFactory<TInput, TOutput>;
+	readonly config: PipelineConfig;
+	readonly workspaceRoot: string;
+	readonly logger: Logger;
+}): Promise<StageResult<TOutput>> {
+	return driveStage({
+		stage: factory({ logger, client: openRouterClientFor({ config }) }),
+		context: makeStageContext({ workspaceRoot, config }),
+	});
+}
+
+/**
+ * Where a panel stage saves run `runNumber`, spelt out here rather than taken
+ * from production, so a suite finding a run at this path has checked the name.
+ *
+ * @param args - The workspace, the panel stage, and the run.
+ * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args.stageId - The panel stage.
+ * @param args.runNumber - The run, counting from 1.
+ * @returns The run file's absolute path.
+ */
+export function panelRunPath({
+	workspaceRoot,
+	stageId,
+	runNumber,
+}: {
+	readonly workspaceRoot: string;
+	readonly stageId: StageId;
+	readonly runNumber: number;
+}): string {
+	return join(
+		panelDirectory({ workspaceRoot, stageId }),
+		`run-${String(runNumber).padStart(2, "0")}.json`,
+	);
+}
+
+/**
+ * Leaves a panel run on disk as an earlier launch, or an earlier stage, would
+ * have saved it.
+ *
+ * @param args - Which run, and what it holds.
+ * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args.stageId - The panel stage.
+ * @param args.runNumber - The run, counting from 1.
+ * @param args.contents - The run, written as JSON.
+ * @returns A promise that resolves once the file is written.
+ */
+export async function seedPanelRun({
+	contents,
+	...run
+}: Parameters<typeof panelRunPath>[0] & { readonly contents: unknown }): Promise<void> {
+	const path = panelRunPath(run);
+	await mkdir(dirname(path), { recursive: true });
+	await writeFile(path, JSON.stringify(contents));
+}
+
+/**
+ * The text a division's subtopics cover, joined in order: the transcript itself
+ * when the division is lossless.
+ *
+ * @param args - The divided text, and its subtopics' spans.
+ * @param args.text - The text that was divided.
+ * @param args.subtopics - Each subtopic's span of it, in order.
+ * @returns The spans' text, joined.
+ */
+export function joinedSubtopics({
+	text,
+	subtopics,
+}: {
+	readonly text: string;
+	readonly subtopics: readonly { readonly start: number; readonly end: number }[];
+}): string {
+	return subtopics.map((subtopic) => subtopicText({ text, subtopic })).join("");
+}
+
+/**
+ * The panel run a stage saved, parsed back off disk.
+ *
+ * @param run - Which run, as for {@link panelRunPath}.
+ * @returns The parsed run file.
+ */
+export async function readPanelRun(run: Parameters<typeof panelRunPath>[0]): Promise<unknown> {
+	return JSON.parse(await readFile(panelRunPath(run), "utf8"));
 }
 
 /**
