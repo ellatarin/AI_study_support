@@ -8,7 +8,7 @@
 
 - [ ] Each subtopic over `sizeGateWords` (600, counted by code) is sent on its own with the prototype's `d9` prompt, byte-identical; subtopics at or under the gate are never sent.
 - [ ] The reply is either "one step" or a list of cuts; each cut is looked for only inside the subtopic it was proposed for, so deepening adds cuts but never moves or removes one.
-- [ ] A piece still over the gate after being cut is sent again, for at most two rounds.
+- [ ] At most two rounds. When the first round cut anything, the second sends every subtopic still over the gate, one the model called one step included (the prototype's behaviour; measured against re-sending only cut pieces in `LATER-ROUNDS.md`).
 - [ ] A call failing all 3 attempts fails the stage; a failed subtopic is never recorded as "one step".
 - [ ] Calls are made a few at a time; each deepened run is saved as it completes and a relaunch makes only the missing ones (ticket 04).
 - [ ] Every deepened run's subtopics joined in order equal the transcript character for character.

@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.53-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-09-28
+**Suite version:** 1.55-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-09-29
 **Status:** For review
 
 ---
@@ -643,7 +643,8 @@ Unit tests (mock `makeCompletionCall`):
 - `should leave a subtopic unchanged when the reply says it is one step`
 - `should add the cuts inside the subtopic when the reply divides it`
 - `should ignore a cut proposed outside its subtopic when the reply places one there`
-- `should send a piece again when it is still over the gate after one round`
+- `should send every subtopic still over the gate again when the first round cut anything` — one held as one step included
+- `should make no second round when the first round cut nothing`
 - `should stop after two rounds when a piece stays over the gate`
 - `should fail the stage when a subtopic fails every send` — never recorded as one step
 - `should reproduce the transcript exactly when a deepened run is joined`
