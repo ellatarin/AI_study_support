@@ -93,6 +93,7 @@ async function assembleDeps({
 	return {
 		runner,
 		moduleRoots: config.moduleRoots,
+		batchConcurrency: config.batch.concurrency,
 		formatMoney,
 		selectMatches: selectLectureMatches,
 		selectMatch: selectLectureMatch,

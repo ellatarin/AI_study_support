@@ -21,7 +21,6 @@ import { baseNameForLecture } from "../pipeline/lecture-files.js";
 import { readManifest, writeManifest } from "../pipeline/manifest.js";
 import {
 	type BatchSummary,
-	DEFAULT_BATCH_OPTIONS,
 	DEFAULT_RUN_OPTIONS,
 	type LectureMatch,
 	type OverallStatus,
@@ -52,6 +51,11 @@ const NOTHING_WAS_RUN = "Nothing was run";
 // Where this invocation put its debug log. Any path will do — what is under test
 // is that the CLI tells the user the one it was given.
 const DEBUG_LOG_PATH = join("/tmp", "project", "runs", `${testRunId}-debug.log`);
+
+// How many lectures the configuration says a batch runs at once. Not the
+// example's 1: that is also the runner's own default, so a batch taking it could
+// not be told from one that ignored the config.
+const CONFIGURED_BATCH_CONCURRENCY = 4;
 
 describe("executeCommand", () => {
 	let tempDir: string;
@@ -142,6 +146,7 @@ describe("executeCommand", () => {
 		return {
 			runner: runner as unknown as PipelineRunnerFacade,
 			moduleRoots: [moduleRoot, secondModuleRoot()],
+			batchConcurrency: CONFIGURED_BATCH_CONCURRENCY,
 			formatMoney: formatTestMoney,
 			selectMatches,
 			selectMatch,
@@ -410,8 +415,15 @@ describe("executeCommand", () => {
 		const batchCommand = {
 			command: "batch",
 			moduleRoot: null,
-			options: DEFAULT_BATCH_OPTIONS,
+			options: DEFAULT_RUN_OPTIONS,
+			concurrency: null,
 		} as const;
+
+		/** What the runner is asked to do by a batch with no flags beyond the one under test. */
+		const configuredBatchOptions = {
+			...DEFAULT_RUN_OPTIONS,
+			concurrency: CONFIGURED_BATCH_CONCURRENCY,
+		};
 
 		function batchSummary(overallStatus: OverallStatus): BatchSummary {
 			return {
@@ -426,14 +438,12 @@ describe("executeCommand", () => {
 		});
 
 		it("should batch every configured module when none is named", async () => {
-			const parallel = { ...DEFAULT_BATCH_OPTIONS, concurrency: 2 };
-
-			const code = await invoke({ ...batchCommand, options: parallel });
+			const code = await invoke(batchCommand);
 
 			expect(code).toBe(0);
 			expect(runner.runBatch).toHaveBeenCalledWith({
 				moduleRoots: [moduleRoot, secondModuleRoot()],
-				options: parallel,
+				options: configuredBatchOptions,
 			});
 		});
 
@@ -442,8 +452,23 @@ describe("executeCommand", () => {
 
 			expect(runner.runBatch).toHaveBeenCalledWith({
 				moduleRoots: [moduleRoot],
-				options: DEFAULT_BATCH_OPTIONS,
+				options: configuredBatchOptions,
 			});
+		});
+
+		it.each([
+			{
+				case: "--concurrency is not given",
+				concurrency: null,
+				expected: CONFIGURED_BATCH_CONCURRENCY,
+			},
+			{ case: "--concurrency overrides the config", concurrency: 2, expected: 2 },
+		])("should run $expected lectures at once when $case", async ({ concurrency, expected }) => {
+			await invoke({ ...batchCommand, concurrency });
+
+			expect(runner.runBatch).toHaveBeenCalledWith(
+				expect.objectContaining({ options: expect.objectContaining({ concurrency: expected }) }),
+			);
 		});
 
 		it("should print each lecture's summary and the batch total when the batch ends", async () => {
@@ -471,7 +496,7 @@ describe("executeCommand", () => {
 		describe("--from-stage", () => {
 			const resetCommand = {
 				...batchCommand,
-				options: { ...DEFAULT_BATCH_OPTIONS, fromStage: RESET_FROM },
+				options: { ...DEFAULT_RUN_OPTIONS, fromStage: RESET_FROM },
 			} as const;
 
 			beforeEach(() => {

@@ -9,8 +9,8 @@
  */
 
 import { parseArgs } from "node:util";
-import type { BatchRunOptions, RunOptions, StageId } from "../types/pipeline.js";
-import { DEFAULT_BATCH_OPTIONS, DEFAULT_RUN_OPTIONS } from "../types/pipeline.js";
+import type { RunOptions, StageId } from "../types/pipeline.js";
+import { DEFAULT_RUN_OPTIONS } from "../types/pipeline.js";
 import { isCalendarDate } from "../utils/date.js";
 import { errorMessage, NamedError } from "../utils/errors.js";
 import {
@@ -39,7 +39,9 @@ export type CliCommand =
 			readonly command: "batch";
 			/** The single module to process, or `null` for every configured module. */
 			readonly moduleRoot: string | null;
-			readonly options: BatchRunOptions;
+			readonly options: RunOptions;
+			/** How many lectures to run at once, from `--concurrency`; `null` takes the config's `batch.concurrency`. */
+			readonly concurrency: number | null;
 	  }
 	| {
 			readonly command: "cost-report";
@@ -109,7 +111,7 @@ const FLAG_SPECS: Readonly<Record<FlagName, FlagSpec>> = {
 	},
 	concurrency: {
 		form: "--concurrency <n>",
-		summary: "Process n lectures at once (batch only). Defaults to 1.",
+		summary: "Process n lectures at once (batch only), overriding batch.concurrency in the config.",
 	},
 	"continue-on-error": {
 		form: "--continue-on-error",
@@ -230,12 +232,12 @@ function parseStageFlag({
  * Validates `--concurrency` as a whole number of lectures to process at once.
  *
  * @param value - The flag's value, or `undefined` when it was not given.
- * @returns The concurrency, or `undefined` when the flag was absent.
+ * @returns The concurrency, or `null` when the flag was absent and the config's is to be used.
  * @throws {CliUsageError} When the value is not a positive whole number.
  */
-function parseConcurrency(value: string | undefined): number | undefined {
+function parseConcurrency(value: string | undefined): number | null {
 	if (value === undefined) {
-		return undefined;
+		return null;
 	}
 	const parsed = Number(value);
 	if (!Number.isInteger(parsed) || parsed < 1) {
@@ -270,21 +272,6 @@ function toRunOptions(flags: ParsedFlags): RunOptions {
 		...(toStage === undefined ? {} : { toStage }),
 		onStageFailure:
 			flags["continue-on-error"] === true ? "continue" : DEFAULT_RUN_OPTIONS.onStageFailure,
-	};
-}
-
-/**
- * The same, for a `batch` invocation, which additionally says how many lectures
- * run at once.
- *
- * @param flags - The parsed flag values.
- * @returns The options for a batch run.
- * @throws {CliUsageError} When a stage flag or `--concurrency` is invalid.
- */
-function toBatchOptions(flags: ParsedFlags): BatchRunOptions {
-	return {
-		...toRunOptions(flags),
-		concurrency: parseConcurrency(flags.concurrency) ?? DEFAULT_BATCH_OPTIONS.concurrency,
 	};
 }
 
@@ -384,7 +371,8 @@ const COMMAND_SPECS: Readonly<Record<CommandName, CommandSpec>> = {
 		build: (input) => ({
 			command: "batch",
 			moduleRoot: input.positionals[0] ?? null,
-			options: toBatchOptions(input.flags),
+			options: toRunOptions(input.flags),
+			concurrency: parseConcurrency(input.flags.concurrency),
 		}),
 	},
 	"cost-report": {

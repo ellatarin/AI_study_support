@@ -85,6 +85,8 @@ export type CliDeps = {
 	readonly runner: PipelineRunnerFacade;
 	/** Every module named in the configuration, used when a command names none. */
 	readonly moduleRoots: readonly string[];
+	/** How many lectures the configuration says a batch runs at once, used when `--concurrency` is not given. */
+	readonly batchConcurrency: number;
 	/**
 	 * Renders a stored dollar figure for display. Built once where the CLI is
 	 * assembled, so every block of output it writes shows money the same way.
@@ -383,7 +385,10 @@ async function batchCommand({
 	if (!proceed) {
 		return EXIT_SUCCESS;
 	}
-	const batch = await deps.runner.runBatch({ moduleRoots, options: command.options });
+	const batch = await deps.runner.runBatch({
+		moduleRoots,
+		options: { ...command.options, concurrency: command.concurrency ?? deps.batchConcurrency },
+	});
 	for (const summary of batch.lectures) {
 		await printRunSummary({ deps, summary });
 	}

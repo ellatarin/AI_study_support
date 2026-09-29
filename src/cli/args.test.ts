@@ -7,7 +7,7 @@ import {
 	testModuleRoot,
 	userChosenTitle,
 } from "../pipeline/fixtures.js";
-import { DEFAULT_BATCH_OPTIONS, DEFAULT_RUN_OPTIONS } from "../types/pipeline.js";
+import { DEFAULT_RUN_OPTIONS } from "../types/pipeline.js";
 import { type CliCommand, CliUsageError, parseCliArgs, USAGE } from "./args.js";
 
 function parse(argv: readonly string[]): CliCommand {
@@ -112,11 +112,13 @@ describe("parseCliArgs", () => {
 	});
 
 	describe("batch", () => {
+		// No --concurrency typed: the command takes the config's, which the parser cannot see.
 		it("should target every configured module when no module is named", () => {
 			expect(parse(["batch"])).toEqual({
 				command: "batch",
 				moduleRoot: null,
-				options: DEFAULT_BATCH_OPTIONS,
+				options: DEFAULT_RUN_OPTIONS,
+				concurrency: null,
 			});
 		});
 
@@ -124,7 +126,8 @@ describe("parseCliArgs", () => {
 			expect(parse(["batch", testModuleRoot])).toEqual({
 				command: "batch",
 				moduleRoot: testModuleRoot,
-				options: DEFAULT_BATCH_OPTIONS,
+				options: DEFAULT_RUN_OPTIONS,
+				concurrency: null,
 			});
 		});
 
@@ -146,9 +149,9 @@ describe("parseCliArgs", () => {
 				options: {
 					fromStage: "transcription",
 					toStage: "transcript-structuring",
-					concurrency: 3,
 					onStageFailure: "continue",
 				},
+				concurrency: 3,
 			});
 		});
 	});

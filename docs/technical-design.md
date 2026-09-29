@@ -712,7 +712,7 @@ A run log records what each stage of that run cost and stops there — no figure
 
 The runner-facing types — `LectureMatch`, `RunOptions`, `BatchRunOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, and `BatchSummary` — are defined in `src/types/pipeline.ts` (single source of truth).
 
-`RunOptions` carries what any run can be told: which stage to restart from, which stage to stop after, and `onStageFailure`, `'halt' | 'continue'`, which the caller always states. `BatchRunOptions` extends it with `concurrency`, how many lectures are in flight at once; only a batch has more than one lecture to place, so the option lives on the batch's type alone and a single-lecture run cannot express it. What a caller who states no preference gets is named once, as `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`: halt at the first failed stage, one lecture at a time.
+`RunOptions` carries what any run can be told: which stage to restart from, which stage to stop after, and `onStageFailure`, `'halt' | 'continue'`, which the caller always states. `BatchRunOptions` extends it with `concurrency`, how many lectures are in flight at once; only a batch has more than one lecture to place, so the option lives on the batch's type alone and a single-lecture run cannot express it. What a caller who states no preference gets is named once, as `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`: halt at the first failed stage, one lecture at a time. The CLI never relies on the second's `concurrency`: `batch` always states one, from `--concurrency` or else the config's `batch.concurrency`.
 
 The `PipelineRunner` surface:
 
@@ -909,7 +909,7 @@ changeLectureDate(args: { match: LectureMatch; newLectureDate: string }): Promis
 type PipelineRunnerFacade = { readonly [TOperation in RunnerOperation]: PipelineRunner[TOperation] }
 // The runner as a command sees it: the five operations above, as readonly properties, so a suite stands a
 // stub in without constructing a real runner and its stages.
-type CliDeps = { runner: PipelineRunnerFacade; moduleRoots; gbpPerUsd; selectMatches; selectMatch; confirm; write }
+type CliDeps = { runner: PipelineRunnerFacade; moduleRoots; batchConcurrency; gbpPerUsd; selectMatches; selectMatch; confirm; write }
 // Two pickers, because the two questions differ: `selectMatches` is the checkbox picker `run` and
 // `cost-report` use, `selectMatch` the single-choice one the identity mutations use ("A mutation acts on
 // exactly one lecture").
