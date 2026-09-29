@@ -6,6 +6,7 @@ import {
 	isDivision,
 	isReplySubtopic,
 	placeCuts,
+	replyNaming,
 	type Subtopic,
 	sliceSubtopics,
 } from "./division.js";
@@ -76,8 +77,8 @@ describe("placeCuts", () => {
 
 describe("sliceSubtopics", () => {
 	const named = [
-		{ label: "Opening", why: "Framing." },
-		{ label: "The membrane", why: "One structure." },
+		{ title: "Opening", why: "Framing." },
+		{ title: "The membrane", why: "One structure." },
 	];
 
 	it("should reproduce the text exactly when the subtopics are joined", () => {
@@ -85,13 +86,13 @@ describe("sliceSubtopics", () => {
 		expect(joinedSubtopics({ text: TEXT, subtopics })).toBe(TEXT);
 	});
 
-	it("should give each subtopic its span, label and reason when the text is cut", () => {
+	it("should give each subtopic its span, title and reason when the text is cut", () => {
 		expect(sliceSubtopics({ text: TEXT, cuts: [0, at("So the first")], named })).toEqual([
-			{ start: 0, end: at("So the first"), label: "Opening", why: "Framing." },
+			{ start: 0, end: at("So the first"), title: "Opening", why: "Framing." },
 			{
 				start: at("So the first"),
 				end: TEXT.length,
-				label: "The membrane",
+				title: "The membrane",
 				why: "One structure.",
 			},
 		]);
@@ -100,7 +101,7 @@ describe("sliceSubtopics", () => {
 
 describe("assertLossless", () => {
 	/** A first subtopic ending at character 10, which the second must start from. */
-	const FIRST: Subtopic = { start: 0, end: 10, label: "a", why: "" };
+	const FIRST: Subtopic = { start: 0, end: 10, title: "a", why: "" };
 
 	it.each([
 		{ fault: "no gap", second: { start: 10, end: TEXT.length }, lossless: true },
@@ -108,7 +109,7 @@ describe("assertLossless", () => {
 		{ fault: "an overlap", second: { start: 9, end: TEXT.length }, lossless: false },
 		{ fault: "a short ending", second: { start: 10, end: TEXT.length - 1 }, lossless: false },
 	])("should accept the division only when its subtopics leave $fault", ({ second, lossless }) => {
-		const subtopics: readonly Subtopic[] = [FIRST, { ...second, label: "b", why: "" }];
+		const subtopics: readonly Subtopic[] = [FIRST, { ...second, title: "b", why: "" }];
 		const check = (): void => assertLossless({ text: TEXT, subtopics });
 		if (lossless) {
 			expect(check).not.toThrow();
@@ -120,10 +121,15 @@ describe("assertLossless", () => {
 
 describe("isDivision", () => {
 	it.each([
-		{ held: "a list of subtopics", value: [{ start: 0, end: 5, label: "a", why: "b" }], is: true },
+		{ held: "a list of subtopics", value: [{ start: 0, end: 5, title: "a", why: "b" }], is: true },
 		{ held: "not a list", value: { start: 0 }, is: false },
-		{ held: "a subtopic without its reason", value: [{ start: 0, end: 1, label: "a" }], is: false },
-		{ held: "a subtopic without its span", value: [{ label: "a", why: "b" }], is: false },
+		{ held: "a subtopic without its reason", value: [{ start: 0, end: 1, title: "a" }], is: false },
+		{ held: "a subtopic without its span", value: [{ title: "a", why: "b" }], is: false },
+		{
+			held: "a subtopic named by a label, as saved before titles",
+			value: [{ start: 0, end: 5, label: "a", why: "b" }],
+			is: false,
+		},
 	])("should recognise a saved value as a division only when it holds $held", ({ value, is }) => {
 		expect(isDivision(value)).toBe(is);
 	});
@@ -140,5 +146,16 @@ describe("isReplySubtopic", () => {
 		{ held: "a string", value: "a", is: false },
 	])("should recognise a reply entry as a subtopic only when it holds $held", ({ value, is }) => {
 		expect(isReplySubtopic(value)).toBe(is);
+	});
+});
+
+describe("replyNaming", () => {
+	it("should take the reply's label as the title and its groupedBecause as the reason when a reply subtopic is read", () => {
+		expect(
+			replyNaming({ label: "Opening", groupedBecause: "Framing.", startsWith: "Welcome" }),
+		).toEqual({
+			title: "Opening",
+			why: "Framing.",
+		});
 	});
 });

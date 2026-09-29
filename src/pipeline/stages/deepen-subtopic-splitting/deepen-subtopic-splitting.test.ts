@@ -239,7 +239,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 			{
 				start: at(SECOND_CUT),
 				end: transcriptText.length,
-				label: `From ${SECOND_CUT}`,
+				title: `From ${SECOND_CUT}`,
 				why: "Its own step.",
 			},
 		]);

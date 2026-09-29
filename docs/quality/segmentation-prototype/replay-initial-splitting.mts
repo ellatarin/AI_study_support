@@ -18,6 +18,8 @@ import { join } from "node:path";
 import {
 	assertLossless,
 	placeCuts,
+	type ReplySubtopic,
+	replyNaming,
 	sliceSubtopics,
 } from "../../../src/pipeline/stages/division.ts";
 import { applyCuts } from "./cut-blocks.mts";
@@ -27,7 +29,6 @@ const RUNS_DIR = join(PROTOTYPE_DIR, "runs");
 const RESULTS_PATH = join(PROTOTYPE_DIR, "REPLAY-INITIAL-SPLITTING.md");
 const RUN_STEM = /^split-s6-(l\d+)-(\d+)\.outcome\.json$/u;
 
-type ReplySubtopic = { readonly label: string; readonly groupedBecause: string; readonly startsWith: string };
 type PrototypeBlock = { readonly label: string; readonly content: string };
 
 /** What replaying one run found. */
@@ -73,7 +74,7 @@ async function replay(stem: string, lecture: string, instance: number): Promise<
 	const division = sliceSubtopics({
 		text: transcript,
 		cuts: placed.cuts,
-		named: subtopics.map((subtopic) => ({ label: subtopic.label, why: subtopic.groupedBecause })),
+		named: subtopics.map(replyNaming),
 	});
 	assertLossless({ text: transcript, subtopics: division });
 
@@ -95,9 +96,9 @@ async function replay(stem: string, lecture: string, instance: number): Promise<
 			detail: `cuts moved: ${moved.join("; ")}`,
 		};
 	}
-	const labelMismatch = division.findIndex((subtopic, index) => subtopic.label !== blocks[index]?.label);
-	if (labelMismatch !== -1) {
-		return { ...base, result: "different", detail: `label of subtopic ${labelMismatch + 1} differs` };
+	const titleMismatch = division.findIndex((subtopic, index) => subtopic.title !== blocks[index]?.label);
+	if (titleMismatch !== -1) {
+		return { ...base, result: "different", detail: `title of subtopic ${titleMismatch + 1} differs` };
 	}
 	return { ...base, result: "match", detail: `${division.length} subtopics` };
 }

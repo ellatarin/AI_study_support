@@ -11,13 +11,16 @@
 import { NamedError } from "../../utils/errors.js";
 import { isRecord } from "../../utils/record.js";
 
-/** One subtopic: its span of the transcript, and the model's label and reason for it. */
+/** One subtopic: its span of the transcript, and the model's title and reason for it. */
 export type Subtopic = {
 	readonly start: number;
 	readonly end: number;
-	readonly label: string;
+	readonly title: string;
 	readonly why: string;
 };
+
+/** What a subtopic is called and why it is one thing, as it is saved. */
+type SubtopicNaming = Pick<Subtopic, "title" | "why">;
 
 /**
  * The text of one subtopic: its span of the transcript.
@@ -39,7 +42,9 @@ export function subtopicText({
 
 /**
  * One subtopic as a model's reply names it: what to call it, why it is one
- * thing, and the words it opens with, which say where to cut.
+ * thing, and the words it opens with, which say where to cut. The prompts ask
+ * for the title as `label`, and are carried over from the prototype word for
+ * word, so the word survives here and nowhere past it.
  */
 export type ReplySubtopic = {
 	readonly label: string;
@@ -63,10 +68,22 @@ export function isReplySubtopic(value: unknown): value is ReplySubtopic {
 }
 
 /**
+ * A reply subtopic's title and reason, as a subtopic carries them.
+ *
+ * @param reply - One subtopic or cut as the model's reply names it.
+ * @param reply.label - What the model called it: the title.
+ * @param reply.groupedBecause - Why the model holds it to be one thing: the reason.
+ * @returns Its `label` as the title and its `groupedBecause` as the reason.
+ */
+export function replyNaming({ label, groupedBecause }: ReplySubtopic): SubtopicNaming {
+	return { title: label, why: groupedBecause };
+}
+
+/**
  * Whether a value read back from a run file is a division: a list of subtopics.
  *
  * @param value - The parsed run file.
- * @returns `true` when every entry carries a span, a label and a reason.
+ * @returns `true` when every entry carries a span, a title and a reason.
  */
 export function isDivision(value: unknown): value is readonly Subtopic[] {
 	return (
@@ -76,7 +93,7 @@ export function isDivision(value: unknown): value is readonly Subtopic[] {
 				isRecord(subtopic) &&
 				typeof subtopic.start === "number" &&
 				typeof subtopic.end === "number" &&
-				typeof subtopic.label === "string" &&
+				typeof subtopic.title === "string" &&
 				typeof subtopic.why === "string",
 		)
 	);
@@ -224,12 +241,12 @@ export function placeCuts({
 
 /**
  * Cuts the text at the given positions into subtopics carrying the model's
- * labels and reasons, in order.
+ * titles and reasons, in order.
  *
  * @param args - The text, where each subtopic starts, and what the model called each.
  * @param args.text - The transcript being divided.
  * @param args.cuts - Each subtopic's start position, as {@link placeCuts} returned them.
- * @param args.named - Each subtopic's label and reason, in the same order.
+ * @param args.named - Each subtopic's title and reason, in the same order.
  * @returns The subtopics, the last running to the end of the text.
  */
 export function sliceSubtopics({
@@ -239,12 +256,12 @@ export function sliceSubtopics({
 }: {
 	readonly text: string;
 	readonly cuts: readonly number[];
-	readonly named: readonly { readonly label: string; readonly why: string }[];
+	readonly named: readonly SubtopicNaming[];
 }): readonly Subtopic[] {
 	return [...cuts.entries()].map(([index, start]) => ({
 		start,
 		end: cuts[index + 1] ?? text.length,
-		label: named[index]?.label ?? "",
+		title: named[index]?.title ?? "",
 		why: named[index]?.why ?? "",
 	}));
 }

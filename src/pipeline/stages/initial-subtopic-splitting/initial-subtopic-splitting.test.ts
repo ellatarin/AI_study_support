@@ -50,7 +50,7 @@ function splitReply({ secondQuote }: { readonly secondQuote: string }): string {
 	return JSON.stringify({
 		subtopics: transcriptDivision.map((subtopic, index) => ({
 			id: index + 1,
-			label: subtopic.label,
+			label: subtopic.title,
 			groupedBecause: subtopic.why,
 			startsWith: quotes[index],
 		})),
@@ -112,7 +112,7 @@ describe("createInitialSubtopicSplittingStage", () => {
 		expect(messages[1]?.content).toBe(`Transcript:\n${transcriptText}`);
 	});
 
-	it("should save every run of the panel with each subtopic's span, label and reason when the stage completes", async () => {
+	it("should save every run of the panel with each subtopic's span, title and reason when the stage completes", async () => {
 		await run();
 		expect(completionMock).toHaveBeenCalledTimes(PANEL_SIZE);
 		expect(await savedRun(1)).toEqual(transcriptDivision);
@@ -153,7 +153,11 @@ describe("createInitialSubtopicSplittingStage", () => {
 
 	it.each([
 		{ problem: "not a list", contents: { start: 0 } },
-		{ problem: "a subtopic without its reason", contents: [{ start: 0, end: 1, label: "L" }] },
+		{ problem: "a subtopic without its reason", contents: [{ start: 0, end: 1, title: "T" }] },
+		{
+			problem: "a subtopic named by a label, as saved before titles",
+			contents: [{ start: 0, end: 1, label: "L", why: "W" }],
+		},
 	])("should fail when a saved run holds $problem", async ({ contents }) => {
 		await leaveFirstRun(contents);
 		expect(await captureError(run())).toBeInstanceOf(SavedRunUnreadableError);

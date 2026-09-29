@@ -19,6 +19,7 @@ import {
 	isReplySubtopic,
 	placeCuts,
 	type ReplySubtopic,
+	replyNaming,
 	type Subtopic,
 	sliceSubtopics,
 } from "../division.js";
@@ -95,7 +96,7 @@ function divideAsReplied({
 	const division = sliceSubtopics({
 		text: transcript,
 		cuts: placed.cuts,
-		named: subtopics.map((subtopic) => ({ label: subtopic.label, why: subtopic.groupedBecause })),
+		named: subtopics.map(replyNaming),
 	});
 	assertLossless({ text: transcript, subtopics: division });
 	return { reply: division };

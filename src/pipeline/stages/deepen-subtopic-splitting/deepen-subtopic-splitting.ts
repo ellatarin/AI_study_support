@@ -22,6 +22,7 @@ import {
 	isReplySubtopic,
 	placeCuts,
 	type ReplySubtopic,
+	replyNaming,
 	type Subtopic,
 	sliceSubtopics,
 	subtopicText,
@@ -125,7 +126,7 @@ function placeWithin({
 
 /**
  * Cuts one subtopic where the reply says it divides. The first piece keeps the
- * subtopic's own label and reason; each later one takes its cut's.
+ * subtopic's own title and reason; each later one takes its cut's.
  *
  * @param args - The transcript, the subtopic, and the cuts proposed in it.
  * @param args.transcript - The transcript the subtopic's span indexes into.
@@ -147,7 +148,7 @@ function cutSubtopic({
 	return sliceSubtopics({
 		text: passage,
 		cuts: positions,
-		named: [subtopic, ...kept.map((cut) => ({ label: cut.label, why: cut.groupedBecause }))],
+		named: [subtopic, ...kept.map(replyNaming)],
 	}).map((piece) => ({
 		...piece,
 		start: piece.start + subtopic.start,
@@ -194,7 +195,7 @@ async function deepenSubtopic({
 		return { pieces: [subtopic], cost: null };
 	}
 	const sent = await sendWithResends({
-		what: `Deepening run ${runNumber}, round ${round}, subtopic "${subtopic.label}"`,
+		what: `Deepening run ${runNumber}, round ${round}, subtopic "${subtopic.title}"`,
 		logger,
 		send: () =>
 			tryJsonReplyAs({
