@@ -61,33 +61,36 @@ re-run from it or stop after it.
    whole, so its subtopics and their titles all come from one reading of the lecture. It uses no AI
    model, so it can be re-run for free.
 7. **`define-topics`.** Groups the subtopics into **topics**, and judges whether the lecturer's title
-   is meaningful.
-8. **`render-slides`.** Renders each slide as an image.
-9. **`read-slides`.** A vision model writes out everything on each slide.
-10. **`verify-slides`.** A checker compares each slide's written-out content with the slide image and
+   is meaningful. Eighteen groupings are made, and the one nearest their vote is kept whole.
+8. **`retitle-subtopics`.** When a subtopic was cut from a larger one, its first piece still carries
+   the larger one's title. This gives each such piece a title of its own. It comes after grouping
+   because the larger titles help grouping see where topics begin.
+9. **`render-slides`.** Renders each slide as an image.
+10. **`read-slides`.** A vision model writes out everything on each slide.
+11. **`verify-slides`.** A checker compares each slide's written-out content with the slide image and
     lists anything missed, misread or added, and a separate reviser corrects it.
-11. **`extract-figures`.** Finds the academically useful figures on the slides, crops and captions them,
+12. **`extract-figures`.** Finds the academically useful figures on the slides, crops and captions them,
     and leaves out logos and decoration.
-12. **`verify-figures`.** A checker confirms each caption matches its figure, that the figure was
+13. **`verify-figures`.** A checker confirms each caption matches its figure, that the figure was
     captured whole, and that nothing academic was left out as decoration, and a separate reviser
     corrects what it finds.
-13. **`assign-slides`.** Decides which slides, with their figures, belong to which topic. A slide that
+14. **`assign-slides`.** Decides which slides, with their figures, belong to which topic. A slide that
     belongs to no topic is flagged: it holds content the lecturer never spoke about.
-14. **`merge-slides`.** Adds each topic's slide content and figures into the lecturer's words, at the
+15. **`merge-slides`.** Adds each topic's slide content and figures into the lecturer's words, at the
     points where they are discussed. The model says only where each slide fact or figure belongs; code
     inserts it, so the lecturer's words come through untouched.
-15. **`verify-merge`.** Checks that every slide fact and figure was placed, in a sensible place, and that
+16. **`verify-merge`.** Checks that every slide fact and figure was placed, in a sensible place, and that
     nothing was added that is not on a slide, and a separate reviser corrects what it finds.
-16. **`write-topics`.** Rewrites each merged topic as textbook prose. This is the one rewrite, made with
+17. **`write-topics`.** Rewrites each merged topic as textbook prose. This is the one rewrite, made with
     everything already in hand.
-17. **`verify-topics`.** Checks each topic's prose against its merged topic: nothing lost, nothing
+18. **`verify-topics`.** Checks each topic's prose against its merged topic: nothing lost, nothing
     added, nothing distorted. A separate reviser fixes what it finds, and the check repeats until it
     passes.
-18. **`assemble-chapter`.** Joins the topics into one chapter, with transitions between them and a
+19. **`assemble-chapter`.** Joins the topics into one chapter, with transitions between them and a
     glossary.
-19. **`verify-chapter`.** Checks that joining the topics lost nothing and added nothing, and fixes what
+20. **`verify-chapter`.** Checks that joining the topics lost nothing and added nothing, and fixes what
     it finds.
-20. **`generate-pdf`.** Converts the chapter to a PDF and places it in `Final output/`.
+21. **`generate-pdf`.** Converts the chapter to a PDF and places it in `Final output/`.
 
 
 Transcription uses ElevenLabs. Every other model call goes through OpenRouter, so any model it offers can be assigned to any stage.
@@ -144,6 +147,7 @@ lecture-notes change-date <date> <new date>
 | `deepen-subtopic-splitting` | Prototype; designed, being built |
 | `choose-division` | Prototype; designed, being built |
 | `define-topics` | Prototype; grouping designed, being built |
+| `retitle-subtopics` | Prototype; designed, not built |
 | `render-slides` | Designed, not built |
 | `read-slides` | Designed, not built |
 | `verify-slides` | Planned |

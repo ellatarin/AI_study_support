@@ -222,7 +222,7 @@ The title a subtopic carries from the larger subtopic deepening cut it from. Dee
 _Avoid_: stale title, old label
 
 **Retitling**:
-Giving each subtopic of the chosen division that has an inherited title a title of its own, from its own text, before grouping. Only titles change; no cut moves.
+Giving each subtopic of the chosen division that has an inherited title a title of its own, from its own text, after grouping. Only titles change; no cut moves.
 _Avoid_: relabelling, renaming
 
 **Losslessness**:

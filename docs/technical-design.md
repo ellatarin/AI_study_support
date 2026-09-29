@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.60-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.61-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-09-29
 **Status:** For review
 
@@ -179,7 +179,10 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │   └── ...
 │
 ├── Topics/
-│   └── topics.json                            # define-topics — the modal grouping
+│   └── topics.json                            # define-topics — the chosen grouping
+│
+├── Retitled subtopics/
+│   └── subtopics.json                         # retitle-subtopics
 │
 ├── Structured transcript/
 │   └── structured-transcript.md              # transcript-structuring
@@ -358,7 +361,8 @@ Because all other files inside the workspace use simple names, only the four ite
 | `initial-subtopic-splitting` | Per-lecture | Cut the whole transcript into subtopics, once per splitting run in the panel |
 | `deepen-subtopic-splitting` | Per-lecture | In each splitting run, divide further every subtopic over the size gate |
 | `choose-division` | Per-lecture | Vote on where the splitting runs divide the transcript, and keep the run nearest the vote; no model call |
-| `define-topics` | Per-lecture | Group the chosen division's subtopics into topics: a panel of grouping runs, then the modal grouping |
+| `define-topics` | Per-lecture | Group the chosen division's subtopics into topics: a panel of grouping runs, and the run nearest their vote |
+| `retitle-subtopics` | Per-lecture | Give each subtopic whose title was written for a larger piece a title of its own |
 | `transcript-structuring` | Per-lecture | Determine AI title from transcript; structure transcript into markdown; conditionally rename files if original title was non-descriptive |
 | `transcript-verification` | Per-lecture | Compare the structured transcript against the raw one; report what was lost, underexplained, distorted, or invented. Reports only — never fails a run |
 | `slide-conversion` | Per-lecture | Render PDF slides as images; extract content via vision LLM |
@@ -367,7 +371,7 @@ Because all other files inside the workspace use simple names, only the four ite
 | `qa-loop` | Per-lecture | Iteratively check and revise notes; write final `QA checked/notes.md` |
 | `pdf-generation` | Per-lecture | Convert `QA checked/notes.md` to PDF via pandoc; deposit in `Final output/` |
 
-The four division stages run after `transcription` with every existing stage kept and unchanged; nothing reads their output yet, and moving the rest of the pipeline to the README's stage list is later work.
+The four division stages and `retitle-subtopics` run after `transcription` with every existing stage kept and unchanged; nothing reads their output yet, and moving the rest of the pipeline to the README's stage list is later work.
 
 ### 4.2 Stage Interface
 
@@ -613,8 +617,16 @@ Each stage entry records `configUsed` — a `StageRunConfig` capturing the model
       "completedAt": "...",
       "configUsed": { "modelId": "google/gemini-3.7-flash", "concurrency": 3 },
       "cost": { "promptTokens": 108000, "completionTokens": 25200, "costUsd": 0.19, "callCount": 9 },
-      "grouping": { "chosenBy": "modal", "runsAgreeing": 5, "panelSize": 9 },
-      "filesWritten": ["Grouping runs/run-01.json", "…", "Grouping runs/run-09.json", "Topics/topics.json"]
+      "grouping": { "chosenRun": 7, "distanceFromVote": 0, "panelSize": 18 },
+      "filesWritten": ["Grouping runs/run-01.json", "…", "Grouping runs/run-18.json", "Topics/topics.json"]
+    },
+    "retitle-subtopics": {
+      "status": "complete",
+      "completedAt": "...",
+      "configUsed": { "modelId": "google/gemini-3.7-flash", "callConcurrency": 10 },
+      "cost": { "promptTokens": 5300, "completionTokens": 1500, "costUsd": 0.01, "callCount": 4 },
+      "retitled": 4,
+      "filesWritten": ["Retitled subtopics/subtopics.json"]
     },
     "transcript-structuring": {
       "status": "complete",
@@ -674,7 +686,7 @@ Each stage entry records `configUsed` — a `StageRunConfig` capturing the model
 
 Each stage's `cost` is the only record of what that stage cost, and the manifest holds no roll-up of them. A reader that wants a stage's spend reads that stage's entry; nothing has to be kept in step with anything else, and a stage reset by `--from-stage` takes its cost with it when its entry goes back to `pending` (NFR-2.2).
 
-**A stage may record facts of its own in its entry.** `qa-loop` records its iterations and why it stopped; `choose-division` records which run it chose and how far that run is from the vote (§5, `choose-division`); `define-topics` records how its grouping was chosen (§5, `define-topics`). The stage returns them on its `StageResult`, the runner writes them with the `complete` entry, and a `skipped` entry carries them over from the entry it replaces, so skipping a stage never loses what it recorded. Each such stage has its own entry type, keyed to its stage id in `ManifestStages`.
+**A stage may record facts of its own in its entry.** `qa-loop` records its iterations and why it stopped; `choose-division` records which run it chose and how far that run is from the vote (§5, `choose-division`); `define-topics` records the same of its grouping (§5, `define-topics`); `retitle-subtopics` records how many subtopics it retitled (§5, `retitle-subtopics`). The stage returns them on its `StageResult`, the runner writes them with the `complete` entry, and a `skipped` entry carries them over from the entry it replaces, so skipping a stage never loses what it recorded. Each such stage has its own entry type, keyed to its stage id in `ManifestStages`.
 
 **`running` status is written before a stage begins.** A crash mid-stage leaves `running` in the manifest, which is treated as `failed` on next launch — the stage re-runs from scratch, except that a panel stage keeps the runs it already saved (§8, "Intra-Stage Resumability").
 
@@ -1067,9 +1079,9 @@ Three stages turn the transcript into subtopics. No single splitting run is reli
 
 The design was settled in the segmentation prototype (`docs/quality/segmentation-prototype/`), which holds the measurements behind every number below. The prompts are the prototype's `s6` and `d13`, carried over word for word. Only what produces the division is carried over: the prototype's rulings, rubrics, scoring and ledgers are how the prompts were tested, stay in the prototype, and appear nowhere in the pipeline.
 
-These three stages and `define-topics` (below) run after transcription and before transcript structuring, which is unchanged (§4.1).
+These three stages, `define-topics` and `retitle-subtopics` (below) run after transcription and before transcript structuring, which is unchanged (§4.1).
 
-**No check step follows them.** Every other stage where a model transforms content is followed by a separate check (README, "All work is verified with separate models"). These four transform nothing: the model says only where the transcript divides and how subtopics group, and the text is sliced by code, so losslessness is guaranteed rather than checked. What remains to judge — whether a cut or a grouping is well placed — is what the panel settles: a cut survives only where enough runs agree, and a grouping is the one most runs made. No checker exists for that judgement, and one would have to be designed and calibrated before its verdict could be trusted.
+**No check step follows them.** Every other stage where a model transforms content is followed by a separate check (README, "All work is verified with separate models"). These four transform nothing: the model says only where the transcript divides and how subtopics group, and the text is sliced by code, so losslessness is guaranteed rather than checked. What remains to judge — whether a cut or a grouping is well placed — is what the panel settles: a cut survives only where enough runs agree, and a grouping is the run nearest what the panel agreed. No checker exists for that judgement, and one would have to be designed and calibrated before its verdict could be trusted.
 
 **Panel runs.** The two splitting stages and `define-topics` each make a panel of independent runs, and share one behaviour around the model call:
 
@@ -1077,7 +1089,7 @@ These three stages and `define-topics` (below) run after transcription and befor
 - Once a run fails, no further run is started. Runs already in flight are let finish, and are saved, before the stage fails, so what they cost is not paid again on relaunch.
 - Each run is saved to its own file the moment it is complete, so a crash loses only the runs in flight.
 - A relaunched stage reads the runs already saved and makes only the missing ones. A saved run file that cannot be read is a named error rather than a run to remake: the file was written whole or not at all (§4.3), so an unreadable one means something outside the pipeline changed it.
-- A reply that is empty, is not JSON, or is the wrong shape is sent again after a pause that grows with each attempt, up to three sends. Empty replies are the common case: a provider occasionally answers with success and no content, and a plain resend has always worked. After the third failure the stage fails with an error naming the run and the last cause. A stage never goes on with fewer runs than its panel, because a missing run changes what the vote or the modal grouping means.
+- A reply that is empty, is not JSON, or is the wrong shape is sent again after a pause that grows with each attempt, up to three sends. Empty replies are the common case: a provider occasionally answers with success and no content, and a plain resend has always worked. After the third failure the stage fails with an error naming the run and the last cause. A stage never goes on with fewer runs than its panel, because a missing run changes what the vote means.
 - Every send is costed, failed ones included.
 - Every unusable reply is logged as a warning naming the run, which send it was and why it was unusable, so how often replies fail, and in what way, can be read from the run's log even when a later send succeeds.
 
@@ -1094,7 +1106,7 @@ The retry sits above the SDK's own, which retries only failures at the HTTP leve
 **Input:** `Transcript/transcript.txt`
 **Output:** `Initial subtopics/run-01.json` … `run-09.json`
 
-Makes `panelSize` splitting runs, each an independent call that sends the whole transcript with the `s6` prompt and gets back the opening words of every subtopic. Each run is written as soon as it is complete, holding each subtopic's start and end position in the transcript, its label, and the model's one-sentence reason for grouping it. A re-launched stage keeps the run files already written and makes only the missing ones.
+Makes `panelSize` splitting runs, each an independent call that sends the whole transcript with the `s6` prompt and gets back the opening words of every subtopic. Each run is written as soon as it is complete, holding each subtopic's start and end position in the transcript, its title, and the model's one-sentence reason for grouping it. The prompt asks for each title as `label`, and the prompt is carried over word for word, so the reply's `label` becomes `title` as the reply is read; nothing past the reply calls it a label. A re-launched stage keeps the run files already written and makes only the missing ones.
 
 A send can fail in four ways: no reply, a reply that is not JSON, a reply of the wrong shape, or a quote that cannot be found. A quote that cannot be found counts as a wrong shape, so all four take the panel's retry: up to three sends for one run, then the stage fails. A division missing a cut would cast a wrong vote on that cut site, and the principle is to fail loudly rather than record a partial result.
 
@@ -1106,6 +1118,8 @@ A send can fail in four ways: no reply, a reply that is not JSON, a reply of the
 For each initial run, every subtopic over the size gate is sent on its own with the `d13` prompt, which asks whether it divides further and, if so, where. The reply is either "one step" or a list of cuts, and a cut is looked for only inside the subtopic it was proposed for, so deepening can add cuts but never move or remove one. A cut that cannot be found there is dropped rather than guessed at, and the rest of the reply is kept; the prototype found every cut in 1,488 sends. Subtopics at or under the size gate are never sent and cannot be disturbed. There are at most two rounds. When the first round cut anything, the second sends every subtopic still over the gate — a piece just cut, and also a subtopic the model called one step the first time. Asking that subtopic again looks redundant but makes the vote steadier: a cut the model makes only some of the time gets a second chance, which moves its cut site away from the bar instead of leaving the vote to chance. Across the prototype's eight lectures, measured with `d9`, two panels of nine disagreed on 3.9 cut sites this way against 9.2 when only cut pieces went back, for about a fifth more calls (`docs/quality/segmentation-prototype/LATER-ROUNDS.md`). When the first round cut nothing, a second would ask the same questions again, so there is none. Word counts are made by code.
 
 `d13` is `d9`, the prompt it extends, plus one instruction: judge a boundary by whether someone who knows the field would say the subject has moved on, whether or not the lecturer marks it. It was chosen over `d9` because two panels of nine disagreed on fewer cut sites (3.3 against 3.9 across the eight lectures) and grouping on its divisions gave better topics and titles, judged by reading them; the topic rulings do not settle this, because a ruling can change once the titles are seen. It makes more errors against the prototype's subtopic rulings (5.6 against 5.0 across the eight lectures), several at cut sites marked unwanted by default rather than judged (`docs/quality/segmentation-prototype/AGGREGATION.md`).
+
+**Inherited titles are marked.** A cut is given a title for the piece it starts, but the piece before the first cut keeps the title of the whole subtopic it was cut from, which can promise material the later pieces now hold (CONTEXT.md, "Inherited title"). Every subtopic therefore records whether its title is inherited. An initial run's subtopics are all unmarked. When deepening cuts a subtopic, the first piece is marked and the new pieces are not; a subtopic deepening leaves whole keeps its mark as it was. So the first piece of a second-round cut is marked even when the subtopic cut had a title of its own. `retitle-subtopics` reads the mark (below).
 
 A call that fails — no reply, not JSON, the wrong shape — takes the panel's retry, and a subtopic that fails all three sends fails the stage. Leaving it whole would record "this subtopic is one step", which the model never said, and the vote would count it.
 
@@ -1120,27 +1134,28 @@ Makes no model call. The panel votes on where the transcript divides, and the de
 
 **The vote.** The cuts of all the deepened runs are pooled and sorted by position, and grouped into cut sites: a cut belongs to the current cut site when it lies within one percent of the transcript's length of that site's **first** cut, and otherwise opens a new one. Measuring from the first cut rather than the latest stops a site growing cut by cut until it has swallowed a neighbour. A cut site's support is the number of runs with a cut in it; one with support of at least `bar` is kept. The vote is the set of kept cut sites. It is never written out as a division of its own: it is what the runs are measured against.
 
-**Choosing the run.** Each run's division is read as the set of cut sites it cuts at. Its distance from the vote is the number of cut sites where one of the two cuts and the other does not, and the run with the smallest distance is chosen. A tie goes to the tied run closest to all the others — its distance to each other run's division, summed — and then to the earliest run, so the same panel always yields the same division.
+**Choosing the run.** Each run's division is read as the set of cut sites it cuts at. Its distance from the vote is the number of cut sites where one of the two cuts and the other does not, and the run with the smallest distance is chosen. A tie goes to the tied run closest to all the others — its distance to each other run's division, summed — and then to the earliest run, so the same panel always yields the same division. `define-topics` chooses its grouping by the same rule, over topic starts instead of cut sites, and the two stages share one chooser: given each run as a set of positions and a bar, it returns the chosen run and its distance from the vote.
 
 A whole run is one reading of the lecture: every boundary, title and reason in it comes from the same run. The vote alone can put together a division no run made, whose titles would come from different runs. On the prototype's `d13` runs the nearest run is as steady and as accurate as the vote itself: two panels of nine disagree on 3.34 cut sites across the eight lectures against the vote's 3.26, and a panel makes 3.09 errors against the user's rulings against the vote's 3.03 (`docs/quality/segmentation-prototype/AGGREGATION.md`).
 
-**What is written.** `Chosen division/subtopics.json` holds the chosen run's subtopics as it saved them: each one's span, title and reason. The stage's manifest entry records which run was chosen and its distance from the vote (§4.5), which marks a lecture where even the nearest run is far from what the panel agreed.
+**What is written.** `Chosen division/subtopics.json` holds the chosen run's subtopics as it saved them: each one's span, title, reason and whether its title is inherited. The stage's manifest entry records which run was chosen and its distance from the vote (§4.5), which marks a lecture where even the nearest run is far from what the panel agreed.
 
 The stage fails when fewer than `panelSize` deepened runs are present.
 
 ```typescript
 // src/pipeline/stages/division.ts — shared by the three stages
-type Subtopic = { start: number; end: number; label: string; why: string }
+type Subtopic = { start: number; end: number; title: string; why: string; titleInherited: boolean }
 placeCuts(args: { text: string; quotes: readonly string[] }):
   { cuts: readonly number[] } | { unplaced: string }
 // Finds each quote in turn, forward from the previous cut, and returns where each subtopic starts —
 // the first always at 0, whatever its quote. The first quote that cannot be found is returned instead.
-sliceSubtopics(args: { text: string; cuts: readonly number[]; named: readonly { label: string; why: string }[] }): readonly Subtopic[]
+sliceSubtopics(args: { text: string; cuts: readonly number[]; named: readonly { title: string; why: string }[] }): readonly Subtopic[]
+// Every subtopic unmarked; deepening marks the first piece of each subtopic it cuts.
 assertLossless(args: { text: string; subtopics: readonly Subtopic[] }): void
 subtopicText(args: { text: string; subtopic: Pick<Subtopic, "start" | "end"> }): string
 isDivision(value: unknown): value is readonly Subtopic[]   // a run file read back
 type ReplySubtopic = { label: string; groupedBecause: string; startsWith: string }
-isReplySubtopic(value: unknown): value is ReplySubtopic   // one subtopic or cut as a reply names it
+isReplySubtopic(value: unknown): value is ReplySubtopic   // one subtopic or cut as a reply names it; `label` is the prompt's word
 
 // src/pipeline/stages/stage-input.ts — shared by the four division stages, which each read the transcript
 readStageText(args: { context: StageContext; stageId: StageWithOutputFile; purpose: string; fail: (message: string) => Error }): Promise<string>
@@ -1156,10 +1171,9 @@ readPanel<TRun>(args: { panelSize: number; directory: string; isRun; fail }): Pr
 panelDirectory(args: { workspaceRoot: string; stageId: StageId }): string
 
 // src/pipeline/stages/choose-division/choose-division.ts
-type DivisionChoice = { chosenRun: number; distanceFromVote: number; panelSize: number }
-// chosenRun counts from 1, as the run files are numbered.
 chooseDivision(args: { text: string; runs: readonly (readonly Subtopic[])[]; bar: number }):
-  { subtopics: readonly Subtopic[]; choice: DivisionChoice }
+  { subtopics: readonly Subtopic[]; choice: PanelChoice }
+// Groups the runs' cuts into cut sites, then hands each run's cut sites to chooseClosestToVote (define-topics, below).
 // Pure: the panel's runs in, in run order; the chosen run's subtopics and how it was chosen out.
 ```
 
@@ -1168,33 +1182,56 @@ chooseDivision(args: { text: string; runs: readonly (readonly Subtopic[])[]; bar
 ### `define-topics` — grouping subtopics into topics
 
 **Input:** `Transcript/transcript.txt`, `Chosen division/subtopics.json`
-**Output:** `Grouping runs/run-01.json` … `run-09.json`, `Topics/topics.json`
+**Output:** `Grouping runs/run-01.json` … `run-18.json`, `Topics/topics.json`
 
-Groups the chosen division's subtopics into topics. Grouping varies from run to run more than splitting does — the same subtopics given to the same prompt twice come back grouped differently — so, like splitting, it is done by a panel and the panel's result is kept. The prompt is the prototype's `g12`, carried over word for word in the form that shows the model each subtopic's label; the prototype also held a form without labels, and it is not carried over, because every grouping measured on the `d13` division was made with labels. Its model is set per stage (§6); the prototype's is `google/gemini-3.7-flash`.
+Groups the chosen division's subtopics into topics. Grouping varies from run to run more than splitting does — the same subtopics given to the same prompt twice come back grouped differently — so, like splitting, it is done by a panel and one run is chosen from it. The prompt is the prototype's `g15`, carried over word for word in the form that shows the model each subtopic's title; the prototype also held a form without titles, and it is not carried over, because every grouping measured on the `d13` division was made with titles. `g15` is `g12` plus one rule: a subtopic that only looks back — a summary or recap — ends the topic before rather than starting one. On each lecture's chosen division, the grouping chosen from `g15`'s 18 runs matched the user's topic rulings on all five ruled lectures (`docs/quality/segmentation-prototype/analysis-2026-09-29/`). Its model is set per stage (§6); the prototype's is `google/gemini-3.7-flash`.
 
-This build groups only. One further job belongs to this stage and is not yet designed: judging whether the lecturer's title is meaningful. Each subtopic already has its title, the one the chosen run gave it.
+The titles grouping sees are the chosen run's own, inherited titles included; retitling comes after (`retitle-subtopics`, below). An inherited title was written for a larger piece, and that is information grouping uses: it marks where the splitter saw a larger unit begin. Given the same divisions with the inherited titles replaced, `g15` lost a ruled topic start on lecture 4 — tumour promotion, which only 7 of 18 runs started where 15 had — and its chosen grouping went from right to wrong.
 
-**One grouping run.** The model is sent the chosen division's subtopics in order, each as its position (counting from 1), its label, and its full text, trimmed. It replies with a list of topics, each a label, a one-sentence `groupedBecause`, and the position of its first subtopic, so a topic can only begin where a subtopic does and the text cannot be touched. A reply is valid when the first topic starts at subtopic 1, the starts rise strictly, and every start is a subtopic that exists — which also means no topic is empty. Anything else is a wrong shape and takes the panel's retry (§5, "Dividing the transcript", Panel runs). Each run is saved as the model's reply, `groupedBecause` included: the prompt asks for it because stating why subtopics belong together is how the model tests a grouping, and the file is what a relaunch reads back.
+This build groups only. One further job belongs to this stage and is not yet designed: judging whether the lecturer's title is meaningful.
 
-**The modal grouping.** The panel's result is the grouping the most runs made (CONTEXT.md, "Modal grouping"). Two runs made the same grouping when their topics start at the same subtopics, whatever they named them; names never repeat word for word, so comparing them would make every run unique. The result is one run's grouping, taken whole — never assembled start by start, which could produce a grouping no run made.
+**One grouping run.** The model is sent the chosen division's subtopics in order, each as its position (counting from 1), its title, and its full text, trimmed. It replies with a list of topics, each a title, a one-sentence `groupedBecause`, and the position of its first subtopic, so a topic can only begin where a subtopic does and the text cannot be touched. A reply is valid when the first topic starts at subtopic 1, the starts rise strictly, and every start is a subtopic that exists — which also means no topic is empty. Anything else is a wrong shape and takes the panel's retry (§5, "Dividing the transcript", Panel runs). Each run is saved as the model's reply, `groupedBecause` included: the prompt asks for it because stating why subtopics belong together is how the model tests a grouping, and the file is what a relaunch reads back.
 
-When two or more groupings tie for most runs — including when no grouping repeats at all — the tie goes to whichever tied run disagrees least with all the others. The disagreement between two runs is the number of subtopics where one starts a topic and the other does not; a run's total is its disagreement summed over every other run in the panel. A tie on that total goes to the earliest run, so the same panel always yields the same grouping.
+**The chosen grouping.** Each run is read as the set of subtopics it starts a topic at, the first excepted; two runs made the same grouping when their topics start at the same subtopics, whatever they named them. A subtopic's support is the number of runs starting a topic there, and the vote is the set of subtopics with support of at least `bar`. The run nearest the vote is chosen by the rule `choose-division` uses, with the same chooser: fewest subtopics where the run and the vote disagree, a tie to the run closest to all the others, then the earliest (CONTEXT.md, "Chosen grouping"). The result is one run's grouping, taken whole, so its topics and their titles are one reading of the lecture; the vote is never handed on, since it could assemble a grouping no run made.
 
-**What is written.** `Topics/topics.json` holds each topic of the chosen run as its label and the subtopic it starts at. `groupedBecause` is not carried into it: nothing downstream reads it, and it stays in the run file. The stage's manifest entry records how the grouping was chosen, `modal` or `leastDisagreement`, with how many of the panel's runs made it (§4.5). That is how a lecture whose grouping was clear-cut is told from one where the panel split.
+The panel is 18 runs and the bar 9. On lectures 1 and 3 a contested topic start is made by about half the runs, so which grouping is chosen there turns on the draw of runs; a larger panel makes that draw steadier, for about $0.19 more per lecture. With `g15`, any bar from 5 to 14 of 18 chose the same groupings, and 9 is half the panel.
 
-**Configuration.** `panelSize` (9) lives in a required `grouping` section of `pipeline-config.json`, separate from the division's: the two are equal today by coincidence, and one may be tuned without the other.
+**What is written.** `Topics/topics.json` holds each topic of the chosen run as its title and the subtopic it starts at. `groupedBecause` is not carried into it: nothing downstream reads it, and it stays in the run file. The stage's manifest entry records which run was chosen and its distance from the vote (§4.5), as `choose-division`'s does, which marks a lecture where even the nearest grouping is far from what the panel agreed.
+
+**Configuration.** `panelSize` (18) and `bar` (9) live in a required `grouping` section of `pipeline-config.json`, separate from the division's, so one may be tuned without the other.
 
 The stage fails when the chosen division's subtopics are missing or unreadable, and when a run fails its third send.
 
 ```typescript
-// src/pipeline/stages/define-topics/modal-grouping.ts
-type GroupingRun = { topics: readonly { label: string; groupedBecause: string; firstSubtopicId: number }[] }
-type Topic = { label: string; firstSubtopicId: number }
-type GroupingChoice = { chosenBy: "modal" | "leastDisagreement"; runsAgreeing: number; panelSize: number }
-// "modal" when one grouping was made by more runs than any other; "leastDisagreement" when the tie-break chose.
-chooseGrouping(args: { runs: readonly GroupingRun[] }): { topics: readonly Topic[]; choice: GroupingChoice }
+// src/pipeline/stages/closest-to-vote.ts — shared by choose-division and define-topics
+type PanelChoice = { chosenRun: number; distanceFromVote: number; panelSize: number }
+// chosenRun counts from 1, as the run files are numbered.
+chooseClosestToVote(args: { runs: readonly ReadonlySet<number>[]; bar: number }): PanelChoice
+// Pure: each run as the positions it marks (cut sites, or subtopics starting a topic), in run order.
+
+// src/pipeline/stages/define-topics/choose-grouping.ts
+type GroupingRun = { topics: readonly { title: string; groupedBecause: string; firstSubtopicId: number }[] }
+type Topic = { title: string; firstSubtopicId: number }
+chooseGrouping(args: { runs: readonly GroupingRun[]; bar: number }): { topics: readonly Topic[]; choice: PanelChoice }
 // Pure: the panel's runs in, in run order; the chosen run's topics and how it was chosen out.
 ```
+
+---
+
+### `retitle-subtopics` — a title of its own for each inherited title
+
+**Input:** `Transcript/transcript.txt`, `Chosen division/subtopics.json`
+**Output:** `Retitled subtopics/subtopics.json`
+
+Gives each subtopic of the chosen division whose title is inherited (`deepen-subtopic-splitting`, "Inherited titles are marked") a title of its own, from its own text. Only titles change: no cut moves, and the transcript is untouched. It runs after `define-topics` because grouping reads the inherited titles as signals of where a topic begins (`define-topics`, above); the notes are written with the new ones. Across the prototype's eight chosen divisions, 30 of 143 subtopics had an inherited title, between one and seven per lecture.
+
+**One call per marked subtopic.** The prompt is the prototype's `r3`, carried over word for word. Each call is sent the subtopic's full text, trimmed, and the titles of the subtopics immediately before and after it, as the chosen run wrote them — a neighbour that is itself being retitled is sent with its inherited title — or nothing where there is no neighbour. So no call depends on another, and they are sent together, as many at once as the stage's `callConcurrency` allows (§6). The reply is one title. A reply that is empty, is not JSON, or is not an object holding a non-empty `title` takes the panel runs' retry (§5, "Dividing the transcript", Panel runs), and a subtopic that fails its third send fails the stage, as every model stage does. There is no panel: a title is not voted on.
+
+**What is written.** `Retitled subtopics/subtopics.json` holds the whole chosen division with each marked subtopic's title replaced; everything else is copied as it was, the marks included. The inherited titles stay in `Chosen division/subtopics.json`. When no subtopic is marked, no call is made and the division is written unchanged. The manifest entry records how many subtopics were retitled (§4.5).
+
+No check step follows: the stage writes only titles, as the splitting stages do, and no title is checked anywhere in the pipeline.
+
+The stage fails when the chosen division's subtopics are missing or unreadable, and when a call fails its third send.
 
 ---
 
@@ -1600,7 +1637,7 @@ OpenRouter's own parameter reference states that JSON mode requires the prompt t
 
 **A tuning parameter can be left unset out loud.** Every optional field of a stage entry — `temperature`, `maxTokens`, `concurrency`, `callConcurrency`, `maxIterations` — may be written as `null`, which means what leaving the key out means: the request carries no such parameter. There are two ways to say it because the choice is worth writing down. Under the routing restriction above, the parameters a request carries decide which endpoints may serve it, and providers differ in what they accept — the same model reached through one provider takes a `temperature` and through another does not. Which tuning a stage sets is therefore part of choosing what can answer it, and a `null` records a deliberate omission beside the tuning that is set, where a missing key reads as an oversight.
 
-**Three settings say how much runs at once.** `batch.concurrency` is how many lectures a batch runs at once (§4.7). A stage's `concurrency` is how many of its runs, slides or images are in flight at once. `callConcurrency` is how many calls one run makes at once, and only `deepen-subtopic-splitting` has one: it is the only stage whose run makes more than one call (§5, `deepen-subtopic-splitting`). Set on any other stage it would be read by nothing, so it is a `ConfigError` at startup naming the stage, rather than a setting that silently does nothing. Unset, runs and calls are each made one at a time.
+**Three settings say how much runs at once.** `batch.concurrency` is how many lectures a batch runs at once (§4.7). A stage's `concurrency` is how many of its runs, slides or images are in flight at once. `callConcurrency` is how many calls one run makes at once, and only `deepen-subtopic-splitting` and `retitle-subtopics` have one: they are the only stages whose run makes more than one call (§5). Set on any other stage it would be read by nothing, so it is a `ConfigError` at startup naming the stage, rather than a setting that silently does nothing. Unset, runs and calls are each made one at a time.
 
 **A stage key names a stage.** Every key of the `stages` section is checked against the stage IDs, and one that names no stage is a `ConfigError` at startup listing the stages it could have named. Configuration reaches a stage by its key alone, so this check is what makes "the stage is configured" and "the config file mentions the stage" the same statement.
 
@@ -1626,7 +1663,7 @@ Each prefix is matched literally, so one carrying a pattern character means itse
 
 **`output.language` is a closed set, and every stage that writes prose obeys it.** The tag is checked at load against `OUTPUT_LANGUAGES`, which maps each tag to the name a prompt calls it by; a tag with no name is refused at startup, listing the ones it could have been. The pairing is the point — "Write in en-GB" is not an instruction a model can follow, so a language cannot be offered in config without wording for the prompts to use. `languageRule` in `src/utils/language.ts` builds that sentence, and every prose stage's prompt includes it rather than wording the rule itself, so the stages cannot drift into instructing the model differently. `transcript-structuring` is the only such stage built; `transcript-verification`, `slide-conversion`, `image-extraction` and `synthesis` join it as they are.
 
-**The division and grouping settings are required sections.** `division` and `grouping` carry the panel sizes, the bar and the size gate (§5, "Dividing the transcript" and `define-topics`). Like every other section they must be present, and a missing or mistyped field is a `ConfigError` at startup. The bar may not exceed the division's panel size, since no cut site could then be kept. Each is a whole number of at least 1.
+**The division and grouping settings are required sections.** `division` and `grouping` carry the panel sizes, the bars and the size gate (§5, "Dividing the transcript" and `define-topics`). Like every other section they must be present, and a missing or mistyped field is a `ConfigError` at startup. Neither bar may exceed its section's panel size, since nothing could then be kept. Each is a whole number of at least 1.
 
 **So is the batch section.** `batch.concurrency` is how many lectures `batch` runs at once, a whole number of at least 1, and `--concurrency N` overrides it for one command (§4.7). It is required rather than defaulted so the file says how wide a batch runs; the example sets 1.
 
@@ -1668,11 +1705,15 @@ Each prefix is matched literally, so one carrying a pattern character means itse
     "deepen-subtopic-splitting": {
       "modelId": "<FAST_LONG_CONTEXT_MODEL>",     // called once per oversized subtopic
       "concurrency": 6,
-      "callConcurrency": 10                       // calls in flight at once within one run; this stage only
+      "callConcurrency": 10                       // calls in flight at once within one run
     },
     "define-topics": {
       "modelId": "<FAST_LONG_CONTEXT_MODEL>",     // called once per grouping run with every subtopic's text
       "concurrency": 3
+    },
+    "retitle-subtopics": {
+      "modelId": "<FAST_LONG_CONTEXT_MODEL>",     // called once per subtopic with an inherited title
+      "callConcurrency": 10
     },
     "transcript-structuring": {
       "modelId": "<REASONING_MODEL>",             // long-context text model with strong structure/summarisation
@@ -1709,7 +1750,8 @@ Each prefix is matched literally, so one carrying a pattern character means itse
     "sizeGateWords": 600               // a subtopic over this many words is deepened
   },
   "grouping": {
-    "panelSize": 9                     // grouping runs per lecture
+    "panelSize": 18,                   // grouping runs per lecture
+    "bar": 9                           // runs a topic start needs to count in the vote
   },
   "batch": {
     "concurrency": 1                   // lectures a batch runs at once; --concurrency N overrides it
