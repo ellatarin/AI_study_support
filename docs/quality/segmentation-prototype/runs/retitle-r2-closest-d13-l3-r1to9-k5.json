@@ -1,0 +1,42 @@
+{
+  "division": "closest-d13-l3-r1to9-k5",
+  "promptVersion": "r2",
+  "modelId": "google/gemini-3.7-flash",
+  "retitled": [
+    {
+      "id": 3,
+      "oldTitle": "Cancer as a failure of differentiation and tissue architecture",
+      "newTitle": "Cancer as a failure of tissue organization",
+      "promptTokens": 1392,
+      "completionTokens": 251
+    },
+    {
+      "id": 5,
+      "oldTitle": "Invasion and metastasis: Distinguishing benign from malignant tumors",
+      "newTitle": "Tumour invasion and movable versus immovable tumours",
+      "promptTokens": 680,
+      "completionTokens": 288
+    },
+    {
+      "id": 8,
+      "oldTitle": "Stepwise progression from adenoma to adenocarcinoma in colorectal cancer",
+      "newTitle": "Stepwise progression of colorectal adenoma to adenocarcinoma",
+      "promptTokens": 2408,
+      "completionTokens": 437
+    },
+    {
+      "id": 12,
+      "oldTitle": "Incidence of tumors across humans and other species",
+      "newTitle": "Incidence of benign and malignant tumors",
+      "promptTokens": 766,
+      "completionTokens": 334
+    },
+    {
+      "id": 14,
+      "oldTitle": "Clinical detection and screening modalities",
+      "newTitle": "Clinical signs of tumors and the rationale for screening",
+      "promptTokens": 647,
+      "completionTokens": 324
+    }
+  ]
+}

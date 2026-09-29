@@ -1,0 +1,28 @@
+{
+  "division": "closest-d13-l5-r1to9-k5",
+  "promptVersion": "r3",
+  "modelId": "google/gemini-3.7-flash",
+  "retitled": [
+    {
+      "id": 9,
+      "oldTitle": "DNA repair mechanisms and instability phenotypes",
+      "newTitle": "Nucleotide and base excision repair",
+      "promptTokens": 691,
+      "completionTokens": 196
+    },
+    {
+      "id": 12,
+      "oldTitle": "Replication, mitotic defects, and cellular stress consequences",
+      "newTitle": "DNA polymerase epsilon mutations and sequence instability",
+      "promptTokens": 606,
+      "completionTokens": 226
+    },
+    {
+      "id": 15,
+      "oldTitle": "Hereditary cancer predispositions and clinical syndromes",
+      "newTitle": "Hereditary predisposition to cancer",
+      "promptTokens": 1457,
+      "completionTokens": 149
+    }
+  ]
+}

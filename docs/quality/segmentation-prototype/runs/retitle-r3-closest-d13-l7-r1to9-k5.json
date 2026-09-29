@@ -1,0 +1,14 @@
+{
+  "division": "closest-d13-l7-r1to9-k5",
+  "promptVersion": "r3",
+  "modelId": "google/gemini-3.7-flash",
+  "retitled": [
+    {
+      "id": 4,
+      "oldTitle": "Stem cell hierarchy, cancer stem cells, and cell of origin",
+      "newTitle": "Stem cell properties and models of cancer development",
+      "promptTokens": 1549,
+      "completionTokens": 491
+    }
+  ]
+}

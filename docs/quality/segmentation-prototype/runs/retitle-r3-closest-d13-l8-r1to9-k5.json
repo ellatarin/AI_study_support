@@ -1,0 +1,56 @@
+{
+  "division": "closest-d13-l8-r1to9-k5",
+  "promptVersion": "r3",
+  "modelId": "google/gemini-3.7-flash",
+  "retitled": [
+    {
+      "id": 3,
+      "oldTitle": "Cytotoxic chemotherapy and drug resistance mechanisms",
+      "newTitle": "Cytotoxic chemotherapy agents, successes, and toxicities",
+      "promptTokens": 1439,
+      "completionTokens": 246
+    },
+    {
+      "id": 6,
+      "oldTitle": "Exploiting cell cycle checkpoint deficiencies",
+      "newTitle": "Exploiting cell cycle checkpoint defects with irradiation",
+      "promptTokens": 835,
+      "completionTokens": 242
+    },
+    {
+      "id": 9,
+      "oldTitle": "Targeting oncogenic kinases and oncogene addiction",
+      "newTitle": "Targeting oncogenic drivers and oncogene addiction",
+      "promptTokens": 1082,
+      "completionTokens": 342
+    },
+    {
+      "id": 13,
+      "oldTitle": "Monoclonal antibodies and antibody-drug conjugates",
+      "newTitle": "Monoclonal antibodies in cancer therapy",
+      "promptTokens": 933,
+      "completionTokens": 275
+    },
+    {
+      "id": 16,
+      "oldTitle": "Immune checkpoint inhibitors and tumor neoantigens",
+      "newTitle": "Immune checkpoint inhibitors: efficacy and toxicity",
+      "promptTokens": 1067,
+      "completionTokens": 338
+    },
+    {
+      "id": 18,
+      "oldTitle": "Bispecific T-cell engagers and CAR T-cell therapies",
+      "newTitle": "Bispecific T cell engagers (BiTEs)",
+      "promptTokens": 662,
+      "completionTokens": 188
+    },
+    {
+      "id": 20,
+      "oldTitle": "Current challenges, future directions, and chemotherapy combination paradigms",
+      "newTitle": "Challenges and future directions in cancer therapy",
+      "promptTokens": 1045,
+      "completionTokens": 190
+    }
+  ]
+}

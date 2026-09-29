@@ -1,0 +1,21 @@
+{
+  "division": "closest-d13-l2-r1to9-k5",
+  "promptVersion": "r3",
+  "modelId": "google/gemini-3.7-flash",
+  "retitled": [
+    {
+      "id": 5,
+      "oldTitle": "The alternative pathway of complement activation",
+      "newTitle": "Three pathways of complement activation",
+      "promptTokens": 597,
+      "completionTokens": 151
+    },
+    {
+      "id": 9,
+      "oldTitle": "Complement effector mechanisms: opsonization, inflammation, and membrane attack complex",
+      "newTitle": "Complement-mediated opsonization and phagocytosis",
+      "promptTokens": 659,
+      "completionTokens": 271
+    }
+  ]
+}

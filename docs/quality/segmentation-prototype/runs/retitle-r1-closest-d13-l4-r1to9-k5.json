@@ -1,0 +1,42 @@
+{
+  "division": "closest-d13-l4-r1to9-k5",
+  "promptVersion": "r1",
+  "modelId": "google/gemini-3.7-flash",
+  "retitled": [
+    {
+      "id": 4,
+      "oldTitle": "Environmental carcinogens and the bad luck versus exposure debate",
+      "newTitle": "Environmental mutagens and carcinogens",
+      "promptTokens": 1133,
+      "completionTokens": 201
+    },
+    {
+      "id": 9,
+      "oldTitle": "Chemical and physical mutagens: aflatoxin, UV, and polycyclic aromatic hydrocarbons",
+      "newTitle": "Dietary carcinogens and aflatoxin mutagenesis",
+      "promptTokens": 652,
+      "completionTokens": 225
+    },
+    {
+      "id": 14,
+      "oldTitle": "Tumour promotion and the Berenbaum two-stage model",
+      "newTitle": "Asbestos, Chronic Inflammation, and Tumor Promotion",
+      "promptTokens": 681,
+      "completionTokens": 100
+    },
+    {
+      "id": 16,
+      "oldTitle": "Developmental and physiological susceptibility to carcinogens",
+      "newTitle": "Developmental Stages, Cell Proliferation, and Cancer Susceptibility",
+      "promptTokens": 840,
+      "completionTokens": 200
+    },
+    {
+      "id": 19,
+      "oldTitle": "Methodologies for evaluating carcinogenicity",
+      "newTitle": "Epidemiological approaches to proving carcinogenicity",
+      "promptTokens": 869,
+      "completionTokens": 158
+    }
+  ]
+}

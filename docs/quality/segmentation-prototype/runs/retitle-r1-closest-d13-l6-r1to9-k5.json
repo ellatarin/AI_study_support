@@ -1,0 +1,42 @@
+{
+  "division": "closest-d13-l6-r1to9-k5",
+  "promptVersion": "r1",
+  "modelId": "google/gemini-3.7-flash",
+  "retitled": [
+    {
+      "id": 2,
+      "oldTitle": "Growth signal independence and resistance to growth inhibitory signals",
+      "newTitle": "Growth Signaling Pathways and Mutation Patterns in Cancer",
+      "promptTokens": 660,
+      "completionTokens": 157
+    },
+    {
+      "id": 5,
+      "oldTitle": "Block to terminal differentiation",
+      "newTitle": "Differentiation block in the hematopoietic system",
+      "promptTokens": 1026,
+      "completionTokens": 165
+    },
+    {
+      "id": 8,
+      "oldTitle": "Replicative immortality, telomeres, and senescence",
+      "newTitle": "The Hayflick limit, telomeres, and cellular senescence",
+      "promptTokens": 1184,
+      "completionTokens": 209
+    },
+    {
+      "id": 12,
+      "oldTitle": "Metabolic rewiring and the Warburg effect",
+      "newTitle": "The Warburg effect and aerobic glycolysis in cancer",
+      "promptTokens": 702,
+      "completionTokens": 94
+    },
+    {
+      "id": 16,
+      "oldTitle": "Mechanisms and barriers of tumor metastasis",
+      "newTitle": "Mechanisms and pathways of cancer metastasis",
+      "promptTokens": 1277,
+      "completionTokens": 154
+    }
+  ]
+}

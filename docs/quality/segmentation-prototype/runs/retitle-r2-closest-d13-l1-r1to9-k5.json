@@ -1,0 +1,21 @@
+{
+  "division": "closest-d13-l1-r1to9-k5",
+  "promptVersion": "r2",
+  "modelId": "google/gemini-3.7-flash",
+  "retitled": [
+    {
+      "id": 5,
+      "oldTitle": "Toll-like receptors and intracellular signaling pathways",
+      "newTitle": "Introduction to Toll-like receptors",
+      "promptTokens": 1146,
+      "completionTokens": 232
+    },
+    {
+      "id": 7,
+      "oldTitle": "Cytoplasmic PRRs and the inflammasome pathway",
+      "newTitle": "Other families of pattern recognition receptors",
+      "promptTokens": 536,
+      "completionTokens": 241
+    }
+  ]
+}
