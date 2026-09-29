@@ -57,8 +57,12 @@ def subtopic_starts(stem):
 
 
 def id_at(starts, position):
-    """The 1-based id of the subtopic starting at this cut site, or None when none does."""
-    return next((i for i, start in enumerate(starts, start=1) if same_cut_site(start, position)), None)
+    """The 1-based id of the subtopic starting at this cut site, or None when none does.
+
+    Two subtopics can start within the tolerance of one position; the nearer is the one meant.
+    """
+    near = [(abs(start - position), i) for i, start in enumerate(starts, start=1) if same_cut_site(start, position)]
+    return min(near)[1] if near else None
 
 
 def carry(ruling, source, target):

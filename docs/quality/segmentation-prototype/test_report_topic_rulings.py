@@ -74,6 +74,19 @@ def test_should_carry_a_ruling_by_position_when_the_target_division_numbers_subt
     assert lost == [4]
 
 
+def test_should_carry_a_start_to_the_nearest_subtopic_when_two_start_within_the_tolerance():
+    # Arrange — the target's subtopics 3 and 4 start under a point apart; the ruling starts a topic at 4.
+    division = [0.0, 50.0, 98.34, 99.33]
+    ruling = Ruling(starts=frozenset({4}), either=frozenset(), one_of=())
+
+    # Act
+    carried, lost = report_topic_rulings.carry(ruling, source=division, target=division)
+
+    # Assert
+    assert carried == ruling
+    assert lost == []
+
+
 def test_should_number_topic_starts_from_topic_sizes_when_a_run_is_read():
     # Arrange — three topics of 1, 3 and 2 subtopics start at subtopics 1, 2 and 5.
     sizes = [1, 3, 2]
