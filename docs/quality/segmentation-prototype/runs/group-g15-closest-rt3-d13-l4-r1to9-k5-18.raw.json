@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the key learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiological factors and epidemiological patterns in cancer development",
+      "groupedBecause": "These subtopics explore how stochastic mutations, genetic predispositions, and environmental exposures interact to drive cancer risk and shape global variations in incidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of environmental carcinogens, mutational damage, and tumor promotion",
+      "groupedBecause": "These subtopics illustrate how specific agents induce carcinogenesis through molecular pathways ranging from direct DNA adduct formation to metabolic activation and inflammatory tumor promotion.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and assessing exposure risks",
+      "groupedBecause": "These subtopics examine genomic, epidemiological, in vivo, and in vitro approaches used to determine carcinogenicity and evaluate practical exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "This subtopic provides the final summary of the core lecture themes and concluding remarks.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "The lecturer introduces the subject of complement and sets pedagogical expectations for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Core principles and molecular foundations of complement",
+      "groupedBecause": "These subtopics establish the foundational architecture, naming conventions, and central role of C3 in the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics detail the three upstream pathways that trigger complement activation and drive surface deposition of C3b.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail the downstream effector processes through which activated complement eradicates pathogens and promotes inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "This subtopic explains the regulatory factors and mechanisms that prevent complement activation on healthy host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic describes the distinct clinical presentations and disease patterns associated with deficiencies in specific complement proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic explains the strategies employed by pathogens to resist and evade complement-mediated immune clearance.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and next topic preview",
+      "groupedBecause": "The lecturer concludes the presentation on complement and previews the next lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

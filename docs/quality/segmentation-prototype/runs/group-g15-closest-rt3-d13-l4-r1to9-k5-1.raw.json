@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecturer, the course structure, and the core learning objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, mutation sources, and epidemiological variation",
+      "groupedBecause": "These subtopics explore how cancers develop through genetic mutations and permissive microenvironments, influenced by inherited predisposition, environmental exposures, and global demographic patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of biological, physical, and chemical carcinogenesis",
+      "groupedBecause": "These subtopics detail the specific molecular mechanisms by which infectious agents, radiation, and chemical exposures act as tumor initiators or promoters to induce malignancy.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and evaluating risk",
+      "groupedBecause": "These subtopics examine the genomic, epidemiological, in vivo, and in vitro approaches used to determine carcinogenicity and assess exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This subtopic provides the concluding summary and final takeaways of the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

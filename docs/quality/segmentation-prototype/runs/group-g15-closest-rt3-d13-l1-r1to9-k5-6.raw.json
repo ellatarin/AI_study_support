@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer welcomes the students and outlines the lecture's focus on the initiation and resolution of the inflammatory response.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen-associated and damage-associated molecular patterns",
+      "groupedBecause": "These subtopics explain the foundational concepts of microbial and cellular damage detection through molecular patterns and how the immune system distinguishes self from non-self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptors and signaling pathways",
+      "groupedBecause": "These subtopics detail the genetics, cellular localization, receptor families, and intracellular activation cascades, including the inflammasome, used to sense danger signals.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cellular recruitment, trafficking, and systemic inflammatory effects",
+      "groupedBecause": "These subtopics describe how sentinel cells, endothelial interactions, leukocyte extravasation, lymphatic drainage, and systemic mediator release coordinate the inflammatory reaction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Inflammation resolution, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics explain how the inflammatory response is terminated, how damaged tissue is healed, and how chronic states or granulomas arise when resolution is incomplete.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "The lecturer concludes the session and announces the subject of the upcoming lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

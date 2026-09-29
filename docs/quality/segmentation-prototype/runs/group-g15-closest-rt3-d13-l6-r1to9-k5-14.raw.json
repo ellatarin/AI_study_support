@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and overview of cancer hallmarks",
+      "groupedBecause": "These remarks introduce the lecture, establish the learning outcomes, and present the overarching framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained proliferative and survival signaling",
+      "groupedBecause": "These subtopics explore how oncogenic mutations in cell-surface receptors and downstream cascades drive constitutive growth signaling and cell survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocked differentiation in cancer",
+      "groupedBecause": "These subtopics examine how malignancies in both hematopoietic and epithelial tissues arrest terminal differentiation while maintaining a proliferative state.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how tumor cells evade programmed cell death through mutations in p53 and dysregulation of Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere biology, senescence, and genome protection checkpoints",
+      "groupedBecause": "These subtopics address the limits of cellular replication, mechanisms of telomerase reactivation, stress-induced senescence checkpoints, and the consolidation of cell-autonomous growth hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and oncometabolites",
+      "groupedBecause": "These subtopics discuss the metabolic reprogramming of cancer cells, including aerobic glycolysis, tissue-specific metabolic rewiring, and oncogenic enzyme mutations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "This subtopic examines how developing tumors induce new blood vessel formation to overcome diffusion limits and sustain tissue oxygenation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion, metastasis, and secondary dissemination",
+      "groupedBecause": "These subtopics detail the multistep cascade of metastatic spread, clinical monitoring of circulating tumor cells, microenvironmental compatibility, and metastatic genomics.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and closing remarks",
+      "groupedBecause": "These closing remarks summarize the key takeaways of the lecture and provide final housekeeping details for upcoming sessions.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the scope, learning objectives, and clinical relevance of the lecture series on cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Carcinogenesis as a disruption of cellular genetics and tissue architecture",
+      "groupedBecause": "These subtopics explore the core biological concepts of cancer as a progressive failure of cellular differentiation, genetic regulation, and tissue architecture, along with the models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumour invasion, metastasis, and benign-to-malignant progression",
+      "groupedBecause": "These subtopics describe the clinical and histological characteristics of tumour invasion, metastatic dissemination, and the stepwise progression from benign lesions to invasive malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour nomenclature and classification",
+      "groupedBecause": "This subtopic outlines the standard naming conventions and notable exceptions used to classify benign and malignant tumours by tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the direct and systemic mechanisms by which primary tumours and metastatic lesions cause clinical disease and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumour incidence across human tissues and multicellular species",
+      "groupedBecause": "These subtopics examine the distribution and frequency of different tumour types in human populations and across diverse animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening modalities",
+      "groupedBecause": "These subtopics cover the rationale for early cancer detection, the histological basis of successful cervical screening, and the limitations of screening for other tumour types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture by referencing the learning outcomes and giving reminders for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

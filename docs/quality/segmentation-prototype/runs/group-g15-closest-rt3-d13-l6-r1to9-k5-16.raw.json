@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for the hallmarks of cancer",
+      "groupedBecause": "It sets the framing, historical background, and learning objectives for the lecture on cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and mutations driving proliferation and survival",
+      "groupedBecause": "These subtopics explain how mutations in cell surface receptor cascades, including Wnt and receptor tyrosine kinase pathways, lead to sustained proliferative signaling and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in hematopoiesis and carcinomas",
+      "groupedBecause": "These subtopics explore how cancer cells stall normal lineage maturation and retain proliferative states in both blood cancers and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis via p53 and Bcl-2 family regulation",
+      "groupedBecause": "It details the biochemical mechanisms and key regulatory proteins cancer cells alter to prevent programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance, cellular senescence, and stress responses",
+      "groupedBecause": "These subtopics cover the mechanisms of replicative immortality, the cellular senescence barrier, and how stress pathways converge on p53 to govern cell fate.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics examine how cancer cells rewire cellular metabolism, utilize aerobic glycolysis, and exploit metabolic enzyme mutations to drive tumorigenesis.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and neovascularization",
+      "groupedBecause": "It addresses how growing tumors overcome nutrient and oxygen limits by stimulating new blood vessel formation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genomics of cancer metastasis",
+      "groupedBecause": "These subtopics detail the metastatic cascade from local invasion and circulation through to secondary site colonization and associated genomic features.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "It provides closing framing and final summary remarks on the hallmarks of cancer.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic frames the lecture by introducing the hallmarks of cancer framework and outlining the session's learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Oncogenic growth signaling pathways",
+      "groupedBecause": "These subtopics explain how mutations in cell surface receptors and intracellular signaling cascades drive sustained proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in tumorigenesis",
+      "groupedBecause": "These subtopics illustrate how arrests in terminal cellular differentiation contribute to leukemias and solid tumors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic describes the molecular mechanisms and regulatory balance by which cancer cells avoid programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and senescence bypass",
+      "groupedBecause": "These subtopics examine how telomere dynamics and senescence bypass enable cellular immortality, alongside the stress responses that normally constrain replication.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming in cancer",
+      "groupedBecause": "These subtopics explain how cancer cells alter their metabolism through aerobic glycolysis, pathway rewiring, and oncometabolite generation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic addresses how expanding tumors stimulate new blood vessel growth to supply oxygen and nutrients.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and dynamics of cancer metastasis",
+      "groupedBecause": "These subtopics detail the biological steps, clinical tracking, microenvironmental factors, and genomic features underlying metastatic dissemination.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and closing remarks",
+      "groupedBecause": "This subtopic concludes the lecture with closing perspectives and reflections on the cancer hallmarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

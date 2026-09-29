@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course conclusion and lecture introduction",
+      "groupedBecause": "It provides the introductory framing for the lecture by outlining its learning objectives on cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies, systemic toxicity, and resistance",
+      "groupedBecause": "They discuss conventional modalities of cancer treatment—including surgery, radiotherapy, and cytotoxic chemotherapy—alongside their toxicities and common mechanisms of drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities and DNA repair defects",
+      "groupedBecause": "They cover therapeutic strategies designed to exploit specific biological vulnerabilities in cancer cells, including hormone dependence, cell cycle checkpoint deficiencies, and DNA repair defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors, oncogene addiction, and resistance mechanisms",
+      "groupedBecause": "They examine targeted therapies directed against driver oncogenic kinases and the mechanisms of resistance and drug addiction that arise during treatment.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based cancer therapies",
+      "groupedBecause": "They detail the therapeutic use of engineered antibodies to target cancer cells directly or deliver cytotoxic payloads as antibody-drug conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune surveillance and T-cell-directed immunotherapies",
+      "groupedBecause": "They explore the evidence for immune surveillance against tumors and the application of immunotherapies that harness and engineer T cells to eliminate cancer cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Global progress, challenges, and future paradigms in cancer treatment",
+      "groupedBecause": "They reflect on historical progress, ongoing therapeutic challenges, ethical considerations, and future paradigms in cancer research and clinical management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

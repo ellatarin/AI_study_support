@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing of complement",
+      "groupedBecause": "This subtopic serves as the lecture opening, introducing the subject's importance and outlining the lecture structure.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations, nomenclature, and central role of C3",
+      "groupedBecause": "These subtopics introduce the core architecture, naming conventions, and central role of complement component C3 in driving the cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three distinct upstream recognition pathways that trigger complement activation and converge on C3 convertase formation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail the downstream effector mechanisms through which activated complement eliminates pathogens and stimulates inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement",
+      "groupedBecause": "This subtopic explains the molecular mechanisms and regulatory proteins that prevent complement from attacking healthy host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic examines the distinct medical pathologies and infection susceptibilities associated with deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic details how bacterial pathogens employ diverse molecular strategies to evade complement-mediated destruction.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture wrap-up and next session preview",
+      "groupedBecause": "This subtopic serves as the lecture closing, concluding the discussion of complement and previewing the upcoming topic.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

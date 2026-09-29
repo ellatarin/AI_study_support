@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "It provides the introductory framing and sets out the key learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Determinants of cancer risk and epidemiological variation",
+      "groupedBecause": "These subtopics explore how intrinsic genetic processes, environmental exposures, and geographic variations influence cancer incidence and public perceptions of risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of carcinogenic agents and tumor promoters",
+      "groupedBecause": "These subtopics examine the molecular and cellular mechanisms by which biological, chemical, and physical agents act as tumor initiators, promoters, or host-dependent drivers of carcinogenesis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for identifying carcinogens and evaluating exposure risk",
+      "groupedBecause": "These subtopics examine the genomic, epidemiological, in vivo, and in vitro approaches used to determine carcinogenicity and assess human exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "It delivers the concluding summary and final wrap-up of the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

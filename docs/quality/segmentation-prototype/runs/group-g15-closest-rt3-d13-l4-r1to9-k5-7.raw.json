@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This section serves as the lecture's opening framing by introducing the lecturer and setting out the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of cancer causation: intrinsic factors, environmental exposures, and epidemiological variation",
+      "groupedBecause": "These subtopics explore the broad origins of cancer development by examining the interplay between intrinsic genetic mutations, environmental influences, and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of carcinogenesis: initiation, promotion, and microenvironmental factors",
+      "groupedBecause": "These subtopics explain the specific biological and biochemical mechanisms by which infectious agents, chemical mutagens, radiation, and inflammatory tumor promoters induce cancer.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and assessing cancer risk",
+      "groupedBecause": "These subtopics detail the experimental, genomic, and epidemiological approaches used to detect carcinogenic agents and evaluate associated risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This section provides the closing framing for the lecture by reviewing the main takeaways on cancer causation and carcinogenicity assessment.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

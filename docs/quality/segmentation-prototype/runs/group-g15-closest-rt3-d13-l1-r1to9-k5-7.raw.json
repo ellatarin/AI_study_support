@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic introduces the lecture by outlining how known immune cells and molecules combine to initiate and resolve inflammatory reactions.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate recognition of infection and cellular damage",
+      "groupedBecause": "These subtopics explain how the innate immune system senses pathogens and tissue injury using molecular patterns and specialized pattern recognition receptor systems.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory response execution and systemic consequences",
+      "groupedBecause": "These subtopics describe how innate activation triggers sentinel cell signaling, leukocyte extravasation into tissues, lymphatic transport, and systemic complications such as septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "These subtopics address the mechanisms required to terminate acute inflammation, rebuild damaged tissue, and manage unresolved or chronic inflammatory conditions.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and previews the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

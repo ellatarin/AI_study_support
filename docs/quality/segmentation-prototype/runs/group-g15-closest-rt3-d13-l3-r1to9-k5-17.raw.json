@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the course structure, target audience, and key learning objectives for the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological concepts and experimental models of cancer",
+      "groupedBecause": "These subtopics establish the foundational concept of cancer as a breakdown in differentiation driven by genetic and epigenetic alterations alongside the methods and challenges of studying it in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and morphological progression",
+      "groupedBecause": "These subtopics explain the histological and gross biological features that distinguish benign growth from invasive and metastatic malignancy using clinical examples and colorectal progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor classification, nomenclature, and clinical morbidity",
+      "groupedBecause": "These subtopics address the naming conventions for benign and malignant neoplasms and the physical and physiological mechanisms by which they cause patient harm and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor incidence across populations and animal species",
+      "groupedBecause": "These subtopics examine the distribution and frequency of tumor types across human demographics, tissues, and diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening methods",
+      "groupedBecause": "These subtopics cover the rationale, histological basis, efficacy, and limitations of screening programs for early cancer detection across different organ systems.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic provides the lecture closing and gives housekeeping reminders regarding upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

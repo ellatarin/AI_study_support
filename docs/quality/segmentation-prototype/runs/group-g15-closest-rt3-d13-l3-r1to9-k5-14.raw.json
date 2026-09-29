@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This opening subtopic introduces the cancer biology lecture series, its interdisciplinary audience, and the key learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological mechanisms and experimental models of cancer development",
+      "groupedBecause": "These subtopics explain how cancer develops through accumulated genetic and epigenetic changes that disrupt normal cellular differentiation and tissue architecture, alongside the experimental methods and limitations of modeling this process in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and benign versus malignant progression",
+      "groupedBecause": "These subtopics examine how tumors transition from localized benign lesions to invasive and metastatic malignancies, highlighting their histological hallmarks, spread routes, and clinical behaviors using examples such as colorectal cancer.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification conventions",
+      "groupedBecause": "This subtopic outlines the standard linguistic conventions and notable exceptions used to classify and name benign and malignant tumors based on their tissue and cellular origins.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of tumor morbidity, mortality, and comparative incidence",
+      "groupedBecause": "These subtopics describe the physiological mechanisms by which tumors cause disease and death, while evaluating tumor incidence and mortality patterns across human populations and diverse animal species.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Clinical presentation and cancer screening strategies",
+      "groupedBecause": "These subtopics explore the signs of clinical tumor presentation and evaluate the rationale, histological foundations, successes, and limitations of population screening across various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This closing subtopic concludes the lecture by reviewing the learning outcomes and providing logistical instructions for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

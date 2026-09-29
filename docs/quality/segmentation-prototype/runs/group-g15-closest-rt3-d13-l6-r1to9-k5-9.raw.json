@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "It introduces the lecture framework, learning outcomes, and foundational concepts regarding the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and sustained proliferation",
+      "groupedBecause": "These subtopics examine how mutations in cell-surface receptors and downstream signaling cascades dysregulate proliferation and survival pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in hematopoietic and epithelial cancers",
+      "groupedBecause": "These subtopics explain how impaired cellular differentiation contributes to cancer development in both leukemias and solid tumors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic explores how cancer cells evade programmed cell death through p53 pathway inactivation and Bcl-2 family dysregulation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomeres, replicative senescence, and genome protection",
+      "groupedBecause": "These subtopics address telomere dynamics, cellular senescence, and p53-mediated stress responses that regulate replicative immortality.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming in cancer",
+      "groupedBecause": "These subtopics cover the metabolic adaptations of cancer cells, including aerobic glycolysis, global metabolic rewiring, and oncometabolite production.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "This subtopic describes the mechanisms and triggers by which developing tumors induce new blood vessel growth to sustain oxygen and nutrient delivery.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genetics of metastasis",
+      "groupedBecause": "These subtopics examine the sequential biological steps, monitoring methods, environmental factors, and genomic features associated with cancer metastasis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "It provides closing remarks summarizing how hallmarks integrate across tumor development and wraps up the lecture.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

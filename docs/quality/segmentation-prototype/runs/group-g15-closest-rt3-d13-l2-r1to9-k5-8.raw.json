@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "It introduces the lecture on complement and sets expectations for the material.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals and core principles of complement",
+      "groupedBecause": "These subtopics introduce the basic properties, naming conventions, and central C3 activation hub of the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three biochemical pathways that initiate complement recognition and converge to reach the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics detail the primary downstream outcomes of complement activation that eliminate pathogens and promote inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement",
+      "groupedBecause": "This subtopic explains the regulatory proteins and mechanisms that protect host cells from accidental complement-mediated attack.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic outlines the distinct clinical presentations and pathology associated with deficiencies across different complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic examines the strategies and virulence factors pathogens utilize to circumvent complement-mediated immunity.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture wrap-up and next session preview",
+      "groupedBecause": "It concludes the lecture on complement and provides framing for the next session on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

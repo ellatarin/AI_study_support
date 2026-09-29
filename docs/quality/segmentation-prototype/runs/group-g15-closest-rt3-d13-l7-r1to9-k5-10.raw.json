@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer evolution",
+      "groupedBecause": "The lecturer introduces the fifth lecture in the series and outlines the learning outcomes concerning cancer evolution, cell of origin, and microenvironmental influences.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal selection and epigenetic drivers of tumor evolution",
+      "groupedBecause": "These subtopics explain how sequential genetic mutations confer Darwinian selective fitness and how epigenetic alterations modify transcriptional states to drive tumor initiation and progression.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell properties and cell-of-origin models in tumorigenesis",
+      "groupedBecause": "These subtopics examine how stem cell hierarchies relate to cancer development, presenting stochastic versus cancer stem cell models alongside experimental evidence from leukemia and colorectal cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion, chronic inflammation, and stromal dependency",
+      "groupedBecause": "These subtopics demonstrate how external promoters, inflammatory signaling, and surrounding stromal tissue provide essential supportive conditions for tumor growth and progression.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental and computational tools for analyzing tumor evolution",
+      "groupedBecause": "This subtopic focuses on the laboratory technologies and computational methods used to map mutational timing, cellular plasticity, and microenvironmental interactions in cancer.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated multifactorial framework of cancer evolution",
+      "groupedBecause": "This subtopic synthesizes how genetic mutations, cell-of-origin characteristics, transcriptional states, and microenvironmental factors collectively determine diverse evolutionary pathways to malignancy.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and preview of cancer therapy",
+      "groupedBecause": "The lecturer concludes the session and previews the subsequent lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

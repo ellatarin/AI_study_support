@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This opening section introduces the lecture series, outlines the primary learning objectives, and sets the scope for studying cancer causation and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: genetic, environmental, and epidemiological factors",
+      "groupedBecause": "These subtopics establish the fundamental concepts of cancer development by examining how intrinsic cellular mutations, genetic predisposition, and environmental exposures interact to determine cancer risk across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and oncogenesis",
+      "groupedBecause": "These subtopics examine how biological pathogens drive malignant transformation, focusing on the cooperative mechanisms linking Epstein-Barr virus, malaria, and Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which environmental, dietary, and occupational mutagens undergo metabolic activation to induce DNA lesions and adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, microenvironmental factors, and host susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic mechanisms of carcinogenesis including inflammatory promotion, signaling pathway activation, and developmental tissue susceptibility, concluding with a synthesis of carcinogenic pathways.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying carcinogens and evaluating cancer risk",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro methodologies used to determine carcinogenicity and assess human exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This closing section summarises the key takeaways of the lecture and brings the presentation to a close.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

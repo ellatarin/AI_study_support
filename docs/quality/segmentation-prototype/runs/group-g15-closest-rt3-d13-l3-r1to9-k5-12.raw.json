@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the course structure, target audience, and primary learning objectives for cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular, genetic, and tissue-level basis of cancer development",
+      "groupedBecause": "These subtopics explain the fundamental nature of cancer as an accumulation of genetic alterations and a failure of tissue differentiation, alongside laboratory models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and benign-to-malignant progression",
+      "groupedBecause": "These subtopics examine how tumors progress from contained benign states to locally invasive and metastatic malignancies, illustrated through clinical and histological examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature conventions and exceptions",
+      "groupedBecause": "This subtopic outlines the standard rules and exceptions used to name benign and malignant neoplasms according to their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer-related morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physiological and structural ways that primary and metastatic tumors impair organ function to cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Epidemiology and comparative incidence of tumors across species",
+      "groupedBecause": "These subtopics explore cancer frequency and mortality patterns in human populations and across diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening strategies",
+      "groupedBecause": "These subtopics address clinical tumor detection, exploring the rationale, histological foundations, and limitations of population screening programmes.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "The lecturer wraps up the session by referencing the learning outcomes and providing logistical instructions for upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

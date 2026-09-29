@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic introduces the lecture and outlines the overarching focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate pathogen and damage recognition mechanisms",
+      "groupedBecause": "These subtopics explain the molecular strategies and receptor systems used by the innate immune system to detect microbial presence and cellular damage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory response execution, cell trafficking, and systemic effects",
+      "groupedBecause": "These subtopics describe how sentinel cells initiate local leukocyte extravasation, lymphatic antigen transport, and the systemic consequences of escalating inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammatory states",
+      "groupedBecause": "These subtopics cover the mechanisms required to terminate acute inflammation, rebuild damaged tissue, and manage unresolved or chronic inflammatory conditions.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic closes the lecture and indicates the topic of the subsequent session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

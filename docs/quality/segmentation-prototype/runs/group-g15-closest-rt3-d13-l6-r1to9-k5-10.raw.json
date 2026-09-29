@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture objectives",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the learning outcomes, and presents the conceptual framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and oncogenic mutations",
+      "groupedBecause": "These subtopics examine how mutations in signaling cascades, including Wnt/beta-catenin, RTK/Ras/MAPK, and PI3K/Akt pathways, drive uncontrolled cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in leukemias and solid tumors",
+      "groupedBecause": "These subtopics explore how cancer cells arrest normal lineage maturation to maintain proliferative states across hematopoietic malignancies and intestinal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis through p53 and Bcl-2 regulation",
+      "groupedBecause": "This subtopic details how cancer cells resist programmed cell death by disrupting p53 signaling and the balance between pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere biology, replicative immortality, and cell-autonomous growth summary",
+      "groupedBecause": "These subtopics examine the mechanisms of replicative senescence and telomerase reactivation that confer cellular immortality, the convergence of stress signaling on p53, and summarize cell-autonomous growth control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism, aerobic glycolysis, and oncometabolites",
+      "groupedBecause": "These subtopics describe the metabolic reprogramming of cancer cells through aerobic glycolysis, tissue-specific rewiring, and Krebs cycle mutations generating oncogenic metabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explains the angiogenic switch and regulatory balance required to establish new vasculature for supplying oxygen and nutrients to growing tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genetics of cancer metastasis",
+      "groupedBecause": "These subtopics cover the metastatic cascade, the clinical utility of circulating tumor cells, the seed-and-soil dynamics, and the genomic characteristics associated with metastatic progression.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "This subtopic concludes the lecture by reflecting on the synthesis of cancer hallmarks and inviting student follow-up.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

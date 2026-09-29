@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture on cancer evolution and outlines the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms driving clonal evolution",
+      "groupedBecause": "These subtopics explain how sequential genetic mutations and transient epigenetic alterations confer selective advantages that drive clonal expansion in tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and cancer stem cell hierarchy",
+      "groupedBecause": "These subtopics explore the parallels between normal stem cells and cancer cells and evaluate experimental evidence for cancer stem cells and cellular hierarchy in leukemias and colorectal cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promoters, chronic inflammation, and stromal dependency",
+      "groupedBecause": "These subtopics demonstrate how microenvironmental factors, inflammatory signals, and supportive stroma permit mutant cells to acquire stem-like properties and sustain malignant growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental and computational methods for studying tumor evolution",
+      "groupedBecause": "It describes the modern sequencing, spatial omics, and computational technologies used to investigate tumor evolution and cell-microenvironment interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated evolutionary model of cancer development",
+      "groupedBecause": "It synthesizes the interplay among genetic mutations, epigenetics, cell of origin, and microenvironmental conditions into a unified evolutionary model of cancer.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "It concludes the lecture session and provides a brief preview of the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

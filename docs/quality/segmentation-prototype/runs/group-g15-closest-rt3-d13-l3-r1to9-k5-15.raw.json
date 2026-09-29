@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides opening framing by welcoming students, outlining the module structure, and introducing the key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological nature, tissue architecture, and experimental models of cancer",
+      "groupedBecause": "These subtopics explain the fundamental biology of cancer as an accumulation of genetic changes leading to disrupted differentiation and tissue architecture, alongside the approaches and limitations of modeling this in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and histology of tumour invasion, metastasis, and progression",
+      "groupedBecause": "These subtopics describe the clinical and histological characteristics of local invasion, metastatic dissemination, and the stepwise progression from benign precursors to malignant disease.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour classification, nomenclature, and clinical consequences",
+      "groupedBecause": "These subtopics outline the conventions for naming tumors, the differing risks posed by benign and malignant growths, and the physiological mechanisms causing disease and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative incidence of cancer in humans and multicellular organisms",
+      "groupedBecause": "These subtopics explore the epidemiological patterns and prevalence of different cancer types in humans as well as across other animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening programmes",
+      "groupedBecause": "These subtopics examine how tumors present symptomatically and evaluate the rationale, histological methods, and practical limitations of population-level cancer screening.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic provides closing framing by referencing the learning outcomes and giving housekeeping reminders for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

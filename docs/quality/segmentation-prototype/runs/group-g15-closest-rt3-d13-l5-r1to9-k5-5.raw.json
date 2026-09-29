@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture themes, histopathology practical context, and learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and cellular transformation assays",
+      "groupedBecause": "These subtopics trace how the discovery of transforming viruses revealed cellular proto-oncogenes and established laboratory assays for cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer gene classifications, allele dosage, and tumor suppressor pathways",
+      "groupedBecause": "These subtopics explain the functional definitions, signaling pathways, and allelic mutation dynamics of oncogenes and tumor suppressors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and cellular consequences of genetic instability",
+      "groupedBecause": "These subtopics examine how defects in DNA repair pathways, replication proofreading, and mitotic chromosome segregation generate sequence and chromosomal instability.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-step progression, hereditary cancer syndromes, and tumor evolution",
+      "groupedBecause": "These subtopics explore how sequential somatic mutations and inherited cancer predispositions drive tumor development and subsequent evolution.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and recommended reading",
+      "groupedBecause": "It concludes the lecture, provides recommended reading, and previews the upcoming session.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

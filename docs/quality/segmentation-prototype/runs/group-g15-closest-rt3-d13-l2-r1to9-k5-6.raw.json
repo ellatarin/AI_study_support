@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic introduces the lecture topic and sets expectations regarding complement's complexity and importance.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals of the complement system and central role of C3",
+      "groupedBecause": "These subtopics introduce the overall organization of complement, its historical nomenclature conventions, and the pivotal role of C3 activation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics describe the alternative, lectin, and classical pathways that initiate complement and converge to reach the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics explain the major downstream functional outcomes of complement activation, including opsonization, inflammation, and membrane lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "This subtopic explains the regulatory factors and mechanisms that prevent complement from damaging host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic examines the distinct clinical presentations and disease susceptibilities associated with deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic details the mechanisms pathogens utilize to circumvent complement-mediated destruction, highlighting Staphylococcus aureus.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and preview",
+      "groupedBecause": "This subtopic concludes the session and provides a brief preview of the upcoming lecture topic.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This topic provides the opening framing and learning objectives for the lecture on cancer causes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and environmental determinants of cancer risk",
+      "groupedBecause": "These subtopics explore how intrinsic biological processes, inherited predisposition, and environmental exposures interact to determine cancer susceptibility and population patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "These subtopics examine how biological pathogens and viral infections contribute to malignant transformation, illustrated through the etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical carcinogens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics detail how radiation and metabolic activation of chemical compounds induce direct and indirect DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host susceptibility, and mechanisms of carcinogenesis",
+      "groupedBecause": "These subtopics examine how non-mutagenic promoters, chronic inflammation, tissue proliferation, and host developmental stages facilitate cancer development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for assessing carcinogenicity and evaluating risk",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, animal, and in vitro methodologies used to detect carcinogens and assess human risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This topic provides the closing summary and final concluding remarks for the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

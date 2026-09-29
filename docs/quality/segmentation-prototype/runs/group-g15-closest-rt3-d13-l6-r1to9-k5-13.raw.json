@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and overview of cancer hallmarks",
+      "groupedBecause": "This subtopic frames the lecture by introducing the learning outcomes and the conceptual model of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and oncogenic mutations in cancer",
+      "groupedBecause": "These subtopics explain how mutations in receptor pathways like Wnt and receptor tyrosine kinase cascades drive sustained proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in hematological and epithelial cancers",
+      "groupedBecause": "These subtopics examine how arrested differentiation maintains cells in proliferative progenitor states in both leukemias and intestinal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of apoptotic resistance in cancer cells",
+      "groupedBecause": "This subtopic addresses how cancer cells evade programmed cell death through mutations in p53 and altered balances of Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere biology, senescence bypass, and p53 stress responses",
+      "groupedBecause": "These subtopics explore how telomere shortening triggers senescence, how cancer cells achieve replicative immortality through telomerase reactivation, and how p53 mediates stress-induced growth arrest.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in tumor biology",
+      "groupedBecause": "These subtopics detail how cancer cells rewire metabolic pathways through aerobic glycolysis and Krebs cycle mutations to support growth and alter the epigenome.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and vascular recruitment",
+      "groupedBecause": "This subtopic explores how tumors overcome hypoxia and nutrient deprivation by shifting the balance of signaling factors to stimulate new blood vessel growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genomics of cancer metastasis",
+      "groupedBecause": "These subtopics cover the multi-step metastatic cascade, circulating tumor cell monitoring, microenvironmental compatibility, and the genomic features of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "This subtopic concludes the lecture by summarising the integration of hallmarks in cancer biology and outlining upcoming practical sessions.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

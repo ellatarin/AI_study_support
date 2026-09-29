@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture series context and outlines the key learning objectives regarding cancer evolution and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of clonal selection",
+      "groupedBecause": "These subtopics explain how cell-intrinsic genetic mutations and epigenetic alterations confer selective advantages that drive clonal expansion.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchies and the cell of origin in cancer",
+      "groupedBecause": "These subtopics examine the role of stem cell properties, hierarchical organization, and the cell of origin in tumor initiation and propagation across different cancer models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion and stromal dependence",
+      "groupedBecause": "These subtopics demonstrate how non-mutagenic microenvironmental factors, inflammatory signaling, and supportive stroma enable tumor growth and provide therapeutic targets.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for investigating tumor evolution",
+      "groupedBecause": "This subtopic reviews the experimental, sequencing, and computational technologies used to profile tumor cell plasticity and spatial microenvironments.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated evolutionary model of cancer development",
+      "groupedBecause": "This subtopic synthesizes genetic, cell-of-origin, and microenvironmental factors into a unified framework of cancer evolution.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "This subtopic provides the closing remarks and previews the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

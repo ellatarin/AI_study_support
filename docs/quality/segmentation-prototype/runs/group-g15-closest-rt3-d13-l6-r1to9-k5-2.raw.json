@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for the hallmarks of cancer",
+      "groupedBecause": "This subtopic frames the lecture by introducing the learning outcomes and providing an overview of the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained proliferative and growth signaling pathways",
+      "groupedBecause": "These subtopics explore the intracellular pathways and genetic mutations that drive sustained proliferative signaling and growth independence in cancer.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in hematopoietic and epithelial malignancies",
+      "groupedBecause": "These subtopics examine how cancer cells impair terminal differentiation to sustain proliferative progenitor states across different tissue lineages.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of programmed cell death and apoptosis resistance",
+      "groupedBecause": "This subtopic focuses on the apoptotic pathway and the molecular mechanisms tumors use to prevent programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere dynamics, cellular senescence, and replicative immortality",
+      "groupedBecause": "These subtopics explain the limit on cell division imposed by telomere shortening and how tumors overcome senescence through telomerase reactivation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53 stress integration and summary of cell-autonomous hallmarks",
+      "groupedBecause": "These subtopics detail how p53 coordinates cellular responses to genomic stress and summarize the cell-autonomous growth hallmarks of cancer.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics investigate cancer metabolic alterations including aerobic glycolysis, global metabolic rewiring, and the oncogenic impact of Krebs cycle mutations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic covers the angiogenic switch and how expanding tumors stimulate new blood vessel formation to ensure nutrient supply.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genomics of cancer metastasis",
+      "groupedBecause": "These subtopics explore the multistep process of cancer metastasis, including circulation dynamics, seeding efficiency, and secondary tumor genomics.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic provides final summary thoughts on the cancer hallmarks framework and concludes the lecture.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It provides the opening welcome, introduces the scope of the lecture series, and outlines the key learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and tissue-level foundations of cancer",
+      "groupedBecause": "They establish the fundamental concepts of cancer development through genetic alterations, failure of tissue differentiation architecture, and the experimental models used to study cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Characteristics, histology, and progression of benign versus malignant tumors",
+      "groupedBecause": "They explain the defining features of benign and malignant tumors, detailing local invasion, metastatic dissemination, histological identification, and stepwise neoplastic progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification",
+      "groupedBecause": "It outlines the standardized naming rules and notable exceptions for classifying benign and malignant neoplasms based on their cell and tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "It details the mechanical, functional, and systemic processes through which primary and metastatic tumors impair organ function to cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence across human populations and animal species",
+      "groupedBecause": "They compare epidemiological patterns of tumor incidence and mortality in humans with tumor occurrences across diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Rationale, histopathology, and practice of cancer screening",
+      "groupedBecause": "They discuss the clinical rationale for early detection and evaluate the screening techniques, histopathological criteria, and limitations across different tumor types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "It concludes the lecture with closing remarks, a reminder of the learning outcomes, and housekeeping instructions for the upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

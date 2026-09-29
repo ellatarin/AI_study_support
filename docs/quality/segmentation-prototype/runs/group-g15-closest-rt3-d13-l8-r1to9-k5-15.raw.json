@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the opening framing, welcome, and learning objectives for the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics examine traditional local and systemic cancer interventions—including surgery, radiotherapy, and cytotoxic chemotherapy—along with their associated systemic toxicities and efflux-mediated drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer vulnerabilities and synthetic lethality",
+      "groupedBecause": "These subtopics focus on therapeutic approaches that exploit specific inherent weaknesses in cancer cells, including hormone signaling dependence, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic kinases and managing drug resistance",
+      "groupedBecause": "These subtopics cover the rationale and mechanisms of small-molecule kinase inhibitors targeting hyperactive oncogenic drivers, as well as the diverse resistance mechanisms and dosing strategies associated with them.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based therapies and drug conjugates",
+      "groupedBecause": "These subtopics describe the design and therapeutic mechanisms of monoclonal antibodies and antibody-drug conjugates directed against tumor cell surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "T-cell immunology and cancer immunotherapies",
+      "groupedBecause": "These subtopics explore the role of immune surveillance and the development of strategies to engage or engineer T cells against cancer, including checkpoint inhibitors, BiTEs, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overall progress, future directions, and ethical dilemmas in cancer therapy",
+      "groupedBecause": "These subtopics assess broad challenges in modern oncology, historical mortality trends, emerging paradigms in management and detection, and the ethical dilemmas of clinical trials.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the learning objectives for cancer biology, and frames what the subsequent lectures will cover.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations and experimental modeling of cancer",
+      "groupedBecause": "These subtopics explore the biological basis of cancer as a disruption of cellular differentiation and tissue architecture resulting from accumulated genetic changes, as well as the culture models used to study these properties.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and progression from benign to malignant",
+      "groupedBecause": "These subtopics explain the key clinical and histological features that distinguish benign from malignant neoplasms, focusing on local invasion, metastatic dissemination, and stepwise tumor progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification rules",
+      "groupedBecause": "This subtopic outlines the standard conventions and notable exceptions used in medical nomenclature to classify benign and malignant tumors based on their tissue origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the local physical obstructions, systemic complications, and metastatic burdens that cause illness and death in cancer patients.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative tumor incidence across human tissues and animal taxa",
+      "groupedBecause": "These subtopics examine epidemiological patterns of tumor frequency across different human organs and analyze cancer prevalence across other species as a shared vulnerability of multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical screening rationale and organ-specific detection methods",
+      "groupedBecause": "These subtopics evaluate the principles of early tumor detection alongside the specific clinical applications, successes, and diagnostic limitations of screening programs for various cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic concludes the session by reviewing the learning outcomes and providing housekeeping reminders for the upcoming practical classes.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

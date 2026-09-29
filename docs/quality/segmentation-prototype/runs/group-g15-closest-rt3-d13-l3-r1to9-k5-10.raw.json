@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and course overview",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series and outlines the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological definition and experimental models of cancer",
+      "groupedBecause": "These subtopics define cancer as a disruption of cellular differentiation and tissue architecture driven by accumulated genetic and epigenetic changes, alongside the experimental models used to study these processes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumour invasion, metastasis, and malignant progression",
+      "groupedBecause": "These subtopics distinguish benign from malignant tumours by detailing the mechanisms, histological characteristics, and stepwise progression of local invasion and metastatic spread.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Principles and exceptions of tumour nomenclature",
+      "groupedBecause": "This subtopic outlines the standard conventions and notable exceptions used to name and classify benign and malignant tumours by their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of tumour-induced morbidity and mortality",
+      "groupedBecause": "This subtopic explains the direct mechanical, metabolic, and organ-level processes by which primary and metastatic tumours cause clinical disease and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative tumour incidence across humans and other species",
+      "groupedBecause": "These subtopics examine the incidence and prevalence of different tumour types in human populations and across diverse multicellular animals.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and screening strategies for cancer",
+      "groupedBecause": "These subtopics describe how tumours present clinically and assess the methods, histological principles, and effectiveness of screening programs for various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic concludes the lecture by revisiting the learning outcomes and providing logistical instructions for upcoming practicals and sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

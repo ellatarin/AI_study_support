@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture series, outlines key learning outcomes, and sets the clinical and biological scope of the course.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of genetic regulation and tissue differentiation",
+      "groupedBecause": "They examine the core biological concept of cancer as an accumulation of mutations leading to a breakdown in cellular differentiation and tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and benign-to-malignant progression",
+      "groupedBecause": "They describe the physical, histological, and stepwise characteristics that distinguish benign growths from invasive and metastatic malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and mechanisms of clinical pathology",
+      "groupedBecause": "They outline the standard naming conventions for tumors and detail the physiological mechanisms by which tumors cause illness and mortality.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Tumor incidence across tissues and species",
+      "groupedBecause": "They examine the incidence patterns and tissue distributions of tumors in human populations and across diverse multicellular animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and applications of cancer screening",
+      "groupedBecause": "They evaluate the clinical rationale, histological basis, and relative effectiveness of screening methods across various tumor types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "It concludes the lecture with a review of learning objectives and reminders for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

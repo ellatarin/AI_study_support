@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture themes, learning objectives, and historical framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling and proliferation pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell surface receptors and intracellular signaling cascades drive sustained proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in cancer",
+      "groupedBecause": "These subtopics examine how malignancies in both hematopoietic and epithelial tissues halt terminal cell differentiation while maintaining proliferation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of programmed cell death",
+      "groupedBecause": "This subtopic explores how cancer cells resist apoptosis through alterations in p53 signaling and the balance of Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and stress-response pathways",
+      "groupedBecause": "These subtopics explore how telomere dynamics, senescence bypass mechanisms, and p53 stress responses regulate cellular lifespan and summarize cell-autonomous growth control.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and metabolic reprogramming",
+      "groupedBecause": "These subtopics explore how cancer cells alter metabolic pathways such as aerobic glycolysis and the Krebs cycle to support growth and epigenetic regulation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explains how growing tumors overcome diffusion limits by activating new blood vessel formation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and biology of cancer metastasis",
+      "groupedBecause": "These subtopics explore the multi-step invasion-metastasis cascade, metastatic inefficiency, genomic features, and clinical monitoring of disseminating cancer cells.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and final remarks",
+      "groupedBecause": "It provides concluding reflections on the hallmarks of cancer and closes the lecture.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

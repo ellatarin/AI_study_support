@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This topic introduces the final lecture of the course and outlines its learning objectives regarding cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and resistance mechanisms",
+      "groupedBecause": "These subtopics discuss traditional treatment modalities including surgery, radiotherapy, and cytotoxic chemotherapy along with their systemic toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer cell vulnerabilities and synthetic lethality",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit specific cancer cell weaknesses, including hormone dependence, checkpoint defects, and DNA repair vulnerabilities.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic driver kinases and resistance mechanisms",
+      "groupedBecause": "These subtopics focus on targeting oncogene-addicted kinases with small molecule inhibitors and the diverse molecular mechanisms underlying treatment resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody and antibody-drug conjugate therapies",
+      "groupedBecause": "These subtopics cover the design and therapeutic mechanisms of targeted naked monoclonal antibodies and cytotoxic antibody-drug conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and T-cell-based immunotherapies",
+      "groupedBecause": "These subtopics evaluate the evidence for immune surveillance and explain therapeutic strategies designed to re-engage or engineer T cells against tumor cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future paradigms in cancer management",
+      "groupedBecause": "These subtopics review broad clinical challenges, historical mortality trends, emerging paradigms like prevention and early detection, and ethical dilemmas in clinical trial design.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

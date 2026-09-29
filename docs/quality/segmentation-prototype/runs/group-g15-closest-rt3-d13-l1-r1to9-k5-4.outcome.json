@@ -1,0 +1,22 @@
+{
+  "sourceRun": "closest-rt3-d13-l1-r1to9-k5",
+  "promptVersion": "g15",
+  "lecture": "l1",
+  "instance": "4",
+  "modelId": "google/gemini-3.7-flash",
+  "labelsShown": true,
+  "seconds": 16,
+  "promptTokens": 10835,
+  "completionTokens": 2006,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": 5,
+  "subtopics": 16,
+  "topicSizes": [
+    1,
+    7,
+    4,
+    3,
+    1
+  ]
+}

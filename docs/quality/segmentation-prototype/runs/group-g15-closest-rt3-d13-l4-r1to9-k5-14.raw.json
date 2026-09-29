@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the course context, practical links, and core learning outcomes regarding environmental carcinogens and cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology and the interplay of genetics, environment, and chance",
+      "groupedBecause": "These subtopics examine how cancer arises through genetic mutations, microenvironmental factors, inherited predisposition, and environmental exposures versus random chance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of chemical, physical, and infectious carcinogenesis",
+      "groupedBecause": "These subtopics detail how specific biological agents, dietary toxins, radiation, and chemical exposures drive oncogenesis through direct DNA damage, metabolic activation, or inflammatory tumor promotion.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for determining carcinogenicity and assessing exposure risk",
+      "groupedBecause": "These subtopics explore the genomic sequencing, epidemiological, and experimental methodologies used to identify mutagenic signatures and evaluate carcinogenic risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "The lecturer concludes the session by reviewing the main takeaways and closing the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

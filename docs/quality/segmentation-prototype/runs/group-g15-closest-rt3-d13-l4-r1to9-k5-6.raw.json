@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "The lecturer welcomes the class and outlines the learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Concepts of cancer etiology, risk factors, and epidemiology",
+      "groupedBecause": "These subtopics explore how genetic predispositions, endogenous mutation processes, environmental exposures, and geographic variations interact to determine cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Biological and chemical mechanisms of carcinogens and tumor promoters",
+      "groupedBecause": "These subtopics detail how specific infectious pathogens, chemical mutagens, radiation, and non-mutagenic promoters initiate or promote tumor formation in host tissues.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for detecting, testing, and evaluating carcinogenicity",
+      "groupedBecause": "These subtopics examine the experimental, epidemiological, and genomic approaches used to identify carcinogens and appraise associated risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "The lecturer delivers concluding remarks and summarises the main takeaways of the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

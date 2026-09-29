@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic serves as the lecture's opening framing, outlining the speaker's background and the goals of the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: genetic mutations, environmental risks, and epidemiology",
+      "groupedBecause": "These subtopics establish the foundational concepts of cancer development by exploring the interplay between intrinsic genetic errors, environmental exposures, and global epidemiological variation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "These subtopics examine how biological agents such as viruses and bacteria drive malignancy, focusing on the discovery and mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens, metabolic activation, and DNA damage",
+      "groupedBecause": "These subtopics explore how radiation and chemical carcinogens undergo metabolic transformation to generate reactive compounds and direct DNA adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion and non-mutagenic mechanisms",
+      "groupedBecause": "These subtopics explain the distinction between cancer initiation and promotion, demonstrating how non-mutagenic stimuli like chronic inflammation and signaling agonists stimulate clonal expansion.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host susceptibility factors and summary of carcinogenic mechanisms",
+      "groupedBecause": "These subtopics examine how host developmental timing influences vulnerability to mutagens and synthesize the core mechanisms of DNA damage and carcinogenesis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methods for determining carcinogenicity and evaluating risk",
+      "groupedBecause": "These subtopics detail the experimental, genomic, and epidemiological methodologies used to prove carcinogenicity and consider the practical balance of risk versus benefit.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic provides the final concluding remarks and signoff for the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

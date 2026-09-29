@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic welcomes the students, introduces the lecture's focus on cancer evolution, and outlines the expected learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of clonal selection",
+      "groupedBecause": "These subtopics explain how cancer evolves through Darwinian clonal selection driven by the acquisition of genetic mutations and epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell properties and cell of origin in cancer",
+      "groupedBecause": "These subtopics examine how stemness characteristics, hierarchical tissue organization, and specific cells of origin influence tumor initiation and progression.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion, inflammation, and stromal dependency",
+      "groupedBecause": "These subtopics illustrate how environmental promoters, chronic inflammatory signaling, and supportive stromal interactions cooperate to drive neoplastic growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Technologies for investigating tumor evolution and spatial heterogeneity",
+      "groupedBecause": "This subtopic surveys the experimental sequencing, spatial profiling, and computational modeling methods used to study cancer evolution and cellular interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrative evolutionary model of cancer progression",
+      "groupedBecause": "This subtopic synthesizes the interplay among mutational accumulation, epigenetic plasticity, cell-of-origin properties, and microenvironmental pressures into an overarching evolutionary framework.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "This subtopic delivers the closing remarks and previews the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

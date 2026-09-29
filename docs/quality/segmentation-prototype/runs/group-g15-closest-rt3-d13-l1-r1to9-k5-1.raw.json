@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer welcomes the class and outlines the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and damage sensing via pattern recognition receptors",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which the innate immune system detects pathogens and tissue damage using PAMPs, DAMPs, and various pattern recognition receptor pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Sentinel cell activation, leukocyte recruitment, and systemic inflammatory effects",
+      "groupedBecause": "These subtopics describe how sentinel cells initiate the acute inflammatory response, coordinate leukocyte extravasation into tissues, drain to lymph nodes, and potentially cause systemic pathologies like septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammatory outcomes",
+      "groupedBecause": "These subtopics examine the mechanisms required to terminate inflammation, repair damaged tissue, and manage long-term complications such as chronic inflammation and granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and preview of the next topic",
+      "groupedBecause": "The lecturer concludes the session and announces the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

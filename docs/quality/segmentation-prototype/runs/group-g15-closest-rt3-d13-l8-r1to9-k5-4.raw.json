@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This topic introduces the final lecture and outlines its learning objectives on cancer therapies and modes of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics examine traditional modalities for treating cancer, including surgery, radiotherapy, and cytotoxic chemotherapeutic agents, along with associated systemic toxicities and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer-specific vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics focus on therapeutic strategies designed to exploit inherent tumor vulnerabilities, including hormone dependence, cell cycle checkpoint deficiencies, and DNA repair pathway defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted therapies with kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics explore the rationale, mechanisms, and clinical challenges of targeting hyperactivated oncogenic kinases, including off-target effects, bypass pathways, and acquired resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based therapies and cancer immunotherapy",
+      "groupedBecause": "These subtopics discuss strategies that engage immune mechanisms or antibody targeting to eliminate cancer cells, spanning monoclonal antibodies, antibody-drug conjugates, immune checkpoint inhibitors, and engineered T-cell therapies.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Challenges, historical progress, and future directions in cancer management",
+      "groupedBecause": "These subtopics evaluate overarching clinical challenges, epidemiological trends, future paradigms such as personalized genomics, and ethical dilemmas in treating cancer.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

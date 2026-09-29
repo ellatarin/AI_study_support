@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "It provides the introductory framing and goals for the lecture on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate pathogen recognition and pattern recognition receptor pathways",
+      "groupedBecause": "These subtopics explain how the innate immune system detects infection and cellular damage through molecular patterns and pattern recognition receptor signaling.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory response execution, leukocyte recruitment, and systemic escalation",
+      "groupedBecause": "These subtopics describe how sentinel cells initiate local inflammation, orchestrate leukocyte extravasation into tissues, promote lymphatic drainage, and can trigger systemic complications like sepsis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics detail the active and passive mechanisms that terminate inflammation, repair damaged tissue, and result in chronic inflammation or granulomas when resolution fails.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and preview",
+      "groupedBecause": "It provides the closing framing and previews the upcoming lecture on the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture on cancer therapy and outlines the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics discuss standard modalities of cancer treatment—including surgery, radiotherapy, and cytotoxic chemotherapy—along with their toxicities and efflux pump-mediated resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cellular vulnerabilities, checkpoint defects, and DNA repair deficiencies",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic tumor vulnerabilities, including hormone dependence, defective cell cycle checkpoints, and synthetic lethality in DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene-targeted therapies and kinase inhibitor resistance",
+      "groupedBecause": "These subtopics examine targeted inhibition of hyperactive oncogenic kinases and the subsequent emergence of resistance, bypass pathways, and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics detail the use of engineered monoclonal antibodies and antibody-drug conjugates to target cell surface receptors and selectively deliver cytotoxic agents.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and immune-directed strategies",
+      "groupedBecause": "These subtopics evaluate the principles of anti-tumor immune surveillance and review immunotherapeutic approaches such as checkpoint inhibitors, BiTEs, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, progress, and future directions in cancer management",
+      "groupedBecause": "These subtopics synthesise historical improvements in cancer outcomes with ongoing clinical challenges, future therapeutic paradigms, and ethical dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

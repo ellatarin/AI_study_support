@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to complement and lecture framing",
+      "groupedBecause": "This subtopic provides the opening framing, contextualizing complement within immunology and introducing the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement system principles, nomenclature, and C3 activation",
+      "groupedBecause": "These subtopics establish the foundational concepts of the complement cascade, including its general organization, naming conventions, and the central cleavage mechanism of C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three distinct recognition pathways—alternative, lectin, and classical—that drive convertase formation and deposit complement on pathogen surfaces to reach the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of activated complement",
+      "groupedBecause": "These subtopics detail the downstream effector outcomes of complement activation: opsonization, inflammatory signaling, and direct cell lysis via the membrane attack complex.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "This subtopic explains the regulatory proteins and mechanisms that protect host cells from accidental complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical manifestations of complement deficiencies",
+      "groupedBecause": "This subtopic outlines the distinct clinical presentations and disease vulnerabilities resulting from genetic and secondary deficiencies across different complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Mechanisms of pathogen evasion of complement",
+      "groupedBecause": "This subtopic details how pathogens, exemplified by Staphylococcus aureus, have evolved mechanisms to resist and inhibit complement activity.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview of adaptive immunity",
+      "groupedBecause": "This subtopic provides the closing remarks and previews the upcoming lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

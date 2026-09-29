@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines its learning objectives on cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and resistance mechanisms",
+      "groupedBecause": "These subtopics discuss conventional cancer treatment modalities—namely surgery, radiotherapy, and cytotoxic chemotherapy—along with their associated toxicities and drug efflux resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities and checkpoint defects",
+      "groupedBecause": "These subtopics explore therapeutic approaches that exploit intrinsic tumor vulnerabilities, including hormone dependencies, cell cycle checkpoint defects, and impaired DNA repair.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and resistance pathways",
+      "groupedBecause": "These subtopics examine oncogene addiction and small-molecule kinase inhibitors, detailing their molecular mechanisms and pathways of acquired resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics cover the therapeutic application of engineered monoclonal antibodies and antibody-drug conjugates to selectively target cancer cell-surface proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune surveillance and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics explore the principles of antitumor immune surveillance and clinical strategies to harness T cells via checkpoint inhibitors, BiTEs, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overarching challenges, mortality trends, and future directions",
+      "groupedBecause": "These subtopics review systemic challenges in cancer therapy, epidemiological trends in mortality, future management paradigms, and clinical trial dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

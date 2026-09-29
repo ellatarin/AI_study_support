@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, student cohorts, and key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis of cancer in genetic changes and tissue architecture",
+      "groupedBecause": "These subtopics describe how cancer develops through accumulated genetic alterations that disrupt normal cellular differentiation and three-dimensional tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumour invasion, metastasis, and histological progression",
+      "groupedBecause": "These subtopics illustrate the clinical and histological characteristics of tumour invasion, routes of metastasis, and the stepwise progression from benign lesions to invasive malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour nomenclature and clinical behavior of benign growths",
+      "groupedBecause": "These subtopics define the formal naming conventions for tumours and explain how benign growths behave and present clinical risks.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Mechanisms of cancer mortality and patterns of incidence",
+      "groupedBecause": "These subtopics detail how tumour growth causes systemic illness and death, alongside the patterns of tumour incidence in human populations and across multicellular species.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Clinical presentation and cancer screening strategies",
+      "groupedBecause": "These subtopics address the clinical signs of tumour development and evaluate the diagnostic approaches and effectiveness of population screening programmes.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic concludes the lecture with a review of learning objectives and reminders regarding upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

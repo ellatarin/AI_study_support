@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, sets the scope of the cancer lecture series, and outlines the primary learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: genetics, environment, and epidemiology",
+      "groupedBecause": "These subtopics establish the foundational concepts of cancer development, exploring how endogenous mutations, inherited genetic predispositions, environmental exposures, and stochastic factors interact across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and mechanisms of oncogenesis",
+      "groupedBecause": "These subtopics explore how viral and bacterial pathogens induce malignancy, examining chronic inflammation, immunosuppression, and chromosomal translocations using Burkitt lymphoma as a primary model.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms by which radiation, dietary compounds, and chemical carcinogens cause DNA damage directly or following metabolic activation by host enzymes.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, chronic inflammation, and host susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of carcinogenesis, demonstrating how chronic inflammation, promotional signaling pathways, and tissue proliferation during specific developmental stages drive tumor progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies and considerations for determining carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, in vivo, and in vitro experimental approaches used to detect carcinogens and assess exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and lecture summary",
+      "groupedBecause": "This subtopic provides the concluding overview of the lecture's core themes regarding environmental cancer risk and carcinogen potency.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

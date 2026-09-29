@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "These remarks introduce the lecture topic and outline the learning outcomes for comparing cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and systemic limitations",
+      "groupedBecause": "These subtopics cover traditional cancer treatment modalities alongside their associated systemic toxicities and mechanisms of drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Therapies exploiting intrinsic tumor vulnerabilities",
+      "groupedBecause": "These subtopics examine targeted therapeutic strategies that exploit specific cancer vulnerabilities, such as hormone dependence, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogenic driver kinase inhibition and resistance",
+      "groupedBecause": "These subtopics discuss small-molecule targeted therapies designed to inhibit hyperactive oncogenic kinases along with the resistance pathways that emerge against them.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based and cellular immunotherapies",
+      "groupedBecause": "These subtopics explore therapeutic strategies that utilize antibodies and engineered immune cells to harness immune responses against tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Progress, future directions, and dilemmas in cancer management",
+      "groupedBecause": "These subtopics reflect on the historical progress, clinical trial dilemmas, and future paradigms guiding modern cancer therapy and management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

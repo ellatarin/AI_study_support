@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer evolution and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecture topic, outlines the core themes of cancer evolution and microenvironment, and states the learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms of clonal evolution",
+      "groupedBecause": "These subtopics explain how cancer develops through Darwinian selection and clonal expansion driven by progressive genetic mutations and epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell properties and the cell of origin in cancer",
+      "groupedBecause": "These subtopics examine whether cancers originate from and are maintained by stem-like cells, presenting evidence from tissue hierarchies, leukemia, and colorectal models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory drivers of cancer progression",
+      "groupedBecause": "These subtopics demonstrate how environmental promoters, chronic inflammation, and supportive stromal interactions cooperate with genetic mutations to enable and maintain malignant growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Technologies for investigating tumor evolution and plasticity",
+      "groupedBecause": "This subtopic outlines the sequencing, spatial profiling, and computational modeling methods used to study tumor heterogeneity and cellular interactions in the laboratory.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated model of cancer evolution",
+      "groupedBecause": "This subtopic synthesises mutational, epigenetic, cell-of-origin, and microenvironmental influences into a unified evolutionary framework of cancer development.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and preview of next session",
+      "groupedBecause": "This subtopic provides the concluding remarks for the lecture and previews the upcoming session on therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

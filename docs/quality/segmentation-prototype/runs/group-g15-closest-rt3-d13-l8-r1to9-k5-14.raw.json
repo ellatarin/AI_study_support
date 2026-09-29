@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture topic and outlines the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional cancer treatments and systemic toxicities",
+      "groupedBecause": "These subtopics discuss conventional cancer interventions including surgery, radiotherapy, and cytotoxic chemotherapy, alongside their associated toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics describe therapeutic approaches designed to exploit specific biological weaknesses in cancer cells such as hormone dependence, checkpoint loss, and defective DNA repair.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic kinases and overcoming resistance",
+      "groupedBecause": "These subtopics focus on the rationale, mechanisms of action, and resistance pathways associated with small-molecule kinase inhibitors targeting oncogene addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based targeted therapies",
+      "groupedBecause": "These subtopics explain how monoclonal antibodies and antibody-drug conjugates are used to specifically target cancer cell surface proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics examine the role of immune surveillance and detail strategies that harness or engineer T cells to attack tumor cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Progress, challenges, and future paradigms in cancer therapy",
+      "groupedBecause": "These subtopics evaluate historical progress, persistent challenges like tumor heterogeneity, and emerging paradigms and dilemmas in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

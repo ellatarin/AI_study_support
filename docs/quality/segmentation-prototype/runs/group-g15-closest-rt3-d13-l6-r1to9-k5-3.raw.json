@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for the hallmarks of cancer",
+      "groupedBecause": "The lecturer introduces the learning outcomes and conceptual framework for understanding the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and mutations driving proliferation",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell surface receptors and intracellular signaling cascades drive sustained proliferation and cell survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in hematopoietic and epithelial cancers",
+      "groupedBecause": "These subtopics examine how impaired cellular differentiation contributes to malignant transformation in both hematopoietic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis and apoptotic pathway regulation",
+      "groupedBecause": "This subtopic explores how cancer cells evade programmed cell death through alterations in the p53 pathway and Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere biology, cellular senescence, and p53 stress responses",
+      "groupedBecause": "These subtopics examine the mechanisms of telomere shortening, senescence bypass, and how p53 coordinates cellular stress responses to limit cell immortality.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and metabolic reprogramming",
+      "groupedBecause": "These subtopics discuss the metabolic rewiring of cancer cells, including aerobic glycolysis, tissue-specific metabolism, and oncometabolite generation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and neovascularization",
+      "groupedBecause": "This subtopic describes the role and timing of neovascularization in overcoming hypoxia to sustain tumor growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genomics of cancer metastasis",
+      "groupedBecause": "These subtopics analyze the biological stages, diagnostic monitoring, and genomic characteristics of metastatic tumor spread.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "The lecturer summarizes the major themes of cancer hallmarks and delivers closing remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

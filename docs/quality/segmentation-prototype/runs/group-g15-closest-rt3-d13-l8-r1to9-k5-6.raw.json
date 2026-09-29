@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the final course lecture and states its intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional local and cytotoxic cancer therapies",
+      "groupedBecause": "These subtopics examine traditional therapeutic modalities and their clinical limitations including systemic toxicity and drug efflux resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and defects",
+      "groupedBecause": "These subtopics discuss therapeutic approaches that exploit intrinsic cancer cell vulnerabilities such as hormone dependence, checkpoint loss, and defective DNA repair.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic kinase signaling and resistance mechanisms",
+      "groupedBecause": "These subtopics detail the targeting of oncogenic kinase drivers with small-molecule inhibitors and the mechanisms by which cancer cells develop resistance or addiction to these drugs.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics discuss how engineered monoclonal antibodies and antibody-drug conjugates are directed against specific surface antigens on cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and T-cell immunotherapies",
+      "groupedBecause": "These subtopics examine the biological basis of tumor immune surveillance and methods for re-engaging or engineering T-cell responses against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overall progress, future directions, and systemic challenges in cancer treatment",
+      "groupedBecause": "These subtopics reflect on historical treatment outcomes, emerging clinical paradigms, and the ongoing biological and ethical challenges in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

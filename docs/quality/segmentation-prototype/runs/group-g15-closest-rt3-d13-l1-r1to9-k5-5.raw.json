@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer introduces the session on the initiation and resolution of inflammation within the Biology of Disease course.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Molecular signals of infection and damage",
+      "groupedBecause": "These subtopics define PAMPs and DAMPs and outline the evolutionary criteria used by the innate immune system to distinguish pathogen molecules from self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptors and intracellular sensing pathways",
+      "groupedBecause": "These subtopics explore the genetics, cellular localization, receptor families, downstream signaling cascades, and inflammasome complexes that detect danger signals.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cellular inflammatory responses and leukocyte trafficking",
+      "groupedBecause": "These subtopics describe how activated sentinel cells direct leukocyte recruitment into tissues, drain antigens via lymphatics, and trigger severe systemic complications when overactivated.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammatory states",
+      "groupedBecause": "These subtopics explain the mechanisms that shut down acute inflammation, repair damaged tissue, and mediate chronic inflammatory responses such as granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer concludes the session and previews the upcoming lecture on the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

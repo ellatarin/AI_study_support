@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer welcomes the class and outlines the scope of the lecture on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate recognition through molecular patterns and pattern recognition receptors",
+      "groupedBecause": "These subtopics explain how the innate immune system senses infection and tissue damage using molecular patterns and their corresponding receptor and signaling pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Acute inflammatory response, leukocyte recruitment, and systemic complications",
+      "groupedBecause": "These subtopics describe how sentinel cells initiate acute inflammation, coordinate leukocyte recruitment into tissues, and drive systemic consequences such as septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic responses",
+      "groupedBecause": "These subtopics examine how inflammatory responses are stopped, how tissues are repaired, and how persistent inflammatory stimuli lead to chronic inflammation and granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "The lecturer concludes the presentation and announces the topic of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

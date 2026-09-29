@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture's core themes on cancer evolution and the tumor microenvironment alongside the intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal selection and non-mutational mechanisms of cancer evolution",
+      "groupedBecause": "These subtopics explain how genetic mutations and epigenetic changes confer selective fitness advantages that drive Darwinian clonal evolution in tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stemness and cell-of-origin models in cancer development",
+      "groupedBecause": "These subtopics examine how tissue hierarchies, stem cell properties, and specific cells of origin influence tumor initiation and propagation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion, chronic inflammation, and stromal support",
+      "groupedBecause": "These subtopics explore how external factors, inflammatory signaling, and stromal interactions create permissive conditions that enable malignant outgrowth and sustain established tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental and computational methods for investigating tumor evolution",
+      "groupedBecause": "It describes the genomic sequencing, spatial profiling technologies, and computational modeling approaches used to analyze tumor heterogeneity and microenvironmental interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated multifactorial model of cancer evolution",
+      "groupedBecause": "It synthesizes how genetic mutations, cell-of-origin characteristics, transcriptional plasticity, and microenvironmental pressures converge to drive cancer progression.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and preview of therapy",
+      "groupedBecause": "It closes the lecture and outlines the topic for the subsequent session.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

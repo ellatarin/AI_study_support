@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "It provides the introductory welcome and sets the learning objectives for the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatments and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics examine traditional modalities including surgery, radiotherapy, and cytotoxic chemotherapy along with their toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular defects and hormone dependencies",
+      "groupedBecause": "These subtopics explain how specific cancer cell vulnerabilities, including hormone dependence, cell cycle checkpoint loss, and defective DNA repair, are exploited therapeutically.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic drivers and kinase inhibitor therapies",
+      "groupedBecause": "These subtopics address the inhibition of oncogenic kinase drivers, the molecular mechanics of kinase inhibitors, and the evolution of bypass resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe how engineered monoclonal antibodies and antibody-drug conjugates target specific cell-surface antigens to eliminate cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell engagement",
+      "groupedBecause": "These subtopics explore the biological basis of tumor immune surveillance and methods to harness T cells through checkpoint inhibition, bispecific engagers, and CAR-T cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical perspectives, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics synthesize the ongoing challenges, historical shifts in mortality and prevention, and emerging paradigms in personalized cancer care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

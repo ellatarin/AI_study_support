@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This opening section introduces the lecture and outlines its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Viral origins of cancer genetics and transformation assays",
+      "groupedBecause": "These subtopics trace how the study of tumor viruses led to the discovery of cellular proto-oncogenes and the experimental assays used to measure cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenes, tumor suppressor genes, and mutation mechanisms",
+      "groupedBecause": "These subtopics define the major classes of cancer-driving genes and explore their molecular mechanisms through cell cycle control and mutation dosage effects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Types and mechanisms of genetic instability",
+      "groupedBecause": "These subtopics explain the origins and cellular consequences of sequence and chromosomal instability arising from defective DNA repair pathways and mitotic failure.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-step tumor progression and hereditary cancer predisposition",
+      "groupedBecause": "These subtopics examine how sequential mutation accumulation drives tumor progression in sporadic cancers and hereditary predisposition syndromes.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and reading recommendations",
+      "groupedBecause": "This closing section concludes the lecture, invites questions, and recommends further reading.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture series, outlines the learning outcomes, and sets expectations for understanding cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and developmental basis of cancer",
+      "groupedBecause": "They define cancer as a multistep disease driven by genetic alterations and disrupted tissue differentiation, and consider the experimental models used to study these cellular properties.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and malignant progression",
+      "groupedBecause": "They describe the biological and histological characteristics distinguishing benign from invasive and metastatic tumours, including the stepwise progression to malignancy.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification",
+      "groupedBecause": "It outlines the standard naming conventions and clinical exceptions used to classify benign and malignant tumours based on tissue origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "It explains the pathophysiological mechanisms through which primary and metastatic tumours cause disease, organ dysfunction, and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative tumor incidence across species",
+      "groupedBecause": "They survey the incidence and prevalence of benign and malignant tumours across human populations and diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer presentation and screening strategies",
+      "groupedBecause": "They explain the clinical rationale, histological basis, and diagnostic methods used to screen for and detect pre-malignant and malignant tumours.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "It concludes the lecture by revisiting the learning outcomes and providing reminders for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

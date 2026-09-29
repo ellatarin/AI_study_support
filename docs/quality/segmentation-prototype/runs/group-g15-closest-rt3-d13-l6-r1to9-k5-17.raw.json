@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for cancer hallmarks",
+      "groupedBecause": "This subtopic introduces the lecture objectives, progression model, and framework for studying the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained proliferative signaling and oncogenic pathways",
+      "groupedBecause": "These subtopics explain how mutations in growth factor receptors and intracellular signaling cascades drive uncontrolled proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in cancer",
+      "groupedBecause": "These subtopics examine how impaired terminal differentiation contributes to malignancy in hematopoietic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis, replicative immortality, and p53 regulation",
+      "groupedBecause": "These subtopics detail the mechanisms by which cancer cells avoid cell death, bypass senescence, and overcome p53-mediated stress responses.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics describe cancer-associated metabolic alterations, including aerobic glycolysis, metabolic rewiring, and Krebs cycle mutations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic addresses how developing tumors stimulate new blood vessel growth to sustain oxygen and nutrient delivery.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genomics of metastasis",
+      "groupedBecause": "These subtopics examine the metastatic cascade, including vascular dissemination, biomarker monitoring, colonization dynamics, and genomic features.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "This subtopic provides the concluding review of cancer hallmarks alongside closing administrative remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

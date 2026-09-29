@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and overview of the hallmarks of cancer",
+      "groupedBecause": "The lecture opens with framing on the learning objectives, context from previous lectures, and an overview of the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth and proliferative signaling pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell surface receptors and intracellular signaling cascades drive sustained proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in hematopoietic malignancies and carcinomas",
+      "groupedBecause": "These subtopics illustrate how failure of cells to exit the cell cycle and complete terminal differentiation leads to tumor formation across different tissue types.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to programmed cell death through apoptosis evasion",
+      "groupedBecause": "This subtopic explores how cancer cells evade apoptosis by altering the balance of Bcl-2 family proteins and inactivating p53 tumor suppressor signaling.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomere regulation, and senescence bypass",
+      "groupedBecause": "These subtopics examine how cancer cells overcome telomere shortening and p53-mediated senescence barriers to achieve unlimited replicative potential.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics describe how cancer cells rewire cellular metabolism toward aerobic glycolysis and generate oncometabolites that alter gene expression.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic addresses how expanding tumors overcome oxygen and nutrient diffusion limits by tipping the molecular balance to stimulate new blood vessel growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, tracking, and genetics of cancer metastasis",
+      "groupedBecause": "These subtopics detail the biological steps, clinical tracking, microenvironmental determinants, and genomic characteristics involved in metastatic spread.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and closing remarks",
+      "groupedBecause": "The lecture concludes with final reflections on the cancer hallmarks literature and housekeeping for upcoming practical sessions.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

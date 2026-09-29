@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This opening subtopic introduces the lecture and outlines the key learning objectives regarding cancer therapies and their modes of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "These subtopics cover traditional treatment modalities—surgery, radiotherapy, and cytotoxic chemotherapy—along with their associated toxicities and multidrug resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic cancer cell vulnerabilities and synthetic lethality",
+      "groupedBecause": "These subtopics examine therapeutic strategies that exploit intrinsic vulnerabilities of cancer cells, such as hormone dependence, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics focus on small-molecule inhibitors designed to target hyperactive oncogenic kinases and the molecular pathways leading to drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the use of engineered monoclonal antibodies and antibody-drug conjugates to specifically target surface antigens on tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell redirection",
+      "groupedBecause": "These subtopics explore the principles of antitumor immunity and therapies that stimulate or engineer T cells, including checkpoint inhibitors, BiTEs, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, future directions, and clinical dilemmas in cancer treatment",
+      "groupedBecause": "These subtopics assess historical progress and future paradigms in cancer management, highlighting ongoing challenges such as tumor heterogeneity, prevention, and clinical trial dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

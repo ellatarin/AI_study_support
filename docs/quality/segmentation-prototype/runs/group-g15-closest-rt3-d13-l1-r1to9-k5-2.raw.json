@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer welcomes the class and outlines how the lecture will integrate immune system components across the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate recognition of pathogens and tissue damage",
+      "groupedBecause": "These subtopics examine how the innate immune system senses microbial invaders and cellular injury through molecular patterns, receptor localization, and downstream signaling cascades.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory response propagation and systemic consequences",
+      "groupedBecause": "These subtopics explain how sentinel cell activation coordinates leukocyte recruitment and adaptive priming, as well as the risks of runaway systemic inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics describe how inflammatory processes are actively and passively terminated, how damaged tissue is repaired, and how persistent stimuli lead to chronic pathology or granuloma containment.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic preview",
+      "groupedBecause": "The lecturer concludes the presentation and announces the topic of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

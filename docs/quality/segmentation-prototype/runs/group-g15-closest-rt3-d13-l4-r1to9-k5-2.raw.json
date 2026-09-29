@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the key learning objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of cancer etiology and epidemiological patterns",
+      "groupedBecause": "These subtopics explore the core principles of cancer development by comparing the relative contributions of intrinsic biological processes, inherited genetics, and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of carcinogenic agents and tumor promotion",
+      "groupedBecause": "These subtopics explain the specific biological, chemical, and physical mechanisms through which various agents act as cancer initiators, mutagens, or tumor promoters.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for assessing carcinogenicity and evaluating risk",
+      "groupedBecause": "These subtopics present the genomic, epidemiological, animal, and in vitro approaches used to identify carcinogens alongside considerations of exposure risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This subtopic provides the concluding summary and final takeaways of the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

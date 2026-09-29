@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the introductory framing for the cancer biology lecture series, outlining course objectives and learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations: Genetic changes, tissue architecture, and differentiation failure",
+      "groupedBecause": "These subtopics establish the fundamental concept of cancer as a failure of cellular differentiation and tissue architecture driven by accumulating genetic and epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumour invasion, metastasis, and benign versus malignant progression",
+      "groupedBecause": "These subtopics explain the clinical and histological distinctions between benign and malignant tumours, focusing on basement membrane invasion, metastatic dissemination, and stepwise progression pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour nomenclature conventions and exceptions",
+      "groupedBecause": "This subtopic defines the standard naming rules and notable exceptions used to classify benign and malignant tumours based on their cellular lineage and tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer-related morbidity and mortality",
+      "groupedBecause": "This subtopic details the physiological mechanisms, including mechanical obstruction, tissue destruction, and systemic metabolic effects, through which tumours cause clinical illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence patterns across human tissues and animal species",
+      "groupedBecause": "These subtopics examine epidemiological incidence and mortality rates across human organs and compare tumour prevalence across multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening rationale, methods, and clinical applications",
+      "groupedBecause": "These subtopics explore the principles of early tumour detection and evaluate specific screening tools, histological criteria, and clinical trade-offs across different organ sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic provides the closing framing for the session, concluding the lecture and setting expectations for practical classes.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

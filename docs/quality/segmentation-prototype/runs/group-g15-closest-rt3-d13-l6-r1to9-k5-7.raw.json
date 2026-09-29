@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture objectives",
+      "groupedBecause": "This subtopic introduces the lecture's learning objectives and provides an overview of the canonical hallmarks of cancer within tumor progression models.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics describe how oncogenic mutations in surface receptor pathways, such as Wnt and receptor tyrosine kinase cascades, drive sustained cellular proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in tumorigenesis",
+      "groupedBecause": "These subtopics illustrate how cancers in hematopoietic and intestinal tissues disrupt terminal differentiation to trap cells in proliferative progenitor states.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis in cancer",
+      "groupedBecause": "This subtopic explains how cancer cells resist programmed cell death through mutations in p53 and dysregulation of pro- and anti-apoptotic Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere regulation, senescence bypass, and replicative immortality",
+      "groupedBecause": "These subtopics explain the barriers imposed by telomere shortening and senescence-inducing stress signals, and how cancer cells bypass them to achieve replicative immortality.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics examine how cancer cells rewire their metabolic pathways toward aerobic glycolysis and how Krebs cycle mutations generate oncometabolites that drive epigenetic alterations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "This subtopic examines how developing tumors overcome oxygen diffusion limits by switching on new blood vessel growth to sustain their progression.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genomics of cancer metastasis",
+      "groupedBecause": "These subtopics explore the multi-step metastatic cascade, including circulatory routes, biomarker monitoring via circulating tumor cells, metastatic inefficiency, and the genomic features of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and final remarks",
+      "groupedBecause": "This subtopic concludes the lecture with summarizing thoughts on cancer hallmarks and closing administrative remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

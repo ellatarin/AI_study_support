@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This topic provides the opening framing, practical review, and stated learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Viral discovery and experimental assays of cellular transformation",
+      "groupedBecause": "These subtopics explain the historical discovery of tumor viruses, how retroviruses transduce cellular proto-oncogenes, and the laboratory assays used to test transforming activity.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenes, tumor suppressors, and mutational mechanisms in cell cycle control",
+      "groupedBecause": "These subtopics explore the classification and genetic mechanisms of oncogenes and tumor suppressor genes, using key pathways like Rb and p53 to illustrate allele dosage and dominant-negative effects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and cellular consequences of sequence and chromosomal instability",
+      "groupedBecause": "These subtopics examine how defects in specific DNA repair pathways, replication machinery, and mitotic segregation generate sequence and chromosomal instability in cancer cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-step tumor progression, hereditary cancer syndromes, and tumor evolution",
+      "groupedBecause": "These subtopics describe how the stepwise accumulation and inheritance of cancer-predisposing mutations drive tumor development and impact malignant progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "This topic contains the concluding administrative framing and reading recommendations for the lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

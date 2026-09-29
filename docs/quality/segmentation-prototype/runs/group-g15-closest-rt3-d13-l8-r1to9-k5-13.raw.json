@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture on cancer therapy and outlines the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and chemotherapy resistance",
+      "groupedBecause": "These subtopics examine standard local and cytotoxic treatments for cancer alongside the toxicities and resistance mechanisms that limit their effectiveness.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting cancer cell vulnerabilities and synthetic lethality",
+      "groupedBecause": "These subtopics explain how therapeutic strategies exploit specific intrinsic defects in cancer cells, including hormone dependence, cell cycle checkpoint loss, and impaired DNA repair.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase-targeted therapies and mechanisms of resistance",
+      "groupedBecause": "These subtopics explore the design of small-molecule kinase inhibitors targeting driver oncogenes and analyze the genetic and pathway bypass mechanisms through which tumors develop resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based therapeutics and drug conjugates",
+      "groupedBecause": "These subtopics describe how engineered monoclonal antibodies and antibody-drug conjugates are used to target specific cell surface markers on cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and cellular therapies",
+      "groupedBecause": "These subtopics assess the role of immune surveillance and present therapeutic methods to mobilize or engineer T cells to eliminate tumor cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical challenges, historical progress, and future paradigms",
+      "groupedBecause": "These subtopics provide an overarching synthesis of therapeutic challenges, historical survival trends, emerging management strategies, and clinical trial dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the learning objectives for the lecture on cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Concepts of cancer etiology, mutation sources, and epidemiological variation",
+      "groupedBecause": "These subtopics establish the foundational framework of cancer causation by evaluating the relative contributions of intrinsic biological errors, inherited genetic predispositions, and environmental exposures across global populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "These subtopics examine how viral and bacterial pathogens contribute to oncogenesis, highlighting Burkitt lymphoma and other infection-driven malignancies as primary models.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which radiation, dietary compounds, and environmental chemicals undergo metabolic activation to induce DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, non-mutagenic mechanisms, and host susceptibility",
+      "groupedBecause": "These subtopics explore how non-mutagenic factors like chronic inflammation, promoter signalling pathways, and tissue proliferation states drive neoplastic outgrowth from initiated cells.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying carcinogens and assessing cancer risk",
+      "groupedBecause": "These subtopics describe the sequencing, epidemiological, in vivo, and in vitro approaches used to determine the carcinogenicity of exposures and evaluate real-world risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This subtopic concludes the lecture with a final summary of environmental cancer risks, detection challenges, and everyday risk-benefit considerations.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

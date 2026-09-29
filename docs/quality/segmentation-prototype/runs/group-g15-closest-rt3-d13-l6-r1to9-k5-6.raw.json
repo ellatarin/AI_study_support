@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Hallmarks of Cancer Overview",
+      "groupedBecause": "This opening subtopic introduces the lecture, outlines the learning outcomes, and establishes the hallmark framework for understanding tumor progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Factor Signaling and Sustained Proliferation",
+      "groupedBecause": "These subtopics examine how mutations in cell-surface receptors and downstream intracellular cascades, including Wnt and receptor tyrosine kinase pathways, drive uncontrolled proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Leukemias and Carcinomas",
+      "groupedBecause": "These subtopics examine how arrests in normal lineage differentiation contribute to neoplastic transformation across both hematopoietic malignancies and solid intestinal tumors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptotic Cell Death",
+      "groupedBecause": "This subtopic explains how tumor cells evade programmed cell death through disruptions in p53 signaling and the balance of pro- and anti-apoptotic Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomeres, Replicative Immortality, and Stress Integration",
+      "groupedBecause": "These subtopics detail the mechanisms of cellular senescence and telomerase reactivation that enable replicative immortality, the role of p53 in coordinating these stress responses, and summarize cell-autonomous growth hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Reprogramming and Oncometabolites in Cancer",
+      "groupedBecause": "These subtopics explain the metabolic rewiring of tumor cells toward aerobic glycolysis and the role of Krebs cycle mutations and oncometabolites in promoting cancer progression.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "This subtopic details the angiogenic switch and the vascular mechanisms tumors require to overcome nutrient and oxygen diffusion limits.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion, Circulation, and Metastatic Colonization",
+      "groupedBecause": "These subtopics analyse the multistep metastatic cascade, covering invasion pathways, circulating tumor cells, microenvironmental compatibility, and the genomic features of secondary tumors.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and Lecture Summary",
+      "groupedBecause": "This closing subtopic synthesizes the overall themes of the lecture and provides concluding remarks on how the hallmarks of cancer integrate across tumor types.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

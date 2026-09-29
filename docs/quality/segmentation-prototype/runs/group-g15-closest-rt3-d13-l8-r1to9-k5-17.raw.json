@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture and outlines the core learning objectives for cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "These subtopics discuss traditional modalities of cancer treatment—including surgery, radiotherapy, and cytotoxic chemotherapy—along with their associated toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics examine therapeutic strategies that exploit intrinsic cancer cell vulnerabilities, including hormone dependence, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic drivers and kinase signaling",
+      "groupedBecause": "These subtopics discuss therapies targeting activated oncogenes and kinase pathways, along with the molecular mechanisms of inhibitor resistance and strategies to manage it.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics examine the design and clinical mechanisms of monoclonal antibodies and antibody-drug conjugates targeted against cell surface proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumour immunology and cellular immunotherapies",
+      "groupedBecause": "These subtopics explore the principles of natural immune surveillance and immunotherapeutic modalities that harness or re-engineer T cells to eliminate tumour cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Systemic challenges, trends, and future paradigms in cancer management",
+      "groupedBecause": "These subtopics review overarching challenges, mortality trends, emerging paradigms, and clinical dilemmas shaping the future of cancer treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

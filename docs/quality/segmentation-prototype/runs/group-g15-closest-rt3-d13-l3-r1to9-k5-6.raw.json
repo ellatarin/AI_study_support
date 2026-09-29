@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and course overview",
+      "groupedBecause": "It introduces the lecture series, outlines the learning outcomes, and sets expectations for students from different academic backgrounds.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations and experimental models of cancer",
+      "groupedBecause": "They discuss the genetic and epigenetic alterations underlying cancer development, the disruption of normal tissue architecture, and the cell culture models used to study these properties.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and tumour progression",
+      "groupedBecause": "They examine how tumours progress from benign to invasive and metastatic states using clinical, histological, and tissue-level examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour nomenclature and classification",
+      "groupedBecause": "It defines the conventional naming rules and clinical exceptions used to classify benign and malignant tumours based on their tissue origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "It explains the physiological and anatomical mechanisms through which primary and metastatic tumours cause illness and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Patterns of tumour incidence across species",
+      "groupedBecause": "They compare the frequency and types of benign and malignant tumours across human populations and other animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical practice of cancer screening",
+      "groupedBecause": "They evaluate the rationale, histological basis, and diagnostic challenges of population screening programs for various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and practical session reminders",
+      "groupedBecause": "It concludes the lecture with a reminder of the learning outcomes and practical session logistics.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

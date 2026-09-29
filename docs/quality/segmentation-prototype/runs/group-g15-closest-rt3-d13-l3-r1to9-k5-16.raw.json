@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the administrative opening, course framing, and primary learning outcomes for the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of cellular differentiation and tissue architecture",
+      "groupedBecause": "These subtopics explore the biological basis of cancer as a progressive breakdown in normal genetic regulation, cellular differentiation, and tissue architecture, along with experimental models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumour invasion, metastasis, and histological progression",
+      "groupedBecause": "These subtopics describe the clinical and histological distinctions between benign and malignant tumours, focusing on local invasion through basement membranes, metastatic spread, and stepwise progression from precursor lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour classification, nomenclature, and systemic morbidity",
+      "groupedBecause": "These subtopics detail the naming conventions and behavioural classifications of tumours alongside the mechanical and physiological mechanisms by which they produce morbidity and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Epidemiology and comparative oncology across species",
+      "groupedBecause": "These subtopics analyse patterns of tumour incidence and mortality in human populations and across diverse multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening strategies",
+      "groupedBecause": "These subtopics discuss the signs of tumour presentation and evaluate the rationale, histological indicators, and practical effectiveness of population screening programmes.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical session reminders",
+      "groupedBecause": "This subtopic provides the closing housekeeping remarks, concluding the session and previewing upcoming practical work.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

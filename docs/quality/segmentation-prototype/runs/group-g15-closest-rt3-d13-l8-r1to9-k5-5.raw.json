@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecture opens with framing about the session's scope and learning objectives for cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies, toxicities, and drug resistance",
+      "groupedBecause": "These subtopics explain the principles, clinical applications, and major limitations of conventional cancer interventions, including surgery, radiotherapy, and cytotoxic chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and defects",
+      "groupedBecause": "These subtopics address targeted therapeutic strategies designed to exploit intrinsic vulnerabilities of cancer cells, such as hormone dependence, cell cycle checkpoint loss, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene addiction and small-molecule kinase inhibitors",
+      "groupedBecause": "These subtopics explore the rationale of targeting hyperactivated oncogenic kinases and the mechanisms of action, off-target effects, and resistance pathways associated with kinase inhibitors.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the mechanisms and clinical utility of targeting tumor cell-surface antigens using naked monoclonal antibodies and antibody-drug conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and T cell-directed immunotherapies",
+      "groupedBecause": "These subtopics examine the evidence for immune surveillance and discuss therapeutic strategies to harness or engineer T cells to eradicate tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical trends, and future directions in cancer management",
+      "groupedBecause": "These subtopics evaluate overall progress in cancer survival, persistent challenges of heterogeneity and resistance, and emerging clinical and ethical considerations for future cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

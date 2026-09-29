@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to inflammation lecture",
+      "groupedBecause": "This subtopic introduces the lecture topic on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of infection recognition via PAMPs and DAMPs",
+      "groupedBecause": "These subtopics explain the molecular criteria by which the innate immune system senses pathogens and cellular damage while distinguishing self from non-self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptors and inflammatory signaling cascades",
+      "groupedBecause": "These subtopics examine the genetics, cellular localization, receptor families, and downstream activation pathways of pattern recognition receptors, including toll-like receptors and the inflammasome.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cellular dynamics and systemic consequences of acute inflammation",
+      "groupedBecause": "These subtopics describe how sentinel cells trigger leukocyte recruitment and tissue extravasation, as well as the transition toward adaptive priming or severe systemic inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic responses",
+      "groupedBecause": "These subtopics detail the passive and active mechanisms that extinguish inflammation, guide tissue repair, and give rise to chronic inflammation or protective granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Closing remarks and next topic preview",
+      "groupedBecause": "This subtopic concludes the session and previews the upcoming lecture on the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

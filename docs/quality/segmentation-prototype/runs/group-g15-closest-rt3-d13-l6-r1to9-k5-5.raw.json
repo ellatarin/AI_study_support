@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for cancer hallmarks",
+      "groupedBecause": "It introduces the lecture themes, learning objectives, and progression model for understanding cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and proliferative mutations",
+      "groupedBecause": "They explain how oncogenic mutations in cell surface receptor pathways drive sustained proliferation and cell survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in hematopoietic and epithelial cancers",
+      "groupedBecause": "They illustrate how developmental blocks preventing terminal differentiation contribute to malignant transformation in blood and intestinal tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis through p53 and Bcl-2 regulation",
+      "groupedBecause": "It examines how alterations in p53 and mitochondrial apoptotic regulators enable cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomeres, senescence, and p53-mediated stress surveillance",
+      "groupedBecause": "They explore the mechanisms governing cellular lifespan limits, telomerase reactivation, and p53-mediated responses to cellular stress before summarizing cell-autonomous growth hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and oncometabolite-driven oncogenesis",
+      "groupedBecause": "They describe how cancer cells rewire their metabolic networks and how metabolic enzyme mutations act as drivers of tumorigenesis.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "It addresses how developing tumors overcome oxygen diffusion limits by triggering new blood vessel formation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genomics of metastasis",
+      "groupedBecause": "They analyze the complete metastatic cascade from vascular dissemination and tissue colonization to genomic characteristics and clinical monitoring.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "It provides closing reflections on hallmark integration and offers final logistical guidance for the course.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

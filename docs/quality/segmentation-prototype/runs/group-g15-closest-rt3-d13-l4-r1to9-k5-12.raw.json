@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the course structure, her background, and the primary learning outcomes regarding environmental carcinogens and cancer development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, predisposition, and epidemiological variation",
+      "groupedBecause": "These subtopics explore the conceptual foundations of cancer development by examining the interplay between genetic mutations, endogenous processes, environmental exposures, and population-level incidence patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogen-driven carcinogenesis and Burkitt lymphoma",
+      "groupedBecause": "These subtopics examine how infectious agents promote malignant transformation, using the multi-factorial etiology of Burkitt lymphoma as a detailed case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mutagenic DNA damage and metabolic activation of carcinogens",
+      "groupedBecause": "These subtopics explain how physical, dietary, and chemical mutagens undergo metabolic activation and induce direct or oxidative DNA damage in tissues.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, microenvironmental inflammation, and host susceptibility",
+      "groupedBecause": "These subtopics detail non-mutagenic factors that facilitate cancer development, including inflammatory tumor promoters, life-stage vulnerabilities, and an overarching summary of carcinogenic mechanisms.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for assessing carcinogenicity and evaluating risk",
+      "groupedBecause": "These subtopics discuss the analytical, experimental, and epidemiological methods used to determine whether exposures cause cancer and how society weighs these risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion and final summary",
+      "groupedBecause": "The lecturer concludes the presentation by summarizing the main takeaways on environmental cancer risks and acknowledging the audience.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

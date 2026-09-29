@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for cancer hallmarks",
+      "groupedBecause": "This subtopic introduces the lecture and outlines the core learning outcomes concerning the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and proliferative mutations",
+      "groupedBecause": "These subtopics describe how oncogenic mutations in key signaling cascades, such as Wnt/beta-catenin and receptor tyrosine kinase pathways, drive cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in hematopoietic and epithelial cancers",
+      "groupedBecause": "These subtopics explore how cancer cells disrupt normal terminal differentiation in both leukemias and intestinal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Apoptosis resistance, replicative immortality, and p53 regulation",
+      "groupedBecause": "These subtopics examine how tumors overcome cell-autonomous barriers to survival through apoptotic resistance, telomere maintenance, and evasion of p53-mediated stress responses.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Cancer metabolism and metabolic rewiring",
+      "groupedBecause": "These subtopics explain the metabolic adaptations of cancer cells, including aerobic glycolysis, global metabolic rewiring, and Krebs cycle mutations generating oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic covers the mechanisms and timing of blood vessel recruitment necessary to support expanding tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and dynamics of cancer metastasis",
+      "groupedBecause": "These subtopics investigate the multistep metastatic cascade, including tumor cell dissemination, liquid biopsy monitoring, the seed and soil hypothesis, and genomic alterations in secondary tumors.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "This subtopic provides the concluding review and final framing remarks to close the lecture.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

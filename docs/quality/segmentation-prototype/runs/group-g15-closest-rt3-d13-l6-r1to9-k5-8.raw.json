@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the hallmarks of cancer",
+      "groupedBecause": "This subtopic frames the lecture by introducing the learning outcomes and outlining the progressive hallmark framework of tumorigenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and oncogenic mutations",
+      "groupedBecause": "These subtopics explain how oncogenic mutations deregulate signaling cascades such as Wnt/beta-catenin and receptor tyrosine kinases to sustain cellular proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "These subtopics examine how impaired cellular differentiation contributes to malignancy in hematopoietic leukemias and intestinal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptotic cell death",
+      "groupedBecause": "This subtopic details how cancer cells avoid programmed cell death through mutations in p53 and dysregulation of Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and stress responses",
+      "groupedBecause": "These subtopics explore telomere maintenance, senescence bypass mechanisms, p53 stress integration, and provide a concluding overview of cell-autonomous growth hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and metabolic reprogramming",
+      "groupedBecause": "These subtopics analyze altered cancer energetics, including the Warburg effect, tissue-of-origin metabolic adaptations, and the oncogenic role of Krebs cycle mutations and oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and vascular recruitment",
+      "groupedBecause": "This subtopic explains the angiogenic switch required by developing tumors to recruit blood supply for nutrient and oxygen delivery.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genetics of metastasis",
+      "groupedBecause": "These subtopics discuss the dissemination cascade of tumor cells, the use of liquid biopsies for longitudinal tracking, the seed-and-soil model, and genomic findings in metastatic lesions.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic provides the concluding framing for the lecture, summarizing the hallmark paradigm and providing closing remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

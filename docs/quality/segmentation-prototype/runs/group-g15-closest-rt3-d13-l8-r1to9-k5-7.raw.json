@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the introductory welcome and learning objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics cover traditional cancer interventions including surgery, radiation, and cytotoxic chemotherapy alongside their associated toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics examine therapeutic strategies that exploit specific cancer cell vulnerabilities, including hormone dependence, checkpoint defects, and synthetic lethality in DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics focus on targeting oncogenic kinase signaling with small-molecule inhibitors and the various mechanisms of drug resistance that arise during treatment.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe how engineered monoclonal antibodies and antibody-drug conjugates target specific cell-surface proteins to eliminate cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics discuss the basis of immune surveillance and strategies to reactivate, redirect, or engineer T cells to destroy tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overarching challenges, mortality trends, and future directions",
+      "groupedBecause": "These subtopics reflect on long-term survival trends, overarching clinical challenges, and emerging paradigms in future cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

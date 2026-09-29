@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer hallmarks",
+      "groupedBecause": "It frames the lecture by introducing the learning outcomes and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Proliferative signaling pathways and oncogenic mutations",
+      "groupedBecause": "They describe how mutations in signaling cascades, including Wnt/beta-catenin and receptor tyrosine kinase pathways, drive sustained cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in hematopoietic and epithelial cancers",
+      "groupedBecause": "They illustrate how an arrest in terminal cell differentiation contributes to tumor development in both leukemias and colorectal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis through p53 and Bcl-2 regulation",
+      "groupedBecause": "It examines how cancer cells avoid programmed cell death through alterations in p53 signaling and the balance of Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and stress responses",
+      "groupedBecause": "They explain how telomere shortening triggers senescence, how cancer cells bypass this barrier to achieve immortality, and how cellular stress pathways converge to protect genome integrity.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "They explain how cancer cells alter metabolic pathways, shifting toward aerobic glycolysis and generating oncometabolites that promote epigenetic dysregulation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and vascular supply",
+      "groupedBecause": "It examines the mechanisms and timing of the angiogenic switch required to provide developing tumors with blood supply and oxygen.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, detection, and genomics of tumor metastasis",
+      "groupedBecause": "They examine the multi-step metastatic cascade, the clinical application of circulating tumor cells, seed-and-soil dynamics, and the genomic characteristics of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "It provides closing remarks summarizing the hallmarks of cancer and concludes the lecture.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

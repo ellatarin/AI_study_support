@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "These introductory remarks welcome the students and set out the course scope and lecture objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological mechanisms of cancer and experimental models",
+      "groupedBecause": "These subtopics explain cancer as a multistep breakdown of normal cellular differentiation and tissue architecture alongside the experimental systems used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumour invasion, metastasis, and histological progression",
+      "groupedBecause": "These subtopics detail how tumours transition from localized benign lesions to invasive and metastatic malignancies using histological and clinical examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour nomenclature, behaviour, and mechanisms of morbidity",
+      "groupedBecause": "These subtopics address the naming conventions for tumours and examine how both benign and malignant growths cause clinical harm and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour incidence and comparative oncology",
+      "groupedBecause": "These subtopics examine cancer frequency across human populations and other animal species to frame cancer as a universal disease of multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and practice of cancer screening",
+      "groupedBecause": "These subtopics discuss the clinical rationale for early cancer detection and evaluate screening approaches and limitations across different organ sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "These concluding remarks summarize the session and provide administrative reminders about revision and upcoming practical classes.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the scope, learning objectives, and interdisciplinary context of the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular, developmental, and experimental foundations of cancer",
+      "groupedBecause": "These subtopics describe cancer as a multistep breakdown of normal cellular differentiation and tissue architecture, alongside the laboratory models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign versus malignant tumors, invasion, and nomenclature",
+      "groupedBecause": "These subtopics explain the pathological and clinical differences between benign and malignant neoplasms, detailing how local invasion, metastasis, and progression develop and are systematically classified.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of disease, mortality, and comparative incidence",
+      "groupedBecause": "These subtopics address how tumors cause morbidity and mortality, comparing their epidemiological occurrence across human tissues and other multicellular organisms.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Clinical presentation and cancer screening strategies",
+      "groupedBecause": "These subtopics explore the signs with which tumors present clinically and evaluate the principles, histological basis, and effectiveness of screening methods across different tumor types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic wraps up the lecture with a summary reminder of the learning outcomes and practical coursework.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

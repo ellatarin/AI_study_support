@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "Opening framing introducing the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of microbial and damage sensing via PAMPs and DAMPs",
+      "groupedBecause": "They establish the foundational principles by which the innate immune system detects infection and cellular injury using molecular patterns while distinguishing self from non-self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptors and intracellular signaling pathways",
+      "groupedBecause": "They examine the genetics, subcellular localization, and downstream activation cascades of pattern recognition receptor families and inflammasome complexes.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Sentinel cell activation, leukocyte recruitment, and systemic inflammation",
+      "groupedBecause": "They describe how tissue sentinel cells initiate inflammatory cascades, direct leukocyte trafficking and lymphatic drainage, and can precipitate septic shock when overactivated.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "They explain the mechanisms that resolve inflammation and promote tissue repair, as well as the causes and outcomes of chronic inflammation and granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "Closing framing concluding the lecture and announcing the upcoming topic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and course overview",
+      "groupedBecause": "It introduces the lecture series, the course structure, and the specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of differentiation and tissue architecture",
+      "groupedBecause": "They examine the biological basis of cancer as an accumulation of alterations disrupting cellular differentiation and tissue structure, alongside the experimental models used to study these processes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumour invasion, metastasis, and benign-to-malignant progression",
+      "groupedBecause": "They describe the mechanisms, histological characteristics, and clinical consequences of local invasion, distant metastasis, and the stepwise progression from benign precursors to malignant disease.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour nomenclature and mechanisms of morbidity and mortality",
+      "groupedBecause": "They outline the systematic conventions used to name different tumor types and explain the physiological mechanisms through which tumors cause illness and death.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Comparative cancer incidence and multicellularity",
+      "groupedBecause": "They explore the incidence of various cancers in human populations and across diverse animal taxa as a fundamental vulnerability of multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening strategies",
+      "groupedBecause": "They review the clinical signs of tumors and evaluate the diagnostic principles, histological findings, and limitations of population screening programmes for various cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "It wraps up the lecture with a reminder of the learning outcomes and details regarding upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

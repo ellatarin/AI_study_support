@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "It introduces the final lecture of the course and outlines the learning objectives regarding cancer therapy modalities.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional local and cytotoxic cancer therapies",
+      "groupedBecause": "These subtopics discuss the mechanisms, clinical successes, toxicities, and resistance mechanisms of traditional cancer treatments, including surgery, radiotherapy, and cytotoxic chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cellular vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics examine therapeutic strategies that exploit intrinsic biological vulnerabilities in cancer cells, including hormone dependence, cell cycle checkpoint deficiencies, and DNA repair defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic kinase drivers and mechanisms of resistance",
+      "groupedBecause": "These subtopics focus on identifying oncogenic driver mutations and using small-molecule kinase inhibitors to target them, alongside the resistance pathways that emerge during treatment.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody and antibody-drug conjugate therapies",
+      "groupedBecause": "These subtopics explore the use of engineered monoclonal antibodies and antibody-drug conjugates to specifically bind cancer cell surface antigens and deliver cytotoxic effects.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-directed interventions",
+      "groupedBecause": "These subtopics review the principles of natural immune surveillance and detail immunotherapeutic strategies that harness and engineer T cells to eradicate tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future directions in cancer management",
+      "groupedBecause": "These subtopics evaluate the broader complexities of cancer treatment, reflecting on historical survival gains, prevention strategies, and emerging paradigms for future therapy.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

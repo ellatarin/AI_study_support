@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the scope of the lecture series, the interdisciplinary student audience, and the key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations of cancer and experimental models",
+      "groupedBecause": "They define cancer as a multistep disruption of genetic integrity and tissue differentiation programs, highlighting the methods and limitations of studying these processes in culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumour invasion, metastasis, and stepwise progression",
+      "groupedBecause": "They describe how tumors progress from contained, benign precursor lesions to invasive and metastatic malignancies, contrasting their macroscopic and histological behaviors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Conventions and exceptions of tumour nomenclature",
+      "groupedBecause": "This subtopic establishes the standard medical naming rules and key exceptions used to classify benign and malignant tumors based on their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the local, systemic, and metastatic processes by which tumor growth causes organ failure, illness, and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumour incidence across human tissues and animal species",
+      "groupedBecause": "They examine the statistical prevalence of various tumor types in humans and compare incidence across animal species to frame cancer as a universal consequence of multicellularity.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening strategies",
+      "groupedBecause": "They evaluate the clinical presentation of tumors and the utility, techniques, and limitations of population screening programmes for identifying pre-malignant lesions.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic concludes the lecture by revisiting the learning outcomes and providing housekeeping notes for upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -16,5 +16,7 @@ folder (`docs/quality/segmentation-prototype`), since each loads
 | `g12_vs_g15.py` | g12 runs 1–18 against g15's 18: runs matching the ruling, the grouping at 9/18, and starts whose support moved |
 | `closest_grouping_data.py <out-dir> <bar> <panel> <prompt>` | the chosen grouping per lecture with full text, for a review page |
 | `build_page.py` | turns that data into the review page, optionally with a retitle version's titles |
+| `write_rt3.py` | writes `closest-rt3-d13-l*`: each closest-run d13 division with r3's titles in place of the inherited ones |
+| `rt3_vs_d13.py` | g15's 18 runs on those divisions against g15's 18 on the originals: runs matching the ruling, the grouping at 9/18, starts whose support moved. The result that put retitling after grouping |
 
 `closest-groupings.template.html` is the review page those two build.
