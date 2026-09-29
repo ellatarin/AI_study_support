@@ -45,6 +45,18 @@ export type Subtopic = {
 	readonly to: number;
 };
 
+/**
+ * Which subtopics a round after the first may send.
+ *
+ * - `every-long-subtopic`: every subtopic still over the gate, including one
+ *   the model already called one step. What every `d9` run recorded before
+ *   2026-09-29 did.
+ * - `cut-pieces`: only a piece cut in the round before that is still over the
+ *   gate; a subtopic called one step is never asked again. What the technical
+ *   design describes.
+ */
+export type LaterRounds = "every-long-subtopic" | "cut-pieces";
+
 /** The one model call deepening makes, given its messages. */
 export type CallModel = (messages: readonly TrialMessage[]) => Promise<TrialReply>;
 
@@ -278,6 +290,7 @@ function addToTally({
  * @param options.sizeGateWords - A subtopic with more words than this is sent.
  * @param options.systemPrompt - The deepening prompt for this version.
  * @param options.callModel - Makes one model call from the given messages.
+ * @param options.laterRounds - Which subtopics a round after the first may send.
  * @returns The deeper division and its tally, or — when any subtopic's call
  *   failed on every attempt — a refusal naming each such subtopic and why.
  *
@@ -291,14 +304,18 @@ export async function deepenDivision({
 	sizeGateWords,
 	systemPrompt,
 	callModel,
+	laterRounds,
 }: {
 	readonly transcriptText: string;
 	readonly subtopics: readonly Subtopic[];
 	readonly sizeGateWords: number;
 	readonly systemPrompt: string;
 	readonly callModel: CallModel;
+	readonly laterRounds: LaterRounds;
 }): Promise<DeepenResult> {
 	let subtopics = initial;
+	// Whether each subtopic may be sent this round; in the first, all may.
+	let mayBeSent: readonly boolean[] = initial.map(() => true);
 	let tally: DeepenTally = {
 		sectionsSent: 0,
 		heldAsOneStep: 0,
@@ -309,7 +326,9 @@ export async function deepenDivision({
 	};
 	for (let round = 0; round < MAX_ROUNDS; round += 1) {
 		const isOver = subtopics.map(
-			(subtopic) => wordCount(transcriptText.slice(subtopic.from, subtopic.to)) > sizeGateWords,
+			(subtopic, index) =>
+				mayBeSent[index] === true &&
+				wordCount(transcriptText.slice(subtopic.from, subtopic.to)) > sizeGateWords,
 		);
 		if (!isOver.some(Boolean)) {
 			break;
@@ -334,6 +353,9 @@ export async function deepenDivision({
 		const next = results.flatMap((result) => result.subtopics);
 		const nothingMoved = next.length === subtopics.length;
 		subtopics = next;
+		mayBeSent = results.flatMap((result) =>
+			result.subtopics.map(() => laterRounds === "every-long-subtopic" || result.subtopics.length > 1),
+		);
 		// Another round would ask the same questions again.
 		if (nothingMoved) {
 			break;

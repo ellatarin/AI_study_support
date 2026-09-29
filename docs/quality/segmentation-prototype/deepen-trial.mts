@@ -21,16 +21,27 @@
  *
  * Usage:
  *   TRIAL_MODEL=google/gemini-3.7-flash \
- *     pnpm exec tsx deepen-trial.mts <version> <split-run-stem> <size-gate-words>
+ *     pnpm exec tsx deepen-trial.mts <version> <split-run-stem> <size-gate-words> [<later-rounds>]
  *   e.g. deepen-trial.mts d1 split-s6-l5-1 600
+ *        deepen-trial.mts d9 split-s6-l5-1 600 cut-pieces
+ *
+ * `<later-rounds>` is `every-long-subtopic` (the default, and what every run
+ * before it existed did) or `cut-pieces`; see {@link LaterRounds}. A
+ * `cut-pieces` run's stem carries `-pieces` after the gate, so the patterns
+ * that select the other runs never pick it up.
+ *
+ * A run whose files already exist is refused before any call is made: run
+ * files are the record, and a rerun under the same name would replace one.
  */
 
+import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { applyCuts, judgeFidelity } from "./cut-blocks.mts";
 import {
 	type DeepenTally,
 	deepenDivision,
+	type LaterRounds,
 	type Subtopic,
 	type SubtopicFailure,
 } from "./deepen-division.mts";
@@ -50,6 +61,8 @@ type DeepenOutcome = DeepenTally & {
 	readonly instance: string;
 	readonly modelId: string;
 	readonly gateWords: number;
+	/** Absent from runs made before the choice existed, all of which sent every long subtopic. */
+	readonly laterRounds: LaterRounds;
 	readonly seconds: number;
 	/** One per subtopic sent; retries are counted separately. */
 	readonly calls: number;
@@ -121,6 +134,32 @@ function subtopicsOf({
 	});
 }
 
+/**
+ * Read the later-rounds argument, refusing anything but the two known choices.
+ *
+ * @param argument - The command-line argument.
+ * @returns The choice it names.
+ */
+function laterRoundsOf(argument: string): LaterRounds {
+	if (argument === "every-long-subtopic" || argument === "cut-pieces") {
+		return argument;
+	}
+	throw new Error(`Unknown later-rounds choice "${argument}": use every-long-subtopic or cut-pieces`);
+}
+
+/**
+ * Stop before any call is made when a run's files already exist.
+ *
+ * @param paths - The files the run would write.
+ * @throws {Error} When any of them exists, naming it.
+ */
+function refuseToOverwrite(paths: readonly string[]): void {
+	const existing = paths.find((path) => existsSync(path));
+	if (existing !== undefined) {
+		throw new Error(`${existing} already exists; delete it first to make this run again`);
+	}
+}
+
 async function main(): Promise<void> {
 	const version = deepenPromptVersion({ id: process.argv[2] ?? "d1" });
 	const stem = process.argv[3];
@@ -128,6 +167,11 @@ async function main(): Promise<void> {
 		throw new Error("Usage: deepen-trial.mts <version> <split-run-stem> <size-gate-words>");
 	}
 	const sizeGateWords = Number(process.argv[4] ?? "600");
+	const laterRounds = laterRoundsOf(process.argv[5] ?? "every-long-subtopic");
+	const outStem = `deepen-${version.id}-${sizeGateWords}${laterRounds === "cut-pieces" ? "-pieces" : ""}-${stem}`;
+	const outcomePath = join(OUT_DIR, `${outStem}.outcome.json`);
+	const blocksPath = join(OUT_DIR, `${outStem}.blocks.json`);
+	refuseToOverwrite([outcomePath, blocksPath]);
 	await mkdir(OUT_DIR, { recursive: true });
 
 	const outcomeBefore = JSON.parse(
@@ -146,6 +190,7 @@ async function main(): Promise<void> {
 		sizeGateWords,
 		systemPrompt: version.build(),
 		callModel: (messages) => callTrialModel({ config, modelId: MODEL, messages }),
+		laterRounds,
 	});
 	if (result.state === "refused") {
 		throw new DeepeningRefusedError({ stem, failures: result.failures });
@@ -158,7 +203,6 @@ async function main(): Promise<void> {
 		content: transcriptText.slice(subtopic.from, subtopic.to),
 	}));
 	const seconds = Math.round((performance.now() - startedAt) / 1000);
-	const outStem = `deepen-${version.id}-${sizeGateWords}-${stem}`;
 	const outcome: DeepenOutcome = {
 		promptVersion: version.id,
 		source: stem,
@@ -166,6 +210,7 @@ async function main(): Promise<void> {
 		instance: outcomeBefore.instance,
 		modelId: MODEL,
 		gateWords: sizeGateWords,
+		laterRounds,
 		seconds,
 		...tally,
 		calls: tally.sectionsSent,
@@ -173,13 +218,9 @@ async function main(): Promise<void> {
 		subtopicsAfter: subtopics.length,
 		fidelity: judgeFidelity(transcriptText, blocks),
 	};
+	await writeFile(outcomePath, JSON.stringify(outcome, null, 2), "utf8");
 	await writeFile(
-		join(OUT_DIR, `${outStem}.outcome.json`),
-		JSON.stringify(outcome, null, 2),
-		"utf8",
-	);
-	await writeFile(
-		join(OUT_DIR, `${outStem}.blocks.json`),
+		blocksPath,
 		JSON.stringify({ ...outcome, blocks }, null, 2),
 		"utf8",
 	);

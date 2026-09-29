@@ -1,5 +1,10 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
-import { type DeepenResult, deepenDivision, type Subtopic } from "./deepen-division.mts";
+import {
+	type DeepenResult,
+	deepenDivision,
+	type LaterRounds,
+	type Subtopic,
+} from "./deepen-division.mts";
 import type { TrialMessage, TrialReply } from "./trial-model.mts";
 
 /** Small enough that a sentence or two crosses it, so the passages stay readable. */
@@ -15,6 +20,9 @@ const COMPLETION_TOKENS = 20;
 /** Eight words: over the size gate whole, under it once divided at `SECOND_HALF`. */
 const EIGHT_WORDS = "Cells divide quickly here. Then tumours invade tissue. ";
 const SECOND_HALF = "Then tumours invade tissue";
+
+/** Four words: a piece cut from the front of a longer subtopic that is itself under the gate. */
+const GROWTH_OPENING = "Growth signals switch on. ";
 
 /** Three words, never sent. */
 const SHORT = "A brief aside. ";
@@ -100,7 +108,10 @@ describe("deepenDivision", () => {
 	});
 
 	/** Runs the division to its end, letting the back-off between attempts pass at once. */
-	async function deepen(passages: readonly string[]): Promise<{
+	async function deepen(
+		passages: readonly string[],
+		laterRounds: LaterRounds = "every-long-subtopic",
+	): Promise<{
 		readonly result: DeepenResult;
 		readonly transcriptText: string;
 		readonly subtopics: readonly Subtopic[];
@@ -112,6 +123,7 @@ describe("deepenDivision", () => {
 			sizeGateWords: SIZE_GATE_WORDS,
 			systemPrompt: SYSTEM_PROMPT,
 			callModel,
+			laterRounds,
 		});
 		await vi.runAllTimersAsync();
 		return { result: await pending, transcriptText, subtopics };
@@ -211,20 +223,44 @@ describe("deepenDivision", () => {
 	});
 
 	test("should send a piece again in a second round when it is still over the size gate", async () => {
-		const opening = "Growth signals switch on. ";
 		callModel.mockImplementation(async (messages) =>
-			passageSent(messages).includes(opening)
+			passageSent(messages).includes(GROWTH_OPENING)
 				? cutsAt("Cells divide quickly")
 				: cutsAt(SECOND_HALF),
 		);
 
-		const { result, transcriptText } = await deepen([`${opening}${EIGHT_WORDS}`]);
+		const { result, transcriptText } = await deepen([`${GROWTH_OPENING}${EIGHT_WORDS}`]);
 
 		expect(textsOf({ result, transcriptText })).toEqual([
-			opening,
+			GROWTH_OPENING,
 			"Cells divide quickly here. ",
 			"Then tumours invade tissue. ",
 		]);
 		expect(result).toMatchObject({ tally: { sectionsSent: 2 } });
+	});
+
+	test.each([
+		["every-long-subtopic", "should ask again about a subtopic held as one step", 4, 2],
+		["cut-pieces", "should never ask again about a subtopic held as one step", 3, 1],
+	] as const)("%s: %s when another subtopic was cut in round one", async (laterRounds, _behaviour, sectionsSent, heldSends) => {
+		const held = `Alpha ${EIGHT_WORDS}`;
+		callModel.mockImplementation(async (messages) => {
+			const passage = passageSent(messages);
+			if (passage.includes("Alpha")) {
+				return ONE_STEP;
+			}
+			return passage.includes(GROWTH_OPENING) ? cutsAt("Cells divide quickly") : cutsAt(SECOND_HALF);
+		});
+
+		const { result, transcriptText } = await deepen([held, `${GROWTH_OPENING}${EIGHT_WORDS}`], laterRounds);
+
+		expect(textsOf({ result, transcriptText })).toEqual([
+			held,
+			GROWTH_OPENING,
+			"Cells divide quickly here. ",
+			"Then tumours invade tissue. ",
+		]);
+		expect(result).toMatchObject({ tally: { sectionsSent } });
+		expect(callModel.mock.calls.filter(([messages]) => passageSent(messages).includes("Alpha"))).toHaveLength(heldSends);
 	});
 });
