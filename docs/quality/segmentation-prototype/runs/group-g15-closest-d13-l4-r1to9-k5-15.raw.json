@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "It introduces the lecturer, sets out the scope of the lecture series, and outlines the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of cancer causation: genetics, bad luck, and environmental exposure",
+      "groupedBecause": "These subtopics establish the conceptual framework of cancer etiology by examining how intrinsic stochastic mutations, inherited genetics, and external environmental exposures interact to drive malignancy across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "These subtopics explain how biological agents drive oncogenesis, illustrated in detail by the viral and environmental etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Direct and metabolic mechanisms of chemical and physical mutagens",
+      "groupedBecause": "These subtopics detail how physical radiation and chemical compounds interact with cellular metabolism to induce DNA adducts, oxidative stress, and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, microenvironment, and host susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic drivers of cancer development, including the two-stage model of promotion, inflammatory microenvironments, and developmental stages of host vulnerability.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for detecting and assessing carcinogenicity",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, experimental, and risk-assessment frameworks used to determine whether exposures cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "It provides the final closing remarks and summarizes the overarching takeaways of the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

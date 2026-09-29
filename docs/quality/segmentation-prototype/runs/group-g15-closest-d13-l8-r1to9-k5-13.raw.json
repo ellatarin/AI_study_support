@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "It introduces the final lecture of the course and outlines its core learning objectives regarding cancer treatment approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics cover traditional treatment modalities including surgery, radiotherapy, and cytotoxic drugs, alongside systemic toxicity and efflux pump-mediated resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer cell vulnerabilities, checkpoint defects, and synthetic lethality",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic biological vulnerabilities of cancer cells, including hormone signaling dependence, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors, oncogene addiction, and resistance mechanisms",
+      "groupedBecause": "These subtopics examine small-molecule therapies directed against hyperactivated oncogenic kinases, exploring oncogene addiction as well as structural and pathway mechanisms of acquired resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based therapies and cancer immunotherapy",
+      "groupedBecause": "These subtopics address strategies that harness the immune system to treat cancer, spanning monoclonal antibodies, immune checkpoint inhibitors, bispecific engagers, and CAR T-cell therapies.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Broader challenges, historical progress, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics review systemic challenges in therapy development, historical progress in cancer survival and prevention, and emerging paradigms and dilemmas in clinical management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

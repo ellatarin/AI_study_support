@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "This opening section welcomes students to the final lecture and introduces the learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional modalities and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics discuss traditional cancer treatment approaches—including surgery, radiotherapy, and cytotoxic drugs—along with systemic toxicities and efflux-mediated drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer-specific vulnerabilities and defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that capitalize on specific tumor vulnerabilities, such as hormone receptor reliance, cell cycle checkpoint defects, and synthetic lethality in DNA repair.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase inhibitors, oncogene addiction, and drug resistance",
+      "groupedBecause": "These subtopics cover the concept of oncogene addiction, the design of small-molecule kinase inhibitors, and the structural and signaling mechanisms driving resistance to these targeted therapies.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics focus on engineered monoclonal antibodies and antibody-drug conjugates designed to target tumor surface markers and deliver cytotoxic agents.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumor immunology and modern immunotherapy approaches",
+      "groupedBecause": "These subtopics address the biological basis of tumor immune surveillance and the development of immunotherapies, including checkpoint inhibitors, bispecific antibodies, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Systemic challenges, mortality trends, and future treatment paradigms",
+      "groupedBecause": "These subtopics evaluate the broader progress in cancer mortality, persistent obstacles in drug development and combination therapy, and future clinical dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

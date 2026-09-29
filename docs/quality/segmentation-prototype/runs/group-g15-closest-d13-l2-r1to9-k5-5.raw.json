@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of complement",
+      "groupedBecause": "The lecturer introduces the complement system, acknowledges its reputation for complex nomenclature, and frames the scope of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Core principles and central mechanics of complement",
+      "groupedBecause": "These subtopics introduce the fundamental architecture, nomenclature rules, and central role of component C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the alternative, lectin, and classical pathways of complement activation and how they converge to reach the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail the primary immune outcomes mediated by activated complement, including opsonization, inflammation, and pathogen lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement and host tissue protection",
+      "groupedBecause": "This subtopic explains the regulatory factors and mechanisms that prevent complement activation from damaging host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical pathology of complement deficiencies",
+      "groupedBecause": "This subtopic examines the distinct medical consequences and disease manifestations resulting from deficiencies in specific complement proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement defenses",
+      "groupedBecause": "This subtopic describes how pathogens, exemplified by Staphylococcus aureus, employ specialized mechanisms to subvert complement-mediated clearance.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and upcoming topics",
+      "groupedBecause": "The lecturer concludes the discussion on complement and previews the topic for the subsequent lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

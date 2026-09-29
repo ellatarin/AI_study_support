@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines its learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional cancer therapies and mechanisms of resistance",
+      "groupedBecause": "These subtopics examine conventional local and systemic cancer treatments—such as surgery, radiotherapy, and cytotoxic chemotherapy—alongside the challenges of systemic toxicity and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer cell vulnerabilities and genetic defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic vulnerabilities of cancer cells, including hormone signaling dependence, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase-targeted therapies and resistance mechanisms",
+      "groupedBecause": "These subtopics discuss the rationale and mechanisms for inhibiting oncogenic kinases along with the evolutionary resistance pathways and dosing strategies that arise during treatment.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Therapeutic monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics examine how engineered monoclonal antibodies and antibody-drug conjugates specifically target tumor-associated cell-surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and immune-mediated targeting",
+      "groupedBecause": "These subtopics address immune surveillance and cell-mediated immunotherapies designed to harness or engineer T cells to target cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overall progress, systemic challenges, and future perspectives in cancer care",
+      "groupedBecause": "These subtopics evaluate the broader progress, persistent clinical challenges, and future paradigms across cancer prevention, treatment combinations, and drug development.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the complement system lecture",
+      "groupedBecause": "This subtopic frames the lecture by introducing the complement system and acknowledging its complexity and nomenclature.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational concepts, nomenclature, and central role of C3",
+      "groupedBecause": "These subtopics establish the foundational principles, naming conventions, and central biochemical role of component C3 in the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways and threshold",
+      "groupedBecause": "These subtopics explain the three distinct pathways that recognize pathogens and converge to reach the critical threshold for complement activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics detail the downstream effector mechanisms triggered by complement activation to eliminate pathogens and stimulate inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement and host cell protection",
+      "groupedBecause": "This subtopic examines the regulatory proteins and inhibitory mechanisms that prevent complement from attacking and damaging host tissues.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic details the distinct clinical presentations and disease phenotypes associated with deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement immunity",
+      "groupedBecause": "This subtopic explores how pathogens, particularly Staphylococcus aureus, have evolved specific mechanisms to circumvent complement-mediated clearance.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview of upcoming topics",
+      "groupedBecause": "This subtopic concludes the discussion on complement and outlines the topic for the following lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

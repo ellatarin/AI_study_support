@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, its cross-disciplinary audience, and the key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer pathogenesis, differentiation failure, and tissue architecture",
+      "groupedBecause": "These subtopics describe how the accumulation of genetic and epigenetic alterations causes cancer through the breakdown of normal differentiation and tissue architecture, alongside experimental models used to study these cellular changes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and benign-to-malignant progression",
+      "groupedBecause": "These subtopics examine how tumors invade surrounding tissue and spread, comparing benign and malignant behaviors through histological examples and the stepwise progression from adenoma to adenocarcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification conventions",
+      "groupedBecause": "This subtopic outlines the standard conventions and notable exceptions for naming benign and malignant tumors across different tissue types.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the direct and systemic mechanisms through which primary and metastatic tumors impair bodily functions and cause death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence across humans and other animal species",
+      "groupedBecause": "These subtopics survey the frequency and patterns of tumor occurrence in human populations and across diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical modalities of cancer screening",
+      "groupedBecause": "These subtopics evaluate the rationale, diagnostic methods, and practical limitations of early cancer screening programs across different anatomical sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic concludes the lecture with a review of the learning outcomes and reminders for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

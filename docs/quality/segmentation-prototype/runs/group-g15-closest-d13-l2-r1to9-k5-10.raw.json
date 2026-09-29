@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "It introduces the lecture topic and sets expectations regarding complement's complexity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Core principles and central role of C3",
+      "groupedBecause": "They establish the fundamental architecture, nomenclature conventions, and central pivotal function of C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "They explain the mechanisms of the alternative, lectin, and classical pathways that trigger complement activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "They describe the three primary effector outcomes of complement activation: opsonization, inflammation, and membrane attack complex lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement",
+      "groupedBecause": "It explains the molecular mechanisms and regulatory proteins that prevent host cell damage from complement activation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "It outlines the distinct clinical presentations and disease manifestations associated with specific complement and regulatory protein deficiencies.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion mechanisms",
+      "groupedBecause": "It explores the molecular strategies used by pathogens such as Staphylococcus aureus to escape complement-mediated clearance.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "It provides concluding remarks and previews the upcoming lecture on adaptive immunity.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

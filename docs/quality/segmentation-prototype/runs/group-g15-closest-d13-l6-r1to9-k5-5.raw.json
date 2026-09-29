@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture by outlining the learning objectives and introducing the conceptual framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and intracellular signaling pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell surface receptors and downstream intracellular cascades drive sustained proliferation and growth factor independence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics describe how differentiation blocks arrest cells in immature, proliferative states across both hematopoietic malignancies and intestinal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic details how cancer cells avoid programmed cell death by disrupting p53 function and altering the balance between pro- and anti-apoptotic Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and stress checkpoint signaling",
+      "groupedBecause": "These subtopics explain how telomere shortening induces senescence, how tumor cells achieve replicative immortality through telomerase reactivation, and how cellular stress signals converge on p53 before concluding the discussion on cell-autonomous growth hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics examine how cancer cells rewire cellular metabolism toward aerobic glycolysis, preserve tissue-of-origin metabolic features, and accumulate epigenetic-altering oncometabolites through metabolic enzyme mutations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic examines how expanding tumors overcome oxygen diffusion limits by activating the angiogenic switch to stimulate new blood vessel growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genetics of tumor metastasis",
+      "groupedBecause": "These subtopics explore the physical and biological stages of the metastatic cascade, longitudinal treatment monitoring using circulating tumor cells, metastatic inefficiency, and the genomic profiles of secondary tumors.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "This subtopic provides closing thoughts on how diverse mutational paths converge on common hallmarks and concludes the lecture.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

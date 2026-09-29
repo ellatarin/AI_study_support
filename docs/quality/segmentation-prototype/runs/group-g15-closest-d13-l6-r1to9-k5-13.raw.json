@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for the hallmarks of cancer",
+      "groupedBecause": "This subtopic provides the framing for the lecture, introducing its learning outcomes and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and intracellular signaling pathways",
+      "groupedBecause": "These subtopics explain how mutations in cell surface receptors and intracellular signaling cascades allow cancer cells to sustain proliferation independently of external growth cues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics examine how oncogenic alterations arrest normal lineage differentiation while maintaining proliferative potential in hematologic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis, senescence, and replicative immortality",
+      "groupedBecause": "These subtopics explore how cancer cells circumvent cellular fail-safes including apoptosis, telomere shortening, and p53-mediated stress responses to achieve unlimited replicative potential.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic rewiring and oncometabolites in cancer",
+      "groupedBecause": "These subtopics address the metabolic alterations of cancer cells, detailing aerobic glycolysis and Krebs cycle mutations that produce oncometabolites to drive tumorigenesis.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explores how tumors activate the angiogenic switch to recruit vasculature required for oxygen and nutrient supply during progression.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genomics of tumor metastasis",
+      "groupedBecause": "These subtopics examine the multi-step cascade of cancer dissemination, including vascular invasion, clinical monitoring of circulating tumor cells, seed-and-soil interactions, and metastatic genomics.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "This subtopic provides the lecture closing by synthesizing how cancer hallmarks integrate and directing students toward practical sessions.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "These introductory remarks outline the scope and learning outcomes for the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer interventions, cytotoxic chemotherapy, and drug resistance",
+      "groupedBecause": "These subtopics examine traditional treatment modalities—including surgery, radiotherapy, and cytotoxic drugs—along with their associated systemic toxicities and efflux-mediated resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting cancer-specific vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics describe therapeutic strategies designed to exploit intrinsic biological weaknesses of cancer cells, such as hormone dependence, checkpoint deficiencies, and synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Small molecule kinase inhibitors and resistance mechanisms",
+      "groupedBecause": "These subtopics discuss the design and clinical application of kinase inhibitors as well as the genetic mutations and bypass pathways that lead to drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based therapeutics and antibody-drug conjugates",
+      "groupedBecause": "These subtopics cover the use of engineered monoclonal antibodies to target tumor cell-surface antigens both as direct receptor antagonists and as vehicles for cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and cellular therapies",
+      "groupedBecause": "These subtopics explore the relationship between the immune system and cancer, focusing on therapies that reactivate or re-engineer T cells to recognize and destroy tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overarching challenges, historical progress, and future perspectives in cancer management",
+      "groupedBecause": "These subtopics provide a broad concluding perspective on historical mortality trends, current clinical hurdles, ethical considerations, and future directions across cancer care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning objectives regarding cancer therapies and their modes of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies, cytotoxic chemotherapy, and resistance",
+      "groupedBecause": "These subtopics cover traditional modalities of cancer treatment—including surgery, radiotherapy, and cytotoxic chemotherapy—along with their associated toxicities and mechanisms of drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and defects",
+      "groupedBecause": "These subtopics examine therapeutic strategies that exploit inherent biological vulnerabilities of cancer cells, such as hormone dependency, cell cycle checkpoint defects, and impaired DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic kinases and kinase inhibitor resistance",
+      "groupedBecause": "These subtopics discuss the rationale, mechanisms, and clinical challenges of targeting hyperactivated oncogenic kinases with small-molecule inhibitors and managing subsequent drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody and antibody-drug conjugate therapies",
+      "groupedBecause": "These subtopics describe the design and therapeutic mechanisms of targeting cancer-specific cell surface antigens using unconjugated monoclonal antibodies and cytotoxic antibody-drug conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and immune-mediated interventions",
+      "groupedBecause": "These subtopics explore the biological basis of tumor immune surveillance and clinical strategies to harness immune responses against cancer, including checkpoint inhibitors, bispecific antibodies, and CAR T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Global challenges, progress, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics evaluate the overall historical progress, ongoing therapeutic dilemmas, role of prevention and biomarkers, and future paradigms in managing cancer.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic provides the introductory framing and context for the lecture on the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals of complement architecture and C3 activation",
+      "groupedBecause": "These subtopics introduce the basic organisation, nomenclature rules, and pivotal central role of component C3 in the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain how the alternative, lectin, and classical recognition pathways initiate complement activity and reach the threshold for activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector functions of the complement cascade",
+      "groupedBecause": "These subtopics describe the downstream mechanisms by which activated complement eliminates pathogens through opsonization, inflammatory signaling, and membrane attack lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "This subtopic examines the regulatory factors and mechanisms that protect host cells from accidental complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical manifestations of complement deficiencies",
+      "groupedBecause": "This subtopic details the medical presentations and disease risks associated with specific genetic or acquired complement pathway deficiencies.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of the complement system",
+      "groupedBecause": "This subtopic explores the molecular strategies evolved by pathogens such as Staphylococcus aureus to counteract complement-mediated immune destruction.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic provides the closing framing for the session and introduces the subject of the upcoming lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

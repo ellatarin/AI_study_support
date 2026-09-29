@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the hallmarks of cancer",
+      "groupedBecause": "This subtopic introduces the lecture by setting out the learning outcomes and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell surface receptors and intracellular cascades drive growth signal autonomy and evade growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics illustrate how failure to exit the cell cycle and complete terminal differentiation maintains proliferative capacity in hematopoietic and epithelial malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis and regulation of cell death",
+      "groupedBecause": "This subtopic explains the molecular mechanisms and balance between pro-apoptotic and anti-apoptotic factors that allow cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and cellular stress responses",
+      "groupedBecause": "These subtopics explore how telomere biology, telomerase reactivation, and p53-mediated stress pathways govern cellular senescence and immortalization.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolic rewiring and oncometabolites",
+      "groupedBecause": "These subtopics examine how cancer cells alter metabolic pathways such as aerobic glycolysis and how metabolic enzyme mutations drive oncogenesis.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic describes how the angiogenic switch and blood vessel recruitment provide oxygen and nutrients essential for tumor growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genetics of tumor metastasis",
+      "groupedBecause": "These subtopics analyze the sequential barriers, circulatory dissemination, clinical monitoring, and genomic characteristics of metastatic cancer cells.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "This subtopic concludes the lecture by reviewing the overarching concept of cancer hallmarks and directing students to upcoming sessions.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

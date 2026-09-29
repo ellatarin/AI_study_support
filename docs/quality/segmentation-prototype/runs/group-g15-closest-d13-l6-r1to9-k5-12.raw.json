@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecture by outlining the learning outcomes and presenting the conceptual framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and proliferation signaling pathways",
+      "groupedBecause": "These subtopics explore how oncogenic mutations in receptor tyrosine kinase and Wnt/beta-catenin pathways enable cancer cells to sustain proliferative signaling and resist inhibitory cues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation",
+      "groupedBecause": "These subtopics illustrate how cancers in hematopoietic and intestinal tissues prevent precursor cells from exiting the cell cycle and completing terminal differentiation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to programmed cell death",
+      "groupedBecause": "This subtopic details how cancer cells evade apoptosis by disrupting the balance between pro- and anti-apoptotic regulators downstream of p53.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and stress response mechanisms",
+      "groupedBecause": "These subtopics explain how cancer cells overcome cellular lifespan limits by reactivating telomerase to bypass senescence and how these pathways integrate with p53 stress surveillance.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming in cancer",
+      "groupedBecause": "These subtopics analyze the biochemical mechanisms, diagnostic utility, and epigenetic consequences of altered cellular metabolism and the Warburg effect in tumors.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic examines how developing tumors overcome oxygen and nutrient diffusion limits by tipping the regulatory balance to stimulate new blood vessel growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genetics of tumor metastasis",
+      "groupedBecause": "These subtopics cover the multi-step metastatic cascade, clinical tracking using circulating tumor cells, and the genomic characteristics underlying secondary tumor colonization.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic concludes the lecture by reflecting on the integration of cancer hallmarks and providing closing remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

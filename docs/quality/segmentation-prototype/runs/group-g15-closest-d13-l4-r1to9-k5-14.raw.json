@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "It provides the opening framing, welcome, and key learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, mutational origins, and epidemiological patterns",
+      "groupedBecause": "These subtopics explore the fundamental origins of cancer development, examining endogenous mutations, genetic predisposition, and environmental exposures supported by global epidemiological trends.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenic pathogens and mechanisms of infection-driven cancer",
+      "groupedBecause": "These subtopics examine how infectious pathogens drive oncogenesis, highlighting viral and bacterial mechanisms and the etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical carcinogens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics detail specific environmental mutagens, their metabolic activation pathways, and the molecular mechanisms by which they damage DNA.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host susceptibility, and mechanistic summary",
+      "groupedBecause": "These subtopics explore non-mutational tumor promotion, host developmental susceptibilities, and summarize the diverse cellular mechanisms driving carcinogenesis.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for detecting and assessing carcinogenicity",
+      "groupedBecause": "These subtopics cover the experimental, epidemiological, and genomic methodologies used to evaluate carcinogens and weigh exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "It provides the closing framing and final summary remarks for the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

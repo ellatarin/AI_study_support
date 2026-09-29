@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic introduces the lecture and outlines the focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition via PAMPs, DAMPs, and PRRs",
+      "groupedBecause": "These subtopics establish the foundational concepts of how the innate immune system detects infection and cellular damage through molecular patterns and germline-encoded pattern recognition receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptors and signaling pathways",
+      "groupedBecause": "These subtopics detail the characteristics, cellular localization, and downstream intracellular signaling cascades of Toll-like receptors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cytoplasmic PRRs and inflammasome activation",
+      "groupedBecause": "These subtopics describe intracellular pattern recognition receptor families and the assembly of the inflammasome complex for processing pro-inflammatory cytokines.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel cell activation, leukocyte recruitment, and systemic inflammation",
+      "groupedBecause": "These subtopics trace the cellular processes of the acute inflammatory response, from sentinel cell activation and leukocyte extravasation to lymphatic drainage and systemic inflammatory complications.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics examine how acute inflammation is actively and passively terminated, how damaged tissue is repaired, and how persistent inflammation leads to chronic disease or containment.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "This subtopic provides the concluding remarks and introduces the topic of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

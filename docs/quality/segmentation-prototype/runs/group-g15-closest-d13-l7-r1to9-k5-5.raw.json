@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture themes on cancer evolution and outlines the session's key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of clonal evolution",
+      "groupedBecause": "These subtopics examine how genetic mutations and epigenetic alterations confer selective advantages that drive clonal selection and tumor initiation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchies and cell of origin in cancer",
+      "groupedBecause": "These subtopics explore the cancer stem cell hypothesis and review experimental evidence regarding how cell hierarchy and the cell of origin influence tumorigenesis.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion, inflammation, and stromal dependence",
+      "groupedBecause": "These subtopics demonstrate how external promoters, inflammatory signaling, and supportive stromal cells create permissive conditions for tumor outgrowth and therapeutic intervention.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental and computational methods for studying tumor evolution",
+      "groupedBecause": "This subtopic outlines the experimental, genomic, and computational tools used to map tumor heterogeneity, cellular interactions, and evolutionary timing.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated model of cancer evolution",
+      "groupedBecause": "This subtopic synthesizes the combined roles of mutational burden, cell-of-origin properties, and microenvironmental pressures into a unified evolutionary framework of cancer progression.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Closing remarks and next lecture preview",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on cancer therapies.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

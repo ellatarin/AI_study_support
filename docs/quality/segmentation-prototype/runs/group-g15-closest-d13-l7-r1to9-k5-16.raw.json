@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture topic on cancer evolution and outlines the key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms of clonal selection",
+      "groupedBecause": "These subtopics explain how cancer develops through Darwinian selection of fitter clones driven by both genetic mutations and epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchies, cancer stem cells, and the cell of origin",
+      "groupedBecause": "These subtopics explore the role of tissue stem cell hierarchies, cancer stem cells, and cell of origin in tumor initiation and progression using evidence from leukemia and colorectal cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Role of the microenvironment, inflammation, and stroma in cancer growth",
+      "groupedBecause": "These subtopics examine how environmental promoters, inflammatory signaling, and supportive stroma create permissive microenvironments that enable tumor outgrowth and provide therapeutic targets.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental and computational methods for studying tumor evolution",
+      "groupedBecause": "This subtopic describes modern sequencing, transcriptomic, and computational techniques used to investigate tumor evolution and cell-microenvironment interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated multi-factor model of cancer evolution",
+      "groupedBecause": "This subtopic synthesizes how genetic mutations, cell-of-origin properties, and microenvironmental interactions collectively drive the evolutionary process of cancer development.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and preview of the next session",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on cancer therapies.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

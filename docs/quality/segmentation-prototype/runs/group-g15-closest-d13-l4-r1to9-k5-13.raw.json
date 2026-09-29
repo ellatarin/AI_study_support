@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the lecture's core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of cancer etiology: genetics, environment, and epidemiology",
+      "groupedBecause": "These subtopics introduce the fundamental causes of cancer by examining the interplay between intrinsic genetic mutations, microenvironmental support, environmental exposures, and global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens in carcinogenesis",
+      "groupedBecause": "These subtopics explain the oncogenic mechanisms of infectious pathogens, using Burkitt lymphoma and Epstein-Barr virus as an in-depth case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics describe specific physical and chemical mutagens and the metabolic processes that convert them into DNA-damaging adducts and reactive compounds.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, physiological susceptibility, and multistage carcinogenesis",
+      "groupedBecause": "These subtopics explore how non-mutagenic factors—including tumour promoters, chronic inflammation, and developmental timing—cooperate with initiating mutations to drive cancer progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for detecting carcinogenicity and evaluating risk",
+      "groupedBecause": "These subtopics examine genomic, epidemiological, in vivo, and in vitro techniques for identifying carcinogens and the practical risk-benefit considerations surrounding human exposure.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This subtopic provides the concluding framing and final summary of the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the core learning outcomes of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: intrinsic mutations, environmental exposures, and epidemiological variation",
+      "groupedBecause": "These subtopics introduce how cancer develops through genetic mutations and microenvironmental factors, evaluating the relative contributions of stochastic internal processes versus environmental exposures across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and viral oncogenesis",
+      "groupedBecause": "These subtopics explore how pathogens drive malignant transformation through direct cellular disruption, chronic inflammation, and immune modulation, using Burkitt lymphoma as a detailed case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical and physical mutagens",
+      "groupedBecause": "These subtopics examine how environmental agents and metabolic processes induce DNA damage through reactive adducts, thymine dimers, and oxidative stress across different tissues.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host susceptibility, and carcinogenesis mechanisms",
+      "groupedBecause": "These subtopics distinguish non-mutagenic tumor promoters and developmental windows of host susceptibility from initiators in driving carcinogenesis.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying carcinogens and assessing exposure risk",
+      "groupedBecause": "These subtopics detail genomic, epidemiological, and experimental approaches for detecting carcinogenicity and evaluating cancer risks against societal benefits.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic provides the concluding remarks and final summary of the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

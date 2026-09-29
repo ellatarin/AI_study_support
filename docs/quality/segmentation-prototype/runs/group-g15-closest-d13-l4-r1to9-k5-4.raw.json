@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the cancer lecture series, and the specific learning objectives of the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, mutation sources, and epidemiological variation",
+      "groupedBecause": "These subtopics discuss the fundamental concepts of cancer development, exploring the relative roles of endogenous mutations, genetic predisposition, environmental exposures, and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents in carcinogenesis",
+      "groupedBecause": "These subtopics examine how infectious pathogens contribute to oncogenesis, using the relationship between malaria, Epstein-Barr virus, and Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics focus on how physical agents and chemical carcinogens undergo metabolic processing in the body to produce DNA damage and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and host susceptibility mechanisms",
+      "groupedBecause": "These subtopics explore non-mutagenic mechanisms of carcinogenesis, focusing on the multi-stage model of tumor promotion, host developmental timing, and a synthesis of carcinogenic pathways.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for identifying carcinogens and assessing risk",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, in vivo, and in vitro methods used to identify carcinogens and evaluate their associated risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic provides the concluding remarks and final summary slide of the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

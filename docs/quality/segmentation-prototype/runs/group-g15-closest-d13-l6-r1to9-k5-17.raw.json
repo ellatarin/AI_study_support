@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and overview of the hallmarks of cancer",
+      "groupedBecause": "It introduces the lecture, outlines the learning outcomes, and establishes the framework for understanding cancer hallmarks and tumor progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained proliferative signaling and evasion of growth suppression",
+      "groupedBecause": "These subtopics explain how oncogenic mutations across receptor tyrosine kinase, Wnt/beta-catenin, and TGF-beta pathways drive autonomous proliferation and override inhibitory growth controls.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal cell differentiation",
+      "groupedBecause": "These subtopics demonstrate how impaired terminal differentiation maintains cells in a proliferative state across both hematopoietic malignancies and colorectal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis and cell death regulation",
+      "groupedBecause": "It details how cancer cells evade programmed cell death through p53 pathway inactivation and altered ratios of pro- and anti-apoptotic Bcl-2 family members.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and cellular stress responses",
+      "groupedBecause": "These subtopics explore telomere maintenance, senescence bypass, and p53-mediated genome protection, concluding with a synthesis of cell-autonomous cancer hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming, aerobic glycolysis, and oncometabolites",
+      "groupedBecause": "These subtopics examine how cancer cells rewire cellular metabolism through aerobic glycolysis, tissue-of-origin metabolic adaptations, and Krebs cycle mutations that produce epigenetic modifiers.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "It explains the physiological requirement for new blood vessel recruitment to overcome oxygen diffusion limits during tumor progression.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genetics of tumor metastasis",
+      "groupedBecause": "These subtopics examine the sequential steps of metastatic dissemination, liquid biopsy monitoring via circulating tumor cells, metastatic inefficiency, and associated genomic features.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and summary of cancer hallmarks",
+      "groupedBecause": "It provides concluding remarks summarizing the multi-hallmark model of tumorigenesis and closes the lecture.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

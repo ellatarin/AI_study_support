@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, course context, and primary learning objectives for the lecture on cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, environmental, and epidemiological determinants of cancer risk",
+      "groupedBecause": "These subtopics explore the fundamental origins of cancer by comparing the roles of intrinsic cellular processes, genetic predisposition, environmental exposures, and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens and mechanisms of oncogenesis",
+      "groupedBecause": "These subtopics examine how biological agents such as bacteria, parasites, and oncogenic viruses contribute to cancer development, highlighted by the etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens, metabolic activation, and DNA damage",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which radiation and chemical carcinogens undergo metabolic activation to form DNA adducts and induce mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, the two-stage carcinogenesis model, and host susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic mechanisms of tumorigenesis, focusing on the distinction between initiators and promoters, inflammatory microenvironments, and developmental tissue susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies and considerations for identifying and evaluating carcinogens",
+      "groupedBecause": "These subtopics detail the experimental, epidemiological, and genomic approaches used to detect mutagenic exposure, evaluate carcinogenicity, and weigh risks against benefits.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic provides the lecturer's concluding wrap-up of the main themes and closing remarks.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

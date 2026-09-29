@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, its multidisciplinary audience, and the key learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations of cancer and tissue architecture",
+      "groupedBecause": "These subtopics explore cancer development through the accumulation of genetic and epigenetic alterations that disrupt normal cellular differentiation, three-dimensional tissue architecture, and cell culture models.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing benign and malignant tumors: invasion, progression, and nomenclature",
+      "groupedBecause": "These subtopics define the differences between benign and malignant tumors through mechanisms of invasion and metastasis, histological progression, clinical risks, and standard nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physical and physiological mechanisms by which local tumor growth and metastatic dissemination cause patient illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence across humans and animal species",
+      "groupedBecause": "These subtopics examine cancer frequency and mortality across human demographics and compare tumor patterns across diverse animal species as a feature of multicellularity.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening principles and clinical modalities",
+      "groupedBecause": "These subtopics discuss the rationale, clinical applications, and limitations of population screening for cervical, colorectal, breast, and prostate cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic concludes the lecture with a review of learning outcomes and reminders for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

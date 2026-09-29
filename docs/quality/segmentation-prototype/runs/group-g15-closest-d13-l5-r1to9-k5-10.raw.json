@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer introduces the session's themes and outlines the learning outcomes regarding cellular transformation and cancer genetics.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and cellular transformation assays",
+      "groupedBecause": "These subtopics explain how the discovery of transforming viruses led to the identification of cellular proto-oncogenes and established laboratory assays to measure malignant transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer gene classifications, allele dosage, and pathway regulation",
+      "groupedBecause": "These subtopics examine how oncogenic and tumor-suppressive mutations alter cell cycle control and dictate cellular phenotypes based on allele dosage and mutation type.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and cellular consequences of genetic instability",
+      "groupedBecause": "These subtopics explore the molecular defects in DNA repair, replication, and mitosis that generate sequence and chromosomal instability, along with their physiological impacts on cancer cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-step tumor progression and hereditary cancer predispositions",
+      "groupedBecause": "These subtopics address how the stepwise accumulation of somatic mutations drives cancer evolution and how inherited germline mutations accelerate this progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and recommended reading",
+      "groupedBecause": "The lecturer concludes the session and provides recommended reading material.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

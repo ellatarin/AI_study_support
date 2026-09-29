@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, its multidisciplinary audience, and the key learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and biological foundations of cancer development",
+      "groupedBecause": "These subtopics explain cancer as a disease arising from genetic and epigenetic disruptions that cause failures in cellular differentiation and tissue architecture, alongside experimental models used to study these processes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign versus malignant tumors, invasion, and metastatic progression",
+      "groupedBecause": "These subtopics examine how tumors are distinguished as benign or malignant based on tissue invasion and metastasis, illustrated through histological features and stepwise progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification rules",
+      "groupedBecause": "This subtopic outlines the standard conventions and clinical exceptions used to name benign and malignant neoplasms based on their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the anatomical, functional, and systemic ways in which primary and metastatic tumors cause illness and death in patients.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative oncology and tumor incidence across species",
+      "groupedBecause": "These subtopics explore tumor incidence patterns across different human tissues and animal taxa, illustrating cancer as a universal consequence of multicellularity.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles, histology, and modalities of cancer screening",
+      "groupedBecause": "These subtopics discuss the rationale, histological targets, and practical efficacy and limitations of screening programs across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic closes the lecture by reviewing learning outcomes and reminding students about upcoming practical sessions and future lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "It introduces the final lecture of the course and outlines the learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics describe conventional therapeutic modalities and the physiological challenges, systemic toxicities, and drug-efflux mechanisms that limit their effectiveness.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and genetic defects",
+      "groupedBecause": "These subtopics explain therapeutic strategies designed to exploit cancer-specific vulnerabilities, such as hormone dependence, checkpoint failure, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic kinases and resistance mechanisms",
+      "groupedBecause": "These subtopics address targeted therapy against driving oncogenic kinases, exploring inhibitor mechanisms, clinical resistance pathways, and adaptive dosing strategies.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody and antibody-drug conjugate therapies",
+      "groupedBecause": "These subtopics describe the engineering and application of monoclonal antibodies to neutralize surface receptors and selectively deliver cytotoxic payloads to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and immunotherapeutic interventions",
+      "groupedBecause": "These subtopics explore the immune system's role in cancer defense and the clinical implementation of immunotherapies that reactivate or engineer T cells against tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Broader challenges, historical progress, and future directions in cancer management",
+      "groupedBecause": "These subtopics reflect on historical mortality trends, current clinical hurdles, and emerging paradigms shaping the future of cancer treatment and prevention.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, sets the context within the cancer lecture series, and outlines the learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: genetic, environmental, and stochastic factors",
+      "groupedBecause": "These subtopics introduce the core concepts of cancer causation by examining the interplay between genetic predisposition, environmental exposures, and stochastic mutations across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics describe how microbial pathogens and viral infections contribute to oncogenesis, using Burkitt lymphoma as a detailed case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics examine how physical agents and metabolically activated chemical carcinogens induce direct or indirect DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and host susceptibility in carcinogenesis",
+      "groupedBecause": "These subtopics explain how non-mutagenic factors like tumour promoters, chronic inflammation, and developmental stages facilitate cancer development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for detecting carcinogens and assessing cancer risk",
+      "groupedBecause": "These subtopics examine genomic, epidemiological, in vivo, and in vitro approaches to identifying carcinogens and evaluating their risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture by reiterating its key themes on cancer causation and risk assessment.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

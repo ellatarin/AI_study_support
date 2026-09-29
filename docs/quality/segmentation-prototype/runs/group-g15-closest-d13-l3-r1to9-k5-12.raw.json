@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and course learning outcomes",
+      "groupedBecause": "This subtopic provides the introductory framing for the cancer biology lecture series and outlines the key learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations and experimental modeling of cancer",
+      "groupedBecause": "These subtopics explain how cancer develops through the accumulation of genetic and epigenetic alterations leading to disrupted differentiation and tissue architecture, alongside the experimental models used to study these cellular behaviors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and histological presentation of tumor invasion and metastasis",
+      "groupedBecause": "These subtopics explore the biological distinctions, histological features, and clinical progression of tumor cells as they breach tissue barriers and disseminate to distant organs.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor classification, nomenclature, and clinical mechanisms of morbidity",
+      "groupedBecause": "These subtopics explain how tumors are named and classified based on tissue origin and behavior, as well as the physiological mechanisms through which neoplastic growths cause disease and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Patterns of tumor incidence across humans and other animal species",
+      "groupedBecause": "These subtopics examine the distribution and frequency of different tumor types in human populations and across diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical modalities of cancer screening",
+      "groupedBecause": "These subtopics evaluate the rationale, histological methods, and practical efficacy of population screening programs for detecting early and pre-invasive neoplastic lesions.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic provides the closing framing for the lecture, summarizing the session against the stated learning objectives and outlining upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

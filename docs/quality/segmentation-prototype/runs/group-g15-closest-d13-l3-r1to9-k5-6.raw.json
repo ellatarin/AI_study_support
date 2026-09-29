@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the course structure, student backgrounds, and core learning outcomes for the cancer biology module.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis of cancer and modeling challenges",
+      "groupedBecause": "These subtopics explain how cancer develops through genetic and epigenetic disruptions to normal differentiation and three-dimensional tissue architecture, addressing how experimental models capture these changes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and benign versus malignant progression",
+      "groupedBecause": "These subtopics explore the biological, gross, and histological distinctions between benign and malignant tumors, focusing on mechanisms of invasion, metastasis, and stepwise tissue progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification rules",
+      "groupedBecause": "This subtopic outlines the standard conventions and notable exceptions used to classify and name tumors according to tissue of origin and malignant potential.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the local, structural, and systemic mechanisms through which primary and metastatic tumors impair physiological function to cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Patterns of tumor incidence across humans and other animal species",
+      "groupedBecause": "These subtopics examine the incidence and epidemiological distribution of benign and malignant tumors across human populations and throughout multicellular animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening modalities",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, histological basis, and practical efficacy of screening methods used to detect tumors before they become invasive.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "The lecturer concludes the session with a recap of learning outcomes and reminders for upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

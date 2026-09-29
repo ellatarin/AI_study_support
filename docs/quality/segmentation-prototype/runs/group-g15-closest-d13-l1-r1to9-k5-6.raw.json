@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer introduces the session's focus on the mechanisms controlling the initiation and resolution of inflammatory immune reactions.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen sensing via PAMPs, DAMPs, and pattern recognition receptors",
+      "groupedBecause": "These subtopics explain how the innate immune system detects infection and cellular damage through molecular patterns and pattern recognition receptors such as Toll-like receptors and inflammasomes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Sentinel cell activation, leukocyte recruitment, and systemic inflammation",
+      "groupedBecause": "These subtopics cover how activated sentinel cells orchestrate leukocyte recruitment and lymphatic drainage, as well as the detrimental consequences when systemic inflammation leads to septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "These subtopics examine how inflammatory responses are resolved, how damaged tissues are repaired, and what happens when unresolved inflammation leads to chronic disease or granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and preview of next topic",
+      "groupedBecause": "The lecturer concludes the session and previews the upcoming lecture on the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the lecture topic, reviews prior concepts, and outlines the learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal selection and epigenetic drivers in tumor development",
+      "groupedBecause": "These subtopics explore how genetic mutations and epigenetic alterations drive Darwinian selection and clonal expansion during cancer progression.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchies, cancer stem cells, and cell of origin",
+      "groupedBecause": "These subtopics examine stem cell hierarchies, cancer stem cell models, and experimental evidence identifying the cell of origin in leukemia and colorectal cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion, chronic inflammation, and stromal dependence",
+      "groupedBecause": "These subtopics explain how microenvironmental factors, inflammatory signaling, and stromal dependencies drive tumor outgrowth and support established tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental and computational methods for studying tumor evolution",
+      "groupedBecause": "This subtopic outlines the experimental model systems and single-cell and spatial technologies used to investigate tumor evolution and cellular interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Synthesis of mutational, cell-of-origin, and microenvironmental factors in cancer evolution",
+      "groupedBecause": "This subtopic integrates the genetic, epigenetic, cellular, and microenvironmental components that collectively govern cancer evolution.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "The lecturer concludes the session and previews the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

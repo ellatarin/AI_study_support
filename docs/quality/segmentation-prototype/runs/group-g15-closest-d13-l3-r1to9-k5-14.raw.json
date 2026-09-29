@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture series, outlines the learning outcomes, and frames the fundamental clinical and biological themes to be covered.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of cellular differentiation and tissue architecture",
+      "groupedBecause": "These subtopics establish the foundational concept that cancer arises from genetic and epigenetic changes that disrupt normal differentiation, tissue architecture, and cellular growth controls.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumour invasion, metastasis, and progression to malignancy",
+      "groupedBecause": "These subtopics examine how tumors progress from contained benign growths to invasive and metastatic malignancies, using clinical and histological evidence.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification rules",
+      "groupedBecause": "It explains the standardized naming conventions and notable exceptions used to classify benign and malignant tumors based on tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "It details the physiological and anatomical mechanisms by which primary and metastatic tumors impair normal organ function to cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence across humans and other animal species",
+      "groupedBecause": "These subtopics compare cancer incidence patterns across human populations and diverse animal species as a shared consequence of multicellular development.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening principles and clinical modalities",
+      "groupedBecause": "These subtopics evaluate the diagnostic rationale, histological criteria, and clinical efficacy of screening programs for various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "It provides closing administrative remarks, summarises the learning objectives, and previews the upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

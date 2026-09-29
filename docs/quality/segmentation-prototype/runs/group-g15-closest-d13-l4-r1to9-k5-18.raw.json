@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This topic provides the opening framing, introducing the lecturer and the core learning outcomes of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Concepts of cancer etiology, inherited predisposition, and epidemiological evidence",
+      "groupedBecause": "These subtopics examine the fundamental balance between intrinsic genetic processes, bad luck, and environmental exposures in driving cancer development, supported by global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and oncogenesis",
+      "groupedBecause": "These subtopics describe how biological pathogens drive malignant transformation through mechanisms such as chronic inflammation, immunosuppression, and direct cellular disruption.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which radiation and chemical compounds undergo xenobiotic metabolism to form DNA adducts and drive genetic mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host susceptibility, and mechanistic principles",
+      "groupedBecause": "These subtopics address non-mutagenic promoter activity, developmental windows of vulnerability, and the multi-step nature of carcinogenesis.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and assessing cancer risk",
+      "groupedBecause": "These subtopics cover the experimental, analytical, and epidemiological approaches used to prove carcinogenicity alongside the evaluation of human exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and final summary",
+      "groupedBecause": "This topic concludes the lecture with closing framing and high-level takeaway points.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

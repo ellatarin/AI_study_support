@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer evolution",
+      "groupedBecause": "This subtopic introduces the lecture's core themes, relates them to earlier course concepts, and outlines the learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms of clonal evolution",
+      "groupedBecause": "These subtopics explain how sequential genetic mutations and transient epigenetic changes confer selective fitness advantages to drive clonal expansion.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchies and the cell of origin in cancer",
+      "groupedBecause": "These subtopics explore the relationship between normal tissue hierarchies and tumorigenesis, evaluating evidence for cancer stem cells and cells of origin in leukemia and colorectal models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion, chronic inflammation, and stromal support",
+      "groupedBecause": "These subtopics examine how inflammatory signals, environmental promoters, and supportive stromal cells cooperate with mutations to permit neoplastic outgrowth and progression.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental and computational methods for studying tumor evolution",
+      "groupedBecause": "This subtopic surveys the sequencing, spatial profiling, and computational techniques used to map clonal evolution and cellular interactions in tumors.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrative synthesis of multifactorial cancer evolution",
+      "groupedBecause": "This subtopic synthesizes how genetic mutations, cell-of-origin properties, epigenetic plasticity, and microenvironmental conditions collectively orchestrate cancer evolution.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "This subtopic brings the session to a close and previews the subsequent lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

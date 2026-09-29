@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "These remarks introduce the lecture, establish the importance and reputation of complement, and set expectations for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Overview, nomenclature, and central role of C3",
+      "groupedBecause": "These subtopics introduce the fundamental architecture, naming conventions, and central role of C3 in the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of complement activation pathways",
+      "groupedBecause": "These subtopics detail the three pathways of complement activation and how they converge to deposit C3b and reach the trigger threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics explain the downstream effector outcomes of complement activation, including opsonization, inflammation, and membrane attack complex lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation and protection against complement",
+      "groupedBecause": "This subtopic explains the regulatory mechanisms and factors that protect host cells from complement-mediated damage.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical manifestations of complement deficiencies",
+      "groupedBecause": "This subtopic details the diverse disease phenotypes and clinical consequences associated with deficiencies in specific complement components and regulators.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic examines the molecular strategies and evolutionary mechanisms pathogens use to evade complement destruction, illustrated by Staphylococcus aureus.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "These remarks conclude the complement lecture and preview the upcoming lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

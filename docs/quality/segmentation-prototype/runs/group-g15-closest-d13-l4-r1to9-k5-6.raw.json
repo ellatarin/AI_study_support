@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This subtopic provides the opening framing, instructor introduction, and learning objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer fundamentals, mutation sources, and genetic predisposition",
+      "groupedBecause": "These subtopics establish the basic nature of cancer as a genetic and microenvironmental disease driven by endogenous mutations, cellular replication stress, and inherited predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental carcinogens, epidemiology, and the 'bad luck' debate",
+      "groupedBecause": "These subtopics explore environmental exposures, public perception surrounding stochastic 'bad luck' versus preventable risk, and epidemiological evidence showing geographic variation in cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents and pathogen-driven carcinogenesis",
+      "groupedBecause": "These subtopics examine how oncogenic pathogens, including bacteria, parasites, and viruses, contribute to malignancy, illustrated by the mechanism and geography of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical, physical, and promoter-driven carcinogenesis",
+      "groupedBecause": "These subtopics detail how physical radiation, dietary toxins, xenobiotic metabolic activation, tumor promotion pathways, and developmental susceptibility windows cause and facilitate carcinogenesis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methods for detecting, testing, and evaluating carcinogenicity",
+      "groupedBecause": "These subtopics present the genomic, epidemiological, in vivo, and in vitro experimental approaches used to determine carcinogenicity and assess human exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and final summary",
+      "groupedBecause": "This subtopic provides the closing framing and final summary of the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This opening subtopic welcomes the students and outlines the core learning objectives of the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional modalities: Surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics cover traditional cancer interventions—including surgical resection, radiotherapy, and cytotoxic chemotherapies—along with their associated systemic toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting cancer-specific dependencies and DNA repair vulnerabilities",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic vulnerabilities of cancer cells, including hormone dependence, cell cycle checkpoint deficiencies, and defective DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics examine small-molecule kinase inhibitors that target oncogenic driver alterations, detailing their therapeutic mechanisms, off-target effects, and pathways of acquired resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Therapeutic monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the design and therapeutic actions of engineered monoclonal antibodies and antibody-drug conjugates used to target tumor cell-surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunosurveillance and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics discuss the biological basis of tumor immune surveillance and explore immunotherapies designed to activate or engineer T cells to eliminate malignant cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical challenges, historical progress, and future paradigms in cancer management",
+      "groupedBecause": "These subtopics review overall progress in cancer survival rates, current treatment challenges such as tumor heterogeneity, and emerging clinical and diagnostic directions for future cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

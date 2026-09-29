@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer hallmarks",
+      "groupedBecause": "The lecturer introduces the lecture objectives, learning outcomes, and framework for understanding the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and signaling pathway mutations",
+      "groupedBecause": "These subtopics examine how mutations in signaling pathways such as Wnt/beta-catenin and receptor tyrosine kinases drive cell proliferation and survival independently of external growth signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation",
+      "groupedBecause": "These subtopics explore how cancer cells in hematopoietic lineages and intestinal epithelium fail to undergo terminal differentiation while maintaining proliferative capacity.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic details how mutations altering p53 activity and Bcl-2 family protein balance allow cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and genome protection",
+      "groupedBecause": "These subtopics discuss how telomere dynamics, cellular senescence, and p53 stress responses regulate cellular lifespan, and how cancer cells bypass these barriers to achieve unlimited replication.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and metabolic rewiring",
+      "groupedBecause": "These subtopics explain how cancer cells alter metabolic pathways through aerobic glycolysis, Krebs cycle mutations, and oncometabolite production.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic examines the necessity and mechanisms of new blood vessel formation to supply oxygen and nutrients to growing tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genetics of metastasis",
+      "groupedBecause": "These subtopics cover the multi-step cascade of cancer invasion and metastasis, including circulatory transport, liquid biopsy monitoring, metastatic inefficiency, and genomic duplication.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Concluding remarks and summary",
+      "groupedBecause": "The lecturer concludes the session with final remarks on the integration of cancer hallmarks and recommended reading.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

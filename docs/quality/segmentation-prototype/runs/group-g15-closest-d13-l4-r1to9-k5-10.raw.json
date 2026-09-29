@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer causation, intrinsic mutations, and environmental risk factors",
+      "groupedBecause": "These subtopics explore the foundational concepts of cancer etiology, weighing the contributions of intrinsic genetic mutation and bad luck against environmental and lifestyle exposures supported by epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious causes of cancer and Burkitt lymphoma",
+      "groupedBecause": "These subtopics examine how infectious agents drive oncogenesis, focusing in depth on the viral and environmental mechanisms underlying Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics detail how physical and chemical carcinogens undergo metabolic activation in the body to cause DNA adducts, mutations, and oxidative damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, non-mutagenic mechanisms, and physiological susceptibility",
+      "groupedBecause": "These subtopics explain the concepts of tumor promotion, chronic inflammation, and developmental susceptibility windows in carcinogenesis, concluding with a summary of these mechanistic pathways.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for detecting carcinogens and assessing cancer risk",
+      "groupedBecause": "These subtopics evaluate the experimental, genomic, and epidemiological methodologies used to prove carcinogenicity, as well as the practical assessment of carcinogen risks versus benefits.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture wrap-up and conclusion",
+      "groupedBecause": "The lecturer concludes the session with a final take-home summary and closes the lecture.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

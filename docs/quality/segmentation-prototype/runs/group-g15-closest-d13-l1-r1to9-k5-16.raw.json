@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic provides the framing for the lecture, introducing the core themes of the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition of infection and tissue damage",
+      "groupedBecause": "These subtopics detail the molecular mechanisms by which pattern recognition receptors detect microbial patterns and cellular damage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Initiation, leukocyte recruitment, and systemic inflammatory response",
+      "groupedBecause": "These subtopics describe the cellular events and signaling pathways that drive the recruitment of immune cells and coordinate acute inflammatory responses.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics explain the mechanisms responsible for terminating inflammation, repairing injured tissue, and the consequences of chronic inflammatory states.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "This subtopic provides the closing remarks and previews the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

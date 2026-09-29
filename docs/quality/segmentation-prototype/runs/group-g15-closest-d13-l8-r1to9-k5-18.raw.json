@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines its learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and mechanisms of resistance",
+      "groupedBecause": "These subtopics examine traditional modalities of cancer treatment—surgery, radiotherapy, and cytotoxic chemotherapy—along with their associated systemic toxicities and efflux-mediated drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer-specific vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic defects in cancer cells, including hormone dependence, cell cycle checkpoint deficiencies, and DNA repair pathways through synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic driver kinases and overcoming inhibitor resistance",
+      "groupedBecause": "These subtopics focus on kinase oncogene addiction, structural mechanisms of small-molecule kinase inhibitors, and clinical challenges involving off-target effects, bypass pathways, and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics discuss the design and therapeutic mechanisms of targeted monoclonal antibodies and antibody-drug conjugates directed against tumor surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics examine the evidence for natural immune surveillance and evaluate strategies to harness T-cell responses against cancer, including immune checkpoint inhibitors, BiTEs, and CAR-T cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Broader challenges, historical trends, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics provide an overarching evaluation of cancer management, discussing treatment heterogeneity, historical mortality trends, emerging paradigms, and ethical dilemmas in clinical trial design.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

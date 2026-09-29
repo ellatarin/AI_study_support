@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture themes, relates the content to prior histopathology practicals, and outlines the core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology, proto-oncogenes, and cellular transformation assays",
+      "groupedBecause": "They trace how the study of tumor viruses revealed that cancer originates from altered normal cellular genes and explain the experimental assays used to measure cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classification and mechanistic actions of oncogenes and tumor suppressors",
+      "groupedBecause": "They define the functional classifications of cancer-associated genes and examine how mutations in these genes alter cell cycle checkpoints and protein function.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms, origins, and cellular consequences of genetic instability",
+      "groupedBecause": "They detail the distinctions, underlying repair and replication defects, and cellular stress consequences associated with sequence and chromosomal instability in cancer.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-step tumor progression and hereditary cancer predisposition",
+      "groupedBecause": "They examine how the stepwise accumulation of somatic mutations and inherited germline defects drive tumor progression and accelerate malignancy.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and reading recommendations",
+      "groupedBecause": "It wraps up the lecture, provides recommended reading, and previews the next lecture topic.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

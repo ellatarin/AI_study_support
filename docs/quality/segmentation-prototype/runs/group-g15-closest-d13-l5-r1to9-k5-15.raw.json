@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the session's themes and outlines the learning outcomes regarding cellular transformation, cancer genetics, and genomic instability.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology, proto-oncogenes, and cellular transformation assays",
+      "groupedBecause": "These subtopics explain how the historical study of tumor viruses led to the discovery of cellular proto-oncogenes and established laboratory assays for cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenes, tumor suppressor genes, and mutation mechanisms",
+      "groupedBecause": "These subtopics define the functional classifications of cancer-associated mutations and examine how allele dosage and pathway disruption drive abnormal cell cycle progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and consequences of genomic instability",
+      "groupedBecause": "These subtopics explore the distinctions between sequence and chromosomal instability, detailing the DNA repair failures, replication errors, and mitotic defects that cause them.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep tumor progression and hereditary cancer predispositions",
+      "groupedBecause": "These subtopics examine how the stepwise accumulation of somatic and inherited mutations drives tumorigenesis and influences tumor evolution.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and reading recommendations",
+      "groupedBecause": "The lecturer wraps up the presentation by reviewing the learning outcomes, taking questions, and recommending supplementary reading.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

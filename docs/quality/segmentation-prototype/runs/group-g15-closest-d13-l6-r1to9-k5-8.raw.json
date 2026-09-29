@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and overview of cancer hallmarks",
+      "groupedBecause": "It introduces the lecture's objectives, historical framework, and the conceptual model of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and signaling pathway deregulation",
+      "groupedBecause": "They detail the oncogenic mutations and signaling cascades that confer growth signal autonomy and allow cells to bypass growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation",
+      "groupedBecause": "They explain how cancer cells arrest normal maturation processes across hematopoietic and intestinal epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "It details how oncogenic alterations in p53 and Bcl-2 family proteins allow cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and cellular senescence bypass",
+      "groupedBecause": "They address the mechanisms of telomere maintenance, senescence bypass, and cellular stress responses that enable replicative immortality, concluding the discussion of cell-autonomous growth hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolic reprogramming",
+      "groupedBecause": "They explain how cancer cells reprogram cellular metabolism to support growth through aerobic glycolysis and oncometabolite-driven epigenetic alterations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "It explains the requirement and mechanisms for inducing new blood vessel formation to sustain tumor growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and genetics of tumor metastasis",
+      "groupedBecause": "They examine the biological barriers, circulation dynamics, microenvironmental interactions, and genomic profiles governing tumor metastasis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "It concludes the lecture with a summary of how hallmarks integrate across cancer development and final administrative remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

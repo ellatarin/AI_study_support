@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Course overview and introduction to cancer hallmarks",
+      "groupedBecause": "It introduces the lecture topics, outlines learning outcomes, and establishes the framework of cancer hallmarks driving the loss of cellular growth control.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "They examine how mutations in cell surface receptors and intracellular signaling cascades, such as Wnt and receptor tyrosine kinase pathways, enable sustained proliferation and independence from normal growth controls.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in tumorigenesis",
+      "groupedBecause": "They explain how oncogenic events arrest cells in immature, proliferative states rather than completing lineage differentiation, illustrating this across hematopoietic malignancies and intestinal epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis through p53 and Bcl-2 family regulation",
+      "groupedBecause": "It describes the molecular mechanisms by which cancer cells avoid programmed cell death through disruptions in p53 signaling and the balance of pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence bypass, and cellular stress barriers",
+      "groupedBecause": "They discuss how telomere shortening enforces senescence as a protective barrier, how cancer cells bypass this via telomerase reactivation, and how p53 integrates stress signals before concluding the review of cell-autonomous growth hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "They explore how tumor cells alter their metabolic state through aerobic glycolysis, maintain tissue-of-origin metabolic wiring, and acquire Krebs cycle mutations that produce oncogenic metabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and the angiogenic switch",
+      "groupedBecause": "It details how expanding tumors overcome oxygen diffusion limits by activating the angiogenic switch to stimulate new blood vessel growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, detection, and genomics of tumor metastasis",
+      "groupedBecause": "They address the complex stages of metastatic dissemination, methods for tracking circulating tumor cells, environmental constraints governing secondary colonization, and the clonal genomic features of metastatic lesions.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "It synthesises how varied mutational trajectories converge on common hallmark capabilities and concludes the lecture.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

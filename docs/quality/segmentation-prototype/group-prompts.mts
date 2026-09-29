@@ -195,6 +195,21 @@ const LIST_IS_NOT_A_REASON = `If a \`groupedBecause\` has to name the different 
 const LIST_IS_NOT_A_REASON_CHECK = "is any `groupedBecause` written as a list of kinds? If so, split that topic.";
 
 /**
+ * g15's R7, as worded with the user. On lecture 6 a subtopic that sums up the
+ * growth hallmarks and then says what comes next opens the metabolism topic in
+ * 15 of 18 g12 runs. The rule turns on two things the model can check in the
+ * text — does it sum up the subtopics just before it, and does it teach anything
+ * new — rather than on the passage's purpose, which could be judged either way.
+ */
+const SUMMARY_STAYS_WITH_WHAT_IT_SUMS_UP = `### R7 — A subtopic that only looks back belongs to what it looks back on
+
+If a subtopic sums up the subtopics just before it and teaches nothing new of its own — at most it also says what is coming next — it belongs to the topic it sums up: a topic never starts at it. A subtopic that goes on to teach new material is not covered by this rule, however it opens. Nor is the closing under R2.`;
+
+/** g15's checklist question for R7. */
+const SUMMARY_STAYS_WITH_WHAT_IT_SUMS_UP_CHECK =
+	"does any topic start at a subtopic that only sums up the subtopics before it, perhaps saying what comes next, and teaches nothing new (the closing under R2 excepted)? If so, make that subtopic the last one of the topic before, and start the topic at the subtopic after it.";
+
+/**
  * g14's R6. On lectures 4 and 5 the user's ruled topics hold together because
  * they answer one question the lecture poses, with answers of different kinds,
  * so every run that found them named them as a list — and the runs that split
@@ -237,6 +252,8 @@ const STRUCTURED_PROMPT = ({
 	subjectKnowledge = "",
 	r6 = LIST_IS_NOT_A_REASON,
 	r6Check = LIST_IS_NOT_A_REASON_CHECK,
+	r7 = "",
+	r7Check = "",
 }: {
 	readonly labelsShown: boolean;
 	readonly r4: string;
@@ -249,6 +266,10 @@ const STRUCTURED_PROMPT = ({
 	readonly subjectKnowledge?: string;
 	readonly r6?: string;
 	readonly r6Check?: string;
+	/** A whole R7 section, heading included; empty for every version before g15. */
+	readonly r7?: string;
+	/** R7's checklist question; empty for every version before g15. */
+	readonly r7Check?: string;
 }): string => `# Task
 
 You are given the subtopics of a university lecture, in order, each with its full text. Group them into TOPICS.
@@ -290,13 +311,13 @@ ${r5}
 ### R6 — A reason that is a list is not a reason
 
 ${r6}
-
+${r7 === "" ? "" : `\n${r7}\n`}
 ## Check before replying
 
 - **R2**: ${r2Check}
 - **R3**: does every label describe only what its own subtopics carry?
 - **R5**: ${r5Check}
-- **R6**: ${r6Check}
+- **R6**: ${r6Check}${r7Check === "" ? "" : `\n- **R7**: ${r7Check}`}
 
 ${REPLY_FORMAT_SECTION}`;
 
@@ -532,6 +553,23 @@ export const GROUP_PROMPTS: readonly GroupPromptVersion[] = [
 				r5Check: SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2_CHECK,
 				r6: LIST_IS_NOT_A_REASON_UNLESS_ONE_QUESTION,
 				r6Check: LIST_IS_NOT_A_REASON_UNLESS_ONE_QUESTION_CHECK,
+			}),
+	},
+	{
+		id: "g15",
+		summary: "g12 with R7: a subtopic that only sums up what came before, teaching nothing new, ends the topic it sums up.",
+		changed:
+			"A new rule R7 and its checklist question only. A subtopic that sums up the subtopics just before it and teaches nothing new — at most also saying what comes next — belongs to the topic it sums up, so no topic starts at it; a subtopic that goes on to teach new material, and the closing under R2, are not covered. On lecture 6 the subtopic summing up the growth hallmarks and announcing the rest opens the metabolism topic in 15 of 18 g12 runs; the user wants it to end the growth-hallmarks topic. Everything else is g12 byte for byte.",
+		build: ({ labelsShown }) =>
+			STRUCTURED_PROMPT({
+				labelsShown,
+				r4: R4_STATES_WHY,
+				r2: OPENING_AND_CLOSING_RULE,
+				r2Check: OPENING_AND_CLOSING_RULE_CHECK,
+				r5: SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2,
+				r5Check: SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2_CHECK,
+				r7: SUMMARY_STAYS_WITH_WHAT_IT_SUMS_UP,
+				r7Check: SUMMARY_STAYS_WITH_WHAT_IT_SUMS_UP_CHECK,
 			}),
 	},
 ];

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines its core learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatments and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics discuss traditional local and systemic interventions, focusing on surgery, radiotherapy, cytotoxic chemotherapy, and non-specific drug resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cellular vulnerabilities and genetic defects",
+      "groupedBecause": "These subtopics examine therapeutic strategies that exploit intrinsic tumor vulnerabilities, such as hormone receptor dependency, cell cycle checkpoint loss, and synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeting oncogenic kinases and kinase inhibitor resistance",
+      "groupedBecause": "These subtopics focus on designing small-molecule inhibitors against oncogenic driver kinases and managing the subsequent development of drug resistance and bypass signaling.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the design and mechanisms of engineered monoclonal antibodies and antibody-drug conjugates directed at cancer cell surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Harnessing immune responses and cancer immunotherapies",
+      "groupedBecause": "These subtopics explore the biological basis of tumor immune surveillance and immunotherapeutic modalities that reactivate or engineer T cells against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Broader challenges, historical progress, and future directions in cancer management",
+      "groupedBecause": "These subtopics evaluate overall trends in cancer mortality, persistent clinical challenges, and emerging paradigms in diagnosis, prevention, and treatment strategies.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic introduces the lecture and outlines its focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and damage recognition via pattern recognition receptors",
+      "groupedBecause": "These subtopics explain the molecular mechanisms and receptor families through which the innate immune system detects microbial infection and cellular damage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Acute inflammatory cascades and leukocyte trafficking",
+      "groupedBecause": "These subtopics describe the cellular processes mobilized during acute inflammation, from sentinel cell activation and leukocyte extravasation to systemic inflammatory effects.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics examine the mechanisms that shut down inflammation, rebuild damaged tissue, and manage persistent infection through chronic inflammation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and preview of the next topic",
+      "groupedBecause": "This subtopic provides the concluding framing for the lecture and indicates the topic of the next session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

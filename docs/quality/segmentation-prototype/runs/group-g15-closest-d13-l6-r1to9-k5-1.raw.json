@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for cancer hallmarks",
+      "groupedBecause": "The lecture opens with learning outcomes and an overview of the hallmarks of cancer model.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal independence and intracellular signaling cascades",
+      "groupedBecause": "These subtopics explain how mutations in cell surface receptors and downstream intracellular cascades drive autonomous cancer cell proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics examine how cancer cells fail to withdraw from the cell cycle and complete lineage differentiation in blood and intestinal tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evading apoptosis, replicative senescence, and genome surveillance",
+      "groupedBecause": "These subtopics explore how tumor cells bypass programmed cell death, telomere shortening, and p53-mediated stress responses to achieve limitless survival.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic rewiring and oncometabolites in cancer",
+      "groupedBecause": "These subtopics describe how cancer cells alter metabolic pathways, shift toward aerobic glycolysis, and utilize oncometabolites to drive progression.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic addresses how growing tumors overcome diffusion limits by activating the angiogenic switch to recruit new blood vessels.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genetics of metastasis",
+      "groupedBecause": "These subtopics cover the metastatic cascade, circulation tracking, tissue colonization barriers, and genomic features associated with metastatic spread.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "The lecture concludes with a review of cancer hallmarks, references to advanced literature, and final housekeeping for upcoming sessions.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

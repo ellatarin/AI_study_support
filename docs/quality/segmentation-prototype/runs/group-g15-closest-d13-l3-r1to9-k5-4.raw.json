@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the opening framing and overview of learning outcomes for the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer development as a failure of differentiation and tissue architecture",
+      "groupedBecause": "These subtopics explain the foundational concept of cancer as a multistep process driven by genetic and epigenetic changes that disrupt normal cellular differentiation, tissue architecture, and cell culture modeling.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinction, invasion, and stepwise progression of benign and malignant tumors",
+      "groupedBecause": "These subtopics describe the histological and clinical differences between benign and malignant tumors, focusing on tissue invasion, metastatic spread, and the stepwise progression from precursor lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification conventions",
+      "groupedBecause": "This subtopic outlines the standard conventions and exceptions used to name benign and malignant tumors based on their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the pathophysiological processes through which primary and metastatic tumors cause clinical illness and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence across human populations and animal species",
+      "groupedBecause": "These subtopics compare the epidemiology and patterns of tumor occurrence across human populations and diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening principles and clinical detection methods",
+      "groupedBecause": "These subtopics examine the clinical rationale, histological indicators, and practical challenges of population screening for various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic provides the concluding framing, summarizing the session and giving instructions for upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

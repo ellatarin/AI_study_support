@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture themes and outlines the learning objectives regarding cancer evolution, cell of origin, and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic selection and epigenetic mechanisms in cancer evolution",
+      "groupedBecause": "These subtopics explain how clonal succession via Darwinian natural selection and non-mutational epigenetic alterations drive tumor development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchy and cell of origin in cancer",
+      "groupedBecause": "These subtopics explore the cancer stem cell model and examine experimental evidence identifying specific cells of origin in leukemia and colorectal cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion, inflammation, and stromal dependence",
+      "groupedBecause": "These subtopics demonstrate how environmental promoters, chronic inflammation, and supportive stroma create permissive conditions for tumor outgrowth and therapeutic intervention.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental and computational methods for studying tumor evolution",
+      "groupedBecause": "This subtopic outlines the sequencing technologies, spatial profiling methods, and computational tools used to investigate tumor evolution and cellular interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Synthesis of multi-factor cancer evolution",
+      "groupedBecause": "This subtopic integrates genetic mutations, epigenetic plasticity, cell-of-origin characteristics, and microenvironmental influences into a unified evolutionary model of cancer.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on cancer therapies.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

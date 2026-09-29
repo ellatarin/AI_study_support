@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and overview of the hallmarks of cancer",
+      "groupedBecause": "The lecturer introduces the lecture's learning objectives and frames the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and oncogenic signaling pathways",
+      "groupedBecause": "These subtopics explore how mutations in signaling cascades such as Wnt/beta-catenin and receptor tyrosine kinase pathways drive growth factor independence and resistance to growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics explain how malignant cells fail to undergo terminal lineage differentiation using examples from hematopoiesis and colonic crypt epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis, replicative immortality, and p53 stress surveillance",
+      "groupedBecause": "These subtopics describe how cancer cells overcome intrinsic limits to survival and division through apoptotic resistance, telomere maintenance, and the bypass of p53-mediated senescence.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic rewiring and oncometabolites in cancer",
+      "groupedBecause": "These subtopics examine alterations in cancer cell metabolism, including aerobic glycolysis and Krebs cycle mutations that produce driver oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and the angiogenic switch",
+      "groupedBecause": "This subtopic details the requirement of growing tumors to induce new blood vessel formation to supply oxygen and nutrients.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genetics of cancer metastasis",
+      "groupedBecause": "These subtopics cover the progression of metastasis from local invasion and vascular dissemination to colonization inefficiency and genomic features.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "The lecturer reviews the core concepts covered in the session and provides final concluding remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

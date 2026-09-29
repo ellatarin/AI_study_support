@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the cancer biology lecture series and outlines the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer pathogenesis, tissue architecture, and study models",
+      "groupedBecause": "They explain cancer as a progressive failure of cellular differentiation and tissue architecture driven by genetic changes, alongside the models used to study these processes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and malignancy criteria",
+      "groupedBecause": "They describe the physical, histological, and anatomical features of invasion and metastatic spread that distinguish malignant tumors from benign ones.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise tumor progression and clinical risks of benign lesions",
+      "groupedBecause": "They illustrate the stepwise progression from benign adenomas to invasive carcinomas and examine the clinical complications that non-invasive tumors can produce.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor nomenclature conventions and exceptions",
+      "groupedBecause": "It explains the systematic naming conventions used for benign and malignant neoplasms across tissue types along with key exceptions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "It details the physical, metabolic, and metastatic mechanisms through which tumors cause clinical illness and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence across human tissues and animal species",
+      "groupedBecause": "They analyze the frequency and mortality patterns of different tumor types in humans as well as cancer occurrence across other multicellular animals.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening principles and organ-specific modalities",
+      "groupedBecause": "They evaluate the rationale for population-level cancer screening, contrasting successful modalities such as cervical cytology with more challenging screening approaches in other organs.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and upcoming practical reminders",
+      "groupedBecause": "It concludes the lecture with a reminder of the learning outcomes and housekeeping details for practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

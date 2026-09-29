@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "This subtopic introduces the lecture topic and sets expectations for learning the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational concepts, nomenclature, and the central role of C3",
+      "groupedBecause": "These subtopics introduce the general architecture of complement, its naming conventions, and the central biochemical role of component C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three distinct biochemical pathways that initiate complement activation and drive it toward the trigger threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics detail the downstream effector mechanisms executed by activated complement, including opsonization, inflammation, and direct pathogen lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement and host cell protection",
+      "groupedBecause": "This subtopic explains how host cells use specific regulatory proteins to prevent unintended complement-mediated damage.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic examines the distinct disease presentations and clinical consequences associated with deficiencies in specific complement components and regulators.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic explores how pathogens, particularly Staphylococcus aureus, have evolved specialized mechanisms to evade complement-mediated destruction.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture wrap-up and next session preview",
+      "groupedBecause": "This subtopic provides the closing framing for the session and previews the upcoming lecture on adaptive immunity.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

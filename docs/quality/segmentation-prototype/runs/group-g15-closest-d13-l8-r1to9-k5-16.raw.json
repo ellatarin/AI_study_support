@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The opening framing introduces the final lecture of the course and sets out its core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional cancer interventions and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics explore conventional therapeutic approaches including surgery, radiotherapy, and systemic cytotoxic agents alongside their toxicities and resistance pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer-specific dependencies and checkpoint defects",
+      "groupedBecause": "These subtopics focus on therapeutic strategies that exploit intrinsic cancer vulnerabilities such as hormone dependence, cell cycle checkpoint failures, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase inhibitors and mechanisms of targeted drug resistance",
+      "groupedBecause": "These subtopics detail the targeting of oncogenic kinases with small-molecule inhibitors and examine the structural, bypass, and paradoxical resistance mechanisms that emerge during treatment.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody and antibody-drug conjugate therapies",
+      "groupedBecause": "These subtopics explain how engineered antibodies and antibody-drug conjugates are deployed to target cancer cell surface proteins selectively.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune surveillance and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics cover the biological basis of tumor immune surveillance and the development of therapeutic modalities that reactivate or engineer T cells against malignancies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic progress, systemic challenges, and future paradigms",
+      "groupedBecause": "These subtopics synthesize broad clinical challenges, historical treatment outcomes, and future considerations for managing cancer heterogeneity and patient care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

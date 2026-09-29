@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The subtopic introduces the final course lecture and outlines its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and mechanisms of resistance",
+      "groupedBecause": "These subtopics cover traditional cancer treatment modalities including surgery, radiotherapy, and cytotoxic chemotherapy alongside their systemic toxicities and efflux-mediated resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit specific cancer vulnerabilities, including hormone receptor dependency, cell cycle checkpoint deficiencies, and DNA repair defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and resistance pathways",
+      "groupedBecause": "These subtopics explain the rationale and molecular mechanisms of oncogenic kinase inhibitors and how cancer cells evolve resistance, bypass signaling, and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics examine how engineered monoclonal antibodies and cytotoxic antibody-drug conjugates are used to target tumor cell surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-directed therapies",
+      "groupedBecause": "These subtopics discuss immune surveillance and modern methods to harness or engineer T cells to eradicate tumors using checkpoint inhibitors, bispecific engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical challenges, historical progress, and future paradigms in oncology",
+      "groupedBecause": "These subtopics assess ongoing clinical challenges, historical trends in survival, future management strategies, and the dilemmas associated with testing new therapies.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

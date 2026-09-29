@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic frames the lecture by introducing its focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate pathogen recognition and pattern recognition receptors",
+      "groupedBecause": "These subtopics describe how the innate immune system distinguishes self from non-self by detecting conserved microbial and damage patterns using germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and downstream signaling",
+      "groupedBecause": "These subtopics explore the ligand specificity, subcellular localization, and intracellular signaling cascades of Toll-like receptors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cytoplasmic pattern recognition receptors and inflammasome activation",
+      "groupedBecause": "These subtopics discuss intracellular sensing pathways and the multi-protein inflammasome complexes that process pro-inflammatory cytokines.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Leukocyte recruitment, tissue trafficking, and systemic inflammation",
+      "groupedBecause": "These subtopics explain how sentinel cell activation directs immune cell migration into and out of tissues and can lead to severe systemic effects like septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics examine how acute inflammation is terminated, how injured tissues are restored, and how persistent inflammation leads to chronic disease or granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "This subtopic provides the closing housekeeping and announces the topic of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

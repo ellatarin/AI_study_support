@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "These opening remarks introduce the lecture topic on cancer therapy and outline the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies, toxicities, and drug resistance",
+      "groupedBecause": "These subtopics discuss local interventions and traditional cytotoxic chemotherapies along with their systemic toxicities and mechanisms of drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities and genetic defects in cancer cells",
+      "groupedBecause": "These subtopics explain strategies to selectively kill cancer cells by exploiting specific vulnerabilities such as hormone dependence, cell cycle checkpoint loss, and defective DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors, resistance mechanisms, and drug addiction",
+      "groupedBecause": "These subtopics detail the targeting of hyperactive oncogenic kinases with small-molecule inhibitors and examine the molecular mechanisms driving drug resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Targeted monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe therapeutic approaches utilizing engineered monoclonal antibodies and antibody-drug conjugates to direct cytotoxic effects to cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and cellular immune targeting",
+      "groupedBecause": "These subtopics examine natural immune surveillance and therapeutic methods that harness or engineer T cells, including immune checkpoint inhibitors, bispecific engagers, and CAR T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical progress, challenges, and future perspectives in cancer management",
+      "groupedBecause": "These subtopics evaluate the overall clinical progress, persistent challenges in therapy design, and future strategies for cancer detection, prevention, and treatment combinations.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

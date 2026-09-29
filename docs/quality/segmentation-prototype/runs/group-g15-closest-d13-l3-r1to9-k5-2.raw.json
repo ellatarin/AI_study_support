@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the scope of the course, its target audience, and the key learning outcomes for cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of differentiation and tissue architecture",
+      "groupedBecause": "These subtopics define cancer at the cellular and tissue levels as a breakdown of differentiation and structural organization driven by genetic changes, alongside the experimental models used to investigate them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and benign-to-malignant progression",
+      "groupedBecause": "These subtopics explore the clinical, histological, and biological distinctions between benign and malignant tumors, focusing on mechanisms of tissue invasion, metastatic dissemination, and stepwise progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification",
+      "groupedBecause": "This subtopic outlines the standard conventions and notable exceptions used to name benign and malignant tumors according to their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the mechanical, systemic, and metastatic processes through which tumors disrupt normal physiological function to cause disease and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative tumor incidence and cancer across multicellular organisms",
+      "groupedBecause": "These subtopics examine patterns of tumor prevalence across human tissue types and diverse animal species to frame cancer as an inherent risk of multicellular development.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical cancer screening principles and tissue modalities",
+      "groupedBecause": "These subtopics discuss the rationale, histological basis, and practical efficacy of clinical screening programs across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "The lecturer concludes the session with a summary of learning outcomes and logistical reminders for upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecture opens with framing introducing the session's scope and key learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional local interventions and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics cover traditional cancer treatment modalities including surgery, radiotherapy, and cytotoxic chemotherapies alongside the mechanisms of toxicity and drug resistance that limit them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities and checkpoint defects",
+      "groupedBecause": "These subtopics explain therapeutic strategies that target intrinsic cancer cell vulnerabilities, including hormone receptor dependence, cell cycle checkpoint deficiencies, and DNA repair defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Small-molecule kinase inhibitors and resistance mechanisms",
+      "groupedBecause": "These subtopics examine targeted small-molecule inhibitors of hyperactivated oncogenic kinases and the mutational, bypass, and addiction pathways that cause therapeutic resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based targeted therapies",
+      "groupedBecause": "These subtopics describe the mechanisms and applications of monoclonal antibodies and antibody-drug conjugates directed against tumor cell surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell manipulation",
+      "groupedBecause": "These subtopics explore the evidence for immune surveillance and the development of immunotherapies, including immune checkpoint inhibitors, bispecific T-cell engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Current challenges, historical progress, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics synthesize broad systemic challenges, historical mortality trends, emerging management paradigms, and clinical trial dilemmas in oncology.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

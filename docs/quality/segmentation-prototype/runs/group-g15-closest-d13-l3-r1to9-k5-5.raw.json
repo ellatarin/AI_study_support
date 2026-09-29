@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture series, the student cohort, and the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological concepts and experimental models of cancer development",
+      "groupedBecause": "They define cancer as a failure of cellular differentiation and genetic regulation while addressing the challenges of modelling complex tissue architecture in culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumour invasion, metastasis, and the benign-to-malignant spectrum",
+      "groupedBecause": "They characterise how tumours progress from benign lesions to invasive and metastatic malignancies using histological and clinical examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour nomenclature conventions and exceptions",
+      "groupedBecause": "It outlines the standard naming conventions and key exceptions for benign and malignant neoplasms based on their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "It details how local tissue disruption and widespread metastatic colonization cause severe illness and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Patterns of tumour incidence in humans and comparative species",
+      "groupedBecause": "They examine the comparative frequency and tissue distribution of tumours across humans and other multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles, methods, and limitations of cancer screening",
+      "groupedBecause": "They evaluate the clinical rationale, histological indicators, and practical challenges of population screening across various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "It concludes the lecture with a review of learning objectives and reminders for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

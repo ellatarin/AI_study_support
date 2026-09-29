@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing of complement",
+      "groupedBecause": "This subtopic opens the lecture by introducing complement and framing its significance and complexity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Introduction and core concepts of the complement cascade",
+      "groupedBecause": "These subtopics establish the overall structure, naming conventions, and central biochemical role of C3 in the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics describe the mechanisms of the alternative, lectin, and classical pathways that trigger complement activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail how complement mediates pathogen elimination and inflammatory responses through opsonization, peptide mediators, and membrane attack complexes.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement activation and host protection",
+      "groupedBecause": "This subtopic explains the regulatory factors and mechanisms that restrain complement activation to protect host tissues.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic details the distinct disease presentations and clinical impacts associated with specific complement pathway deficiencies.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic examines how pathogens counteract complement defenses, focusing on the evasion strategies used by Staphylococcus aureus.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview of next session",
+      "groupedBecause": "This subtopic closes the lecture and outlines the topic for the subsequent class.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

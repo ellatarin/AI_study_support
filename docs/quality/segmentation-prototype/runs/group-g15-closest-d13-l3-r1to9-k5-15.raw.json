@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the course structure, audience, core themes, and specific learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis and experimental modeling of cancer development",
+      "groupedBecause": "These subtopics explain cancer as an accumulation of genetic and epigenetic alterations disrupting tissue differentiation and architecture, along with the laboratory models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and the transition from benign to malignant tumors",
+      "groupedBecause": "These subtopics examine how tumors progress from benign precursor states to invasive and metastatic malignancies across clinical and histological contexts.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification rules",
+      "groupedBecause": "This subtopic outlines the standard conventions and exceptions used to name benign and malignant neoplasms.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physiological and anatomical mechanisms through which primary and metastatic tumors cause patient illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence across humans and animal species",
+      "groupedBecause": "These subtopics compare tumor incidence and organ distribution across human populations, companion animals, and multicellular taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Approaches and challenges in cancer screening and early detection",
+      "groupedBecause": "These subtopics evaluate the principles, clinical efficacy, and limitations of early screening methods across various tumor types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "The lecturer concludes the session by reviewing the learning outcomes and providing housekeeping reminders for upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing of complement",
+      "groupedBecause": "The lecturer introduces the complement system and frames its conceptual importance and complexity for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations and core biochemistry of the complement system",
+      "groupedBecause": "These subtopics establish the overall structure, naming conventions, and central biochemical role of C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics describe the alternative, lectin, and classical recognition pathways that initiate complement and converge to reach the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics explain the downstream immune outcomes of complement activation: opsonization, inflammatory signaling, and membrane attack complex-mediated cell lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "This subtopic details the regulatory proteins and molecular mechanisms that protect host tissues from accidental complement-mediated attack.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical manifestations of complement deficiencies",
+      "groupedBecause": "This subtopic outlines the distinct clinical presentations, infection risks, and autoimmune phenotypes resulting from deficiencies across different complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic explores the mechanisms pathogens employ to resist complement-mediated clearance, highlighting Staphylococcus aureus as a primary model.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture wrap-up and next session preview",
+      "groupedBecause": "The lecturer concludes the complement lecture and previews the upcoming topic on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

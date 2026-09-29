@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the learning objectives for understanding what causes cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: genetics, environment, and epidemiology",
+      "groupedBecause": "These subtopics explore the fundamental nature of cancer as a genetic and microenvironmental disease while evaluating the relative contributions of intrinsic mutations, environmental exposures, and geographic epidemiology to cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and oncogenesis",
+      "groupedBecause": "These subtopics explain how pathogens such as viruses and bacteria drive oncogenic processes, illustrated in detail by the etiology and mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and DNA damage",
+      "groupedBecause": "These subtopics detail how physical radiation and chemical compounds undergo direct action or metabolic activation to form DNA adducts and mutations in specific tissues.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, microenvironment, and host susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of carcinogenesis, focusing on the two-stage model of tumour promotion, chronic inflammation, and the role of host developmental stage in cancer risk.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Approaches to identifying and testing carcinogens",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, in vivo, and in vitro methods used to detect carcinogenicity and assess human exposure risks.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and final summary",
+      "groupedBecause": "This subtopic brings the lecture to a close with a high-level summary of the main points on environmental carcinogenesis and risk assessment.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

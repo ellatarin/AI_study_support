@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "This subtopic opens the lecture by framing the topic of complement and acknowledging its complexity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Overview and nomenclature of the complement system",
+      "groupedBecause": "These subtopics establish the foundational concepts of the complement cascade and clarify its historical nomenclature.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways and C3 convertase generation",
+      "groupedBecause": "These subtopics explain the central role of C3 and the three recognition pathways that converge to trigger its activation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail the primary downstream effector mechanisms by which activated complement eliminates pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement and host cell protection",
+      "groupedBecause": "This subtopic explains the regulatory mechanisms and proteins that protect host cells from complement-mediated damage.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic details the diverse clinical presentations and disease outcomes caused by deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of the complement system",
+      "groupedBecause": "This subtopic examines the strategies employed by pathogens to evade complement defenses, using Staphylococcus aureus as a primary model.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture wrap-up and conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and provides a preview of the next topic on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

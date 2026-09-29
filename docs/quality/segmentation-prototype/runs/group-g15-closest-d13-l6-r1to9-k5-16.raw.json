@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic provides the framing for the lecture by outlining the learning outcomes and introducing the framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and pathway deregulation",
+      "groupedBecause": "These subtopics explain the molecular mechanisms and oncogenic mutations in receptor tyrosine kinase and Wnt signaling pathways that allow cancer cells to sustain proliferation independently of external growth cues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics examine how genetic disruptions halt terminal differentiation in both hematopoietic malignancies and solid intestinal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis, cellular senescence, and replicative limits",
+      "groupedBecause": "These subtopics address how cancer cells overcome cell death and proliferative limits by disrupting apoptotic machinery, reactivating telomerase, and disabling p53-mediated stress responses.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics discuss the metabolic adaptations of cancer cells, including the Warburg effect and Krebs cycle enzyme mutations that generate oncometabolites and drive tumor progression.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "This subtopic details the requirement of vascular supply for tumor growth, the timing of the angiogenic switch, and the balance of pro- and anti-angiogenic signals.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genomics of tumor metastasis",
+      "groupedBecause": "These subtopics cover the multistep invasion-metastasis cascade, clinical monitoring of circulating tumor cells, the seed and soil hypothesis, and the genomic drivers of metastatic colonization.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "This subtopic concludes the lecture with closing remarks on cancer hallmark complexity and housekeeping information for the practicals.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

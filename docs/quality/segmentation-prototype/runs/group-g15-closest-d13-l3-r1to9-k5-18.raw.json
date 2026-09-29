@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The opening framing welcomes students, introduces the lecture series structure, and outlines the foundational learning outcomes for cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of genetic regulation, differentiation, and tissue architecture",
+      "groupedBecause": "These subtopics define cancer as a multi-step disruption of normal cellular differentiation and three-dimensional tissue organization driven by accumulated genetic and epigenetic changes, alongside the laboratory models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumour invasion, metastasis, and progression from benign to malignant disease",
+      "groupedBecause": "These subtopics explore how tumors invade local tissue, spread to distant organs, and evolve through a stepwise continuum from benign precursor lesions to invasive malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour nomenclature and classification conventions",
+      "groupedBecause": "This subtopic outlines the standard suffix-based naming rules and clinical exceptions used to classify benign and malignant neoplasms across different tissue lineages.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the anatomical, systemic, and metastatic processes by which primary and secondary tumors impair normal physiology and cause patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumour incidence across human tissues and animal species",
+      "groupedBecause": "These subtopics compare the prevalence and tissue distribution of cancers in human populations with patterns observed across diverse multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical screening modalities and early cancer detection",
+      "groupedBecause": "These subtopics address the diagnostic principles, histological bases, and practical challenges of population screening programs for identifying pre-invasive and early-stage cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical session reminders",
+      "groupedBecause": "The closing framing reiterates the core learning outcomes and directs students to upcoming practical classes and subsequent lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

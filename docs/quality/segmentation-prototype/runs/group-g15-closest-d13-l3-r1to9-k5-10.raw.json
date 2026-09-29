@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides introductory framing for the lecture series, detailing the scope of cancer biology, student backgrounds, and specific learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis of cancer: Genetic alterations and failure of differentiation",
+      "groupedBecause": "These subtopics explain the fundamental conceptual view of cancer as a breakdown in normal cellular differentiation and three-dimensional tissue architecture driven by accumulated genetic and epigenetic changes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and benign-to-malignant progression",
+      "groupedBecause": "These subtopics examine the diagnostic, gross, and histological distinction between benign and malignant tumors, focusing on mechanisms of invasion, metastatic spread, and stepwise adenoma-to-adenocarcinoma progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and mechanisms of morbidity and mortality",
+      "groupedBecause": "These subtopics outline the naming rules used to categorize benign and malignant neoplasms across tissues and explain the direct physiological mechanisms through which tumors cause disease and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics explore cancer epidemiology in human populations and across diverse animal species, framing cancer as an inherent vulnerability of multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical applications of cancer screening",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, histological foundations, and comparative efficacy of screening strategies across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic provides the concluding framing, reiterating learning outcomes and offering housekeeping reminders for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

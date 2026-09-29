@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic introduces the lecture topic on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate danger signals and molecular recognition criteria",
+      "groupedBecause": "These subtopics define the molecular signatures of infection and cellular damage used by the innate immune system to identify non-self threats.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptors and signaling pathways",
+      "groupedBecause": "These subtopics examine the genomic nature, subcellular localization, receptor families, and signaling cascades that process innate danger signals.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammatory cascade, leukocyte recruitment, and systemic consequences",
+      "groupedBecause": "These subtopics explain how sentinel cell activation coordinates local leukocyte extravasation, lymphatic priming of adaptive immunity, and potentially fatal systemic inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic containment",
+      "groupedBecause": "These subtopics address the mechanisms that shut down acute inflammation, mediate tissue repair, and contain persistent unresolved stimuli through granulomas.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the presentation and announces the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

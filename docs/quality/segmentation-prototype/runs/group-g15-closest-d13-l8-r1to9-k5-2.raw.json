@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "It introduces the final lecture of the course and outlines the key learning objectives for understanding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Local interventions, cytotoxic chemotherapy, and drug resistance",
+      "groupedBecause": "They describe conventional cancer treatment modalities—surgery, radiotherapy, and cytotoxic chemotherapy—along with their associated systemic toxicities and efflux-mediated resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic cellular vulnerabilities and DNA repair defects",
+      "groupedBecause": "They examine therapeutic strategies that exploit intrinsic cancer vulnerabilities, including hormone dependence, cell cycle checkpoint deficiencies, and defective DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogenic kinase targeting and mechanisms of resistance",
+      "groupedBecause": "They explain the development and mechanism of small-molecule inhibitors directed against driver kinases and detail the structural and pathway-level adaptations that lead to drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "They discuss the therapeutic use of engineered monoclonal antibodies and antibody-drug conjugates to target cell surface antigens on cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immune surveillance and immunotherapy",
+      "groupedBecause": "They evaluate the evidence for immune surveillance against tumors and outline therapeutic strategies designed to reactivate and direct T-cell responses against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Current challenges, historical progress, and future perspectives in cancer care",
+      "groupedBecause": "They reflect on historical trends in cancer survival and prevention, review persistent challenges such as tumor heterogeneity, and consider future clinical and ethical paradigms in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

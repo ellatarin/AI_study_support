@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the course structure, core themes, and primary learning outcomes for cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of genetic regulation and tissue architecture",
+      "groupedBecause": "These subtopics explain how cancer develops through accumulated genetic and epigenetic changes that disrupt normal cellular differentiation and three-dimensional tissue organization.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and the benign-to-malignant spectrum",
+      "groupedBecause": "These subtopics describe the defining features of benign and malignant tumors, focusing on local tissue invasion, metastatic dissemination, and stepwise progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification conventions",
+      "groupedBecause": "This subtopic outlines the standard conventions and clinical exceptions used to name benign and malignant tumors based on their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of tumor-induced morbidity and mortality",
+      "groupedBecause": "This subtopic details the local, anatomical, and systemic mechanisms through which primary and metastatic tumors cause clinical illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence in humans and comparative oncology across species",
+      "groupedBecause": "These subtopics examine patterns of tumor frequency in human populations and compare cancer occurrence across diverse multicellular animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening principles and modalities",
+      "groupedBecause": "These subtopics discuss the clinical rationale, histological detection methods, and diagnostic limitations of population screening for various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic concludes the session by reviewing the learning outcomes and providing logistical instructions for upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

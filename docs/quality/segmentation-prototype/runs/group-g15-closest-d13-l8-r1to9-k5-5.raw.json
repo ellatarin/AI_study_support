@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The opening framing introduces the lecture and outlines the learning objectives on cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and mechanisms of resistance",
+      "groupedBecause": "These subtopics examine traditional cancer treatment modalities, including surgery, radiotherapy, and cytotoxic chemotherapy, alongside their associated toxicities and efflux-mediated drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cellular vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics discuss therapeutic strategies that exploit intrinsic cancer cell alterations, including hormone dependency, cell cycle checkpoint deficiencies, and defective DNA repair via synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase oncogene addiction and kinase inhibitor resistance",
+      "groupedBecause": "These subtopics focus on targeting hyperactivated oncogenic kinases and the molecular mechanisms, such as gatekeeper mutations and bypass signaling, that lead to kinase inhibitor resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based targeted therapies",
+      "groupedBecause": "These subtopics cover the design and therapeutic application of monoclonal antibodies and antibody-drug conjugates directed against tumor surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune surveillance and immune checkpoint blockade",
+      "groupedBecause": "These subtopics evaluate the evidence for natural anti-tumor immunity and the reactivation of exhausted T cells using immune checkpoint inhibitors targeting tumor neoantigens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Engineered T-cell therapies",
+      "groupedBecause": "These subtopics describe synthetic immunotherapy strategies designed to engage and redirect cytotoxic T cells using bispecific T-cell engagers and chimeric antigen receptors.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Overarching challenges, future paradigms, and clinical progress in cancer therapy",
+      "groupedBecause": "These subtopics review the systemic challenges, historical survival trends, emerging management paradigms, and clinical dilemmas in treating cancer.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

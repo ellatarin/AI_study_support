@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "These remarks introduce the lecture series, student cohorts, and key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and developmental basis of cancer",
+      "groupedBecause": "These subtopics explain how cancer arises from genetic and epigenetic disruptions to normal differentiation and three-dimensional tissue architecture, alongside experimental models used to study these processes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and the transition from benign to malignant tumors",
+      "groupedBecause": "These subtopics examine how tumors progress from contained, benign growths to invasive and metastatic malignancies across clinical, histological, and anatomical contexts.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification",
+      "groupedBecause": "This subtopic outlines the standard conventions and notable exceptions for naming benign and malignant neoplasms across tissue types.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiology of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the physiological and systemic mechanisms through which primary and metastatic tumors cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative epidemiology and evolutionary incidence of cancer",
+      "groupedBecause": "These subtopics explore the prevalence of different tumor types in human populations and across diverse multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and modalities of cancer screening",
+      "groupedBecause": "These subtopics discuss the rationale, histological foundations, and clinical efficacy of early detection and screening programmes across different tumor types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This closing framing concludes the lecture with a review of learning outcomes and reminders for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

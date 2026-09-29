@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This opening subtopic introduces the course structure, target audience, and key learning objectives for the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological principles of carcinogenesis and tissue architecture",
+      "groupedBecause": "These subtopics explain how cancer arises from accumulating genetic and epigenetic alterations that cause a breakdown in normal cellular differentiation and three-dimensional tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and progression from benign to malignant tumors",
+      "groupedBecause": "These subtopics examine the distinguishing histological and clinical features of benign and malignant tumors, focusing on mechanisms of invasion, metastatic dissemination, and stepwise progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification conventions",
+      "groupedBecause": "This subtopic outlines the standard pathological naming rules and notable exceptions used to classify benign and malignant neoplasms across tissue types.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physiological disruptions, systemic effects, and metastatic complications that cause disease and death in cancer patients.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics analyze the epidemiological patterns of tumor incidence in humans alongside cancer occurrence across diverse animal species and multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and applications of clinical cancer screening",
+      "groupedBecause": "These subtopics evaluate the rationale, histological basis, and clinical efficacy and limitations of screening programs for early cancer detection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This closing subtopic reviews the learning outcomes and provides closing logistical reminders for upcoming practical sessions and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

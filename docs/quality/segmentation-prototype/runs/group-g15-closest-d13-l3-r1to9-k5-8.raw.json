@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the introductory framing for the cancer biology lecture series and outlines the session's key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of genetic regulation and tissue differentiation",
+      "groupedBecause": "These subtopics establish the foundational concept of cancer as an accumulation of genetic and epigenetic changes that disrupt normal developmental differentiation and tissue architecture, along with methods for studying these cells.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and distinguishing benign from malignant tumors",
+      "groupedBecause": "These subtopics explore the biological and histological characteristics distinguishing benign from malignant tumors through the processes of tissue invasion and metastasis.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Conventions and exceptions of tumor nomenclature",
+      "groupedBecause": "This subtopic details the standard terminology and naming rules used to categorize benign and malignant neoplasms across different tissue origins.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physiological and structural ways that primary and metastatic tumors cause clinical illness, organ dysfunction, and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative tumor incidence across species",
+      "groupedBecause": "These subtopics analyze the epidemiological patterns of tumor formation in humans and other animals, highlighting cancer as an inherent vulnerability of multicellular life.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical modalities of cancer screening",
+      "groupedBecause": "These subtopics examine the clinical rationale, specific methodologies, and diagnostic trade-offs involved in population screening for early-stage and precursor lesions.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "This subtopic provides concluding remarks, reviewing the lecture's learning objectives and previewing upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

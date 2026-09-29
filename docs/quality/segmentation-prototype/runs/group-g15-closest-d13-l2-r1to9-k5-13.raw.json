@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "It provides the introductory framing and context for the lecture before the formal subject matter begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement system overview, nomenclature, and the central role of C3",
+      "groupedBecause": "These subtopics introduce the general architecture, naming conventions, and central biochemical role of C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways and threshold",
+      "groupedBecause": "These subtopics detail the three recognition pathways that drive complement activation and converge on the trigger threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics explain the downstream processes by which activated complement eliminates pathogens and drives inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Complement regulation and host cell protection",
+      "groupedBecause": "It explains the regulatory mechanisms that prevent complement from damaging host tissues.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "It explores the distinct clinical presentations and disease patterns associated with deficiencies in complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of the complement system",
+      "groupedBecause": "It describes the molecular strategies and evolutionary mechanisms employed by pathogens to evade complement defenses.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview",
+      "groupedBecause": "It closes the lecture and outlines the subject of the upcoming session.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

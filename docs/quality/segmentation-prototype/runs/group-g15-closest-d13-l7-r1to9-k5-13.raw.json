@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture series and outlines the core learning outcomes on cancer evolution and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of clonal selection",
+      "groupedBecause": "These subtopics explain how genetic mutations and epigenetic alterations confer selective growth advantages to cells during early tumor development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchies and cell of origin in tumor development",
+      "groupedBecause": "These subtopics explore the cancer stem cell model and present experimental evidence for stem cell hierarchies and cell-of-origin dynamics in leukemia and colorectal cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion and stromal dependence in cancer",
+      "groupedBecause": "These subtopics demonstrate how environmental promoters, inflammatory signaling, and supportive stroma enable mutant cells to progress into invasive malignancies.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Technologies for investigating tumor evolution and plasticity",
+      "groupedBecause": "This subtopic outlines experimental and computational techniques used to map mutational timing, cell plasticity, and microenvironmental interactions in tumors.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Synthesis of multifactorial cancer evolution",
+      "groupedBecause": "This subtopic synthesizes how genetic, epigenetic, cell-of-origin, and microenvironmental factors interact to drive the evolutionary development of cancer.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on cancer therapies.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

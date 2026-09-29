@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the complement system",
+      "groupedBecause": "This subtopic provides opening framing by introducing the importance, complexity, and scope of the lecture on complement.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational principles, nomenclature, and the central role of C3",
+      "groupedBecause": "These subtopics establish the foundational overview, naming conventions, and core biochemical mechanisms governing the activation of complement component C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three distinct recognition pathways that initiate complement activation and converge on the threshold deposition of C3b.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics detail the primary downstream effector functions through which complement destroys pathogens and mediates immune responses.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "This subtopic explores the regulatory factors and inhibitory mechanisms that protect host cells from unintended complement-mediated damage.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic analyzes the distinct disease presentations and clinical phenotypes resulting from deficiencies across various complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic examines how pathogens evolve specialized mechanisms to circumvent and neutralize complement attack.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture wrap-up and preview",
+      "groupedBecause": "This subtopic provides the closing administrative remarks and a preview of the next lecture topic.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

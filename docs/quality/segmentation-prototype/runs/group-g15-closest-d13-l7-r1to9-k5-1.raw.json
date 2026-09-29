@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "It introduces the lecture's learning outcomes and outlines the core themes of cancer evolution, cell of origin, and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal selection and epigenetic drivers of tumor evolution",
+      "groupedBecause": "These subtopics examine how tumors initiate and evolve through Darwinian selection of genetic mutations alongside epigenetic changes in transcriptional state.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem cell hierarchy and cell of origin in cancer",
+      "groupedBecause": "These subtopics explore the cancer stem cell model and examine experimental evidence identifying the cell of origin in leukemia and colorectal cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promoters, inflammation, and stromal support",
+      "groupedBecause": "These subtopics explain how non-mutagenic promoters, chronic inflammation, and supportive stromal cells drive malignant transformation and tumor maintenance.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Technologies for studying tumor evolution and microenvironment",
+      "groupedBecause": "It examines the sequencing, spatial omics, and computational methods used to analyze clonal evolution and cellular interactions in tumor tissue.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated model of cancer co-evolution",
+      "groupedBecause": "It synthesizes the required interplay of mutational burden, cell-of-origin properties, and permissive microenvironmental conditions in cancer progression.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "It concludes the lecture and previews the upcoming session on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

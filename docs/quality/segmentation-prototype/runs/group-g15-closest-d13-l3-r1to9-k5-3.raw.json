@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture series, outlines student learning objectives, and frames the clinical and biological scope of cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological concepts and experimental models of cancer",
+      "groupedBecause": "They define cancer as a failure of differentiation and tissue architecture driven by genetic and epigenetic alterations, while evaluating the strengths and limits of in vitro models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and progression from benign to malignant tumors",
+      "groupedBecause": "They describe the morphological and histological features that distinguish benign from malignant tumors, the routes of metastatic dissemination, and the stepwise progression of precursor lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature conventions and exceptions",
+      "groupedBecause": "It outlines the standardized rules and exceptions for naming benign and malignant neoplasms based on their tissue and cellular origins.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological causes of cancer morbidity and mortality",
+      "groupedBecause": "It details the local mechanical, tissue-destructive, and systemic physiological mechanisms through which tumors cause clinical illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative tumor incidence across humans and other species",
+      "groupedBecause": "They examine patterns of cancer incidence and tissue susceptibility across human populations and diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical methods of cancer screening",
+      "groupedBecause": "They address the rationale, histological basis, and practical limitations of population-level cancer screening and early detection across different organ sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical reminders",
+      "groupedBecause": "It concludes the session by reviewing the learning outcomes and providing housekeeping notes for upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

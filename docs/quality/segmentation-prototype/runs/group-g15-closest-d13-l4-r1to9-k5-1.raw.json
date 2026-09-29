@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the speaker's background, and presents the core learning objectives regarding cancer causation and environmental carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, mutation sources, and epidemiological variation",
+      "groupedBecause": "These subtopics establish the foundational concepts of cancer as a genetic and microenvironmental disease, discussing the balance between intrinsic 'bad luck' mutations and environmental exposures through global epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of environmental carcinogenesis, tumor promotion, and host susceptibility",
+      "groupedBecause": "These subtopics explain how biological, physical, and chemical agents induce neoplastic transformation through direct mutagenesis, metabolic activation, adduct formation, chronic inflammation, tumor promotion, and stage-specific tissue susceptibility.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and evaluating exposure risks",
+      "groupedBecause": "These subtopics examine the sequencing, epidemiological, animal, and in vitro experimental approaches used to detect mutational signatures and test carcinogenicity, alongside the societal appraisal of risks versus benefits.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This subtopic provides the concluding remarks and final summary of the lecture's key themes before concluding the session.",
+      "firstSubtopicId": 23
+    }
+  ]
+}
