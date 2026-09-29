@@ -1,12 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { trackingInFlight, waitTurns } from "../pipeline/fixtures.js";
 import { mapWithConcurrency } from "./concurrency.js";
-
-/** Resolves on the next turn of the event loop, so tasks genuinely overlap. */
-function tick(): Promise<void> {
-	return new Promise((resolve) => {
-		setImmediate(resolve);
-	});
-}
 
 /**
  * Work that records how many tasks are in flight at once, finishing later items
@@ -16,20 +10,11 @@ function trackedWork(): {
 	readonly work: (args: { readonly item: number }) => Promise<number>;
 	readonly peak: () => number;
 } {
-	let inFlight = 0;
-	let peak = 0;
-	return {
-		work: async ({ item }) => {
-			inFlight += 1;
-			peak = Math.max(peak, inFlight);
-			for (let turn = 0; turn < 10 - item; turn += 1) {
-				await tick();
-			}
-			inFlight -= 1;
-			return item * 10;
-		},
-		peak: () => peak,
-	};
+	const { tracked, peak } = trackingInFlight(async ({ item }: { readonly item: number }) => {
+		await waitTurns({ turns: 10 - item });
+		return item * 10;
+	});
+	return { work: tracked, peak };
 }
 
 const ITEMS = [1, 2, 3, 4, 5, 6, 7];
@@ -51,13 +36,11 @@ function failingWork(): {
 	return {
 		work: async ({ item }) => {
 			started.push(item);
-			await tick();
+			await waitTurns({ turns: 1 });
 			if (item === ITEMS[0]) {
 				throw FIRST_ITEM_FAILURE;
 			}
-			for (let turn = 0; turn < 3; turn += 1) {
-				await tick();
-			}
+			await waitTurns({ turns: 3 });
 			finished.push(item);
 			return item;
 		},
@@ -78,6 +61,7 @@ describe("mapWithConcurrency", () => {
 		{ limit: 3, expected: 3 },
 		{ limit: 1, expected: 1 },
 		{ limit: 0, expected: 1 },
+		{ limit: undefined, expected: 1 },
 		{ limit: 20, expected: ITEMS.length },
 	])("should have at most $expected in flight when the limit is $limit", async ({
 		limit,
@@ -94,9 +78,7 @@ describe("mapWithConcurrency", () => {
 			FIRST_ITEM_FAILURE,
 		);
 		// Long enough for a worker left running to have started every other item.
-		for (let turn = 0; turn < ITEMS.length * 4; turn += 1) {
-			await tick();
-		}
+		await waitTurns({ turns: ITEMS.length * 4 });
 		expect(failing.started).toEqual([1, 2]);
 	});
 

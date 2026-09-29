@@ -2,7 +2,13 @@ import { readdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import type { StageCost } from "../../types/pipeline.js";
-import { captureError, stubbedCallCost, stubbedCallsCost, useTempDir } from "../fixtures.js";
+import {
+	captureError,
+	stubbedCallCost,
+	stubbedCallsCost,
+	trackingInFlight,
+	useTempDir,
+} from "../fixtures.js";
 import { readPanel, runPanel, SavedRunUnreadableError } from "./panel-runs.js";
 
 /** What these tests' runs hold: which run made them. */
@@ -131,20 +137,13 @@ describe("runPanel", () => {
 	});
 
 	it("should make one run at a time when the stage sets no concurrency", async () => {
-		let inFlight = 0;
-		let peak = 0;
+		const { tracked, peak } = trackingInFlight(({ runNumber }: { readonly runNumber: number }) =>
+			Promise.resolve(standInRun({ runNumber })),
+		);
 		const makeRun = standInMaker();
-		makeRun.mockImplementation(async ({ runNumber }) => {
-			inFlight += 1;
-			peak = Math.max(peak, inFlight);
-			await new Promise((resolve) => {
-				setImmediate(resolve);
-			});
-			inFlight -= 1;
-			return standInRun({ runNumber });
-		});
+		makeRun.mockImplementation(tracked);
 		await panelOf({ panelSize: 4, makeRun });
-		expect(peak).toBe(1);
+		expect(peak()).toBe(1);
 	});
 });
 

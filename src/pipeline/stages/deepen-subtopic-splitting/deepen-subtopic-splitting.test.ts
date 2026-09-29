@@ -7,23 +7,27 @@ import { rm } from "node:fs/promises";
 import { join } from "node:path";
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { StageConfig, StageCost } from "../../../types/pipeline.js";
 import {
 	captureError,
 	configuringStage,
 	driveModelStage,
 	earlierLaunchRun,
 	joinedSubtopics,
+	openRouterStageConfig,
 	paddedTranscriptText,
 	panelRunPath,
 	readPanelRun,
 	seedPanelRun,
 	seedStageOutput,
 	stubbedCallCost,
+	trackingInFlight,
 	transcriptDivision,
 	transcriptText,
 	unusableTranscripts,
 	useStubLogger,
 	useTranscribedWorkspace,
+	waitTurns,
 } from "../../fixtures.js";
 import { makeCompletionCall } from "../../openrouter.js";
 import { type Subtopic, subtopicText } from "../division.js";
@@ -111,6 +115,23 @@ function sentPassages(): readonly string[] {
 	return sentMessages().map(passageOf);
 }
 
+/**
+ * Answers a call by the subtopic it sent: with the reply `replies` holds for
+ * that subtopic, or "one step" when it holds none.
+ *
+ * @param replies - The reply for each subtopic, keyed by its text.
+ * @returns The stand-in for the model call.
+ */
+function answerFrom(
+	replies: Readonly<Record<string, string>>,
+): (request: SentRequest) => Promise<{ readonly content: string; readonly cost: StageCost }> {
+	return ({ messages }) =>
+		Promise.resolve({
+			content: replies[passageOf(messages[1]?.content ?? "")] ?? ONE_STEP,
+			cost: stubbedCallCost,
+		});
+}
+
 /** Where `phrase` begins in the fixture transcript. */
 function at(phrase: string): number {
 	return transcriptText.indexOf(phrase);
@@ -136,29 +157,30 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		}
 	});
 
-	/**
-	 * Answers each call by the subtopic it sent: with the reply `replies` holds
-	 * for that subtopic, or "one step" when it holds none.
-	 */
+	/** Answers every call as {@link answerFrom} does for `replies`. */
 	function answering(replies: Readonly<Record<string, string>>): void {
-		completionMock.mockImplementation(({ messages }: SentRequest) =>
-			Promise.resolve({
-				content: replies[passageOf(messages[1]?.content ?? "")] ?? ONE_STEP,
-				cost: stubbedCallCost,
-			}),
-		);
+		completionMock.mockImplementation(answerFrom(replies));
 	}
 
-	/** Runs the stage with a size gate of `sizeGateWords`, the way the runner would. */
+	/**
+	 * Runs the stage with a size gate of `sizeGateWords`, the way the runner
+	 * would, with the example's tuning for the stage but for what `tuning` sets.
+	 */
 	function run({
 		sizeGateWords,
+		tuning = {},
 	}: {
 		readonly sizeGateWords: number;
+		readonly tuning?: Partial<Pick<StageConfig, "concurrency" | "callConcurrency">>;
 	}): ReturnType<typeof driveModelStage> {
 		const configured = configuringStage({ stageId: STAGE_ID });
 		return driveModelStage({
 			factory: createDeepenSubtopicSplittingStage,
-			config: { ...configured, division: { ...configured.division, sizeGateWords } },
+			config: {
+				...configured,
+				division: { ...configured.division, sizeGateWords },
+				stages: { [STAGE_ID]: { ...openRouterStageConfig({ stageId: STAGE_ID }), ...tuning } },
+			},
 			workspaceRoot: workspaceRoot(),
 			logger: logged().logger,
 		});
@@ -172,6 +194,14 @@ describe("createDeepenSubtopicSplittingStage", () => {
 			runNumber,
 		})) as readonly Subtopic[];
 	}
+
+	/** Where each subtopic of the deepened run `runNumber` starts. */
+	async function savedStarts(runNumber: number): Promise<readonly number[]> {
+		return (await savedRun(runNumber)).map((subtopic) => subtopic.start);
+	}
+
+	/** Where the subtopics start once {@link CUTTING_BOTH_ROUNDS} has cut in both rounds. */
+	const CUT_IN_BOTH_ROUNDS = [0, at(SECOND), at(HEAD_CUT), at(SECOND_CUT)];
 
 	/** A gate only the second subtopic's six words are over; its pieces are not. */
 	const SECOND_ONLY = { sizeGateWords: 4 };
@@ -242,12 +272,36 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		answering(CUTTING_BOTH_ROUNDS);
 		await run(ALMOST_EVERYTHING);
 		expect(completionMock).toHaveBeenCalledTimes(5 * PANEL_SIZE);
-		expect((await savedRun(1)).map((subtopic) => subtopic.start)).toEqual([
-			0,
-			at(SECOND),
-			at(HEAD_CUT),
-			at(SECOND_CUT),
-		]);
+		expect(await savedStarts(1)).toEqual(CUT_IN_BOTH_ROUNDS);
+	});
+
+	// One run at a time, so every call in flight is the same run's. The second
+	// round of CUTTING_BOTH_ROUNDS sends three subtopics, the most sent together.
+	it.each([
+		{ setting: "unset", callConcurrency: undefined, expected: 1 },
+		{ setting: "2", callConcurrency: 2, expected: 2 },
+		{ setting: "above a round's subtopics", callConcurrency: 10, expected: 3 },
+	])("should have at most $expected calls in flight in one run when callConcurrency is $setting", async ({
+		callConcurrency,
+		expected,
+	}) => {
+		const { tracked, peak } = trackingInFlight(answerFrom(CUTTING_BOTH_ROUNDS));
+		completionMock.mockImplementation(tracked);
+		await run({ ...ALMOST_EVERYTHING, tuning: { concurrency: 1, callConcurrency } });
+		expect(peak()).toBe(expected);
+	});
+
+	it("should give the same deepened run when the replies arrive out of order", async () => {
+		const answer = answerFrom(CUTTING_BOTH_ROUNDS);
+		let callsMade = 0;
+		// Each call waits fewer turns than the one before it, so later calls answer first.
+		completionMock.mockImplementation(async (request: SentRequest) => {
+			callsMade += 1;
+			await waitTurns({ turns: 100 - callsMade });
+			return answer(request);
+		});
+		await run({ ...ALMOST_EVERYTHING, tuning: { concurrency: 1, callConcurrency: 10 } });
+		expect(await savedStarts(1)).toEqual(CUT_IN_BOTH_ROUNDS);
 	});
 
 	it("should reproduce the transcript exactly when a deepened run is joined", async () => {

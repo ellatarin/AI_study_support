@@ -1608,3 +1608,53 @@ export async function driveStage<TInput, TOutput>({
 }): Promise<StageResult<TOutput>> {
 	return stage.run({ input: await stage.getInput(context), context });
 }
+
+/**
+ * Resolves after `turns` turns of the event loop, so tasks a suite starts
+ * together genuinely overlap rather than each finishing before the next begins,
+ * and a task waiting more turns finishes after one waiting fewer.
+ *
+ * @param args - How long to wait.
+ * @param args.turns - How many turns of the event loop to let pass.
+ * @returns A promise that resolves once they have.
+ */
+export async function waitTurns({ turns }: { readonly turns: number }): Promise<void> {
+	for (let turn = 0; turn < turns; turn += 1) {
+		await new Promise((resolve) => {
+			setImmediate(resolve);
+		});
+	}
+}
+
+/**
+ * Wraps a task so a suite can see how many were in flight at once. Each call
+ * counts itself in, yields a turn so that others started alongside it overlap
+ * it, does the task, and counts itself out.
+ *
+ * @param task - The task to track.
+ * @returns The tracked task, and the most calls that were ever in flight together.
+ * @typeParam TTaskArgs - What the task is given.
+ * @typeParam TTaskResult - What the task produces.
+ */
+export function trackingInFlight<TTaskArgs, TTaskResult>(
+	task: (args: TTaskArgs) => Promise<TTaskResult>,
+): {
+	readonly tracked: (args: TTaskArgs) => Promise<TTaskResult>;
+	readonly peak: () => number;
+} {
+	let inFlight = 0;
+	let peak = 0;
+	return {
+		tracked: async (args) => {
+			inFlight += 1;
+			peak = Math.max(peak, inFlight);
+			await waitTurns({ turns: 1 });
+			try {
+				return await task(args);
+			} finally {
+				inFlight -= 1;
+			}
+		},
+		peak: () => peak,
+	};
+}

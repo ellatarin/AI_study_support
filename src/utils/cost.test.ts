@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { accumulateCost } from "./cost.js";
+import { accumulateCost, totalCost } from "./cost.js";
 
 // The two operands every fold below is made of, and what they come to. Only
 // their prices vary from test to test, so the tokens and call counts are stated
@@ -89,5 +89,25 @@ describe("accumulateCost", () => {
 	it("should take the incoming cost as it is when nothing has been counted yet", () => {
 		const incoming = { ...INCOMING_CALL, costUsd: 0.03 };
 		expect(accumulateCost({ current: null, incoming })).toBe(incoming);
+	});
+});
+
+describe("totalCost", () => {
+	it.each([
+		{ case: "there are no parts", costs: [] },
+		{ case: "no part made a call", costs: [null, null] },
+	])("should be null when $case", ({ costs }) => {
+		expect(totalCost(costs)).toBeNull();
+	});
+
+	it("should add up the parts that made calls when some made none", () => {
+		expect(
+			totalCost([
+				null,
+				{ ...RUNNING_TOTAL, costUsd: 0.02 },
+				null,
+				{ ...INCOMING_CALL, costUsd: 0.03 },
+			]),
+		).toEqual({ ...FOLDED, costUsd: 0.05 });
 	});
 });

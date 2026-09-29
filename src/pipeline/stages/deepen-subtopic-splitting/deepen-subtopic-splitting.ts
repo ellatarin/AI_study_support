@@ -11,9 +11,11 @@
    files are forbidden (CLAUDE.md, File Organisation). Only the imports are
    exempt; the code below is checked as normal. */
 import type { StageContext, StageCost, StageResult } from "../../../types/pipeline.js";
-import { accumulateCost } from "../../../utils/cost.js";
+import { mapWithConcurrency } from "../../../utils/concurrency.js";
+import { totalCost } from "../../../utils/cost.js";
 import { NamedError } from "../../../utils/errors.js";
 import { isRecord } from "../../../utils/record.js";
+import { configuredStage } from "../../../utils/stage-config.js";
 import {
 	assertLossless,
 	isDivision,
@@ -60,7 +62,7 @@ export type DeepenSubtopicSplittingInput = {
 /** Every deepened run, in run order: one per initial run. */
 export type DeepenSubtopicSplittingOutput = { readonly runs: readonly (readonly Subtopic[])[] };
 
-/** The object the `d9` prompt asks for. Its `verdict` is not read: no cuts means one step. */
+/** The object the `d13` prompt asks for. Its `verdict` is not read: no cuts means one step. */
 type DeepenReply = { readonly cuts: readonly ReplySubtopic[] };
 
 /** The reply's shape in words, for the failure a user reads when a reply is not one. */
@@ -153,12 +155,70 @@ function cutSubtopic({
 	}));
 }
 
+/** A run being deepened, and what the calls about it need. */
+type RunUnderDeepening = {
+	readonly transcript: string;
+	readonly runNumber: number;
+	readonly context: StageContext;
+} & ModelStageDependencies;
+
 /**
- * Deepens one initial splitting run. Each round sends, one at a time, every
- * subtopic over the size gate; one at or under it is never sent. When a round
- * cuts nothing, another would ask the same questions again, so there is none.
- * A subtopic whose every send fails fails the stage, rather than being left
- * whole as though the model had called it one step.
+ * Deepens one subtopic in one round: sends it when it is over the size gate and
+ * cuts it where the reply says it divides. One at or under the gate is never sent.
+ *
+ * @param args - The subtopic, the round, and the run it belongs to.
+ * @param args.subtopic - The subtopic to deepen.
+ * @param args.round - The round, counting from 1, for the log and any failure.
+ * @param args.transcript - The transcript the subtopic's span indexes into.
+ * @param args.runNumber - The run, counting from 1, for the log and any failure.
+ * @param args.context - The current lecture run context.
+ * @param args.logger - The stage's logger.
+ * @param args.client - The OpenAI client the call goes through.
+ * @returns The subtopic's pieces, in order, and what its sends cost — `null` when it was not sent.
+ */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino Logger and OpenAI client are library types that are not deeply readonly
+async function deepenSubtopic({
+	subtopic,
+	round,
+	transcript,
+	runNumber,
+	context,
+	logger,
+	client,
+}: RunUnderDeepening & { readonly subtopic: Subtopic; readonly round: number }): Promise<{
+	readonly pieces: readonly Subtopic[];
+	readonly cost: StageCost | null;
+}> {
+	const passage = subtopicText({ text: transcript, subtopic });
+	if (countWords(passage) <= context.config.division.sizeGateWords) {
+		return { pieces: [subtopic], cost: null };
+	}
+	const sent = await sendWithResends({
+		what: `Deepening run ${runNumber}, round ${round}, subtopic "${subtopic.label}"`,
+		logger,
+		send: () =>
+			tryJsonReplyAs({
+				messages: buildDeepeningMessages({ passage }),
+				stageId: STAGE_ID,
+				context,
+				isReply: isDeepenReply,
+				documentedShape: DOCUMENTED_REPLY_SHAPE,
+				logger,
+				client,
+				use: ({ cuts }) => ({ reply: cutSubtopic({ transcript, subtopic, cuts }) }),
+			}),
+	});
+	return { pieces: sent.reply, cost: sent.cost };
+}
+
+/**
+ * Deepens one initial splitting run. Each round sends every subtopic over the
+ * size gate, as many at once as the stage's `callConcurrency` allows — one at a
+ * time when it is unset — and puts each one's pieces back in its place, so how
+ * many are sent together never changes the result. When a round cuts nothing,
+ * another would ask the same questions again, so there is none. A subtopic
+ * whose every send fails fails the stage, rather than being left whole as
+ * though the model had called it one step.
  *
  * @param args - The transcript, the run, and what the calls need.
  * @param args.transcript - The transcript the run's spans index into.
@@ -171,52 +231,27 @@ function cutSubtopic({
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino Logger and OpenAI client are library types that are not deeply readonly
 async function deepenRun({
-	transcript,
 	initialRun,
-	runNumber,
-	context,
-	logger,
-	client,
-}: {
-	readonly transcript: string;
-	readonly initialRun: readonly Subtopic[];
-	readonly runNumber: number;
-	readonly context: StageContext;
-} & ModelStageDependencies): Promise<{
+	...underDeepening
+}: RunUnderDeepening & { readonly initialRun: readonly Subtopic[] }): Promise<{
 	readonly run: readonly Subtopic[];
 	readonly cost: StageCost | null;
 }> {
-	const { sizeGateWords } = context.config.division;
+	const { transcript, context } = underDeepening;
+	const callConcurrency = configuredStage({
+		config: context.config,
+		stageId: STAGE_ID,
+	})?.callConcurrency;
 	let subtopics = initialRun;
 	let cost: StageCost | null = null;
 	for (let round = 1; round <= MAX_ROUNDS; round += 1) {
-		const pieces: (readonly Subtopic[])[] = [];
-		for (const subtopic of subtopics) {
-			if (countWords(subtopicText({ text: transcript, subtopic })) <= sizeGateWords) {
-				pieces.push([subtopic]);
-				continue;
-			}
-			const sent = await sendWithResends({
-				what: `Deepening run ${runNumber}, round ${round}, subtopic "${subtopic.label}"`,
-				logger,
-				send: () =>
-					tryJsonReplyAs({
-						messages: buildDeepeningMessages({
-							passage: subtopicText({ text: transcript, subtopic }),
-						}),
-						stageId: STAGE_ID,
-						context,
-						isReply: isDeepenReply,
-						documentedShape: DOCUMENTED_REPLY_SHAPE,
-						logger,
-						client,
-						use: ({ cuts }) => ({ reply: cutSubtopic({ transcript, subtopic, cuts }) }),
-					}),
-			});
-			cost = accumulateCost({ current: cost, incoming: sent.cost });
-			pieces.push(sent.reply);
-		}
-		const deeper = pieces.flat();
+		const deepened = await mapWithConcurrency({
+			items: subtopics,
+			limit: callConcurrency,
+			work: ({ item: subtopic }) => deepenSubtopic({ ...underDeepening, subtopic, round }),
+		});
+		cost = totalCost([cost, ...deepened.map((outcome) => outcome.cost)]);
+		const deeper = deepened.flatMap((outcome) => outcome.pieces);
 		const cutAnything = deeper.length > subtopics.length;
 		subtopics = deeper;
 		if (!cutAnything) {

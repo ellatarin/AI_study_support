@@ -57,3 +57,21 @@ export function accumulateCost({
 	}
 	return { ...base, costUsd: current.costUsd + incoming.costUsd };
 }
+
+/**
+ * Folds the costs of a stage's parts — its runs, or a run's calls — into one,
+ * passing over a part that made no call. Stays inside one stage, as
+ * {@link accumulateCost} does.
+ *
+ * @param costs - Each part's cost, `null` for a part that made no call.
+ * @returns What the parts cost together, or `null` when none of them made a call.
+ */
+export function totalCost(costs: readonly (StageCost | null)[]): StageCost | null {
+	let total: StageCost | null = null;
+	for (const cost of costs) {
+		if (cost !== null) {
+			total = accumulateCost({ current: total, incoming: cost });
+		}
+	}
+	return total;
+}

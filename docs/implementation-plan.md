@@ -684,7 +684,11 @@ Unit tests for `mapWithConcurrency`:
 
 Unit tests for the stage (mock `makeCompletionCall`):
 - `should have at most $expected calls in flight in one run when callConcurrency is $callConcurrency` — `test.each`, unset included (one at a time)
-- `should give the same deepened run whatever order the replies arrive in`
+- `should give the same deepened run when the replies arrive out of order`
+
+Unit tests for `totalCost` in `src/utils/cost.ts`, which folds the costs of a stage's parts where some made no call — the panel's runs and a round's calls both need it:
+- `should be null when $case` — `test.each` across no parts and no part making a call
+- `should add up the parts that made calls when some made none`
 
 Config tests — rows added to the existing `should throw ConfigError when $case` table: the batch section missing; `batch.concurrency` missing, not a whole number, or below 1; `callConcurrency` set on a stage other than `deepen-subtopic-splitting`.
 

@@ -8,7 +8,7 @@ import { join, relative } from "node:path";
 import type { Logger } from "pino";
 import type { StageContext, StageCost, StageId, StageResult } from "../../types/pipeline.js";
 import { mapWithConcurrency } from "../../utils/concurrency.js";
-import { accumulateCost } from "../../utils/cost.js";
+import { accumulateCost, totalCost } from "../../utils/cost.js";
 import { NamedError } from "../../utils/errors.js";
 import { pathExists, readJsonSafe, writeJsonAtomic } from "../../utils/files.js";
 import { configuredStage } from "../../utils/stage-config.js";
@@ -213,7 +213,7 @@ export async function runPanel<TRun>({
 	const runFiles = panelRunFiles({ directory, panelSize });
 	const outcomes = await mapWithConcurrency({
 		items: runFiles,
-		limit: concurrency ?? 1,
+		limit: concurrency,
 		work: async ({ item: path, index }) => {
 			const saved = await readSavedRun({ path, isRun });
 			if (saved !== null) {
@@ -224,13 +224,11 @@ export async function runPanel<TRun>({
 			return made;
 		},
 	});
-	let cost: StageCost | null = null;
-	for (const outcome of outcomes) {
-		if (outcome.cost !== null) {
-			cost = accumulateCost({ current: cost, incoming: outcome.cost });
-		}
-	}
-	return { runs: outcomes.map((outcome) => outcome.run), cost, runFiles };
+	return {
+		runs: outcomes.map((outcome) => outcome.run),
+		cost: totalCost(outcomes.map((outcome) => outcome.cost)),
+		runFiles,
+	};
 }
 
 /**
