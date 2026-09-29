@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.59-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.60-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-09-29
 **Status:** For review
 
@@ -699,39 +699,45 @@ CLI tests:
 
 ---
 
-## Phase 12 — `vote-cut-sites`
+## Phase 12 — `choose-division`
 
-**Goal:** Combine the deepened runs into one voted division. No model call.
+**Goal:** Vote over the deepened runs and keep, whole, the run nearest the vote. No model call.
 
 **Deliverables:**
 
-`src/pipeline/stages/vote-cut-sites/` **(TD §5, `vote-cut-sites`)** — `voteCutSites` and the stage around it. Added to `lectureStages`.
+`src/pipeline/stages/choose-division/` **(TD §5, `choose-division`)** — `chooseDivision` and the stage around it. Added to `lectureStages`, with its `STAGE_IDS` and `STAGE_WORKSPACE` entries and cost-report label.
+
+The manifest records a stage's own facts **(TD §4.5, "A stage may record facts of its own")**: `choose-division`'s entry type carrying `division`, a way for a stage's result to carry it, the runner writing it with `complete`, and `skipped` carrying it over.
 
 **Tests:**
 
-Unit tests (no mocks):
+Unit tests for `chooseDivision` (no mocks):
 - `should put cuts in one site when they lie within one percent of the site's first cut`
 - `should open a new site when a cut lies beyond one percent of the site's first cut` — even when it is within one percent of the previous cut
-- `should keep a cut site when its support reaches the bar`
-- `should drop a cut site when its support falls short of the bar`
-- `should cut at the position most runs chose when a kept site holds several`
-- `should cut at the earliest position when two positions tie`
-- `should carry every run's label with its count when runs cut at a subtopic's start`
-- `should give the first subtopic every run's first label`
-- `should reproduce the transcript exactly when the voted subtopics are joined`
+- `should count a cut site in the vote when its support reaches the bar`
+- `should leave a cut site out of the vote when its support falls short of the bar`
+- `should choose the run whose cut sites differ least from the vote's`
+- `should break a tie for the vote to the run closest to the others when two runs are equally near`
+- `should break a remaining tie to the earliest run`
+- `should hand on the chosen run's subtopics unchanged, titles and reasons included`
+- `should record the chosen run and its distance from the vote`
+
+Stage tests:
+- `should write the chosen division and record the choice in the manifest when the stage completes`
+- `should keep the recorded choice when the stage is skipped`
 - `should fail when fewer deepened runs are present than the panel size`
 
-**Replay against the prototype:** the prototype's deepened runs 1–9 for each of the eight lectures, voted at bar 5, must equal its saved voted divisions exactly.
+**Replay against the prototype:** a one-off script in the prototype folder runs `chooseDivision` on every panel of nine drawn from each lecture's 18 `d13` runs, and checks that it chooses the same run as `division_support.py`'s `closest_to_vote_run`. Any difference is explained or fixed.
 
-**Live run:** the vote over Phase 11's live deepened runs, compared with the prototype's voted subtopic count and cut sites on that lecture.
+**Live run:** the stage over Phase 11's live deepened runs on all eight lectures: which run each chose, and its distance from the vote.
 
-**Acceptance:** A lecture gains one voted division reproducing the transcript exactly; replay matches on all eight lectures.
+**Acceptance:** A lecture gains one chosen division, a run of its panel handed on unchanged, and the manifest records which run and how far from the vote; replay agrees on every panel.
 
 ---
 
 ## Phase 13 — `define-topics`
 
-**Goal:** Group the voted subtopics into topics by a panel of grouping runs and keep the modal grouping. Choosing subtopic labels and judging the lecture title are not in this phase.
+**Goal:** Group the chosen division's subtopics into topics by a panel of grouping runs and keep the modal grouping. Judging the lecture title is not in this phase.
 
 **Deliverables:**
 
@@ -739,7 +745,7 @@ Unit tests (no mocks):
 
 The required `grouping` section — `panelSize` — in `PipelineConfig`, its validation, the example config and the user's own; the stage's entry in the example config **(TD §6)**.
 
-The manifest records a stage's own facts **(TD §4.5, "A stage may record facts of its own")**: `define-topics`' entry type carrying `grouping`, a way for a stage's result to carry it, the runner writing it with `complete`, and `skipped` carrying it over.
+`define-topics`' manifest entry type carrying `grouping`, recorded through the mechanism Phase 12 builds **(TD §4.5, "A stage may record facts of its own")**.
 
 **Tests:**
 

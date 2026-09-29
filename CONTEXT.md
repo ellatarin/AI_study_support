@@ -194,7 +194,7 @@ The grouping that the most runs in a grouping panel made, where two runs made th
 _Avoid_: majority grouping, consensus, vote
 
 **Panel**:
-A set of repeated runs of one step over one lecture, combined into a single result. A splitting panel is voted over, so that a cut site survives only if enough of the runs cut there; a grouping panel yields its **modal grouping**. What turns a prompt that is usually right into a result that is reliably right.
+A set of repeated runs of one step over one lecture, combined into a single result. A splitting panel is voted over, and the run nearest the vote becomes the **chosen division**; a grouping panel yields its **modal grouping**. What turns a prompt that is usually right into a result that is reliably right.
 _Avoid_: sample, ensemble, trial set
 
 **Support**:
@@ -206,8 +206,12 @@ The number of a panel's splitting runs a cut site needs to be kept.
 _Avoid_: threshold, cutoff, quorum
 
 **Kept**:
-A cut site whose support reaches the bar. Only kept cut sites divide the voted subtopics.
+A cut site whose support reaches the bar. The vote is the set of kept cut sites; it is what the splitting runs are measured against, never a division of its own.
 _Avoid_: accepted, passed
+
+**Chosen division**:
+The splitting run whose cut sites differ least from the vote's, handed on whole: its subtopics, titles and reasons are one run's reading of the lecture. A tie goes to the run closest to the others, then the earliest.
+_Avoid_: voted division, voted subtopics, best run
 
 **Losslessness**:
 The guarantee that a divided transcript is still the original transcript: its subtopics, joined in order, are the transcript character for character. Any difference is a bug, never a tolerance.

@@ -56,10 +56,12 @@ re-run from it or stop after it.
    to much more reliable performance against the key faithfulness requirements.
 5. **`deepen-subtopic-splitting`.** In each of the nine divisions, sends back only the subtopics that
    came out too long (over 600 words), to be divided further.
-6. **`vote-cut-sites`.** Keeps a cut only where at least five of the nine divisions made it. No single
-   division is reliable on its own; the vote is. It uses no AI model, so it can be re-run for free.
-7. **`define-topics`.** Chooses each subtopic's label from the ones the nine divisions gave it, groups
-   the subtopics into **topics**, and judges whether the lecturer's title is meaningful.
+6. **`choose-division`.** The nine divisions vote: a cut counts where at least five of them made it.
+   No single division is reliable on its own, so the division kept is the one nearest the vote, taken
+   whole, so its subtopics and their titles all come from one reading of the lecture. It uses no AI
+   model, so it can be re-run for free.
+7. **`define-topics`.** Groups the subtopics into **topics**, and judges whether the lecturer's title
+   is meaningful.
 8. **`render-slides`.** Renders each slide as an image.
 9. **`read-slides`.** A vision model writes out everything on each slide.
 10. **`verify-slides`.** A checker compares each slide's written-out content with the slide image and
@@ -140,7 +142,7 @@ lecture-notes change-date <date> <new date>
 | `transcribe` | Built |
 | `initial-subtopic-splitting` | Prototype; designed, being built |
 | `deepen-subtopic-splitting` | Prototype; designed, being built |
-| `vote-cut-sites` | Prototype; designed, being built |
+| `choose-division` | Prototype; designed, being built |
 | `define-topics` | Prototype; grouping designed, being built |
 | `render-slides` | Designed, not built |
 | `read-slides` | Designed, not built |

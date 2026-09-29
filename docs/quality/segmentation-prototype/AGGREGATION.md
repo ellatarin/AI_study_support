@@ -14,7 +14,9 @@ Two runs make the same division when they cut at the same cut sites, matched
 within 1% of the transcript. The distance between two runs is the number of cut
 sites one cuts at and the other does not.
 
-**Decision: keep the vote.**
+**Decision: keep the vote.** Superseded 2026-09-29: the pipeline keeps the run
+closest to the vote, whole (`choose-division`), so one run's reading of the
+lecture carries through; see "The four methods on `d13`" below.
 
 ## Stability
 
@@ -92,3 +94,26 @@ still as good as any whole-run method (central 3.36 / 5.76, most common
 the rise on l1. The pipeline uses `d13`: grouping on its voted divisions gave
 better topics and titles in the user's judgement, and the topic rulings can
 change with the titles.
+
+## The four methods on `d13`
+
+`report-aggregation.py 'deepen-d13-600-split-s6-{lec}-*.blocks.json'`,
+2026-09-29, against `runs/divisions.json` after the contentious-site rulings
+of the same day (so the vote's errors differ from the table above, which used
+the earlier rulings). Stability, then errors; each averaged as above.
+
+| lecture | vote | most common | central | closest to vote |
+|---|---|---|---|---|
+| l1 | 0.33 / 0.17 | 0.80 / 0.40 | 0.34 / 0.17 | 0.34 / 0.17 |
+| l2 | 0.33 / 0.83 | 0.32 / 0.97 | 0.31 / 0.88 | 0.31 / 0.88 |
+| l3 | 0.47 / 0.17 | 0.40 / 0.12 | 0.47 / 0.17 | 0.47 / 0.17 |
+| l4 | 0.03 / 0.01 | 0.20 / 0.10 | 0.04 / 0.02 | 0.04 / 0.02 |
+| l5 | 0.33 / 0.17 | 0.26 / 0.13 | 0.33 / 0.17 | 0.33 / 0.17 |
+| l6 | 0.50 / 1.23 | 0.87 / 1.40 | 0.58 / 1.25 | 0.55 / 1.23 |
+| l7 | 0.64 / 0.32 | 0.85 / 0.42 | 0.64 / 0.32 | 0.64 / 0.32 |
+| l8 | 0.63 / 0.13 | 0.67 / 0.10 | 0.65 / 0.14 | 0.66 / 0.14 |
+| all 8 | 3.26 / 3.03 | 4.38 / 3.65 | 3.36 / 3.11 | 3.34 / 3.09 |
+
+The user chose closest to vote: within 0.1 of the vote on both counts, and the
+division handed on is one real run, every boundary and title from the same
+reading of the lecture.
