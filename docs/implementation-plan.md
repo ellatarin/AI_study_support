@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.55-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.56-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-09-29
 **Status:** For review
 
@@ -649,11 +649,11 @@ Unit tests (mock `makeCompletionCall`):
 - `should fail the stage when a subtopic fails every send` — never recorded as one step
 - `should reproduce the transcript exactly when a deepened run is joined`
 
-**Replay against the prototype:** as Phase 10, with the prototype's saved `d9` replies and deepened runs.
+**Side by side with the prototype, in place of a replay:** the prototype saved its deepened runs but not the `d9` replies that made them, so there is nothing to replay. A one-off script sets the live deepened runs beside the prototype's for the same lecture, subtopic by subtopic, for the user to read.
 
 **Live run:** on the Phase 10 lecture, comparing deepened subtopic counts with the prototype's `d9` range.
 
-**Acceptance:** Every initial run gains a deepened run, with no subtopic over the gate unless two rounds could not divide it; replay matches; the live run falls within range.
+**Acceptance:** Every initial run gains a deepened run, with no subtopic over the gate unless two rounds could not divide it; the live run falls within range; the user has read the side-by-side view.
 
 ---
 

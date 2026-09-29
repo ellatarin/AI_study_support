@@ -13,6 +13,6 @@
 - [ ] Calls are made a few at a time; each deepened run is saved as it completes and a relaunch makes only the missing ones (ticket 04).
 - [ ] Every deepened run's subtopics joined in order equal the transcript character for character.
 - [ ] `sizeGateWords` (600) is added to the `division` settings section; the stage's model is set per stage.
-- [ ] **Replay against the prototype:** a one-off script feeds the prototype's saved `d9` replies, across all 8 lectures, through the new deepening code, and the deepened divisions match the prototype's deepened run files exactly. Any difference is explained or fixed.
 - [ ] **Live run:** the stage runs for real on one lecture (cost stated first); its deepened subtopic counts fall within the prototype's `d9` range on that lecture.
-- [ ] The replay script and results stay in the prototype folder.
+- [ ] **Side by side with the prototype, in place of a replay:** the prototype saved its deepened runs but not the `d9` replies that made them, so nothing can be replayed. A one-off script sets the live deepened runs beside the prototype's for that lecture, subtopic by subtopic, and the user reads them.
+- [ ] The side-by-side script and its output stay in the prototype folder.
