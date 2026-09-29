@@ -143,6 +143,18 @@ def central_run(sets, panel):
     return min(panel, key=lambda run: (distance_to_others(sets, panel, run), run))
 
 
+def closest_to_vote_run(sets, panel, voted):
+    """The panel's run whose division is nearest the voted one.
+
+    `voted` is the set of cut sites the panel's vote keeps. A tie goes to the
+    run closest to the others, then the earliest, as `most_common_run` breaks one.
+    """
+    return min(
+        panel,
+        key=lambda run: (len(sets[run] ^ voted), distance_to_others(sets, panel, run), run),
+    )
+
+
 def most_common_run(sets, panel):
     """A run making the division most of the panel's runs made.
 

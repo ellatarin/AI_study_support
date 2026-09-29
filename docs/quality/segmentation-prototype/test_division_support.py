@@ -9,6 +9,7 @@ import pytest
 
 from division_support import (
     central_run,
+    closest_to_vote_run,
     cut_sites,
     cut_sites_with_runs,
     most_common_run,
@@ -161,6 +162,27 @@ def test_should_pick_the_division_most_runs_made_when_choosing_the_most_common(s
 
     # Act
     chosen = most_common_run(sets, panel)
+
+    # Assert
+    assert chosen == expected
+
+
+@pytest.mark.parametrize(
+    "voted, panel, expected",
+    [
+        (frozenset({1, 2, 3}), EVERY_RUN, 3),
+        # Runs 3 and 4 are each one cut site from the vote and equally close to
+        # the others: the earlier is taken.
+        (frozenset({1, 2, 3, 4}), EVERY_RUN, 3),
+        # Only the panel's runs are candidates.
+        (frozenset({1, 2, 3}), (0, 1, 2), 2),
+    ],
+)
+def test_should_pick_the_run_nearest_the_voted_division_when_choosing_the_closest_to_the_vote(voted, panel, expected):
+    # Arrange, in the parameters
+
+    # Act
+    chosen = closest_to_vote_run(SITES_PAIR_APART, panel, voted)
 
     # Assert
     assert chosen == expected

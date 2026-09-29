@@ -1,11 +1,12 @@
-"""Three ways a panel of nine deepened runs becomes one division, compared.
+"""Four ways a panel of nine deepened runs becomes one division, compared.
 
 - vote: keep each cut site at least five of the nine runs cut at (the design).
 - most common: take whole the division the most runs made, as grouping does.
 - central: take whole the run closest to the other eight.
+- closest to vote: take whole the run nearest the vote's division.
 
 Two runs make the same division when they cut at the same cut sites, matched
-within the tolerance `division_support.py` sets. The two whole-run methods
+within the tolerance `division_support.py` sets. The three whole-run methods
 never build a division no run made; the vote can.
 
 Each is scored two ways:
@@ -27,6 +28,7 @@ import sys
 from division_support import (
     DIVISIONS,
     central_run,
+    closest_to_vote_run,
     cut_sites_with_runs,
     load_splitting_runs,
     most_common_run,
@@ -38,14 +40,17 @@ from division_support import (
 PANEL = 9
 BAR = 5
 LECTURES = ("l1", "l2", "l3", "l4", "l5", "l6", "l7", "l8")
-METHODS = ("vote", "most common", "central")
+METHODS = ("vote", "most common", "central", "closest to vote")
 
 
 def chosen_sites(method, sites, sets, panel):
     """The cut sites the panel's division keeps, under one method."""
+    mask = sum(1 << run for run in panel)
+    voted = frozenset(i for i, (_, site) in enumerate(sites) if survives(site, mask, BAR))
     if method == "vote":
-        mask = sum(1 << run for run in panel)
-        return frozenset(i for i, (_, site) in enumerate(sites) if survives(site, mask, BAR))
+        return voted
+    if method == "closest to vote":
+        return sets[closest_to_vote_run(sets, panel, voted)]
     pick = most_common_run if method == "most common" else central_run
     return sets[pick(sets, panel)]
 
@@ -102,19 +107,19 @@ def main():
     print(f"\n{pattern}\n")
     print("Stability: cut sites two panels of nine disagree on, mean over every split")
     print("Errors: wanted missed + unwanted cut, mean over every panel of nine; perfect = share with none\n")
-    header = f"{'lecture':>8} " + "".join(f"{m + ' stab':>18}{m + ' err':>16}{'perfect':>9}" for m in METHODS) + f"{'modal made by':>15}"
+    header = f"{'lecture':>8} " + "".join(f"{m + ' stab':>22}{m + ' err':>21}{'perfect':>9}" for m in METHODS) + f"{'modal made by':>15}"
     print(header)
     print("-" * len(header))
     for key, (disagreeing, errors, repeats) in results.items():
         cells = "".join(
-            f"{mean(disagreeing[m]):>18.2f}{mean(errors[m]):>16.2f}"
+            f"{mean(disagreeing[m]):>22.2f}{mean(errors[m]):>21.2f}"
             f"{mean([e == 0 for e in errors[m]]):>9.0%}"
             for m in METHODS
         )
         print(f"{key:>8} {cells}{mean(repeats):>12.1f}/{PANEL}")
     totals = "".join(
-        f"{sum(mean(r[0][m]) for r in results.values()):>18.2f}"
-        f"{sum(mean(r[1][m]) for r in results.values()):>16.2f}"
+        f"{sum(mean(r[0][m]) for r in results.values()):>22.2f}"
+        f"{sum(mean(r[1][m]) for r in results.values()):>21.2f}"
         f"{mean([all(r[1][m][i] == 0 for r in results.values()) for i in range(len(next(iter(results.values()))[1][m]))]):>9.0%}"
         for m in METHODS
     )
