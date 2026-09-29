@@ -130,6 +130,21 @@ function support(site: Site, source: Source): number {
 	return new Set(site.cuts.filter((cut) => cut.source === source).map((cut) => cut.run)).size;
 }
 
+/**
+ * Where one source's vote would cut a site: the position most of its cuts there
+ * chose, the earliest if two tie, as `vote-cut-sites` chooses it.
+ */
+function votedPosition(site: Site, source: Source): number {
+	const counts = new Map<number, number>();
+	for (const cut of site.cuts.filter((each) => each.source === source)) {
+		counts.set(cut.position, (counts.get(cut.position) ?? 0) + 1);
+	}
+	const [position = Number.NaN] = [...counts.entries()]
+		.sort(([leftAt, leftCount], [rightAt, rightCount]) => rightCount - leftCount || leftAt - rightAt)
+		.map(([at]) => at);
+	return position;
+}
+
 function choose(total: number, taken: number): number {
 	let result = 1;
 	for (let index = 1; index <= taken; index += 1) {
@@ -220,6 +235,15 @@ async function compareLecture(
 	const prototypeShare = (site: Site): string =>
 		`${support(site, "prototype")} of ${prototype.runs.length}`;
 	const liveShare = (site: Site): string => `${support(site, "live")} of ${live.length}`;
+	const percent = (site: Site, source: Source, runs: number): string =>
+		`${Math.round((100 * support(site, source)) / runs)}%`;
+	const votedCut = (site: Site): string => {
+		if (!(keptBy(site, "prototype", prototype.runs.length) && keptBy(site, "live", live.length))) {
+			return "—";
+		}
+		const apart = Math.abs(votedPosition(site, "prototype") - votedPosition(site, "live"));
+		return apart === 0 ? "same place" : `**${apart} characters apart**`;
+	};
 	const opening = (site: Site): string => transcript.slice(site.first, site.first + 60);
 	const detail = disagreements.map(
 		(site) =>
@@ -240,7 +264,8 @@ async function compareLecture(
 	const everySite = sites.map(
 		(site) =>
 			`| ${lecture} | ${at(site)} | ${opening(site).replace(/\s+/gu, " ").replace(/\|/gu, "\\|")} | ` +
-			`${prototypeShare(site)} | ${liveShare(site)} | ${keptByWhom(site)} |`,
+			`${prototypeShare(site)} | ${liveShare(site)} | ${percent(site, "prototype", prototype.runs.length)} | ` +
+			`${percent(site, "live", live.length)} | ${keptByWhom(site)} | ${votedCut(site)} |`,
 	);
 	const tests = sites.map((site) => {
 		const hitsA = support(site, "prototype");
@@ -310,10 +335,11 @@ async function main(): Promise<void> {
 		"## Every cut site",
 		"",
 		"Each row is one cut site, in transcript order, with the words the transcript opens with",
-		"there: how many runs of each source cut at it, and who keeps it.",
+		"there: how many runs of each source cut at it, the same as a share of its runs (the bar",
+		"is 56%), who keeps it, and — where both keep it — whether their votes cut at the same character.",
 		"",
-		"| lecture | at | opens with | prototype | live | kept by |",
-		"|---|---|---|---|---|---|",
+		"| lecture | at | opens with | prototype | live | prototype % | live % | kept by | voted cut |",
+		"|---|---|---|---|---|---|---|---|---|",
 		...compared.flatMap((lecture) => lecture.everySite),
 		"",
 	].join("\n");

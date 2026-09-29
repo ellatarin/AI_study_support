@@ -26,31 +26,32 @@ the two cut alike; 0 did. The live panel cuts less often than the prototype at
 ## Every cut site
 
 Each row is one cut site, in transcript order, with the words the transcript opens with
-there: how many runs of each source cut at it, and who keeps it.
+there: how many runs of each source cut at it, the same as a share of its runs (the bar
+is 56%), who keeps it, and — where both keep it — whether their votes cut at the same character.
 
-| lecture | at | opens with | prototype | live | kept by |
-|---|---|---|---|---|---|
-| l6 | 2.7% | And we're going to come back time and time again to this kin | 1 of 18 | 0 of 9 | neither |
-| l6 | 7.2% | So this loss of growth control is a common feature, if you l | 18 of 18 | 9 of 9 | both |
-| l6 | 11.4% | So what does that look like in terms of APC? Because this is | 18 of 18 | 9 of 9 | both |
-| l6 | 15.6% | Similarly, receptor tyrosine kinases, there are a whole bunc | 18 of 18 | 9 of 9 | both |
-| l6 | 21.3% | So we'll move on to something that is slightly less evident  | 18 of 18 | 9 of 9 | both |
-| l6 | 28.9% | But I want you to also to be able to appreciate in the conte | 18 of 18 | 9 of 9 | both |
-| l6 | 35.4% | Okay? So we're going to move on to resistance to apoptosis.  | 18 of 18 | 9 of 9 | both |
-| l6 | 41.7% | So the last one that I will talk about or hallmark that I'm  | 18 of 18 | 9 of 9 | both |
-| l6 | 50.0% | So in order for immortalization to occur, you pretty much ha | 14 of 18 | 5 of 9 | both |
-| l6 | 53.5% | So I just want to say that senescent signaling is what we wo | 18 of 18 | 9 of 9 | both |
-| l6 | 57.7% | Okay? So you'll see that we'll kind of leave this set of fai | 14 of 18 | 8 of 9 | both |
-| l6 | 59.4% | Okay. So we'll move on to metabolism, because this is a very | 17 of 18 | 7 of 9 | both |
-| l6 | 63.6% | So what does that mean in terms of metabolic rewiring? Becau | 13 of 18 | 5 of 9 | both |
-| l6 | 67.1% | Right. So the big question is, is this something that we can | 18 of 18 | 9 of 9 | both |
-| l6 | 73.0% | Similarly for angiogenesis, right, in terms of what that doe | 18 of 18 | 9 of 9 | both |
-| l6 | 76.2% | So the question is, when does it happen in tumor genesis? An | 2 of 18 | 2 of 9 | neither |
-| l6 | 78.9% | And what is the determinant in the tissue? Well, there's thi | 2 of 18 | 2 of 9 | neither |
-| l6 | 80.2% | Okay, so onto the last one. And I'll just have a sip of wate | 18 of 18 | 9 of 9 | both |
-| l6 | 85.1% | So in talking about how a cancer cell would get out of its p | 3 of 18 | 0 of 9 | neither |
-| l6 | 89.3% | But obviously, because the tumors could theoretically go eve | 11 of 18 | 8 of 9 | both |
-| l6 | 91.5% | Okay. So just to say that these metastatic cells that enter  | 12 of 18 | 8 of 9 | both |
-| l6 | 94.7% | So again, we're going back to that question of is there a ge | 15 of 18 | 9 of 9 | both |
-| l6 | 97.7% | So what I also wanted to say and just finish on in terms of  | 18 of 18 | 9 of 9 | both |
-| l6 | 99.8% | All right. And I'm happy to take any questions, and I will s | 1 of 18 | 0 of 9 | neither |
+| lecture | at | opens with | prototype | live | prototype % | live % | kept by | voted cut |
+|---|---|---|---|---|---|---|---|---|
+| l6 | 2.7% | And we're going to come back time and time again to this kin | 1 of 18 | 0 of 9 | 6% | 0% | neither | — |
+| l6 | 7.2% | So this loss of growth control is a common feature, if you l | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l6 | 11.4% | So what does that look like in terms of APC? Because this is | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l6 | 15.6% | Similarly, receptor tyrosine kinases, there are a whole bunc | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l6 | 21.3% | So we'll move on to something that is slightly less evident  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l6 | 28.9% | But I want you to also to be able to appreciate in the conte | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l6 | 35.4% | Okay? So we're going to move on to resistance to apoptosis.  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l6 | 41.7% | So the last one that I will talk about or hallmark that I'm  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l6 | 50.0% | So in order for immortalization to occur, you pretty much ha | 14 of 18 | 5 of 9 | 78% | 56% | both | same place |
+| l6 | 53.5% | So I just want to say that senescent signaling is what we wo | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l6 | 57.7% | Okay? So you'll see that we'll kind of leave this set of fai | 14 of 18 | 8 of 9 | 78% | 89% | both | same place |
+| l6 | 59.4% | Okay. So we'll move on to metabolism, because this is a very | 17 of 18 | 7 of 9 | 94% | 78% | both | **6 characters apart** |
+| l6 | 63.6% | So what does that mean in terms of metabolic rewiring? Becau | 13 of 18 | 5 of 9 | 72% | 56% | both | same place |
+| l6 | 67.1% | Right. So the big question is, is this something that we can | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l6 | 73.0% | Similarly for angiogenesis, right, in terms of what that doe | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l6 | 76.2% | So the question is, when does it happen in tumor genesis? An | 2 of 18 | 2 of 9 | 11% | 22% | neither | — |
+| l6 | 78.9% | And what is the determinant in the tissue? Well, there's thi | 2 of 18 | 2 of 9 | 11% | 22% | neither | — |
+| l6 | 80.2% | Okay, so onto the last one. And I'll just have a sip of wate | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l6 | 85.1% | So in talking about how a cancer cell would get out of its p | 3 of 18 | 0 of 9 | 17% | 0% | neither | — |
+| l6 | 89.3% | But obviously, because the tumors could theoretically go eve | 11 of 18 | 8 of 9 | 61% | 89% | both | same place |
+| l6 | 91.5% | Okay. So just to say that these metastatic cells that enter  | 12 of 18 | 8 of 9 | 67% | 89% | both | same place |
+| l6 | 94.7% | So again, we're going back to that question of is there a ge | 15 of 18 | 9 of 9 | 83% | 100% | both | same place |
+| l6 | 97.7% | So what I also wanted to say and just finish on in terms of  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l6 | 99.8% | All right. And I'm happy to take any questions, and I will s | 1 of 18 | 0 of 9 | 6% | 0% | neither | — |
