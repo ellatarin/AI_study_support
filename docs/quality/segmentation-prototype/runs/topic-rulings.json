@@ -24,11 +24,11 @@
     "notes": {}
   },
   "l4": {
-    "division": "voted-d9-l4-r1to9-k5",
-    "ruledOn": "2026-09-28",
-    "note": "Ruled in three sittings. First subtopic 22, the closing passage on risks versus benefits, from the g6, g11 and g12 runs: its own topic. Then 4 (the carcinogen survey) and 16 (developmental stage), from the g6 and g12 runs: both stay in the topic before. Then 4 changed to a topic start, after seeing that Gemini 3.8 splits there in 6 of 10 g12 runs, following the lecturer's 'I'm going to think a little bit about those environmental mutagens now'. Then 4 set to either: a topic start or not, scored neither way. 2, 7, 9, 14 and 18 were starts most runs made, shown as agreed and not ruled one by one; 7, 9 and 14 are also what the five criteria in runs/criteria.json require.",
-    "topicStarts": [2, 7, 9, 14, 18, 22],
-    "sameTopic": [16],
+    "division": "closest-d13-l4-r1to9-k5",
+    "ruledOn": "2026-09-29",
+    "note": "Ruled in three sittings. First subtopic 22, the closing passage on risks versus benefits, from the g6, g11 and g12 runs: its own topic. Then 4 (the carcinogen survey) and 16 (developmental stage), from the g6 and g12 runs: both stay in the topic before. Then 4 changed to a topic start, after seeing that Gemini 3.8 splits there in 6 of 10 g12 runs, following the lecturer's 'I'm going to think a little bit about those environmental mutagens now'. Then 4 set to either: a topic start or not, scored neither way. 2, 7, 9, 14 and 18 were starts most runs made, shown as agreed and not ruled one by one; 7, 9 and 14 are also what the five criteria in runs/criteria.json require. Moved 2026-09-29 from voted-d9-l4-r1to9-k5 to the closest-run d13 division, where ids 2 to 22 are the same subtopics and 23 (99.3%, the lecture summary and conclusion) is new: the closing topic now starts at 23, and 22, risks versus benefits, stays in the topic before.",
+    "topicStarts": [2, 7, 9, 14, 18, 23],
+    "sameTopic": [16, 22],
     "either": [4],
     "notes": {}
   },
@@ -44,10 +44,10 @@
   },
   "l6": {
     "division": "voted-d9-l6-r1to9-k5",
-    "ruledOn": "2026-09-28",
-    "note": "Ruled from the 20 g6 and g12 runs. 2, 5, 7, 14, 17 and 18 were starts every run made, shown as agreed and not ruled one by one. Of the contested points, 8 and 10 open topics; 9 and 11 stay in the topic before.",
-    "topicStarts": [2, 5, 7, 8, 10, 14, 17, 18],
-    "sameTopic": [9, 11],
+    "ruledOn": "2026-09-29",
+    "note": "Ruled from the 20 g6 and g12 runs. 2, 5, 7, 14, 17 and 18 were starts every run made, shown as agreed and not ruled one by one. Of the contested points, 8 and 10 open topics; 9 and 11 stay in the topic before. Changed 2026-09-29 on reading the g12 runs on the closest-run d13 division: 10, the passage summing up the growth hallmarks and announcing the rest, stays in the topic before, and the metabolism topic opens at 11 (the Warburg effect).",
+    "topicStarts": [2, 5, 7, 8, 11, 14, 17, 18],
+    "sameTopic": [9, 10],
     "either": [],
     "notes": {}
   }
