@@ -1170,11 +1170,11 @@ chooseDivision(args: { text: string; runs: readonly (readonly Subtopic[])[]; bar
 **Input:** `Transcript/transcript.txt`, `Chosen division/subtopics.json`
 **Output:** `Grouping runs/run-01.json` … `run-09.json`, `Topics/topics.json`
 
-Groups the chosen division's subtopics into topics. Grouping varies from run to run more than splitting does — the same subtopics given to the same prompt twice come back grouped differently — so, like splitting, it is done by a panel and the panel's result is kept. The prompt is the prototype's `g12`, carried over word for word; the prototype also held a variant that shows the model each subtopic's label, and only the form without labels is carried over. Its model is set per stage (§6); the prototype's is `google/gemini-3.7-flash`.
+Groups the chosen division's subtopics into topics. Grouping varies from run to run more than splitting does — the same subtopics given to the same prompt twice come back grouped differently — so, like splitting, it is done by a panel and the panel's result is kept. The prompt is the prototype's `g12`, carried over word for word in the form that shows the model each subtopic's label; the prototype also held a form without labels, and it is not carried over, because every grouping measured on the `d13` division was made with labels. Its model is set per stage (§6); the prototype's is `google/gemini-3.7-flash`.
 
 This build groups only. One further job belongs to this stage and is not yet designed: judging whether the lecturer's title is meaningful. Each subtopic already has its title, the one the chosen run gave it.
 
-**One grouping run.** The model is sent the chosen division's subtopics in order, each as its position (counting from 1) and its full text, trimmed; never its label. It replies with a list of topics, each a label, a one-sentence `groupedBecause`, and the position of its first subtopic, so a topic can only begin where a subtopic does and the text cannot be touched. A reply is valid when the first topic starts at subtopic 1, the starts rise strictly, and every start is a subtopic that exists — which also means no topic is empty. Anything else is a wrong shape and takes the panel's retry (§5, "Dividing the transcript", Panel runs). Each run is saved as the model's reply, `groupedBecause` included: the prompt asks for it because stating why subtopics belong together is how the model tests a grouping, and the file is what a relaunch reads back.
+**One grouping run.** The model is sent the chosen division's subtopics in order, each as its position (counting from 1), its label, and its full text, trimmed. It replies with a list of topics, each a label, a one-sentence `groupedBecause`, and the position of its first subtopic, so a topic can only begin where a subtopic does and the text cannot be touched. A reply is valid when the first topic starts at subtopic 1, the starts rise strictly, and every start is a subtopic that exists — which also means no topic is empty. Anything else is a wrong shape and takes the panel's retry (§5, "Dividing the transcript", Panel runs). Each run is saved as the model's reply, `groupedBecause` included: the prompt asks for it because stating why subtopics belong together is how the model tests a grouping, and the file is what a relaunch reads back.
 
 **The modal grouping.** The panel's result is the grouping the most runs made (CONTEXT.md, "Modal grouping"). Two runs made the same grouping when their topics start at the same subtopics, whatever they named them; names never repeat word for word, so comparing them would make every run unique. The result is one run's grouping, taken whole — never assembled start by start, which could produce a grouping no run made.
 
@@ -1184,7 +1184,7 @@ When two or more groupings tie for most runs — including when no grouping repe
 
 **Configuration.** `panelSize` (9) lives in a required `grouping` section of `pipeline-config.json`, separate from the division's: the two are equal today by coincidence, and one may be tuned without the other.
 
-The stage fails when the voted subtopics are missing or unreadable, and when a run fails its third send.
+The stage fails when the chosen division's subtopics are missing or unreadable, and when a run fails its third send.
 
 ```typescript
 // src/pipeline/stages/define-topics/modal-grouping.ts

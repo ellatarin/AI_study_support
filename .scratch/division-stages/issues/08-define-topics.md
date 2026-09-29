@@ -6,7 +6,7 @@
 
 **Status:** ready-for-agent
 
-- [ ] Each grouping run sends the chosen division's subtopics, each with its full text and id and no label, with the prototype's `g12` prompt in its no-labels form, byte-identical.
+- [ ] Each grouping run sends the chosen division's subtopics, each with its id, label and full text, with the prototype's `g12` prompt in its labels form, byte-identical.
 - [ ] A reply is valid when its topics start at subtopic 1, ascend, stay in range, and no topic is empty; anything else is a failed send (ticket 04's retries, then the stage fails).
 - [ ] `panelSize` (9) comes from a new required `grouping` settings section, added to the settings, the example file and the user's own file; the stage's model is set per stage, `google/gemini-3.7-flash` in the example.
 - [ ] The modal grouping is chosen: runs with the same topic starts are the same grouping, whatever they named them; ties go to the tied run with the smallest total disagreement with all other runs (disagreement between two runs being the count of subtopics where one starts a topic and the other does not), then to the earliest run.

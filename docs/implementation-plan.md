@@ -741,7 +741,7 @@ Stage tests:
 
 **Deliverables:**
 
-`src/pipeline/stages/define-topics/` **(TD §5, `define-topics`)** — the stage, its prompt module (the prototype's `g12` without labels, byte for byte), and `modal-grouping.ts` with `chooseGrouping`. Added to `lectureStages`.
+`src/pipeline/stages/define-topics/` **(TD §5, `define-topics`)** — the stage, its prompt module (the prototype's `g12` with labels, byte for byte), and `modal-grouping.ts` with `chooseGrouping`. Added to `lectureStages`.
 
 The required `grouping` section — `panelSize` — in `PipelineConfig`, its validation, the example config and the user's own; the stage's entry in the example config **(TD §6)**.
 
