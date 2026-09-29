@@ -99,6 +99,22 @@ function liveDirectoryOf(transcriptPath: string): string {
 	return join(dirname(dirname(transcriptPath)), PASS.liveDirectory);
 }
 
+/** How many runs the stage's panel holds. */
+const LIVE_PANEL_SIZE = 9;
+
+/**
+ * Whether the stage has saved its whole panel for a lecture. A panel still
+ * being made is left out, since its missing runs would read as sites not cut.
+ */
+async function hasFullLivePanel(transcriptPath: string): Promise<boolean> {
+	const directory = liveDirectoryOf(transcriptPath);
+	if (!existsSync(directory)) {
+		return false;
+	}
+	const runs = (await readdir(directory)).filter((name) => /^run-\d+\.json$/u.test(name));
+	return runs.length === LIVE_PANEL_SIZE;
+}
+
 /** Each live run's cut positions, from the stage's run files in the lecture's workspace. */
 async function liveRuns(transcriptPath: string): Promise<number[][]> {
 	const directory = liveDirectoryOf(transcriptPath);
@@ -308,7 +324,7 @@ function chanceSection(tests: readonly SiteTest[]): string[] {
 async function main(): Promise<void> {
 	const compared: LectureComparison[] = [];
 	for (const lecture of LECTURES) {
-		if (existsSync(liveDirectoryOf(await transcriptPathOf(lecture)))) {
+		if (await hasFullLivePanel(await transcriptPathOf(lecture))) {
 			compared.push(await compareLecture(lecture));
 		}
 	}
