@@ -155,8 +155,6 @@ describe("createInitialSubtopicSplittingStage", () => {
 		{ problem: "not a list", contents: { start: 0 } },
 		{ problem: "a subtopic without its reason", contents: [{ start: 0, end: 1, label: "L" }] },
 	])("should fail when a saved run holds $problem", async ({ contents }) => {
-		// Calls never answer, so no run in flight writes a file after the stage fails.
-		completionMock.mockReturnValue(new Promise(() => undefined));
 		await leaveFirstRun(contents);
 		expect(await captureError(run())).toBeInstanceOf(SavedRunUnreadableError);
 	});
