@@ -120,6 +120,43 @@ def cut_sites_with_runs(runs):
     return out
 
 
+def site_sets(sites, run_count):
+    """Each run's division as the set of cut sites it cuts at, indexed as `sites` lists them.
+
+    `sites` comes from `cut_sites_with_runs`. Two runs make the same division
+    when their sets are equal, which is what lets a panel be read as a whole
+    division per run rather than as cut sites voted one at a time.
+    """
+    return [
+        frozenset(index for index, (_, mask) in enumerate(sites) if mask >> run & 1)
+        for run in range(run_count)
+    ]
+
+
+def distance_to_others(sets, panel, run):
+    """Cut sites that differ between one run and each of the panel's others, summed."""
+    return sum(len(sets[run] ^ sets[other]) for other in panel if other != run)
+
+
+def central_run(sets, panel):
+    """The panel's run whose division is closest to the others'; the earliest on a tie."""
+    return min(panel, key=lambda run: (distance_to_others(sets, panel, run), run))
+
+
+def most_common_run(sets, panel):
+    """A run making the division most of the panel's runs made.
+
+    When several divisions are made equally often, the one closest to the other
+    runs wins, and the earliest run on a further tie — the rule the grouping
+    panel was settled on, so a panel never ends on an arbitrary pick.
+    """
+    made = collections.Counter(sets[run] for run in panel)
+    return min(
+        panel,
+        key=lambda run: (-made[sets[run]], distance_to_others(sets, panel, run), run),
+    )
+
+
 def voted_cuts(runs, length, bar):
     """Where the vote cuts the transcript, in characters.
 
