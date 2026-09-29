@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.58-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.59-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-09-29
 **Status:** For review
 
@@ -571,7 +571,7 @@ patchManifest(args: { workspaceRoot: string; manifest: RunManifest; changes: Par
 // entry, so the manifest and the entry inside it name one moment.
 ```
 
-Each stage entry records `configUsed` — a `StageRunConfig` capturing the model ID and tuning parameters (temperature, max tokens, concurrency, max QA iterations) actually resolved for that run, or `null` for stages that make no LLM calls. This lets spend be attributed to a specific model and configuration and lets model experiments be compared (NFR-3.2). The run logs (§4.6) record the same `configUsed` per attempt.
+Each stage entry records `configUsed` — a `StageRunConfig` capturing the model ID and tuning parameters (temperature, max tokens, concurrency, calls at once, max QA iterations) actually resolved for that run, or `null` for stages that make no LLM calls. This lets spend be attributed to a specific model and configuration and lets model experiments be compared (NFR-3.2). The run logs (§4.6) record the same `configUsed` per attempt.
 
 ```jsonc
 {
@@ -833,7 +833,7 @@ The context is **rebuilt between stages** rather than assembled once for the run
 
 **Counting a batch's scope.** `countLectures({ moduleRoots })` reports how many lectures stand across those modules, applying the same reading as the batch itself: a folder holding no manifest is not a lecture, and a module the pipeline has never processed holds none. It exists because the `--from-stage` confirmation has to state a number the user has no other way of knowing, and it is called only on that path — the scan it costs is not something an ordinary batch should pay for. Sources are normalised before it runs, so a lecture whose video and slides were only just added is counted; the batch is about to run it either way.
 
-**Batch mode:** `runBatch({ moduleRoots })` normalises every listed module, then processes every lecture across them. The CLI passes an array of one for `batch <moduleRoot>` and the full `config.moduleRoots` for `batch` (no argument). Modules processed in the order given; lectures within a module in date order. Sequential by default; `--concurrency N` runs that many lectures at once, drawn from a single global queue rather than per module — with modules in order, a global queue keeps every worker busy where a per-module one would idle at each module boundary. Because lectures from different modules may therefore be in flight together, the per-module and cross-module summaries are printed once the batch completes rather than as each module finishes (§7).
+**Batch mode:** `runBatch({ moduleRoots })` normalises every listed module, then processes every lecture across them. The CLI passes an array of one for `batch <moduleRoot>` and the full `config.moduleRoots` for `batch` (no argument). Modules processed in the order given; lectures within a module in date order. How many lectures run at once is the config's `batch.concurrency` (§6); `--concurrency N` overrides it for one command. Lectures are drawn from a single global queue rather than per module — with modules in order, a global queue keeps every worker busy where a per-module one would idle at each module boundary. Because lectures from different modules may therefore be in flight together, the per-module and cross-module summaries are printed once the batch completes rather than as each module finishes (§7).
 
 **`cost-report` command:** Reads the run logs of every lecture across the configured `moduleRoots` and renders one three-section report per lecture, each headed by the lecture it covers — what its outputs on disk cost, what its failures and retries cost, and its model experiments grouped for comparison (see §7). Figures are per stage throughout; nothing is summed across stages, runs, lectures or modules (NFR-2.2). The reports are handed back for the CLI to write (§8). Narrowed by `--date` (via `resolveLecturesByDate`, with the same multi-match prompt) or `--module <moduleRoot>`. Where the scope holds no lecture, the command says so and succeeds.
 
@@ -1066,6 +1066,7 @@ These three stages and `define-topics` (below) run after transcription and befor
 **Panel runs.** The two splitting stages and `define-topics` each make a panel of independent runs, and share one behaviour around the model call:
 
 - Runs are made a few at a time, as many at once as the stage's `concurrency` setting (§6) allows; unset, they are made one at a time.
+- Once a run fails, no further run is started. Runs already in flight are let finish, and are saved, before the stage fails, so what they cost is not paid again on relaunch.
 - Each run is saved to its own file the moment it is complete, so a crash loses only the runs in flight.
 - A relaunched stage reads the runs already saved and makes only the missing ones. A saved run file that cannot be read is a named error rather than a run to remake: the file was written whole or not at all (§4.3), so an unreadable one means something outside the pipeline changed it.
 - A reply that is empty, is not JSON, or is the wrong shape is sent again after a pause that grows with each attempt, up to three sends. Empty replies are the common case: a provider occasionally answers with success and no content, and a plain resend has always worked. After the third failure the stage fails with an error naming the run and the last cause. A stage never goes on with fewer runs than its panel, because a missing run changes what the vote or the modal grouping means.
@@ -1078,7 +1079,7 @@ The retry sits above the SDK's own, which retries only failures at the HTTP leve
 
 **Finding a quote.** A quote is searched for with case and whitespace ignored, forward from the previous cut, because the model tidies capitalisation and spacing even when told not to. The cut is made in the original text at the matching position. When the quote begins one or two words into its sentence — the model having dropped the lecturer's opening "So", "Now" or similar — the cut moves back to the start of the sentence, so no subtopic ends halfway through one. A quote that cannot be found is never guessed at.
 
-**Configuration.** Each of the two model-calling stages has its own model and `concurrency`, as every stage does (§6); the prototype's model is `google/gemini-3.7-flash`. The division's own settings live in one required `division` section of `pipeline-config.json`: `panelSize` (9), `bar` (5, the number of the panel's runs a cut site needs), and `sizeGateWords` (600). The tolerance within which two cuts are one cut site — one percent of the transcript's length — is fixed in code, not configured: it is a measured property of how runs disagree, not a choice.
+**Configuration.** Each of the two model-calling stages has its own model and `concurrency`, as every stage does, and `deepen-subtopic-splitting` also has `callConcurrency` (§6); the prototype's model is `google/gemini-3.7-flash`. The division's own settings live in one required `division` section of `pipeline-config.json`: `panelSize` (9), `bar` (5, the number of the panel's runs a cut site needs), and `sizeGateWords` (600). The tolerance within which two cuts are one cut site — one percent of the transcript's length — is fixed in code, not configured: it is a measured property of how runs disagree, not a choice.
 
 #### `initial-subtopic-splitting`
 
@@ -1100,7 +1101,7 @@ For each initial run, every subtopic over the size gate is sent on its own with 
 
 A call that fails — no reply, not JSON, the wrong shape — takes the panel's retry, and a subtopic that fails all three sends fails the stage. Leaving it whole would record "this subtopic is one step", which the model never said, and the vote would count it.
 
-Calls are made a few at a time rather than all at once, bounded by the stage's `concurrency`: one run can have a dozen subtopics over the gate, and nine runs sent together overload the provider. Each deepened run is saved as soon as it is complete, and a relaunched stage makes only the missing ones.
+Within a run, the subtopics of a round are sent together, as many at once as the stage's `callConcurrency` allows (§6); unset, one at a time. Each reply is put back in its subtopic's place, so how many are sent at once never changes the deepened run. The second round waits for the first, because it sends what the first round left. Runs are bounded separately by the stage's `concurrency`, so at most `concurrency` × `callConcurrency` calls are in flight: one run can have a dozen subtopics over the gate, and too many calls at once overload the provider. When a subtopic fails every send, no further subtopic of that run is sent; the calls already in flight are let finish before the stage fails. Each deepened run is saved as soon as it is complete, and a relaunched stage makes only the missing ones.
 
 #### `vote-cut-sites`
 
@@ -1583,7 +1584,9 @@ OpenRouter's own parameter reference states that JSON mode requires the prompt t
 
 **A rejection can arrive inside an accepted reply.** OpenRouter answers some upstream failures with HTTP 200 and a body carrying `{"error": {…}}` where the choices should be, which the SDK reports as a success. The provider's own sentence is the only account of what happened — it says whether the failure is transient and whether retrying is the remedy — so an accepted reply carrying one is a `CompletionRejectedError` quoting it beside the stage and the model, and is recorded on the stage's logger at `debug`. It is reported, never retried: the reply may already have been billed, so what to do about a busy provider is the caller's decision rather than this module's. A reply carrying neither choices nor an explanation is the `NoCompletionChoicesError` above.
 
-**A tuning parameter can be left unset out loud.** Every optional field of a stage entry — `temperature`, `maxTokens`, `concurrency`, `maxIterations` — may be written as `null`, which means what leaving the key out means: the request carries no such parameter. There are two ways to say it because the choice is worth writing down. Under the routing restriction above, the parameters a request carries decide which endpoints may serve it, and providers differ in what they accept — the same model reached through one provider takes a `temperature` and through another does not. Which tuning a stage sets is therefore part of choosing what can answer it, and a `null` records a deliberate omission beside the tuning that is set, where a missing key reads as an oversight.
+**A tuning parameter can be left unset out loud.** Every optional field of a stage entry — `temperature`, `maxTokens`, `concurrency`, `callConcurrency`, `maxIterations` — may be written as `null`, which means what leaving the key out means: the request carries no such parameter. There are two ways to say it because the choice is worth writing down. Under the routing restriction above, the parameters a request carries decide which endpoints may serve it, and providers differ in what they accept — the same model reached through one provider takes a `temperature` and through another does not. Which tuning a stage sets is therefore part of choosing what can answer it, and a `null` records a deliberate omission beside the tuning that is set, where a missing key reads as an oversight.
+
+**Three settings say how much runs at once.** `batch.concurrency` is how many lectures a batch runs at once (§4.7). A stage's `concurrency` is how many of its runs, slides or images are in flight at once. `callConcurrency` is how many calls one run makes at once, and only `deepen-subtopic-splitting` has one: it is the only stage whose run makes more than one call (§5, `deepen-subtopic-splitting`). Set on any other stage it would be read by nothing, so it is a `ConfigError` at startup naming the stage, rather than a setting that silently does nothing. Unset, runs and calls are each made one at a time.
 
 **A stage key names a stage.** Every key of the `stages` section is checked against the stage IDs, and one that names no stage is a `ConfigError` at startup listing the stages it could have named. Configuration reaches a stage by its key alone, so this check is what makes "the stage is configured" and "the config file mentions the stage" the same statement.
 
@@ -1610,6 +1613,8 @@ Each prefix is matched literally, so one carrying a pattern character means itse
 **`output.language` is a closed set, and every stage that writes prose obeys it.** The tag is checked at load against `OUTPUT_LANGUAGES`, which maps each tag to the name a prompt calls it by; a tag with no name is refused at startup, listing the ones it could have been. The pairing is the point — "Write in en-GB" is not an instruction a model can follow, so a language cannot be offered in config without wording for the prompts to use. `languageRule` in `src/utils/language.ts` builds that sentence, and every prose stage's prompt includes it rather than wording the rule itself, so the stages cannot drift into instructing the model differently. `transcript-structuring` is the only such stage built; `transcript-verification`, `slide-conversion`, `image-extraction` and `synthesis` join it as they are.
 
 **The division and grouping settings are required sections.** `division` and `grouping` carry the panel sizes, the bar and the size gate (§5, "Dividing the transcript" and `define-topics`). Like every other section they must be present, and a missing or mistyped field is a `ConfigError` at startup. The bar may not exceed the division's panel size, since no cut site could then be kept. Each is a whole number of at least 1.
+
+**So is the batch section.** `batch.concurrency` is how many lectures `batch` runs at once, a whole number of at least 1, and `--concurrency N` overrides it for one command (§4.7). It is required rather than defaulted so the file says how wide a batch runs; the example sets 1.
 
 **ElevenLabs cost rate.** The Scribe API returns no price with a transcript, so `elevenLabs.costPerAudioHourUsd` supplies the rate `transcription` multiplies by the audio's duration to attribute transcription spend (§7). Set it from the ElevenLabs plan in force; it is a billing figure that changes independently of this codebase, which is why it is configuration rather than a constant. The single rate is accurate for the call this pipeline makes — batch Scribe v2 with no diarization, entity detection, or keyterm prompting, each of which ElevenLabs bills as a surcharge on top of the base hourly rate. Enabling any of those later means revisiting this figure, since one number can no longer describe the call.
 
@@ -1648,7 +1653,8 @@ Each prefix is matched literally, so one carrying a pattern character means itse
     },
     "deepen-subtopic-splitting": {
       "modelId": "<FAST_LONG_CONTEXT_MODEL>",     // called once per oversized subtopic
-      "concurrency": 3
+      "concurrency": 6,
+      "callConcurrency": 10                       // calls in flight at once within one run; this stage only
     },
     "define-topics": {
       "modelId": "<FAST_LONG_CONTEXT_MODEL>",     // called once per grouping run with every subtopic's text
@@ -1690,6 +1696,9 @@ Each prefix is matched literally, so one carrying a pattern character means itse
   },
   "grouping": {
     "panelSize": 9                     // grouping runs per lecture
+  },
+  "batch": {
+    "concurrency": 1                   // lectures a batch runs at once; --concurrency N overrides it
   },
   "naming": {
     // stripped from a filename before it becomes a title; one module may be listed more than once,

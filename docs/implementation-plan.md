@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.58-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.59-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-09-29
 **Status:** For review
 
@@ -664,6 +664,34 @@ Tests for the shared pieces: `isDivision` and `isReplySubtopic` (`test.each`, in
 **Live run:** on the Phase 10 lecture, comparing deepened subtopic counts with the prototype's `d13` range.
 
 **Acceptance:** Every initial run gains a deepened run, with no subtopic over the gate unless two rounds could not divide it; the live run falls within range; the user has read the side-by-side view.
+
+### Phase 11, continued — how much runs at once
+
+**Goal:** Deepen a lecture in a minute or two rather than six, and say in the config how much of every kind runs at once **(TD §6, "Three settings say how much runs at once")**.
+
+**Deliverables:**
+
+- `callConcurrency` on a stage entry, read by `deepen-subtopic-splitting` alone: a round's subtopics are sent that many at once, their replies kept in the subtopics' order, and the second round waits for the first **(TD §5, `deepen-subtopic-splitting`)**. Set on any other stage, it is a `ConfigError`.
+- The required `batch` section with `concurrency`, in `PipelineConfig`, its validation, `pipeline-config.example.json` and the user's own `pipeline-config.json`. `batch` takes it from the config when `--concurrency` is not given **(TD §4.7)**.
+- `mapWithConcurrency` starts no further task once one has failed, and fails only after the tasks in flight have finished, so no call is left running unobserved after its stage has failed **(TD §5, Panel runs)**.
+- In the example config and the user's own, `deepen-subtopic-splitting` at `concurrency` 6 and `callConcurrency` 10.
+
+**Tests:**
+
+Unit tests for `mapWithConcurrency`:
+- `should start no further task when one fails`
+- `should let the tasks in flight finish before failing when one fails`
+
+Unit tests for the stage (mock `makeCompletionCall`):
+- `should have at most $expected calls in flight in one run when callConcurrency is $callConcurrency` — `test.each`, unset included (one at a time)
+- `should give the same deepened run whatever order the replies arrive in`
+
+Config tests — rows added to the existing `should throw ConfigError when $case` table: the batch section missing; `batch.concurrency` missing, not a whole number, or below 1; `callConcurrency` set on a stage other than `deepen-subtopic-splitting`.
+
+CLI tests:
+- `should run $expected lectures at once when $case` — `test.each` across the config alone and `--concurrency` overriding it
+
+**Acceptance:** The live lecture 6 deepening, rerun at 6 × 10, gives a panel within the prototype's range in a fraction of the time.
 
 ---
 
