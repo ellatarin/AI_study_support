@@ -1,0 +1,20 @@
+{
+  "promptVersion": "d9",
+  "source": "split-s6-l8-18",
+  "lecture": "l8",
+  "instance": "18",
+  "modelId": "google/gemini-3.7-flash",
+  "gateWords": 600,
+  "laterRounds": "cut-pieces",
+  "seconds": 26,
+  "sectionsSent": 10,
+  "heldAsOneStep": 4,
+  "cutsUnplaced": 0,
+  "retries": 0,
+  "promptTokens": 32383,
+  "completionTokens": 13990,
+  "calls": 10,
+  "subtopicsBefore": 13,
+  "subtopicsAfter": 21,
+  "fidelity": "EXACT"
+}
