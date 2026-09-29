@@ -4,7 +4,7 @@
 
 **Blocked by:** 05
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 - [x] Each subtopic over `sizeGateWords` (600, counted by code) is sent on its own with the prototype's `d13` prompt, byte-identical; subtopics at or under the gate are never sent.
 - [x] The reply is either "one step" or a list of cuts; each cut is looked for only inside the subtopic it was proposed for, so deepening adds cuts but never moves or removes one.
@@ -14,7 +14,7 @@
 - [x] Every deepened run's subtopics joined in order equal the transcript character for character.
 - [x] `sizeGateWords` (600) is added to the `division` settings section; the stage's model is set per stage.
 - [x] **Live run:** the stage runs for real on one lecture (cost stated first); its deepened subtopic counts fall within the prototype's `d13` range on that lecture.
-- [ ] **Side by side with the prototype, in place of a replay:** the prototype saved its deepened runs but not the replies that made them, so nothing can be replayed. A one-off script sets the live deepened runs beside the prototype's for that lecture, subtopic by subtopic, and the user reads them.
+- [x] **Side by side with the prototype, in place of a replay:** the prototype saved its deepened runs but not the replies that made them, so nothing can be replayed. A one-off script sets the live deepened runs beside the prototype's for that lecture, subtopic by subtopic, and the user reads them.
 - [x] The side-by-side script and its output stay in the prototype folder.
 
 ## Comments
@@ -45,3 +45,8 @@
 - 119 calls, 407,010 tokens in and 136,093 out, about 9 minutes at 3 runs at once, one call at a time within a run. Cost again n/a: every lookup returned 404 (issue #10).
 - `LIVE-DEEPENED-SPLITTING.md` regenerated from these runs for the user to read.
 - Built since: `callConcurrency` (calls at once within a run, deepening only), `batch.concurrency` in the config, and the user's config set to 6 runs × 10 calls. Not yet run live at those settings.
+
+2026-09-29, closed:
+
+- All eight lectures deepened live at 6 runs × 10 calls, about 2 minutes a lecture. Against the prototype's `d13` runs, 133 of 166 cut sites are kept by both panels and 2 (lecture 8, 11.0 and 13.9) by one only; 3 sites differ beyond chance where about 8 would by chance alone (`LIVE-DEEPENED-SPLITTING.md`).
+- The user read the side-by-side view and went further: per-run vote grids, the full transcripts with titles, and a ruling on every contentious site, now in `runs/divisions.json`.
