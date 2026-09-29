@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "This subtopic frames the lecture by outlining its focus on the molecular and cellular mechanisms governing the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Innate Immune Recognition: PAMPs, DAMPs, and Non-Self Discrimination",
+      "groupedBecause": "These subtopics explain how the innate immune system senses microbial infection and tissue damage using conserved molecular signatures that distinguish self from non-self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-Like Receptors: Localization, Function, and Signaling Cascades",
+      "groupedBecause": "These subtopics detail the genomic hardwiring, compartment-specific localization, and intracellular signaling pathways of Toll-like receptors.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cytosolic Pattern Recognition and the Inflammasome Pathway",
+      "groupedBecause": "These subtopics examine intracellular sensing families and the assembly of multiprotein inflammasome complexes required for activating mature inflammatory cytokines.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "The Inflammatory Cascade: Sentinel Activation, Leukocyte Extravasation, and Systemic Effects",
+      "groupedBecause": "These subtopics follow the progression of the inflammatory response from sentinel cell signaling and leukocyte recruitment to lymphatic drainage and systemic hyperinflammatory complications.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Containment",
+      "groupedBecause": "These subtopics describe the passive and active mechanisms that extinguish inflammation, guide wound healing, and manage persistent pathogens through granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Closing",
+      "groupedBecause": "This subtopic provides the concluding remarks and previews the upcoming lecture topic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

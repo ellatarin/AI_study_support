@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of complement",
+      "groupedBecause": "This subtopic introduces the lecture, providing context on the complexity and immunological importance of the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations and central mechanism of the complement system",
+      "groupedBecause": "These subtopics establish the core principles, nomenclature rules, and the central role of C3 cleavage in complement function.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the biochemical recognition pathways that initiate complement and drive it toward an activation threshold on target surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics describe the downstream biological mechanisms through which activated complement targets and destroys pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "This subtopic explains the regulatory proteins and inhibitory mechanisms that protect host cells from unintended complement destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic examines the distinct medical pathologies and infection risks that result from genetic or acquired complement deficiencies.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of the complement system",
+      "groupedBecause": "This subtopic details the evolutionary strategies and specific molecular mechanisms pathogens use to resist complement activity.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview",
+      "groupedBecause": "This subtopic concludes the discussion on complement and outlines the topic for the subsequent lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

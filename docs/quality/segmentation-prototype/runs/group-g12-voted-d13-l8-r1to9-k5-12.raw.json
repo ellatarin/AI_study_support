@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture and sets out the learning objectives regarding cancer therapy modalities.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics cover traditional treatment modalities including surgery, radiotherapy, and cytotoxic chemotherapy along with general mechanisms of drug toxicity and efflux-mediated resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic cellular vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics describe therapeutic strategies that exploit cancer-specific vulnerabilities, such as hormone dependence, cell cycle checkpoint failures, and synthetic lethality in defective DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase inhibitors, oncogene addiction, and resistance mechanisms",
+      "groupedBecause": "These subtopics focus on small-molecule inhibitors targeting oncogenic driver kinases and the molecular mechanisms underlying acquired drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics address targeted antibody therapies that recognize cancer cell-surface antigens to inhibit oncogenic signaling, trigger cytotoxicity, or deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and cellular immunotherapies",
+      "groupedBecause": "These subtopics explore tumor immune surveillance and advanced immunotherapeutic strategies that reactivate or engineer T cells to target cancer cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical perspectives, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics evaluate broader clinical challenges, historical mortality trends, and future paradigms in managing cancer and evaluating new therapeutics.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

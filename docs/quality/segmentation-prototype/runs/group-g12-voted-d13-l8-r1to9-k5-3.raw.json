@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final session of the course and sets out the learning objectives for cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics examine the mechanisms, clinical utility, and resistance pathways associated with conventional cancer treatments such as surgery, radiation, and cytotoxic chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic cancer cell vulnerabilities and defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies designed to exploit inherent cancer cell vulnerabilities, including hormone dependence, cell cycle checkpoint defects, and synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase inhibitors and mechanisms of targeted drug resistance",
+      "groupedBecause": "These subtopics detail the targeting of hyperactive oncogenic kinases with small-molecule inhibitors and the molecular bypass mechanisms that drive drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe engineered monoclonal antibodies and antibody-drug conjugate strategies used to target surface antigens on tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-directed therapies",
+      "groupedBecause": "These subtopics examine how endogenous and engineered immune mechanisms are harnessed to detect and eliminate tumor cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical challenges, historical progress, and future paradigms",
+      "groupedBecause": "These subtopics reflect on historical mortality trends, current translational dilemmas, and future strategies in oncology management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

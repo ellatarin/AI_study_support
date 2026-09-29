@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the learning objectives, and frames the central question of what causes cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, mutation sources, and epidemiological risk",
+      "groupedBecause": "These subtopics establish the conceptual framework of cancer development by examining how intrinsic biological mutations, environmental exposures, and population-level epidemiological variations shape cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and viral mechanisms in carcinogenesis",
+      "groupedBecause": "These subtopics examine how bacterial, parasitic, and viral pathogens contribute to malignant transformation, illustrated through the multi-factorial case of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and xenobiotic metabolic activation",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which dietary toxins, UV radiation, and environmental chemicals undergo metabolic activation to induce DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host susceptibility, and multi-step carcinogenesis",
+      "groupedBecause": "These subtopics explore the role of non-mutagenic promoters, chronic inflammation, and developmental stage-specific tissue susceptibility in driving tumor outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Experimental and epidemiological methods for assessing carcinogenicity",
+      "groupedBecause": "These subtopics present the genomic signatures, epidemiological cohort designs, and in vivo and in vitro testing methods used to identify carcinogen exposure and evaluate carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk-benefit evaluation",
+      "groupedBecause": "This subtopic concludes the lecture by framing everyday carcinogenic risk and exposure decisions within a practical risk-versus-benefit perspective.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

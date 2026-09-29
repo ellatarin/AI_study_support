@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for cancer hallmarks",
+      "groupedBecause": "The lecturer introduces the lecture, outlines the learning outcomes, and establishes the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal independence and oncogenic signaling pathways",
+      "groupedBecause": "These subtopics explain how mutations in cell surface receptors and downstream signaling cascades drive sustained proliferative signaling and growth factor independence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics examine how an arrest in terminal cell differentiation prevents cycle exit and promotes oncogenesis in hematopoietic and intestinal tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explores how cancer cells evade programmed cell death through p53 pathway inactivation and altered balance of Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and growth control limits",
+      "groupedBecause": "These subtopics address telomere biology, mechanisms for bypassing senescence via telomerase upregulation, p53-mediated stress surveillance, and the transition out of cell-intrinsic growth control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming in cancer",
+      "groupedBecause": "These subtopics analyze altered cancer energetics, including aerobic glycolysis, tissue-of-origin metabolic profiles, and Krebs cycle mutations generating oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explains how growing tumors overcome diffusion limits by shifting the balance of regulatory factors to stimulate new blood vessel formation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion, metastasis, and secondary tumor colonization",
+      "groupedBecause": "These subtopics detail the metastatic cascade, tracking dissemination with circulating tumor cells, microenvironmental compatibility in the seed and soil model, and the genomic features of metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "The lecturer concludes the session with summary observations on the hallmarks of cancer and practical housekeeping.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

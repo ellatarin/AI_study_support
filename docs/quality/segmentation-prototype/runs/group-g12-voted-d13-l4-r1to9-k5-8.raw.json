@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces herself, contextualises the lecture within the pathology course, and outlines the primary learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, environmental, and epidemiological factors in cancer risk",
+      "groupedBecause": "These subtopics introduce the core concepts of cancer development by examining how endogenous mutations, inherited predispositions, environmental exposures, and geographic variations shape overall cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and oncogenesis",
+      "groupedBecause": "These subtopics explain the oncogenic mechanisms of infectious pathogens and illustrate them with the multi-factorial viral etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical, dietary, and physical carcinogens",
+      "groupedBecause": "These subtopics examine how specific physical, dietary, and environmental chemical exposures cause DNA damage directly or via xenobiotic metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host susceptibility, and carcinogenesis mechanisms",
+      "groupedBecause": "These subtopics differentiate tumor promoters from direct mutagens, exploring how chronic inflammation, cellular signaling, host developmental stage, and tissue context facilitate tumor development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics present the primary genomic, epidemiological, in vivo, and in vitro scientific methodologies used to detect and evaluate carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion and risk-benefit considerations",
+      "groupedBecause": "The lecturer concludes the session with summary remarks reflecting on everyday decisions balancing carcinogenic risk against practical benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture series context and outlines the key learning outcomes regarding cancer evolution.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms of clonal evolution",
+      "groupedBecause": "These subtopics explain how pre-malignant tissues undergo clonal selection through successive genetic mutations and epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and cancer stem cell models",
+      "groupedBecause": "These subtopics explore the role of cellular differentiation hierarchies and evaluate evidence for cancer stem cells across hematological and intestinal tissues.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion and stromal dependency",
+      "groupedBecause": "These subtopics examine how external promoters, chronic inflammation, and supportive stroma cooperate with mutations to drive tumor growth and progression.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Technologies for analyzing tumor evolution and architecture",
+      "groupedBecause": "This subtopic details the genomic, transcriptomic, and spatial technologies used to resolve tumor heterogeneity and evolutionary trajectories.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated evolutionary model of tumorigenesis",
+      "groupedBecause": "This subtopic synthesizes the interplay among mutational burden, cell-of-origin properties, and microenvironmental conditions required for malignant outgrowth.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion and next steps",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

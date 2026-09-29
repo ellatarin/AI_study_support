@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the administrative welcome and outlines the learning objectives for the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and non-targeted resistance mechanisms",
+      "groupedBecause": "These subtopics address standard non-targeted treatment modalities, including surgical intervention, radiation, and cytotoxic chemotherapy, alongside systemic toxicities and efflux pump-mediated resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics examine therapeutic strategies that exploit inherent biological dependencies and defects in cancer cells, including hormone receptor signaling, cell cycle checkpoint losses, and homologous recombination deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Small-molecule kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics focus on targeting oncogenic driver kinases with small-molecule inhibitors and analyse the structural, pathway bypass, and drug addiction mechanisms that drive clinical resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Targeted monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe antibody-based therapeutics designed to bind tumor-associated surface antigens for direct receptor blockade, immune-mediated cytotoxicity, or targeted delivery of cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and immune-targeted therapies",
+      "groupedBecause": "These subtopics evaluate the evidence for immune surveillance and explore methods to harness anti-tumor immune responses through checkpoint inhibitors, bispecific engagers, and adoptive CAR T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical progress, treatment challenges, and future paradigms in oncology",
+      "groupedBecause": "These subtopics reflect on historical survival improvements, ongoing therapeutic challenges such as tumor heterogeneity, and emerging future strategies in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer biology and lecture aims",
+      "groupedBecause": "The lecture opens with an overview of course themes, learning outcomes, and the clinical significance of cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations, tissue architecture, and cell culture models of cancer",
+      "groupedBecause": "These subtopics explain how cancer develops through genetic and differentiation failures within complex tissue architectures, alongside the experimental limitations of modeling these processes in cell culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology and dissemination of benign and malignant tumors",
+      "groupedBecause": "These subtopics define the mechanisms of local invasion and metastatic dissemination while contrasting the macroscopic and histological features of benign and malignant lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise tumor progression and clinical risks of benign lesions",
+      "groupedBecause": "These subtopics examine the multi-step histological transition from benign precursor adenomas to invasive carcinomas and explain the clinical hazards presented by non-invasive growths.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor nomenclature and classification",
+      "groupedBecause": "This subtopic establishes the anatomical and histological naming conventions used to categorize benign and malignant neoplasms across diverse tissue lineages.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the physiological and anatomical mechanisms by which primary and metastatic tumors impair normal tissue function and cause patient mortality.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence across humans and animal species",
+      "groupedBecause": "These subtopics analyse cancer incidence and mortality patterns in human populations alongside comparative oncology observations across companion animals and multicellular taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and screening strategies across cancer types",
+      "groupedBecause": "These subtopics review clinical signs of cancer and evaluate the principles, diagnostic effectiveness, and limitations of population screening programmes across various organ sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing remarks and practical preview",
+      "groupedBecause": "The lecture concludes with a review of the learning outcomes and a preview of upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

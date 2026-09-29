@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecture opens by introducing the topic of cancer therapy and stating the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and resistance mechanisms",
+      "groupedBecause": "These subtopics examine the principles, clinical limitations, and drug resistance mechanisms associated with conventional treatment modalities like surgery, radiotherapy, and cytotoxic chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit cancer-specific biological vulnerabilities, including hormone dependence, cell cycle checkpoint loss, and defective DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics describe the rationale, biochemical mechanisms, and resistance pathways associated with small-molecule kinase inhibitors.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain how engineered monoclonal antibodies and antibody-drug conjugates are designed to target cancer cell surface antigens and deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and immunotherapy modalities",
+      "groupedBecause": "These subtopics address the role of natural immune surveillance and detail diverse immunotherapy platforms designed to mobilize T cells against tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overarching challenges, mortality trends, and future paradigms",
+      "groupedBecause": "These subtopics synthesize current hurdles in oncology, evaluate historical progress in cancer survival, and consider future directions in disease management.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Closing reflection on childhood leukemia and trial dilemmas",
+      "groupedBecause": "The lecture concludes with a closing case study on pediatric leukemia survival that highlights the ethical challenges of trialing new therapies against effective existing regimens.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

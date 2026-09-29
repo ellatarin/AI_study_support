@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This section introduces the lecture series, outlines the learning outcomes, and sets the clinical and biological context of cancer studies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological origins and laboratory models of cancer",
+      "groupedBecause": "These subtopics explore how genetic alterations, viral drivers, and disrupted tissue architecture produce tumors, alongside experimental approaches and limitations in modeling them in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign versus malignant tumors, invasion, and metastatic progression",
+      "groupedBecause": "These subtopics explain the clinical and histological distinctions between benign and malignant tumors, detailing the processes of local invasion, metastatic spread, and stepwise progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and mechanisms of clinical morbidity",
+      "groupedBecause": "These subtopics detail the naming conventions used to classify neoplasms and explain the pathological mechanisms through which tumor growth causes patient disease and mortality.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Cancer incidence in humans and comparative oncology",
+      "groupedBecause": "These subtopics survey epidemiological patterns of cancer in human populations and compare tumor occurrence across companion animals and multicellular taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical modalities of cancer screening",
+      "groupedBecause": "These subtopics examine the clinical rationale for early cancer detection and evaluate the specific screening methods, benefits, and challenges across different tumor types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Concluding remarks and next steps",
+      "groupedBecause": "This section concludes the lecture by reiterating learning outcomes and outlining upcoming practical sessions and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

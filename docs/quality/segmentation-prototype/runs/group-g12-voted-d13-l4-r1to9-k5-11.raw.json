@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "The lecture begins with an introduction to the speaker and the learning objectives regarding cancer etiology and carcinogen appraisal.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic origins, mutation sources, and cancer predisposition",
+      "groupedBecause": "These subtopics introduce cancer as an evolutionary genetic disease driven by endogenous and inherited sources of DNA mutations within a supportive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental carcinogens, random mutation risk, and epidemiology",
+      "groupedBecause": "These subtopics examine the contribution of environmental exposures to cancer risk, addressing the debate over chance versus lifestyle and presenting global epidemiological patterns.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Pathogen-driven carcinogenesis and Burkitt lymphoma",
+      "groupedBecause": "These subtopics explore how infectious agents promote cancer, highlighted through the multi-factorial etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mechanisms of DNA damage and metabolic activation",
+      "groupedBecause": "These subtopics explain the biochemical processes by which direct mutagens, radiation, and metabolically activated xenobiotics cause DNA adducts and damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, cellular context, and carcinogenesis mechanisms",
+      "groupedBecause": "These subtopics distinguish tumor promotion from initiation, showing how non-mutagenic microenvironmental stimuli, cellular susceptibility, and developmental timing drive neoplastic growth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogenicity",
+      "groupedBecause": "These subtopics present the analytical and experimental approaches used to detect carcinogen exposure signatures and evaluate carcinogenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and risk-benefit considerations",
+      "groupedBecause": "The lecture concludes by summarizing the primary themes of cancer causation and considering how carcinogenic risks are balanced against everyday practical benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

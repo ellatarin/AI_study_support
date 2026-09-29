@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "This subtopic provides the lecturer's opening welcome and outlines the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Immune Sensing via Molecular Patterns and Pattern Recognition Receptors",
+      "groupedBecause": "These subtopics examine how the innate immune system identifies signs of infection and cellular damage through molecular patterns and dedicated receptor signaling cascades.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Effector Mechanisms, Cell Recruitment, and Systemic Inflammation",
+      "groupedBecause": "These subtopics describe how sentinel cells initiate local leukocyte recruitment and lymphatic drainage, as well as the pathological outcomes when acute inflammation escalates systemically.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Containment",
+      "groupedBecause": "These subtopics address the mechanisms responsible for shutting down immune activation, orchestrating tissue healing, and managing unresolved inflammation through chronic containment.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Closing",
+      "groupedBecause": "This subtopic concludes the lecture with a sign-off and an announcement of the next lecture topic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

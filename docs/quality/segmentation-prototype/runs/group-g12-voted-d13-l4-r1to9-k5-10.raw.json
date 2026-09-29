@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the cancer lecture series, and the core learning objectives concerning environmental carcinogens and cancer development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutational and evolutionary basis of cancer",
+      "groupedBecause": "These subtopics establish cancer as a genetic and microevolutionary disease driven by endogenous DNA damage, replication errors, and inherited predispositions within a permissive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental carcinogens, public risk perception, and epidemiology",
+      "groupedBecause": "These subtopics examine recognized environmental exposures, public interpretation of the bad luck hypothesis, and epidemiological data demonstrating geographical and migrant variations in cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents and viral oncogenesis",
+      "groupedBecause": "These subtopics detail how microbial and viral pathogens induce cancer, using Burkitt lymphoma as a multi-factorial case study of viral oncogenesis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and xenobiotic metabolism",
+      "groupedBecause": "These subtopics examine how dietary toxins, UV radiation, and chemical carcinogens induce DNA damage directly or through endogenous xenobiotic metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host tissue susceptibility, and mechanistic summary",
+      "groupedBecause": "These subtopics explore how non-mutagenic drivers, such as chemical promoters and developmental proliferative states, cooperate with DNA damage to facilitate tumor outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogenicity",
+      "groupedBecause": "These subtopics outline the genomic signatures, epidemiological cohort studies, animal models, and in vitro assays used to identify carcinogen exposure and evaluate carcinogenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Carcinogenic risk assessment and lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture by framing carcinogenic exposure in the context of everyday risk-benefit decisions and summarizing the primary lecture themes.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

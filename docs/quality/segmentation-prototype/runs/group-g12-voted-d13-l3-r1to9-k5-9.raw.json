@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the course structure, learning objectives, and scope of cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and tissue fundamentals of cancer development",
+      "groupedBecause": "These subtopics explore the biological origins of cancer as a disruption of normal differentiation, genetic regulation, and three-dimensional tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and malignant behaviour",
+      "groupedBecause": "These subtopics describe the pathological and clinical features that distinguish benign encapsulated tumors from invasive, metastasising malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise tumor progression and benign tumor pathology",
+      "groupedBecause": "These subtopics examine how tumors progress in a stepwise manner from precursor lesions to invasive disease alongside the clinical complications caused by non-malignant growths.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor classification and nomenclature conventions",
+      "groupedBecause": "This subtopic outlines the standard conventions and exceptions used to name benign and malignant tumors according to their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physical, physiological, and systemic processes through which primary and metastatic tumors cause patient illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative cancer incidence across species",
+      "groupedBecause": "These subtopics compare the epidemiological frequency and mortality patterns of various cancers in humans with tumor incidence across companion animals and other multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening methods",
+      "groupedBecause": "These subtopics discuss patient presentation and evaluate the effectiveness and limitations of population screening programmes for various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing housekeeping",
+      "groupedBecause": "The lecturer concludes the session with a reminder of learning outcomes and upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

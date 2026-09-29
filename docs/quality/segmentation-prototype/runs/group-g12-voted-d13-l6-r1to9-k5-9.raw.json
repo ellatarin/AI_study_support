@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the session's objectives, reviewing the hallmarks of cancer and the genetic progression of tumors.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal independence and oncogenic signaling pathways",
+      "groupedBecause": "These subtopics examine how mutations in signaling cascades, including Wnt/beta-catenin and receptor tyrosine kinases, deregulate growth control and drive cell proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in cancer",
+      "groupedBecause": "These subtopics explain how differentiation arrest contributes to malignancy, using examples from hematopoiesis, leukemias, and intestinal crypt epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Apoptosis resistance, replicative immortality, and p53 tumor suppression",
+      "groupedBecause": "These subtopics explore how cancer cells bypass apoptosis, senescence, and telomere shortening through p53 pathway deregulation and telomerase reactivation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics address metabolic rewiring in cancer cells, including the Warburg effect, tissue-specific metabolic profiles, and Krebs cycle mutations producing oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic details how tumors switch on blood vessel formation to overcome hypoxia and obtain nutrients for growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion, metastasis, and circulating tumor cells",
+      "groupedBecause": "These subtopics cover the metastatic cascade from local tissue invasion and circulation tracking to seed-and-soil colonization and metastatic genomics.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Concluding remarks and summary",
+      "groupedBecause": "The lecturer concludes the lecture by summarising the hallmarks and previewing upcoming practical sessions.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

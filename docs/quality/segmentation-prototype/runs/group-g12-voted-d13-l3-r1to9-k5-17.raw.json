@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "These introductory remarks welcome the students and outline the core learning objectives and themes of the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a disruption of cellular differentiation and tissue architecture",
+      "groupedBecause": "These sections define cancer as a breakdown of normal developmental differentiation and tissue structure driven by accumulated genetic changes, while considering the limitations of in vitro models.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and stepwise progression",
+      "groupedBecause": "These sections explain how tumors invade surrounding stroma and disseminate metastatically, using histological specimens and colorectal cancer to illustrate the stepwise transition from benign to malignant states.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Clinical risks, nomenclature, and mechanisms of tumor morbidity",
+      "groupedBecause": "These sections examine how benign and malignant tumors are systematically classified and how their localized and systemic actions cause clinical illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence across humans and animal species",
+      "groupedBecause": "These sections review the frequency and mortality of major tumor types in humans and compare cancer occurrence across diverse multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening strategies",
+      "groupedBecause": "These sections assess the clinical presentation of cancer and evaluate the efficacy and practical challenges of screening programs for different organ sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing housekeeping",
+      "groupedBecause": "These concluding remarks summarize the session's learning outcomes and provide logistical information for upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

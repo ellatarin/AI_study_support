@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "This subtopic introduces the lecture on the initiation and resolution of inflammation and frames how known immune mechanisms fit together.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Immune Recognition and Pattern Recognition Receptor Pathways",
+      "groupedBecause": "These subtopics explain how the innate immune system detects infection and cellular damage using conserved molecular patterns and diverse pattern recognition receptor signaling mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Acute Inflammatory Cascade, Leukocyte Recruitment, and Systemic Effects",
+      "groupedBecause": "These subtopics describe the cellular activation and recruitment events that drive the acute inflammatory response in tissues and its potential escalation into systemic pathology.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Outcomes",
+      "groupedBecause": "These subtopics address the mechanisms that terminate acute inflammation, coordinate tissue repair, and lead to chronic inflammation or granuloma formation when uncompleted.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Closing",
+      "groupedBecause": "This subtopic concludes the lecture and previews the subject of the next session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

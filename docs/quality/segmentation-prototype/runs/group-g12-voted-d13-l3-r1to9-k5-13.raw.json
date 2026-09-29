@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and course learning outcomes",
+      "groupedBecause": "The lecturer introduces the course structure, themes, and key learning outcomes for understanding cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations and experimental modeling of cancer",
+      "groupedBecause": "These subtopics describe how genetic and epigenetic changes disrupt normal cell differentiation and tissue architecture, and explain the experimental methods used to model these processes in culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and pathological distinction of tumors",
+      "groupedBecause": "These subtopics define the histological and physical characteristics that distinguish benign growths from invasive, metastatic malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise tumor progression and benign lesion risks",
+      "groupedBecause": "These subtopics demonstrate the stepwise progression from benign precursors to invasive cancer using colorectal models and discuss the clinical complications posed by benign tumors.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor classification and nomenclature conventions",
+      "groupedBecause": "This subtopic details the standard naming rules and exceptions used to categorize benign and malignant tumors according to their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer-induced morbidity and mortality",
+      "groupedBecause": "This subtopic explains the mechanical, local, and systemic pathophysiological mechanisms through which primary and metastatic tumors cause patient morbidity and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative oncology and cancer incidence across species",
+      "groupedBecause": "These subtopics examine cancer frequency and distribution patterns across human populations, domestic animals, and diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening programs",
+      "groupedBecause": "These subtopics evaluate the principles, clinical benefits, and diagnostic challenges of population-level screening programs across various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing remarks and practical preview",
+      "groupedBecause": "The lecturer concludes the session with a recap of the learning outcomes and reminders for upcoming practical classes.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

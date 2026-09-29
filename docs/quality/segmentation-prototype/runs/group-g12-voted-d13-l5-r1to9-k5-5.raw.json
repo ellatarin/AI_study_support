@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the lecture, recaps histopathology practical observations, and outlines the learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Discovery of transforming genes through tumour viruses and cellular assays",
+      "groupedBecause": "These subtopics explain how the investigation of tumour viruses and in vitro transformation assays demonstrated that cancer-causing genes originate from misregulated normal cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classifications and mechanisms of oncogenes and tumour suppressor genes",
+      "groupedBecause": "These subtopics define the functional classifications of cancer mutations and illustrate their operational mechanisms in cell cycle checkpoints and dominant-negative phenotypes.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and cellular consequences of genetic instability",
+      "groupedBecause": "These subtopics detail the distinctions, molecular repair failures, mitotic defects, and downstream cellular consequences associated with sequence and chromosomal instability in cancer.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-step tumour progression and hereditary cancer predispositions",
+      "groupedBecause": "These subtopics explain how multi-step mutation models and inherited germline mutations drive the rate and dynamics of tumour development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "The lecturer concludes the session, offers to answer questions, and provides recommended reading.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecture opens with framing remarks on the course structure, the impact of cancer, and the session's learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological mechanisms and tissue architecture in cancer development",
+      "groupedBecause": "These subtopics explore cancer as a failure of cellular differentiation and three-dimensional tissue organization driven by genetic, epigenetic, and viral factors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and the benign-to-malignant transition",
+      "groupedBecause": "These subtopics explain the pathological processes of local invasion and metastatic spread that distinguish malignant cancers from benign tumors using clinical specimens and colorectal histology.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Clinical behavior, nomenclature, and mechanisms of tumor morbidity",
+      "groupedBecause": "These subtopics cover the pathological naming conventions, progression potential, and physiological mechanisms through which tumors cause disease and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics present epidemiological incidence and mortality data for human cancers alongside tumor patterns observed in companion animals and other multicellular taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening strategies",
+      "groupedBecause": "These subtopics discuss the presenting symptoms of tumors and evaluate population screening methods across cervical, colorectal, breast, and prostate cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practicals preview",
+      "groupedBecause": "The lecture closes with final administrative remarks reviewing the learning outcomes and pointing forward to the upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for cancer hallmarks",
+      "groupedBecause": "The lecturer introduces the learning objectives, tumor progression model, and the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal independence and oncogenic signaling cascades",
+      "groupedBecause": "These subtopics examine how mutations in cell-surface receptors and downstream signaling pathways drive growth factor independence and cell survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation",
+      "groupedBecause": "These subtopics explain how differentiation blocks halt terminal maturation and sustain proliferative states in hematopoietic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explores the regulatory pathways and balance of pro- and anti-apoptotic proteins that cancer cells alter to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and genome protection",
+      "groupedBecause": "These subtopics cover telomere dynamics, mechanisms of senescence bypass, and the role of p53 in responding to cellular stress.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics analyze the Warburg effect, widespread metabolic rewiring, and the epigenetic impact of metabolic enzyme mutations in cancer.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explains the angiogenic switch and blood vessel recruitment required to supply expanding tumors with oxygen and nutrients.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion, metastasis, and secondary tumor biology",
+      "groupedBecause": "These subtopics examine the metastatic cascade, dissemination pathways, liquid biopsy tracking, and genomic characteristics of metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "The lecturer concludes the session with a recap of cancer hallmarks and closing remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

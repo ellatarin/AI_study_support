@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This subtopic outlines the course objectives, scope, and foundational themes for the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Drivers of cancer, tissue architecture, and cellular modeling",
+      "groupedBecause": "These subtopics define cancer as a breakdown in cellular differentiation and tissue architecture driven by genetic and epigenetic alterations, alongside the methods and limitations of studying these processes in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign versus malignant tumors, tissue invasion, and stepwise progression",
+      "groupedBecause": "These subtopics explore the histological and clinical distinctions between benign and malignant tumors, detailing the mechanisms of invasion, metastatic dissemination, and stepwise progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification",
+      "groupedBecause": "This subtopic outlines the standardized naming conventions and notable exceptions used to classify tumors based on their tissue origin and malignant potential.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physical, functional, and systemic processes through which primary and metastatic tumors cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics examine epidemiological patterns of cancer incidence and mortality across human populations and other multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and organ-specific cancer screening",
+      "groupedBecause": "These subtopics address the clinical signs of cancer and evaluate the effectiveness and challenges of screening programs across different anatomical sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing housekeeping",
+      "groupedBecause": "This subtopic concludes the lecture with a reminder of the learning outcomes and practical session arrangements.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

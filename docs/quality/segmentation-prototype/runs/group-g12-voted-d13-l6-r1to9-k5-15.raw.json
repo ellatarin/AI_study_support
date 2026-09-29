@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture objectives",
+      "groupedBecause": "It introduces the lecture framework, learning outcomes, and the concept of cancer hallmarks driving tumor progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "They describe how oncogenic mutations in receptor tyrosine kinase and Wnt/beta-catenin signaling pathways enable cancer cells to achieve growth signal autonomy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation",
+      "groupedBecause": "They illustrate how differentiation arrest contributes to malignant transformation in both hematopoietic malignancies and intestinal epithelial carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "It explains how cancer cells evade programmed cell death through mutations disrupting p53 regulation and the balance of Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and stress surveillance",
+      "groupedBecause": "They explain how cells regulate replicative lifespan through telomeres and p53-dependent stress pathways, and how cancer cells bypass senescence to achieve immortalization.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming in cancer",
+      "groupedBecause": "They examine how cancer cells rewire their metabolic pathways, including aerobic glycolysis and Krebs cycle mutations that produce oncogenic metabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "It discusses the physiological necessity, timing, and molecular regulation of angiogenic signaling required to sustain tumor growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and dynamics of cancer metastasis",
+      "groupedBecause": "They examine the biological cascade of metastatic dissemination, the role of circulating tumor cells in monitoring, metastatic inefficiency, and the associated genomic features.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "It provides a closing synthesis on how cancer hallmarks manifest collectively and concludes the lecture.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

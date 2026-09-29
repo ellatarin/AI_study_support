@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "This opening subtopic introduces the lecture aims, learning outcomes, and foundational framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell-surface receptors and intracellular signaling pathways drive proliferation and survival independently of external growth cues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal cell differentiation",
+      "groupedBecause": "These subtopics explore how cancer cells stall normal developmental maturation to sustain a proliferative progenitor state across different tissue types.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic details how tumor cells avoid programmed cell death by altering the balance between pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and cellular senescence bypass",
+      "groupedBecause": "These subtopics examine how telomere maintenance and the circumvention of p53-mediated stress responses enable indefinite cell division, concluding the survey of growth control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics explain the shift toward aerobic glycolysis in cancer cells and how metabolic enzyme mutations generate oncometabolites that promote tumor progression.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic addresses the angiogenic switch and blood vessel recruitment required to supply growing tumors with oxygen and nutrients.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, tracking, and genomics of cancer metastasis",
+      "groupedBecause": "These subtopics analyze the multi-step cascade of metastatic dissemination, its clinical monitoring, microenvironmental barriers, and associated genomic features.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "This closing subtopic reviews the core themes of the lecture and provides concluding remarks.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

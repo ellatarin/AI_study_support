@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "This subtopic serves as the introductory framing for the lecture, outlining its scope and connection to prior material.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Innate Immune Recognition and Target Discrimination",
+      "groupedBecause": "These subtopics establish the foundational concepts of how the innate immune system identifies threats by detecting PAMPs and DAMPs through germline-encoded receptors localized across cellular compartments.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-Like Receptor Architecture and Signaling Pathways",
+      "groupedBecause": "These subtopics examine the structure, localization, ligand binding, and downstream transcriptional signaling cascades of Toll-like receptors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cytosolic Pattern Recognition and Inflammasome Activation",
+      "groupedBecause": "These subtopics describe alternative intracellular sensor families and the assembly of the inflammasome complex required for proteolytic cytokine activation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Inflammatory Cascade: Sentinel Activation, Leukocyte Trafficking, and Systemic Effects",
+      "groupedBecause": "These subtopics trace the cellular execution of acute inflammation, encompassing mediator release by sentinel cells, leukocyte extravasation, lymphatic priming, and systemic complications such as septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Containment",
+      "groupedBecause": "These subtopics explain the active and passive mechanisms that terminate acute inflammation, mediate tissue regeneration, and drive chronic responses such as granuloma formation when pathogens persist.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Closing",
+      "groupedBecause": "This subtopic provides the concluding framing, wrapping up the session and previewing the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

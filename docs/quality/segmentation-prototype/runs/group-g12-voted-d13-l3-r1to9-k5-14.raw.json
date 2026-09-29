@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This topic introduces the cancer biology lecture series and outlines the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer development, tissue architecture, and cell culture",
+      "groupedBecause": "These subtopics explore cancer as a multistep disruption of cellular differentiation and tissue architecture while addressing the limitations of studying tumors in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign versus malignant pathology, invasion, and nomenclature",
+      "groupedBecause": "These subtopics examine the distinguishing pathological features, stepwise invasive progression, and formal classification systems of benign and malignant tumors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This topic explains the physiological mechanisms through which primary and metastatic tumors cause clinical illness and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence across humans and other species",
+      "groupedBecause": "These subtopics analyze the epidemiological patterns and incidence of various cancer types across human populations, domestic animals, and other multicellular taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening strategies",
+      "groupedBecause": "These subtopics evaluate the clinical symptoms of cancer and compare the efficacy and challenges of screening programs across different anatomical sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing housekeeping and practical preview",
+      "groupedBecause": "This topic concludes the lecture with review instructions and details for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

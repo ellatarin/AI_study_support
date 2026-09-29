@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and framing of the complement lecture",
+      "groupedBecause": "Introduces the lecture and frames complement within the broader study of immunology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Core principles, nomenclature, and central role of C3",
+      "groupedBecause": "Establishes the foundational architecture of the complement cascade, its naming rules, and the central role of C3 cleavage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "Details how upstream recognition pathways converge on convertase assembly to reach the threshold for complement activation on pathogen surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "Explains the downstream processes through which activated complement targets and eliminates pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement activation on host cells",
+      "groupedBecause": "Describes the regulatory proteins that protect host cells from accidental complement activation and damage.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "Examines the distinct clinical manifestations and disease risks resulting from deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of the complement system",
+      "groupedBecause": "Analyzes the molecular mechanisms pathogens employ to subvert and evade complement-mediated destruction.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview of adaptive immunity",
+      "groupedBecause": "Concludes the complement lecture and previews the upcoming topic on adaptive immunity.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

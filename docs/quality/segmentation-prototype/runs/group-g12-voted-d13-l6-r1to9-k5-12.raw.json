@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for the hallmarks of cancer",
+      "groupedBecause": "This opening subtopic introduces the lecture's conceptual framework, historical background, and key learning outcomes regarding the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and proliferative signaling pathways",
+      "groupedBecause": "These subtopics explain how cancer cells achieve sustained proliferation through genetic mutations that constitutively activate growth-promoting pathways such as Wnt/beta-catenin and receptor tyrosine kinases.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics demonstrate how cancers in both the hematopoietic system and the intestinal epithelium arrest maturation to maintain an undifferentiated, proliferative state.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis through p53 and Bcl-2 regulation",
+      "groupedBecause": "This subtopic details the mechanisms by which cancer cells evade programmed cell death through disruptions in the balance between pro- and anti-apoptotic proteins regulated by p53.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence bypass, and cellular stress checkpoints",
+      "groupedBecause": "These subtopics describe how cancer cells achieve unlimited replicative potential by maintaining telomeres and overcoming p53-mediated senescence and DNA damage arrest checkpoints.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic rewiring and oncometabolites in cancer",
+      "groupedBecause": "These subtopics explore how tumor cells alter cellular bioenergetics through aerobic glycolysis and Krebs cycle mutations that produce oncometabolites to drive cancer progression and epigenetic remodeling.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explains how growing tumors overcome hypoxia by shifting the balance of signaling factors to stimulate the development of new blood vessels.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion, metastasis, and metastatic monitoring",
+      "groupedBecause": "These subtopics examine the biological stages, environmental dependencies, clinical tracking via circulating tumor cells, and genomic drivers involved in cancer dissemination.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Summary and concluding remarks",
+      "groupedBecause": "This closing subtopic reviews the core themes of the lecture and provides concluding advice on understanding cancer hallmark models.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

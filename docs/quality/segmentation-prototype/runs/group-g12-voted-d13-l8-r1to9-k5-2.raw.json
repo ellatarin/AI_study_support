@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the key learning objectives regarding cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and drug resistance",
+      "groupedBecause": "These subtopics examine traditional local and systemic treatment modalities along with the resulting toxicities and cellular resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer vulnerabilities and defects",
+      "groupedBecause": "These subtopics focus on therapeutic strategies that exploit intrinsic biological vulnerabilities in cancer cells, such as signaling dependencies, checkpoint defects, and repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase inhibitors, oncogene addiction, and resistance",
+      "groupedBecause": "These subtopics explore small-molecule kinase inhibitors designed to exploit oncogene addiction, alongside the molecular mechanisms underlying acquired drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based targeted therapies",
+      "groupedBecause": "These subtopics discuss the design and clinical application of monoclonal antibodies to target tumor cell-surface proteins and deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and immunotherapies",
+      "groupedBecause": "These subtopics review the principles of natural anti-tumor immunity and the development of immunotherapies that reactivate or redirect immune responses against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future paradigms in cancer management",
+      "groupedBecause": "These subtopics provide an overarching evaluation of clinical hurdles, historical survival improvements, and future directions in cancer treatment and trial design.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

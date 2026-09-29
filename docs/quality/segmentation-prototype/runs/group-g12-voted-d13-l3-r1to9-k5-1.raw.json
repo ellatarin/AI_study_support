@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer biology and lecture series overview",
+      "groupedBecause": "The lecturer introduces the course structure, audience, and core learning outcomes for the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and developmental basis of cancer and in vitro models",
+      "groupedBecause": "These subtopics explain how cancer arises from genetic, epigenetic, and differentiation defects disrupting three-dimensional tissue architecture and the experimental limitations of studying these processes in culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and distinction from benign encapsulation",
+      "groupedBecause": "These subtopics examine how malignant tumors invade through basement membranes and disseminate to distant organs compared to encapsulated, non-invasive benign tumors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Benign-to-malignant tumor progression and nomenclature",
+      "groupedBecause": "These subtopics explore the stepwise transition of benign precursor lesions into malignant tumors and establish the standard histological naming conventions used to classify them.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic describes the physiological and systemic mechanisms by which primary and metastatic tumors cause clinical illness and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence across human populations and multicellular species",
+      "groupedBecause": "These subtopics compare the epidemiological frequency of different tumor types in humans with tumor incidence across companion animals and other multicellular taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening strategies",
+      "groupedBecause": "These subtopics cover early clinical warning signs of cancer and assess the utility and limitations of population screening programs for cervical, colorectal, breast, and prostate cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and upcoming practicals",
+      "groupedBecause": "The lecturer concludes the session with a recap of learning outcomes and practical session reminders.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

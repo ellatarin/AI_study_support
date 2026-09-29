@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "It welcomes the students and establishes the overall importance and structural complexity of the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamental principles, nomenclature, and the central role of C3",
+      "groupedBecause": "They introduce the core properties, historical naming rules, and central molecular fulcrum of the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways and trigger threshold",
+      "groupedBecause": "They detail the upstream pathways that recognize pathogens and converge to reach the threshold of complement activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of activated complement",
+      "groupedBecause": "They explain the downstream actions by which activated complement destroys pathogens and drives inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "It examines the regulatory proteins and inhibitory mechanisms that protect host cells from accidental complement damage.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "It outlines the distinct disease manifestations and infection vulnerabilities resulting from deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen strategies for complement evasion",
+      "groupedBecause": "It describes the evolutionary mechanisms and molecular tactics used by pathogens to circumvent complement-mediated destruction.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture wrap-up and preview",
+      "groupedBecause": "It concludes the session on complement and previews the upcoming lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

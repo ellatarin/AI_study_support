@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture's core themes on cancer evolution and outlines the expected learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of clonal evolution",
+      "groupedBecause": "They examine how somatic mutations and epigenetic alterations drive early clonal expansion and tumor evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "The cancer stem cell model and cell of origin",
+      "groupedBecause": "They evaluate the role of tissue hierarchy and evidence for cancer stem cell models in leukemia and colorectal cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory promotion of tumor growth",
+      "groupedBecause": "They explore how inflammatory signals and stromal microenvironments promote malignant transformation and sustain tumor growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Technologies for analyzing tumor evolution and spatial architecture",
+      "groupedBecause": "It reviews genomic and spatial profiling technologies used to map tumor heterogeneity and cellular interactions in tissue specimens.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Unified synthesis of cancer evolution",
+      "groupedBecause": "It synthesizes genetic, cellular, and microenvironmental factors into a comprehensive model of cancer development.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture closing",
+      "groupedBecause": "It concludes the lecture and previews the upcoming session on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

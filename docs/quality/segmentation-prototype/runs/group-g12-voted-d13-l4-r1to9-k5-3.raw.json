@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture objectives",
+      "groupedBecause": "This opening subtopic introduces the lecturer, the course framework, and the learning objectives concerning cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, evolutionary, and endogenous origins of cancer",
+      "groupedBecause": "These subtopics explain the fundamental view of cancer as a microenvironmental evolutionary process driven by endogenous mutations and inherited predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental carcinogen exposure and epidemiological risk",
+      "groupedBecause": "These subtopics survey environmental exposures, public perceptions of random versus preventable cancer risk, and geographical epidemiological variations.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogenic pathogens and infectious drivers of cancer",
+      "groupedBecause": "These subtopics examine how infectious agents promote oncogenesis, using Burkitt lymphoma as a primary case study of multifactorial viral carcinogenesis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical, physical, and xenobiotic mutagenesis",
+      "groupedBecause": "These subtopics describe the biochemical mechanisms through which physical radiation and metabolically activated chemical carcinogens induce DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor initiation, promotion, and host cell susceptibility",
+      "groupedBecause": "These subtopics define the multi-stage model of initiation and promotion and explore how developmental stage and host tissues affect susceptibility to malignant transformation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for assessing carcinogenicity and mutational signatures",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, in vivo, and in vitro experimental strategies used to determine whether agents are carcinogenic.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion and everyday risk-benefit balance",
+      "groupedBecause": "This closing subtopic summarises the key lecture themes and concludes with reflections on balancing carcinogenic risk against practical benefits in daily life.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

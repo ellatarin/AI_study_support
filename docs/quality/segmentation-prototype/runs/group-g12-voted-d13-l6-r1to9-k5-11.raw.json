@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for the hallmarks of cancer",
+      "groupedBecause": "This subtopic introduces the lecture and outlines the learning outcomes regarding the hallmarks of cancer and their underlying genetic mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and oncogenic signaling cascades",
+      "groupedBecause": "These subtopics explain how mutations in growth factor receptors and downstream signaling pathways enable cancer cells to sustain proliferation independently of external growth cues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation in cancer",
+      "groupedBecause": "These subtopics examine how mutations disrupt normal cell differentiation, trapping cells in immature and highly proliferative states across different cancer types.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis through p53 and Bcl-2 regulation",
+      "groupedBecause": "This subtopic explains how alterations in p53 and the balance of Bcl-2 family proteins enable cancer cells to avoid apoptotic cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and senescence bypass",
+      "groupedBecause": "These subtopics explore how telomere shortening and cellular stress induce senescence and how cancer cells bypass these controls to achieve unlimited replicative potential.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming in cancer",
+      "groupedBecause": "These subtopics examine the transition to complex cancer hallmarks and how tumor cells rewire their metabolic pathways to support rapid proliferation through aerobic glycolysis and oncometabolites.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explains how growing tumors overcome nutrient and oxygen diffusion limits by triggering new blood vessel formation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion, metastasis, and secondary colonization",
+      "groupedBecause": "These subtopics detail the biological steps, microenvironmental factors, clinical monitoring, and genomic characteristics involved in cancer cell invasion and metastatic colonization.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and lecture summary",
+      "groupedBecause": "This subtopic concludes the lecture with closing remarks on synthesizing the hallmarks of cancer and information about upcoming practical sessions.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

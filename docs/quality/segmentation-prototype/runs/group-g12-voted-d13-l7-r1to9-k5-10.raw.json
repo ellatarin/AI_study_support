@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "These introductory remarks welcome the students and establish the lecture's learning objectives regarding cancer evolution and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of clonal evolution",
+      "groupedBecause": "These subtopics explain how pre-malignant tissues acquire competitive growth advantages through progressive genetic mutations and epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and the cancer stem cell model",
+      "groupedBecause": "These subtopics explore how tissue differentiation hierarchies and stemness properties influence tumor initiation and propagation in leukemia and intestinal cancers.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory drivers of tumorigenesis",
+      "groupedBecause": "These subtopics demonstrate how extrinsic inflammation and supportive stromal interactions provide permissive conditions that promote and maintain tumor growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Technologies for investigating tumor architecture and evolution",
+      "groupedBecause": "This subtopic discusses experimental, sequencing, and spatial profiling methods used to analyze tumor cell dynamics and microenvironmental interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrative evolutionary model of cancer development",
+      "groupedBecause": "This subtopic synthesises how genetic mutations, cellular origins, epigenetic plasticity, and microenvironmental signals converge in the Darwinian evolution of cancer.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture closing",
+      "groupedBecause": "This closing statement concludes the presentation and announces the topic of the upcoming lecture.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

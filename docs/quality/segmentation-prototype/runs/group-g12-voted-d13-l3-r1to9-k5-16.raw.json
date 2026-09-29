@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the administrative welcome and outlines the core learning objectives of the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis of cancer as a disruption of differentiation and tissue architecture",
+      "groupedBecause": "These subtopics examine how genetic, epigenetic, and environmental drivers disrupt normal developmental differentiation and multicellular tissue architecture to initiate tumor growth.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and benign versus malignant tumor classification",
+      "groupedBecause": "These subtopics explain the behavioral, histological, and terminological distinctions between benign and malignant tumors across stages of invasion and progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cancer morbidity, mortality, and comparative incidence across species",
+      "groupedBecause": "These subtopics examine the physiological mechanisms causing patient morbidity and mortality alongside cancer occurrence patterns across humans and other multicellular animals.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Clinical presentation and organ-specific cancer screening",
+      "groupedBecause": "These subtopics address clinical presentation and the diagnostic utility, histology, and limitations of screening programs across different organ systems.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing remarks and housekeeping",
+      "groupedBecause": "This subtopic concludes the lecture with a summary reminder of the learning outcomes and upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

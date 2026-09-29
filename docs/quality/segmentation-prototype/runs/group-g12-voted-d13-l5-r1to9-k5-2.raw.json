@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and learning outcomes",
+      "groupedBecause": "The lecturer introduces the session's themes and outlines the learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Discovery of viral and cellular transforming genes",
+      "groupedBecause": "These subtopics explain how the investigation of tumor viruses revealed cellular proto-oncogenes and established experimental assays for cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classifications and functional mechanisms of cancer genes",
+      "groupedBecause": "These subtopics explain the concepts, definitions, and allelic mechanisms that distinguish oncogenes from tumor suppressor genes in cell cycle regulation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of sequence and chromosomal genetic instability",
+      "groupedBecause": "These subtopics examine how failures in DNA replication, repair pathways, and mitotic chromosome segregation produce genomic instability in cancer cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-step tumor progression and hereditary cancer predispositions",
+      "groupedBecause": "These subtopics explain how the sequential accumulation of somatic mutations and inherited germline defects drive cancer progression and evolution.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing remarks and recommended reading",
+      "groupedBecause": "The lecturer concludes the lecture and provides reading recommendations.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

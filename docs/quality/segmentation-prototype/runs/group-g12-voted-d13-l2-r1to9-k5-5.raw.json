@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "It provides the opening framing and sets expectations for studying the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals of the complement cascade",
+      "groupedBecause": "They establish the foundational architecture, nomenclature conventions, and core biochemical properties of the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "They explain the mechanisms by which the alternative, lectin, and classical pathways trigger complement activation on target surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "They describe the downstream processes through which complement eliminates pathogens and stimulates inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement and host cell protection",
+      "groupedBecause": "It explains the inhibitory mechanisms and regulatory proteins that prevent complement-mediated destruction of host tissue.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "It examines the distinct pathological consequences and disease presentations associated with deficiencies in various complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement immunity",
+      "groupedBecause": "It details the evolutionary mechanisms and molecular strategies used by pathogens to subvert complement clearance.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and next lecture preview",
+      "groupedBecause": "It provides concluding remarks for the session and introduces the upcoming topic.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

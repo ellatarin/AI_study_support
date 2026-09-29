@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course structure, and the learning objectives regarding cancer etiology and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations of cancer and mutation sources",
+      "groupedBecause": "These subtopics explain the fundamental nature of cancer as an evolutionary genetic disease driven by mutations from intrinsic, inherited, and environmental origins.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental carcinogens, risk perceptions, and epidemiological evidence",
+      "groupedBecause": "These subtopics survey environmental risk factors, address public perceptions regarding cancer randomness versus causation, and examine geographical epidemiological patterns.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in oncogenesis",
+      "groupedBecause": "These subtopics explore the oncogenic mechanisms of infectious pathogens and illustrate multi-factorial viral carcinogenesis through the case study of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and xenobiotic metabolism",
+      "groupedBecause": "These subtopics detail how physical radiation and chemical agents undergo xenobiotic metabolic activation to induce DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor initiation and promotion mechanisms",
+      "groupedBecause": "These subtopics differentiate between mutagenic initiation and non-mutagenic tumor promotion mediated by inflammatory and signaling pathways.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host susceptibility factors and summary of carcinogenic mechanisms",
+      "groupedBecause": "These subtopics analyze how host developmental stages influence susceptibility to carcinogens and summarize the key mechanisms of DNA damage.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for identifying and assessing carcinogenicity",
+      "groupedBecause": "These subtopics describe genomic, epidemiological, in vivo, and in vitro methodologies used to detect carcinogen exposures and evaluate mutagenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and everyday risk-benefit considerations",
+      "groupedBecause": "This subtopic concludes the lecture by summarizing key themes and discussing how individuals and societies balance carcinogenic risks against benefits in daily life.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the core learning objectives regarding cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatments and cytotoxic resistance",
+      "groupedBecause": "These subtopics discuss standard interventions including surgery, radiotherapy, and cytotoxic chemotherapy, as well as the physiological challenges and resistance mechanisms associated with non-targeted treatments.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities and synthetic lethality",
+      "groupedBecause": "These subtopics examine therapeutic strategies designed to exploit specific intrinsic cancer vulnerabilities, including hormone dependencies, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Small-molecule kinase inhibitors and resistance pathways",
+      "groupedBecause": "These subtopics focus on the mechanism of small-molecule inhibitors targeting oncogenic kinases and the molecular pathways driving resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe antibody-based therapeutic modalities used to block surface receptors, engage cytotoxic effector mechanisms, or deliver targeted toxic payloads to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and engineered T-cell therapies",
+      "groupedBecause": "These subtopics explore the biological basis of tumor immune surveillance and methods for re-engaging or engineering T cells to destroy cancer cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overall progress, clinical dilemmas, and future perspectives",
+      "groupedBecause": "These subtopics synthesize broad trends in cancer mortality, evaluating the interplay between therapeutic advances, screening, ethical dilemmas, and future directions in patient management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

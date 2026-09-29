@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture by introducing key themes in cancer evolution and defining the learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms of clonal evolution",
+      "groupedBecause": "These subtopics explain how intrinsic genetic mutations and epigenetic alterations confer selective advantages that drive clonal expansion in pre-malignant tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and cancer stem cell models",
+      "groupedBecause": "These subtopics evaluate the evidence for hierarchical stem cell models of tumor initiation across different tissue types.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory promotion of tumor growth",
+      "groupedBecause": "These subtopics demonstrate how environmental promoters, inflammatory signaling, and stromal codependency work alongside cellular mutations to enable malignant progression.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Technologies for investigating tumor evolution and spatial architecture",
+      "groupedBecause": "This subtopic reviews the experimental and computational technologies used to map mutational timing and spatial cell interactions in human tumors.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Synthesis of multi-factorial cancer evolution",
+      "groupedBecause": "This subtopic integrates genetic alterations, cellular origin, and microenvironmental factors into a unified evolutionary model of tumorigenesis.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture closing",
+      "groupedBecause": "This subtopic provides the final concluding remarks and previews the upcoming lecture topic.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

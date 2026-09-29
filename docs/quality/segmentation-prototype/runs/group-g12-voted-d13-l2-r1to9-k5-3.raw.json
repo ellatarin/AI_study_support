@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "The lecturer introduces the topic of complement, compares its complexity to the Krebs cycle, and sets expectations for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals, nomenclature, and the central role of C3",
+      "groupedBecause": "These subtopics establish the foundational concepts of the complement cascade, explaining its general functions, naming conventions, and the pivotal role of component C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways and threshold",
+      "groupedBecause": "These subtopics describe the three biological pathways that recognize pathogens and trigger the deposition of C3b onto target surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail the three primary downstream mechanisms through which the activated complement cascade clears pathogens and promotes inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Complement regulation and host cell protection",
+      "groupedBecause": "This subtopic explains how host cells use regulatory proteins to prevent unintended self-damage by complement activation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical impact of complement deficiencies",
+      "groupedBecause": "This subtopic examines how genetic or acquired deficiencies in specific complement components result in distinct clinical disease presentations.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion mechanisms",
+      "groupedBecause": "This subtopic analyzes the evolutionary strategies pathogens employ to evade complement destruction, focusing on Staphylococcus aureus.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and upcoming topic preview",
+      "groupedBecause": "The lecturer concludes the complement module and outlines the topic for the subsequent lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

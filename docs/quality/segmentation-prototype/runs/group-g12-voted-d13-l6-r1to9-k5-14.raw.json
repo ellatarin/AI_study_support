@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for cancer hallmarks",
+      "groupedBecause": "This opening subtopic introduces the lecture structure, learning outcomes, and the multi-step progression model of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling and growth suppressor evasion",
+      "groupedBecause": "These subtopics explore how oncogenic mutations in surface receptors and intracellular cascades, such as Wnt/beta-catenin, RTK, and TGF-beta pathways, confer self-sufficiency in growth signals and insensitivity to anti-growth signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal differentiation",
+      "groupedBecause": "These subtopics examine how cancer cells fail to withdraw from the cell cycle and differentiate into mature functional states across hematological and epithelial malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic addresses how tumor cells avoid programmed cell death through the dysregulation of p53, MDM2, and Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and stress surveillance",
+      "groupedBecause": "These subtopics explain the mechanisms of telomere biology, cellular senescence, telomerase reactivation, and p53-mediated genome surveillance that regulate cellular lifespan.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics cover the metabolic rewiring of cancer cells, including the Warburg effect, tissue-of-origin metabolic profiles, and Krebs cycle mutations producing oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic focuses on the angiogenic switch and blood vessel recruitment necessary to supply oxygen and nutrients to growing tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion, circulation, and metastatic progression",
+      "groupedBecause": "These subtopics detail the multi-step metastatic cascade, circulating tumor cell monitoring, seed-and-soil interactions, and the genomic features underlying secondary site colonization.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Concluding summary and outlook",
+      "groupedBecause": "This closing subtopic synthesizes the lecture themes and provides concluding remarks regarding the cancer hallmarks literature.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the key learning outcomes regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as an evolutionary genetic disease",
+      "groupedBecause": "These subtopics establish cancer as a microevolutionary genetic disease driven by endogenous mutational processes and inherited predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental carcinogen risks and epidemiological evidence",
+      "groupedBecause": "These subtopics explore evidence linking environmental exposures to cancer risk through global epidemiological patterns and the debate over intrinsic versus extrinsic factors.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents and viral oncogenesis",
+      "groupedBecause": "These subtopics examine how infectious pathogens drive malignant transformation, highlighting Burkitt lymphoma as a multi-factorial model.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical, physical, and xenobiotic carcinogenesis",
+      "groupedBecause": "These subtopics explain how radiation and chemical mutagens undergo metabolic activation to induce DNA damage and adduct formation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, contextual susceptibility, and DNA damage mechanisms",
+      "groupedBecause": "These subtopics distinguish non-mutagenic tumor promoters from initiators and assess how tissue development and host context modulate carcinogenic susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics describe the analytical, epidemiological, and laboratory approaches used to detect carcinogen exposures and evaluate mutagenic potency.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and everyday risk-benefit considerations",
+      "groupedBecause": "This subtopic summarizes the lecture themes and concludes with the practical challenge of balancing carcinogenic risks against everyday benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

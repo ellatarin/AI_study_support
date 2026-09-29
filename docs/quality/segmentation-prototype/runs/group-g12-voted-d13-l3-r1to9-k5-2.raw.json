@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the opening administrative and conceptual framing for the cancer biology lecture series and outlines the session's learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and developmental origins of cancer and in vitro study",
+      "groupedBecause": "These subtopics explain how genetic aberrations disrupt multicellular differentiation and tissue architecture to initiate cancer, alongside the experimental limitations of studying these processes in cell culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and pathological distinction of benign and malignant tumors",
+      "groupedBecause": "These subtopics contrast the physical and histological characteristics of localized benign tumors with invasive and metastasizing malignant neoplasms.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise neoplastic progression and clinical impacts of benign tumors",
+      "groupedBecause": "These subtopics illustrate the sequential evolution of tissue from benign precursor lesions to invasive adenocarcinoma and evaluate the clinical hazards posed by non-malignant growths.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor nomenclature and mechanisms of clinical morbidity",
+      "groupedBecause": "These subtopics establish the standard naming conventions for classifying tumors and explain the physical and systemic mechanisms by which tumor growth causes clinical illness and death.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Cancer incidence across human populations and multicellular species",
+      "groupedBecause": "These subtopics examine patterns of tumor frequency across human demographics and explore comparative cancer incidence across animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening methodologies",
+      "groupedBecause": "These subtopics evaluate the clinical rationale for early cancer detection and compare the diagnostic effectiveness and challenges of screening programs for different anatomical sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and administrative closing",
+      "groupedBecause": "This subtopic closes the lecture by referencing the learning outcomes and providing administrative information regarding upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

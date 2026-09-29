@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "It introduces the lecture topic and sets expectations regarding complement complexity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement fundamentals and C3 activation",
+      "groupedBecause": "They establish the general architecture, nomenclature conventions, and central C3 activation step of the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways",
+      "groupedBecause": "They explain how upstream recognition pathways generate convertases to reach the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "They describe the downstream functional outcomes through which activated complement eliminates pathogens and recruits immune responses.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement activation",
+      "groupedBecause": "It explains the host regulatory mechanisms that prevent complement activation from damaging host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "It details the distinct clinical presentations and disease susceptibilities caused by deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "It describes the evolutionary mechanisms and molecular strategies used by pathogens to subvert complement defenses.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview",
+      "groupedBecause": "It concludes the lecture on complement and previews the upcoming session on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

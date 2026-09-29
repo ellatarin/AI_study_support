@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "These remarks introduce the lecture objectives and outline the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and oncogenic signaling cascades",
+      "groupedBecause": "These subtopics explain how mutations in cell surface receptors and intracellular cascades drive sustained proliferative signaling.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block to terminal cell differentiation",
+      "groupedBecause": "These subtopics examine how cancer cells fail to execute terminal differentiation in haematopoietic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and regulation of cell death",
+      "groupedBecause": "This subtopic explores how alterations in p53 and Bcl-2 family proteins prevent programmed cell death in cancer cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and stress responses",
+      "groupedBecause": "These subtopics address telomere maintenance, senescence bypass mechanisms, and p53-mediated responses to cellular stress before concluding the growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and metabolic rewiring",
+      "groupedBecause": "These subtopics detail the mechanisms and consequences of altered cellular metabolism, aerobic glycolysis, and oncometabolite production in tumors.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "This subtopic describes the necessity, timing, and molecular regulation of new blood vessel formation to sustain tumor growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Tumor invasion, dissemination, and metastasis",
+      "groupedBecause": "These subtopics cover the multistep process of cancer metastasis, including systemic dissemination, liquid biopsies, colonization efficiency, and genomic profiles.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and final summary",
+      "groupedBecause": "These closing remarks summarise the key themes of the lecture and provide concluding guidance.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This section introduces the lecture topic and outlines the key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms of clonal evolution",
+      "groupedBecause": "These subtopics explain how sequential genetic mutations and epigenetic alterations confer selective advantages that drive clonal expansion in pre-malignant tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and cancer stem cell hierarchy",
+      "groupedBecause": "These subtopics evaluate the cancer stem cell model and investigate whether tumors initiate from tissue stem cells or committed progenitors using leukemia and intestinal models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory drivers of tumorigenesis",
+      "groupedBecause": "These subtopics examine how microenvironmental cues, inflammatory signaling, and stromal interactions promote tumor initiation, dedifferentiation, and growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental technologies for studying tumor architecture and evolution",
+      "groupedBecause": "This subtopic describes single-cell sequencing and spatial omics methods used to resolve the clonal timing and spatial cellular interactions in tumors.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Synthesis of multifactorial cancer evolution",
+      "groupedBecause": "This subtopic integrates genetic alterations, cell of origin, and microenvironmental factors into a unified model of Darwinian cancer evolution.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture closing",
+      "groupedBecause": "This section marks the conclusion of the lecture and previews the upcoming session.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

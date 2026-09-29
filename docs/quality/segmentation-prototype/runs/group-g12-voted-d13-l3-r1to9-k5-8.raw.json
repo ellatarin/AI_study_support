@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "These remarks introduce the cancer biology course series and outline the specific learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological mechanisms of cancer and tissue organization",
+      "groupedBecause": "These subtopics examine how genetic alterations disrupt differentiation and three-dimensional tissue architecture, and consider the experimental challenges of modelling this architecture in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology of tumor invasion and metastasis",
+      "groupedBecause": "These subtopics explain the concepts of local invasion and metastatic dissemination and illustrate the histological differences between encapsulated benign tumors and invasive malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise progression and clinical risks of benign neoplasms",
+      "groupedBecause": "These subtopics describe the stepwise transition from benign precursor polyps to invasive colorectal adenocarcinoma and examine the local hazards posed by non-malignant tumors.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Neoplasm nomenclature and classification",
+      "groupedBecause": "This subtopic defines the systematic naming conventions and clinical exceptions used to classify benign and malignant neoplasms across diverse tissue lineages.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the anatomical and physiological mechanisms through which localized tumor growth and widespread metastatic colonization cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence across humans and animal species",
+      "groupedBecause": "These subtopics analyse the epidemiological distribution of major cancer types in humans and compare tumor incidence across diverse multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening methods",
+      "groupedBecause": "These subtopics address the clinical signs of cancer and assess the efficacy and limitations of screening programs for major tumor types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Concluding remarks and practical arrangements",
+      "groupedBecause": "These closing remarks recap the core learning outcomes and provide housekeeping details for upcoming practical sessions and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

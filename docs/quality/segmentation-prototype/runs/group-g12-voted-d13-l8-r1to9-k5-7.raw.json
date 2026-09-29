@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the administrative opening and learning objectives for the cancer therapy lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional interventions, cytotoxic chemotherapy, and resistance",
+      "groupedBecause": "These subtopics examine standard non-targeted cancer interventions including surgery, radiotherapy, and cytotoxic chemotherapy, alongside the physiological side effects and drug efflux mechanisms that limit them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities, checkpoint defects, and synthetic lethality",
+      "groupedBecause": "These subtopics describe therapeutic strategies designed to exploit inherent cancer-specific defects, including hormone signaling dependence, cell cycle checkpoint alterations, oncolytic viral sensitivity, and DNA repair deficiencies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors, oncogene addiction, and pathway resistance",
+      "groupedBecause": "These subtopics focus on small-molecule inhibitors of hyperactivated oncogenic kinases and the molecular resistance, bypass signaling, and drug addiction phenomena that emerge during treatment.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics address targeted therapies that utilise engineered monoclonal antibodies to block receptor signalling, direct immune-mediated cell lysis, or selectively deliver cytotoxic payloads to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and immune-based interventions",
+      "groupedBecause": "These subtopics explore the biological basis and clinical implementation of cancer immunotherapies, including immune surveillance evidence, checkpoint blockade, bispecific T-cell engagers, and CAR T-cell engineering.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic challenges, clinical progress, and future directions",
+      "groupedBecause": "These subtopics evaluate the overarching challenges in oncology, historical trends in cancer survival and prevention, emerging therapeutic paradigms, and the ethical dilemmas of clinical drug trials.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

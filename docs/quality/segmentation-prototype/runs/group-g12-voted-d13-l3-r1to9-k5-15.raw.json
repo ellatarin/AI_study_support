@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the opening framing, outlining the course structure and key learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of differentiation and tissue organization",
+      "groupedBecause": "These subtopics explain how cancer emerges from disrupted genetic regulation and the loss of normal tissue differentiation and three-dimensional architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology and routes of tumor invasion and metastasis",
+      "groupedBecause": "These subtopics describe how malignant tumors breach structural boundaries to invade local tissues and disseminate to distant organs.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise tumor progression and benign tumor risks",
+      "groupedBecause": "These subtopics explore the multistep transition from precursor lesions to invasive malignancies alongside the clinical complications caused by benign tumors.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor nomenclature and classification",
+      "groupedBecause": "This subtopic details the standard conventions and notable exceptions used to classify and name neoplasms according to their tissue of origin and malignant potential.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of tumor-induced morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physical, physiological, and metabolic processes through which localized and disseminated cancers cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence across humans and animal species",
+      "groupedBecause": "These subtopics compare patterns of cancer frequency across human tissues, companion animals, and diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and applications of cancer screening",
+      "groupedBecause": "These subtopics assess the rationale, histological methods, and clinical efficacy of population-level screening programs for early cancer detection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and practical session preview",
+      "groupedBecause": "This subtopic provides the lecture's closing remarks and instructions for upcoming revision and practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

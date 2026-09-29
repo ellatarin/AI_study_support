@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "The lecturer welcomes the class and frames the scope and challenges of learning the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamental principles, nomenclature, and the central role of C3",
+      "groupedBecause": "These subtopics introduce the core functions, historical naming conventions, and central biochemical significance of component C3 in complement biology.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the biochemical mechanisms and threshold requirements of the alternative, lectin, and classical pathways that drive C3 activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics detail how activated complement eliminates pathogens through opsonization, inflammatory signaling, and membrane attack complex-mediated lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement and host cell protection",
+      "groupedBecause": "This subtopic explains the molecular mechanisms and regulatory factors that protect host cells from accidental complement activation and damage.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic details the distinct disease phenotypes and clinical presentations that result from deficiencies in specific complement proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic examines the evolutionary strategies and specific mechanisms used by pathogens like Staphylococcus aureus to circumvent complement attack.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview of the adaptive immune system",
+      "groupedBecause": "The lecturer wraps up the lecture on complement and announces the topic for the next session.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

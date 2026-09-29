@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The subtopic introduces the lecture's scope on cancer evolution, the role of the microenvironment, and the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal selection and epigenetic drivers in pre-malignant tissues",
+      "groupedBecause": "These subtopics examine how genetic mutations and epigenetic changes provide selective fitness advantages driving clonal expansion in early tissue lesions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and cancer stem cell hierarchy",
+      "groupedBecause": "These subtopics investigate whether malignancies arise from tissue stem cells or committed progenitors using leukemia and intestinal crypt models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory promotion of tumor growth",
+      "groupedBecause": "These subtopics demonstrate how external environmental exposures, chronic inflammation, and supportive stroma provide essential permissive signals for tumorigenesis and cancer maintenance.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for analyzing tumor evolution and spatial architecture",
+      "groupedBecause": "The subtopic outlines the genomic, transcriptomic, and spatial omics technologies used to map clonal evolution and cellular interactions within tumors.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated evolutionary model of cancer progression",
+      "groupedBecause": "The subtopic synthesizes how genetic mutations, cell-of-origin characteristics, and microenvironmental conditions jointly drive cancer development.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture closing",
+      "groupedBecause": "The subtopic wraps up the lecture and introduces the topic of the upcoming lecture.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

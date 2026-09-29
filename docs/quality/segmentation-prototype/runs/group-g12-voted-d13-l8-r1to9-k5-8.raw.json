@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The opening outlines the learning objectives and frames the overall scope of the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatments and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics examine traditional treatment modalities along with the systemic toxicity and drug resistance mechanisms that limit cytotoxic chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer cell vulnerabilities and intrinsic defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that selectively target intrinsic cellular defects such as hormone dependency, checkpoint deficiencies, and DNA repair mutations.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase oncogene targeting and resistance mechanisms",
+      "groupedBecause": "These subtopics examine the design, clinical application, and resistance pathways associated with small-molecule inhibitors targeting oncogenically activated kinases.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the use of engineered antibodies to inhibit surface signaling pathways or deliver targeted cytotoxic payloads to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and immunotherapeutic strategies",
+      "groupedBecause": "These subtopics evaluate the basis for immune surveillance against tumors and explore therapies that engage or re-engineer immune cells to destroy cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overall progress, systemic challenges, and future directions in cancer care",
+      "groupedBecause": "These subtopics evaluate historical progress in cancer survival alongside persistent clinical challenges and emerging paradigms for future patient management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "The lecturer welcomes the class and frames the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Immune Recognition: PAMPs, DAMPs, and Pattern Recognition Receptors",
+      "groupedBecause": "These subtopics explain the molecular basis by which the innate immune system senses microbial products and cellular damage through various pattern recognition receptors and their signaling pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory Cascade, Leukocyte Recruitment, and Systemic Manifestations",
+      "groupedBecause": "These subtopics follow the immediate consequences of innate recognition, covering sentinel cell mediator release, leukocyte recruitment into tissues, lymphatic priming, and systemic hyperinflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Pathology",
+      "groupedBecause": "These subtopics discuss how inflammation is resolved through active and passive mechanisms, how tissue repair is mediated, and the causes and adaptations associated with persistent chronic inflammation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Closing",
+      "groupedBecause": "The lecturer concludes the session and previews the topic of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

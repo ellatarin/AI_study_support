@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer causation and lecture objectives",
+      "groupedBecause": "The lecturer introduces the scope of the lecture on cancer causes and defines the session's key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of cancer etiology, environmental risk, and epidemiology",
+      "groupedBecause": "These subtopics explore the conceptual framework of cancer development as an evolutionary genetic process influenced by endogenous mutations, environmental exposures, and population-level epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and viral mechanisms in oncogenesis",
+      "groupedBecause": "These subtopics explain how infectious agents, illustrated in detail by the multi-factorial case of Burkitt lymphoma, drive oncogenesis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Molecular mechanisms of chemical and physical mutagens",
+      "groupedBecause": "These subtopics examine how environmental, dietary, and chemical mutagens inflict DNA damage, focusing on metabolic xenobiotic activation and DNA adduct formation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, developmental susceptibility, and carcinogenic mechanisms",
+      "groupedBecause": "These subtopics examine non-mutagenic factors in carcinogenesis, including inflammatory tumor promotion, stage-of-life cellular vulnerability, and a synthesis of DNA-damaging mechanisms.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics present the experimental, genomic, and epidemiological approaches used to identify carcinogen exposure and evaluate the carcinogenic potential of substances.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Carcinogenic risk assessment and lecture conclusion",
+      "groupedBecause": "The lecturer concludes the session by summarizing cancer causation and framing environmental exposures in the context of everyday risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

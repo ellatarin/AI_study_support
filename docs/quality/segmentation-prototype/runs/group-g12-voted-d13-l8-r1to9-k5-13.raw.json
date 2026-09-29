@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the introductory framing and sets out the core learning objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics address conventional cancer treatment modalities, including surgical resection, radiotherapy, and cytotoxic chemotherapeutics, along with their systemic toxicities and efflux-mediated drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cellular vulnerabilities, checkpoint defects, and synthetic lethality",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic molecular defects in cancer cells, including hormone dependency, checkpoint deficiencies, and DNA repair pathways through synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics examine small-molecule inhibitors targeting oncogenic driver kinases, analyzing their mechanisms of action alongside the mutation, bypass, and addiction pathways that cause resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain how monoclonal antibodies are used directly to inhibit receptor signaling or engineered as conjugates to deliver cytotoxic agents selectively to cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and cell-based immunotherapies",
+      "groupedBecause": "These subtopics review the principles of antitumor immunity and modern immunotherapeutic approaches, encompassing immune checkpoint blockade, neoantigen recognition, bispecific T-cell engagers, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical progress, challenges, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics synthesize historical trends in cancer mortality, ongoing therapeutic challenges, future research directions, and the ethical dilemmas of clinical trials.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

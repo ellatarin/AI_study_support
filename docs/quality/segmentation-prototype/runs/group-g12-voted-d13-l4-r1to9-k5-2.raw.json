@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "This topic introduces the cancer lecture series and sets out the learning objectives regarding environmental exposures and carcinogenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of cancer etiology, risk factors, and epidemiology",
+      "groupedBecause": "These subtopics establish the conceptual framework of cancer causation by exploring the interplay between genetic mutations, endogenous cellular processes, environmental exposures, and global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and oncogenesis",
+      "groupedBecause": "These subtopics examine how biological pathogens and viral infections contribute to cancer development, illustrated through the multi-factorial etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which physical radiation and metabolically activated chemical carcinogens induce direct DNA damage and adduct formation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host susceptibility, and mechanistic summary",
+      "groupedBecause": "These subtopics explore non-mutagenic promotional mechanisms, host developmental susceptibility windows, and synthesize the broader concepts of cancer causation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for assessing carcinogenicity and mutational signatures",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, in vivo, and in vitro experimental strategies used to detect and prove the carcinogenicity of environmental exposures.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing remarks on risk-benefit assessment in cancer prevention",
+      "groupedBecause": "This topic concludes the lecture with framing remarks on evaluating practical trade-offs between carcinogenic risks and everyday benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

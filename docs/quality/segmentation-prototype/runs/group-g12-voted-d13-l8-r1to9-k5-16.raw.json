@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This opening section introduces the lecture and outlines its key learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics cover traditional treatment modalities including surgery, radiotherapy, and cytotoxic chemotherapeutic agents along with their associated toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer vulnerabilities and pathway defects",
+      "groupedBecause": "These subtopics examine therapeutic strategies that exploit specific cancer-cell vulnerabilities such as hormone dependence, defective cell cycle checkpoints, and impaired DNA repair machinery.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase-targeted therapies and mechanisms of resistance",
+      "groupedBecause": "These subtopics explore the rationale, design, and clinical use of small-molecule kinase inhibitors as well as the diverse resistance mechanisms and off-target effects that arise.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody and antibody-drug conjugate therapies",
+      "groupedBecause": "These subtopics describe therapeutic approaches utilizing engineered antibodies and antibody-drug conjugates directed against specific cell-surface proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-directed approaches",
+      "groupedBecause": "These subtopics discuss the basis of immune surveillance against tumors and various immunotherapy strategies that harness or engineer T cells to eliminate cancer cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overall challenges, historical progress, and future directions in cancer management",
+      "groupedBecause": "These subtopics reflect on historical survival trends, persistent systemic challenges such as tumor heterogeneity, and emerging paradigms and dilemmas in the future of cancer care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

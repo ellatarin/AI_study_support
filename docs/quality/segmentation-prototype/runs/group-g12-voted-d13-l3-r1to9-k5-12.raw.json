@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and course learning outcomes",
+      "groupedBecause": "This subtopic provides the introductory framing for the lecture series and outlines the specific learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular, genetic, and tissue-level foundations of cancer",
+      "groupedBecause": "These subtopics establish the molecular and developmental origins of cancer as a breakdown of cellular differentiation and tissue architecture while examining experimental models used to study them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign versus malignant tumors, invasion, and metastatic progression",
+      "groupedBecause": "These subtopics describe the histological and clinical distinctions between benign and malignant tumors, detailing the processes of tissue invasion, stepwise progression, and metastatic dissemination.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and clinical mechanisms of disease",
+      "groupedBecause": "These subtopics explain the formal naming conventions for classifying tumors and describe the pathological mechanisms through which neoplastic growths cause patient morbidity and mortality.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Cancer incidence in humans and across multicellular species",
+      "groupedBecause": "These subtopics explore the epidemiological occurrence of various tumor types in human populations and compare cancer incidence patterns across diverse animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and organ-specific cancer screening methods",
+      "groupedBecause": "These subtopics discuss the rationale and clinical symptoms prompting early cancer detection and evaluate the efficacy and challenges of screening programs across different anatomical sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing housekeeping and review",
+      "groupedBecause": "This subtopic concludes the lecture with closing remarks and instructions for upcoming practicals and review sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the session's focus on cancer evolution, the microenvironment, and key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms of clonal evolution",
+      "groupedBecause": "These subtopics explore how Darwinian selection acts on genetic mutations and epigenetic alterations to drive clonal expansion in pre-malignant tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular hierarchy and cancer stem cell models",
+      "groupedBecause": "These subtopics examine the role of the cell of origin and evaluate evidence for cancer stem cells across hematological and solid tissue models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory promotion of tumor growth",
+      "groupedBecause": "These subtopics explore how external stimuli, inflammation, and supportive stromal interactions cooperate with mutations to promote and maintain tumor growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Technologies for mapping tumor evolution and microenvironment",
+      "groupedBecause": "This subtopic addresses the sequencing, imaging, and computational technologies used to investigate tumor evolution and cellular interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated model of multifactorial cancer evolution",
+      "groupedBecause": "This subtopic synthesizes the genetic, epigenetic, cell-of-origin, and microenvironmental factors into a unified evolutionary model of cancer development.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer concludes the presentation and announces the topic for the subsequent session.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

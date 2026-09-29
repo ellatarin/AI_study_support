@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture by outlining the main learning outcomes and connecting the content to prior practical work.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Viral transformation and the discovery of cellular oncogenes",
+      "groupedBecause": "These subtopics trace how investigating transforming viruses and in vitro cell assays established that cancer originates from altered cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and classifications of oncogenes and tumor suppressors",
+      "groupedBecause": "These subtopics explain the functional definitions and regulatory mechanisms of oncogenes and tumor suppressor genes in cell cycle control and phenotypic expression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of genetic instability and multi-step progression",
+      "groupedBecause": "These subtopics detail how failures in DNA repair pathways and mitotic segregation generate sequence and chromosomal instability to drive tumor progression.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Hereditary cancer predispositions and tumor maintenance",
+      "groupedBecause": "These subtopics examine how germline mutations predispose individuals to cancer and evaluate whether genomic instability remains essential for tumor maintenance.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Closing remarks and recommended reading",
+      "groupedBecause": "This subtopic concludes the lecture by providing recommended reading and previewing the next session.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

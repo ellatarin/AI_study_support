@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer biology and lecture learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series and outlines the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological origins, tissue architecture, and cell culture models of cancer",
+      "groupedBecause": "These subtopics examine how genetic and epigenetic changes disrupt normal differentiation and tissue architecture to initiate cancer, along with the laboratory approaches used to study tumor cells.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathological and anatomical distinction between benign and malignant tumors",
+      "groupedBecause": "These subtopics explain how local tissue invasion and metastatic dissemination through vascular or lymphatic routes distinguish malignant neoplasms from encapsulated benign lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise neoplastic progression and the clinical impacts of benign lesions",
+      "groupedBecause": "These subtopics explore how benign precursor polyps progressively develop into invasive carcinomas and explain how non-malignant tumors can still cause severe clinical complications.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor nomenclature and classification conventions",
+      "groupedBecause": "This subtopic outlines the standard terminology and suffix rules used to classify and name tumors according to their tissue origin and biological behavior.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the local physical obstructions and systemic physiological disruptions through which tumors cause disease, organ failure, and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence across human populations and animal species",
+      "groupedBecause": "These subtopics compare the prevalence, tissue origins, and behavioral patterns of tumors across human demographics and throughout diverse multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer clinical presentation and screening modalities",
+      "groupedBecause": "These subtopics evaluate patient presentation signs alongside the practical utility, benefits, and challenges of population screening programs across various tumor types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing housekeeping and practical session preview",
+      "groupedBecause": "This subtopic provides the concluding remarks, reminds students of the learning objectives, and previews the upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

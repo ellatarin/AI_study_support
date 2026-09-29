@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the hallmarks of cancer",
+      "groupedBecause": "These remarks frame the lecture by outlining the learning outcomes and introducing the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and pathway deregulation",
+      "groupedBecause": "These subtopics explore the molecular signaling cascades and mutations that enable cancer cells to achieve growth signal independence and resist inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in tumorigenesis",
+      "groupedBecause": "These subtopics explain how cancer cells fail to execute terminal differentiation across both hematopoietic malignancies and solid intestinal tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic addresses how cancer cells avoid programmed cell death through mutations disrupting p53 signaling and the balance of Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and stress response",
+      "groupedBecause": "These subtopics explain how cancer cells overcome proliferative limits by reactivating telomerase and bypassing p53-mediated senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming in cancer",
+      "groupedBecause": "These subtopics examine how cancer cells rewire their metabolic pathways through aerobic glycolysis, Krebs cycle enzyme mutations, and epigenetic alterations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic describes the triggers and biological mechanisms by which expanding tumors induce new blood vessel growth to sustain nutrient and oxygen supply.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion, dissemination, and metastatic colonization",
+      "groupedBecause": "These subtopics detail the multistep progression of cancer cell invasion, vascular transport, and colonization at secondary sites.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "These closing remarks summarize the collective emergence of cancer hallmarks and conclude the lecture.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

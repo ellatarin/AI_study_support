@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the core themes of the lecture and outlines the intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal selection and epigenetic changes in pre-malignant tissues",
+      "groupedBecause": "These subtopics explore how Darwinian natural selection acting on somatic mutations and epigenetic alterations drives clonal succession in early tissue transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and the cancer stem cell model",
+      "groupedBecause": "These subtopics examine how normal tissue hierarchies, stem cell properties, and cell-of-origin differences influence tumor initiation across leukemia and intestinal crypt models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory promotion of tumor growth",
+      "groupedBecause": "These subtopics explain how extrinsic environmental factors, chronic inflammation, and supportive stromal interactions cooperate with cellular mutations to permit and sustain malignant growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Technologies for investigating tumor evolution and spatial architecture",
+      "groupedBecause": "This subtopic addresses the experimental and computational techniques used to map clonal lineage, transcriptional states, and spatial interactions in human tissue specimens.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Synthesis of cancer evolution and microenvironmental cooperation",
+      "groupedBecause": "This subtopic synthesizes the lecture's concepts into an integrated multifactorial model of cancer development governed by cellular fitness, cell of origin, and environmental context.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture closing",
+      "groupedBecause": "The lecturer concludes the session and previews the topic of the next lecture.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

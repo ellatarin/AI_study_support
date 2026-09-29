@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines its core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional cancer therapies and drug resistance",
+      "groupedBecause": "These subtopics examine conventional therapeutic modalities—including surgery, radiotherapy, and cytotoxic chemotherapy—along with the associated systemic toxicity and efflux-mediated drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer-specific vulnerabilities and checkpoint defects",
+      "groupedBecause": "These subtopics discuss therapeutic strategies designed to exploit intrinsic tumor weaknesses, including hormone dependence, checkpoint deficiencies, and DNA repair defects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Kinase-targeted therapies and resistance mechanisms",
+      "groupedBecause": "These subtopics focus on the design of small-molecule kinase inhibitors and the molecular mechanisms that lead to bypass signaling, acquired resistance, and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explore the therapeutic use of monoclonal antibodies and antibody-drug conjugates to selectively target cancer cell-surface proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and immunotherapies",
+      "groupedBecause": "These subtopics assess natural immune surveillance and examine therapeutic approaches that engage or engineer the immune system to eliminate tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future perspectives in cancer therapy",
+      "groupedBecause": "These subtopics evaluate overall mortality trends, clinical complexities, and future therapeutic paradigms across oncology.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for cancer hallmarks",
+      "groupedBecause": "It introduces the lecture outline, learning objectives, and the framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained proliferative signaling and growth pathway deregulation",
+      "groupedBecause": "They examine how mutations in cell-surface receptors and downstream signaling cascades drive growth signal autonomy and cell proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in hematopoietic and epithelial cancers",
+      "groupedBecause": "They demonstrate how a failure to undergo terminal differentiation contributes to tumor development in both blood cancers and solid tissue carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis, replicative immortality, and growth control recap",
+      "groupedBecause": "They explain how cancer cells circumvent programmed cell death and replicative senescence through p53 and telomerase regulation before concluding the discussion on growth-control hallmarks.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic rewiring and oncometabolites",
+      "groupedBecause": "They describe the biochemical alterations underlying cancer cell metabolism, including aerobic glycolysis and Krebs cycle mutations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "It examines how developing tumors induce new blood vessel formation to overcome diffusion limits for oxygen and nutrients.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Tumor invasion, metastasis, and systemic dissemination",
+      "groupedBecause": "They explore the biological steps, clinical tracking, selective pressures, and genomic features involved in cancer metastasis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and final remarks",
+      "groupedBecause": "It summarizes the core message of the lecture, discusses further reading on the hallmarks framework, and closes the session.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

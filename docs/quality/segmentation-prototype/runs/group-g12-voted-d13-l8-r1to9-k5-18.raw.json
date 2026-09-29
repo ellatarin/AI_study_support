@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "The lecture opens with framing remarks introducing cancer therapy and outlining the primary learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics explore standard local and systemic treatment modalities, including surgery, radiotherapy, cytotoxic chemotherapies, and the physiological and cellular mechanisms underlying treatment resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic signaling, checkpoint, and DNA repair vulnerabilities",
+      "groupedBecause": "These subtopics examine therapeutic strategies designed to exploit cancer-specific biological vulnerabilities, including hormone receptor dependency, cell cycle checkpoint defects, and synthetic lethality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene addiction, kinase inhibitors, and resistance pathways",
+      "groupedBecause": "These subtopics address targeted therapies directed against hyperactive oncogenic kinases, their molecular mechanisms of inhibition, and the adaptive resistance and addiction mechanisms that arise.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibody and antibody-drug conjugate therapies",
+      "groupedBecause": "These subtopics focus on utilizing engineered monoclonal antibodies and antibody-drug conjugates to selectively direct cytotoxic effects against tumor surface markers.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell redirection strategies",
+      "groupedBecause": "These subtopics examine natural immune surveillance against cancer and various immunotherapeutic interventions designed to harness and redirect T cells against tumor antigens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic challenges, clinical progress, and future directions",
+      "groupedBecause": "These subtopics review the overarching challenges facing cancer medicine, the clinical progress achieved across historical treatment eras, and emerging dilemmas for future oncology.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

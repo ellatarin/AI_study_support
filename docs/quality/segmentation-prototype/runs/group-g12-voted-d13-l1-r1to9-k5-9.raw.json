@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "This subtopic frames the lecture and introduces the overarching focus on the molecular and cellular mechanisms governing inflammation initiation and resolution.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "PAMPs, DAMPs, and Innate Immune Recognition",
+      "groupedBecause": "These subtopics define pathogen- and damage-associated molecular patterns and explain the criteria the innate immune system uses to distinguish foreign threats from self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern Recognition Receptors and Inflammasome Signaling",
+      "groupedBecause": "These subtopics explain how pattern recognition receptors and intracellular inflammasome complexes detect danger signals and transduce them into inflammatory gene expression.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammatory Mediators, Leukocyte Recruitment, and Systemic Effects",
+      "groupedBecause": "These subtopics trace the physiological cascades of acute inflammation, from sentinel cell activation and leukocyte extravasation to systemic complications like septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Containment",
+      "groupedBecause": "These subtopics explain how the immune response transitions from active inflammation into tissue healing and how unresolved inflammation is managed through chronic containment.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Closing",
+      "groupedBecause": "This subtopic provides the concluding remarks for the lecture and previews the upcoming session on the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture learning outcomes",
+      "groupedBecause": "It introduces the lecture series, outlines the learning outcomes, and frames cancer biology across molecular mechanisms and clinical perspectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations of cancer and in vitro modeling",
+      "groupedBecause": "They describe the genetic, epigenetic, and developmental origins of cancer as a failure of tissue differentiation and address the limitations of modeling these processes in cell culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and benign versus malignant pathology",
+      "groupedBecause": "They define the processes of invasion and metastasis and illustrate the pathological differences between encapsulated benign tumors and invasive malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise colorectal tumor progression and benign tumor behavior",
+      "groupedBecause": "They examine the stepwise transition from benign adenomas to invasive adenocarcinomas and analyze the clinical behaviors and risks associated with benign tumors.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor nomenclature and classification",
+      "groupedBecause": "It explains the standardized rules and exceptions for naming and classifying benign and malignant tumors based on their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "It explains how primary and metastatic tumors impair physiological functions to cause clinical complications and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence in humans and comparative oncology across species",
+      "groupedBecause": "They present the epidemiology of common human cancers and demonstrate that tumor development is a universal feature of multicellular organisms with differentiation programs.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening strategies",
+      "groupedBecause": "They discuss the clinical signs of cancer and evaluate the histological principles, effectiveness, and challenges of screening programs across different tumor types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing remarks and summary",
+      "groupedBecause": "It provides concluding administrative remarks, directs students to the learning outcomes for revision, and looks ahead to upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

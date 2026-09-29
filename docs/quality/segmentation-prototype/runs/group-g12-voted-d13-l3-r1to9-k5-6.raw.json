@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series and outlines the specific learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular, genetic, and architectural origins of cancer",
+      "groupedBecause": "These subtopics examine how genetic drivers and the disruption of normal tissue differentiation lead to tumor formation, as well as the models used to study these cellular changes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Characteristics, progression, and nomenclature of benign and malignant tumors",
+      "groupedBecause": "These subtopics detail the histological features, invasive and metastatic progression, and formal classification systems that distinguish benign from malignant neoplasms.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathophysiological causes of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the specific mechanical, systemic, and metastatic mechanisms through which tumors impair organ function and cause death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative tumor incidence across human and animal populations",
+      "groupedBecause": "These subtopics compare the prevalence, organ distribution, and malignancy rates of tumors across human demographics and various multicellular animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical methods of cancer screening",
+      "groupedBecause": "These subtopics review the clinical rationale, diagnostic histology, and practical challenges associated with screening for various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and practical session preview",
+      "groupedBecause": "This subtopic concludes the lecture with a review of the learning outcomes and housekeeping information for upcoming classes.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

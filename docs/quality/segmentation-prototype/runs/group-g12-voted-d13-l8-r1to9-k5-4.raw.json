@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This opening subtopic introduces the lecture and outlines its learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies, cytotoxicity, and drug resistance",
+      "groupedBecause": "These subtopics examine conventional local and systemic cancer therapies and the general challenges of non-specific cytotoxicity and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and synthetic lethality",
+      "groupedBecause": "These subtopics focus on therapeutic strategies that exploit intrinsic molecular vulnerabilities, checkpoint deficiencies, and impaired DNA repair in cancer cells.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics discuss the therapeutic inhibition of hyperactive oncogenic kinases and the molecular mechanisms that lead to drug resistance and addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe antibody-based strategies designed to selectively block cell signaling, recruit immune effector functions, or deliver cytotoxic payloads to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and cellular immunotherapies",
+      "groupedBecause": "These subtopics address the harnessing of antitumor immunity through natural immune surveillance, immune checkpoint inhibition, and engineered T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Broader challenges, historical progress, and future directions in oncology",
+      "groupedBecause": "These subtopics evaluate the overall trajectory of cancer management by examining clinical trial hurdles, historical survival gains, and emerging therapeutic paradigms.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

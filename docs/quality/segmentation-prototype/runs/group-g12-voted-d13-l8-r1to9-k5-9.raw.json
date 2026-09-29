@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture and outlines the intended learning outcomes regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics discuss conventional cancer treatment modalities alongside the systemic toxicities and resistance mechanisms associated with cytotoxic chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting cancer cell vulnerabilities and genetic defects",
+      "groupedBecause": "These subtopics examine therapeutic strategies that exploit intrinsic vulnerabilities of cancer cells, including hormone dependence, checkpoint deficiencies, and impaired DNA repair.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Small-molecule kinase inhibitors and oncogene targeting",
+      "groupedBecause": "These subtopics focus on targeting oncogenic driver mutations using small-molecule kinase inhibitors and the mechanisms by which tumors develop resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Therapeutic monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics examine the design, mechanisms, and clinical applications of targeted monoclonal antibodies and antibody-drug conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and immune system exploitation",
+      "groupedBecause": "These subtopics explore the biological basis and therapeutic modalities of cancer immunotherapy, including immune checkpoint blockade and cell-based interventions.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future directions in cancer management",
+      "groupedBecause": "These subtopics review overarching challenges, long-term survival trends, and future paradigms in cancer treatment and clinical decision-making.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

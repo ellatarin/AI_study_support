@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "Opening framing outlining the lecturer's background, course structure, and learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic, genetic, and evolutionary bases of cancer",
+      "groupedBecause": "These subtopics explain the core concept of cancer as a microevolutionary genetic disease driven by endogenous mutation sources and inherited predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental risk factors, epidemiology, and cancer causation debates",
+      "groupedBecause": "These subtopics survey known environmental carcinogens, discuss public and scientific debates on 'bad luck' versus exposure, and evaluate epidemiological variation in global cancer rates.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents and viral oncogenesis",
+      "groupedBecause": "These subtopics examine how infectious pathogens drive cancer development, highlighting Burkitt lymphoma as a multi-factorial model of viral carcinogenesis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms by which radiation and metabolized chemical carcinogens induce direct DNA damage and bulky adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor initiation versus promotion",
+      "groupedBecause": "These subtopics define the distinction between mutagenic initiators and non-mutagenic promoters that stimulate clonal proliferation and chronic inflammation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Developmental susceptibility and summary of carcinogenic mechanisms",
+      "groupedBecause": "These subtopics examine how developmental timing affects organ susceptibility to carcinogens and summarise the primary mechanistic modes of cancer induction.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics describe the sequencing, epidemiological, animal in vivo, and in vitro experimental approaches used to detect and evaluate carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Concluding perspective on balancing carcinogenic risk and benefit",
+      "groupedBecause": "Closing framing reflecting on everyday risk-benefit decisions regarding carcinogen exposure and summarising the key takeaways of the lecture.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

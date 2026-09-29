@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the hallmarks of cancer",
+      "groupedBecause": "The subtopic outlines the lecture objectives, framework, and progression model for understanding the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and mutational activation",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell-surface receptors and downstream intracellular cascades drive growth signal independence and sustained proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks to terminal differentiation",
+      "groupedBecause": "These subtopics examine how cancer cells fail to exit the cell cycle and differentiate within hematopoietic lineages and intestinal crypt epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how alterations in p53 regulation and the balance of Bcl-2 family proteins prevent programmed cell death in cancer cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and cellular senescence",
+      "groupedBecause": "These subtopics detail how telomere dynamics and p53-mediated stress responses trigger senescence, and how cancer cells bypass these limits through telomerase reactivation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics describe how cancer cells rewire their bioenergetics via aerobic glycolysis, maintain tissue-specific metabolic profiles, and generate oncometabolites through Krebs cycle mutations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic addresses how tumors overcome diffusion limits by altering the balance of pro- and anti-angiogenic signals to recruit new blood vessels.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion, metastasis, and secondary colonization",
+      "groupedBecause": "These subtopics cover the mechanisms of local invasion, lymphatic and vascular dissemination, metastatic inefficiency, and genomic traits that enable distant colonization.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "The subtopic provides closing remarks, summarizes the integration of cancer hallmarks, and directs students to upcoming practical sessions.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

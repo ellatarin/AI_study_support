@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "These opening remarks introduce the cancer biology lecture series, the structure of the course, and the specific learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular drivers, tissue architecture, and in vitro models of cancer",
+      "groupedBecause": "These subtopics describe the underlying causes of cancer as genetic, epigenetic, and viral alterations that disrupt tissue differentiation programs, along with the laboratory methods and limitations of studying these cells in culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and histopathological distinction of malignancy",
+      "groupedBecause": "These subtopics detail the processes of local tissue invasion and systemic metastasis that differentiate malignant neoplasms from encapsulated benign tumors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise progression and clinical risks of benign tumors",
+      "groupedBecause": "These subtopics illustrate how malignant tumors arise through stepwise precursor stages in colorectal tissue and examine the clinical complications that benign tumors can cause.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor nomenclature and classification",
+      "groupedBecause": "This subtopic defines the standard naming conventions and clinical exceptions used to classify benign and malignant tumors according to their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physiological and systemic processes through which primary and metastatic tumors impair organ function and cause patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence and comparative oncology",
+      "groupedBecause": "These subtopics examine patterns of cancer frequency and mortality in human populations and compare tumor development across companion animals and other multicellular taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening strategies",
+      "groupedBecause": "These subtopics explore the early symptoms of cancer and compare the methodology, histological basis, and diagnostic challenges of population screening programs.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical preview",
+      "groupedBecause": "These closing remarks recap the core learning outcomes and provide logistical instructions for upcoming practical sessions and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

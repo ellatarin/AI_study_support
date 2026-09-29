@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the core learning objectives concerning cancer treatment approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatments and cytotoxic drug resistance",
+      "groupedBecause": "These subtopics explore traditional modalities—including surgery, radiotherapy, and cytotoxic chemotherapy—along with systemic toxicity and efflux-mediated drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics focus on therapeutic strategies designed to exploit inherent cancer cell vulnerabilities, including hormone dependence, cell cycle checkpoint deficiencies, and defective DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics examine small-molecule therapies targeting hyperactivated oncogenic kinases and the molecular mechanisms that lead to treatment resistance and drug addiction.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe engineered antibody therapeutics designed to block surface receptor signaling, trigger immune cytotoxicity, or deliver targeted cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and cellular engineering",
+      "groupedBecause": "These subtopics address the role of immune surveillance and the development of immunotherapies, including immune checkpoint inhibitors, bispecific T-cell engagers, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overall challenges, future directions, and therapeutic dilemmas",
+      "groupedBecause": "These subtopics examine broader clinical challenges in oncology, including historical trends in mortality, future paradigms in personalized medicine and detection, and ethical dilemmas in clinical trial design.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

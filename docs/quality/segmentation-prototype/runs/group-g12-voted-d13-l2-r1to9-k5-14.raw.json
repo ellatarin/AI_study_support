@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and framing of complement",
+      "groupedBecause": "The lecturer introduces the complement system and sets expectations for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational overview and nomenclature of complement",
+      "groupedBecause": "These subtopics introduce the fundamental concepts, general functions, and naming conventions of the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Central role of C3 and activation pathways",
+      "groupedBecause": "These subtopics explain how C3 functions as the central fulcrum and detail the three upstream pathways that trigger its activation on pathogen surfaces.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics describe the downstream effector processes carried out by complement activation to destroy pathogens and stimulate immune responses.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement and host cell protection",
+      "groupedBecause": "This subtopic explains the regulatory factors and mechanisms that prevent complement activation from damaging host tissues.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic examines the distinct disease presentations and clinical outcomes resulting from genetic or secondary deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of the complement system",
+      "groupedBecause": "This subtopic explores the evolutionary adaptations and mechanisms employed by pathogens to evade complement-mediated killing.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture wrap-up and next session preview",
+      "groupedBecause": "The lecturer concludes the presentation and provides a preview of the upcoming lecture topic.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

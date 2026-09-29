@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "It introduces the lecture by framing the learning outcomes on cancer genetics, cellular transformation, and tumor progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Viral oncogenesis and cellular transformation assays",
+      "groupedBecause": "These subtopics trace how the study of transforming tumor viruses revealed cellular proto-oncogenes and established laboratory assays for testing transformed phenotypes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and classifications of oncogenes and tumor suppressors",
+      "groupedBecause": "These subtopics explain the functional definitions and gene-dosage mechanisms of oncogenic and tumor-suppressive mutations in cell cycle control.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and consequences of genetic instability",
+      "groupedBecause": "These subtopics examine how failures in DNA repair pathways and mitotic chromosome segregation generate sequence and chromosomal instability.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-step tumor progression and hereditary cancer predisposition",
+      "groupedBecause": "These subtopics discuss how inherited mutations and acquired genetic alterations drive the stepwise progression of tumors over time.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and recommended reading",
+      "groupedBecause": "It provides administrative wrap-up, reading recommendations, and an outlook on the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "This subtopic frames the lecture topic on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Immune Sensing via PAMPs and DAMPs",
+      "groupedBecause": "These subtopics explain the molecular cues of infection and cellular damage that the innate immune system uses to distinguish foreign threats from self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern Recognition Receptors and Downstream Signaling",
+      "groupedBecause": "These subtopics detail the genomic encoding, subcellular locations, receptor families, and activation pathways that transduce danger signals into cellular responses.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammatory Cascade and Leukocyte Recruitment",
+      "groupedBecause": "These subtopics examine how sentinel cell activation drives local leukocyte extravasation, lymphatic priming of adaptive immunity, and systemic inflammatory pathology.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation and Tissue Repair",
+      "groupedBecause": "These subtopics address how the immune system halts inflammation, repairs damaged tissue, and manages persistent threats through chronic inflammation and granulomas.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Closing",
+      "groupedBecause": "This subtopic provides the concluding remarks and previews the upcoming lecture on complement.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

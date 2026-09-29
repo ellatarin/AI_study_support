@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "This topic provides the opening framing, welcome, and overview of the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Innate Recognition: PAMPs, DAMPs, and Self vs. Non-Self",
+      "groupedBecause": "These subtopics explain the molecular criteria and patterns used by the innate immune system to identify infections and tissue damage while distinguishing self from non-self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern Recognition Receptors and Intracellular Signaling Cascades",
+      "groupedBecause": "These subtopics explore the genomic encoding, subcellular distribution, and signaling cascades of pattern recognition receptor systems that translate danger detection into cellular activation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammatory Cascade Propagation, Leukocyte Trafficking, and Systemic Effects",
+      "groupedBecause": "These subtopics describe the propagation of inflammatory responses following sentinel cell activation, including leukocyte recruitment into tissues, lymphatic drainage, and systemic hyperinflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Containment",
+      "groupedBecause": "These subtopics address the mechanisms responsible for terminating inflammation, repairing damaged tissue, and establishing chronic containment structures when resolution is incomplete.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Closing",
+      "groupedBecause": "This topic provides the lecture's closing framing and an outlook on the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

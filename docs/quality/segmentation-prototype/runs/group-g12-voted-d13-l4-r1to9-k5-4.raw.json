@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "The lecturer welcomes the class, outlines the scope of the cancer lecture series, and sets out the specific learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular, genetic, and evolutionary origins of cancer",
+      "groupedBecause": "These subtopics explain how somatic mutations, endogenous cellular processes, and inherited genetic predispositions interact with the tissue microenvironment to drive cancer evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental carcinogens, risk perception, and epidemiological evidence",
+      "groupedBecause": "These subtopics explore the relationship between environmental exposures, public understanding of cancer causation, and geographic variations in cancer rates.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents and viral carcinogenesis",
+      "groupedBecause": "These subtopics examine the mechanisms by which pathogens drive malignancy, illustrated by the multifactorial pathogenesis of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical and physical DNA damage",
+      "groupedBecause": "These subtopics detail how physical radiation and dietary or chemical mutagens undergo xenobiotic activation to form DNA adducts and induce mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, cellular susceptibility, and cancer initiation",
+      "groupedBecause": "These subtopics analyse how non-mutagenic promoters, chronic inflammation, and developmental susceptibility facilitate the clonal outgrowth of initiated cells.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics discuss the genomic, epidemiological, in vivo, and in vitro approaches used to identify carcinogen exposure and evaluate mutagenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk-benefit considerations",
+      "groupedBecause": "The lecturer delivers closing remarks summarizing the lecture's core themes and framing carcinogen exposure within everyday risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

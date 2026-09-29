@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the final lecture of the course and outlines the learning objectives regarding cancer therapies and their mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and resistance mechanisms",
+      "groupedBecause": "These subtopics examine standard local and systemic treatment modalities, including surgery, radiotherapy, and cytotoxic chemotherapies, as well as the physiological toxicities and drug efflux mechanisms that limit them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeted therapies exploiting intrinsic cancer vulnerabilities and synthetic lethality",
+      "groupedBecause": "These subtopics discuss targeted therapeutic strategies that exploit cancer-specific biological vulnerabilities, including hormone dependence, cell cycle checkpoint loss, and synthetic lethality in DNA repair pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Small-molecule kinase inhibitors and resistance pathways",
+      "groupedBecause": "These subtopics cover the design and action of small-molecule inhibitors targeting hyperactivated oncogenic kinases, along with the structural mutations, bypass pathways, and drug addiction driving acquired resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics examine antibody-based therapeutics designed to target cell-surface antigens, whether through immune effector recruitment, receptor blocking, or targeted delivery of cytotoxic toxins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and immune-cell redirection",
+      "groupedBecause": "These subtopics explore the principles of tumor immunology and therapies that harness or engineer the immune system, including checkpoint inhibitors, bispecific antibodies, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical progress, emerging paradigms, and future challenges in oncology",
+      "groupedBecause": "These subtopics assess historical improvements in cancer outcomes, the ongoing challenges of tumor heterogeneity and clinical trial design, and future priorities in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "This subtopic frames the lecture by introducing its overarching focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and Damage Recognition Signals",
+      "groupedBecause": "These subtopics explain the molecular signals used by the innate immune system to recognize pathogens, detect tissue damage, and distinguish self from non-self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern Recognition Receptors and Intracellular Signaling",
+      "groupedBecause": "These subtopics describe the receptors and intracellular pathways responsible for detecting danger signals and transducing pro-inflammatory cascades.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammatory Mediators, Leukocyte Recruitment, and Systemic Consequences",
+      "groupedBecause": "These subtopics detail how acute immune activation coordinates cellular trafficking and produces localized as well as systemic physiological responses.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Containment",
+      "groupedBecause": "These subtopics explain how the body terminates acute inflammation, rebuilds tissue integrity, and contains unresolvable insults through chronic inflammatory structures.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Closing",
+      "groupedBecause": "This subtopic concludes the lecture and previews the next session on the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

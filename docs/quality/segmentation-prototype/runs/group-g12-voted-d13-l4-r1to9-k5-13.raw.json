@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the learning objectives for the lecture on cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals of cancer etiology and mutation origins",
+      "groupedBecause": "These subtopics establish cancer as an evolutionary genetic disease driven by endogenous, inherited, and environmental sources of DNA mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental carcinogens and epidemiological risk patterns",
+      "groupedBecause": "These subtopics examine known environmental exposures, public understanding of cancer causation, and geographic variations in cancer incidence revealed by epidemiological studies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious pathogens and viral carcinogenesis",
+      "groupedBecause": "These subtopics examine how infectious agents promote cancer, highlighted by the detailed case study of Burkitt lymphoma pathogenesis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical carcinogens and metabolic activation",
+      "groupedBecause": "These subtopics describe how physical radiation, dietary toxins, and chemical carcinogens undergo metabolic activation to form DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, tissue susceptibility, and mechanistic summary",
+      "groupedBecause": "These subtopics explore non-mutagenic tumor promotion, developmental and tissue susceptibility to carcinogenesis, and summarise the mechanisms of DNA damage.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and assessing carcinogens",
+      "groupedBecause": "These subtopics review mutational signature analysis, epidemiological biobanks, in vivo toxicological models, and in vitro Ames testing used to assess carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion and risk-benefit considerations",
+      "groupedBecause": "This subtopic delivers the closing remarks, summarising the lecture and framing everyday risk-benefit choices surrounding carcinogen exposure.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture objectives",
+      "groupedBecause": "It introduces the lecturer, the cancer lecture series, and the core learning objectives concerning environmental carcinogens and malignancy development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, environmental, and epidemiological factors in cancer etiology",
+      "groupedBecause": "These subtopics examine how cancer arises through the interplay of intrinsic genetic mutations, microenvironmental evolution, stochastic factors, and environmental exposures supported by global epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and viral carcinogenesis",
+      "groupedBecause": "These subtopics explain how biological pathogens drive oncogenesis, illustrated in detail by the multi-factorial etiology and pathogenesis of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics describe the molecular mechanisms by which dietary toxins, radiation, and chemical carcinogens induce DNA damage directly or via xenobiotic metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, host susceptibility, and summary of carcinogenic mechanisms",
+      "groupedBecause": "These subtopics distinguish tumor promoters from initiators, explore how host developmental stage influences tissue susceptibility, and summarize the diverse pathways of carcinogenesis.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and evaluating carcinogenicity",
+      "groupedBecause": "These subtopics present the genomic mutational signature analysis, epidemiological biobanking, and in vivo and in vitro experimental assays used to detect and assess carcinogens.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and everyday risk-benefit balance",
+      "groupedBecause": "It concludes the lecture by summarizing key takeaways and framing carcinogenic exposure within everyday risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

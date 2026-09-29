@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course structure, and the key learning outcomes regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of cancer: genetic, environmental, and epidemiological factors",
+      "groupedBecause": "These subtopics examine how cancer arises through an interplay of endogenous mutations, inherited susceptibility, and environmental exposures documented by epidemiological variation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Biological and chemical mechanisms of carcinogenesis and tumor promotion",
+      "groupedBecause": "These subtopics detail the specific molecular and cellular mechanisms by which infectious agents, chemical mutagens, radiation, and non-mutagenic promoters initiate and drive cancer development.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics explain the genomic, epidemiological, in vivo, and in vitro experimental approaches used to detect carcinogen exposure and evaluate carcinogenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk-benefit considerations",
+      "groupedBecause": "This subtopic concludes the lecture by summarizing key themes and discussing how carcinogenic risks are balanced against practical benefits in everyday life.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

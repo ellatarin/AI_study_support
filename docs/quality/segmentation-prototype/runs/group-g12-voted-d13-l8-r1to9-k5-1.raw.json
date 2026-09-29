@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture and outlines the core learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic resistance",
+      "groupedBecause": "These subtopics describe traditional cancer treatment modalities—including surgery, radiotherapy, and cytotoxic chemotherapy—along with their systemic toxicities and efflux-mediated drug resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic cell cycle and DNA repair vulnerabilities",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic cancer vulnerabilities, including hormone-dependent signaling, cell cycle checkpoint defects, and synthetic lethality in DNA repair-deficient tumors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Small molecule kinase inhibitors and resistance mechanisms",
+      "groupedBecause": "These subtopics address the inhibition of hyperactivated oncogenic kinases, the concept of oncogene addiction, and the molecular mechanisms underlying acquired drug resistance.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain the design and therapeutic application of engineered monoclonal antibodies and cytotoxic antibody-drug conjugates directed against tumor surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-directed therapies",
+      "groupedBecause": "These subtopics cover the principles of tumor immune surveillance and methods to harness the immune system against cancer using checkpoint inhibitors, bispecific engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical progress, challenges, and future perspectives in cancer management",
+      "groupedBecause": "These subtopics evaluate broad historical survival trends, ongoing therapeutic hurdles such as tumor heterogeneity, and future directions in prevention, detection, and combination therapies.",
+      "firstSubtopicId": 20
+    }
+  ]
+}
