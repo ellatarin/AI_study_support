@@ -1,17 +1,17 @@
 /**
  * The messages `deepen-subtopic-splitting` sends: the segmentation prototype's
- * `d9` prompt, carried over byte for byte, and one subtopic
+ * `d13` prompt, carried over byte for byte, and one subtopic
  * (technical-design.md §5, "Dividing the transcript"; "Where prompts live").
  *
  * The prompt is not edited here. Its every rule was measured in the prototype
- * (`docs/quality/segmentation-prototype/deepen-prompts.mts`, version `d9`), and
+ * (`docs/quality/segmentation-prototype/deepen-prompts.mts`, version `d13`), and
  * a change belongs there first, as a new version with runs against it.
  */
 
 import { type PromptMessages, promptMessages } from "../model-stage.js";
 
-/** The prototype's `d9` prompt, byte for byte. */
-const D9_PROMPT = `# Task
+/** The prototype's `d13` prompt, byte for byte. */
+const D13_PROMPT = `# Task
 
 You are being shown one section of a university lecture transcript that has already been divided into subtopics. Your job is to say where, if anywhere, this one section divides further.
 
@@ -36,6 +36,7 @@ This section reached you because its length was measured, and for no other reaso
 ### R2 — Read the subject, not the speaker's words
 
 Decide where subtopics change by reading what is being talked about. Do NOT rely on the speaker announcing a change. This lecturer says "So", "Right", and "Okay" constantly without changing subject, and several real changes of subject arrive with no announcement at all. The words are not the signal; the subject is.
+Use what you know of the subject itself. At each place you consider, ask whether someone who understands this field would say the lecturer has moved on to a different mechanism, structure or idea, or is still working on the same one. Where the subject has not changed, there is no boundary, however the speaker marks the turn. Where it has changed, there is a boundary, even if nothing marks it.
 
 ### R3 — What one subtopic holds
 
@@ -127,7 +128,7 @@ When the section is one step, reply instead with:
 }`;
 
 /**
- * Builds the messages for one subtopic: the `d9` prompt, then the subtopic's
+ * Builds the messages for one subtopic: the `d13` prompt, then the subtopic's
  * text under the heading the prototype gave it.
  *
  * @param args - What to divide.
@@ -135,5 +136,5 @@ When the section is one step, reply instead with:
  * @returns The system prompt and the user message.
  */
 export function buildDeepeningMessages({ passage }: { readonly passage: string }): PromptMessages {
-	return promptMessages({ system: D9_PROMPT, user: `Section:\n${passage}` });
+	return promptMessages({ system: D13_PROMPT, user: `Section:\n${passage}` });
 }

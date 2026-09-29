@@ -6,7 +6,7 @@
 
 **Status:** ready-for-agent
 
-- [ ] Each subtopic over `sizeGateWords` (600, counted by code) is sent on its own with the prototype's `d13` prompt, byte-identical; subtopics at or under the gate are never sent.
+- [x] Each subtopic over `sizeGateWords` (600, counted by code) is sent on its own with the prototype's `d13` prompt, byte-identical; subtopics at or under the gate are never sent.
 - [x] The reply is either "one step" or a list of cuts; each cut is looked for only inside the subtopic it was proposed for, so deepening adds cuts but never moves or removes one.
 - [x] At most two rounds. When the first round cut anything, the second sends every subtopic still over the gate, one the model called one step included (the prototype's behaviour; measured against re-sending only cut pieces in `LATER-ROUNDS.md`).
 - [x] A call failing all 3 attempts fails the stage; a failed subtopic is never recorded as "one step".
@@ -37,3 +37,4 @@
 2026-09-29, switched to `d13`:
 
 - The user chose deepening prompt `d13` over `d9`: steadier panels and better topics and titles (technical design §5, `deepen-subtopic-splitting`). The prompt item and the live run are reopened; the live run and side-by-side view above were made with `d9` and are redone with `d13`.
+- The live prompt was checked byte-identical to the prototype's `d13` (9,724 characters); `compare-live-splitting.mts deepened` now reads the prototype's `d13` runs.

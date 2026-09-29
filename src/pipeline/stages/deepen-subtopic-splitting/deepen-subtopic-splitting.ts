@@ -1,7 +1,7 @@
 /**
  * `deepen-subtopic-splitting`: the second of the three division stages. In each
  * initial splitting run, every subtopic over the size gate is sent on its own
- * with the `d9` prompt and cut where the model says it divides, for at most two
+ * with the `d13` prompt and cut where the model says it divides, for at most two
  * rounds (technical-design.md §5, "Dividing the transcript").
  */
 

@@ -1,7 +1,7 @@
 /**
  * Compares the pipeline's live splitting runs with the prototype's saved runs,
  * lecture by lecture, on the same transcripts: `initial-subtopic-splitting`
- * against the `s6` runs, or `deepen-subtopic-splitting` against the `d9` runs.
+ * against the `s6` runs, or `deepen-subtopic-splitting` against the `d13` runs.
  *
  * The prototype has 18 runs per lecture; the stage makes a panel of 9. Cuts
  * from both are pooled and grouped into cut sites the way `vote-cut-sites`
@@ -37,8 +37,8 @@ const PASSES = {
 	},
 	deepened: {
 		stage: "deepen-subtopic-splitting",
-		prompt: "d9",
-		prototypeRunPrefix: "deepen-d9-600-split-s6",
+		prompt: "d13",
+		prototypeRunPrefix: "deepen-d13-600-split-s6",
 		liveDirectory: "Deepened subtopics",
 		results: "LIVE-DEEPENED-SPLITTING.md",
 		note: "These are the runs the vote counts.",
