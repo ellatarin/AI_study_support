@@ -178,7 +178,10 @@ async function main(): Promise<void> {
 	}
 	const seconds = Math.round((performance.now() - startedAt) / 1000);
 
-	const stem = `group-${version.id}${MODEL_TAG}-${sourceRun}-${instance}`;
+	// Runs without labels on a source run first graded with labels would share
+	// its stems, so they carry the variant in their name and never overwrite it.
+	const labelsTag = labelsShown || !process.env["TAG_NOLABELS"] ? "" : "+nolabels";
+	const stem = `group-${version.id}${MODEL_TAG}${labelsTag}-${sourceRun}-${instance}`;
 	await writeFile(join(OUT_DIR, `${stem}.raw.json`), reply.content, "utf8");
 
 	let topicCount: number | null = null;
