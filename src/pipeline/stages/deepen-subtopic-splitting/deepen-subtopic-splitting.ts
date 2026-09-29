@@ -126,13 +126,15 @@ function placeWithin({
 
 /**
  * Cuts one subtopic where the reply says it divides. The first piece keeps the
- * subtopic's own title and reason; each later one takes its cut's.
+ * subtopic's own title and reason, and is marked as carrying an inherited
+ * title, since that title was written for the whole; each later one takes its
+ * cut's, unmarked.
  *
  * @param args - The transcript, the subtopic, and the cuts proposed in it.
  * @param args.transcript - The transcript the subtopic's span indexes into.
  * @param args.subtopic - The subtopic that was sent.
  * @param args.cuts - The cuts the reply proposed.
- * @returns The subtopic's pieces, in order; the subtopic itself when nothing was cut.
+ * @returns The subtopic's pieces, in order; the subtopic itself, mark unchanged, when nothing was cut.
  */
 function cutSubtopic({
 	transcript,
@@ -145,7 +147,7 @@ function cutSubtopic({
 }): readonly Subtopic[] {
 	const passage = subtopicText({ text: transcript, subtopic });
 	const { kept, positions } = placeWithin({ passage, cuts });
-	return sliceSubtopics({
+	const [first, ...later] = sliceSubtopics({
 		text: passage,
 		cuts: positions,
 		named: [subtopic, ...kept.map(replyNaming)],
@@ -154,6 +156,10 @@ function cutSubtopic({
 		start: piece.start + subtopic.start,
 		end: piece.end + subtopic.start,
 	}));
+	if (kept.length === 0 || first === undefined) {
+		return [subtopic];
+	}
+	return [{ ...first, titleInherited: true }, ...later];
 }
 
 /** A run being deepened, and what the calls about it need. */

@@ -86,14 +86,21 @@ describe("sliceSubtopics", () => {
 		expect(joinedSubtopics({ text: TEXT, subtopics })).toBe(TEXT);
 	});
 
-	it("should give each subtopic its span, title and reason when the text is cut", () => {
+	it("should give each subtopic its span, title and reason, unmarked, when the text is cut", () => {
 		expect(sliceSubtopics({ text: TEXT, cuts: [0, at("So the first")], named })).toEqual([
-			{ start: 0, end: at("So the first"), title: "Opening", why: "Framing." },
+			{
+				start: 0,
+				end: at("So the first"),
+				title: "Opening",
+				why: "Framing.",
+				titleInherited: false,
+			},
 			{
 				start: at("So the first"),
 				end: TEXT.length,
 				title: "The membrane",
 				why: "One structure.",
+				titleInherited: false,
 			},
 		]);
 	});
@@ -101,7 +108,7 @@ describe("sliceSubtopics", () => {
 
 describe("assertLossless", () => {
 	/** A first subtopic ending at character 10, which the second must start from. */
-	const FIRST: Subtopic = { start: 0, end: 10, title: "a", why: "" };
+	const FIRST: Subtopic = { start: 0, end: 10, title: "a", why: "", titleInherited: false };
 
 	it.each([
 		{ fault: "no gap", second: { start: 10, end: TEXT.length }, lossless: true },
@@ -109,7 +116,7 @@ describe("assertLossless", () => {
 		{ fault: "an overlap", second: { start: 9, end: TEXT.length }, lossless: false },
 		{ fault: "a short ending", second: { start: 10, end: TEXT.length - 1 }, lossless: false },
 	])("should accept the division only when its subtopics leave $fault", ({ second, lossless }) => {
-		const subtopics: readonly Subtopic[] = [FIRST, { ...second, title: "b", why: "" }];
+		const subtopics: readonly Subtopic[] = [FIRST, { ...FIRST, ...second, title: "b" }];
 		const check = (): void => assertLossless({ text: TEXT, subtopics });
 		if (lossless) {
 			expect(check).not.toThrow();
@@ -120,14 +127,26 @@ describe("assertLossless", () => {
 });
 
 describe("isDivision", () => {
+	const { title, why, titleInherited, ...span } = {
+		start: 0,
+		end: 5,
+		title: "a",
+		why: "b",
+		titleInherited: false,
+	};
 	it.each([
-		{ held: "a list of subtopics", value: [{ start: 0, end: 5, title: "a", why: "b" }], is: true },
+		{ held: "a list of subtopics", value: [{ ...span, title, why, titleInherited }], is: true },
 		{ held: "not a list", value: { start: 0 }, is: false },
-		{ held: "a subtopic without its reason", value: [{ start: 0, end: 1, title: "a" }], is: false },
-		{ held: "a subtopic without its span", value: [{ title: "a", why: "b" }], is: false },
+		{
+			held: "a subtopic without its reason",
+			value: [{ ...span, title, titleInherited }],
+			is: false,
+		},
+		{ held: "a subtopic without its span", value: [{ title, why, titleInherited }], is: false },
+		{ held: "a subtopic without its mark", value: [{ ...span, title, why }], is: false },
 		{
 			held: "a subtopic named by a label, as saved before titles",
-			value: [{ start: 0, end: 5, label: "a", why: "b" }],
+			value: [{ ...span, label: title, why, titleInherited }],
 			is: false,
 		},
 	])("should recognise a saved value as a division only when it holds $held", ({ value, is }) => {
