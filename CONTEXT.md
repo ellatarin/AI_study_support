@@ -189,29 +189,41 @@ _Avoid_: clustering, merging, roll-up
 One attempt at grouping one lecture's finished subtopics into topics. Separate from a splitting run, and repeated for the same reason: the grouping of the same subtopics varies from one attempt to the next.
 _Avoid_: run (alone), trial
 
-**Modal grouping**:
-The grouping that the most runs in a grouping panel made, where two runs made the same grouping if their topics start at the same subtopics, whatever they named them. When no grouping has the most runs, the tie goes to whichever of the tied runs disagrees least with the rest. The whole grouping is taken from one run. It is not a vote on each topic start, which could assemble a grouping no run made.
-_Avoid_: majority grouping, consensus, vote
+**Chosen grouping**:
+The grouping run whose topic starts differ least from the grouping panel's vote, handed on whole: its topics and their titles are one run's reading of the lecture. Two runs made the same grouping if their topics start at the same subtopics, whatever they named them. A tie goes to the run closest to the others, then the earliest. The vote itself is never handed on, since it could assemble a grouping no run made.
+_Avoid_: modal grouping, majority grouping, consensus, voted grouping
 
 **Panel**:
-A set of repeated runs of one step over one lecture, combined into a single result. A splitting panel is voted over, and the run nearest the vote becomes the **chosen division**; a grouping panel yields its **modal grouping**. What turns a prompt that is usually right into a result that is reliably right.
+A set of repeated runs of one step over one lecture, combined into a single result. Each panel is voted over, and the run nearest the vote is handed on whole: a splitting panel's becomes the **chosen division**, a grouping panel's the **chosen grouping**. What turns a prompt that is usually right into a result that is reliably right.
 _Avoid_: sample, ensemble, trial set
 
 **Support**:
-How many of a panel's splitting runs cut at a cut site, said as a count out of the panel: "6 of 9".
+How many of a panel's runs made a choice, said as a count out of the panel: how many splitting runs cut at a cut site ("6 of 9"), or how many grouping runs start a topic at a subtopic ("15 of 18").
 _Avoid_: votes (as a count), supporters, frequency
 
 **Bar**:
-The number of a panel's splitting runs a cut site needs to be kept.
+The support a cut site, or a topic start, needs to be kept. Each panel has its own.
 _Avoid_: threshold, cutoff, quorum
 
 **Kept**:
-A cut site whose support reaches the bar. The vote is the set of kept cut sites; it is what the splitting runs are measured against, never a division of its own.
+A cut site or topic start whose support reaches the bar. The vote is the set of kept ones; it is what the panel's runs are measured against, never a division or grouping of its own.
 _Avoid_: accepted, passed
 
 **Chosen division**:
 The splitting run whose cut sites differ least from the vote's, handed on whole: its subtopics, titles and reasons are one run's reading of the lecture. A tie goes to the run closest to the others, then the earliest.
 _Avoid_: voted division, voted subtopics, best run
+
+**Title**:
+The short name a subtopic or topic carries, saying what it is about. A reader sees titles as the headings of the notes, except that a topic of one subtopic shows only the topic's.
+_Avoid_: label, heading, name
+
+**Inherited title**:
+The title a subtopic carries from the larger subtopic deepening cut it from. Deepening titles only the new pieces it creates, so the first piece keeps the whole one's title, which can promise material its later pieces now hold. Deepening marks every such subtopic.
+_Avoid_: stale title, old label
+
+**Retitling**:
+Giving each subtopic of the chosen division that has an inherited title a title of its own, from its own text, before grouping. Only titles change; no cut moves.
+_Avoid_: relabelling, renaming
 
 **Losslessness**:
 The guarantee that a divided transcript is still the original transcript: its subtopics, joined in order, are the transcript character for character. Any difference is a bug, never a tolerance.
