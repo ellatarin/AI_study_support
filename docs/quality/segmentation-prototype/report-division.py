@@ -72,7 +72,7 @@ def weakest_and_strongest(sites, ruling):
 
 # Lectures and deepening versions the ledger reports on, in order.
 LEDGER_LECTURES = ("l3", "l4", "l5")
-LEDGER_VERSIONS = ("d4", "d5", "d6", "d7", "d8", "d9", "d10", "d11", "d12")
+LEDGER_VERSIONS = ("d4", "d5", "d6", "d7", "d8", "d9", "d10", "d11", "d12", "d13")
 
 # The version the voting table is computed for: the one chosen as the system,
 # not the one added most recently.
@@ -80,7 +80,12 @@ LEDGER_VERSIONS = ("d4", "d5", "d6", "d7", "d8", "d9", "d10", "d11", "d12")
 # at 96% or better across four consecutive bars under it, so lecture 3 is the
 # only sensitive one; d12 scores higher at one bar and its lecture-5 column
 # swings 57-92-68-32-8 either side of it.
-LEDGER_BASELINE = "d9"
+# d13: chosen over d9 2026-09-29 by the user for stability. Across all eight
+# lectures two panels of nine disagree on 3.26 cut sites against d9's 3.95,
+# and grouping on its divisions gave better topics and titles in the user's
+# judgement. It scores more errors against the subtopic rulings (5.58 against
+# 4.97), several of them at sites the rulings marked unwanted by default.
+LEDGER_BASELINE = "d13"
 
 # Panel sizes and bars the ledger's joint table walks, as fractions that a bar
 # can actually express. Written as (panel, keep) so the percentage is derived

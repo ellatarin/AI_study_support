@@ -197,6 +197,21 @@ const SIGNAL_RULE_WITH_PIVOTS: NamedRule = {
 		"is any cut you propose at a pivot — a turn to the difficult, failing or exceptional case — rather than at a change of subject?",
 };
 
+/**
+ * The signal rule, naming what to judge a boundary by: the model's own
+ * knowledge of the field.
+ *
+ * The shared rule says the speaker's words are not the signal but never says
+ * what to use in their place. This says it, and in both directions, so it can
+ * withhold a cut the words suggest as well as supply one they do not. The
+ * shared half is composed rather than restated.
+ */
+const SIGNAL_RULE_FIELD_KNOWLEDGE: NamedRule = {
+	...SIGNAL_RULE,
+	body: `${SIGNAL_BODY_FLAT}
+Use what you know of the subject itself. At each place you consider, ask whether someone who understands this field would say the lecturer has moved on to a different mechanism, structure or idea, or is still working on the same one. Where the subject has not changed, there is no boundary, however the speaker marks the turn. Where it has changed, there is a boundary, even if nothing marks it.`,
+};
+
 const workingFailingRuleNamed = (unit: Unit): NamedRule => ({
 	key: "working-failing",
 	checked: true,
@@ -760,6 +775,32 @@ const deepenRulesV12 = (unit: Unit): readonly NamedRule[] =>
 		rule: showingRuleWithholdingOnly(unit),
 	});
 
+/**
+ * A version that rewrites one rule, expressed as the replacement it is.
+ *
+ * @param options - Options object.
+ * @param options.rules - The version being built on.
+ * @param options.rule - The rule to put in place of the one carrying its key.
+ * @returns The rules, with the replacement where the original stood.
+ * @throws Error when no rule carries the replacement's key.
+ */
+function withRuleReplaced({
+	rules,
+	rule,
+}: {
+	readonly rules: readonly NamedRule[];
+	readonly rule: NamedRule;
+}): readonly NamedRule[] {
+	if (!rules.some((existing) => existing.key === rule.key)) {
+		throw new Error(`"${rule.key}" is to be replaced, but this version does not carry it`);
+	}
+	return rules.map((existing) => (existing.key === rule.key ? rule : existing));
+}
+
+/** d13's rules: d9's, with the signal rule saying to judge by knowledge of the field. */
+const deepenRulesV13 = (unit: Unit): readonly NamedRule[] =>
+	withRuleReplaced({ rules: deepenRulesV9(unit), rule: SIGNAL_RULE_FIELD_KNOWLEDGE });
+
 /** d10's rules: d7's, with only the taking-stock sentence added to the progression rule. */
 const deepenRulesV10 = (unit: Unit): readonly NamedRule[] =>
 	withRuleAfter({
@@ -792,6 +833,14 @@ const deepenRulesV8 = (unit: Unit): readonly NamedRule[] => [
 	everyPlaceRuleConditional(unit),
 	INSIDE_ONLY_RULE,
 ];
+
+const DEEPEN_PROMPT_V13 = ruleDocument({
+	role: ROLE_DEEPEN,
+	definition: SUBTOPIC_DEFINITION_FLAT,
+	method: DEEPEN_METHOD_DECIDE_FIRST,
+	rules: deepenRulesV13(STEP),
+	replyFormat: DEEPEN_REPLY,
+});
 
 const DEEPEN_PROMPT_V12 = ruleDocument({
 	role: ROLE_DEEPEN,
@@ -946,6 +995,14 @@ export const DEEPEN_PROMPTS: readonly DeepenPromptVersion[] = [
 		changed:
 			"One sentence removed from one rule, and the case it licensed restated as the limit of that rule's scope. d11 did what it was built for — lecture 3's 18.7% fell from 6 runs of 18 to 1 — but bought an unwanted cut on lecture 4 at 46.1%, made by 5 of 18, splitting a case study between its history and its mechanism. That seam is forbidden in substance by the holds rule and had been held by the progression rule: 46.1% is made by 3 of 11 d4 runs, none of d7's and 1 of 18 of d9's, and it returns only when the showing rule does. What brings it back is the sentence in which the showing rule says when a boundary DOES begin — 'a new step begins where what is shown is something they have not been discussing'. A permission in one rule defeating a prohibition in another is the failure this programme has measured more than any other: s5's two rules where the prohibition lost, s6's precedence clause that never engaged, d8's six prohibitions filed under one permission. So the rule now only ever withholds, and says so; the means-becomes-the-subject case is stated as what the rule does not cover, handing the decision back in the words the starts rule uses rather than issuing a licence of its own. Nothing else changes. What must not move: 18.7% at 1 of 18, and lecture 3's 24.0%, which the means-becomes-the-subject case exists to protect and which every run currently makes.",
 		build: () => DEEPEN_PROMPT_V12,
+	},
+	{
+		id: "d13",
+		summary:
+			"d9 with the signal rule saying what to judge a boundary by: what someone who knows the field would say, in both directions.",
+		changed:
+			"Three sentences added to one rule; built on d9, the chosen baseline, not on d10–d12. The user reads d9's cuts as landing where the lecturer says 'So', 'But' or 'Okay'. Part of that is the harness, not the model: a cut is moved back over up to two leading connectives to the sentence start, and wanted boundaries open that way too, because lecturers do mark real turns with those words. But the signal rule only says the words are not the signal and never names what is — so it now tells the model to use its own knowledge of the subject: would someone who understands the field say the lecturer has moved to a different mechanism, structure or idea, or is still on the same one. It cuts both ways, withholding a cut the words suggest and supplying one they do not. Deepening only; pass one's signal rule is unchanged. Aimed at lecture 6: 76.2%/78.9% (one subject throughout) and 94.7% (part of the subject before it) should fall; 63.6% and 91.5%, wanted and near the vote bar, must not.",
+		build: () => DEEPEN_PROMPT_V13,
 	},
 ];
 
