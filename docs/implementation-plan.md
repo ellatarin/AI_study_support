@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.61-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.62-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-09-29
 **Status:** For review
 
@@ -624,7 +624,7 @@ Config tests — rows added to the existing `should throw ConfigError when $case
 
 **Live run:** the stage runs on one lecture; its subtopic counts and cut sites are compared with the range the prototype's `s6` runs showed on that lecture. The cost is stated before the run.
 
-**Acceptance:** A transcribed lecture gains nine initial splitting runs, each reproducing the transcript exactly; replay matches the prototype; the live run falls within the prototype's range.
+**Acceptance:** A transcribed lecture gains a panel of initial splitting runs, each reproducing the transcript exactly; replay matches the prototype; the live run falls within the prototype's range.
 
 ---
 
@@ -755,7 +755,7 @@ Stage tests:
 - `should keep the recorded choice when the stage is skipped`
 - `should fail when fewer deepened runs are present than the panel size`
 
-**Replay against the prototype:** a one-off script in the prototype folder runs `chooseDivision` on every panel of nine drawn from each lecture's 18 `d13` runs, and checks that it chooses the same run as `division_support.py`'s `closest_to_vote_run`. The prototype's `d13` runs carry no marks; the script compares the chosen run only. Any difference is explained or fixed.
+**Replay against the prototype:** a one-off script in the prototype folder runs `chooseDivision` on each lecture's 18 `d13` runs at a bar of nine, and on every panel of nine drawn from them at a bar of five, and checks that it chooses the same run as `division_support.py`'s `closest_to_vote_run`. The prototype's `d13` runs carry no marks; the script compares the chosen run only. Any difference is explained or fixed.
 
 **Live run:** the stage over Phase 11's live deepened runs on all eight lectures: which run each chose, and its distance from the vote.
 

@@ -23,8 +23,8 @@
 		"modulePrefixes": ["BOD", "Biology of Disease", "ANA"]
 	},
 	"division": {
-		"panelSize": 9,
-		"bar": 5,
+		"panelSize": 18,
+		"bar": 9,
 		"sizeGateWords": 600
 	},
 	"batch": {

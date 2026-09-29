@@ -50,13 +50,13 @@ re-run from it or stop after it.
    the files consistent names, and creates a working folder for each new lecture.
 2. **`extract-audio`.** Takes the audio track from the recording.
 3. **`transcribe`.** Sends the audio to ElevenLabs for a verbatim transcript.
-4. **`initial-subtopic-splitting`.** Cuts the whole transcript into **subtopics**, nine separate times.
+4. **`initial-subtopic-splitting`.** Cuts the whole transcript into **subtopics**, eighteen separate times.
    This and the next three stages divide the transcript so that later stages work on one part of the
    lecture at a time rather than the whole of it at once. Splitting the work up into small pieces leads
    to much more reliable performance against the key faithfulness requirements.
-5. **`deepen-subtopic-splitting`.** In each of the nine divisions, sends back only the subtopics that
+5. **`deepen-subtopic-splitting`.** In each of the eighteen divisions, sends back only the subtopics that
    came out too long (over 600 words), to be divided further.
-6. **`choose-division`.** The nine divisions vote: a cut counts where at least five of them made it.
+6. **`choose-division`.** The eighteen divisions vote: a cut counts where at least half of them made it.
    No single division is reliable on its own, so the division kept is the one nearest the vote, taken
    whole, so its subtopics and their titles all come from one reading of the lecture. It uses no AI
    model, so it can be re-run for free.

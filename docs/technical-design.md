@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.61-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.62-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-09-29
 **Status:** For review
 
@@ -165,7 +165,7 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │
 ├── Initial subtopics/
 │   ├── run-01.json                            # initial-subtopic-splitting — one file per splitting run
-│   └── ...                                    # up to run-09.json
+│   └── ...                                    # up to run-18.json
 │
 ├── Deepened subtopics/
 │   ├── run-01.json                            # deepen-subtopic-splitting — one per initial run
@@ -609,7 +609,7 @@ Each stage entry records `configUsed` — a `StageRunConfig` capturing the model
       "completedAt": "...",
       "configUsed": null,
       "cost": null,
-      "division": { "chosenRun": 4, "distanceFromVote": 1, "panelSize": 9 },
+      "division": { "chosenRun": 4, "distanceFromVote": 1, "panelSize": 18 },
       "filesWritten": ["Chosen division/subtopics.json"]
     },
     "define-topics": {
@@ -1075,7 +1075,7 @@ The `v1` in that route is the ElevenLabs **API** version, not the Scribe version
 
 ### Dividing the transcript — `initial-subtopic-splitting`, `deepen-subtopic-splitting`, `choose-division`
 
-Three stages turn the transcript into subtopics. No single splitting run is reliable enough on its own: the same prompt on the same transcript cuts in different places from one run to the next. So the lecture is divided nine times over, the nine vote on where it divides, and the run nearest the vote is kept. The first two stages make the nine splitting runs; the third votes over them and chooses, and makes no model call, so it can be re-run at a different bar without paying for anything again.
+Three stages turn the transcript into subtopics. No single splitting run is reliable enough on its own: the same prompt on the same transcript cuts in different places from one run to the next. So the lecture is divided eighteen times over, the eighteen vote on where it divides, and the run nearest the vote is kept. The first two stages make the eighteen splitting runs; the third votes over them and chooses, and makes no model call, so it can be re-run at a different bar without paying for anything again.
 
 The design was settled in the segmentation prototype (`docs/quality/segmentation-prototype/`), which holds the measurements behind every number below. The prompts are the prototype's `s6` and `d13`, carried over word for word. Only what produces the division is carried over: the prototype's rulings, rubrics, scoring and ledgers are how the prompts were tested, stay in the prototype, and appear nowhere in the pipeline.
 
@@ -1099,12 +1099,12 @@ The retry sits above the SDK's own, which retries only failures at the HTTP leve
 
 **Finding a quote.** A quote is searched for with case and whitespace ignored, forward from the previous cut, because the model tidies capitalisation and spacing even when told not to. The cut is made in the original text at the matching position. When the quote begins one or two words into its sentence — the model having dropped the lecturer's opening "So", "Now" or similar — the cut moves back to the start of the sentence, so no subtopic ends halfway through one. A quote that cannot be found is never guessed at.
 
-**Configuration.** Each of the two model-calling stages has its own model and `concurrency`, as every stage does, and `deepen-subtopic-splitting` also has `callConcurrency` (§6); the prototype's model is `google/gemini-3.7-flash`. The division's own settings live in one required `division` section of `pipeline-config.json`: `panelSize` (9), `bar` (5, the number of the panel's runs a cut site needs), and `sizeGateWords` (600). The tolerance within which two cuts are one cut site — one percent of the transcript's length — is fixed in code, not configured: it is a measured property of how runs disagree, not a choice.
+**Configuration.** Each of the two model-calling stages has its own model and `concurrency`, as every stage does, and `deepen-subtopic-splitting` also has `callConcurrency` (§6); the prototype's model is `google/gemini-3.7-flash`. The division's own settings live in one required `division` section of `pipeline-config.json`: `panelSize` (18), `bar` (9, the number of the panel's runs a cut site needs), and `sizeGateWords` (600). Eighteen runs make the division steadier from one panel to the next than nine. Estimated from how often each cut site was cut in the prototype's 18 `d13` runs, leaving out sites the user ruled either way, two panels disagree on 3.8 cut sites across the eight lectures at nine runs with a bar of five, 2.5 at eighteen with a bar of ten and 2.2 at a bar of nine; a panel makes 3.9, 3.2 and 3.1 errors against the user's rulings. Eighteen runs cost about $0.85 more per lecture than nine. At a bar of nine, a cut site made by exactly half the runs is kept. The tolerance within which two cuts are one cut site — one percent of the transcript's length — is fixed in code, not configured: it is a measured property of how runs disagree, not a choice.
 
 #### `initial-subtopic-splitting`
 
 **Input:** `Transcript/transcript.txt`
-**Output:** `Initial subtopics/run-01.json` … `run-09.json`
+**Output:** `Initial subtopics/run-01.json` … `run-18.json`
 
 Makes `panelSize` splitting runs, each an independent call that sends the whole transcript with the `s6` prompt and gets back the opening words of every subtopic. Each run is written as soon as it is complete, holding each subtopic's start and end position in the transcript, its title, and the model's one-sentence reason for grouping it. The prompt asks for each title as `label`, and the prompt is carried over word for word, so the reply's `label` becomes `title` as the reply is read; nothing past the reply calls it a label. A re-launched stage keeps the run files already written and makes only the missing ones.
 
@@ -1113,7 +1113,7 @@ A send can fail in four ways: no reply, a reply that is not JSON, a reply of the
 #### `deepen-subtopic-splitting`
 
 **Input:** `Transcript/transcript.txt`, `Initial subtopics/run-*.json`
-**Output:** `Deepened subtopics/run-01.json` … `run-09.json`
+**Output:** `Deepened subtopics/run-01.json` … `run-18.json`
 
 For each initial run, every subtopic over the size gate is sent on its own with the `d13` prompt, which asks whether it divides further and, if so, where. The reply is either "one step" or a list of cuts, and a cut is looked for only inside the subtopic it was proposed for, so deepening can add cuts but never move or remove one. A cut that cannot be found there is dropped rather than guessed at, and the rest of the reply is kept; the prototype found every cut in 1,488 sends. Subtopics at or under the size gate are never sent and cannot be disturbed. There are at most two rounds. When the first round cut anything, the second sends every subtopic still over the gate — a piece just cut, and also a subtopic the model called one step the first time. Asking that subtopic again looks redundant but makes the vote steadier: a cut the model makes only some of the time gets a second chance, which moves its cut site away from the bar instead of leaving the vote to chance. Across the prototype's eight lectures, measured with `d9`, two panels of nine disagreed on 3.9 cut sites this way against 9.2 when only cut pieces went back, for about a fifth more calls (`docs/quality/segmentation-prototype/LATER-ROUNDS.md`). When the first round cut nothing, a second would ask the same questions again, so there is none. Word counts are made by code.
 
@@ -1745,8 +1745,8 @@ Each prefix is matched literally, so one carrying a pattern character means itse
     }
   },
   "division": {
-    "panelSize": 9,                    // splitting runs per lecture
-    "bar": 5,                          // runs a cut site needs to be kept
+    "panelSize": 18,                   // splitting runs per lecture
+    "bar": 9,                          // runs a cut site needs to be kept
     "sizeGateWords": 600               // a subtopic over this many words is deepened
   },
   "grouping": {
