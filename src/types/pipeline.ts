@@ -121,6 +121,11 @@ type StageParams = {
 	readonly temperature?: number;
 	readonly maxTokens?: number;
 	readonly concurrency?: number;
+	/**
+	 * How many calls one run makes at once. Only `deepen-subtopic-splitting`
+	 * reads it; set on any other stage it is refused at load (technical-design.md §6).
+	 */
+	readonly callConcurrency?: number;
 	readonly maxIterations?: number;
 };
 
@@ -229,6 +234,11 @@ export type PipelineConfig = {
 		readonly bar: number;
 		/** The word count above which a subtopic is sent for deepening. */
 		readonly sizeGateWords: number;
+	};
+	/** How a batch runs (technical-design.md §4.7, §6). */
+	readonly batch: {
+		/** How many lectures a batch runs at once; `--concurrency` overrides it for one command. */
+		readonly concurrency: number;
 	};
 	readonly naming: {
 		/**

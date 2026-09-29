@@ -27,6 +27,9 @@
 		"bar": 5,
 		"sizeGateWords": 600
 	},
+	"batch": {
+		"concurrency": 1
+	},
 	"stages": {
 		"transcription": {
 			"modelId": "elevenlabs/scribe_v2"
@@ -37,7 +40,8 @@
 		},
 		"deepen-subtopic-splitting": {
 			"modelId": "<FAST_LONG_CONTEXT_MODEL>",
-			"concurrency": 3
+			"concurrency": 6,
+			"callConcurrency": 10
 		},
 		"transcript-structuring": {
 			"modelId": "<REASONING_MODEL>",

@@ -1,6 +1,11 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { CONFIG_FILENAME, type PipelineConfig, type StageConfig } from "../types/pipeline.js";
+import {
+	CONFIG_FILENAME,
+	type PipelineConfig,
+	type StageConfig,
+	type StageId,
+} from "../types/pipeline.js";
 import { NamedError } from "../utils/errors.js";
 import { isOutputLanguage, unknownLanguageMessage } from "../utils/language.js";
 import { splitModelId } from "../utils/model-id.js";
@@ -283,16 +288,51 @@ function requireDivision(value: unknown): PipelineConfig["division"] {
 	return { panelSize, bar, sizeGateWords: division.count("sizeGateWords") };
 }
 
+/**
+ * Validates the `batch` section: how many lectures a batch runs at once
+ * (technical-design.md §4.7, §6).
+ *
+ * @param value - The raw `batch` section.
+ * @returns The validated section.
+ * @throws {ConfigError} If the section is not an object, or `concurrency` is not a whole number of at least 1.
+ */
+function requireBatch(value: unknown): PipelineConfig["batch"] {
+	return { concurrency: requireSection({ value, label: "batch" }).count("concurrency") };
+}
+
+/** The one stage whose run makes more than one call, and so the one stage `callConcurrency` means anything to. */
+const CALL_CONCURRENCY_STAGE: StageId = "deepen-subtopic-splitting";
+
+/**
+ * Validates one stage's entry. `callConcurrency` is refused on every stage but
+ * {@link CALL_CONCURRENCY_STAGE}: nothing else reads it, so it would otherwise
+ * be a setting that silently does nothing (technical-design.md §6).
+ *
+ * @param args - The raw entry and the stage it configures.
+ * @param args.value - The raw stage entry.
+ * @param args.stageId - The stage the entry configures.
+ * @returns The validated entry.
+ * @throws {ConfigError} If the entry is not an object, a field is missing or mistyped, or
+ *   `callConcurrency` is set on a stage that does not read it.
+ */
 function requireStageConfig(args: {
 	readonly value: unknown;
-	readonly stageId: string;
+	readonly stageId: StageId;
 }): StageConfig {
-	const stage = requireSection({ value: args.value, label: `stages.${args.stageId}` });
+	const label = `stages.${args.stageId}`;
+	const stage = requireSection({ value: args.value, label });
+	const callConcurrency = stage.optionalNumber("callConcurrency");
+	if (callConcurrency !== undefined && args.stageId !== CALL_CONCURRENCY_STAGE) {
+		throw new ConfigError(
+			`${label}.callConcurrency is read only by ${CALL_CONCURRENCY_STAGE}, the one stage whose run makes more than one call; remove it`,
+		);
+	}
 	return {
 		modelId: stage.string("modelId"),
 		temperature: stage.optionalNumber("temperature"),
 		maxTokens: stage.optionalNumber("maxTokens"),
 		concurrency: stage.optionalNumber("concurrency"),
+		callConcurrency,
 		maxIterations: stage.optionalNumber("maxIterations"),
 	};
 }
@@ -370,6 +410,7 @@ export function parseConfig(raw: unknown): PipelineConfig {
 		modelIdCheck: requireModelIdCheck(root.modelIdCheck),
 		naming: requireNaming(root.naming),
 		division: requireDivision(root.division),
+		batch: requireBatch(root.batch),
 		stages: requireStages(root.stages),
 		output: requireOutput(root.output),
 	};

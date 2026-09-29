@@ -34,6 +34,7 @@ const TUNING_FIELDS = [
 	"temperature",
 	"maxTokens",
 	"concurrency",
+	"callConcurrency",
 	"maxIterations",
 ] as const satisfies readonly (keyof StageConfig)[];
 
@@ -372,20 +373,64 @@ const fileCases: readonly {
 	},
 ];
 
+/** One way of breaking a config the loader accepts, and what the error must name. */
+type ShapeCase = {
+	readonly name: string;
+	readonly mutate: (config: Record<string, unknown>) => void;
+	readonly match: RegExp;
+};
+
+/**
+ * The case for a required top-level key left out of the file.
+ *
+ * @param key - The key to delete.
+ * @returns The case, whose error must name the key.
+ */
+function missingKeyCase(key: string): ShapeCase {
+	return {
+		name: `${key} is missing`,
+		mutate: (config) => delete config[key],
+		match: new RegExp(key),
+	};
+}
+
+/**
+ * The cases for a section's count fields — whole numbers of at least 1 — each
+ * broken one way, and each error naming the field by its full key.
+ *
+ * @param args - The section, and how each field is broken.
+ * @param args.sectionName - The top-level key of the section.
+ * @param args.cases - The field, the value that breaks it, and the problem in words;
+ *   `undefined` drops the field.
+ * @returns One case per break.
+ */
+function countFieldCases({
+	sectionName,
+	cases,
+}: {
+	readonly sectionName: string;
+	readonly cases: readonly {
+		readonly field: string;
+		readonly value: unknown;
+		readonly problem: string;
+	}[];
+}): readonly ShapeCase[] {
+	const corruptSection = sectionCorrupter(sectionName);
+	return cases.map(({ field, value, problem }) => ({
+		name: `${sectionName}.${field} is ${problem}`,
+		mutate: (config) => {
+			config[sectionName] = corruptSection({ [field]: value });
+		},
+		match: new RegExp(`${sectionName}\\.${field}`),
+	}));
+}
+
 /**
  * Every way a structurally invalid config is written: start from one the loader
  * accepts, break the single field the case is about, and put it on disk.
  */
-const shapeCases: readonly {
-	readonly name: string;
-	readonly mutate: (config: Record<string, unknown>) => void;
-	readonly match: RegExp;
-}[] = [
-	{
-		name: "version is missing",
-		mutate: (config: Record<string, unknown>) => delete config.version,
-		match: /version/,
-	},
+const shapeCases: readonly ShapeCase[] = [
+	missingKeyCase("version"),
 	{
 		name: "version is not a string",
 		mutate: (config: Record<string, unknown>) => {
@@ -393,11 +438,7 @@ const shapeCases: readonly {
 		},
 		match: /version/,
 	},
-	{
-		name: "moduleRoots is missing",
-		mutate: (config: Record<string, unknown>) => delete config.moduleRoots,
-		match: /moduleRoots/,
-	},
+	missingKeyCase("moduleRoots"),
 	{
 		name: "moduleRoots is not an array",
 		mutate: (config: Record<string, unknown>) => {
@@ -412,11 +453,7 @@ const shapeCases: readonly {
 		},
 		match: /moduleRoots/,
 	},
-	{
-		name: "openRouter is missing",
-		mutate: (config: Record<string, unknown>) => delete config.openRouter,
-		match: /openRouter/,
-	},
+	missingKeyCase("openRouter"),
 	{
 		name: "openRouter is null",
 		mutate: (config: Record<string, unknown>) => {
@@ -483,11 +520,7 @@ const shapeCases: readonly {
 		},
 		match: /costLookupMaxRetries/,
 	},
-	{
-		name: "elevenLabs is missing",
-		mutate: (config: Record<string, unknown>) => delete config.elevenLabs,
-		match: /elevenLabs/,
-	},
+	missingKeyCase("elevenLabs"),
 	{
 		name: "elevenLabs.baseUrl is missing",
 		mutate: (config: Record<string, unknown>) => {
@@ -523,11 +556,7 @@ const shapeCases: readonly {
 		},
 		match: /costPerAudioHourUsd/,
 	},
-	{
-		name: "currency is missing",
-		mutate: (config: Record<string, unknown>) => delete config.currency,
-		match: /currency/,
-	},
+	missingKeyCase("currency"),
 	{
 		name: "gbpPerUsd is not a number",
 		mutate: (config: Record<string, unknown>) => {
@@ -535,11 +564,7 @@ const shapeCases: readonly {
 		},
 		match: /gbpPerUsd/,
 	},
-	{
-		name: "modelIdCheck is missing",
-		mutate: (config: Record<string, unknown>) => delete config.modelIdCheck,
-		match: /modelIdCheck/,
-	},
+	missingKeyCase("modelIdCheck"),
 	{
 		name: "exemptProviders is not an array",
 		mutate: (config: Record<string, unknown>) => {
@@ -554,11 +579,7 @@ const shapeCases: readonly {
 		},
 		match: /exemptProviders/,
 	},
-	{
-		name: "stages is missing",
-		mutate: (config: Record<string, unknown>) => delete config.stages,
-		match: /stages/,
-	},
+	missingKeyCase("stages"),
 	{
 		name: "stages is an array",
 		mutate: (config: Record<string, unknown>) => {
@@ -603,11 +624,7 @@ const shapeCases: readonly {
 		},
 		match: /temperature/,
 	},
-	{
-		name: "naming is missing",
-		mutate: (config: Record<string, unknown>) => delete config.naming,
-		match: /naming/,
-	},
+	missingKeyCase("naming"),
 	{
 		name: "naming.modulePrefixes is not an array of strings",
 		mutate: (config: Record<string, unknown>) => {
@@ -625,11 +642,7 @@ const shapeCases: readonly {
 		},
 		match: /modulePrefixes/,
 	},
-	{
-		name: "output is missing",
-		mutate: (config: Record<string, unknown>) => delete config.output,
-		match: /output/,
-	},
+	missingKeyCase("output"),
 	{
 		name: "output.language is not a string",
 		mutate: (config: Record<string, unknown>) => {
@@ -651,23 +664,33 @@ const shapeCases: readonly {
 		},
 		match: /pandocEngine/,
 	},
+	missingKeyCase("division"),
+	...countFieldCases({
+		sectionName: "division",
+		cases: [
+			{ field: "panelSize", value: "9", problem: "not a number" },
+			{ field: "panelSize", value: 2.5, problem: "not a whole number" },
+			{ field: "bar", value: 0, problem: "below 1" },
+			{ field: "sizeGateWords", value: undefined, problem: "missing" },
+		],
+	}),
+	missingKeyCase("batch"),
+	...countFieldCases({
+		sectionName: "batch",
+		cases: [
+			{ field: "concurrency", value: undefined, problem: "missing" },
+			{ field: "concurrency", value: 2.5, problem: "not a whole number" },
+			{ field: "concurrency", value: 0, problem: "below 1" },
+		],
+	}),
 	{
-		name: "division is missing",
-		mutate: (config: Record<string, unknown>) => delete config.division,
-		match: /division/,
-	},
-	...[
-		{ field: "panelSize", value: "9", problem: "not a number" },
-		{ field: "panelSize", value: 2.5, problem: "not a whole number" },
-		{ field: "bar", value: 0, problem: "below 1" },
-		{ field: "sizeGateWords", value: undefined, problem: "missing" },
-	].map(({ field, value, problem }) => ({
-		name: `division.${field} is ${problem}`,
+		// Only deepening reads it, so on any other stage it would silently do nothing.
+		name: "callConcurrency is set on a stage other than deepen-subtopic-splitting",
 		mutate: (config: Record<string, unknown>) => {
-			config.division = divisionSection({ [field]: value });
+			structuringStage(config).callConcurrency = 4;
 		},
-		match: new RegExp(`division\\.${field}`),
-	})),
+		match: /stages\.transcript-structuring\.callConcurrency/,
+	},
 	{
 		name: "division.bar exceeds the panel size, so no cut site could be kept",
 		mutate: (config: Record<string, unknown>) => {
