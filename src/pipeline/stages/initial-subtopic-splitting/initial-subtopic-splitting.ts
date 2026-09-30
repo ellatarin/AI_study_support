@@ -15,10 +15,10 @@ import { NamedError } from "../../../utils/errors.js";
 import { isRecord } from "../../../utils/record.js";
 import {
 	assertLossless,
-	isDivision,
 	isReplySubtopic,
 	placeCuts,
 	type ReplySubtopic,
+	readDivision,
 	replyNaming,
 	type Subtopic,
 	sliceSubtopics,
@@ -124,7 +124,7 @@ function splitTranscript({
 	return runStagePanel({
 		stageId: STAGE_ID,
 		context,
-		isRun: isDivision,
+		readRun: readDivision,
 		makeRun: async ({
 			runNumber,
 		}): Promise<{ readonly run: readonly Subtopic[]; readonly cost: StageCost }> => {

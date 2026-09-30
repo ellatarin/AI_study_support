@@ -11,17 +11,12 @@
 import { NamedError } from "../../utils/errors.js";
 import { isRecord } from "../../utils/record.js";
 
-/**
- * One subtopic: its span of the transcript, the model's title and reason for
- * it, and whether that title is inherited — written for a larger subtopic
- * deepening cut this one from (CONTEXT.md, "Inherited title").
- */
+/** One subtopic: its span of the transcript, and the model's title and reason for it. */
 export type Subtopic = {
 	readonly start: number;
 	readonly end: number;
 	readonly title: string;
 	readonly why: string;
-	readonly titleInherited: boolean;
 };
 
 /** What a subtopic is called and why it is one thing, as it is saved. */
@@ -85,24 +80,39 @@ export function replyNaming({ label, groupedBecause }: ReplySubtopic): SubtopicN
 }
 
 /**
- * Whether a value read back from a run file is a division: a list of subtopics.
+ * One entry of a run file read as a subtopic, keeping only what a subtopic
+ * holds: a run saved while deepening marked inherited titles carries a mark
+ * that nothing reads now, and it goes no further (technical-design.md §5,
+ * `deepen-subtopic-splitting`, "Inherited titles are not marked").
+ *
+ * @param value - One entry of the parsed run file.
+ * @returns The subtopic, or `null` when the entry lacks its span, title or reason.
+ */
+function readSubtopic(value: unknown): Subtopic | null {
+	if (
+		!isRecord(value) ||
+		typeof value.start !== "number" ||
+		typeof value.end !== "number" ||
+		typeof value.title !== "string" ||
+		typeof value.why !== "string"
+	) {
+		return null;
+	}
+	return { start: value.start, end: value.end, title: value.title, why: value.why };
+}
+
+/**
+ * Reads a value parsed back from a run file as a division: a list of subtopics.
  *
  * @param value - The parsed run file.
- * @returns `true` when every entry carries a span, a title, a reason and its mark.
+ * @returns The subtopics, or `null` when it is not a list or any entry is not a subtopic.
  */
-export function isDivision(value: unknown): value is readonly Subtopic[] {
-	return (
-		Array.isArray(value) &&
-		value.every(
-			(subtopic: unknown) =>
-				isRecord(subtopic) &&
-				typeof subtopic.start === "number" &&
-				typeof subtopic.end === "number" &&
-				typeof subtopic.title === "string" &&
-				typeof subtopic.why === "string" &&
-				typeof subtopic.titleInherited === "boolean",
-		)
-	);
+export function readDivision(value: unknown): readonly Subtopic[] | null {
+	if (!Array.isArray(value)) {
+		return null;
+	}
+	const subtopics = value.map(readSubtopic);
+	return subtopics.every((subtopic) => subtopic !== null) ? subtopics : null;
 }
 
 /** A division whose subtopics do not join back into the transcript. Always a bug. */
@@ -247,8 +257,7 @@ export function placeCuts({
 
 /**
  * Cuts the text at the given positions into subtopics carrying the model's
- * titles and reasons, in order, each unmarked: a title given with its cut is
- * the subtopic's own.
+ * titles and reasons, in order.
  *
  * @param args - The text, where each subtopic starts, and what the model called each.
  * @param args.text - The transcript being divided.
@@ -270,7 +279,6 @@ export function sliceSubtopics({
 		end: cuts[index + 1] ?? text.length,
 		title: named[index]?.title ?? "",
 		why: named[index]?.why ?? "",
-		titleInherited: false,
 	}));
 }
 

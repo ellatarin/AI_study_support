@@ -90,9 +90,6 @@ function cutsAt(...quotes: readonly string[]): string {
 /** Replies that cut the second subtopic in the first round and its head piece in the second. */
 const CUTTING_BOTH_ROUNDS = { [SECOND]: cutsAt(SECOND_CUT), [SECOND_HEAD]: cutsAt(HEAD_CUT) };
 
-/** Where a second-round cut divides the tail piece, which has a title of its own. */
-const TAIL_CUT = "immune system";
-
 /** What a call to the model is handed, as far as these tests read it. */
 type SentRequest = { readonly messages: readonly { readonly content: string }[] };
 
@@ -203,11 +200,6 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		return (await savedRun(runNumber)).map((subtopic) => subtopic.start);
 	}
 
-	/** Whether each subtopic of the deepened run `runNumber` is marked as carrying an inherited title. */
-	async function savedMarks(runNumber: number): Promise<readonly boolean[]> {
-		return (await savedRun(runNumber)).map((subtopic) => subtopic.titleInherited);
-	}
-
 	/** Where the subtopics start once {@link CUTTING_BOTH_ROUNDS} has cut in both rounds. */
 	const CUT_IN_BOTH_ROUNDS = [0, at(SECOND), at(HEAD_CUT), at(SECOND_CUT)];
 
@@ -241,41 +233,32 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		answering({ [SECOND]: cutsAt(SECOND_CUT) });
 		await run(SECOND_ONLY);
 		const [opening, second] = transcriptDivision;
-		expect(await savedRun(1)).toEqual([
+		expect(await savedRun(1)).toStrictEqual([
 			opening,
-			{ ...second, end: at(SECOND_CUT), titleInherited: true },
+			{ ...second, end: at(SECOND_CUT) },
 			{
 				start: at(SECOND_CUT),
 				end: transcriptText.length,
 				title: `From ${SECOND_CUT}`,
 				why: "Its own step.",
-				titleInherited: false,
 			},
 		]);
 	});
 
-	it("should mark the first piece and no other when a subtopic is cut", async () => {
+	// Initial runs saved while deepening marked inherited titles carry the mark.
+	// They are still read, and the mark goes no further.
+	it("should write no inherited-title mark when the initial runs it reads carry one", async () => {
+		for (let runNumber = 1; runNumber <= PANEL_SIZE; runNumber += 1) {
+			await seedPanelRun({
+				workspaceRoot: workspaceRoot(),
+				stageId: "initial-subtopic-splitting",
+				runNumber,
+				contents: transcriptDivision.map((subtopic) => ({ ...subtopic, titleInherited: false })),
+			});
+		}
 		answering({ [SECOND]: cutsAt(SECOND_CUT) });
 		await run(SECOND_ONLY);
-		expect(await savedMarks(1)).toEqual([false, true, false]);
-	});
-
-	it("should leave a subtopic's mark as it was when the reply says it is one step", async () => {
-		answering({ [SECOND]: cutsAt(SECOND_CUT) });
-		await run(ALMOST_EVERYTHING);
-		expect(await savedMarks(1)).toEqual([false, true, false]);
-	});
-
-	it("should mark the first piece when the second round cuts a subtopic that had a title of its own", async () => {
-		answering({ [SECOND]: cutsAt(SECOND_CUT), [SECOND_TAIL]: cutsAt(TAIL_CUT) });
-		await run(ALMOST_EVERYTHING);
-		expect(await savedMarks(1)).toEqual([false, true, true, false]);
-	});
-
-	it("should keep the first piece marked when the second round cuts it again", async () => {
-		answering(CUTTING_BOTH_ROUNDS);
-		await run(ALMOST_EVERYTHING);
-		expect(await savedMarks(1)).toEqual([false, true, false, false]);
+		expect((await savedRun(1)).some((subtopic) => "titleInherited" in subtopic)).toBe(false);
 	});
 
 	it("should ignore a cut proposed outside its subtopic when the reply places one there", async () => {

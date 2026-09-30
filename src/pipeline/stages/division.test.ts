@@ -3,9 +3,9 @@ import { joinedSubtopics } from "../fixtures.js";
 import {
 	assertLossless,
 	DivisionNotLosslessError,
-	isDivision,
 	isReplySubtopic,
 	placeCuts,
+	readDivision,
 	replyNaming,
 	type Subtopic,
 	sliceSubtopics,
@@ -86,29 +86,17 @@ describe("sliceSubtopics", () => {
 		expect(joinedSubtopics({ text: TEXT, subtopics })).toBe(TEXT);
 	});
 
-	it("should give each subtopic its span, title and reason, unmarked, when the text is cut", () => {
-		expect(sliceSubtopics({ text: TEXT, cuts: [0, at("So the first")], named })).toEqual([
-			{
-				start: 0,
-				end: at("So the first"),
-				title: "Opening",
-				why: "Framing.",
-				titleInherited: false,
-			},
-			{
-				start: at("So the first"),
-				end: TEXT.length,
-				title: "The membrane",
-				why: "One structure.",
-				titleInherited: false,
-			},
+	it("should give each subtopic its span, title and reason when the text is cut", () => {
+		expect(sliceSubtopics({ text: TEXT, cuts: [0, at("So the first")], named })).toStrictEqual([
+			{ start: 0, end: at("So the first"), title: "Opening", why: "Framing." },
+			{ start: at("So the first"), end: TEXT.length, title: "The membrane", why: "One structure." },
 		]);
 	});
 });
 
 describe("assertLossless", () => {
 	/** A first subtopic ending at character 10, which the second must start from. */
-	const FIRST: Subtopic = { start: 0, end: 10, title: "a", why: "", titleInherited: false };
+	const FIRST: Subtopic = { start: 0, end: 10, title: "a", why: "" };
 
 	it.each([
 		{ fault: "no gap", second: { start: 10, end: TEXT.length }, lossless: true },
@@ -126,31 +114,28 @@ describe("assertLossless", () => {
 	});
 });
 
-describe("isDivision", () => {
-	const { title, why, titleInherited, ...span } = {
-		start: 0,
-		end: 5,
-		title: "a",
-		why: "b",
-		titleInherited: false,
-	};
+describe("readDivision", () => {
+	const { title, why, ...span } = { start: 0, end: 5, title: "a", why: "b" };
+	const subtopic = { ...span, title, why };
+
 	it.each([
-		{ held: "a list of subtopics", value: [{ ...span, title, why, titleInherited }], is: true },
-		{ held: "not a list", value: { start: 0 }, is: false },
-		{
-			held: "a subtopic without its reason",
-			value: [{ ...span, title, titleInherited }],
-			is: false,
-		},
-		{ held: "a subtopic without its span", value: [{ title, why, titleInherited }], is: false },
-		{ held: "a subtopic without its mark", value: [{ ...span, title, why }], is: false },
+		{ held: "a list of subtopics", value: [subtopic], division: [subtopic] },
+		{ held: "not a list", value: { start: 0 }, division: null },
+		{ held: "a subtopic without its reason", value: [{ ...span, title }], division: null },
+		{ held: "a subtopic without its span", value: [{ title, why }], division: null },
 		{
 			held: "a subtopic named by a label, as saved before titles",
-			value: [{ ...span, label: title, why, titleInherited }],
-			is: false,
+			value: [{ ...span, label: title, why }],
+			division: null,
 		},
-	])("should recognise a saved value as a division only when it holds $held", ({ value, is }) => {
-		expect(isDivision(value)).toBe(is);
+	])("should read a saved value as a division only when it holds $held", ({ value, division }) => {
+		expect(readDivision(value)).toStrictEqual(division);
+	});
+
+	// Deepening once marked every subtopic whose title was inherited. Nothing
+	// reads the mark now, and runs saved with it are still read rather than remade.
+	it("should read a saved run as a division without its mark when the run carries one", () => {
+		expect(readDivision([{ ...subtopic, titleInherited: true }])).toStrictEqual([subtopic]);
 	});
 });
 

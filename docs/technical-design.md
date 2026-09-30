@@ -1153,7 +1153,7 @@ placeCuts(args: { text: string; quotes: readonly string[] }):
 sliceSubtopics(args: { text: string; cuts: readonly number[]; named: readonly { title: string; why: string }[] }): readonly Subtopic[]
 assertLossless(args: { text: string; subtopics: readonly Subtopic[] }): void
 subtopicText(args: { text: string; subtopic: Pick<Subtopic, "start" | "end"> }): string
-isDivision(value: unknown): value is readonly Subtopic[]   // a run file read back; an old run's inherited-title mark is ignored
+readDivision(value: unknown): readonly Subtopic[] | null   // a run file read back, keeping only what a subtopic holds; an old run's inherited-title mark is dropped
 type ReplySubtopic = { label: string; groupedBecause: string; startsWith: string }
 isReplySubtopic(value: unknown): value is ReplySubtopic   // one subtopic or cut as a reply names it; `label` is the prompt's word
 
@@ -1164,9 +1164,10 @@ readTranscript(args: { context: StageContext; fail: (message: string) => Error }
 // The transcript, with the whitespace at its two ends removed.
 
 // src/pipeline/stages/panel-runs.ts — shared by the panel stages
-runStagePanel<TRun>(args: { stageId: StageId; context: StageContext; isRun; makeRun }): Promise<StageResult<{ runs: readonly TRun[] }>>
+runStagePanel<TRun>(args: { stageId: StageId; context: StageContext; readRun; makeRun }): Promise<StageResult<{ runs: readonly TRun[] }>>
 // Makes the stage's panel in its own directory at its configured concurrency; a run needing no call reports no cost.
-readPanel<TRun>(args: { panelSize: number; directory: string; isRun; fail }): Promise<readonly TRun[]>
+readPanel<TRun>(args: { panelSize: number; directory: string; readRun; fail }): Promise<readonly TRun[]>
+// readRun reads a parsed run file as a run, or gives null when it is not one, which is a named error.
 // Reads back a panel an earlier stage finished; a missing run throws the error `fail` builds.
 panelDirectory(args: { workspaceRoot: string; stageId: StageId }): string
 

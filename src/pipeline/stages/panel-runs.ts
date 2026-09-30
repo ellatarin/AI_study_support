@@ -82,8 +82,11 @@ type SavedPanel<TRun> = {
 	readonly panelSize: number;
 	/** Where the run files are saved. */
 	readonly directory: string;
-	/** Whether a value read back from a run file is a run. */
-	readonly isRun: (value: unknown) => value is TRun;
+	/**
+	 * Reads a value parsed back from a run file as a run, keeping only what a
+	 * run holds, or gives `null` when it is not one.
+	 */
+	readonly readRun: (value: unknown) => TRun | null;
 };
 
 /**
@@ -122,23 +125,20 @@ function panelRunFiles({
  *
  * @param args - The file, and what counts as a run.
  * @param args.path - The run file.
- * @param args.isRun - Whether a parsed value is a run.
+ * @param args.readRun - Reads a parsed value as a run.
  * @returns The saved run, or `null` when no file is there.
  * @throws {SavedRunUnreadableError} When a file is there but holds no readable run.
  * @typeParam TRun - What a run holds.
  */
 async function readSavedRun<TRun>({
 	path,
-	isRun,
-}: {
-	readonly path: string;
-	readonly isRun: (value: unknown) => value is TRun;
-}): Promise<TRun | null> {
+	readRun,
+}: { readonly path: string } & Pick<SavedPanel<TRun>, "readRun">): Promise<TRun | null> {
 	if (!(await pathExists(path))) {
 		return null;
 	}
-	const saved = await readJsonSafe(path);
-	if (!isRun(saved)) {
+	const saved = readRun(await readJsonSafe(path));
+	if (saved === null) {
 		throw new SavedRunUnreadableError(
 			`${path} holds no readable run. A run file is written whole, so something else changed it; delete it to make the run again.`,
 		);
@@ -158,7 +158,7 @@ async function readSavedRun<TRun>({
  * @param args.panelSize - How many runs the panel holds.
  * @param args.concurrency - The most runs in flight at once; unset means one at a time.
  * @param args.directory - Where the run files are saved; it must already exist.
- * @param args.isRun - Whether a value read back from a run file is a run.
+ * @param args.readRun - Reads a value parsed back from a run file as a run.
  * @param args.makeRun - Makes one run, given its number counting from 1, with
  *   what its calls cost — `null` for a run that needed none.
  * @returns Every run in run order, the cost of the runs made by this launch —
@@ -170,7 +170,7 @@ export async function runPanel<TRun>({
 	panelSize,
 	concurrency,
 	directory,
-	isRun,
+	readRun,
 	makeRun,
 }: SavedPanel<TRun> & {
 	readonly concurrency?: number | undefined;
@@ -187,7 +187,7 @@ export async function runPanel<TRun>({
 		items: runFiles,
 		limit: concurrency,
 		work: async ({ item: path, index }) => {
-			const saved = await readSavedRun({ path, isRun });
+			const saved = await readSavedRun({ path, readRun });
 			if (saved !== null) {
 				return { run: saved, cost: null };
 			}
@@ -212,7 +212,7 @@ export async function runPanel<TRun>({
  * @param args - Where the panel was saved, its size, what counts as a run, and how to fail.
  * @param args.panelSize - How many runs the panel holds.
  * @param args.directory - Where the run files were saved.
- * @param args.isRun - Whether a value read back from a run file is a run.
+ * @param args.readRun - Reads a value parsed back from a run file as a run.
  * @param args.fail - Builds the reading stage's own error from a message.
  * @returns Every run, in run order.
  * @throws The error `fail` builds, naming the file, when a run is missing.
@@ -222,12 +222,12 @@ export async function runPanel<TRun>({
 export async function readPanel<TRun>({
 	panelSize,
 	directory,
-	isRun,
+	readRun,
 	fail,
 }: SavedPanel<TRun> & { readonly fail: (message: string) => Error }): Promise<readonly TRun[]> {
 	const runs: TRun[] = [];
 	for (const path of panelRunFiles({ directory, panelSize })) {
-		const saved = await readSavedRun({ path, isRun });
+		const saved = await readSavedRun({ path, readRun });
 		if (saved === null) {
 			throw fail(`No run at ${path}: the panel of ${panelSize} runs is not complete`);
 		}
@@ -245,7 +245,7 @@ export async function readPanel<TRun>({
  * @param args - The stage, its lecture, and how to make and recognise a run.
  * @param args.stageId - The panel stage; picks its directory and its concurrency.
  * @param args.context - The current lecture run context.
- * @param args.isRun - Whether a value read back from a run file is a run.
+ * @param args.readRun - Reads a value parsed back from a run file as a run.
  * @param args.makeRun - Makes one run, given its number counting from 1.
  * @returns The stage's result, holding every run in run order.
  * @throws {SavedRunUnreadableError} When a run file left by an earlier launch holds no readable run.
@@ -254,19 +254,19 @@ export async function readPanel<TRun>({
 export async function runStagePanel<TRun>({
 	stageId,
 	context,
-	isRun,
+	readRun,
 	makeRun,
 }: {
 	readonly stageId: StageId;
 	readonly context: StageContext;
-} & Pick<Parameters<typeof runPanel<TRun>>[0], "isRun" | "makeRun">): Promise<
+} & Pick<Parameters<typeof runPanel<TRun>>[0], "readRun" | "makeRun">): Promise<
 	StageResult<{ readonly runs: readonly TRun[] }>
 > {
 	const { runs, cost, runFiles } = await runPanel({
 		panelSize: context.config.division.panelSize,
 		concurrency: configuredStage({ config: context.config, stageId })?.concurrency,
 		directory: panelDirectory({ workspaceRoot: context.workspaceRoot, stageId }),
-		isRun,
+		readRun,
 		makeRun,
 	});
 	return {

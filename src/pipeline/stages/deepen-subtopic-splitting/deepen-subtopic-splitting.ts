@@ -18,10 +18,10 @@ import { isRecord } from "../../../utils/record.js";
 import { configuredStage } from "../../../utils/stage-config.js";
 import {
 	assertLossless,
-	isDivision,
 	isReplySubtopic,
 	placeCuts,
 	type ReplySubtopic,
+	readDivision,
 	replyNaming,
 	type Subtopic,
 	sliceSubtopics,
@@ -126,15 +126,13 @@ function placeWithin({
 
 /**
  * Cuts one subtopic where the reply says it divides. The first piece keeps the
- * subtopic's own title and reason, and is marked as carrying an inherited
- * title, since that title was written for the whole; each later one takes its
- * cut's, unmarked.
+ * subtopic's own title and reason; each later one takes its cut's.
  *
  * @param args - The transcript, the subtopic, and the cuts proposed in it.
  * @param args.transcript - The transcript the subtopic's span indexes into.
  * @param args.subtopic - The subtopic that was sent.
  * @param args.cuts - The cuts the reply proposed.
- * @returns The subtopic's pieces, in order; the subtopic itself, mark unchanged, when nothing was cut.
+ * @returns The subtopic's pieces, in order; the subtopic itself when nothing was cut.
  */
 function cutSubtopic({
 	transcript,
@@ -159,7 +157,7 @@ function cutSubtopic({
 	if (kept.length === 0 || first === undefined) {
 		return [subtopic];
 	}
-	return [{ ...first, titleInherited: true }, ...later];
+	return [first, ...later];
 }
 
 /** A run being deepened, and what the calls about it need. */
@@ -292,7 +290,7 @@ function deepenRuns({
 	return runStagePanel({
 		stageId: STAGE_ID,
 		context,
-		isRun: isDivision,
+		readRun: readDivision,
 		makeRun: ({ runNumber }) =>
 			deepenRun({
 				transcript: input.transcript,
@@ -321,7 +319,7 @@ async function readInput(context: StageContext): Promise<DeepenSubtopicSplitting
 			workspaceRoot: context.workspaceRoot,
 			stageId: "initial-subtopic-splitting",
 		}),
-		isRun: isDivision,
+		readRun: readDivision,
 		fail: (message) => fail(`${message}; run initial-subtopic-splitting first`),
 	});
 	return { transcript, initialRuns };
