@@ -146,9 +146,9 @@ lecture-notes change-date <date> <new date>
 | `normalise-sources` | Built |
 | `extract-audio` | Built |
 | `transcribe` | Built |
-| `initial-subtopic-splitting` | Prototype; designed, being built |
-| `deepen-subtopic-splitting` | Prototype; designed, being built |
-| `choose-division` | Prototype; designed, being built |
+| `initial-subtopic-splitting` | Built |
+| `deepen-subtopic-splitting` | Built |
+| `choose-division` | Designed, not built |
 | `retitle-subtopics` | Prototype settled; design being updated, not built |
 | `define-topics` | Prototype settled for grouping; design being updated, not built |
 | `render-slides` | Designed, not built |
@@ -166,8 +166,9 @@ lecture-notes change-date <date> <new date>
 | `generate-pdf` | Designed, not built |
 
 The commands (`run`, `batch`, `cost-report`, `rename`, `delete`, `change-date`) are built. So are two
-earlier stages that rewrote and checked the whole transcript at once. Their work moves into
-`write-topics` and `verify-topics`, which will be rewritten to work on the divided transcript.
+earlier stages that rewrote and checked the whole transcript at once, and a run still goes through
+them, straight after `deepen-subtopic-splitting`. Their work moves into `write-topics` and
+`verify-topics`, which will be rewritten to work on the divided transcript.
 The built stages still carry their earlier names in the code until the redesign is carried through.
 
 
