@@ -58,13 +58,16 @@ re-run from it or stop after it.
    came out too long (over 600 words), to be divided further.
 6. **`choose-division`.** The eighteen divisions vote: a cut counts where at least half of them made it.
    No single division is reliable on its own, so the division kept is the one nearest the vote, taken
-   whole, so its subtopics and their titles all come from one reading of the lecture. It uses no AI
-   model, so it can be re-run for free.
-7. **`define-topics`.** Groups the subtopics into **topics**, and judges whether the lecturer's title
-   is meaningful. Eighteen groupings are made, and the one nearest their vote is kept whole.
-8. **`retitle-subtopics`.** When a subtopic was cut from a larger one, its first piece still carries
-   the larger one's title. This gives each such piece a title of its own. It comes after grouping
-   because the larger titles help grouping see where topics begin.
+   whole, so its subtopics all come from one reading of the lecture. It uses no AI model, so it can be
+   re-run for free.
+7. **`retitle-subtopics`.** Gives every subtopic a new title, reading the whole lecture in one pass and
+   titling each subtopic in turn: the most precise short description of what it covers, written for a
+   science undergraduate. A subtopic that recaps earlier material is titled as a summary, and the
+   lecture's closing part as its summary or close. It comes before grouping, which uses these titles.
+8. **`define-topics`.** Groups the subtopics into **topics**, reading them from last to first with their
+   titles and full text, and judges whether the lecturer's title is meaningful. Five groupings are
+   made. The one most of them give is kept; on a tie, the one with more topics, then the one closest to
+   a border-by-border vote of all five.
 9. **`render-slides`.** Renders each slide as an image.
 10. **`read-slides`.** A vision model writes out everything on each slide.
 11. **`verify-slides`.** A checker compares each slide's written-out content with the slide image and
@@ -146,8 +149,8 @@ lecture-notes change-date <date> <new date>
 | `initial-subtopic-splitting` | Prototype; designed, being built |
 | `deepen-subtopic-splitting` | Prototype; designed, being built |
 | `choose-division` | Prototype; designed, being built |
-| `define-topics` | Prototype; grouping designed, being built |
-| `retitle-subtopics` | Prototype; designed, not built |
+| `retitle-subtopics` | Prototype settled; design being updated, not built |
+| `define-topics` | Prototype settled for grouping; design being updated, not built |
 | `render-slides` | Designed, not built |
 | `read-slides` | Designed, not built |
 | `verify-slides` | Planned |
