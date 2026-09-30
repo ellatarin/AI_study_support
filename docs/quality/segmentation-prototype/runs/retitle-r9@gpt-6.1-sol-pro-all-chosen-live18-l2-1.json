@@ -1,0 +1,113 @@
+{
+  "division": "chosen-live18-l2",
+  "promptVersion": "r9",
+  "modelId": "openai/gpt-6.1-sol-pro",
+  "reasoningEffort": null,
+  "retitled": [
+    {
+      "id": 1,
+      "oldTitle": "Introduction to complement lecture",
+      "newTitle": "Introduction to complement and its importance",
+      "promptTokens": 24612,
+      "completionTokens": 913
+    },
+    {
+      "id": 2,
+      "oldTitle": "Overview of complement and its primary roles",
+      "newTitle": "Overview of complement activation, immune defence and clearance functions",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 3,
+      "oldTitle": "Complement nomenclature conventions",
+      "newTitle": "Complement nomenclature and its exceptions",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 4,
+      "oldTitle": "Central role and activation mechanism of C3",
+      "newTitle": "C3 activation, C3b surface attachment and C3a inflammation",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 5,
+      "oldTitle": "The alternative pathway of complement activation",
+      "newTitle": "Three pathways of complement activation and their timing",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 6,
+      "oldTitle": "the mechanism of the alternative pathway of complement activation",
+      "newTitle": "Alternative pathway: spontaneous C3 activation and surface amplification",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 7,
+      "oldTitle": "The lectin pathway of complement activation",
+      "newTitle": "Lectin pathway: microbial carbohydrate recognition and C3 convertase formation",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 8,
+      "oldTitle": "The classical pathway and complement trigger threshold",
+      "newTitle": "Classical pathway and the threshold for complement activation",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 9,
+      "oldTitle": "Effector mechanisms: opsonization, inflammation, and membrane lysis",
+      "newTitle": "Complement-mediated opsonization and phagocyte activation",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 10,
+      "oldTitle": "Complement-mediated inflammation via C3a",
+      "newTitle": "C3a-mediated inflammation and immune cell recruitment",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 11,
+      "oldTitle": "Pathogen lysis via the membrane attack complex",
+      "newTitle": "Membrane attack complex assembly and pathogen lysis",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 12,
+      "oldTitle": "Host cell regulation of complement activation",
+      "newTitle": "Complement regulation and protection of host cells",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 13,
+      "oldTitle": "Clinical presentations of complement deficiencies",
+      "newTitle": "Clinical consequences of complement component and regulator deficiencies",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 14,
+      "oldTitle": "Pathogen evasion mechanisms and applications of protein A",
+      "newTitle": "Complement evasion by Staphylococcus aureus and applications of protein A",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 15,
+      "oldTitle": "Lecture conclusion and next session preview",
+      "newTitle": "Lecture close: transition to adaptive immunity",
+      "promptTokens": null,
+      "completionTokens": null
+    }
+  ]
+}

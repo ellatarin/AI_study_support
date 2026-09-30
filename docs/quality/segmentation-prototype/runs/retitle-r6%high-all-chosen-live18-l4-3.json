@@ -1,0 +1,162 @@
+{
+  "division": "chosen-live18-l4",
+  "promptVersion": "r6",
+  "modelId": "google/gemini-3.7-flash",
+  "reasoningEffort": "high",
+  "retitled": [
+    {
+      "id": 1,
+      "oldTitle": "Lecture Introduction and Learning Objectives",
+      "newTitle": "Introduction to cancer causes and lecture objectives",
+      "promptTokens": 12090,
+      "completionTokens": 3619
+    },
+    {
+      "id": 2,
+      "oldTitle": "Cancer as a Genetic and Evolutionary Disease",
+      "newTitle": "Cancer as a genetic disease and evolutionary process requiring a permissive microenvironment",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 3,
+      "oldTitle": "Endogenous Mutational Processes and Genetic Predisposition",
+      "newTitle": "Endogenous processes, environmental factors, and genetic predisposition in cancer development",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 4,
+      "oldTitle": "Environmental Carcinogens and Epidemiological Variation",
+      "newTitle": "Environmental exposures and emerging carcinogens",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 5,
+      "oldTitle": "The 'bad luck' vs. environmental exposure debate and public perception of cancer risk",
+      "newTitle": "Intrinsic bad luck versus environmental causes and public perceptions of cancer risk",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 6,
+      "oldTitle": "Epidemiological studies and geographic variation in cancer incidence",
+      "newTitle": "Epidemiological and geographic variation in cancer incidence",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 7,
+      "oldTitle": "Infectious Pathogens and Cancer Risk",
+      "newTitle": "Pathogens and infectious agents driving cancer development",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 8,
+      "oldTitle": "Burkitt Lymphoma and the Lymphoma Belt",
+      "newTitle": "Discovery, epidemiology, and mechanism of Burkitt lymphoma",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 9,
+      "oldTitle": "Dietary Carcinogens and Aflatoxin Activation",
+      "newTitle": "Dietary aflatoxin activation and DNA adduct formation",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 10,
+      "oldTitle": "UV Radiation and Thymine Dimer Formation",
+      "newTitle": "UV radiation and thymine dimer formation",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 11,
+      "oldTitle": "Polycyclic Aromatic Hydrocarbons and Xenobiotic Metabolism",
+      "newTitle": "Benzo[a]pyrene activation by xenobiotic metabolism and DNA transversion mutations",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 12,
+      "oldTitle": "TCDD toxicity and mechanism of DNA damage through oxidative stress",
+      "newTitle": "TCDD-induced oxidative stress and reactive oxygen species generation",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 13,
+      "oldTitle": "Tissue-Specific Activation of Beta-Naphthylamine",
+      "newTitle": "Tissue-specific activation of beta-naphthylamine in bladder cancer",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 14,
+      "oldTitle": "Asbestos and Chronic Inflammation as a Promoter",
+      "newTitle": "Asbestos as a tumor promoter driving chronic inflammation in mesothelioma",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 15,
+      "oldTitle": "Two-Stage Carcinogenesis and Tumor Promoters",
+      "newTitle": "Two-stage carcinogenesis model and mechanism of tumor promotion by TPA",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 16,
+      "oldTitle": "Developmental Stage Susceptibility and Alkylating Agents",
+      "newTitle": "Stage-of-life and developmental susceptibility to carcinogenesis",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 17,
+      "oldTitle": "Summary of mechanisms and factors in cancer causation",
+      "newTitle": "Summary of mechanisms in chemical carcinogenesis and tumor promotion",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 18,
+      "oldTitle": "Mutational Signatures from Whole Genome Sequencing",
+      "newTitle": "Mutational signatures and whole-genome sequencing in identifying carcinogens",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 19,
+      "oldTitle": "Epidemiological Biobanks and Animal Carcinogenicity Studies",
+      "newTitle": "Epidemiological studies, exposure biomarkers, and biobanks in cancer research",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 20,
+      "oldTitle": "Animal studies and toxicological testing for carcinogenicity",
+      "newTitle": "In vivo animal toxicology testing and dosage considerations",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 21,
+      "oldTitle": "The Ames Test for Mutagenicity",
+      "newTitle": "The Ames test for mutagenicity and limitations of in vitro assays",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 22,
+      "oldTitle": "Lecture Summary and Risk-Benefit Analysis",
+      "newTitle": "Risk-benefit analysis of environmental carcinogen exposures and conclusion",
+      "promptTokens": null,
+      "completionTokens": null
+    }
+  ]
+}

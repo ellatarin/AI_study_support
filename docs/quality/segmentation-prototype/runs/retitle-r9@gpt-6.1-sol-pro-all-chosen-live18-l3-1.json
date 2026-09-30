@@ -1,0 +1,127 @@
+{
+  "division": "chosen-live18-l3",
+  "promptVersion": "r9",
+  "modelId": "openai/gpt-6.1-sol-pro",
+  "reasoningEffort": null,
+  "retitled": [
+    {
+      "id": 1,
+      "oldTitle": "Course introduction and learning outcomes",
+      "newTitle": "Introduction to cancer biology and lecture learning outcomes",
+      "promptTokens": 33772,
+      "completionTokens": 1175
+    },
+    {
+      "id": 2,
+      "oldTitle": "Stepwise genetic and epigenetic changes in cancer",
+      "newTitle": "Accumulation of genetic and epigenetic changes in cancer development",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 3,
+      "oldTitle": "Cancer as a failure of cellular differentiation and tissue architecture",
+      "newTitle": "Cancer as a failure of differentiation and tissue architecture",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 4,
+      "oldTitle": "Culturing tumor cells in vitro and the limitations of 2D models",
+      "newTitle": "Cell culture models of cancer and their limitations",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 5,
+      "oldTitle": "Mechanisms and pathology of invasion and metastasis",
+      "newTitle": "Invasion as the distinction between benign and malignant tumors",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 6,
+      "oldTitle": "metastasis and routes of secondary tumor spread",
+      "newTitle": "Routes of metastasis and features of secondary tumors",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 7,
+      "oldTitle": "Benign tumor characteristics versus local tissue invasion in malignant tumors",
+      "newTitle": "Histological comparison of benign tumors and malignant invasion",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 8,
+      "oldTitle": "Stepwise progression from adenoma to adenocarcinoma in colorectal polyps",
+      "newTitle": "Histological progression from colorectal adenoma to invasive adenocarcinoma",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 9,
+      "oldTitle": "Clinical risks and behaviors of benign tumors",
+      "newTitle": "Malignant potential and harmful effects of benign tumors",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 10,
+      "oldTitle": "Tumor nomenclature and classification systems",
+      "newTitle": "Tumor nomenclature by tissue of origin and malignancy",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 11,
+      "oldTitle": "Pathophysiological causes of cancer morbidity and mortality",
+      "newTitle": "Mechanisms of cancer-related illness and death",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 12,
+      "oldTitle": "Cancer incidence and comparative oncology across taxa",
+      "newTitle": "Human tumor incidence and cancer mortality patterns",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 13,
+      "oldTitle": "cancer incidence across companion animals and other multicellular taxa",
+      "newTitle": "Comparative tumor incidence across animal species",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 14,
+      "oldTitle": "Clinical symptoms and cancer screening modalities",
+      "newTitle": "Clinical presentation and the rationale for cancer screening",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 15,
+      "oldTitle": "Cervical cancer screening, histology, and dysplasia detection",
+      "newTitle": "Cervical screening for HPV-associated pre-invasive lesions",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 16,
+      "oldTitle": "Colorectal and other cancer screening modalities",
+      "newTitle": "Methods and limitations of colorectal, breast and prostate screening",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 17,
+      "oldTitle": "Lecture closing and housekeeping",
+      "newTitle": "Lecture close: learning outcomes, revision and practicals",
+      "promptTokens": null,
+      "completionTokens": null
+    }
+  ]
+}

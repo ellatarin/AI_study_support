@@ -1,0 +1,169 @@
+{
+  "division": "chosen-live18-l8",
+  "promptVersion": "r9",
+  "modelId": "openai/gpt-6.1-sol-pro",
+  "reasoningEffort": null,
+  "retitled": [
+    {
+      "id": 1,
+      "oldTitle": "Introduction to cancer therapy",
+      "newTitle": "Cancer therapy approaches and learning objectives",
+      "promptTokens": 39408,
+      "completionTokens": 1451
+    },
+    {
+      "id": 2,
+      "oldTitle": "Surgery and radiotherapy as primary cancer treatments",
+      "newTitle": "Surgery and radiotherapy in cancer treatment",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 3,
+      "oldTitle": "Cytotoxic chemotherapy mechanisms and limitations",
+      "newTitle": "Cytotoxic chemotherapy: mechanisms, efficacy, toxicity and resistance",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 4,
+      "oldTitle": "Targeting outside-in signaling in hormone-dependent cancers",
+      "newTitle": "Targeting hormone dependence in breast and prostate cancers",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 5,
+      "oldTitle": "Exploiting cell cycle checkpoint defects and oncolytic viruses",
+      "newTitle": "Exploiting cell cycle checkpoint defects to enhance radiosensitivity",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 6,
+      "oldTitle": "Exploiting p53 deficiency using engineered oncolytic adenoviruses",
+      "newTitle": "Oncolytic adenoviruses targeting p53-deficient cancer cells",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 7,
+      "oldTitle": "Exploiting DNA repair deficiencies with PARP inhibitors",
+      "newTitle": "PARP inhibition in BRCA-deficient cancers",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 8,
+      "oldTitle": "Targeting oncogene addiction with kinase inhibitors",
+      "newTitle": "Oncogene addiction and genome-guided targeted therapy",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 9,
+      "oldTitle": "Targeting hyperactivated kinases with small-molecule inhibitors",
+      "newTitle": "Targeting activated oncogenic kinases with ATP-binding inhibitors",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 10,
+      "oldTitle": "Kinase inhibitor resistance, bypass pathways, and drug addiction",
+      "newTitle": "Kinase inhibitor selectivity and resistance through binding-site mutations",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 11,
+      "oldTitle": "Bypass resistance mechanisms and drug addiction in RAF inhibitors",
+      "newTitle": "BRAF inhibitor resistance, bypass signalling and drug addiction",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 12,
+      "oldTitle": "Summary of kinase inhibitors as chronic therapies and their associated side effects",
+      "newTitle": "Summary of chronic disease management and kinase inhibitor limitations",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 13,
+      "oldTitle": "Monoclonal antibodies and antibody-drug conjugates",
+      "newTitle": "Monoclonal antibodies for receptor blockade and immune-mediated cancer cell killing",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 14,
+      "oldTitle": "Antibody-drug conjugates and brentuximab",
+      "newTitle": "Antibody–drug conjugates for targeted cytotoxic delivery",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 15,
+      "oldTitle": "Historical and clinical evidence for cancer immune surveillance",
+      "newTitle": "Evidence for immune surveillance against cancer",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 16,
+      "oldTitle": "Immune checkpoint inhibitors and neoantigen response",
+      "newTitle": "Immune checkpoint inhibition: T cell reactivation, efficacy and toxicity",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 17,
+      "oldTitle": "tumor neoantigens and mutational burden driving T-cell responses",
+      "newTitle": "Tumour neoantigens and response to immune checkpoint inhibition",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 18,
+      "oldTitle": "Bispecific T-cell engagers and CAR T-cell therapies",
+      "newTitle": "Bispecific T cell engagers in B-cell lymphoma treatment",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 19,
+      "oldTitle": "CAR T cell therapy mechanism, production, and limitations",
+      "newTitle": "CAR T cell therapy: manufacture, limitations and emerging improvements",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 20,
+      "oldTitle": "Modern challenges, genomic stratification, and cancer trends",
+      "newTitle": "Summary of cancer therapy challenges and personalised treatment strategies",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 21,
+      "oldTitle": "historical trends: cancer therapy improvements versus prevention and early detection",
+      "newTitle": "Cancer outcome trends and the contributions of prevention and early detection",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 22,
+      "oldTitle": "future directions and ethical dilemmas in cancer management",
+      "newTitle": "Future cancer treatment priorities and ethical dilemmas",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 23,
+      "oldTitle": "Combination chemotherapy success in pediatric leukemia and ethical dilemmas",
+      "newTitle": "Lecture close: childhood leukaemia survival and the dilemma of trialling targeted therapies",
+      "promptTokens": null,
+      "completionTokens": null
+    }
+  ]
+}

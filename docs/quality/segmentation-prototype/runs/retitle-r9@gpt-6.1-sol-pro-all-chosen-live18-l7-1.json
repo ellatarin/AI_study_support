@@ -1,0 +1,92 @@
+{
+  "division": "chosen-live18-l7",
+  "promptVersion": "r9",
+  "modelId": "openai/gpt-6.1-sol-pro",
+  "reasoningEffort": null,
+  "retitled": [
+    {
+      "id": 1,
+      "oldTitle": "Welcome and Lecture Framing",
+      "newTitle": "Introduction to cancer evolution, cell of origin and the microenvironment",
+      "promptTokens": 10594,
+      "completionTokens": 349
+    },
+    {
+      "id": 2,
+      "oldTitle": "Clonal Evolution and Selection of Driver Mutations",
+      "newTitle": "Mutation accumulation and clonal selection in cancer evolution",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 3,
+      "oldTitle": "Epigenetic Regulation in Cancer Hallmarks",
+      "newTitle": "Epigenetic disruption as a driver of tumor development",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 4,
+      "oldTitle": "Cell of Origin and Cancer Stem Cells",
+      "newTitle": "Stemness, cell of origin and models of tumor growth",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 5,
+      "oldTitle": "evidence for cancer stem cells in leukemia",
+      "newTitle": "Evidence for cancer stem cells in leukemia",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 6,
+      "oldTitle": "cell of origin and bottom-up transformation in colorectal cancer",
+      "newTitle": "Cell of origin and mutational pathways in intestinal tumor development",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 7,
+      "oldTitle": "Microenvironmental and Inflammatory Promotion",
+      "newTitle": "Pollution-induced inflammation and stemness in lung cancer initiation",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 8,
+      "oldTitle": "Colon cancer and inflammation in the APC knockout model",
+      "newTitle": "Inflammation-induced stemness in APC-deficient intestinal progenitors",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 9,
+      "oldTitle": "Established Tumor Microenvironment and Spatial Profiling",
+      "newTitle": "Microenvironmental support of established tumors and therapeutic targeting",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 10,
+      "oldTitle": "methods for studying tumor heterogeneity and the microenvironment",
+      "newTitle": "Single-cell and spatial approaches to studying cancer evolution and cell interactions",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 11,
+      "oldTitle": "Summary of Coevolution and Routes to Malignancy",
+      "newTitle": "Lecture summary: mutations, cell properties and microenvironment in cancer evolution",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 12,
+      "oldTitle": "Closing Remarks and Next Lecture",
+      "newTitle": "Lecture close: cancer therapy next",
+      "promptTokens": null,
+      "completionTokens": null
+    }
+  ]
+}

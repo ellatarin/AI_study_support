@@ -1,0 +1,120 @@
+{
+  "division": "chosen-live18-l1",
+  "promptVersion": "r9",
+  "modelId": "openai/gpt-6.1-sol-pro",
+  "reasoningEffort": null,
+  "retitled": [
+    {
+      "id": 1,
+      "oldTitle": "Lecture introduction and overview",
+      "newTitle": "Introduction to the initiation and resolution of inflammation",
+      "promptTokens": 11835,
+      "completionTokens": 501
+    },
+    {
+      "id": 2,
+      "oldTitle": "Innate immune recognition via PAMPs and DAMPs",
+      "newTitle": "Innate recognition of PAMPs and DAMPs by sentinel cells",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 3,
+      "oldTitle": "Properties and examples of effective PAMPs",
+      "newTitle": "Properties of PAMPs that enable self–non-self discrimination",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 4,
+      "oldTitle": "Genetic encoding and subcellular localization of PRRs",
+      "newTitle": "Germline encoding and cellular localisation of pattern recognition receptors",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 5,
+      "oldTitle": "Toll-like receptors and their ligands",
+      "newTitle": "Toll-like receptors: microbial recognition and immune activation",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 6,
+      "oldTitle": "TLR signaling pathways and stress integration",
+      "newTitle": "Compartment-specific TLR signalling and integration with cellular stress",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 7,
+      "oldTitle": "Alternative PRR families: CLRs, RLRs, and NLRs",
+      "newTitle": "Non-TLR pattern recognition receptors and inflammatory disease",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 8,
+      "oldTitle": "The inflammasome and IL-1beta activation",
+      "newTitle": "Inflammasome assembly, IL-1β activation and chronic inflammation",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 9,
+      "oldTitle": "Sentinel cell activation and systemic cytokine effects",
+      "newTitle": "Sentinel cell activation and local versus systemic inflammatory effects",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 10,
+      "oldTitle": "Leukocyte extravasation and chemokine migration",
+      "newTitle": "Leukocyte recruitment through adhesion, extravasation and chemotaxis",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 11,
+      "oldTitle": "Lymphatic drainage and adaptive immune priming",
+      "newTitle": "Lymphatic drainage and dendritic cell migration for adaptive immune priming",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 12,
+      "oldTitle": "Systemic inflammatory pathology: sepsis and septic shock",
+      "newTitle": "Excessive systemic inflammation and septic shock",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 13,
+      "oldTitle": "Passive and active resolution of inflammation",
+      "newTitle": "Passive and active mechanisms of inflammation resolution",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 14,
+      "oldTitle": "Tissue repair, scarring, and chronic inflammation",
+      "newTitle": "Tissue repair and causes of persistent inflammation",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 15,
+      "oldTitle": "Protective role of granulomas in persistent infections",
+      "newTitle": "Granuloma formation as a strategy for containing persistent infection",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 16,
+      "oldTitle": "Lecture conclusion",
+      "newTitle": "Lecture close: next lecture on complement",
+      "promptTokens": null,
+      "completionTokens": null
+    }
+  ]
+}
