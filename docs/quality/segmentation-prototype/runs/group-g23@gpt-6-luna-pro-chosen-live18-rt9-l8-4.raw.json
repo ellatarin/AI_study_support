@@ -1,0 +1,64 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing and learning objectives",
+      "groupedBecause": "This subtopic welcomes students to the final BOD lecture and sets out its subject and learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery and radiotherapy in cancer treatment",
+      "groupedBecause": "These treatments remove or damage tumors directly, with success shaped by factors such as tumor location, spread, and early detection.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic chemotherapy: mechanisms, benefits, and limitations",
+      "groupedBecause": "These subtopics explain how cytotoxic drugs damage cancer cells and consider their clinical effectiveness, toxicity, and resistance.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Targeted exploitation of cancer-cell vulnerabilities",
+      "groupedBecause": "These treatments exploit dependencies or defects in cancer cells to affect them more selectively than healthy cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene-targeted therapy and resistance",
+      "groupedBecause": "These subtopics describe targeting cancer-driving oncogenes, especially kinases, and explain why treatment selectivity and resistance limit their effects.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody–drug conjugates",
+      "groupedBecause": "Both approaches use antibodies that bind cell-surface targets to direct a therapeutic effect toward cells carrying those targets.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune surveillance and checkpoint inhibition",
+      "groupedBecause": "These subtopics examine evidence that immunity can recognize tumors and how checkpoint blockade can restore antitumor T-cell activity.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Directing T cells toward cancer cells",
+      "groupedBecause": "Both approaches bring T cells into targeted contact with tumor cells to promote their destruction.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Therapy challenges and personalized treatment",
+      "groupedBecause": "This subtopic considers why cancer treatments do not work uniformly and how biomarkers and sequencing may help match patients to therapies.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Cancer outcome trends and prevention or early detection",
+      "groupedBecause": "This subtopic assesses changes in cancer outcomes alongside the contributions of prevention and earlier detection.",
+      "firstSubtopicId": 21
+    },
+    {
+      "label": "Future cancer treatment priorities and ethical dilemmas",
+      "groupedBecause": "This subtopic considers future treatment priorities and the ethical choices involved in balancing treatment, quality of life, and palliative care.",
+      "firstSubtopicId": 22
+    },
+    {
+      "label": "Lecture closing: childhood leukaemia survival",
+      "groupedBecause": "This subtopic closes the lecture with a success story about improved childhood leukaemia survival and the difficulty of testing new treatments against that record.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This opening frames the lecture’s place in the series and introduces its aims without yet developing its substantive arguments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation accumulation and clonal selection",
+      "groupedBecause": "This material explains how successive mutations can confer competitive advantages that drive clonal expansion and cancer evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epigenetic disruption in tumor development",
+      "groupedBecause": "This material examines whether altered transcriptional accessibility can drive tumor development without new mutations.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Stemness, cancer stem cells and cell of origin",
+      "groupedBecause": "These subtopics investigate how a cell’s position in a tissue hierarchy affects its capacity to initiate or sustain tumor growth.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness and cancer initiation",
+      "groupedBecause": "These examples show how inflammatory signals can confer stem-like properties that enable mutation-bearing cells to develop tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Microenvironmental support of established tumors",
+      "groupedBecause": "This material examines established tumors’ dependence on supportive surrounding cells as a potential therapeutic vulnerability.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Single-cell and spatial methods for studying cancer",
+      "groupedBecause": "This material explains how tissue-based molecular approaches reveal cancer evolution and interactions between cells.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Converging conditions for malignant evolution",
+      "groupedBecause": "This synthesis explains malignancy as the convergence of conditions that favor particular clones, extending that account to susceptibility during childhood development.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This closing ends the lecture and announces therapy as the subject of the next session.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

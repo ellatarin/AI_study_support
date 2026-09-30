@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer evolution and the lecture’s focus",
+      "groupedBecause": "This subtopic frames the lecture by introducing its focus on cancer evolution, cell of origin, and the microenvironment, and by stating its learning aims.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic change in cancer evolution",
+      "groupedBecause": "Both subtopics explain how changes in a cell’s heritable state can promote its expansion or transformation during cancer evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and stem-like hierarchies in tumor development",
+      "groupedBecause": "These subtopics examine how a cell’s position in a tissue hierarchy and its stem-like properties can shape cancer development.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental influences on cancer growth",
+      "groupedBecause": "These subtopics show how signals and support from the microenvironment can enable cancer cells to initiate, sustain, or expand tumor growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for studying cancer evolution and cell interactions",
+      "groupedBecause": "This subtopic describes sequencing and spatial methods used to investigate tumor-cell states and their interactions within tissues.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrating mutation, cell properties, and environment in cancer evolution",
+      "groupedBecause": "This subtopic synthesizes how mutations, cellular states, and environmental conditions combine to make malignant growth possible.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and preview of the next lecture",
+      "groupedBecause": "This subtopic ends the lecture and identifies therapy as the subject of the next meeting.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

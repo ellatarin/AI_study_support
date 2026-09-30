@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing and objectives for cancer causation",
+      "groupedBecause": "This subtopic introduces the lecturer, situates the lecture in the course, and sets out its aims before the substantive material begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as clonal evolution shaped by mutations and context",
+      "groupedBecause": "These subtopics frame cancer as the selection and expansion of cells with consequential mutations, shaped by the conditions and predispositions that affect that process.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Weighing environmental contributions to cancer risk",
+      "groupedBecause": "They consider how environmental exposures may contribute to cancer and how that contribution is weighed against chance and inherited susceptibility using population-level patterns.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious contributions to cancer development",
+      "groupedBecause": "They show how infections can contribute to cancer, moving from pathogen-associated cancers generally to the EBV and malaria context of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "DNA damage from noninfectious environmental exposures",
+      "groupedBecause": "These subtopics trace how noninfectious environmental exposures can produce DNA lesions and mutations through direct damage or through activation and oxidative processes.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and context-dependent susceptibility",
+      "groupedBecause": "They explain how carcinogenesis depends not just on DNA mutation but also on conditions that help damaged cells emerge, while the final subtopic consolidates the mechanisms discussed.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mutational signatures for tracing carcinogen exposure",
+      "groupedBecause": "This subtopic explains how patterns of mutations in cancer genomes can provide evidence of exposure to particular carcinogens.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Epidemiological assessment of carcinogenicity",
+      "groupedBecause": "This subtopic describes how population studies, exposure biomarkers, and biobanks can be used to investigate links between exposures and cancer.",
+      "firstSubtopicId": 19
+    },
+    {
+      "label": "Experimental assays of carcinogenic potential",
+      "groupedBecause": "Both subtopics describe experimental tests for carcinogenic or mutagenic potential and explain why their results have limitations.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "This final subtopic recaps the difficulty of identifying carcinogens and closes by framing exposure decisions as a balance of risks and benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing: cancer hallmarks and learning aims",
+      "groupedBecause": "This subtopic introduces the lecture's focus, learning outcomes, and approach to understanding cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Extracellular signaling pathways that regulate growth",
+      "groupedBecause": "These subtopics explain how external growth signals are transmitted and how mutations in Wnt, receptor tyrosine kinase, Ras–MAPK, PI3K–AKT, and TGF-beta pathways alter cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "Both subtopics show how impaired differentiation changes cancer cells, using hematological cancers and intestinal epithelium as examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how changes involving p53, Bax, and BCL2 can prevent cancer cells from undergoing apoptosis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomeres, senescence, and tumor-cell immortalization",
+      "groupedBecause": "These subtopics connect telomere shortening to senescence and explain how TERT activation can help cancer cells bypass that replicative limit.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53 stress responses and growth-control hallmarks",
+      "groupedBecause": "The p53 discussion explains how cells respond to stress to protect genome integrity, and the following subtopic closes the account of mutation-driven growth-control hallmarks before moving on.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Cancer metabolism and metabolic rewiring",
+      "groupedBecause": "These subtopics describe cancer-associated changes in glucose use and metabolism, including how altered metabolites can feed back on gene regulation through the epigenome.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis in tumor growth",
+      "groupedBecause": "This subtopic explains how tumors recruit vascular support and why angiogenesis can occur during tumor progression.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and establishment",
+      "groupedBecause": "These subtopics trace metastasis as the process by which tumor cells leave a primary site, survive the journey, and establish at distant sites, including how that process is detected and characterized.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion: shared cancer hallmarks",
+      "groupedBecause": "This subtopic closes the lecture by summarizing how diverse routes to cancer can produce shared hallmarks and by directing students to the next activities.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

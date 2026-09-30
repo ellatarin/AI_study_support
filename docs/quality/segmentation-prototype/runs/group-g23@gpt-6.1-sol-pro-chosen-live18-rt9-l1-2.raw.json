@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "This subtopic introduces the lecture’s purpose of bringing previously studied immune components together to explain inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate recognition by pattern recognition receptors",
+      "groupedBecause": "These subtopics establish how innate immune cells distinguish danger through molecular patterns and appropriately positioned, germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and signalling",
+      "groupedBecause": "These subtopics explain how TLR engagement produces immune responses tailored to the location and nature of the detected threat.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Non-TLR recognition pathways and inflammatory disease",
+      "groupedBecause": "These subtopics explain how recognition pathways beyond TLRs convert microbial or damage signals into inflammation that can contribute to disease.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel-cell activation and leukocyte recruitment",
+      "groupedBecause": "These subtopics trace how activated sentinel cells initiate inflammatory signals that bring circulating leukocytes to the infection site.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic transport and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how infection information leaves the affected tissue through lymphatic drainage to initiate adaptive responses in lymph nodes.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic examines how excessive inflammatory activation becomes a life-threatening systemic response.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Passive and active resolution of inflammation",
+      "groupedBecause": "This subtopic explains how inflammatory activity subsides through the loss of activating stimuli and the action of inhibitory signals.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammatory responses",
+      "groupedBecause": "These subtopics examine the tissue-level outcomes of inflammation when complete restoration of homeostasis is difficult.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This subtopic ends the lecture and identifies complement as the subject of the next session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

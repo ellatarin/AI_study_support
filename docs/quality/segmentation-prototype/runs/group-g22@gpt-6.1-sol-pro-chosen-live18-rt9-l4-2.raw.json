@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "This subtopic frames the lecture’s subject and establishes its objectives before the substantive discussion begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as clonal evolution",
+      "groupedBecause": "This subtopic establishes the biological model of cancer as an evolving clone within a permissive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Sources of cancer risk and evidence for environmental influences",
+      "groupedBecause": "These subtopics examine how cancer risk is attributed to different causes and what evidence supports environmental contributions.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Infectious causes of cancer",
+      "groupedBecause": "These subtopics explain how infection contributes to cancer development, with Burkitt lymphoma providing a specific example.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Carcinogen-induced DNA damage",
+      "groupedBecause": "These subtopics trace how particular carcinogenic exposures produce DNA damage through direct or indirect molecular mechanisms.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and tissue susceptibility",
+      "groupedBecause": "These subtopics explain how tissue conditions influence the development of tumours after carcinogenic exposure and conclude by synthesising the mechanisms discussed.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Exposure evidence and epidemiological assessment",
+      "groupedBecause": "These subtopics examine how biological evidence of exposure supports the assessment of carcinogenicity in human populations.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Experimental carcinogenicity testing and its limitations",
+      "groupedBecause": "These subtopics assess laboratory approaches to identifying carcinogenic potential and the limitations of interpreting their results.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Lecture summary and risk–benefit conclusions",
+      "groupedBecause": "This subtopic closes the lecture by reviewing its main findings and drawing together their implications for risk–benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture framing",
+      "groupedBecause": "The opening introduces complement as the lecture's subject and frames its importance and complexity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Overview of complement activation and functions",
+      "groupedBecause": "This overview establishes how complement activation connects pathogen recognition to immune defence and clearance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement nomenclature",
+      "groupedBecause": "This subtopic explains the naming conventions and exceptions needed to follow the complement cascade.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "C3 activation and its initiating pathways",
+      "groupedBecause": "These subtopics explain how C3 becomes activated and accumulates on a target surface sufficiently to trigger complement effector activity.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics explain how activated complement promotes the elimination of pathogens at an infection site.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Complement regulation and host-cell protection",
+      "groupedBecause": "This subtopic explains how complement regulators restrain activation to protect the body's own cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic connects deficiencies in particular complement components to their distinct clinical presentations.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Staphylococcus aureus complement evasion and protein A applications",
+      "groupedBecause": "This subtopic explains bacterial adaptations that evade complement and how the antibody-binding property of one such adaptation can be exploited.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and transition to adaptive immunity",
+      "groupedBecause": "The closing ends the complement lecture and identifies adaptive immunity as the next lecture's subject.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

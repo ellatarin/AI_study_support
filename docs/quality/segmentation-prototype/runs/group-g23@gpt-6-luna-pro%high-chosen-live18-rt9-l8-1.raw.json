@@ -1,0 +1,69 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing and learning objectives",
+      "groupedBecause": "This subtopic welcomes the audience, introduces the lecture subject, and states what students should learn before the substantive material begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery and radiotherapy as local cancer treatments",
+      "groupedBecause": "This subtopic explains how surgery and radiotherapy can control tumors at specific sites, and why early detection and tumor location matter.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic chemotherapy: efficacy, toxicity, and resistance",
+      "groupedBecause": "This subtopic explains how cytotoxic drugs damage cancer cells, their clinical benefits, and the toxicity and resistance that limit their use.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Targeting hormone-dependent cancers",
+      "groupedBecause": "This subtopic shows how blocking hormone signaling can slow cancers that remain dependent on estrogen or androgens.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Exploiting cell-cycle checkpoint defects",
+      "groupedBecause": "These subtopics show how loss of checkpoint control can make cancer cells selectively vulnerable to radiation or oncolytic adenoviruses.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "PARP inhibition in BRCA-deficient cancers",
+      "groupedBecause": "This subtopic explains how inhibiting PARP can make DNA damage lethal to cancer cells that lack BRCA-mediated repair.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Targeting oncogenic drivers with kinase inhibitors",
+      "groupedBecause": "These subtopics trace how oncogenic drivers can be identified and inhibited, and how kinase inhibitor selectivity and resistance limit this strategy.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Antibody-based cancer therapies",
+      "groupedBecause": "These subtopics describe how antibodies recognizing cell-surface targets can block cancer signaling, recruit immune activity, or deliver a cytotoxic drug.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune surveillance, checkpoint inhibition, and tumour neoantigens",
+      "groupedBecause": "These subtopics connect evidence for immune recognition of cancer with T-cell reactivation and the role of neoantigens in treatment response.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "T-cell-engaging and CAR T-cell therapies",
+      "groupedBecause": "These subtopics describe ways to direct T-cell cytotoxic activity toward tumors, either by linking T cells to cancer cells or by engineering the T cells themselves.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Challenges and personalised treatment strategies",
+      "groupedBecause": "This subtopic considers why cancer treatments do not work for everyone and how biomarkers and genome sequencing can help match therapies to patients.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Cancer outcome trends and the role of prevention and early detection",
+      "groupedBecause": "This subtopic assesses changes in cancer outcomes alongside prevention and screening measures that affect cancer incidence and detection.",
+      "firstSubtopicId": 21
+    },
+    {
+      "label": "Future cancer treatment priorities and ethical dilemmas",
+      "groupedBecause": "These subtopics consider future directions and patient trade-offs, using childhood leukemia treatment success to illustrate the difficulty of trialling alternatives to effective existing regimens.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

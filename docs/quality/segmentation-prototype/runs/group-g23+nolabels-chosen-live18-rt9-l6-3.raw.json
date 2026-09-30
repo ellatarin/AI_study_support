@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Progression",
+      "groupedBecause": "The lecturer introduces the lecture structure, learning outcomes, and the multi-step hallmarks framework of cancer progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferative Signaling and Growth Factor Independence",
+      "groupedBecause": "These subtopics explain the signaling cascades and oncogenic mutations that drive autonomous cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumorigenesis",
+      "groupedBecause": "These subtopics explore how mutations prevent cells from completing terminal differentiation across hematological and epithelial cancers.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic details how tumor cells avoid programmed cell death through alterations in pro- and anti-apoptotic regulators.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Cellular Senescence",
+      "groupedBecause": "These subtopics examine how cancer cells overcome telomere shortening to achieve unlimited replicative potential while bypassing normal senescent stress responses.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Cell Metabolism and Metabolic Rewiring",
+      "groupedBecause": "These subtopics describe aerobic glycolysis, metabolic rewiring, and the role of oncometabolites in altering cancer cell physiology and epigenetics.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "This subtopic discusses how growing tumors trigger new blood vessel formation to supply oxygen and nutrients.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Tumor Invasion and Metastasis",
+      "groupedBecause": "These subtopics analyze the sequential processes, dissemination routes, microenvironmental influences, and clonal genetics underlying metastatic spread.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "The lecturer summarizes the collective impact of cancer hallmarks, references recent literature, and concludes the session.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

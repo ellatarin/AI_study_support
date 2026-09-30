@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Course Overview",
+      "groupedBecause": "This subtopic introduces the course structure, learning outcomes, and broad clinical context of cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Differentiation and Tissue Architecture",
+      "groupedBecause": "These subtopics explain that cancer arises from a breakdown of normal differentiation and three-dimensional tissue organization driven by genetic alterations, and discuss the methods used to study this biology.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Metastasis, and Benign versus Malignant Progression",
+      "groupedBecause": "These subtopics examine how tissue invasion and metastasis distinguish malignant tumors from benign lesions, using histological models of stepwise progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Neoplasm Nomenclature and Classification",
+      "groupedBecause": "This subtopic outlines the standard linguistic conventions and exceptions used to name benign and malignant tumors according to their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Illness and Death",
+      "groupedBecause": "This subtopic details how local anatomical disruption, metabolic complications, and metastatic organ colonization cause clinical disease and patient mortality.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer Incidence and Comparative Oncology",
+      "groupedBecause": "These subtopics analyse the epidemiological prevalence of major tumor types in humans and compare tumor incidence across various animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer Detection and Population Screening Methods",
+      "groupedBecause": "These subtopics evaluate the diagnostic principles, histological indicators, and practical outcomes of screening programs across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Next Steps",
+      "groupedBecause": "This subtopic concludes the lecture with a review of learning objectives and reminders for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

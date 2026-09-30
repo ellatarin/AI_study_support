@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and overview of inflammation",
+      "groupedBecause": "The lecturer welcomes students and frames the lecture's focus on integrating previously introduced immune components into complete inflammatory reactions.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition through PAMPs, DAMPs, and pattern recognition receptors",
+      "groupedBecause": "These subtopics examine how innate sentinel cells detect microbial products and cellular damage through diverse pattern recognition receptors and downstream signaling structures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory cascade execution, leukocyte recruitment, and systemic consequences",
+      "groupedBecause": "These subtopics explain the physiological mechanisms of the active inflammatory response, from sentinel activation and leukocyte extravasation to adaptive immune priming and septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic containment",
+      "groupedBecause": "These subtopics describe how acute inflammation is brought to an end, how damaged tissue is repaired, and how persistent stimuli lead to chronic inflammation and granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and preview of complement",
+      "groupedBecause": "The lecturer concludes the session and announces the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

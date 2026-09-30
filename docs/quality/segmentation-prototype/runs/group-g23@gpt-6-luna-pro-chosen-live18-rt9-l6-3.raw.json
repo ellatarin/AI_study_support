@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing and overview of cancer hallmarks",
+      "groupedBecause": "This subtopic sets out the lecture's context, aims, and framework before the substantive discussion begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways mutated to drive proliferation and survival",
+      "groupedBecause": "These subtopics explain how altered extracellular signaling and mutations in downstream pathways promote cancer-cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in hematological and intestinal cancers",
+      "groupedBecause": "These subtopics show how disrupted differentiation affects cancer cells, using blood-cell lineages and intestinal epithelium as examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis through p53 and BCL2-family regulation",
+      "groupedBecause": "This subtopic explains how changes in p53, Bax, and BCL2 can prevent cancer cells from undergoing apoptosis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere limits, senescence, and p53 stress responses",
+      "groupedBecause": "These subtopics explain how telomere shortening and other stresses trigger growth-arrest safeguards, how tumors can restore telomeres to escape one limit, and how these growth-control mechanisms fit together.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic rewiring and altered metabolites in cancer",
+      "groupedBecause": "These subtopics explain how cancer metabolism is reshaped, including increased glycolysis and metabolite-driven changes to gene regulation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis as support for tumor growth",
+      "groupedBecause": "This subtopic explains how tumors induce blood-vessel growth to obtain the oxygen and nutrients needed to expand.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic spread, its inefficiency, and its detection",
+      "groupedBecause": "These subtopics characterize metastasis as a multistage, inefficient process shaped by circulation and compatibility with secondary sites, and describe ways to detect and monitor it.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion on cancer hallmarks",
+      "groupedBecause": "This subtopic draws the lecture to a close by recapping its main message and inviting questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

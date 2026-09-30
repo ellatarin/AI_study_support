@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and aims",
+      "groupedBecause": "This subtopic frames the lecture as bringing previously introduced immune cells and molecules together to explain inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition",
+      "groupedBecause": "These subtopics establish how innate immunity distinguishes infection and damage through molecular patterns and appropriately positioned, germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptors and their signaling",
+      "groupedBecause": "These subtopics explain how toll-like receptors translate microbial recognition into immune responses suited to the location of the infection.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Recognition beyond TLRs and inflammasome activation",
+      "groupedBecause": "These subtopics explain how additional danger-sensing pathways activate inflammation and can contribute to inflammatory disease.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel-cell responses and leukocyte recruitment",
+      "groupedBecause": "These subtopics follow how activated sentinel cells initiate inflammatory responses that bring circulating leukocytes into infected tissue.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic drainage and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how dendritic cells carry evidence of tissue infection through the lymphatic system to initiate adaptive responses in lymph nodes.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive inflammation and septic shock",
+      "groupedBecause": "This subtopic examines how an excessive inflammatory response becomes a dangerous systemic process rather than a protective local one.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Passive and active resolution of inflammation",
+      "groupedBecause": "This subtopic explains how inflammation is shut down through declining stimulation and active anti-inflammatory signals.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics examine recovery after tissue damage and why persistent inflammation can become either a source of continuing injury or a means of containing an uncleared infection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and next lecture",
+      "groupedBecause": "This subtopic closes the lecture and identifies complement as the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

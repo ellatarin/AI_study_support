@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction: initiation and resolution of inflammation",
+      "groupedBecause": "This subtopic frames the lecture’s focus and explains how it builds on material covered earlier.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate recognition of danger by PAMPs, DAMPs and pattern recognition receptors",
+      "groupedBecause": "These subtopics explain how innate immunity detects danger selectively, through microbial or damage signals and the properties and placement of the receptors that recognize them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and compartment-specific signaling",
+      "groupedBecause": "These subtopics describe how TLRs recognize microbial features and how their signaling responses depend on where the receptors are engaged.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Non-TLR pattern recognition pathways and inflammatory disease",
+      "groupedBecause": "These subtopics show how other pattern recognition pathways sense danger and how their activation can drive inflammatory disease.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel cell activation and local leukocyte recruitment",
+      "groupedBecause": "These subtopics trace how sentinel cells detect infection and direct inflammatory signals that bring leukocytes into affected tissue.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic drainage and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how dendritic cells and tissue fluid carry signs of infection to lymph nodes, where adaptive immune cells are activated.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic explains how an overwhelming inflammatory response can cause systemic vasodilation and septic shock.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mechanisms of inflammation resolution",
+      "groupedBecause": "This subtopic explains how inflammatory activity is reduced through both passive mediator loss and active stop signals.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and containment of persistent inflammation",
+      "groupedBecause": "These subtopics describe how damaged tissue is repaired and how persistent inflammation can be managed by containing an infection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close: next lecture on complement",
+      "groupedBecause": "This subtopic closes the lecture and directs students to the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

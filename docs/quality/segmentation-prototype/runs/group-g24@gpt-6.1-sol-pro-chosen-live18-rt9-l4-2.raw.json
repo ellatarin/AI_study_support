@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "This subtopic frames the lecture and establishes its objectives before the substantive material begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer evolution and sources of predisposition",
+      "groupedBecause": "These subtopics establish how cancer develops through clonal evolution shaped by mutations and the conditions that permit them to produce disease.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental cancer risks and the evidence for them",
+      "groupedBecause": "These subtopics examine the evidence and debate surrounding the contribution of environmental exposures to cancer risk.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious causes of cancer",
+      "groupedBecause": "These subtopics explain how infectious agents contribute to cancer, with Burkitt lymphoma providing a specific example.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of carcinogen-induced DNA damage",
+      "groupedBecause": "These subtopics explain how carcinogenic exposures damage DNA through their particular chemical or physical mechanisms.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and tissue susceptibility",
+      "groupedBecause": "These subtopics explain how conditions within exposed tissues influence carcinogen-driven tumour development and conclude with a summary of carcinogenic mechanisms and tissue specificity.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Human evidence of carcinogen exposure and carcinogenicity",
+      "groupedBecause": "These subtopics examine how measurable evidence from humans supports the identification and assessment of carcinogenic exposures.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Experimental carcinogenicity and mutagenicity testing",
+      "groupedBecause": "These subtopics examine laboratory tests used to assess carcinogenic potential and the limitations of interpreting their results.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Lecture summary and risk–benefit decisions",
+      "groupedBecause": "This subtopic closes the lecture by drawing together its main conclusions about environmental cancer risks and their assessment.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

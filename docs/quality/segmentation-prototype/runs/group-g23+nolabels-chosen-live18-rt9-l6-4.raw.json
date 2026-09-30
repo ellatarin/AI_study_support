@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Hallmarks Framework",
+      "groupedBecause": "This subtopic provides the opening framing, outlining the learning outcomes and introducing the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Autonomy and Intracellular Cascades",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in pathways like Wnt and receptor tyrosine kinases drive sustained proliferative signaling and insensitivity to growth inhibitors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Evasion of Terminal Differentiation",
+      "groupedBecause": "These subtopics illustrate how cancer cells sustain proliferation by blocking normal cellular differentiation in both hematopoietic and solid epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptotic Cell Death",
+      "groupedBecause": "This subtopic details how tumor cells bypass programmed cell death through alterations in p53 and downstream mitochondrial apoptotic regulators.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics examine how cancer cells overcome telomere-mediated limits on division by activating telomerase and evading stress-induced senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Reprogramming of Cellular Metabolism",
+      "groupedBecause": "These subtopics describe how cancer cells rewire their metabolic pathways toward aerobic glycolysis and generate oncometabolites that alter gene expression.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "This subtopic discusses the physiological triggers, regulatory balance, and timing of new blood vessel formation necessary for tumor survival.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and Dynamics of Metastasis",
+      "groupedBecause": "These subtopics explore the multi-step metastatic cascade, microenvironmental compatibility, and clonal genetics involved in secondary tumor dissemination.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Summary and Closing",
+      "groupedBecause": "This subtopic provides the closing framing, summarising the overall concept of cancer hallmarks and concluding the lecture.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

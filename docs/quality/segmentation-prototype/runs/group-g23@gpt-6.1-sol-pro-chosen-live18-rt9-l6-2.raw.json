@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for cancer hallmarks",
+      "groupedBecause": "This opening frames the lecture around cancer hallmarks and explains how they will be connected to mutations and tissue changes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Signaling mutations that deregulate growth and survival",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signaling pathways free cancer cells from normal growth control.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "These subtopics show how disrupted cell maturation contributes to cancer using hematological and intestinal examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how mutations alter the balance controlling mitochondrial apoptosis so that cancer cells survive.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and tumor cell immortalization",
+      "groupedBecause": "These subtopics explain the telomere-dependent limit on cell division and how cancer cells overcome it through increased telomerase expression.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53-mediated genome protection and the growth-control recap",
+      "groupedBecause": "These subtopics conclude the treatment of mutation-driven growth control by explaining p53's protective stress responses and recapping the hallmarks discussed.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics examine how altered metabolism supports cancer and feeds back into its molecular regulation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis supporting tumor growth",
+      "groupedBecause": "This subtopic explains how the angiogenic switch supplies the vascular support needed for tumors to grow.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and successful secondary tumor formation",
+      "groupedBecause": "These subtopics examine how cancer cells spread to distant sites and what determines whether that spread produces detectable metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing summary and further reading",
+      "groupedBecause": "This closing returns to the lecture's central message about shared hallmarks, recommends further reading, and invites questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

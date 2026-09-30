@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and overview of cellular transformation and cancer genetics",
+      "groupedBecause": "This subtopic frames the lecture, connects it to the practicals, and previews its learning outcomes rather than developing a substantive subject.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the cellular origins of oncogenes",
+      "groupedBecause": "These subtopics trace how the discovery of tumor-causing viruses led to the recognition that transforming viral genes originate from cellular proto-oncogenes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental assays of cellular transformation",
+      "groupedBecause": "This subtopic describes laboratory assays used to test whether genes or mutations confer transformed properties on cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Functional classifications of cancer genes and mutations",
+      "groupedBecause": "This subtopic introduces the classifications used to describe how cancer-associated mutations affect tumor formation and cellular functions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mutation effects in cell-cycle control genes",
+      "groupedBecause": "These subtopics show how mutations affecting RB and p53 alter cell-cycle control, including how the specific mutation can determine its functional effect.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Genetic instability from repair, replication, and mitotic failures",
+      "groupedBecause": "These subtopics explain how failures in genome maintenance and cell division generate genetic instability and affect tumor cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Timing of mutations in colorectal cancer progression",
+      "groupedBecause": "This subtopic considers when mutations arise during colorectal tumor development and how their order affects progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Hereditary cancer predisposition",
+      "groupedBecause": "This subtopic explains how inherited mutations confer cancer risk and illustrates that risk through caretaker and gatekeeper genes and hereditary syndromes.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "BRCA2 restoration and whether genetic instability is required for malignancy",
+      "groupedBecause": "This subtopic uses BRCA2 restoration during treatment to show that a tumor can remain malignant after its instability-associated repair defect is reversed.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture close, further reading, and next lecture",
+      "groupedBecause": "This subtopic closes the lecture, invites questions, recommends reading, and previews the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

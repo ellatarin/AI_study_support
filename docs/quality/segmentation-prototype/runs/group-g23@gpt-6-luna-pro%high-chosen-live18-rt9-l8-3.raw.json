@@ -1,0 +1,79 @@
+{
+  "topics": [
+    {
+      "label": "Cancer therapy: lecture framing and learning objectives",
+      "groupedBecause": "This subtopic welcomes the class and states the lecture's subject and learning objectives before substantive teaching begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery and radiotherapy in cancer treatment",
+      "groupedBecause": "This subtopic describes local treatment approaches that remove a tumor or damage it with focused radiation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic chemotherapy: mechanisms, benefits, toxicity and resistance",
+      "groupedBecause": "This subtopic explains how cytotoxic drugs damage cancer cells and the limits imposed by their effects on healthy cells and drug resistance.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Targeting hormone dependence in breast and prostate cancers",
+      "groupedBecause": "This subtopic describes blocking hormone signals that these cancers depend on for growth.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Exploiting cell-cycle checkpoint defects",
+      "groupedBecause": "These subtopics show how compromised checkpoint proteins can make cancer cells selectively vulnerable to irradiation or oncolytic adenoviruses.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "PARP inhibition in BRCA-deficient cancers",
+      "groupedBecause": "This subtopic explains how blocking PARP can exploit defective BRCA-mediated DNA repair to kill cancer cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Oncogene addiction and genome-guided target selection",
+      "groupedBecause": "This subtopic explains how identifying cancer-driving oncogenic events can guide treatment toward the drivers on which tumor cells depend.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Kinase inhibitors and resistance",
+      "groupedBecause": "These subtopics describe how kinase inhibitors target activated oncogenic kinases and how tumors can evade or become dependent on those drugs.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based cancer therapies",
+      "groupedBecause": "Both subtopics use antigen-binding antibodies to direct a therapeutic effect toward cells bearing a selected surface marker.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Evidence for immune surveillance against cancer",
+      "groupedBecause": "This subtopic examines observations that bear on whether the immune system naturally helps protect against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Immune checkpoint inhibition and tumour neoantigens",
+      "groupedBecause": "These subtopics explain how checkpoint blockade can restore T-cell activity and how tumor mutations may provide targets for that response.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "T-cell-engaging and CAR T-cell therapies",
+      "groupedBecause": "Both subtopics describe ways to direct T cells toward cancer cells, either by bringing them together with a bispecific engager or by engineering the T cells.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Challenges and personalised selection in cancer therapy",
+      "groupedBecause": "This subtopic considers how biomarkers, sequencing and tumor heterogeneity complicate choosing treatments for individual patients.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Cancer outcome trends and the contribution of prevention and early detection",
+      "groupedBecause": "This subtopic considers how cancer outcomes have changed and how prevention and earlier detection contribute to those trends.",
+      "firstSubtopicId": 21
+    },
+    {
+      "label": "Future cancer treatment priorities and dilemmas",
+      "groupedBecause": "These subtopics consider how future cancer care should weigh new treatment approaches and patient welfare against the results of established therapies.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

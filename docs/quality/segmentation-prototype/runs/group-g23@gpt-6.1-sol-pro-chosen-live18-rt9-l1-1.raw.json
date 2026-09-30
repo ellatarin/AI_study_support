@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "The opening frames the lecture as an integration of previously introduced immune cells and molecules.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate danger recognition",
+      "groupedBecause": "These subtopics explain how innate cells distinguish danger through molecular patterns and appropriately localised, germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and signalling",
+      "groupedBecause": "These subtopics explain how Toll-like receptors translate microbial recognition into immune responses suited to the location of infection.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Non-TLR pathways linking danger recognition to inflammation",
+      "groupedBecause": "These subtopics show how alternative danger-sensing pathways activate inflammation and can contribute to inflammatory disease.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel-driven inflammation and leukocyte recruitment",
+      "groupedBecause": "These subtopics trace how activated sentinel cells generate inflammatory signals that mobilise leukocytes to the site of infection.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic transport and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how lymphatic drainage carries evidence of tissue infection to lymph nodes for adaptive immune activation.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic examines how excessive inflammatory activation becomes a life-threatening systemic response.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mechanisms of inflammation resolution",
+      "groupedBecause": "This subtopic explains how declining inflammatory stimulation and active inhibitory signals bring an immune response to an end.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics examine why inflamed tissue may recover or remain chronically inflamed, with granulomas illustrating containment when infection cannot be cleared.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "The closing ends the lecture and announces complement as the next lecture's subject.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

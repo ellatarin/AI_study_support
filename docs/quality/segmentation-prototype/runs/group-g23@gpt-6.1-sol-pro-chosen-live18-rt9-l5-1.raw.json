@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture by connecting it to the practicals and outlining its learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the discovery of cellular proto-oncogenes",
+      "groupedBecause": "These subtopics trace how studying transforming viruses established that cancer can originate through misregulation of normal cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental tests of cellular transformation",
+      "groupedBecause": "This subtopic explains how researchers test whether cancer-associated genes and mutations confer transformed properties on cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cancer-gene classification and mutation-specific function",
+      "groupedBecause": "These subtopics explain how cancer mutations are classified by their functional effects, using RB regulation and dominant-negative p53 to illustrate and qualify those classifications.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Genetic instability and defective DNA repair",
+      "groupedBecause": "These subtopics connect distinct patterns of cancer-genome instability to the fidelity and failure of DNA repair.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Genetic instability from replication and mitotic errors",
+      "groupedBecause": "These subtopics explain how failures in transmitting the genome during cell reproduction generate instability and affect cancer-cell behavior.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mutation timing in colorectal cancer progression",
+      "groupedBecause": "This subtopic examines how the timing of mutations and genetic instability influences the progression from normal colorectal epithelium to metastatic cancer.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Hereditary cancer predisposition",
+      "groupedBecause": "This subtopic explains how inherited defects in cancer-control genes reduce the additional changes needed for tumor development.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "BRCA2 restoration and the persistence of malignancy",
+      "groupedBecause": "This subtopic uses treatment-associated restoration of BRCA2 function to demonstrate that continued genetic instability is not required for malignancy.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture close and further reading",
+      "groupedBecause": "This subtopic closes the lecture with an invitation for questions, a reading recommendation, and a preview of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

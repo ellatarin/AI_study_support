@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This opening subtopic introduces the lecturer, sets the scope of the lecture on cancer causation, and outlines the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Multifactorial causes and drivers of cancer",
+      "groupedBecause": "These subtopics introduce the fundamental biology of cancer and examine the interplay between intrinsic genetic errors, hereditary risks, and environmental exposures across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of environmental, chemical, and infectious carcinogenesis",
+      "groupedBecause": "These subtopics explore how specific environmental, infectious, and chemical agents cause cancer through direct DNA damage, metabolic activation, promotional inflammation, and tissue-specific vulnerabilities.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, in vivo, and in vitro experimental methodologies used to identify carcinogens and prove their links to cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk assessment",
+      "groupedBecause": "This closing subtopic concludes the lecture by summarizing key themes and framing environmental carcinogenic risk in the context of everyday risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

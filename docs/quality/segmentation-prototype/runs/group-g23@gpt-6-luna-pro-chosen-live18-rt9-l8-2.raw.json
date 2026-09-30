@@ -1,0 +1,79 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and learning objectives",
+      "groupedBecause": "This subtopic welcomes students and frames the lecture by stating its subject and learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery and radiotherapy in cancer treatment",
+      "groupedBecause": "This subtopic explains how surgery and radiotherapy treat tumors and how early detection and chemotherapy can support those approaches.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic chemotherapy: effects, efficacy and limitations",
+      "groupedBecause": "This subtopic describes how cytotoxic drugs damage cancer cells, their clinical benefits, and the toxicity and resistance that limit their use.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Targeting hormone-dependent cancers",
+      "groupedBecause": "This subtopic shows how blocking estrogen or androgen signaling can inhibit cancers that remain dependent on those hormones.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Exploiting cancer-cell defects to drive selective killing",
+      "groupedBecause": "These subtopics show how defects in cell-cycle checkpoints or DNA repair can make cancer cells especially vulnerable to radiation, oncolytic viruses, or PARP inhibition.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene addiction and genome-guided cancer treatment",
+      "groupedBecause": "This subtopic explains how cancer-driving genomic changes can guide the selection of targeted treatments.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Kinase inhibitors, resistance and chronic disease management",
+      "groupedBecause": "These subtopics explain how kinase inhibitors block activated kinases and how selectivity problems, resistance, and side effects complicate their long-term use.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies in cancer therapy",
+      "groupedBecause": "This subtopic describes antibodies that block cancer-associated receptors or recruit immune mechanisms to attack cells expressing their targets.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Antibody–drug conjugates",
+      "groupedBecause": "This subtopic explains how an antibody can deliver a cytotoxic drug to cells bearing a selected surface target.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Evidence for immune surveillance against cancer",
+      "groupedBecause": "This subtopic assesses the evidence that the immune system naturally helps protect against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Checkpoint inhibition and tumour neoantigens",
+      "groupedBecause": "These subtopics explain how checkpoint blockade can reactivate T cells and how tumour mutations may provide antigens for those cells to recognize.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "T-cell-engaging and CAR T-cell therapies",
+      "groupedBecause": "These subtopics describe treatments that direct T cells toward tumour cells, either by bringing the cells together with bispecific engagers or by engineering patient T cells.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Cancer therapy challenges and personalised treatment",
+      "groupedBecause": "This subtopic synthesizes the challenges of treatment and explains how biomarkers and genomic information may help match patients to therapies.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Cancer outcome trends, prevention and early detection",
+      "groupedBecause": "This subtopic considers how prevention and early detection have contributed to changing cancer incidence and outcomes.",
+      "firstSubtopicId": 21
+    },
+    {
+      "label": "Future cancer care and the dilemma of changing proven treatments",
+      "groupedBecause": "These subtopics consider future directions and ethical choices in cancer care, including whether to test new approaches when established treatments already achieve strong outcomes.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

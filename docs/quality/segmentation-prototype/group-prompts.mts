@@ -33,6 +33,32 @@ export type EditPromptVersion = GroupPromptVersion & {
 	readonly proposal: (options: { readonly firstPassReply: unknown }) => Readonly<Record<string, unknown>>;
 };
 
+/**
+ * A version that is sent each subtopic's label alone, never its text. The
+ * trial sends ids and labels only, so `labelsShown` is always true for it.
+ */
+export type LabelsOnlyPromptVersion = GroupPromptVersion & {
+	readonly labelsOnly: true;
+};
+
+/** What each subtopic comes with, as the task states it: full text up to g21. */
+const EACH_WITH_ITS_FULL_TEXT = "each with its full text";
+
+/** Method step 1's opening, up to g21: the model reads the text. */
+const READ_THE_CONTENT = "Read all the subtopic content";
+
+/** g22's task clause: each subtopic comes with its label alone. */
+const EACH_WITH_ITS_LABEL_ONLY = "each with its label only — a short title for it, not its text";
+
+/** g22's Method step 1 opening: the model reads the labels. */
+const READ_THE_LABELS = "Read all the subtopic labels";
+
+/**
+ * g23 and g24's reading order, appended to Method step 1's opening.
+ */
+const IN_REVERSE_NOTING_CHANGES =
+	" in reverse order, from the last subtopic back to the first, noting each place where there is a change,";
+
 /** The clause that differs between the labelled and unlabelled variants. */
 function namedFrom({ labelsShown }: { readonly labelsShown: boolean }): string {
 	return labelsShown
@@ -256,11 +282,12 @@ const USE_SUBJECT_KNOWLEDGE =
  * structured version shares, g6 onwards.
  *
  * @param topicDefinition - The version's definition of a topic.
+ * @param given - What each subtopic comes with; its full text up to g21.
  * @returns The opening sections.
  */
-const STRUCTURED_HEAD = (topicDefinition: string): string => `# Task
+const STRUCTURED_HEAD = (topicDefinition: string, given: string = EACH_WITH_ITS_FULL_TEXT): string => `# Task
 
-You are given the subtopics of a university lecture, in order, each with its full text. Group them into TOPICS.
+You are given the subtopics of a university lecture, in order, ${given}. Group them into TOPICS.
 
 ## What you are given
 
@@ -632,8 +659,14 @@ const STRUCTURED_PROMPT = ({
 	r6Check = LIST_IS_NOT_A_REASON_CHECK,
 	r7 = "",
 	r7Check = "",
+	given = EACH_WITH_ITS_FULL_TEXT,
+	read = READ_THE_CONTENT,
 }: {
 	readonly labelsShown: boolean;
+	/** What each subtopic comes with, in the task line; its full text up to g21. */
+	readonly given?: string;
+	/** Method step 1's opening; reading the content up to g21. */
+	readonly read?: string;
 	readonly r4: string;
 	readonly topicDefinition?: string;
 	readonly r2?: string;
@@ -648,11 +681,11 @@ const STRUCTURED_PROMPT = ({
 	readonly r7?: string;
 	/** R7's checklist question; empty for every version before g15. */
 	readonly r7Check?: string;
-}): string => `${STRUCTURED_HEAD(topicDefinition)}
+}): string => `${STRUCTURED_HEAD(topicDefinition, given)}
 
 ## Method
 
-1. Read all the subtopic content and analyse which subtopics should live together under a topic, and which should live apart in separate topics. The goal is the optimum arrangement of subtopics under topics.${subjectKnowledge}
+1. ${read} and analyse which subtopics should live together under a topic, and which should live apart in separate topics. The goal is the optimum arrangement of subtopics under topics.${subjectKnowledge}
 2. Decide the topics.
 3. Write each topic's label and \`groupedBecause\`.
 4. Check your answer against every rule below, by name, before replying.
@@ -751,8 +784,19 @@ Before replying, check your prospective output against Rules R1-R6. If any of th
 
 ${REPLY_FORMAT_SECTION}`;
 
+/** g15's rules, which g22 keeps byte for byte. */
+const G15_RULES = {
+	r4: R4_STATES_WHY,
+	r2: OPENING_AND_CLOSING_RULE,
+	r2Check: OPENING_AND_CLOSING_RULE_CHECK,
+	r5: SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2,
+	r5Check: SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2_CHECK,
+	r7: SUMMARY_STAYS_WITH_WHAT_IT_SUMS_UP,
+	r7Check: SUMMARY_STAYS_WITH_WHAT_IT_SUMS_UP_CHECK,
+};
+
 /** Every grouping prompt that has been run, oldest first. */
-export const GROUP_PROMPTS: readonly GroupPromptVersion[] = [
+export const GROUP_PROMPTS: readonly (GroupPromptVersion | LabelsOnlyPromptVersion)[] = [
 	{
 		id: "g1",
 		summary: "The kind rule stated for topics, plus a re-read pass that asks only whether to divide.",
@@ -916,17 +960,7 @@ export const GROUP_PROMPTS: readonly GroupPromptVersion[] = [
 		summary: "g12 with R7: a subtopic that only sums up what came before, teaching nothing new, ends the topic it sums up.",
 		changed:
 			"A new rule R7 and its checklist question only. A subtopic that sums up the subtopics just before it and teaches nothing new — at most also saying what comes next — belongs to the topic it sums up, so no topic starts at it; a subtopic that goes on to teach new material, and the closing under R2, are not covered. On lecture 6 the subtopic summing up the growth hallmarks and announcing the rest opens the metabolism topic in 15 of 18 g12 runs; the user wants it to end the growth-hallmarks topic. Everything else is g12 byte for byte.",
-		build: ({ labelsShown }) =>
-			STRUCTURED_PROMPT({
-				labelsShown,
-				r4: R4_STATES_WHY,
-				r2: OPENING_AND_CLOSING_RULE,
-				r2Check: OPENING_AND_CLOSING_RULE_CHECK,
-				r5: SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2,
-				r5Check: SPLIT_UNLESS_IT_STRANDS_A_CONTINUATION_BAR_R2_CHECK,
-				r7: SUMMARY_STAYS_WITH_WHAT_IT_SUMS_UP,
-				r7Check: SUMMARY_STAYS_WITH_WHAT_IT_SUMS_UP_CHECK,
-			}),
+		build: ({ labelsShown }) => STRUCTURED_PROMPT({ labelsShown, ...G15_RULES }),
 	},
 	{
 		id: "g16",
@@ -973,6 +1007,42 @@ export const GROUP_PROMPTS: readonly GroupPromptVersion[] = [
 				continuesRating: CONTINUES_THE_SAME_NARROW_THING,
 				stretchAfterAndShares: STRETCH_AFTER_TO_THE_NEXT_TURN_NAMED_NARROWLY,
 				unsureEntryStretches: UNSURE_ENTRY_STRETCHES_NAMED,
+			}),
+	},
+	{
+		id: "g22",
+		labelsOnly: true,
+		summary: "g15 sent each subtopic's label alone, with no text.",
+		changed:
+			"The task line and Method step 1 only: each subtopic comes with its label only, a short title for it and not its text, and step 1 reads the labels. The labels are the retitle stage's (r9 on GPT-6.1 Sol Pro), which the user judged precise and stable enough to rely on one run; the user asked whether grouping on those titles alone works. Everything else is g15 byte for byte, labels form.",
+		build: () =>
+			STRUCTURED_PROMPT({
+				labelsShown: true,
+				...G15_RULES,
+				given: EACH_WITH_ITS_LABEL_ONLY,
+				read: READ_THE_LABELS,
+			}),
+	},
+	{
+		id: "g23",
+		summary: "g15 with Method step 1 reading the subtopics in reverse order, noting each place where there is a change.",
+		changed:
+			"Method step 1 only: the subtopic content is read in reverse order, from the last subtopic back to the first, noting each place where there is a change, before the analysis. On l4 with r9 titles, g15 on GPT-6.1 Sol Pro found every ruled start but split at 16 in all 4 runs and at 19 in 2; the user asked whether reading backwards changes where it sees borders. Everything else is g15 byte for byte.",
+		build: ({ labelsShown }) =>
+			STRUCTURED_PROMPT({ labelsShown, ...G15_RULES, read: `${READ_THE_CONTENT}${IN_REVERSE_NOTING_CHANGES}` }),
+	},
+	{
+		id: "g24",
+		labelsOnly: true,
+		summary: "g22 with Method step 1 reading the labels in reverse order, noting each place where there is a change.",
+		changed:
+			"Method step 1 only, as g23 is to g15: the labels are read in reverse order, from the last subtopic back to the first, noting each place where there is a change. On l4, g22 on GPT-6.1 Sol Pro found every ruled start but split at 20 in all 4 runs. Everything else is g22 byte for byte.",
+		build: () =>
+			STRUCTURED_PROMPT({
+				labelsShown: true,
+				...G15_RULES,
+				given: EACH_WITH_ITS_LABEL_ONLY,
+				read: `${READ_THE_LABELS}${IN_REVERSE_NOTING_CHANGES}`,
 			}),
 	},
 ];

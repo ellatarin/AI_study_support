@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This opening subtopic introduces the lecturer, the course structure, and the key learning outcomes regarding environmental carcinogenesis and cancer development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Mutation, Environment, and Chance",
+      "groupedBecause": "These subtopics establish cancer as a somatic evolutionary process driven by a mixture of endogenous cellular errors, inherited predispositions, and environmental exposures supported by global epidemiological trends.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogen-Driven Carcinogenesis",
+      "groupedBecause": "These subtopics explain how biological agents such as viruses, bacteria, and parasites contribute to malignancy, focusing in detail on the cooperative mechanism of malaria and Epstein-Barr virus in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagenesis and Metabolic Activation",
+      "groupedBecause": "These subtopics detail the biochemical processes by which physical radiation and chemical agents are converted into reactive compounds that form DNA adducts and induce genetic mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics explain how non-mutagenic factors like chronic inflammation, chemical promoters, and host developmental timing stimulate the proliferation and clonal outgrowth of initiated cells.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Identifying and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the scientific methodologies used to evaluate carcinogens, ranging from mutational signatures and population biobanks to in vivo animal tests and the in vitro Ames assay.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Concluding Remarks and Risk-Benefit Perspective",
+      "groupedBecause": "This closing subtopic frames everyday exposure in terms of personal risk-benefit analysis and summarizes the core themes of the lecture.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

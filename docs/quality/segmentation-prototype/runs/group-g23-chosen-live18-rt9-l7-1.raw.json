@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the fifth lecture of the Cancer Biology series, outlining the core themes of cancer evolution, cell of origin, and the microenvironment along with the intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms in clonal selection and tumor development",
+      "groupedBecause": "These subtopics explain how clonal fitness advantages from accumulated genetic mutations and non-mutational epigenetic alterations drive cancer initiation and Darwinian evolutionary selection.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin, stemness, and cancer stem cell models",
+      "groupedBecause": "These subtopics explore the relationship between normal tissue hierarchies and tumorigenesis, presenting experimental evidence for stem-like properties and cell-of-origin dynamics in leukemia and intestinal cancers.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental influences on tumorigenesis, cellular interaction profiling, and evolutionary synthesis",
+      "groupedBecause": "These subtopics demonstrate how inflammatory microenvironments and paracrine signals promote tumor initiation and maintenance, describe spatial technologies for profiling these cellular interactions, and synthesize the collective evolutionary model of cancer.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Lecture conclusion and upcoming topic",
+      "groupedBecause": "The lecturer concludes the session and previews the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

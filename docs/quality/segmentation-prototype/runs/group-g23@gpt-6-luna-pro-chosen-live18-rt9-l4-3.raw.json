@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer causes and lecture objectives",
+      "groupedBecause": "This subtopic frames the lecture, introduces its speaker and objectives, and is not yet part of the substantive material.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as clonal evolution in a permissive microenvironment",
+      "groupedBecause": "This subtopic explains cancer as the evolution of mutated cell clones that depend on a supportive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Interacting influences on cancer risk",
+      "groupedBecause": "These subtopics frame cancer risk as an outcome of interacting influences rather than either pure chance or a single exposure.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Geographic variation as evidence of cancer risk factors",
+      "groupedBecause": "This subtopic uses differences in cancer incidence across regions and migrant populations to consider environmental and inherited contributions to risk.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain how infections can contribute to cancer and illustrate this with the development of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Carcinogenic mechanisms and context-dependent effects",
+      "groupedBecause": "These subtopics explain how exposures can damage DNA or promote tumour growth, and how their effects depend on biological context.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methods for assessing carcinogenicity",
+      "groupedBecause": "These subtopics describe ways to identify carcinogenic exposures and evaluate their effects, while noting the limits of each approach.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion: cancer risks and risk–benefit decisions",
+      "groupedBecause": "This closing subtopic recaps the lecture’s conclusions and frames exposure decisions in terms of risks and benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

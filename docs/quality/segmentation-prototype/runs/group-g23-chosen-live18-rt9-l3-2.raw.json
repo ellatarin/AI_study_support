@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and lecture learning outcomes",
+      "groupedBecause": "This opening topic introduces the course structure and sets out the learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins of cancer and tissue architecture",
+      "groupedBecause": "These subtopics frame cancer as an accumulation of genetic alterations leading to a failure of normal cellular differentiation and tissue architecture, alongside experimental models for studying it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign versus malignant tumors, invasion, and nomenclature",
+      "groupedBecause": "These subtopics explore the defining characteristics of benign and malignant tumors, including invasion through the basement membrane, metastasis, histological progression, and naming conventions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic addresses the specific mechanical, physiological, and systemic processes through which primary and metastatic tumors cause illness and death in patients.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence across humans and animal species",
+      "groupedBecause": "These subtopics examine patterns of tumor occurrence and mortality across human populations and diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer presentation and screening strategies",
+      "groupedBecause": "These subtopics explain the clinical presentation of tumors and evaluate the rationale, methods, and limitations of screening programs for early detection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical guidance",
+      "groupedBecause": "This closing topic wraps up the lecture by revisiting the learning outcomes and providing directions for revision and upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

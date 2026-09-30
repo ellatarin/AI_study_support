@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture framing",
+      "groupedBecause": "This opening frames the lecture as an integration of previously introduced immune cells and molecules.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate recognition by pattern recognition receptors",
+      "groupedBecause": "These subtopics establish how innate immune cells detect infection or damage through appropriately targeted and localised receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and signalling",
+      "groupedBecause": "These subtopics explain how toll-like receptors translate microbial recognition into responses tailored to the location of the signal.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Non-TLR recognition and inflammasome activation",
+      "groupedBecause": "These subtopics develop how recognition pathways beyond TLRs trigger inflammation that can become pathological.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel-driven inflammation and leukocyte recruitment",
+      "groupedBecause": "These subtopics trace how activated sentinel cells generate inflammatory signals that mobilise immune cells to the infection site.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic drainage and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how the lymphatic system carries evidence of tissue infection to lymph nodes to initiate adaptive immunity.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic examines how an excessively activated inflammatory response produces life-threatening systemic effects.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Passive and active resolution of inflammation",
+      "groupedBecause": "This subtopic explains how inflammatory activity subsides through the withdrawal of stimulation and the increasing action of inhibitory signals.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics examine the limits of restoring inflamed tissue to homeostasis, with granulomas illustrating containment when an infection cannot be cleared.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This closing ends the lecture and identifies complement as the next lecture's subject.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

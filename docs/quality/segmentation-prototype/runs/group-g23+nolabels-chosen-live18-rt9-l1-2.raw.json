@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "The lecturer welcomes the students and outlines the scope and focus of the lecture on inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Immune Recognition and Receptor Signaling",
+      "groupedBecause": "These subtopics explain how the innate immune system identifies infections and cellular damage using molecular patterns, receptor families, and downstream signaling pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory Response, Leukocyte Trafficking, and Systemic Effects",
+      "groupedBecause": "These subtopics examine how sentinel cells trigger the inflammatory cascade, direct leukocyte recruitment into tissues, drain fluid to lymph nodes, and potentially cause severe systemic pathology.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics describe how acute inflammatory reactions are turned off, how damaged tissues are repaired, and how persistent stimuli lead to chronic inflammation or granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the session and previews the topic for the following lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

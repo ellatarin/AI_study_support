@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the lecture on inflammation",
+      "groupedBecause": "This subtopic welcomes the audience and frames the lecture's focus on how previously introduced immune components work together.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Recognition of danger by innate pattern-recognition receptors",
+      "groupedBecause": "These subtopics explain how innate immunity detects PAMPs and DAMPs, what makes PAMPs useful, and how pattern-recognition receptors are encoded and positioned to recognize them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and signaling",
+      "groupedBecause": "Both subtopics describe how TLRs detect microbial material and how their location and signaling direct the resulting immune response.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Other pattern-recognition pathways and inflammasome-driven inflammation",
+      "groupedBecause": "These subtopics extend innate danger sensing beyond TLRs and explain how inflammasome activation can drive inflammatory responses.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel cell activation and leukocyte recruitment",
+      "groupedBecause": "Both subtopics show how local detection of infection triggers sentinel-cell signals that recruit leukocytes to the affected tissue.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic drainage and dendritic cell migration for adaptive immune priming",
+      "groupedBecause": "This subtopic explains how dendritic cells and tissue fluid travel through lymphatic drainage to lymph nodes, where adaptive immune cells can be activated.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic describes how excessive inflammatory signaling can spread systemically and cause septic shock.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Turning off inflammatory responses",
+      "groupedBecause": "This subtopic explains passive and active mechanisms that reduce or stop inflammation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "Both subtopics describe the fate of inflamed tissue after injury, including repair and the containment of persistent inflammation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This subtopic closes the lecture and identifies the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

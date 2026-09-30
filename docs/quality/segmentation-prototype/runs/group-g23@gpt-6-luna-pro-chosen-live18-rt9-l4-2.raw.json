@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer causes and lecture objectives",
+      "groupedBecause": "This subtopic frames the lecture and states its objectives before the substantive material begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as mutation-driven clonal evolution in a permissive microenvironment",
+      "groupedBecause": "These subtopics explain cancer as an evolving population of mutated cells and introduce the endogenous, environmental, inherited, and cellular factors that can drive that evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental cancer risks and their interpretation",
+      "groupedBecause": "Together these subtopics examine how environmental exposures relate to cancer risk and how chance, inherited susceptibility, and population patterns complicate interpretation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer development, with Burkitt lymphoma as an example",
+      "groupedBecause": "These subtopics describe how infections can contribute to cancer and explain the interacting roles of EBV, malaria, and MYC translocation in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Environmental carcinogens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics show how dietary and environmental exposures can damage DNA directly or after metabolic activation, producing mutations associated with cancer.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and context-dependent susceptibility to carcinogens",
+      "groupedBecause": "These subtopics show that cancer development depends not only on DNA damage but also on promotion and on biological context, including developmental stage and tissue.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Human evidence for carcinogen exposure and cancer risk",
+      "groupedBecause": "These subtopics describe how mutation patterns and population-based studies can help identify carcinogen exposures and assess their links to cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Experimental tests of carcinogenicity and their limitations",
+      "groupedBecause": "These subtopics describe laboratory approaches for testing carcinogenic potential and explain why animal and bacterial assays cannot fully represent cancer development in humans.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Lecture summary and risk–benefit decisions",
+      "groupedBecause": "This final subtopic recaps the lecture’s conclusions and closes by emphasizing the choices involved in weighing cancer risks against benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

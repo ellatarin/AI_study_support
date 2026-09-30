@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Hallmarks of Cancer",
+      "groupedBecause": "The lecturer introduces the session's learning outcomes, contextualises cancer mechanisms within previous lectures, and outlines the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferation and Growth Signal Independence",
+      "groupedBecause": "These subtopics examine how mutations in cell surface receptors and intracellular signaling cascades drive continuous cancer cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blockade of Cellular Differentiation",
+      "groupedBecause": "These subtopics explain how cancer cells fail to withdraw from the cell cycle and arrest during differentiation in both hematological malignancies and solid carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptotic Cell Death",
+      "groupedBecause": "This subtopic describes how genetic disruption of the p53 pathway and altered balances between pro- and anti-apoptotic proteins allow tumor cells to evade cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics cover telomere shortening, the mechanism of telomerase reactivation in cancer cells, and the cellular stress pathways governing senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Deregulation of Cellular Metabolism",
+      "groupedBecause": "These subtopics explore cancer metabolic reprogramming, including the Warburg effect, diagnostic glucose uptake, and the role of oncometabolites in altering gene expression.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "This subtopic explains the necessity of new blood vessel growth for supplying tumors with oxygen and nutrients and examines the regulatory balance driving the angiogenic switch.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and Genetics of Cancer Metastasis",
+      "groupedBecause": "These subtopics examine the metastatic cascade, diagnostic tracking through lymph nodes and circulating tumor cells, microenvironmental compatibility, and the clonal genetics of dissemination.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and Lecture Summary",
+      "groupedBecause": "The lecturer wraps up the lecture by reviewing the integration of cancer hallmarks, discussing further reading, and framing the upcoming practical sessions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

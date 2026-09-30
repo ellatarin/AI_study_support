@@ -1,0 +1,59 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer biology and lecture learning outcomes",
+      "groupedBecause": "This subtopic welcomes the students, frames the lecture series, and sets out what the lecture aims to teach.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Accumulated genetic and epigenetic changes in cancer development",
+      "groupedBecause": "This subtopic introduces the stepwise genetic, epigenetic, and infection-related changes associated with cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer as a failure of differentiation and tissue organization",
+      "groupedBecause": "This subtopic explains cancer through the loss of normal differentiation and the disruption of organized tissue architecture.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Cancer cell culture models and their limitations",
+      "groupedBecause": "This subtopic describes how tumor cells are studied in culture and why isolated cells do not capture the full tumor context.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Invasion, metastasis, and the distinction between benign and malignant tumors",
+      "groupedBecause": "These subtopics use tissue invasion to distinguish benign from malignant tumors and show how invasive tumors can spread to distant sites.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Benign tumors: progression to malignancy and clinical significance",
+      "groupedBecause": "Together, these subtopics explain why a benign lesion is not automatically malignant: some acquire invasive features over time, while benign growths can still matter clinically without doing so.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor nomenclature by tissue of origin and malignancy",
+      "groupedBecause": "This subtopic explains how tumor names generally indicate their tissue of origin and whether they are benign or malignant.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "How cancer causes illness and death",
+      "groupedBecause": "This subtopic describes how tumors impair normal bodily functions and how widespread metastases can lead to death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence patterns in humans and other animals",
+      "groupedBecause": "These subtopics compare how frequently different tumors occur across human populations and animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening",
+      "groupedBecause": "These subtopics explain why cancers can be difficult to detect early and compare screening approaches for different cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close: learning outcomes, revision and practicals",
+      "groupedBecause": "This subtopic closes the lecture by returning to the learning outcomes and directing students to revision and practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "topics": [
+    {
+      "label": "Cancer therapy lecture framing and learning objectives",
+      "groupedBecause": "This subtopic welcomes students, introduces the lecture subject, and states what they should learn.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery and radiotherapy in cancer treatment",
+      "groupedBecause": "Both are treatments directed at a tumour mass or site, removing it surgically or damaging its DNA with radiation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic chemotherapy: mechanisms, efficacy, toxicity and resistance",
+      "groupedBecause": "This subtopic explains how cytotoxic drugs kill cancer cells, their clinical benefits, and the limitations that arise from toxicity and resistance.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Targeting hormone-dependent cancers",
+      "groupedBecause": "This subtopic explains how blocking hormonal signals can restrain cancers that still depend on those signals for growth.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Exploiting cell-cycle checkpoint defects",
+      "groupedBecause": "These subtopics show how cancer cells with defective checkpoint proteins can be selectively exploited, first through irradiation and then through oncolytic adenoviruses.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "PARP inhibition in BRCA-deficient cancers",
+      "groupedBecause": "This subtopic explains how inhibiting PARP can create lethal DNA damage in cancer cells that lack BRCA-mediated repair.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Oncogene-targeted therapy and kinase inhibitor resistance",
+      "groupedBecause": "These subtopics develop the strategy of targeting oncogenic drivers, explain how kinase inhibitors work, and show how resistance limits their effects.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibody-based cancer treatments",
+      "groupedBecause": "Both subtopics use antibodies to recognize cell-surface proteins and focus an inhibitory, immune, or cytotoxic effect on the targeted cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Evidence for immune surveillance against cancer",
+      "groupedBecause": "This subtopic weighs evidence for and against a protective role for the immune system in controlling cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Immune checkpoint inhibition and tumour neoantigens",
+      "groupedBecause": "Both subtopics address how checkpoint inhibition enables antitumour T-cell responses and how neoantigen burden can affect those responses.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Redirecting T cells to cancer with bispecific engagers and CAR T cells",
+      "groupedBecause": "Both approaches bring T-cell cytotoxic activity to cancer cells through engineered recognition, using either a bispecific molecule or modified T cells.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Cancer therapy challenges and personalised treatment",
+      "groupedBecause": "This subtopic gathers the limitations of cancer treatment around the challenge of matching therapies to patients and managing tumour heterogeneity.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Cancer outcome trends and prevention",
+      "groupedBecause": "This subtopic considers changes in cancer incidence and outcomes while explaining why prevention and early detection complicate attribution to treatment.",
+      "firstSubtopicId": 21
+    },
+    {
+      "label": "Future cancer treatment priorities and ethical dilemmas",
+      "groupedBecause": "This subtopic considers how cancer care might develop while weighing treatment possibilities against patient quality of life and difficult clinical choices.",
+      "firstSubtopicId": 22
+    },
+    {
+      "label": "Childhood leukaemia survival and the dilemma of testing targeted therapies",
+      "groupedBecause": "This closing example contrasts major gains in childhood leukaemia survival with the difficulty of testing new targeted drugs against a proven treatment.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

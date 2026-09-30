@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Biology and Lecture Learning Outcomes",
+      "groupedBecause": "The lecturer welcomes the students, introduces the module's multidisciplinary context, and outlines the session's core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Foundations: Mutation, Differentiation Failure, and Tissue Architecture",
+      "groupedBecause": "These subtopics define cancer biologically as an accumulation of genetic and epigenetic alterations leading to a failure of normal cellular differentiation and tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Progression: Benign versus Malignant, Invasion, and Metastasis",
+      "groupedBecause": "These subtopics explain how tumors progress from contained, benign lesions into invasive and metastatic malignancies using histological and anatomical examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature and Classification",
+      "groupedBecause": "This subtopic establishes the standard medical naming conventions and exceptions used to identify benign and malignant tumors across different tissue lineages.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiology, Mortality, and Comparative Cancer Incidence",
+      "groupedBecause": "These subtopics describe the mechanisms by which tumors cause illness and death, alongside tumor incidence patterns across human tissues and other animal species.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Clinical Presentation and Cancer Screening Strategies",
+      "groupedBecause": "These subtopics evaluate the principles, clinical efficacy, and challenges of screening populations for early-stage and precursor lesions across different organ systems.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Practical Session Preview",
+      "groupedBecause": "The lecturer concludes the session with a recap of learning outcomes and signposts upcoming practicals and future lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

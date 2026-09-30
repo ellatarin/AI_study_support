@@ -1,0 +1,69 @@
+{
+  "topics": [
+    {
+      "label": "Lecture welcome and learning objectives",
+      "groupedBecause": "This subtopic welcomes the audience and states what the lecture aims to cover before introducing its subject matter.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery and radiotherapy in cancer treatment",
+      "groupedBecause": "This subtopic explains how surgery removes accessible tumors and radiotherapy damages tumors at targeted sites, including how these approaches may be combined with chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic chemotherapy: mechanisms and limitations",
+      "groupedBecause": "This subtopic explains how cytotoxic drugs damage cancer cells, their effectiveness, and the toxicity and resistance that limit their use.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Blocking hormone dependence in breast and prostate cancer",
+      "groupedBecause": "Both examples block hormone signaling that remains necessary for the growth of particular cancers.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Exploiting checkpoint and DNA-repair defects in cancer cells",
+      "groupedBecause": "These approaches use cancer cells’ missing checkpoint or repair functions to make them more vulnerable to treatment.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Oncogene addiction and genome-guided targeted therapy",
+      "groupedBecause": "This subtopic explains how identifying the oncogenic events driving a tumor can guide treatments that target the cancer cells’ dependence on those events.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Kinase inhibitors and resistance to targeted therapy",
+      "groupedBecause": "These subtopics explain how kinase inhibitors block activated kinases and how selectivity problems, resistance, and drug addiction limit their effects.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Antibody-based cancer treatments",
+      "groupedBecause": "Both subtopics use antibodies that recognize cell-surface targets to direct therapeutic activity against cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune surveillance and checkpoint inhibition",
+      "groupedBecause": "These subtopics consider whether immunity naturally controls cancer and how checkpoint blockade can restore T-cell responses to tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Redirecting T cells to attack cancer",
+      "groupedBecause": "Both approaches direct T cells toward tumor antigens so that they can exert cytotoxic activity against cancer cells.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Cancer therapy challenges and personalised treatment",
+      "groupedBecause": "This subtopic synthesizes the challenges of treatment and explains how biomarkers and genomic information may help match patients to therapies.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Cancer outcome trends, prevention, and early detection",
+      "groupedBecause": "This subtopic examines changes in cancer rates and how prevention and early detection contribute to those trends.",
+      "firstSubtopicId": 21
+    },
+    {
+      "label": "Future cancer treatment priorities and ethical choices",
+      "groupedBecause": "These subtopics consider future treatment priorities and the difficult choices involved in balancing established treatment success against uncertain new therapies and quality of life.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing: initiation and resolution of inflammation",
+      "groupedBecause": "This subtopic welcomes students and frames the lecture as a deeper synthesis of previously introduced immune concepts.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate recognition of danger by PAMPs, DAMPs, and pattern recognition receptors",
+      "groupedBecause": "These subtopics explain what innate immunity detects, what makes microbial patterns useful signals, and how receptors are encoded and positioned to recognize them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and signaling",
+      "groupedBecause": "These subtopics describe how TLRs detect microbial products and how their location and signaling determine the resulting immune response.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Non-TLR pattern recognition and inflammatory activation",
+      "groupedBecause": "These subtopics extend innate recognition beyond TLRs and show how other sensing pathways can drive inflammation and inflammatory disease.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel-cell activation and leukocyte recruitment to inflamed tissue",
+      "groupedBecause": "These subtopics trace how sentinel-cell signals activate local defenses and guide leukocytes from the blood to the site of inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic drainage and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how dendritic cells and tissue fluid travel through lymphatic drainage to enable infection screening and adaptive immune activation.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Septic shock from excessive systemic inflammation",
+      "groupedBecause": "This subtopic explains how excessive inflammatory signaling can cause systemic vasodilation, shock, and severe harm.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Passive and active resolution of inflammation",
+      "groupedBecause": "This subtopic distinguishes the removal of inflammatory signals from active mechanisms that instruct the immune system to stop.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics explain what happens to tissue after inflammation, including how it is repaired and how inflammation may persist or be contained when its cause remains.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close: the next lecture on complement",
+      "groupedBecause": "This subtopic ends the lecture and points students to the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing: cancer evolution, cell of origin and microenvironment",
+      "groupedBecause": "This subtopic welcomes the audience, frames the lecture's subject and states its learning aims rather than developing a substantive argument.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation accumulation and clonal selection in cancer evolution",
+      "groupedBecause": "These subtopics show how accumulating genetic changes can give clones a selective advantage and contribute to cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epigenetic disruption as a driver of tumor development",
+      "groupedBecause": "This subtopic explains how transient changes to the epigenetic landscape can alter transcription and contribute to tumor development.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Stemness, cell of origin and tumor hierarchy",
+      "groupedBecause": "These subtopics examine whether cancer growth follows a stem-like hierarchy, using leukemia and intestinal tumor models to explore the cells that can initiate or propagate tumors.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness in cancer initiation",
+      "groupedBecause": "These subtopics show how inflammatory signals can provide conditions that let mutated cells acquire stem-like properties and develop into tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Microenvironmental support of established tumors and therapeutic targeting",
+      "groupedBecause": "This subtopic explains that established tumors can depend on supportive cells in their microenvironment and describes targeting that support as a therapeutic strategy.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Single-cell and spatial approaches to studying cancer evolution",
+      "groupedBecause": "This subtopic describes sequencing and spatial methods for examining tumor-cell states and their interactions within tissue.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "An integrated evolutionary model of cancer development",
+      "groupedBecause": "This subtopic brings together mutations, cell properties and environmental conditions to explain how their interaction can enable malignant growth.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close: cancer therapy next",
+      "groupedBecause": "This subtopic ends the lecture and points the audience to the subject of the next lecture.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

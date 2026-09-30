@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "This subtopic introduces the lecturer and frames the lecture’s subject and learning objectives before the substantive material begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as clonal evolution in a permissive microenvironment",
+      "groupedBecause": "This subtopic explains cancer as the evolution of mutated cells whose growth also depends on a supportive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer risk, chance, and environmental influence",
+      "groupedBecause": "These subtopics develop the question of how background susceptibility, chance, and environmental exposure contribute to cancer risk and how population patterns can help reveal those contributions.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Infectious agents in cancer development, especially Burkitt lymphoma",
+      "groupedBecause": "These subtopics explain how pathogens can contribute to cancer and use Burkitt lymphoma to illustrate interacting infectious and environmental influences.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "DNA damage from environmental carcinogens",
+      "groupedBecause": "These subtopics show how environmental agents can damage DNA, directly or through processes such as metabolic activation and oxidative stress.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics explain the distinction between initiating mutations and promotional conditions, including experimental evidence for their combined role in tumour development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Developmental and tissue context in carcinogenesis",
+      "groupedBecause": "These subtopics explain how developmental stage and tissue-specific conditions can shape susceptibility to carcinogens, with the latter subtopic summarizing the mechanisms discussed.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Human evidence linking carcinogen exposure to cancer",
+      "groupedBecause": "These subtopics describe ways to connect carcinogen exposure with cancer in humans using mutation patterns and population-based evidence.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Experimental tests of carcinogenicity and their limitations",
+      "groupedBecause": "These subtopics describe animal and bacterial assays used to test carcinogenic potential and explain why their results have limitations.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Lecture conclusion: cancer risks and benefit–risk decisions",
+      "groupedBecause": "This closing subtopic recaps the lecture’s conclusions and leaves the audience with the need to weigh risks against benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

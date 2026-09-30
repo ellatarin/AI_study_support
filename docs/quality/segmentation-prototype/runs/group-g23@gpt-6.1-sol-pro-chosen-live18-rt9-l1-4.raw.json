@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture framing",
+      "groupedBecause": "This opening frames the lecture as an integration of previously introduced immune cells and molecules.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate danger recognition",
+      "groupedBecause": "These subtopics establish how innate receptors distinguish microbial or damage signals through their specificity, inherited encoding and cellular location.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and signalling",
+      "groupedBecause": "These subtopics explain how toll-like receptors translate microbial recognition into immune responses appropriate to the location of the signal.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Non-TLR danger sensing and inflammatory disease",
+      "groupedBecause": "These subtopics explain how sensing pathways beyond toll-like receptors activate inflammation that can contribute to disease.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel-driven inflammation and leukocyte recruitment",
+      "groupedBecause": "These subtopics trace how activated sentinel cells generate inflammatory signals that mobilise leukocytes into infected tissue.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic drainage and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how dendritic cells carry evidence of tissue infection through lymphatic drainage to initiate adaptive responses in lymph nodes.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic examines how excessive inflammatory activation becomes a life-threatening systemic response.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Passive and active resolution of inflammation",
+      "groupedBecause": "This subtopic explains how inflammation subsides through the loss of activating stimuli and the increasing influence of inhibitory signals.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics examine why inflamed tissue may recover or remain chronically inflamed, with granulomas illustrating containment when infection cannot be cleared.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This closing ends the lecture and announces complement as the next lecture's subject.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

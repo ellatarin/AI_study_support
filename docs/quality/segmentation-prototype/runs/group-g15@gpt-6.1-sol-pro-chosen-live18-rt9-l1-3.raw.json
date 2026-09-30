@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "This subtopic frames the lecture as an integration of previously introduced immune cells and molecules.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of innate immune recognition",
+      "groupedBecause": "These subtopics explain how innate immunity detects infection and damage through appropriately positioned receptors for distinctive molecular patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and signalling",
+      "groupedBecause": "These subtopics explain how toll-like receptors translate microbial recognition into immune responses suited to the location of the detected threat.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Non-TLR recognition and inflammasome activation",
+      "groupedBecause": "These subtopics examine how recognition pathways beyond toll-like receptors trigger inflammation that can contribute to disease.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel-driven inflammation and leukocyte recruitment",
+      "groupedBecause": "These subtopics explain how activated sentinel cells initiate inflammatory responses that bring circulating leukocytes to an infection.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic drainage and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how infection signals reach lymph nodes to initiate adaptive immune responses.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic examines how excessive inflammatory activation becomes a life-threatening systemic response.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mechanisms of inflammation resolution",
+      "groupedBecause": "This subtopic explains how inflammatory activity is shut down through the balance of passive decay and active inhibitory signals.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics examine tissue recovery after inflammation and why unresolved causes can require a persistent inflammatory response.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This subtopic ends the lecture and identifies complement as the subject of the next session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

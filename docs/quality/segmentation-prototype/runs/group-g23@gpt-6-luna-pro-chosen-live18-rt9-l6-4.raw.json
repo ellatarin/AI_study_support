@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing: cancer hallmarks and loss of growth control",
+      "groupedBecause": "This subtopic sets out the lecture’s place in the course, its aims, and its focus on cancer hallmarks rather than developing a specific hallmark mechanism.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Extracellular signaling pathways that promote growth and survival",
+      "groupedBecause": "These subtopics explain how mutations in external-signal receptors and intracellular pathways can disrupt growth control by increasing proliferation or survival, or removing inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "These subtopics show how impaired differentiation appears in blood cancers and intestinal epithelium, and how it can be recognized in the affected cells and tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis through p53 and BCL2-family changes",
+      "groupedBecause": "These subtopics explain how changes to p53, Bax, and BCL2 can prevent the cell from carrying out apoptosis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative senescence, telomere maintenance, and growth-control safeguards",
+      "groupedBecause": "These subtopics explain how telomere shortening and stress responses normally limit continued cell proliferation, how TERT can help cancer cells bypass the replicative limit, and conclude the discussion of growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics examine how cancer-associated changes in glucose use and metabolic pathways affect tumor cells and can interact with gene regulation and the epigenome.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis in tumor growth",
+      "groupedBecause": "This subtopic explains how tumors recruit blood vessels to support their growth and how angiogenesis changes during tumor development.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination, survival, and secondary growth",
+      "groupedBecause": "These subtopics follow cancer cells from entry into circulation through their chances of survival and growth at secondary sites, including what can be learned from metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and close",
+      "groupedBecause": "This subtopic synthesizes the lecture’s point that different mutation routes can converge on shared cancer hallmarks, then closes the lecture and invites questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

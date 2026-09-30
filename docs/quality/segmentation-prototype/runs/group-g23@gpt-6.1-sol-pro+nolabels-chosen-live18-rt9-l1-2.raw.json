@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and aims",
+      "groupedBecause": "This subtopic frames the lecture as an integration of previously introduced immune cells and molecules.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition",
+      "groupedBecause": "These subtopics explain how innate immune recognition depends on matching pathogen or damage signals with appropriately positioned, genetically encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptors and their signaling",
+      "groupedBecause": "These subtopics explain how toll-like receptors translate microbial recognition into immune responses suited to the location and nature of infection.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Non-TLR recognition and inflammasome activation",
+      "groupedBecause": "These subtopics show how danger-sensing pathways beyond toll-like receptors connect microbial products and cellular damage to inflammation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel-driven inflammation and leukocyte recruitment",
+      "groupedBecause": "These subtopics trace how activated sentinel cells mobilize an inflammatory response that brings circulating immune cells to infected tissue.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic transport and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how the lymphatic drainage system enables activated dendritic cells to carry evidence of infection to lymph nodes for adaptive immune activation.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive inflammation and septic shock",
+      "groupedBecause": "This subtopic explains how an excessive systemic inflammatory response can produce dangerous cardiovascular effects and lasting harm.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mechanisms of inflammation resolution",
+      "groupedBecause": "This subtopic explains how inflammation subsides through the balance between declining inflammatory stimulation and active inhibitory signals.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics examine why the response to damaged tissue sometimes restores homeostasis but sometimes persists as chronic inflammation that can be harmful or protective.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This subtopic ends the lecture and announces complement as the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

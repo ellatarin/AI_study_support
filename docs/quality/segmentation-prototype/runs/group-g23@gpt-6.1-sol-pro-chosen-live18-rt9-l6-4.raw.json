@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and the cancer hallmarks framework",
+      "groupedBecause": "This opening establishes the lecture’s learning outcomes and introduces the hallmarks framework for understanding loss of growth control.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutated signaling pathways promote growth and survival",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signaling pathways free cancer cells from normal controls on proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in blood cancers and intestinal epithelium",
+      "groupedBecause": "These subtopics show how disrupted cellular maturation contributes to cancer and can be recognized in the affected tissue.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how cancer cells evade mitochondrial apoptosis by disabling p53 activity or altering the balance of pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and tumor cell immortalization",
+      "groupedBecause": "These subtopics explain the telomere-dependent limit on cell division and how increased telomerase expression allows cancer cells to bypass it.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53-mediated genome protection and growth-control recap",
+      "groupedBecause": "These subtopics conclude the account of mutation-driven loss of growth control by explaining normal protective responses and reviewing the hallmarks already discussed.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics examine how altered metabolism characterizes cancer cells and participates in self-reinforcing changes to their regulation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis supports tumor growth",
+      "groupedBecause": "This subtopic explains why tumor expansion depends on an angiogenic switch that supplies oxygen and nutrients.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic spread, survival and genetic signatures",
+      "groupedBecause": "These subtopics examine what enables cancer cells to leave a primary tumor and establish detectable tumors at distant sites.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Concluding summary and further reading",
+      "groupedBecause": "This closing returns to the lecture’s central message about shared hallmarks, recommends further reading and invites questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

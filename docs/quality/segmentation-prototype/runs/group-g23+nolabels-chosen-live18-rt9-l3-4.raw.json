@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and course framing",
+      "groupedBecause": "The lecturer welcomes the students, outlines the structure and multidisciplinary scope of the course, and presents the day's learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular origin, genetic progression, and modeling of cancer",
+      "groupedBecause": "These subtopics explain how cancer develops from accumulated genetic alterations that disrupt normal differentiation and tissue architecture, and how these processes are studied in culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and the benign-to-malignant transition",
+      "groupedBecause": "These subtopics examine how tumors progress from contained benign lesions into invasive and metastatic malignancies using histological and clinical examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Neoplasm nomenclature and classification conventions",
+      "groupedBecause": "This subtopic details the standard terminology and exceptions used to name benign and malignant tumors based on their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer illness and mortality",
+      "groupedBecause": "This subtopic explains the direct physical and systemic mechanisms by which primary and metastatic tumors cause disease and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence across human tissues and animal taxa",
+      "groupedBecause": "These subtopics compare the occurrence and mortality rates of different tumor types in human populations and across diverse animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and screening strategies for cancer",
+      "groupedBecause": "These subtopics address the diagnostic challenges of early cancer symptoms and evaluate the effectiveness of screening programs for various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and lecture review",
+      "groupedBecause": "The lecturer concludes the session by referencing the learning outcomes and providing logistical instructions for upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

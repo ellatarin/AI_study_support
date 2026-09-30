@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "This subtopic frames the lecture's subject and objectives before the substantive discussion begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as clonal evolution",
+      "groupedBecause": "This subtopic explains cancer development through clonal evolution within a permissive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Intrinsic and environmental contributions to cancer risk",
+      "groupedBecause": "These subtopics examine the evidence and debate about how different sources of cancer risk contribute to disease.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Infection-driven cancer development",
+      "groupedBecause": "These subtopics explain how infectious agents contribute to cancer, with Burkitt lymphoma providing a specific example.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Carcinogen-induced DNA damage",
+      "groupedBecause": "These subtopics trace how carcinogenic exposures produce DNA damage through direct or indirect mechanisms.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation, promotion and tissue susceptibility",
+      "groupedBecause": "These subtopics explain how carcinogenic effects depend on tumour promotion and tissue susceptibility, ending with a summary of the preceding mechanisms.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Human evidence of carcinogen exposure and carcinogenicity",
+      "groupedBecause": "These subtopics show how measurable evidence in humans supports the identification and assessment of carcinogenic exposures.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Experimental carcinogenicity testing and its limitations",
+      "groupedBecause": "These subtopics examine experimental tests used to assess carcinogenic potential and the limitations of interpreting their results.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Lecture summary and risk–benefit decisions",
+      "groupedBecause": "This subtopic closes the lecture by reviewing its main conclusions about environmental cancer risks and their assessment.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

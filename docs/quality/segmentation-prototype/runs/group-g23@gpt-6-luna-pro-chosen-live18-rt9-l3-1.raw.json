@@ -1,0 +1,59 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer biology and lecture learning outcomes",
+      "groupedBecause": "This subtopic welcomes students, frames the lecture series, and sets out the learning outcomes rather than developing the lecture subject.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Accumulation of genetic and epigenetic changes in cancer development",
+      "groupedBecause": "This subtopic introduces the genetic, epigenetic, and infection-related changes that accumulate during cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer as a failure of differentiation and tissue architecture",
+      "groupedBecause": "This subtopic explains cancer as a breakdown of normal differentiation and the organization of cells within tissues.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Cell culture models of cancer and their limitations",
+      "groupedBecause": "This subtopic considers how tumor cells are studied in culture and why those models may not capture the full tumor environment.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Invasion and metastasis as features of malignant tumors",
+      "groupedBecause": "These subtopics explain how invasion distinguishes malignant from benign tumors and how invasive tumors can spread to distant sites.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Progression from benign to malignant tumors and benign tumor risk",
+      "groupedBecause": "These subtopics examine the significance of the benign–malignant distinction for tumor progression and patient risk.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor nomenclature by tissue of origin and malignancy",
+      "groupedBecause": "This subtopic sets out how tumor names generally indicate their tissue of origin and malignant status.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer-related illness and death",
+      "groupedBecause": "This subtopic explains how tumors disrupt normal bodily functions and how cancer can ultimately cause death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Human and animal tumor incidence patterns",
+      "groupedBecause": "These subtopics describe how tumor incidence varies across human populations and animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening",
+      "groupedBecause": "These subtopics explain why screening is used and compare screening approaches and their limitations.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close: learning outcomes, revision and practicals",
+      "groupedBecause": "This subtopic closes the lecture by returning to the learning outcomes and directing students to revision and practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing and learning outcomes",
+      "groupedBecause": "This subtopic welcomes the class and sets out the lecture's aims before introducing its subject matter.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor viruses and the discovery and testing of cellular transforming genes",
+      "groupedBecause": "These subtopics trace how tumor viruses revealed cellular transforming genes and how the genes' capacity to transform cells can be tested.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Functional effects of cancer mutations",
+      "groupedBecause": "These subtopics classify cancer mutations by their effects on tumor growth and illustrate how those effects operate through cell-cycle control and mutation-specific gene function.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and consequences of genetic instability",
+      "groupedBecause": "These subtopics distinguish forms of genetic instability and explain how defects in DNA repair, replication, and mitosis produce them and affect cancer cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mutation timing in colorectal cancer progression",
+      "groupedBecause": "This subtopic examines when mutations and chromosomal instability arise as colorectal tumors progress.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Hereditary cancer predisposition",
+      "groupedBecause": "This subtopic explains how inherited mutations in genes controlling genomic integrity or growth control predispose people to cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "BRCA2 restoration and the persistence of malignancy",
+      "groupedBecause": "This subtopic shows that a tumor can remain lethal after BRCA2 function is restored, so ongoing genetic instability is not required for malignancy.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture close and further reading",
+      "groupedBecause": "This subtopic closes the lecture by inviting questions, recommending reading, and previewing the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

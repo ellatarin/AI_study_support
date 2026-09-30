@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and scope",
+      "groupedBecause": "This opening frames the lecture as an integration of previously introduced immune cells and molecules.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate recognition through PAMPs, DAMPs and PRRs",
+      "groupedBecause": "These subtopics explain how innate immune recognition distinguishes danger using molecular patterns and appropriately positioned, germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and signalling",
+      "groupedBecause": "These subtopics explain how toll-like receptors translate microbial recognition into immune responses shaped by their cellular location.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Non-TLR recognition pathways and inflammatory activation",
+      "groupedBecause": "These subtopics examine how recognition pathways beyond toll-like receptors activate inflammation and can contribute to inflammatory disease.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel-driven inflammation and leukocyte recruitment",
+      "groupedBecause": "These subtopics follow the inflammatory response from sentinel-cell activation to the recruitment of circulating leukocytes into infected tissue.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic transport and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how drainage from infected tissues enables dendritic cells to initiate adaptive responses in lymph nodes.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic examines how excessive inflammatory activation becomes a life-threatening systemic response.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mechanisms of inflammation resolution",
+      "groupedBecause": "This subtopic explains how the balance of inflammatory stimulation and inhibition shifts to shut down an immune response.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics examine why inflamed tissue may fail to return to normal, with granuloma formation extending that discussion to protective containment of persistent infection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This closing ends the lecture and identifies complement as the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "sourceRun": "chosen-live18-rt9-l4",
+  "promptVersion": "g23",
+  "lecture": "l4",
+  "instance": "5",
+  "modelId": "openai/gpt-6-luna-pro",
+  "reasoningEffort": "high",
+  "labelsShown": true,
+  "seconds": 106,
+  "promptTokens": 50693,
+  "completionTokens": 13199,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": 8,
+  "subtopics": 22,
+  "topicSizes": [
+    1,
+    2,
+    3,
+    2,
+    5,
+    4,
+    4,
+    1
+  ]
+}

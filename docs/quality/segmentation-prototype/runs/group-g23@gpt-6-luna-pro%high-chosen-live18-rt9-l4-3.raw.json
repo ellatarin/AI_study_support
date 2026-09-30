@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer causes and lecture objectives",
+      "groupedBecause": "This subtopic welcomes students, situates the lecture in the course, and states its aims before the substantive material begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as clonal evolution and the conditions for its emergence",
+      "groupedBecause": "Together these subtopics explain how cancer emerges as mutations accumulate in cells that can gain a clonal advantage and expand in a permissive context.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental exposures, chance, and public interpretation of cancer risk",
+      "groupedBecause": "They explore whether environmental exposures can shift cancer risk despite an element of chance, and how that balance is interpreted publicly.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Geographic patterns and epidemiological evidence for cancer causes",
+      "groupedBecause": "This subtopic uses geographic and migrant incidence patterns to examine how environmental and genetic factors shape cancer rates.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Infectious agents and cancer development",
+      "groupedBecause": "These subtopics show how infectious agents can contribute to cancer, using Burkitt lymphoma to trace the interaction of EBV, malaria, and a growth-driving translocation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of noninfectious environmental carcinogenesis",
+      "groupedBecause": "They trace how noninfectious environmental exposures can contribute to cancer by altering DNA or creating conditions that let susceptible cell clones grow.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Human evidence for carcinogen exposure and cancer links",
+      "groupedBecause": "These subtopics present ways of building evidence for carcinogen exposure from observed cancer data.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Experimental tests of carcinogenicity and their limitations",
+      "groupedBecause": "They describe experimental approaches to testing carcinogenicity and explain why their results do not provide a complete picture.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Lecture summary and risk–benefit decisions",
+      "groupedBecause": "This closing subtopic recaps the lecture’s conclusions and ends by framing exposure choices in terms of benefits and risks.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

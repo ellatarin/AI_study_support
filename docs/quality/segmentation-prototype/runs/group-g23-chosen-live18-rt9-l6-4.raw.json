@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "This opening subtopic introduces the lecture objectives, historical context of cancer hallmarks, and the overarching theme of growth control loss.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth and proliferative signaling pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell-surface receptors and downstream intracellular cascades drive continuous proliferative and survival signaling.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in hematological and epithelial cancers",
+      "groupedBecause": "These subtopics describe how oncogenic alterations prevent maturing progenitor cells from completing normal lineage differentiation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis, replicative limits, and p53 stress safeguards",
+      "groupedBecause": "These subtopics explore the mechanisms cancer cells use to disable intrinsic tumor-suppressive fail-safes such as programmed cell death, telomere-driven senescence, and p53 surveillance.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolite signaling in cancer",
+      "groupedBecause": "These subtopics investigate how cancer cells alter metabolic pathways toward aerobic glycolysis and utilize oncometabolites to drive epigenetic and transcriptional changes.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and the angiogenic switch",
+      "groupedBecause": "This subtopic addresses the induction of new blood vessel growth necessary to sustain tumor survival and expansion beyond diffusion limits.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic invasion, dissemination, and clonal genetics",
+      "groupedBecause": "These subtopics detail the multi-step cascade of metastatic dissemination, clinical monitoring methods, colonization constraints, and the genetic features of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Concluding summary and lecture wrap-up",
+      "groupedBecause": "This closing subtopic synthesizes the core themes of the lecture on hallmark convergence and provides final administrative remarks.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

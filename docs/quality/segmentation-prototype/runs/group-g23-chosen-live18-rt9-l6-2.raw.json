@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Overview of Cancer Hallmarks",
+      "groupedBecause": "This subtopic introduces the lecture objectives, reviewing the hallmarks of cancer and the progression model of tumorigenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Signaling Pathways Driving Proliferation and Survival",
+      "groupedBecause": "These subtopics explain how mutations in extracellular receptor pathways, Wnt signaling, and downstream kinase cascades disrupt normal growth control to promote sustained proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Blocks in Tumorigenesis",
+      "groupedBecause": "These subtopics explore how cancer cells fail to undergo terminal differentiation, using examples from hematological malignancies and intestinal epithelial stem cells.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of Evading Apoptosis",
+      "groupedBecause": "This subtopic describes how alterations in p53 and the BAX–BCL2 balance prevent programmed cell death in cancer cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere Regulation, Senescence, and Stress Responses",
+      "groupedBecause": "These subtopics examine how telomere shortening drives cellular senescence, how telomerase activation bypasses replicative limits to immortalise tumor cells, and how p53 mediates overarching stress and genome-protection responses.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Rewiring and Oncometabolites in Cancer",
+      "groupedBecause": "These subtopics examine aerobic glycolysis, tissue-specific metabolic reprogramming, and the epigenetic impact of oncometabolites in cancer.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor Angiogenesis and the Angiogenic Switch",
+      "groupedBecause": "This subtopic covers the requirement of blood vessel recruitment for tumor growth and the regulation of the angiogenic switch.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and Determinants of Metastasis",
+      "groupedBecause": "These subtopics analyse the sequential process of cancer dissemination, the seed-and-soil compatibility governing metastatic success, and the genomic features underlying metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "This subtopic provides the concluding framing for the lecture, summarizing the convergence of diverse mutations onto common hallmarks.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

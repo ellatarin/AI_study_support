@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This opening frames the lecture's place in the series and introduces its intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Molecular changes driving cancer evolution",
+      "groupedBecause": "These subtopics examine how altered molecular states give cells cancer-promoting properties, extending mutation-driven clonal selection to epigenetic disruption.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stemness and the cell of origin in cancer",
+      "groupedBecause": "These subtopics investigate how a cell's position in a tissue hierarchy influences its capacity to initiate and propagate a tumor.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness and cancer initiation",
+      "groupedBecause": "These subtopics show how inflammatory signals can confer stemness on mutation-bearing cells and enable tumor development.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Microenvironmental support of established tumors",
+      "groupedBecause": "This subtopic examines established tumors' dependence on supportive surrounding cells as a potential therapeutic vulnerability.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methods for studying cancer evolution and cell interactions",
+      "groupedBecause": "This subtopic explains how tissue-based molecular analysis can reveal tumor evolution and interactions within the tumor microenvironment.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Converging conditions for malignant evolution",
+      "groupedBecause": "This synthesis explains how cancer depends on favorable conditions coinciding and extends that argument to developmental susceptibility in childhood cancers.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This closing ends the lecture and identifies cancer therapy as the next lecture's subject.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

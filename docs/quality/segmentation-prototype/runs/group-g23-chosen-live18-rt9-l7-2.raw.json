@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction: cancer evolution, cell of origin, and the microenvironment",
+      "groupedBecause": "The lecturer opens the session by outlining the lecture's core themes in cancer evolution alongside the intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms of clonal evolution",
+      "groupedBecause": "These subtopics explain how cell-intrinsic genetic mutations and epigenetic modifications confer selective advantages that drive clonal expansion and Darwinian selection in tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stemness, tissue hierarchy, and cell of origin",
+      "groupedBecause": "These subtopics investigate how cellular hierarchy, stemness properties, and specific cells of origin govern tumor initiation and propagation across hematological and epithelial tissue models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental regulation, analytical approaches, and evolutionary synthesis",
+      "groupedBecause": "These subtopics address how extrinsic microenvironmental cues and inflammatory interactions drive malignant growth, extending to the spatial methods used to map these interactions and an integrated synthesis of cancer evolution.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Lecture conclusion and next lecture preview",
+      "groupedBecause": "The lecturer concludes the session with closing remarks and previews the upcoming topic of cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

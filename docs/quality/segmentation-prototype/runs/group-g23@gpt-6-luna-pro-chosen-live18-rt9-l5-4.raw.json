@@ -1,0 +1,59 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cellular transformation and cancer genetics",
+      "groupedBecause": "This subtopic frames the lecture, connects it to the practicals, and states its learning outcomes before the substantive material begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the discovery of cellular proto-oncogenes",
+      "groupedBecause": "These subtopics trace how tumor-virus research led from the idea of transmissible cancer to the discovery that transforming viruses capture normal cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental assays of cellular transformation",
+      "groupedBecause": "This subtopic explains how researchers test whether genes and mutations can produce transformed cell properties and tumors.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Functional classifications of cancer mutations",
+      "groupedBecause": "This subtopic sets out the terms used to describe mutations by their effects on tumor formation and cellular maintenance.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mutation effects on growth-control pathways",
+      "groupedBecause": "These subtopics show how mutations disrupt cell-cycle control and how the specific effect of a mutation, such as dominant-negative p53, shapes its consequences.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Genetic instability caused by DNA repair defects",
+      "groupedBecause": "These subtopics explain how failures in DNA repair compromise genome integrity and produce sequence or chromosomal instability.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Genetic instability from replication and mitotic errors",
+      "groupedBecause": "These subtopics show how errors in copying or segregating the genome create instability and can promote tumor adaptation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mutation timing in colorectal cancer progression",
+      "groupedBecause": "This subtopic relates the timing and order of mutations, including chromosomal instability, to the progression of colorectal tumors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Hereditary cancer predisposition",
+      "groupedBecause": "This subtopic explains how inherited mutations in caretaker or gatekeeper genes raise cancer risk and illustrates that risk with hereditary cancer syndromes.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "BRCA2 restoration and the persistence of malignancy",
+      "groupedBecause": "This subtopic uses BRCA2 restoration during treatment to show that a cancer can remain malignant even after its homologous-recombination function is restored.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture close: questions, further reading and next lecture",
+      "groupedBecause": "This subtopic closes the lecture with an invitation for questions, a reading recommendation, and notice of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

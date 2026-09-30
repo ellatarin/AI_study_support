@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and lecture learning outcomes",
+      "groupedBecause": "It introduces the lecture series, outlines the learning outcomes, and sets the clinical and biological scope of the course.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological origins, differentiation failure, and tissue architecture in cancer",
+      "groupedBecause": "They explain cancer as a disease arising from accumulated genetic and epigenetic changes that disrupt normal cellular differentiation and three-dimensional tissue structure.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing benign and malignant tumors through invasion, progression, and nomenclature",
+      "groupedBecause": "They characterize benign and malignant neoplasms by evaluating their capacity for tissue invasion, histological progression from precursor lesions, and standard naming conventions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of tumor-induced illness, mortality, and comparative cancer incidence",
+      "groupedBecause": "They detail the physiological mechanisms by which tumors cause disease and death while surveying cancer incidence patterns across human tissues and diverse animal species.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Clinical rationale, methods, and limitations of cancer screening",
+      "groupedBecause": "They examine the clinical justification for early cancer detection and compare the approaches and diagnostic efficacy of screening for different tumor types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practicals preview",
+      "groupedBecause": "It concludes the lecture by directing students to review the learning outcomes and preparing them for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

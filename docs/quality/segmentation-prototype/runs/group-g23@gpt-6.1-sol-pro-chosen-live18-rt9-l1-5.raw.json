@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture framing",
+      "groupedBecause": "The opening frames the lecture as an integration of previously introduced immune cells and molecules.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate recognition through PAMPs, DAMPs and PRRs",
+      "groupedBecause": "These subtopics explain how innate immune recognition distinguishes danger using molecular patterns and appropriately positioned receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and signalling",
+      "groupedBecause": "These subtopics explain how toll-like receptors translate microbial recognition into immune responses suited to the location of the signal.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Non-TLR recognition pathways and inflammasome-driven inflammation",
+      "groupedBecause": "These subtopics show how recognition pathways beyond TLRs connect danger sensing to inflammatory activation and disease.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel-driven inflammatory responses and leukocyte recruitment",
+      "groupedBecause": "These subtopics trace how activated sentinel cells generate signals that mobilize the inflammatory response.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic drainage and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how infection information travels from tissues to lymph nodes to initiate adaptive immunity.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic examines how excessive inflammatory activation produces life-threatening systemic effects.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Passive and active resolution of inflammation",
+      "groupedBecause": "This subtopic explains how inflammatory activity is shut down through the changing balance of activating and inhibitory signals.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics examine what happens when inflamed tissue is restored or remains in a persistent inflammatory state.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "The closing ends the lecture and identifies complement as the next lecture's subject.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

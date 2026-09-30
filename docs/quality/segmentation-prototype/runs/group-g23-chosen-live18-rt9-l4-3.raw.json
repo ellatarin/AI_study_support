@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "The lecturer introduces herself, frames the scope of the cancer lecture series, and outlines the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conceptual frameworks and epidemiological evidence for cancer causation",
+      "groupedBecause": "These subtopics explore the fundamental origins of cancer, examining the interplay between endogenous mutations, bad luck, inherited genetics, and environmental risks substantiated by geographical epidemiology.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of specific carcinogens and tumour promotion",
+      "groupedBecause": "These subtopics analyse specific infectious, chemical, and physical agents to explain the molecular and cellular mechanisms of carcinogenesis, tissue specificity, and the distinction between tumour initiation and promotion.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for determining carcinogenicity and exposure",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro experimental methodologies used to identify carcinogens and prove their links to cancer development.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion and risk–benefit considerations",
+      "groupedBecause": "The lecturer concludes the session with a final summary of environmental cancer risks and the daily balance of risks versus benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "This subtopic frames the lecture’s subject and learning objectives before the substantive discussion begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations of cancer development",
+      "groupedBecause": "These subtopics explain cancer development through the origins and evolutionary effects of cancer-driving mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Evidence and interpretation of environmental cancer risks",
+      "groupedBecause": "These subtopics examine how evidence about cancer risk supports and shapes interpretations of environmental influences.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain infection-associated carcinogenesis, with Burkitt lymphoma providing a specific example.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Carcinogen-induced DNA damage",
+      "groupedBecause": "These subtopics explain the molecular processes through which carcinogenic exposures damage DNA and produce mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and tissue-specific carcinogenesis",
+      "groupedBecause": "These subtopics explain how tissue conditions and susceptibility shape tumour development following carcinogenic exposure, ending with a summary of the mechanisms discussed.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Human evidence for carcinogen exposure and carcinogenicity",
+      "groupedBecause": "These subtopics examine how biological evidence from human populations helps identify carcinogen exposure and assess carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Experimental carcinogenicity and mutagenicity testing",
+      "groupedBecause": "These subtopics examine laboratory tests used to assess carcinogenic potential and the limitations of their results.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Lecture summary",
+      "groupedBecause": "This subtopic closes the lecture by reviewing its main conclusions about cancer risks and their assessment.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

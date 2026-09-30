@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing: cancer hallmarks and loss of growth control",
+      "groupedBecause": "This subtopic introduces the lecture’s aims, places the hallmarks in the context of tumor progression, and frames loss of growth control as the central theme.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutated signaling pathways that release growth control",
+      "groupedBecause": "These subtopics explain how altered extracellular signaling and its downstream pathways can increase proliferation and survival or remove inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "Both subtopics show how cancer disrupts normal maturation, using blood-cell lineages and intestinal epithelium to illustrate the consequences.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cancer evasion of cellular growth-control safeguards",
+      "groupedBecause": "These subtopics connect resistance to cell death and escape from replicative limits to the failure of safeguards that would otherwise restrain abnormal cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic changes in cancer",
+      "groupedBecause": "These subtopics explain how cancer alters metabolism, including increased glycolysis and metabolic changes that feed back on gene regulation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis and vascular support for tumor growth",
+      "groupedBecause": "This subtopic explains how tumors use angiogenesis to obtain the oxygen and nutrients needed to grow.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic spread, survival, and monitoring",
+      "groupedBecause": "These subtopics trace how tumor cells disseminate, establish secondary tumors, and are detected or monitored during that process.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion: shared cancer hallmarks",
+      "groupedBecause": "This subtopic closes the lecture by summarizing how different routes to cancer can lead to shared hallmarks and then moves to questions and practicals.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

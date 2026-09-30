@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This opening frames the lecture within the series and introduces its intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation accumulation and clonal selection",
+      "groupedBecause": "These explanations and experiments establish how mutations give cell clones selective advantages during cancer evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epigenetic disruption as a driver of cancer",
+      "groupedBecause": "This material examines how altered transcriptional accessibility can initiate tumor development without additional mutations.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Cell of origin and cancer stem cell models",
+      "groupedBecause": "These subtopics examine how a cell's position in a tissue hierarchy and its capacity for self-renewal influence tumor initiation and propagation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness in cancer initiation",
+      "groupedBecause": "Both cancer models show how inflammatory signals can confer stem-like properties that enable previously nonmalignant mutant cells to develop tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Microenvironmental support of established tumors",
+      "groupedBecause": "This material explains established tumors' dependence on supportive surrounding cells and how that dependence creates therapeutic opportunities.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Single-cell and spatial methods for studying cancer",
+      "groupedBecause": "These approaches reveal cancer evolution and cellular interactions by resolving molecular states within individual cells and tissue locations.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Converging conditions for malignant evolution",
+      "groupedBecause": "This synthesis explains how malignancy depends on favorable conditions coinciding, extending that argument to developmental susceptibility and tumor–microenvironment coevolution.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and next session",
+      "groupedBecause": "This closing ends the lecture and announces the forthcoming session on therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

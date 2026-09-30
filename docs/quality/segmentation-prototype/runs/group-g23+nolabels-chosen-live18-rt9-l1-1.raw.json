@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Framing",
+      "groupedBecause": "This subtopic introduces the lecture topic on the initiation and resolution of inflammation and outlines what will be covered.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Immune Recognition of Infection and Damage",
+      "groupedBecause": "These subtopics detail the molecular mechanisms, receptor families, and signaling complexes through which the innate immune system senses pathogen-associated and damage-associated molecular patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Leukocyte Recruitment, Trafficking, and Inflammatory Activation",
+      "groupedBecause": "These subtopics describe how sentinel cells initiate the inflammatory response, coordinate leukocyte extravasation and lymphatic trafficking, and how excessive activation causes systemic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics explain the mechanisms that shut down inflammation, promote tissue healing, and the physiological consequences when inflammation fails to resolve.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic provides the concluding remarks and announces the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

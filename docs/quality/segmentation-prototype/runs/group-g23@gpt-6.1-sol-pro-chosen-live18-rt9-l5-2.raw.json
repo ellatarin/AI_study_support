@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This opening frames the lecture’s aims and connects its study of cancer genetics to the histopathology practicals.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the discovery of cellular proto-oncogenes",
+      "groupedBecause": "These subtopics trace how studying tumor-causing viruses established that cancer can originate from altered normal cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental assays of cellular transformation",
+      "groupedBecause": "This subtopic explains how experiments test whether genes and mutations confer transformed properties on cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Functional classification and effects of cancer mutations",
+      "groupedBecause": "These subtopics explain how cancer mutations are classified by their functional effects, using cell-cycle regulation and dominant-negative p53 to illustrate and qualify those classifications.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Genetic instability and defects in DNA repair",
+      "groupedBecause": "These subtopics distinguish sequence from chromosomal instability and explain how failures to repair DNA damage produce those phenotypes.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Genetic instability from replication and mitotic errors",
+      "groupedBecause": "These subtopics show how errors in transmitting the genome during cell division generate instability and alter cancer-cell behaviour.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mutation timing in colorectal cancer progression",
+      "groupedBecause": "This subtopic examines how the timing and order of mutation acquisition, especially genetic instability, affect colorectal tumor development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Hereditary cancer predisposition and the limits of instability dependence",
+      "groupedBecause": "These subtopics follow inherited cancer-predisposing mutations from accelerated tumor development to the BRCA2 example showing that an established cancer need not retain its original repair defect.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture close, further reading and next lecture",
+      "groupedBecause": "This closing returns to the learning outcomes and offers questions, reading and a preview of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

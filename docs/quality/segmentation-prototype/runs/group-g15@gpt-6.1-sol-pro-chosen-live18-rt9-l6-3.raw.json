@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for cancer hallmarks",
+      "groupedBecause": "This subtopic frames the lecture’s aims and introduces the hallmark framework that will organize its explanations of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutations that deregulate growth and survival signaling",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signaling pathways allow cancer cells to proliferate and survive without normal growth control.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "These subtopics show how disrupted cell maturation contributes to cancer by comparing differentiation in blood-cell lineages and intestinal epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how disruption of the p53-regulated balance between pro-apoptotic and anti-apoptotic proteins prevents cancer cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and tumor cell immortalization",
+      "groupedBecause": "These subtopics explain how telomere shortening limits normal cell division and how increased telomerase expression allows cancer cells to bypass that limit.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53-mediated genome protection and growth-control synthesis",
+      "groupedBecause": "These subtopics consolidate how cellular safeguards constrain cancer growth and how genetic mutations undermine those safeguards.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics examine how altered metabolism supports cancer and interacts with the molecular changes driving it.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis as support for tumor growth",
+      "groupedBecause": "This subtopic explains how tumors recruit a vascular supply to overcome the limits imposed by oxygen and nutrient diffusion.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and successful secondary growth",
+      "groupedBecause": "These subtopics examine what enables cancer cells to spread from a primary tumor and establish detectable tumors at distant sites.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing synthesis and further reading",
+      "groupedBecause": "This subtopic closes the lecture by restating its central message and learning expectations before offering further reading and inviting questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

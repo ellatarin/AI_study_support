@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and loss of growth control",
+      "groupedBecause": "This subtopic frames the lecture, states its aims, and introduces the hallmarks framework before the substantive material begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth-control signaling through Wnt, Ras–MAPK, PI3K–AKT, and TGF-beta",
+      "groupedBecause": "These subtopics explain how extracellular signals regulate proliferation and survival and how mutations in the signaling pathways disrupt that regulation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in hematological and intestinal cancers",
+      "groupedBecause": "These subtopics show how impaired differentiation appears in blood cancers and in intestinal epithelium after APC loss.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis through p53 and BAX–BCL2 regulation",
+      "groupedBecause": "This subtopic explains how changes in p53 and the balance of pro- and anti-apoptotic proteins allow cancer cells to evade cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere limits, senescence, and p53-mediated growth safeguards",
+      "groupedBecause": "These subtopics explain how telomere shortening and cellular stress trigger growth-limiting responses, how TERT can help cancer cells bypass telomere limits, and recap mutation-driven growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and metabolic reprogramming",
+      "groupedBecause": "These subtopics describe cancer-associated glycolysis and tissue-specific metabolic changes, including how altered metabolites can affect the epigenome.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "The angiogenic switch in tumor growth",
+      "groupedBecause": "This subtopic explains how tumors recruit blood vessels to obtain the oxygen and nutrients needed for continued growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination, survival, and secondary-site growth",
+      "groupedBecause": "These subtopics follow cancer cells through dissemination and colonization, explaining metastatic inefficiency, site compatibility, and the genomic features observed in metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and closing",
+      "groupedBecause": "This subtopic recaps the lecture’s central point about diverse routes to shared cancer hallmarks and closes with questions and practical-session information.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

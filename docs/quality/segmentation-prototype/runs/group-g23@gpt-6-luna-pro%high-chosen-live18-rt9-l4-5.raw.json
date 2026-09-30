@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Framing and objectives for the cancer-causes lecture",
+      "groupedBecause": "This subtopic introduces the lecturer and the lecture's focus and learning objectives before the substantive material begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as clonal evolution and its drivers",
+      "groupedBecause": "These subtopics establish cancer as mutation-driven clonal evolution shaped by the microenvironment and identify sources of mutations and inherited predisposition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Interpreting environmental contributions to cancer",
+      "groupedBecause": "They consider how cancer risks can be attributed to environmental exposures rather than treated as inevitable bad luck, using exposure examples and geographic incidence patterns.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain how pathogens can contribute to cancer and develop Burkitt lymphoma as a detailed example of interacting infectious and cellular factors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Environmental agents that damage DNA",
+      "groupedBecause": "Each subtopic explains a molecular route by which an exposure damages DNA or becomes genotoxic, including metabolic activation and tissue-specific effects.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Promotion and biological context in carcinogenesis",
+      "groupedBecause": "They explain how inflammation and other contextual factors can promote cancer, how susceptibility varies with tissue and developmental stage, and conclude with a synthesis of carcinogenic mechanisms.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Evidence and methods for identifying carcinogenic exposures",
+      "groupedBecause": "These subtopics address how evidence can be gathered to infer or test whether particular exposures contribute to cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and risk–benefit framing",
+      "groupedBecause": "This final subtopic recaps the lecture's claims about environmental cancer and carcinogenicity assessment, then closes by framing exposure as a risk–benefit decision.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

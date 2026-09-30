@@ -1,0 +1,71 @@
+{
+  "sourceRun": "chosen-live18-rt9-l1",
+  "versionId": "g23",
+  "starts": [
+    1,
+    2,
+    9,
+    13,
+    16
+  ],
+  "modelId": "openai/gpt-6.1-sol-pro",
+  "reply": {
+    "topics": [
+      {
+        "firstSubtopicId": 1,
+        "mustDivide": false,
+        "rules": [],
+        "quotedWords": [],
+        "divideAt": [],
+        "reason": "This is opening framing only: it welcomes students and explains the lecture's scope and relationship to earlier teaching, so it already stands separately as required by R2."
+      },
+      {
+        "firstSubtopicId": 2,
+        "mustDivide": false,
+        "rules": [],
+        "quotedWords": [],
+        "divideAt": [],
+        "reason": "Subtopics 2–8 develop one account of how innate recognition detects infection or damage and initiates inflammation. PAMP properties, receptor localisation, TLR signalling, other receptor families and inflammasome activation progressively explain that process; the disease examples show consequences of the same recognition mechanisms rather than introducing an independent subject."
+      },
+      {
+        "firstSubtopicId": 9,
+        "mustDivide": true,
+        "rules": [
+          "R5"
+        ],
+        "quotedWords": [
+          "Consider carefully when you look at the content within the grouping whether splitting the group would end up with better `groupedBecause` reasons. If it does, then you must divide the topic",
+          "A single subtopic is a topic of its own only when it takes up a question neither neighbouring topic is asking"
+        ],
+        "divideAt": [
+          11,
+          12
+        ],
+        "reason": "Subtopics 9–10 explain how activated sentinel cells generate inflammatory effects and recruit leukocytes; recruitment elaborates an effect introduced in 9 and should stay with it. Subtopic 11 instead explains outward lymphatic transport for adaptive immune priming, a distinct question from recruiting cells into infected tissue. Subtopic 12 then addresses the harmful cardiovascular consequences of excessive systemic inflammation, not adaptive priming or the resolution mechanisms that follow. Separating at 11 and 12 therefore gives each division a more specific, substantive reason for holding together."
+      },
+      {
+        "firstSubtopicId": 13,
+        "mustDivide": true,
+        "rules": [
+          "R5"
+        ],
+        "quotedWords": [
+          "Consider carefully when you look at the content within the grouping whether splitting the group would end up with better `groupedBecause` reasons. If it does, then you must divide the topic",
+          "A single subtopic is a topic of its own only when it takes up a question neither neighbouring topic is asking"
+        ],
+        "divideAt": [
+          14
+        ],
+        "reason": "Subtopic 13 explains how inflammatory activation is switched off through passive decay and active inhibitory signals. Subtopics 14–15 address the fate of damaged tissue: restoration versus persistent inflammation, with granulomas extending the discussion of persistent infection into a containment strategy. Splitting at 14 gives stronger reasons centred respectively on terminating immune activation and on tissue restoration or persistent inflammatory states; subtopic 13 asks a distinct question from both septic shock before it and tissue repair after it."
+      },
+      {
+        "firstSubtopicId": 16,
+        "mustDivide": false,
+        "rules": [],
+        "quotedWords": [],
+        "divideAt": [],
+        "reason": "This is closing framing only: it ends the lecture and announces the next lecture, so it already stands separately as required by R2."
+      }
+    ]
+  }
+}

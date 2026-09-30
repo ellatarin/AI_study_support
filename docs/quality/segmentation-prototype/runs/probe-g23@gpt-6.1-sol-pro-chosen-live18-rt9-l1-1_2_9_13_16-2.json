@@ -1,0 +1,72 @@
+{
+  "sourceRun": "chosen-live18-rt9-l1",
+  "versionId": "g23",
+  "starts": [
+    1,
+    2,
+    9,
+    13,
+    16
+  ],
+  "modelId": "openai/gpt-6.1-sol-pro",
+  "reply": {
+    "topics": [
+      {
+        "firstSubtopicId": 1,
+        "mustDivide": false,
+        "rules": [],
+        "quotedWords": [],
+        "divideAt": [],
+        "reason": "This is the lecture's opening framing: it welcomes students and explains the lecture's scope and relationship to earlier teaching. It already stands separately from substantive material, as R2 requires."
+      },
+      {
+        "firstSubtopicId": 2,
+        "mustDivide": false,
+        "rules": [],
+        "quotedWords": [],
+        "divideAt": [],
+        "reason": "These subtopics explain how innate recognition of infection and damage initiates inflammation. The properties of PAMPs and PRRs establish the recognition system, while TLRs, other receptor families and the inflammasome develop its mechanisms and consequences. These are successive parts of the same explanation rather than independent major divisions."
+      },
+      {
+        "firstSubtopicId": 9,
+        "mustDivide": true,
+        "rules": [
+          "R5"
+        ],
+        "quotedWords": [
+          "Split when splitting gives better reasons",
+          "A single subtopic is a topic of its own only when it takes up a question neither neighbouring topic is asking"
+        ],
+        "divideAt": [
+          11,
+          12
+        ],
+        "reason": "Subtopics 9–10 explain how activated sentinel cells generate inflammatory responses and recruit leukocytes to infected tissue. Subtopic 11 changes to how dendritic cells leave that tissue through lymphatics to prime adaptive immunity. Subtopic 12 instead examines excessive systemic inflammation and septic shock. Splitting gives each a more specific unifying explanation; both singleton topics ask questions distinct from their neighbours."
+      },
+      {
+        "firstSubtopicId": 13,
+        "mustDivide": true,
+        "rules": [
+          "R5"
+        ],
+        "quotedWords": [
+          "Split when splitting gives better reasons",
+          "A single subtopic is a topic of its own only when it takes up a question neither neighbouring topic is asking",
+          "A subtopic like that stays in the topic whose argument it continues."
+        ],
+        "divideAt": [
+          14
+        ],
+        "reason": "Subtopic 13 asks how inflammatory activity is switched off, whereas subtopics 14–15 examine tissue repair and what happens when restoration fails and inflammation persists. This distinction gives better reasons for grouping. Subtopic 13 is a legitimate singleton because its shutdown mechanisms are distinct from both septic shock before it and tissue repair after it. Subtopic 15 stays with 14 because granuloma formation develops the preceding account of persistent inflammation, particularly uncleared tuberculosis."
+      },
+      {
+        "firstSubtopicId": 16,
+        "mustDivide": false,
+        "rules": [],
+        "quotedWords": [],
+        "divideAt": [],
+        "reason": "This is exclusively closing framing: the lecturer ends the session and announces the next lecture. It already stands separately from the last substantive topic, as R2 requires."
+      }
+    ]
+  }
+}

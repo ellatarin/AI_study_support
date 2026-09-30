@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "This opening framing outlines the lecture structure, learning outcomes, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell surface receptor pathways drive autonomous proliferation and survival signaling.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in hematological and solid tumors",
+      "groupedBecause": "These subtopics explore how cancer cells arrest in immature, proliferative states across both hematopoietic lineages and colonic epithelial crypts.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis through p53 and BCL2 family deregulation",
+      "groupedBecause": "This subtopic addresses how cancer cells evade programmed cell death through the disruption of p53 and the balance of mitochondrial apoptotic regulators.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, cellular senescence, and p53 stress surveillance",
+      "groupedBecause": "These subtopics examine how telomere shortening, senescence barriers, and p53 stress responses are bypassed to enable unlimited tumor cell replication.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics detail the shift toward aerobic glycolysis and the mechanisms by which altered cellular metabolism and oncometabolites influence the cancer epigenome.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and vascular recruitment",
+      "groupedBecause": "This subtopic explains how hypoxic tumor microenvironments activate the angiogenic switch to supply nutrients and oxygen necessary for expanded growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion, metastatic dissemination, and genomic evolution",
+      "groupedBecause": "These subtopics describe the physical processes, biological hurdles, clinical monitoring, and clonal genomic signatures associated with tumor metastasis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and lecture wrap-up",
+      "groupedBecause": "This closing framing summarizes the major takeaways on cancer hallmarks and provides administrative wrap-up for the session.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

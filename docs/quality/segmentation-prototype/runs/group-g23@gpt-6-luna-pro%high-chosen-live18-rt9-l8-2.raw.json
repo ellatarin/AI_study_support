@@ -1,0 +1,64 @@
+{
+  "topics": [
+    {
+      "label": "Cancer therapy framing and learning objectives",
+      "groupedBecause": "This subtopic welcomes the audience and sets out the lecture's subject and learning objectives before the substantive material begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery and radiotherapy as local cancer treatments",
+      "groupedBecause": "They focus on local treatment of a tumour, aiming to remove a confined mass or damage it in place, with early detection and accessibility shaping success.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic chemotherapy: benefits, toxicity and resistance",
+      "groupedBecause": "They explain how cytotoxic drugs damage proliferating cells and consider the treatment's benefits alongside its toxicity and resistance problems.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Targeting hormone-dependent cancers",
+      "groupedBecause": "These treatments block hormone-receptor signaling in cancers that remain dependent on estrogen or androgen for growth.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Exploiting cell-cycle checkpoint defects",
+      "groupedBecause": "Both subtopics show how loss of cell-cycle checkpoint function can be exploited as a cancer-cell vulnerability.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "PARP inhibition in BRCA-deficient cancers",
+      "groupedBecause": "This subtopic explains how PARP inhibition creates lethal DNA damage selectively in BRCA-deficient cells that cannot repair the resulting double-strand breaks.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Oncogene-targeted therapies and kinase inhibitor limitations",
+      "groupedBecause": "They trace the identification of oncogenic drivers into targeted kinase treatment and examine the selectivity and resistance problems that follow.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Antibody-based cancer therapies",
+      "groupedBecause": "Their shared logic is to use antibody recognition of cell-surface proteins to make treatment depend on the presence of a chosen target on the cell.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Evidence for immune surveillance against cancer",
+      "groupedBecause": "This subtopic examines the proposed role of the immune system in controlling cancer and the evidence and limitations behind that idea.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Immune checkpoint inhibition and tumour neoantigens",
+      "groupedBecause": "These subtopics explain how checkpoint blockade can reactivate T cells and how tumour neoantigens help determine their response.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "T-cell-engaging and engineered cell therapies",
+      "groupedBecause": "Both approaches direct T cells toward tumour cells, either by bridging the cells with a bispecific molecule or by equipping T cells with a tumour-recognizing receptor.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Assessing cancer-treatment progress and future choices",
+      "groupedBecause": "These concluding subtopics consider how well cancer is being controlled, why outcomes and treatment decisions remain challenging, and what those challenges mean for future care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

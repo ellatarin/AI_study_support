@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing and the cancer hallmarks framework",
+      "groupedBecause": "This opening establishes the lecture’s learning outcomes and introduces cancer hallmarks as the framework for interpreting tumor progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated extracellular signaling and growth control",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signaling pathways allow cancer cells to sustain proliferation and survival despite normal growth controls.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "These subtopics show how disrupted cell differentiation shapes cancer phenotypes in hematological and intestinal tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how disruption of p53 signaling and the balance of mitochondrial apoptotic regulators enables cancer cells to evade death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and tumor cell immortalization",
+      "groupedBecause": "These subtopics explain how telomere shortening limits normal cell proliferation and how increased telomerase expression lets cancer cells bypass that limit.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53-mediated genome protection and growth-control recap",
+      "groupedBecause": "These subtopics consolidate the mechanisms that normally safeguard growth control and whose disruption generates cancer hallmarks.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics examine how altered metabolism characterizes cancer cells and can reinforce the molecular changes driving tumor development.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis and vascular support for tumor growth",
+      "groupedBecause": "This subtopic explains why tumor growth requires an angiogenic switch that supplies oxygen and nutrients through new vasculature.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and successful secondary growth",
+      "groupedBecause": "These subtopics examine how cancer cells reach distant sites and what determines whether their dissemination produces detectable metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing synthesis and further reading",
+      "groupedBecause": "This closing returns to the shared hallmarks reached through diverse cancer trajectories, recommends further reading, and concludes the lecture.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

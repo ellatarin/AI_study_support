@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer causation and lecture objectives",
+      "groupedBecause": "It introduces the lecturer, the scope of the cancer lecture series, and the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic factors, environmental exposure, and cancer risk",
+      "groupedBecause": "These subtopics examine how clonal evolution, endogenous mutational processes, inherited genetics, and environmental epidemiology contribute to the overall balance of cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of carcinogenic agents, tumour initiation, and promotion",
+      "groupedBecause": "These subtopics explain the molecular and cellular mechanisms through which biological, physical, and chemical agents act as initiators or promoters to induce malignancy across different tissues and developmental stages.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and evaluating mutagenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro techniques used to establish whether agents are carcinogenic.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and risk–benefit assessment",
+      "groupedBecause": "It closes the lecture by summarising the main concepts of environmental cancer risk and considering how individuals and society weigh carcinogenic hazards against practical benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture, connects it to earlier practicals, and sets out what the lecture will cover.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the cellular origin of oncogenes",
+      "groupedBecause": "These subtopics trace how the study of tumor-causing viruses led to the discovery that transforming viral genes originate from cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental assays of cellular transformation",
+      "groupedBecause": "This subtopic describes laboratory methods for testing whether genes or mutations can transform cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Functional classifications of cancer mutations",
+      "groupedBecause": "This subtopic sets out the categories used to describe mutations by their effects on tumor growth and cellular maintenance.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mutation effects on RB and p53 growth control",
+      "groupedBecause": "These subtopics explain how mutations disrupt growth control, through the RB-regulated cell-cycle checkpoint and mutation-specific effects on p53.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Genetic instability: repair, replication, and mitotic errors",
+      "groupedBecause": "These subtopics explain how failures in DNA repair, replication, and chromosome segregation produce genetic instability and affect tumor cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mutation timing in colorectal cancer progression",
+      "groupedBecause": "This subtopic explains how the timing and order of mutations, including chromosomal instability, relate to colorectal tumor progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Hereditary cancer predisposition",
+      "groupedBecause": "This subtopic describes inherited cancer risk through mutations affecting genomic integrity or growth control, with examples of hereditary syndromes.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "BRCA2 restoration and malignancy despite repaired instability",
+      "groupedBecause": "This subtopic uses BRCA2 restoration during treatment to show that genetic instability is not required for a cancer to remain malignant.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture close and further reading",
+      "groupedBecause": "This subtopic closes the lecture by inviting questions, recommending reading, and previewing the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

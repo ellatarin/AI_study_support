@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and loss of growth control",
+      "groupedBecause": "This subtopic introduces the lecture's learning outcomes, the historical hallmarks of cancer framework, and the central concept of lost growth control.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth and survival signaling pathways",
+      "groupedBecause": "These subtopics detail how mutations in cell-surface receptors and downstream cascades such as Wnt, Ras–MAPK, and PI3K–AKT drive sustained proliferation and survival signaling.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "These subtopics explore how oncogenic alterations prevent cells from undergoing terminal differentiation in hematological malignancies and the intestinal epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Apoptosis evasion, replicative immortality, and stress response mechanisms",
+      "groupedBecause": "These subtopics examine how cancer cells overcome intrinsic tumor-suppressive barriers by disrupting apoptotic signaling, bypassing telomere shortening to achieve replicative immortality, and subverting p53-mediated stress responses.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics discuss cancer cell metabolism, including aerobic glycolysis (the Warburg effect), diagnostic applications, and the epigenetic consequences of oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and the angiogenic switch",
+      "groupedBecause": "This subtopic explains how tumors induce new blood vessel growth via the angiogenic switch to overcome diffusion limits for oxygen and nutrients.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, monitoring, and genetics of metastasis",
+      "groupedBecause": "These subtopics describe the multistep process of metastatic spread, clinical detection via lymph nodes and circulating tumor cells, seed-and-soil compatibility, and the genomic characteristics of metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This subtopic concludes the lecture by summarising how diverse mutational pathways converge on shared hallmarks of cancer and wrapping up the session.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

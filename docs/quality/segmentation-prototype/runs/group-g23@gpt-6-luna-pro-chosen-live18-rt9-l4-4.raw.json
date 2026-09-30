@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "This subtopic frames the lecture and states what students should learn before the substantive material begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as clonal evolution shaped by mutations and its microenvironment",
+      "groupedBecause": "These subtopics explain cancer as an evolutionary process in which mutations and the cellular context together shape the development of invasive growths.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental exposures and the debate over cancer risk and bad luck",
+      "groupedBecause": "These subtopics consider how environmental exposures contribute to cancer risk and challenge the idea that cancer is simply a matter of bad luck.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Geographical cancer patterns as evidence of environmental and genetic influences",
+      "groupedBecause": "These subtopics use differences in cancer rates across populations to examine how environment and inherited predisposition may influence cancer risk.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Infectious agents in cancer development, including Burkitt lymphoma",
+      "groupedBecause": "These subtopics explain how infections can contribute to cancer and use Burkitt lymphoma to show how infectious and other factors can combine in its development.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "How environmental agents cause DNA damage and mutations",
+      "groupedBecause": "These subtopics show how exposures can damage DNA directly or after processing in the body, leading to mutations and, in some cases, tissue-specific effects.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and context-dependent susceptibility to cancer",
+      "groupedBecause": "These subtopics show that cancer development depends not only on mutations but also on promoting conditions and biological contexts that affect whether susceptible cells grow into tumours.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Evidence and methods for identifying carcinogenic exposures",
+      "groupedBecause": "These subtopics describe ways to infer exposure to carcinogens and assess their carcinogenic potential using evidence from cancer genomes, populations, animals, and laboratory assays.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture closing: summary and cancer risk–benefit decisions",
+      "groupedBecause": "This subtopic closes the lecture by summarising its conclusions and framing decisions about carcinogens as a balance of risks and benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

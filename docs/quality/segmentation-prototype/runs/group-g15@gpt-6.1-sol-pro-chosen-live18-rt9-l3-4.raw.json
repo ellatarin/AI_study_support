@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture series and establishes the learning goals for this lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular changes, differentiation and tissue organization in cancer",
+      "groupedBecause": "These subtopics explain cancer as an acquired disruption of normal cellular differentiation and tissue organization that experimental models must capture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing benign and malignant tumors through invasion and metastasis",
+      "groupedBecause": "These subtopics establish how tumor spread distinguishes malignant behavior from benign growth and how that distinction is recognized in tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Benign tumors: malignant progression and potential harm",
+      "groupedBecause": "These subtopics examine the clinical potential of benign tumors, showing that progression to malignancy is possible but neither inevitable nor necessary for serious harm.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor nomenclature",
+      "groupedBecause": "This subtopic explains how tumor names indicate tissue of origin and malignant status, including exceptions to the naming rules.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "How cancer causes illness and death",
+      "groupedBecause": "This subtopic explains how tumor growth disrupts normal bodily function and produces potentially fatal disease.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence in humans and other animals",
+      "groupedBecause": "These subtopics compare the occurrence of tumor types across populations and species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening",
+      "groupedBecause": "These subtopics explain why early cancer detection is needed and what determines the effectiveness of screening for different tumors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and revision guidance",
+      "groupedBecause": "This subtopic concludes the lecture by returning to the learning outcomes and directing students toward revision and upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -3,7 +3,8 @@
  *
  * Pass one (`failure-trial.mts` in a hierarchical mode) cuts the transcript into
  * subtopics. This script throws that run's topic layer away, hands the model the
- * subtopics ALONE — each with its full text — and asks only for the grouping.
+ * subtopics ALONE — each with its full text, or for a labels-only version its
+ * label and nothing else — and asks only for the grouping.
  * The two decisions that currently share one call are thereby separated, so the
  * unstable one can be prompted and measured on its own.
  *
@@ -25,21 +26,16 @@ import { groupPromptVersion } from "./group-prompts.mts";
 import { lectureKeyFor } from "./lecture-key.mts";
 import {
 	callTrialModel,
+	EFFORT,
+	EFFORT_TAG,
 	loadTrialConfig,
+	MODEL,
+	MODEL_TAG,
+	NO_REPLY,
 	OUT_DIR,
 	threwVerdict,
 	VERDICT,
 } from "./trial-model.mts";
-
-const DEFAULT_MODEL = "google/gemini-3.7-flash";
-const MODEL = process.env["TRIAL_MODEL"] ?? DEFAULT_MODEL;
-// Runs on any other model carry it in their name, so they never overwrite the
-// default model's run of the same instance or get pooled with its runs.
-const MODEL_TAG = MODEL === DEFAULT_MODEL ? "" : `@${MODEL.split("/").pop() ?? MODEL}`;
-// A thinking level other than the model's default, such as "high". Runs made
-// with one carry it in their name, for the same reason as the model tag.
-const EFFORT = process.env["TRIAL_EFFORT"];
-const EFFORT_TAG = EFFORT === undefined ? "" : `%${EFFORT}`;
 
 /** A subtopic as pass one left it: its label and the transcript it owns. */
 type SourceSubtopic = {
@@ -131,6 +127,8 @@ async function main(): Promise<void> {
 	// the transcript alone. The labels are restored from pass one when the reply
 	// comes back, so both variants produce the same document either way.
 	const labelsShown = process.argv[5] !== "nolabels";
+	// A labels-only version is sent each subtopic's label and never its text.
+	const labelsOnly = "labelsOnly" in version;
 	await mkdir(OUT_DIR, { recursive: true });
 
 	const source = JSON.parse(
@@ -162,7 +160,7 @@ async function main(): Promise<void> {
 		subtopics: subtopics.map((subtopic, index) => ({
 			id: index + 1,
 			...(labelsShown ? { label: subtopic.label } : {}),
-			text: subtopic.content.trim(),
+			...(labelsOnly ? {} : { text: subtopic.content.trim() }),
 		})),
 		...("firstPass" in version
 			? version.proposal({
@@ -182,14 +180,7 @@ async function main(): Promise<void> {
 
 	const startedAt = performance.now();
 	let verdict: string = VERDICT.ok;
-	let reply = {
-		content: "",
-		promptTokens: null as number | null,
-		completionTokens: null as number | null,
-		finishReason: null as string | null,
-		nativeFinishReason: null as string | null,
-		provider: null as string | null,
-	};
+	let reply = NO_REPLY;
 	try {
 		reply = await callTrialModel({
 			config,

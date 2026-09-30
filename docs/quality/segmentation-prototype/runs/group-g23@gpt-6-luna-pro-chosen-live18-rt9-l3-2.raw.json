@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer biology and lecture learning outcomes",
+      "groupedBecause": "This subtopic welcomes students and frames the lecture through its aims and learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Accumulation of genetic and epigenetic changes in cancer development",
+      "groupedBecause": "This subtopic explains how genetic, epigenetic, and infection-related changes accumulate during cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer as a failure of differentiation and tissue architecture",
+      "groupedBecause": "This subtopic describes cancer as a breakdown of normal differentiation and the organized relationships within tissues.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Cell culture models of cancer and their limitations",
+      "groupedBecause": "This subtopic considers what cancer-cell culture can reveal and what is missed when tumor cells are studied outside their tissue context.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Tumor behavior: invasion, metastasis, and benign growth",
+      "groupedBecause": "These subtopics explain how invasion and metastatic spread indicate malignant behavior, contrast that behavior with benign growth, and describe the potential progression and consequences of benign tumors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature by tissue of origin and malignancy",
+      "groupedBecause": "This subtopic sets out how tumor names generally reflect their tissue of origin and whether they are benign or malignant.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer-related illness and death",
+      "groupedBecause": "This subtopic explains how tumors disrupt normal bodily functions and how primary and secondary tumors can cause death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence across human and animal populations",
+      "groupedBecause": "These subtopics compare how often different tumors occur and how incidence patterns vary across human and animal populations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening",
+      "groupedBecause": "These subtopics explain why cancers can be difficult to detect and examine screening approaches for finding them earlier.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close: learning outcomes, revision and practicals",
+      "groupedBecause": "This subtopic closes the lecture by returning to the learning outcomes and pointing students toward revision and practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

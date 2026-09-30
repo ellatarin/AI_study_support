@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture learning outcomes",
+      "groupedBecause": "It provides the introductory framing and learning outcomes for the lecture series on cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and tissue mechanisms of cancer development and modeling",
+      "groupedBecause": "They explain how genetic mutations and disrupted tissue architecture drive cancer development, and how these processes are studied using cell culture models.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Histological features and progression of tumor invasion and metastasis",
+      "groupedBecause": "They detail how invasion through the basement membrane and subsequent metastasis distinguish malignant tumors from benign precursors using histological examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Neoplasm nomenclature and mechanisms of tumor-induced morbidity and mortality",
+      "groupedBecause": "They outline the systematic naming of tumors across tissue types and explain the pathophysiological mechanisms by which benign and malignant growths cause illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor incidence and mortality patterns across humans and animal species",
+      "groupedBecause": "They examine statistical patterns of tumor occurrence and mortality in humans and compare cancer susceptibility across diverse animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening strategies",
+      "groupedBecause": "They describe clinical cancer symptoms and evaluate the methodologies, histological targets, and limitations of population screening programs.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical session reminders",
+      "groupedBecause": "It closes the lecture by summarizing the learning outcomes and outlining upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

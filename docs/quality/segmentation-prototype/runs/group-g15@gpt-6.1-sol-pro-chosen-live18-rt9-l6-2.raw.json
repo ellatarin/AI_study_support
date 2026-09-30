@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing and introduction to cancer hallmarks",
+      "groupedBecause": "This subtopic establishes the lecture’s aims and its framework for connecting cancer mutations to functional hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth and survival signaling",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signaling pathways free cancer cells from normal controls on proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "These subtopics examine how cancer alters normal cell maturation, using hematological cancers and intestinal epithelium to show the resulting changes.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how disruption of p53 signaling and the balance of mitochondrial apoptotic regulators allows cancer cells to evade death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and growth-limiting stress responses",
+      "groupedBecause": "These subtopics explain the safeguards that restrict continued cell proliferation and consolidate how cancer bypasses them to sustain growth.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics explore how altered metabolism supports cancer and feeds back into the mechanisms driving its development.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis and tumor growth",
+      "groupedBecause": "This subtopic explains why tumors require a switch toward blood-vessel formation to grow beyond the limits of oxygen and nutrient diffusion.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and survival",
+      "groupedBecause": "These subtopics examine how cancer cells spread to distant sites and what determines whether that dissemination produces a detectable secondary tumor.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing synthesis and further reading",
+      "groupedBecause": "This subtopic closes the lecture by revisiting its central message, recommending further reading and inviting questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

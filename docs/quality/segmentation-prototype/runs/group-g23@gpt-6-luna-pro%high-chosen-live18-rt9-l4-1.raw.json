@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer causes and lecture objectives",
+      "groupedBecause": "It frames the lecture, introduces its focus on cancer causes, and states the learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as clonal evolution in a permissive microenvironment",
+      "groupedBecause": "It explains cancer as the evolution of mutated cells whose growth also depends on a supportive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Sources of cancer risk and the bad-luck debate",
+      "groupedBecause": "They develop a risk-balance account of cancer, connecting biological and environmental contributors with public interpretation of the bad-luck idea.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Geographical cancer patterns and epidemiological evidence",
+      "groupedBecause": "It uses geographical and migration patterns to show how epidemiology can help distinguish environmental influences from inherited susceptibility.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "They explain how pathogens can contribute to cancer and use Burkitt lymphoma to illustrate how infection and other conditions can combine in its development.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Environmental agents and DNA damage",
+      "groupedBecause": "They show how environmental exposures can damage DNA or cause mutations, including through metabolic activation and oxidative stress.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and context-dependent carcinogenesis",
+      "groupedBecause": "They show that cancer development depends not only on mutational initiation but also on promotion and the biological context in which exposures act, then recap these mechanisms.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mutational signatures as evidence of carcinogen exposure",
+      "groupedBecause": "It explains how patterns of mutations in cancer genomes can provide evidence of exposure to particular carcinogens.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Methods and limitations for assessing carcinogenicity",
+      "groupedBecause": "They compare evidence-generating approaches used to assess carcinogenicity and explain what each can and cannot establish.",
+      "firstSubtopicId": 19
+    },
+    {
+      "label": "Lecture summary and risk–benefit decisions",
+      "groupedBecause": "It closes the lecture by drawing together its conclusions about environmental cancer risks and the difficulty of assessing them, then frames exposure choices as risk–benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

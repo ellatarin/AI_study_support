@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture's scope and learning objectives before the substantive discussion begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutational and epigenetic drivers of cancer evolution",
+      "groupedBecause": "These subtopics examine how cellular changes drive tumor development, extending the mutation-based account of clonal selection to question whether mutations alone explain transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stemness and the cell of origin in cancer",
+      "groupedBecause": "These subtopics investigate how a cell's position in a tissue hierarchy influences its capacity to initiate or propagate cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness and cancer initiation",
+      "groupedBecause": "These subtopics show how inflammatory signals can confer stem-like properties that permit previously mutated cells to develop into tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Microenvironmental support of established tumors",
+      "groupedBecause": "This subtopic examines established tumors' dependence on supportive surrounding cells and the therapeutic opportunities created by that dependence.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methods for studying cancer evolution and cell interactions",
+      "groupedBecause": "This subtopic explains how molecular and spatial analysis of tissue specimens can reveal tumor evolution and interactions within the tumor microenvironment.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Converging conditions for malignant evolution",
+      "groupedBecause": "This subtopic develops an integrated account of why malignant outgrowth requires favorable conditions to coincide, extending that account to developmental timing and childhood cancer.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and preview of cancer therapy",
+      "groupedBecause": "This subtopic ends the lecture and announces therapy as the subject of the next session.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

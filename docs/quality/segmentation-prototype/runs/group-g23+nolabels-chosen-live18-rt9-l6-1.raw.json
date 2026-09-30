@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Hallmarks Framework",
+      "groupedBecause": "This subtopic establishes the lecture structure, learning outcomes, and the historical hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Autonomous Growth Signaling and Evasion of Growth Suppression",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in receptor tyrosine kinases, Wnt/APC, and downstream cascades drive continuous cell proliferation and bypass growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancers",
+      "groupedBecause": "These subtopics examine how mutations disrupt normal cell maturation and lock cells in proliferative progenitor states in blood cancers and intestinal epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Programmed Cell Death",
+      "groupedBecause": "This subtopic explains the molecular mechanisms by which tumor cells evade apoptosis through p53 inactivation and the dysregulation of Bax and BCL2.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Mechanisms",
+      "groupedBecause": "These subtopics detail how telomere dynamics, telomerase reactivation, and p53-mediated stress pathways govern cellular senescence and immortalization.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Metabolism and Epigenetic Rewiring",
+      "groupedBecause": "These subtopics discuss the metabolic adaptations of cancer cells, including aerobic glycolysis and Krebs cycle mutations that generate oncometabolites to alter the epigenome.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "This subtopic describes how tumors trigger new blood vessel formation to overcome diffusion limits for oxygen and nutrients.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion and the Metastatic Cascade",
+      "groupedBecause": "These subtopics explore the biological steps, clinical tracking, microenvironmental interactions, and genomic characteristics of cancer metastasis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing Remarks and Summary",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of how hallmarks integrate, highlights recent literature, and transitions to practical sessions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

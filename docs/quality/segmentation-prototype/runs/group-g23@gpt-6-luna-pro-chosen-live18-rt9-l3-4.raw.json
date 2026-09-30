@@ -1,0 +1,59 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer biology and lecture learning outcomes",
+      "groupedBecause": "This subtopic welcomes students to the lecture series and sets out its learning outcomes and framing.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic changes in cancer development",
+      "groupedBecause": "This subtopic explains the kinds of changes that accumulate as cells progress toward malignancy and the questions that raises.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer as a failure of differentiation and tissue architecture",
+      "groupedBecause": "These ideas explain cancer as a breakdown in cellular differentiation and the orderly organization of tissues.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Cell culture models of cancer",
+      "groupedBecause": "This subtopic considers what cancer cells grown in culture can reveal and what those models leave out.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Invasion and metastatic progression in tumors",
+      "groupedBecause": "These subtopics trace how invasive growth distinguishes malignant tumors, how it is assessed, and how it can lead to metastasis.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Malignant potential and harmful effects of benign tumors",
+      "groupedBecause": "This subtopic explains that benign tumors may progress to malignancy or cause serious harm without doing so.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor nomenclature",
+      "groupedBecause": "This subtopic sets out the naming conventions used to distinguish tumor types and their malignancy.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "How tumors cause illness and death",
+      "groupedBecause": "These subtopics explain how tumors disrupt normal function and how advanced disease can lead to death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence in humans and other animals",
+      "groupedBecause": "These subtopics compare how often tumors occur across human populations and other animal groups.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening: rationale, methods, and limitations",
+      "groupedBecause": "These subtopics explain why screening is used and how its methods and limitations vary across cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and revision guidance",
+      "groupedBecause": "This subtopic closes the lecture and points students toward revision, discussion, and upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

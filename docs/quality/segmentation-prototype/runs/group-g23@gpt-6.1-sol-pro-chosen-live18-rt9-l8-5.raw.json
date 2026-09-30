@@ -1,0 +1,79 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture and states what students should learn about cancer treatment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery and radiotherapy",
+      "groupedBecause": "This subtopic explains how local treatment can remove or destroy tumours and why its success depends on tumour location and spread.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic chemotherapy",
+      "groupedBecause": "This subtopic examines how cytotoxic chemotherapy kills cancer cells and why its effectiveness is constrained by toxicity and resistance.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Targeting hormone-dependent cancers",
+      "groupedBecause": "This subtopic explains how blocking essential hormonal signals can suppress breast and prostate cancer growth.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Exploiting cancer cell checkpoint defects",
+      "groupedBecause": "These subtopics show how missing cell cycle checkpoint proteins create vulnerabilities that treatments can exploit selectively.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "PARP inhibition in BRCA-deficient cancers",
+      "groupedBecause": "This subtopic explains how inhibiting one DNA repair pathway selectively kills cancer cells already deficient in another.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Oncogene-directed therapy and kinase inhibition",
+      "groupedBecause": "These subtopics explain how identifying the oncogenic driver of a tumour enables treatment directed at its activated kinase.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Resistance and limitations of kinase inhibitors",
+      "groupedBecause": "These subtopics examine why kinase inhibition can fail to provide durable, tolerable cancer control.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Antibody-directed cancer treatment",
+      "groupedBecause": "These subtopics explain how antibodies recognising cancer cell surface proteins can direct therapeutic effects towards those cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Evidence for immune surveillance against cancer",
+      "groupedBecause": "This subtopic evaluates whether the body's existing immune system protects against cancer development.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Immune checkpoint inhibition and tumour recognition",
+      "groupedBecause": "These subtopics explain how reactivating T cells can produce tumour responses that depend on recognition of tumour neoantigens.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Redirecting T cells towards cancer cells",
+      "groupedBecause": "These subtopics examine therapies designed to give T cells targeted contact with cancer cells rather than relying on naturally occurring tumour recognition.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Treatment challenges and personalised strategies",
+      "groupedBecause": "This subtopic considers how matching treatment to individual tumour characteristics can address variable responses and evolving resistance.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Cancer outcome trends, prevention and early detection",
+      "groupedBecause": "This subtopic examines how prevention and earlier detection contribute to observed improvements in cancer outcomes.",
+      "firstSubtopicId": 21
+    },
+    {
+      "label": "Future treatment priorities and ethical dilemmas",
+      "groupedBecause": "These subtopics consider how future cancer treatment should advance while balancing established survival benefits against toxicity and the uncertainty of new therapies.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes for cancer hallmarks",
+      "groupedBecause": "This subtopic frames the lecture’s aims and introduces the hallmark framework that will organise the discussion.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Signalling mutations that deregulate growth and survival",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signalling pathways free cancer cells from normal controls on proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Disrupted differentiation in blood and intestinal cancers",
+      "groupedBecause": "These subtopics show how altered differentiation affects cancer-cell maturity and tissue organisation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how cancer cells evade mitochondrial apoptosis by altering p53 activity or the balance of pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and normal stress-response safeguards",
+      "groupedBecause": "These subtopics explain the safeguards that limit continued cell proliferation and how cancer-associated mutations overcome them, concluding the discussion of mutation-driven growth control.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics examine how altered metabolism supports cancer and interacts with the molecular changes that drive it.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis as support for tumour growth",
+      "groupedBecause": "This subtopic explains how tumours recruit a vascular supply through the angiogenic switch to sustain their growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic spread and successful growth at secondary sites",
+      "groupedBecause": "These subtopics examine what enables disseminating cancer cells to establish secondary tumours and how that process can be detected and investigated.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing synthesis and further reading",
+      "groupedBecause": "This subtopic closes the lecture by revisiting its central message and learning goals, recommending further reading and inviting questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

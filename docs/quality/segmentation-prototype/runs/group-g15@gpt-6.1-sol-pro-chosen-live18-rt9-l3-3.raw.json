@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture series, its audience and the learning outcomes for this lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Accumulating genetic and epigenetic changes in cancer",
+      "groupedBecause": "This subtopic establishes the stepwise accumulation of cellular changes as a model of cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer as disrupted differentiation and tissue architecture",
+      "groupedBecause": "These subtopics explain cancer through the loss of normal tissue organization and show why studying isolated cells cannot fully capture that disruption.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Invasion and metastasis in malignant tumors",
+      "groupedBecause": "These subtopics explain how malignant tumors differ from benign tumors through their invasion of surrounding tissue and capacity for spread to distant sites.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Benign tumors: progression and clinical risk",
+      "groupedBecause": "These subtopics examine the clinical significance of benign tumors, whose potential for malignant progression varies and whose non-invasive status does not guarantee harmlessness.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor nomenclature",
+      "groupedBecause": "This subtopic explains how tumor names indicate tissue of origin and malignant status, including exceptions to the naming conventions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "How cancer causes illness and death",
+      "groupedBecause": "This subtopic explains how tumor growth and dissemination compromise normal bodily function and ultimately cause death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Patterns of tumor incidence in humans and other animals",
+      "groupedBecause": "These subtopics compare how tumor frequency varies by tissue of origin across human populations and animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer detection and screening",
+      "groupedBecause": "These subtopics explain the need for early detection and why screening succeeds or falls short depending on the tumor and the available test.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next steps",
+      "groupedBecause": "This subtopic closes the lecture by directing students to revision, supervisory discussions and upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and cancer therapy learning objectives",
+      "groupedBecause": "This subtopic welcomes students to the lecture and frames its subject and intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery and radiotherapy in cancer treatment",
+      "groupedBecause": "This subtopic explains local treatments that remove or damage tumors and the role of early detection in their success.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic chemotherapy: mechanisms, benefits, and limitations",
+      "groupedBecause": "This subtopic examines how cytotoxic drugs damage cancer cells, their clinical benefits, and the toxicity and resistance that limit their use.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Targeting hormone dependence in breast and prostate cancers",
+      "groupedBecause": "This subtopic describes blocking hormone signaling that particular breast and prostate cancers depend on for growth.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Exploiting cell-cycle checkpoint defects",
+      "groupedBecause": "These subtopics show how checkpoint-deficient cancer cells can be selectively targeted through irradiation or oncolytic adenoviruses.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "PARP inhibition in BRCA-deficient cancers",
+      "groupedBecause": "This subtopic explains how blocking PARP can exploit defective BRCA-mediated DNA repair to kill cancer cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Genome-guided targeting of oncogenic kinases",
+      "groupedBecause": "These subtopics connect identifying oncogenic drivers with inhibiting activated kinases that sustain cancer growth.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Kinase inhibitor selectivity, resistance, and clinical limitations",
+      "groupedBecause": "These subtopics explain why kinase inhibitors can miss their targets or lose effectiveness as tumors adapt, and the resulting limits of treatment.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Antibody-based cancer treatments",
+      "groupedBecause": "These subtopics describe using antibodies to target cancer-associated surface proteins and thereby block signaling or deliver cell-killing effects.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "T-cell recognition of tumors and checkpoint immunotherapy",
+      "groupedBecause": "These subtopics examine evidence for immune recognition of tumors, how checkpoint blockade can restore T-cell activity, and the role of tumor neoantigens in response.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Redirecting T cells against cancer",
+      "groupedBecause": "These subtopics describe therapies that bring or engineer T cells to recognize and attack tumor cells.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Challenges in personalized cancer treatment",
+      "groupedBecause": "This subtopic draws together treatment variability, resistance, and the need for biomarkers and genome sequencing to guide patient care.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Cancer outcome trends and the role of prevention and early detection",
+      "groupedBecause": "This subtopic considers how changing cancer rates and outcomes relate to prevention and earlier diagnosis.",
+      "firstSubtopicId": 21
+    },
+    {
+      "label": "Future cancer treatment priorities and ethical dilemmas",
+      "groupedBecause": "This subtopic considers future directions in cancer care and the ethical choices involved in treatment.",
+      "firstSubtopicId": 22
+    },
+    {
+      "label": "Lecture closing reflection on childhood leukemia survival",
+      "groupedBecause": "This closing subtopic ends the lecture with childhood leukemia survival as an example of treatment success and a reflection on the risks of changing approaches.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

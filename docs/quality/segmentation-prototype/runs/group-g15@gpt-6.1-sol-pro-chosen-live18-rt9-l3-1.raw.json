@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture series, introduces its audience and sets out the learning outcomes for this lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Accumulating gene changes in cancer development",
+      "groupedBecause": "This subtopic establishes the stepwise accumulation of gene changes as a model of cancer development and identifies the questions that model raises.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer as disrupted differentiation and tissue architecture",
+      "groupedBecause": "These subtopics explain cancer through the loss of normal tissue organization and show why studying isolated cells cannot fully capture that disruption.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Distinguishing benign and malignant tumors through invasion and metastasis",
+      "groupedBecause": "These subtopics establish how invasion and metastatic spread distinguish malignant tumors from contained benign growths, using clinical and histological examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor progression and the risks of benign tumors",
+      "groupedBecause": "These subtopics examine what benign status implies about a tumor's future behavior, using colorectal progression and exceptions to show that neither progression nor harmlessness is guaranteed.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor nomenclature",
+      "groupedBecause": "This subtopic explains how tumor names encode tissue of origin and malignant status, including exceptions to the naming conventions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "How cancer causes illness and death",
+      "groupedBecause": "This subtopic explains how tumor growth compromises normal bodily function and produces potentially fatal disease.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Patterns of tumor incidence in humans and other animals",
+      "groupedBecause": "These subtopics compare the frequency and distribution of tumor types across populations and species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer detection and screening",
+      "groupedBecause": "These subtopics explain the rationale for detecting tumors early and assess how effectively screening achieves that goal in different cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and follow-up",
+      "groupedBecause": "This subtopic closes the lecture by returning to the learning outcomes and directing students toward revision and upcoming teaching.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

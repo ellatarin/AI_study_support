@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture series and sets out what students should learn from this lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Accumulating genetic and epigenetic changes in cancer",
+      "groupedBecause": "This subtopic introduces the stepwise accumulation of cellular changes and the questions it raises about cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer as disrupted differentiation and tissue organization",
+      "groupedBecause": "These subtopics explain why understanding cancer requires attention to normal differentiation and tissue architecture rather than isolated tumor cells alone.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Distinguishing benign and malignant tumors through invasion and metastasis",
+      "groupedBecause": "These subtopics establish how invasion and metastatic spread distinguish malignant tumors from contained benign growths.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Benign tumor progression and malignant potential",
+      "groupedBecause": "These subtopics examine progression from benign growth to invasive malignancy while explaining why benign tumors do not invariably progress or remain harmless.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor nomenclature",
+      "groupedBecause": "This subtopic explains how tumor names indicate tissue of origin and malignant status, including exceptions to the naming rules.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "How cancer causes illness and death",
+      "groupedBecause": "This subtopic explains how tumor growth and metastatic spread impair bodily functions and produce fatal disease.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence in humans and other animals",
+      "groupedBecause": "These subtopics compare the frequency and distribution of tumor types across human populations and animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening",
+      "groupedBecause": "These subtopics examine how cancers can be detected early and why screening effectiveness varies with the tumor and the available test.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and follow-up",
+      "groupedBecause": "This subtopic closes the lecture by directing students to revision, supervision discussions, and upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

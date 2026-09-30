@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "This subtopic frames the lecture within the cancer course and sets out its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic origins and biological context of cancer",
+      "groupedBecause": "These subtopics explain how mutations can produce cancer through clonal evolution when the affected cells and their environment permit it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental cancer risks and their interpretation",
+      "groupedBecause": "These subtopics examine how evidence about environmental exposures informs the debate over whether cancer is preventable or simply a matter of bad luck.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain how infections contribute to cancer, with Burkitt lymphoma illustrating the interaction between pathogens and cellular mutations.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of DNA damage by environmental carcinogens",
+      "groupedBecause": "These subtopics trace how environmental carcinogens damage DNA and generate mutations, sometimes through the body's own metabolic processes.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics establish why mutational initiation may require a subsequent growth-promoting environment for tumours to develop.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Tissue susceptibility and recap of carcinogenic mechanisms",
+      "groupedBecause": "These subtopics complete and recap the account of carcinogenesis by emphasizing how biological context determines the consequences of carcinogen exposure.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methods for assessing carcinogenicity",
+      "groupedBecause": "These subtopics evaluate how evidence linking exposures to cancer can be obtained and what the available methods can and cannot establish.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit perspective",
+      "groupedBecause": "This subtopic closes the lecture by summarizing its conclusions and framing everyday exposure decisions as balances between risks and benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

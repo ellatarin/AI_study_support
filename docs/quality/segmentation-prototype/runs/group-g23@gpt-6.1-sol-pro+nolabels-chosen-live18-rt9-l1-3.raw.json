@@ -1,0 +1,59 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "This subtopic introduces the lecture as an integration of previously learned immune cells and molecules.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition",
+      "groupedBecause": "These subtopics explain how innate immunity detects infection and damage through molecular patterns and appropriately positioned, germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and signalling",
+      "groupedBecause": "These subtopics explain how toll-like receptors translate microbial recognition into immune responses tailored to the location of the signal.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Inflammatory activation through non-TLR sensing pathways",
+      "groupedBecause": "These subtopics explain how innate sensing pathways beyond toll-like receptors activate inflammation and can contribute to inflammatory disease.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel cells initiate inflammatory responses",
+      "groupedBecause": "This subtopic explains how activated sentinel cells produce signals whose reach determines whether inflammation remains local or becomes systemic.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Recruiting leukocytes to infected tissue",
+      "groupedBecause": "This subtopic follows the mechanism by which circulating leukocytes slow down, leave blood vessels, and reach the site of infection.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Lymphatic transport and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how the lymphatic drainage system enables activated dendritic cells to carry evidence of infection to lymph nodes for adaptive immune activation.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive inflammation and septic shock",
+      "groupedBecause": "This subtopic explains how excessive inflammatory activation produces dangerous systemic effects and septic shock.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mechanisms that resolve inflammation",
+      "groupedBecause": "This subtopic explains how inflammation is shut down through the changing balance between inflammatory stimulation and passive or active inhibition.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics examine recovery of damaged tissue and explain why persistent inflammation can represent either failed restoration or protective containment of an unresolved infection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and next lecture",
+      "groupedBecause": "This subtopic ends the lecture and announces complement as the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

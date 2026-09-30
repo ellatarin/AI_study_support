@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer evolution and the lecture’s focus",
+      "groupedBecause": "This subtopic frames the lecture by introducing cancer evolution and the roles of cell type and the microenvironment that it will examine.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation accumulation and clonal selection in cancer evolution",
+      "groupedBecause": "These examples show how successive mutations can give clones a competitive advantage and drive their expansion through Darwinian selection.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epigenetic disruption as a driver of tumor development",
+      "groupedBecause": "This subtopic explains how transient changes in chromatin and gene transcription can contribute to tumor development even without new mutations.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Stemness, cancer stem cells, and cell of origin",
+      "groupedBecause": "These subtopics examine how normal tissue hierarchies and stem-like properties relate to cancer initiation and tumor propagation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation and stemness in tumor initiation",
+      "groupedBecause": "Both examples show how inflammatory signals can provide conditions that help mutation-bearing cells acquire stem-like properties and form tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Microenvironmental support of established tumors and therapy",
+      "groupedBecause": "This subtopic shows that established tumors can depend on supporting cells and explains how targeting those interactions may inform therapy.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Single-cell and spatial methods for studying cancer",
+      "groupedBecause": "This subtopic describes sequencing and spatial profiling approaches used to study tumor evolution and interactions among cells.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated evolutionary model of cancer development",
+      "groupedBecause": "This subtopic draws together the lecture’s evidence to argue that cancer outgrowth depends on mutations, cell properties, and a conducive environment acting together.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This subtopic closes the lecture and points to the subject of the next meeting.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

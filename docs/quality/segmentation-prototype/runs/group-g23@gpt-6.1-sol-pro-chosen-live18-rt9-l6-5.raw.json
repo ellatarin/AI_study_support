@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing: cancer hallmarks and loss of growth control",
+      "groupedBecause": "This opening establishes the lecture’s aims and the hallmark framework used to interpret cancer-associated mutations.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutations that deregulate extracellular growth signaling",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signaling pathways free cancer cells from normal controls on proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in blood and intestinal cancers",
+      "groupedBecause": "These subtopics examine how disrupted cell maturation contributes to cancer and becomes visible in the affected tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how altered p53 signaling and the balance of mitochondrial apoptotic regulators allow cancer cells to avoid death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and tumor cell immortalization",
+      "groupedBecause": "These subtopics explain the telomere-dependent limit on cell division and how increased telomerase expression enables cancer cells to bypass it.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53-mediated genome protection and growth-control safeguards",
+      "groupedBecause": "These subtopics consolidate how cellular safeguards constrain damaged cells and how mutation-driven cancer hallmarks overcome normal growth control.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics examine altered cancer metabolism as a functional hallmark that can both reflect and reinforce tumor development.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis as vascular support for tumor growth",
+      "groupedBecause": "This subtopic explains how tumors recruit blood vessels to sustain growth beyond the limits of oxygen and nutrient diffusion.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and survival at secondary sites",
+      "groupedBecause": "These subtopics investigate how cancer cells spread and establish secondary tumors despite the biological barriers to successful metastasis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing summary and further reading on cancer hallmarks",
+      "groupedBecause": "This closing restates the lecture’s central takeaway and directs students toward further reading and the upcoming practicals.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer causes and lecture objectives",
+      "groupedBecause": "This subtopic frames the lecture by introducing the lecturer, situating the lecture in the course, and stating its aims.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as mutation-driven clonal evolution shaped by host and microenvironment",
+      "groupedBecause": "These subtopics explain cancer as the accumulation of mutations and clonal advantages within a permissive microenvironment, shaped by endogenous, environmental, inherited, and cellular factors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Attributing cancer to environmental exposures versus bad luck",
+      "groupedBecause": "These subtopics use examples of known and suspected exposures and the bad-luck debate to frame how environmental contributions to cancer should be understood.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Geographical cancer patterns as evidence of environmental and genetic influences",
+      "groupedBecause": "This subtopic compares cancer rates across regions and migration patterns to explore how environmental and inherited factors may shape incidence.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Infectious agents in cancer development, including Burkitt lymphoma",
+      "groupedBecause": "These subtopics explain how pathogens can contribute to cancer, then develop Burkitt lymphoma as an example involving EBV, malaria, and MYC translocation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of DNA damage from environmental carcinogens",
+      "groupedBecause": "These subtopics trace how particular environmental exposures produce DNA damage or mutational risk, including through metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics explain the distinction between mutational initiation and promotional conditions that support tumour growth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Developmental and tissue-specific susceptibility to carcinogens",
+      "groupedBecause": "These subtopics focus on how life stage and tissue context affect susceptibility to carcinogens, with the final subtopic summarizing context-dependent mechanisms.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Identifying carcinogen exposure and its links to cancer",
+      "groupedBecause": "These subtopics show how human cancer and exposure data can be used to infer which carcinogens may have contributed to disease.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Animal testing for carcinogenicity",
+      "groupedBecause": "This subtopic describes animal studies used to assess carcinogenicity and explains their limitations in predicting human risk.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "The Ames test for mutagenicity",
+      "groupedBecause": "This subtopic explains how the Ames test detects mutagenic activity and why the assay cannot capture all factors involved in cancer development.",
+      "firstSubtopicId": 21
+    },
+    {
+      "label": "Risk–benefit decisions and lecture summary",
+      "groupedBecause": "This closing subtopic recaps the lecture’s conclusions and frames exposure to carcinogens as a matter of weighing risks and benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

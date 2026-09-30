@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer evolution and the lecture’s focus",
+      "groupedBecause": "This subtopic welcomes the class, frames the lecture’s themes, and states its learning aims before the substantive material begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation accumulation and clonal selection in cancer",
+      "groupedBecause": "These subtopics explain how mutations can give clones a selective advantage and how that selection contributes to cancer evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epigenetic disruption in tumor development",
+      "groupedBecause": "This subtopic shows how changes in transcriptional availability can contribute to tumor development even without new mutations.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Cancer stemness and cell of origin",
+      "groupedBecause": "These subtopics examine whether cancer growth follows a stem-cell-like hierarchy and how the originating cell type shapes tumor development.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammatory microenvironments promoting cancer initiation",
+      "groupedBecause": "These subtopics show how inflammation can provide conditions that let mutation-bearing cells acquire stem-like properties and form tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Microenvironmental support of established tumors",
+      "groupedBecause": "This subtopic explains how cells in an established tumor’s microenvironment can support its growth and offer targets for therapy.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Single-cell and spatial methods for studying cancer",
+      "groupedBecause": "This subtopic describes sequencing and spatial profiling approaches for investigating tumor cells and their interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Lecture summary and transition to cancer therapy",
+      "groupedBecause": "These subtopics close the lecture by recapping its main ideas and noting the subject of the next lecture.",
+      "firstSubtopicId": 11
+    }
+  ]
+}

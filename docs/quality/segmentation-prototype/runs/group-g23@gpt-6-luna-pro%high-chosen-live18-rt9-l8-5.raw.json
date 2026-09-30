@@ -1,0 +1,84 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and cancer therapy objectives",
+      "groupedBecause": "This subtopic welcomes students to the lecture and states what they should learn about cancer treatment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery and radiotherapy in cancer treatment",
+      "groupedBecause": "Both approaches directly treat a tumor mass, with surgery removing it and radiotherapy damaging tumor-cell DNA.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic chemotherapy: mechanisms, benefits and limitations",
+      "groupedBecause": "This subtopic explains how cytotoxic drugs damage cancer cells, their clinical benefits, and the toxicity and resistance that limit them.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Targeting hormone dependence in breast and prostate cancers",
+      "groupedBecause": "Both examples block hormone signaling on which particular cancers depend for continued growth.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Exploiting cell-cycle checkpoint defects",
+      "groupedBecause": "Both approaches exploit missing checkpoint controls to make cancer cells vulnerable to radiation damage or viral replication.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "PARP inhibition in BRCA-deficient cancers",
+      "groupedBecause": "This subtopic explains how blocking PARP exploits BRCA-related DNA repair defects to selectively kill cancer cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Genome-guided targeting of oncogenic drivers",
+      "groupedBecause": "These subtopics connect the idea of oncogene addiction and genome-guided treatment to kinase inhibitors that target activated oncogenic drivers.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Resistance and limitations of kinase inhibitor therapy",
+      "groupedBecause": "These subtopics show why kinase-inhibitor responses can be difficult to sustain as tumor adaptation and treatment limitations turn cancer control into chronic management.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Monoclonal antibodies in cancer treatment",
+      "groupedBecause": "This subtopic describes antibodies that recognize cancer-associated surface proteins to block receptors or recruit immune-mediated cell killing.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Antibody–drug conjugates for targeted cytotoxic delivery",
+      "groupedBecause": "This subtopic focuses on using an antibody to deliver a cytotoxic drug into cells bearing its target.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Evidence for immune surveillance in cancer",
+      "groupedBecause": "This subtopic examines observations and studies bearing on whether the immune system naturally protects against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Immune checkpoint inhibition and neoantigen response",
+      "groupedBecause": "These subtopics explain how checkpoint blockade can reactivate T cells and how tumor neoantigens can shape the response.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Redirecting T cells toward cancer cells",
+      "groupedBecause": "Both approaches bring T cells into targeted contact with cancer cells so that the T cells can attack them.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Challenges and personalization in cancer therapy",
+      "groupedBecause": "This subtopic summarizes treatment limitations and the need to match therapies to patients using biomarkers and cancer profiling.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Cancer outcome trends and the role of prevention and early detection",
+      "groupedBecause": "This subtopic considers how prevention and earlier diagnosis contribute to changes in cancer outcomes over time.",
+      "firstSubtopicId": 21
+    },
+    {
+      "label": "Future cancer treatment and the choice between proven and experimental therapies",
+      "groupedBecause": "These subtopics consider future treatment priorities and the dilemma of testing new therapies when established treatments already have strong results.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

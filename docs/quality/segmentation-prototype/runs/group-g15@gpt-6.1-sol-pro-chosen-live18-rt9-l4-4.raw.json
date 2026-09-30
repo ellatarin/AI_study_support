@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "This opening frames the lecture within the cancer course and introduces its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutations, clonal evolution and cancer susceptibility",
+      "groupedBecause": "These subtopics explain how mutations can give rise to cancer through clonal evolution and why susceptibility to that process varies.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental influences on cancer risk",
+      "groupedBecause": "These subtopics examine how strongly environmental exposures contribute to cancer risk rather than cancer being solely inherited or a matter of chance.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain how infections can contribute to cancer, with Burkitt lymphoma providing a detailed example of interacting infectious causes.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of DNA damage by environmental carcinogens",
+      "groupedBecause": "These subtopics trace how environmental carcinogens produce molecular damage that can become mutations in DNA.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics establish why initiating mutations may require a growth-promoting environment before tumours develop.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Context-dependent susceptibility to carcinogens",
+      "groupedBecause": "These subtopics explain how carcinogenic effects depend on the exposed tissue's biological context and consolidate the preceding account of carcinogenic mechanisms.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Identifying and assessing carcinogenic exposures",
+      "groupedBecause": "These subtopics examine the evidence and methodological limitations involved in determining whether an exposure is carcinogenic.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "This closing draws together the lecture's conclusions and places them in the context of everyday risk–benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

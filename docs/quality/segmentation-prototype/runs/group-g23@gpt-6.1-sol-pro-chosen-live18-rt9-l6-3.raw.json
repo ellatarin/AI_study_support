@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture aims",
+      "groupedBecause": "This opening frames the lecture through its learning outcomes and the hallmarks framework used to explain cancer progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Signaling mutations that deregulate growth and survival",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signaling pathways allow cancer cells to sustain proliferation and survival despite normal growth controls.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "These subtopics show how disrupted differentiation alters cancer cell maturity and tissue organization in hematological and intestinal cancers.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how altered p53 signaling and the balance of pro- and anti-apoptotic proteins prevent cancer cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and tumor cell immortalization",
+      "groupedBecause": "These subtopics explain how telomere shortening limits normal cell proliferation and how increased telomerase expression lets tumors bypass that limit.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53-mediated genome protection and growth-control recap",
+      "groupedBecause": "These subtopics explain p53's protective responses to cellular stress and consolidate how mutations undermine normal growth control.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics examine how altered metabolism characterizes cancer and can reinforce its development.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis and vascular support for tumor growth",
+      "groupedBecause": "This subtopic explains how tumors recruit a blood supply to sustain growth beyond the limits of oxygen and nutrient diffusion.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and survival at secondary sites",
+      "groupedBecause": "These subtopics examine the process of metastasis and the evidence for what enables disseminated cancer cells to establish secondary tumors.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing synthesis and further reading",
+      "groupedBecause": "This closing returns to the lecture's central aims, recommends further reading, and invites questions before the practicals.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

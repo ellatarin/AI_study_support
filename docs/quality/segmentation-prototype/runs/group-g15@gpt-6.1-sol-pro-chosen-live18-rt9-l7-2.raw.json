@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture’s relationship to earlier teaching and sets out its intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation accumulation and clonal selection",
+      "groupedBecause": "This subtopic explains cancer evolution through successive mutations that give expanding cell clones a selective advantage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epigenetic disruption as a route to tumor development",
+      "groupedBecause": "This subtopic examines whether altered transcriptional accessibility can initiate tumors without genetic mutations.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Cell of origin and the cancer stem cell model",
+      "groupedBecause": "These subtopics examine how a cell’s position in a tissue hierarchy and its capacity for self-renewal influence tumor initiation and propagation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness in cancer initiation",
+      "groupedBecause": "These subtopics show how inflammatory signals can confer stem-like properties that allow previously nonmalignant mutant cells to form tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Microenvironmental support of established tumors",
+      "groupedBecause": "This subtopic explains established tumors’ dependence on supportive surrounding cells and the therapeutic opportunities arising from that dependence.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Studying and synthesizing cancer evolution",
+      "groupedBecause": "These subtopics develop an evidence-based understanding of cancer evolution as the emergence of malignant clones through interactions between cellular properties and a permissive environment.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This subtopic ends the lecture and announces cancer therapy as the subject of the next session.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

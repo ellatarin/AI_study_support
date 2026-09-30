@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "It introduces the lecturer, the series context, and the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins and epidemiology of cancer risk",
+      "groupedBecause": "They explore the interplay between intrinsic cellular processes, genetic predisposition, and environmental exposures in driving cancer incidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Biological and chemical mechanisms of cancer initiation and promotion",
+      "groupedBecause": "They examine specific infectious, physical, and chemical agents to illustrate the diverse cellular and molecular mechanisms driving tumour initiation and promotion.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "They detail the genomic, epidemiological, in vivo, and in vitro approaches used to determine the carcinogenicity and mutagenicity of exposures.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion and risk evaluation",
+      "groupedBecause": "It summarises the lecture's core themes and closes the session with reflections on balancing carcinogenic risks and benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the lecture on cancer evolution and outlines the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Evolution and Genetic and Epigenetic Tumor Drivers",
+      "groupedBecause": "These subtopics explain how successive genetic mutations and epigenetic alterations confer selective growth advantages that drive Darwinian clonal expansion in tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Hierarchies",
+      "groupedBecause": "These subtopics evaluate how normal tissue hierarchies and stemness properties influence which cells initiate and propagate tumors.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Tumor Microenvironment, Inflammatory Signaling, and Cancer Evolution Synthesis",
+      "groupedBecause": "These subtopics examine how permissive microenvironments and inflammatory cues interact with tumor cells to enable malignant progression, concluding with an integrated synthesis of cancer evolution.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer ends the presentation and previews the topic of the following lecture.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

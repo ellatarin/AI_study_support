@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction: overview of inflammation initiation and resolution",
+      "groupedBecause": "This subtopic provides the introductory framing and pedagogical goals for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate sensing via PAMPs, DAMPs, and pattern recognition receptors",
+      "groupedBecause": "These subtopics explain how the innate immune system distinguishes self from non-self by detecting conserved molecular patterns and signs of cellular damage through strategically located receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor families, signalling pathways, and inflammasome activation",
+      "groupedBecause": "These subtopics detail specific receptor systems, including Toll-like receptors, cytoplasmic sensors, and the inflammasome, and how their intracellular signalling drives inflammatory cytokine activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Inflammatory response execution, leukocyte trafficking, and systemic outcomes",
+      "groupedBecause": "These subtopics describe the physiological progression of acute inflammation, including sentinel cell mediator release, leukocyte recruitment, lymphatic priming, and severe systemic manifestations like sepsis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic persistence",
+      "groupedBecause": "These subtopics examine how acute inflammation is brought to an end, the cellular mechanisms restoring tissue integrity, and the structural adaptations that arise when inflammation cannot be fully resolved.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion: transition to complement",
+      "groupedBecause": "This subtopic closes the lecture and previews the upcoming session on the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

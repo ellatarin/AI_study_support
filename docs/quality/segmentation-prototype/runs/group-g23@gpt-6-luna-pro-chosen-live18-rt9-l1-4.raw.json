@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "This subtopic welcomes students and frames the lecture as a deeper synthesis of previously introduced immune-system concepts.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate danger recognition and pattern-recognition receptors",
+      "groupedBecause": "These subtopics explain what innate immunity detects, what makes a useful PAMP, and how PRRs are encoded and positioned to detect danger.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and signalling",
+      "groupedBecause": "These subtopics describe TLRs as key microbial sensors and explain how their location and signalling shape cellular responses.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Other pattern-recognition receptors and inflammasome-driven inflammation",
+      "groupedBecause": "These subtopics extend recognition beyond TLRs and explain how intracellular sensing can activate inflammatory cytokines and sustain disease.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel-cell activation and leukocyte recruitment",
+      "groupedBecause": "These subtopics trace how sentinel-cell signals produce inflammatory effects and direct leukocytes from the blood into infected tissue.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Dendritic-cell migration and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how dendritic cells carry signs of infection through lymphatics to lymph nodes to prime adaptive immune cells.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic focuses on how excessive inflammatory signalling can cause systemic vasodilation and life-threatening septic shock.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mechanisms of inflammation resolution",
+      "groupedBecause": "This subtopic explains how inflammatory activity declines through both passive loss of stimuli and active stop signals.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics explain how damaged tissue is repaired and how unresolved inflammation can persist or be contained in a granuloma.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This subtopic closes the lecture and points students to the next lecture on complement.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and learning outcomes",
+      "groupedBecause": "It frames the lecture series, introduces the subject of cancer biology, and outlines the session's learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular, genetic, and experimental foundations of cancer",
+      "groupedBecause": "They describe the genetic and developmental origins of cancer as a failure of tissue differentiation, along with the laboratory systems used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and histological progression",
+      "groupedBecause": "They examine the processes of invasion and metastasis and demonstrate how tumor progression is identified histologically.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and mechanisms of clinical pathogenesis",
+      "groupedBecause": "They explain how tumors are named and classified based on tissue origin and describe the physiological mechanisms through which neoplastic growths produce morbidity and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence and patterns across species",
+      "groupedBecause": "They present the epidemiology, incidence rates, and mortality patterns of tumors across humans and comparative animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening rationale, methods, and limitations",
+      "groupedBecause": "They evaluate the clinical rationale for cancer screening and compare the diagnostic methods and efficacy of screening programs across different tumor types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and practical preparation",
+      "groupedBecause": "It concludes the lecture by reiterating learning outcomes and outlining upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "topics": [
+    {
+      "label": "Lecture welcome and learning objectives",
+      "groupedBecause": "This subtopic welcomes the audience and frames the lecture by stating its subject and learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery and radiotherapy in cancer treatment",
+      "groupedBecause": "These treatments remove or damage tumors directly, with early detection and treatment alongside surgery shaping their use.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic chemotherapy: mechanisms, benefits and limitations",
+      "groupedBecause": "This subtopic explains how cytotoxic drugs damage cancer cells, their clinical successes, and the toxicity and resistance that limit them.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Targeting hormone dependence in breast and prostate cancers",
+      "groupedBecause": "These treatments inhibit hormone signaling that particular breast and prostate cancers still require for growth.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Exploiting cell-cycle checkpoint defects",
+      "groupedBecause": "These subtopics show how defects in checkpoint proteins can make cancer cells vulnerable to irradiation or oncolytic adenoviruses.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "PARP inhibition in BRCA-deficient cancers",
+      "groupedBecause": "This subtopic explains how blocking PARP exploits defective BRCA-mediated DNA repair to selectively damage cancer cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Oncogene addiction and genome-guided therapy",
+      "groupedBecause": "This subtopic describes using cancer-genome information to identify oncogenic drivers on which tumors depend and which targeted drugs might inhibit.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Kinase inhibitors, resistance and chronic disease management",
+      "groupedBecause": "These subtopics explain how kinase inhibitors target activated kinases and how off-target effects, resistance and ongoing treatment constrain their benefits.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Monoclonal antibodies for receptor blockade and immune-mediated killing",
+      "groupedBecause": "These antibodies bind cell-surface targets to block receptor signaling or recruit immune mechanisms that kill cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Antibody–drug conjugates for targeted cytotoxic delivery",
+      "groupedBecause": "This subtopic explains how an antibody can deliver a linked cytotoxic drug into cells expressing its target.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Evidence for immune surveillance against cancer",
+      "groupedBecause": "This subtopic weighs the historical and clinical evidence for the immune system protecting against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Immune checkpoint inhibition and tumour neoantigens",
+      "groupedBecause": "These subtopics describe reactivating T cells with checkpoint inhibitors and how tumour mutations can provide targets associated with treatment response.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "T-cell-directed immunotherapies",
+      "groupedBecause": "These approaches bring T cells into contact with tumour targets, either with bispecific engagers or by engineering the T cells themselves.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Cancer therapy challenges and personalised treatment",
+      "groupedBecause": "This subtopic considers how biomarkers and cancer sequencing may help match treatments to patients amid resistance and tumour heterogeneity.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Cancer outcome trends and prevention or early detection",
+      "groupedBecause": "This subtopic compares cancer trends while showing how prevention and early detection can contribute to changes in outcomes.",
+      "firstSubtopicId": 21
+    },
+    {
+      "label": "Future priorities and ethical dilemmas in cancer care",
+      "groupedBecause": "This subtopic considers future priorities for cancer care and the difficult treatment choices they raise for patients and clinicians.",
+      "firstSubtopicId": 22
+    },
+    {
+      "label": "Closing example: childhood leukaemia survival and treatment trials",
+      "groupedBecause": "This final subtopic closes the lecture with childhood leukaemia survival as an example of treatment success and the challenge of testing new therapies.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

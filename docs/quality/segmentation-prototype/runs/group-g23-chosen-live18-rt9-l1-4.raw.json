@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the initiation and resolution of inflammation",
+      "groupedBecause": "The lecturer opens the session by welcoming the class and framing how the lecture synthesises previously introduced immune components.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate recognition principles of PAMPs, DAMPs, and pattern recognition receptors",
+      "groupedBecause": "These subtopics explain the molecular criteria and receptor characteristics that allow the innate immune system to detect microbes and tissue damage while discriminating self from non-self.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor classes and inflammasome signalling pathways",
+      "groupedBecause": "These subtopics detail the specific families of pattern recognition receptors, their downstream intracellular signalling mechanisms, and the assembly of inflammasomes for cytokine processing.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Inflammatory cascade, leukocyte recruitment, and systemic outcomes",
+      "groupedBecause": "These subtopics describe the physiological chain of events following immune activation, covering sentinel mediator release, leukocyte recruitment, lymphatic drainage, and systemic complications such as septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic pathology",
+      "groupedBecause": "These subtopics address the active and passive mechanisms that terminate inflammation, the tissue repair process, and the outcomes of unresolved inflammation including chronic disease and granulomas.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture close and next topic preview",
+      "groupedBecause": "The lecturer concludes the lecture and announces the topic of the following session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

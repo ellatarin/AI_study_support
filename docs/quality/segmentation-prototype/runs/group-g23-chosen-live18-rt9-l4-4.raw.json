@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the lecture series, personal background, and core learning outcomes concerning environmental carcinogens and cancer development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology, environmental exposures and epidemiological patterns",
+      "groupedBecause": "These subtopics explore the foundational concepts of cancer causation by evaluating the relative roles of intrinsic cellular mutations, microenvironmental factors, environmental exposures, and global epidemiological trends.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of chemical, physical, and infectious carcinogenesis",
+      "groupedBecause": "These subtopics examine the specific biological and molecular mechanisms through which pathogens, dietary toxins, radiation, xenobiotics, and tumour promoters drive neoplastic development and tissue-specific vulnerability.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for detecting and proving carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, animal, and in vitro experimental methodologies used to identify and confirm carcinogen exposure and mutagenic risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Summary of carcinogen exposure and risk assessment",
+      "groupedBecause": "The lecturer concludes the session by summarising key takeaways regarding environmental cancer risks and personal risk–benefit decision-making.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

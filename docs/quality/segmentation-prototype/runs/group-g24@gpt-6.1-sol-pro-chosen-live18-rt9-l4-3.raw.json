@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "This subtopic frames the lecture’s subject and objectives before the substantive discussion begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation and clonal evolution in cancer development",
+      "groupedBecause": "These subtopics establish how mutations from different sources contribute to cancer arising through clonal evolution in a permissive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Evidence and debate about environmental cancer risks",
+      "groupedBecause": "These subtopics examine the evidence and interpretation surrounding environmental contributions to cancer risk.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain infection-related carcinogenesis, with Burkitt lymphoma providing a specific example.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Environmental carcinogens and DNA damage",
+      "groupedBecause": "These subtopics explain how environmental carcinogens produce DNA damage through their distinct molecular mechanisms.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tissue context in tumour initiation and promotion",
+      "groupedBecause": "These subtopics explain how tissue conditions shape carcinogenesis, ending with a summary of carcinogenic mechanisms and tissue specificity.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Exposure evidence and epidemiological assessment",
+      "groupedBecause": "These subtopics examine how biological evidence of exposure supports the assessment of carcinogenicity in human populations.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Experimental carcinogenicity and mutagenicity testing",
+      "groupedBecause": "These subtopics examine experimental tests used to assess carcinogenic potential and the limitations of their results.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Lecture summary and risk–benefit decisions",
+      "groupedBecause": "This subtopic closes the lecture by reviewing its main findings and their relevance to risk–benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

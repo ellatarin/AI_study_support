@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces herself, outlines the cancer lecture series, and sets out the learning objectives regarding environmental carcinogens.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conceptual frameworks and epidemiological evidence for cancer causation",
+      "groupedBecause": "These subtopics explore how cancer arises through genetic and microenvironmental changes and review the epidemiological evidence and debates regarding intrinsic versus environmental risk factors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and infectious agents in cancer",
+      "groupedBecause": "These subtopics examine how infectious agents drive oncogenesis, focusing in detail on the discovery and mechanism of Epstein-Barr virus in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical and physical mutagens",
+      "groupedBecause": "These subtopics detail how environmental, dietary, and occupational mutagens inflict DNA damage through direct alterations, xenobiotic metabolic activation, and bulky adduct formation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, inflammation, and host susceptibility",
+      "groupedBecause": "These subtopics explore non-mutagenic contributors to cancer, including chronic inflammation, initiator-promoter dynamics, and host developmental vulnerability.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and proving carcinogenicity",
+      "groupedBecause": "These subtopics discuss the genomic signature profiling, epidemiological studies, animal models, and in vitro tests used to determine whether agents cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Summary of cancer risk-benefit decisions and conclusion",
+      "groupedBecause": "The lecturer concludes the session by discussing risk-benefit trade-offs with environmental exposures and delivering final closing remarks.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

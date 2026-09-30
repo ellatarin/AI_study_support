@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the session's themes on cancer evolution, the cell of origin, and the tumor microenvironment, outlining the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic mutations and epigenetic disruption in cancer evolution",
+      "groupedBecause": "These subtopics examine how stepwise genetic mutation accumulation, clonal selection, and transient epigenetic disruptions drive neoplastic transformation and competitive cellular fitness.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and stem cell models in tumorigenesis",
+      "groupedBecause": "These subtopics evaluate the role of normal tissue hierarchies, stemness characteristics, and specific cells of origin in initiating and propagating malignancies such as leukemia and intestinal tumors.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Tumor microenvironment, inflammation, and research approaches",
+      "groupedBecause": "These subtopics explain how microenvironmental cues and chronic inflammation promote tumor initiation and maintenance, describe methods to study these cellular interactions, and synthesize the lecture's evolutionary concepts.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "The lecturer concludes the lecture and announces the topic for the following session.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

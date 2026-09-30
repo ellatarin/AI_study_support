@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces herself, the lecture course, and the core learning outcomes regarding cancer etiology and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of cancer etiology and the drivers of cancer risk",
+      "groupedBecause": "These subtopics introduce cancer as a genetic and evolutionary disease while exploring how intrinsic biological processes, environmental exposures, and epidemiology determine cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens and cancer development",
+      "groupedBecause": "These subtopics describe the role of infectious agents in oncogenesis, detailing the collaborative mechanisms of EBV and malaria in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics explain the molecular mechanisms through which chemical toxins, metabolic activation, and radiation induce direct DNA damage and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion, chronic inflammation, and host susceptibility",
+      "groupedBecause": "These subtopics discuss non-mutagenic tumor promotion, inflammatory microenvironments, and developmental host factors that cooperate with tumor initiation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and testing carcinogens",
+      "groupedBecause": "These subtopics present the genomic, epidemiological, in vivo, and in vitro methods used to identify carcinogens and assess their mutagenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and everyday risk-benefit balance",
+      "groupedBecause": "The lecturer concludes the presentation with final summary remarks on weighing the risks and benefits of carcinogen exposure.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

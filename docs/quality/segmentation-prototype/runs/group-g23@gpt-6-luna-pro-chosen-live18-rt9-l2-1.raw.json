@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to complement and its importance",
+      "groupedBecause": "This subtopic frames the lecture by introducing complement and explaining why it is important to study.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement’s overall role in immune defence and clearance",
+      "groupedBecause": "This subtopic gives a high-level account of what complement does in immune defence and in clearing material from the body.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement nomenclature and its exceptions",
+      "groupedBecause": "This subtopic explains the naming conventions for complement components and the exceptions that make them confusing.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "C3 activation, surface attachment, and inflammation",
+      "groupedBecause": "This subtopic explains how C3 is activated and how its products attach to surfaces and contribute to inflammation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Complement recognition pathways and the activation threshold",
+      "groupedBecause": "These subtopics explain how the three recognition pathways converge on C3 activation and how local complement activity reaches the threshold for further responses.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement’s downstream effector functions",
+      "groupedBecause": "These subtopics show how activated complement produces downstream effects on phagocytes, immune-cell recruitment, and target membranes.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Complement regulation and protection of host cells",
+      "groupedBecause": "This subtopic explains how regulatory proteins limit complement activity on the body’s own cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic relates deficiencies in complement components and regulators to their distinct clinical consequences.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Complement evasion by Staphylococcus aureus and protein A applications",
+      "groupedBecause": "This subtopic centers on how S. aureus evades complement, including how protein A’s antibody binding also enables clinical and laboratory uses.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and transition to adaptive immunity",
+      "groupedBecause": "This subtopic closes the complement lecture and points to the next lecture on adaptive immunity.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

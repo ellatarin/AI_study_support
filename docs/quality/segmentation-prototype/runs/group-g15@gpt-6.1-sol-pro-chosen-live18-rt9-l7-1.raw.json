@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This opening frames the lecture's scope and intended learning outcomes before the substantive discussion begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation-driven evolution and epigenetic transformation",
+      "groupedBecause": "These subtopics examine cellular changes that drive tumor development, extending the account of mutation-based clonal selection to transformation through altered gene regulation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and cancer stem cell models",
+      "groupedBecause": "These subtopics investigate how a cell's position in a tissue hierarchy and its capacity for self-renewal influence tumor initiation and propagation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness in cancer initiation",
+      "groupedBecause": "These subtopics show how inflammatory signals can confer stem-like properties on mutation-bearing cells and enable tumor development.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Microenvironmental support of established tumors",
+      "groupedBecause": "This subtopic examines established tumors' dependence on supportive surrounding cells as a vulnerability that therapy can target.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methods for studying cancer evolution and cell interactions",
+      "groupedBecause": "This subtopic explains how molecular profiling and computational approaches reveal tumor evolution and interactions within the tumor microenvironment.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Converging conditions for malignant outgrowth",
+      "groupedBecause": "This synthesis explains malignancy through the convergence of cellular fitness and a permissive environment, including how that framework bears on susceptibility at different stages of life.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and next lecture on therapy",
+      "groupedBecause": "This closing ends the lecture and announces therapy as the next lecture's subject.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

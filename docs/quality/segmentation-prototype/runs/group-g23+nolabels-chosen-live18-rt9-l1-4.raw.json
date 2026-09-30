@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "It introduces the lecture topic and outlines the scope of the material to be covered.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Recognition of Pathogens and Tissue Damage by Pattern Recognition Receptors",
+      "groupedBecause": "They explain the molecular mechanisms by which the innate immune system identifies infections and cellular damage using conserved molecular patterns and receptor signaling pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Sentinel Cell Activation, Leukocyte Recruitment, and Inflammatory Consequences",
+      "groupedBecause": "They describe how activated sentinel cells direct immune cell trafficking and migration to tissues and lymph nodes, as well as the systemic risks of excessive inflammatory activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammatory Responses",
+      "groupedBecause": "They explain how inflammation is brought to an end, how damaged tissues are repaired, and how persistent or unresolvable immune responses lead to chronic inflammatory structures.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "It concludes the lecture and announces the topic of the upcoming session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

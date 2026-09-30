@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecture on the initiation and resolution of inflammation and outlines how previously introduced immune components fit together.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate pathogen recognition and pattern recognition receptors",
+      "groupedBecause": "These subtopics explain how the innate immune system detects microbes and cellular damage using germline-encoded pattern recognition receptors and downstream signaling cascades.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory cell activation, leukocyte recruitment, and systemic outcomes",
+      "groupedBecause": "These subtopics describe how activated sentinel cells orchestrate leukocyte trafficking, lymphatic migration, and the systemic consequences of acute inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic containment",
+      "groupedBecause": "These subtopics explain how acute inflammation is terminated, how damaged tissue is repaired, and how the body manages persistent inflammatory stimuli.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

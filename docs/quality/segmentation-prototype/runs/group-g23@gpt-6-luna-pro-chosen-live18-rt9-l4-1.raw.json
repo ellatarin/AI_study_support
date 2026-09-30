@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the cancer lecture",
+      "groupedBecause": "This subtopic frames the lecture by introducing the lecturer, situating the lecture in the course, and stating its objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as clonal evolution in a permissive microenvironment",
+      "groupedBecause": "This subtopic explains cancer as the evolution of mutation-bearing cells within a supportive tumour environment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer risk, chance and the bad-luck debate",
+      "groupedBecause": "These subtopics develop the question of how cancer risk reflects chance and circumstances people inherit or encounter, and how the public interprets that balance.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Geographical cancer patterns as evidence about risk",
+      "groupedBecause": "This subtopic uses differences in cancer rates across populations to consider the roles of environmental and genetic factors.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain how infections can contribute to cancer and illustrate this with the development of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Environmental carcinogens and their DNA-damaging mechanisms",
+      "groupedBecause": "These subtopics show how environmental exposures can damage DNA, directly or through processes in the body, and thereby contribute to cancer.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and contextual susceptibility",
+      "groupedBecause": "These subtopics explain why cancer development depends not only on mutations but also on cellular conditions that allow altered cells to expand.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mutational signatures as evidence of carcinogen exposure",
+      "groupedBecause": "This subtopic describes how patterns in cancer genomes can provide evidence of exposure to particular carcinogens.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Methods for assessing carcinogenicity",
+      "groupedBecause": "These subtopics compare population-based, animal and laboratory approaches used to assess whether exposures can cause cancer.",
+      "firstSubtopicId": 19
+    },
+    {
+      "label": "Lecture closing: cancer risk and risk–benefit decisions",
+      "groupedBecause": "This subtopic closes the lecture by summarizing the challenges of assessing cancer risks and reflecting on how those risks are balanced against benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

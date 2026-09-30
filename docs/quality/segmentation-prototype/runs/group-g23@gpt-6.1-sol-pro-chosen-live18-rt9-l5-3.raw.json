@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture by connecting it to the practicals and outlining its learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "From tumor viruses to cellular proto-oncogenes",
+      "groupedBecause": "These subtopics trace how investigations of cancer-causing viruses established that transformation can originate in altered normal cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental tests of cellular transformation",
+      "groupedBecause": "This subtopic explains how experimental assays establish whether a gene or mutation produces transformed cellular behavior.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cancer-gene classification and mutation-specific effects",
+      "groupedBecause": "These subtopics explain how cancer mutations are classified by their functional effects and why their actual behavior depends on the affected protein and the particular mutation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Genetic instability and defective DNA repair",
+      "groupedBecause": "These subtopics distinguish the major forms of genetic instability and explain how failures of DNA repair generate them.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Genetic instability from replication and mitotic errors",
+      "groupedBecause": "These subtopics explain how faulty genome copying or segregation generates instability that can promote tumor adaptation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mutation timing in colorectal cancer progression",
+      "groupedBecause": "This subtopic examines how the timing and order of mutation acquisition influence progression from normal colorectal tissue to metastatic cancer.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Inherited cancer predisposition and the changing role of BRCA2 deficiency",
+      "groupedBecause": "These subtopics explain how inherited defects accelerate tumor development, with BRCA2 restoration showing that an initiating defect need not remain necessary for malignancy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture close and further reading",
+      "groupedBecause": "This subtopic closes the lecture by inviting questions, recommending reading, and announcing the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

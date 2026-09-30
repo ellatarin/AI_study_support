@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer biology and the lecture’s aims",
+      "groupedBecause": "This subtopic welcomes students, frames the lecture series, and sets out the learning outcomes rather than teaching the lecture’s substantive subject.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic changes in cancer development",
+      "groupedBecause": "This subtopic explains how genetic, epigenetic, and infection-related changes accumulate during cancer development and raises questions about that process.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer as a failure of differentiation and tissue architecture",
+      "groupedBecause": "These ideas describe cancer as a breakdown of normal cellular roles and tissue organization that can lead to invasion.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Cell culture models of cancer and their limitations",
+      "groupedBecause": "This subtopic considers what studying tumor cells in culture can reveal and what is lost when cells are separated from the tumor’s wider structure.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Tumor invasion, malignancy, and benign-tumor behavior",
+      "groupedBecause": "These subtopics explain how tumor behavior is classified along the transition from contained growth to invasion and possible metastasis, while clarifying what benign tumors can and cannot do.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature by tissue of origin and malignancy",
+      "groupedBecause": "This subtopic sets out the naming conventions used to distinguish tumor types and their malignant status.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "How cancer causes illness and death",
+      "groupedBecause": "This subtopic explains how tumors impair normal bodily functions and how primary and secondary tumors can lead to death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Patterns of tumor incidence across humans and other animals",
+      "groupedBecause": "These subtopics describe how tumor types and their frequency vary across human populations and animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening",
+      "groupedBecause": "These subtopics explain why cancer can be difficult to detect and compare screening approaches for finding it earlier.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and revision guidance",
+      "groupedBecause": "This subtopic closes the lecture by directing students to review the learning outcomes and indicating what comes next.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

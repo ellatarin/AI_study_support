@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and course overview",
+      "groupedBecause": "It introduces the cancer biology lecture series, establishes the learning outcomes, and outlines the scope of the course for students of diverse disciplines.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular differentiation, genetic alterations, and tissue architecture",
+      "groupedBecause": "They explain how cancer arises from accumulating genetic and epigenetic alterations that disrupt normal developmental differentiation and three-dimensional tissue organization.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and tumor progression",
+      "groupedBecause": "They examine the biological and histological characteristics of tumor invasion and metastasis across the stepwise progression from benign lesions to malignancy.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor classification, nomenclature, and mechanisms of disease",
+      "groupedBecause": "They address how benign and malignant neoplasms are categorized and named, alongside the pathological mechanisms by which they produce morbidity and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence across humans and other animal species",
+      "groupedBecause": "They discuss the frequency and tissue distribution of tumors across human populations, domestic animals, and multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening methods",
+      "groupedBecause": "They describe the clinical signs of cancer and evaluate the effectiveness and limitations of population screening approaches across different tumor types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical preview",
+      "groupedBecause": "It concludes the session by reiterating the learning outcomes and providing housekeeping remarks for the upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

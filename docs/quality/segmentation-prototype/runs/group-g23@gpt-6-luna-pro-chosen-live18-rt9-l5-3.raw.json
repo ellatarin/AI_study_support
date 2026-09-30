@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and overview",
+      "groupedBecause": "This subtopic welcomes students, connects the lecture to earlier practicals, and previews its learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor viruses and the discovery of cellular oncogenes",
+      "groupedBecause": "These subtopics trace how tumor-virus research led from the idea of transmissible cancers to the discovery that viruses can capture cellular proto-oncogenes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental assays of cellular transformation",
+      "groupedBecause": "This subtopic explains how researchers test whether genes or mutations can give cells transformed properties.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Functional classification of cancer genes and mutations",
+      "groupedBecause": "This subtopic introduces the terms used to classify cancer mutations by their effects on tumor growth and cellular maintenance.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor-suppressor pathway disruption and mutation-specific effects",
+      "groupedBecause": "These subtopics show how changes to RB-regulated cell-cycle control and mutation-specific effects on p53 can impair tumor-suppressive function.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Genetic instability and its cellular causes and consequences",
+      "groupedBecause": "These subtopics explain how failures to maintain genome integrity generate genetic instability and affect cancer cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mutation timing in colorectal cancer progression",
+      "groupedBecause": "This subtopic examines when mutations arise during colorectal tumor progression and how their order can affect its pace.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Hereditary cancer predisposition",
+      "groupedBecause": "This subtopic explains how inherited mutations in caretaker or gatekeeper genes increase cancer risk and describes examples of hereditary cancer syndromes.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Genetic instability is not required for malignancy",
+      "groupedBecause": "This subtopic uses BRCA2 restoration during treatment to show that a cancer can remain lethal even after genetic instability is reduced.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture close and further reading",
+      "groupedBecause": "This subtopic closes the lecture, invites questions, recommends reading, and previews the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

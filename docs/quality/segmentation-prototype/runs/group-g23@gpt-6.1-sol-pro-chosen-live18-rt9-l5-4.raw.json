@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This opening frames the lecture’s aims and connects cellular cancer genetics to the preceding histopathology practicals.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "From tumor viruses to cellular oncogenes",
+      "groupedBecause": "These subtopics trace how research into cancer-causing viruses established that transformation originates in altered normal cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental assessment of cellular transformation",
+      "groupedBecause": "This subtopic explains how laboratory assays test whether genes and mutations confer transformed properties on cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cancer-gene classification and mutation-specific function",
+      "groupedBecause": "These subtopics explain how cancer mutations are classified by their functional effects and show why those effects depend on the particular mutation and its cellular context.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Genetic instability and defective DNA repair",
+      "groupedBecause": "These subtopics distinguish sequence from chromosomal instability and explain how failures in DNA repair produce these abnormalities.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Replication and mitotic errors in tumor evolution",
+      "groupedBecause": "These subtopics explain how errors during genome copying and segregation generate instability that can accelerate tumor adaptation and progression.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Inherited cancer predisposition and the fate of inherited defects",
+      "groupedBecause": "These subtopics explain how inherited cancer-gene defects predispose to malignancy while showing that an established tumor can remain malignant after the original defect is corrected.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Questions, further reading and the next lecture",
+      "groupedBecause": "This closing concludes the lecture by inviting questions, recommending reading and previewing the next session.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

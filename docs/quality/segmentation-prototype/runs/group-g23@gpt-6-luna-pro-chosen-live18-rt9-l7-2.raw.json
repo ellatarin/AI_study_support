@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing: cancer evolution and the microenvironment",
+      "groupedBecause": "This subtopic welcomes the audience, places the lecture within the series, and states the themes and learning aims for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation accumulation and clonal selection in cancer evolution",
+      "groupedBecause": "These subtopics trace how mutations can give clones a growth advantage and how selection among clones contributes to tumor progression.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epigenetic disruption in tumor development",
+      "groupedBecause": "This subtopic shows that transient changes to chromatin and gene transcription can contribute to tumor development even without new mutations.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Stemness and cell of origin in tumor growth",
+      "groupedBecause": "These subtopics examine whether cancer growth follows a stem-cell-like hierarchy and how the cell type in which mutations occur can influence tumor development.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness in cancer initiation",
+      "groupedBecause": "These subtopics show how inflammatory signals can provide conditions that let mutated cells acquire stem-like properties and form tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Microenvironmental support of established tumors and therapeutic targeting",
+      "groupedBecause": "This subtopic explains that established tumors can depend on surrounding cells and signals, and considers targeting that support as a therapeutic strategy.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methods for studying cancer evolution and cell interactions",
+      "groupedBecause": "This subtopic describes sequencing, computational analysis, and spatial profiling as ways to investigate tumor-cell states and their interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "An integrated evolutionary view of cancer development",
+      "groupedBecause": "This subtopic synthesizes the lecture's argument that mutations, cell properties, and environmental conditions can combine to enable malignant growth.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This subtopic ends the lecture and announces the subject of the next meeting.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

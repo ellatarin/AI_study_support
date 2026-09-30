@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to complement and its importance",
+      "groupedBecause": "This opening welcomes students to the lecture and frames complement as an important, complicated subject.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement activation, immune defence and clearance functions",
+      "groupedBecause": "This overview explains the basic stages of complement activation and the ways complement contributes to immune defence and clearance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement nomenclature and its exceptions",
+      "groupedBecause": "This subtopic explains the naming conventions for complement components and the exceptions that make them confusing.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "C3-centered complement activation and recognition pathways",
+      "groupedBecause": "These subtopics explain how C3 serves as the central point of complement activation and how recognition pathways build surface-bound C3b to reach the activation threshold.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Complement effector functions",
+      "groupedBecause": "These subtopics describe how activated complement produces downstream immune effects that help respond to pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Complement regulation and protection of host cells",
+      "groupedBecause": "This subtopic explains how regulatory proteins limit complement activation on the body's own cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic relates deficiencies in complement components and regulators to their distinct clinical consequences.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Staphylococcus aureus complement evasion and protein A applications",
+      "groupedBecause": "This subtopic explains how Staphylococcus aureus evades complement and how its protein A is used to handle antibodies in clinical and laboratory settings.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and transition to adaptive immunity",
+      "groupedBecause": "This closing ends the complement lecture, thanks the audience, and points to the next lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

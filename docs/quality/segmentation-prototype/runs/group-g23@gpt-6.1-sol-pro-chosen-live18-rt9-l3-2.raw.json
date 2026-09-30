@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture series and sets out what students should learn before substantive teaching begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Accumulating genetic and epigenetic changes in cancer development",
+      "groupedBecause": "This subtopic introduces cancer development as a stepwise accumulation of cellular changes and identifies the questions this model raises.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer as a failure of differentiation and tissue organisation",
+      "groupedBecause": "These subtopics explain cancer through the disruption of organised tissue development, showing why studying isolated cells cannot fully capture that disruption.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Distinguishing benign and malignant tumors",
+      "groupedBecause": "These subtopics establish invasion as the defining distinction between benign and malignant tumors and develop its histological and prognostic implications.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature",
+      "groupedBecause": "This subtopic explains how tumor names communicate tissue of origin and malignant status, including exceptions to the naming conventions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "How cancer causes illness and death",
+      "groupedBecause": "This subtopic explains how tumor growth disrupts normal bodily function and why metastatic disease is especially lethal.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor incidence in humans and other animals",
+      "groupedBecause": "These subtopics compare the occurrence of tumor types across populations and species to establish the distribution of cancer.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening",
+      "groupedBecause": "These subtopics examine how screening seeks to detect treatable disease before clinical presentation and why its effectiveness varies between cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and follow-up",
+      "groupedBecause": "This subtopic concludes the lecture by directing students back to the learning outcomes and ahead to revision and practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

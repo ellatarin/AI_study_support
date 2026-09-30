@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture framing",
+      "groupedBecause": "This opening frames the lecture as an integration of previously introduced immune cells and molecules.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate recognition through PAMPs, DAMPs and PRRs",
+      "groupedBecause": "These subtopics establish how innate immune receptors distinguish signs of infection or damage from normal host components.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and signalling",
+      "groupedBecause": "These subtopics explain how Toll-like receptors translate microbial recognition into immune responses shaped by the location of receptor activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Non-TLR recognition and inflammasome activation",
+      "groupedBecause": "These subtopics explain how recognition pathways beyond Toll-like receptors activate inflammation and can contribute to inflammatory disease.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel-cell activation and recruitment of inflammatory cells",
+      "groupedBecause": "These subtopics follow how activated sentinel cells mobilise inflammation, developing the recruitment signal into the mechanisms that bring leukocytes to an infection.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic drainage and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how dendritic cells carry evidence of tissue infection through lymphatic drainage to initiate adaptive responses in lymph nodes.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic examines how excessive inflammatory activation becomes a systemic, life-threatening process.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Passive and active resolution of inflammation",
+      "groupedBecause": "This subtopic explains how inflammation subsides through withdrawal of activating stimuli and the increasing influence of inhibitory signals.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics examine why inflamed tissue may fail to return to normal, including how persistent inflammation can contain an infection that cannot be cleared.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture on complement",
+      "groupedBecause": "This closing ends the lecture and announces the subject of the next session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

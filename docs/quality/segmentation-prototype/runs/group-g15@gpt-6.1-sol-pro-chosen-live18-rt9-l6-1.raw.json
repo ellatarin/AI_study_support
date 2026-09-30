@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing and introduction to cancer hallmarks",
+      "groupedBecause": "This opening establishes the lecture’s aims and introduces the hallmarks framework for understanding loss of growth control.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutations in growth and survival signaling pathways",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signaling pathways free cancer cells from normal controls on proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in blood cancers and intestinal epithelium",
+      "groupedBecause": "These subtopics examine how disrupted differentiation changes cancer cell maturity and tissue organization.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how altered regulation of p53 and mitochondrial apoptotic factors allows cancer cells to evade programmed death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and replicative immortality",
+      "groupedBecause": "These subtopics explain how telomere shortening limits normal cell replication and how increased TERT expression allows tumors to bypass that limit.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53-mediated genome protection and growth-control recap",
+      "groupedBecause": "These subtopics draw together the cellular safeguards whose disruption enables cancer cells to escape normal growth control.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics explore how altered metabolism supports cancer and interacts with the molecular changes driving it.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis and vascular support for tumor growth",
+      "groupedBecause": "This subtopic explains how tumors recruit blood vessels to sustain growth beyond the limits of oxygen and nutrient diffusion.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and establishment",
+      "groupedBecause": "These subtopics examine what enables cancer cells to spread from a primary tumor and establish detectable tumors at distant sites.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing synthesis and further reading",
+      "groupedBecause": "This closing returns to the lecture’s learning goals, summarizes the convergence of diverse cancer routes on shared hallmarks, and offers further reading and final remarks.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

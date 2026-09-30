@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This opening frames the lecture's scope and states what students should understand by its end.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutational and epigenetic drivers of tumor development",
+      "groupedBecause": "These subtopics examine how cellular alterations drive tumor development, extending the mutation-based account of clonal evolution to changes in transcriptional state.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stemness, cancer stem cells and the cell of origin",
+      "groupedBecause": "These subtopics investigate how a cell's position in a tissue hierarchy affects its capacity to initiate and sustain tumor growth.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness and cancer initiation",
+      "groupedBecause": "These subtopics show how inflammatory signals can confer stem-like properties that enable mutation-bearing cells to develop into tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Microenvironmental support of established tumors",
+      "groupedBecause": "This subtopic examines established tumors' dependence on supportive surrounding cells and the therapeutic opportunities created by that dependence.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methods for studying cancer evolution and cell interactions",
+      "groupedBecause": "This subtopic explains how molecular and spatial measurements of tissue reveal tumor evolution and interactions between cell populations.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "An integrated account of cancer evolution",
+      "groupedBecause": "This synthesis explains malignant outgrowth as the convergence of cellular fitness and a permissive environment, extending that account to susceptibility at different stages of life.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This closing ends the lecture and announces the forthcoming discussion of therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

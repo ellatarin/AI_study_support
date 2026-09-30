@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning aims",
+      "groupedBecause": "This subtopic frames the lecture's place in the series and sets out its scope and learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Molecular changes driving cancer development",
+      "groupedBecause": "These subtopics examine how changes in cellular genetic programs can confer properties that enable clonal expansion and tumor formation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stemness, cell of origin and tumor growth",
+      "groupedBecause": "These subtopics investigate how a cell's position in a tissue hierarchy affects its capacity to initiate and sustain a tumor.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness in cancer initiation",
+      "groupedBecause": "These subtopics show how inflammatory signals can give mutation-bearing cells the stem-like properties needed for tumor development.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Microenvironmental support of established tumors",
+      "groupedBecause": "This subtopic examines established tumors' dependence on supportive surrounding cells as a potential therapeutic vulnerability.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methods for studying cancer evolution and cell interactions",
+      "groupedBecause": "This subtopic explains how molecular profiling of tissue specimens can reveal cancer's evolutionary history and interactions within its microenvironment.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Converging conditions for malignant outgrowth",
+      "groupedBecause": "This subtopic develops an integrated account of the conditions permitting malignant evolution and extends it to developmental susceptibility in childhood cancers.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and next session",
+      "groupedBecause": "This subtopic ends the lecture and announces the forthcoming session on therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}
