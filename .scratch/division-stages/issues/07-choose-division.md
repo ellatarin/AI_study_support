@@ -7,6 +7,7 @@
 **Status:** ready-for-agent
 
 - [ ] All deepened runs' cuts are pooled, sorted, and grouped into cut sites: a cut joins the current site when it lies within 1% of the transcript's length of that site's **first** cut, otherwise it opens a new one. The 1% is fixed in code.
+- [ ] A run cuts at a cut site when any of its cuts lies between the site's first and last cut, widened by half a percent of the transcript's length each way — the prototype's rule (`division_support.py`, `cut_sites_with_runs`), copied exactly. A site's support is the number of runs that cut at it, and a run's division is the set of sites it cuts at.
 - [ ] The vote is the set of cut sites whose support reaches `bar` (9 of 18), from the `division` settings section. It is never written out as a division.
 - [ ] Each run's distance from the vote is the number of cut sites where one of the two cuts and the other does not. The run with the smallest distance is chosen; a tie goes to the tied run with the smallest summed distance to every other run, then to the earliest run.
 - [ ] The vote, and a run's distance from it, are their own piece, given runs as sets of positions and a bar, and tested on their own: `define-topics` (ticket 08) breaks its ties with them. The chooser itself is not shared.
@@ -26,3 +27,5 @@
 2026-09-29: the splitting panel is now 18 runs with a bar of 9 (the user's choice, for steadier divisions; TD §5, "Dividing the transcript", Configuration). The live runs are topped up from 9 to 18 before this ticket's live run, by marking both splitting stages failed in each manifest so a normal relaunch makes only the missing runs.
 
 2026-09-30, third redesign before any build (grill, TD 374a543): grouping now has its own chooser — most identical runs first — so the two stages share only the vote and the distance from it. Inherited-title marks are gone (ticket 13), so the chosen division carries none; now blocked by 13 instead of 10.
+
+2026-09-30, before building: checked against `division_support.py`, the design had left out how a run is credited with a cut site — any cut within the site's span widened by half a percent each way, not only the cuts pooled into it. The user chose to copy the prototype's rule exactly; TD §5, `choose-division`, "The vote", now states it.
