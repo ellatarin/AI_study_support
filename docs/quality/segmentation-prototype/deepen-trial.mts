@@ -46,9 +46,7 @@ import {
 	type SubtopicFailure,
 } from "./deepen-division.mts";
 import { deepenPromptVersion } from "./deepen-prompts.mts";
-import { callTrialModel, loadTrialConfig, OUT_DIR } from "./trial-model.mts";
-
-const MODEL = process.env["TRIAL_MODEL"] ?? "google/gemini-3.7-flash";
+import { callTrialModel, loadTrialConfig, MODEL, OUT_DIR } from "./trial-model.mts";
 
 /**
  * What one run is worth knowing about, without opening its subtopics. The field

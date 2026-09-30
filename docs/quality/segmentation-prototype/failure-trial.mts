@@ -11,13 +11,12 @@ import {
 	BORROWED_STAGE_ID,
 	callTrialModel,
 	loadTrialConfig,
+	MODEL,
 	OUT_DIR,
 	PROJECT_ROOT,
 	threwVerdict,
 	VERDICT,
 } from "./trial-model.mts";
-
-const MODEL = process.env["TRIAL_MODEL"] ?? "google/gemini-3.7-flash";
 
 /** The prototype's full rules block — the long system prompt under suspicion. */
 const LONG_PROMPT = `You are dividing a university lecture transcript into topic blocks.

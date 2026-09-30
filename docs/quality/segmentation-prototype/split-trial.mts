@@ -24,12 +24,12 @@ import { splitPromptVersion } from "./split-prompts.mts";
 import {
 	callTrialModel,
 	loadTrialConfig,
+	MODEL,
+	NO_REPLY,
 	OUT_DIR,
 	threwVerdict,
 	VERDICT,
 } from "./trial-model.mts";
-
-const MODEL = process.env["TRIAL_MODEL"] ?? "google/gemini-3.7-flash";
 
 /**
  * How many times the transcript is sent before a run keeps a division with a
@@ -169,16 +169,6 @@ type Attempt = {
 	readonly fidelity: string | null;
 	readonly blocks: readonly RenderedBlock[];
 	readonly misses: readonly Miss[];
-};
-
-/** The reply every attempt starts from, and what a failed call leaves behind. */
-const NO_REPLY = {
-	content: "",
-	promptTokens: null as number | null,
-	completionTokens: null as number | null,
-	finishReason: null as string | null,
-	nativeFinishReason: null as string | null,
-	provider: null as string | null,
 };
 
 /**

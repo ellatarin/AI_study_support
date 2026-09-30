@@ -18,9 +18,7 @@
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { judgePromptVersion } from "./judge-prompts.mts";
-import { callTrialModel, loadTrialConfig, OUT_DIR, threwVerdict, VERDICT } from "./trial-model.mts";
-
-const MODEL = process.env["TRIAL_MODEL"] ?? "google/gemini-3.7-flash";
+import { callTrialModel, loadTrialConfig, MODEL, OUT_DIR, threwVerdict, VERDICT } from "./trial-model.mts";
 
 /** A topic as a grouping run left it. */
 type Topic = {

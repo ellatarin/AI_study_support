@@ -20,6 +20,21 @@ export const PROJECT_ROOT = "/Users/ellatarin/my_repositories/Ella_AI_project";
 /** Runs land beside the harness, so the archive stays self-contained across sessions. */
 export const OUT_DIR = join(import.meta.dirname, "runs");
 
+/** The model the trials call when `TRIAL_MODEL` is unset. */
+export const DEFAULT_MODEL = "google/gemini-3.7-flash";
+
+/** The model a trial calls: `TRIAL_MODEL`, or the default. */
+export const MODEL = process.env["TRIAL_MODEL"] ?? DEFAULT_MODEL;
+
+/** Runs on any other model carry it in their name, so they never overwrite or pool with the default model's runs. */
+export const MODEL_TAG = MODEL === DEFAULT_MODEL ? "" : `@${MODEL.split("/").pop() ?? MODEL}`;
+
+/** A thinking level other than the model's default, such as "high"; the model's default when unset. */
+export const EFFORT = process.env["TRIAL_EFFORT"];
+
+/** Runs made at a set thinking level carry it in their name, so they never overwrite or pool with default-level runs. */
+export const EFFORT_TAG = EFFORT === undefined ? "" : `%${EFFORT}`;
+
 /**
  * The stage whose configuration the trials borrow. Nothing here writes to the
  * pipeline; it is only a source of a valid OpenRouter section and stage shape.
@@ -41,6 +56,19 @@ export type TrialReply = {
 	readonly finishReason: string | null;
 	readonly nativeFinishReason: string | null;
 	readonly provider: string | null;
+	/** An error OpenRouter sent in place of choices, serialised; null when there was none. */
+	readonly error: string | null;
+};
+
+/** The reply an attempt starts from, and what a call that threw leaves behind. */
+export const NO_REPLY: TrialReply = {
+	content: "",
+	promptTokens: null,
+	completionTokens: null,
+	finishReason: null,
+	nativeFinishReason: null,
+	provider: null,
+	error: null,
 };
 
 /**
@@ -144,5 +172,6 @@ export async function callTrialModel({
 		nativeFinishReason:
 			first["native_finish_reason"] === undefined ? null : String(first["native_finish_reason"]),
 		provider: response["provider"] === undefined ? null : String(response["provider"]),
+		error: response["error"] === undefined ? null : JSON.stringify(response["error"]),
 	};
 }

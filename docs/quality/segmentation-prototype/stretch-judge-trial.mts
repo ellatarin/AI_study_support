@@ -17,10 +17,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { judgePromptVersion } from "./judge-prompts.mts";
-import { callTrialModel, loadTrialConfig, OUT_DIR, threwVerdict, VERDICT } from "./trial-model.mts";
-
-const MODEL = process.env["TRIAL_MODEL"] ?? "google/gemini-3.7-flash";
-const EFFORT = process.env["TRIAL_EFFORT"];
+import { callTrialModel, EFFORT, EFFORT_TAG, loadTrialConfig, MODEL, OUT_DIR, threwVerdict, VERDICT } from "./trial-model.mts";
 
 /** The part of a division's blocks file this script reads. */
 type Division = { readonly blocks: readonly { readonly content: string }[] };
@@ -82,8 +79,7 @@ async function main(): Promise<void> {
 		}
 	}
 
-	const effortTag = EFFORT === undefined ? "" : `%${EFFORT}`;
-	const stem = `judge-${version.id}${effortTag}-${sourceRun}-${first}to${last}-${starts1}-vs-${starts2}-${instance}`;
+	const stem = `judge-${version.id}${EFFORT_TAG}-${sourceRun}-${first}to${last}-${starts1}-vs-${starts2}-${instance}`;
 	await writeFile(
 		join(OUT_DIR, `${stem}.json`),
 		JSON.stringify({ ...payload, subtopics: undefined, verdict, chosen, completionTokens, reply: content }, null, 2),
