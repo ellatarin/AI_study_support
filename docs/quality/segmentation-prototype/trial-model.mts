@@ -106,6 +106,7 @@ export async function loadTrialConfig({
  * @param options.modelId - The model to call.
  * @param options.messages - The system and user messages, in order.
  * @param options.maxTokens - An explicit output ceiling, when one is being tested.
+ * @param options.reasoningEffort - A thinking level, such as "high"; the model's default when absent.
  * @returns The reply content alongside usage, finish reason and serving provider.
  */
 export async function callTrialModel({
@@ -113,11 +114,13 @@ export async function callTrialModel({
 	modelId,
 	messages,
 	maxTokens,
+	reasoningEffort,
 }: {
 	readonly config: TrialConfig;
 	readonly modelId: string;
 	readonly messages: readonly TrialMessage[];
 	readonly maxTokens?: number | undefined;
+	readonly reasoningEffort?: string | undefined;
 }): Promise<TrialReply> {
 	const client = createOpenRouterClientProvider({ openRouter: config.openRouter })();
 	const response = (await client.chat.completions.create({
@@ -126,6 +129,7 @@ export async function callTrialModel({
 		response_format: { type: "json_object" },
 		provider: { require_parameters: true },
 		...(maxTokens === undefined ? {} : { max_tokens: maxTokens }),
+		...(reasoningEffort === undefined ? {} : { reasoning: { effort: reasoningEffort } }),
 	} as never)) as unknown as Record<string, unknown>;
 	const choices = (response["choices"] ?? []) as readonly Record<string, unknown>[];
 	const first = choices[0] ?? {};

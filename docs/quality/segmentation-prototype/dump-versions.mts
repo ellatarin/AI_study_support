@@ -9,7 +9,7 @@
 
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { GROUP_PROMPTS } from "./group-prompts.mts";
+import { EDIT_PROMPTS, GROUP_PROMPTS } from "./group-prompts.mts";
 import { SPLIT_PROMPTS } from "./split-prompts.mts";
 
 /**
@@ -33,13 +33,23 @@ async function dump({
 
 await dump({
 	name: "group-versions.json",
-	versions: GROUP_PROMPTS.map((version) => ({
-		id: version.id,
-		summary: version.summary,
-		changed: version.changed,
-		promptWithLabels: version.build({ labelsShown: true }),
-		promptWithoutLabels: version.build({ labelsShown: false }),
-	})),
+	versions: [
+		...GROUP_PROMPTS.map((version) => ({
+			id: version.id,
+			summary: version.summary,
+			changed: version.changed,
+			promptWithLabels: version.build({ labelsShown: true }),
+			promptWithoutLabels: version.build({ labelsShown: false }),
+		})),
+		...EDIT_PROMPTS.map((version) => ({
+			id: version.id,
+			firstPass: version.firstPass,
+			proposalFrom: version.proposal.toString(),
+			summary: version.summary,
+			changed: version.changed,
+			prompt: version.build({ labelsShown: false }),
+		})),
+	],
 });
 
 await dump({

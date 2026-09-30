@@ -36,6 +36,10 @@ const MODEL = process.env["TRIAL_MODEL"] ?? DEFAULT_MODEL;
 // Runs on any other model carry it in their name, so they never overwrite the
 // default model's run of the same instance or get pooled with its runs.
 const MODEL_TAG = MODEL === DEFAULT_MODEL ? "" : `@${MODEL.split("/").pop() ?? MODEL}`;
+// A thinking level other than the model's default, such as "high". Runs made
+// with one carry it in their name, for the same reason as the model tag.
+const EFFORT = process.env["TRIAL_EFFORT"];
+const EFFORT_TAG = EFFORT === undefined ? "" : `%${EFFORT}`;
 
 /** A subtopic as pass one left it: its label and the transcript it owns. */
 type SourceSubtopic = {
@@ -63,6 +67,8 @@ type GroupOutcome = {
 	readonly lecture: string;
 	readonly instance: string;
 	readonly modelId: string;
+	/** The thinking level asked for; null for the model's default. */
+	readonly reasoningEffort: string | null;
 	readonly labelsShown: boolean;
 	readonly seconds: number;
 	readonly promptTokens: number | null;
@@ -143,14 +149,34 @@ async function main(): Promise<void> {
 		why: block.why ?? "",
 	}));
 
+	// Runs without labels on a source run first graded with labels would share
+	// its stems, so they carry the variant in their name and never overwrite it.
+	const labelsTag = labelsShown || !process.env["TAG_NOLABELS"] ? "" : "+nolabels";
+
 	// The whole transcript goes up, but carved into the subtopics pass one found:
-	// the grouping is judged on the material, not on pass one's paraphrases.
+	// the grouping is judged on the material, not on pass one's paraphrases. An
+	// edit version also gets what it takes from a first-pass run: by default its
+	// first pass's run of the same instance at the default thinking level, or the
+	// run FIRST_PASS_RUN names by stem.
 	const payload = {
 		subtopics: subtopics.map((subtopic, index) => ({
 			id: index + 1,
 			...(labelsShown ? { label: subtopic.label } : {}),
 			text: subtopic.content.trim(),
 		})),
+		...("firstPass" in version
+			? version.proposal({
+					firstPassReply: JSON.parse(
+						await readFile(
+							join(
+								OUT_DIR,
+								`${process.env["FIRST_PASS_RUN"] ?? `group-${version.firstPass}${MODEL_TAG}${labelsTag}-${sourceRun}-${instance}`}.raw.json`,
+							),
+							"utf8",
+						),
+					) as unknown,
+				})
+			: {}),
 	};
 	const config = await loadTrialConfig({ modelId: MODEL });
 
@@ -172,16 +198,14 @@ async function main(): Promise<void> {
 				{ role: "system", content: version.build({ labelsShown }) },
 				{ role: "user", content: JSON.stringify(payload) },
 			],
+			reasoningEffort: EFFORT,
 		});
 	} catch (error: unknown) {
 		verdict = threwVerdict(error);
 	}
 	const seconds = Math.round((performance.now() - startedAt) / 1000);
 
-	// Runs without labels on a source run first graded with labels would share
-	// its stems, so they carry the variant in their name and never overwrite it.
-	const labelsTag = labelsShown || !process.env["TAG_NOLABELS"] ? "" : "+nolabels";
-	const stem = `group-${version.id}${MODEL_TAG}${labelsTag}-${sourceRun}-${instance}`;
+	const stem =`group-${version.id}${MODEL_TAG}${EFFORT_TAG}${labelsTag}-${sourceRun}-${instance}`;
 	await writeFile(join(OUT_DIR, `${stem}.raw.json`), reply.content, "utf8");
 
 	let topicCount: number | null = null;
@@ -249,6 +273,7 @@ async function main(): Promise<void> {
 		lecture,
 		instance,
 		modelId: MODEL,
+		reasoningEffort: EFFORT ?? null,
 		labelsShown,
 		seconds,
 		promptTokens: reply.promptTokens,
