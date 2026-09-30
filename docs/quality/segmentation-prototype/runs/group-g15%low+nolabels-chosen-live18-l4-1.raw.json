@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, frames the course of cancer lectures, and outlines the learning objectives for this session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Development and Etiological Drivers",
+      "groupedBecause": "These subtopics explore the fundamental nature of cancer as an evolving genetic disease in a permissive microenvironment, examining the interplay between intrinsic cellular errors, genetic predisposition, and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Geographic Variation and Epidemiological Clues in Cancer",
+      "groupedBecause": "This subtopic explores how regional differences in cancer incidence highlight the combined roles of environmental exposures and genetic factors.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Mechanisms of Carcinogens and Tumor Promoters",
+      "groupedBecause": "These subtopics detail specific biological and chemical agents, their modes of inducing DNA damage or xenobiotic activation, the role of tumor promoters, and the influence of host cellular context.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for Identifying and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics discuss the scientific methodologies used to detect and prove carcinogenicity, including mutational signature sequencing, epidemiological biobanks, animal toxicological models, and the in vitro Ames test.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Summary and Conclusion",
+      "groupedBecause": "The lecture concludes by summarizing key points on environmental carcinogens, testing challenges, and personal risk-benefit assessments.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

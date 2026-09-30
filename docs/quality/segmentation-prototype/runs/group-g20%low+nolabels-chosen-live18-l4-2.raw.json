@@ -1,0 +1,90 @@
+{
+  "borders": [
+    {
+      "subtopicId": 2,
+      "before": "the lecturer's welcome, course context, and outline of learning objectives",
+      "after": "foundational definitions of cancer, mutation accumulation, microenvironment, and the roles of bad luck versus exposure",
+      "caseForKeeping": "Subtopic 1 is framing and course introduction, while subtopic 2 begins substantive teaching on the biology of cancer development.",
+      "caseForMoving": "There is no other opening framing subtopic, so moving earlier or later would improperly mix introductory mechanics with content.",
+      "caseForRemoving": "Removing it would merge introductory procedural remarks with core lecture content.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 7,
+      "before": "epidemiological patterns and regional cancer incidence differences between genetics and environment",
+      "after": "specific infectious agents (H. pylori, EBV, HPV, retroviruses) and biological mechanisms driving cancer",
+      "caseForKeeping": "Subtopic 6 concludes the high-level overview of etiology and geographic epidemiology, while subtopic 7 launches into granular molecular and biological mechanisms of specific agents.",
+      "caseForMoving": "Subtopic 6 is clearly epidemiological framing; moving the border to 8 would strand the introduction of pathogens in the preceding section.",
+      "caseForRemoving": "The detailed survey of biological/chemical carcinogenic mechanisms (7-17) is a distinct major module from the conceptual framing of cancer risk factors and population variations (2-6).",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 18,
+      "before": "a summary of key mechanistic takeaways (mutagens, promoters, xenobiotics, age-specific factors)",
+      "after": "mutational signatures and high-throughput sequencing methods to detect carcinogen exposure",
+      "caseForKeeping": "Subtopic 17 acts as a summary of the mechanistic section, and subtopic 18 shifts to methodologies and testing paradigms for identifying and proving carcinogenicity.",
+      "caseForMoving": "Subtopic 17 summarizes prior content rather than introducing methodological testing tools, so 18 is the exact start of testing methods.",
+      "caseForRemoving": "Investigating how carcinogenicity is scientifically proven (signatures, epidemiology, animal models, Ames test) asks an entirely different question from how agents mutate or promote cells.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 22,
+      "before": "the Ames test, in vitro assays, and toxicological screening limitations",
+      "after": "closing thoughts on risk versus benefit, final lecture takeaways, and concluding applause",
+      "caseForKeeping": "Subtopic 22 delivers closing framing, synthesis of risk-benefit, and farewell/applause.",
+      "caseForMoving": "Subtopic 21 is detailed content on the Ames test, so moving to 21 would bring technical testing details into the closing.",
+      "caseForRemoving": "Removing the border would conflate experimental toxicology assays with the lecture wrap-up.",
+      "decision": "keep"
+    }
+  ],
+  "insides": [
+    {
+      "topicStartsAt": 2,
+      "divideAt": 4,
+      "caseForDividing": "Subtopics 2 and 3 focus on intrinsic/bad-luck cellular biology, whereas 4-6 examine specific environmental exposures and geographical epidemiological studies.",
+      "caseForKeepingWhole": "Subtopics 2 through 6 together build the overarching question of cancer etiology (bad luck, intrinsic mutation, genetics, and environment/epidemiology) before diving into specific biochemical mechanisms.",
+      "decision": "keep whole"
+    },
+    {
+      "topicStartsAt": 7,
+      "divideAt": 14,
+      "caseForDividing": "Subtopics 7-13 focus primarily on direct and indirect mutagens (pathogens, chemical adducts, UV), while 14-17 focus on the two-stage model of promotion versus initiation and developmental timing.",
+      "caseForKeepingWhole": "Subtopics 7-17 form a continuous mechanistic breakdown of the different classes of carcinogens (biological, dietary, chemical, promoters, tissue/developmental stage), concluding with a unified summary in 17.",
+      "decision": "keep whole"
+    },
+    {
+      "topicStartsAt": 18,
+      "divideAt": 20,
+      "caseForDividing": "Subtopics 18-19 focus on human data (sequencing signatures, biobanks, epidemiology) whereas 20-21 cover experimental laboratory models (rodents, Ames test).",
+      "caseForKeepingWhole": "Subtopics 18 through 21 systematically answer the single methodological question of how carcinogenicity is proven across genomics, epidemiology, in vivo, and in vitro models.",
+      "decision": "keep whole"
+    }
+  ],
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the lecturer's welcome, course context, and outline of learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: bad luck, genetics, and environmental exposure",
+      "groupedBecause": "These subtopics examine the contributing factors to cancer development, balancing endogenous random mutations and genetic predispositions against environmental risks supported by epidemiological and population data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of chemical, physical, and biological carcinogenesis",
+      "groupedBecause": "These subtopics detail the cellular and molecular mechanisms by which infectious agents, chemical mutagens, radiation, and non-mutagenic promoters initiate and drive tumor formation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for identifying and proving carcinogenicity",
+      "groupedBecause": "These subtopics explore the experimental, genomic, and epidemiological tools used to demonstrate that specific agents cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk-benefit analysis",
+      "groupedBecause": "This subtopic concludes the lecture with overarching takeaways on lifestyle risks, regulatory challenges, and daily risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

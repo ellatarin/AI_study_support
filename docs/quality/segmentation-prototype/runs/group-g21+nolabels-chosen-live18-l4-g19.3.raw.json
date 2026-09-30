@@ -1,0 +1,111 @@
+{
+  "unsureMarks": [
+    {
+      "subtopicId": 9,
+      "segmentBefore": [7, 8],
+      "segmentBeforeIsAbout": "Pathogens and infectious agents as drivers of cancer, using Burkitt lymphoma and EBV as a prime example",
+      "segmentAfter": [9, 9],
+      "segmentAfterIsAbout": "Dietary carcinogens and aflatoxin-induced DNA adduct formation",
+      "caseForStart": "Subtopic 9 turns away from viral and microbial pathogens to discuss foodstuffs, natural toxins, and chemical DNA adducts.",
+      "caseAgainst": "Dietary carcinogens are simply another category in the lecture's systematic survey of environmental causes of DNA damage and cancer.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 10,
+      "segmentBefore": [9, 9],
+      "segmentBeforeIsAbout": "Dietary aflatoxins and metabolic conversion into reactive epoxide adducts",
+      "segmentAfter": [10, 10],
+      "segmentAfterIsAbout": "UV radiation causing thymine dimers and overwhelming nucleotide excision repair",
+      "caseForStart": "Subtopic 10 shifts focus from chemical adducts in food to radiation-induced physical DNA damage.",
+      "caseAgainst": "Subtopic 10 is a brief continuation of the broader walkthrough of different environmental mutagens.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 11,
+      "segmentBefore": [10, 10],
+      "segmentBeforeIsAbout": "UV light radiation and thymine dimer formation",
+      "segmentAfter": [11, 13],
+      "segmentAfterIsAbout": "Chemical carcinogens in smoke, food, and herbicides requiring xenobiotic activation to damage DNA",
+      "caseForStart": "Subtopic 11 initiates a detailed discussion of chemical mutagens, receptor binding, and xenobiotic metabolism pathways.",
+      "caseAgainst": "This is another class of environmental mutagens that shares the same overarching focus on how external agents cause DNA mutations.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 14,
+      "segmentBefore": [11, 13],
+      "segmentBeforeIsAbout": "Xenobiotic metabolic activation of chemical carcinogens and tissue-specific toxicity",
+      "segmentAfter": [14, 15],
+      "segmentAfterIsAbout": "Cancer promoters versus initiators, chronic inflammation from asbestos, and the Berenbaum two-stage model",
+      "caseForStart": "Subtopic 14 introduces the fundamental mechanistic distinction between direct DNA mutagens (initiators) and non-mutagenic microenvironmental stimulants (promoters).",
+      "caseAgainst": "Asbestos and tumor promoters are presented as another mechanism through which environmental exposures drive cancer, continuing the exploration of environmental carcinogenesis.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 16,
+      "segmentBefore": [14, 15],
+      "segmentBeforeIsAbout": "Mechanisms of tumor promotion, phorbol esters, and PKC signaling",
+      "segmentAfter": [16, 17],
+      "segmentAfterIsAbout": "Host susceptibility, developmental timing and pubertal vulnerability to mutagens, and a summary of environmental mechanisms",
+      "caseForStart": "Subtopic 16 shifts from promoter mechanisms to host cell susceptibility and developmental life stages.",
+      "caseAgainst": "Host developmental state and tissue susceptibility are presented alongside alkylating mutagens to complete the comprehensive picture of environmental carcinogenesis mechanisms.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 19,
+      "segmentBefore": [18, 18],
+      "segmentBeforeIsAbout": "Identifying carcinogen exposure retrospectively using DNA sequencing and mutational signatures",
+      "segmentAfter": [19, 19],
+      "segmentAfterIsAbout": "Epidemiological studies, urinary biomarker tracking, and population biobanks for proving carcinogenicity",
+      "caseForStart": "Subtopic 19 shifts from molecular and genomic mutational profiling to population-level epidemiology and biobanks.",
+      "caseAgainst": "Both subtopics address the same core question of how scientists detect and prove links between carcinogen exposure and cancer development.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 20,
+      "segmentBefore": [19, 19],
+      "segmentBeforeIsAbout": "Population epidemiology and biobank approaches to studying carcinogenicity",
+      "segmentAfter": [20, 20],
+      "segmentAfterIsAbout": "In vivo animal testing models and toxicological limitations such as dose and species differences",
+      "caseForStart": "Subtopic 20 moves from human observational epidemiology to experimental in vivo animal toxicity testing.",
+      "caseAgainst": "Animal toxicology models are presented as the next experimental method in the unified overview of carcinogenicity testing methodologies.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 21,
+      "segmentBefore": [20, 20],
+      "segmentBeforeIsAbout": "In vivo rodent toxicity studies and dosage challenges",
+      "segmentAfter": [21, 21],
+      "segmentAfterIsAbout": "The Ames test in vitro mutagenicity assay and its biological limitations",
+      "caseForStart": "Subtopic 21 introduces in vitro bacterial testing methods as distinct from animal and human studies.",
+      "caseAgainst": "The Ames test is the final testing method discussed within the topic evaluating scientific methodologies for determining carcinogenicity.",
+      "decision": "no start"
+    }
+  ],
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "It introduces the lecturer, sets the context within the cancer lecture series, and outlines the core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Nature of cancer, intrinsic vs environmental risk, and global epidemiology",
+      "groupedBecause": "These subtopics establish the foundational concept of cancer as a multifactorial genetic and microenvironmental disease shaped by random mutations, environmental exposures, and global demographic variation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Specific environmental carcinogens, mechanisms of DNA damage, and tumor promotion",
+      "groupedBecause": "These subtopics examine specific environmental and lifestyle causes of cancer—including pathogens, dietary toxins, radiation, xenobiotics, and promoters—and explain the molecular mechanisms by which they induce DNA damage or promote tumor growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and proving carcinogenicity",
+      "groupedBecause": "These subtopics review the laboratory and epidemiological tools used to link exposures to cancer, including mutational signature sequencing, biobank epidemiology, animal toxicity testing, and the Ames test.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and risk-benefit perspective",
+      "groupedBecause": "It concludes the lecture with a summary of environmental cancer risks, the challenges of determining potency, and everyday risk-benefit decision-making.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

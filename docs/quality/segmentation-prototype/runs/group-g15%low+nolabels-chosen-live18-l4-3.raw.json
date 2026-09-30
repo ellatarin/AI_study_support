@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic basis and multifactorial nature of cancer",
+      "groupedBecause": "These subtopics explore the core biological concepts of cancer as a disease of accumulated mutations evolving in microenvironments alongside the interplay of bad luck and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epidemiological patterns and geographic variation",
+      "groupedBecause": "This subtopic examines international epidemiological data to highlight how cancer incidence varies geographically and implicates environmental and genetic factors.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Pathogenic drivers of cancer and Burkitt lymphoma",
+      "groupedBecause": "These subtopics discuss how infectious agents contribute to oncogenesis, focusing in detail on the discovery and mechanisms of Burkitt lymphoma driven by Epstein-Barr virus and malaria.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Dietary, environmental, and chemical mutagens",
+      "groupedBecause": "These subtopics examine specific environmental and chemical mutagens—such as aflatoxins, UV radiation, polycyclic aromatic hydrocarbons, and aromatic amines—and the biological mechanisms through which they damage DNA.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promoters, host factors, and mutational signatures",
+      "groupedBecause": "These subtopics examine how non-mutagenic promoters, developmental cell host contexts, and resulting mutational signatures influence carcinogenesis, concluding with a comprehensive midpoint summary.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for determining carcinogenicity",
+      "groupedBecause": "These subtopics describe and evaluate the epidemiological, animal in vivo, and Ames in vitro experimental methodologies used to identify and prove carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk-benefit considerations",
+      "groupedBecause": "The lecturer concludes the lecture by framing carcinogenesis around individual and societal risk-benefit decisions and summarising key takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

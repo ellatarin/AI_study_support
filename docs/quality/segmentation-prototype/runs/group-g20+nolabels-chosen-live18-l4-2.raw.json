@@ -1,0 +1,90 @@
+{
+  "borders": [
+    {
+      "subtopicId": 2,
+      "before": "the lecturer's welcome, personal background, and lecture learning objectives",
+      "after": "the core definition of cancer as a genetic, evolutionary disease requiring a permissive microenvironment",
+      "caseForKeeping": "Subtopic 1 is strictly procedural and introductory lecture framing, whereas Subtopic 2 begins the substantive scientific content of the lecture.",
+      "caseForMoving": "There is no reason to move the border because Subtopic 1 contains only preliminary framing and Subtopic 2 immediately begins the core definitions.",
+      "caseForRemoving": "Removing the border would conflate administrative course framing with the primary scientific definitions of cancer etiology.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 7,
+      "before": "broad population-level epidemiological patterns and the philosophical debate around bad luck versus environmental causes",
+      "after": "specific biological and infectious agents (e.g. H. pylori, EBV, HPV) and their molecular carcinogenic mechanisms",
+      "caseForKeeping": "Subtopics 2 through 6 address high-level concepts and population epidemiology, while Subtopic 7 transitions into detailed molecular and biological mechanisms of specific carcinogens.",
+      "caseForMoving": "Subtopic 6 belongs with the general epidemiological overview, and Subtopic 7 clearly initiates the survey of specific causal agents, making 7 the natural break.",
+      "caseForRemoving": "Joining them would blur the distinction between broad epidemiological framing and specific molecular mechanisms of individual agents.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 18,
+      "before": "a summary of direct and indirect mechanisms of DNA damage, promoters, and tissue specificity",
+      "after": "methods for proving carcinogenicity, starting with mutational signature analysis from whole-genome sequencing",
+      "caseForKeeping": "Subtopic 17 provides a complete summary of the biological mechanisms discussed in the preceding section, while Subtopic 18 turns to the methodological question of how carcinogenicity is experimentally proven.",
+      "caseForMoving": "Subtopic 17 explicitly summarizes the previous mechanistic concepts and introduces no methods of its own, so the border must fall right after it at Subtopic 18.",
+      "caseForRemoving": "Removing the border would mix the biological mechanisms of tumorigenesis with experimental and epidemiological detection methodologies.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 22,
+      "before": "in vitro Ames mutagenicity testing and its limitations in accounting for whole-body microenvironments",
+      "after": "concluding summary points and practical risk-benefit analysis for everyday lifestyle choices",
+      "caseForKeeping": "Subtopic 21 completes the discussion of experimental assays, while Subtopic 22 serves as the lecture's closing takeaway and wrap-up.",
+      "caseForMoving": "Subtopic 21 is squarely about toxicological assays, and Subtopic 22 is purely closing remarks and applause, so no move is warranted.",
+      "caseForRemoving": "Removing the border would improperly merge the concluding lecture wrap-up with a specific laboratory assay.",
+      "decision": "keep"
+    }
+  ],
+  "insides": [
+    {
+      "topicStartsAt": 2,
+      "divideAt": 5,
+      "caseForDividing": "Subtopics 2 to 4 explore biological predispositions and environmental hazards, whereas Subtopic 5 turns to public understanding and the Tomasetti/Vogelstein 'bad luck' debate.",
+      "caseForKeepingWhole": "Subtopics 2 to 6 together form a single conceptual introduction addressing the overarching question of what drives cancer, contrasting intrinsic bad luck and genetics with environmental and epidemiological risks.",
+      "decision": "keep whole"
+    },
+    {
+      "topicStartsAt": 7,
+      "divideAt": 14,
+      "caseForDividing": "Subtopics 7 to 13 focus primarily on direct and indirect mutagens (infectious agents, diet, UV, hydrocarbons), whereas Subtopic 14 introduces non-mutagenic promoters and the Berenbaum two-stage model.",
+      "caseForKeepingWhole": "Subtopics 7 through 17 constitute a continuous catalog of chemical, physical, and biological agents and their roles as initiators or promoters, which are unified and summarized together in Subtopic 17.",
+      "decision": "keep whole"
+    },
+    {
+      "topicStartsAt": 18,
+      "divideAt": 20,
+      "caseForDividing": "Subtopics 18 and 19 deal with genomic signatures and human biobank epidemiology, while Subtopics 20 and 21 focus on experimental animal and in vitro toxicological testing.",
+      "caseForKeepingWhole": "Subtopics 18 through 21 form a coherent suite of methodologies (genomics, epidemiology, in vivo toxicology, and in vitro Ames testing) used to determine and prove carcinogenicity.",
+      "decision": "keep whole"
+    }
+  ],
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, sets the course context, and outlines the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: bad luck, genetics, and environmental exposure",
+      "groupedBecause": "These subtopics explore the foundational drivers of cancer by examining the interplay between intrinsic random mutations, inherited genetic predispositions, and environmental risks supported by epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of chemical, physical, and biological carcinogenesis",
+      "groupedBecause": "These subtopics explain the molecular and cellular mechanisms through which infectious agents, direct and metabolized chemical mutagens, radiation, and non-mutagenic promoters initiate and drive tumor formation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for identifying and proving carcinogenicity",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, animal, and in vitro experimental tools used to establish causal links between exposures and cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk-benefit analysis",
+      "groupedBecause": "This subtopic concludes the lecture with key summary points on environmental risk and the practical risk-benefit decisions involved in daily life.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

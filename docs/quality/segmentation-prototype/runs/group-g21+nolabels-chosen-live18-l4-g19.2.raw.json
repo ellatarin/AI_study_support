@@ -1,0 +1,96 @@
+{
+  "unsureMarks": [
+    {
+      "subtopicId": 9,
+      "segmentBefore": [7, 8],
+      "segmentBeforeIsAbout": "Pathogens and infectious agents driving tumorigenesis, exemplified by EBV in Burkitt lymphoma",
+      "segmentAfter": [9, 9],
+      "segmentAfterIsAbout": "Dietary carcinogens and the metabolic activation of fungal aflatoxin into mutagenic DNA adducts",
+      "caseForStart": "The lecture shifts focus from infectious and viral agents to chemical carcinogens in food and their biochemical conversion into reactive mutagens.",
+      "caseAgainst": "Subtopic 9 simply continues the ongoing survey of specific environmental carcinogens that began in subtopic 7, examining chemical mutagens alongside biological ones.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 10,
+      "segmentBefore": [9, 9],
+      "segmentBeforeIsAbout": "Dietary carcinogens and the metabolic activation of fungal aflatoxin into mutagenic DNA adducts",
+      "segmentAfter": [10, 10],
+      "segmentAfterIsAbout": "UV radiation causing DNA damage via the formation of thymine dimers",
+      "caseForStart": "The lecture transitions from chemical and dietary mutagens to physical radiation as a direct cause of DNA damage.",
+      "caseAgainst": "Subtopic 10 is a brief single-paragraph entry within the continuous walkthrough of environmental mutagens and DNA damage mechanisms.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 11,
+      "segmentBefore": [10, 10],
+      "segmentBeforeIsAbout": "UV radiation causing DNA damage via the formation of thymine dimers",
+      "segmentAfter": [11, 12],
+      "segmentAfterIsAbout": "Polycyclic aromatic hydrocarbons in cigarette smoke and meat, AhR signaling, and CYP1A1-mediated DNA adduct and ROS formation",
+      "caseForStart": "The lecturer introduces cigarette smoke and details the molecular xenobiotic metabolism pathway involving the aryl hydrocarbon receptor and CYP1A1.",
+      "caseAgainst": "Subtopics 11 and 12 remain part of the overarching examination of environmental carcinogens and how endogenous metabolism converts inert compounds into active mutagens.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 13,
+      "segmentBefore": [11, 12],
+      "segmentBeforeIsAbout": "Polycyclic aromatic hydrocarbons in cigarette smoke and meat, AhR signaling, and CYP1A1-mediated DNA adduct and ROS formation",
+      "segmentAfter": [13, 13],
+      "segmentAfterIsAbout": "Tissue-specific carcinogen activation illustrated by aromatic amines and bladder glucuronidase",
+      "caseForStart": "The lecture takes up the distinct conceptual question of tissue specificity in chemical carcinogenesis.",
+      "caseAgainst": "Subtopic 13 is an extension of the discussion on cigarette smoke constituents and metabolic activation mechanisms, continuing the same thematic run.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 14,
+      "segmentBefore": [13, 13],
+      "segmentBeforeIsAbout": "Tissue-specific carcinogen activation illustrated by aromatic amines and bladder glucuronidase",
+      "segmentAfter": [14, 15],
+      "segmentAfterIsAbout": "Non-mutagenic carcinogens, chronic inflammation, and the distinction between tumor initiators and promoters in the Berenbaum model",
+      "caseForStart": "The lecture shifts fundamentally from direct DNA mutagens to non-mutagenic promoters like asbestos and TPA that stimulate proliferation and chronic inflammation.",
+      "caseAgainst": "Subtopics 14-15 continue the comprehensive catalog of environmental cancer-causing mechanisms, which is subsequently summarized as a unified whole in subtopic 17.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 16,
+      "segmentBefore": [14, 15],
+      "segmentBeforeIsAbout": "Non-mutagenic carcinogens, chronic inflammation, and the distinction between tumor initiators and promoters in the Berenbaum model",
+      "segmentAfter": [16, 17],
+      "segmentAfterIsAbout": "Host developmental timing and tissue proliferative state in susceptibility to carcinogenesis, followed by a summary of all carcinogen mechanisms",
+      "caseForStart": "The focus pivots from the properties of external carcinogens to host-specific factors, such as developmental stage and hormonal status during exposure.",
+      "caseAgainst": "Subtopic 16 completes the survey of factors influencing carcinogenesis, leading directly into the summary slide in subtopic 17 that synthesizes the entire section from subtopic 7 onward.",
+      "decision": "no start"
+    }
+  ],
+  "topics": [
+    {
+      "label": "Course introduction and lecture overview",
+      "groupedBecause": "The lecturer introduces herself, outlines the cancer lecture series, and presents the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a genetic and evolutionary disease",
+      "groupedBecause": "These subtopics explain the basic biological nature of cancer as an evolutionary process driven by acquired mutations, endogenous cellular processes, and genetic predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental exposures, public perceptions, and epidemiological evidence",
+      "groupedBecause": "These subtopics explore common environmental carcinogen exposures, public understanding versus statistical reality, and global epidemiological variations in cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Mechanisms of environmental carcinogenesis, tumor initiation, and promotion",
+      "groupedBecause": "These subtopics systematically examine how infectious pathogens, dietary toxins, radiation, chemical carcinogens, non-mutagenic promoters, and developmental stages drive cancer formation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for identifying mutational signatures and proving carcinogenicity",
+      "groupedBecause": "These subtopics describe the scientific approaches used to determine carcinogenicity, including whole-genome mutational signatures, epidemiological biobanks, in vivo animal models, and the in vitro Ames test.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture summary and risk-benefit considerations",
+      "groupedBecause": "The lecturer concludes the session by summarizing key takeaways regarding environmental risk, carcinogen potency, and everyday risk-benefit decision-making.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,249 @@
+{
+  "boundaries": [
+    {
+      "subtopicId": 2,
+      "stretchBack": [1, 1],
+      "lookingBack": "Subtopic 1 provides the introductory framing for the lecture series, introducing the lecturer and setting out the core learning objectives.",
+      "lookingForward": "Subtopic 2 begins substantive teaching by defining cancer as a genetic and microenvironmental disease driven by micro-evolution, while subtopics 3 to 6 explore the multi-factorial landscape of cancer causation.",
+      "stretchForward": [2, 6],
+      "reason": "Subtopic 1 is opening administrative and pedagogical framing, whereas substantive lecture content begins at subtopic 2.",
+      "rating": "start"
+    },
+    {
+      "subtopicId": 3,
+      "stretchBack": [2, 2],
+      "lookingBack": "Subtopic 2 defines the fundamental nature of cancer as an accumulation of mutations conferring clonal growth advantages within a permissive microenvironment.",
+      "lookingForward": "Subtopic 3 introduces the 'roulette wheel of cancer' to explain the various sources of mutations (endogenous metabolism, environmental exposures, inherited predispositions, target cell longevity), leading into a broader discussion of cancer causes in subtopics 4 to 6.",
+      "stretchForward": [3, 6],
+      "reason": "Subtopic 3 directly follows the definition of cancer by explaining the internal and external drivers that generate the mutations defined in subtopic 2.",
+      "rating": "continues"
+    },
+    {
+      "subtopicId": 4,
+      "stretchBack": [2, 3],
+      "lookingBack": "Subtopics 2 and 3 define cancer and introduce the conceptual roulette wheel of endogenous and exogenous mutational drivers.",
+      "lookingForward": "Subtopic 4 surveys specific everyday environmental mutagens and exposures (smoking, asbestos, UV, contaminated products, medications, microplastics), which subtopics 5 and 6 connect to public understanding and epidemiological data.",
+      "stretchForward": [4, 6],
+      "reason": "Subtopic 4 directly illustrates the environmental mutagen category of the roulette wheel introduced in subtopic 3 with concrete examples.",
+      "rating": "continues"
+    },
+    {
+      "subtopicId": 5,
+      "stretchBack": [3, 4],
+      "lookingBack": "Subtopics 3 and 4 outline intrinsic mutational mechanisms and list various environmental carcinogen exposures.",
+      "lookingForward": "Subtopic 5 discusses the Tomasetti and Vogelstein papers regarding whether cancers arise primarily from random biological 'bad luck' versus environmental exposure, and subtopic 6 presents geographic epidemiological data addressing this balance.",
+      "stretchForward": [5, 6],
+      "reason": "Subtopic 5 continues the conceptual exploration of intrinsic bad luck versus avoidable environmental exposures introduced in subtopics 3 and 4.",
+      "rating": "continues"
+    },
+    {
+      "subtopicId": 6,
+      "stretchBack": [3, 5],
+      "lookingBack": "Subtopics 3 to 5 debate the relative contributions of intrinsic biological bad luck, genetics, and external environmental exposures to cancer risk.",
+      "lookingForward": "Subtopic 6 presents global epidemiological incidence maps and migrant studies that demonstrate how geographic and environmental differences shape cancer incidence.",
+      "stretchForward": [6, 6],
+      "reason": "Subtopic 6 provides the population-level epidemiological data supporting the interplay between genetics and environment discussed across subtopics 3 to 5.",
+      "rating": "continues"
+    },
+    {
+      "subtopicId": 7,
+      "stretchBack": [2, 6],
+      "lookingBack": "Subtopics 2 to 6 provide a broad conceptual overview of cancer etiology, the balance between intrinsic bad luck and environmental factors, and global epidemiological variations.",
+      "lookingForward": "Subtopic 7 announces a detailed examination of specific carcinogen categories from the roulette wheel, starting with oncogenic pathogens (H. pylori, EBV, helminths, Aspergillus, HPV, HHV8, HTLV-1), followed by a focused case study of Burkitt lymphoma in subtopic 8.",
+      "stretchForward": [7, 8],
+      "reason": "Subtopic 7 marks a clear thematic pivot from general introductory and epidemiological overviews to detailed mechanistic investigations of specific biological carcinogens.",
+      "rating": "start"
+    },
+    {
+      "subtopicId": 8,
+      "stretchBack": [7, 7],
+      "lookingBack": "Subtopic 7 introduces infectious agents and oncogenic pathogens associated with cancer development.",
+      "lookingForward": "Subtopic 8 presents an in-depth case study of Burkitt lymphoma, describing Denis Burkitt's discovery, the geographical lymphoma belt, the synergistic role of malaria, and the molecular mechanism of Myc translocation driven by EBV.",
+      "stretchForward": [8, 8],
+      "reason": "Subtopic 8 directly expands on the viral oncogenesis introduced in subtopic 7 by detailing the classic example of EBV and Burkitt lymphoma.",
+      "rating": "continues"
+    },
+    {
+      "subtopicId": 9,
+      "stretchBack": [7, 8],
+      "lookingBack": "Subtopics 7 and 8 examine infectious agents and viral oncogenesis in cancer, focusing on Epstein-Barr virus and Burkitt lymphoma.",
+      "lookingForward": "Subtopic 9 shifts to dietary and chemical carcinogens, explaining how aflatoxin is metabolically activated to an epoxide forming DNA adducts, introducing a series on chemical and physical mutagens in subtopics 10 to 13.",
+      "stretchForward": [9, 13],
+      "reason": "Subtopic 9 shifts from infectious pathogens to chemical mutagens and DNA adduct formation, but both belong to the broader progression of specific carcinogen classes.",
+      "rating": "unsure"
+    },
+    {
+      "subtopicId": 10,
+      "stretchBack": [9, 9],
+      "lookingBack": "Subtopic 9 explains how dietary aflatoxin is converted by liver oxidases into a reactive epoxide derivative forming bulky DNA adducts.",
+      "lookingForward": "Subtopic 10 explains how UV radiation induces thymine dimers, followed by further chemical mutagen mechanisms (benzo[a]pyrene, TCDD, beta-naphthylamine) in subtopics 11 to 13.",
+      "stretchForward": [10, 13],
+      "reason": "Subtopic 10 continues the examination of agents causing direct DNA damage and adducts, focusing on physical radiation.",
+      "rating": "continues"
+    },
+    {
+      "subtopicId": 11,
+      "stretchBack": [9, 10],
+      "lookingBack": "Subtopics 9 and 10 discuss DNA adduct formation by aflatoxin and thymine dimer induction by UV radiation.",
+      "lookingForward": "Subtopic 11 details how benzo[a]pyrene in cigarette smoke and cooked meat binds AhR, recruits ARNT, and induces CYP1A1 to form reactive epoxides that create bulky DNA adducts and transversions, while subtopics 12 and 13 discuss TCDD and beta-naphthylamine.",
+      "stretchForward": [11, 13],
+      "reason": "Subtopic 11 continues the mechanistic analysis of chemical mutagens, xenobiotic metabolism, and bulky DNA adduct formation.",
+      "rating": "continues"
+    },
+    {
+      "subtopicId": 12,
+      "stretchBack": [9, 11],
+      "lookingBack": "Subtopics 9 to 11 discuss xenobiotic metabolic activation of chemical carcinogens such as aflatoxin and benzo[a]pyrene.",
+      "lookingForward": "Subtopic 12 examines TCDD (Agent Orange), explaining how AhR activation and CYP1A1 lead to oxidative stress and reactive oxygen species that damage DNA, followed by tissue-specific carcinogens in subtopic 13.",
+      "stretchForward": [12, 13],
+      "reason": "Subtopic 12 provides another example of a chemical carcinogen operating via the AhR/CYP1A1 pathway through oxidative stress.",
+      "rating": "continues"
+    },
+    {
+      "subtopicId": 13,
+      "stretchBack": [11, 12],
+      "lookingBack": "Subtopics 11 and 12 explain metabolic activation of polycyclic aromatic hydrocarbons and dioxins.",
+      "lookingForward": "Subtopic 13 explores aromatic amines like beta-naphthylamine and explains how tissue-specific glucuronidase activity in the bladder converts the compound back into its carcinogenic form.",
+      "stretchForward": [13, 13],
+      "reason": "Subtopic 13 continues the exploration of chemical carcinogens and xenobiotic metabolism, focusing on organ-specific activation.",
+      "rating": "continues"
+    },
+    {
+      "subtopicId": 14,
+      "stretchBack": [9, 13],
+      "lookingBack": "Subtopics 9 to 13 examine chemical and physical mutagens that directly damage DNA through adducts, transversions, and metabolic activation.",
+      "lookingForward": "Subtopic 14 introduces non-mutagenic carcinogens and tumor promoters using asbestos-induced chronic inflammation, leading into the Berenbaum two-stage model and host susceptibility factors in subtopics 15 to 17.",
+      "stretchForward": [14, 17],
+      "reason": "Subtopic 14 introduces the fundamental distinction between tumor initiators (mutagens) and tumor promoters (non-mutagens that drive inflammation and proliferation), though it connects to the broader theme of carcinogenesis mechanisms.",
+      "rating": "unsure"
+    },
+    {
+      "subtopicId": 15,
+      "stretchBack": [14, 14],
+      "lookingBack": "Subtopic 14 defines the promoter concept using asbestos and chronic inflammation.",
+      "lookingForward": "Subtopic 15 presents the Berenbaum hypothesis (DMBA initiator plus TPA promoter) and details the biochemical mechanism of TPA acting as a diacylglycerol mimic to activate protein kinase C, followed by host developmental susceptibility in subtopics 16 and 17.",
+      "stretchForward": [15, 17],
+      "reason": "Subtopic 15 directly builds upon subtopic 14 by providing the classic experimental proof and molecular mechanism for tumor promotion.",
+      "rating": "continues"
+    },
+    {
+      "subtopicId": 16,
+      "stretchBack": [14, 15],
+      "lookingBack": "Subtopics 14 and 15 detail tumor promotion, chronic inflammation, and the Berenbaum initiator-promoter model.",
+      "lookingForward": "Subtopic 16 examines host cell context and developmental timing (MNU susceptibility in pubertal rats, atomic bomb exposure in pubertal girls, early pregnancy protection), leading into a summary of carcinogenesis mechanisms in subtopic 17.",
+      "stretchForward": [16, 17],
+      "reason": "Subtopic 16 extends the discussion of microenvironmental and cellular permissive factors to developmental timing and tissue proliferative state.",
+      "rating": "continues"
+    },
+    {
+      "subtopicId": 17,
+      "stretchBack": [14, 16],
+      "lookingBack": "Subtopics 14 to 16 describe tumor promotion, initiator-promoter cooperation, and developmental stage susceptibility.",
+      "lookingForward": "Subtopic 17 provides a structured summary reviewing direct mutagens, xenobiotic metabolism, promoters vs initiators, and developmental/tissue specificity.",
+      "stretchForward": [17, 17],
+      "reason": "Subtopic 17 is an explicit summary slide reviewing the mechanistic concepts of carcinogenesis and introduces no new material.",
+      "rating": "continues"
+    },
+    {
+      "subtopicId": 18,
+      "stretchBack": [14, 17],
+      "lookingBack": "Subtopics 14 to 17 complete the mechanistic coverage of tumor initiation, promotion, and context-dependent carcinogenesis.",
+      "lookingForward": "Subtopic 18 asks how scientists prove what causes cancer and introduces mutational signature profiling via whole genome sequencing, followed by epidemiology, animal testing, and in vitro models in subtopics 19 to 21.",
+      "stretchForward": [18, 21],
+      "reason": "Subtopic 18 starts a new major division of the lecture dedicated to experimental and analytical methodologies for detecting and evaluating carcinogenicity.",
+      "rating": "start"
+    },
+    {
+      "subtopicId": 19,
+      "stretchBack": [18, 18],
+      "lookingBack": "Subtopic 18 explains how whole genome sequencing identifies characteristic mutational signatures left by specific carcinogens.",
+      "lookingForward": "Subtopic 19 explores human epidemiological cohort studies, urinary adduct biomarkers, and biobanks (UK Biobank), while subtopics 20 and 21 evaluate in vivo animal assays and in vitro tests.",
+      "stretchForward": [19, 21],
+      "reason": "Subtopic 19 continues the methodologies division by describing epidemiological methods and biobank resources used to establish carcinogenicity.",
+      "rating": "continues"
+    },
+    {
+      "subtopicId": 20,
+      "stretchBack": [18, 19],
+      "lookingBack": "Subtopics 18 and 19 discuss mutational signature profiling and human epidemiological biobanks.",
+      "lookingForward": "Subtopic 20 analyzes in vivo animal toxicology studies (rodent bioassays) and their limitations regarding dose, species specificity, and cost, followed by in vitro screening in subtopic 21.",
+      "stretchForward": [20, 21],
+      "reason": "Subtopic 20 continues the methodologies division by examining animal toxicology testing models and dose-response considerations.",
+      "rating": "continues"
+    },
+    {
+      "subtopicId": 21,
+      "stretchBack": [18, 20],
+      "lookingBack": "Subtopics 18 to 20 cover genomic signatures, human epidemiology, and rodent in vivo toxicology testing.",
+      "lookingForward": "Subtopic 21 explains the in vitro Ames test using Salmonella histidine reversion with rat liver extract and outlines its limitations in capturing complex in vivo microenvironments.",
+      "stretchForward": [21, 21],
+      "reason": "Subtopic 21 completes the methodologies division with standard in vitro mutagenicity screening.",
+      "rating": "continues"
+    },
+    {
+      "subtopicId": 22,
+      "stretchBack": [18, 21],
+      "lookingBack": "Subtopics 18 to 21 cover the full suite of methodologies used to assess and test carcinogenicity.",
+      "lookingForward": "Subtopic 22 concludes the lecture with a discussion on everyday risk-benefit choices, provides the final takeaway summary, and closes with audience applause.",
+      "stretchForward": [22, 22],
+      "reason": "Subtopic 22 provides the closing framing and concluding takeaways of the lecture.",
+      "rating": "start"
+    }
+  ],
+  "unsureDecided": [
+    {
+      "subtopicId": 9,
+      "stretchBefore": [7, 8],
+      "stretchAfter": [10, 13],
+      "sharesWithBefore": "Both sections discuss specific environmental agents that cause cancer.",
+      "sharesWithAfter": "Both subtopic 9 and subtopics 10 to 13 specifically address chemical and physical mutagens, xenobiotic metabolism by P450 enzymes, DNA adduct formation, and direct mechanisms of DNA damage.",
+      "belongsWith": "after"
+    },
+    {
+      "subtopicId": 14,
+      "stretchBefore": [9, 13],
+      "stretchAfter": [15, 17],
+      "sharesWithBefore": "Both sections discuss environmental exposures and biochemical mechanisms that contribute to cancer development.",
+      "sharesWithAfter": "Both subtopic 14 and subtopics 15 to 17 focus on the distinction between mutagens (initiators) and non-mutagenic promoters, chronic inflammation, DAG/PKC signaling, and host developmental susceptibility.",
+      "belongsWith": "after"
+    }
+  ],
+  "revisited": [],
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, outlines the cancer lecture series, and sets out the key learning objectives on environmental cancer causes, carcinogenicity testing, and tumor initiation versus promotion.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Genetic Basis, Environmental Risk, and Epidemiology",
+      "groupedBecause": "These subtopics define cancer as a genetic and evolutionary disease, present the roulette wheel model of intrinsic and environmental mutational risk, examine the debate over bad luck versus exposure, and analyze global epidemiological variation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and Viral Oncogenesis",
+      "groupedBecause": "These subtopics examine how biological pathogens drive malignancy, detailing specific oncogenic viruses, bacteria, and parasites, with an in-depth case study of Burkitt lymphoma, malaria co-infection, and Epstein-Barr virus.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens: DNA Adducts and Metabolic Activation",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which dietary, environmental, and physical carcinogens—including aflatoxin, UV radiation, benzo[a]pyrene, TCDD, and aromatic amines—undergo xenobiotic metabolic activation to induce DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Initiator-Promoter Cooperation, and Host Context",
+      "groupedBecause": "These subtopics distinguish non-mutagenic tumor promoters from mutational initiators using asbestos, the Berenbaum two-stage model of TPA and PKC activation, host developmental timing, and a synthesis of carcinogenesis mechanisms.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics describe the experimental, computational, and population-based tools used to identify and evaluate carcinogens, including mutational signature sequencing, epidemiological biobanks, in vivo rodent assays, and the in vitro Ames test.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Summary and Risk-Benefit Considerations",
+      "groupedBecause": "The lecturer concludes the lecture by framing carcinogenic exposure within everyday risk-benefit decision-making and summarizing the primary lecture themes.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

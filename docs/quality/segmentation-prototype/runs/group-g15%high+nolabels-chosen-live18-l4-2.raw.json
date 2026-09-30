@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces herself, outlines the cancer lecture series, and presents the key learning outcomes regarding environmental exposures, carcinogenicity testing, and tumor initiation versus promotion.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins of cancer: intrinsic factors, bad luck, and environmental exposures",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease and evaluate the relative contributions of intrinsic biological bad luck, genetic predisposition, and environmental exposures to overall cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of carcinogenic agents: initiation, promotion, and host susceptibility",
+      "groupedBecause": "These subtopics examine the biochemical and cellular mechanisms by which environmental agents drive tumorigenesis through direct mutagenesis, metabolic activation, tumor promotion, and host tissue susceptibility.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for detecting and testing carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, in vivo, and in vitro methodologies used to detect carcinogen exposure and evaluate carcinogenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion and risk-benefit evaluation of carcinogens",
+      "groupedBecause": "The lecturer concludes the lecture by reflecting on daily risk-versus-benefit decisions regarding carcinogen exposure and summarising the key takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

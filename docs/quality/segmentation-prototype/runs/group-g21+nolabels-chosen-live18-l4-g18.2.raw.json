@@ -1,0 +1,86 @@
+{
+  "unsureMarks": [
+    {
+      "subtopicId": 9,
+      "segmentBefore": [7, 8],
+      "segmentBeforeIsAbout": "Pathogens and infectious agents as cancer drivers, illustrated by Burkitt lymphoma",
+      "segmentAfter": [9, 9],
+      "segmentAfterIsAbout": "Dietary carcinogens and metabolic activation to DNA adducts, exemplified by aflatoxin",
+      "caseForStart": "The lecture moves from biological infectious agents to dietary and chemical carcinogens that form DNA adducts.",
+      "caseAgainst": "Subtopic 7 explicitly framed infectious agents as the first entry in an overarching survey of environmental carcinogens; dietary aflatoxin simply continues that sequence.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 10,
+      "segmentBefore": [9, 9],
+      "segmentBeforeIsAbout": "Dietary carcinogens and aflatoxin-induced DNA adducts",
+      "segmentAfter": [10, 10],
+      "segmentAfterIsAbout": "UV radiation and the formation of thymine dimers",
+      "caseForStart": "The lecture transitions from chemical and dietary mutagens to physical radiation.",
+      "caseAgainst": "Subtopic 10 is a brief single-paragraph example continuing the continuous inventory of environmental mutagens and mechanisms of DNA damage.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 11,
+      "segmentBefore": [10, 10],
+      "segmentBeforeIsAbout": "UV radiation damage and thymine dimer formation",
+      "segmentAfter": [11, 13],
+      "segmentAfterIsAbout": "Chemical carcinogens in tobacco smoke, xenobiotic metabolic activation, and tissue-specific DNA damage",
+      "caseForStart": "The lecture delves into detailed biochemical pathways of xenobiotic metabolism, CYP1A1 activation, and tissue specificity.",
+      "caseAgainst": "Chemical mutagens like benzo[a]pyrene and aromatic amines belong to the same broader catalog of environmental exposures causing direct DNA damage.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 14,
+      "segmentBefore": [11, 13],
+      "segmentBeforeIsAbout": "Chemical mutagens requiring metabolic activation to form DNA-damaging adducts",
+      "segmentAfter": [15, 15],
+      "segmentAfterIsAbout": "Non-mutagenic carcinogens, tumor promoters versus initiators, and the Berenbaum two-stage carcinogenesis model",
+      "caseForStart": "The lecture shifts conceptually from agents that directly mutate DNA (initiators) to non-mutagenic agents that foster supportive microenvironments and proliferation (promoters), fulfilling a primary lecture learning objective.",
+      "caseAgainst": "Asbestos and chemical promoters can be seen as further examples in the ongoing survey of environmental cancer-causing agents.",
+      "decision": "start"
+    },
+    {
+      "subtopicId": 16,
+      "segmentBefore": [14, 15],
+      "segmentBeforeIsAbout": "Tumor promoters, chronic inflammation, and the Berenbaum two-stage model of initiation and promotion",
+      "segmentAfter": [16, 17],
+      "segmentAfterIsAbout": "Host developmental timing and tissue susceptibility to carcinogenesis, followed by a section summary",
+      "caseForStart": "The lecture pivots from the properties of external agents to intrinsic host vulnerability and developmental life stages.",
+      "caseAgainst": "Subtopics 16 and 17 conclude the discussion of carcinogenic mechanisms and microenvironmental context before summarizing the entire section on carcinogenesis mechanisms.",
+      "decision": "no start"
+    }
+  ],
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the key learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals of Cancer Causation and Epidemiology",
+      "groupedBecause": "These subtopics explore the biological basis of cancer as an evolutionary genetic disease influenced by intrinsic bad luck, microenvironmental factors, and population-level epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Mutagens and Direct DNA Damage",
+      "groupedBecause": "These subtopics detail various environmental, biological, and chemical mutagens—including infectious pathogens, dietary toxins, radiation, and tobacco smoke—and the biochemical mechanisms by which they induce DNA mutations.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Tumor Initiation, Promotion, and Host Context",
+      "groupedBecause": "These subtopics distinguish tumor initiators from non-mutagenic promoters, examining the role of inflammation, cell signaling, and host developmental timing in cancer outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Determining Carcinogenicity",
+      "groupedBecause": "These subtopics explain the experimental and analytical tools used to prove carcinogenicity, including mutational signature sequencing, biobank epidemiology, animal toxicology studies, and the Ames test.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "The lecturer concludes the session by discussing personal risk-benefit decisions regarding carcinogen exposure and summarizing the lecture's core themes.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

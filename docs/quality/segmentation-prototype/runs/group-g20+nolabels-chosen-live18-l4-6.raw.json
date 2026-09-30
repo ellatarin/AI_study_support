@@ -1,0 +1,132 @@
+{
+  "borders": [
+    {
+      "subtopicId": 2,
+      "before": "the lecturer's introductory remarks, course context, and lecture learning objectives",
+      "after": "the core definition of cancer as a genetic, evolutionary disease and the role of the microenvironment",
+      "caseForKeeping": "Subtopic 1 is introductory framing, while subtopic 2 begins the substantive scientific content of the lecture.",
+      "caseForMoving": "There is no alternative boundary, as subtopic 1 is purely introductory and subtopic 2 directly introduces the biology of cancer.",
+      "caseForRemoving": "Removing the border would conflate administrative course framing with the substantive scientific teaching on cancer etiology.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 7,
+      "before": "epidemiological geographic patterns and the debate over genetic versus environmental and bad luck causes",
+      "after": "infectious agents and pathogens that drive carcinogenesis, such as H. pylori, viruses, and parasites",
+      "caseForKeeping": "Subtopic 7 begins a focused exploration of specific biological carcinogens (pathogens), moving on from the general epidemiological and conceptual framework in subtopics 2–6.",
+      "caseForMoving": "Moving the border to subtopic 6 would place general global epidemiology with infectious mechanisms; moving it to subtopic 8 would separate the general survey of infectious agents from the Burkitt lymphoma case study.",
+      "caseForRemoving": "Removing the border would blend the overarching discussion of cancer causation and epidemiology with detailed pathogen mechanisms.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 9,
+      "before": "a detailed case study of Epstein-Barr virus, malaria, and chromosomal translocation in Burkitt lymphoma",
+      "after": "dietary, physical, and chemical mutagens, beginning with aflatoxin epoxide adduct formation",
+      "caseForKeeping": "Subtopic 9 shifts the lecture from biological agents (pathogens) to chemical and physical mutagens that damage DNA directly or via metabolic activation.",
+      "caseForMoving": "Moving the border to subtopic 8 would split the infectious agents section in half; moving it to subtopic 10 would omit aflatoxin from the chemical mutagen section.",
+      "caseForRemoving": "Removing the border would merge pathogen-driven carcinogenesis with chemical and radiation-induced DNA damage mechanisms.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 14,
+      "before": "chemical mutagens requiring xenobiotic metabolic activation and tissue-specific activation of beta-naphthylamine",
+      "after": "non-mutagenic tumour promotion, chronic inflammation illustrated by asbestos, and the Berenbaum initiator-promoter model",
+      "caseForKeeping": "Subtopic 14 introduces the fundamental conceptual distinction between tumour initiators (mutagens) and tumour promoters (inflammatory/proliferative stimuli).",
+      "caseForMoving": "Moving the border to subtopic 13 would place beta-naphthylamine (a direct/metabolically activated mutagen) into the promotion topic; moving it to subtopic 15 would separate the asbestos case study from the promoter concept it exemplifies.",
+      "caseForRemoving": "Removing the border would conflate direct chemical mutagens with non-mutagenic promoters and host microenvironmental factors.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 18,
+      "before": "a comprehensive summary of DNA damage mechanisms, xenobiotic metabolism, promoters, and host developmental susceptibility",
+      "after": "technological and analytical methods used to identify carcinogen exposure, starting with mutational signatures from whole genome sequencing",
+      "caseForKeeping": "Subtopic 18 transitions from the biological mechanisms of carcinogenesis to the experimental and epidemiological methods used to detect and prove carcinogenicity.",
+      "caseForMoving": "Moving the border to subtopic 17 would pull a summary slide of mechanisms into the methodology section; moving it to subtopic 19 would separate mutational signatures from other testing methods.",
+      "caseForRemoving": "Removing the border would combine the biological mechanisms of cancer formation with the diagnostic and experimental methodologies used to study them.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 22,
+      "before": "in vitro mutagenicity testing using the Ames test and its strengths and limitations compared to in vivo systems",
+      "after": "lecture wrap-up, real-world risk versus benefit trade-offs regarding carcinogen exposures, and closing remarks",
+      "caseForKeeping": "Subtopic 22 represents the closing framing and takeaway summary of the lecture, distinct from the technical discussion of carcinogenicity assays.",
+      "caseForMoving": "There is no later subtopic, and moving it to subtopic 21 would pull technical Ames test mechanics into the closing remarks.",
+      "caseForRemoving": "Removing the border would merge the closing framing and concluding thoughts with the technical methodology section.",
+      "decision": "keep"
+    }
+  ],
+  "insides": [
+    {
+      "topicStartsAt": 2,
+      "divideAt": 4,
+      "caseForDividing": "Subtopics 2–3 address the fundamental biology of cancer as an evolutionary/genetic disease, whereas subtopics 4–6 focus on environmental exposures, the public debate on 'bad luck', and geographic epidemiology.",
+      "caseForKeepingWhole": "Subtopics 2–6 together build the introductory conceptual framework of cancer etiology, establishing the interplay between intrinsic cellular errors, environmental mutagens, and population-level epidemiological evidence.",
+      "decision": "keep whole"
+    },
+    {
+      "topicStartsAt": 7,
+      "divideAt": 8,
+      "caseForDividing": "Subtopic 7 provides an overview of various oncogenic pathogens, whereas subtopic 8 is a dedicated historical and mechanistic case study of Burkitt lymphoma.",
+      "caseForKeepingWhole": "Subtopic 8 serves as the primary detailed example illustrating the viral and co-infectious principles introduced in subtopic 7.",
+      "decision": "keep whole"
+    },
+    {
+      "topicStartsAt": 9,
+      "divideAt": 11,
+      "caseForDividing": "Subtopics 9–10 discuss aflatoxin and UV light, while subtopics 11–13 focus specifically on polycyclic aromatic hydrocarbons, xenobiotic metabolism via AhR/CYP1A1, and tissue-specific activation.",
+      "caseForKeepingWhole": "All subtopics in this section systematically address chemical and physical agents that cause DNA damage, bulky adducts, and transversions.",
+      "decision": "keep whole"
+    },
+    {
+      "topicStartsAt": 14,
+      "divideAt": 16,
+      "caseForDividing": "Subtopics 14–15 define promoters and the Berenbaum model, while subtopics 16–17 focus on host developmental stages, tissue susceptibility, and an overarching summary of mechanisms.",
+      "caseForKeepingWhole": "These subtopics together address the non-initiating factors in carcinogenesis—including chronic inflammation, promoter signalling, host developmental windows, and tissue context.",
+      "decision": "keep whole"
+    },
+    {
+      "topicStartsAt": 18,
+      "divideAt": 20,
+      "caseForDividing": "Subtopics 18–19 cover human-focused observational methods (mutational signatures and biobank epidemiology), while subtopics 20–21 cover experimental toxicology (in vivo animal bioassays and in vitro Ames tests).",
+      "caseForKeepingWhole": "All four subtopics form a cohesive survey of the complementary methodological tools used by toxicologists and cancer researchers to prove carcinogenicity.",
+      "decision": "keep whole"
+    }
+  ],
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "It provides introductory framing by introducing the lecturer, setting the lecture series context, and outlining the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Genetic, Endogenous, and Environmental Factors",
+      "groupedBecause": "It establishes the conceptual foundation of cancer as a multi-step genetic disease driven by a balance of intrinsic replication errors, inherited predisposition, and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and Pathogen-Driven Carcinogenesis",
+      "groupedBecause": "It examines how oncogenic viruses, bacteria, and parasites contribute to malignancy, featuring an in-depth case study of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical DNA Damage",
+      "groupedBecause": "It details how dietary, environmental, and chemical carcinogens undergo metabolic activation to induce DNA adducts and specific mutational transitions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Initiation, Promotion, and Host Susceptibility",
+      "groupedBecause": "It explores the distinction between mutational tumour initiators and non-mutagenic promoters alongside the influence of inflammation and host developmental timing on carcinogenesis.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "It reviews the analytical, epidemiological, in vivo, and in vitro experimental strategies used to evaluate and confirm the carcinogenic potential of agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "It closes the lecture with a summary of environmental causation and frames exposure choices within everyday risk-benefit assessments.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

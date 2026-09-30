@@ -1,0 +1,111 @@
+{
+  "borders": [
+    {
+      "subtopicId": 2,
+      "before": "The lecture's welcome, series overview, and learning outcomes.",
+      "after": "The foundational definition of cancer as a genetic and microenvironmental disease driven by micro-evolution.",
+      "caseForKeeping": "Subtopic 1 is lecture opening and administrative framing, while subtopic 2 begins the substantive subject matter.",
+      "caseForMoving": "There is no earlier subtopic, and moving to subtopic 3 would orphan the fundamental definition of cancer in the introductory framing.",
+      "caseForRemoving": "Removing the border would conflate course housekeeping and pedagogical framing with substantive biology.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 7,
+      "before": "Global epidemiological patterns, geographic cancer incidence variation, and migrant studies comparing genetics versus environment.",
+      "after": "A survey of infectious agents and pathogens that drive cancer development.",
+      "caseForKeeping": "Subtopic 6 concludes the high-level discussion of cancer etiology and epidemiological evidence, while subtopic 7 starts the specific exploration of biological carcinogens (pathogens).",
+      "caseForMoving": "Moving the border to subtopic 8 would separate the general introduction of pathogens from the detailed Burkitt lymphoma case study.",
+      "caseForRemoving": "Removing the border would merge general epidemiological framing of cancer risk with the specific biological study of pathogens.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 9,
+      "before": "The mechanism of Burkitt lymphoma pathogenesis involving EBV, malaria, and Myc translocation.",
+      "after": "Dietary carcinogens and the biochemical activation of aflatoxin into reactive DNA adducts.",
+      "caseForKeeping": "Subtopics 7–8 deal specifically with infectious pathogens, whereas subtopic 9 shifts to non-biological chemical mutagens and dietary exposures.",
+      "caseForMoving": "Moving to subtopic 10 would place aflatoxin, a chemical toxin, into the pathogen section.",
+      "caseForRemoving": "Removing the border would lump together distinct biological infectious agents and chemical/physical carcinogens under one overly broad topic.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 18,
+      "before": "A summary of the mechanisms of DNA damage, xenobiotic metabolism, tumor promotion, and tissue/developmental stage susceptibility.",
+      "after": "High-throughput whole-genome sequencing and mutational signatures used to identify carcinogen exposure.",
+      "caseForKeeping": "Subtopic 17 completes the mechanistic breakdown of carcinogenesis, and subtopic 18 initiates the methodologies used to detect and prove carcinogenicity.",
+      "caseForMoving": "Moving the border to subtopic 17 would detach the concluding mechanistic summary from the specific mechanisms it summarizes.",
+      "caseForRemoving": "Removing the border would blend the biological mechanisms of how carcinogens act with the research methods used to detect and prove them.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 22,
+      "before": "The Ames test and the technical limitations of in vitro mutagenicity testing.",
+      "after": "The concluding synthesis of environmental risk versus benefit and closing remarks.",
+      "caseForKeeping": "Subtopic 21 ends the evaluation of scientific testing methodologies, while subtopic 22 provides the closing framing and lecture summary.",
+      "caseForMoving": "Moving the border earlier to subtopic 21 would mix experimental in vitro testing with the concluding summary.",
+      "caseForRemoving": "Removing the border would append the lecture conclusion onto the discussion of in vitro laboratory assays.",
+      "decision": "keep"
+    }
+  ],
+  "insides": [
+    {
+      "topicStartsAt": 2,
+      "divideAt": 4,
+      "caseForDividing": "Subtopics 2–3 discuss the theoretical and endogenous foundations of cancer etiology, whereas subtopics 4–6 address external environmental exposures and population epidemiology.",
+      "caseForKeepingWhole": "Subtopics 2–6 together build a single coherent overview of cancer etiology by weighing intrinsic cellular bad luck against environmental factors and epidemiological evidence.",
+      "decision": "keep whole"
+    },
+    {
+      "topicStartsAt": 7,
+      "divideAt": 8,
+      "caseForDividing": "Subtopic 7 lists various infectious pathogens generally, whereas subtopic 8 focuses exclusively on the historical and molecular case study of Burkitt lymphoma.",
+      "caseForKeepingWhole": "Subtopic 8 serves as the extended, in-depth mechanistic illustration of the infectious oncogenesis principles established in subtopic 7.",
+      "decision": "keep whole"
+    },
+    {
+      "topicStartsAt": 9,
+      "divideAt": 14,
+      "caseForDividing": "Subtopics 9–13 detail direct chemical mutagens and xenobiotic metabolism, while subtopics 14–17 focus on non-mutagenic promoters, chronic inflammation, and host tissue susceptibility.",
+      "caseForKeepingWhole": "All subtopics (9–17) form a continuous exploration of molecular mechanisms of carcinogenesis, systematically covering direct mutagens, promoters, and host factors before summarizing them in subtopic 17.",
+      "decision": "keep whole"
+    },
+    {
+      "topicStartsAt": 18,
+      "divideAt": 19,
+      "caseForDividing": "Subtopic 18 examines molecular mutational signatures in DNA, while subtopics 19–21 review traditional epidemiological, in vivo, and in vitro validation assays.",
+      "caseForKeepingWhole": "Subtopics 18–21 collectively present the complete spectrum of complementary methodologies used by researchers to determine and validate carcinogenicity.",
+      "decision": "keep whole"
+    }
+  ],
+  "topics": [
+    {
+      "label": "Introduction and Course Overview",
+      "groupedBecause": "Introduces the lecturer, the structure of the cancer lecture series, and the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Intrinsic Risk versus Environmental Factors",
+      "groupedBecause": "Explores the fundamental drivers of cancer development, comparing intrinsic genetic mutations and endogenous cellular errors with environmental exposures and epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and Infectious Causes of Cancer",
+      "groupedBecause": "Examines how infectious agents drive oncogenesis, focusing on the epidemiological and molecular mechanisms demonstrated by Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical Mutagens, Promoters, and Host Susceptibility",
+      "groupedBecause": "Details how chemical carcinogens and radiation damage DNA through direct adducts, metabolic activation, tumor promotion, and developmental stage susceptibility.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methods for Determining and Validating Carcinogenicity",
+      "groupedBecause": "Describes the genomic, epidemiological, animal, and in vitro experimental strategies used to detect and evaluate carcinogenic exposures.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Assessment",
+      "groupedBecause": "Summarizes the lecture's core themes regarding environmental cancer risk and balances carcinogenic hazards against practical everyday choices.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

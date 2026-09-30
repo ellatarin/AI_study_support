@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces herself, frames the course of cancer lectures, and outlines the learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mechanisms and drivers of cancer development",
+      "groupedBecause": "These subtopics explore the biological fundamentals of cancer as a genetic and evolutionary disease driven by an interplay of endogenous processes, bad luck, and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epidemiological patterns and environmental carcinogens",
+      "groupedBecause": "These subtopics discuss epidemiological geographic variations in cancer rates and examine specific environmental, infectious, and chemical agents that induce malignancy.",
+      "firstSubtopicId": 6
+    },
+    {
+      "label": "Initiation, promotion, and host susceptibility factors",
+      "groupedBecause": "These subtopics address the mechanistic distinction between cancer initiators and promoters, including inflammation and host developmental vulnerability.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Mid-lecture summary of carcinogenesis mechanisms",
+      "groupedBecause": "This subtopic provides a self-contained summary of the preceding discussion on direct mutagens, promoters, and host-specific factors.",
+      "firstSubtopicId": 17
+    },
+    {
+      "label": "Methods for detecting and testing carcinogenicity",
+      "groupedBecause": "These subtopics examine experimental, mutational, and epidemiological methodologies used to identify and prove the carcinogenicity of substances.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk-benefit analysis",
+      "groupedBecause": "The lecturer concludes the lecture by framing carcinogenic exposure within daily risk-benefit decisions and summarising core takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

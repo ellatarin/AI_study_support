@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the core learning outcomes regarding cancer etiology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: intrinsic mutations, environmental risk, and epidemiological evidence",
+      "groupedBecause": "These subtopics establish the genetic and evolutionary nature of cancer and explore how intrinsic errors, inherited traits, and environmental exposures contribute to cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents and viral mechanisms in cancer",
+      "groupedBecause": "These subtopics explore how infectious pathogens drive malignant transformation, focusing on Burkitt lymphoma as a prime example.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which physical radiation and chemical agents cause DNA mutations directly or through xenobiotic metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promoters, chronic inflammation, and tissue susceptibility",
+      "groupedBecause": "These subtopics examine how non-mutagenic tumor promoters, chronic inflammation, and host developmental states drive neoplastic growth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for evaluating carcinogenicity",
+      "groupedBecause": "These subtopics describe the scientific methodologies used to identify carcinogens and assess their mutagenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Summary and risk-benefit considerations",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of environmental cancer risks and the daily balance of risks and benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

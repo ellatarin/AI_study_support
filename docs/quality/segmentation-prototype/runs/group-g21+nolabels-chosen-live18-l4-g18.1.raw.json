@@ -1,0 +1,121 @@
+{
+  "unsureMarks": [
+    {
+      "subtopicId": 9,
+      "segmentBefore": [7, 8],
+      "segmentBeforeIsAbout": "infectious agents and mechanisms linking pathogens like EBV and H. pylori to cancer",
+      "segmentAfter": [9, 9],
+      "segmentAfterIsAbout": "dietary carcinogens and the mutagenic mechanism of aflatoxin",
+      "caseForStart": "The lecture shifts focus away from biological/infectious agents to examine chemical carcinogens found in the human diet.",
+      "caseAgainst": "Dietary toxins are simply another category within the broader survey of environmental causes and mechanisms of mutagenesis.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 10,
+      "segmentBefore": [9, 9],
+      "segmentBeforeIsAbout": "dietary carcinogens and DNA adduct formation by aflatoxin",
+      "segmentAfter": [10, 10],
+      "segmentAfterIsAbout": "UV radiation and the formation of thymine dimers",
+      "caseForStart": "The discussion turns from chemical dietary mutagens to physical radiation as a cause of DNA damage.",
+      "caseAgainst": "UV light is a brief single-subtopic example within the ongoing overview of various environmental mutagens.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 11,
+      "segmentBefore": [10, 10],
+      "segmentBeforeIsAbout": "UV radiation and pyrimidine dimer DNA damage",
+      "segmentAfter": [11, 12],
+      "segmentAfterIsAbout": "polycyclic aromatic hydrocarbons in tobacco smoke and cooked meat, xenobiotic metabolism, and TCDD",
+      "caseForStart": "The lecturer moves into detailed biochemical mechanisms of chemical carcinogenesis, specifically xenobiotic activation via the aryl hydrocarbon receptor.",
+      "caseAgainst": "Polycyclic aromatic hydrocarbons are another class of environmental mutagens continuing the systematic review of carcinogens.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 13,
+      "segmentBefore": [11, 12],
+      "segmentBeforeIsAbout": "PAHs, CYP1A1 metabolism, bulky DNA adducts, and TCDD-induced oxidative stress",
+      "segmentAfter": [13, 13],
+      "segmentAfterIsAbout": "aromatic amines, beta-naphthylamine, and tissue-specific carcinogenicity in the bladder",
+      "caseForStart": "The lecture highlights tissue-specific enzymatic reactivation rather than general systemic xenobiotic metabolism.",
+      "caseAgainst": "Aromatic amines are another chemical component of cigarette smoke illustrating specific biochemical variations of chemical carcinogenesis.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 14,
+      "segmentBefore": [13, 13],
+      "segmentBeforeIsAbout": "aromatic amines and tissue-specific activation in bladder cancer",
+      "segmentAfter": [14, 15],
+      "segmentAfterIsAbout": "non-mutagenic carcinogens, asbestos, chronic inflammation, and the initiator versus promoter paradigm",
+      "caseForStart": "The lecture transitions from directly mutagenic agents to non-mutagenic tumor promoters and the two-stage model of carcinogenesis.",
+      "caseAgainst": "Tumor promoters and inflammatory agents such as asbestos are introduced as another facet of environmental causes of cancer, integrated into the overall summary in subtopic 17.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 16,
+      "segmentBefore": [14, 15],
+      "segmentBeforeIsAbout": "tumor promotion mechanisms and the Berenbaum initiator-promoter experiment",
+      "segmentAfter": [16, 17],
+      "segmentAfterIsAbout": "host cell developmental susceptibility to alkylating agents and a comprehensive summary of carcinogenic mechanisms",
+      "caseForStart": "The lecturer shifts attention from external promoting agents to host factors such as developmental stage and hormonal status influencing susceptibility.",
+      "caseAgainst": "Host and tissue susceptibility is the final factor examined in the comprehensive survey of how environmental agents cause cancer, directly concluded by the summary in subtopic 17.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 19,
+      "segmentBefore": [18, 18],
+      "segmentBeforeIsAbout": "identifying carcinogenic exposure through whole-genome sequencing and mutational signatures",
+      "segmentAfter": [19, 19],
+      "segmentAfterIsAbout": "epidemiological cohorts, biomarker surveillance in urine, and population biobanks",
+      "caseForStart": "The focus transitions from molecular DNA sequencing signatures to population-level epidemiology and biobank studies.",
+      "caseAgainst": "Epidemiology and biomarker tracking are part of the overarching topic addressing the methodologies used to determine and prove carcinogenicity.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 20,
+      "segmentBefore": [19, 19],
+      "segmentBeforeIsAbout": "epidemiological methodology, biomarker tracking, and biobank cohorts",
+      "segmentAfter": [20, 20],
+      "segmentAfterIsAbout": "in vivo animal toxicology studies, maximum tolerated doses, and their limitations",
+      "caseForStart": "The discussion switches from human population studies to animal model toxicology assays.",
+      "caseAgainst": "Animal testing is simply the in vivo modality within the broader discussion of experimental methodologies used to evaluate carcinogenicity.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 21,
+      "segmentBefore": [20, 20],
+      "segmentBeforeIsAbout": "animal toxicology models, species concordance, and dose considerations",
+      "segmentAfter": [21, 21],
+      "segmentAfterIsAbout": "in vitro bacterial mutagenesis testing using the Ames test and its limitations",
+      "caseForStart": "The lecture turns specifically to in vitro laboratory screening tools such as the Ames test.",
+      "caseAgainst": "The Ames test is the final experimental methodology evaluated in the section on how carcinogenicity is tested and proved.",
+      "decision": "no start"
+    }
+  ],
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "It provides introductory framing, lecturer introductions, and the key learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Nature of Cancer, Somatic Evolution, and Epidemiological Variations",
+      "groupedBecause": "These subtopics explain the core concepts of cancer as a genetic and evolutionary disease, the interplay of bad luck versus environmental exposure, and global geographical variations in cancer incidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Carcinogens, Mutagenic Mechanisms, and Tumor Promotion",
+      "groupedBecause": "These subtopics systematically explore specific environmental causes of cancer—including pathogens, dietary toxins, radiation, chemical xenobiotics, tumor promoters, and host developmental vulnerability—and summarize their mechanisms.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Investigating and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics describe the scientific tools used to identify and prove carcinogens, spanning mutational signature sequencing, epidemiological biobanks, in vivo animal models, and in vitro Ames assays.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Analysis",
+      "groupedBecause": "It closes the lecture by synthesizing the balance between environmental risks and practical benefits and summarizing the key takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

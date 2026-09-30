@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "This opening subtopic introduces the lecturer, the course context, and the core learning objectives for the lecture on cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Genetic Basis and Intrinsic Drivers of Cancer",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease driven by intrinsic cellular errors, genetic predisposition, and a supportive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence",
+      "groupedBecause": "These subtopics assess evidence for environmental cancer causation by examining real-world exposures, the bad-luck versus environment debate, and geographical variations in cancer rates.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Pathogen-Driven Carcinogenesis",
+      "groupedBecause": "These subtopics examine how infectious agents and chronic infections contribute to cancer development, using Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics describe how physical radiation and chemical carcinogens damage DNA, emphasizing how xenobiotic metabolism converts inert compounds into reactive mutagens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics explain how non-mutagenic factors like chronic inflammation, tumor promoters, and developmental timing create permissive conditions for malignant outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Identifying and Testing Carcinogens",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, and experimental methodologies used to identify carcinogens and evaluate their mutagenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion: Risk-Benefit Decisions in Cancer Prevention",
+      "groupedBecause": "This closing subtopic concludes the lecture by framing cancer risk within everyday benefit-versus-risk decisions and providing a final summary.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

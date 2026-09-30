@@ -1,0 +1,91 @@
+{
+  "unsureMarks": [
+    {
+      "subtopicId": 4,
+      "segmentBefore": [2, 3],
+      "segmentBeforeIsAbout": "Biological fundamentals of cancer as a genetic/evolutionary disease and general causes including endogenous stress, bad luck, and genetics.",
+      "segmentAfter": [4, 6],
+      "segmentAfterIsAbout": "Everyday environmental exposures, the public debate surrounding bad luck versus environmental causes, and geographical epidemiology.",
+      "caseForStart": "Subtopic 4 moves away from the biological definitions of cancer and endogenous mutations to focus on real-world environmental hazards, public misconceptions, and epidemiological studies.",
+      "caseAgainst": "Subtopics 2 to 6 work together as an overarching introductory overview of cancer etiology and risk before detailed molecular mechanisms are addressed.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 9,
+      "segmentBefore": [7, 8],
+      "segmentBeforeIsAbout": "Carcinogenesis driven by infectious agents, pathogens, and the specific mechanism of Burkitt lymphoma.",
+      "segmentAfter": [9, 9],
+      "segmentAfterIsAbout": "Dietary carcinogens and the formation of reactive DNA adducts by aflatoxin.",
+      "caseForStart": "Subtopic 9 shifts the mechanistic focus from infectious pathogens and immune deregulation to chemical toxins found in food.",
+      "caseAgainst": "Subtopic 9 is simply the next category in a continuous sequence of specific environmental carcinogens that began in subtopic 7.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 10,
+      "segmentBefore": [9, 9],
+      "segmentBeforeIsAbout": "Aflatoxin metabolism in the liver and bulky DNA adduct formation.",
+      "segmentAfter": [10, 10],
+      "segmentAfterIsAbout": "UV radiation damage and thymine dimer formation.",
+      "caseForStart": "Subtopic 10 focuses on physical radiation and nucleotide excision repair rather than ingested dietary chemicals.",
+      "caseAgainst": "Subtopic 10 is a single, brief subtopic providing another example within the broader survey of DNA-damaging environmental agents.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 11,
+      "segmentBefore": [10, 10],
+      "segmentBeforeIsAbout": "Thymine dimer formation caused by UV radiation.",
+      "segmentAfter": [11, 13],
+      "segmentAfterIsAbout": "Chemical mutagens in tobacco smoke and cooked meat, xenobiotic metabolism, and tissue-specific carcinogens.",
+      "caseForStart": "Subtopic 11 starts a detailed multi-part explanation of xenobiotic metabolism via the aryl hydrocarbon receptor and CYP enzymes.",
+      "caseAgainst": "Tobacco and polycyclic aromatic hydrocarbons are standard examples continuing the overarching walkthrough of environmental mutagens.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 14,
+      "segmentBefore": [11, 13],
+      "segmentBeforeIsAbout": "Chemical mutagens requiring xenobiotic activation to cause DNA transversions and tissue-specific damage.",
+      "segmentAfter": [14, 15],
+      "segmentAfterIsAbout": "Non-mutagenic carcinogens, chronic inflammation, and the distinction between initiators and promoters.",
+      "caseForStart": "Subtopic 14 introduces a major conceptual transition from direct mutagens (initiators) to non-mutagenic inflammatory agents (promoters).",
+      "caseAgainst": "The initiator-promoter paradigm directly builds upon the preceding mechanisms to explain how microenvironmental factors drive tumorigenesis alongside mutagens.",
+      "decision": "no start"
+    },
+    {
+      "subtopicId": 16,
+      "segmentBefore": [14, 15],
+      "segmentBeforeIsAbout": "Experimental evidence for the initiator-promoter hypothesis and protein kinase C activation.",
+      "segmentAfter": [16, 17],
+      "segmentAfterIsAbout": "Host developmental stages and life-stage tissue susceptibility to carcinogens, followed by a summary of mutational mechanisms.",
+      "caseForStart": "Subtopic 16 shifts attention to host biology, developmental windows, and life-stage susceptibility.",
+      "caseAgainst": "Host developmental factors and the concluding summary in subtopic 17 synthesize the entire mechanistic segment on how mutagens and promoters operate.",
+      "decision": "no start"
+    }
+  ],
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The subtopic sets up the lecture series, introduces the speaker, and outlines the core learning outcomes regarding environmental carcinogenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology, Bad Luck, and Epidemiological Evidence",
+      "groupedBecause": "These subtopics provide an overarching framework of cancer causation, balancing endogenous genetic mutations, bad luck, and epidemiological evidence of environmental risks across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenesis: Mutagens, Initiators, and Promoters",
+      "groupedBecause": "These subtopics detail the biological and biochemical mechanisms by which specific environmental agents—pathogens, dietary toxins, radiation, chemical mutagens, and inflammatory promoters—cause and promote cancer.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Assessing Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the scientific methods used to prove and detect carcinogenicity, including mutational signatures, biobank epidemiology, animal toxicity studies, and the Ames test.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Summary and Risk-Benefit Conclusion",
+      "groupedBecause": "The subtopic delivers final summary remarks framing carcinogenic risk versus everyday benefits and closes the lecture.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

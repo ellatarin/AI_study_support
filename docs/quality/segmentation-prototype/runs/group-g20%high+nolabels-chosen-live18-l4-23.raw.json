@@ -1,0 +1,111 @@
+{
+  "borders": [
+    {
+      "subtopicId": 2,
+      "before": "lecturer introduction, course outline, and intended learning outcomes",
+      "after": "definition of cancer as a genetic and microenvironmental disease evolving on a cellular scale",
+      "caseForKeeping": "Subtopic 1 is opening framing that sets expectations and learning outcomes, while subtopic 2 begins substantive scientific exposition on what cancer is.",
+      "caseForMoving": "There is no alternative boundary since subtopic 1 is purely introductory and subtopic 2 immediately begins the core lecture material.",
+      "caseForRemoving": "Joining them would mix preliminary course administration and framing with substantive pathological concepts.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 7,
+      "before": "epidemiological evidence showing worldwide and migrant variations in cancer incidence",
+      "after": "mechanisms of infectious pathogens (such as H. pylori, HPV, EBV, and Aspergillus) in carcinogenesis",
+      "caseForKeeping": "Subtopic 6 concludes the broad overview of environmental versus genetic contributions to cancer incidence, whereas subtopic 7 begins a detailed, mechanistic examination of specific carcinogenic agents.",
+      "caseForMoving": "Moving the border to subtopic 6 would prematurely group broad geographic epidemiology with specific biochemical pathways; moving it to subtopic 8 would separate the general overview of pathogens from the specific Burkitt lymphoma case study.",
+      "caseForRemoving": "Joining them would conflate high-level population risk and public understanding with detailed molecular and cellular mechanisms of individual carcinogens.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 14,
+      "before": "tissue-specific metabolic activation of chemical carcinogens such as aromatic amines in the bladder",
+      "after": "asbestos, chronic inflammation, and the mechanistic distinction between tumor initiators and promoters",
+      "caseForKeeping": "Subtopics 7–13 focus on agents that induce direct or metabolically generated DNA damage, whereas subtopic 14 shifts to non-mutagenic agents, chronic inflammation, and the initiator–promoter paradigm.",
+      "caseForMoving": "Moving the border to subtopic 15 would leave asbestos separated from the two-stage Berenbaum model of promotion it illustrates; moving it to subtopic 13 would place chemical mutagens with promoter concepts.",
+      "caseForRemoving": "Joining them would blur the fundamental distinction between direct DNA-damaging mutagens and non-mutagenic tumor promoters.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 18,
+      "before": "a summary of direct and indirect mutagens, promoters, metabolic activation, and developmental susceptibility windows",
+      "after": "using high-throughput whole-genome sequencing to identify distinct mutational signatures of carcinogens",
+      "caseForKeeping": "Subtopic 17 provides a summary of biological mechanisms of carcinogenesis, while subtopic 18 starts a new section on experimental and analytical methodologies used to prove and detect carcinogenicity.",
+      "caseForMoving": "Moving the border to subtopic 17 would incorrectly place the summary of mechanisms into the methodology topic; moving it to subtopic 19 would separate genomic sequencing approaches from the other testing methodologies.",
+      "caseForRemoving": "Joining them would merge the biological principles of carcinogenesis with the experimental methods used by scientists to detect and prove carcinogenicity.",
+      "decision": "keep"
+    },
+    {
+      "subtopicId": 22,
+      "before": "in vitro testing using the Ames Salmonella reversion assay and its biological limitations",
+      "after": "lecture wrap-up, practical risk-versus-benefit considerations of carcinogen exposure, and final conclusions",
+      "caseForKeeping": "Subtopic 21 concludes the review of scientific assay systems, whereas subtopic 22 serves as the closing framing summarizing the lecture and discussing risk-benefit trade-offs.",
+      "caseForMoving": "There is no other logical split, as subtopic 21 is clearly focused on experimental toxicology and subtopic 22 is the concluding wrap-up.",
+      "caseForRemoving": "Joining them would merge formal closing remarks with the technical evaluation of bacterial mutagenesis assays.",
+      "decision": "keep"
+    }
+  ],
+  "insides": [
+    {
+      "topicStartsAt": 2,
+      "divideAt": 4,
+      "caseForDividing": "Subtopics 2–3 establish theoretical concepts of cancer evolution, endogenous mutational burden, and genetic predispositions, whereas subtopics 4–6 focus on everyday environmental exposures, public perception debates, and global epidemiological variations.",
+      "caseForKeepingWhole": "Subtopics 2 through 6 collectively address the overarching conceptual question of whether cancer is driven by intrinsic bad luck or environmental factors, combining biological principles with epidemiological evidence.",
+      "decision": "keep whole"
+    },
+    {
+      "topicStartsAt": 7,
+      "divideAt": 9,
+      "caseForDividing": "Subtopics 7–8 deal specifically with biological pathogens and viral oncogenesis (notably Burkitt lymphoma), while subtopics 9–13 detail dietary, physical, and chemical mutagens requiring metabolic activation and adduct formation.",
+      "caseForKeepingWhole": "Subtopics 7 to 13 function as a single comprehensive catalogue of specific exogenous mutagens and their molecular mechanisms of inducing DNA alterations.",
+      "decision": "keep whole"
+    },
+    {
+      "topicStartsAt": 14,
+      "divideAt": 16,
+      "caseForDividing": "Subtopics 14–15 focus on tumor promotion via chronic inflammation and PKC signaling pathways, while subtopics 16–17 explore host developmental timing, age at exposure, and tissue susceptibility windows.",
+      "caseForKeepingWhole": "All four subtopics (14–17) deal with non-mutational and contextual determinants of cancer risk—including microenvironmental promotion, inflammatory priming, and host tissue life stages.",
+      "decision": "keep whole"
+    },
+    {
+      "topicStartsAt": 18,
+      "divideAt": 19,
+      "caseForDividing": "Subtopic 18 focuses on modern bioinformatic mutational signatures from DNA sequencing, whereas subtopics 19–21 review traditional epidemiological biobanks, in vivo animal bioassays, and in vitro bacterial testing.",
+      "caseForKeepingWhole": "Subtopics 18 through 21 are united by the single investigative question of how researchers prove and quantify carcinogenicity across molecular, population, animal, and in vitro levels.",
+      "decision": "keep whole"
+    }
+  ],
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the key learning outcomes regarding environmental carcinogens and cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins, Drivers, and Epidemiological Evidence of Cancer",
+      "groupedBecause": "These subtopics explore cancer as an evolutionary genetic process driven by a balance of endogenous metabolic errors, genetic predispositions, environmental exposures, and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Pathogen, Chemical, and Physical Carcinogens",
+      "groupedBecause": "These subtopics detail how specific biological pathogens, dietary toxins, radiation, and chemical carcinogens undergo metabolic processing and induce DNA adducts and mutations.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Tumor Initiation, Promotion, and Host Susceptibility",
+      "groupedBecause": "These subtopics explain the distinction between mutational tumor initiators and inflammatory promoters, alongside the role of host tissue development and life-stage susceptibility in carcinogenesis.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Assessing and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the analytical techniques used to determine carcinogenicity, including mutational signature sequencing, epidemiological biobanks, animal toxicology bioassays, and in vitro Ames tests.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Summary and Risk-Benefit Analysis",
+      "groupedBecause": "The lecturer summarizes the main principles of environmental carcinogenesis and concludes with the everyday risk-benefit trade-offs associated with carcinogenic exposures.",
+      "firstSubtopicId": 22
+    }
+  ]
+}
