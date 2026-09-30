@@ -321,7 +321,7 @@ function skippedEntry({
 	readonly timestamp: string;
 }): ManifestStageEntry {
 	const prior = context.manifest.stages[stageId];
-	const completed = prior?.status === "complete" ? prior : null;
+	const completed = hasSettledOutput(prior) ? prior : null;
 	return {
 		status: "skipped",
 		completedAt: completed?.completedAt ?? timestamp,

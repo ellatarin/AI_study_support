@@ -203,6 +203,8 @@ Runner lifecycle — integration tests (real temp directory with fixture manifes
 - `should execute the stage once when the same lecture is run three times` — driven through the real
   `isStageComplete` rather than a stub, and three runs rather than two: the second run is what records
   `skipped` over `complete`, and the third is what reads that back and decides whether to pay again
+- `should keep the completion's time, settings, cost and files when a skip follows a skip`
+- `should run the stage again when its output is deleted after repeated skips`
 - `should record not-reached in run log when upstream stage fails`
 - `should reset nominated stage and all downstream stages to pending when --from-stage invoked`
 - `should leave upstream stages untouched when --from-stage invoked`

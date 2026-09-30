@@ -274,14 +274,16 @@ describe("PipelineRunner integration", () => {
 	/**
 	 * An audio-extraction stage that writes its output where the runner expects it
 	 * and records the given cost — a stage that succeeded and charged for it, which
-	 * is what every case about a completed stage needs.
+	 * is what every case about a completed stage needs. It decides whether it is
+	 * done through the real check, so a later run over the same lecture skips it.
 	 *
 	 * @param cost - What the stage records for its work.
 	 * @returns The stage.
 	 */
-	function audioStageCosting(cost: StageCost): PipelineStage<unknown, unknown> {
+	function audioStageCosting(cost: StageCost | null): PipelineStage<unknown, unknown> {
 		return makeStubStage({
 			stageId: "audio-extraction",
+			isComplete: realIsComplete("audio-extraction"),
 			run: async ({ context }) => ({
 				output: undefined,
 				cost,
@@ -304,21 +306,8 @@ describe("PipelineRunner integration", () => {
 			// Three, not two: the second run is what rewrites the stage's entry from
 			// `complete` to `skipped`, and the third is what reads that entry back
 			// and decides whether to pay for the work again.
-			const run = vi.fn(async ({ context }: { readonly context: StageContext }) => ({
-				output: undefined,
-				cost: null,
-				filesWritten: [
-					await seedStageOutput({
-						workspaceRoot: context.workspaceRoot,
-						stageId: "audio-extraction",
-					}),
-				],
-			}));
-			const stage = makeStubStage({
-				stageId: "audio-extraction",
-				isComplete: realIsComplete("audio-extraction"),
-				run,
-			});
+			const stage = audioStageCosting(null);
+			const run = vi.spyOn(stage, "run");
 			const runner = makeRunner([stage]);
 
 			await runner.runLecture({ workspaceRoot });
@@ -329,6 +318,41 @@ describe("PipelineRunner integration", () => {
 			expect(third.stageOutcomes).toEqual([
 				outcomeMatching({ stageId: "audio-extraction", action: "skipped" }),
 			]);
+		});
+
+		describe("a stage skipped on run after run", () => {
+			let stage: PipelineStage<unknown, unknown>;
+			let runner: PipelineRunner;
+			let completedEntry: ManifestStageEntry | undefined;
+
+			// The first run completes the stage; the next two skip it. The third is
+			// the first to find a `skipped` entry where the stage's record should be.
+			beforeEach(async () => {
+				stage = audioStageCosting(oneCallCosting(0.5));
+				runner = makeRunner([stage]);
+				await runner.runLecture({ workspaceRoot });
+				completedEntry = (await readManifest({ workspaceRoot })).stages["audio-extraction"];
+				await runner.runLecture({ workspaceRoot });
+				await runner.runLecture({ workspaceRoot });
+			});
+
+			it("should keep the completion's time, settings, cost and files when a skip follows a skip", async () => {
+				const manifest = await readManifest({ workspaceRoot });
+
+				expect(manifest.stages["audio-extraction"]).toEqual({
+					...completedEntry,
+					status: "skipped",
+				});
+			});
+
+			it("should run the stage again when its output is deleted after repeated skips", async () => {
+				const run = vi.spyOn(stage, "run");
+				await rm(stageOutputPath({ workspaceRoot, stageId: "audio-extraction" }));
+
+				await runner.runLecture({ workspaceRoot });
+
+				expect(run).toHaveBeenCalledTimes(1);
+			});
 		});
 
 		describe("what the run reports as it goes", () => {
