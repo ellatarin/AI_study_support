@@ -82,9 +82,22 @@ function mockCompletionReturning(overrides: Record<string, unknown> = {}): void 
 /**
  * Mocks the reply a busy provider produces: accepted with HTTP 200, but
  * carrying its own explanation where the choices should be.
+ *
+ * @param args - What sets this refusal apart; the busy provider's sentence and no id by default.
+ * @param args.message - The provider's sentence.
+ * @param args.id - The generation id the refusal carries, if any.
  */
-function mockCompletionRejectedByProvider(): void {
-	mockCompletion().reply(200, { error: { message: PROVIDER_BUSY_MESSAGE, code: 503 } });
+function mockCompletionRejectedByProvider({
+	message = PROVIDER_BUSY_MESSAGE,
+	id,
+}: {
+	readonly message?: string;
+	readonly id?: string;
+} = {}): void {
+	mockCompletion().reply(200, {
+		...(id === undefined ? {} : { id }),
+		error: { message, code: 503 },
+	});
 }
 
 /** Mocks the cost lookup resolving, to the figure the suite prices everything at. */
@@ -329,32 +342,103 @@ describe("makeCompletionCall", () => {
 
 	// OpenRouter answers some upstream failures with HTTP 200 and an error object
 	// where the choices should be, so the SDK sees a success and hands the body
-	// back. The provider's sentence is the only account of what went wrong.
-	it("should keep the provider's own explanation when a 200 reply carries an error object", async () => {
-		mockCompletionRejectedByProvider();
+	// back. Such a refusal can be transient, so it is sent again, pausing two
+	// seconds and then four (technical-design.md §6).
+	describe("when the provider refuses inside an accepted reply", () => {
+		beforeEach(() => {
+			// Only the pauses are faked: nock's replies must still arrive on their own.
+			vi.useFakeTimers({ toFake: ["setTimeout"] });
+		});
 
-		const error = await captureError(call());
+		afterEach(() => {
+			vi.useRealTimers();
+		});
 
-		expect(error).toBeInstanceOf(CompletionRejectedError);
-		expect(error.message).toContain(PROVIDER_BUSY_MESSAGE);
-		expect(error.message).toContain(openRouterModelId);
-		expect(error.message).toContain("transcript-structuring");
-	});
+		/**
+		 * Runs the clock forward until `pending` settles: the pause before each
+		 * resend begins only once a refusal has arrived, so the clock is moved in
+		 * small steps, letting the stubbed replies arrive between them. Moved in
+		 * large ones, it would outrun a reply and fire the call's own timeout.
+		 */
+		async function settleThroughPauses<TResult>(pending: Promise<TResult>): Promise<TResult> {
+			let settled = false;
+			const watched = pending.finally(() => {
+				settled = true;
+			});
+			while (!settled) {
+				await new Promise((resolve) => {
+					setImmediate(resolve);
+				});
+				await vi.advanceTimersByTimeAsync(100);
+			}
+			return watched;
+		}
 
-	// The thrown error reaches the user; the debug log is where the run is
-	// reconstructed afterwards, and a transient provider failure is exactly the
-	// kind that has to be legible from the log alone.
-	it("should record the provider's explanation in the debug log when a 200 reply carries an error object", async () => {
-		mockCompletionRejectedByProvider();
+		it("should resend a refused call and return the reply when a later send is accepted", async () => {
+			mockCompletionRejectedByProvider();
+			mockCompletionRejectedByProvider();
+			mockCompletionReturning();
+			mockCostResolving();
 
-		await captureError(call());
+			const result = await settleThroughPauses(call());
 
-		expect(loggedAt({ entries: logged().entries, level: "debug" })).toContainEqual(
-			expect.objectContaining({
-				message: "Completion rejected by provider",
-				payload: { model: openRouterModelId, providerMessage: PROVIDER_BUSY_MESSAGE },
-			}),
-		);
+			expect(result.content).toBe("Structured notes.");
+		});
+
+		it("should fail with the last refusal, naming the model and the stage, when every send is refused", async () => {
+			mockCompletionRejectedByProvider();
+			mockCompletionRejectedByProvider();
+			mockCompletionRejectedByProvider({ message: "Upstream rate limit reached." });
+
+			const error = await settleThroughPauses(captureError(call()));
+
+			expect(error).toBeInstanceOf(CompletionRejectedError);
+			expect(error.message).toContain("Upstream rate limit reached.");
+			expect(error.message).toContain(openRouterModelId);
+			expect(error.message).toContain("transcript-structuring");
+		});
+
+		// The error reaches the user only when every send is refused; the log is
+		// where a refusal that a resend got past can still be seen.
+		it("should log each refusal as a warning with which send it was and the provider's sentence when a resend gets past it", async () => {
+			mockCompletionRejectedByProvider();
+			mockCompletionRejectedByProvider();
+			mockCompletionReturning();
+			mockCostResolving();
+
+			await settleThroughPauses(call());
+
+			expect(
+				loggedAt({ entries: logged().entries, level: "warn" }).map((entry) => entry.payload),
+			).toEqual([
+				{ model: openRouterModelId, send: 1, providerMessage: PROVIDER_BUSY_MESSAGE },
+				{ model: openRouterModelId, send: 2, providerMessage: PROVIDER_BUSY_MESSAGE },
+			]);
+		});
+
+		it.each([
+			{
+				scenario: "carries a generation id, whose cost is looked up",
+				refusal: { id: "gen-refused" },
+				costUsd: RESOLVED_COST_USD * 2,
+			},
+			{
+				scenario: "carries no generation id, and so costs nothing",
+				refusal: {},
+				costUsd: RESOLVED_COST_USD,
+			},
+		])("should count the refused send as a call when the refusal $scenario", async ({
+			refusal,
+			costUsd,
+		}) => {
+			mockCompletionRejectedByProvider(refusal);
+			mockCompletionReturning();
+			mockGeneration().times(2).reply(200, generationBody(RESOLVED_COST_USD));
+
+			const result = await settleThroughPauses(call());
+
+			expect(result.cost).toEqual({ ...stubbedTokenUsage, callCount: 2, costUsd });
+		});
 	});
 
 	// The guard above only fires when there is an explanation to report. A reply

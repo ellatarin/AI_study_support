@@ -736,15 +736,18 @@ The deepening tests of the mark are deleted.
 
 **Deliverables:**
 
-- `makeCompletionCall` sends a refused call again, up to three sends, pausing two seconds and then four, logging each refusal as a warning with the provider's sentence; the third refusal is the `CompletionRejectedError` **(TD §6, "A rejection can arrive inside an accepted reply")**. Every refused send is costed.
+- `makeCompletionCall` sends a refused call again, up to three sends, pausing two seconds and then four, logging each refusal as a warning with the provider's sentence; the third refusal is the `CompletionRejectedError` **(TD §6, "A rejection can arrive inside an accepted reply")**. Every refused send counts as a call, costed by its generation id or, without one, as nothing.
+- `src/utils/resend.ts` — `sendUntilAccepted`, the resend loop, moved out of the panel's `sendWithResends` so the completion call and the panel stages share one copy.
 
 **Tests:**
 
-Unit tests for `makeCompletionCall` (mock the client):
+Integration tests for `makeCompletionCall` (stubbed OpenRouter):
 - `should resend a refused call and return the reply when a later send is accepted`
-- `should throw CompletionRejectedError quoting the last refusal when every send is refused`
-- `should log each refusal as a warning with the provider's sentence`
-- `should count the cost of every refused send`
+- `should fail with the last refusal, naming the model and the stage, when every send is refused`
+- `should log each refusal as a warning with which send it was and the provider's sentence`
+- `should count the refused send as a call when the refusal $scenario` — `test.each` across carrying a generation id, whose cost is looked up, and carrying none, which costs nothing
+
+The panel's `sendWithResends` tests cover the shared loop's pauses, cost counting and exhaustion unchanged.
 
 **Acceptance:** A refusal no longer fails a stage unless it recurs on the third send.
 

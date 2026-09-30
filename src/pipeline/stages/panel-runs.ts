@@ -8,21 +8,13 @@ import { join, relative } from "node:path";
 import type { Logger } from "pino";
 import type { StageContext, StageCost, StageId, StageResult } from "../../types/pipeline.js";
 import { mapWithConcurrency } from "../../utils/concurrency.js";
-import { accumulateCost, totalCost } from "../../utils/cost.js";
+import { totalCost } from "../../utils/cost.js";
 import { NamedError } from "../../utils/errors.js";
 import { pathExists, readJsonSafe, writeJsonAtomic } from "../../utils/files.js";
+import { sendUntilAccepted } from "../../utils/resend.js";
 import { configuredStage } from "../../utils/stage-config.js";
 import { type StageInWorkspace, stageDirectoryPaths } from "../layout.js";
-import type { JsonReplyOutcome } from "./model-stage.js";
-
-/** How many times one call is sent before its failure fails the stage. */
-const MAX_SENDS = 3;
-
-/**
- * The pause before the first resend; each later pause is twice the one before.
- * Short, because a provider's empty reply has always succeeded when resent.
- */
-const FIRST_PAUSE_MS = 2000;
+import type { JsonReplyOutcome, UsableJsonReply } from "./model-stage.js";
 
 /** A call still unusable after its last send. Names what was sent and why the last send failed. */
 export class ResendsExhaustedError extends NamedError {}
@@ -36,26 +28,14 @@ export class ResendsExhaustedError extends NamedError {}
 export class SavedRunUnreadableError extends NamedError {}
 
 /**
- * Waits before a resend.
- *
- * @param args - How long to wait.
- * @param args.milliseconds - The length of the pause.
- * @returns A promise that resolves when the pause is over.
- */
-function pause({ milliseconds }: { readonly milliseconds: number }): Promise<void> {
-	return new Promise((resolve) => {
-		setTimeout(resolve, milliseconds);
-	});
-}
-
-/**
  * Sends one call until its reply is usable, up to three sends, pausing two
  * seconds and then four between them. Every send's cost is counted, failed ones
  * included, because each was billed.
  *
  * Only an unusable reply is resent — empty, not JSON, the wrong shape. An error
  * thrown by the call itself passes straight through: the SDK has already
- * retried what is worth retrying at the HTTP level (technical-design.md §8), and
+ * retried what is worth retrying at the HTTP level, a provider's refusal has
+ * already been resent by the completion call (technical-design.md §6, §8), and
  * the rest, such as a prompt too long for the model, would fail the same way again.
  *
  * Every unusable reply is logged as a warning naming the call, which send it
@@ -79,24 +59,16 @@ export async function sendWithResends<TReply>({
 	readonly send: () => Promise<JsonReplyOutcome<TReply>>;
 	readonly what: string;
 	readonly logger: Logger;
-}): Promise<{ readonly reply: TReply; readonly cost: StageCost }> {
-	let cost: StageCost | null = null;
-	let pauseMs = FIRST_PAUSE_MS;
-	for (let sends = 1; ; sends++) {
-		const outcome = await send();
-		cost = accumulateCost({ current: cost, incoming: outcome.cost });
-		if (!("failure" in outcome)) {
-			return { reply: outcome.reply, cost };
-		}
-		logger.warn({ what, send: sends, reason: outcome.failure }, "Unusable reply");
-		if (sends === MAX_SENDS) {
-			throw new ResendsExhaustedError(
-				`${what} failed after ${MAX_SENDS} sends: ${outcome.failure}`,
-			);
-		}
-		await pause({ milliseconds: pauseMs });
-		pauseMs *= 2;
-	}
+}): Promise<UsableJsonReply<TReply>> {
+	const { sent, cost } = await sendUntilAccepted({
+		send,
+		onFailure: ({ send: sends, failure }) => {
+			logger.warn({ what, send: sends, reason: failure }, "Unusable reply");
+		},
+		exhausted: ({ failure, sends }) =>
+			new ResendsExhaustedError(`${what} failed after ${sends} sends: ${failure}`),
+	});
+	return { reply: sent.reply, cost };
 }
 
 /**

@@ -10,6 +10,7 @@ import {
 } from "../types/pipeline.js";
 import { NamedError } from "../utils/errors.js";
 import { isRecord } from "../utils/record.js";
+import { type FailedSend, sendUntilAccepted } from "../utils/resend.js";
 import { configuredStage, unconfiguredStageMessage } from "../utils/stage-config.js";
 
 const OPENROUTER_APP_TITLE = "Lecture Notes Pipeline";
@@ -237,6 +238,21 @@ function providerErrorMessage(response: unknown): string | null {
 }
 
 /**
+ * The generation id a reply carries, read without trusting the SDK's type: a
+ * provider's refusal arrives in the shape of a completion but need not carry
+ * one (technical-design.md §6).
+ *
+ * @param response - The accepted completion reply.
+ * @returns The generation id, or `null` when the reply carries none.
+ */
+function generationIdOf(response: unknown): string | null {
+	if (!isRecord(response) || typeof response.id !== "string") {
+		return null;
+	}
+	return response.id;
+}
+
+/**
  * Renders a rejected completion as an error that names the model and the stage.
  *
  * Every SDK failure arrives as an `APIError` carrying the provider's own words
@@ -367,6 +383,97 @@ export type CompletionRequest = {
 };
 
 /**
+ * What one send of a completion cost: its tokens, and the dollar cost looked up
+ * by its generation id. A send with no generation id — a provider's refusal —
+ * has nothing to look up and is counted as costing nothing, because OpenRouter
+ * does not bill a request that produced no output (technical-design.md §6, §7).
+ *
+ * @param args - The reply, and where to look its cost up.
+ * @param args.response - The accepted completion reply.
+ * @param args.client - The client the call went through.
+ * @param args.openRouter - The validated `openRouter` config section.
+ * @returns The send's cost.
+ */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the OpenAI client and completion types are library types that are not deeply readonly (CLAUDE.md permits dropping readonly when a library requires mutable types)
+async function sendCost({
+	response,
+	client,
+	openRouter,
+}: {
+	readonly response: OpenAI.Chat.Completions.ChatCompletion;
+	readonly client: OpenAI;
+	readonly openRouter: OpenRouterSettings;
+}): Promise<StageCost> {
+	const usage = response.usage ?? { prompt_tokens: 0, completion_tokens: 0 };
+	const generationId = generationIdOf(response);
+	const costResolution =
+		generationId === null ? { costUsd: 0 } : await lookupCost({ client, generationId, openRouter });
+	return {
+		promptTokens: usage.prompt_tokens,
+		completionTokens: usage.completion_tokens,
+		callCount: 1,
+		...costResolution,
+	};
+}
+
+/**
+ * Sends one completion and reads what came back: its text and cost, or the
+ * provider's refusal and its cost, to be sent again.
+ *
+ * @param options - As {@link makeCompletionCall}, with the stage's settings and the client resolved.
+ * @param options.stageConfig - The stage's model and tuning.
+ * @param options.openAiClient - The client to call through.
+ * @returns The completion's text and cost, or the refusal and its cost.
+ * @throws {ContextLengthError} If the prompt exceeds the model's context window.
+ * @throws {CompletionRejectedError} If the API rejects the call with a failure status.
+ * @throws {NoCompletionChoicesError} If the reply carries neither choices nor a refusal.
+ */
+async function sendCompletionOnce(
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- as for makeCompletionCall: library types that are not deeply readonly
+	options: CompletionRequest & { readonly stageConfig: StageConfig; readonly openAiClient: OpenAI },
+): Promise<{ readonly content: string; readonly cost: StageCost } | FailedSend> {
+	const { stageConfig, openAiClient: client } = options;
+	// Measured here rather than handed back for the caller to log: the latency of
+	// the call is only observable from inside it (§10).
+	const startedAt = performance.now();
+	const response = await createCompletion({
+		client,
+		stageId: options.stageId,
+		stageConfig,
+		messages: options.messages,
+		responseFormat: options.responseFormat,
+	});
+	const latencyMs = Math.round(performance.now() - startedAt);
+	options.logger.debug(
+		{
+			model: stageConfig.modelId,
+			promptTokens: response.usage?.prompt_tokens ?? 0,
+			latencyMs,
+		},
+		"Completion call",
+	);
+	const { openRouter } = options.config;
+	const providerMessage = providerErrorMessage(response);
+	if (providerMessage !== null) {
+		return { failure: providerMessage, cost: await sendCost({ response, client, openRouter }) };
+	}
+	// A provider can reply with no choices at all — content filtering, or an
+	// upstream error the SDK does not raise. Reading choices[0] blindly turns that
+	// into a TypeError naming nothing; failing here names the stage and the model.
+	// Empty content is a different matter and stays tolerated as "" below.
+	const [choice] = response.choices ?? [];
+	if (choice === undefined) {
+		throw new NoCompletionChoicesError(
+			`Model "${stageConfig.modelId}" returned no choices for stage "${options.stageId}"`,
+		);
+	}
+	return {
+		content: choice.message.content ?? "",
+		cost: await sendCost({ response, client, openRouter }),
+	};
+}
+
+/**
  * Runs one chat completion for the named stage and returns its text alongside a
  * fully-resolved {@link StageCost}. Token counts are captured from the completion
  * response; the dollar cost is fetched from OpenRouter's generation endpoint and
@@ -374,6 +481,11 @@ export type CompletionRequest = {
  * complete while a cost lookup is still outstanding. A failed cost lookup does
  * not fail the call — it yields `costUsd: null` with a `costResolutionError`
  * (technical-design.md §6, §7).
+ *
+ * A reply the SDK accepted that carries the provider's refusal in place of a
+ * completion is sent again, up to three sends, pausing two seconds and then
+ * four; each refusal is logged as a warning, and the cost returned covers every
+ * send (technical-design.md §6, "A rejection can arrive inside an accepted reply").
  *
  * @param options - Call options.
  * @param options.messages - The chat messages to send.
@@ -390,7 +502,7 @@ export type CompletionRequest = {
  * @throws {UnconfiguredStageError} If the configuration holds no entry for the stage.
  * @throws {ContextLengthError} If the prompt exceeds the model's context window.
  * @throws {CompletionRejectedError} If the API rejects the call for any other reason, including a
- *   reply the SDK accepted that carries the provider's error in place of a completion.
+ *   reply the SDK accepted that carries the provider's refusal on every send.
  * @throws {NoCompletionChoicesError} If the call is accepted but the model returns no choices.
  *   Every one of these names the model and the stage in its message (§8).
  */
@@ -399,59 +511,22 @@ export async function makeCompletionCall(
 	options: CompletionRequest,
 ): Promise<{ readonly content: string; readonly cost: StageCost }> {
 	const stageConfig = stageConfigFor({ config: options.config, stageId: options.stageId });
-	const { openRouter } = options.config;
+	const { modelId } = stageConfig;
 	// Asked for at the one moment a client is genuinely needed. A command that
 	// reaches no model never builds one, and so never needs the API key.
-	const client = options.client();
-	// Measured here rather than handed back for the caller to log: the latency of
-	// the call is only observable from inside it (§10).
-	const startedAt = performance.now();
-	const response = await createCompletion({
-		client,
-		stageId: options.stageId,
-		stageConfig,
-		messages: options.messages,
-		responseFormat: options.responseFormat,
-	});
-	const latencyMs = Math.round(performance.now() - startedAt);
-	const usage = response.usage ?? { prompt_tokens: 0, completion_tokens: 0 };
-	options.logger.debug(
-		{ model: stageConfig.modelId, promptTokens: usage.prompt_tokens, latencyMs },
-		"Completion call",
-	);
-	const providerMessage = providerErrorMessage(response);
-	if (providerMessage !== null) {
-		options.logger.debug(
-			{ model: stageConfig.modelId, providerMessage },
-			"Completion rejected by provider",
-		);
-		throw new CompletionRejectedError(
-			rejectionMessage({
-				stageId: options.stageId,
-				modelId: stageConfig.modelId,
-				providerMessage,
-			}),
-		);
-	}
-	// A provider can reply with no choices at all — content filtering, or an
-	// upstream error the SDK does not raise. Reading choices[0] blindly turns that
-	// into a TypeError naming nothing; failing here names the stage and the model.
-	// Empty content is a different matter and stays tolerated as "" below.
-	const [choice] = response.choices ?? [];
-	if (choice === undefined) {
-		throw new NoCompletionChoicesError(
-			`Model "${stageConfig.modelId}" returned no choices for stage "${options.stageId}"`,
-		);
-	}
-	const content = choice.message.content ?? "";
-	const costResolution = await lookupCost({ client, generationId: response.id, openRouter });
-	return {
-		content,
-		cost: {
-			promptTokens: usage.prompt_tokens,
-			completionTokens: usage.completion_tokens,
-			callCount: 1,
-			...costResolution,
+	const openAiClient = options.client();
+	const { sent, cost } = await sendUntilAccepted({
+		send: () => sendCompletionOnce({ ...options, stageConfig, openAiClient }),
+		onFailure: ({ send, failure }) => {
+			options.logger.warn(
+				{ model: modelId, send, providerMessage: failure },
+				"Completion refused by provider",
+			);
 		},
-	};
+		exhausted: ({ failure }) =>
+			new CompletionRejectedError(
+				rejectionMessage({ stageId: options.stageId, modelId, providerMessage: failure }),
+			),
+	});
+	return { content: sent.content, cost };
 }

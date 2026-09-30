@@ -4,16 +4,18 @@
 
 **Blocked by:** None — can start immediately
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] A refused call is sent again, up to three sends, pausing two seconds and then four between them.
-- [ ] When a later send is accepted, its reply is returned as if nothing had been refused.
-- [ ] Each refusal is logged as a warning naming the stage, the model and which send it was, and quoting the provider's own sentence.
-- [ ] The third refusal fails with the existing named error, quoting the last refusal.
-- [ ] Every refused send is costed, as any send is.
-- [ ] A reply that carries neither a reply nor a refusal is still the existing named error, and is not resent.
-- [ ] Stages that resend bad replies of their own (empty, not JSON, wrong shape) keep doing so unchanged; a refusal is resent before the stage ever sees it.
+- [x] A refused call is sent again, up to three sends, pausing two seconds and then four between them.
+- [x] When a later send is accepted, its reply is returned as if nothing had been refused.
+- [x] Each refusal is logged as a warning naming the stage, the model and which send it was, and quoting the provider's own sentence.
+- [x] The third refusal fails with the existing named error, quoting the last refusal.
+- [x] Every refused send is costed, as any send is.
+- [x] A reply that carries neither a reply nor a refusal is still the existing named error, and is not resent.
+- [x] Stages that resend bad replies of their own (empty, not JSON, wrong shape) keep doing so unchanged; a refusal is resent before the stage ever sees it.
 
 ## Comments
 
 2026-09-30, from the grill: the user chose resending for every stage over the grouping panel alone. No saved prototype run shows a 429 or any rate-limit message; the rate limit on `openai/gpt-6.1-sol-pro` that motivates this is unverified, and the logged warnings are how it will be seen if real.
+
+2026-09-30, resolved. The resend loop moved out of the panel into one shared place, used by both the completion call and the panel stages. A refused send counts as a call: its cost is looked up by its generation id, or counted as nothing when it carries none (the user's choice; OpenRouter does not bill a request that produced no output). The refusal's former debug log entry is now a warning per refused send.

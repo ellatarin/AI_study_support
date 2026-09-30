@@ -56,13 +56,20 @@ export type JsonReplyRequest<TReply> = Pick<CompletionRequest, "messages" | "sta
 } & ModelStageDependencies;
 
 /**
+ * A JSON-mode reply shown to be the documented one, with what getting it cost.
+ *
+ * @typeParam TReply - The reply the stage expects back.
+ */
+export type UsableJsonReply<TReply> = { readonly reply: TReply; readonly cost: StageCost };
+
+/**
  * One JSON-mode call's outcome: the documented reply, or why the reply could
  * not be used. Either way the call was made, so either way it carries its cost.
  *
  * @typeParam TReply - The reply the stage expects back.
  */
 export type JsonReplyOutcome<TReply> =
-	| { readonly reply: TReply; readonly cost: StageCost }
+	| UsableJsonReply<TReply>
 	| { readonly failure: string; readonly cost: StageCost };
 
 /**
@@ -144,7 +151,7 @@ export async function requestJsonReply<TReply>({
 	...request
 }: JsonReplyRequest<TReply> & {
 	readonly fail: (message: string) => Error;
-}): Promise<{ readonly reply: TReply; readonly cost: StageCost }> {
+}): Promise<UsableJsonReply<TReply>> {
 	const outcome = await tryJsonReply(request);
 	if ("failure" in outcome) {
 		throw fail(outcome.failure);
