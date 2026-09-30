@@ -4,19 +4,19 @@
 
 **Blocked by:** 06, 13
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] All deepened runs' cuts are pooled, sorted, and grouped into cut sites: a cut joins the current site when it lies within 1% of the transcript's length of that site's **first** cut, otherwise it opens a new one. The 1% is fixed in code.
-- [ ] A run cuts at a cut site when any of its cuts lies between the site's first and last cut, widened by half a percent of the transcript's length each way — the prototype's rule (`division_support.py`, `cut_sites_with_runs`), copied exactly. A site's support is the number of runs that cut at it, and a run's division is the set of sites it cuts at.
-- [ ] The vote is the set of cut sites whose support reaches `bar` (9 of 18), from the `division` settings section. It is never written out as a division.
-- [ ] Each run's distance from the vote is the number of cut sites where one of the two cuts and the other does not. The run with the smallest distance is chosen; a tie goes to the tied run with the smallest summed distance to every other run, then to the earliest run.
-- [ ] The vote, and a run's distance from it, are their own piece, given runs as sets of positions and a bar, and tested on their own: `define-topics` (ticket 08) breaks its ties with them. The chooser itself is not shared.
-- [ ] `Chosen division/subtopics.json` holds the chosen run's subtopics unchanged: span, title and reason.
-- [ ] `Chosen division/choice.json`, beside the division, records the chosen run (counting from 1), its distance from the vote and the panel size. The way a stage declares and writes such a record is built here, for `retitle-subtopics` and `define-topics` to use.
-- [ ] The stage fails when fewer than `panelSize` deepened runs are present.
-- [ ] **Replay against the prototype:** a one-off script runs the new choice on each lecture's 18 `d13` runs at a bar of nine, and on every panel of nine drawn from them at a bar of five, and checks it picks the same run as `division_support.py`'s `closest_to_vote_run`. Any difference is explained or fixed.
-- [ ] **Live run:** the stage runs on the live deepened runs of all eight lectures; which run each chose and its distance from the vote are reported.
-- [ ] The replay script and results stay in the prototype folder.
+- [x] All deepened runs' cuts are pooled, sorted, and grouped into cut sites: a cut joins the current site when it lies within 1% of the transcript's length of that site's **first** cut, otherwise it opens a new one. The 1% is fixed in code.
+- [x] A run cuts at a cut site when any of its cuts lies between the site's first and last cut, widened by half a percent of the transcript's length each way — the prototype's rule (`division_support.py`, `cut_sites_with_runs`), copied exactly. A site's support is the number of runs that cut at it, and a run's division is the set of sites it cuts at.
+- [x] The vote is the set of cut sites whose support reaches `bar` (9 of 18), from the `division` settings section. It is never written out as a division.
+- [x] Each run's distance from the vote is the number of cut sites where one of the two cuts and the other does not. The run with the smallest distance is chosen; a tie goes to the tied run with the smallest summed distance to every other run, then to the earliest run.
+- [x] The vote, and a run's distance from it, are their own piece, given runs as sets of positions and a bar, and tested on their own: `define-topics` (ticket 08) breaks its ties with them. The chooser itself is not shared.
+- [x] `Chosen division/subtopics.json` holds the chosen run's subtopics unchanged: span, title and reason.
+- [x] `Chosen division/choice.json`, beside the division, records the chosen run (counting from 1), its distance from the vote and the panel size. The way a stage declares and writes such a record is built here, for `retitle-subtopics` and `define-topics` to use.
+- [x] The stage fails when fewer than `panelSize` deepened runs are present.
+- [x] **Replay against the prototype:** a one-off script runs the new choice on each lecture's 18 `d13` runs at a bar of nine, and on every panel of nine drawn from them at a bar of five, and checks it picks the same run as `division_support.py`'s `closest_to_vote_run`. Any difference is explained or fixed.
+- [x] **Live run:** the stage runs on the live deepened runs of all eight lectures; which run each chose and its distance from the vote are reported.
+- [x] The replay script and results stay in the prototype folder.
 
 ## Comments
 
@@ -29,3 +29,5 @@
 2026-09-30, third redesign before any build (grill, TD 374a543): grouping now has its own chooser — most identical runs first — so the two stages share only the vote and the distance from it. Inherited-title marks are gone (ticket 13), so the chosen division carries none; now blocked by 13 instead of 10.
 
 2026-09-30, before building: checked against `division_support.py`, the design had left out how a run is credited with a cut site — any cut within the site's span widened by half a percent each way, not only the cuts pooled into it. The user chose to copy the prototype's rule exactly; TD §5, `choose-division`, "The vote", now states it.
+
+2026-09-30, resolved. Built in 07752ca5; the replay (`REPLAY-CHOOSE-DIVISION.txt`) picks the prototype's run on all 8 lectures at 18 runs and on every one of the 48,620 panels of nine per lecture. Live run, `batch --to-stage choose-division`, no model calls: all 8 succeeded. Chosen run and distance from the vote — l1 run 3 (0), l2 run 2 (0), l3 run 3 (0), l4 run 2 (0), l5 run 1 (0), l6 run 2 (1), l7 run 2 (0), l8 run 6 (0). Each is the run the prototype chose from the same live runs on 2026-09-29 (`runs/chosen-live18-lN.blocks.json`), the divisions the user judged all acceptable. The splitting stages, skipped a second time here, kept their 18 files each in every manifest (ticket 14).
