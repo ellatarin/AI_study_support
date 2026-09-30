@@ -763,38 +763,43 @@ The panel's `sendWithResends` tests cover the shared loop's pauses, cost countin
 
 **Deliverables:**
 
-`src/pipeline/stages/panel-vote.ts` **(TD §5, `choose-division` and `define-topics`)** — `panelVote` and `distanceFromVote`, built here for any panel of runs given as sets of positions, since `define-topics` (Phase 14) breaks its ties with them.
+`src/pipeline/stages/panel-vote.ts` **(TD §5, `choose-division` and `define-topics`)** — `panelVote` and `distanceFromVote`, built here for any panel of runs given as lists of positions, since `define-topics` (Phase 14) breaks its ties with them.
 
 `src/pipeline/stages/choose-division/` **(TD §5, `choose-division`)** — `chooseDivision`, which groups cuts into cut sites and chooses the run nearest the vote over them, and the stage around it. Added to `lectureStages`, with its `STAGE_IDS` and `STAGE_WORKSPACE` entries and cost-report label.
 
-The manifest records a stage's own facts **(TD §4.5, "A stage may record facts of its own")**: `choose-division`'s entry type carrying `division`, a way for a stage's result to carry it, the runner writing it with `complete`, and `skipped` carrying it over.
+A record beside a stage's output **(TD §3.3; §4.5, "How a result was reached is kept beside the result")**: a `record` field on every `STAGE_WORKSPACE` entry, `StageWithRecord`, `stageRecordEntry`, `stageRecordPath`, and `writeStageOutputWithRecord`, which shares its writing step with `writeStageOutputWithReadableView`. `choose-division` declares `Chosen division/choice.json`.
+
+`readTranscriptAndRuns` in `stage-input.ts` **(TD §5, "Dividing the transcript")** — the transcript and a finished splitting panel, read the same way by `deepen-subtopic-splitting` and `choose-division`; tested in `stage-input.integration.test.ts` (`should return the transcript and every run of the panel when the panel is complete`, `should raise the reading stage's own error naming the stage to run when a run is missing`).
 
 **Tests:**
 
 Unit tests for `panel-vote.ts` (no mocks):
-- `should count a position in the vote when its support reaches the bar`
-- `should leave a position out of the vote when its support falls short of the bar`
-- `should count the positions where one of run and vote marks and the other does not`
+- `should keep only the positions at least $bar runs mark when the bar is $bar` — `test.each` across bars of 1, 2 and 3
+- `should count the positions where one of the run and the vote marks and the other does not when they differ`
 
 Unit tests for `chooseDivision` (no mocks):
-- `should put cuts in one site when they lie within one percent of the site's first cut`
-- `should open a new site when a cut lies beyond one percent of the site's first cut` — even when it is within one percent of the previous cut
-- `should choose the run whose cut sites differ least from the vote's`
+- `should count cuts as one site when they lie within one percent of the site's first cut`
+- `should open a new site when a cut lies beyond one percent of the site's first cut even within one percent of the previous cut`
+- `should credit a run with a site when its cut lies within half a percent beyond the site even in a site of its own`
+- `should choose the run whose cut sites differ least from the vote's when runs differ`
 - `should break a tie for the vote to the run closest to the others when two runs are equally near`
-- `should break a remaining tie to the earliest run`
-- `should report the chosen run counting from 1 with its distance from the vote and the panel size`
-- `should hand on the chosen run's subtopics unchanged, titles and reasons included`
+- `should break a remaining tie to the earliest run when runs are equally near the vote and the others`
+- `should report the chosen run counting from 1 with its distance from the vote and the panel size when a run is chosen`
+- `should hand on the chosen run's subtopics unchanged, titles and reasons included, when a run is chosen`
 
-Stage tests:
-- `should write the chosen division and record the choice in the manifest when the stage completes`
-- `should keep the recorded choice when the stage is skipped`
-- `should fail when fewer deepened runs are present than the panel size`
+Unit tests for the layout:
+- `should keep a record of how the output was reached from choose-division alone when ownership is read`
+- `should resolve the record beside the output it describes when a workspace is given`
+
+Integration tests for the stage (real temp directory):
+- `should write the chosen run's subtopics, and beside them which run was chosen, when the stage completes`
+- `should fail naming the missing run when fewer deepened runs are saved than the panel holds`
 
 **Replay against the prototype:** a one-off script in the prototype folder runs `chooseDivision` on each lecture's 18 `d13` runs at a bar of nine, and on every panel of nine drawn from them at a bar of five, and checks that it chooses the same run as `division_support.py`'s `closest_to_vote_run`. Any difference is explained or fixed.
 
 **Live run:** the stage over Phase 11's live deepened runs on all eight lectures: which run each chose, and its distance from the vote.
 
-**Acceptance:** A lecture gains one chosen division, a run of its panel handed on unchanged, and the manifest records which run and how far from the vote; replay agrees on every panel.
+**Acceptance:** A lecture gains one chosen division, a run of its panel handed on unchanged, with a record beside it of which run and how far from the vote; replay agrees on every panel.
 
 ---
 
@@ -806,7 +811,7 @@ Stage tests:
 
 `src/pipeline/stages/retitle-subtopics/` **(TD §5, `retitle-subtopics`)** — the stage and its prompt module, the prototype's `r9` byte for byte; its entry in the example config and the user's own (`openai/gpt-6.1-sol-pro`), `STAGE_IDS`, `STAGE_WORKSPACE` and the cost-report label. Added to `lectureStages` after `choose-division`.
 
-`retitle-subtopics`' manifest entry type carrying `retitled`, through the Phase 12 mechanism **(TD §4.5)**.
+`retitle-subtopics` declares a record, `Retitled subtopics/changes.json`, written with Phase 12's `writeStageOutputWithRecord` **(TD §4.5)**.
 
 **Tests:**
 
@@ -815,12 +820,12 @@ Unit tests for the stage (mock `makeCompletionCall`):
 - `should resend the call when the reply $problem` — `test.each` across not an object, a subtopic missing, a position repeated, a position out of range, titles out of order, a blank title
 - `should fail the stage when the call fails every send`
 - `should write the whole division with every title replaced and spans and reasons unchanged when the stage completes`
-- `should record how many titles changed, not counting a title returned unchanged, in the manifest`
+- `should record beside the division how many titles changed, not counting a title returned unchanged, when the stage completes`
 - `should fail when the chosen division is $state` — `test.each` across missing and unreadable
 
 **Side by side with the prototype:** covered by Phase 14's live run, which shows the new titles beside the prototype's `r9` titles.
 
-**Acceptance:** A lecture gains a retitled division differing from the chosen one only in its titles; the manifest records how many changed.
+**Acceptance:** A lecture gains a retitled division differing from the chosen one only in its titles, with a record beside it of how many changed.
 
 ---
 
@@ -836,7 +841,7 @@ The required `grouping` section — `panelSize` and `bar` — in `PipelineConfig
 
 `sendGapSeconds` **(TD §5, "Dividing the transcript", Panel runs; TD §6, "Three settings say how much runs at once")** — accepted on `define-topics` alone; the panel spaces every send the stage makes, refusals resent by `makeCompletionCall` included, at least that far apart.
 
-`define-topics`' manifest entry type carrying `grouping`, recorded through the mechanism Phase 12 builds **(TD §4.5, "A stage may record facts of its own")**.
+`define-topics` declares a record, `Topics/choice.json`, written with Phase 12's `writeStageOutputWithRecord` **(TD §4.5, "How a result was reached is kept beside the result")**.
 
 **Tests:**
 
@@ -862,14 +867,13 @@ Unit tests for the panel (fake timers):
 Unit tests for the config: as Phase 10, for the `grouping` section, the bar exceeding the panel size included; a `sendGapSeconds` row in the `should throw ConfigError when $case` table naming a stage other than `define-topics`.
 
 Integration tests (real temp directory):
-- `should record the chosen run, its support and the deciding rule in the manifest when the stage completes`
-- `should keep the grouping record when the stage is later skipped`
+- `should record beside the topics the chosen run, its support and the deciding rule when the stage completes`
 
 **Replay against the prototype:** the prototype's saved `g23` runs on each lecture's `r9`-retitled division (4 per lecture) through `chooseGrouping` at bar 3; each result is compared with the grouping `analysis-2026-09-30/choose_panel.py` chooses from the same runs. That script asks "more topics" even when every run differs, which this rule does not, so a lecture whose runs all differ may disagree; each difference is explained, any other fixed.
 
 **Live run:** `retitle-subtopics` and `define-topics` together on one lecture (about $0.51, stated first): the new titles and the chosen topics beside the prototype's, for the user to read.
 
-**Acceptance:** A lecture gains five grouping runs and a topics file holding the chosen grouping, and its manifest records which run, its support and the deciding rule, surviving a skip; replay agrees or each difference is explained.
+**Acceptance:** A lecture gains five grouping runs and a topics file holding the chosen grouping, with a record beside it of which run, its support and the deciding rule; replay agrees or each difference is explained.
 
 ---
 

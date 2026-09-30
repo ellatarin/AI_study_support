@@ -12,7 +12,7 @@
 - [ ] Each run's distance from the vote is the number of cut sites where one of the two cuts and the other does not. The run with the smallest distance is chosen; a tie goes to the tied run with the smallest summed distance to every other run, then to the earliest run.
 - [ ] The vote, and a run's distance from it, are their own piece, given runs as sets of positions and a bar, and tested on their own: `define-topics` (ticket 08) breaks its ties with them. The chooser itself is not shared.
 - [ ] `Chosen division/subtopics.json` holds the chosen run's subtopics unchanged: span, title and reason.
-- [ ] The manifest entry records the chosen run (counting from 1), its distance from the vote and the panel size, and keeps that record when the stage is later skipped. The mechanism for a stage recording its own facts is built here, for `retitle-subtopics` and `define-topics` to use.
+- [ ] `Chosen division/choice.json`, beside the division, records the chosen run (counting from 1), its distance from the vote and the panel size. The way a stage declares and writes such a record is built here, for `retitle-subtopics` and `define-topics` to use.
 - [ ] The stage fails when fewer than `panelSize` deepened runs are present.
 - [ ] **Replay against the prototype:** a one-off script runs the new choice on each lecture's 18 `d13` runs at a bar of nine, and on every panel of nine drawn from them at a bar of five, and checks it picks the same run as `division_support.py`'s `closest_to_vote_run`. Any difference is explained or fixed.
 - [ ] **Live run:** the stage runs on the live deepened runs of all eight lectures; which run each chose and its distance from the vote are reported.

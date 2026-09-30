@@ -14,6 +14,7 @@ import { createOpenRouterClientProvider } from "../pipeline/openrouter.js";
 import { createMoneyFormatter } from "../pipeline/reports.js";
 import { deriveRunId, PipelineRunner } from "../pipeline/runner.js";
 import { createAudioExtractionStage } from "../pipeline/stages/audio-extraction/audio-extraction.js";
+import { createChooseDivisionStage } from "../pipeline/stages/choose-division/choose-division.js";
 import { createDeepenSubtopicSplittingStage } from "../pipeline/stages/deepen-subtopic-splitting/deepen-subtopic-splitting.js";
 import { createInitialSubtopicSplittingStage } from "../pipeline/stages/initial-subtopic-splitting/initial-subtopic-splitting.js";
 import { createSourceNormalisationStage } from "../pipeline/stages/source-normalisation/source-normalisation.js";
@@ -84,6 +85,7 @@ async function assembleDeps({
 			createTranscriptionStage({ logger }),
 			createInitialSubtopicSplittingStage({ logger, client }),
 			createDeepenSubtopicSplittingStage({ logger, client }),
+			createChooseDivisionStage({ logger }),
 			createTranscriptStructuringStage({ logger, client }),
 			createTranscriptVerificationStage({ logger, client }),
 		],

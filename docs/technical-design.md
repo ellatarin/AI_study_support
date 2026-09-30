@@ -172,17 +172,20 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │   └── ...
 │
 ├── Chosen division/
-│   └── subtopics.json                         # choose-division
+│   ├── subtopics.json                         # choose-division
+│   └── choice.json                            # choose-division — which run was chosen, and how far from the vote
 │
 ├── Retitled subtopics/
-│   └── subtopics.json                         # retitle-subtopics
+│   ├── subtopics.json                         # retitle-subtopics
+│   └── changes.json                           # retitle-subtopics — how many titles changed
 │
 ├── Grouping runs/
 │   ├── run-01.json                            # define-topics — one file per grouping run
 │   └── ...
 │
 ├── Topics/
-│   └── topics.json                            # define-topics — the chosen grouping
+│   ├── topics.json                            # define-topics — the chosen grouping
+│   └── choice.json                            # define-topics — which run, its support, and the rule that decided
 │
 ├── Structured transcript/
 │   └── structured-transcript.md              # transcript-structuring
@@ -276,7 +279,12 @@ type StageWorkspace = {
   outputLocation: StageOutputLocation
   outputFile: string | null
   readableView: string | null
+  record: string | null
 }
+// `record` is a small JSON file beside `outputFile` saying how the stage reached it — which run a panel chose
+// and why, or how many titles changed. choose-division, retitle-subtopics and define-topics declare one
+// (§4.5, "How a result was reached is kept beside the result"). It is recorded in `filesWritten` and cleared
+// with the output, so the two cannot come apart.
 // `readableView` is a second file holding the same content as `outputFile` in a form a person reads, written
 // by us from what was already stored rather than produced again. Only transcript-verification declares one
 // (transcript-verification), and it is provisional — see transcript-verification, "The readable view is temporary". A stage's *output* is
@@ -320,6 +328,10 @@ stageReadableViewEntry(stageId: StageWithReadableView): string
 stageReadableViewPath(query: { workspaceRoot: string; stageId: StageWithReadableView }): string
 // The view's path relative to the workspace and absolute, answering for the view exactly as the two above
 // answer for the output. Both are recorded in `filesWritten`, so a view deleted by hand re-runs its stage.
+type StageWithRecord = /* the keys of STAGE_WORKSPACE whose record is a string */
+stageRecordEntry(stageId: StageWithRecord): string
+stageRecordPath(query: { workspaceRoot: string; stageId: StageWithRecord }): string
+// The same three for the record.
 type ResolvedStageOutput =
   | { root: "workspace"; directories: readonly string[] }
   | { root: "module"; directory: string }
@@ -430,6 +442,15 @@ writeStageOutputWithReadableView(args: {
 // both entries, and `path` is still the machine-readable one. A separate function rather than an optional
 // argument, because the parameter type is what ties supplying a view to a stage that declares one — a stage
 // that does not cannot be named here, and one that does cannot forget to render it.
+writeStageOutputWithRecord(args: {
+  stageId: StageWithOutputFile & StageWithRecord
+  workspaceRoot: string
+  content: string
+  record: unknown
+}): Promise<RecordedStageOutput>
+// The same act for a stage that keeps a record of how it reached its output: the record is written as JSON
+// beside the output, and both entries are returned. The two writers share the step that writes an output
+// and one file beside it.
 ```
 
 **Stage status semantics:**
@@ -609,24 +630,21 @@ Each stage entry records `configUsed` — a `StageRunConfig` capturing the model
       "completedAt": "...",
       "configUsed": null,
       "cost": null,
-      "division": { "chosenRun": 4, "distanceFromVote": 1, "panelSize": 18 },
-      "filesWritten": ["Chosen division/subtopics.json"]
+      "filesWritten": ["Chosen division/subtopics.json", "Chosen division/choice.json"]
     },
     "retitle-subtopics": {
       "status": "complete",
       "completedAt": "...",
       "configUsed": { "modelId": "openai/gpt-6.1-sol-pro" },
       "cost": { "promptTokens": 15100, "completionTokens": 2400, "costUsd": 0.06, "callCount": 1 },
-      "retitled": 17,
-      "filesWritten": ["Retitled subtopics/subtopics.json"]
+      "filesWritten": ["Retitled subtopics/subtopics.json", "Retitled subtopics/changes.json"]
     },
     "define-topics": {
       "status": "complete",
       "completedAt": "...",
       "configUsed": { "modelId": "openai/gpt-6.1-sol-pro", "concurrency": 5, "sendGapSeconds": 2 },
       "cost": { "promptTokens": 76000, "completionTokens": 4300, "costUsd": 0.45, "callCount": 5 },
-      "grouping": { "chosenRun": 2, "support": 3, "panelSize": 5, "decidedBy": "most-runs" },
-      "filesWritten": ["Grouping runs/run-01.json", "…", "Grouping runs/run-05.json", "Topics/topics.json"]
+      "filesWritten": ["Grouping runs/run-01.json", "…", "Grouping runs/run-05.json", "Topics/topics.json", "Topics/choice.json"]
     },
     "transcript-structuring": {
       "status": "complete",
@@ -686,7 +704,9 @@ Each stage entry records `configUsed` — a `StageRunConfig` capturing the model
 
 Each stage's `cost` is the only record of what that stage cost, and the manifest holds no roll-up of them. A reader that wants a stage's spend reads that stage's entry; nothing has to be kept in step with anything else, and a stage reset by `--from-stage` takes its cost with it when its entry goes back to `pending` (NFR-2.2).
 
-**A stage may record facts of its own in its entry.** `qa-loop` records its iterations and why it stopped; `choose-division` records which run it chose and how far that run is from the vote (§5, `choose-division`); `retitle-subtopics` records how many titles it changed (§5, `retitle-subtopics`); `define-topics` records which run it chose, how many runs made that grouping, and which rule decided (§5, `define-topics`). The stage returns them on its `StageResult`, the runner writes them with the `complete` entry, and a `skipped` entry carries them over from the entry it replaces, so skipping a stage never loses what it recorded. Each such stage has its own entry type, keyed to its stage id in `ManifestStages`.
+**A stage may record facts of its own in its entry.** `qa-loop` records its iterations and why it stopped. The stage returns them on its `StageResult`, the runner writes them with the `complete` entry, and a `skipped` entry carries them over from the entry it replaces. Each such stage has its own entry type, keyed to its stage id in `ManifestStages`.
+
+**How a result was reached is kept beside the result, not here.** `choose-division`, `retitle-subtopics` and `define-topics` each write a small record next to their output saying how they reached it — which run was chosen and why, or how many titles changed (§3.3; §5). The manifest is the run's bookkeeping: whether a stage ran, what it cost, and what it wrote. A record describes the result, so it is written and cleared with the result and listed in `filesWritten` like it, and no skip or re-run can separate the two.
 
 **`running` status is written before a stage begins.** A crash mid-stage leaves `running` in the manifest, which is treated as `failed` on next launch — the stage re-runs from scratch, except that a panel stage keeps the runs it already saved (§8, "Intra-Stage Resumability").
 
@@ -1139,7 +1159,7 @@ Makes no model call. The panel votes on where the transcript divides, and the de
 
 A whole run is one reading of the lecture: every boundary, title and reason in it comes from the same run. The vote alone can put together a division no run made, whose titles would come from different runs. On the prototype's `d13` runs the nearest run is as steady and as accurate as the vote itself: two panels of nine disagree on 3.34 cut sites across the eight lectures against the vote's 3.26, and a panel makes 3.09 errors against the user's rulings against the vote's 3.03 (`docs/quality/segmentation-prototype/AGGREGATION.md`).
 
-**What is written.** `Chosen division/subtopics.json` holds the chosen run's subtopics as it saved them: each one's span, title and reason. The stage's manifest entry records which run was chosen and its distance from the vote (§4.5), which marks a lecture where even the nearest run is far from what the panel agreed.
+**What is written.** `Chosen division/subtopics.json` holds the chosen run's subtopics as it saved them: each one's span, title and reason. Beside it, `Chosen division/choice.json` records which run was chosen (counting from 1), its distance from the vote and the panel size (§4.5, "How a result was reached is kept beside the result"), which marks a lecture where even the nearest run is far from what the panel agreed.
 
 The stage fails when fewer than `panelSize` deepened runs are present.
 
@@ -1162,6 +1182,10 @@ readStageText(args: { context: StageContext; stageId: StageWithOutputFile; purpo
 // The earlier stage's output as written; a missing or blank file throws the error `fail` builds from the message.
 readTranscript(args: { context: StageContext; fail: (message: string) => Error }): Promise<string>
 // The transcript, with the whitespace at its two ends removed.
+readTranscriptAndRuns(args: { context; panelStage: "initial-subtopic-splitting" | "deepen-subtopic-splitting"; fail }):
+  Promise<{ transcript: string; runs: readonly (readonly Subtopic[])[] }>
+// The transcript and the whole panel an earlier splitting stage saved — what deepening and choose-division start
+// from. A missing run is the error `fail` builds, telling the user to run that stage first.
 
 // src/pipeline/stages/panel-runs.ts — shared by the panel stages
 runStagePanel<TRun>(args: { stageId: StageId; context: StageContext; readRun; makeRun }): Promise<StageResult<{ runs: readonly TRun[] }>>
@@ -1172,10 +1196,10 @@ readPanel<TRun>(args: { panelSize: number; directory: string; readRun; fail }): 
 panelDirectory(args: { workspaceRoot: string; stageId: StageId }): string
 
 // src/pipeline/stages/panel-vote.ts — shared by choose-division and define-topics
-panelVote(args: { runs: readonly ReadonlySet<number>[]; bar: number }): ReadonlySet<number>
+panelVote(args: { runs: readonly (readonly number[])[]; bar: number }): readonly number[]
 // The positions whose support reaches the bar. Pure: each run as the positions it marks (cut sites, or
 // subtopics starting a topic), in run order.
-distanceFromVote(args: { run: ReadonlySet<number>; vote: ReadonlySet<number> }): number
+distanceFromVote(args: { run: readonly number[]; vote: readonly number[] }): number
 // The positions where one of the two marks and the other does not.
 
 // src/pipeline/stages/choose-division/choose-division.ts
@@ -1200,7 +1224,7 @@ The prompt is the prototype's `r9`, carried over word for word. It asks for the 
 
 **One call for the whole lecture.** The model is sent every subtopic in order, each as its position (counting from 1) and its full text, trimmed, and not its old title. It replies with one title per subtopic, each paired with its subtopic's position. A reply is valid when it holds exactly one non-blank title for every subtopic, in order, with no position missing, repeated or out of range. Anything else is a wrong shape and is resent, as a panel run's is (§5, "Dividing the transcript", Panel runs); after the third send the stage fails. There is no panel: one run is enough.
 
-**What is written.** `Retitled subtopics/subtopics.json` holds the whole chosen division with every title replaced; spans and reasons are copied as they were. The old titles stay in `Chosen division/subtopics.json`, so the two can be read side by side. The manifest entry records how many titles changed, a new title identical to the old one not counted (§4.5). The call costs about $0.06 per lecture.
+**What is written.** `Retitled subtopics/subtopics.json` holds the whole chosen division with every title replaced; spans and reasons are copied as they were. The old titles stay in `Chosen division/subtopics.json`, so the two can be read side by side. Beside it, `Retitled subtopics/changes.json` records how many titles changed, a new title identical to the old one not counted (§4.5). The call costs about $0.06 per lecture.
 
 No check step follows: the stage writes only titles, as the splitting stages do, and no title is checked anywhere in the pipeline.
 
@@ -1227,7 +1251,7 @@ This build groups only. One further job belongs to this stage and is not yet des
 
 The panel is 5 runs and the bar 3, more than half the panel. Each run costs about $0.09, so the panel about $0.45 per lecture.
 
-**What is written.** `Topics/topics.json` holds each topic of the chosen run as its title, its `groupedBecause`, and the subtopic it starts at. The stage's manifest entry records the chosen run, how many of the panel's runs made its grouping, and which rule decided — most runs, more topics, closest to the vote, or earliest run (§4.5) — so a lecture whose grouping rests on a tie can be seen at a glance.
+**What is written.** `Topics/topics.json` holds each topic of the chosen run as its title, its `groupedBecause`, and the subtopic it starts at. Beside it, `Topics/choice.json` records the chosen run, how many of the panel's runs made its grouping, and which rule decided — most runs, more topics, closest to the vote, or earliest run (§4.5) — so a lecture whose grouping rests on a tie can be seen at a glance.
 
 **Configuration.** `panelSize` (5) and `bar` (3) live in a required `grouping` section of `pipeline-config.json`, separate from the division's, so one may be tuned without the other. `sendGapSeconds` (2) is on the stage's own entry (§6).
 

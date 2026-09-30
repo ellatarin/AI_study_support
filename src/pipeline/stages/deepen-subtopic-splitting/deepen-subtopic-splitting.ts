@@ -34,8 +34,8 @@ import {
 	type ModelStageRunArgs,
 	tryJsonReplyAs,
 } from "../model-stage.js";
-import { panelDirectory, readPanel, runStagePanel, sendWithResends } from "../panel-runs.js";
-import { readTranscript } from "../stage-input.js";
+import { runStagePanel, sendWithResends } from "../panel-runs.js";
+import { readTranscriptAndRuns } from "../stage-input.js";
 import { buildDeepeningMessages } from "./deepen-subtopic-splitting.prompt.js";
 /* jscpd:ignore-end */
 
@@ -311,18 +311,12 @@ function deepenRuns({
  * @throws {DeepenSubtopicSplittingError} If the transcript is missing or empty, or an initial run is missing.
  */
 async function readInput(context: StageContext): Promise<DeepenSubtopicSplittingInput> {
-	const fail = (message: string): Error => new DeepenSubtopicSplittingError(message);
-	const transcript = await readTranscript({ context, fail });
-	const initialRuns = await readPanel({
-		panelSize: context.config.division.panelSize,
-		directory: panelDirectory({
-			workspaceRoot: context.workspaceRoot,
-			stageId: "initial-subtopic-splitting",
-		}),
-		readRun: readDivision,
-		fail: (message) => fail(`${message}; run initial-subtopic-splitting first`),
+	const { transcript, runs } = await readTranscriptAndRuns({
+		context,
+		panelStage: "initial-subtopic-splitting",
+		fail: (message) => new DeepenSubtopicSplittingError(message),
 	});
-	return { transcript, initialRuns };
+	return { transcript, initialRuns: runs };
 }
 
 /**

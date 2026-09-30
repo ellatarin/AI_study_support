@@ -9,6 +9,8 @@ import { readFile } from "node:fs/promises";
 import type { StageContext } from "../../types/pipeline.js";
 import { errorMessage } from "../../utils/errors.js";
 import { type StageWithOutputFile, stageOutputPath } from "../layout.js";
+import { readDivision, type Subtopic } from "./division.js";
+import { panelDirectory, readPanel } from "./panel-runs.js";
 
 /** The stage doing the reading: which lecture it is on, and how it fails. */
 type ReadingStage = {
@@ -67,4 +69,33 @@ export async function readStageText({
 export async function readTranscript({ context, fail }: ReadingStage): Promise<string> {
 	const text = await readStageText({ context, stageId: "transcription", purpose: "divide", fail });
 	return text.trim();
+}
+
+/**
+ * Reads the transcript and the whole panel of splitting runs an earlier stage
+ * saved: what a division stage working from a finished panel starts from.
+ *
+ * @param args - The lecture, whose panel to read, and how to fail.
+ * @param args.context - The current lecture run context.
+ * @param args.panelStage - The splitting stage whose runs to read.
+ * @param args.fail - Builds the reading stage's own error from a message.
+ * @returns The transcript, trimmed, and the panel's runs in run order.
+ * @throws The error `fail` builds, if the transcript is missing or empty, or a run is missing.
+ * @throws {SavedRunUnreadableError} When a run file holds no readable run.
+ */
+export async function readTranscriptAndRuns({
+	context,
+	panelStage,
+	fail,
+}: ReadingStage & {
+	readonly panelStage: "initial-subtopic-splitting" | "deepen-subtopic-splitting";
+}): Promise<{ readonly transcript: string; readonly runs: readonly (readonly Subtopic[])[] }> {
+	const transcript = await readTranscript({ context, fail });
+	const runs = await readPanel({
+		panelSize: context.config.division.panelSize,
+		directory: panelDirectory({ workspaceRoot: context.workspaceRoot, stageId: panelStage }),
+		readRun: readDivision,
+		fail: (message) => fail(`${message}; run ${panelStage} first`),
+	});
+	return { transcript, runs };
 }

@@ -19,6 +19,7 @@ import {
 	panelRunPath,
 	readPanelRun,
 	seedPanelRun,
+	seedPanelRuns,
 	seedStageOutput,
 	stubbedCallCost,
 	trackingInFlight,
@@ -144,17 +145,20 @@ describe("createDeepenSubtopicSplittingStage", () => {
 	/** The lecture workspace the current test is running against. */
 	const workspaceRoot = (): string => workspace().workspaceRoot;
 
+	/** Leaves the whole initial splitting panel on disk, every run holding `run`. */
+	function seedInitialRuns(run: unknown): Promise<void> {
+		return seedPanelRuns({
+			workspaceRoot: workspaceRoot(),
+			stageId: "initial-subtopic-splitting",
+			count: PANEL_SIZE,
+			contents: () => run,
+		});
+	}
+
 	beforeEach(async () => {
 		vi.clearAllMocks();
 		answering({});
-		for (let runNumber = 1; runNumber <= PANEL_SIZE; runNumber += 1) {
-			await seedPanelRun({
-				workspaceRoot: workspaceRoot(),
-				stageId: "initial-subtopic-splitting",
-				runNumber,
-				contents: transcriptDivision,
-			});
-		}
+		await seedInitialRuns(transcriptDivision);
 	});
 
 	/** Answers every call as {@link answerFrom} does for `replies`. */
@@ -248,14 +252,9 @@ describe("createDeepenSubtopicSplittingStage", () => {
 	// Initial runs saved while deepening marked inherited titles carry the mark.
 	// They are still read, and the mark goes no further.
 	it("should write no inherited-title mark when the initial runs it reads carry one", async () => {
-		for (let runNumber = 1; runNumber <= PANEL_SIZE; runNumber += 1) {
-			await seedPanelRun({
-				workspaceRoot: workspaceRoot(),
-				stageId: "initial-subtopic-splitting",
-				runNumber,
-				contents: transcriptDivision.map((subtopic) => ({ ...subtopic, titleInherited: false })),
-			});
-		}
+		await seedInitialRuns(
+			transcriptDivision.map((subtopic) => ({ ...subtopic, titleInherited: false })),
+		);
 		answering({ [SECOND]: cutsAt(SECOND_CUT) });
 		await run(SECOND_ONLY);
 		expect((await savedRun(1)).some((subtopic) => "titleInherited" in subtopic)).toBe(false);

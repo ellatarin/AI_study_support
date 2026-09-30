@@ -4,13 +4,15 @@ import {
 	captureError,
 	makeStageContext,
 	paddedTranscriptText,
+	seedPanelRuns,
 	seedStageOutput,
+	transcriptDivision,
 	transcriptText,
 	unusableTranscripts,
 	useTranscribedWorkspace,
 } from "../fixtures.js";
 import { stageOutputPath } from "../layout.js";
-import { readStageText, readTranscript } from "./stage-input.js";
+import { readStageText, readTranscript, readTranscriptAndRuns } from "./stage-input.js";
 
 /** The error the reading stage raises, standing in for any stage's own. */
 class ReadingStageError extends NamedError {}
@@ -74,5 +76,46 @@ describe("readTranscript", () => {
 		const [missing] = unusableTranscripts;
 		await missing?.spoil(workspace().workspaceRoot);
 		expect(await captureError(read())).toBeInstanceOf(ReadingStageError);
+	});
+});
+
+describe("readTranscriptAndRuns", () => {
+	const workspace = useTranscribedWorkspace({ prefix: "runs-input-" });
+	const context = (): ReturnType<typeof makeStageContext> =>
+		makeStageContext({ workspaceRoot: workspace().workspaceRoot });
+
+	/** Leaves the first `count` runs of the initial splitting panel on disk. */
+	function seedInitialRuns(count: number): Promise<void> {
+		return seedPanelRuns({
+			workspaceRoot: workspace().workspaceRoot,
+			stageId: "initial-subtopic-splitting",
+			count,
+			contents: () => transcriptDivision,
+		});
+	}
+
+	/** Reads the transcript and the initial splitting panel, as deepening does. */
+	function read(): ReturnType<typeof readTranscriptAndRuns> {
+		return readTranscriptAndRuns({
+			context: context(),
+			panelStage: "initial-subtopic-splitting",
+			fail: (message) => new ReadingStageError(message),
+		});
+	}
+
+	it("should return the transcript and every run of the panel when the panel is complete", async () => {
+		const { panelSize } = context().config.division;
+		await seedInitialRuns(panelSize);
+		expect(await read()).toStrictEqual({
+			transcript: transcriptText,
+			runs: Array(panelSize).fill(transcriptDivision),
+		});
+	});
+
+	it("should raise the reading stage's own error naming the stage to run when a run is missing", async () => {
+		await seedInitialRuns(1);
+		const error = await captureError(read());
+		expect(error).toBeInstanceOf(ReadingStageError);
+		expect(error.message).toContain("run initial-subtopic-splitting first");
 	});
 });

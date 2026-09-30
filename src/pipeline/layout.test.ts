@@ -20,6 +20,7 @@ import {
 	stageOutputPath,
 	stageReadableViewEntry,
 	stageReadableViewPath,
+	stageRecordPath,
 	workspaceRootFor,
 } from "./layout.js";
 
@@ -125,6 +126,20 @@ describe("STAGE_WORKSPACE", () => {
 		const renderers = STAGE_IDS.filter((stageId) => STAGE_WORKSPACE[stageId].readableView !== null);
 
 		expect(renderers).toStrictEqual(["transcript-verification"]);
+	});
+
+	it("should keep a record of how the output was reached from choose-division alone when ownership is read", () => {
+		const recorders = STAGE_IDS.filter((stageId) => STAGE_WORKSPACE[stageId].record !== null);
+
+		expect(recorders).toStrictEqual(["choose-division"]);
+	});
+});
+
+describe("stageRecordPath", () => {
+	it("should resolve the record beside the output it describes when a workspace is given", () => {
+		expect(stageRecordPath({ workspaceRoot: WORKSPACE_ROOT, stageId: "choose-division" })).toBe(
+			join(WORKSPACE_ROOT, "Chosen division", "choice.json"),
+		);
 	});
 });
 

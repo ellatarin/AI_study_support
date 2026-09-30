@@ -12,7 +12,7 @@
  * one (technical-design.md §3.3, "The layout has one owner").
  */
 
-import { basename, join, resolve } from "node:path";
+import { basename, dirname, join, resolve } from "node:path";
 import type { StageId } from "../types/pipeline.js";
 
 const SOURCE_DIR = "Source files";
@@ -258,6 +258,15 @@ export type StageWorkspace = {
 	 * view has no reader but a person (technical-design.md §3.3).
 	 */
 	readonly readableView: string | null;
+	/**
+	 * The name of a small file beside {@link outputFile} saying how the stage
+	 * reached it — which run a panel chose, and why — written with the output so
+	 * that it is replaced and cleared with it. Only its name is declared: it
+	 * always sits in the output's own directory, so the two cannot be declared
+	 * in different places. `null` where the stage keeps none
+	 * (technical-design.md §3.3).
+	 */
+	readonly record: string | null;
 };
 
 /**
@@ -275,6 +284,8 @@ type StageWorkspaceWithFile = {
 	readonly outputFile: string;
 	/** The reader's view of that file, relative to the workspace; `null` where there is none. */
 	readonly readableView: string | null;
+	/** The name of the record of how that file was reached, beside it; `null` where there is none. */
+	readonly record: string | null;
 };
 
 /**
@@ -352,11 +363,16 @@ function writesInto<TName extends string>(args: WritesIntoArgs<TName>): StageWor
 function writesSetInto<TName extends string>(
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- string literal types, which have nothing to mutate; the rule cannot see through the unresolved LiteralName conditional
 	args: Pick<WritesIntoArgs<TName>, "directory">,
-): StageWorkspace & { readonly outputFile: null; readonly readableView: null } {
+): StageWorkspace & {
+	readonly outputFile: null;
+	readonly readableView: null;
+	readonly record: null;
+} {
 	return {
 		outputLocation: inWorkspace([declaredName<TName>(args.directory)]),
 		outputFile: null,
 		readableView: null,
+		record: null,
 	};
 }
 
@@ -407,11 +423,20 @@ function writesIntoAndRenders<TName extends string>(
  * compile, exactly as the annotation used to make it.
  */
 export const STAGE_WORKSPACE = {
-	"source-normalisation": { outputLocation: inWorkspace([]), outputFile: null, readableView: null },
+	"source-normalisation": {
+		outputLocation: inWorkspace([]),
+		outputFile: null,
+		readableView: null,
+		record: null,
+	},
 	"audio-extraction": writesInto({ directory: "Audio", file: "audio.m4a" }),
 	transcription: writesInto({ directory: "Transcript", file: "transcript.txt" }),
 	"initial-subtopic-splitting": writesSetInto({ directory: "Initial subtopics" }),
 	"deepen-subtopic-splitting": writesSetInto({ directory: "Deepened subtopics" }),
+	"choose-division": {
+		...writesInto({ directory: "Chosen division", file: "subtopics.json" }),
+		record: "choice.json",
+	},
 	"transcript-structuring": writesInto({
 		directory: "Structured transcript",
 		file: "structured-transcript.md",
@@ -428,11 +453,13 @@ export const STAGE_WORKSPACE = {
 		outputLocation: inWorkspace([declaredName("QA iterations"), declaredName("QA checked")]),
 		outputFile: null,
 		readableView: null,
+		record: null,
 	},
 	"pdf-generation": {
 		outputLocation: { root: "module", directory: declaredName(FINAL_OUTPUT_DIR) },
 		outputFile: null,
 		readableView: null,
+		record: null,
 	},
 } satisfies Readonly<Record<StageId, StageWorkspace>>;
 
@@ -469,6 +496,17 @@ export type StageWithReadableView = {
 		? TStage
 		: never;
 }[StageId];
+
+/**
+ * The stages that keep a record of how they reached their output, and so the
+ * only ones that can be asked where it goes. Derived from {@link STAGE_WORKSPACE}
+ * exactly as {@link StageWithReadableView} is, and narrowed to the stages that
+ * write one output file, since the record sits beside it.
+ */
+export type StageWithRecord = StageWithOutputFile &
+	{
+		[TStage in StageId]: (typeof STAGE_WORKSPACE)[TStage]["record"] extends string ? TStage : never;
+	}[StageId];
 
 /**
  * A stage's output path relative to its workspace, as recorded in `filesWritten`
@@ -551,6 +589,35 @@ export type StageViewInWorkspace = {
  */
 export function stageReadableViewPath({ workspaceRoot, stageId }: StageViewInWorkspace): string {
 	return join(workspaceRoot, stageReadableViewEntry(stageId));
+}
+
+/**
+ * A stage's record relative to its workspace, as recorded in `filesWritten`
+ * beside the output it describes (technical-design.md §3.3).
+ *
+ * @param stageId - The stage whose record to name; only a stage that keeps one.
+ * @returns The workspace-relative path.
+ */
+export function stageRecordEntry(stageId: StageWithRecord): string {
+	return join(dirname(stageOutputEntry(stageId)), STAGE_WORKSPACE[stageId].record);
+}
+
+/**
+ * A stage's record as an absolute path, beside the output it describes.
+ *
+ * @param args - The workspace and the stage.
+ * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args.stageId - The stage whose record to locate; only a stage that keeps one.
+ * @returns The absolute path to that stage's record.
+ */
+export function stageRecordPath({
+	workspaceRoot,
+	stageId,
+}: {
+	readonly workspaceRoot: string;
+	readonly stageId: StageWithRecord;
+}): string {
+	return join(workspaceRoot, stageRecordEntry(stageId));
 }
 
 /**

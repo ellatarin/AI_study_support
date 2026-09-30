@@ -37,6 +37,7 @@ export const STAGE_IDS = [
 	"transcription",
 	"initial-subtopic-splitting",
 	"deepen-subtopic-splitting",
+	"choose-division",
 	"transcript-structuring",
 	"transcript-verification",
 	"slide-conversion",

@@ -1557,6 +1557,31 @@ export async function seedPanelRun({
 }
 
 /**
+ * Leaves runs 1 to `count` of a panel on disk, as an earlier launch or an
+ * earlier stage would have saved them.
+ *
+ * @param args - Which panel, how many runs, and what each holds.
+ * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args.stageId - The panel stage.
+ * @param args.count - How many runs to leave, counting from run 1.
+ * @param args.contents - What run `runNumber` holds, written as JSON.
+ * @returns A promise that resolves once every file is written.
+ */
+export async function seedPanelRuns({
+	workspaceRoot,
+	stageId,
+	count,
+	contents,
+}: Omit<Parameters<typeof panelRunPath>[0], "runNumber"> & {
+	readonly count: number;
+	readonly contents: (runNumber: number) => unknown;
+}): Promise<void> {
+	for (let runNumber = 1; runNumber <= count; runNumber += 1) {
+		await seedPanelRun({ workspaceRoot, stageId, runNumber, contents: contents(runNumber) });
+	}
+}
+
+/**
  * The text a division's subtopics cover, joined in order: the transcript itself
  * when the division is lossless.
  *

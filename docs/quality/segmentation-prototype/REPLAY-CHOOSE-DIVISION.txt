@@ -1,0 +1,8 @@
+l1: all 18 at bar 9 — prototype run 4 at 0, pipeline run 4 at 0 (same); panels of 9 at bar 5 — 0 of 48620 differ
+l2: all 18 at bar 9 — prototype run 1 at 0, pipeline run 1 at 0 (same); panels of 9 at bar 5 — 0 of 48620 differ
+l3: all 18 at bar 9 — prototype run 2 at 0, pipeline run 2 at 0 (same); panels of 9 at bar 5 — 0 of 48620 differ
+l4: all 18 at bar 9 — prototype run 3 at 0, pipeline run 3 at 0 (same); panels of 9 at bar 5 — 0 of 48620 differ
+l5: all 18 at bar 9 — prototype run 2 at 0, pipeline run 2 at 0 (same); panels of 9 at bar 5 — 0 of 48620 differ
+l6: all 18 at bar 9 — prototype run 1 at 0, pipeline run 1 at 0 (same); panels of 9 at bar 5 — 0 of 48620 differ
+l7: all 18 at bar 9 — prototype run 2 at 0, pipeline run 2 at 0 (same); panels of 9 at bar 5 — 0 of 48620 differ
+l8: all 18 at bar 9 — prototype run 1 at 0, pipeline run 1 at 0 (same); panels of 9 at bar 5 — 0 of 48620 differ
