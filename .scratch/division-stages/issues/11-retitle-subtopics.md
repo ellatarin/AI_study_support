@@ -9,7 +9,7 @@
 - [ ] One call per lecture sends every subtopic in order, each as its position (counting from 1) and its trimmed text, and no title.
 - [ ] A reply is valid only when it holds exactly one non-blank title for every subtopic, in order, with no position missing, repeated or out of range. Anything else, and an empty or non-JSON reply, is resent (ticket 04's retries); the third failure fails the stage.
 - [ ] `Retitled subtopics/subtopics.json` holds the whole chosen division with every title replaced and spans and reasons unchanged; `Chosen division/subtopics.json` is untouched.
-- [ ] `Retitled subtopics/changes.json`, beside the division, records how many titles changed — a title returned unchanged is not counted.
+- [ ] `Retitled subtopics/changes.json`, beside the division, records how many subtopics there are, how many titles changed, and each changed title as its position, old title and new — a title returned unchanged is not a change.
 - [ ] The stage fails when the chosen division is missing or unreadable.
 - [ ] The stage's entry is in the example config (model placeholder) and the user's own (`openai/gpt-6.1-sol-pro`); no reasoning-effort setting is sent.
 - [ ] **Live run:** in ticket 08's joint live run, beside the prototype's `r9` titles.

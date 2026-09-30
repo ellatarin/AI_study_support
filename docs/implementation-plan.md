@@ -819,12 +819,12 @@ Unit tests for the stage (mock `makeCompletionCall`):
 - `should resend the call when the reply $problem` — `test.each` across not an object, a subtopic missing, a position repeated, a position out of range, titles out of order, a blank title
 - `should fail the stage when the call fails every send`
 - `should write the whole division with every title replaced and spans and reasons unchanged when the stage completes`
-- `should record beside the division how many titles changed, not counting a title returned unchanged, when the stage completes`
+- `should record beside the division the subtopic count, the changed-title count and each changed title's position, old title and new, not counting a title returned unchanged, when the stage completes`
 - `should fail when the chosen division is $state` — `test.each` across missing and unreadable
 
 **Side by side with the prototype:** covered by Phase 14's live run, which shows the new titles beside the prototype's `r9` titles.
 
-**Acceptance:** A lecture gains a retitled division differing from the chosen one only in its titles, with a record beside it of how many changed.
+**Acceptance:** A lecture gains a retitled division differing from the chosen one only in its titles, with a record beside it of which titles changed, from what to what.
 
 ---
 

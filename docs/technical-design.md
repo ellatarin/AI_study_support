@@ -177,7 +177,7 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │
 ├── Retitled subtopics/
 │   ├── subtopics.json                         # retitle-subtopics
-│   └── changes.json                           # retitle-subtopics — how many titles changed
+│   └── changes.json                           # retitle-subtopics — which titles changed
 │
 ├── Grouping runs/
 │   ├── run-01.json                            # define-topics — one file per grouping run
@@ -282,7 +282,7 @@ type StageWorkspace = {
   record: string | null
 }
 // `record` is a small JSON file beside `outputFile` saying how the stage reached it — which run a panel chose
-// and why, or how many titles changed. choose-division, retitle-subtopics and define-topics declare one
+// and why, or which titles changed. choose-division, retitle-subtopics and define-topics declare one
 // (§4.5, "How a result was reached is kept beside the result"). It is recorded in `filesWritten` and cleared
 // with the output, so the two cannot come apart.
 // `readableView` is a second file holding the same content as `outputFile` in a form a person reads, written
@@ -706,7 +706,7 @@ Each stage's `cost` is the only record of what that stage cost, and the manifest
 
 **A stage may record facts of its own in its entry.** `qa-loop` records its iterations and why it stopped. The stage returns them on its `StageResult`, the runner writes them with the `complete` entry, and a `skipped` entry carries them over from the entry it replaces. Each such stage has its own entry type, keyed to its stage id in `ManifestStages`.
 
-**How a result was reached is kept beside the result, not here.** `choose-division`, `retitle-subtopics` and `define-topics` each write a small record next to their output saying how they reached it — which run was chosen and why, or how many titles changed (§3.3; §5). The manifest is the run's bookkeeping: whether a stage ran, what it cost, and what it wrote. A record describes the result, so it is written and cleared with the result and listed in `filesWritten` like it, and no skip or re-run can separate the two.
+**How a result was reached is kept beside the result, not here.** `choose-division`, `retitle-subtopics` and `define-topics` each write a small record next to their output saying how they reached it — which run was chosen and why, or which titles changed (§3.3; §5). The manifest is the run's bookkeeping: whether a stage ran, what it cost, and what it wrote. A record describes the result, so it is written and cleared with the result and listed in `filesWritten` like it, and no skip or re-run can separate the two.
 
 **`running` status is written before a stage begins.** A crash mid-stage leaves `running` in the manifest, which is treated as `failed` on next launch — the stage re-runs from scratch, except that a panel stage keeps the runs it already saved (§8, "Intra-Stage Resumability").
 
@@ -1224,7 +1224,7 @@ The prompt is the prototype's `r9`, carried over word for word. It asks for the 
 
 **One call for the whole lecture.** The model is sent every subtopic in order, each as its position (counting from 1) and its full text, trimmed, and not its old title. It replies with one title per subtopic, each paired with its subtopic's position. A reply is valid when it holds exactly one non-blank title for every subtopic, in order, with no position missing, repeated or out of range. Anything else is a wrong shape and is resent, as a panel run's is (§5, "Dividing the transcript", Panel runs); after the third send the stage fails. There is no panel: one run is enough.
 
-**What is written.** `Retitled subtopics/subtopics.json` holds the whole chosen division with every title replaced; spans and reasons are copied as they were. The old titles stay in `Chosen division/subtopics.json`, so the two can be read side by side. Beside it, `Retitled subtopics/changes.json` records how many titles changed, a new title identical to the old one not counted (§4.5). The call costs about $0.06 per lecture.
+**What is written.** `Retitled subtopics/subtopics.json` holds the whole chosen division with every title replaced; spans and reasons are copied as they were. The old titles stay in `Chosen division/subtopics.json`, so the two can be read side by side. Beside it, `Retitled subtopics/changes.json` records how many subtopics there are, how many titles changed, and each changed title as its subtopic's position, the old title and the new; a new title identical to the old one is not a change (§4.5). The call costs about $0.06 per lecture.
 
 No check step follows: the stage writes only titles, as the splitting stages do, and no title is checked anywhere in the pipeline.
 
