@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Requirements Specification
 
-**Suite version:** 1.63-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-09-29
+**Suite version:** 1.64-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-09-30
 **Status:** For review
 
 ---

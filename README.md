@@ -66,8 +66,9 @@ re-run from it or stop after it.
    lecture's closing part as its summary or close. It comes before grouping, which uses these titles.
 8. **`define-topics`.** Groups the subtopics into **topics**, reading them from last to first with their
    titles and full text, and judges whether the lecturer's title is meaningful. Five groupings are
-   made. The one most of them give is kept; on a tie, the one with more topics, then the one closest to
-   a border-by-border vote of all five.
+   made. The one most of them give is kept. When two groupings are each given by more than one run and
+   tie, the one with more topics is kept; otherwise a tie goes to the one closest to a border-by-border
+   vote of all five, then to the earliest run.
 9. **`render-slides`.** Renders each slide as an image.
 10. **`read-slides`.** A vision model writes out everything on each slide.
 11. **`verify-slides`.** A checker compares each slide's written-out content with the slide image and

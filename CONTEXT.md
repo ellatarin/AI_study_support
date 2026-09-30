@@ -190,7 +190,7 @@ One attempt at grouping one lecture's finished subtopics into topics. Separate f
 _Avoid_: run (alone), trial
 
 **Chosen grouping**:
-The grouping that the most runs of the grouping panel made, handed on whole: its topics and their titles are one run's reading of the lecture. Two runs made the same grouping if their topics start at the same subtopics, whatever they named them. A tie goes to the grouping with more topics, then to the one whose topic starts differ least from the panel's vote, then to the earliest run. The vote itself is never handed on, since it could assemble a grouping no run made.
+The grouping that the most runs of the grouping panel made, handed on whole: its topics and their titles are one run's reading of the lecture. Two runs made the same grouping if their topics start at the same subtopics, whatever they named them. When two or more groupings share the most runs, more than one each, the one with more topics wins. When no grouping was made by more than one run, or the tied groupings have as many topics, the one whose topic starts differ least from the panel's vote wins, then the earliest run. The vote itself is never handed on, since it could assemble a grouping no run made.
 _Avoid_: modal grouping, consensus, voted grouping
 
 **Panel**:
@@ -218,7 +218,7 @@ The short name a subtopic or topic carries, saying what it is about. A reader se
 _Avoid_: label, heading, name
 
 **Inherited title**:
-The title a subtopic carries from the larger subtopic deepening cut it from. Deepening titles only the new pieces it creates, so the first piece keeps the whole one's title, which can promise material its later pieces now hold. Deepening marks every such subtopic. Retitling replaces it, as it replaces every title.
+The title a subtopic carries from the larger subtopic deepening cut it from. Deepening titles only the new pieces it creates, so the first piece keeps the whole one's title, which can promise material its later pieces now hold. Retitling replaces it, as it replaces every title.
 _Avoid_: stale title, old label
 
 **Retitling**:

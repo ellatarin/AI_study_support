@@ -1,14 +1,14 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.63-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-09-29
+**Suite version:** 1.64-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-09-30
 **Status:** For review
 
 ---
 
 ## Overview
 
-The pipeline is built in twenty phases. Phases 1–3 establish the project scaffold and shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to `transcript-verification`. Phases 8–14 divide the transcript: two groundwork phases, the four division stages, then `retitle-subtopics`, all running after transcription with every existing stage unchanged. Phases 15–19 implement the remaining stages in pipeline order. Phase 20 validates the full pipeline end-to-end against a real lecture.
+The pipeline is built in twenty phases. Phases 1–3 establish the project scaffold and shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to `transcript-verification`. Phases 8–14 divide the transcript: two groundwork phases, then the stages that split it, choose a division, retitle its subtopics and group them, all running after transcription with every existing stage unchanged. Phases 15–19 implement the remaining stages in pipeline order. Phase 20 validates the full pipeline end-to-end against a real lecture.
 
 Testing is not a final phase — unit tests are written alongside each deliverable per the project conventions. Integration tests are noted explicitly where unit testing alone is insufficient.
 
@@ -697,28 +697,56 @@ CLI tests:
 
 **Acceptance:** The live lecture 6 deepening, rerun at 6 × 10, gives a panel within the prototype's range in a fraction of the time.
 
-### Phase 11, continued — titles, and marking inherited ones
+### Phase 11, continued — titles
 
-**Goal:** Call a subtopic's title a title everywhere past the model's reply, and have deepening mark every subtopic whose title was written for a larger piece, so `retitle-subtopics` (Phase 14) knows which to send.
+**Goal:** Call a subtopic's title a title everywhere past the model's reply.
 
 **Deliverables:**
 
 - `label` becomes `title` in code, saved run files and comments: `Subtopic`, `sliceSubtopics`' `named`, the tests and fixtures. The prompts are unchanged and still ask for `label`; a reply's `label` becomes `title` as the reply is read **(TD §5, `initial-subtopic-splitting`)**. Run files saved before the rename no longer read as a division, and are made again.
-- Every subtopic carries whether its title is inherited: unmarked from initial splitting, the first piece of every deepening cut marked, a subtopic deepening leaves whole keeping its mark **(TD §5, `deepen-subtopic-splitting`, "Inherited titles are marked")**.
 
 **Tests:**
 
 Unit tests for `division.ts`:
-- `should give each subtopic its span, title and reason, unmarked, when the text is cut` — replaces the `label` test of Phase 10
-- `isDivision` rows for a subtopic without its title and without its mark
+- `should give each subtopic its span, title and reason when the text is cut` — replaces the `label` test of Phase 10
+- `isDivision` row for a subtopic without its title
 
-Unit tests for `deepen-subtopic-splitting` (mock `makeCompletionCall`):
-- `should mark the first piece and no other when a subtopic is cut`
-- `should leave a subtopic's mark as it was when the reply says it is one step`
-- `should mark the first piece when the second round cuts a subtopic that had a title of its own`
-- `should keep the first piece marked when the second round cuts it again`
+**Acceptance:** No `label` outside the prompt modules and the reply guard.
 
-**Acceptance:** No `label` outside the prompt modules and the reply guard; every deepened run marks exactly the first pieces of its cuts.
+### Phase 11, continued — no inherited-title marks
+
+**Goal:** Stop recording which subtopics have an inherited title, since `retitle-subtopics` (Phase 13) replaces every title.
+
+**Deliverables:**
+
+- `Subtopic` loses `titleInherited`; deepening sets no mark; `isDivision` still reads a run file carrying one, and the mark is dropped as it is read **(TD §5, `deepen-subtopic-splitting`, "Inherited titles are not marked")**.
+
+**Tests:**
+
+Unit tests for `division.ts`:
+- `should read a saved run as a division without its mark when the run carries one`
+
+The deepening tests of the mark are deleted.
+
+**Acceptance:** The live deepened runs of all eight lectures still read as divisions; nothing written carries the mark.
+
+### Phase 11, continued — refusals resent
+
+**Goal:** Resend a call the provider refuses inside an accepted reply, in every stage, instead of failing the stage on the first refusal.
+
+**Deliverables:**
+
+- `makeCompletionCall` sends a refused call again, up to three sends, pausing two seconds and then four, logging each refusal as a warning with the provider's sentence; the third refusal is the `CompletionRejectedError` **(TD §6, "A rejection can arrive inside an accepted reply")**. Every refused send is costed.
+
+**Tests:**
+
+Unit tests for `makeCompletionCall` (mock the client):
+- `should resend a refused call and return the reply when a later send is accepted`
+- `should throw CompletionRejectedError quoting the last refusal when every send is refused`
+- `should log each refusal as a warning with the provider's sentence`
+- `should count the cost of every refused send`
+
+**Acceptance:** A refusal no longer fails a stage unless it recurs on the third send.
 
 ---
 
@@ -728,34 +756,34 @@ Unit tests for `deepen-subtopic-splitting` (mock `makeCompletionCall`):
 
 **Deliverables:**
 
-`src/pipeline/stages/closest-to-vote.ts` **(TD §5, `choose-division` and `define-topics`)** — `chooseClosestToVote`, built here for any panel of runs given as sets of positions, since `define-topics` (Phase 13) chooses its grouping with it.
+`src/pipeline/stages/panel-vote.ts` **(TD §5, `choose-division` and `define-topics`)** — `panelVote` and `distanceFromVote`, built here for any panel of runs given as sets of positions, since `define-topics` (Phase 14) breaks its ties with them.
 
-`src/pipeline/stages/choose-division/` **(TD §5, `choose-division`)** — `chooseDivision`, which groups cuts into cut sites and hands them to `chooseClosestToVote`, and the stage around it. Added to `lectureStages`, with its `STAGE_IDS` and `STAGE_WORKSPACE` entries and cost-report label.
+`src/pipeline/stages/choose-division/` **(TD §5, `choose-division`)** — `chooseDivision`, which groups cuts into cut sites and chooses the run nearest the vote over them, and the stage around it. Added to `lectureStages`, with its `STAGE_IDS` and `STAGE_WORKSPACE` entries and cost-report label.
 
 The manifest records a stage's own facts **(TD §4.5, "A stage may record facts of its own")**: `choose-division`'s entry type carrying `division`, a way for a stage's result to carry it, the runner writing it with `complete`, and `skipped` carrying it over.
 
 **Tests:**
 
-Unit tests for `chooseClosestToVote` (no mocks):
+Unit tests for `panel-vote.ts` (no mocks):
 - `should count a position in the vote when its support reaches the bar`
 - `should leave a position out of the vote when its support falls short of the bar`
-- `should choose the run whose positions differ least from the vote's`
-- `should break a tie for the vote to the run closest to the others when two runs are equally near`
-- `should break a remaining tie to the earliest run`
-- `should report the chosen run counting from 1 with its distance from the vote and the panel size`
+- `should count the positions where one of run and vote marks and the other does not`
 
 Unit tests for `chooseDivision` (no mocks):
 - `should put cuts in one site when they lie within one percent of the site's first cut`
 - `should open a new site when a cut lies beyond one percent of the site's first cut` — even when it is within one percent of the previous cut
-- `should choose the run nearest the vote over its cut sites`
-- `should hand on the chosen run's subtopics unchanged, titles, reasons and marks included`
+- `should choose the run whose cut sites differ least from the vote's`
+- `should break a tie for the vote to the run closest to the others when two runs are equally near`
+- `should break a remaining tie to the earliest run`
+- `should report the chosen run counting from 1 with its distance from the vote and the panel size`
+- `should hand on the chosen run's subtopics unchanged, titles and reasons included`
 
 Stage tests:
 - `should write the chosen division and record the choice in the manifest when the stage completes`
 - `should keep the recorded choice when the stage is skipped`
 - `should fail when fewer deepened runs are present than the panel size`
 
-**Replay against the prototype:** a one-off script in the prototype folder runs `chooseDivision` on each lecture's 18 `d13` runs at a bar of nine, and on every panel of nine drawn from them at a bar of five, and checks that it chooses the same run as `division_support.py`'s `closest_to_vote_run`. The prototype's `d13` runs carry no marks; the script compares the chosen run only. Any difference is explained or fixed.
+**Replay against the prototype:** a one-off script in the prototype folder runs `chooseDivision` on each lecture's 18 `d13` runs at a bar of nine, and on every panel of nine drawn from them at a bar of five, and checks that it chooses the same run as `division_support.py`'s `closest_to_vote_run`. Any difference is explained or fixed.
 
 **Live run:** the stage over Phase 11's live deepened runs on all eight lectures: which run each chose, and its distance from the vote.
 
@@ -763,77 +791,78 @@ Stage tests:
 
 ---
 
-## Phase 13 — `define-topics`
+## Phase 13 — `retitle-subtopics`
 
-**Goal:** Group the chosen division's subtopics into topics by a panel of grouping runs and keep the run nearest their vote. Judging the lecture title is not in this phase.
-
-**Deliverables:**
-
-`src/pipeline/stages/define-topics/` **(TD §5, `define-topics`)** — the stage, its prompt module (the prototype's `g15` with titles, byte for byte), and `choose-grouping.ts` with `chooseGrouping`, which reads each run's topic starts and chooses with Phase 12's `chooseClosestToVote`. Added to `lectureStages`.
-
-The required `grouping` section — `panelSize` and `bar` — in `PipelineConfig`, its validation, the example config and the user's own; the stage's entry in the example config **(TD §6)**.
-
-`define-topics`' manifest entry type carrying `grouping`, recorded through the mechanism Phase 12 builds **(TD §4.5, "A stage may record facts of its own")**.
-
-**Tests:**
-
-Unit tests for `chooseGrouping` (no mocks):
-- `should read a run's topic starts without the first subtopic when it is chosen from`
-- `should treat runs as the same grouping when their starts match and their titles differ`
-- `should hand on the chosen run's topics as each title and first subtopic`
-
-Unit tests for the stage (mock `makeCompletionCall`):
-- `should send each subtopic's position, title and trimmed text when a run is made`
-- `should treat a reply as the wrong shape when $problem` — `test.each` across not starting at 1, starts not rising, a start past the last subtopic
-- `should write each topic's title and first subtopic from the chosen run when the stage completes`
-- `should leave groupedBecause out of the topics when the stage completes`
-
-Unit tests for the config: as Phase 10, for the `grouping` section, the bar exceeding the panel size included.
-
-Integration tests (real temp directory):
-- `should record the chosen run and its distance from the vote in the manifest when the stage completes`
-- `should keep the grouping record when the stage is later skipped`
-
-**Replay against the prototype:** the prototype's saved `g15` runs on each lecture's closest-run `d13` division (18 per lecture) through `chooseGrouping` at bar 9; the result must equal the grouping `analysis-2026-09-29/g12_vs_g15.py` chooses from the same runs.
-
-**Live run:** on the Phase 10 lecture, comparing topic count and starts with the prototype's `g15` range.
-
-**Acceptance:** A lecture gains eighteen grouping runs and a topics file holding the chosen grouping, and its manifest records which run and how far from the vote, surviving a skip; replay matches.
-
----
-
-## Phase 14 — `retitle-subtopics`
-
-**Goal:** Give each subtopic of the chosen division whose title is inherited a title of its own, after grouping.
+**Goal:** Give every subtopic of the chosen division a new title from its own text, in one call over the whole lecture, before grouping.
 
 **Deliverables:**
 
-`src/pipeline/stages/retitle-subtopics/` **(TD §5, `retitle-subtopics`)** — the stage and its prompt module, the prototype's `r3` byte for byte; its entry in the example config (with `callConcurrency` 10), the user's own config, `STAGE_IDS`, `STAGE_WORKSPACE` and the cost-report label. Added to `lectureStages` after `define-topics`.
-
-`callConcurrency` accepted on `retitle-subtopics` as well as `deepen-subtopic-splitting` **(TD §6, "Three settings say how much runs at once")**.
+`src/pipeline/stages/retitle-subtopics/` **(TD §5, `retitle-subtopics`)** — the stage and its prompt module, the prototype's `r9` byte for byte; its entry in the example config and the user's own (`openai/gpt-6.1-sol-pro`), `STAGE_IDS`, `STAGE_WORKSPACE` and the cost-report label. Added to `lectureStages` after `choose-division`.
 
 `retitle-subtopics`' manifest entry type carrying `retitled`, through the Phase 12 mechanism **(TD §4.5)**.
 
 **Tests:**
 
 Unit tests for the stage (mock `makeCompletionCall`):
-- `should send only the marked subtopics when the stage runs`
-- `should send the subtopic's trimmed text with its neighbours' titles as the chosen run wrote them when a call is made` — a neighbour itself marked included
-- `should send no neighbour title when the subtopic is $where` — `test.each` across first and last
-- `should write the whole division with only the marked subtopics' titles replaced when the stage completes`
-- `should make no call and write the division unchanged when no subtopic is marked`
-- `should resend a call when the reply $problem` — `test.each` across not an object, no title, an empty title
-- `should fail the stage when a call fails every send`
-- `should record how many subtopics were retitled in the manifest`
+- `should send every subtopic's position and trimmed text, and no title, in one call`
+- `should resend the call when the reply $problem` — `test.each` across not an object, a subtopic missing, a position repeated, a position out of range, titles out of order, a blank title
+- `should fail the stage when the call fails every send`
+- `should write the whole division with every title replaced and spans and reasons unchanged when the stage completes`
+- `should record how many titles changed, not counting a title returned unchanged, in the manifest`
 - `should fail when the chosen division is $state` — `test.each` across missing and unreadable
 
-Config tests — the `callConcurrency` row of the `should throw ConfigError when $case` table now names a stage other than these two.
+**Side by side with the prototype:** covered by Phase 14's live run, which shows the new titles beside the prototype's `r9` titles.
 
-**Side by side with the prototype:** the prototype's `retitle-r3-closest-d13-*` files hold every title it gave, but the prototype divisions carry no marks. A one-off script lists, per lecture, the subtopics the prototype retitled next to those a live chosen division marks, for the user to read.
+**Acceptance:** A lecture gains a retitled division differing from the chosen one only in its titles; the manifest records how many changed.
 
-**Live run:** on the Phase 10 lecture, the new titles beside the inherited ones. The cost is stated before the run.
+---
 
-**Acceptance:** A lecture gains a retitled division differing from the chosen one only in the marked subtopics' titles; the manifest records how many.
+## Phase 14 — `define-topics`
+
+**Goal:** Group the retitled subtopics into topics by a panel of five grouping runs and keep the grouping most of them made. Judging the lecture title is not in this phase.
+
+**Deliverables:**
+
+`src/pipeline/stages/define-topics/` **(TD §5, `define-topics`)** — the stage, its prompt module (the prototype's `g23` with titles, byte for byte), and `choose-grouping.ts` with `chooseGrouping`, which breaks its ties with Phase 12's `panelVote` and `distanceFromVote`. Added to `lectureStages` after `retitle-subtopics`, with its `STAGE_IDS` and `STAGE_WORKSPACE` entries and cost-report label.
+
+The required `grouping` section — `panelSize` and `bar` — in `PipelineConfig`, its validation, the example config and the user's own; the stage's entry in the example config and the user's own, with `concurrency` 5 and `sendGapSeconds` 2 **(TD §6)**.
+
+`sendGapSeconds` **(TD §5, "Dividing the transcript", Panel runs; TD §6, "Three settings say how much runs at once")** — accepted on `define-topics` alone; the panel spaces every send the stage makes, refusals resent by `makeCompletionCall` included, at least that far apart.
+
+`define-topics`' manifest entry type carrying `grouping`, recorded through the mechanism Phase 12 builds **(TD §4.5, "A stage may record facts of its own")**.
+
+**Tests:**
+
+Unit tests for `chooseGrouping` (no mocks):
+- `should choose the grouping the most runs made when one leads`
+- `should treat runs as the same grouping when their starts match and their titles differ`
+- `should choose the grouping with more topics when two groupings made by more than one run each tie on runs`
+- `should choose the grouping closest to the vote when $case` — `test.each` across every run differing, and tied groupings with as many topics
+- `should choose the earliest run when closeness to the vote still ties`
+- `should hand on the earliest run's topics among those that made the chosen grouping`
+- `should report the chosen run, its support, the panel size and the rule that decided`
+
+Unit tests for the stage (mock `makeCompletionCall`):
+- `should send each retitled subtopic's position, title and trimmed text when a run is made`
+- `should treat a reply as the wrong shape when $problem` — `test.each` across no topics, a blank title, a blank `groupedBecause`, no first subtopic, not starting at 1, a start not after the one before, a start past the last subtopic
+- `should accept a valid reply whatever finish reason it reports`
+- `should write each topic's title, groupedBecause and first subtopic from the chosen run when the stage completes`
+
+Unit tests for the panel (fake timers):
+- `should start no send until the gap has passed since the stage's previous send when sendGapSeconds is set` — first sends and resends alike
+- `should not space sends when sendGapSeconds is unset`
+
+Unit tests for the config: as Phase 10, for the `grouping` section, the bar exceeding the panel size included; a `sendGapSeconds` row in the `should throw ConfigError when $case` table naming a stage other than `define-topics`.
+
+Integration tests (real temp directory):
+- `should record the chosen run, its support and the deciding rule in the manifest when the stage completes`
+- `should keep the grouping record when the stage is later skipped`
+
+**Replay against the prototype:** the prototype's saved `g23` runs on each lecture's `r9`-retitled division (4 per lecture) through `chooseGrouping` at bar 3; each result is compared with the grouping `analysis-2026-09-30/choose_panel.py` chooses from the same runs. That script asks "more topics" even when every run differs, which this rule does not, so a lecture whose runs all differ may disagree; each difference is explained, any other fixed.
+
+**Live run:** `retitle-subtopics` and `define-topics` together on one lecture (about $0.51, stated first): the new titles and the chosen topics beside the prototype's, for the user to read.
+
+**Acceptance:** A lecture gains five grouping runs and a topics file holding the chosen grouping, and its manifest records which run, its support and the deciding rule, surviving a skip; replay agrees or each difference is explained.
 
 ---
 
