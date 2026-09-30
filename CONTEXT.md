@@ -190,15 +190,15 @@ One attempt at grouping one lecture's finished subtopics into topics. Separate f
 _Avoid_: run (alone), trial
 
 **Chosen grouping**:
-The grouping run whose topic starts differ least from the grouping panel's vote, handed on whole: its topics and their titles are one run's reading of the lecture. Two runs made the same grouping if their topics start at the same subtopics, whatever they named them. A tie goes to the run closest to the others, then the earliest. The vote itself is never handed on, since it could assemble a grouping no run made.
-_Avoid_: modal grouping, majority grouping, consensus, voted grouping
+The grouping that the most runs of the grouping panel made, handed on whole: its topics and their titles are one run's reading of the lecture. Two runs made the same grouping if their topics start at the same subtopics, whatever they named them. A tie goes to the grouping with more topics, then to the one whose topic starts differ least from the panel's vote, then to the earliest run. The vote itself is never handed on, since it could assemble a grouping no run made.
+_Avoid_: modal grouping, consensus, voted grouping
 
 **Panel**:
-A set of repeated runs of one step over one lecture, combined into a single result. Each panel is voted over, and the run nearest the vote is handed on whole: a splitting panel's becomes the **chosen division**, a grouping panel's the **chosen grouping**. What turns a prompt that is usually right into a result that is reliably right.
+A set of repeated runs of one step over one lecture, combined into a single result that one run made, handed on whole: from a splitting panel, the run nearest the vote becomes the **chosen division**; from a grouping panel, the grouping most runs made becomes the **chosen grouping**. What turns a prompt that is usually right into a result that is reliably right.
 _Avoid_: sample, ensemble, trial set
 
 **Support**:
-How many of a panel's runs made a choice, said as a count out of the panel: how many splitting runs cut at a cut site ("6 of 9"), or how many grouping runs start a topic at a subtopic ("15 of 18").
+How many of a panel's runs made a choice, said as a count out of the panel: how many splitting runs cut at a cut site ("6 of 9"), or how many grouping runs start a topic at a subtopic ("3 of 5").
 _Avoid_: votes (as a count), supporters, frequency
 
 **Bar**:
@@ -218,11 +218,11 @@ The short name a subtopic or topic carries, saying what it is about. A reader se
 _Avoid_: label, heading, name
 
 **Inherited title**:
-The title a subtopic carries from the larger subtopic deepening cut it from. Deepening titles only the new pieces it creates, so the first piece keeps the whole one's title, which can promise material its later pieces now hold. Deepening marks every such subtopic.
+The title a subtopic carries from the larger subtopic deepening cut it from. Deepening titles only the new pieces it creates, so the first piece keeps the whole one's title, which can promise material its later pieces now hold. Deepening marks every such subtopic. Retitling replaces it, as it replaces every title.
 _Avoid_: stale title, old label
 
 **Retitling**:
-Giving each subtopic of the chosen division that has an inherited title a title of its own, from its own text, after grouping. Only titles change; no cut moves.
+Giving every subtopic of the chosen division a new title from its own text, in one pass over the whole lecture, before grouping, so that grouping sees the new titles. A subtopic that recaps earlier material is titled as a summary, and the lecture's closing part as its summary or close. Only titles change; no cut moves.
 _Avoid_: relabelling, renaming
 
 **Losslessness**:
