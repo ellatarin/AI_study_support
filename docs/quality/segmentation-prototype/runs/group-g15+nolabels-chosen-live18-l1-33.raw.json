@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "The lecturer welcomes the class and introduces the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and damage recognition by pattern recognition receptors",
+      "groupedBecause": "These subtopics explain how the innate immune system senses microbial products and cellular damage through pattern recognition receptors, their intracellular signaling cascades, and the inflammasome.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular responses, leukocyte trafficking, and systemic inflammation",
+      "groupedBecause": "These subtopics detail how mediator release by sentinel cells directs leukocyte extravasation into tissues, lymphatic drainage, and the systemic consequences of severe inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "These subtopics examine how inflammatory responses are shut down, how tissues undergo healing and remodeling, and why chronic inflammation or granuloma formation can arise.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and preview",
+      "groupedBecause": "The lecturer concludes the session and previews the upcoming lecture on the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

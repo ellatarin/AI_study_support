@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic opens the lecture with welcoming remarks, connections to earlier practical work, and an overview of the planned learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the discovery of cellular oncogenes",
+      "groupedBecause": "These subtopics trace how the historical study of oncogenic viruses established that cancer originates from the misregulation or viral capture of normal cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Assays for measuring cellular transformation",
+      "groupedBecause": "This subtopic details the in vitro and in vivo laboratory assays used to test whether candidate genes and specific mutations confer transformed properties on cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Concepts and mutational mechanisms of oncogenes and tumor suppressor genes",
+      "groupedBecause": "These subtopics explain how oncogenes and tumor suppressor genes are categorized, how they regulate the G1/S cell cycle checkpoint, and how different classes of mutations affect their dominance and cellular function.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Forms, causes, and consequences of genetic instability",
+      "groupedBecause": "These subtopics explore sequence and chromosomal instability in cancer, examining the specific failures in DNA repair pathways, replication fidelity, and mitosis that generate them.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-step genetic progression in the Vogelstein model",
+      "groupedBecause": "This subtopic describes how the sequential accumulation of mutations in oncogenes, tumor suppressor genes, and genomic maintenance pathways drives colorectal cancer progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Hereditary cancer predisposition and tumor evolution",
+      "groupedBecause": "These subtopics examine how inherited germline mutations accelerate cancer development through the two-hit paradigm and how tumors subsequently evolve under therapeutic selective pressures.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "This subtopic closes the lecture by reviewing the covered learning outcomes, offering recommended reading, and outlining the next lecture topic.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

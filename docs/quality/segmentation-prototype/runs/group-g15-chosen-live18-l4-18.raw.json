@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "This opening subtopic introduces the lecturer, the scope of the cancer lecture series, and the specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, Endogenous, and Environmental Drivers of Cancer Risk",
+      "groupedBecause": "These subtopics explore the foundational concepts of cancer etiology, contrasting endogenous mutational processes and inherited genetic predispositions with environmental exposures and epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogens, Mutagens, and Tumor Promoters",
+      "groupedBecause": "These subtopics examine the biological and molecular mechanisms by which specific chemical, physical, and infectious agents initiate DNA damage or act as tumor promoters to drive malignancy.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Investigating and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, in vivo, and in vitro experimental approaches used to identify mutational exposures and evaluate the carcinogenic potential of substances.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "This closing subtopic provides concluding framing by summarizing the lecture's core themes and addressing real-world risk-benefit evaluations regarding carcinogen exposure.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

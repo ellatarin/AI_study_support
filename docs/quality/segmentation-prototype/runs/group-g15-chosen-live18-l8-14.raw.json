@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer therapy",
+      "groupedBecause": "The lecturer welcomes the students to the final BOD lecture and presents the session's overarching learning objectives regarding cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatments: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics discuss primary conventional cancer treatment modalities—surgery, radiotherapy, and cytotoxic chemotherapy—along with their mechanisms and clinical toxicities.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic cancer cell vulnerabilities",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic vulnerabilities in cancer cells, including hormone dependence, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Kinase inhibitors, oncogene addiction, and resistance mechanisms",
+      "groupedBecause": "These subtopics examine how small-molecule inhibitors target hyperactivated kinases driving oncogene addiction and the mechanisms by which cancer cells develop resistance to these therapies.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain the design, mechanisms, and therapeutic applications of monoclonal antibodies and antibody-drug conjugates targeting cancer cell surface proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunosurveillance and cell-mediated immunotherapies",
+      "groupedBecause": "These subtopics review the evidence for cancer immune surveillance and detail immunotherapeutic strategies designed to engage or engineer T-cell responses against tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Current challenges, historical trends, and future perspectives in cancer management",
+      "groupedBecause": "These subtopics consider systemic challenges in cancer therapy, including patient stratification, historical survival trends, and future ethical considerations in clinical treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

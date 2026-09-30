@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic provides the introductory framing and an overview of the lecture themes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition",
+      "groupedBecause": "These subtopics introduce the fundamental concepts of how the innate immune system detects infections and damage using PAMPs, DAMPs, and pattern recognition receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor families and signaling mechanisms",
+      "groupedBecause": "These subtopics examine specific receptor systems that detect danger signals, including toll-like receptors, cytosolic PRR families, and inflammasome complexes.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Inflammatory response execution, leukocyte recruitment, and systemic pathology",
+      "groupedBecause": "These subtopics follow the progression of the acute inflammatory response from sentinel cell triggering and leukocyte extravasation to lymphatic priming and systemic inflammatory complications.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics detail the mechanisms that terminate inflammation, regenerate injured tissue, and establish chronic containment structures when pathogens persist.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic marks the conclusion of the lecture and previews the next topic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

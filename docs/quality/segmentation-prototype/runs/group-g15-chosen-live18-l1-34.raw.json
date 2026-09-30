@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic provides the opening framing and outlines the themes of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition",
+      "groupedBecause": "These subtopics establish how the innate immune system identifies infections and tissue damage using conserved molecular patterns and germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor families and signaling pathways",
+      "groupedBecause": "These subtopics examine specific receptor families and intracellular complexes that transduce danger signals into pro-inflammatory gene expression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Inflammatory response propagation, leukocyte trafficking, and systemic pathology",
+      "groupedBecause": "These subtopics describe the cellular dynamics and physiological consequences of active inflammation across local and systemic levels.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic containment",
+      "groupedBecause": "These subtopics explore the biological mechanisms that terminate acute inflammation, rebuild damaged tissues, and contain persistent pathogens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic delivers the closing remarks and previews the topic of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

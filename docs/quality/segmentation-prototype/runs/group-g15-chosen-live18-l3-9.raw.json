@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the administrative opening, course framing, and lecture learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, cellular, and architectural basis of cancer",
+      "groupedBecause": "These subtopics explain the fundamental biological nature of cancer as a multi-step accumulation of alterations resulting in the breakdown of normal tissue architecture and cellular differentiation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and histopathology of tumor invasion and metastasis",
+      "groupedBecause": "These subtopics detail how local tissue invasion through the basement membrane and secondary metastatic spread define malignancy and distinguish malignant tumors from benign lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor classification, nomenclature, and clinical pathophysiology",
+      "groupedBecause": "These subtopics examine the conventions for naming tumors alongside the pathological mechanisms by which both benign and malignant growths cause morbidity and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics examine patterns of tumor incidence in human populations and across diverse multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical symptoms and cancer screening strategies",
+      "groupedBecause": "These subtopics address clinical presentation and the diagnostic utility, histology, and limitations of screening programs for various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and housekeeping",
+      "groupedBecause": "This subtopic provides the concluding remarks, reminders regarding practicals, and lecture closing framing.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

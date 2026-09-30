@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This topic frames the lecture series by introducing the course objectives, scope, and key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations of cancer development and tissue modeling",
+      "groupedBecause": "These subtopics examine how cancer arises from accumulated genetic alterations and disrupted tissue differentiation programs, alongside the experimental models used to study these cellular behaviors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology and progression of tumor invasion and metastasis",
+      "groupedBecause": "These subtopics describe the histological and pathological mechanisms through which localized tumors invade surrounding tissues and metastasize to distant organs.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor classification, nomenclature, and clinical pathophysiology",
+      "groupedBecause": "These subtopics establish the standard naming conventions for neoplasms and explain the physiological mechanisms by which benign and malignant growths cause illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer epidemiology and comparative oncology across species",
+      "groupedBecause": "These subtopics examine the incidence and patterns of tumor occurrence across human tissues and diverse multicellular taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation, symptoms, and cancer screening approaches",
+      "groupedBecause": "These subtopics cover the clinical signs of tumors and the specific screening modalities used to detect early-stage and pre-malignant lesions.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "This topic provides the concluding remarks, linking back to the learning outcomes and outlining upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

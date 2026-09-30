@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Hallmarks of Cancer",
+      "groupedBecause": "The lecturer introduces the session's objectives, reviewing cancer progression models and framing the lecture around the classical hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of Growth Factor and Inhibitory Signaling Pathways",
+      "groupedBecause": "These subtopics explore how genetic mutations in surface receptors and downstream cascades enable cancer cells to sustain proliferative signaling and resist growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blockade of Cellular Differentiation",
+      "groupedBecause": "These subtopics examine how arrested differentiation maintains cells in a proliferative progenitor-like state in both hematological malignancies and colorectal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic explains how cancer cells resist programmed cell death through mutations in p53 and the dysregulation of pro- and anti-apoptotic mitochondrial proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics detail how tumors overcome the Hayflick limit and bypass stress-induced senescence through telomere maintenance and the evasion of protective DNA damage responses.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Reprogramming of Cellular Metabolism",
+      "groupedBecause": "These subtopics examine how cancer cells rewire metabolic pathways toward aerobic glycolysis and how metabolic enzyme mutations generate oncometabolites that drive epigenetic alterations.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor Angiogenesis and Vascularization",
+      "groupedBecause": "This subtopic describes how developing tumors overcome oxygen and nutrient diffusion limits by altering the balance of signaling factors to induce new blood vessel growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and Genetics of Cancer Metastasis",
+      "groupedBecause": "These subtopics cover the multi-step invasion-metastasis cascade, the seed-and-soil requirements for distant colonization, and the clonal genetics underlying metastatic dissemination.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Concluding Remarks and Summary",
+      "groupedBecause": "The lecturer summarizes the overarching themes of cancer hallmarks, mentions recent literature extensions, and provides closing instructions for upcoming practicals.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

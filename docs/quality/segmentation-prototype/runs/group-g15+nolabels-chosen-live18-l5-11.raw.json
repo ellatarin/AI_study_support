@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic provides the introductory framing for the lecture by linking it to prior practicals and outlining the session's learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Viral Origins of Oncogenes and In Vitro Transformation Assays",
+      "groupedBecause": "These subtopics trace the historical discovery of tumor-causing viruses, the capture of cellular proto-oncogenes, and the experimental laboratory assays used to test cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Functional Classification and Genetic Mechanisms of Cancer Genes",
+      "groupedBecause": "These subtopics define the main categories of cancer mutations and illustrate how oncogenic, tumor-suppressive, and dominant-negative alterations regulate pathways such as the cell cycle and p53.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms, Types, and Multistep Progression of Genetic Instability",
+      "groupedBecause": "These subtopics examine how defects in specific DNA repair pathways, replication machinery, and chromosome segregation produce genomic instability to drive multistep tumor progression.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Hereditary Cancer Predisposition and Tumor Evolution",
+      "groupedBecause": "These subtopics explain the principles and syndromes associated with inherited cancer susceptibility alleles and how these genetic defects influence tumor evolution and therapy resistance.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture Conclusion and Recommended Reading",
+      "groupedBecause": "This subtopic delivers the closing framing for the lecture by offering reading recommendations and previewing the next topic.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

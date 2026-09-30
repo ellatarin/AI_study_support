@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the cancer lecture series, and the specific learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Intrinsic Mechanisms and Extrinsic Risks",
+      "groupedBecause": "These subtopics establish the conceptual framework of cancer causation by evaluating the interplay between intrinsic genetic mutations, endogenous biological errors, and extrinsic environmental risk factors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenesis and Tumor Promotion",
+      "groupedBecause": "These subtopics explain the molecular and cellular mechanisms through which specific chemical, physical, and infectious agents act as initiators or promoters in malignant transformation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro methods used to identify mutational signatures and test the carcinogenicity of substances.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Summary and Risk-Benefit Assessment",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of environmental cancer risks and reflections on real-world risk-benefit decision-making.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

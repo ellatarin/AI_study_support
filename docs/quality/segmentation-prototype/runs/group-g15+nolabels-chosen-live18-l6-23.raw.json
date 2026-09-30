@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and overview of cancer hallmarks",
+      "groupedBecause": "The lecturer outlines the learning objectives and frames the lecture around Hanahan and Weinberg's cancer hallmarks model.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and proliferation pathways",
+      "groupedBecause": "These subtopics explain how oncogenic alterations in signaling cascades such as Wnt and receptor tyrosine kinases confer independence from external growth stimulation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in cancer",
+      "groupedBecause": "These subtopics demonstrate how tumor cells fail to undergo terminal differentiation and remain locked in proliferative states across hematopoietic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic explores the molecular mechanisms and apoptotic regulatory pathways that cancer cells disrupt to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and cellular senescence",
+      "groupedBecause": "These subtopics examine the limits of cellular replication governed by telomeres and senescence, alongside the mechanisms cancer cells use to achieve immortality through telomerase reactivation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming in cancer",
+      "groupedBecause": "These subtopics examine how cancer cells rewire cellular metabolism to satisfy high biosynthetic demands and alter epigenetic regulation.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "This subtopic details how growing tumors trigger the angiogenic switch to stimulate new blood vessel growth and overcome diffusion limitations.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion and metastasis",
+      "groupedBecause": "These subtopics examine the multi-step metastatic cascade, including dissemination routes, microenvironmental requirements, clinical tracking, and the clonal genomic features of secondary tumors.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "The lecturer summarizes the key takeaways across all hallmarks, contextualises further reading, and concludes the lecture.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

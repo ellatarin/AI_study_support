@@ -1,0 +1,25 @@
+{
+  "sourceRun": "chosen-live18-l4",
+  "promptVersion": "g15",
+  "lecture": "l4",
+  "instance": "16",
+  "modelId": "google/gemini-3.7-flash",
+  "labelsShown": true,
+  "seconds": 19,
+  "promptTokens": 12987,
+  "completionTokens": 3027,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": 8,
+  "subtopics": 22,
+  "topicSizes": [
+    1,
+    2,
+    3,
+    2,
+    5,
+    4,
+    4,
+    1
+  ]
+}

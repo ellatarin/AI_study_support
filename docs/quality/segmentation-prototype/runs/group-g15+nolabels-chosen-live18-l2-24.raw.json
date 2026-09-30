@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "This subtopic serves as the lecture's opening framing, introducing the topic of complement and contextualizing its complexity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals and Core Principles of the Complement Cascade",
+      "groupedBecause": "These subtopics establish the foundational principles, nomenclature rules, and central biochemical role of C3 activation in the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement Activation Pathways",
+      "groupedBecause": "These subtopics explain the three upstream recognition pathways that initiate complement activation and converge on the C3 convertase threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Mechanisms of Complement",
+      "groupedBecause": "These subtopics describe the downstream mechanisms through which the activated complement cascade targets and eliminates pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation of Complement",
+      "groupedBecause": "This subtopic explains the regulatory proteins and mechanisms that protect host cells from unintended complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Complement Deficiencies",
+      "groupedBecause": "This subtopic details the diverse clinical manifestations and disease presentations resulting from deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion of Complement",
+      "groupedBecause": "This subtopic examines how pathogens evade complement attack, focusing on Staphylococcus aureus mechanisms and the practical applications of its evasion proteins.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic provides the lecture's closing framing, wrapping up the discussion of complement and previewing the next lecture topic.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

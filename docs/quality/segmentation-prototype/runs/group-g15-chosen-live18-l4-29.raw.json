@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the structure of the cancer lecture series, and the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conceptual Drivers of Cancer: Intrinsic Mutational Processes and Population Epidemiology",
+      "groupedBecause": "These subtopics establish the foundational concepts of cancer development by exploring the balance between endogenous 'bad luck' mutations, genetic predispositions, and environmental exposures across global populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Chemical, Biological, and Physical Carcinogenesis and Tumor Promotion",
+      "groupedBecause": "These subtopics examine specific carcinogenic agents and the molecular mechanisms by which they induce cancer through direct mutagenesis, xenobiotic metabolic activation, tissue-specific activity, developmental timing, or promotional chronic inflammation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics explain the experimental and observational methodologies used to identify and evaluate carcinogens, ranging from whole-genome mutational signatures and biobanks to animal models and the Ames test.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Everyday Risk-Benefit Decisions",
+      "groupedBecause": "This subtopic delivers concluding lecture remarks reflecting on real-world cancer risk appraisal and practical risk-benefit tradeoffs.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "The lecturer introduces the learning objectives, tumor progression model, and the conceptual framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and evasion of inhibitory pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in signaling cascades, including Wnt, receptor tyrosine kinases, and TGF-beta, drive sustained proliferation and overcome growth-inhibitory controls.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in hematopoietic and epithelial cancers",
+      "groupedBecause": "These subtopics explore how cancer cells fail to exit the cell cycle and differentiate, contrasting developmental arrest across leukemias with APC-driven dysplasia in intestinal crypts.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis through p53 and mitochondrial regulators",
+      "groupedBecause": "This subtopic describes how mutations in p53 and imbalances in Bcl-2 family proteins prevent cells from committing to programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and cellular stress responses",
+      "groupedBecause": "These subtopics address telomere dynamics, TERT activation mechanisms, and the p53-mediated senescence and stress-response pathways that normally enforce replicative limits.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics describe the alterations in cancer cell metabolism, including aerobic glycolysis and Krebs cycle mutations that produce epigenetic-modifying oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis and the angiogenic switch",
+      "groupedBecause": "This subtopic explains the requirement for vascularization to sustain tumor growth and the balance of regulatory factors governing the angiogenic switch.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genetics of metastasis",
+      "groupedBecause": "These subtopics detail the multistep metastatic cascade, the mechanical and environmental determinants of distant colonization, and the clonal genomic signatures associated with metastatic disease.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and closing remarks",
+      "groupedBecause": "The lecturer wraps up the session by referencing recent hallmark perspectives, restating key takeaways, and inviting questions before practical sessions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

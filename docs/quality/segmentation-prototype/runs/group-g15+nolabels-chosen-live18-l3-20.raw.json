@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Biology",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the course objectives and learning outcomes, and frames cancer as a complex clinical and biological problem.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Differentiation and Tissue Organization",
+      "groupedBecause": "These subtopics explain how accumulated genetic and epigenetic alterations disrupt normal cellular differentiation and tissue architecture, and how these processes are modeled experimentally.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Tumor Invasion and Metastasis",
+      "groupedBecause": "These subtopics explain how tumors transition from benign localized growths to malignant diseases through local basement membrane invasion and metastatic dissemination to distant organs.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise Tumor Progression, Behavior, and Nomenclature",
+      "groupedBecause": "These subtopics illustrate how benign precursor lesions evolve into invasive carcinomas using colorectal cancer as a model, examine the clinical risks of benign growths, and outline the classification and nomenclature of tumors.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Illness and Death",
+      "groupedBecause": "This subtopic explains the specific pathophysiological mechanisms by which primary and metastatic tumors cause systemic disease, organ failure, and patient mortality.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer Incidence Across Humans and Diverse Animal Species",
+      "groupedBecause": "These subtopics examine epidemiological patterns and incidence rates of different cancer types in human populations and across diverse multicellular animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Detection and Cancer Screening Strategies",
+      "groupedBecause": "These subtopics discuss the principles of early clinical detection and evaluate the methods, efficacy, and limitations of screening programs across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Next Steps",
+      "groupedBecause": "This subtopic concludes the lecture by reviewing the learning outcomes and providing housekeeping notes for upcoming practicals and sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

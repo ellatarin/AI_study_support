@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the cancer lecture series, and the key learning outcomes regarding environmental exposures and mechanisms of carcinogenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic and environmental determinants of cancer risk",
+      "groupedBecause": "These subtopics explore the fundamental nature of cancer development, evaluating the relative contributions of intrinsic genetic errors, environmental exposures, and lifestyle factors supported by population epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious agents in oncogenesis",
+      "groupedBecause": "These subtopics explain how pathogens drive malignancy, using the multi-step pathogenesis of Burkitt lymphoma involving Epstein-Barr virus and malaria as a detailed case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics detail the molecular mechanisms by which chemical and physical agents induce DNA damage, focusing on how host xenobiotic metabolism converts inert compounds into reactive carcinogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer initiation, promotion, and host susceptibility",
+      "groupedBecause": "These subtopics examine how non-mutagenic promoters, chronic inflammation, and host developmental stages cooperate with mutational initiation to drive tumor outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying and evaluating carcinogens",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, in vivo animal, and in vitro experimental approaches utilized to detect carcinogen exposure and measure carcinogenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing remarks on carcinogen risk and benefit",
+      "groupedBecause": "This subtopic provides the lecture's conclusion by summarising the challenges of determining carcinogenicity and framing exposure in terms of everyday risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer hallmarks",
+      "groupedBecause": "The lecturer introduces the session's learning outcomes, relates them to previous material on tumorigenesis, and outlines the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustaining proliferative signaling and evading growth suppressors",
+      "groupedBecause": "These subtopics explain the signaling cascades and mutations—such as Wnt/APC, receptor tyrosine kinases, and TGF-beta—that drive uncontrolled cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in cancer",
+      "groupedBecause": "These subtopics examine how malignancies in hematological lineages and intestinal crypts prevent cells from executing terminal differentiation while maintaining proliferative states.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resisting cell death through apoptotic deregulation",
+      "groupedBecause": "This subtopic details how cancer cells circumvent programmed cell death through mutations in p53 and imbalances in pro- and anti-apoptotic proteins such as Bax and BCL2.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Enabling replicative immortality and senescence mechanisms",
+      "groupedBecause": "These subtopics explore how cancer cells bypass the Hayflick limit via telomerase reactivation alongside the stress-response pathways that normally enforce cellular senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Deregulating cellular metabolism",
+      "groupedBecause": "These subtopics cover the metabolic reprogramming of cancer cells toward aerobic glycolysis (the Warburg effect) and the epigenetic consequences of oncometabolite accumulation.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Inducing angiogenesis",
+      "groupedBecause": "This subtopic addresses the angiogenic switch, explaining how tumors overcome hypoxia and nutrient limits by shifting the balance between pro- and anti-angiogenic factors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Activating invasion and metastasis",
+      "groupedBecause": "These subtopics examine the metastatic cascade, seed-and-soil microenvironmental dynamics, and the clonal genomic features that enable distant tumor dissemination.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "The lecturer concludes the session by synthesising the hallmarks, referencing further reading, and closing with logistical housekeeping.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

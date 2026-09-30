@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, outlines student backgrounds, and presents the session's key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic Alterations and Disruption of Cellular Differentiation",
+      "groupedBecause": "These subtopics explore how accumulated genetic and epigenetic alterations cause normal cells to lose their differentiated state and disrupt tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Malignancy",
+      "groupedBecause": "These subtopics explain how invasive growth and metastatic spread distinguish malignant tumors from benign lesions both clinically and histologically.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise Progression and Clinical Impact of Precursor Lesions",
+      "groupedBecause": "These subtopics use the colorectal model to illustrate the stepwise transition from benign precursor polyps to invasive carcinomas and examine the clinical risks of benign growths.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Classification and Nomenclature",
+      "groupedBecause": "This subtopic outlines the standard conventions and notable exceptions used in naming benign and malignant neoplasms across different tissue types.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of Morbidity and Mortality in Cancer",
+      "groupedBecause": "This subtopic explains the mechanical, physiological, and metastatic mechanisms through which tumors cause systemic illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer Incidence Across Human Tissues and Animal Species",
+      "groupedBecause": "These subtopics evaluate the epidemiological distribution, prevalence, and mortality of cancer types across human populations and other animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and Modalities of Cancer Screening",
+      "groupedBecause": "These subtopics examine the clinical rationale, histological indicators, and practical challenges of population-based cancer screening programs across different organ sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Practical Preview",
+      "groupedBecause": "This subtopic concludes the lecture with a reminder of the learning outcomes and a preview of the upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

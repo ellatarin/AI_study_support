@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, outlines the scope of the lecture on cancer causes, and presents the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as an Evolutionary Genetic Disease and Endogenous Mutational Risk",
+      "groupedBecause": "These subtopics establish cancer as a microevolutionary genetic process and explore how endogenous metabolic stress, cell replication, and inherited genetic predispositions generate oncogenic mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures, Epidemiology, and the Cancer Risk Debate",
+      "groupedBecause": "These subtopics examine the role of environmental carcinogens in cancer development, analyzing geographic incidence patterns, migrant data, and the debate over mutational bad luck versus preventable exposure.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens in Cancer Etiology",
+      "groupedBecause": "These subtopics explain how biological agents induce malignancy, highlighting the specific mechanisms of Epstein-Barr virus and malaria co-infection in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical, Dietary, and Physical Mutagens and Xenobiotic Activation",
+      "groupedBecause": "These subtopics examine how physical radiation, dietary toxins, and chemical agents damage DNA directly or require host xenobiotic metabolism to generate reactive adducts and oxidative stress.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Multistage Carcinogenesis, and Host Susceptibility",
+      "groupedBecause": "These subtopics detail non-mutagenic mechanisms of tumor promotion, two-stage carcinogenesis, developmental timing vulnerabilities, and summarize the overall pathways of cancer causation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Investigating Carcinogenicity and Mutational Signatures",
+      "groupedBecause": "These subtopics present the experimental, computational, and population-based tools used to identify and prove carcinogenicity, including whole-genome mutational signatures, biobanks, animal models, and the Ames test.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Decisions",
+      "groupedBecause": "This subtopic concludes the lecture by reflecting on personal and societal risk-benefit assessments regarding carcinogenic exposures and summarizing the final takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

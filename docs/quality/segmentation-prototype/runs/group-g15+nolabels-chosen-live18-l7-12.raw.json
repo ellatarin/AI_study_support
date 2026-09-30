@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Framing",
+      "groupedBecause": "The lecturer introduces the overarching themes of the lecture on cancer evolution, the microenvironment, and the core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic Selection and Epigenetic Influence in Clonal Expansion",
+      "groupedBecause": "These subtopics explain how cancer clones acquire competitive growth advantages through successive genetic mutations and epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stem Cell Properties and Hierarchies in the Cell of Origin",
+      "groupedBecause": "These subtopics evaluate the evidence and models regarding whether tumors originate from and are propagated by stem-like cell populations.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Promotion and Stromal Dependency in Tumorigenesis",
+      "groupedBecause": "These subtopics demonstrate that malignant outgrowth requires permissive external factors such as inflammation, environmental promoters, and supportive stromal cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Emerging Technologies for Profiling Tumors and Microenvironments",
+      "groupedBecause": "This subtopic outlines experimental methodologies, including single-cell genomics and spatial omics, used to study cancer evolution and cellular interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Synthesis of Multi-Factorial Tumor Coevolution",
+      "groupedBecause": "This subtopic integrates how genetics, cell of origin, and microenvironmental signaling converge to drive the evolutionary progression of cancer.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the session and previews the topic for the next lecture.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

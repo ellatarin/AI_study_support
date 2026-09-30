@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the hallmarks of cancer",
+      "groupedBecause": "This subtopic frames the lecture by outlining the learning objectives and introducing the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained proliferative signaling and growth factor independence",
+      "groupedBecause": "These subtopics examine how oncogenic mutations in pathways like Wnt/beta-catenin and receptor tyrosine kinases enable autonomous cancer cell proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in cancer progression",
+      "groupedBecause": "These subtopics demonstrate how impaired terminal differentiation maintains cells in a proliferative state in both leukemias and solid carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of programmed cell death",
+      "groupedBecause": "This subtopic details how cancer cells resist apoptosis through alterations in p53 regulation and the balance of Bcl-2 family proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and cellular senescence",
+      "groupedBecause": "These subtopics explain the limits of normal cell division, the mechanisms of senescence, and how cancer cells activate telomerase to achieve immortality.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics investigate how cancer cells alter their metabolic pathways, including aerobic glycolysis and oncometabolite signaling, to sustain tumour growth.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of tumour angiogenesis",
+      "groupedBecause": "This subtopic explains the angiogenic switch and how tumours stimulate new blood vessel formation to overcome hypoxia and nutrient deprivation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion and metastatic dissemination",
+      "groupedBecause": "These subtopics explore the multi-step cascade of cancer metastasis, including circulatory dissemination, seed-and-soil interactions, and associated genetic features.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic provides the concluding framing for the lecture, summarizing key takeaways and transitioning to practical sessions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

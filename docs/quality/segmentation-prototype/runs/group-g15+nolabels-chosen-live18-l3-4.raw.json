@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the introductory framing, course overview, and expected learning outcomes for the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of differentiation and tissue organization",
+      "groupedBecause": "These subtopics describe cancer as a breakdown in normal cellular differentiation and tissue architecture driven by accumulated genetic alterations, along with the experimental approaches used to study tumor cells.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion and metastasis in benign versus malignant tumors",
+      "groupedBecause": "These subtopics examine how tissue invasion and metastatic dissemination distinguish benign from malignant neoplasms both clinically and histologically.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise tumor progression and the behavior of benign neoplasms",
+      "groupedBecause": "These subtopics illustrate the stepwise morphological progression from benign precursor lesions to invasive carcinomas using colorectal cancer and discuss the clinical risks posed by non-malignant tumors.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Neoplasm classification and nomenclature",
+      "groupedBecause": "This subtopic outlines the standard anatomical and histological naming conventions, as well as common exceptions, used to classify benign and malignant tumors.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the physical, functional, and systemic pathways through which primary and metastatic tumors cause illness and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Patterns of cancer incidence across tissues and species",
+      "groupedBecause": "These subtopics explore the epidemiological frequency of different cancer types in human populations and across diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and applications of cancer screening",
+      "groupedBecause": "These subtopics explore the clinical rationale for early cancer detection and evaluate the screening methods, efficacy, and limitations across different organ sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "This subtopic closes the lecture by referencing the learning outcomes and providing housekeeping information for future practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

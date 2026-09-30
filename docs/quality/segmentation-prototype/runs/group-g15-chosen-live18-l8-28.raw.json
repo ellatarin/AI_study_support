@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer therapy",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning objectives regarding cancer treatment approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatments and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics discuss standard cancer treatments, including surgical resection, radiotherapy, and cytotoxic chemotherapeutic agents along with their mechanisms and limitations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic cellular vulnerabilities, checkpoint defects, and DNA repair",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit cancer-specific vulnerabilities, such as hormone receptor reliance, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeting oncogene addiction and kinase inhibitor therapies",
+      "groupedBecause": "These subtopics examine the targeting of hyperactivated kinases driven by oncogene addiction and the subsequent development of drug resistance and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain how monoclonal antibodies and antibody-drug conjugates are engineered to selectively target tumor cell surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and immune surveillance",
+      "groupedBecause": "These subtopics cover the biological basis of tumor immune surveillance and various immunotherapies, including checkpoint inhibitors, bispecific antibodies, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical trends, and future perspectives in cancer management",
+      "groupedBecause": "These subtopics reflect on clinical challenges, historical survival trends, ethical considerations regarding quality of life, and the future trajectory of cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

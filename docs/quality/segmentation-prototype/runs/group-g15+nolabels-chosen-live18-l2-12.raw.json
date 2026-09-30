@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Lecture",
+      "groupedBecause": "This subtopic provides the opening framing, setting expectations about the complexity and clinical relevance of the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals, Nomenclature, and the Central Role of C3",
+      "groupedBecause": "These subtopics introduce the overarching architecture and biological roles of complement, clarify historical naming conventions, and explain the central biochemical function of C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of Complement Activation",
+      "groupedBecause": "These subtopics detail the initiation and progression of the alternative, lectin, and classical pathways that converge on surface C3 convertase deposition.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Mechanisms of Activated Complement",
+      "groupedBecause": "These subtopics examine the primary functional outcomes of complement activation: opsonization, inflammation, and membrane attack complex lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation of Complement Activation",
+      "groupedBecause": "This subtopic explains the cellular and soluble regulatory mechanisms that restrict complement activity to protect host tissues from accidental destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Presentations of Complement Deficiencies",
+      "groupedBecause": "This subtopic explores the diverse clinical consequences and disease phenotypes associated with deficiencies across different complement pathway components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Mechanisms of Pathogen Evasion",
+      "groupedBecause": "This subtopic details how pathogens evolve specific countermeasures to subvert complement recognition and clearance, focusing on Staphylococcus aureus.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing Remarks",
+      "groupedBecause": "This subtopic concludes the lecture and previews the next lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

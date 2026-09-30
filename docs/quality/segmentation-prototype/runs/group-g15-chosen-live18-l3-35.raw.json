@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture series, outlines the core learning objectives, and sets the clinical and biological perspective for studying cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations of cancer: mutations, differentiation failure, and tissue architecture",
+      "groupedBecause": "These subtopics examine how cancer arises from accumulated genetic changes that disrupt normal cellular differentiation programs and tissue organization, and discuss the challenges of modeling this three-dimensional biology in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology, progression, classification, and clinical effects of benign and malignant tumors",
+      "groupedBecause": "These subtopics define the distinctions between benign and malignant neoplasms, examining mechanisms of invasion and metastasis, stepwise histological progression, diagnostic nomenclature, and the pathophysiological causes of cancer morbidity and mortality.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Comparative cancer incidence across humans and diverse animal species",
+      "groupedBecause": "These subtopics analyze epidemiological patterns of cancer incidence and mortality in human populations alongside the prevalence of tumors across companion animals and other multicellular taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical symptoms and cancer screening strategies",
+      "groupedBecause": "These subtopics discuss the initial presentation of cancer and evaluate the effectiveness, methods, and limitations of screening programs for detecting precursor and malignant lesions across different organs.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and next steps",
+      "groupedBecause": "It closes the lecture by referencing the learning outcomes and giving housekeeping details for the practical sessions and upcoming lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

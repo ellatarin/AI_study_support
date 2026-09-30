@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning outcomes regarding cancer therapy approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional modalities: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics examine primary, non-targeted approaches that remove tumors physically, damage DNA through radiation, or disrupt cell division using cytotoxic chemical agents.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic signaling dependencies, checkpoint defects, and DNA repair deficiencies",
+      "groupedBecause": "These subtopics describe targeted strategies that exploit cancer-specific biological vulnerabilities, including hormone receptor dependence, cell-cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeting oncogenic kinases and overcoming drug resistance",
+      "groupedBecause": "These subtopics focus on small-molecule kinase inhibitors designed to exploit oncogene addiction and the mechanisms of resistance and drug addiction that arise during treatment.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain how engineered antibodies are used either directly to disrupt tumor cell signaling and recruit immune effector functions or to deliver targeted cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumor immune surveillance and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics evaluate the evidence for immune surveillance and examine therapeutic interventions that reawaken, redirect, or genetically engineer T cells to target cancer cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Efficacy trends, genomic stratification, and future challenges in oncology",
+      "groupedBecause": "These subtopics address broader perspectives in cancer medicine, including genomic matching, historical survival and screening trends, future directions, and ethical dilemmas in clinical care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

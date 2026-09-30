@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This opening subtopic introduces the lecture and outlines the learning objectives for cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics cover traditional primary cancer treatment modalities and their respective mechanisms and systemic limitations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer cell vulnerabilities and genetic defects",
+      "groupedBecause": "These subtopics address targeted strategies designed to exploit specific cancer cell vulnerabilities, including hormone dependence, checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Kinase inhibitors, oncogene addiction, and drug resistance",
+      "groupedBecause": "These subtopics detail the targeting of hyperactivated kinases in oncogene-addicted cancers and the molecular mechanisms underlying therapy resistance and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the engineering and application of monoclonal antibodies and antibody-drug conjugates to selectively target cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immune surveillance and immunotherapies",
+      "groupedBecause": "These subtopics examine evidence for tumor immune surveillance and therapeutic strategies that harness or engineer T cells to eliminate cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics evaluate clinical challenges, historical outcomes, genomic stratification, and future ethical considerations in managing cancer.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

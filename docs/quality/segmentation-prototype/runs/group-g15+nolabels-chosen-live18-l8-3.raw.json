@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the final lecture of the course and sets out the core learning objectives concerning cancer treatment approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Modalities and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics discuss the mechanisms, clinical efficacy, and systemic limitations of traditional surgical, radiation, and cytotoxic approaches to cancer management.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting Intrinsic Vulnerabilities and DNA Repair Defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies designed to exploit inherent cancer-specific defects in growth signalling, cell cycle checkpoints, and DNA damage repair pathways.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Kinase Inhibitors, Oncogene Addiction, and Drug Resistance",
+      "groupedBecause": "These subtopics examine small-molecule kinase inhibitors targeting driver oncogenes and describe the molecular mechanisms through which tumor cells develop resistance.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics describe how engineered antibodies are utilized to selectively recognize tumor surface antigens to inhibit oncogenic signaling and deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell-Directed Approaches",
+      "groupedBecause": "These subtopics discuss the immunological basis of anti-tumor immunity and detail cellular and molecular strategies to reactivate or engineer T-cell responses against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Current Challenges, Treatment Evolution, and Future Directions",
+      "groupedBecause": "These subtopics review persistent obstacles in cancer management, historical gains in patient survival, and emerging considerations for future therapeutic paradigms.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

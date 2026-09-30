@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "It introduces the cancer biology lecture series, the interdisciplinary student audience, and the primary learning outcomes of the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Breakdown of Cellular Differentiation and Architecture",
+      "groupedBecause": "They explain how accumulated genetic alterations disrupt normal developmental differentiation programs, tissue architecture, and cell-matrix boundaries.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Characteristics of Benign, Invasive, and Metastatic Tumors",
+      "groupedBecause": "They examine the biological behavior, histological features, and clinical progression of benign lesions, tissue-invasive neoplasms, and metastatic disease.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature and Mechanisms of Pathogenicity",
+      "groupedBecause": "They establish the standard naming conventions for different neoplasm types and describe the physiological mechanisms by which tumors cause illness and death.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Comparative Cancer Incidence Across Tissues and Species",
+      "groupedBecause": "They analyze the frequency, tissue distribution, and comparative prevalence of cancer across human populations and diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Approaches and Challenges in Cancer Screening",
+      "groupedBecause": "They evaluate the clinical rationale, diagnostic methods, and comparative effectiveness of population screening programs for early cancer detection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Summary and Closing Remarks",
+      "groupedBecause": "It concludes the lecture by revisiting the stated learning outcomes and providing housekeeping instructions for upcoming sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

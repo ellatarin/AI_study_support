@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer biology and lecture overview",
+      "groupedBecause": "It introduces the lecture series, outlines the course objectives, and presents the key learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular differentiation failure and models of cancer biology",
+      "groupedBecause": "They explain how accumulated genetic and epigenetic alterations lead to a breakdown of normal tissue architecture and cellular differentiation, and discuss experimental approaches to studying these processes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Characteristics of tumor invasion and metastasis",
+      "groupedBecause": "They define the distinction between benign and malignant tumors based on local tissue invasion and the routes and consequences of metastatic spread.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise tumor progression and the behavior of benign lesions",
+      "groupedBecause": "They illustrate the stepwise progression from benign adenomas to invasive carcinomas using colorectal cancer as an example and discuss the clinical complications benign tumors can cause.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Conventions and exceptions in tumor nomenclature",
+      "groupedBecause": "It outlines the standardized naming rules for benign and malignant tumors based on tissue origin and highlights key exceptions to these rules.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer disease and mortality",
+      "groupedBecause": "It explains the local and systemic mechanisms by which primary and metastatic tumors cause clinical illness and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Incidence of cancer across human tissues and animal taxa",
+      "groupedBecause": "They compare the frequency and mortality of different tumor types in humans and analyze cancer occurrence across companion animals and other multicellular species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and modalities of cancer screening",
+      "groupedBecause": "They examine the rationale for population screening and compare the diagnostic approaches and effectiveness of screening for cervical, colorectal, breast, and prostate cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical session preview",
+      "groupedBecause": "It concludes the lecture by reiterating the learning outcomes and looking ahead to the upcoming practicals and next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

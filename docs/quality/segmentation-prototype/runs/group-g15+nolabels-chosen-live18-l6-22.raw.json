@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "The lecturer introduces the session's learning outcomes and frames the discussion around the hallmarks of cancer and loss of growth control.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustaining Proliferative Signaling and Resisting Growth Inhibition",
+      "groupedBecause": "These subtopics explore how mutations in signaling cascades, including Wnt/beta-catenin, receptor tyrosine kinases, and TGF-beta pathways, deregulate cellular growth and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Hematological and Epithelial Cancers",
+      "groupedBecause": "These subtopics examine how impaired terminal differentiation maintains cells in proliferative states across leukemias and intestinal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptotic Cell Death",
+      "groupedBecause": "This subtopic explains the molecular mechanisms regulating apoptotic resistance, focusing on p53, Bax, and BCL2 interactions at the mitochondrial membrane.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality, Telomeres, and Cellular Senescence",
+      "groupedBecause": "These subtopics detail the mechanisms governing the Hayflick limit, telomerase activation, and how p53 mediates stress-induced senescence and genome integrity.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Reprogramming Energy Metabolism in Cancer",
+      "groupedBecause": "These subtopics explain cancer metabolic alterations, including aerobic glycolysis, metabolic rewiring across tumor types, and the epigenetic consequences of oncometabolites.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Inducing Tumor Angiogenesis",
+      "groupedBecause": "This subtopic describes the necessity of new blood vessel formation for tumor growth and the balance between pro- and anti-angiogenic signals.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and Dynamics of Cancer Metastasis",
+      "groupedBecause": "These subtopics explore the metastatic cascade, seed-and-soil interactions, diagnostic tracking of dissemination, and the genomic features underlying metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and Final Summary",
+      "groupedBecause": "The lecturer concludes the session with final remarks on hallmark complexity, revisits the learning outcomes, and invites questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

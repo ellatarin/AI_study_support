@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture by outlining its main learning outcomes and contextualising the material within histopathology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor viruses, cellular oncogenes, and transformation assays",
+      "groupedBecause": "These subtopics describe the historical discovery of tumor viruses, the identification of cellular proto-oncogenes, and the experimental assays used to measure cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classification and mechanisms of oncogenes and tumor suppressor genes",
+      "groupedBecause": "These subtopics define the functional classifications of cancer-associated mutations and illustrate their mechanistic actions using the G1/S checkpoint and p53.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Forms, causes, and consequences of genetic instability",
+      "groupedBecause": "These subtopics examine how failures in specific DNA repair pathways and mitotic processes generate sequence instability and chromosomal instability in cancer cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Stepwise tumor evolution and hereditary cancer predisposition",
+      "groupedBecause": "These subtopics explain the multi-step progression of tumorigenesis and how inherited germline mutations accelerate cancer development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "This subtopic closes the lecture by reviewing the learning outcomes, suggesting supplementary reading, and previewing upcoming topics.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

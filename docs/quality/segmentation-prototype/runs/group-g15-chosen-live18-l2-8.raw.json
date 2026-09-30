@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "Opening remarks introduce the lecture topic and framing on the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations and central role of complement component C3",
+      "groupedBecause": "These subtopics establish the foundational concepts, nomenclature rules, and central biochemistry of the complement cascade centered on C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation and trigger threshold",
+      "groupedBecause": "These subtopics explain the three distinct recognition pathways that initiate complement activation and converge on the C3 trigger threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement activation",
+      "groupedBecause": "These subtopics describe the downstream effector functions through which activated complement eliminates pathogens and stimulates inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host cell regulation of complement activation",
+      "groupedBecause": "This subtopic explains the regulatory mechanisms that prevent complement activation from damaging host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical manifestations of complement deficiencies",
+      "groupedBecause": "This subtopic details the diverse clinical presentations and disease outcomes associated with deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen complement evasion strategies and applications",
+      "groupedBecause": "This subtopic examines how pathogens evade complement attack and how these bacterial evasion factors are utilized in biotechnology and medicine.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "Closing remarks conclude the complement lecture and preview the next topic in the series.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

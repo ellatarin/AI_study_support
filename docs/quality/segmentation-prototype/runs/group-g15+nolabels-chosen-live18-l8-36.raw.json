@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "Introduces the lecture and outlines its learning objectives regarding the modes of action and approaches in cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "Examines standard modalities of cancer treatment, covering their therapeutic mechanisms, clinical successes, and limitations due to systemic toxicity and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting tumor-specific vulnerabilities and defects",
+      "groupedBecause": "Details therapeutic strategies designed to exploit cancer-specific biological vulnerabilities, including hormone receptor dependence, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeted kinase inhibitors, oncogene addiction, and resistance",
+      "groupedBecause": "Focuses on therapies targeting hyperactivated oncogenic kinases, exploring oncogene addiction, structural drug design, and mechanisms of acquired resistance and drug dependency.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "Discusses antibody-based therapies designed to bind cell-surface targets and either recruit immune effector mechanisms or deliver cytotoxic payloads directly to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Harnessing the immune system: checkpoint inhibition and cellular immunotherapy",
+      "groupedBecause": "Explores cancer immunotherapies that engage or engineer the host immune system, encompassing immune checkpoint blockade, bispecific T-cell engagers, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical challenges, historical progress, and future directions",
+      "groupedBecause": "Synthesizes the overarching challenges in treating heterogeneous tumors, historical improvements in patient survival, and emerging ethical and therapeutic considerations.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer hallmarks",
+      "groupedBecause": "It introduces the lecture's learning objectives and frames the discussion around the hallmarks of cancer and tumor progression models.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling deregulation and pathway mutations",
+      "groupedBecause": "They examine how mutations in signaling cascades, including Wnt and receptor tyrosine kinase pathways, drive sustained proliferation and cell survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal differentiation",
+      "groupedBecause": "They explain how cancer cells fail to execute normal terminal differentiation programs in both hematopoietic lineages and colorectal tissue.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and p53 regulation",
+      "groupedBecause": "It details how mutations disrupting the p53 pathway and the balance of pro- and anti-apoptotic proteins enable cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and growth-control summary",
+      "groupedBecause": "They explore how telomere maintenance and p53-mediated stress pathways govern cellular senescence and replicative immortality before summarizing growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and oncometabolites",
+      "groupedBecause": "They describe how cancer cells rewire metabolic pathways through aerobic glycolysis and how metabolic enzyme mutations generate oncometabolites that drive tumorigenesis.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "It explains the requirement and regulatory balance for tumors to stimulate new blood vessel growth to sustain nutrient and oxygen supply.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dynamics, and genomics of metastasis",
+      "groupedBecause": "They examine the biological steps, environmental interactions, and genomic characteristics governing metastatic dissemination and colonization.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "It concludes the lecture with summary remarks on cancer hallmarks and recommends supplementary reading.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

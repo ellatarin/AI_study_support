@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Framing",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the core themes of cancer evolution, and presents the intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Mechanisms in Clonal Evolution",
+      "groupedBecause": "These subtopics explain how sequential genetic mutations and epigenetic modifications confer competitive growth advantages that drive clonal expansion.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Models",
+      "groupedBecause": "These subtopics evaluate the role of tissue differentiation hierarchies and stemness capacity in cancer initiation and propagation across different tissue types.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Drivers of Tumorigenesis",
+      "groupedBecause": "These subtopics explore how environmental promoters, inflammatory signaling, and supportive stromal cells create permissive conditions for tumor outgrowth and progression.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Investigating Cancer Heterogeneity and Evolution",
+      "groupedBecause": "This subtopic details the genomic, transcriptomic, and spatial profiling technologies used to study tumor evolution and cell interactions in laboratory research.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated Conceptual Model of Cancer Evolution",
+      "groupedBecause": "This subtopic synthesizes genetic, epigenetic, cell-of-origin, and microenvironmental factors into a unified evolutionary model of cancer development.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic provides the concluding sign-off for the session and previews the subsequent lecture on therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

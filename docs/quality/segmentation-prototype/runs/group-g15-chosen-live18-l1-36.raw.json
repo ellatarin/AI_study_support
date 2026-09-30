@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic provides introductory framing and outlines the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition",
+      "groupedBecause": "These subtopics establish the foundational concepts of how the innate immune system detects infection and cellular damage through molecular patterns and germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor families and inflammasome pathways",
+      "groupedBecause": "These subtopics examine the specific sensor systems that detect danger, detailing Toll-like receptors, cytosolic receptor families, and inflammasome activation cascades.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Inflammatory mediator responses, leukocyte recruitment, and systemic pathology",
+      "groupedBecause": "These subtopics describe how innate immune activation drives local cellular recruitment, adaptive priming via lymphatics, and severe systemic complications like sepsis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics explain how the body terminates acute inflammation, restores damaged tissues, and adapts to persistent irritants through chronic inflammation and granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic provides closing framing and announces the topic of the upcoming lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

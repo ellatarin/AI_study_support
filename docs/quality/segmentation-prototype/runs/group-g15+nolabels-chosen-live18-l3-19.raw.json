@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This opening subtopic introduces the course structure, learning outcomes, and foundational themes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis and experimental modeling of cancer",
+      "groupedBecause": "These subtopics explain cancer as a progressive failure of normal differentiation and tissue architecture driven by molecular changes, along with experimental models used to study tumor biology.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and malignant progression",
+      "groupedBecause": "These subtopics examine the clinical and histological distinctions between benign and malignant tumors, the process of tissue invasion across basement membranes, and the stepwise progression to metastatic disease.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification",
+      "groupedBecause": "This subtopic outlines the standard naming rules and exceptions used to classify benign and malignant tumors according to their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic details the anatomical and physiological processes through which primary and metastatic tumors disrupt normal organ function to cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Epidemiology and comparative incidence of cancer",
+      "groupedBecause": "These subtopics analyze the patterns, frequency, and mortality of cancer types across human populations and other animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening strategies",
+      "groupedBecause": "These subtopics evaluate the principles, diagnostic methods, and relative efficacy of screening programs designed to detect pre-malignant and malignant lesions.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and closing remarks",
+      "groupedBecause": "This closing subtopic reviews the learning outcomes and provides logistical reminders for upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

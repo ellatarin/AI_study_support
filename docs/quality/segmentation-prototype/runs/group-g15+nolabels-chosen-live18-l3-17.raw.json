@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, outlining course themes, student backgrounds, and specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Differentiation and Genetic Regulation",
+      "groupedBecause": "These subtopics explain the nature of cancer as an accumulation of genetic alterations leading to a failure of normal developmental differentiation and tissue architecture, along with the laboratory approaches used to study tumor cells.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Metastasis, and Benign versus Malignant Progression",
+      "groupedBecause": "These subtopics explain the distinction between benign and malignant tumors, detailing how cellular invasion and metastasis progress histologically from precursor lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature and Classification",
+      "groupedBecause": "This subtopic explains the rules and conventions of tumor nomenclature used to classify neoplasms according to their tissue origin and malignant potential.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of Disease and Mortality in Cancer",
+      "groupedBecause": "This subtopic outlines the mechanical, physiological, and systemic mechanisms through which primary and metastatic tumors cause disease and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative Incidence of Cancer in Humans and Animals",
+      "groupedBecause": "These subtopics examine the distribution and frequency of cancer types across human populations and diverse animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and Applications of Cancer Screening",
+      "groupedBecause": "These subtopics discuss the clinical rationale, histological basis, and relative effectiveness of population screening and early detection across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing and Summary",
+      "groupedBecause": "This subtopic provides the closing remarks, summarizing the lecture's learning objectives and previewing upcoming practicals and sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

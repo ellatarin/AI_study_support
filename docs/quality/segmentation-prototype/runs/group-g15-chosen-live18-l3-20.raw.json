@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It provides the introductory framing, course overview, and expected learning outcomes for the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations of cancer and in vitro models",
+      "groupedBecause": "These subtopics explain the molecular and architectural basis of cancer as a failure of normal cellular differentiation and examine the models used to study these cellular behaviors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology and progression of tumor invasion and metastasis",
+      "groupedBecause": "These subtopics describe the mechanisms, histological identification, and progression of tumors from localized benign lesions to invasive and metastatic malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and clinical mechanisms of disease",
+      "groupedBecause": "These subtopics explore the naming conventions for different neoplasms and the pathophysiological mechanisms by which tumors cause illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence across humans and multicellular species",
+      "groupedBecause": "These subtopics examine patterns of cancer frequency across human populations and compare tumor occurrence across different multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical cancer detection and screening methods",
+      "groupedBecause": "These subtopics address the rationale, histological basis, and diagnostic modalities used to screen for and detect pre-malignant and malignant lesions.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "It provides the concluding remarks, reminders regarding learning outcomes, and upcoming schedule information.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

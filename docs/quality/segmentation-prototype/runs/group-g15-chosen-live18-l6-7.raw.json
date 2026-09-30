@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and progression",
+      "groupedBecause": "This opening section introduces the lecture's learning objectives, the timeline of tumor progression, and the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth signaling pathways",
+      "groupedBecause": "These subtopics explain how mutations in signaling cascades such as Wnt/APC/beta-catenin and receptor tyrosine kinases drive sustained proliferative signaling and cell survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks in terminal differentiation",
+      "groupedBecause": "These subtopics explore how cancer cells fail to undergo normal terminal differentiation in hematopoiesis and colonic epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and p53 regulation",
+      "groupedBecause": "This subtopic details how cancer cells avoid programmed cell death through mutations in p53 and imbalances between pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortalization, telomeres, and senescence",
+      "groupedBecause": "These subtopics describe how telomere shortening and stress responses induce senescence, how cancers reactivate TERT to achieve replicative immortality, and summarize the growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and metabolic rewiring",
+      "groupedBecause": "These subtopics examine aerobic glycolysis, tissue-specific metabolic adaptations, and how mutations in metabolic genes produce oncometabolites that alter the epigenome.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "This subtopic discusses how tumors trigger blood vessel growth through a balance of angiogenic activators and inhibitors to supply nutrients and oxygen.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and genomics of cancer metastasis",
+      "groupedBecause": "These subtopics cover the multi-step cascade of metastatic dissemination, the inefficiencies and seed-and-soil dynamics of colonization, and genomic findings from metastatic sequencing.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "This closing section provides concluding takeaways on the collective emergence of cancer hallmarks and recommends further reading.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

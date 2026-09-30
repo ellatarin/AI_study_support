@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "It introduces the lecture scope and outlines how known immune components come together to drive and resolve inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Recognition of Pathogens and Tissue Damage",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which innate sensors detect infections and cellular injury via PAMPs, DAMPs, PRRs, and inflammasomes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory Cascade, Leukocyte Recruitment, and Systemic Consequences",
+      "groupedBecause": "These subtopics describe the downstream cellular processes triggered by sentinel cells, including leukocyte migration into tissue, lymphatic drainage, and systemic risks like septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics detail the mechanisms responsible for shutting down inflammation, repairing tissue, and managing chronic inflammatory states such as granulomas.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "It concludes the session and previews the upcoming topic on complement.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

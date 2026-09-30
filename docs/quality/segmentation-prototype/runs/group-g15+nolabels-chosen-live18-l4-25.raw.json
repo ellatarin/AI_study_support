@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "This subtopic introduces the lecturer, outlines the scope of the lecture series, and sets out the key learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Intrinsic Errors and Environmental Influences",
+      "groupedBecause": "These subtopics explore the origins of cancer by evaluating the balance between intrinsic biological bad luck, genetic predisposition, and environmental exposures documented by epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics examine how biological pathogens contribute to cancer development, focusing on the synergistic mechanisms of Epstein-Barr virus and malaria in causing Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Mutagens, Promoters, and Host Susceptibility",
+      "groupedBecause": "These subtopics detail the molecular and biochemical mechanisms of physical, chemical, and promotional carcinogens, including metabolic activation, tissue specificity, and host developmental vulnerability.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methods for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, in vivo, and in vitro methodologies employed to identify carcinogens and determine their mutagenic potency.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of environmental cancer risks and reflections on balancing risks against benefits in everyday life.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

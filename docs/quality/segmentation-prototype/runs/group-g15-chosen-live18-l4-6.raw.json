@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This opening subtopic introduces the lecturer, outlines the scope of the cancer lecture series, and presents the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Genetics, Bad Luck, and Epidemiological Evidence",
+      "groupedBecause": "These subtopics explore the core principles of cancer development, debating the relative contributions of intrinsic random mutations, inherited genetics, and environmental exposures supported by global epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenesis and Tumor Promotion",
+      "groupedBecause": "These subtopics examine the specific biological, chemical, and physical mechanisms by which diverse agents directly cause DNA damage or indirectly promote tumor progression.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for Identifying Carcinogens and Mutational Signatures",
+      "groupedBecause": "These subtopics review the genomic, epidemiological, in vivo, and in vitro experimental methodologies used to detect carcinogenicity and trace mutational patterns.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "This closing subtopic concludes the lecture by summarising the challenges of determining carcinogen potency and reflecting on daily risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the session on cancer evolution and outlines the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic mutations and epigenetic mechanisms in clonal selection",
+      "groupedBecause": "These subtopics discuss how successive genetic mutations and epigenetic alterations confer selective growth advantages that drive clonal evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and cancer stem cell models",
+      "groupedBecause": "These subtopics examine whether tumors originate from tissue stem cells or differentiated progenitors across leukemia and colorectal cancer models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental influences, investigative methods, and cancer evolution synthesis",
+      "groupedBecause": "These subtopics examine how permissive microenvironments and inflammation drive malignancy, the modern tools used to profile these interactions, and the resulting integrated model of cancer evolution.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer concludes the presentation and previews the next lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

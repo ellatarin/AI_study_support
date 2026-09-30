@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This topic introduces the lecture and outlines the core learning objectives concerning the causes and mechanisms of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as an Evolutionary Genetic Disease and Endogenous Mutational Drivers",
+      "groupedBecause": "These subtopics explain the fundamental nature of cancer as a disease of clonal evolution driven by somatic mutations, endogenous cellular stress, and inherited genetic predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epidemiological Patterns and the Environmental vs. Bad Luck Debate",
+      "groupedBecause": "These subtopics explore population-level evidence for environmental cancer causation and address the controversy regarding the contribution of random chance versus extrinsic exposures.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Biological and Chemical Carcinogens and Mechanisms of Tumor Initiation and Promotion",
+      "groupedBecause": "These subtopics examine specific infectious, dietary, and chemical agents alongside the molecular pathways of metabolic activation, direct DNA damage, and chronic inflammatory promotion.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics discuss the genomic, epidemiological, in vivo, and in vitro techniques used to establish mutational signatures and evaluate whether substances cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Everyday Risk-Benefit Decisions",
+      "groupedBecause": "This topic concludes the lecture with a summary of environmental risk factors and the practical risk-benefit decisions involved in managing cancer risk.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

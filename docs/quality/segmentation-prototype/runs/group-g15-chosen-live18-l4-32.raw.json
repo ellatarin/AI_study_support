@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "It introduces the lecturer, sets the context within the cancer lecture series, and outlines the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic 'Bad Luck' versus Environmental Factors in Cancer Risk",
+      "groupedBecause": "They examine the fundamental interplay between intrinsic mutational processes, inherited predisposition, and environmental exposures in driving cancer incidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenic Agents and Tumor Promotion",
+      "groupedBecause": "They investigate the diverse molecular and cellular mechanisms through which chemical, physical, and infectious agents initiate DNA damage or promote tumor growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Assessing and Testing Carcinogenicity",
+      "groupedBecause": "They present the genomic, epidemiological, in vivo, and in vitro methodologies used to identify carcinogens and evaluate mutagenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Everyday Risk-Benefit Decisions",
+      "groupedBecause": "It concludes the lecture with final summary remarks on environmental cancer causation and individual risk-benefit assessment.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

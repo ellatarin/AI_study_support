@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "It introduces the lecture topic and sets expectations regarding complement complexity and nomenclature.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Overview, nomenclature, and central C3 activation",
+      "groupedBecause": "They provide a high-level overview of complement function, clarify naming conventions, and explain the central biochemical activation of C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "They explain how the alternative, lectin, and classical pathways initiate complement deposition and converge to reach the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "They describe the downstream actions of activated complement in driving opsonization, inflammation, and membrane lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement on host cells",
+      "groupedBecause": "It explains the regulatory proteins and mechanisms that protect host tissues from unintended complement attack.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "It details how deficiencies in various complement components and regulators manifest in distinct clinical diseases.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement and practical applications",
+      "groupedBecause": "It explores the strategies pathogens use to evade complement destruction and highlights laboratory and clinical uses of staphylococcal protein A.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "It concludes the session on complement and previews the next lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic establishes the opening administrative framing and outlines the core learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic and Environmental Determinants of Cancer",
+      "groupedBecause": "These subtopics examine the fundamental origins of cancer by evaluating the interplay between intrinsic genetic mutations, stochastic cellular events, and environmental factors supported by epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenic Initiation and Tumor Promotion",
+      "groupedBecause": "These subtopics explain the molecular and cellular processes through which exposures drive malignancy via direct DNA damage, xenobiotic metabolic activation, chronic inflammation, and promotional signaling.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, animal, and in vitro experimental approaches used to identify mutational signatures and verify the carcinogenicity of specific agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "This subtopic provides the closing summary of the lecture, reflecting on the everyday risk-benefit assessments associated with carcinogen exposures.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

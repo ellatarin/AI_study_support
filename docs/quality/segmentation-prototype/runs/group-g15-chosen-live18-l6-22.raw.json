@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "This topic establishes the lecture structure, learning outcomes, and foundational concepts of cancer progression and hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth and survival signaling pathways",
+      "groupedBecause": "These subtopics examine how mutations in cell-surface receptors and downstream cascades drive autonomous proliferation and cell survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks in terminal differentiation",
+      "groupedBecause": "These subtopics describe how impaired cell differentiation arrests tissues in proliferative progenitor states in both hematological and epithelial cancers.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptotic cell death",
+      "groupedBecause": "This subtopic explains how genetic alterations disrupting p53, Bax, and BCL2 signaling permit cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomere biology, and senescence",
+      "groupedBecause": "These subtopics detail the mechanisms of telomere shortening, TERT reactivation, and p53-dependent senescence that govern cellular lifespan and growth control.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered cellular metabolism and oncometabolites",
+      "groupedBecause": "These subtopics explore how cancer cells rewire metabolic pathways toward aerobic glycolysis and utilize oncometabolites to drive tumorigenesis.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and vascular recruitment",
+      "groupedBecause": "This subtopic explains how developing tumors trigger new blood vessel growth to overcome hypoxia and obtain nutrient perfusion.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and genomic features of metastasis",
+      "groupedBecause": "These subtopics detail the stages of systemic tumor dissemination, the seed-and-soil dynamics of colonization, and the clonal genomic features of metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and recommended reading",
+      "groupedBecause": "This topic concludes the lecture with closing remarks on cancer hallmarks, literature recommendations, and practical arrangements.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

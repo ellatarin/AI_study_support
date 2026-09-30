@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic provides the opening framing and overview of the lecture topics without introducing substantive course material.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition, pattern recognition receptors, and signaling",
+      "groupedBecause": "These subtopics explain how the innate immune system detects infection and tissue injury using molecular patterns, pattern recognition receptors, and downstream signaling cascades.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory leukocyte trafficking and systemic effects",
+      "groupedBecause": "These subtopics describe how sentinel cells initiate the inflammatory cascade, directing cell migration into tissues and lymph nodes, as well as the systemic risks of severe inflammatory activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "These subtopics detail the mechanisms responsible for shutting down acute inflammation, repairing damaged tissue, and managing chronic inflammatory states.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and previews the subject of the subsequent lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

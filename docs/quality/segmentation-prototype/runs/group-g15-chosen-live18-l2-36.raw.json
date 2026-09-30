@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "The lecturer introduces the complement system and outlines the scope of the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations and core mechanics of complement",
+      "groupedBecause": "These subtopics establish the foundational concepts, nomenclature conventions, and central C3-driven framework of the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways",
+      "groupedBecause": "These subtopics explain the upstream recognition pathways that activate complement on target surfaces and achieve the threshold for a cascade.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of activated complement",
+      "groupedBecause": "These subtopics detail the downstream effector processes triggered to destroy pathogens and stimulate inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host cell regulation of complement",
+      "groupedBecause": "This subtopic explains how host cells use regulatory proteins to prevent accidental complement activation on self surfaces.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic examines the distinct pathological conditions and infection risks resulting from deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion mechanisms and practical applications",
+      "groupedBecause": "This subtopic describes how pathogens evade complement destruction and how these bacterial evasion factors are utilized in biomedical applications.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer closes the session and previews the next lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

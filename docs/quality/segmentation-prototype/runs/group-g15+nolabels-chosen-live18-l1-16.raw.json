@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of inflammation",
+      "groupedBecause": "The lecturer introduces the session's focus on the molecular and cellular mechanisms governing the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and damage recognition by pattern recognition receptors",
+      "groupedBecause": "These subtopics explain how the innate immune system detects microbes and tissue damage using molecular patterns and diverse pattern recognition receptor pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Sentinel cell signaling, leukocyte recruitment, and systemic inflammatory consequences",
+      "groupedBecause": "These subtopics describe how activated sentinel cells direct immune cell recruitment to tissues and lymph nodes, as well as the physiological hazards of excessive systemic inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammatory states",
+      "groupedBecause": "These subtopics examine how acute inflammation is brought to a stop, how damaged tissue is repaired, and why persistent stimuli lead to chronic inflammation or granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture closing and preview of next topic",
+      "groupedBecause": "The lecturer concludes the session and announces that the following lecture will cover the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

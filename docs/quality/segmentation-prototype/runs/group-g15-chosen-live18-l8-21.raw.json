@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course conclusion and lecture introduction",
+      "groupedBecause": "These introductory remarks welcome the students and outline the learning objectives for the final lecture on cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatments: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics examine traditional modalities of cancer treatment, focusing on their mechanisms of action, clinical utility, and the limiting effects of non-specific toxicity and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic cellular vulnerabilities, checkpoint defects, and DNA repair deficiencies",
+      "groupedBecause": "These subtopics cover therapeutic approaches designed to exploit specific biological weaknesses in cancer cells, including hormone signaling dependence, cell cycle checkpoint loss, and defective DNA repair pathways.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Kinase inhibitors, oncogene addiction, and resistance mechanisms",
+      "groupedBecause": "These subtopics explore the rationale of targeting oncogene-addicted kinases with small-molecule inhibitors and detail the biological mechanisms underlying acquired resistance, bypass pathways, and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics detail how engineered monoclonal antibodies and conjugated cytotoxic agents are targeted against specific cell-surface proteins to destroy tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immune surveillance, checkpoint inhibitors, and engineered T-cell therapies",
+      "groupedBecause": "These subtopics review the evidence for host immune surveillance and evaluate strategies to harness the immune response, including immune checkpoint blockade, bispecific T-cell engagers, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Current challenges, historical trends, and future directions in cancer management",
+      "groupedBecause": "These subtopics synthesize the overarching challenges facing modern oncology, including tumor heterogeneity, genomic stratification, historical survival patterns, and the clinical dilemmas surrounding therapy selection.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

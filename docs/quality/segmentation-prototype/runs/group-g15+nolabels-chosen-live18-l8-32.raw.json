@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Therapy",
+      "groupedBecause": "The lecturer welcomes the class to the final lecture and introduces the learning objectives regarding cancer treatment modalities and their mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional Modalities: Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics cover conventional cancer treatments that physically remove or non-specifically damage rapidly dividing cells, along with their associated side effects and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cellular Vulnerabilities and DNA Repair Defects",
+      "groupedBecause": "These subtopics explain how cancer therapies can exploit specific cell cycle checkpoint failures, hormone dependencies, and defective DNA repair pathways for selective cell killing.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene Addiction, Kinase Inhibitors, and Resistance Mechanisms",
+      "groupedBecause": "These subtopics explore the identification of driver oncogenes and detail the design, clinical implementation, and emergence of resistance and addiction to small-molecule kinase inhibitors.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics examine how therapeutic antibodies are engineered to target tumor cell-surface antigens directly or deliver cytotoxic payloads selectively.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immunotherapy and T-Cell Engagement",
+      "groupedBecause": "These subtopics explore immune surveillance and describe approaches to harness and engineer T cells against tumors, including immune checkpoint inhibitors, BiTEs, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic Challenges, Historical Progress, and Future Directions",
+      "groupedBecause": "These subtopics review the systemic challenges in cancer management, evaluate historical survival trends, and consider future directions and clinical dilemmas in cancer treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

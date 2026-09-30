@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer hallmarks",
+      "groupedBecause": "The lecturer introduces the session's objectives, reviewing progression models and framing the study of cancer hallmarks and molecular mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth signaling pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in surface receptors and intracellular signaling cascades disrupt normal cell proliferation and survival control.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in tumor development",
+      "groupedBecause": "These subtopics examine how genetic alterations prevent progenitor and stem-derived cells from achieving terminal differentiation in both hematological cancers and solid carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of resistance to apoptosis",
+      "groupedBecause": "This subtopic details how mutations altering p53, Bax, and BCL2 activity disrupt mitochondrial membrane permeabilization and prevent programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere biology, replicative immortality, and senescence",
+      "groupedBecause": "These subtopics explore how cells regulate telomere shortening and senescence barriers, how cancers reactivate telomerase to achieve immortality, and how stress pathways enforce cell cycle arrest.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and the Warburg effect",
+      "groupedBecause": "These subtopics address how cancer cells alter their metabolism through aerobic glycolysis, Krebs cycle enzyme mutations, and epigenetic feedback loops to meet biosynthetic demands.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and vascularization",
+      "groupedBecause": "This subtopic explains why growing tumors require angiogenesis for nutrient supply and how the balance between pro- and anti-angiogenic factors governs vessel formation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and dissemination of metastasis",
+      "groupedBecause": "These subtopics explore the biological steps, anatomical routes, diagnostic markers, and genomic features involved in metastatic dissemination and colonization.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "The lecturer concludes the session with summary observations on cancer hallmarks, references to advanced literature, and housekeeping details for upcoming practicals.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic welcomes the students and outlines the scope and focus of the lecture on inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition via PAMPs and DAMPs",
+      "groupedBecause": "These subtopics explain the foundational concepts of how the innate immune system detects infections and tissue injury through conserved molecular patterns and cellular receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor pathways and inflammasome activation",
+      "groupedBecause": "These subtopics examine specific receptor families, their intracellular signaling mechanisms, and the inflammasome complex responsible for processing inflammatory cytokines.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector cell activation, leukocyte recruitment, and systemic inflammation",
+      "groupedBecause": "These subtopics describe how activated sentinel cells direct immune cell trafficking to sites of infection and draining lymph nodes, along with the dangers of severe systemic inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic responses",
+      "groupedBecause": "These subtopics explore the active and passive mechanisms that conclude inflammatory responses, the processes of tissue healing, and the physiological role of chronic inflammation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic provides the concluding remarks and announces the topic of the following lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

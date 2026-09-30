@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Overview of Cancer Hallmarks",
+      "groupedBecause": "The lecturer introduces the lecture objectives, sets expectations, and frames the discussion around the hallmarks of cancer and tumor progression models.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Autonomy and Proliferation Pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell surface receptors and downstream signaling cascades drive sustained proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer",
+      "groupedBecause": "These subtopics examine how genetic disruptions halt terminal cell differentiation in both hematopoietic malignancies and colorectal epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic describes the molecular mechanisms by which cancer cells bypass programmed cell death through alterations in p53 and the Bcl-2 protein family.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere Maintenance and Replicative Immortality",
+      "groupedBecause": "These subtopics detail the Hayflick limit, the protective role of senescence, and the genetic mechanisms cancers use to upregulate telomerase and achieve replicative immortality.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Reprogramming in Cancer",
+      "groupedBecause": "These subtopics introduce complex phenotypic hallmarks and explain how cancer cells alter metabolic pathways through aerobic glycolysis, Krebs cycle mutations, and oncometabolite production.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "This subtopic details why developing a blood supply is necessary for tumor growth and how the balance of regulatory signals mediates the angiogenic switch.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion and Metastasis",
+      "groupedBecause": "These subtopics analyze the biological stages of metastatic dissemination, factors determining metastatic efficiency, and the genomic features associated with secondary tumors.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "The lecturer wraps up the lecture, discusses current perspectives on cancer hallmarks, reviews the core learning takeaways, and invites questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

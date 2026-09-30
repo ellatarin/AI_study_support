@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, sets the course context, and outlines the key learning objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiological Frameworks and the Origins of Cancer",
+      "groupedBecause": "These subtopics establish the conceptual basis of cancer as a genetic and evolutionary disease shaped by the interplay between endogenous mutational processes, inherited predispositions, and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Cancer Development",
+      "groupedBecause": "These subtopics examine how biological agents and chronic infections contribute to carcinogenesis, using Burkitt lymphoma and Epstein-Barr virus as an illustrative case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical, Physical, and Promotional Carcinogenesis",
+      "groupedBecause": "These subtopics explain the molecular and cellular mechanisms through which environmental mutagens, metabolic activation, tumor promoters, and host developmental stages induce neoplastic transformation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics describe the sequencing, epidemiological, in vivo, and in vitro experimental approaches used to identify mutational signatures and assess whether agents are carcinogenic.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Analysis",
+      "groupedBecause": "This subtopic closes the lecture by synthesizing the primary themes of environmental cancer causation and discussing the everyday appraisal of exposure risks versus benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

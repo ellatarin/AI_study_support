@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic provides the introductory framing for the lecture, welcoming students and outlining the core learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies: Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics examine traditional non-targeted cancer treatments, covering surgical resection, radiation therapy, and cytotoxic chemotherapeutic agents along with their mechanisms, systemic toxicities, and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Vulnerabilities, Checkpoint Defects, and DNA Repair Deficiencies",
+      "groupedBecause": "These subtopics explain how therapies exploit specific intrinsic weaknesses of cancer cells, including hormone dependence, cell-cycle checkpoint defects, and synthetic lethality in DNA repair pathways.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeted Kinase Inhibitors and Mechanisms of Resistance",
+      "groupedBecause": "These subtopics discuss the rationale of oncogene addiction and the use of small-molecule kinase inhibitors, detailing their therapeutic efficacy, off-target effects, and diverse mechanisms of acquired resistance.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics describe targeted antibody-based treatments that bind tumor surface antigens to block receptor signaling, induce immune effector mechanisms, or deliver cytotoxic payloads directly into cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell-Targeted Therapies",
+      "groupedBecause": "These subtopics explore methods for mobilizing the adaptive immune system against cancer, covering immune surveillance concepts, immune checkpoint inhibitors, neoantigen recognition, bispecific T-cell engagers, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overarching Challenges, Historical Outcomes, and Future Directions",
+      "groupedBecause": "These subtopics review the broader landscape of cancer treatment by evaluating persistent clinical challenges like heterogeneity, assessing historical progress across cancer types, and considering future paradigms in prevention, detection, and patient care.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

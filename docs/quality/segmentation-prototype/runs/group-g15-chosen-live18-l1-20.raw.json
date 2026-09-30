@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer introduces the scope of the lecture on how innate immune components coordinate the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition through PAMPs, DAMPs, and pattern recognition receptors",
+      "groupedBecause": "These subtopics detail the molecular sensors and signaling mechanisms used by the innate immune system to detect microbial products and cellular damage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular activation, leukocyte recruitment, and systemic inflammatory responses",
+      "groupedBecause": "These subtopics explore how sentinel cell activation directs local leukocyte recruitment to tissues, drains antigens to lymph nodes, and can trigger systemic complications such as sepsis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics examine how the immune system halts acute inflammation, repairs damaged tissue, and manages persistent insults through chronic inflammation and granulomas.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer concludes the session and previews the subsequent lecture topic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

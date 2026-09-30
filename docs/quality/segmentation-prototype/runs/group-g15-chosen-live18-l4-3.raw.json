@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the course structure, lecture scope, and learning objectives for understanding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology, Genetic Predisposition, and Environmental Epidemiology",
+      "groupedBecause": "These subtopics explore how cancer arises through genetic and evolutionary processes, weighing endogenous stochastic factors against environmental exposures and geographic epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Carcinogenesis",
+      "groupedBecause": "These subtopics examine how infectious microorganisms drive malignant transformation, using the mechanistic link between Epstein-Barr virus, malaria, and Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Direct and Metabolically Activated Carcinogens",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which environmental, dietary, and chemical mutagens undergo xenobiotic processing and directly damage cellular DNA.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics address non-mutagenic drivers of oncogenesis, focusing on inflammatory microenvironments, multistage promoter activity, and developmental windows of tissue vulnerability.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Identifying and Testing Carcinogens",
+      "groupedBecause": "These subtopics review the experimental, genomic, toxicological, and epidemiological strategies used to assess mutagenic activity and determine carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "The lecturer delivers closing remarks summarizing environmental cancer risks and contextualizing daily exposure decisions within a risk-benefit framework.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

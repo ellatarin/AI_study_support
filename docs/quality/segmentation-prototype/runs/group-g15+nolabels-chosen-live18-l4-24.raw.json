@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "It provides the introductory framing for the lecture, outlining the speaker's background, course structure, and learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Nature and Multi-Factorial Drivers of Cancer",
+      "groupedBecause": "These subtopics explain the fundamental nature of cancer as a genetic and evolutionary disease shaped by intrinsic cellular errors, inherited predispositions, and microenvironmental conditions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence of Cancer Risk",
+      "groupedBecause": "These subtopics examine environmental carcinogen exposures and evaluate epidemiological evidence comparing environmental influences to random chance in cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Agents in Carcinogenesis",
+      "groupedBecause": "These subtopics explain how biological pathogens drive cancer, illustrating the concept through the detailed etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Radiation Mutagenesis",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms by which specific dietary toxins, UV radiation, and metabolized chemical carcinogens induce DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic promotional mechanisms of carcinogenesis, including chronic inflammation, cell signalling activation, and host developmental susceptibility windows.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Identifying and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro methodologies used to detect and establish the carcinogenicity of specific agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Summary and Risk-Benefit Considerations",
+      "groupedBecause": "It concludes the lecture by framing carcinogenic exposure within everyday risk-benefit decisions and summarising the main takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

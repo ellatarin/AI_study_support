@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture by welcoming students, setting out the core learning outcomes, and outlining the scope of cancer therapies to be covered.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional cancer modalities: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics examine standard primary cancer treatments, detailing the roles of surgery and radiotherapy alongside the mechanisms, systemic toxicities, and resistance pathways of cytotoxic chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting tumor-specific biological vulnerabilities and checkpoint defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that target intrinsic molecular vulnerabilities of cancer cells, including hormone signaling dependency, cell cycle checkpoint deficiencies, and DNA repair defects.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Kinase inhibitors, oncogene addiction, and mechanisms of resistance",
+      "groupedBecause": "These subtopics explain the targeting of hyperactivated oncogenic kinases with small-molecule inhibitors, detailing the resulting clinical responses, emergence of drug resistance, and bypass pathways.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics cover antibody-based cancer treatments, focusing on the mechanisms of action, cell-surface targeting, and clinical toxicities of naked monoclonal antibodies and antibody-drug conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immune surveillance and immunotherapeutic approaches",
+      "groupedBecause": "These subtopics address the biological basis of tumor immune surveillance and explore immunotherapies designed to engage the immune system, including checkpoint inhibitors, bispecific T-cell engagers, and CAR T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Contemporary challenges, historical trends, and future directions in cancer therapy",
+      "groupedBecause": "These subtopics synthesize broad perspectives on cancer management, discussing clinical challenges, historical survival trends, genomic stratification, and the ethical dilemmas of evolving treatment paradigms.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

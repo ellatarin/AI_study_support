@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer welcomes the class to the final lecture and introduces the learning objectives regarding cancer therapies and their modes of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies: Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics discuss traditional modalities of cancer treatment—including surgery, radiotherapy, and cytotoxic drugs—along with their mechanisms, systemic toxicities, and drug resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Cancer Cell Vulnerabilities, Checkpoint Defects, and DNA Repair Deficiencies",
+      "groupedBecause": "These subtopics examine how therapies exploit specific cancer cell vulnerabilities, including hormone receptor dependencies, cell cycle checkpoint losses, and defective DNA repair pathways through synthetic lethality.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene Addiction, Kinase Inhibitors, and Mechanisms of Drug Resistance",
+      "groupedBecause": "These subtopics explore the targeting of driver oncogenes with small-molecule kinase inhibitors and analyse the structural and pathway-level mechanisms through which tumors develop resistance and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Therapeutic Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics describe the engineering and application of monoclonal antibodies and antibody-drug conjugates to selectively target cancer cell surface antigens and deliver cytotoxic agents.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune Surveillance, Checkpoint Blockade, and T-Cell-Directed Therapies",
+      "groupedBecause": "These subtopics discuss the role of the immune system in cancer control and review therapeutic approaches to stimulate or engineer T cells, including checkpoint inhibitors, BiTEs, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overarching Challenges, Historical Progress, and Future Directions in Cancer Management",
+      "groupedBecause": "These subtopics review systemic challenges in oncology, historical improvements in survival and prevention, emerging therapeutic paradigms, and the ethical dilemmas of treatment selection.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

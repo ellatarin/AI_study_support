@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the fifth lecture of the series and outlines the core learning outcomes on cancer evolution and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of clonal evolution",
+      "groupedBecause": "These subtopics explain how successive genetic mutations and epigenetic alterations confer selective advantages that drive clonal expansion in pre-neoplastic tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and cancer stem cell hierarchy",
+      "groupedBecause": "These subtopics evaluate whether tumors arise from tissue stem cells or committed progenitors, reviewing evidence for hierarchical cancer stem cell models across leukemias and colorectal cancers.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental promotion and stromal dependency",
+      "groupedBecause": "These subtopics demonstrate how environmental promoters, inflammatory signaling, and supportive stromal interactions are required to permit malignant outgrowth and tumor maintenance.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental technologies for studying tumor microenvironments and heterogeneity",
+      "groupedBecause": "This subtopic describes single-cell sequencing and spatial omics technologies used to map cellular interactions and mutational histories in tumor tissues.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrative multi-factorial model of cancer evolution",
+      "groupedBecause": "This subtopic synthesises the combined contributions of mutational burden, cell of origin, epigenetic plasticity, and microenvironmental factors into a unified evolutionary model of malignancy.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Closing remarks and next lecture preview",
+      "groupedBecause": "The lecturer concludes the session and previews the upcoming topic of cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

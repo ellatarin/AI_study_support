@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer causes",
+      "groupedBecause": "This subtopic frames the lecture, introduces the speaker, and outlines the core learning objectives regarding environmental carcinogens and cancer mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Factors driving cancer risk: genetics, environment, and epidemiology",
+      "groupedBecause": "These subtopics explore the origins of cancer by evaluating the interplay between intrinsic mutational processes, environmental exposures, inherited susceptibility, and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and infectious mechanisms in oncogenesis",
+      "groupedBecause": "These subtopics examine how infectious agents such as bacteria, parasites, and oncogenic viruses drive malignancy, illustrating their mechanisms through the case study of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and physical mutagens and metabolic activation",
+      "groupedBecause": "These subtopics describe how physical radiation and dietary or chemical compounds undergo metabolic activation to induce direct DNA damage, reactive oxygen species, and bulky adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion, chronic inflammation, and tissue susceptibility",
+      "groupedBecause": "These subtopics distinguish non-mutagenic promoters from initiators, showing how chronic inflammation, signalling pathway agonists, and developmental timing create permissive environments for tumour growth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for identifying carcinogens and mutational signatures",
+      "groupedBecause": "These subtopics outline the experimental, epidemiological, and genomic approaches used to detect carcinogenic exposures and prove causality.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk-benefit considerations",
+      "groupedBecause": "This subtopic concludes the lecture with framing remarks on evaluating the everyday risks and benefits of exposure to potential environmental carcinogens.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

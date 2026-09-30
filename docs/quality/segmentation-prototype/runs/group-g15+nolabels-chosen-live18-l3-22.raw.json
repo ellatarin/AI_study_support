@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Biology and Course Overview",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the learning outcomes, and previews the core themes of tumor development, histology, and clinical diagnosis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Stepwise Failure of Differentiation and Tissue Architecture",
+      "groupedBecause": "These subtopics explain how cancer develops through accumulated genetic and epigenetic changes that disrupt normal cellular differentiation programs and three-dimensional tissue organization.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing Benign and Malignant Tumors through Invasion and Metastasis",
+      "groupedBecause": "These subtopics define malignancy by contrasting well-contained benign tumors with invasive and metastatic neoplasms that spread to distant anatomical sites.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise Progression in Colorectal Cancer and Clinical Risks of Benign Tumors",
+      "groupedBecause": "These subtopics illustrate the morphological progression from benign polyps to invasive adenocarcinoma in the colon while exploring the clinical complications caused by non-malignant growths.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Conventions and Exceptions in Tumor Nomenclature",
+      "groupedBecause": "This subtopic outlines the standard naming rules and exceptions used to classify benign and malignant tumors according to their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of Morbidity and Mortality in Cancer Patients",
+      "groupedBecause": "This subtopic details how primary and metastatic tumors cause severe illness and death through local mechanical obstruction, tissue destruction, and systemic metabolic effects.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer Incidence in Humans and Across Animal Species",
+      "groupedBecause": "These subtopics analyze the epidemiological distribution and mortality of common human cancers while highlighting cancer occurrence across diverse multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and Evaluation of Cancer Screening Programs",
+      "groupedBecause": "These subtopics explore the clinical presentation of tumors and evaluate the diagnostic methods, efficacy, and limitations of screening across different organ systems.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Review of Key Learning Outcomes",
+      "groupedBecause": "This subtopic concludes the lecture by directing students to review the learning outcomes before upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "The lecturer opens the lecture, sets expectations regarding nomenclature, and introduces the overall subject.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals of the complement system and C3 activation",
+      "groupedBecause": "These subtopics introduce the core principles, nomenclature rules, and central biochemical role of C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the mechanisms of the alternative, lectin, and classical pathways and how they converge on the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of the complement cascade",
+      "groupedBecause": "These subtopics describe the downstream processes through which activated complement eliminates pathogens, including opsonization, inflammation, and membrane attack complex lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "This subtopic details the protective regulatory mechanisms that prevent complement from destroying host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentations of complement deficiencies",
+      "groupedBecause": "This subtopic examines the distinct medical pathologies and infection risks that arise when specific complement pathway components are deficient.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion mechanisms and applications of protein A",
+      "groupedBecause": "This subtopic explores how bacterial pathogens evade complement clearance and how those evasion mechanisms are utilized in laboratory and clinical applications.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview of the adaptive immune system",
+      "groupedBecause": "The lecturer wraps up the session and previews the upcoming lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

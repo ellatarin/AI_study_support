@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Lecture Framing",
+      "groupedBecause": "These remarks introduce the lecture themes, define the learning objectives, and establish the framework for studying cancer evolution.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Drivers of Clonal Evolution",
+      "groupedBecause": "These subtopics explain how sequential driver mutations and non-mutational epigenetic alterations confer competitive growth advantages during clonal selection.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and the Cancer Stem Cell Model",
+      "groupedBecause": "These subtopics evaluate how normal tissue hierarchies and stemness properties influence tumor initiation and propagation across different cancer types.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Tumor Promotion",
+      "groupedBecause": "These subtopics illustrate how external stimuli and chronic inflammatory signaling cooperate with pre-existing mutations to enable malignant transformation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Tumor Microenvironment Dependencies, Profiling Methods, and Evolutionary Synthesis",
+      "groupedBecause": "These subtopics explore stromal requirements in established tumors, profiling technologies for mapping tissue heterogeneity, and a comprehensive synthesis of cancer coevolution.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Closing Remarks and Next Lecture",
+      "groupedBecause": "These remarks conclude the session and preview the upcoming lecture on cancer therapies.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

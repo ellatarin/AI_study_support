@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the scope of the cancer lecture course, and the primary learning outcomes regarding environmental carcinogens and cancer mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins, Drivers, and Epidemiological Evidence of Cancer",
+      "groupedBecause": "These subtopics examine the core nature of cancer as an evolutionary genetic disease influenced by a balance of intrinsic biological errors, genetic predispositions, and environmentally driven exposures demonstrated through epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Pathogen, Chemical, and Physical Carcinogens",
+      "groupedBecause": "These subtopics detail how specific biological agents, dietary toxins, radiation, and chemical exposures induce DNA damage, adduct formation, and oncogenic cellular alterations.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Tumor Initiation, Promotion, and Host Susceptibility",
+      "groupedBecause": "These subtopics explore the mechanistic distinction between cancer initiators and inflammatory or proliferative promoters, as well as the influence of host developmental timing and tissue context on malignant transformation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Assessing and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics review the analytical tools, mutational signature profiling, epidemiological approaches, and experimental model systems used to detect and prove the carcinogenic effects of compounds.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Summary and Risk-Benefit Analysis",
+      "groupedBecause": "The lecturer concludes the lecture by framing carcinogenic exposure within practical risk-benefit decision-making and summarizing the primary challenges in determining carcinogenic potency.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

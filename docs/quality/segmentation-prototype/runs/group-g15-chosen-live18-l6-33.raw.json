@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and mutation progression",
+      "groupedBecause": "This topic frames the lecture by outlining the learning outcomes, the multi-step model of tumor progression, and the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth signaling pathways",
+      "groupedBecause": "These subtopics explain how mutations in extracellular receptor pathways and intracellular signaling cascades drive sustained proliferative signaling and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks in terminal differentiation",
+      "groupedBecause": "These subtopics describe how cancer cells fail to exit the cell cycle and differentiate into mature functional cell types across hematopoietic and intestinal tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of programmed cell death",
+      "groupedBecause": "This subtopic addresses the molecular mechanisms, particularly p53 and BCL2 family regulation at the mitochondria, by which cancer cells avoid apoptosis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and stress-response pathways",
+      "groupedBecause": "These subtopics explain how cancer cells overcome telomere shortening and p53-mediated senescence barriers to achieve unlimited division, concluding the overview of growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics analyze altered tumor metabolism, focusing on the Warburg effect, tissue-specific metabolic rewiring, and metabolic gene mutations that generate oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explores the activation of new blood vessel growth required to supply oxygen and nutrients to growing tumors through the balance of pro- and anti-angiogenic factors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dynamics, and genomics of cancer metastasis",
+      "groupedBecause": "These subtopics examine the systemic dissemination of cancer cells, metastatic inefficiency and microenvironmental compatibility, and the genomic signatures of secondary lesions.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "This topic closes the lecture by reviewing the convergence of cancer hallmarks, recommending further reading, and providing housekeeping for upcoming practicals.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

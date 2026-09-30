@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "It introduces the lecture topic and sets expectations regarding complement nomenclature.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals and core structure of the complement system",
+      "groupedBecause": "They establish the foundational principles, naming conventions, and central activation mechanism of the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "They describe the upstream recognition mechanisms that drive surface convertase assembly and reach the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Downstream effector mechanisms",
+      "groupedBecause": "They explain how activated complement components execute target cell clearance and inflammatory recruitment.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "It explains the regulatory mechanisms that protect host cells from unintended complement-mediated damage.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentations of complement deficiencies",
+      "groupedBecause": "It outlines the distinct disease phenotypes and pathological consequences associated with deficiencies in individual complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion mechanisms and biotechnological applications",
+      "groupedBecause": "It explores how pathogens evade complement attack and how microbial evasion factors are utilized in research and therapeutics.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "It concludes the session and previews the upcoming topic in the course.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

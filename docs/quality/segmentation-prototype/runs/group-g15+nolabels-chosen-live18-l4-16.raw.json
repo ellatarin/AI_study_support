@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, sets the context for the cancer lecture series, and outlines the key learning objectives regarding environmental exposures and cancer development.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of Cancer: Intrinsic Factors, Environment, and Epidemiology",
+      "groupedBecause": "These subtopics explore the foundational concepts of cancer causation, examining how intrinsic mutations, bad luck, environmental exposures, and geographic variations collectively influence cancer risk across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Molecular Mechanisms of Carcinogens: Initiators, Promoters, and Host Factors",
+      "groupedBecause": "These subtopics detail the biological and chemical mechanisms through which diverse agents drive carcinogenesis via direct DNA mutation, xenobiotic metabolic activation, developmental susceptibility, or chronic inflammation and tumor promotion.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Investigating and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, in vivo, and in vitro experimental approaches used to identify mutational signatures and determine the carcinogenic potential of agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion on Carcinogen Risk and Potency",
+      "groupedBecause": "The lecturer delivers the closing remarks by summarizing the everyday balance of risk versus benefit regarding carcinogen exposure and concluding the lecture.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

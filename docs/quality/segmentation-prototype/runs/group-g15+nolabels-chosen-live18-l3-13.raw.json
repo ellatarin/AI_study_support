@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Welcome, Objectives, and Lecture Overview",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, outlines the learning outcomes, and frames the course for students of diverse disciplines.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Foundations and Experimental Models of Cancer",
+      "groupedBecause": "They explore how cancer arises through accumulating genetic and epigenetic alterations that disrupt normal tissue differentiation and architecture, as well as the experimental methods used to model these processes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and Histology of Tumor Invasion and Metastasis",
+      "groupedBecause": "They describe the histological and physical characteristics that distinguish benign growth from invasive and metastatic malignancy, using tissue examples such as colorectal cancer.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Classification, Nomenclature, and Pathophysiological Effects",
+      "groupedBecause": "They outline the naming conventions for neoplasms and explain the direct physiological mechanisms by which benign and malignant tumors cause patient morbidity and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer Epidemiology Across Human Tissues and Animal Species",
+      "groupedBecause": "They compare the incidence, prevalence, and mortality patterns of various cancers across human organ systems and throughout the animal kingdom.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Principles and Modalities of Cancer Screening",
+      "groupedBecause": "They evaluate the rationale, effectiveness, and limitations of population screening methods for detecting pre-malignant lesions across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Summary and Practical Information",
+      "groupedBecause": "This subtopic concludes the lecture by reiterating the learning outcomes and providing housekeeping information for upcoming sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

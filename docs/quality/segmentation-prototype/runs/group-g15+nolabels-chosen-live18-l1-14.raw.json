@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview",
+      "groupedBecause": "It introduces the lecturer, welcomes the students, and outlines the scope of the lecture on inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Sensing of Infection and Damage",
+      "groupedBecause": "These subtopics explain the molecular mechanisms and receptor systems by which the innate immune system detects pathogens and cellular damage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory Cascades and Leukocyte Recruitment",
+      "groupedBecause": "These subtopics trace the cellular responses and downstream physiological effects triggered by inflammatory activation, including leukocyte trafficking and systemic complications.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Pathology",
+      "groupedBecause": "These subtopics address the processes involved in terminating acute inflammation, repairing damaged tissue, and managing chronic inflammatory states.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "It concludes the lecture session and announces the topic of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

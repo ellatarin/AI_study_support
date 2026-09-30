@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the cancer biology lecture series, outlines the intended learning outcomes, and welcomes students from various academic backgrounds.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and developmental basis of cancer",
+      "groupedBecause": "These subtopics explore the biological fundamentals of oncogenesis as an accumulation of genetic and epigenetic alterations that disrupt normal tissue architecture and cellular differentiation programs.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and pathology of tumor invasion and metastasis",
+      "groupedBecause": "These subtopics explain the histological and physical progression of tumors from localized, encapsulated growths to invasive malignancies capable of metastatic spread.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and pathophysiological impacts",
+      "groupedBecause": "These subtopics describe how benign and malignant neoplasms are clinically categorized, named, and capable of causing morbidity and mortality through localized and systemic effects.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence across humans and other species",
+      "groupedBecause": "These subtopics examine patterns of cancer frequency and mortality across human populations and compare oncological occurrence throughout the animal kingdom.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical symptoms and cancer screening methods",
+      "groupedBecause": "These subtopics discuss early symptom presentation and evaluate clinical screening approaches used to detect pre-malignant lesions and early-stage cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practicals preview",
+      "groupedBecause": "The lecturer wraps up the session by reiterating the learning outcomes and previewing the upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Biology and Course Overview",
+      "groupedBecause": "The lecture opens with a welcome, course structure details, and an outline of the learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and Architectural Breakdown in Cancer",
+      "groupedBecause": "These subtopics explain how cancer develops from accumulated genetic and epigenetic changes that disrupt normal developmental differentiation and three-dimensional tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion and Metastatic Spread",
+      "groupedBecause": "These subtopics define the clinical and histological distinctions between benign and malignant tumors based on local tissue invasion and metastatic dissemination.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Neoplastic Progression and Tumor Nomenclature",
+      "groupedBecause": "These subtopics examine how neoplasms progress from benign precursor states to malignant disease and define the standard conventions used to classify and name them.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Pathophysiology, Mortality, and Comparative Incidence",
+      "groupedBecause": "These subtopics describe the mechanisms by which tumors cause illness and death while comparing patterns of cancer incidence across human organs and diverse animal species.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Clinical Detection and Cancer Screening Strategies",
+      "groupedBecause": "These subtopics explore the rationale, diagnostic methods, and clinical efficacy of screening programs designed to detect pre-malignant and early-stage cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Practical Preview",
+      "groupedBecause": "The lecture closes with a recap of the learning outcomes and administrative signposting for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Lecture Framing",
+      "groupedBecause": "It introduces the lecture themes, learning outcomes, and foundational concepts regarding cancer evolution and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Selection and Epigenetic Plasticity in Cancer Evolution",
+      "groupedBecause": "They examine how cancer progression is driven by the Darwinian selection of fitter mutated clones alongside non-mutational epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell Hierarchy and Stem Cell Origins in Tumorigenesis",
+      "groupedBecause": "They evaluate the cancer stem cell model and investigate whether malignancies initiate within tissue-specific stem cells or through dedifferentiation across hematopoietic and intestinal tissues.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Promotion and Inflammatory Signaling in Cancer Development",
+      "groupedBecause": "They demonstrate how external promoters and inflammatory microenvironmental stimuli provide the necessary secondary signals to drive mutated cells into malignant growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Established Microenvironments, Spatial Profiling, and Coevolutionary Synthesis",
+      "groupedBecause": "They explore the stromal dependencies of established tumors, the experimental technologies used to profile spatial heterogeneity, and the broader synthesis of cancer as a coevolutionary process between cells and their environment.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Closing Remarks and Next Lecture",
+      "groupedBecause": "It concludes the session and announces the subject of the upcoming lecture.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

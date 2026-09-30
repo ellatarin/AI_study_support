@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview on cancer hallmarks",
+      "groupedBecause": "The lecturer introduces the learning outcomes, the multi-step mutation progression model, and the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth factor and proliferation signaling pathways",
+      "groupedBecause": "These subtopics explain how oncogenic and tumor suppressor mutations in cell-surface receptors and downstream cascades drive autonomous proliferation and cell survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in hematopoietic and epithelial cancers",
+      "groupedBecause": "These subtopics examine how genetic disruptions prevent cancer cells from completing terminal differentiation across leukemias and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis, replicative immortality, and cellular stress controls",
+      "groupedBecause": "These subtopics explain the molecular mechanisms cells use to bypass programmed cell death and replicative limits through p53 regulation, telomere maintenance, and senescence evasion.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics explore how cancer cells alter their metabolism through aerobic glycolysis, metabolic rewiring, and metabolic gene mutations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explores how tumors activate the angiogenic switch to recruit new blood vessels required for nutrient perfusion and continued growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, inefficiency, and genomics of cancer metastasis",
+      "groupedBecause": "These subtopics examine the multi-step metastatic cascade, the seed-and-soil hypothesis, and genomic characteristics associated with metastatic dissemination.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "The lecturer provides concluding remarks on cancer hallmark convergence, recommends further reading, and closes the session.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

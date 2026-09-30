@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and lecture objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional cancer treatment modalities",
+      "groupedBecause": "These subtopics examine foundational cancer treatments including surgery, radiotherapy, and cytotoxic chemotherapy alongside their mechanisms, toxicities, and limitations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cellular and genetic vulnerabilities in cancer",
+      "groupedBecause": "These subtopics discuss therapeutic strategies that exploit intrinsic tumor vulnerabilities, including hormone signaling dependence, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeted kinase inhibitors and resistance mechanisms",
+      "groupedBecause": "These subtopics focus on targeting oncogenic driver kinases with small-molecule inhibitors and addressing subsequent challenges of resistance, bypass pathways, and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Antibody-based therapies and conjugates",
+      "groupedBecause": "These subtopics explain the design and mechanisms of monoclonal antibodies and antibody-drug conjugates used to target cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy approaches",
+      "groupedBecause": "These subtopics examine how the immune system interacts with cancer and detail immunotherapeutic strategies such as immune checkpoint inhibitors, bispecific T-cell engagers, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical challenges, historical trends, and future directions",
+      "groupedBecause": "These subtopics address broader issues in oncology including genomic stratification, historical survival trends, early detection, and ethical dilemmas in therapy management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and progression models",
+      "groupedBecause": "This subtopic introduces the lecture by outlining the learning objectives and framing how genetic mutations drive the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics explain how mutations in signaling cascades such as Wnt, receptor tyrosine kinases, and TGF-beta drive cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal cell differentiation",
+      "groupedBecause": "These subtopics explore how cancer cells fail to exit the cell cycle and differentiate properly in hematopoietic malignancies and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of evasion of apoptosis",
+      "groupedBecause": "This subtopic describes how p53 inactivation and the balance between pro- and anti-apoptotic proteins allow cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and stress signaling",
+      "groupedBecause": "These subtopics examine how telomere maintenance, TERT reactivation, and p53 stress-response pathways regulate cellular lifespan and immortalization before reviewing these growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics discuss the shift toward aerobic glycolysis, metabolic rewiring across tumor types, and how metabolic enzyme mutations produce oncometabolites that alter gene expression.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic details the requirement and mechanisms for new blood vessel formation to supply growing tumors with oxygen and nutrients.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Tumor dissemination, metastasis, and clonal evolution",
+      "groupedBecause": "These subtopics examine the mechanisms, anatomical routes, inefficiency, and genomic features associated with cancer invasion and metastatic spread.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and recommended reading",
+      "groupedBecause": "This subtopic closes the lecture by reviewing the universality of cancer hallmarks, recommending further reading, and taking final questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

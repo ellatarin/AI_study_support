@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer welcomes the students to the final course session and outlines the learning objectives on cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Modalities: Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics discuss traditional cancer treatment approaches, detailing their mechanisms of action, clinical successes, and toxicity limitations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cellular Vulnerabilities and Checkpoint Defects",
+      "groupedBecause": "These subtopics examine therapeutic strategies that target intrinsic cancer cell vulnerabilities, including hormone receptor dependencies, cell cycle checkpoint failures, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene Addiction and Small Molecule Kinase Inhibitors",
+      "groupedBecause": "These subtopics focus on treating cancers driven by hyperactivated kinases and examine the resulting challenges of cross-reactivity, drug resistance, and bypass pathways.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Targeted Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics explore how engineered monoclonal antibodies and antibody-drug conjugates selectively bind cell-surface targets to disrupt oncogenic signaling or deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immunotherapy and T-Cell-Directed Therapies",
+      "groupedBecause": "These subtopics describe methods for harnessing the immune system against cancer, covering immune surveillance, checkpoint blockade, bispecific engagers, and CAR T-cell engineering.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Broad Challenges, Historical Progress, and Future Directions in Oncology",
+      "groupedBecause": "These subtopics synthesize the broader systemic challenges, historical survival improvements, emerging technologies, and ethical considerations shaping modern cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

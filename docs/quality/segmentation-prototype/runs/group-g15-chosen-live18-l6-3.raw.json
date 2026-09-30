@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and mutation progression",
+      "groupedBecause": "This subtopic introduces the lecture by outlining learning outcomes, the multi-step mutation progression model, and the cancer hallmarks framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in receptor tyrosine kinase and Wnt signaling cascades drive autonomous cellular proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks in terminal differentiation",
+      "groupedBecause": "These subtopics examine how cancer cells arrest terminal differentiation in hematopoietic lineages and the intestinal epithelium to maintain an aberrant proliferative state.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Apoptosis evasion, replicative immortality, and p53 regulation",
+      "groupedBecause": "These subtopics explore the intrinsic tumor-suppressive barriers of programmed cell death, telomere shortening, and p53 stress responses, and how cancer cells bypass them to achieve replicative immortality.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Cancer metabolism and oncometabolites",
+      "groupedBecause": "These subtopics examine cellular metabolic reprogramming in tumors, including aerobic glycolysis, tissue-specific metabolic profiles, and the role of oncometabolites in altering gene expression.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic addresses how developing tumors overcome oxygen and nutrient diffusion limits by activating the angiogenic switch to stimulate blood vessel growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastasis and systemic dissemination",
+      "groupedBecause": "These subtopics analyse the biological steps of the metastatic cascade, the seed-and-soil hypothesis governing metastatic inefficiency, and the genomic characteristics of disseminated metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing remarks and summary",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of the hallmarks framework, recommended reading, and closing logistics.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the lecture series and outlines the core learning objectives concerning cancer causes, carcinogenicity testing, and tumor initiation and promotion.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Intrinsic Risk, Genetics, and Environmental Epidemiology",
+      "groupedBecause": "These subtopics examine how cancer develops through an interplay between intrinsic cellular errors, genetic predisposition, and environmental risk factors reflected in geographic epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Cancer Initiation, Metabolic Activation, and Tumor Promotion",
+      "groupedBecause": "These subtopics explain the molecular and cellular mechanisms through which specific infectious, chemical, and physical agents cause DNA mutations or provide promotional inflammatory environments that drive cancer.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics detail the analytical methodologies, including mutational signature sequencing, epidemiological biobanks, in vivo assays, and the Ames test, used to establish and evaluate carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion: Balancing Carcinogenic Risks and Practical Benefits",
+      "groupedBecause": "The lecturer summarizes the lecture's core themes and closes the session with reflections on everyday risk-benefit decisions regarding environmental exposures.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

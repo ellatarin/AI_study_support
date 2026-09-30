@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This opening section introduces the lecture series, outlines key learning outcomes, and establishes the multidisciplinary relevance of cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and developmental origins of cancer",
+      "groupedBecause": "These subtopics explain how cancer develops through accumulated genetic and epigenetic changes that disrupt normal cellular differentiation, tissue architecture, and three-dimensional growth control.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and the malignant transition",
+      "groupedBecause": "These subtopics examine the histological criteria, anatomical routes, and stepwise tissue changes that distinguish benign lesions from locally invasive and metastatic malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor classification, nomenclature, and clinical pathophysiology",
+      "groupedBecause": "These subtopics explain the standard naming systems for neoplasms and the pathophysiological mechanisms by which benign and malignant tumors cause illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative cancer incidence across species and populations",
+      "groupedBecause": "These subtopics compare epidemiological cancer incidence patterns across human demographic groups and diverse multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical symptoms and cancer screening strategies",
+      "groupedBecause": "These subtopics explore the principles, histological markers, and practical effectiveness of early detection and organ-specific cancer screening modalities.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical preview",
+      "groupedBecause": "This closing section summarizes the session's learning objectives and provides housekeeping information for upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

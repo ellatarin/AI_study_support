@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the lecture's learning objectives regarding cancer etiology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Chance, Genetics, and Environmental Exposures",
+      "groupedBecause": "These subtopics evaluate the fundamental causes of cancer, contrasting intrinsic replicative errors and genetic predisposition with environmental exposures using population data and epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenic Agents, Mutagens, and Promoters",
+      "groupedBecause": "These subtopics explore how specific infectious, chemical, and physical agents induce malignancy through biological mechanisms such as metabolic activation, direct DNA damage, chronic inflammation, and tumor promotion.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics present the genomic, epidemiological, in vivo, and in vitro methodologies used to detect carcinogen exposure signatures and test whether specific agents induce cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Summary and Closing Remarks",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of the environmental impact on cancer, the challenges of determining carcinogenicity, and everyday risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

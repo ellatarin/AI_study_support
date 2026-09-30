@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic introduces the lecture framing by establishing the importance and complexity of the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement system fundamentals and C3 activation",
+      "groupedBecause": "These subtopics introduce the foundational architecture of the complement system, including its primary functions, naming conventions, and the central role of C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways and threshold",
+      "groupedBecause": "These subtopics explain the three activation pathways of complement and how they generate convertases to reach the trigger threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail the primary downstream effector functions through which complement eliminates pathogens and coordinates immune defense.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement on host cells",
+      "groupedBecause": "This subtopic explains the regulatory mechanisms and surface proteins that prevent complement from damaging host tissues.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic outlines the distinct clinical phenotypes and disease presentations resulting from deficiencies in specific complement components and regulators.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen complement evasion and medical applications",
+      "groupedBecause": "This subtopic covers the strategies pathogens use to circumvent complement attack and the biomedical applications derived from bacterial evasion proteins.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

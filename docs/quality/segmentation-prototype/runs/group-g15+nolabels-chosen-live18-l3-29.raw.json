@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic welcomes the students, introduces the lecture series and instructors, and outlines the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Genetic Regulation and Cellular Differentiation",
+      "groupedBecause": "These subtopics define cancer as a stepwise failure of normal genetic control, cellular differentiation, and tissue architecture, and discuss methods used to model these processes in the laboratory.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Characterization, Progression, and Nomenclature of Benign and Malignant Tumors",
+      "groupedBecause": "These subtopics examine the criteria distinguishing benign from malignant tumors, detailing their invasive capacity, metastatic spread, stepwise progression, and tissue nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic addresses how primary and metastatic tumors impair normal physiological functions to cause systemic disease, severe symptoms, and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer Incidence Across Human Populations and Animal Species",
+      "groupedBecause": "These subtopics analyze the epidemiological frequency and mortality rates of different tumor types in humans and compare them to tumor patterns across other animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and Practice of Cancer Screening",
+      "groupedBecause": "These subtopics explain the clinical rationale for early cancer detection and evaluate the effectiveness and limitations of screening programs across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Practical Briefing",
+      "groupedBecause": "This subtopic concludes the lecture by reiterating the learning outcomes and setting expectations for upcoming practical sessions and future classes.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

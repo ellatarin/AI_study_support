@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "This topic introduces the lecture structure, learning outcomes, and the multi-step mutation framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways and oncogenic mutations",
+      "groupedBecause": "These subtopics examine how oncogenic mutations disrupt cell-surface receptor signaling pathways, such as Wnt and receptor tyrosine kinases, to drive sustained proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal cell differentiation",
+      "groupedBecause": "These subtopics explain how differentiation blocks in both hematopoietic lineages and intestinal epithelial crypts contribute to cancer development.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and p53 regulation",
+      "groupedBecause": "This subtopic details the molecular mechanisms and regulatory balance between pro- and anti-apoptotic proteins that allow cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and growth-control summary",
+      "groupedBecause": "These subtopics cover telomere maintenance, TERT reactivation, p53-mediated stress signaling and senescence, and summarise the growth-control cancer hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics discuss altered cancer metabolism, the Warburg effect, tissue-specific metabolic profiles, and the role of metabolic gene mutations and oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction and regulation of tumor angiogenesis",
+      "groupedBecause": "This subtopic explores the angiogenic switch, the balance of regulatory factors, and the timing of blood vessel recruitment during tumor progression.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination, efficiency, and genomic characteristics",
+      "groupedBecause": "These subtopics analyse the multi-step metastatic cascade, the seed and soil hypothesis governing metastatic efficiency, and genomic findings from sequenced metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "This topic concludes the lecture with closing remarks, recommended reading on updated hallmarks, and housekeeping.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

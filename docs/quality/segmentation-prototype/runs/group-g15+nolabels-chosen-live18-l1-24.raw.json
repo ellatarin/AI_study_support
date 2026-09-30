@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "The lecturer welcomes the students and outlines the focus of the session on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of Innate Recognition: PAMPs, DAMPs, and PRRs",
+      "groupedBecause": "These subtopics establish the foundational principles by which the innate immune system senses pathogens and tissue damage through conserved molecular patterns and spatially positioned receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern Recognition Receptor Families and Signaling Cascades",
+      "groupedBecause": "These subtopics detail the major families of pattern recognition receptors, their intracellular signaling pathways, and the assembly of the inflammatory inflammasome complex.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cellular Dynamics and Systemic Manifestations of Inflammation",
+      "groupedBecause": "These subtopics describe the cellular responses triggered during an active inflammatory response, including leukocyte trafficking, lymphatic drainage, and severe systemic outcomes like septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Pathology",
+      "groupedBecause": "These subtopics examine how inflammatory responses are terminated and repaired, alongside the circumstances leading to persistent chronic inflammation and granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the session and previews the upcoming lecture topic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

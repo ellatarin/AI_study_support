@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic provides the opening framing, introducing the lecture series, the speakers, and the key learning outcomes regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, Evolutionary, and Endogenous Drivers of Cancer",
+      "groupedBecause": "These subtopics establish the foundational concept of cancer as a micro-evolutionary genetic disease driven by endogenous metabolic processes, replication errors, and inherited genetic predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and the Etiological Debate",
+      "groupedBecause": "These subtopics examine the controversy over intrinsic random mutations versus extrinsic environmental exposures using global epidemiological data and migration studies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens in Cancer Etiology",
+      "groupedBecause": "These subtopics explore how viral, bacterial, and parasitic infections interact with host immunity and cellular proliferation to drive tumorigenesis, highlighted by the role of EBV and malaria in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagenesis and Metabolic Activation",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which radiation, dietary toxins, and chemical carcinogens undergo metabolic transformation to induce DNA adducts and oxidative stress.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility Factors",
+      "groupedBecause": "These subtopics address non-mutagenic mechanisms of carcinogenesis, focusing on chronic inflammation, the two-stage model of promotion, and developmental windows of vulnerability.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Experimental and Epidemiological Methodologies for Assessing Carcinogenicity",
+      "groupedBecause": "These subtopics describe the scientific approaches used to detect and prove carcinogenicity, including whole-genome mutational signatures, population biobanks, animal models, and the Ames assay.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "This subtopic provides the closing framing of the lecture, reflecting on daily risk-benefit decisions regarding environmental and lifestyle exposures.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

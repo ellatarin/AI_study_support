@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer opens the final lecture of the course by welcoming the students and outlining the key learning outcomes regarding cancer therapy approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies: Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics discuss conventional cancer treatment modalities, examining the principles of localized physical interventions alongside cytotoxic chemotherapy mechanisms, systemic toxicities, and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities and Checkpoint Defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit inherent biological vulnerabilities in cancer cells, including hormone signaling dependence, cell cycle checkpoint loss, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeted Kinase Inhibitors and Mechanisms of Acquired Resistance",
+      "groupedBecause": "These subtopics focus on targeting oncogenic driver mutations using small-molecule kinase inhibitors, explaining their ATP-competitive mechanism, off-target effects, and multi-faceted resistance pathways.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics explain the therapeutic application of antibody-based agents, covering naked monoclonal antibodies that block receptors and initiate cytotoxicity, as well as antibody-drug conjugates that deliver targeted cytotoxic toxins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Engineering",
+      "groupedBecause": "These subtopics examine approaches for engaging and enhancing adaptive immunity against cancer, encompassing immune checkpoint blockade, neoantigen recognition, bispecific T-cell engagers, and CAR T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overarching Challenges, Historical Progress, and Future Directions in Oncology",
+      "groupedBecause": "These subtopics evaluate the broader landscape of cancer treatment, assessing persistent challenges such as tumor heterogeneity, historical survival trends, emerging innovations, and clinical decision-making dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

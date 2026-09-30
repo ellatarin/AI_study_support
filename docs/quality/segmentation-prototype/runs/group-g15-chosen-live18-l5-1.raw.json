@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer opens the session by connecting the material to previous practicals and presenting the lecture's learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor viruses, oncogene capture, and transformation assays",
+      "groupedBecause": "These subtopics trace how the study of transforming tumor viruses and retroviral gene capture led to laboratory assays for identifying cellular oncogenes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and classifications of cancer-causing mutations",
+      "groupedBecause": "These subtopics define the major classes of cancer mutations and demonstrate how oncogenic, tumor-suppressive, and dominant-negative alterations disrupt cellular control pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and consequences of genetic instability",
+      "groupedBecause": "These subtopics explore how defects in DNA repair pathways, replication machinery, and chromosome segregation generate sequence and chromosomal instability in cancer cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Stepwise tumor progression and hereditary cancer predisposition",
+      "groupedBecause": "These subtopics explain the stepwise accumulation of mutations driving tumorigenesis and how inherited germline mutations accelerate cancer development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture wrap-up and reading recommendations",
+      "groupedBecause": "The lecturer concludes the session by offering to take questions, suggesting recommended reading, and previewing the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

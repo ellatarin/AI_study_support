@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the key learning outcomes for the lecture on cancer causes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins, Risk Factors, and Epidemiology of Cancer",
+      "groupedBecause": "These subtopics explain the basic biological nature of cancer and explore how endogenous cellular errors, environmental exposures, and population-level epidemiological variations shape overall cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and Pathogen-Driven Carcinogenesis",
+      "groupedBecause": "These subtopics examine how various infectious pathogens drive malignant transformation, highlighting Burkitt lymphoma as a primary case study of pathogen cooperation and chromosomal translocation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Radiation Mutagens and Mechanisms of DNA Damage",
+      "groupedBecause": "These subtopics detail how environmental chemicals, dietary toxins, and ultraviolet radiation undergo xenobiotic activation or direct reaction to form DNA adducts and mutagenic lesions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Tissue Susceptibility",
+      "groupedBecause": "These subtopics explore how non-mutagenic tumor promoters, chronic inflammatory responses, and host developmental stages create permissive environments for malignant clonal expansion.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Identifying and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the experimental, genomic, epidemiological, and toxicological methodologies used to assess mutagenicity and prove causal links between exposures and cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Perspective",
+      "groupedBecause": "This subtopic closes the lecture by summarizing the main takeaways regarding environmental cancer risk and practical risk-benefit decisions in everyday life.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and overview",
+      "groupedBecause": "This subtopic introduces the lecture topic and sets expectations for understanding the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition and pattern recognition receptors",
+      "groupedBecause": "These subtopics examine how the innate immune system senses pathogens and cellular damage through molecular patterns and pattern recognition receptor pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory response propagation, leukocyte recruitment, and systemic pathology",
+      "groupedBecause": "These subtopics explain the physiological mechanisms through which immune cells are activated, recruited to damaged tissues, connected to adaptive immunity, and potentially driven into systemic pathology.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic adaptations",
+      "groupedBecause": "These subtopics discuss how inflammatory responses are shut down, how damaged tissues are repaired, and how persistent challenges lead to chronic inflammation and granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic wraps up the lecture and introduces the topic of the subsequent lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

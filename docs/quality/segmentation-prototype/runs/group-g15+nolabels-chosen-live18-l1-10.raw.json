@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "The lecturer introduces the lecture topic on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and Damage Recognition by Pattern Recognition Receptors",
+      "groupedBecause": "These subtopics examine how the innate immune system detects molecular patterns of infection and cellular damage using pattern recognition receptors, toll-like receptors, and the inflammasome.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Sentinel Cell Signaling, Leukocyte Recruitment, and Inflammatory Escalation",
+      "groupedBecause": "These subtopics describe how activated sentinel cells direct leukocyte recruitment into tissues, drain antigens via lymphatics, and trigger systemic inflammatory responses.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammatory States",
+      "groupedBecause": "These subtopics explain the mechanisms that shut down inflammation, rebuild damaged tissue, and establish chronic inflammatory responses such as granulomas.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the presentation and announces the upcoming topic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

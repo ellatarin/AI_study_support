@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Course Introduction",
+      "groupedBecause": "This subtopic provides the opening framing for the lecture series, introducing the teaching team, student cohorts, and overarching learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Foundations: Mutation, Differentiation, and Tissue Architecture",
+      "groupedBecause": "These subtopics describe how cancer develops through the stepwise accumulation of genetic and epigenetic alterations and the failure of normal cellular differentiation and three-dimensional tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Histological Progression",
+      "groupedBecause": "These subtopics detail the mechanisms and histological hallmarks of tumor invasion and metastasis, contrasting benign and malignant behaviors through tissue sections and the colorectal adenoma-to-carcinoma sequence.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Classification, Nomenclature, and Mechanisms of Pathogenicity",
+      "groupedBecause": "These subtopics explain the naming conventions for benign and malignant neoplasms and outline the physiological mechanisms by which tumors cause organ dysfunction, clinical illness, and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer Epidemiology in Humans and Across Animal Taxa",
+      "groupedBecause": "These subtopics explore the incidence and mortality rates of major human cancer types and compare tumor prevalence across different animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles, Modalities, and Challenges of Cancer Screening",
+      "groupedBecause": "These subtopics explain the clinical rationale for early cancer detection and evaluate the implementation, efficacy, and limitations of screening programs across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Summary and Next Steps",
+      "groupedBecause": "This subtopic provides the closing framing, summarizing the session against the learning outcomes and outlining upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

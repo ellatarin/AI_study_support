@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, its overarching themes, and the specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Cellular Differentiation and Tissue Architecture",
+      "groupedBecause": "These subtopics define cancer development as a multi-step breakdown of normal cellular differentiation and three-dimensional tissue organization, alongside the experimental models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Metastasis, and the Progression from Benign to Malignant Tumors",
+      "groupedBecause": "These subtopics contrast benign and malignant tumors by detailing the biological and histological processes of local tissue invasion, metastatic dissemination, and stepwise malignant transformation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Neoplasm Nomenclature and Classification",
+      "groupedBecause": "This subtopic outlines the standard naming conventions and clinical exceptions used to classify benign and malignant tumors by tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic explains the mechanical, systemic, and organ-level mechanisms by which localized and metastatic tumors cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer Incidence in Humans and Other Animal Taxa",
+      "groupedBecause": "These subtopics compare patterns of cancer incidence and mortality across different human tissue types and multicellular animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Detection and Cancer Screening Methods",
+      "groupedBecause": "These subtopics examine the clinical rationale for early cancer detection and compare the implementation and efficacy of screening methods across various organ sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Next Steps",
+      "groupedBecause": "This subtopic concludes the lecture with a review of the learning outcomes and administrative remarks about upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This opening subtopic introduces the lecture topic and outlines the expected learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "These subtopics examine traditional modalities—surgery, radiotherapy, and cytotoxic chemotherapy—along with their mechanisms, toxicities, and drug resistance issues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular and genetic vulnerabilities",
+      "groupedBecause": "These subtopics describe therapeutic strategies tailored to exploit specific vulnerabilities in cancer cells, including hormone dependence, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Small-molecule kinase inhibitors and resistance mechanisms",
+      "groupedBecause": "These subtopics address targeted therapies directed at oncogenic kinases, exploring small-molecule design, resistance pathways, bypass signaling, and clinical limitations.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain how monoclonal antibodies and antibody-drug conjugates selectively target cancer-specific surface antigens to deliver cytotoxic effects.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and immunotherapy approaches",
+      "groupedBecause": "These subtopics explore the evidence for immune surveillance and examine modern immunotherapies, including immune checkpoint blockade, BiTEs, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Perspectives, historical outcomes, and ethical dilemmas in cancer treatment",
+      "groupedBecause": "These subtopics evaluate overall progress in cancer care, discussing genomic stratification, prevention versus treatment, historical survival trends, and emerging ethical dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

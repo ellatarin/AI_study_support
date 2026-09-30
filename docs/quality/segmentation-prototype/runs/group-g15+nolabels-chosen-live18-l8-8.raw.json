@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the key learning objectives regarding cancer therapy approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics describe traditional treatment modalities that physically excise tumor mass or non-specifically destroy rapidly dividing cells, alongside their associated toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic cancer cell vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics explain therapeutic approaches designed to exploit specific biological weaknesses in cancer cells, including hormone dependency, checkpoint deficiencies, and defective DNA repair pathways.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene addiction, kinase inhibitors, and therapeutic resistance",
+      "groupedBecause": "These subtopics focus on small-molecule inhibitors targeting hyperactivated oncogenic kinases and examine the molecular mechanisms driving drug resistance and tumor adaptation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics discuss the application of engineered antibodies to target tumor cell-surface antigens directly or to deliver cytotoxic payloads selectively.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy: checkpoint blockade, neoantigens, and engineered T-cell therapies",
+      "groupedBecause": "These subtopics address the role of the immune system in cancer surveillance and detail modern strategies to reactivate or genetically engineer T cells to eradicate tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics evaluate ongoing systemic hurdles in oncology, historical improvements in patient survival, and future clinical paradigms.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

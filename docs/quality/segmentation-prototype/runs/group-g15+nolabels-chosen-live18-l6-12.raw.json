@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "The lecturer introduces the learning outcomes, reviews the historical framework of cancer hallmarks, and frames the lecture's focus on tumor progression mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth signaling pathways",
+      "groupedBecause": "These subtopics explain how mutations in cell-surface receptors and downstream intracellular cascades drive independent proliferative signaling and bypass growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in tumorigenesis",
+      "groupedBecause": "These subtopics explore how cancer cells fail to exit the cell cycle and differentiate properly, using examples from hematopoiesis and colonic crypt architecture.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of apoptosis resistance",
+      "groupedBecause": "This subtopic details how tumor cells evade programmed cell death through alterations in p53 signaling and the balance between pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomeres, and senescence",
+      "groupedBecause": "These subtopics examine how cancer cells overcome the Hayflick limit via telomerase reactivation and summarize how p53-mediated stress pathways govern cellular senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming in cancer",
+      "groupedBecause": "These subtopics examine how cancer cells rewire their energy metabolism toward aerobic glycolysis and how metabolic enzyme mutations generate onco-metabolites that alter gene regulation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "This subtopic describes the physiological necessity, timing, and molecular balance of new blood vessel formation supporting tumor growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic cascade and dissemination",
+      "groupedBecause": "These subtopics examine the multi-step invasion and dissemination process of cancer cells, the seed-and-soil dynamics required for secondary colonization, and the genetic features of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and practical session preview",
+      "groupedBecause": "The lecturer wraps up the discussion of cancer hallmarks, provides concluding advice on the literature, and invites questions before the practicals.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the key learning outcomes for the lecture on cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiological factors and epidemiological evidence in cancer development",
+      "groupedBecause": "These subtopics explore the interplay between intrinsic biological processes, environmental exposures, and chance in driving cancer risk across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious pathogens as drivers of carcinogenesis",
+      "groupedBecause": "These subtopics examine how microbial and viral infections contribute to oncogenesis, illustrated in detail by Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical, physical, and promotional carcinogenesis",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms, metabolic activations, and cellular contexts by which mutagens, radiation, and non-mutagenic promoters induce cancer.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methodologies for detecting and proving carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, in vivo, and in vitro approaches used to identify carcinogens and evaluate their effects.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Concluding remarks on carcinogen exposure and risk assessment",
+      "groupedBecause": "This subtopic concludes the lecture by framing carcinogenic exposure within personal and societal risk-benefit assessments.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

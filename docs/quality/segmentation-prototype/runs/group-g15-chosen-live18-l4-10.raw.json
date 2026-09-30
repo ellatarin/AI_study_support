@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the learning objectives on cancer causation, and sets expectations for understanding environmental and genetic carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Endogenous Foundations of Cancer",
+      "groupedBecause": "These subtopics establish that cancer is a genetic and evolutionary disease arising from somatic mutations, endogenous cellular metabolic processes, and inherited predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence in Cancer Risk",
+      "groupedBecause": "These subtopics examine external carcinogenic exposures, the ongoing debate between environmental causation and mutational bad luck, and epidemiological patterns of global cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogenic Pathogens and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics describe how infectious pathogens promote cancer development, focusing on Epstein-Barr virus and malaria in the etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Xenobiotic Activation",
+      "groupedBecause": "These subtopics detail how physical radiation, dietary toxins, and chemical agents undergo metabolic activation to induce DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Host Susceptibility, and Mechanistic Summary",
+      "groupedBecause": "These subtopics explore non-mutagenic tumor promoters, the multi-stage model of carcinogenesis, host developmental timing, and summarize the key mechanisms of cancer causation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting Carcinogens and Mutational Signatures",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro approaches used to identify carcinogens and measure mutagenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Perspective",
+      "groupedBecause": "This subtopic closes the lecture by synthesizing the balance between environmental risks, lifestyle choices, and practical decision-making.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "This opening subtopic outlines the scope of the lecture and frames the learning outcomes for cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional cancer treatment modalities",
+      "groupedBecause": "These subtopics discuss the mechanisms, clinical applications, and systemic toxicities of traditional non-targeted cancer treatments including surgery, radiotherapy, and cytotoxic chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics describe therapeutic approaches that selectively exploit intrinsic genetic, molecular, or signaling vulnerabilities inherent to cancer cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene-targeted therapies and kinase inhibitor resistance",
+      "groupedBecause": "These subtopics explore the development, mechanism of action, and subsequent drug resistance challenges associated with therapies targeting driver oncogenes and hyperactive kinases.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain how engineered antibodies target tumor cell-surface proteins either to disrupt oncogenic signaling or to selectively deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and cellular therapies",
+      "groupedBecause": "These subtopics evaluate the immunological basis and modern clinical strategies used to harness, reactivate, or engineer the host immune system to destroy tumor cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, progress, and future perspectives in cancer treatment",
+      "groupedBecause": "These subtopics synthesize long-term historical progress, current translational barriers, and ethical dilemmas shaping the future management of cancer.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

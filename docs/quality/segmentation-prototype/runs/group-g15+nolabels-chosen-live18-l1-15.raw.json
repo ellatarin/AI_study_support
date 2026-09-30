@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of inflammation",
+      "groupedBecause": "The lecturer welcomes the class and frames the lecture as an exploration of the mechanisms coordinating the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition via PAMPs, DAMPs, and pattern recognition receptors",
+      "groupedBecause": "The innate immune system detects infection and cellular injury through specialized pattern recognition receptors that sense conserved molecular patterns and initiate intracellular inflammatory signaling cascades.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory mediator signaling, cell recruitment, and systemic effects",
+      "groupedBecause": "Activated sentinel cells orchestrate the acute inflammatory response by coordinating leukocyte extravasation into tissues, lymphatic cell trafficking, and potential systemic complications such as septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "Tissues conclude inflammatory responses through passive and active shutdown mechanisms, coordinate wound healing, and adapt to persistent stimuli through chronic inflammation and granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and preview of the next topic",
+      "groupedBecause": "The lecturer concludes the presentation and announces the topic of the upcoming lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

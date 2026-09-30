@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Framing",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the learning outcomes, and establishes the overarching framework of cancer evolution and the microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Mechanisms of Clonal Evolution",
+      "groupedBecause": "These subtopics examine how both sequential somatic mutations and non-mutational epigenetic alterations confer selective advantages that drive clonal expansion in pre-neoplastic tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and the Cancer Stem Cell Model",
+      "groupedBecause": "These subtopics evaluate how tissue hierarchies, stemness properties, and specific cells of origin govern tumor initiation and propagation across hematological and solid cancers.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Promotion and the Integrated Evolutionary Framework",
+      "groupedBecause": "These subtopics demonstrate how environmental promoters, inflammatory signaling, and supportive stroma cooperate with mutant cells to drive malignancy, alongside the analytical methods and synthesizing principles of cancer evolution.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview of Cancer Hallmarks",
+      "groupedBecause": "This subtopic introduces the lecture by framing the historical concept of cancer hallmarks and outlining the session's learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Autonomy and Evasion of Growth Suppression",
+      "groupedBecause": "These subtopics examine how oncogenic mutations dysregulate cell surface receptor signaling pathways to sustain proliferation and bypass growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer",
+      "groupedBecause": "These subtopics explore how cancer cells disrupt normal tissue maturation by blocking terminal differentiation across hematopoietic and epithelial lineages.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic details the molecular mechanisms and regulatory proteins that allow cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence",
+      "groupedBecause": "These subtopics describe how telomere dynamics, telomerase reactivation, and p53-mediated stress pathways govern cellular senescence and replicative immortality.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Metabolism and Metabolic Rewiring",
+      "groupedBecause": "These subtopics explain the reprogramming of cancer cell metabolism toward aerobic glycolysis and the reciprocal effects of oncometabolites on the epigenome.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumour Angiogenesis",
+      "groupedBecause": "This subtopic addresses the angiogenic switch that enables tumors to induce new blood vessel formation for nutrient and oxygen delivery.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and Clonal Biology of Metastasis",
+      "groupedBecause": "These subtopics examine the multi-step process of metastatic dissemination, the determinants of successful colonization, and the clonal genetics of secondary tumors.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Conclusion and Final Remarks",
+      "groupedBecause": "This subtopic concludes the lecture with closing observations on cancer hallmarks, recommended reading, and practical session housekeeping.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

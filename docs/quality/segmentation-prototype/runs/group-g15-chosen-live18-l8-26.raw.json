@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture overview",
+      "groupedBecause": "It introduces the final lecture of the course and sets out the learning objectives for cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their systemic limitations",
+      "groupedBecause": "These subtopics examine conventional cancer treatment modalities and the clinical limitations arising from their non-specific toxicity to healthy tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting tumor-specific vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics examine how intrinsic molecular defects in cancer cells, including hormone dependence, cell cycle checkpoint loss, and repair deficiencies, can be selectively exploited for therapy.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeting oncogenic kinase signaling and managing therapeutic resistance",
+      "groupedBecause": "These subtopics explain the design of small-molecule kinase inhibitors targeting oncogene addiction and the mechanisms through which tumors evolve drug resistance and dependency.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibody and antibody-drug conjugate therapies",
+      "groupedBecause": "These subtopics focus on utilizing engineered monoclonal antibodies to target tumor surface markers and deliver cytotoxic payloads directly to cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune surveillance and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics trace the evidence for immune surveillance and examine therapeutic approaches that stimulate or engineer T cells to eradicate tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Current challenges, future directions, and ethical dilemmas in cancer management",
+      "groupedBecause": "These subtopics address overarching challenges in cancer treatment, including tumor heterogeneity, shifting epidemiological trends, and the clinical dilemmas of balancing efficacy with patient quality of life.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

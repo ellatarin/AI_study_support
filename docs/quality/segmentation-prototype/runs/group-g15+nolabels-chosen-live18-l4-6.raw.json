@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "It sets the scope for the lecture series and outlines the key learning objectives regarding cancer causes, environmental exposures, and methodologies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Genetic, Endogenous, and Environmental Factors",
+      "groupedBecause": "It explores the fundamental nature of cancer as a multi-step genetic disease driven by a combination of intrinsic cellular errors, inherited traits, and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and Pathogen-Driven Carcinogenesis",
+      "groupedBecause": "It examines how bacterial, parasitic, and viral infections drive malignancy, illustrated through the mechanism of Epstein-Barr virus and malaria in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical DNA Damage",
+      "groupedBecause": "It describes how radiation and chemical carcinogens undergo metabolic activation in the body to form DNA adducts and induce genetic mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Initiation, Promotion, and Host Susceptibility",
+      "groupedBecause": "It explains the distinction between mutational tumour initiators and non-mutagenic promoters, including the influence of inflammation and host developmental stage on tumour development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "It reviews the experimental and analytical methods used to identify carcinogens, including mutational signature analysis, epidemiological biobanks, in vivo models, and the Ames test.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "It closes the lecture by summarising the environmental origins of cancer and framing exposure decisions in terms of risk-benefit assessment.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

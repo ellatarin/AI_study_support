@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "It provides the opening framing and overview for the lecture on inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and damage recognition by pattern recognition receptors",
+      "groupedBecause": "They detail how the innate immune system detects signs of infection and cellular damage through pattern recognition receptors and their downstream signaling mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Propagation, cellular recruitment, and systemic consequences of inflammation",
+      "groupedBecause": "They describe the physiological cascade triggered by immune activation, from leukocyte recruitment and antigen drainage to severe systemic manifestations like sepsis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammatory responses",
+      "groupedBecause": "They examine the mechanisms that turn off inflammation, repair damaged tissue, and result in chronic inflammatory states such as granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "It provides the closing framing and looks forward to the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

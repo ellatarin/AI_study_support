@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic provides the opening administrative framing and learning objectives for the lecture on cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Endogenous, Genetic, and Environmental Drivers of Cancer Risk",
+      "groupedBecause": "These subtopics explore the conceptual framework of cancer etiology, balancing intrinsic mutational processes and genetics against environmental exposures and epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Viral Carcinogenesis",
+      "groupedBecause": "These subtopics explain the role of infectious organisms in cancer development, with a detailed focus on Epstein-Barr virus and Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagenesis and Metabolic Activation",
+      "groupedBecause": "These subtopics detail the mechanisms by which chemical and physical mutagens interact with cellular metabolism to induce DNA damage and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Contextual Susceptibility",
+      "groupedBecause": "These subtopics describe non-mutagenic mechanisms of carcinogenesis, focusing on tumor promoters, chronic inflammation, and developmental stage susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Identifying and Testing Carcinogens",
+      "groupedBecause": "These subtopics examine genomic, epidemiological, animal, and in vitro approaches used to evaluate and confirm the carcinogenicity of exposures.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Summary and Risk-Benefit Considerations",
+      "groupedBecause": "This subtopic serves as the closing framing of the lecture, summarizing the main conclusions and discussing real-world risk-benefit evaluations.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

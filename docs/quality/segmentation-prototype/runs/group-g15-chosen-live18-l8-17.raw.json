@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the lecture and learning outcomes",
+      "groupedBecause": "This subtopic welcomes students and establishes the learning objectives and scope for the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "These subtopics examine traditional modalities of cancer treatment, specifically surgery, radiotherapy, and cytotoxic chemotherapy alongside their mechanisms and clinical limitations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities and genetic defects in cancer",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic cancer cell vulnerabilities, including hormone receptor dependence, cell cycle checkpoint deficiencies, and defective DNA repair pathways.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeting oncogene addiction with kinase inhibitors",
+      "groupedBecause": "These subtopics discuss the concept of oncogene addiction and the application of small-molecule kinase inhibitors, detailing their structural mechanisms, resistance pathways, and clinical management.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics cover the design and therapeutic mechanisms of monoclonal antibodies and antibody-drug conjugates used to target cancer cell surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and cellular therapies",
+      "groupedBecause": "These subtopics examine the evidence for immune surveillance and evaluate various immunotherapy strategies, including checkpoint blockade, bispecific T-cell engagers, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Contemporary challenges, future directions, and clinical dilemmas in oncology",
+      "groupedBecause": "These subtopics review overall progress and contemporary challenges in oncology, considering genomic stratification, prevention versus cure, and ethical considerations surrounding treatment options.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

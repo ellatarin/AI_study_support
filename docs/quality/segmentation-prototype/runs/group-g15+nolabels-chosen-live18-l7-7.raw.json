@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "This subtopic provides the framing, objectives, and introductory context for the lecture on cancer evolution and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Mechanisms in Clonal Evolution",
+      "groupedBecause": "These subtopics explain how sequential genetic mutations and epigenetic alterations confer competitive growth advantages to drive clonal expansion during tumor evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Hierarchies",
+      "groupedBecause": "These subtopics explore the relationship between normal tissue hierarchies and cancer development, evaluating the evidence for cancer stem cells and cell-of-origin susceptibility in leukemia and colorectal cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Role of the Microenvironment and Inflammation in Tumor Progression",
+      "groupedBecause": "These subtopics demonstrate how environmental promoters, inflammatory signaling, and stromal co-dependencies create permissive conditions required for mutated cells to expand, progress, and sustain malignancy.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Investigating Tumor Evolution and Microenvironments",
+      "groupedBecause": "This subtopic details the computational, single-cell sequencing, and spatial profiling technologies used to map cancer cell plasticity and microenvironmental interactions in the laboratory.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated Evolutionary Framework of Cancer",
+      "groupedBecause": "This subtopic synthesizes the lecture's core arguments into a unified model showing how mutations, epigenetics, cell of origin, and microenvironmental conditions collectively drive cancer evolution.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture Conclusion and Next Steps",
+      "groupedBecause": "This subtopic concludes the presentation and provides framing for the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic provides the opening framing and learning objectives for the lecture on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition and PAMP/DAMP sensing",
+      "groupedBecause": "These subtopics explain the foundational principles of how the innate immune system distinguishes self from non-self by detecting molecular patterns of pathogens and cellular damage using germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor families, signaling, and inflammasome activation",
+      "groupedBecause": "These subtopics examine specific pattern recognition receptor systems, their intracellular signaling pathways, and the multiprotein inflammasome complex that processes pro-inflammatory cytokines.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Inflammatory cascade execution, leukocyte recruitment, and systemic pathology",
+      "groupedBecause": "These subtopics trace how sentinel cell activation orchestrates immune cell extravasation, lymphatic drainage, and potential progression to severe systemic complications like sepsis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics describe the passive and active mechanisms that terminate acute inflammation, mediate tissue regeneration, and lead to chronic inflammation or granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic provides the closing framing and previews the topic of the upcoming lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and progression models",
+      "groupedBecause": "This opening section outlines the lecture's learning objectives and introduces the multi-step mutation progression and framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and oncogenic mutations",
+      "groupedBecause": "These subtopics examine how mutations in signaling cascades such as Wnt/beta-catenin and receptor tyrosine kinase pathways drive sustained proliferation and cell survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal differentiation in cancer",
+      "groupedBecause": "These subtopics explore how differentiation arrest contributes to tumor development in both hematopoietic malignancies and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and p53 regulation",
+      "groupedBecause": "This subtopic describes the mechanisms by which cancer cells avoid programmed cell death through alterations in p53, Bax, and BCL2 signaling.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and cellular stress responses",
+      "groupedBecause": "These subtopics cover telomere biology, TERT activation mechanisms, p53-dependent senescence and stress signaling, and summarize the growth-control hallmarks of cancer.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered cellular metabolism and oncometabolites",
+      "groupedBecause": "These subtopics discuss metabolic reprogramming in cancer, including the Warburg effect, tissue-specific profiles, and the role of Krebs cycle mutations and oncometabolites in tumorigenesis.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and vascular recruitment",
+      "groupedBecause": "This subtopic addresses the induction of angiogenesis as an essential requirement for tumor growth, perfusion, and progression beyond microscopic sizes.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastasis, systemic dissemination, and metastatic genetics",
+      "groupedBecause": "These subtopics examine the sequential steps of metastatic spread, the seed and soil hypothesis, circulating tumor cells, and the genomic features of secondary metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and recommended reading",
+      "groupedBecause": "This closing section summarises the key takeaways regarding cancer hallmarks and points students toward further reading and practical exercises.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

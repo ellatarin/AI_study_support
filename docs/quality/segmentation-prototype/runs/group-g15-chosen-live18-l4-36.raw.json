@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Objectives",
+      "groupedBecause": "Introduces the cancer lecture series and outlines the key learning objectives regarding environmental carcinogenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Evolution, Endogenous Mutagenesis, and Genetic Predisposition",
+      "groupedBecause": "Establishes how cancer develops as a clonal evolutionary process driven by intrinsic cellular errors, replication stress, and inherited predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Carcinogens, Epidemiological Variation, and Risk Perception",
+      "groupedBecause": "Explores population-level epidemiological patterns and the public debate surrounding extrinsic environmental exposures versus stochastic cancer risk.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Mechanisms of Pathogen, Chemical, and Physical Carcinogenesis and Tumor Promotion",
+      "groupedBecause": "Details the biological and biochemical mechanisms through which specific infectious, chemical, and physical agents act as tumor initiators or promoters.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "Surveys the genomic, epidemiological, in vivo, and in vitro experimental strategies used to identify mutational signatures and test carcinogen potency.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Carcinogen Risk-Benefit Evaluation",
+      "groupedBecause": "Concludes the lecture by reviewing the challenges of assessing carcinogen potency and framing environmental exposure within risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

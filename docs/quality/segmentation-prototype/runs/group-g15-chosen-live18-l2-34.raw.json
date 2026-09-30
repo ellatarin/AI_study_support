@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "This subtopic provides the opening framing, setting expectations about the complexity and importance of the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational concepts and central activation of complement",
+      "groupedBecause": "These subtopics introduce the fundamental principles of the complement system, including its general function, nomenclature conventions, and the central role of C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics detail the three distinct recognition pathways that initiate complement activation and converge to achieve the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector functions of complement",
+      "groupedBecause": "These subtopics explain the downstream mechanisms through which activated complement destroys pathogens and enhances immune defense.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement",
+      "groupedBecause": "This subtopic explains the regulatory proteins and inhibitory mechanisms that protect host cells from accidental complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical manifestations of complement deficiencies",
+      "groupedBecause": "This subtopic describes the distinct clinical presentations and disease phenotypes associated with deficiencies in various complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement and applications",
+      "groupedBecause": "This subtopic examines how pathogens counteract complement defenses and how evasion proteins are utilized in laboratory and clinical settings.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture wrap-up and preview of next session",
+      "groupedBecause": "This subtopic provides the closing framing by concluding the complement series and announcing the next lecture topic.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "The lecturer introduces the session by framing how the lecture will integrate previously learned components to explore the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition of infection and damage",
+      "groupedBecause": "These subtopics detail how pattern recognition receptors and downstream intracellular pathways detect microbial molecular patterns and cellular damage to trigger immune activation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular activation, leukocyte trafficking, and systemic inflammation",
+      "groupedBecause": "These subtopics examine how activated sentinel cells direct the recruitment of circulating leukocytes into tissues, facilitate antigen drainage, and can trigger severe systemic pathology.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammatory states",
+      "groupedBecause": "These subtopics describe the passive and active mechanisms that terminate inflammation, drive tissue healing, and lead to persistent or protective chronic inflammatory responses.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer concludes the lecture and previews the next topic on the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer welcomes the class and outlines the learning objectives for the final lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "These subtopics examine traditional therapeutic modalities, focusing on surgical resection, radiotherapy, and systemic cytotoxic chemotherapy along with their mechanisms and side effects.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cellular vulnerabilities and genetic defects",
+      "groupedBecause": "These subtopics discuss therapeutic strategies designed to exploit specific vulnerabilities and genetic abnormalities of cancer cells, including hormone dependence, cell cycle checkpoint loss, and defective DNA repair.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeted kinase inhibitors and resistance mechanisms",
+      "groupedBecause": "These subtopics focus on treating oncogene-addicted cancers with small-molecule kinase inhibitors while detailing the molecular mechanisms of drug resistance and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Antibody-based therapies and conjugates",
+      "groupedBecause": "These subtopics explain the use of monoclonal antibodies and antibody-drug conjugates to direct cytotoxic effects against tumor-associated surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumor immunology and cell-directed immunotherapies",
+      "groupedBecause": "These subtopics explore the biological basis of cancer immune surveillance and the development of immunotherapies that reactivate or engineer T-cell responses against tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Progress, ongoing challenges, and future perspectives in cancer treatment",
+      "groupedBecause": "These subtopics synthesize the clinical challenges, historical survival trends, genomic stratification methods, and ethical considerations shaping modern and future cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

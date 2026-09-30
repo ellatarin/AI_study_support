@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and overview",
+      "groupedBecause": "The lecturer welcomes the class and outlines the scope of the lecture on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition, pattern recognition receptors, and signaling",
+      "groupedBecause": "These subtopics explain how the innate immune system detects microbes and tissue damage through molecular patterns, pattern recognition receptors, and downstream signaling complexes like the inflammasome.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory activation, leukocyte recruitment, and systemic complications",
+      "groupedBecause": "These subtopics detail the functional consequences of immune activation, covering sentinel cell mediator release, leukocyte extravasation, lymphatic priming, and severe systemic reactions like sepsis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics examine how acute inflammation is terminated, how tissue repair is coordinated, and how unresolved damage or persistent infection leads to chronic pathology and granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture closing",
+      "groupedBecause": "The lecturer concludes the presentation and announces the topic of the following lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

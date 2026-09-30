@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture, recaps histopathology practicals, and outlines the learning outcomes regarding cellular transformation, oncogenes, genetic instability, and hereditary cancer predispositions.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor viruses and experimental identification of transforming genes",
+      "groupedBecause": "They trace how the historical study of tumor viruses revealed that oncogenes originate from cellular genes and outline the laboratory assays used to test cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Functional classifications and genetic mechanisms of oncogenes and tumor suppressor genes",
+      "groupedBecause": "They define the functional classifications of cancer-associated genes and illustrate their genetic behaviors and dominant, recessive, and dominant-negative mechanisms using cell cycle regulators such as Rb and p53.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and consequences of sequence and chromosomal instability",
+      "groupedBecause": "They detail the distinctions between sequence instability and chromosomal instability and explore the specific DNA repair, replication, and mitotic segregation defects that generate them.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep tumor progression and hereditary cancer predispositions",
+      "groupedBecause": "They explain how stepwise mutation accumulation drives tumor development and describe how inherited germline mutations in caretaker and gatekeeper genes accelerate cancer progression and shape tumor evolution.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "It concludes the lecture with a review of learning outcomes, offers a reading recommendation, and previews the next lecture on cancer hallmarks.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

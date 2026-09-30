@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This topic provides the administrative opening, course context, and learning objectives for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Endogenous Processes, Environment, and Epidemiology",
+      "groupedBecause": "These subtopics explore the broad causes of cancer by examining the interplay between intrinsic cellular errors, genetic predisposition, and environmental risk factors identified through epidemiological observations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenic Agents and Tumor Promotion",
+      "groupedBecause": "These subtopics explain the specific molecular and cellular mechanisms by which biological, chemical, and physical agents induce DNA damage or promote neoplastic growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics review the analytical, epidemiological, in vivo, and in vitro methodologies used to determine whether environmental agents are carcinogenic.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Summary and Risk-Benefit Analysis",
+      "groupedBecause": "This topic delivers the concluding summary on environmental cancer risks and personal risk-benefit decisions to close the lecture.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

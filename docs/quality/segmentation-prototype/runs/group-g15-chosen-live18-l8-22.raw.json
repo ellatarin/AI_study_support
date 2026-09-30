@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course on cancer therapy and outlines its main learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "These subtopics evaluate the principles, mechanisms, and systemic limitations of conventional non-targeted cancer treatments.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer-specific vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics explain therapeutic strategies designed to exploit cancer-specific molecular vulnerabilities and defective cellular control pathways.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Kinase inhibitors and mechanisms of targeted therapy resistance",
+      "groupedBecause": "These subtopics focus on targeting oncogene-addicted kinases with small-molecule inhibitors and examine how tumors develop resistance and drug addiction to these therapies.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explore antibody-based therapeutics that target cell-surface proteins to directly eliminate cancer cells or deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune surveillance and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics examine the evidence for immune surveillance and the therapeutic reactivation or engineering of T cells against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical trends, challenges, and future directions in cancer therapy",
+      "groupedBecause": "These subtopics evaluate overall clinical outcomes, therapeutic obstacles, and emerging paradigms shaping the future of cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

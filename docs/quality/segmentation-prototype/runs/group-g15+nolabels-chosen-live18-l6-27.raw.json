@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks",
+      "groupedBecause": "The lecturer introduces the lecture objectives, reviews previous material on cancer genetics, and presents the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Autonomy and Signaling Pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in pathways such as Wnt/beta-catenin, RTK/Ras/MAPK, and PI3K/Akt drive cancer cell proliferation and survival independently of external controls.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer",
+      "groupedBecause": "These subtopics describe how cancer cells halt normal lineage differentiation across hematopoietic malignancies and epithelial carcinomas to sustain proliferative potential.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic explains the molecular mechanisms of apoptotic evasion, focusing on the regulation of mitochondrial outer membrane permeabilization by p53, Bax, and BCL2.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics discuss how cancer cells overcome the Hayflick limit through telomerase activation and evade senescence and p53-mediated stress responses.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Deregulating Cellular Metabolism",
+      "groupedBecause": "These subtopics examine the Warburg effect, metabolic rewiring across different tumor types, and the interplay between metabolic mutations and epigenetic regulation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Inducing Tumor Angiogenesis",
+      "groupedBecause": "This subtopic details how tumors stimulate new blood vessel formation to overcome oxygen and nutrient diffusion limits during progression.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Cancer Metastasis and Dissemination",
+      "groupedBecause": "These subtopics explore the metastatic cascade, diagnostic tracking of dissemination, the seed-and-soil hypothesis, and the genomic features underlying metastatic colonization.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "The lecturer concludes the lecture by summarising the hallmarks framework, discussing recent conceptual extensions, and taking questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

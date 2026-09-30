@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This opening subtopic introduces the lecture series, outlines the learning outcomes, and contextualises cancer biology across different clinical and scientific disciplines.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations and experimental modeling of cancer",
+      "groupedBecause": "These subtopics describe cancer as a progressive failure of genetic regulation, cellular differentiation, and tissue architecture, while addressing the methods and challenges of modeling these phenomena in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, metastasis, and the benign-to-malignant spectrum",
+      "groupedBecause": "These subtopics examine how tumors progress from contained, benign growths to invasive and metastatic malignancies, highlighting key histological features and clinical implications.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification systems",
+      "groupedBecause": "This subtopic defines the standard naming conventions and clinical exceptions used to classify tumors based on their cell lineage and malignant potential.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological causes of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the mechanical, metabolic, and systemic mechanisms through which primary and metastatic tumors cause debilitating disease and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative oncology and cancer incidence across taxa",
+      "groupedBecause": "These subtopics analyze patterns of cancer frequency and tumor types across human populations, domestic animals, and diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical symptoms and cancer screening strategies",
+      "groupedBecause": "These subtopics explore the rationale, histological basis, and diagnostic efficacy of screening methods used to detect early-stage and premalignant lesions.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "This closing subtopic concludes the session by referencing the learning outcomes and providing logistical instructions for upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

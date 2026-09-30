@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer opens the course by introducing the scope of cancer biology, the teaching structure, and the lecture's core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular, genetic, and tissue architectural foundations of cancer",
+      "groupedBecause": "These subtopics explain the fundamental concept of cancer as a multi-step disruption of normal genetic regulation, cellular differentiation, and three-dimensional tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology and progression of tumor invasion and metastasis",
+      "groupedBecause": "These subtopics examine how tumors transition from localized, benign lesions into invasive and metastatic malignancies using histological and anatomical evidence.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and pathophysiological causes of morbidity and mortality",
+      "groupedBecause": "These subtopics outline the clinical classification systems for tumors and the physiological mechanisms through which benign and malignant growths cause illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics explore the epidemiological frequency of major cancer types in humans alongside the comparative incidence of neoplasms across companion animals and other multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and organ-specific modalities of cancer screening",
+      "groupedBecause": "These subtopics discuss the rationale, histological basis, and diagnostic methods used to detect early pre-invasive and malignant lesions in clinical screening programs.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "The lecturer concludes the session by reviewing the learning outcomes and outlining upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

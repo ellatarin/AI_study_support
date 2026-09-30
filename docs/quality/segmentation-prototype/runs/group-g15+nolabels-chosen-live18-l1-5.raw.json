@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecture topic on the initiation and resolution of inflammation and frames how the concepts build on previously introduced immune components.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate pathogen and damage recognition by pattern recognition receptors",
+      "groupedBecause": "These subtopics explain how the innate immune system detects infections and tissue damage through molecular patterns interacting with pattern recognition receptors and their intracellular signaling platforms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular mobilization, leukocyte trafficking, and systemic inflammatory responses",
+      "groupedBecause": "These subtopics describe the downstream cellular actions triggered by immune activation, including sentinel cell cytokine signaling, leukocyte extravasation to infected tissues, lymphatic drainage, and systemic pathologies like septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammatory containment",
+      "groupedBecause": "These subtopics detail how acute inflammatory responses are brought to an end, how tissues heal or transition into chronic inflammation, and how unresolvable pathogens are walled off in granulomas.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Conclusion and upcoming lecture preview",
+      "groupedBecause": "This subtopic provides the lecture closing and announces the topic for the subsequent session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

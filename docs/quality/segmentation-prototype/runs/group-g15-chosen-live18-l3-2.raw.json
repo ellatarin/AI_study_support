@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Outcomes",
+      "groupedBecause": "This topic introduces the scope, structure, and foundational learning objectives of the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Stepwise Disruption of Differentiation and Tissue Architecture",
+      "groupedBecause": "These subtopics describe the fundamental biological nature of cancer as a stepwise accumulation of genetic and epigenetic alterations leading to defective cellular differentiation, loss of tissue architecture, and the challenges of modeling these behaviors in culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology and Progression of Tumor Invasion, Metastasis, and Benign Lesions",
+      "groupedBecause": "These subtopics examine the pathological features and clinical significance of local tissue invasion, routes of metastatic dissemination, the stepwise progression from precursor lesions to invasive cancer, and the behavior of benign neoplasms.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature and Classification Systems",
+      "groupedBecause": "This subtopic defines the systematic naming conventions and clinical classification rules used to categorize benign and malignant neoplasms by tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic explains the physiological, structural, and systemic mechanisms through which primary tumors and distant metastases cause patient illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer Incidence and Comparative Oncology Across Species",
+      "groupedBecause": "These subtopics analyse epidemiological patterns of cancer incidence and mortality in humans as well as tumor prevalence across companion animals and other multicellular taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Presentation and Cancer Screening Modalities",
+      "groupedBecause": "These subtopics address the diagnostic rationale, histological criteria, and practical effectiveness of population screening modalities for detecting early and pre-malignant lesions across different organ sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Housekeeping",
+      "groupedBecause": "This topic provides closing framing by referencing learning outcomes and outlining upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

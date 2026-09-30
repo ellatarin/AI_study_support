@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "This opening section introduces the lecturer, the course context, and the learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins and Drivers of Cancer: Genetic Predisposition, Endogenous Processes, and Environmental Risk",
+      "groupedBecause": "These subtopics explore the conceptual foundations of cancer etiology by examining how intrinsic genetic factors, endogenous cellular processes, and extrinsic environmental exposures contribute to cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenesis and Tumor Promotion",
+      "groupedBecause": "These subtopics examine specific infectious, dietary, chemical, and physical agents alongside the cellular and tissue-level mechanisms by which initiators and promoters drive malignant transformation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Identifying and Assessing Carcinogenicity",
+      "groupedBecause": "These subtopics describe the sequencing, epidemiological, in vivo, and in vitro methods used to identify mutational signatures and determine whether substances are carcinogenic.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "This closing section provides final framing and concluding reflections on evaluating carcinogenic risk versus practical benefits in daily life.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

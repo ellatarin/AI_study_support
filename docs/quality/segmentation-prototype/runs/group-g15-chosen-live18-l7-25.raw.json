@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Lecture Introduction",
+      "groupedBecause": "The lecturer introduces the session's learning objectives and frames cancer as an evolutionary process shaped by mutations and the microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic Selection and Epigenetic Reprogramming in Tumor Evolution",
+      "groupedBecause": "These subtopics explain how clonal fitness and progression are driven by Darwinian selection of driver mutations as well as non-mutational epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Dynamics",
+      "groupedBecause": "These subtopics explore how hierarchical tissue organization, stemness properties, and specific cells of origin govern tumor initiation in leukemia and colorectal models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Promotion of Tumorigenesis",
+      "groupedBecause": "These subtopics demonstrate how environmental exposures and chronic inflammation act as promotional signals to enable malignant transformation in mutated tissues.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Established Microenvironments, Spatial Profiling, and Coevolutionary Synthesis",
+      "groupedBecause": "These subtopics address the stromal dependencies of established tumors, the spatial profiling tools used to analyze them, and an overarching synthesis of cancer coevolution.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Closing Remarks",
+      "groupedBecause": "The lecturer concludes the session and previews the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

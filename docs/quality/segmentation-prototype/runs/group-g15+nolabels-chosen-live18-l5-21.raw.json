@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic provides the introductory framing for the lecture, connecting with practical sessions and outlining the learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Virology and Assays for Cellular Transformation",
+      "groupedBecause": "These subtopics trace how the study of transforming tumor viruses revealed that oncogenes originate from cellular genes and established experimental assays to measure cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classification and Mutation Mechanics of Oncogenes and Tumor Suppressors",
+      "groupedBecause": "These subtopics examine the functional definitions of oncogenes and tumor suppressor genes, illustrating their effects on cell cycle checkpoints and the consequences of different mutation types on protein activity.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and Cellular Consequences of Genetic Instability",
+      "groupedBecause": "These subtopics explore the nature of sequence and chromosomal instability in cancer, detailing how defects in DNA repair pathways, replication machinery, and mitotic chromosome segregation generate genome instability.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep Tumorigenesis, Hereditary Cancer Predisposition, and Tumor Evolution",
+      "groupedBecause": "These subtopics explain the stepwise model of mutation accumulation in cancer development and how inherited germline mutations and subsequent clonal evolution shape disease progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Recommended Reading",
+      "groupedBecause": "This subtopic concludes the lecture with closing remarks, recommended reading, and a preview of the next session.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

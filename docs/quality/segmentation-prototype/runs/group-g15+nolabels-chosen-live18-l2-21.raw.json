@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "This subtopic introduces the lecture topic, contextualises its complexity within immunology, and outlines the scope of the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations and Core Mechanics of Complement",
+      "groupedBecause": "These subtopics lay out the general architecture, naming conventions, and central role of C3 cleavage in the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement Activation Pathways",
+      "groupedBecause": "These subtopics detail the upstream recognition pathways and threshold mechanisms that initiate complement activation on pathogen surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Functions of Activated Complement",
+      "groupedBecause": "These subtopics explain the downstream immune mechanisms triggered by complement activation to eliminate pathogens and promote inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of Complement and Host Protection",
+      "groupedBecause": "This subtopic explains the regulatory mechanisms and proteins that prevent complement from damaging host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Consequences of Complement Deficiencies",
+      "groupedBecause": "This subtopic details the clinical manifestations and distinct disease presentations resulting from deficiencies in various complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion of Complement",
+      "groupedBecause": "This subtopic explores how pathogens deploy specific molecular strategies to evade complement-mediated destruction, focusing on Staphylococcus aureus.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the lecture, marks the completion of the lecture series block, and previews the next topic.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

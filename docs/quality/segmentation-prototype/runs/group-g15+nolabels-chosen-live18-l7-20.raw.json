@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The subtopic welcomes students, introduces the lecture's focus on cancer evolution and the microenvironment, and outlines key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Drivers of Clonal Evolution",
+      "groupedBecause": "These subtopics explore how genetic mutations and epigenetic changes confer competitive selective advantages that drive clonal expansion and tumor evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and the Cancer Stem Cell Model",
+      "groupedBecause": "These subtopics examine how tissue hierarchy and the differentiation state of the cell of origin influence cancer initiation and stem-like propagation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Influences and Inflammatory Promotion",
+      "groupedBecause": "These subtopics demonstrate how microenvironmental signals, inflammatory promoters, and supportive stroma facilitate tumor outgrowth and maintain malignancy.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Technologies for Investigating Tumor Evolution and Microenvironments",
+      "groupedBecause": "This subtopic details the sequencing, computational, and spatial omics methods used to study cancer evolution and cell-microenvironment interactions in the lab.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Synthesis of the Multi-Factor Evolutionary Framework of Cancer",
+      "groupedBecause": "This subtopic synthesizes the lecture's core themes into a unified model where genetic, epigenetic, cell-of-origin, and microenvironmental factors co-evolve to drive malignancy.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture Conclusion and Next Session Preview",
+      "groupedBecause": "The subtopic concludes the presentation and provides framing for the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

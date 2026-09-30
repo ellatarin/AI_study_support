@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "It introduces the lecture themes on cancer evolution and the tumor microenvironment while setting out the intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Drivers of Clonal Evolution",
+      "groupedBecause": "They explain how successive genetic mutations and epigenetic alterations confer competitive growth advantages to drive Darwinian clonal selection.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and the Cancer Stem Cell Model",
+      "groupedBecause": "They evaluate the relationship between normal tissue hierarchies and cancer development through experimental evidence for cancer stem cells in leukemias and solid tumors.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Influences, Analytical Methods, and Cancer Evolution Synthesis",
+      "groupedBecause": "They demonstrate how inflammatory and stromal microenvironments drive tumor progression, present analytical methods to study these cellular interactions, and synthesize the evolutionary mechanisms of cancer.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "It formally concludes the lecture and previews the topic of the next session.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

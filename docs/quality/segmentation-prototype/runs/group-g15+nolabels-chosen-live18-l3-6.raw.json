@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer biology and course overview",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the core learning outcomes, and frames cancer as a disease of cellular differentiation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis of cancer as a failure of differentiation and tissue architecture",
+      "groupedBecause": "These subtopics describe cancer development through accumulated genetic alterations that disrupt normal cellular differentiation and tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and the benign-to-malignant transition",
+      "groupedBecause": "These subtopics examine the distinctions between benign and malignant tumors, focusing on mechanisms of local invasion, metastatic dissemination, and stepwise progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Principles of tumor nomenclature",
+      "groupedBecause": "This subtopic outlines the standard naming conventions and major exceptions used to classify benign and malignant neoplasms by tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the local and systemic pathophysiological mechanisms through which primary and metastatic tumors cause disease and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Patterns of cancer incidence across humans and animal species",
+      "groupedBecause": "These subtopics compare the incidence and mortality of different tumor types in human populations and across diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical applications of cancer screening",
+      "groupedBecause": "These subtopics discuss the clinical rationale, methodology, and varying efficacy of population screening programs for detecting pre-malignant and malignant lesions.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and upcoming practicals preview",
+      "groupedBecause": "This subtopic concludes the lecture by referencing the learning outcomes and providing closing housekeeping remarks.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

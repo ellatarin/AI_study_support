@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer welcomes the class, recaps practical observations, and outlines the main learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Viral Origins of Cancer and Transformation Assays",
+      "groupedBecause": "These subtopics explain how the discovery and experimental testing of transforming viruses established that cancer arises from altered cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Oncogenes and Tumor Suppressors",
+      "groupedBecause": "These subtopics define the functional classifications of cancer mutations and examine how they affect cell cycle regulation and cellular behavior.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of Sequence and Chromosomal Instability",
+      "groupedBecause": "These subtopics detail the differences between sequence and chromosomal instability alongside the specific DNA repair and mitotic failures that generate them.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep Progression and Hereditary Predisposition",
+      "groupedBecause": "These subtopics address how stepwise accumulations of mutations drive cancer progression and how inherited gene defects accelerate this process.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Recommended Reading",
+      "groupedBecause": "The lecturer concludes the session by inviting questions, recommending supplementary reading, and previewing the next lecture topic.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

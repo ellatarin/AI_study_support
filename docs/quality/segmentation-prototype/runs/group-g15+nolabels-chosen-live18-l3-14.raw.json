@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Course Overview",
+      "groupedBecause": "It welcomes the students, sets out the core learning outcomes for the cancer biology module, and outlines the themes of the upcoming lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular, Genetic, and Developmental Basis of Cancer",
+      "groupedBecause": "They introduce the core biological concept of cancer as a progressive failure of genetic regulation, cellular differentiation, and tissue architecture, alongside experimental models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Malignant Progression",
+      "groupedBecause": "They detail the histological features, biological mechanisms, and diagnostic criteria of tumor invasion and metastasis, illustrated through colorectal cancer progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Neoplasm Classification, Nomenclature, and Pathological Impact",
+      "groupedBecause": "They outline the diagnostic naming conventions, behavioral risks, and physiological mechanisms through which benign and malignant tumors cause pathology and mortality in patients.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer Incidence Across Tissues and Species",
+      "groupedBecause": "They examine the epidemiological patterns and incidence of tumors across different human organ systems and throughout the animal kingdom.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and Practice of Cancer Screening",
+      "groupedBecause": "They discuss the clinical rationale, methodologies, and varying effectiveness of screening programs for early cancer detection across different organs.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Practical Briefing",
+      "groupedBecause": "It concludes the session by reviewing the learning outcomes and providing housekeeping details for subsequent practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

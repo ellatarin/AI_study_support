@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the administrative welcome, course context, and foundational learning objectives for the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of differentiation, genetic regulation, and tissue architecture",
+      "groupedBecause": "These subtopics explore the biological basis of cancer as a progressive failure of cellular differentiation, genetic control, and three-dimensional tissue organization.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology and progression of tumor invasion and metastasis",
+      "groupedBecause": "These subtopics examine the histological hallmarks, mechanisms, and stepwise progression that distinguish benign neoplasms from invasive and metastatic malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Neoplasm nomenclature and mechanisms of clinical morbidity and mortality",
+      "groupedBecause": "These subtopics describe the classification and naming conventions of tumors alongside the physiological mechanisms by which neoplasms cause disease and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics evaluate the epidemiological distribution and patterns of neoplasia across human populations and diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical symptoms and cancer screening strategies",
+      "groupedBecause": "These subtopics address clinical tumor presentation and the diagnostic utility of population screening across various organ systems.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "This subtopic concludes the lecture with a review of learning outcomes and reminders for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

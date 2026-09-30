@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Lecture Framing",
+      "groupedBecause": "It sets out the lecture's learning objectives, reviews the multistep progression model, and introduces the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Factor Independence and Proliferative Signaling",
+      "groupedBecause": "These subtopics examine how mutations in receptor tyrosine kinase, Wnt/beta-catenin, and downstream cascades drive autonomous proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Malignancies",
+      "groupedBecause": "These subtopics demonstrate how blocks to normal cellular differentiation contribute to tumorigenesis in both hematopoietic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic details how p53 disruption and the balance between pro- and anti-apoptotic proteins like Bax and BCL2 prevent programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Cellular Senescence",
+      "groupedBecause": "These subtopics describe how telomere shortening triggers senescence and how telomerase reactivation bypasses the Hayflick limit to allow indefinite replication.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Deregulated Cancer Metabolism",
+      "groupedBecause": "These subtopics transition to complex hallmarks to explain aerobic glycolysis, metabolic rewiring, and the role of oncometabolites in tumor biology.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "This subtopic explores the angiogenic switch and the mechanisms by which tumors induce vascularization to support nutrient and oxygen perfusion.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion and Metastasis",
+      "groupedBecause": "These subtopics detail the metastatic cascade, circulation dynamics, the seed-and-soil hypothesis, and the clonal genetics underlying tumor dissemination.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and Final Summary",
+      "groupedBecause": "It provides closing framing by summarizing the cancer hallmarks paradigm, referencing recent literature, and inviting final questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

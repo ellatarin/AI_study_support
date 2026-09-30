@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "This subtopic introduces the lecture topic and sets expectations regarding the complexity and importance of the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals of the complement cascade",
+      "groupedBecause": "These subtopics introduce the core operational logic, nomenclature rules, and central biochemical role of C3 that define the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways",
+      "groupedBecause": "These subtopics explain the three distinct recognition pathways that detect targets and assemble convertases to reach the complement activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail the primary immunological actions triggered downstream of complement activation to clear and destroy pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "This subtopic explains the regulatory proteins that prevent self-damage by controlling and inactivating complement on host cell surfaces.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical complement deficiencies",
+      "groupedBecause": "This subtopic examines how deficiencies in individual complement components produce distinct clinical pathologies and disease susceptibilities.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic explores the mechanisms pathogens employ to resist complement-mediated destruction and how these bacterial factors are applied in medicine and research.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming topic on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

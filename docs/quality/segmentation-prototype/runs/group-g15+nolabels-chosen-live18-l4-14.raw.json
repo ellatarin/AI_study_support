@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the learning objectives regarding environmental exposures and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "General Concepts and Epidemiology of Cancer Causation",
+      "groupedBecause": "These subtopics explore how genetic mutations, endogenous biological errors, and environmental exposures interact across global populations to drive cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenic Pathogens and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics examine how infectious agents promote cancer, focusing on the epidemiological and molecular mechanisms of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Metabolic Activation",
+      "groupedBecause": "These subtopics describe how physical radiation and chemical carcinogens undergo metabolic processing to form reactive DNA adducts and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine how non-mutagenic promoters, chronic inflammation, and developmental host contexts facilitate tumor outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, in vivo, and in vitro methodologies used to identify and evaluate carcinogenic exposures.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "The lecturer concludes the lecture by framing carcinogenic risks against everyday benefits and offering final closing remarks.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

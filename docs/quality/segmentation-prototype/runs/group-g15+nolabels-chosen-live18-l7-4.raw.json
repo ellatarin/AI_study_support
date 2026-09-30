@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer evolution",
+      "groupedBecause": "This subtopic introduces the lecture, outlines the key learning objectives, and sets the conceptual framework for analyzing cancer progression as an evolutionary process.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic mechanisms of clonal selection",
+      "groupedBecause": "These subtopics examine how cell-intrinsic alterations, encompassing sequential driver mutations and non-mutational epigenetic remodeling, confer competitive growth advantages during clonal evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and cancer stem cell hierarchy",
+      "groupedBecause": "These subtopics evaluate how normal tissue differentiation hierarchies and stemness properties influence cellular susceptibility to malignant transformation across different cancer types.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental influences and integrated cancer evolution",
+      "groupedBecause": "These subtopics demonstrate how inflammatory signals and stromal interactions promote tumor outgrowth, describe the spatial technologies used to profile these cellular interactions, and synthesize the multi-factorial evolutionary model of cancer.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Lecture conclusion and preview of cancer therapy",
+      "groupedBecause": "This subtopic provides the concluding framing for the session and announces the upcoming lecture topic on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

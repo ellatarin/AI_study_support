@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the cancer therapy lecture",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning objectives for cancer treatment approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatments: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics cover traditional primary modalities of cancer treatment, detailing how surgery, radiotherapy, and cytotoxic chemotherapy work alongside their clinical limitations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer-specific biological vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics describe therapeutic approaches that target intrinsic cancer cell vulnerabilities, including hormone receptor dependencies, cell cycle checkpoint failures, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeted kinase inhibitors, resistance mechanisms, and drug addiction",
+      "groupedBecause": "These subtopics focus on targeting oncogenic driver kinases with small-molecule inhibitors and examine the molecular mechanisms leading to drug resistance and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain the design and therapeutic mechanisms of unconjugated monoclonal antibodies and cytotoxic antibody-drug conjugates directed against tumor surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumor immune surveillance and cellular immunotherapy strategies",
+      "groupedBecause": "These subtopics evaluate the role of the immune system in recognizing tumors and examine immunotherapy modalities including checkpoint inhibitors, bispecific antibodies, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic progress, ongoing challenges, and future directions in oncology",
+      "groupedBecause": "These subtopics assess historical improvements in cancer outcomes, modern management challenges such as heterogeneity and toxicity, and future ethical and clinical directions.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

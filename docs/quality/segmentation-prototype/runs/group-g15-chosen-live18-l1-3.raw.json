@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic welcomes the class and outlines the focus of the lecture on immune activation and resolution.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition and pattern recognition receptors",
+      "groupedBecause": "These subtopics describe how the innate immune system detects infections and cellular damage through molecular patterns and pattern recognition receptor pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory responses, cell recruitment, and systemic effects",
+      "groupedBecause": "These subtopics explain how sentinel cells coordinate leukocyte recruitment to inflamed tissue and how unchecked inflammatory signals can lead to systemic disease.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics examine how inflammation is shut down, how damaged tissue is repaired, and how persistent stimuli lead to chronic inflammation or granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic wraps up the lecture and introduces the topic for the next session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

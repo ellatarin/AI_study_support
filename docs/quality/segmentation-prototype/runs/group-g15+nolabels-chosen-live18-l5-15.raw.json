@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer introduces the session by connecting histopathology practical observations to cellular transformation and outlines the lecture's learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Viral Origins of Oncogenes and Transformation Assays",
+      "groupedBecause": "These subtopics trace how the study of transforming tumor viruses revealed cellular proto-oncogenes and established the laboratory assays used to measure cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Functional Classes of Cancer Genes and Mutation Mechanisms",
+      "groupedBecause": "These subtopics define oncogenes, tumor suppressor genes, and related functional categories, detailing how specific mutations affect cell cycle control and multimeric protein function.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and Consequences of Genetic Instability",
+      "groupedBecause": "These subtopics examine the distinctions between chromosomal and sequence instability by detailing the specific DNA repair failures and mitotic defects that cause them.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep Carcinogenesis and Hereditary Cancer Predispositions",
+      "groupedBecause": "These subtopics describe the stepwise accumulation of mutations driving tumor development and explain how inherited germline mutations accelerate this progression and influence tumor evolution.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Recommended Reading",
+      "groupedBecause": "The lecturer concludes the session with a recap of learning outcomes, a book recommendation, and a preview of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "These remarks open the lecture by introducing the topic of cancer therapy and outlining the expected learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatments: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics examine standard therapeutic modalities that physically remove or broadly damage dividing cells, detailing their mechanisms of action, clinical successes, and limiting toxicities.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Therapies exploiting intrinsic cancer cell vulnerabilities and defects",
+      "groupedBecause": "These subtopics explore treatment strategies designed to take advantage of specific tumor weaknesses, including hormone dependence, checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of drug resistance",
+      "groupedBecause": "These subtopics discuss therapies directed against driving oncogenic kinases along with the structural, bypass, and adaptive mechanisms that cause clinical resistance and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe how engineered antibodies are used to target cell-surface antigens, trigger immune clearance, and deliver targeted cytotoxic agents directly to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell redirection strategies",
+      "groupedBecause": "These subtopics examine the relationship between the immune system and cancer, focusing on strategies that release immune checkpoints or genetically engineer T cells to attack tumor cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Current challenges, historical progress, and future directions in cancer care",
+      "groupedBecause": "These subtopics review the systemic challenges of heterogeneity and resistance, evaluate long-term trends in patient survival, and consider future scientific and ethical priorities in oncology.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

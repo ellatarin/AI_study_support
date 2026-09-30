@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Lecture on Initiation and Resolution of Inflammation",
+      "groupedBecause": "The lecturer welcomes the class and introduces the lecture's focus on connecting known immune molecules and cells into inflammatory reactions.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Recognition of Pathogens and Cellular Damage",
+      "groupedBecause": "These subtopics explain the molecular mechanisms and receptor systems by which the innate immune system detects microbial infections and cell injury.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular Activation, Trafficking, and Systemic Inflammatory Responses",
+      "groupedBecause": "These subtopics describe the cellular responses that follow immune recognition, including sentinel cell signaling, leukocyte recruitment to tissues, lymphatic trafficking, and systemic outcomes like septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics address the mechanisms responsible for shutting down inflammation, repairing damaged tissue, and managing persistent inflammatory stimuli through chronic states and granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the lecture and provides a brief preview of the next topic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

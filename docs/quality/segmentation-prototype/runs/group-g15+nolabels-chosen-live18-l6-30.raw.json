@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Progression Models",
+      "groupedBecause": "These remarks introduce the lecture's learning objectives, the multistep model of tumor progression, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Signaling Pathways Driving Proliferation and Survival",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell-surface receptors and downstream intracellular cascades deregulate cellular growth and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Malignant Progression",
+      "groupedBecause": "These subtopics explore how cancer cells fail to undergo terminal differentiation and exit the cell cycle in both hematopoietic malignancies and solid epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis via p53 and Mitochondrial Signaling",
+      "groupedBecause": "This subtopic details the mechanisms by which cancer cells bypass programmed cell death through mutations in p53 and imbalances in pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere Maintenance, Senescence, and Replicative Immortality",
+      "groupedBecause": "These subtopics examine how cells overcome the Hayflick limit and bypass p53-mediated senescence checkpoints through telomerase reactivation to achieve replicative immortality.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Metabolism and Metabolic Reprogramming",
+      "groupedBecause": "These subtopics discuss the metabolic adaptations of tumor cells, including aerobic glycolysis, metabolic enzyme mutations, and epigenetic remodeling driven by oncometabolites.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor Angiogenesis and the Angiogenic Switch",
+      "groupedBecause": "This subtopic outlines the requirement for new blood vessel formation to sustain tumor growth and the physiological balance of pro- and anti-angiogenic factors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion, Metastatic Dissemination, and Colonization",
+      "groupedBecause": "These subtopics examine the metastatic cascade from local invasion and circulation to the seed-and-soil interactions and clonal genetics required for distant colonization.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and Hallmarks Summary",
+      "groupedBecause": "These closing remarks summarize the integration of cancer hallmarks, provide concluding perspectives on literature, and open the floor for questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

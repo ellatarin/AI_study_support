@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "The lecturer welcomes the class and outlines the core learning outcomes for the final lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatments: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics explain standard therapeutic modalities that physically remove or broadly damage rapidly dividing cells alongside their associated clinical limitations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that selectively exploit cancer cell weaknesses, including hormone dependence, cell cycle checkpoint loss, and defective DNA repair.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Kinase-targeted therapies, oncogene addiction, and drug resistance",
+      "groupedBecause": "These subtopics address the identification of driver oncogenes, the design of small-molecule kinase inhibitors, and the biological mechanisms of acquired drug resistance.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Antibody-based therapies and targeted drug delivery",
+      "groupedBecause": "These subtopics discuss the application of monoclonal antibodies and antibody-drug conjugates to selectively bind tumor-associated surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell modulation",
+      "groupedBecause": "These subtopics examine the evidence for anti-tumor immunity and the therapeutic reactivation or engineering of T cells against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overall challenges, clinical progress, and future directions in cancer therapy",
+      "groupedBecause": "These subtopics evaluate the overarching challenges of tumor heterogeneity, historical survival trends, and future clinical perspectives in cancer treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

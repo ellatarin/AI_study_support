@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning objectives for cancer therapy approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional cancer treatment modalities",
+      "groupedBecause": "These subtopics explore conventional methods of cancer treatment, focusing on surgical resection, radiotherapy, and cytotoxic chemotherapy alongside their mechanisms and systemic toxicities.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer cell vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics discuss therapeutic strategies that exploit intrinsic biological weaknesses in cancer cells, including hormone dependence, cell cycle checkpoint failures, and defective DNA repair pathways.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene-targeted therapies and kinase inhibition",
+      "groupedBecause": "These subtopics explain how hyperactivated oncogenes, particularly protein kinases, are targeted with small-molecule inhibitors, along with the subsequent emergence of drug resistance and bypass pathways.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics detail the design and therapeutic mechanisms of engineered antibodies that target cell-surface antigens either directly or by delivering cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell redirection",
+      "groupedBecause": "These subtopics cover the role of the immune system in cancer control and the therapeutic activation or engineering of T cells using checkpoint inhibitors, bispecific engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overall challenges, progress, and future directions",
+      "groupedBecause": "These subtopics reflect on the historical progress, biological complexities, clinical dilemmas, and evolving strategies that shape the future of cancer treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

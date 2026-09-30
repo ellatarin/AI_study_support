@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "It provides the introductory framing and learning objectives for the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "They describe the primary conventional modalities of cancer treatment—surgery, radiotherapy, and cytotoxic chemotherapy—and the challenges of toxicity and resistance associated with them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and defects in cancer",
+      "groupedBecause": "They discuss therapeutic strategies that take advantage of specific tumor vulnerabilities, including hormone dependence, cell cycle checkpoint deficiencies, and DNA repair defects.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeted kinase inhibitors, resistance, and drug addiction",
+      "groupedBecause": "They examine the development of small-molecule inhibitors targeting hyperactivated oncogenic kinases and the mechanisms of resistance and drug addiction that arise during treatment.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "They cover therapeutic approaches that utilize engineered antibodies to directly target tumor cell surface antigens or selectively deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and T-cell-directed immunotherapies",
+      "groupedBecause": "They explore the evidence for immune surveillance and the mechanisms of T-cell-harnessing therapies such as immune checkpoint inhibitors, bispecific engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic progress, future directions, and ethical considerations",
+      "groupedBecause": "They assess the overall challenges, historical outcomes, emerging paradigms, and ethical dilemmas facing modern cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

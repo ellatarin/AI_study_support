@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the learning objectives regarding environmental exposures, carcinogenicity testing, and cancer initiation and promotion.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, Intrinsic, and Environmental Drivers of Cancer Risk",
+      "groupedBecause": "These subtopics discuss the fundamental nature of cancer as a genetic and evolutionary disease influenced by intrinsic cellular processes, environmental exposures, and epidemiological variations across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents in Oncogenesis",
+      "groupedBecause": "These subtopics explore how various pathogens drive carcinogenesis, highlighting the specific mechanism of Burkitt lymphoma arising from Epstein-Barr virus and malaria co-exposure.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Direct DNA Damage and Xenobiotic Activation",
+      "groupedBecause": "These subtopics examine how dietary, environmental, and physical carcinogens cause DNA damage directly or require metabolic conversion into reactive mutagenic adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Tissue Susceptibility",
+      "groupedBecause": "These subtopics describe how non-mutagenic tumor promoters, chronic inflammatory microenvironments, and specific developmental stages contribute to malignant outgrowth.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, animal, and in vitro experimental approaches used to determine and validate the carcinogenicity of substances.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Carcinogen Risk Analysis",
+      "groupedBecause": "The lecturer concludes the session by summarizing key takeaways on environmental cancer causation and the everyday evaluation of carcinogen risks versus benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer welcomes the class, outlines the lecture series, and introduces the key learning objectives regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Etiology of Cancer: Genetic Mutations, Environmental Exposures, and Epidemiological Patterns",
+      "groupedBecause": "These subtopics examine how cancer develops from an interplay of intrinsic genetic processes, random mutations, environmental exposures, and lifestyle factors demonstrated through population epidemiology.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Cancer Development",
+      "groupedBecause": "These subtopics describe how infectious agents contribute to oncogenesis, using the relationship between Epstein-Barr virus, malaria, and Burkitt lymphoma as a detailed case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagenesis and Metabolic Activation",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which dietary, environmental, and chemical agents undergo metabolic processing to cause DNA damage and adduct formation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Context-Dependent Susceptibility",
+      "groupedBecause": "These subtopics address non-mutagenic mechanisms of carcinogenesis, contrasting tumor promoters and chronic inflammation with initiators and highlighting tissue- and developmental-stage vulnerabilities.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Detecting and Evaluating Carcinogens",
+      "groupedBecause": "These subtopics detail the laboratory, genomic, in vivo, and epidemiological approaches used to identify mutational signatures and assess the carcinogenic potential of chemical agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Everyday Risk Assessment",
+      "groupedBecause": "The lecturer concludes the session by summarising key takeaways regarding environmental carcinogens and reflecting on daily risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

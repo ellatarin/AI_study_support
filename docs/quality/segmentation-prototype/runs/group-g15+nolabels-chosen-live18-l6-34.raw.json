@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Hallmarks of Cancer Framework",
+      "groupedBecause": "The lecturer introduces the learning objectives, tumor progression model, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Proliferative Signaling and Growth Control Pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in receptor tyrosine kinase and Wnt signaling cascades drive autonomous cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumorigenesis",
+      "groupedBecause": "These subtopics explore how cancer cells disrupt normal terminal differentiation in both hematopoietic malignancies and colonic epithelia.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis and the p53 Pathway",
+      "groupedBecause": "This subtopic details the molecular mechanisms and regulatory proteins by which cancer cells suppress programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality, Telomeres, and Senescence",
+      "groupedBecause": "These subtopics describe the mechanisms of telomere shortening, senescence fail-safes, and how cancer cells achieve immortality by activating telomerase.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered Cellular Metabolism and Metabolic Rewiring",
+      "groupedBecause": "These subtopics examine the transition to complex cancer hallmarks and the metabolic reprogramming characterized by aerobic glycolysis and oncometabolite-driven epigenetic changes.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor Angiogenesis and Neovascularization",
+      "groupedBecause": "This subtopic addresses the angiogenic switch and the balance of signals required to stimulate new blood vessel growth for tumor survival.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion, Metastasis, and Clonal Dissemination",
+      "groupedBecause": "These subtopics analyse the multi-step metastatic cascade, systemic spread via the circulation, and the genomic features underlying secondary site colonization.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Conclusion and Practical Guidance",
+      "groupedBecause": "The lecturer wraps up the session by referencing advanced hallmark literature, reiterating core learning objectives, and inviting questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

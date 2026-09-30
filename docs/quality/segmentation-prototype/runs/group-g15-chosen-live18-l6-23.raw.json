@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks",
+      "groupedBecause": "This topic introduces the lecture framework, learning outcomes, and the multistep mutation progression underlying the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Factor Independence and Proliferative Signaling",
+      "groupedBecause": "These subtopics examine how oncogenic mutations in pathways like Wnt and receptor tyrosine kinases drive sustained proliferative signaling.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in Terminal Differentiation",
+      "groupedBecause": "These subtopics explain how failures in terminal differentiation arrest cell maturation and promote malignancy in hematopoietic and intestinal tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic details how cancer cells resist programmed cell death through alterations in p53 regulation and the mitochondrial apoptosis machinery.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence",
+      "groupedBecause": "These subtopics address telomere shortening, TERT reactivation mechanisms, and the p53-dependent stress pathways governing cellular senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Deregulated Cellular Metabolism",
+      "groupedBecause": "These subtopics explain the metabolic alterations of cancer cells, including aerobic glycolysis, metabolic rewiring, and the role of oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "This subtopic explores the angiogenic switch and blood vessel recruitment required for supplying oxygen and nutrients to growing tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastasis and Systemic Dissemination",
+      "groupedBecause": "These subtopics examine the multi-step invasion process, circulatory spread, metastatic inefficiency, and genomic duplication associated with metastatic tumors.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and Recommended Reading",
+      "groupedBecause": "This topic concludes the lecture with a summary of hallmark integration and guidance on further reading.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

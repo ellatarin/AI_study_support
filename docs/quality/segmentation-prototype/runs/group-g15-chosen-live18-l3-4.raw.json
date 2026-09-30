@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the course structure, audience, and core learning outcomes for the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular, developmental, and experimental basis of cancer",
+      "groupedBecause": "These subtopics explain cancer as a disease driven by accumulating genetic and epigenetic alterations that disrupt normal cellular differentiation and 3D tissue architecture, alongside the methods and challenges of modeling these behaviors in culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and malignant progression",
+      "groupedBecause": "These subtopics examine how tumors progress from contained benign growths to locally invasive and distant metastatic malignancies, illustrating the morphological and histological criteria used to identify these transitions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature, clinical risks, and mechanisms of morbidity",
+      "groupedBecause": "These subtopics outline the naming conventions for different tumor types and explain how benign and malignant neoplasms cause physiological dysfunction, morbidity, and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Epidemiology and comparative oncology across species",
+      "groupedBecause": "These subtopics explore the incidence and mortality of various tumor types in humans and examine how cancer manifests across companion animals and other multicellular taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical cancer screening and diagnostic modalities",
+      "groupedBecause": "These subtopics cover the rationale, histological foundations, and practical utility of population-level screening approaches across major cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and practical preview",
+      "groupedBecause": "The lecturer concludes the session with a recap of learning outcomes and practical session reminders.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

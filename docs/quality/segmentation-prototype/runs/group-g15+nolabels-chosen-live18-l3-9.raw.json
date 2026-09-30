@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Course Overview",
+      "groupedBecause": "This subtopic introduces the course structure, learning outcomes, and broad conceptual framework of cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Cellular Differentiation and Architecture",
+      "groupedBecause": "These subtopics explain how the accumulation of genetic and epigenetic alterations leads to a breakdown in normal developmental differentiation, tissue architecture, and in vitro modeling.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Metastasis, and Tumor Malignancy",
+      "groupedBecause": "These subtopics define the mechanisms of local invasion and distant metastasis that distinguish malignant neoplasms from benign tumors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise Progression in Colorectal Cancer",
+      "groupedBecause": "This subtopic uses colorectal histology to illustrate the stepwise transition from a benign precursor polyp to an invasive adenocarcinoma.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Progression and Pathological Risks of Benign Tumors",
+      "groupedBecause": "This subtopic addresses the varying progression risks of benign tumors and the mechanisms through which non-malignant growths can still cause fatal harm.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Nomenclature of Benign and Malignant Tumors",
+      "groupedBecause": "This subtopic outlines the standard conventions and notable exceptions used to classify and name tumors according to tissue origin and malignancy.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic explains the physiological, mechanical, and systemic processes through which tumors and metastases cause illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Epidemiology and Comparative Incidence of Tumors",
+      "groupedBecause": "These subtopics analyze how tumor incidence and mortality vary across different human tissues, demographics, and animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and Clinical Applications of Cancer Screening",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, diagnostic techniques, and practical efficacy of screening programs across various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Practical Preview",
+      "groupedBecause": "This subtopic closes the lecture by reviewing the learning outcomes and looking ahead to the upcoming practical session.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

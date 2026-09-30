@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, frames the cancer lecture series, and outlines the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of Cancer Etiology and the Interplay of Chance and Environment",
+      "groupedBecause": "These subtopics explore the conceptual basis of cancer as an evolutionary genetic disease influenced by both intrinsic cellular processes and external epidemiological risk factors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenic Initiation, Promotion, and Tissue Susceptibility",
+      "groupedBecause": "These subtopics examine how diverse biological, physical, and chemical agents interact with host tissues and cellular pathways to drive cancer initiation and promotional growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Investigating and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the scientific tools and experimental models used to detect mutagenic signatures and demonstrate the carcinogenicity of suspected agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Perspective",
+      "groupedBecause": "The lecturer concludes the lecture by framing cancer risk within everyday practical decision-making and summarizing the core takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

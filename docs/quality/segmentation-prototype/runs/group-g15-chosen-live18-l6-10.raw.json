@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview on cancer hallmarks",
+      "groupedBecause": "This subtopic introduces the lecture by outlining the learning objectives and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and proliferative deregulation",
+      "groupedBecause": "These subtopics explain how mutations in cell-surface receptors and downstream intracellular cascades deregulate growth signals to sustain cancer cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal differentiation in cancer",
+      "groupedBecause": "These subtopics examine how cancer cells fail to withdraw from the cell cycle and complete normal terminal differentiation in both hematopoietic malignancies and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and p53 tumor suppression",
+      "groupedBecause": "This subtopic explores how cancer cells evade programmed cell death through alterations in p53 signaling and the balance between pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere regulation, replicative senescence, and stress-response pathways",
+      "groupedBecause": "These subtopics cover the mechanisms of telomere shortening, TERT reactivation for replicative immortality, and p53-dependent stress checkpoints that induce senescence and arrest.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered cellular metabolism and oncometabolites",
+      "groupedBecause": "These subtopics describe metabolic rewiring in cancer cells, including aerobic glycolysis (the Warburg effect) and the epigenetic impacts of metabolic gene mutations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic details how expanding tumors stimulate new blood vessel growth to supply oxygen and nutrients past diffusion limits.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and biology of cancer metastasis",
+      "groupedBecause": "These subtopics examine the systemic dissemination cascade of metastatic cells, the seed-and-soil hypothesis, and genomic analyses of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of the hallmarks framework, recommended literature, and closing remarks.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

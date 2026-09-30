@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer introduces the session, connects it to histopathology practicals, and outlines the core learning outcomes covering viral oncogenesis, cancer genes, genetic instability, and hereditary predispositions.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Viruses, Oncogene Discovery, and Transformation Assays",
+      "groupedBecause": "These subtopics trace the historical study of transmissible tumor viruses, how retroviruses led to the discovery of normal cellular proto-oncogenes, and the experimental assays used to measure cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Functional Classifications and Mechanics of Oncogenes and Tumor Suppressors",
+      "groupedBecause": "These subtopics define the functional categories and allelic behaviors of oncogenic and tumor-suppressive mutations, illustrating their mechanisms through the G1/S cell cycle checkpoint and p53.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Types, Mechanisms, and Progression Dynamics of Genetic Instability",
+      "groupedBecause": "These subtopics explain the distinctions between sequence and chromosomal instability, the repair and mitotic defects that cause them, and how genomic instability drives stepwise tumor progression.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Hereditary Cancer Predispositions and Mutational Evolution",
+      "groupedBecause": "These subtopics examine how inherited germline mutations accelerate tumor formation across specific hereditary syndromes and how mutational evolution influences cancer behavior.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture Conclusion and Recommended Reading",
+      "groupedBecause": "The lecturer concludes the session, suggests supplementary reading, and previews the upcoming lecture on the hallmarks of cancer.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

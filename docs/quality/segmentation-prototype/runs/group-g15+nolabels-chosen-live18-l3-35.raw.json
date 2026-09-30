@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Course Overview",
+      "groupedBecause": "These framing remarks introduce the course structure, student audience, and core learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Nature of Cancer and Research Models",
+      "groupedBecause": "These subtopics explain cancer as a disease of accumulated genetic and epigenetic changes that disrupt normal differentiation and tissue architecture, along with the methods used to study tumor cells in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Metastasis, and Benign versus Malignant Progression",
+      "groupedBecause": "These subtopics explain the concepts of tumor invasion and metastasis, illustrating how benign and malignant lesions differ histologically, functionally, and throughout stepwise disease progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature and Classification",
+      "groupedBecause": "This subtopic outlines the standard conventions and exceptions used to name benign and malignant neoplasms across different tissue types.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic describes the physiological and anatomical mechanisms through which primary and metastatic tumors cause systemic disease and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer Epidemiology and Comparative Oncology",
+      "groupedBecause": "These subtopics examine the incidence and prevalence of various cancer types across human populations and other multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and Clinical Applications of Cancer Screening",
+      "groupedBecause": "These subtopics explore the rationale, histological targets, and practical challenges of population screening programs for early cancer detection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Lecture Wrap-up",
+      "groupedBecause": "These concluding remarks review the learning outcomes and provide administrative details for upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

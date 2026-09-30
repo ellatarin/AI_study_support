@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Objectives",
+      "groupedBecause": "The lecturer introduces the course topic on the causes of cancer and outlines the learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic and Genetic Drivers of Cancer",
+      "groupedBecause": "These subtopics explain how cancer develops as an evolutionary genetic disease driven by endogenous metabolic processes, replication errors, and inherited predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Extrinsic Exposures and Epidemiological Evidence",
+      "groupedBecause": "These subtopics examine environmental risk factors, the debate surrounding intrinsic bad luck versus extrinsic exposure, and geographic variations in cancer incidence.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens in Cancer Development",
+      "groupedBecause": "These subtopics examine how infectious agents contribute to oncogenesis, highlighting global pathogen links and the multi-factor etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagens",
+      "groupedBecause": "These subtopics explain how physical radiation and chemical carcinogens undergo metabolic processing to form DNA adducts and induce genetic mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Contextual Susceptibility",
+      "groupedBecause": "These subtopics detail non-mutagenic mechanisms of carcinogenesis, including chronic inflammation, two-stage promotion models, and host developmental vulnerability.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Assessing Carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, animal, and in vitro laboratory methods used to test and establish carcinogenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Analysis",
+      "groupedBecause": "The lecturer concludes the lecture with a summary of environmental cancer risks and a discussion of practical risk-benefit decisions in daily life.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

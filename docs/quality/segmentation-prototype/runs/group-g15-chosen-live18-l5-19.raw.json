@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the session by connecting histopathology practicals to molecular mechanisms and detailing the day's learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Viral discovery of oncogenes and transformation assays",
+      "groupedBecause": "These subtopics trace how the study of transforming retroviruses revealed cellular oncogenes and established laboratory assays to assess cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenes, tumor suppressor genes, and cell cycle control",
+      "groupedBecause": "These subtopics explore the classifications, mutational behaviors, and regulatory impacts of oncogenes and tumor suppressor genes on cell cycle checkpoints.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and consequences of genetic instability",
+      "groupedBecause": "These subtopics investigate the cellular failures in DNA repair, replication, and chromosome segregation that generate sequence and chromosomal instability in cancer.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Stepwise tumor progression and hereditary cancer predisposition",
+      "groupedBecause": "These subtopics examine how the sequential acquisition or inherited transmission of driver mutations accelerates multi-step tumorigenesis.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture wrap-up and reading recommendations",
+      "groupedBecause": "The lecturer concludes the session with book recommendations and an outlook on the upcoming lecture on the hallmarks of cancer.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

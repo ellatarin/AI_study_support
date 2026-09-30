@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic provides administrative framing and context for the lecture on complement.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational principles and central role of C3",
+      "groupedBecause": "These subtopics establish the basic functions, naming conventions, and central role of C3 cleavage that govern the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation and trigger threshold",
+      "groupedBecause": "These subtopics detail the three upstream pathways that activate complement and converge to reach the critical threshold on target surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Downstream effector mechanisms of complement",
+      "groupedBecause": "These subtopics explain the primary effector outcomes that destroy pathogens once complement activation occurs.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host cell regulation of complement",
+      "groupedBecause": "This subtopic explains the regulatory proteins and mechanisms that prevent active complement from damaging host tissues.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic analyzes how deficiencies in specific complement components manifest clinically as distinct infection and autoimmune risks.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion mechanisms and applications of Protein A",
+      "groupedBecause": "This subtopic examines how pathogens evade complement destruction and how bacterial evasion factors are utilized in laboratory and clinical settings.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and upcoming topic preview",
+      "groupedBecause": "This subtopic provides the concluding remarks for the session and previews the next lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

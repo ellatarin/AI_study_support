@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the opening framing, course structure, and learning objectives for the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic alterations, differentiation failure, and tissue architecture in cancer",
+      "groupedBecause": "These subtopics explore the biological basis of cancer as a breakdown of genetic regulation, developmental differentiation programs, and three-dimensional tissue organization.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology of invasion, metastasis, and malignant progression",
+      "groupedBecause": "These subtopics examine the clinical and histological hallmarks that distinguish contained benign tumors from locally invasive and metastatic malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and pathophysiological mechanisms of morbidity and mortality",
+      "groupedBecause": "These subtopics explain the formal classification of neoplasms and the physical and physiological mechanisms through which tumors cause disease and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics evaluate patterns of tumor incidence and common cancer types across human populations, companion animals, and multicellular taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening modalities",
+      "groupedBecause": "These subtopics address how cancers present clinically and assess the diagnostic principles, efficacy, and limitations of population screening methods.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical preview",
+      "groupedBecause": "This subtopic provides the closing housekeeping by summarizing the session's learning objectives and outlining upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

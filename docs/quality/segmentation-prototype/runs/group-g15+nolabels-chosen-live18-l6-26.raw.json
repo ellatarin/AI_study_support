@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks",
+      "groupedBecause": "The lecturer introduces the aims of the lecture, outlining how genetic mutations drive the hallmarks of cancer and tumor progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of Proliferation and Growth Signaling",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in surface receptors and intracellular pathways, including Wnt/beta-catenin and RTK cascades, confer growth signal autonomy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer",
+      "groupedBecause": "These subtopics describe how blocks in cellular differentiation prevent cells from reaching functional terminal states in leukemias and colorectal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic details how cancer cells evade programmed cell death through alterations in p53 signaling and the balance of pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence",
+      "groupedBecause": "These subtopics address how cancer cells overcome the Hayflick limit and cellular senescence via telomere maintenance and TERT reactivation, concluding the overview of growth control mechanisms.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered Cancer Metabolism",
+      "groupedBecause": "These subtopics examine metabolic rewiring in cancer, including the Warburg effect, aerobic glycolysis, and the generation of oncometabolites that induce epigenetic changes.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Inducing Angiogenesis",
+      "groupedBecause": "This subtopic explains how tumors stimulate new blood vessel growth to overcome hypoxia and nutrient diffusion limits through a shift in angiogenic regulators.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and Progression of Metastasis",
+      "groupedBecause": "These subtopics explore the multi-step metastatic cascade, covering invasion, transport through the circulation, seed-and-soil compatibility, and the clonal genetics of secondary tumors.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "The lecturer concludes the session by summarising the integration of cancer hallmarks and inviting questions from students.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

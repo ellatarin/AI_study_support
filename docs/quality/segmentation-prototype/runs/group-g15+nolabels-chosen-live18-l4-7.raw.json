@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Outcomes",
+      "groupedBecause": "The lecture opens with a welcome, lecturer introductions, and an overview of the lecture series and learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Genetics, Chance, and Environmental Exposure",
+      "groupedBecause": "These subtopics introduce cancer as an evolutionary genetic disease influenced by intrinsic mutations, bad luck, environmental exposures, and epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents in Carcinogenesis",
+      "groupedBecause": "These subtopics explore how microbial pathogens drive cancer development, focusing on the epidemiological and molecular mechanisms of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics detail the biochemical pathways through which physical radiation and chemical carcinogens undergo metabolic activation to induce DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine how non-mutagenic promoters, chronic inflammation, and host developmental timing create permissive microenvironments for malignancy.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Determining Carcinogenicity",
+      "groupedBecause": "These subtopics review the analytical, epidemiological, in vivo, and in vitro experimental approaches used to test and prove carcinogenicity.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Perspective",
+      "groupedBecause": "The lecture closes with a final summary of environmental carcinogens and the practical risk-benefit trade-offs involved in human exposures.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Evolution and Lecture Objectives",
+      "groupedBecause": "It provides the introductory framing, contextual background, and learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic Selection and Epigenetic Regulation in Clonal Evolution",
+      "groupedBecause": "These subtopics examine how successive genetic mutations and epigenetic alterations confer competitive growth advantages that drive clonal expansion.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Models",
+      "groupedBecause": "These subtopics investigate tissue hierarchies and evaluate experimental evidence for stem cells and tumor-propagating cells driving tumor initiation and growth.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Support, Inflammation, and Tumor Promotion",
+      "groupedBecause": "These subtopics explore how environmental promoters, inflammatory signaling, and supportive stroma provide the permissive microenvironment required for malignant outgrowth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Experimental and Computational Methods for Studying Tumor Evolution",
+      "groupedBecause": "This subtopic details the modern genomic sequencing, mathematical modeling, and spatial profiling technologies used to interrogate tumor evolution and cellular interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated Evolutionary Model of Tumor Development",
+      "groupedBecause": "This subtopic synthesizes the lecture's concepts into a comprehensive framework where genetics, cell of origin, and microenvironmental pressures co-evolve to produce cancer.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture Conclusion and Next Steps",
+      "groupedBecause": "It concludes the session and previews the subsequent lecture on cancer therapies.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

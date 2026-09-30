@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and progression",
+      "groupedBecause": "It introduces the lecture's learning objectives, the multistep model of tumor progression, and the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth signaling pathways",
+      "groupedBecause": "They explain how oncogenic mutations in cell surface receptors and intracellular signaling cascades drive uncontrolled proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal differentiation",
+      "groupedBecause": "They demonstrate how impaired cellular differentiation sustains a proliferative, progenitor-like state in hematopoietic cancers and intestinal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "It explains how cancer cells resist programmed cell death through the disruption of p53 and the dysregulation of pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and cellular senescence",
+      "groupedBecause": "They describe the telomeric clock mechanism, the protective senescence response governed by p53, and the genetic alterations that enable cancer cells to achieve unlimited replication.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "They examine how cancer cells alter metabolic pathways such as aerobic glycolysis and produce oncometabolites that reinforce tumorigenesis via epigenetic changes.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "It explains the physiological requirement for new blood vessel growth to sustain tumor expansion and the regulatory switch between angiogenic activators and inhibitors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and clonal evolution",
+      "groupedBecause": "They examine the multi-step cascade of tumor metastasis, the factors influencing metastatic efficiency, and the genomic features of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and further reading",
+      "groupedBecause": "It concludes the lecture by summarizing the integration of hallmarks in cancer development and directing students to recommended literature.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

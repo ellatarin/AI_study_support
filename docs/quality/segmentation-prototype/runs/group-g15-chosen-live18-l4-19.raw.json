@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course structure, and the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, Endogenous, and Inherited Origins of Cancer",
+      "groupedBecause": "These subtopics describe cancer as an evolutionary genetic disease driven by intrinsic cellular processes, replication errors, and inherited genetic susceptibilities.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures, Epidemiological Patterns, and the Cancer Risk Debate",
+      "groupedBecause": "These subtopics examine external environmental exposures, global epidemiological variations, and the ongoing debate surrounding environmental causes versus chance mutations.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens and Oncogenesis",
+      "groupedBecause": "These subtopics investigate how infectious agents promote malignant transformation, detailing the viral and environmental mechanisms underlying Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Metabolic Activation",
+      "groupedBecause": "These subtopics explain how physical radiation and dietary or environmental chemicals induce DNA damage directly or following host metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Developmental Susceptibility, and Carcinogenic Mechanisms",
+      "groupedBecause": "These subtopics examine how non-mutagenic promoters, chronic inflammation, and host developmental timing collaborate with initiators to facilitate cancer development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Identifying and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro experimental approaches used to establish whether agents are mutagenic and carcinogenic.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Analysis",
+      "groupedBecause": "This subtopic concludes the lecture with closing remarks on balancing exposure risks against everyday practical benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

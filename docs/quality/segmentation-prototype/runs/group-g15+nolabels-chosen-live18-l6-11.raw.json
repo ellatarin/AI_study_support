@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and the hallmarks of cancer framework",
+      "groupedBecause": "The lecturer introduces the session's learning outcomes, relates the content to prior lectures, and sets up the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth factor signaling pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in pathways like Wnt/beta-catenin, RTK/Ras/MAPK, and PI3K drive sustained proliferation and resistance to growth-inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in hematological and epithelial cancers",
+      "groupedBecause": "These subtopics examine how arrested differentiation maintains proliferative states in both blood malignancies and solid epithelial cancers.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic details the molecular mechanisms and regulatory proteins, such as p53, Bax, and BCL2, that cancer cells alter to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and intrinsic growth control",
+      "groupedBecause": "These subtopics examine telomere maintenance, senescence mechanisms, and p53-mediated stress responses, concluding with a recap of cell-intrinsic growth control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming in cancer",
+      "groupedBecause": "These subtopics explore the Warburg effect, metabolic rewiring, and the role of metabolic enzyme mutations and oncometabolites in tumor biology.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "This subtopic describes the physiological requirement for new blood vessel recruitment in growing tumors and the regulatory balance between angiogenic activators and inhibitors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and colonization",
+      "groupedBecause": "These subtopics address the biological steps, anatomical routes, clinical monitoring, and clonal genetics of cancer metastasis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "The lecturer delivers closing remarks on the cancer hallmarks literature, restates the core takeaways, and opens the floor to student questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

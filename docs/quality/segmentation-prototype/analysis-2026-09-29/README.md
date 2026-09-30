@@ -18,5 +18,13 @@ folder (`docs/quality/segmentation-prototype`), since each loads
 | `build_page.py` | turns that data into the review page, optionally with a retitle version's titles |
 | `write_rt3.py` | writes `closest-rt3-d13-l*`: each closest-run d13 division with r3's titles in place of the inherited ones |
 | `rt3_vs_d13.py` | g15's 18 runs on those divisions against g15's 18 on the originals: runs matching the ruling, the grouping at 9/18, starts whose support moved. The result that put retitling after grouping |
+| `initial_choice.py` | how often two panels of 9 initial splits choose the same split to deepen, per lecture |
+| `chosen_compare.py <out-dir>` | the division chosen from the live pipeline's 18 runs against the one chosen from the prototype's 18 `d13` runs; writes `chosen.json` to `<out-dir>`. Reads the live workspaces |
+| `write_live_chosen.py <out-dir>` | writes `runs/chosen-live18-l*` from that `chosen.json`, for `group-trial.mts` |
+| `grouping_consistency.py <out-dir> [prefix] [lectures]` | two panels of 18 from 36 grouping runs: same grouping, starts differing, right against the rulings |
+| `nolabels_compare.py` | g15 without titles (runs 1–18) against g15 with titles, per lecture |
+| `bar_sweep.py` | with and without titles, bars 5–14 of 18: steadiness and right against the rulings |
+
+The last six measured the 18-run divisions and grouping with and without titles; their results are written up in `../DIVISION-AND-GROUPING-RESULTS.md`.
 
 `closest-groupings.template.html` is the review page those two build.

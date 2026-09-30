@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Framing",
+      "groupedBecause": "This subtopic introduces the lecture on the complement system and outlines its pedagogical context and perceived complexity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement System Overview, Nomenclature, and the Central Role of C3",
+      "groupedBecause": "These subtopics establish the foundational architecture of the complement cascade, including its general biological roles, historical naming conventions, and the central function of C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of Complement Activation",
+      "groupedBecause": "These subtopics explain the three distinct recognition pathways—alternative, lectin, and classical—that converge to form C3 convertases and reach the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Mechanisms of Activated Complement",
+      "groupedBecause": "These subtopics describe the downstream effector outcomes of complement activation: opsonization for phagocytosis, inflammatory mediation, and direct pathogen lysis via the membrane attack complex.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation of Complement Activation",
+      "groupedBecause": "This subtopic details the regulatory proteins that prevent bystander damage to host cells by controlling C3 convertase activity and membrane attack complex assembly.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Consequences of Complement Deficiencies",
+      "groupedBecause": "This subtopic outlines the diverse clinical presentations, infection risks, and autoimmune phenotypes resulting from deficiencies in specific complement proteins and regulators.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion Strategies Against Complement",
+      "groupedBecause": "This subtopic examines the molecular mechanisms pathogens develop to escape complement-mediated clearance, focusing on the strategies used by Staphylococcus aureus.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Wrap-Up and Next Lecture Preview",
+      "groupedBecause": "This subtopic concludes the lecture on complement and announces the upcoming lecture topic on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

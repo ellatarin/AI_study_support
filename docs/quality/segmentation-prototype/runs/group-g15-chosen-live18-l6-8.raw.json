@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecture's learning objectives, the stepwise model of tumor progression, and the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in signaling cascades, such as Wnt/beta-catenin, receptor tyrosine kinases, Ras-MAPK, and PI3K-AKT, sustain proliferative signaling and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in hematopoietic and epithelial tumors",
+      "groupedBecause": "These subtopics explore how cancer cells fail to withdraw from the cell cycle and differentiate into functional mature cell types across leukemias and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis, replicative immortality, and p53 stress control",
+      "groupedBecause": "These subtopics examine how cancer cells overcome intrinsic growth-limiting barriers through p53 pathway inactivation, resistance to apoptosis, and telomerase reactivation, summarizing the primary growth-control hallmarks.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics describe the metabolic alterations in cancer cells, including aerobic glycolysis (the Warburg effect), cancer-type metabolic profiles, and driver mutations in metabolic enzymes.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explains the angiogenic switch and the mechanisms by which tumors induce new blood vessel formation to overcome hypoxia and support growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and the biology of metastases",
+      "groupedBecause": "These subtopics analyze the sequential steps of metastasis, the seed and soil hypothesis, clinical monitoring of circulating tumor cells, and genomic findings from metastatic lesions.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "This subtopic concludes the lecture with closing thoughts on cancer hallmarks, suggestions for further reading, and housekeeping for upcoming practical sessions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

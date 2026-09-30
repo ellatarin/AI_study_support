@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "It introduces the lecture themes on cancer evolution and outlines the session's core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Evolution, Mutational Selection, and Epigenetic Plasticity",
+      "groupedBecause": "They show how sequential genetic mutations and epigenetic alterations confer competitive advantages that drive Darwinian clonal selection in tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and the Cancer Stem Cell Model",
+      "groupedBecause": "They examine how normal stem cell hierarchies and specific cells of origin influence tumor initiation and evaluate evidence for cancer stem cells across different malignancies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Promotion, Stromal Dependency, and Integrated Cancer Evolution",
+      "groupedBecause": "They explain how microenvironmental cues and inflammatory signals drive tumor outgrowth, how these cellular interactions are experimentally investigated, and how they integrate into a multi-factorial evolutionary model of cancer.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Lecture Conclusion and Next Steps",
+      "groupedBecause": "It concludes the lecture session and indicates the topic of the upcoming lecture.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

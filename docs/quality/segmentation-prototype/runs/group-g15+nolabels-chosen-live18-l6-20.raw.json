@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Framework of Cancer Hallmarks",
+      "groupedBecause": "The lecturer introduces the learning objectives, tumor progression model, and organizational framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Factor Independence and Proliferative Signaling",
+      "groupedBecause": "These subtopics explain how mutations in cell surface receptors and intracellular signaling cascades drive sustained cellular proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blockade of Terminal Differentiation",
+      "groupedBecause": "These subtopics explore how genetic mutations prevent cancer cells from completing normal lineage differentiation in hematopoietic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic details how mutations in the p53 pathway and shifts in mitochondrial apoptotic regulators enable cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere Maintenance, Senescence, and Replicative Immortality",
+      "groupedBecause": "These subtopics examine how telomere shortening triggers senescence and how cancer cells bypass these tumor-suppressive limits to divide indefinitely.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Metabolism and Metabolic Rewiring",
+      "groupedBecause": "These subtopics discuss the transition toward aerobic glycolysis and the reciprocal relationship between metabolic enzyme alterations and epigenetic regulation.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "This subtopic examines how expanding tumors activate the angiogenic switch to recruit vasculature for oxygen and nutrient delivery.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "The Metastatic Cascade and Clonal Colonization",
+      "groupedBecause": "These subtopics describe the multistep process of cancer cell dissemination, circulating biomarkers, and the genomic features underlying metastatic colonization.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Summary and Closing",
+      "groupedBecause": "The lecturer concludes by summarizing the integration of hallmarks and providing final housekeeping remarks.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

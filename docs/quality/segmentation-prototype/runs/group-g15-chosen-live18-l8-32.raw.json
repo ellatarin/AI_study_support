@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic provides introductory framing and outlines the learning objectives for the cancer therapy lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics examine foundational non-targeted cancer treatments, focusing on the mechanisms, applications, and systemic toxicities of surgery, radiotherapy, and cytotoxic drugs.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting molecular vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics discuss therapeutic strategies that selectively target tumor cell vulnerabilities, including hormone receptor dependency, cell cycle checkpoint loss, and defective DNA repair pathways.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Kinase inhibitors and targeted therapy resistance",
+      "groupedBecause": "These subtopics detail the inhibition of hyperactivated oncogenic kinases and the molecular mechanisms underlying acquired drug resistance and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe antibody-based strategies used to direct immune effector mechanisms or selectively deliver cytotoxic payloads to surface-antigen-bearing tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and immune-mediated targeting",
+      "groupedBecause": "These subtopics explore the biological basis of tumor immune surveillance and methods to harness the immune system through checkpoint inhibitors, bispecific engagers, and adoptive CAR T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overarching challenges, historical outcomes, and future directions in oncology",
+      "groupedBecause": "These subtopics synthesize the broader clinical landscape of cancer management by evaluating genomic stratification, survival trends, combination strategies, and future therapeutic dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

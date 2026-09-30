@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "It introduces the lecture themes, learning objectives, and framing for cancer evolution and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic Clonal Selection and Epigenetic Alterations",
+      "groupedBecause": "They discuss how genetic mutations and epigenetic modifications drive clonal fitness and progressive cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Hierarchies",
+      "groupedBecause": "They investigate the hierarchy of tissue differentiation and examine experimental evidence for cancer stem cells across different tissue types.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Promotion of Tumorigenesis",
+      "groupedBecause": "They explore how extrinsic microenvironmental signals, chronic inflammation, and supportive stroma facilitate tumor outgrowth and progression.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Technologies for Investigating Tumor Evolution and Microenvironments",
+      "groupedBecause": "It details single-cell sequencing and spatial omics methods used to study cancer cell heterogeneity and tissue interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Multifactorial Synthesis of Cancer Evolution",
+      "groupedBecause": "It synthesizes the interplay among mutational burden, epigenetic plasticity, cell of origin, and microenvironmental factors in cancer progression.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Conclusion and Next Lecture Preview",
+      "groupedBecause": "It provides closing remarks for the session and previews the upcoming topic of cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

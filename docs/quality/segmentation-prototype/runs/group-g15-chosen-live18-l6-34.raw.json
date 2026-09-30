@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "It provides the opening framing, learning outcomes, and an overview of the multi-step mutation progression and hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and oncogenic deregulation",
+      "groupedBecause": "They describe how mutations in signaling cascades such as Wnt, RTK, and downstream effectors drive autonomous cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "They explore how impaired terminal differentiation contributes to tumor development in both hematological malignancies and intestinal epithelial renewal.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and mitochondrial regulation",
+      "groupedBecause": "It examines how cancer cells resist programmed cell death through alterations in p53 regulation and the balance between Bax and BCL2.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and stress checkpoints",
+      "groupedBecause": "They explain how telomere shortening, TERT reactivation, cellular senescence, and p53 stress checkpoints regulate cell lifespan, concluding the review of growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and metabolic rewiring",
+      "groupedBecause": "They analyze the metabolic adaptations of cancer cells, including aerobic glycolysis, tissue-specific metabolic profiles, and driver oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "It describes the mechanisms and regulatory balance by which tumors induce new blood vessel formation to overcome hypoxia and sustain growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and genomic characteristics of metastases",
+      "groupedBecause": "They cover the multi-step process of systemic cancer spread, the seed and soil hypothesis of metastatic inefficiency, and the genomic clonality of metastatic lesions.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and further reading",
+      "groupedBecause": "It provides the closing framing with a summary of the hallmark concepts, recommendations for further reading, and housekeeping for practicals.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

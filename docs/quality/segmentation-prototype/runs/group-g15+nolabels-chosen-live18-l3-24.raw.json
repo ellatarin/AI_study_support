@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Course Overview",
+      "groupedBecause": "It frames the lecture series, outlines the learning outcomes, and introduces the multi-perspective scope of cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Cellular Differentiation and Architecture",
+      "groupedBecause": "They define cancer biologically as a progressive breakdown of developmental differentiation and tissue architecture driven by accumulated genetic and epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Progression, Invasion, and Metastasis",
+      "groupedBecause": "They examine how tumors progress from contained, benign lesions into invasive and metastatic malignancies across clinical and histological contexts.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature and Classification",
+      "groupedBecause": "It outlines the standard naming rules, suffixes, and notable exceptions used to classify benign and malignant neoplasms across tissue lineages.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological Causes of Cancer Morbidity and Mortality",
+      "groupedBecause": "It details the mechanical, metabolic, and systemic mechanisms through which primary and metastatic tumors cause disease and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer Incidence Across Humans and Other Species",
+      "groupedBecause": "They compare the frequency, common anatomical sites, and mortality patterns of tumors across human populations and diverse animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Detection and Cancer Screening Strategies",
+      "groupedBecause": "They evaluate the rationale, practical methods, and variable effectiveness of population screening programs for early cancer detection across different organs.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Practical Preview",
+      "groupedBecause": "It provides closing administrative framing, referencing the learning outcomes and looking ahead to the practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

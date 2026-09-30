@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This opening subtopic introduces the course structure, themes, and specific learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological mechanisms and experimental modeling of cancer development",
+      "groupedBecause": "These subtopics explain how cancer develops through stepwise genetic and epigenetic alterations leading to disrupted differentiation and tissue architecture, and how these processes are studied using cell culture models.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology, progression, and nomenclature of benign and malignant tumors",
+      "groupedBecause": "These subtopics define how benign and malignant neoplasms are distinguished by local tissue invasion and metastatic potential, illustrated through histological progression models and standard diagnostic nomenclature.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathophysiological causes of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains the specific physical, physiological, and metabolic mechanisms by which primary and metastatic tumors cause systemic disease and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence across human populations and animal taxa",
+      "groupedBecause": "These subtopics examine patterns of tumor incidence and mortality across human demographics, companion animals, and diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening principles and organ-specific modalities",
+      "groupedBecause": "These subtopics describe the clinical rationale for early tumor detection and compare specific screening approaches, diagnostic criteria, and outcomes across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical preview",
+      "groupedBecause": "This closing subtopic wraps up the lecture by reiterating learning outcomes and looking ahead to upcoming practicals and future sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

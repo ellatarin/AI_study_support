@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic welcomes the students to the final lecture and outlines the core learning objectives regarding cancer therapy approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "These subtopics address the implementation, mechanisms of action, and clinical limitations of conventional non-targeted cancer treatments.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities and genetic defects in cancer cells",
+      "groupedBecause": "These subtopics explain how specific genetic, checkpoint, and metabolic vulnerabilities unique to cancer cells can be exploited for targeted therapeutic intervention.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene addiction and kinase inhibitor therapy",
+      "groupedBecause": "These subtopics discuss the therapeutic targeting of hyperactivated oncogenic kinases, detailing inhibitor mechanisms, resistance pathways, and clinical management strategies.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics examine how engineered monoclonal antibodies can be used to target tumor surface markers either for direct cell killing or for delivering cytotoxic agents.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-directed strategies",
+      "groupedBecause": "These subtopics evaluate the principles and clinical technologies used to harness and genetically engineer the host immune system to destroy tumor cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical challenges, progress, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics examine broader systemic hurdles, historical survival progress, ethical considerations, and evolving paradigms in the future of cancer therapy.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Lecture Learning Objectives",
+      "groupedBecause": "The opening framing welcomes students to the course, outlines the scope of the lecture series, and presents the session's key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Multistep Disruption of Differentiation and Tissue Organization",
+      "groupedBecause": "These subtopics explain how cancer develops through accumulated genetic and epigenetic alterations that disrupt normal cellular differentiation, three-dimensional tissue architecture, and growth control.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Benign-Malignant Progression",
+      "groupedBecause": "These subtopics examine the defining features of benign and malignant tumors, focusing on tissue invasion, metastatic dissemination, and the stepwise histological progression from precursor lesions to invasive disease.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Principles and Exceptions of Tumor Nomenclature",
+      "groupedBecause": "This subtopic details the standard rules, suffixes, and clinical exceptions used to classify and name benign and malignant neoplasms across different tissue origins.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic explains how primary and metastatic tumors cause systemic illness, functional organ impairment, and death through local compression, tissue destruction, and metabolic disruption.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer Incidence in Human Tissues and Across Animal Species",
+      "groupedBecause": "These subtopics examine the epidemiological frequency of different tumor types across human tissues and compare their occurrence throughout diverse multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Presentation and Cancer Screening Strategies",
+      "groupedBecause": "These subtopics explore early clinical signs of cancer and evaluate the methods, efficacy, and limitations of population screening across different anatomical sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Practical Session Preview",
+      "groupedBecause": "The closing framing recaps the session's learning outcomes and provides logistical instructions for upcoming practical sessions and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

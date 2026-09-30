@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "The lecturer introduces the topic of complement and frames its importance and complexity within immunology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational Concepts and Organization of Complement",
+      "groupedBecause": "These subtopics introduce the overall architecture, nomenclature conventions, and central biochemical role of C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of Complement Activation",
+      "groupedBecause": "These subtopics explain how the alternative, lectin, and classical pathways recognize targets and reach the trigger threshold for C3 convertase activity.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Mechanisms of Complement",
+      "groupedBecause": "These subtopics detail the downstream immune functions executed once complement is activated, including opsonization, inflammation, and membrane lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation of Complement Activation",
+      "groupedBecause": "This subtopic explains the regulatory mechanisms and surface factors that prevent complement from destroying healthy host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Consequences of Complement Deficiencies",
+      "groupedBecause": "This subtopic describes the distinct clinical manifestations and disease risks resulting from deficiencies in specific complement components and regulators.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion of Complement",
+      "groupedBecause": "This subtopic examines the molecular strategies that pathogens employ to subvert and survive complement attack.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the discussion of complement and previews the next lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

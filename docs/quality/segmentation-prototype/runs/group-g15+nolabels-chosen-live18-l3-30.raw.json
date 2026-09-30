@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, sets expectations for students across disciplines, and outlines the day's learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Foundations and Cellular Models of Cancer",
+      "groupedBecause": "These subtopics define cancer as a disruption of cellular differentiation and genetic regulation, highlighting the importance of tissue architecture and cellular culture models.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Benign versus Malignant Distinctions",
+      "groupedBecause": "These subtopics explain the clinical and histological features of local tissue invasion and distant metastasis that distinguish benign tumors from malignant neoplasms.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise Malignant Progression and Benign Tumor Risks",
+      "groupedBecause": "These subtopics illustrate the stepwise progression from benign precursor polyps to invasive carcinomas and describe the clinical hazards associated with benign growths.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Nomenclature and Classification",
+      "groupedBecause": "This subtopic outlines the systematic naming conventions and exceptions used to categorize benign and malignant tumors across different tissue lineages.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological Causes of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic explains the local, systemic, and metastatic mechanisms through which tumors impair normal organ function and lead to patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative Cancer Incidence and Mortality",
+      "groupedBecause": "These subtopics examine the incidence, tissue distribution, and mortality rates of tumors across human populations and diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Detection and Cancer Screening Strategies",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, cytological techniques, and diagnostic efficacy of population-level cancer screening programs.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Next Steps",
+      "groupedBecause": "This subtopic concludes the lecture by reiterating the core learning objectives and providing housekeeping details for subsequent sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

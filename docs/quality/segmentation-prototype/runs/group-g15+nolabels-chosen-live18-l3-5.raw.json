@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Cancer Biology Lecture Series",
+      "groupedBecause": "It introduces the lecture series, outlines learning objectives, and frames the fundamental questions of cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Cellular Differentiation and Tissue Architecture",
+      "groupedBecause": "They describe the genetic, epigenetic, and architectural mechanisms through which cancer disrupts normal multicellular differentiation, along with the models used to study them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Metastasis, and Distinguishing Benign from Malignant Tumors",
+      "groupedBecause": "They explain how invasion and metastasis define malignant progression and how these processes are recognized clinically and histologically.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Colorectal Adenoma-to-Carcinoma Progression Model",
+      "groupedBecause": "It uses colorectal polyps to demonstrate the histological and stepwise morphological progression from a benign adenoma to an invasive adenocarcinoma.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Behavior and Neoplasm Nomenclature",
+      "groupedBecause": "They outline the naming rules and clinical behaviors that define and distinguish benign from malignant neoplasms.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "It explains the local and systemic mechanisms through which primary and metastatic tumors cause disease and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative and Epidemiological Incidence of Cancers",
+      "groupedBecause": "They analyze the incidence and tissue distribution of cancer across human demographics and diverse multicellular animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Principles and Applications of Cancer Screening",
+      "groupedBecause": "They evaluate the clinical importance, histological basis, and relative effectiveness of screening methods for detecting cancers at early stages.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Practical Instructions",
+      "groupedBecause": "It concludes the lecture with a review of learning outcomes and practical session reminders.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

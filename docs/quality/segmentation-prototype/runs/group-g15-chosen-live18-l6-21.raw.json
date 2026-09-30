@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and progression models",
+      "groupedBecause": "Introduces the lecture's learning objectives, the multistep model of tumor progression, and the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathway deregulation in cancer",
+      "groupedBecause": "Examines how oncogenic mutations disrupt cell-surface receptor signaling pathways, such as Wnt/beta-catenin and receptor tyrosine kinases, to drive continuous proliferation and cell survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal differentiation in tumorigenesis",
+      "groupedBecause": "Analyzes how differentiation arrest in hematopoietic lineages and intestinal crypt epithelium prevents cells from executing their mature functions and locks them into proliferative states.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and p53-regulated cell death",
+      "groupedBecause": "Explains how cancer cells prevent programmed cell death by altering the balance of pro- and anti-apoptotic factors through mutations in p53 and its regulatory network.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, cellular senescence, and stress checkpoints",
+      "groupedBecause": "Covers the mechanisms of telomere shortening, TERT reactivation, senescence barriers, and p53-mediated stress responses, concluding the growth-control hallmarks of cancer.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "Discusses the shift toward aerobic glycolysis, tissue-specific metabolic profiles, and how metabolic enzyme mutations generate oncometabolites that drive epigenetic deregulation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and the angiogenic switch",
+      "groupedBecause": "Details how growing tumors overcome oxygen and nutrient diffusion limits by tilting the balance of signaling factors to stimulate new blood vessel formation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Cancer metastasis, dissemination mechanisms, and genomics",
+      "groupedBecause": "Explores the sequential steps of metastatic spread, the seed-and-soil hypothesis, clinical monitoring of circulating tumor cells, and the genomic characteristics of metastatic lesions.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and further reading",
+      "groupedBecause": "Concludes the lecture by reviewing the integration of cancer hallmarks, recommending supplementary reading, and outlining the upcoming practical session.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture overview",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning objectives for cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatments and their limitations",
+      "groupedBecause": "These subtopics cover traditional primary modalities of cancer treatment—surgery, radiotherapy, and cytotoxic chemotherapy—along with their modes of action and clinical limitations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting cancer cell vulnerabilities and genetic defects",
+      "groupedBecause": "These subtopics explain therapeutic strategies designed to exploit intrinsic cancer cell vulnerabilities, including hormone dependence, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Kinase inhibitors, oncogene addiction, and resistance mechanisms",
+      "groupedBecause": "These subtopics examine the targeting of oncogene addiction using small-molecule kinase inhibitors as well as the molecular mechanisms governing drug resistance and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain how engineered monoclonal antibodies and antibody-drug conjugates are utilized to selectively target tumor cell-surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immune surveillance and immunotherapy",
+      "groupedBecause": "These subtopics explore the biological basis of immune surveillance against tumors and examine various immunotherapeutic strategies developed to reactivate or engineer T-cell responses.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, progress, and future directions in cancer therapy",
+      "groupedBecause": "These subtopics discuss the overarching challenges, historical survival trends, precision medicine approaches, and ethical dilemmas involved in managing cancer.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

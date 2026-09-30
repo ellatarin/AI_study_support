@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Lecture Framing",
+      "groupedBecause": "It introduces the lecture themes, contextualizes cancer evolution within the broader course, and outlines the expected learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Evolution and Epigenetic Regulation in Cancer",
+      "groupedBecause": "They explain how genetic driver mutations and epigenetic alterations independently drive clonal fitness, phenotypic changes, and cancer progression.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cells",
+      "groupedBecause": "They explore tissue hierarchies and evaluate experimental evidence from leukemia and colorectal cancer demonstrating how cancer stem cells drive tumor initiation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Promotion and Inflammatory Signaling",
+      "groupedBecause": "They examine how external environmental exposures and chronic inflammation act as promotional stimuli to enable mutated tissues to advance toward malignancy.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Established Tumor Microenvironment, Profiling Methods, and Coevolutionary Synthesis",
+      "groupedBecause": "They examine the dependency of established tumors on supportive stroma, outline modern spatial profiling methods, and synthesize the coevolutionary factors driving cancer progression.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Closing Remarks and Next Lecture",
+      "groupedBecause": "It concludes the lecture and previews the upcoming session on cancer therapies.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

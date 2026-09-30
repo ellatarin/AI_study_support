@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Progression",
+      "groupedBecause": "The lecturer introduces the learning outcomes, historical framework, and foundational concepts of tumor progression across the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferative Signaling and Evasion of Growth Suppressors",
+      "groupedBecause": "These subtopics explain how mutations in extracellular receptors and downstream signaling cascades drive continuous cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blockade of Terminal Differentiation",
+      "groupedBecause": "These subtopics examine how oncogenic changes arrest cell maturation and maintain proliferative states in both hematological malignancies and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic explains the molecular mechanisms by which cancer cells disrupt the p53 pathway and the mitochondrial apoptotic machinery to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics describe how cancer cells overcome the Hayflick limit and stress-induced arrest through telomere maintenance and reactivation of telomerase.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Reprogramming Energy Metabolism and Oncometabolites",
+      "groupedBecause": "These subtopics examine the switch to aerobic glycolysis and the epigenetic consequences of metabolic enzyme mutations during tumorigenesis.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "This subtopic explores how tumors trigger new blood vessel formation to overcome hypoxia and sustain tissue growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and Inefficiencies of Metastasis",
+      "groupedBecause": "These subtopics detail the steps, selective pressures, diagnostic markers, and genomic features associated with cancer dissemination to secondary sites.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Summary and Closing Remarks",
+      "groupedBecause": "The lecturer summarizes the overlapping nature of the hallmarks, references recent literature, and concludes the session.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

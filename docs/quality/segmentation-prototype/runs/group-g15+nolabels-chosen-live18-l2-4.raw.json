@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Complement Lecture",
+      "groupedBecause": "This subtopic frames the lecture with welcoming remarks and an introductory analogy highlighting the importance and complexity of the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Core Concepts and Fundamentals of Complement",
+      "groupedBecause": "These subtopics establish the foundational architecture of the complement cascade, its naming conventions, and the central biochemical role of C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement Activation Pathways",
+      "groupedBecause": "These subtopics detail the three recognition pathways—alternative, lectin, and classical—that initiate the complement cascade and converge on C3 convertase formation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Mechanisms of Activated Complement",
+      "groupedBecause": "These subtopics explain the primary effector outcomes of complement activation, including opsonization, inflammation, and membrane attack complex lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation and Self-Protection Mechanisms",
+      "groupedBecause": "This subtopic describes the regulatory proteins and inhibitory mechanisms that protect host cells from accidental complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Presentations of Complement Deficiencies",
+      "groupedBecause": "This subtopic examines how genetic and acquired deficiencies in specific complement components produce distinct clinical diseases and susceptibility patterns.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Strategies for Complement Evasion",
+      "groupedBecause": "This subtopic explains the evolutionary mechanisms used by pathogens to subvert complement defenses, focusing on the specific adaptations of Staphylococcus aureus.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic wraps up the session with concluding remarks and previews the subject of the upcoming lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

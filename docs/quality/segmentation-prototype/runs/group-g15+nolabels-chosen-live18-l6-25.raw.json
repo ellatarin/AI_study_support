@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview of Cancer Hallmarks",
+      "groupedBecause": "The lecturer introduces the session's learning outcomes, connects them to previous lectures on tumorigenesis, and presents the foundational framework of the hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of Growth Signaling Pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell-surface receptors and downstream signaling cascades enable self-sufficiency in growth signals and resistance to inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Cancer",
+      "groupedBecause": "These subtopics examine how malignancies prevent precursor cells from exiting the cell cycle and completing terminal lineage differentiation in blood and intestinal tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic describes the mitochondrial apoptotic pathway and the alterations in p53 and Bcl-2 family regulators that permit cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality, Cellular Senescence, and Intrinsic Hallmark Summary",
+      "groupedBecause": "These subtopics detail telomere dynamics, mechanisms of overcoming senescence to achieve immortalization, and conclude the review of cell-intrinsic growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Reprogramming in Cancer",
+      "groupedBecause": "These subtopics explore the Warburg effect, systematic metabolic rewiring across tumor types, and the generation of oncometabolites that reinforce tumorigenesis via epigenetic alterations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "This subtopic addresses the requirement of blood vessel recruitment for sustaining tumor growth and the balance of molecular signals regulating the angiogenic switch.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and Genetics of Metastasis",
+      "groupedBecause": "These subtopics outline the multi-step invasion-metastasis cascade, the seed-and-soil paradigm, and the genomic characteristics associated with metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "The lecturer concludes the session by summarizing how individual hallmarks integrate in cancer progression, recommending literature, and transitioning to questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

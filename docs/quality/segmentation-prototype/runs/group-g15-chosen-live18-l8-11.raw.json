@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer therapy",
+      "groupedBecause": "This subtopic provides the opening framing and learning objectives for the lecture on cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatment modalities",
+      "groupedBecause": "These subtopics discuss primary standard modalities for eliminating cancer and explain the mechanisms, efficacy, and systemic toxicities of surgery, radiotherapy, and cytotoxic chemotherapy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting cancer-specific biological vulnerabilities",
+      "groupedBecause": "These subtopics explore therapeutic strategies designed to exploit intrinsic cellular defects in tumors, including hormone dependence, cell cycle checkpoint failures, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Kinase-targeted therapies and resistance mechanisms",
+      "groupedBecause": "These subtopics focus on small-molecule inhibitors targeting hyperactivated oncogenic kinases and detail the molecular mechanisms leading to acquired drug resistance and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Antibody-based therapeutics",
+      "groupedBecause": "These subtopics describe the design, mechanisms of action, and clinical applications of monoclonal antibodies and antibody-drug conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-mediated strategies",
+      "groupedBecause": "These subtopics evaluate the biological basis of tumor immune surveillance and discuss therapeutic strategies that harness or engineer T cells to target cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Current challenges, future directions, and therapeutic perspectives",
+      "groupedBecause": "These subtopics assess the broader landscape of cancer management by examining genomic stratification, historical treatment trends, future therapeutic paradigms, and associated ethical considerations.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

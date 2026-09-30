@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer welcomes students to the final course lecture and outlines the learning objectives for cancer therapy approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics explain conventional cancer therapies that physically ablate or non-specifically damage dividing cells, including their clinical applications, toxicities, and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Tumor Vulnerabilities and Repair Defects",
+      "groupedBecause": "These subtopics examine therapeutic strategies that target intrinsic cancer cell defects, including hormone receptor dependence, cell cycle checkpoint failure, and DNA repair deficiencies via synthetic lethality.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene Addiction and Kinase Inhibitors",
+      "groupedBecause": "These subtopics focus on targeting oncogenic driver kinases using small-molecule inhibitors, alongside the clinical challenges of acquired resistance, off-target effects, and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics describe engineered antibody therapeutics designed to bind tumor-associated surface antigens, either to inhibit receptor signaling and trigger immune responses or to deliver cytotoxic drugs directly to cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Engagement",
+      "groupedBecause": "These subtopics discuss the immune system's role in cancer control and detail therapeutic approaches that activate or engineer T cells to destroy tumors, including checkpoint blockade, BiTEs, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, Clinical Progress, and Future Directions in Cancer Therapy",
+      "groupedBecause": "These subtopics review the systemic challenges of tumor heterogeneity and resistance, assess historical survival trends, and explore future clinical and ethical perspectives in cancer treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

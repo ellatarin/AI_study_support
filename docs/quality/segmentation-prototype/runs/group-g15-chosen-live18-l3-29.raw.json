@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the course structure, audience, and core learning objectives for the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a multistep disruption of differentiation and tissue architecture",
+      "groupedBecause": "These subtopics explain how accumulated genetic and epigenetic alterations drive normal cells to lose their differentiation program and tissue architecture, alongside the approaches and limitations of modeling these cells in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology and progression of tumor invasion and metastasis",
+      "groupedBecause": "These subtopics describe the mechanisms, histological hallmarks, and stepwise morphological changes that characterise the transition from benign growths to invasive and metastatic malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature, classification, and clinical pathophysiology",
+      "groupedBecause": "These subtopics examine the naming conventions for different tumor types and the pathophysiological mechanisms by which benign and malignant growths cause patient morbidity and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics explore the epidemiological frequency of different cancers in humans and compare tumor occurrence across diverse multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening modalities",
+      "groupedBecause": "These subtopics address the clinical signs of cancer and evaluate the principles, diagnostic criteria, and practical efficacy of population screening programs.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "It concludes the session by reviewing the learning outcomes and providing directions for upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the introductory framing for the lecture series, outlining course objectives, student backgrounds, and core learning goals.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations of cancer and experimental model systems",
+      "groupedBecause": "These subtopics define cancer as a multistep process driven by genetic alterations and disrupted tissue differentiation, and discuss experimental approaches used to model tumor biology.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and pathology of tumor invasion and metastasis",
+      "groupedBecause": "These subtopics explain the pathological processes, histological features, and clinical distinctions between benign lesions and invasive, metastatic malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor classification, nomenclature, and clinical pathophysiology",
+      "groupedBecause": "These subtopics describe the systematic naming conventions for tumors and explain the mechanical and physiological mechanisms by which benign and malignant growths cause illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer epidemiology and comparative oncology across taxa",
+      "groupedBecause": "These subtopics compare patterns of cancer incidence and tissue susceptibility in humans with those observed across companion animals and other multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical symptoms and cancer screening strategies",
+      "groupedBecause": "These subtopics address the clinical detection of tumors and evaluate the principles, histological diagnostic criteria, and utility of screening programs across various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "This subtopic provides the concluding administrative remarks and instructions for upcoming practical sessions and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

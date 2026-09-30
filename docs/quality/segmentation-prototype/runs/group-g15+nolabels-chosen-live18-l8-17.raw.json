@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the final lecture of the course and outlines its main learning outcomes regarding cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics explain the principles, modes of action, clinical examples, side effects, and resistance mechanisms of traditional cancer treatments.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities, checkpoint defects, and DNA repair deficiencies",
+      "groupedBecause": "These subtopics explore therapeutic strategies that capitalize on specific tumor vulnerabilities, including hormone dependence, cell cycle checkpoint loss, and synthetic lethality in DNA repair.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene targeting, kinase inhibitors, and mechanisms of drug resistance",
+      "groupedBecause": "These subtopics discuss the design of targeted kinase inhibitors against driver oncogenes and examine the cellular mechanisms and clinical management of treatment resistance.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics cover the therapeutic use of engineered antibodies to directly inhibit surface receptors, induce cytotoxic immune responses, or deliver linked toxins to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell engineering",
+      "groupedBecause": "These subtopics examine how the immune system interacts with tumors and detail therapeutic strategies to harness or genetically redirect T cells against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical challenges, long-term progress, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics synthesize the major clinical hurdles, historical survival trends, emerging management paradigms, and ethical dilemmas in modern oncology.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

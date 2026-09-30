@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "This topic introduces the cancer biology lecture series and outlines the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and Genetic Basis of Cancer Development",
+      "groupedBecause": "These subtopics explain how accumulated genetic and epigenetic changes disrupt normal cellular differentiation and tissue architecture to initiate tumor growth.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign and Malignant Tumors, Progression, and Nomenclature",
+      "groupedBecause": "These subtopics define how tumors are distinguished, graded, and classified based on invasion, metastatic potential, histological progression, and formal naming conventions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic explains the direct mechanical, physiological, and systemic processes through which tumors cause disease and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Epidemiology and Cross-Species Incidence of Tumors",
+      "groupedBecause": "These subtopics compare the incidence and mortality rates of different tumor types across human tissues and throughout diverse animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and Modalities of Cancer Screening",
+      "groupedBecause": "These subtopics assess the clinical rationale, diagnostic methods, and relative success rates of screening programs across various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Wrap-Up",
+      "groupedBecause": "This topic closes the lecture by referencing the learning outcomes and providing housekeeping details for upcoming sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

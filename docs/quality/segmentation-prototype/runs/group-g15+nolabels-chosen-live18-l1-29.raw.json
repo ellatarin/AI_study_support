@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "It provides the introductory welcome and frames the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition via PAMPs, DAMPs, and PRRs",
+      "groupedBecause": "They explain how the innate immune system detects infection and cellular damage through molecular patterns, pattern recognition receptors, and downstream inflammasome activation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory cell activation, leukocyte trafficking, and systemic effects",
+      "groupedBecause": "They explain how the inflammatory response is mobilized through sentinel cell signaling, leukocyte extravasation, lymphatic trafficking, and systemic physiological reactions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "They explain the mechanisms that terminate inflammation, coordinate tissue repair, and manage unresolved or chronic inflammatory conditions.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Conclusion and next lecture preview",
+      "groupedBecause": "It concludes the session and previews the subject of the upcoming lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

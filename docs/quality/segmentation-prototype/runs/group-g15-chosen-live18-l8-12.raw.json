@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This opening subtopic introduces the lecture and outlines the intended learning objectives for cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics discuss traditional cancer treatment modalities that physically remove or non-specifically damage rapidly dividing cells.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting tumor-specific vulnerabilities and molecular defects",
+      "groupedBecause": "These subtopics explain therapeutic strategies that selectively target cancer cells by taking advantage of their hormone dependence, checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Small-molecule kinase inhibitors and resistance mechanisms",
+      "groupedBecause": "These subtopics explore the development, therapeutic application, and resistance pathways associated with small-molecule inhibitors targeting oncogenic kinases.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the design and mechanisms of engineered monoclonal antibodies and antibody-drug conjugates used to target cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immune surveillance and cell-based immunotherapies",
+      "groupedBecause": "These subtopics cover the evidence for natural immune surveillance and various therapeutic strategies that recruit or re-engineer immune cells to fight cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical trends, and future directions in cancer management",
+      "groupedBecause": "These subtopics evaluate the ongoing clinical challenges, historical outcomes, and strategic considerations shaping the future of cancer treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

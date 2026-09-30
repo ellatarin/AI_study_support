@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the opening framing, contextual background, and learning objectives for the lecture on cancer evolution.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal selection and epigenetic drivers in tumorigenesis",
+      "groupedBecause": "These subtopics explain how successive genetic mutations and epigenetic alterations confer competitive growth advantages through Darwinian clonal evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and cancer stem cell hierarchy",
+      "groupedBecause": "These subtopics evaluate the hierarchical models of tumor initiation to examine whether stemness properties and specific cell types of origin are required for malignancy.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and inflammatory promotion of tumor growth",
+      "groupedBecause": "These subtopics demonstrate that genetic alterations require non-mutational promotional signals and supportive stromal microenvironments to drive malignant transformation and growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Research methods and synthesis of cancer evolutionary mechanisms",
+      "groupedBecause": "These subtopics present the modern spatial and single-cell profiling techniques used to investigate tumor biology and summarize the lecture's integrated evolutionary framework.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic provides the closing framing and previews the topic of the upcoming lecture.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

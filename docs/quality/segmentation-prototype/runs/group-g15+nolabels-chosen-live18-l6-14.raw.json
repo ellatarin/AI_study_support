@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Hallmarks of Cancer Framework",
+      "groupedBecause": "The lecturer introduces the session's learning objectives, previous lecture context, and the overarching framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferative and Growth Factor Signaling",
+      "groupedBecause": "These subtopics explain how genetic mutations dysregulate major signaling pathways to drive continuous cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Malignancies",
+      "groupedBecause": "These subtopics describe how oncogenic alterations prevent cells from undergoing normal terminal differentiation across hematological and epithelial cancers.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptotic Cell Death",
+      "groupedBecause": "This subtopic explores the molecular circuitry and regulatory proteins that allow cancer cells to resist apoptosis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics examine the mechanisms by which tumor cells overcome finite cell division limits through telomere maintenance and evasion of stress-induced senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Reprogramming of Cancer Metabolism",
+      "groupedBecause": "These subtopics explore how tumor cells alter their metabolic pathways and Krebs cycle enzymes to support biosynthetic demands.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "This subtopic discusses the physiological triggers, timing, and molecular balance governing new blood vessel recruitment in developing tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic Dissemination and Colonization",
+      "groupedBecause": "These subtopics detail the biological hurdles, circulatory routes, clonal genetics, and clinical detection of metastatic cancer spread.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "The lecturer concludes the session by summarizing the core takeaways, recommending further reading, and opening the floor to questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, sets the framework for the cancer lecture series, and outlines the main learning outcomes regarding environmental exposures, carcinogenicity methodologies, and initiation versus promotion.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Nature of Cancer and Sources of Mutation Accumulation",
+      "groupedBecause": "These subtopics explain how cancer evolves through somatic mutation accumulation and permissive microenvironments, driven by a combination of endogenous cellular processes, inherited risks, and extrinsic factors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence for Cancer Risk",
+      "groupedBecause": "These subtopics examine various environmental carcinogens, address public debate around cancer being driven by bad luck versus preventable causes, and evaluate geographic epidemiological patterns to disentangle environmental from genetic influences.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens as Drivers of Carcinogenesis",
+      "groupedBecause": "These subtopics explore how infectious agents contribute to malignancy, detailing the epidemiology, co-factors, and cellular mechanisms underlying Epstein-Barr virus in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Metabolic Carcinogen Activation",
+      "groupedBecause": "These subtopics detail how physical radiation and chemical agents undergo xenobiotic metabolic processing to generate reactive derivatives, oxidative stress, and bulky DNA adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammatory Microenvironments, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine how non-mutagenic promoters and chronic inflammation drive clonal expansion alongside initiating mutations, while evaluating the influence of host developmental stages and tissue specificity.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Identifying and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics describe the laboratory and population-level methodologies used to determine carcinogenicity, including whole-genome mutational signatures, epidemiological biobanks, in vivo toxicological models, and the in vitro Ames test.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "The lecture concludes with a closing reflection on everyday risk-versus-benefit tradeoffs of carcinogen exposure and a summary of key lecture themes.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

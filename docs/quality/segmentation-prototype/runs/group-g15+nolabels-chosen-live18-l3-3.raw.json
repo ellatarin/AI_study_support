@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic welcomes students, frames the broader cancer biology lecture series, and outlines the specific learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular Mechanisms and Experimental Models of Cancer Development",
+      "groupedBecause": "These subtopics examine how cumulative genetic alterations and the breakdown of normal tissue differentiation drive tumor formation and discuss how these processes are modeled in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Benign versus Malignant Progression",
+      "groupedBecause": "These subtopics explain the transition from localized benign growths to invasive and metastatic malignancies, contrasting their histopathological features and clinical behaviors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Neoplasm Nomenclature and Classification",
+      "groupedBecause": "This subtopic establishes the standard naming conventions and notable exceptions used to classify benign and malignant tumors by their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic details the anatomical, functional, and systemic mechanisms through which primary and metastatic tumors cause clinical illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Epidemiology and Comparative Oncology Across Species",
+      "groupedBecause": "These subtopics survey the incidence and mortality patterns of major human cancers and compare tumor prevalence across diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Principles and Organ-Specific Practices of Cancer Screening",
+      "groupedBecause": "These subtopics establish the rationale for early tumor detection and evaluate the diagnostic methods, efficacy, and trade-offs of screening programs across different organs.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Summary and Wrap-Up",
+      "groupedBecause": "This subtopic concludes the session by referencing the learning outcomes and outlining upcoming practicals and future lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

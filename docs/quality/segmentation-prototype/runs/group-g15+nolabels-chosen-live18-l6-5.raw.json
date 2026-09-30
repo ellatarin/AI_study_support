@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview of Cancer Hallmarks",
+      "groupedBecause": "The lecturer introduces the session's learning objectives and frames the discussion around the hallmarks of cancer and loss of growth control.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferation and Growth Signaling Deregulation",
+      "groupedBecause": "These subtopics explain how oncogenic mutations deregulate signaling cascades to promote autonomous growth and proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Blocks in Cancer",
+      "groupedBecause": "These subtopics examine how differentiation blocks prevent cells from exiting the cell cycle across hematopoietic and solid tissue cancers.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic explains the molecular mechanisms, including p53-dependent mitochondrial permeabilization, that cancer cells alter to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality, Telomeres, and Senescence",
+      "groupedBecause": "These subtopics examine how cancer cells overcome replicative limits through telomerase reactivation while bypassing normal senescence pathways.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Deregulated Cancer Metabolism",
+      "groupedBecause": "These subtopics explore how cancer cells rewire their metabolism through aerobic glycolysis and oncometabolite signaling to support sustained growth.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "This subtopic examines the physiological requirement for new blood vessel formation and the regulation of the angiogenic switch in tumor progression.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and Characteristics of Cancer Metastasis",
+      "groupedBecause": "These subtopics analyze the biological stages, microenvironmental interactions, and genomic features underlying metastatic dissemination.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "The lecturer concludes the lecture by summarising the integration of cancer hallmarks and inviting questions for upcoming practical sessions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

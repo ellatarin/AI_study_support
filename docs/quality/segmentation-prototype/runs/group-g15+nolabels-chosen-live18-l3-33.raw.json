@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Course Overview",
+      "groupedBecause": "This subtopic provides the opening administrative framing, learning outcomes, and thematic overview for the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular and Genetic Basis of Cancer Development",
+      "groupedBecause": "These subtopics define cancer as an accumulation of genetic alterations that causes a failure of normal developmental differentiation and tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Malignancy",
+      "groupedBecause": "These subtopics explain how local tissue invasion and distant metastasis distinguish malignant tumors from benign ones both clinically and histologically.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise Progression and Classification of Tumors",
+      "groupedBecause": "These subtopics illustrate the stepwise progression of precursor lesions into invasive cancer and outline the system used to classify and name these tumor types.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic explains the physiological mechanisms through which primary and metastatic tumors cause systemic disease and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer Incidence Across Tissues and Species",
+      "groupedBecause": "These subtopics examine the distribution of cancer incidence and mortality across different human tissue types and diverse animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and Practice of Clinical Cancer Screening",
+      "groupedBecause": "These subtopics explore the rationale, diagnostic methods, and clinical challenges of population screening programs for early cancer detection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Summary and Next Steps",
+      "groupedBecause": "This subtopic provides the concluding framing for the lecture, reminding students of the learning outcomes and looking ahead to practicals and upcoming sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

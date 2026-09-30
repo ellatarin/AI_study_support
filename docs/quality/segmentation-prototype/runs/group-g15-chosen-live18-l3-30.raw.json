@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture series, outlines learning objectives, and sets the clinical and biological framing for cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations of cancer as a disruption of cellular genetics and tissue architecture",
+      "groupedBecause": "These subtopics explain the biological basis of cancer as a progressive failure of cellular differentiation, genetic regulation, and three-dimensional tissue organization.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology and progression of tumor invasion and metastasis",
+      "groupedBecause": "These subtopics examine how tumors progress from contained, benign precursor lesions to invasive and metastatic malignancies, highlighting histological evidence and the adenoma-to-carcinoma sequence.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and clinical mechanisms of morbidity and mortality",
+      "groupedBecause": "These subtopics detail tumor classification conventions and the pathophysiological mechanisms through which both benign and malignant growths cause clinical harm and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics explore the epidemiological patterns of cancer in humans and compare tumor occurrence across diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical applications of cancer screening",
+      "groupedBecause": "These subtopics discuss the clinical rationale for early cancer detection and evaluate screening methods across different organ systems.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "It concludes the lecture by reviewing learning outcomes and giving practical session announcements.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

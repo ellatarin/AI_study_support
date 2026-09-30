@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Course Overview",
+      "groupedBecause": "The lecturer welcomes the class, outlines the course structure and learning outcomes, and previews the core themes of cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Differentiation and Tissue Organization",
+      "groupedBecause": "These subtopics establish that cancer results from accumulated genetic alterations disrupting normal developmental differentiation and tissue architecture, and discuss how this biology is modeled in culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign Versus Malignant Tumors: Invasion, Progression, and Nomenclature",
+      "groupedBecause": "These subtopics define the distinctions between benign and malignant neoplasms through their invasive behavior, metastatic spread, histological progression, and standardized naming conventions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of Disease, Mortality, and Comparative Cancer Incidence",
+      "groupedBecause": "These subtopics examine how tumors physiologically cause illness and death, alongside the patterns of cancer incidence and mortality observed in human populations and across animal species.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Principles and Methods of Cancer Screening",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, histological foundations, and practical limitations of screening programs for detecting early and pre-invasive tumors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Practical Session Preview",
+      "groupedBecause": "The lecturer concludes the lecture by reiterating the learning outcomes and previewing the upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

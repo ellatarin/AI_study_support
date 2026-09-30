@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "It introduces the lecture's learning objectives, the historical context of cancer hallmarks, and the progression model of tumorigenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained proliferative signaling and insensitivity to growth inhibitors",
+      "groupedBecause": "These subtopics explain how mutations in key signaling cascades, such as Wnt/beta-catenin, receptor tyrosine kinases, and TGF-beta, promote cell cycle entry and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in cancer",
+      "groupedBecause": "These subtopics illustrate how cancers in hematopoietic lineages and solid epithelial tissues prevent progenitor cells from achieving terminal differentiation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "It examines how alterations in p53 and the balance between pro- and anti-apoptotic proteins allow cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomeres, and senescence",
+      "groupedBecause": "These subtopics explore how telomere erosion triggers protective senescence responses and how cancer cells bypass these barriers by upregulating telomerase.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics describe the metabolic rewiring of cancer cells, including the Warburg effect and the epigenetic consequences of Krebs cycle enzyme mutations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Inducing tumor angiogenesis",
+      "groupedBecause": "It explains the requirement for new blood vessel growth to sustain tumor survival and how the angiogenic balance shifts during tumor development.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion, circulation, and metastatic colonization",
+      "groupedBecause": "These subtopics detail the biological steps, anatomical routes, clinical monitoring, and clonal genetics involved in cancer metastasis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and summary",
+      "groupedBecause": "It provides closing framing on the integration of cancer hallmarks, references further reading, and concludes the session.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

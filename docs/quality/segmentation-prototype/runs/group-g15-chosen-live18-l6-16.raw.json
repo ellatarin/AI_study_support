@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecture's learning objectives, the tumour progression model, and the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics explore the deregulation of cell surface receptors and intracellular signaling cascades that drive sustained proliferative signaling.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal differentiation",
+      "groupedBecause": "These subtopics describe how blocks in terminal differentiation prevent cells from exiting the cell cycle across haematological and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and p53 regulation",
+      "groupedBecause": "This subtopic details how cancer cells evade programmed cell death through mutations in p53 and imbalance between pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and growth-control summary",
+      "groupedBecause": "These subtopics examine how cancer cells overcome replicative limits via telomere maintenance and senescence bypass, concluding the discussion on growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered cellular metabolism and oncometabolites",
+      "groupedBecause": "These subtopics explain how cancer cells rewire metabolic pathways toward aerobic glycolysis and produce oncometabolites that drive tumorigenesis.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic addresses how growing tumors overcome nutrient and oxygen deprivation by triggering angiogenic signaling to recruit new blood vessels.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, inefficiency, and genomics of metastasis",
+      "groupedBecause": "These subtopics examine the multi-step process of systemic cancer dissemination, the seed and soil hypothesis, and the genomic profiling of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "This subtopic concludes the lecture by summarising how hallmarks co-occur across cancers and offering recommended reading.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

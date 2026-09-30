@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "This subtopic frames the lecture by outlining the evolutionary mechanisms, cell of origin characteristics, and microenvironmental factors that drive cancer progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Mechanisms of Clonal Evolution",
+      "groupedBecause": "These subtopics explain how clonal expansion and competitive fitness in cancer are driven by the acquisition of advantageous driver mutations and non-mutational epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Models",
+      "groupedBecause": "These subtopics examine how tissue hierarchy, inherent stemness properties, and specific cells of origin determine tumor initiation and propagation across different cancer types.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Promotion, Tumor Stroma, and Coevolution",
+      "groupedBecause": "These subtopics explore how microenvironmental cues and chronic inflammation promote tumor outgrowth, support established malignancies, and coevolve with cancer cells, alongside the profiling methods used to study these interactions.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Conclusion and Upcoming Lecture",
+      "groupedBecause": "This subtopic provides the administrative closing to the lecture and previews the next topic on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

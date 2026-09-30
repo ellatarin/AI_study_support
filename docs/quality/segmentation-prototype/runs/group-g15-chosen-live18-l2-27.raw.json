@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "It provides introductory framing for the lecture and sets expectations regarding complement nomenclature.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles and core logic of the complement system",
+      "groupedBecause": "They introduce the fundamental organization, naming rules, and central C3 activation reaction of the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "They explain the three distinct recognition pathways that initiate the complement cascade and converge to form C3 convertases.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "They describe the downstream biological processes by which activated complement targets and eliminates pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host cell regulation of complement",
+      "groupedBecause": "It explains the regulatory mechanisms that prevent complement activation on host tissues to avoid self-damage.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "It details how deficiencies at different stages of the complement cascade produce distinct clinical pathologies and infection susceptibilities.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion mechanisms and biotechnology applications",
+      "groupedBecause": "It examines how pathogens circumvent complement-mediated clearance and how bacterial evasion factors are utilized in biomedical tools.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "It closes the lecture by concluding the module and outlining the topic of the upcoming session.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

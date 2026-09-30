@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "It welcomes students and outlines the learning objectives and scope for the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "They describe the mechanisms, applications, and systemic toxicities of traditional cancer therapies, including surgical resection, irradiation, and cytotoxic drugs.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Specific Cellular Vulnerabilities and Checkpoint Defects",
+      "groupedBecause": "They examine therapeutic strategies that exploit intrinsic tumor vulnerabilities, including hormone receptor dependence, cell cycle checkpoint losses, and defective DNA repair pathways.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene Addiction and Kinase Inhibitors",
+      "groupedBecause": "They discuss targeted inhibition of oncogenic driver kinases alongside the mechanisms of resistance and drug addiction that develop during treatment.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "They cover the use of monoclonal antibodies and antibody-drug conjugates to selectively target cell surface antigens on tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Engagement",
+      "groupedBecause": "They detail approaches to harnessing the host immune response against tumors, including immune checkpoint inhibition, neoantigen targeting, BiTEs, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, Progress, and Future Directions in Cancer Treatment",
+      "groupedBecause": "They evaluate clinical challenges, historical improvements in patient survival, future therapeutic horizons, and ongoing treatment dilemmas in oncology.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

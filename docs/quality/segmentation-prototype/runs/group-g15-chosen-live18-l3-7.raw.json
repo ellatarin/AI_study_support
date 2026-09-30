@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series and outlines the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular differentiation, genetic alterations, and tissue architecture in cancer",
+      "groupedBecause": "These subtopics explain the foundational concept of cancer as a progressive disruption of genetic regulation, cellular differentiation, and three-dimensional tissue organization, alongside the experimental limitations of cell culture models.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology of tumor invasion, metastasis, and malignant progression",
+      "groupedBecause": "These subtopics detail the pathological processes and histological criteria that distinguish benign lesions from invasive and metastatic malignant tumors, illustrated through the stepwise adenoma-to-adenocarcinoma sequence.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and pathophysiological mechanisms of morbidity and mortality",
+      "groupedBecause": "These subtopics outline the systematic naming conventions for different tumor types and explain the physiological mechanisms by which benign and malignant tumors cause clinical illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics examine epidemiological patterns of tumor incidence in human populations and compare cancer occurrence across diverse multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening modalities",
+      "groupedBecause": "These subtopics describe how tumors present clinically and evaluate the histological principles, methodologies, and efficacy of screening programs for various cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "This subtopic provides the concluding remarks and housekeeping instructions for the next lecture and practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

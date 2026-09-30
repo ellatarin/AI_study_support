@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Overview of Cancer Evolution",
+      "groupedBecause": "It introduces the lecture series, outlines the learning objectives, and sets out the framework for understanding cancer evolution and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Drivers of Clonal Evolution",
+      "groupedBecause": "These subtopics examine how genetic driver mutations and transient epigenetic alterations confer selective growth advantages to clones during tumor evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Models",
+      "groupedBecause": "These subtopics explore how tissue differentiation hierarchies, stemness properties, and specific cells of origin determine tumor initiation and propagation across leukemias and solid cancers.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Role of Microenvironment, Stroma, and Inflammation in Tumor Outgrowth",
+      "groupedBecause": "These subtopics demonstrate that cancer development and established tumor maintenance require permissive microenvironmental signals, inflammatory promoters, and supportive stroma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Advanced Methodologies for Investigating Tumor Heterogeneity",
+      "groupedBecause": "This subtopic details modern laboratory and computational tools, such as single-cell sequencing and spatial omics, used to map tumor evolution and microenvironmental interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated Multi-Factor Model of Cancer Evolution",
+      "groupedBecause": "This subtopic synthesizes the intersecting roles of mutational burden, cell-of-origin properties, epigenetic plasticity, and microenvironmental coevolution in driving cancer progression.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture Conclusion and Preview of Next Session",
+      "groupedBecause": "It provides the concluding remarks for the lecture and previews the upcoming session on cancer therapies.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

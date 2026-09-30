@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Lecture Objectives",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, the interdisciplinary audience, and the specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Differentiation and In Vitro Study Models",
+      "groupedBecause": "These subtopics define cancer as a multi-step genetic and epigenetic breakdown of normal cellular differentiation and tissue architecture, alongside experimental models used to study tumor cells in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Invasion, Metastasis, and Histological Tumor Progression",
+      "groupedBecause": "These subtopics explain the biological processes of invasion and metastasis and illustrate how benign and malignant lesions are identified histologically, using the colorectal adenoma-to-carcinoma sequence as a model.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature and Mechanisms of Disease and Mortality",
+      "groupedBecause": "These subtopics outline the naming conventions for different tumor types and describe the pathophysiological mechanisms by which benign and malignant tumors cause illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Patterns of Cancer Incidence Across Tissues and Species",
+      "groupedBecause": "These subtopics compare the incidence and mortality rates of different tumor types in humans and across diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles, Applications, and Limitations of Cancer Screening",
+      "groupedBecause": "These subtopics examine the clinical rationale for early cancer detection and evaluate the effectiveness and limitations of screening programs across different anatomical sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Practical Preview",
+      "groupedBecause": "This subtopic concludes the lecture by referencing the learning outcomes and providing housekeeping details for upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

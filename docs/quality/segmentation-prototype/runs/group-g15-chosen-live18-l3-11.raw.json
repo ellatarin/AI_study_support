@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the structure, background, and specific learning outcomes for the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular origins, tissue architecture, and experimental modeling of cancer",
+      "groupedBecause": "These subtopics explain how cancer arises from genetic alterations and failures of cellular differentiation within structured tissues, alongside experimental methods for modeling tumor cells in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology and progression of tumor invasion and metastasis",
+      "groupedBecause": "These subtopics examine the histological hallmarks, anatomical routes, and diagnostic significance of local tissue invasion, metastatic spread, and the stepwise transition from benign precursors to malignant tumors.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and mechanisms of clinical disease and mortality",
+      "groupedBecause": "These subtopics outline the conventions for classifying and naming tumors while detailing the pathophysiological mechanisms through which both benign and malignant growths cause illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Epidemiology and comparative oncology across species",
+      "groupedBecause": "These subtopics analyse cancer incidence patterns in humans and compare tumor occurrence across diverse animal species and multicellular taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening modalities",
+      "groupedBecause": "These subtopics review the early clinical signs of cancer and assess the utility, techniques, and histological basis of screening programmes across different organ systems.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical preview",
+      "groupedBecause": "This subtopic concludes the lecture by reiterating the learning outcomes and looking ahead to the associated practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

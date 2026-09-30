@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Mechanisms",
+      "groupedBecause": "The lecture opens with framing on the learning outcomes, previous lectures, and the general framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Signaling Pathways Driving Proliferation and Survival",
+      "groupedBecause": "These subtopics explain how mutations in receptor tyrosine kinase and Wnt/beta-catenin cascades enable self-sufficient growth signaling and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Neoplasia",
+      "groupedBecause": "These subtopics explore how failure of cells to execute terminal differentiation promotes malignancy in leukemias and colorectal tissue.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis via the p53 Pathway",
+      "groupedBecause": "This subtopic details how cancer cells avoid programmed cell death through mutations in p53 and the dysregulation of pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality, Telomeres, and Senescence",
+      "groupedBecause": "These subtopics address the mechanisms of telomere shortening, telomerase reactivation, and cellular senescence bypass in cancer cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Reprogramming and the Warburg Effect",
+      "groupedBecause": "These subtopics examine how cancer cells rewire their metabolic pathways to support rapid biosynthetic demand and epigenetic changes.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "This subtopic describes the physiological necessity and regulatory balance governing new blood vessel formation to sustain tumor growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and Dynamics of Metastasis",
+      "groupedBecause": "These subtopics describe the multistep metastatic cascade, circulation dynamics, the seed-and-soil hypothesis, and the genomic features of metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Conclusion and Practical Framing",
+      "groupedBecause": "The lecture concludes with summary reflections on the integration of cancer hallmarks and housekeeping information for upcoming sessions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

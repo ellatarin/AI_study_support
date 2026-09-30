@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic introduces the lecturer, outlines the scope of the cancer lecture series, and presents the session's learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins of Cancer and the Balance Between Intrinsic and Environmental Risks",
+      "groupedBecause": "These subtopics explore the foundational biology of cancer development, debating the relative contributions of intrinsic random mutations, inherited predispositions, and environmental exposures supported by epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenic Agents and Tumor Promotion",
+      "groupedBecause": "These subtopics detail how specific biological, chemical, and physical agents induce carcinogenesis through direct mutagenic action, xenobiotic metabolic activation, or inflammatory tumor promotion across different tissues and life stages.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Investigating and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics discuss the genomic, epidemiological, animal model, and in vitro experimental approaches used to identify mutational signatures and evaluate whether suspected agents are carcinogenic.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Analysis",
+      "groupedBecause": "This subtopic concludes the lecture by summarising the challenges of establishing carcinogenicity and reflecting on everyday risk-benefit decisions regarding environmental exposures.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

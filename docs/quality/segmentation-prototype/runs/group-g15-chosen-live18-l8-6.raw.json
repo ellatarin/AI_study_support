@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the lecture and learning outcomes",
+      "groupedBecause": "The lecturer welcomes the class and outlines the objectives of the final lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and systemic chemotherapy",
+      "groupedBecause": "These subtopics examine traditional therapeutic approaches—including surgery, radiotherapy, and cytotoxic chemotherapeutics—alongside their mechanisms of action and clinical limitations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic cellular vulnerabilities, checkpoint defects, and DNA repair pathways",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit distinct biological vulnerabilities in cancer cells, including hormone dependence, cell cycle checkpoint alterations, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Kinase inhibitors, oncogene addiction, and resistance mechanisms",
+      "groupedBecause": "These subtopics detail the development and application of small-molecule kinase inhibitors targeting driver oncogenes, as well as the pathways and challenges of acquired drug resistance.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Therapeutic monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics focus on engineered antibody technologies designed to bind tumor-associated surface antigens and deliver targeted cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology, checkpoint inhibition, and adoptive cell therapies",
+      "groupedBecause": "These subtopics address the biological basis of tumor immunosurveillance and the application of immunotherapies, including immune checkpoint inhibitors, bispecific engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical challenges, historical trends, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics synthesize broad clinical considerations in oncology, spanning genomic stratification, epidemiological trends, treatment challenges, and ethical considerations.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

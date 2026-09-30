@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to complement lecture",
+      "groupedBecause": "This subtopic introduces the lecture topic and sets expectations regarding complement nomenclature.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals of the complement system and C3",
+      "groupedBecause": "These subtopics establish the foundational concepts, naming conventions, and central biochemical role of C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways and trigger threshold",
+      "groupedBecause": "These subtopics detail the three upstream pathways through which complement is initiated to reach the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics explain the downstream effector processes driven by complement activation, including opsonization, inflammation, and membrane lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host cell regulation of complement activation",
+      "groupedBecause": "This subtopic explains the regulatory proteins and mechanisms that protect host cells from spontaneous complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic details how specific deficiencies in complement and regulatory components lead to distinct clinical presentations.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion strategies and applications of protein A",
+      "groupedBecause": "This subtopic examines how pathogens evade complement attack and how staphylococcal evasion factors are utilized in research and clinical settings.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "This subtopic provides the concluding remarks and frames the upcoming lecture in the series.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

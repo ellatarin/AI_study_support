@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the course structure, themes, and learning outcomes for cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Disruption of genetic programming and tissue architecture in cancer",
+      "groupedBecause": "These subtopics explain how cancer originates from accumulated genetic and epigenetic changes that disrupt normal cellular differentiation and three-dimensional tissue organization.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and pathology of tumor invasion, metastasis, and progression",
+      "groupedBecause": "These subtopics explore the pathological distinctions between benign and malignant neoplasms, focusing on mechanisms of local tissue invasion, metastatic spread, and stepwise tumor progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor classification, nomenclature, and clinical pathophysiology",
+      "groupedBecause": "These subtopics outline the systematic naming of tumors and explain the physiological mechanisms through which neoplastic growths cause illness and death.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Patterns of cancer incidence across human populations and animal taxa",
+      "groupedBecause": "These subtopics analyze the epidemiological distribution of major cancer types in humans and compare tumor incidence across diverse multicellular species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and screening strategies for cancer detection",
+      "groupedBecause": "These subtopics examine typical clinical cancer signs and evaluate the effectiveness and limitations of population screening methods across different tumor sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "This subtopic wraps up the lecture with concluding remarks and reminders for upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

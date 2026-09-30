@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Progression",
+      "groupedBecause": "The lecturer introduces the lecture objectives, review literature, and the general framework of cancer progression and hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Factor Signaling and Proliferative Pathways",
+      "groupedBecause": "These subtopics detail how oncogenic mutations in surface receptors and intracellular signaling cascades drive sustained proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Blocks in Tumor Development",
+      "groupedBecause": "These subtopics examine how arrested cell differentiation contributes to tumor formation across leukemias and colorectal epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of Resistance to Apoptosis",
+      "groupedBecause": "This subtopic explains the regulatory pathways and mitochondrial mechanisms that allow cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere Maintenance, Senescence, and Growth Control Summary",
+      "groupedBecause": "These subtopics address replicative immortality through telomerase and cellular senescence before concluding the discussion of cell-intrinsic growth control.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Reprogramming and Oncometabolites in Cancer",
+      "groupedBecause": "These subtopics explore how cancer cells alter metabolic pathways such as glycolysis and generate oncometabolites that influence gene expression.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "This subtopic describes how growing tumors recruit new vasculature to satisfy their oxygen and nutrient requirements.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, Genetics, and Detection of Metastasis",
+      "groupedBecause": "These subtopics outline the steps of the metastatic cascade, seed-and-soil interactions, underlying clonal genetics, and diagnostic tracking methods.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "The lecturer concludes the session with final remarks on integrating cancer hallmarks and invites student questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

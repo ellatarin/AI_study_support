@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic provides introductory framing and outlines the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition via PAMPs, DAMPs, and PRRs",
+      "groupedBecause": "These subtopics examine how the innate immune system detects microbial infection and tissue damage through pattern recognition receptors and their intracellular signaling platforms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory response, leukocyte recruitment, and systemic consequences",
+      "groupedBecause": "These subtopics detail the cellular and physiological events that drive inflammation, including sentinel cell signaling, leukocyte extravasation, lymphatic drainage, and severe systemic reactions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "These subtopics explain the mechanisms responsible for shutting down inflammation, repairing damaged tissue, and managing chronic or persistent inflammatory states.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and preview",
+      "groupedBecause": "This subtopic provides the closing framing for the lecture and previews the subsequent lecture topic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the course structure, core themes, and intended learning outcomes for the cancer biology series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis and cellular modeling of cancer development",
+      "groupedBecause": "These subtopics examine how cancer arises from stepwise genetic and epigenetic changes that disrupt normal cellular differentiation and tissue architecture, and consider how this is modeled in culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms, histology, and progression of invasion and metastasis",
+      "groupedBecause": "These subtopics examine how benign precursor lesions evolve into invasive and metastatic malignancies through histological, anatomical, and stepwise progression mechanisms.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature, classification, and clinical pathophysiology",
+      "groupedBecause": "These subtopics address the naming conventions for different tumor types and the physical and systemic mechanisms through which both benign and malignant growths cause patient morbidity and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics explore tumor incidence patterns in humans and compare cancer susceptibility and development across diverse animal species and multicellular taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical symptoms and cancer screening strategies",
+      "groupedBecause": "These subtopics evaluate early clinical presentations of tumors and compare the methods, histological principles, and efficacy of screening programs across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "This subtopic concludes the lecture with a reminder of the learning outcomes and housekeeping details for upcoming sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

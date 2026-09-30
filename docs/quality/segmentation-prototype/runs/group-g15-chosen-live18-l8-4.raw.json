@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "This subtopic introduces the final lecture and outlines its core learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics examine traditional modalities for treating tumors, including surgical resection, radiotherapy, and cytotoxic chemotherapeutic agents along with their mechanisms and toxicities.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting molecular and genetic vulnerabilities of cancer cells",
+      "groupedBecause": "These subtopics explore therapeutic approaches that exploit intrinsic cancer cell defects, including hormone dependency, checkpoint deficiencies, and DNA repair alterations.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeting oncogenic kinases and managing drug resistance",
+      "groupedBecause": "These subtopics discuss the design and clinical application of small-molecule kinase inhibitors targeting oncogene addiction, alongside the molecular mechanisms of resistance and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Antibody-based therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe how engineered monoclonal antibodies and cytotoxic antibody-drug conjugates target tumor surface antigens to eliminate cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immune surveillance and cellular immunotherapy",
+      "groupedBecause": "These subtopics detail the biological basis of tumor immune surveillance and clinical immunotherapies, including immune checkpoint inhibitors, bispecific antibodies, and CAR T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical trends, and future perspectives in cancer therapy",
+      "groupedBecause": "These subtopics examine overarching clinical challenges, historical survival trends, genomic profiling, and ethical dilemmas shaping modern cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic opens the lecture by introducing the speaker, the course framework, and the key learning outcomes regarding cancer etiology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, Evolutionary, and Endogenous Drivers of Cancer",
+      "groupedBecause": "These subtopics establish cancer as an evolutionary genetic disease driven by endogenous mutational processes, microenvironmental factors, and inherited predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures, Epidemiology, and the Cancer Etiology Debate",
+      "groupedBecause": "These subtopics examine environmental carcinogen exposures, geographic variations in incidence, and the debate surrounding the relative contribution of intrinsic mutations versus external risk factors.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens and Viral Carcinogenesis",
+      "groupedBecause": "These subtopics explain the role of infectious pathogens in cancer development, using Epstein-Barr virus and Burkitt lymphoma to illustrate mechanisms of viral oncogenesis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Xenobiotic Activation",
+      "groupedBecause": "These subtopics examine how environmental radiation and chemical agents undergo metabolic processing to produce reactive intermediates, oxidative stress, and DNA adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Host Susceptibility, and Carcinogenesis Summary",
+      "groupedBecause": "These subtopics describe non-mutagenic promotional mechanisms driven by inflammation and signaling, tissue and developmental vulnerabilities, and conclude with a summary of carcinogenic pathways.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Identifying and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro experimental strategies used to detect and prove the carcinogenic potential of various agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "This subtopic concludes the lecture by framing environmental exposure management within everyday risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

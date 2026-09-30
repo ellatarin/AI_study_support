@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "This subtopic provides introductory framing and outlines the intended learning outcomes for the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional modalities: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics examine traditional modalities of cancer therapy that target tumors through physical resection, radiation-induced DNA damage, and non-selective cytotoxic mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and checkpoint defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that selectively target cancer cells by taking advantage of their specific biological defects in signaling, cell cycle checkpoint regulation, and DNA repair.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeting oncogene addiction and hyperactivated kinases",
+      "groupedBecause": "These subtopics focus on the therapeutic inhibition of driver oncogenic kinases and the molecular mechanisms governing drug resistance and addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain the design and application of antibody-based therapeutics to directly neutralize surface receptors or deliver targeted cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immune surveillance and cellular immunotherapy",
+      "groupedBecause": "These subtopics explore the principles of tumor immune recognition and the clinical application of immunotherapies that mobilize T cells against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Systemic challenges, population trends, and future directions in oncology",
+      "groupedBecause": "These subtopics evaluate broader challenges in cancer treatment, including therapeutic resistance, epidemiological trends, and evolving ethical paradigms in patient management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

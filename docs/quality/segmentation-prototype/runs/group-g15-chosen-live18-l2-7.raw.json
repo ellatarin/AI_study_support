@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Lecture",
+      "groupedBecause": "This subtopic provides the introductory framing and context for the lecture on complement.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals and Central Role of C3",
+      "groupedBecause": "These subtopics establish the foundational concepts and nomenclature of the complement system, focusing on C3 as the central fulcrum.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement Activation Pathways",
+      "groupedBecause": "These subtopics explain the recognition mechanisms that initiate complement activation across distinct pathways and lead to the trigger threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Mechanisms of Complement",
+      "groupedBecause": "These subtopics detail the downstream effector processes through which activated complement destroys pathogens and mediates inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation of Complement",
+      "groupedBecause": "This subtopic examines the regulatory proteins and mechanisms that protect host cells from accidental complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Manifestations of Complement Deficiencies",
+      "groupedBecause": "This subtopic analyzes the distinct clinical presentations and pathology arising from deficiencies in specific complement pathway components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion and Applications",
+      "groupedBecause": "This subtopic explores the strategies pathogens use to circumvent complement attack and how these bacterial factors are applied in medicine and research.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Next Lecture",
+      "groupedBecause": "This subtopic provides the concluding framing and a preview of the upcoming lecture topic.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

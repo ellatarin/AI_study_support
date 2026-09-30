@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the lecturer's welcome, course context, and outline of learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer etiology: bad luck, genetics, and environmental exposure",
+      "groupedBecause": "These subtopics examine the contributing factors to cancer development, balancing endogenous random mutations and genetic predispositions against environmental risks supported by epidemiological and population data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of chemical, physical, and biological carcinogenesis",
+      "groupedBecause": "These subtopics detail the cellular and molecular mechanisms by which infectious agents, chemical mutagens, radiation, and non-mutagenic promoters initiate and drive tumor formation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for identifying and proving carcinogenicity",
+      "groupedBecause": "These subtopics explore the experimental, genomic, and epidemiological tools used to demonstrate that specific agents cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and risk-benefit analysis",
+      "groupedBecause": "This subtopic concludes the lecture with overarching takeaways on lifestyle risks, regulatory challenges, and daily risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

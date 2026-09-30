@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecture objectives, the multistep model of tumor progression, and the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways and oncogenic mutations",
+      "groupedBecause": "These subtopics explain how oncogenic mutations deregulate growth-promoting and growth-inhibitory cell signaling pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks in terminal cellular differentiation",
+      "groupedBecause": "These subtopics explore how cancer cells fail to terminally differentiate in hematopoietic malignancies and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and p53 regulation",
+      "groupedBecause": "This subtopic details the cellular mechanisms and genetic alterations governing apoptosis evasion and p53 regulation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortalization, senescence, and growth-control summary",
+      "groupedBecause": "These subtopics cover telomere dynamics, TERT reactivation, and p53-driven senescence, concluding the discussion on growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered cellular metabolism and metabolic reprogramming",
+      "groupedBecause": "These subtopics address the Warburg effect, metabolic rewiring across tissue types, and the genetic mutations driving altered cancer metabolism.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and vascular regulation",
+      "groupedBecause": "This subtopic describes the angiogenic switch, oxygen diffusion constraints, and the regulation of tumor vascularization.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, inefficiency, and genomics of metastasis",
+      "groupedBecause": "These subtopics examine the metastatic cascade, factors governing secondary colonization, and the genomic features of metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of cancer hallmarks, recommended reading, and closing remarks.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

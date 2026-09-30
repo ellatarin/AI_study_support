@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the scope of the cancer lecture series, and the specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Genetic Factors, Environmental Exposures, and Epidemiology",
+      "groupedBecause": "These subtopics explore what cancer is and examine the relative contributions of intrinsic biological processes, inherited mutations, and environmental exposures to overall cancer risk.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens in Cancer Development",
+      "groupedBecause": "These subtopics explain how infectious pathogens and co-infections can drive cancer development, illustrated in detail by the mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Mechanisms of DNA Damage",
+      "groupedBecause": "These subtopics describe various chemical and physical mutagens and the metabolic mechanisms, such as xenobiotic activation, through which they induce DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Host Susceptibility, and Mechanisms of Carcinogenesis",
+      "groupedBecause": "These subtopics explain how tumor promoters, chronic inflammation, and host developmental timing contribute to cancer development, concluding with a summary of carcinogenic mechanisms.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Assessing Carcinogenicity and Mutational Signatures",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro methodologies used to determine carcinogenicity and identify mutational causes.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "This subtopic concludes the lecture by summarising the primary takeaways regarding environmental cancer risk and daily risk-benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

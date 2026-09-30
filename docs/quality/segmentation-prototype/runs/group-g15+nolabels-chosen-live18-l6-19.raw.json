@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and cancer hallmarks overview",
+      "groupedBecause": "This subtopic introduces the lecture's objectives, historical context of cancer hallmarks, and the progression model of tumorigenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth factor independence and proliferative signaling pathways",
+      "groupedBecause": "These subtopics detail how oncogenic mutations in receptor tyrosine kinase, Wnt, and TGF-beta cascades drive sustained cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in leukemia and solid tumors",
+      "groupedBecause": "These subtopics explain how arrests in normal cell differentiation contribute to neoplastic transformation in hematopoietic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how alterations in the p53 pathway and the balance of pro- and anti-apoptotic proteins allow cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomeres, and stress-induced senescence",
+      "groupedBecause": "These subtopics describe how telomere dynamics and stress signaling trigger senescence, how cancer cells achieve replicative immortality through telomerase reactivation, and summarize cell-autonomous growth control.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and the Warburg effect",
+      "groupedBecause": "These subtopics analyze aerobic glycolysis, metabolic rewiring across tumor types, and the role of oncometabolites in altering the cancer epigenome.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and blood supply induction",
+      "groupedBecause": "This subtopic examines how tumors switch on angiogenesis to satisfy oxygen and nutrient demands during malignant progression.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Cancer invasion, dissemination, and metastasis",
+      "groupedBecause": "These subtopics detail the metastatic cascade, factors governing secondary site colonization, and the clonal genetics underlying metastatic spread.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and conclusion",
+      "groupedBecause": "This subtopic concludes the lecture by reviewing the convergence of cancer hallmarks and providing closing practical remarks.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

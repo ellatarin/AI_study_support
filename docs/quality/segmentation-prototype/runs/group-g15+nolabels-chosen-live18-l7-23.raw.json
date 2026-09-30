@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "It introduces the lecture's core themes of cancer evolution, cell of origin, and the tumor microenvironment along with the intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic Mutations and Epigenetic Dynamics in Clonal Evolution",
+      "groupedBecause": "They explain how successive genetic driver mutations and transient epigenetic alterations confer competitive fitness advantages to drive clonal selection and expansion.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Hierarchies",
+      "groupedBecause": "They evaluate the cancer stem cell model and present experimental evidence for stem cell origins and hierarchies in leukemias and colorectal cancers.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Promotion, Cellular Interactions, and Integrated Cancer Evolution",
+      "groupedBecause": "They demonstrate how inflammatory and stromal microenvironments enable malignant outgrowth, how these spatial interactions are experimentally investigated, and how these factors synthesize into a Darwinian model of cancer development.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Lecture Conclusion and Next Session Preview",
+      "groupedBecause": "It concludes the lecture and previews the upcoming session on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

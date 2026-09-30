@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Therapy",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning objectives regarding cancer treatment strategies and mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Treatments and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics examine traditional treatment modalities including surgery, radiotherapy, and cytotoxic agents, highlighting their mechanisms, systemic toxicities, and drug resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cellular and Genetic Vulnerabilities",
+      "groupedBecause": "These subtopics explain therapeutic strategies that leverage specific cancer cell vulnerabilities, including hormone dependence, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene Addiction and Kinase Inhibitors",
+      "groupedBecause": "These subtopics address the targeting of hyperactivated oncogenic kinases and the clinical challenges associated with off-target effects, bypass pathways, resistance, and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics detail therapeutic strategies that use engineered monoclonal antibodies and antibody-drug conjugates to selectively eliminate cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Engagement",
+      "groupedBecause": "These subtopics explore tumor immune surveillance and methods for harnessing the immune system against cancer, including checkpoint inhibitors, neoantigen targeting, BiTEs, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Progress, Challenges, and Future Perspectives in Cancer Therapy",
+      "groupedBecause": "These subtopics review historical gains in patient survival, current clinical challenges surrounding heterogeneity and resistance, and emerging directions and ethical considerations in oncology.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

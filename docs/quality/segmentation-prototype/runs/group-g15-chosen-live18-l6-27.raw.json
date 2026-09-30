@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "This subtopic introduces the lecture's learning objectives, the multistep mutation model, and the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in pathways such as Wnt/beta-catenin and receptor tyrosine kinase signaling promote sustained cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal cell differentiation",
+      "groupedBecause": "These subtopics examine how cancer cells evade terminal differentiation in hematological malignancies and intestinal epithelial renewal.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and p53 regulation",
+      "groupedBecause": "This subtopic details how cancer cells resist programmed cell death by altering the p53 pathway and the balance of pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere dynamics, cellular senescence, and growth-control summary",
+      "groupedBecause": "These subtopics explain how cancer cells achieve replicative immortality by overcoming telomere shortening and senescence, concluding with a summary of growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics describe how cancer cells alter their metabolism through aerobic glycolysis, tissue-specific rewiring, and metabolic gene mutations producing oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explains the angiogenic switch, the balance of angiogenic activators and inhibitors, and the necessity of vascularization for tumor growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dynamics, and genomics of metastasis",
+      "groupedBecause": "These subtopics explore the metastatic cascade, the seed-and-soil hypothesis, and genomic findings including whole genome duplication in metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "This subtopic concludes the lecture with closing remarks, recommended reading on cancer hallmarks, and practical session housekeeping.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

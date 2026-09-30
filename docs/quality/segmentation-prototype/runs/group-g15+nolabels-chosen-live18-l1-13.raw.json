@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "The lecturer welcomes the students and outlines the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate recognition of pathogens and tissue damage",
+      "groupedBecause": "These subtopics describe how pattern recognition receptors and downstream signaling complexes detect microbial products and cellular damage to initiate immune responses.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Sentinel cell activation, leukocyte recruitment, and systemic inflammation",
+      "groupedBecause": "These subtopics explain how activated sentinel cells direct leukocyte trafficking into tissues and the lymphatic system, as well as the risks of systemic inflammatory overactivation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "These subtopics detail the mechanisms that terminate inflammatory responses, the pathways of tissue healing, and the physiological roles of chronic inflammation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer concludes the session and previews the topic of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

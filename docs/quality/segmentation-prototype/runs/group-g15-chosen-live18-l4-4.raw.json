@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic serves as the lecture opening, introducing the lecturer, the course structure, and the key learning outcomes regarding cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic, Genetic, and Evolutionary Drivers of Cancer",
+      "groupedBecause": "These subtopics explain the core concept of cancer as an evolutionary genetic disease driven by endogenous mutational processes, replication errors, and inherited genetic predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Factors, Epidemiology, and the Cancer Risk Debate",
+      "groupedBecause": "These subtopics explore external environmental exposures, the debate over biological chance versus external carcinogens, and population-level epidemiological patterns.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Biological and Chemical Mechanisms of Carcinogenesis and Tumor Promotion",
+      "groupedBecause": "These subtopics detail the direct and indirect mechanisms through which infectious pathogens, dietary toxins, xenobiotic metabolism, chronic inflammation, tumor promoters, and developmental susceptibility drive cancer formation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Investigating and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, in vivo animal, and in vitro experimental methods used to identify, measure, and prove the carcinogenicity of specific agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Wrap-Up and Risk-Benefit Analysis",
+      "groupedBecause": "This subtopic provides the concluding framing for the lecture, summarizing the central themes of environmental exposure and balancing everyday risks against benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

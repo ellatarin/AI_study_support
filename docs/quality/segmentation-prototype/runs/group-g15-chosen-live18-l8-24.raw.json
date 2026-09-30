@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture overview",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning objectives regarding cancer therapies and their modes of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics cover conventional cancer treatment modalities that physically remove, irradiate, or systemically poison rapidly dividing cells.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting specific vulnerabilities and genetic defects in cancer cells",
+      "groupedBecause": "These subtopics examine therapies designed to target intrinsic cancer vulnerabilities, including hormone receptor dependencies, cell cycle checkpoint losses, and DNA repair defects.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeted kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "These subtopics explore how oncogene-addicted kinases are targeted by small-molecule inhibitors and explain how tumors develop drug resistance and addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe targeted therapies that use engineered antibodies to disrupt receptor signaling or deliver cytotoxic payloads directly to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immune surveillance and immune checkpoint blockade",
+      "groupedBecause": "These subtopics discuss the evidence for immune surveillance against tumors and explain how checkpoint inhibitor therapies reactivate T cells against tumor neoantigens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Bispecific T-cell engagers and CAR T-cell therapies",
+      "groupedBecause": "These subtopics examine synthetic immunology approaches that physically recruit or genetically engineer T cells to attack cancer cells.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Modern challenges, future directions, and ethical dilemmas in cancer therapy",
+      "groupedBecause": "These subtopics assess broader clinical considerations in oncology, including tumor heterogeneity, genomic stratification, historical survival trends, and ethical dilemmas surrounding treatment choices.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

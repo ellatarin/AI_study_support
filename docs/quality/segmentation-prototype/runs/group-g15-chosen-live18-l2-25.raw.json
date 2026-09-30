@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to complement",
+      "groupedBecause": "This subtopic opens the lecture with introductory framing on the importance and complexity of the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations and core principles of complement",
+      "groupedBecause": "These subtopics establish the foundational concepts and core molecular architecture of the complement system prior to pathway activation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three pathways that initiate the complement cascade and drive the system toward its trigger threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics detail the downstream effector mechanisms through which activated complement eradicates pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "This subtopic explains the mechanisms host cells use to regulate complement activity and prevent self-damage.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic details the clinical manifestations and disease outcomes associated with specific complement deficiencies.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion mechanisms and applications",
+      "groupedBecause": "This subtopic examines how pathogens evade complement-mediated destruction and how these mechanisms are applied therapeutically and experimentally.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview",
+      "groupedBecause": "This subtopic closes the lecture with concluding remarks and previews the upcoming session.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

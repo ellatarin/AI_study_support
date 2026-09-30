@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Cancer Biology Course",
+      "groupedBecause": "This subtopic introduces the course structure, learning outcomes, and core themes of the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Development and Differentiation",
+      "groupedBecause": "These subtopics frame cancer as a progressive breakdown of normal cellular differentiation and tissue architecture driven by accumulated genetic changes, alongside methods used to model it in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Progression",
+      "groupedBecause": "These subtopics explain the pathological hallmarks of tumor invasion and metastasis, using colorectal neoplasia to demonstrate the stepwise progression from benign precursors to invasive malignancy.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Classification, Nomenclature, and Pathological Effects",
+      "groupedBecause": "These subtopics outline the systematic naming conventions for benign and malignant neoplasms and detail the clinical mechanisms through which tumors cause disease and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer Incidence in Humans and Other Species",
+      "groupedBecause": "These subtopics analyze the epidemiological frequency and mortality of major cancer types in humans and compare them to tumor patterns across diverse animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Cancer Screening and Detection",
+      "groupedBecause": "These subtopics evaluate the principles, histological foundations, and comparative efficacy of early cancer screening programs across different organ systems.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Practical Preview",
+      "groupedBecause": "This subtopic concludes the lecture by reviewing the core learning outcomes and looking ahead to the upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

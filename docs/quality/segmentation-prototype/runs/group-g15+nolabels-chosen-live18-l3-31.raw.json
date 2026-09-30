@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer welcomes the students, introduces the scope of the lecture series, and outlines the specific learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Multistep Failure of Cellular Differentiation",
+      "groupedBecause": "These subtopics explain how the accumulation of genetic and epigenetic alterations causes cells to deviate from normal developmental and tissue differentiation programs.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and the Progression to Malignancy",
+      "groupedBecause": "These subtopics describe the histological, physical, and stepwise biological processes through which localized benign tumors breach basement membranes and spread to distant sites.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Principles of Tumor Nomenclature",
+      "groupedBecause": "This subtopic outlines the standard conventions and exceptions used to name benign and malignant neoplasms based on their tissue origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic details the local physical obstructions, systemic metabolic disruptions, and organ failures through which tumors cause disease and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Patterns of Cancer Incidence Across Human Tissues and Animal Species",
+      "groupedBecause": "These subtopics examine epidemiological data on tumor prevalence in humans and compare tumor distribution across different animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Rationale and Methods for Cancer Screening",
+      "groupedBecause": "These subtopics evaluate the principles, clinical efficacy, and limitations of early screening approaches across different anatomical cancer sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing Framing and Practical Session Preview",
+      "groupedBecause": "The lecturer concludes the lecture by reiterating the learning outcomes and providing information on upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Lecture",
+      "groupedBecause": "The lecturer introduces the lecture topic and frames the session's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and Danger Recognition by Pattern Recognition Receptors",
+      "groupedBecause": "These subtopics describe the molecular mechanisms and receptor systems by which the innate immune system recognizes pathogens and cellular damage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Leukocyte Recruitment, Trafficking, and Inflammatory Responses",
+      "groupedBecause": "These subtopics explain how sentinel cell activation drives leukocyte trafficking, local tissue extravasation, and systemic inflammatory responses.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics explore how inflammation is resolved, how damaged tissue is repaired, and how unresolved inflammation leads to chronic disease and granuloma formation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Closing",
+      "groupedBecause": "The lecturer concludes the lecture and announces the topic of the next session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

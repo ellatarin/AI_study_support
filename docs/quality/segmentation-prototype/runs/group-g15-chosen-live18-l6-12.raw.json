@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "This opening section sets the lecture aims, introduces the evolutionary progression model of cancer mutations, and frames the discussion around the core hallmarks of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth signaling pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations alter upstream receptors and intracellular signaling cascades to drive autonomous proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal differentiation",
+      "groupedBecause": "These subtopics examine how mutations disrupt lineage maturation programs to keep cells trapped in proliferative progenitor states across hematopoietic and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic describes the molecular mechanisms and protein interactions governing the mitochondrial apoptotic pathway and how cancer cells resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and senescence bypass",
+      "groupedBecause": "These subtopics explore telomere shortening, TERT reactivation mechanisms, and the p53 stress-response pathways that cancer cells circumvent to achieve unlimited replicative potential.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered cellular metabolism and metabolic reprogramming",
+      "groupedBecause": "These subtopics describe how cancer cells rewire their metabolic pathways to support rapid biosynthesis and generate oncogenic metabolites that alter gene expression.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic details the vascular requirements for sustained tumor growth and the regulatory switch between pro- and anti-angiogenic factors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastasis and systemic dissemination",
+      "groupedBecause": "These subtopics address the biological stages, physical and environmental barriers, and genomic features that govern tumor cell invasion and metastatic colonization.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and recommended reading",
+      "groupedBecause": "This closing section summarizes the conceptual framework of cancer hallmarks, offers recommended literature, and closes the lecture.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

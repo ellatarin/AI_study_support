@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "It introduces the lecture on cancer evolution, contextualises it within previous material, and sets out the learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic Mutation, Clonal Selection, and Epigenetic Reprogramming",
+      "groupedBecause": "These subtopics examine how successive genetic mutations drive Darwinian clonal expansion and how non-mutational epigenetic alterations can independently confer cancer hallmarks.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and the Cancer Stem Cell Hypothesis",
+      "groupedBecause": "These subtopics explore the role of tissue hierarchy, stemness properties, and specific cells of origin in initiating and propagating tumors across leukemia and colorectal cancer models.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Promotion and Stromal Dependency in Tumor Growth",
+      "groupedBecause": "These subtopics explain how microenvironmental factors, including chronic inflammation and supportive stromal interactions, provide essential permissive cues for tumor outgrowth and present therapeutic targets.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Modern Technologies for Mapping Tumor Plasticity and Microenvironments",
+      "groupedBecause": "It outlines how single-cell sequencing and spatial omics technologies enable the experimental investigation of tumor evolution, cell states, and cell-cell interactions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Integrated Multifactorial Model of Cancer Evolution",
+      "groupedBecause": "It synthesises how genetic mutations, epigenetic states, cellular origin, and microenvironmental conditions converge to drive cancer progression as an evolutionary process.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Closing Framing and Next Lecture",
+      "groupedBecause": "It concludes the lecture session and previews the upcoming topic of cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

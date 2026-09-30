@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Overview of Cancer Hallmarks",
+      "groupedBecause": "It introduces the lecture's objectives, historical framework, and stepwise model of cancer progression through hallmark functional properties.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Autonomy and Signaling Pathway Deregulation",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell surface receptors and intracellular signaling cascades drive sustained proliferation and growth factor independence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumorigenesis",
+      "groupedBecause": "These subtopics explore how cancer cells fail to exit the cell cycle and arrest in immature states across hematopoietic malignancies and intestinal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic explains how cancer cells resist programmed cell death through mutations in p53 and the dysregulation of pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Cellular Senescence",
+      "groupedBecause": "These subtopics describe how cancer cells overcome the Hayflick limit via telomerase reactivation and examine how normal stress signaling via p53 induces cellular senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Reprogramming and Oncometabolites in Cancer",
+      "groupedBecause": "These subtopics examine how cancer cells rewire their metabolism toward aerobic glycolysis and how metabolic enzyme mutations generate oncometabolites that alter gene expression.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor Angiogenesis and the Angiogenic Switch",
+      "groupedBecause": "This subtopic addresses the requirement for new blood vessel growth to sustain tumor survival and describes the physiological balance of angiogenic regulators.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, Dynamics, and Genetics of Metastasis",
+      "groupedBecause": "These subtopics detail the metastatic cascade, the seed-and-soil hypothesis, clinical tracking via circulating biomarkers, and the clonal genomic landscape of metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and Review of Cancer Hallmarks",
+      "groupedBecause": "It concludes the lecture with framing on the collective manifestation of cancer hallmarks and references to further reading and upcoming practicals.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic introduces the lecture by outlining how previously learned immune components are integrated in the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition and pattern recognition receptors",
+      "groupedBecause": "These subtopics detail how the innate immune system identifies pathogens and cellular damage using conserved molecular patterns and diverse pattern recognition receptor pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "The inflammatory cascade and leukocyte mobilization",
+      "groupedBecause": "These subtopics explore how sentinel cell activation initiates local and systemic inflammatory signals, coordinates leukocyte extravasation into tissues, and drives lymphatic transport.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics examine the passive and active mechanisms that terminate inflammation, drive tissue healing, and manage persistent insults through chronic inflammation and granulomas.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the session and previews the subject of the upcoming lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

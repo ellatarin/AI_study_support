@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the structure, learning objectives, and interdisciplinary scope of the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of genetic regulation, cellular differentiation, and tissue architecture",
+      "groupedBecause": "They describe how stepwise genetic and epigenetic alterations disrupt normal developmental differentiation and three-dimensional tissue organization.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and benign versus malignant progression",
+      "groupedBecause": "They explore the histological characteristics, metastatic dissemination pathways, and clinical progression patterns distinguishing benign from malignant neoplasms.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification conventions",
+      "groupedBecause": "It outlines the standardized terminology and naming rules used to categorize benign and malignant tumors based on their tissue origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "It explains the local and systemic processes through which tumor mass effects and metastatic spread cause organ failure, illness, and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence across human populations and multicellular taxa",
+      "groupedBecause": "They examine cancer epidemiological patterns and mortality rates in humans while comparing tumor susceptibility across diverse multicellular animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening modalities",
+      "groupedBecause": "They discuss clinical cancer symptoms and evaluate the utility, histology, and limitations of various screening methods for early tumor detection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "It concludes the session by reviewing the learning outcomes and providing directions for upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

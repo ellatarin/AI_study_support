@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Progression",
+      "groupedBecause": "The lecturer introduces the lecture objectives, reviews the multi-step model of cancer progression, and outlines the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signal Autonomy and Proliferation Pathways",
+      "groupedBecause": "These subtopics explain how mutations in signaling cascades such as Wnt/beta-catenin, RTK/Ras/MAPK, and PI3K/AKT drive cell-cycle progression and growth signal independence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Tumorigenesis",
+      "groupedBecause": "These subtopics examine how genetic alterations that arrest terminal cell differentiation promote tumor expansion in leukemias and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic describes how mutations disrupting p53 signaling and the balance between Bax and BCL2 allow cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics explain how cancer cells overcome the Hayflick limit and senescence through telomere maintenance and TERT activation, concluding the discussion of cell-intrinsic growth control mechanisms.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer Metabolism and the Warburg Effect",
+      "groupedBecause": "These subtopics explore the metabolic rewiring of cancer cells toward aerobic glycolysis, the clinical utility of metabolic imaging, and the influence of oncometabolites on the epigenome.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "This subtopic addresses the angiogenic switch, examining how tumors stimulate new blood vessel growth to overcome hypoxia and obtain necessary nutrients.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, Dissemination, and Genetics of Metastasis",
+      "groupedBecause": "These subtopics discuss the multi-step metastatic cascade, diagnostic tracking through lymph node and blood biomarkers, the seed-and-soil hypothesis, and the genomic characteristics of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and Summary of Cancer Hallmarks",
+      "groupedBecause": "The lecturer concludes the session by summarizing how diverse mutational paths converge on common hallmarks and previewing upcoming course activities.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

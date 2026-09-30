@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Biology and Lecture Learning Outcomes",
+      "groupedBecause": "This subtopic frames the multi-lecture course by introducing the general objectives, clinical context, and specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Normal Tissue Differentiation and Architecture",
+      "groupedBecause": "These subtopics establish the core biological definition of cancer as a breakdown of multicellular differentiation and tissue architecture driven by accumulated genetic and epigenetic changes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Benign-to-Malignant Progression",
+      "groupedBecause": "These subtopics examine how tumors breach tissue boundaries, disseminate to distant organs, and progress along the spectrum from benign precursor lesions to invasive malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Nomenclature of Benign and Malignant Tumors",
+      "groupedBecause": "This subtopic outlines the standard conventions and notable exceptions used to classify and name tumors based on tissue origin and malignancy.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of Morbidity and Mortality in Cancer",
+      "groupedBecause": "This subtopic explains the physiological and anatomical mechanisms by which primary and metastatic tumors cause systemic disease and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Patterns of Tumor Incidence Across Tissues and Species",
+      "groupedBecause": "These subtopics compare the epidemiological frequency of various tumor types in humans with tumor incidence across diverse multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and Clinical Modalities of Cancer Screening",
+      "groupedBecause": "These subtopics assess the rationale, benefits, and practical limitations of population screening programs for identifying precursor lesions and early-stage cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Practical Session Preview",
+      "groupedBecause": "This subtopic closes the lecture by referencing the learning outcomes and providing housekeeping details for subsequent practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

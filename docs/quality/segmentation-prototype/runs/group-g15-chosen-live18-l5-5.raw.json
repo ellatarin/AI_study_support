@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The opening framing introduces the session's themes and outlines the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor viruses, oncogene discovery, and cell transformation assays",
+      "groupedBecause": "These subtopics explain how the study of tumor viruses revealed cellular proto-oncogenes and established laboratory assays for cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenes, tumor suppressor genes, and mutation mechanisms",
+      "groupedBecause": "These subtopics define the functional classifications of cancer mutations and demonstrate their molecular mechanisms through cell cycle regulators and p53.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Types and mechanisms of genetic instability in cancer",
+      "groupedBecause": "These subtopics examine how failures in DNA repair pathways, replication fidelity, and mitotic chromosome segregation produce sequence and chromosomal instability.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep tumorigenesis and hereditary cancer predisposition",
+      "groupedBecause": "These subtopics explain the stepwise model of cancer progression and show how inherited mutations accelerate tumor development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and reading recommendations",
+      "groupedBecause": "The closing framing summarizes the completed lecture goals and recommends supplementary reading.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

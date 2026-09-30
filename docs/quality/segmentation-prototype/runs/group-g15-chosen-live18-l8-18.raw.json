@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer therapy",
+      "groupedBecause": "The lecturer introduces the session's learning objectives and frames the overview of cancer therapy approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies",
+      "groupedBecause": "These subtopics examine traditional modalities of cancer treatment, including surgical resection, radiotherapy, and cytotoxic chemotherapy, alongside their mechanisms and limitations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cellular vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics discuss therapeutic strategies that target intrinsic vulnerabilities of cancer cells, including hormone signaling dependence, checkpoint alterations, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Kinase-targeted therapies and resistance mechanisms",
+      "groupedBecause": "These subtopics cover the application of small-molecule kinase inhibitors against oncogene-addicted cancers and the molecular mechanisms underlying resistance and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain how engineered monoclonal antibodies and antibody-drug conjugates are used to target tumor surface markers and deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and immune surveillance",
+      "groupedBecause": "These subtopics explore the biological basis of cancer immune surveillance and modern immunotherapeutic approaches that harness T cells to attack tumor cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical trends, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics evaluate broader clinical challenges, historical survival outcomes, genomic patient stratification, and ethical considerations in managing cancer.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

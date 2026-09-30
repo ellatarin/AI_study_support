@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The opening framing welcomes students, outlines the lecture series structure and multidisciplinary audience, and introduces the key learning objectives before substantive teaching begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological basis of cancer and tissue organization",
+      "groupedBecause": "These subtopics explain how cumulative genetic and epigenetic alterations disrupt developmental differentiation programs and tissue architecture, and discuss the laboratory models used to study these cellular properties.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology and progression of invasion and metastasis",
+      "groupedBecause": "These subtopics examine how tumors progress from contained, benign precursor lesions to locally invasive and metastatic malignancies, highlighting histological markers such as basement membrane penetration.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor classification, nomenclature, and pathophysiological effects",
+      "groupedBecause": "These subtopics address the diagnostic terminology used to classify neoplasms and the physical and physiological mechanisms by which benign and malignant growths cause patient morbidity and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer epidemiology and comparative oncology across species",
+      "groupedBecause": "These subtopics analyze patterns of cancer incidence and organ distribution across human populations, domestic animals, and diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical screening and early detection of cancer",
+      "groupedBecause": "These subtopics discuss the clinical rationale, diagnostic methods, and tissue-specific challenges of screening programs aimed at catching pre-malignant lesions and early-stage tumors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical preview",
+      "groupedBecause": "The closing framing reiterates the core learning outcomes, provides directions for revision and upcoming practical sessions, and dismisses the lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

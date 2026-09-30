@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and mutation progression",
+      "groupedBecause": "This section introduces the lecture structure, learning outcomes, and foundational framework of cancer hallmarks and multi-step mutation progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics examine how mutations in cell-surface receptors and downstream intracellular cascades drive sustained proliferative signaling and growth factor independence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks in terminal cell differentiation",
+      "groupedBecause": "These subtopics explore how cancer cells fail to withdraw from the cell cycle and differentiate, illustrated in hematopoietic malignancies and intestinal epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic details how mutations in p53 and alterations in the balance between pro- and anti-apoptotic proteins prevent cancer cells from undergoing programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and cellular stress signaling",
+      "groupedBecause": "These subtopics discuss telomere biology, mechanisms of telomerase reactivation, senescence, and the role of p53 in coordinating cell fate decisions under cellular stress.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics explain the alterations in cancer cell metabolism, including aerobic glycolysis, tissue-specific metabolic profiles, and mutations that generate oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic describes the angiogenic switch and the mechanisms by which growing tumors stimulate new blood vessel formation to overcome hypoxia and nutrient limitation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genetics of metastasis",
+      "groupedBecause": "These subtopics examine the metastatic cascade, factors governing metastatic efficiency and organotropism, and the genomic characteristics of secondary tumors.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and recommended reading",
+      "groupedBecause": "This section concludes the lecture with a summary of cancer hallmarks, recommended further reading, and closing administrative remarks.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

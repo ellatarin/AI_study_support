@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the session by connecting it to histopathology practicals and outlining the day's learning outcomes on cellular transformation, oncogenes, and cancer genetics.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Virology and Assays for Cellular Transformation",
+      "groupedBecause": "These subtopics explain the historical discovery of oncogenes from transforming tumor viruses and the laboratory assays used to test transforming activity in cells and animal models.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Characteristics and Mechanisms of Oncogenes and Tumor Suppressor Genes",
+      "groupedBecause": "These subtopics define the classes of cancer-driving mutations and explain how oncogenes and tumor suppressor genes regulate the cell cycle and exert dominant, recessive, or dominant-negative effects.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of Genetic Instability and Multi-Step Tumor Progression",
+      "groupedBecause": "These subtopics detail the mechanisms causing sequence and chromosomal instability—including DNA repair failures, replication errors, and mitotic abnormalities—and how these drive multi-step carcinogenesis.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Hereditary Cancer Predispositions and Tumor Evolution",
+      "groupedBecause": "These subtopics discuss how inherited mutations in gatekeeper and caretaker genes predispose individuals to cancer and how genetic instability influences tumor evolution and treatment response.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture Conclusion and Recommended Reading",
+      "groupedBecause": "The lecturer concludes the session with an offer for questions, a book recommendation, and a preview of the upcoming lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

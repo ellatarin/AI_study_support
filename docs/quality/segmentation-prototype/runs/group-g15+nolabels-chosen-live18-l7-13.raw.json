@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Evolution and Lecture Overview",
+      "groupedBecause": "This subtopic provides the opening framing for the lecture by recapping foundational concepts and outlining the learning objectives concerning cancer evolution and the microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic Clonal Evolution and Epigenetic Transformation",
+      "groupedBecause": "These subtopics examine how malignant transformation is driven by Darwinian clonal selection of genetic mutations alongside non-mutational epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Models",
+      "groupedBecause": "These subtopics evaluate how normal tissue hierarchies, the cell of origin, and cancer stem cell dynamics influence tumor initiation and progression.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Promotion and the Evolutionary Framework of Cancer",
+      "groupedBecause": "These subtopics explore how microenvironmental cues and inflammatory promoters drive tumor growth, how these cellular interactions are experimentally investigated, and how they synthesize into a unified evolutionary model.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Lecture Conclusion and Next Steps",
+      "groupedBecause": "This subtopic provides the closing framing by concluding the presentation and previewing the next lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

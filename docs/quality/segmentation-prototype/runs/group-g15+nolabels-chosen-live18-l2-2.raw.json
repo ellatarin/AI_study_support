@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "The lecturer introduces the complement lecture, framing its complexity and nomenclature.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals and Core Principles of Complement",
+      "groupedBecause": "These subtopics introduce the core architecture of the complement cascade, its historical nomenclature, and the central biochemical role of C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement Activation Pathways",
+      "groupedBecause": "These subtopics explain the three distinct recognition pathways that initiate complement and converge to reach the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Mechanisms of Activated Complement",
+      "groupedBecause": "These subtopics detail the three primary downstream effector actions through which complement destroys pathogens and mediates inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation of Complement",
+      "groupedBecause": "This subtopic explains the regulatory proteins and biochemical mechanisms that prevent complement from attacking host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Complement Deficiencies",
+      "groupedBecause": "This subtopic explores the diverse clinical presentations and disease pathologies resulting from deficiencies in specific complement components and regulators.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion of Complement",
+      "groupedBecause": "This subtopic describes how pathogens evolve strategies to resist complement clearance, highlighting mechanisms used by Staphylococcus aureus.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the discussion on complement and previews the next lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

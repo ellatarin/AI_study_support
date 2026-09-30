@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture learning outcomes",
+      "groupedBecause": "This subtopic provides the introductory welcome, course framing, and learning outcomes for the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular differentiation, genetic alterations, and tissue architecture in cancer",
+      "groupedBecause": "These subtopics explain the biological foundations of cancer as a failure of genetic stability, cellular differentiation programs, and three-dimensional tissue architecture, including approaches to modeling them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and histology of tumor invasion and metastasis",
+      "groupedBecause": "These subtopics examine the pathological characteristics, anatomical routes, and histological progression of tumor invasion and metastatic dissemination from benign precursor lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature, clinical risks, and pathophysiological causes of mortality",
+      "groupedBecause": "These subtopics address the standard classification and naming conventions for neoplasms alongside the pathophysiological mechanisms by which benign and malignant tumors cause clinical illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across taxa",
+      "groupedBecause": "These subtopics examine epidemiological patterns of tumor incidence in humans and the comparative occurrence of cancer across diverse animal species and multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical symptoms and cancer screening modalities",
+      "groupedBecause": "These subtopics discuss early clinical signs of malignancy and evaluate the implementation, efficacy, and limitations of screening programs for various cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and housekeeping",
+      "groupedBecause": "This subtopic delivers the closing framing, concluding the lecture with reminders about learning outcomes and upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the lecture",
+      "groupedBecause": "These opening remarks welcome students and outline the core aims and comparative focus of the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional cancer treatments and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics cover traditional treatment modalities including surgery, radiotherapy, and cytotoxic chemotherapy, detailing their mechanisms of action and significant systemic limitations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities and genetic defects in cancer cells",
+      "groupedBecause": "These subtopics examine targeted strategies that exploit specific cancer cell vulnerabilities, including hormone-dependent signaling, cell cycle checkpoint deficiencies, and impaired DNA repair pathways.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Kinase inhibitors, oncogene addiction, and mechanisms of resistance",
+      "groupedBecause": "These subtopics discuss the design and clinical application of small-molecule kinase inhibitors against oncogenic drivers, as well as the emergence of drug resistance, bypass signaling, and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explore antibody-based therapeutics that either disrupt cell-surface receptor signaling, trigger immune effector mechanisms, or deliver targeted cytotoxic agents.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and cellular immune targeting",
+      "groupedBecause": "These subtopics evaluate the principles of immune surveillance and the implementation of immunotherapies, including immune checkpoint inhibitors, bispecific antibodies, and CAR T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Current challenges, clinical trends, and future directions in cancer therapy",
+      "groupedBecause": "These subtopics address broader perspectives on cancer management, including tumor heterogeneity, genomic stratification, historical survival trends, and ethical considerations surrounding treatment options.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Lecture Framing",
+      "groupedBecause": "It introduces the lecture's objectives and outlines the conceptual framework for cancer evolution, stem cells, and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic Clonal Evolution and Epigenetic Plasticity",
+      "groupedBecause": "They examine how the accumulation of driver mutations and epigenetic chromatin alterations confer selective growth advantages during cancer progression.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Hierarchies",
+      "groupedBecause": "They investigate how tissue stem cell properties, differentiation hierarchies, and specific cells of origin influence tumor initiation and propagation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Tumor Microenvironment, Analytical Methods, and Coevolutionary Dynamics",
+      "groupedBecause": "They examine how inflammatory and stromal microenvironments influence cancer progression across stages, the technologies used to study these interactions, and the resulting coevolutionary model of malignancy.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Closing Remarks and Next Lecture",
+      "groupedBecause": "It concludes the lecture session and previews the upcoming topic on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

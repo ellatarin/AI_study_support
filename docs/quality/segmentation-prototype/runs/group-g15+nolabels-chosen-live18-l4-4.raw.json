@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic provides the opening administrative framing, course context, and learning objectives for the lecture on cancer causes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Intrinsic Mutations, Environmental Exposures, and Epidemiology",
+      "groupedBecause": "These subtopics explore the fundamental origins of cancer by evaluating the interplay between intrinsic mutational processes, environmental exposures, and global epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Burkitt Lymphoma Pathogenesis",
+      "groupedBecause": "These subtopics explain how biological agents such as bacteria, parasites, and viruses contribute to malignancy, using Burkitt lymphoma as a detailed case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens: Metabolic Activation and DNA Damage",
+      "groupedBecause": "These subtopics examine how physical radiation and chemical carcinogens induce direct DNA damage or require xenobiotic metabolism to form mutagenic DNA adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Chronic Inflammation, and Two-Stage Carcinogenesis",
+      "groupedBecause": "These subtopics differentiate tumor promoters from initiators, demonstrating how non-mutagenic exposures drive clonal outgrowth through chronic inflammation and intracellular signaling.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Developmental Timing, Cellular Susceptibility, and Mechanistic Summary",
+      "groupedBecause": "These subtopics illustrate how tissue developmental stage and proliferative state govern susceptibility to carcinogens, concluding with a synthesis of the mechanisms of carcinogenesis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, in vivo, and in vitro experimental approaches used to determine carcinogen exposure and evaluate carcinogenic risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Analysis",
+      "groupedBecause": "This subtopic provides the closing framing, summarizing environmental risk factors and the everyday balance of risk versus benefit.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

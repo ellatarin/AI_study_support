@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "This subtopic introduces the lecture and outlines the general scope and challenges of learning the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals, nomenclature, and the central role of C3",
+      "groupedBecause": "These subtopics establish the foundational overview, naming conventions, and central molecular fulcrum of the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation and trigger threshold",
+      "groupedBecause": "These subtopics detail the three pathways of complement recognition and the threshold mechanism required for activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Downstream effector mechanisms of complement",
+      "groupedBecause": "These subtopics explain the primary downstream effector functions triggered by complement activation to eliminate pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "This subtopic describes the regulatory mechanisms and host-surface proteins that prevent complement from damaging host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical manifestations of complement deficiencies",
+      "groupedBecause": "This subtopic explains the clinical manifestations and disease phenotypes resulting from deficiencies in various complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion mechanisms and applications of protein A",
+      "groupedBecause": "This subtopic addresses the strategies used by pathogens to evade complement destruction and their practical applications in biotechnology.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "This subtopic concludes the lecture on complement and previews the next lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

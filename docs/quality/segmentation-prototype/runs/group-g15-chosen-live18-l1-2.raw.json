@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer introduces the topic of the lecture, outlining how known immune molecules and cells combine to initiate and resolve inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate pathogen and damage recognition",
+      "groupedBecause": "These subtopics explain how the innate immune system detects infections and tissue injury through pattern recognition receptors and their intracellular signaling mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory response mechanisms and systemic consequences",
+      "groupedBecause": "These subtopics describe how activated innate cells coordinate leukocyte recruitment, lymphatic priming, and systemic pathology during an acute inflammatory response.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics examine how the immune system terminates inflammation to enable tissue repair and how persistent stimuli lead to chronic adaptations such as granulomas.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer concludes the session and previews the topic of the subsequent lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

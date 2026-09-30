@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and cancer hallmarks overview",
+      "groupedBecause": "The lecturer frames the session by outlining the learning objectives, tumor progression models, and the cancer hallmarks framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of proliferative growth signaling pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations deregulate upstream receptor signaling cascades, specifically Wnt/beta-catenin and receptor tyrosine kinases, to drive continuous proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in tumorigenesis",
+      "groupedBecause": "These subtopics describe how failure to undergo terminal lineage differentiation contributes to malignancy in hematopoietic diseases and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and p53 regulation",
+      "groupedBecause": "This subtopic addresses how cancer cells evade programmed cell death through mutations in p53 and alterations in the mitochondrial apoptotic pathway.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortalization, senescence, and stress signaling",
+      "groupedBecause": "These subtopics examine how telomere maintenance, TERT reactivation, and p53-mediated senescence responses regulate cellular lifespan, concluding the discussion of growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered cellular metabolism and metabolic rewiring",
+      "groupedBecause": "These subtopics explore the Warburg effect, tissue-specific metabolic profiles, and oncometabolites that drive cancer progression.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic covers the necessity and timing of new blood vessel recruitment to supply growing tumors with oxygen and nutrients.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, inefficiency, and genomics of metastasis",
+      "groupedBecause": "These subtopics detail the multistep cascade of systemic tumor dissemination, the seed-and-soil hypothesis, and genomic findings from metastatic sequencing.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and concluding remarks",
+      "groupedBecause": "The lecturer concludes the session by reviewing key concepts, recommending further reading, and closing with housekeeping.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Lecture Framing",
+      "groupedBecause": "This subtopic introduces the lecture series and outlines the key concepts and learning outcomes regarding cancer evolution, stem cells, and the microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Drivers of Clonal Evolution",
+      "groupedBecause": "These subtopics explain how sequential genetic driver mutations and epigenetic chromatin alterations confer selective growth advantages that fuel clonal expansion and malignant transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Models",
+      "groupedBecause": "These subtopics examine how normal tissue hierarchies and cellular origin dictate malignant potential, presenting experimental evidence for stem cell-driven tumorigenesis in leukemia and colorectal cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Influences, Spatial Profiling, and Cancer Coevolution",
+      "groupedBecause": "These subtopics explore how inflammatory and stromal microenvironments promote tumor initiation and sustain established growths, alongside the technologies used to study and synthesize tumor-microenvironment coevolution.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Closing Remarks and Next Lecture",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on cancer therapies.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

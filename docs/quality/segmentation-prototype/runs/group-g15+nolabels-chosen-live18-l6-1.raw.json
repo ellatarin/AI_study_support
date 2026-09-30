@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Tumor Progression",
+      "groupedBecause": "The lecturer introduces the course context, learning objectives, and the framework of cancer hallmarks in relation to tumor progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of Growth Signaling Pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in receptor tyrosine kinase, Wnt/beta-catenin, and TGF-beta cascades confer growth signal autonomy and resistance to inhibitory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Blocks in Cancer",
+      "groupedBecause": "These subtopics explore how oncogenic mechanisms arrest terminal cell differentiation across hematopoietic malignancies and intestinal epithelial carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to Apoptosis",
+      "groupedBecause": "This subtopic details how mutations altering p53 regulation and the balance of Bcl-2 family proteins allow cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Control",
+      "groupedBecause": "These subtopics examine how telomere dynamics and p53 stress signaling regulate cellular senescence and how cancer cells bypass proliferative limits through telomerase activation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Reprogramming in Cancer",
+      "groupedBecause": "These subtopics examine aerobic glycolysis through the Warburg effect, metabolic rewiring across different tumor types, and the epigenetic consequences of oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor Angiogenesis",
+      "groupedBecause": "This subtopic details how developing tumors overcome oxygen diffusion limits by activating the angiogenic switch to stimulate blood vessel growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and Genetics of Metastasis",
+      "groupedBecause": "These subtopics describe the multistep metastatic cascade, the seed-and-soil hypothesis, clinical biomarkers, and the genomic characteristics of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and Lecture Summary",
+      "groupedBecause": "The lecturer concludes the session by summarizing hallmark convergence, highlighting follow-up reading, and inviting questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

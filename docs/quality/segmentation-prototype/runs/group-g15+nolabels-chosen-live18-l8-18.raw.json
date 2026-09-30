@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning objectives regarding cancer therapy approaches and mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics cover traditional therapeutic modalities that debulk tumors or disrupt cellular replication, along with their associated clinical limitations and toxicities.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic tumor vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics explain strategies that exploit cancer-specific biological defects, including hormone receptor dependence, cell cycle checkpoint alterations, and synthetic lethality in DNA repair.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeted kinase inhibitors, oncogene addiction, and resistance",
+      "groupedBecause": "These subtopics discuss the identification of driver oncogenes, the design of small-molecule kinase inhibitors targeting ATP binding sites, and the mechanisms behind acquired drug resistance and addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Therapeutic monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe how engineered monoclonal antibodies and antibody-drug conjugates are directed against cell surface antigens to eliminate tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-directed strategies",
+      "groupedBecause": "These subtopics explore the role of the immune system in tumor surveillance and examine therapies that reactivate, redirect, or engineer T cells to destroy cancer cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Systemic challenges, historical progress, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics evaluate the clinical challenges of tumor heterogeneity and resistance, historical improvements in patient survival, and the strategic and ethical considerations for future cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

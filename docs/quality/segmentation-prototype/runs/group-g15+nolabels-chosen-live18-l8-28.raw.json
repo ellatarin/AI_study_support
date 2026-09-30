@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and sets out the learning objectives regarding cancer therapy approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional Therapies: Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics examine conventional cancer treatment modalities, detailing how surgical resection, radiation, and cytotoxic drugs eliminate rapidly dividing cells and the clinical limitations associated with them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Tumor Vulnerabilities, Checkpoint Defects, and DNA Repair Deficiencies",
+      "groupedBecause": "These subtopics explore therapeutic strategies that exploit intrinsic biological vulnerabilities in cancer cells, including hormone dependence, cell cycle checkpoint loss, and synthetic lethality from DNA repair defects.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene Addiction, Kinase Inhibitors, and Drug Resistance",
+      "groupedBecause": "These subtopics focus on the identification of driving oncogenes, the development of small-molecule kinase inhibitors targeting ATP-binding clefts, and the genetic and pathway-level mechanisms of drug resistance.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics discuss therapeutic strategies that use engineered antibodies to directly target tumor surface antigens or deliver cytotoxic payloads into cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Harnessing the Immune System and T-Cell Therapies",
+      "groupedBecause": "These subtopics detail the mechanisms and applications of immunotherapy, ranging from immune checkpoint inhibitors to bispecific T-cell engagers and chimeric antigen receptor T-cell therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Systemic Challenges, Clinical Progress, and Future Directions",
+      "groupedBecause": "These subtopics review the major challenges in oncology, historical improvements in patient survival, and emerging future paradigms such as early detection, genomic profiling, and ethical considerations in treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

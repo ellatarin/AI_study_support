@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Hallmarks of Cancer Framework",
+      "groupedBecause": "The lecturer introduces the learning objectives, the multistep tumor progression model, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustained Proliferative Signaling and Growth Autonomy",
+      "groupedBecause": "These subtopics explain how oncogenic mutations across extracellular sensor pathways—including Wnt, RTK, Ras-MAPK, and PI3K signaling—drive self-sufficient proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Block in Malignancies",
+      "groupedBecause": "These subtopics examine how cancer cells evade terminal differentiation and remain in proliferative precursor states in both hematopoietic malignancies and colonic crypt epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic details the mechanisms by which disruption of p53 regulation and shifts in the Bax/BCL2 balance protect damaged cells from apoptotic death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Regulation",
+      "groupedBecause": "These subtopics explain the Hayflick limit, telomere dynamics, mechanisms of telomerase activation via TERT alterations, and the p53-dependent senescence failsafe.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic Reprogramming and Oncometabolites",
+      "groupedBecause": "These subtopics transition to complex tumor phenotypes, detailing aerobic glycolysis, metabolic rewiring across tumor types, and the epigenetic consequences of Krebs cycle enzyme mutations.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Induction of Angiogenesis",
+      "groupedBecause": "This subtopic addresses how growing tumors overcome nutrient and oxygen diffusion limits by shifting the angiogenic balance to recruit new blood vessels.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, Dissemination, and Genetics of Metastasis",
+      "groupedBecause": "These subtopics describe the metastatic cascade, lymphatic and vascular dissemination, seed-and-soil dynamics, and the clonal genetic landscape of secondary tumors.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Conclusion and Practical Framing",
+      "groupedBecause": "The lecturer delivers concluding remarks on cancer heterogeneity, references recent hallmark literature, and provides housekeeping for upcoming practical sessions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

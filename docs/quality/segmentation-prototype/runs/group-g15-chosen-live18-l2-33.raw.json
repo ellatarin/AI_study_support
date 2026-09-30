@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "The lecturer welcomes the class, introduces the topic of the complement system, and frames its complexity and nomenclature.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals and general principles of complement",
+      "groupedBecause": "These subtopics provide an overview of complement's primary roles, explain its naming conventions, and detail the central biochemical function of C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three activation pathways—alternative, lectin, and classical—and the threshold required to trigger the cascade.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics describe the downstream processes through which complement eliminates pathogens, including opsonization, inflammation, and membrane lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host cell regulation of complement activation",
+      "groupedBecause": "This subtopic explains the regulatory mechanisms and proteins that protect host cells from unintended complement attack.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentations of complement deficiencies",
+      "groupedBecause": "This subtopic explores how deficiencies in specific complement components lead to distinct clinical outcomes and disease susceptibilities.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion mechanisms and practical applications",
+      "groupedBecause": "This subtopic describes the strategies pathogens use to escape complement-mediated clearance and the clinical and laboratory uses of staphylococcal protein A.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "The lecturer concludes the discussion on complement and previews the next lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

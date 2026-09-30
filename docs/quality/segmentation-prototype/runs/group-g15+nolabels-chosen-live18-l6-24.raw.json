@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Progression",
+      "groupedBecause": "The lecturer introduces the lecture objectives, historical hallmarks framework, and the general paradigm of cancer as a progressive loss of growth control.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Sustaining Proliferative Signaling and Evading Growth Suppression",
+      "groupedBecause": "These subtopics explain how oncogenic mutations across cell-surface receptors and downstream cascades drive autonomous proliferation and override inhibitory growth cues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blockade of Terminal Differentiation",
+      "groupedBecause": "These subtopics explore how tumors in both hematopoietic lineages and epithelial tissues sustain expansion by obstructing normal cell maturation pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic details the molecular mechanisms and regulatory balance between pro- and anti-apoptotic proteins that allow cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence Bypass",
+      "groupedBecause": "These subtopics examine how telomere attrition induces stress-mediated senescence and how tumor cells activate telomerase machinery to achieve unlimited replication.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Deregulating Cellular Metabolism",
+      "groupedBecause": "These subtopics address the functional shift toward aerobic glycolysis and the production of oncometabolites that reinforce malignant progression.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Inducing Tumor Angiogenesis",
+      "groupedBecause": "This subtopic examines the physiological requirement for neovascularization to prevent hypoxia and the regulatory switch governing blood vessel recruitment.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Invasion and Metastasis",
+      "groupedBecause": "These subtopics cover the sequential biological hurdles, dissemination patterns, and genomic features enabling cancer cells to colonize distant tissues.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Summary and Closing",
+      "groupedBecause": "The lecturer provides concluding perspectives on the interconnected nature of cancer hallmarks and closes the session.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture learning outcomes",
+      "groupedBecause": "It welcomes the students, introduces the lecture series structure, and outlines the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of cellular differentiation and tissue architecture",
+      "groupedBecause": "They define cancer as a disruption of normal developmental differentiation and three-dimensional tissue organization driven by accumulated genetic alterations, and discuss the experimental approaches used to study tumor cells.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and histological stages of tumor invasion and progression",
+      "groupedBecause": "They examine how neoplasms progress from localized benign growths to invasive and metastatic malignancies, illustrating the histological features, routes of spread, and variable clinical behavior of tumor development.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Neoplasm nomenclature and classification conventions",
+      "groupedBecause": "It outlines the standardized naming conventions and notable exceptions used to classify benign and malignant tumors based on their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathological mechanisms of cancer-induced illness and death",
+      "groupedBecause": "It details the physiological and anatomical mechanisms through which local and metastatic tumors produce symptoms, systemic complications, and mortality.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across species",
+      "groupedBecause": "They compare the incidence, mortality, and anatomical distributions of various tumor types across human populations and diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical practice of cancer screening",
+      "groupedBecause": "They explore the clinical rationale, diagnostic methods, and varying effectiveness of population screening programs across cervical, colorectal, breast, and prostate cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and review of learning outcomes",
+      "groupedBecause": "It summarizes the session, directs students to review the learning outcomes, and concludes the lecture with logistical reminders.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

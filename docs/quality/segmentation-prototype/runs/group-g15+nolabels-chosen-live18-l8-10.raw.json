@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the final lecture of the course and outlines its key learning objectives regarding cancer therapy approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics outline the principles, applications, systemic toxicities, and resistance mechanisms of standard non-targeted cancer modalities, including surgery, radiotherapy, and cytotoxic agents.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting cancer-specific cellular vulnerabilities and genetic defects",
+      "groupedBecause": "These subtopics explore strategies to selectively target cancer cells by exploiting intrinsic vulnerabilities such as hormone dependency, checkpoint deficiencies, oncolytic viral sensitivity, and DNA repair defects.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene-targeted therapies and kinase inhibitors",
+      "groupedBecause": "These subtopics discuss the rationale behind targeting oncogenic driver mutations, the development of small-molecule kinase inhibitors, and the emergence of drug resistance and addiction mechanisms.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe the use of engineered monoclonal antibodies to block tumor surface receptors, recruit immune effector mechanisms, and deliver targeted cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and cellular immune modulation",
+      "groupedBecause": "These subtopics examine the biological basis of tumor immunosurveillance and evaluate therapeutic methods to activate antitumor T cell responses, including checkpoint inhibitors, BiTEs, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics synthesise the ongoing challenges of tumor heterogeneity and resistance, historical treatment successes, and future paradigms in oncology.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

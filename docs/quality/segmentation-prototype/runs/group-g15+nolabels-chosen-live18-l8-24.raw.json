@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "The lecturer welcomes students to the final lecture and introduces the learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional modalities and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics examine traditional treatment modalities including surgery, radiotherapy, and cytotoxic chemotherapy, detailing their mechanisms, clinical efficacy, and systemic side effects.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting intrinsic cellular vulnerabilities and defects",
+      "groupedBecause": "These subtopics examine strategies that exploit intrinsic biological vulnerabilities in cancer cells, including hormone dependence, cell cycle checkpoint failure, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene addiction, kinase inhibitors, and mechanisms of resistance",
+      "groupedBecause": "These subtopics address the inhibition of oncogenic driver kinases and explain the molecular mechanisms underpinning acquired drug resistance and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibody therapies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe how engineered monoclonal antibodies are utilized to inhibit receptor signalling, induce immune-mediated cytotoxicity, or deliver targeted cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-directed strategies",
+      "groupedBecause": "These subtopics explore the biological basis of tumor immune surveillance and evaluate clinical strategies that re-engage or engineer T cells to destroy tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, historical progress, and future directions in oncology",
+      "groupedBecause": "These subtopics review the overarching obstacles in cancer management, historical improvements in patient survival, and emerging directions for future clinical practice.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Closing case study on childhood leukemia and course conclusion",
+      "groupedBecause": "The lecturer concludes the course with a case study on pediatric leukemia survival to illustrate the clinical realities and ethical dilemmas of cancer treatment.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

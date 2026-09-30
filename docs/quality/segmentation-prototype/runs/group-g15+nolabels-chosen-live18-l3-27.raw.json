@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Biology",
+      "groupedBecause": "The lecturer welcomes the class, outlines the module scope and student backgrounds, and introduces the session's learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Disease of Genetic Change and Differentiation Failure",
+      "groupedBecause": "These subtopics define cancer as an accumulation of genetic alterations leading to the breakdown of cellular differentiation and tissue architecture, and discuss methods for studying tumor cells.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign versus Malignant Tumors: Invasion, Progression, and Nomenclature",
+      "groupedBecause": "These subtopics distinguish benign from malignant neoplasms by examining invasive and metastatic behavior, stepwise histological progression, and tumor naming conventions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "The lecturer explains the physiological and mechanical processes by which primary and metastatic tumors cause illness and death in patients.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative Cancer Incidence Across Tissues and Species",
+      "groupedBecause": "These subtopics examine the incidence and mortality rates of various tumor types in humans and compare cancer susceptibility across different animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and Practice of Cancer Screening",
+      "groupedBecause": "These subtopics examine how tumors present clinically and assess the efficacy, histology, and practical challenges of screening programs for various cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and Next Steps",
+      "groupedBecause": "The lecturer concludes the lecture by reiterating the learning outcomes and looking forward to upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

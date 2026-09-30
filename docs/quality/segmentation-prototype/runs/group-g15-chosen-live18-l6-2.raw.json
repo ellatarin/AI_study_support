@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "This subtopic frames the lecture by introducing the learning outcomes and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling deregulation and pathway mutations",
+      "groupedBecause": "These subtopics explain how extracellular growth signals and intracellular signaling cascades such as Wnt/beta-catenin and RTK pathways are mutated to drive cancer proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal differentiation",
+      "groupedBecause": "These subtopics examine how impaired terminal differentiation sustains cancer cell proliferation in hematopoietic diseases and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic details how tumor cells avoid programmed cell death through alterations in p53 and the balance of pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance, replicative immortality, and senescence",
+      "groupedBecause": "These subtopics address telomere dynamics, TERT reactivation, and p53-mediated stress responses that regulate replicative lifespan and senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and oncometabolite signaling",
+      "groupedBecause": "These subtopics explore the metabolic reprogramming of cancer cells, including aerobic glycolysis, tissue metabolic hardwiring, and the epigenetic impact of oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explains the angiogenic switch and the vascularization mechanisms required to sustain tumor growth beyond diffusion limits.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genomics of metastasis",
+      "groupedBecause": "These subtopics examine the systemic invasion, circulatory dissemination, biological inefficiencies, and genomic characteristics of metastatic cancer cells.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and closing remarks",
+      "groupedBecause": "This subtopic provides the concluding synthesis of cancer hallmarks and closing administrative remarks.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

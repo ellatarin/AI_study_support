@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This opening introduces the lecture topic and outlines the expected learning outcomes for cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and systemic limitations",
+      "groupedBecause": "These subtopics cover conventional cancer treatment modalities and their associated therapeutic limitations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities and genetic defects",
+      "groupedBecause": "These subtopics discuss therapeutic strategies that selectively exploit intrinsic biological vulnerabilities and repair defects in cancer cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Kinase inhibitors, oncogene addiction, and resistance",
+      "groupedBecause": "These subtopics examine the design, clinical implementation, and resistance mechanisms associated with small-molecule kinase inhibitors targeting oncogenic driver mutations.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Targeted monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics describe therapeutic strategies utilizing engineered antibodies to target cancer cell surface antigens and deliver cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and immune system engagement",
+      "groupedBecause": "These subtopics explore cancer immunology and therapeutic strategies designed to engage and enhance host immune responses against tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Clinical challenges, historical trends, and future directions",
+      "groupedBecause": "These subtopics reflect on broad historical trends, systemic challenges, and clinical dilemmas shaping the future of cancer treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

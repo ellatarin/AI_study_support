@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Lecture",
+      "groupedBecause": "The lecturer welcomes the class and outlines the lecture's focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of Innate Immune Recognition via PAMPs and DAMPs",
+      "groupedBecause": "These subtopics describe how the innate immune system recognizes signs of infection and tissue damage through conserved molecular patterns and germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern Recognition Receptor Families and Inflammasome Signaling",
+      "groupedBecause": "These subtopics examine the specific receptor classes, intracellular signaling pathways, and multi-protein inflammasome complexes that detect pathogens and stress.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Cellular Activation, Leukocyte Recruitment, and Systemic Inflammation",
+      "groupedBecause": "These subtopics explore how sentinel cells respond to infection by releasing mediators, recruiting immune cells into tissues, draining antigens to lymph nodes, and potentially triggering severe systemic reactions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammatory Responses",
+      "groupedBecause": "These subtopics explain the active and passive mechanisms that terminate acute inflammation, how damaged tissue is repaired, and how the host responds to persistent inflammatory stimuli.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Conclusion and Next Lecture",
+      "groupedBecause": "The lecturer concludes the session and previews the upcoming topic on the complement system.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

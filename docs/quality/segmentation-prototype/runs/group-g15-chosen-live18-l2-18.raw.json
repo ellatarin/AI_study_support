@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "This subtopic provides the opening framing, setting expectations and context for the lecture on complement.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations and central role of C3 in complement",
+      "groupedBecause": "These subtopics establish the core foundational concepts, naming conventions, and central C3 activation mechanism governing the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three activation pathways that converge to trigger the complement cascade on target surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics explain the effector mechanisms through which activated complement destroys pathogens and mediates inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "This subtopic explains the regulatory mechanisms that protect host cells from unintended complement-mediated damage.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic examines the distinct clinical manifestations and pathologies resulting from deficiencies in specific complement proteins.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion strategies and applications of protein A",
+      "groupedBecause": "This subtopic describes how pathogens evade complement destruction and how bacterial evasion factors are utilized in biomedical applications.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "This subtopic delivers the closing framing, concluding the lecture and previewing the next session on adaptive immunity.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

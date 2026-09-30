@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic provides the lecturer's introduction, course context, and the learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins of Cancer and the Balance Between Intrinsic and Environmental Causes",
+      "groupedBecause": "These subtopics explore the conceptual framework of cancer development, weighing intrinsic cellular errors and bad luck against environmental exposures and epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents and Pathogenesis of Cancer",
+      "groupedBecause": "These subtopics explain how biological pathogens drive oncogenesis, focusing on the discovery and mechanisms of Epstein-Barr virus in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Carcinogens and Metabolic DNA Damage",
+      "groupedBecause": "These subtopics detail how dietary toxins, radiation, and chemical exposures undergo host metabolic processing to form mutagenic DNA adducts and lesions.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic mechanisms of tumorigenesis, including the role of promoters, chronic inflammatory microenvironments, and developmental tissue susceptibility.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, animal, and in vitro experimental approaches used to determine whether agents are carcinogenic.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Summary and Risk-Benefit Analysis",
+      "groupedBecause": "This subtopic provides the concluding framing and final summary on evaluating everyday carcinogen risks versus benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

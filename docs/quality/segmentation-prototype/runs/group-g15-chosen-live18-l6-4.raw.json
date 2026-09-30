@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "This opening subtopic introduces the lecture's learning objectives, the stepwise model of tumor progression, and the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics examine how mutations in signaling cascades, including Wnt, RTK, Ras, and PI3K pathways, drive sustained cellular proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal differentiation",
+      "groupedBecause": "These subtopics detail how cancer cells arrest in immature, proliferative progenitor states across hematopoietic malignancies and intestinal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptotic cell death",
+      "groupedBecause": "This subtopic explains how cancer cells avoid programmed cell death through alterations in p53 regulation and the balance between pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and stress response control",
+      "groupedBecause": "These subtopics examine how telomere maintenance and p53-mediated stress signaling control cellular senescence and immortalization, concluding the discussion on cell-intrinsic growth control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics explore altered energy metabolism in tumors, focusing on aerobic glycolysis, metabolic rewiring, and epigenetic changes induced by oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic describes the angiogenic switch and the mechanisms by which tumors recruit vasculature to overcome diffusion limits for growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic cascade, dissemination, and genomic features",
+      "groupedBecause": "These subtopics detail the mechanical and biological processes governing tumor invasion, circulatory dissemination, colonization efficiency, and associated genomic alterations.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "This closing subtopic summarizes the overall themes of the lecture and points students toward further literature and upcoming practicals.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

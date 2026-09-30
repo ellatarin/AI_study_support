@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "The lecturer introduces the learning outcomes, historical framework, and overarching concepts of cancer hallmarks before examining specific molecular mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signal autonomy and insensitivity to growth inhibitors",
+      "groupedBecause": "These subtopics explain how mutations in receptor tyrosine kinases, Wnt, and downstream signaling cascades drive sustained cellular proliferation and bypass inhibitory cues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blockade of normal cellular differentiation",
+      "groupedBecause": "These subtopics explore how differentiation arrests keep cells in proliferative, immature states in both hematopoietic malignancies and intestinal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis via mitochondrial pathway dysregulation",
+      "groupedBecause": "This subtopic details how alterations in p53 and the balance between pro- and anti-apoptotic Bcl-2 family proteins prevent programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere biology, replicative immortality, and cellular senescence",
+      "groupedBecause": "These subtopics describe the mechanisms cells use to bypass the Hayflick limit through telomerase upregulation and senescence evasion, concluding the review of growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolite signaling",
+      "groupedBecause": "These subtopics address the Warburg effect, metabolic rewiring across different tissues, and the epigenetic consequences of Krebs cycle enzyme mutations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and vascular supply",
+      "groupedBecause": "This subtopic explains the angiogenic switch, the regulatory balance between pro- and anti-angiogenic factors, and the reliance of tumors on new vasculature for growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Cellular dissemination, systemic barriers, and genetics of metastasis",
+      "groupedBecause": "These subtopics analyze the multi-step invasion-metastasis cascade, the seed-and-soil model of colonization, and the clonal genomic features associated with metastatic disease.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and closing remarks",
+      "groupedBecause": "The lecturer wraps up the session by reviewing key takeaway concepts, referencing advanced reading, and providing housekeeping information for upcoming practicals.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

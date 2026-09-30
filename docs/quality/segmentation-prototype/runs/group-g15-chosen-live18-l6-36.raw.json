@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and mutation progression",
+      "groupedBecause": "This subtopic introduces the lecture by outlining the learning objectives and framing how accumulated mutations drive cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and oncogenic deregulation",
+      "groupedBecause": "These subtopics detail how oncogenic mutations in key signaling cascades deregulate growth signals to drive sustained cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal differentiation",
+      "groupedBecause": "These subtopics examine how the arrest of terminal cellular differentiation contributes to tumor development in hematological and epithelial cancers.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and p53 regulation",
+      "groupedBecause": "This subtopic explains how alterations in p53 and mitochondrial regulatory proteins enable cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere biology, cellular senescence, and p53 stress control",
+      "groupedBecause": "These subtopics discuss how cancer cells overcome replicative limits and stress-induced senescence through telomerase reactivation and bypassing p53-dependent growth arrest.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered cellular metabolism and oncometabolites in cancer",
+      "groupedBecause": "These subtopics examine the reprogramming of cellular metabolism toward aerobic glycolysis and the role of metabolic mutations and oncometabolites in tumor progression.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of angiogenesis in tumor growth",
+      "groupedBecause": "This subtopic explains the requirement and regulation of new blood vessel formation to supply oxygen and nutrients to growing tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dynamics, and genomics of cancer metastasis",
+      "groupedBecause": "These subtopics explore the multi-step process of systemic tumor dissemination, the seed and soil hypothesis, and the genomic features of metastatic cells.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and recommended reading",
+      "groupedBecause": "This subtopic concludes the lecture with a summary of the hallmarks of cancer, recommended literature, and closing administrative remarks.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

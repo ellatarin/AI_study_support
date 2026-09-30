@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Overview",
+      "groupedBecause": "The lecturer introduces the session's themes on cancer transformation and genetics and outlines the learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Virology and Cellular Transformation Assays",
+      "groupedBecause": "These subtopics trace how the investigation of transmissible tumor viruses revealed cellular proto-oncogenes and established laboratory assays for measuring cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and Genetics of Oncogenes and Tumor Suppressors",
+      "groupedBecause": "These subtopics explain the functional definitions, cell cycle pathways, and allelic mutation dynamics that distinguish oncogenes from tumor suppressor genes.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and Cellular Consequences of Genetic Instability",
+      "groupedBecause": "These subtopics explore how defects in DNA repair, replication proofreading, and mitotic chromosome segregation generate sequence and chromosomal instability in cancer cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-Step Tumor Progression and Hereditary Cancer Predisposition",
+      "groupedBecause": "These subtopics describe the stepwise accumulation of somatic and germline mutations in cancer development and how inherited defects accelerate tumorigenesis and influence tumor evolution.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing Remarks and Reading Recommendations",
+      "groupedBecause": "The lecturer concludes the session, offers to answer questions, recommends a book, and previews the next lecture on cancer hallmarks.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

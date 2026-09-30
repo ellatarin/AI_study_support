@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "The lecturer welcomes the class and outlines the learning goals for the final lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies: Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics explain the principles, clinical successes, and toxic limitations of standard cancer treatments.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Cancer Cell Vulnerabilities and Checkpoint Defects",
+      "groupedBecause": "These subtopics explore therapeutic strategies that target intrinsic vulnerabilities of cancer cells, including hormone dependence, cell cycle checkpoint loss, and defective DNA repair.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene Addiction, Kinase Inhibitors, and Mechanisms of Resistance",
+      "groupedBecause": "These subtopics detail the development of targeted therapies against hyperactive oncogenic kinases and the mechanisms by which tumors evolve drug resistance and addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Therapeutic Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics examine how engineered antibodies are used to block cell surface receptors, recruit immune effector mechanisms, or deliver cytotoxic payloads directly to tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Engagement",
+      "groupedBecause": "These subtopics focus on harnessing and enhancing host T-cell immunity against cancer via immune checkpoint inhibitors, bispecific T-cell engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, Progress, and Future Directions in Cancer Therapy",
+      "groupedBecause": "These subtopics reflect on historical survival trends, ongoing hurdles such as tumor heterogeneity, and future clinical and ethical perspectives in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Lecture Framing",
+      "groupedBecause": "This opening subtopic introduces the lecture aims and outlines the core framework of cancer evolution and microenvironmental interactions.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Drivers of Clonal Selection",
+      "groupedBecause": "These subtopics explain how sequential driver mutations and non-mutational epigenetic alterations confer competitive growth advantages that drive clonal expansion.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Hierarchies",
+      "groupedBecause": "These subtopics evaluate the cancer stem cell model and investigate how the differentiation state of the initiating cell shapes malignant potential across different tissues.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Inflammation and Tumor Promotion",
+      "groupedBecause": "These subtopics demonstrate how external environmental exposures and chronic inflammatory signaling act as essential promotional cues to permit the malignant outgrowth of mutated cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Established Tumor Stroma and Spatial Profiling Technologies",
+      "groupedBecause": "These subtopics address the continuous dependency of established tumors on supportive microenvironments and the modern high-resolution profiling methods used to investigate them.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Integrated Framework of Cancer Coevolution",
+      "groupedBecause": "This subtopic synthesizes the lecture's concepts by uniting genetic alterations, cellular hierarchies, and microenvironmental pressures into an overarching evolutionary model.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Closing Remarks and Next Lecture",
+      "groupedBecause": "This closing subtopic concludes the session and previews the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

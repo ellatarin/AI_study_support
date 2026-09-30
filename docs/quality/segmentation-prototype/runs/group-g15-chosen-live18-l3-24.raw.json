@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the course structure, themes, and learning outcomes for cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations and experimental modeling of cancer development",
+      "groupedBecause": "These subtopics establish the core biological view of cancer as a stepwise failure of cellular differentiation and tissue architecture, alongside the laboratory models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathological mechanisms and progression of tumor invasion and metastasis",
+      "groupedBecause": "These subtopics examine how tumors progress from contained, benign lesions to invasive and metastasising malignancies through specific anatomical routes and histological stages.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor classification, nomenclature, and clinical causes of morbidity and mortality",
+      "groupedBecause": "These subtopics outline the diagnostic terminology used to classify neoplasms and explain how both benign and malignant tumors produce clinical harm and fatal complications.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Patterns of cancer incidence across human populations and multicellular species",
+      "groupedBecause": "These subtopics compare cancer incidence across human tissue sites, companion animals, and diverse multicellular organisms with developmental programs.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical principles and modalities of cancer screening and early detection",
+      "groupedBecause": "These subtopics address the diagnostic challenges of early cancer symptoms and evaluate the methodologies, histology, and efficacy of screening programmes across various organ sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical previews",
+      "groupedBecause": "The lecturer concludes the session with a recap of the learning objectives and instructions for upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

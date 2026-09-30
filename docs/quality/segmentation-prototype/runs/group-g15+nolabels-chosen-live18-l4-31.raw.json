@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the learning objectives regarding environmental exposures and carcinogenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Nature of Cancer and Sources of Mutation",
+      "groupedBecause": "These subtopics explain how cancer develops as a genetic and microenvironmental disease driven by intrinsic metabolic errors, DNA repair failure, and inherited predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and the Determinants of Cancer Risk",
+      "groupedBecause": "These subtopics examine diverse environmental hazards, discuss the debate regarding intrinsic bad luck versus environmental causes, and evaluate epidemiological evidence showing geographic variations.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Agents in Carcinogenesis",
+      "groupedBecause": "These subtopics explore how microbial and viral pathogens induce malignancy, with a detailed focus on the epidemiology and oncogenic mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Metabolic Activation",
+      "groupedBecause": "These subtopics detail how physical radiation and dietary or chemical compounds undergo xenobiotic metabolism to form DNA adducts and oxidative damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Tissue Susceptibility",
+      "groupedBecause": "These subtopics describe non-mutagenic promoter mechanisms involving chronic inflammation, signaling pathway activation, and developmental windows of vulnerability.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Investigating and Determining Carcinogenicity",
+      "groupedBecause": "These subtopics review experimental and observational strategies used to identify carcinogens, including mutational signature profiling, biobanks, animal models, and bacterial mutagenesis assays.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Everyday Risk-Benefit Trade-offs",
+      "groupedBecause": "The lecturer provides closing remarks on balancing everyday risks and benefits associated with carcinogen exposure and summarizes the lecture's core themes.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

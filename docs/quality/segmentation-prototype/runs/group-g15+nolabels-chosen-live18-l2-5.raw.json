@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Lecture",
+      "groupedBecause": "This subtopic welcomes the students and frames the challenge and importance of studying the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles and Organization of the Complement System",
+      "groupedBecause": "These subtopics introduce the fundamental architecture, nomenclature rules, and central C3 activation mechanism underlying the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement Activation Pathways",
+      "groupedBecause": "These subtopics detail the three pathways that initiate complement recognition and converge on the generation of C3 convertases at a trigger threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Mechanisms of Activated Complement",
+      "groupedBecause": "These subtopics explain the primary downstream processes through which activated complement destroys pathogens and enhances the immune response.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Protection and Complement Regulation",
+      "groupedBecause": "This subtopic explains the regulatory proteins and inhibitory mechanisms that prevent complement from damaging host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Manifestations of Complement Deficiencies",
+      "groupedBecause": "This subtopic explores how genetic or acquired deficiencies in distinct complement components lead to specific infection susceptibilities and immune complex diseases.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Strategies for Complement Evasion",
+      "groupedBecause": "This subtopic describes the evolutionary adaptations pathogens use to circumvent complement-mediated clearance, highlighting Staphylococcus aureus as a primary example.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic provides standard closing remarks, concluding the lecture and previewing the next topic in the course series.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

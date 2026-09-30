@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture overview",
+      "groupedBecause": "It introduces the lecture's scope and learning objectives regarding cancer therapies and their modes of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "They discuss conventional non-targeted treatment modalities—including surgery, radiotherapy, and cytotoxic chemotherapy—and their associated mechanisms and systemic toxicities.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cellular vulnerabilities and genetic defects",
+      "groupedBecause": "They examine targeted therapeutic strategies designed to exploit specific biological vulnerabilities and checkpoint or repair defects within cancer cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeting oncogene addiction and kinase inhibitor resistance",
+      "groupedBecause": "They detail the principles of targeting hyperactivated kinases with small-molecule inhibitors along with the biological mechanisms underlying resistance and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "They describe the use of monoclonal antibodies and targeted antibody conjugates to selectively deliver cytotoxic effects to cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and immunotherapies",
+      "groupedBecause": "They cover the mechanisms and clinical applications of cancer immunotherapy, ranging from checkpoint blockade to engineered T-cell and bispecific therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Global challenges, trends, and future directions in cancer treatment",
+      "groupedBecause": "They evaluate broader clinical challenges, historical survival trends, and future strategic and ethical considerations in cancer therapy.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

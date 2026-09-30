@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the scope, themes, and learning outcomes of the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a failure of cellular differentiation and tissue architecture",
+      "groupedBecause": "They frame cancer as a breakdown of normal developmental differentiation and three-dimensional tissue organization driven by accumulated genetic changes, alongside experimental models used to study these properties.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms, pathology, and behavior of benign and malignant tumors",
+      "groupedBecause": "They explore the histological, diagnostic, and clinical distinctions between benign, locally invasive, and metastatic tumors, illustrating how tumors progress and affect surrounding tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification rules",
+      "groupedBecause": "It outlines the standardized naming conventions and exceptions used to categorize benign and malignant neoplasms across different tissue lineages.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological causes of cancer morbidity and mortality",
+      "groupedBecause": "It explains the local, systemic, and metastatic mechanisms through which tumors compromise organ function and cause patient mortality.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across species",
+      "groupedBecause": "They examine patterns of cancer incidence and tissue vulnerability across human populations and diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening modalities",
+      "groupedBecause": "They discuss the clinical signs of cancer and evaluate various population screening methods used to detect pre-malignant and early-stage tumors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "It concludes the lecture with a review of learning outcomes and practical information for upcoming sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Progression",
+      "groupedBecause": "The lecturer introduces the learning objectives, lecture framing, and the hallmarks of cancer conceptual framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signaling Independence and Evasion of Growth Suppressors",
+      "groupedBecause": "These subtopics explore how mutations in signaling cascades such as Wnt, RTKs, and TGF-beta drive autonomous cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation Blocks in Tumorigenesis",
+      "groupedBecause": "These subtopics explain how malignant transformation arrests terminal differentiation across both hematopoietic lineages and epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of Apoptosis",
+      "groupedBecause": "This subtopic describes the mitochondrial apoptotic pathway and the regulatory balance between pro- and anti-apoptotic proteins like p53, Bax, and BCL2.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative Immortality and Senescence",
+      "groupedBecause": "These subtopics examine how telomere dynamics induce senescence and how cancer cells reactivate telomerase to achieve immortalization.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Reprogramming of Cellular Metabolism",
+      "groupedBecause": "These subtopics analyze how cancer cells rewire metabolic pathways such as aerobic glycolysis and the Krebs cycle to support biosynthetic demands.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "This subtopic explains how growing tumors overcome nutrient and oxygen diffusion limits by activating the angiogenic switch to form new vasculature.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and Clonal Genetics of Metastasis",
+      "groupedBecause": "These subtopics detail the steps of the metastatic cascade, the seed-and-soil hypothesis, and the clonal genomic features underlying dissemination.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture Conclusion and Summary",
+      "groupedBecause": "The lecturer delivers concluding remarks on cancer hallmark literature, summarises key goals, and closes the session.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

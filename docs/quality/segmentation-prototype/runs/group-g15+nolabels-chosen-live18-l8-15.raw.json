@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture topic and outlines the expected learning outcomes for understanding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional modalities: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics discuss traditional cancer treatment approaches that eliminate tumor tissue physically or damage dividing cells systemically.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic tumor vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics examine therapeutic strategies that take advantage of specific tumor weaknesses such as hormone dependence, checkpoint loss, and synthetic lethality.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeting oncogenic kinase signaling and therapeutic resistance",
+      "groupedBecause": "These subtopics explore small molecule kinase inhibitors targeted against oncogene addiction alongside the molecular mechanisms of treatment resistance.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Antibody-based therapies and targeted drug conjugates",
+      "groupedBecause": "These subtopics cover the design and application of monoclonal antibodies used either alone to engage immune effector mechanisms or linked to deliver cytotoxic drugs.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune surveillance and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics examine how the immune system interacts with tumors and how immune checkpoint inhibitors, BiTEs, and CAR T cells mobilize T-cell responses.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overarching challenges, historical progress, and future directions in oncology",
+      "groupedBecause": "These subtopics reflect on key clinical challenges in cancer therapy, survival improvements over recent decades, and future strategies for disease management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

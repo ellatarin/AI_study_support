@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, sets the course context, and outlines the core learning objectives concerning cancer causation and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Intrinsic and Endogenous Drivers of Cancer Development",
+      "groupedBecause": "These subtopics explain the foundational nature of cancer as an evolutionary genetic disease driven by endogenous mutational processes, replication errors, and inherited genetic predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures, Epidemiological Evidence, and the Cancer Risk Debate",
+      "groupedBecause": "These subtopics evaluate the epidemiological and geographic evidence linking environmental exposures to cancer risk while exploring the debate surrounding intrinsic bad luck versus extrinsic causation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Biological and Chemical Mechanisms of Carcinogens and Tumor Promotion",
+      "groupedBecause": "These subtopics examine the specific biological and molecular mechanisms by which diverse carcinogenic agents, metabolic processes, tumor promoters, and developmental susceptibilities drive neoplastic transformation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Detecting and Evaluating Carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, in vivo, and in vitro experimental approaches utilized to establish mutational signatures and determine whether agents are carcinogenic.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Summary and Risk-Benefit Analysis",
+      "groupedBecause": "This subtopic concludes the lecture with closing framing on everyday risk-benefit choices and key takeaways regarding environmental cancer causation.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

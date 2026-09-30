@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Lecture Framing",
+      "groupedBecause": "It introduces the lecture's scope, learning outcomes, and foundational context on cancer evolution and microenvironmental interactions.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Drivers of Clonal Selection",
+      "groupedBecause": "They explain how both progressive mutational acquisition and non-mutational epigenetic reprogramming confer competitive fitness advantages to drive clonal evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Models",
+      "groupedBecause": "They evaluate the hierarchical and stochastic models of cancer, assessing evidence from leukemia and colorectal systems for whether malignancies initiate within stem cells or committed progenitors.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Environmental and Inflammatory Promotion in Early Tumorigenesis",
+      "groupedBecause": "They demonstrate through lung and colon cancer models how chronic inflammation and environmental exposures provide necessary promotional signals that activate stem-like states in mutated cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Established Microenvironmental Dependencies, Profiling Technologies, and Evolutionary Synthesis",
+      "groupedBecause": "They examine stromal support in established tumors, the spatial and single-cell profiling techniques used to analyze these communities, and synthesize how microenvironments coevolve with malignant clones.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Closing Remarks and Next Lecture",
+      "groupedBecause": "It concludes the session and previews the topic of cancer therapeutics for the upcoming lecture.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

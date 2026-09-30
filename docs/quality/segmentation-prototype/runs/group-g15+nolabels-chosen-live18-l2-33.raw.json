@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Opening Framing",
+      "groupedBecause": "This subtopic introduces the lecture context, relevance, and historical difficulty of studying complement.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations and Core Principles of Complement",
+      "groupedBecause": "They establish the general architecture, naming conventions, and central biochemical hub of the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of Complement Activation",
+      "groupedBecause": "They detail the three distinct recognition pathways that generate surface-bound convertases to reach the C3 activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Functions of Activated Complement",
+      "groupedBecause": "They describe the primary downstream mechanisms through which activated complement eliminates pathogens via opsonization, inflammation, and direct lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation of Complement Activation",
+      "groupedBecause": "This subtopic explains the regulatory mechanisms and surface factors that protect host cells from spontaneous complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Presentations of Complement Deficiencies",
+      "groupedBecause": "This subtopic explores how genetic or acquired deficiencies in various complement components lead to specific infection susceptibilities and autoimmune pathologies.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion of Complement",
+      "groupedBecause": "This subtopic examines how pathogens such as Staphylococcus aureus have evolved mechanisms to disrupt, degrade, and circumvent complement defenses.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing Framing",
+      "groupedBecause": "This subtopic marks the end of the complement lecture and previews the upcoming topic on adaptive immunity.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

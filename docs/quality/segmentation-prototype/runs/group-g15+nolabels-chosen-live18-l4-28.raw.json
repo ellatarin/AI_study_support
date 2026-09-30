@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces herself, the cancer lecture series, and the core learning outcomes concerning cancer causes, carcinogenicity testing, and initiation versus promotion.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "The Nature of Cancer and Sources of Genetic Mutation",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease shaped by the microenvironment and outline how endogenous metabolic stress, environmental insults, and inherited predispositions contribute to mutation acquisition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence",
+      "groupedBecause": "These subtopics explore diverse environmental carcinogens and evaluate epidemiological and migrant data to assess the relative roles of environmental exposure, genetics, and random chance in cancer risk.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics discuss how infectious agents contribute to oncogenesis, using Denis Burkitt's discovery and the interplay of malaria and Epstein-Barr virus in Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Direct and Metabolically Activated Mutagens",
+      "groupedBecause": "These subtopics explain the molecular mechanisms by which chemical and physical mutagens—including dietary aflatoxin, UV radiation, polycyclic aromatic hydrocarbons, TCDD, and beta-naphthylamine—induce DNA damage and bulky adducts.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion and the Multi-Stage Model of Carcinogenesis",
+      "groupedBecause": "These subtopics explore how non-mutagenic promoters drive cancer through chronic inflammation and intracellular signaling, detailing asbestos pathology and the Berenbaum initiator-promoter model.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Developmental Susceptibility and Carcinogenesis Summary",
+      "groupedBecause": "These subtopics describe how developmental timing and life stage alter tissue susceptibility to carcinogens and summarise the foundational principles of mutagenic and promotional mechanisms in cancer development.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Identifying and Testing Carcinogens",
+      "groupedBecause": "These subtopics review the scientific methodologies used to establish carcinogenicity, including mutational signature sequencing, biobank epidemiology, in vivo animal toxicology studies, and the in vitro Ames test.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Risk-Benefit Decision-Making and Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the lecture by reflecting on personal risk-benefit evaluations regarding exposure to carcinogens and summarizing the main takeaways of the session.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

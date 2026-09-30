@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Lecture Framing",
+      "groupedBecause": "This subtopic introduces the lecture topic, reviews foundational cancer biology concepts, and sets the learning objectives regarding cancer evolution and the microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Drivers of Clonal Evolution",
+      "groupedBecause": "These subtopics explain how the stepwise acquisition of genetic mutations and epigenetic alterations confers competitive growth advantages during Darwinian clonal selection.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Models",
+      "groupedBecause": "These subtopics examine how stemness properties, cellular hierarchies, and the specific cell of origin contribute to tumor initiation and propagation across different cancer types.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Interactions, Profiling, and Coevolution",
+      "groupedBecause": "These subtopics investigate how inflammatory and stromal microenvironments promote and sustain tumor growth, how these cellular interactions are profiled spatially, and how coevolution drives malignancy.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Closing Remarks and Next Lecture",
+      "groupedBecause": "This subtopic provides the concluding remarks for the session and previews the subsequent lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

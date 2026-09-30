@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "This subtopic welcomes the students, introduces complement, and frames the topic's difficulty and importance within immunology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals and Core Principles of Complement",
+      "groupedBecause": "These subtopics introduce the foundational organization, nomenclature conventions, and central role of C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of Complement Activation",
+      "groupedBecause": "These subtopics explain the three distinct recognition pathways that converge to activate C3 on pathogen surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Mechanisms of Complement",
+      "groupedBecause": "These subtopics detail the primary downstream mechanisms through which activated complement eliminates pathogens and stimulates immunity.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation of Complement Activation",
+      "groupedBecause": "This subtopic explains the regulatory proteins host cells deploy to prevent unintended complement-mediated damage to self tissues.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Complement Deficiencies",
+      "groupedBecause": "This subtopic examines the distinct pathological consequences and disease presentations resulting from deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion of Complement",
+      "groupedBecause": "This subtopic details the diverse molecular strategies evolved by microbes to counteract and evade complement-mediated destruction.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Closing",
+      "groupedBecause": "This subtopic concludes the lecture on complement and previews the upcoming lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

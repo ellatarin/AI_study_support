@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "The lecturer welcomes the students, recaps practical sessions, and outlines the learning objectives and topics to be covered.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor Virology and Cellular Transformation Assays",
+      "groupedBecause": "These subtopics trace how the historical study of transforming viruses revealed cellular proto-oncogenes and established laboratory assays for testing oncogenic transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classifications and Mechanisms of Cancer Genes and Mutations",
+      "groupedBecause": "These subtopics define the major categories of cancer-associated genes and illustrate how mutations alter cell cycle regulation and protein function through dominant, recessive, and dominant-negative mechanisms.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Forms and Mechanisms of Genetic Instability in Cancer",
+      "groupedBecause": "These subtopics explain the molecular pathways and cellular defects in DNA repair, replication, and chromosome segregation that produce sequence instability and chromosomal instability.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep Progression and Hereditary Cancer Predisposition",
+      "groupedBecause": "These subtopics examine how inherited gene defects and the sequential accumulation of somatic mutations accelerate tumor development and influence cancer evolution.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Closing",
+      "groupedBecause": "The lecturer concludes the session with reading recommendations and a preview of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

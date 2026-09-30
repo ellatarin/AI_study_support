@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the learning outcomes, and defines the scope of topics covering environmental exposures and carcinogenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins of Cancer: Intrinsic Mutational Processes and Environmental Exposures",
+      "groupedBecause": "These subtopics introduce the fundamental etiology of cancer by evaluating how endogenous biological processes, inherited genetics, and external environmental exposures contribute to malignancy.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Biological and Chemical Mechanisms of Carcinogenesis and Tumor Promotion",
+      "groupedBecause": "These subtopics explain the molecular and cellular mechanisms through which specific infectious, chemical, and physical agents induce DNA damage, metabolic activation, or tumor promotion.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics examine the experimental, epidemiological, and genomic approaches used to identify and determine the carcinogenicity and mutagenicity of exposures.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Analysis",
+      "groupedBecause": "This subtopic provides final concluding remarks on cancer causation and frames exposure risks in the context of everyday benefit-risk assessment.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

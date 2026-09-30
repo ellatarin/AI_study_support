@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecture by outlining the learning objectives and setting the framework for understanding cancer evolution and microenvironmental interactions.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Evolution and Epigenetic Plasticity in Cancer",
+      "groupedBecause": "These subtopics explain how cancer develops through the evolutionary selection of driver mutations and non-mutational epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Models",
+      "groupedBecause": "These subtopics examine how stem cell hierarchies, cellular differentiation states, and cancer stem cell properties influence tumor initiation across different cancer types.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Tumor Microenvironment, Inflammation, and Coevolution",
+      "groupedBecause": "These subtopics explore how interactions with the surrounding microenvironment and inflammatory signals drive cancer progression and shape tumor coevolution.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Closing Remarks and Next Lecture",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on cancer therapies.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

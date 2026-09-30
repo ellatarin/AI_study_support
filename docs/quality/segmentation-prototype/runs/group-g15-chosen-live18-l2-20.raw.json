@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "This subtopic introduces the lecture topic, context, and structural framing.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement fundamentals, nomenclature, and C3 activation",
+      "groupedBecause": "These subtopics introduce the core functions of complement, explain historical naming conventions, and describe the central role and cleavage of C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways and trigger threshold",
+      "groupedBecause": "These subtopics detail the three pathways that initiate complement activation and explain how local convertase accumulation reaches the trigger threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics describe the primary downstream effector functions executed by activated complement components.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "This subtopic explains the regulatory proteins and mechanisms that protect host cells from unintended complement destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic explores how genetic and acquired deficiencies across different complement components manifest as distinct clinical disorders.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion mechanisms and biomedical applications",
+      "groupedBecause": "This subtopic describes how pathogens circumvent complement immunity and how bacterial evasion factors are utilized in research and clinical settings.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and preview",
+      "groupedBecause": "This subtopic concludes the lecture session and previews the subsequent topic in the course.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

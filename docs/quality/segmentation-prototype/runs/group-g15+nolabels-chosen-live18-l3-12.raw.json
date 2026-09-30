@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Lecture Learning Outcomes",
+      "groupedBecause": "The lecturer introduces the cancer biology course structure, the diverse student backgrounds, and the specific learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular, Genetic, and Architectural Basis of Cancer",
+      "groupedBecause": "These subtopics establish the biological foundation of cancer as a progressive accumulation of genetic changes and a failure of normal developmental differentiation and tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Tumor Invasion and Metastatic Progression",
+      "groupedBecause": "These subtopics examine how neoplasms progress from localized benign lesions to invasive and metastatic malignancies, illustrated through histological features and the colorectal adenoma-to-carcinoma sequence.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor Nomenclature, Pathophysiology, and Clinical Impact",
+      "groupedBecause": "These subtopics address the classification systems used for neoplasms and the physiological mechanisms through which tumors impair organ function and cause disease and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Comparative and Population Incidence of Cancer",
+      "groupedBecause": "These subtopics survey the distribution, frequency, and mortality of various cancer types across human populations and multicellular animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Detection and Cancer Screening Modalities",
+      "groupedBecause": "These subtopics explore the diagnostic principles, methodologies, and clinical effectiveness of population screening programs for detecting tumors at early stages.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Practical Preview",
+      "groupedBecause": "The lecturer concludes the session with a recap of the learning outcomes and reminders for upcoming practical classes.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

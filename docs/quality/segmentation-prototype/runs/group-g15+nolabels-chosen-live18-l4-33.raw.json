@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Etiology",
+      "groupedBecause": "The lecturer introduces the course structure, lecture aims, and learning objectives surrounding the environmental causes and mechanisms of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology and the Balance of Intrinsic and Environmental Risks",
+      "groupedBecause": "These subtopics define cancer's evolutionary and genetic nature and examine the balance between intrinsic biological bad luck, genetics, and environmental exposures using epidemiological and geographic evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogen-Induced Carcinogenesis and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics describe how infectious agents contribute to cancer development, illustrated in detail through the discovery and mechanism of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics detail the biochemical mechanisms by which dietary, environmental, and physical mutagens damage DNA through adduct formation, metabolic activation, or oxidative stress.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promoters, Chronic Inflammation, and Host Context",
+      "groupedBecause": "These subtopics explain how non-mutagenic factors like chronic inflammation, tumor promoters, and host developmental stages facilitate cancer development following initiation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methods for Identifying and Testing Carcinogens",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, in vivo, and in vitro methodologies used to detect carcinogen exposure and test carcinogenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "The lecturer concludes the lecture by framing carcinogenic exposure within everyday risk-benefit decision-making and summarizing the main themes.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

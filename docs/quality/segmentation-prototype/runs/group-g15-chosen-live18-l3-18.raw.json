@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, its interdisciplinary audience, and the core learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer development as a disruption of cellular differentiation and tissue architecture",
+      "groupedBecause": "These subtopics examine how accumulated genetic and epigenetic alterations disrupt normal developmental differentiation and three-dimensional tissue organization.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Histological hallmarks of tumor invasion and metastatic progression",
+      "groupedBecause": "These subtopics describe the pathological progression of tumors from encapsulated benign lesions to invasive and metastatic malignancies across different organ systems.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor classification, nomenclature, and clinical morbidity",
+      "groupedBecause": "These subtopics explain the standard conventions for naming neoplasms and the physiological mechanisms through which tumors cause disease and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence across human populations and multicellular organisms",
+      "groupedBecause": "These subtopics examine epidemiological patterns of cancer in humans alongside comparative oncology across diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical modalities of cancer screening",
+      "groupedBecause": "These subtopics discuss the clinical rationale, histological detection methods, and diagnostic limitations of screening for pre-malignant and early-stage tumors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "This subtopic concludes the lecture with a review of learning outcomes and practical session reminders.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

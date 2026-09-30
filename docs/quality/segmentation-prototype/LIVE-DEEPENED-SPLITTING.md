@@ -9,30 +9,30 @@ These are the runs the vote counts.
 
 | lecture | prototype subtopics | live subtopics | live cuts at a position a prototype run used | sites kept by both | sites kept by one only |
 |---|---|---|---|---|---|
-| l1 | 15–18 | 16–18 | 141 of 141 | 15 | 0 |
-| l2 | 12–16 | 13–16 | 121 of 123 | 14 | 0 |
-| l3 | 16–18 | 15–17 | 134 of 136 | 16 | 0 |
-| l4 | 20–24 | 21–24 | 192 of 193 | 21 | 0 |
-| l5 | 16–20 | 16–18 | 146 of 147 | 16 | 0 |
-| l6 | 15–22 | 17–22 | 162 of 162 | 19 | 0 |
-| l7 | 11–13 | 11–13 | 100 of 102 | 11 | 0 |
-| l8 | 20–26 | 22–25 | 199 of 201 | 21 | 2 |
+| l1 | 15–18 | 16–19 | 141 of 142 | 15 | 0 |
+| l2 | 12–16 | 11–16 | 122 of 123 | 14 | 0 |
+| l3 | 16–18 | 16–18 | 144 of 145 | 16 | 0 |
+| l4 | 20–24 | 21–22 | 184 of 187 | 21 | 0 |
+| l5 | 16–20 | 16–18 | 144 of 146 | 16 | 0 |
+| l6 | 15–22 | 15–23 | 160 of 163 | 18 | 1 |
+| l7 | 11–13 | 11–14 | 97 of 100 | 11 | 0 |
+| l8 | 20–26 | 23–25 | 202 of 204 | 21 | 2 |
 
 ## Sites kept by one source only
 
-- l8, at 11.0% "But as I said, they do have their problems. One of": prototype 5 of 18, live 5 of 9
-- l8, at 13.9% "Another problem with lots of cytotoxic agents is r": prototype 11 of 18, live 3 of 9
+- l6, at 89.3% "But obviously, because the tumors could theoretica": prototype 11 of 18, live 4 of 9
+- l8, at 13.9% "Another problem with lots of cytotoxic agents is r": prototype 11 of 18, live 1 of 9
+- l8, at 56.7% "So kinase inhibitors have been very useful. They'v": prototype 6 of 18, live 6 of 9
 
 ## Could the differences be chance?
 
 Each site's prototype and live support is put to a two-sided Fisher exact test. With
-166 sites, about 8.3 would fall below p = 0.05 by chance alone if
-the two cut alike; 3 did. The live panel cuts less often than the prototype at
-27 sites and more often at 28.
+168 sites, about 8.4 would fall below p = 0.05 by chance alone if
+the two cut alike; 2 did. The live panel cuts less often than the prototype at
+25 sites and more often at 31.
 
-- l3 at 31.3%: prototype 18 of 18, live 6 of 9, p = 0.0287
-- l3 at 36.1%: prototype 18 of 18, live 6 of 9, p = 0.0287
-- l7 at 61.5%: prototype 1 of 18, live 4 of 9, p = 0.0297
+- l8 at 13.9%: prototype 11 of 18, live 1 of 9, p = 0.0192
+- l7 at 99.8%: prototype 18 of 18, live 6 of 9, p = 0.0287
 
 ## Every cut site
 
@@ -43,28 +43,28 @@ is 56%), who keeps it, and — where both keep it — whether their votes cut at
 | lecture | at | opens with | prototype | live | prototype % | live % | kept by | voted cut |
 |---|---|---|---|---|---|---|---|---|
 | l1 | 1.4% | Now, the key to an immune reaction is, first of all, recogni | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l1 | 10.3% | So what makes a good PAMP? We want to have a product that is | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l1 | 9.9% | Now, these receptors that recognize a PAMP or a DAMP, they a | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l1 | 18.3% | So the pattern recognition receptors, these are what detect  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l1 | 23.5% | Now, the most important class of PRRs, and the class that yo | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l1 | 26.8% | Now, in humans, we have 10 TLRs. These are functionally, the | 7 of 18 | 4 of 9 | 39% | 44% | neither | — |
+| l1 | 26.8% | Now, in humans, we have 10 TLRs. These are functionally, the | 7 of 18 | 3 of 9 | 39% | 33% | neither | — |
 | l1 | 32.6% | Now, when it comes to the signaling system, the signaling of | 16 of 18 | 8 of 9 | 89% | 89% | both | same place |
 | l1 | 40.6% | Now, toll-like receptors are very important, but they're not | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l1 | 43.0% | Now, another key pathway is the inflammasome pathway. These  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l1 | 49.4% | Now, the key cells that activate are the sentinel cells. We' | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l1 | 54.4% | Now, one of the effects of the immediate inflammation respon | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l1 | 69.2% | So what we've just done here is put some molecular detail on | 3 of 18 | 1 of 9 | 17% | 11% | neither | — |
+| l1 | 69.2% | So what we've just done here is put some molecular detail on | 3 of 18 | 2 of 9 | 17% | 22% | neither | — |
 | l1 | 71.3% | Now, I do want to mention that we've been talking a lot abou | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l1 | 75.9% | Now, the other thing to mention here is we've largely been t | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l1 | 79.8% | So this brings us to the final slides of the lecture, which  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l1 | 86.2% | Now, just the final point I want to talk about is injury rep | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l1 | 90.0% | And in many cases, this is enough. So in an ideal situation, | 4 of 18 | 2 of 9 | 22% | 22% | neither | — |
+| l1 | 90.0% | And in many cases, this is enough. So in an ideal situation, | 4 of 18 | 3 of 9 | 22% | 33% | neither | — |
 | l1 | 94.6% | And then just the last slide I want to point out is that som | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l1 | 99.9% | Okay, that's it for me. Next lecture is complements. | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l2 | 2.0% | Okay. So, let's start. This is an overview of complement. If | 17 of 18 | 9 of 9 | 94% | 100% | both | **6 characters apart** |
 | l2 | 3.9% | So essentially, we have, as in almost any immunological proc | 1 of 18 | 0 of 9 | 6% | 0% | neither | — |
-| l2 | 7.3% | Now, I'm going to skip a little bit to the end and talk abou | 2 of 18 | 0 of 9 | 11% | 0% | neither | — |
+| l2 | 7.3% | Now, I'm going to skip a little bit to the end and talk abou | 2 of 18 | 1 of 9 | 11% | 11% | neither | — |
 | l2 | 12.2% | Now, a word on the naming. And this is important because the | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l2 | 16.4% | Now, the really key thing that you really should remember is | 15 of 18 | 9 of 9 | 83% | 100% | both | same place |
+| l2 | 16.4% | Now, the really key thing that you really should remember is | 15 of 18 | 8 of 9 | 83% | 89% | both | same place |
 | l2 | 21.7% | So let's go to this slide, and we're going to start by talki | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l2 | 24.2% | So let's go through the alternative pathway first. So in a p | 14 of 18 | 8 of 9 | 78% | 89% | both | same place |
 | l2 | 34.8% | Now, if we go to the lectin pathway, the lectin pathway is e | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
@@ -79,16 +79,16 @@ is 56%), who keeps it, and — where both keep it — whether their votes cut at
 | l2 | 96.1% | Now, we actually use protein A by Staphylococcus in a few di | 1 of 18 | 0 of 9 | 6% | 0% | neither | — |
 | l2 | 99.4% | Okay. So I think, with that, we can finish up with complemen | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l3 | 7.0% | Okay, so we're just going to start here with our core idea.  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l3 | 12.8% | [chuckles] So what is cancer, really? So we've all, everybod | 18 of 18 | 9 of 9 | 100% | 100% | both | **11 characters apart** |
-| l3 | 18.7% | So over years and centuries, we've been using a lot of diffe | 6 of 18 | 1 of 9 | 33% | 11% | neither | — |
+| l3 | 12.8% | [chuckles] So what is cancer, really? So we've all, everybod | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l3 | 18.7% | So over years and centuries, we've been using a lot of diffe | 6 of 18 | 3 of 9 | 33% | 33% | neither | — |
 | l3 | 24.0% | So the other thing to appreciate is that when, if you like,  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l3 | 27.5% | Okay. So with these tools in hand, I think the important con | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l3 | 31.3% | Right. So obviously most of the death that occurs with cance | 18 of 18 | 6 of 9 | 100% | 67% | both | same place |
-| l3 | 36.1% | So just again, to contrast what this looks like for the pati | 18 of 18 | 6 of 9 | 100% | 67% | both | same place |
+| l3 | 31.3% | Right. So obviously most of the death that occurs with cance | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l3 | 36.1% | So just again, to contrast what this looks like for the pati | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l3 | 41.4% | Right. So, we're going to focus on colorectal cancer as an e | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l3 | 62.4% | So some benign tumors become malignant, but they don't all b | 17 of 18 | 9 of 9 | 94% | 100% | both | same place |
-| l3 | 63.4% | Okay, but that's not to say that a benign tumor can't be dan | 1 of 18 | 0 of 9 | 6% | 0% | neither | — |
-| l3 | 64.9% | Okay? So just so that we're all on the same page in terms of | 11 of 18 | 6 of 9 | 61% | 67% | both | same place |
+| l3 | 62.4% | So some benign tumors become malignant, but they don't all b | 17 of 18 | 8 of 9 | 94% | 89% | both | same place |
+| l3 | 63.4% | Okay, but that's not to say that a benign tumor can't be dan | 1 of 18 | 1 of 9 | 6% | 11% | neither | — |
+| l3 | 64.9% | Okay? So just so that we're all on the same page in terms of | 11 of 18 | 7 of 9 | 61% | 78% | both | same place |
 | l3 | 68.6% | Okay? So with that in mind, the question that often gets ask | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l3 | 74.3% | So just talking about incidence, about how often various tum | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l3 | 78.6% | So, and just a-- Oops. Oh, God. It doesn't go backwards. Her | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
@@ -99,7 +99,7 @@ is 56%), who keeps it, and — where both keep it — whether their votes cut at
 | l3 | 95.2% | So screening in the colon is a bit trickier. You saw those d | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l3 | 99.4% | Okay? So I leave you with the learning outcomes. Hopefully,  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l4 | 2.4% | So what is cancer? So at its heart, it's a genetic disease,  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l4 | 7.6% | And of course, we know that 50% of us will develop cancer in | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l4 | 7.6% | And of course, we know that 50% of us will develop cancer in | 18 of 18 | 9 of 9 | 100% | 100% | both | **71 characters apart** |
 | l4 | 13.7% | And the other thing we might want to think about is the cell | 0 of 18 | 1 of 9 | 0% | 11% | neither | — |
 | l4 | 16.0% | And so I'm going to think a little bit about those environme | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l4 | 23.0% | So ultimately, we spend our lives with our cells endogenousl | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
@@ -108,24 +108,24 @@ is 56%), who keeps it, and — where both keep it — whether their votes cut at
 | l4 | 41.1% | So I'm going to use the example of Burkitt lymphoma, because | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l4 | 46.1% | And this is our current thinking. Again, even all these year | 5 of 18 | 2 of 9 | 28% | 22% | neither | — |
 | l4 | 49.6% | Okay, so we can have infectious agents involved in the devel | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l4 | 53.1% | What about UV light? What does UV light do? Well, UV light i | 14 of 18 | 8 of 9 | 78% | 89% | both | same place |
+| l4 | 53.1% | What about UV light? What does UV light do? Well, UV light i | 14 of 18 | 6 of 9 | 78% | 67% | both | same place |
 | l4 | 54.3% | So where are we now? Smoking cigarettes. So why are cigarett | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l4 | 61.0% | This is another example of one of those compounds. So this i | 15 of 18 | 7 of 9 | 83% | 78% | both | same place |
 | l4 | 63.0% | So where do we come to now? Back to cigarette smoke. So back | 17 of 18 | 9 of 9 | 94% | 100% | both | same place |
-| l4 | 65.7% | There are also environmental exposures which we associate wi | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l4 | 69.7% | And this was the first study that really gave rise to this i | 15 of 18 | 8 of 9 | 83% | 89% | both | same place |
+| l4 | 65.7% | There are also environmental exposures which we associate wi | 18 of 18 | 8 of 9 | 100% | 89% | both | same place |
+| l4 | 69.7% | And this was the first study that really gave rise to this i | 15 of 18 | 9 of 9 | 83% | 100% | both | same place |
 | l4 | 75.3% | Okay, so we have choices. We have random events that we can' | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l4 | 81.4% | So DNA damage underlies cancer development. Sometimes this d | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l4 | 83.1% | So how can we work out what's causing cancer? We do the epid | 17 of 18 | 8 of 9 | 94% | 89% | both | same place |
+| l4 | 83.1% | So how can we work out what's causing cancer? We do the epid | 17 of 18 | 9 of 9 | 94% | 100% | both | same place |
 | l4 | 86.7% | So how can we prove carcinogenicity? How do we prove it? And | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l4 | 92.0% | What about the mouse studies? Well, these are a little bit m | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l4 | 95.5% | So we can do epidemiology, we can do in vivo studies, and I  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l4 | 98.3% | So ultimately, it's all about the risks versus the benefits. | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l5 | 4.3% | Starting with cell and germ theories really, our modern conc | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l5 | 7.4% | It wasn't such a leap to think that cancer was the result of | 2 of 18 | 0 of 9 | 11% | 0% | neither | — |
-| l5 | 10.5% | Okay.This idea that cancer is a transmissible disease kind o | 7 of 18 | 4 of 9 | 39% | 44% | neither | — |
-| l5 | 12.0% | But actually, overall when they were discovering these virus | 2 of 18 | 0 of 9 | 11% | 0% | neither | — |
-| l5 | 14.1% | But this principle of that there are some viruses that do ca | 16 of 18 | 9 of 9 | 89% | 100% | both | same place |
+| l5 | 10.5% | Okay.This idea that cancer is a transmissible disease kind o | 7 of 18 | 2 of 9 | 39% | 22% | neither | — |
+| l5 | 12.0% | But actually, overall when they were discovering these virus | 2 of 18 | 2 of 9 | 11% | 22% | neither | — |
+| l5 | 14.1% | But this principle of that there are some viruses that do ca | 16 of 18 | 8 of 9 | 89% | 89% | both | same place |
 | l5 | 19.3% | Taking these transforming viruses understanding genes presen | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l5 | 25.0% | Okay. So [lip smacks] in doing so, you're going to say wheth | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l5 | 30.2% | Okay? So this should be basic revision for you in terms of t | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
@@ -133,7 +133,7 @@ is 56%), who keeps it, and — where both keep it — whether their votes cut at
 | l5 | 40.9% | All right. What does that mean? I'll give you one example in | 1 of 18 | 0 of 9 | 6% | 0% | neither | — |
 | l5 | 45.5% | Right. So we're going to move on to this idea now of genetic | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l5 | 52.1% | So it has big implications for us thinking about how does th | 2 of 18 | 0 of 9 | 11% | 0% | neither | — |
-| l5 | 54.9% | Okay. So we're just going to run through the main types of D | 18 of 18 | 9 of 9 | 100% | 100% | both | **6 characters apart** |
+| l5 | 54.9% | Okay. So we're just going to run through the main types of D | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l5 | 57.3% | Where the trouble comes in is when you have things like here | 16 of 18 | 8 of 9 | 89% | 89% | both | same place |
 | l5 | 61.5% | Obviously, that's not going to be the case for tumor B. For  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l5 | 69.5% | Okay. So I've told you now this failure or mutations in the  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
@@ -143,48 +143,50 @@ is 56%), who keeps it, and — where both keep it — whether their votes cut at
 | l5 | 96.9% | Right. So I forgot what I wanted to say here [laughs]. Okay. | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l5 | 99.2% | Okay? So I hope that covers our learning outcomes for today. | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l6 | 2.7% | And we're going to come back time and time again to this kin | 1 of 18 | 0 of 9 | 6% | 0% | neither | — |
-| l6 | 7.2% | So this loss of growth control is a common feature, if you l | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l6 | 7.2% | So this loss of growth control is a common feature, if you l | 18 of 18 | 9 of 9 | 100% | 100% | both | **44 characters apart** |
 | l6 | 11.4% | So what does that look like in terms of APC? Because this is | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l6 | 15.6% | Similarly, receptor tyrosine kinases, there are a whole bunc | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l6 | 21.3% | So we'll move on to something that is slightly less evident  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l6 | 28.9% | But I want you to also to be able to appreciate in the conte | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l6 | 35.4% | Okay? So we're going to move on to resistance to apoptosis.  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l6 | 41.7% | So the last one that I will talk about or hallmark that I'm  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l6 | 50.0% | So in order for immortalization to occur, you pretty much ha | 14 of 18 | 5 of 9 | 78% | 56% | both | same place |
+| l6 | 50.0% | So in order for immortalization to occur, you pretty much ha | 14 of 18 | 8 of 9 | 78% | 89% | both | same place |
 | l6 | 53.5% | So I just want to say that senescent signaling is what we wo | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l6 | 57.7% | Okay? So you'll see that we'll kind of leave this set of fai | 14 of 18 | 8 of 9 | 78% | 89% | both | same place |
-| l6 | 59.4% | Okay. So we'll move on to metabolism, because this is a very | 17 of 18 | 7 of 9 | 94% | 78% | both | **6 characters apart** |
+| l6 | 59.4% | Okay. So we'll move on to metabolism, because this is a very | 17 of 18 | 7 of 9 | 94% | 78% | both | same place |
 | l6 | 63.6% | So what does that mean in terms of metabolic rewiring? Becau | 13 of 18 | 5 of 9 | 72% | 56% | both | same place |
 | l6 | 67.1% | Right. So the big question is, is this something that we can | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l6 | 73.0% | Similarly for angiogenesis, right, in terms of what that doe | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l6 | 76.2% | So the question is, when does it happen in tumor genesis? An | 2 of 18 | 2 of 9 | 11% | 22% | neither | — |
-| l6 | 78.9% | And what is the determinant in the tissue? Well, there's thi | 2 of 18 | 2 of 9 | 11% | 22% | neither | — |
+| l6 | 76.2% | Okay? So the question is, when does it happen in tumor genes | 2 of 18 | 3 of 9 | 11% | 33% | neither | — |
+| l6 | 78.9% | Okay? And what is the determinant in the tissue? Well, there | 2 of 18 | 3 of 9 | 11% | 33% | neither | — |
 | l6 | 80.2% | Okay, so onto the last one. And I'll just have a sip of wate | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l6 | 85.1% | So in talking about how a cancer cell would get out of its p | 3 of 18 | 0 of 9 | 17% | 0% | neither | — |
-| l6 | 89.3% | But obviously, because the tumors could theoretically go eve | 11 of 18 | 8 of 9 | 61% | 89% | both | same place |
-| l6 | 91.5% | Okay. So just to say that these metastatic cells that enter  | 12 of 18 | 8 of 9 | 67% | 89% | both | same place |
-| l6 | 94.7% | So again, we're going back to that question of is there a ge | 15 of 18 | 9 of 9 | 83% | 100% | both | same place |
+| l6 | 85.1% | So in talking about how a cancer cell would get out of its p | 3 of 18 | 2 of 9 | 17% | 22% | neither | — |
+| l6 | 87.7% | So the tumor cells leaving the primary site have to take adv | 0 of 18 | 1 of 9 | 0% | 11% | neither | — |
+| l6 | 89.3% | But obviously, because the tumors could theoretically go eve | 11 of 18 | 4 of 9 | 61% | 44% | **prototype only** | — |
+| l6 | 91.5% | Okay. So just to say that these metastatic cells that enter  | 12 of 18 | 5 of 9 | 67% | 56% | both | same place |
+| l6 | 94.7% | So again, we're going back to that question of is there a ge | 15 of 18 | 8 of 9 | 83% | 89% | both | same place |
 | l6 | 97.7% | So what I also wanted to say and just finish on in terms of  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l6 | 99.8% | All right. And I'm happy to take any questions, and I will s | 1 of 18 | 0 of 9 | 6% | 0% | neither | — |
 | l7 | 3.4% | So, of course, a lot of the studies that we've done to date  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l7 | 11.7% | And there have been studies which have shown this. So this w | 0 of 18 | 1 of 9 | 0% | 11% | neither | — |
 | l7 | 22.1% | But what about epigenetics? Epigenetics must also play a rol | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l7 | 26.5% | So is the cell of origin also important? Is it important wha | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l7 | 40.4% | So what's the evidence for there being cancer stem cells? An | 10 of 18 | 6 of 9 | 56% | 67% | both | same place |
-| l7 | 45.7% | So you will hear lots of names given to these cells within a | 0 of 18 | 1 of 9 | 0% | 11% | neither | — |
+| l7 | 38.1% | And so this gives rise to the sort of two models of cancer d | 0 of 18 | 2 of 9 | 0% | 22% | neither | — |
+| l7 | 40.4% | So what's the evidence for there being cancer stem cells? An | 10 of 18 | 5 of 9 | 56% | 56% | both | same place |
 | l7 | 48.4% | What about other cancers? What about cancers where the hiera | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l7 | 54.0% | So how does this fit with the whole idea of evolution? Well, | 1 of 18 | 0 of 9 | 6% | 0% | neither | — |
 | l7 | 57.3% | So let's come back to that eyelid example. So why do these c | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l7 | 61.5% | And we're starting to see lung cancer in much younger people | 1 of 18 | 4 of 9 | 6% | 44% | neither | — |
+| l7 | 61.5% | And we're starting to see lung cancer in much younger people | 1 of 18 | 2 of 9 | 6% | 22% | neither | — |
 | l7 | 68.9% | So if this is happening in lung cancer, is this happening in | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l7 | 78.3% | So what about the established tumor? Because we know that in | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l7 | 83.2% | And so how are we doing this? How can we investigate this in | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l7 | 88.0% | So we're at the situation, I think, where there are potentia | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l7 | 97.1% | So, where are we? So hopefully you've seen we've added on an | 2 of 18 | 1 of 9 | 11% | 11% | neither | — |
-| l7 | 99.8% | And with that, I will end today's lecture, and Monday we wil | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
+| l7 | 97.1% | So, where are we? So hopefully you've seen we've added on an | 2 of 18 | 3 of 9 | 11% | 33% | neither | — |
+| l7 | 99.8% | And with that, I will end today's lecture, and Monday we wil | 18 of 18 | 6 of 9 | 100% | 67% | both | same place |
 | l8 | 0.8% | So cancer therapy. It's actually really easy to kill cancer  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l8 | 5.3% | Of course, the next line of defense is cytotoxic chemotherap | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l8 | 11.0% | But as I said, they do have their problems. One of which is  | 5 of 18 | 5 of 9 | 28% | 56% | **live only** | — |
-| l8 | 13.9% | Another problem with lots of cytotoxic agents is resistance. | 11 of 18 | 3 of 9 | 61% | 33% | **prototype only** | — |
+| l8 | 11.0% | But as I said, they do have their problems. One of which is  | 5 of 18 | 4 of 9 | 28% | 44% | neither | — |
+| l8 | 13.9% | Another problem with lots of cytotoxic agents is resistance. | 11 of 18 | 1 of 9 | 61% | 11% | **prototype only** | — |
 | l8 | 15.8% | So where are we moving to these days? I think where we've mo | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l8 | 20.0% | What about those cell cycle checkpoint defects? Well, of cou | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l8 | 23.3% | So how can we exploit this in other ways? And another thing  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
@@ -192,10 +194,10 @@ is 56%), who keeps it, and — where both keep it — whether their votes cut at
 | l8 | 31.4% | So we can exploit cancer cell properties. We can exploit tho | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l8 | 37.1% | But kinases are particularly targetable, and there are many  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l8 | 39.5% | So in the case of NPM-ALK, we're going to talk a little bit  | 0 of 18 | 1 of 9 | 0% | 11% | neither | — |
-| l8 | 42.8% | However, one of the issues with kinase inhibitors is that th | 12 of 18 | 8 of 9 | 67% | 89% | both | same place |
-| l8 | 44.4% | But the other issue is that resistance ultimately develops.  | 2 of 18 | 2 of 9 | 11% | 22% | neither | — |
+| l8 | 42.8% | However, one of the issues with kinase inhibitors is that th | 12 of 18 | 9 of 9 | 67% | 100% | both | same place |
+| l8 | 44.4% | But the other issue is that resistance ultimately develops.  | 2 of 18 | 3 of 9 | 11% | 33% | neither | — |
 | l8 | 47.4% | Now, resistance can develop by a number of other mechanisms  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l8 | 56.7% | So kinase inhibitors have been very useful. They've created  | 6 of 18 | 3 of 9 | 33% | 33% | neither | — |
+| l8 | 56.7% | So kinase inhibitors have been very useful. They've created  | 6 of 18 | 6 of 9 | 33% | 67% | **live only** | — |
 | l8 | 58.1% | What are the other options? Well, the immune system. We can  | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l8 | 62.2% | So another approach people have used is to target antibodies | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l8 | 64.6% | So we can use targeted agents, we can use antibodies, we can | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
@@ -206,5 +208,5 @@ is 56%), who keeps it, and — where both keep it — whether their votes cut at
 | l8 | 86.2% | And actually, we're only just scratching the surface of wher | 4 of 18 | 1 of 9 | 22% | 11% | neither | — |
 | l8 | 87.2% | So cancer therapy has many challenges. Most therapies only w | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
 | l8 | 92.8% | So has therapy improved in the last 50 to 70 years? Well, it | 18 of 18 | 9 of 9 | 100% | 100% | both | same place |
-| l8 | 94.9% | So what's next? Well, of course, we need to understand more  | 17 of 18 | 7 of 9 | 94% | 78% | both | same place |
-| l8 | 97.8% | But I'm going to end with a success story of sorts. This is  | 15 of 18 | 9 of 9 | 83% | 100% | both | same place |
+| l8 | 94.9% | So what's next? Well, of course, we need to understand more  | 17 of 18 | 8 of 9 | 94% | 89% | both | same place |
+| l8 | 97.7% | So lots of ethical and moral dilemmas to think about. But I' | 15 of 18 | 9 of 9 | 83% | 100% | both | same place |

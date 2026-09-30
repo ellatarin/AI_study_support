@@ -1,0 +1,23 @@
+{
+  "sourceRun": "chosen-live18-l7",
+  "promptVersion": "g15",
+  "lecture": "l7",
+  "instance": "9",
+  "modelId": "google/gemini-3.7-flash",
+  "labelsShown": false,
+  "seconds": 25,
+  "promptTokens": 9212,
+  "completionTokens": 3532,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": 6,
+  "subtopics": 12,
+  "topicSizes": [
+    1,
+    2,
+    3,
+    3,
+    2,
+    1
+  ]
+}

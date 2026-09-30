@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the introductory framing for the lecture series, covering course context, multidisciplinary audience backgrounds, and core learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, developmental, and cellular foundations of cancer",
+      "groupedBecause": "These subtopics establish the biological nature of cancer as a stepwise failure of genetic regulation, cellular differentiation, and tissue architecture, alongside experimental models used to study it.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and histopathological progression",
+      "groupedBecause": "These subtopics examine the pathological progression of tumors from local basement-membrane invasion to distant metastatic dissemination.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and pathophysiological mechanisms of morbidity and mortality",
+      "groupedBecause": "These subtopics describe the classification and naming conventions of tumors and explain the physical and systemic mechanisms through which neoplasms cause illness and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer epidemiology and comparative oncology across species",
+      "groupedBecause": "These subtopics examine cancer incidence patterns in human populations and compare tumor susceptibility across companion animals and other multicellular taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical cancer symptoms and screening modalities",
+      "groupedBecause": "These subtopics explore the clinical presentation of tumors and evaluate various population screening approaches for early cancer detection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "This subtopic provides the concluding framing, directing students to revise learning outcomes and look ahead to practical sessions and future lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

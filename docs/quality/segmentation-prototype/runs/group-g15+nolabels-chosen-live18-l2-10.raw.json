@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Framing",
+      "groupedBecause": "This subtopic welcomes students, frames the lecture on the complement system, and acknowledges its complexity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundational Principles and Core C3 Mechanism",
+      "groupedBecause": "These subtopics introduce the overall architecture, naming conventions, and central C3-cleavage mechanism of the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement Activation Pathways",
+      "groupedBecause": "These subtopics describe the three upstream recognition pathways that converge to drive surface C3 convertase assembly and activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Mechanisms of Complement",
+      "groupedBecause": "These subtopics explain the downstream immune processes through which activated complement clears and eliminates pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of Complement and Host Protection",
+      "groupedBecause": "This subtopic describes the regulatory proteins and mechanisms that prevent complement activation from damaging host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Complement Deficiencies",
+      "groupedBecause": "This subtopic details the clinical phenotypes and disease presentations resulting from deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion Strategies",
+      "groupedBecause": "This subtopic examines how pathogens evolve specialized molecular mechanisms to counteract and evade complement attack.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic concludes the complement lecture and previews the upcoming topic on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

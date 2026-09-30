@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Course Overview",
+      "groupedBecause": "Introduces the lecturer, the structure of the cancer lecture series, and the key learning objectives for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Intrinsic Risk versus Environmental Factors",
+      "groupedBecause": "Explores the fundamental drivers of cancer development, comparing intrinsic genetic mutations and endogenous cellular errors with environmental exposures and epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogens and Infectious Causes of Cancer",
+      "groupedBecause": "Examines how infectious agents drive oncogenesis, focusing on the epidemiological and molecular mechanisms demonstrated by Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical Mutagens, Promoters, and Host Susceptibility",
+      "groupedBecause": "Details how chemical carcinogens and radiation damage DNA through direct adducts, metabolic activation, tumor promotion, and developmental stage susceptibility.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methods for Determining and Validating Carcinogenicity",
+      "groupedBecause": "Describes the genomic, epidemiological, animal, and in vitro experimental strategies used to detect and evaluate carcinogenic exposures.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Assessment",
+      "groupedBecause": "Summarizes the lecture's core themes regarding environmental cancer risk and balances carcinogenic hazards against practical everyday choices.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer welcomes the class and outlines the scope of the lecture on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition through PAMPs, DAMPs, and PRRs",
+      "groupedBecause": "These subtopics establish the foundational concepts of how the innate immune system detects foreign microbes and host tissue damage using germline-encoded pattern recognition receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "PRR families, downstream signaling, and the inflammasome",
+      "groupedBecause": "These subtopics examine specific classes of pattern recognition receptors, their intracellular signaling mechanisms, and the assembly of the inflammasome complex.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Inflammatory mobilization, leukocyte recruitment, and systemic complications",
+      "groupedBecause": "These subtopics describe how activated sentinel cells direct immune cell trafficking into tissues and lymph nodes, as well as the pathological consequences of uncontrolled systemic inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic responses",
+      "groupedBecause": "These subtopics explain the passive and active mechanisms that terminate inflammation, drive tissue healing, and maintain chronic protective structures like granulomas.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and preview",
+      "groupedBecause": "The lecturer concludes the session and states the topic of the following lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

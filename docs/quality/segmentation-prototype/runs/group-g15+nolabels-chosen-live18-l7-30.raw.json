@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Evolution and Lecture Objectives",
+      "groupedBecause": "The lecturer introduces the session's focus on cancer evolution and outlines the key learning outcomes regarding mutational progression, stemness, and the tumor microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Drivers of Clonal Evolution",
+      "groupedBecause": "These subtopics examine how successive genetic mutations and epigenetic modifications alter transcriptional states to confer selective growth advantages during clonal evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular Hierarchies and the Cancer Stem Cell Model",
+      "groupedBecause": "These subtopics explore how tissue hierarchies, stem cell properties, and cell of origin dictate cancer initiation and tumor propagation across different malignancies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Regulation, Profiling Technologies, and Evolutionary Synthesis",
+      "groupedBecause": "These subtopics demonstrate how microenvironmental and inflammatory cues promote malignancy, explain the spatial technologies used to profile these cellular interactions, and synthesize the multi-factorial nature of cancer evolution.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Lecture Conclusion and Next Session Preview",
+      "groupedBecause": "The lecturer concludes the presentation and announces the topic for the following lecture.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and sets out the key learning outcomes regarding cancer therapy approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies: Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics explain the primary conventional modalities used to physically debulk or cytotoxically kill cancer cells, along with their clinical limitations and toxicity.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities and Checkpoint Defects",
+      "groupedBecause": "These subtopics discuss strategies that take advantage of specific tumor vulnerabilities, including hormone receptor dependence, defective cell cycle checkpoints, and impaired DNA repair pathways.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Kinase Inhibitors, Oncogene Addiction, and Resistance Mechanisms",
+      "groupedBecause": "These subtopics examine targeted therapy against hyperactivated oncogenic kinases and the mechanisms, such as gatekeeper mutations and bypass signaling, through which tumor cells develop drug resistance.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Antibody-Based Targeted Therapies",
+      "groupedBecause": "These subtopics describe how engineered monoclonal antibodies and antibody-drug conjugates target specific cell-surface proteins to eliminate cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunology and Cellular Immunotherapies",
+      "groupedBecause": "These subtopics explore the relationship between the immune system and cancer, detailing modern immunotherapies including checkpoint inhibitors, bispecific antibodies, and CAR-T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Systemic Challenges, Historical Trends, and Future Directions in Cancer Treatment",
+      "groupedBecause": "These subtopics assess the broader clinical challenges, long-term survival trends, ethical dilemmas, and future opportunities in cancer medicine.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and progression models",
+      "groupedBecause": "It introduces the lecture by outlining learning outcomes, tumor progression models, and the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth signaling pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in receptor tyrosine kinase and Wnt signaling cascades drive autonomous cellular proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal differentiation",
+      "groupedBecause": "These subtopics examine how impaired terminal differentiation maintains progenitor-like states in both hematopoietic malignancies and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "It describes the molecular mechanisms and regulatory balance between pro- and anti-apoptotic proteins that allow cancer cells to resist programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, cellular senescence, and growth-control summary",
+      "groupedBecause": "These subtopics explore the mechanisms of telomere maintenance and senescence bypass that enable unlimited replicative potential before concluding the section on growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "These subtopics examine altered cancer metabolism, focusing on aerobic glycolysis and the role of metabolic mutations in generating oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "It details how growing tumors activate the angiogenic switch to stimulate new blood vessel formation for nutrient and oxygen supply.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and clonal evolution",
+      "groupedBecause": "These subtopics analyze the sequential steps, selective barriers, and genomic features underlying the metastatic spread of cancer cells.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and further reading",
+      "groupedBecause": "It concludes the lecture with final reflections on cancer hallmarks, suggestions for further reading, and closing remarks.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

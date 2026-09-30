@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This opening section welcomes students to the final lecture and outlines the core learning objectives concerning cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "These subtopics discuss primary non-targeted treatment modalities including surgery, radiotherapy, and cytotoxic chemotherapy alongside their systemic toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic cancer vulnerabilities and synthetic lethality",
+      "groupedBecause": "These subtopics cover therapeutic strategies designed to exploit specific biological weaknesses in cancer cells, including hormone signaling dependence, cell-cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Small-molecule kinase inhibitors and resistance mechanisms",
+      "groupedBecause": "These subtopics focus on targeting oncogene-addicted kinase signaling with small-molecule inhibitors and the clinical challenges of drug resistance and bypass pathways.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibody and antibody-drug conjugate therapies",
+      "groupedBecause": "These subtopics examine targeted cell-surface therapies utilizing naked monoclonal antibodies and antibody-drug conjugates.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics explore the principles of cancer immune surveillance and modern immunotherapeutic approaches that harness T cells against tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Current challenges, future directions, and clinical realities in oncology",
+      "groupedBecause": "These subtopics assess the broader clinical challenges, historical trends, genomic stratification approaches, and future directions in cancer treatment.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of complement",
+      "groupedBecause": "This subtopic provides the opening framing and sets expectations for the lecture on the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations and central mechanics of the complement cascade",
+      "groupedBecause": "These subtopics introduce the foundational organization, nomenclature rules, and central biochemical role of C3 in the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three upstream recognition pathways that trigger complement activation and converge on the central threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics describe the downstream immunological mechanisms activated complement deploys to neutralize and eliminate pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation of complement activation",
+      "groupedBecause": "This subtopic explains the regulatory proteins host cells utilize to inhibit complement activation and protect themselves from lysis.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic examines the distinct pathological presentations and disease susceptibilities resulting from specific complement component deficiencies.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion mechanisms and biotechnology applications",
+      "groupedBecause": "This subtopic details the strategies pathogens employ to escape complement-mediated clearance and the practical applications derived from them.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and next session preview",
+      "groupedBecause": "This subtopic delivers the closing framing for the lecture and indicates the topic of the following session.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "The lecturer introduces the session's learning outcomes and contextualises the upcoming material on cancer genetics and cellular transformation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Discovery of oncogenes and cell transformation assays",
+      "groupedBecause": "These subtopics trace how the study of transforming tumor viruses revealed cellular proto-oncogenes and establish the laboratory assays used to detect oncogenic transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenes, tumor suppressors, and mutation mechanisms",
+      "groupedBecause": "These subtopics define the functional classifications of cancer genes and explore how mutations in key regulators like Rb and p53 disrupt normal cellular control.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and cellular consequences of genetic instability",
+      "groupedBecause": "These subtopics examine the origins and consequences of sequence and chromosomal instability, highlighting defects in DNA repair pathways, replication, and mitosis.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep tumorigenesis and hereditary cancer predisposition",
+      "groupedBecause": "These subtopics explore how mutations accumulate sequentially during cancer progression and how inherited genetic defects accelerate this multi-step pathway to malignancy.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "The lecturer concludes the session, suggests reading materials, and outlines the subject of the upcoming lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

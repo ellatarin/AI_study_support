@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series and outlines the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular differentiation, genetic alterations, and in vitro cancer models",
+      "groupedBecause": "These subtopics establish that cancer arises from genetic and epigenetic disruptions to normal developmental differentiation programs and tissue architecture, and discuss the methodologies and challenges of modeling these behaviors in culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology of tumor invasion, metastasis, and malignant progression",
+      "groupedBecause": "These subtopics examine the histological and clinical distinctions between benign lesions and malignant neoplasms, focusing on local invasion, metastatic dissemination, and the stepwise progression from precursor lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and mechanisms of clinical morbidity and mortality",
+      "groupedBecause": "These subtopics describe the formal naming rules for benign and malignant tumors alongside the physical and systemic mechanisms through which they produce clinical disease and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence across human tissues and diverse animal taxa",
+      "groupedBecause": "These subtopics compare cancer incidence across human organs and populations with cancer patterns observed across companion animals and other multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical modalities of cancer screening",
+      "groupedBecause": "These subtopics explore the clinical rationale, histological detection methods, and diagnostic utility of screening programs across major cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and practical arrangements",
+      "groupedBecause": "This subtopic concludes the lecture by reviewing learning outcomes and noting upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

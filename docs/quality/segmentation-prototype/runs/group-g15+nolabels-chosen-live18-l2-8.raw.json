@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "This subtopic welcomes the class and introduces the scope and historical context of studying the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Overview and fundamentals of the complement system",
+      "groupedBecause": "These subtopics provide a foundational overview of the complement system's architecture and the pivotal activation of C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics examine the three recognition pathways and convergence threshold that trigger complement activation on target surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics explain the primary effector mechanisms through which activated complement eradicates pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement activation",
+      "groupedBecause": "This subtopic describes the host regulatory proteins and mechanisms that prevent self-directed complement attack.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical complement deficiencies",
+      "groupedBecause": "This subtopic details the clinical manifestations and disease risks resulting from deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic analyzes the evolutionary strategies pathogens use to circumvent complement-mediated immune destruction.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Closing remarks",
+      "groupedBecause": "This subtopic wraps up the lecture and previews the next lecture on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

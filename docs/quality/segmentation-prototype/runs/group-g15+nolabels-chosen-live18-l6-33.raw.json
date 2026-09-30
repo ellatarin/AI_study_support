@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and overview of cancer hallmarks",
+      "groupedBecause": "The lecturer introduces the session's learning objectives, the historical framework of the hallmarks of cancer, and how genetic mutations relate to tissue-level tumor progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth signaling pathways",
+      "groupedBecause": "These subtopics explain how oncogenic and tumor suppressor mutations in signaling cascades like Wnt/beta-catenin, RTKs, Ras-MAPK, and PI3K drive cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blockade of normal cellular differentiation",
+      "groupedBecause": "These subtopics illustrate how cancers in hematopoietic lineages and intestinal epithelium maintain proliferative capacity by preventing cells from reaching their terminally differentiated states.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptotic cell death",
+      "groupedBecause": "This subtopic explains the molecular mechanisms by which cancer cells avoid programmed cell death through mutations in p53 and deregulation of pro- and anti-apoptotic proteins such as Bax and Bcl-2.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and senescence bypass",
+      "groupedBecause": "These subtopics explore how telomere shortening and cellular stress normally induce p53-mediated senescence, how cancer cells overcome this limit through telomerase upregulation to achieve immortality, and summarize the growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and the Warburg effect",
+      "groupedBecause": "These subtopics examine aerobic glycolysis, metabolic rewiring across tumor types, and the role of metabolic enzyme mutations and oncometabolites in driving epigenetic alterations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic details how tumors switch on new blood vessel growth to overcome diffusion limits for oxygen and nutrients during progression.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and biology of metastasis",
+      "groupedBecause": "These subtopics analyze the sequential steps, physiological routes, diagnostic detection methods, and clonal evolutionary genetics involved in cancer metastasis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and lecture summary",
+      "groupedBecause": "The lecturer summarizes how diverse mutations converge on cancer hallmarks, references recent developments in the literature, and concludes the lecture.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

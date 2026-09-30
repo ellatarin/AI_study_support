@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic provides the opening framing, welcome, and learning objectives for the lecture on cancer therapy.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional modalities: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics discuss the mechanisms, clinical applications, and major limitations of traditional cancer treatment strategies.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer cell vulnerabilities in signaling, checkpoints, and DNA repair",
+      "groupedBecause": "These subtopics explore approaches that exploit specific biological vulnerabilities of cancer cells, including hormone signaling dependence, defective cell cycle checkpoints, and impaired DNA repair pathways.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeted kinase inhibitors, resistance mechanisms, and drug addiction",
+      "groupedBecause": "These subtopics examine the concept of oncogene addiction and the use of small-molecule kinase inhibitors, detailing mechanisms of acquired resistance and therapeutic strategies like drug holidays.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics detail how engineered antibodies and antibody-toxin conjugates are used to target surface proteins on cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumor immunology and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics cover the evidence for cancer immune surveillance and the development of immunotherapies, including immune checkpoint inhibitors, bispecific T-cell engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic challenges, historical trends, and future directions",
+      "groupedBecause": "These subtopics reflect on historical survival trends, ongoing clinical challenges such as tumor heterogeneity, and future directions and ethical dilemmas in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

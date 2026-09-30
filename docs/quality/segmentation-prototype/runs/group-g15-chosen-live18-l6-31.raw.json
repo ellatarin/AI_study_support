@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Hallmarks and Mutation Progression",
+      "groupedBecause": "It introduces the lecture's learning objectives and the overarching framework of cancer hallmarks and multistep mutation progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth Signaling Cascades and Pathway Deregulation",
+      "groupedBecause": "They examine how oncogenic mutations deregulate extracellular sensor pathways and intracellular cascades—including Wnt, RTK, and TGF-beta signaling—to drive sustained proliferation and cell survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Terminal Differentiation Blocks in Cancer",
+      "groupedBecause": "They explain how malignant cells fail to execute normal lineage maturation and exit the cell cycle, using hematopoiesis and colonic crypt renewal as models.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Apoptosis Evasion, Replicative Immortality, and p53 Regulation",
+      "groupedBecause": "They detail how tumor cells bypass cell death and proliferative limits through evasion of apoptosis, telomerase reactivation, and subversion of p53-mediated stress responses.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic Reprogramming and Oncometabolites in Cancer",
+      "groupedBecause": "They explore the biochemical alterations of cancer metabolism, including aerobic glycolysis, metabolic rewiring across cancer types, and oncometabolite-induced epigenetic modifications.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of Tumor Angiogenesis",
+      "groupedBecause": "It details how growing tumors trigger the angiogenic switch to develop new vasculature for oxygen and nutrient perfusion.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and Clonal Dynamics of Metastasis",
+      "groupedBecause": "They examine the systemic dissemination of cancer cells, covering the metastatic cascade, the seed-and-soil hypothesis, circulating tumor cells, and genomic duplication in metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Conclusion and Recommended Reading",
+      "groupedBecause": "It concludes the lecture by synthesizing the hallmarks framework, recommending further reading, and closing with final remarks.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

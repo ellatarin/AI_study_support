@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the Lecture on Complement",
+      "groupedBecause": "This subtopic introduces the lecture, framing complement as a complex but essential immunological process with challenging nomenclature.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement Overview, Nomenclature, and the Central Role of C3",
+      "groupedBecause": "These subtopics establish the fundamental principles of the complement system, outlining its primary functions, historical naming conventions, and the central mechanism of C3 activation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Complement Recognition and Activation",
+      "groupedBecause": "These subtopics explain the three upstream pathways—alternative, lectin, and classical—that initiate complement activation and converge on surface C3 convertase formation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector Mechanisms of the Complement Cascade",
+      "groupedBecause": "These subtopics detail the three primary downstream effector outcomes of complement activation: opsonization for phagocytosis, inflammation induction, and direct pathogen lysis via the membrane attack complex.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host Regulation and Protection from Complement Activation",
+      "groupedBecause": "This subtopic explains the regulatory proteins and inhibitory mechanisms that prevent complement from spontaneously activating on and damaging host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical Consequences of Complement Deficiencies",
+      "groupedBecause": "This subtopic details the distinct clinical presentations and disease risks associated with genetic or acquired deficiencies in specific complement components and regulators.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen Evasion Mechanisms and Staphylococcal Adaptations",
+      "groupedBecause": "This subtopic explores how pathogens evolve strategies to evade complement-mediated killing, highlighting the multifaceted evasion tactics of Staphylococcus aureus and their biomedical applications.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Next Steps",
+      "groupedBecause": "This subtopic concludes the lecture on complement and outlines the upcoming transition to the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

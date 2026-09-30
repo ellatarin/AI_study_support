@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic welcomes the students, connects the material to preceding histology practicals, and outlines the lecture's learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor viruses and the discovery of cellular proto-oncogenes",
+      "groupedBecause": "These subtopics trace the history of tumor virology and explain how the study of transforming retroviruses revealed that oncogenes originate from altered host cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental assays for cell transformation and oncogenic mutations",
+      "groupedBecause": "This subtopic describes the in vitro and in vivo assays used by cancer biologists to test whether specific genes or mutations can transform cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Classification and genetic mechanisms of oncogenes and tumor suppressor genes",
+      "groupedBecause": "These subtopics define the major classes of cancer genes and explain their genetic mechanisms of action and regulatory effects on the cell cycle.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Types and mechanisms of genetic instability in cancer",
+      "groupedBecause": "These subtopics explain the concepts, repair pathway defects, replication errors, and mitotic abnormalities that cause sequence and chromosomal instability in cancer cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multi-step genetic progression in tumor development",
+      "groupedBecause": "This subtopic describes the Vogelstein model of stepwise mutation accumulation and chromosomal instability driving progression from benign lesions to metastatic cancer.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Hereditary cancer predisposition syndromes and tumor evolution",
+      "groupedBecause": "These subtopics explain how inherited germline mutations accelerate tumorigenesis across various cancer syndromes and how selective pressure can drive secondary tumor evolution.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "This subtopic concludes the lecture, offers to take student questions, and suggests recommended reading.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

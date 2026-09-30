@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and mutation progression",
+      "groupedBecause": "This opening subtopic introduces the lecture framework, learning outcomes, and the multi-step model of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell-surface receptors and downstream intracellular cascades drive autonomous cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks in terminal cell differentiation",
+      "groupedBecause": "These subtopics examine how failure of precursor cells to terminally differentiate sustains proliferative capacity in both hematopoietic and epithelial malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis in cancer",
+      "groupedBecause": "This subtopic details how cancer cells resist programmed cell death through the disruption of p53 signaling and the imbalance of mitochondrial apoptotic regulators.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and stress-response mechanisms",
+      "groupedBecause": "These subtopics explain how telomere shortening, senescence, and p53-mediated stress responses limit cellular lifespan and how tumor cells overcome these controls to achieve immortalization.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered cellular metabolism and metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics address how oncogenic changes rewire cellular metabolic pathways, including aerobic glycolysis and oncometabolite production, to support tumor growth.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explores the angiogenic switch and the mechanisms by which expanding tumors stimulate new blood vessel formation to overcome hypoxia and nutrient deprivation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genomics of cancer metastasis",
+      "groupedBecause": "These subtopics investigate the multi-step metastatic cascade, patterns of systemic dissemination, the seed and soil hypothesis, and the genomic characteristics of secondary tumors.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "This closing subtopic summarises the core takeaways of the lecture, highlights recent literature on cancer hallmarks, and provides concluding remarks.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

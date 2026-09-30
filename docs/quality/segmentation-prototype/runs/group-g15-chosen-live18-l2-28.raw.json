@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "It provides introductory framing and historical context for the lecture on the complement system.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals of the complement system and C3 activation",
+      "groupedBecause": "They establish the foundational principles, naming conventions, and central molecular activation mechanism of the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "They detail the recognition and activation mechanisms of the alternative, lectin, and classical pathways that drive complement deposition on target surfaces.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "They explain the downstream effector functions through which activated complement eradicates pathogens and promotes the immune response.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host cell regulation of complement",
+      "groupedBecause": "It examines the regulatory mechanisms and proteins that protect host cells from accidental complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "It describes how specific genetic or acquired defects at different stages of the complement cascade lead to distinct disease phenotypes.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement and applications of protein A",
+      "groupedBecause": "It explores how pathogens circumvent complement-mediated killing and how these bacterial evasion mechanisms are utilized in research and therapy.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "It closes the lecture on complement and provides a brief forward reference to the next session.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

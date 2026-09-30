@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This opening subtopic introduces the lecture series, outlines the learning outcomes, and sets the clinical and biological context of the course.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular, genetic, and architectural basis of cancer development",
+      "groupedBecause": "These subtopics explain the fundamental concept of cancer as a progressive failure of cellular differentiation, genetic regulation, and three-dimensional tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign versus malignant tumor characteristics, invasion, and progression",
+      "groupedBecause": "These subtopics explore the pathological differences between benign and malignant tumors, focusing on mechanisms of local invasion, metastatic dissemination, and stepwise histological progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification rules",
+      "groupedBecause": "This subtopic outlines the standard conventions and exceptions used to name benign and malignant tumors according to their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological causes of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic describes the local, systemic, and metastatic mechanisms through which tumors cause clinical illness and death in patients.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across taxa",
+      "groupedBecause": "These subtopics examine patterns of cancer frequency across human populations and other multicellular animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening methods",
+      "groupedBecause": "These subtopics discuss typical clinical symptoms of cancer and evaluate the effectiveness and limitations of various screening modalities for detecting early lesions.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "This closing subtopic reviews the learning outcomes and provides logistical information for practical sessions and upcoming lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

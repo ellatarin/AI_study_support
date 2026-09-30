@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer introduces the course context, her background, and the primary learning outcomes regarding cancer causes and carcinogen evaluation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Origins of Cancer and the Mutational Roulette Wheel",
+      "groupedBecause": "These subtopics define cancer as an evolutionary genetic disease driven by a combination of endogenous cellular errors, genetic predispositions, and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence of Cancer Risk",
+      "groupedBecause": "These subtopics evaluate real-world environmental carcinogen exposures, the debate surrounding intrinsic bad luck versus preventable causes, and epidemiological evidence from geographic and migrant studies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious Pathogens in Cancer Etiology",
+      "groupedBecause": "These subtopics examine how biological agents cause cancer, highlighted by the epidemiology and oncogenic mechanism of Epstein-Barr virus and malaria in Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Chemical and Physical Mutagens and Xenobiotic Activation",
+      "groupedBecause": "These subtopics detail how physical radiation and dietary or chemical compounds induce DNA damage directly or through endogenous metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour Promotion and the Two-Stage Model of Carcinogenesis",
+      "groupedBecause": "These subtopics explain how non-mutagenic agents promote tumor formation via chronic inflammation and cellular signaling pathways like PKC rather than direct DNA mutation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host Susceptibility Factors and Carcinogenesis Summary",
+      "groupedBecause": "These subtopics examine how developmental stage and tissue-specific vulnerability affect carcinogenesis, concluding with a summary of the direct and indirect mechanisms of cancer development.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methodologies for Identifying and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics present the genomic, epidemiological, in vivo, and in vitro experimental methods used to determine whether specific exposures cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Perspective",
+      "groupedBecause": "The lecturer concludes the lecture by framing carcinogenic exposure within an everyday personal and societal risk-benefit analysis.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

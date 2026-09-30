@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Lecture Framing",
+      "groupedBecause": "This subtopic introduces the lecture by outlining the learning objectives and framing cancer development as an evolutionary process influenced by mutations, cell types, and the microenvironment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Mechanisms of Clonal Selection",
+      "groupedBecause": "These subtopics explore how cells acquire competitive growth advantages and cancer hallmarks through sequential driver mutations and non-mutational epigenetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Hierarchies",
+      "groupedBecause": "These subtopics examine how normal tissue hierarchies, stemness, and the specific cell of origin govern cancer initiation and cellular heterogeneity.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Promotion, Tumor Stroma, and Coevolution",
+      "groupedBecause": "These subtopics explore how inflammatory and stromal microenvironments promote cancer development across disease stages and coevolve with mutating cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Closing Remarks and Next Lecture",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming session on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

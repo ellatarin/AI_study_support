@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and objectives",
+      "groupedBecause": "It introduces the final lecture of the course and sets out the learning objectives for cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "They discuss traditional modalities for debulking and killing rapidly dividing cells alongside their associated toxicity and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities and repair defects in cancer cells",
+      "groupedBecause": "They explain how therapies can selectively eliminate tumour cells by taking advantage of their inherent regulatory defects and signalling dependencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Small molecule kinase inhibitors and mechanisms of resistance",
+      "groupedBecause": "They cover the identification of driving oncogenes and the application, resistance pathways, and dosing strategies associated with small-molecule kinase inhibitors.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Antibody-based targeted therapeutics",
+      "groupedBecause": "They describe the engineering and mechanisms of monoclonal antibodies and antibody-drug conjugates directed against cancer cell surface targets.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune surveillance and checkpoint inhibition",
+      "groupedBecause": "They evaluate the role of the natural immune system against cancer and the mechanism of reawakening anti-tumour T-cell responses against neoantigens.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Adoptive and engineered T-cell therapies",
+      "groupedBecause": "They explain cellular and molecular strategies that directly engineer or bridge T cells to target tumour-specific antigens.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Current challenges and future directions in cancer treatment",
+      "groupedBecause": "They reflect on overarching clinical obstacles, historical progress, and future strategies required to improve cancer survival.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Lecture conclusion and clinical dilemma in pediatric leukemia",
+      "groupedBecause": "It concludes the lecture with a historic success story in pediatric oncology to illustrate the ongoing ethical challenges in adopting new treatments.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and progression",
+      "groupedBecause": "The lecturer frames the lecture by outlining the learning outcomes, the multi-step mutation progression model, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics explore how mutations in cell-surface receptors and downstream intracellular cascades drive continuous proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal cell differentiation",
+      "groupedBecause": "These subtopics explain the mechanisms and consequences of differentiation arrest across hematopoietic malignancies and intestinal epithelial tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptotic cell death",
+      "groupedBecause": "This subtopic details how cancer cells circumvent programmed cell death through mutations in p53 and deregulation of mitochondrial apoptosis regulators.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortalization, senescence, and growth-control summary",
+      "groupedBecause": "These subtopics describe how cancer cells achieve indefinite replication by overcoming telomere shortening and senescence, concluding the review of cell-intrinsic growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming, the Warburg effect, and oncometabolites",
+      "groupedBecause": "These subtopics discuss how cancer cells rewire their cellular metabolism toward aerobic glycolysis and how metabolic enzyme mutations drive epigenetic alterations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic examines the necessity, timing, and molecular balance required for developing tumors to recruit new blood vessel networks.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dissemination, and genomics of metastasis",
+      "groupedBecause": "These subtopics address how cancer cells disseminate systemically, overcome metastatic inefficiency, and display genomic alterations such as whole genome duplication.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "The lecturer provides closing reflections on cancer hallmarks literature, practical sessions, and wraps up the lecture.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

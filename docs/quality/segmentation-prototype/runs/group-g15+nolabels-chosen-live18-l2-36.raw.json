@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "This subtopic opens the lecture, introducing complement and framing the challenge of its terminology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement overview, nomenclature, and the central role of C3",
+      "groupedBecause": "These subtopics introduce the fundamental architecture, naming conventions, and central biochemical role of C3 in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics explain the three recognition pathways that initiate complement activation and generate surface C3 convertases to reach the trigger threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics describe the three primary immune effector functions executed upon complement activation: opsonization, inflammation, and membrane lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement on host tissues",
+      "groupedBecause": "This subtopic explains the regulatory proteins and mechanisms that protect host cells from non-specific complement activation and damage.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic details the distinct clinical presentations and disease phenotypes caused by genetic or acquired deficiencies in complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic examines the evolutionary strategies used by pathogens to evade complement destruction, highlighting mechanisms and applications of Staphylococcus aureus proteins.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture on complement and announces the topic of the upcoming lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

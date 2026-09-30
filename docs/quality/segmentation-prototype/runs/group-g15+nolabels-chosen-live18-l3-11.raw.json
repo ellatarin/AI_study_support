@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture overview",
+      "groupedBecause": "It introduces the cancer biology lecture series, the student cohort, and the primary learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as genetic disruption of tissue differentiation and architecture",
+      "groupedBecause": "They explain how accumulated genetic and epigenetic alterations cause cells to fail their normal developmental programs and tissue architecture, and how these processes are studied experimentally.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Characteristics, progression, and pathology of benign and malignant tumors",
+      "groupedBecause": "They examine the clinical and histological distinctions between benign and malignant tumors, focusing on invasion, metastasis, and the stepwise progression from benign lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification",
+      "groupedBecause": "It outlines the standardized naming rules and suffix conventions used to categorize benign and malignant neoplasms across different tissue lineages.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "It details the mechanical, systemic, and metastatic pathways through which primary and secondary tumors cause patient illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence across human tissues and animal species",
+      "groupedBecause": "They compare tumor incidence and mortality across different human cancer types and examine cancer occurrence throughout diverse multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and methods of cancer screening",
+      "groupedBecause": "They present the rationale for population-level cancer screening and evaluate diagnostic methods, benefits, and challenges across specific anatomical sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Conclusion and practical session outlook",
+      "groupedBecause": "It concludes the lecture with a reminder of the learning outcomes and a preview of upcoming practical sessions.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

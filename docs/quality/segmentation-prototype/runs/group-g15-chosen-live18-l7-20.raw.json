@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction: Cancer Evolution and the Microenvironment",
+      "groupedBecause": "This topic introduces the lecture framework and learning outcomes regarding cancer evolution, cell of origin, and microenvironmental influences.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Clonal Selection and Epigenetic Mechanisms in Cancer Progression",
+      "groupedBecause": "These subtopics explain how cancer progresses through Darwinian clonal selection of driver mutations and non-mutational epigenetic changes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Models",
+      "groupedBecause": "These subtopics explore tissue hierarchies and evaluate experimental evidence for cancer stem cells and cell-of-origin transformation in leukemia and colorectal cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Promotion, Stromal Dependence, and Coevolution",
+      "groupedBecause": "These subtopics demonstrate how inflammatory and stromal microenvironments promote and sustain tumor growth, how these cellular interactions are profiled, and how microenvironmental coevolution drives malignancy.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Closing Remarks and Preview of Next Lecture",
+      "groupedBecause": "This topic concludes the lecture and provides an administrative transition to the upcoming session on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Objectives",
+      "groupedBecause": "The lecturer welcomes students to the final lecture and outlines the overarching learning objectives regarding cancer therapy approaches and mechanisms.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Modalities: Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics examine standard therapeutic approaches, discussing how physical resection, radiation, and non-specific cytotoxic drugs operate along with their clinical benefits and systemic toxicities.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting Intrinsic Cellular Vulnerabilities and DNA Repair Defects",
+      "groupedBecause": "These subtopics explain how therapy can exploit intrinsic cancer vulnerabilities, including hormone dependence, cell cycle checkpoint abnormalities, and defective DNA repair pathways.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene Targeting with Kinase Inhibitors and Mechanisms of Resistance",
+      "groupedBecause": "These subtopics focus on inhibiting hyperactivated oncogenic kinases and exploring the biological mechanisms and clinical management of acquired drug resistance.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics cover antibody-based therapies designed to target specific tumor surface markers either directly or by delivering cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapies and T-Cell Engagement",
+      "groupedBecause": "These subtopics examine the role of the immune system in cancer control and detail therapeutic approaches that re-engage or engineer T cells to eliminate tumor cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overarching Challenges, Historical Progress, and Future Directions",
+      "groupedBecause": "These subtopics review the systemic challenges in cancer treatment, historical improvements in patient survival, emerging prevention strategies, and ethical dilemmas surrounding therapy choices.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture framing",
+      "groupedBecause": "The lecturer introduces the conceptual framework of the hallmarks of cancer and outlines the learning outcomes for understanding how specific genetic mutations drive tumor progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth signaling pathways",
+      "groupedBecause": "These subtopics explain how mutations in cell-surface receptors and intracellular cascades, such as Wnt/beta-catenin, RTK/Ras/MAPK, and PI3K/Akt, deregulate proliferation and survival signaling.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal differentiation",
+      "groupedBecause": "These subtopics describe how blocks preventing cells from reaching their terminally differentiated state maintain proliferative capacity in leukemias and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic details how cancer cells evade programmed cell death through the disruption of p53 regulation and the shifting balance between pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomeres, and cellular senescence",
+      "groupedBecause": "These subtopics examine how cancer cells overcome replicative limits through telomere maintenance, TERT reactivation, and the bypass of p53-mediated stress senescence.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered cellular metabolism and metabolic reprogramming",
+      "groupedBecause": "These subtopics investigate metabolic alterations in cancer cells, including aerobic glycolysis, tissue-specific metabolic profiles, and oncometabolite generation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explains the angiogenic switch that enables tumors to recruit new blood vessels to overcome hypoxia and meet nutrient demands.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and patterns of cancer metastasis",
+      "groupedBecause": "These subtopics examine the systemic dissemination of cancer cells, including the metastatic cascade, seed-and-soil interactions, and genomic features of metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "The lecturer summarizes the key takeaways regarding cancer hallmarks, points students toward recommended literature, and closes the lecture.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

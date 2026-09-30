@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This opening subtopic welcomes students to the final lecture and outlines the intended learning outcomes regarding cancer treatment modalities.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "These subtopics examine traditional treatment modalities—surgery, radiotherapy, and cytotoxic chemotherapy—along with their associated systemic toxicities and resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cancer cell vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics describe therapeutic strategies designed to exploit inherent tumor vulnerabilities, including hormone dependency, cell cycle checkpoint loss, and defective DNA repair pathways.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene addiction and small-molecule kinase inhibitors",
+      "groupedBecause": "These subtopics focus on targeting oncogene-driven signaling through small-molecule kinase inhibitors, detailing their mechanisms, resistance pathways, and clinical consequences.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain how engineered monoclonal antibodies and antibody-drug conjugates selectively target cell surface antigens to eliminate tumor cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immune surveillance and T-cell-directed immunotherapies",
+      "groupedBecause": "These subtopics address the biological evidence for antitumor immunity and the clinical application of immunotherapies that reactivate or engineer T cells to target cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Current challenges, historical trends, and future perspectives in cancer therapy",
+      "groupedBecause": "These subtopics evaluate the broader landscape of oncology by reviewing historical progress, modern therapeutic challenges, genomic stratification, and emerging ethical dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

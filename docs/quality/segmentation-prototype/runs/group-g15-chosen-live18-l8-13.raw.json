@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the learning objectives regarding cancer therapies.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Traditional cancer treatments and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics examine conventional cancer treatment modalities including surgery, radiotherapy, and cytotoxic chemotherapy alongside their clinical mechanisms, limitations, and toxicities.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting cellular vulnerabilities and DNA repair defects",
+      "groupedBecause": "These subtopics discuss therapeutic strategies that exploit intrinsic cancer cell vulnerabilities, including hormone dependence, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene addiction and kinase inhibitor therapies",
+      "groupedBecause": "These subtopics explore the targeting of hyperactivated kinases and oncogene addiction, detailing small-molecule inhibitor mechanisms, bypass pathways, and acquired drug resistance.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics explain the design and therapeutic applications of engineered monoclonal antibodies and antibody-drug conjugates directed against cancer cell surface targets.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-directed therapies",
+      "groupedBecause": "These subtopics cover the principles of tumor immune surveillance and modern immunotherapeutic approaches including checkpoint inhibitors, bispecific T-cell engagers, and CAR T-cell therapy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Modern challenges, historical trends, and future directions in cancer treatment",
+      "groupedBecause": "These subtopics evaluate broader challenges in cancer therapy, including genomic stratification, historical survival trends, prevention, and emerging ethical dilemmas.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and lecture overview",
+      "groupedBecause": "This subtopic introduces the session by connecting histopathology practical observations to the lecture's learning outcomes on cellular transformation and cancer genetics.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Discovery of cellular oncogenes from tumor viruses and transformation assays",
+      "groupedBecause": "These subtopics trace how tumor virology led to the identification of cellular proto-oncogenes and describe the laboratory assays used to test cell transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Classification, cell cycle regulation, and genetic mechanisms of oncogenes and tumor suppressors",
+      "groupedBecause": "These subtopics define oncogenes and tumor suppressor genes and explain how their mutations disrupt cell cycle checkpoints and cellular phenotypes through dominant, recessive, and dominant-negative mechanisms.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and cellular consequences of genetic instability",
+      "groupedBecause": "These subtopics explain the distinctions between sequence and chromosomal instability, detailing how specific defects in DNA repair, replication proofreading, and mitotic chromosome segregation cause genomic damage.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep tumor progression, hereditary predisposition, and tumor evolution",
+      "groupedBecause": "These subtopics examine how sequential mutations drive cancer progression in multi-step models, how germline mutations accelerate cancer development in hereditary syndromes, and how tumors adapt and evolve.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "This subtopic wraps up the lecture by reviewing learning outcomes, inviting questions, and offering recommended reading for the upcoming break.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

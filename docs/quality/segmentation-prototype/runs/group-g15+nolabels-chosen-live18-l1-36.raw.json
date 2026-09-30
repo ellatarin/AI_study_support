@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of inflammation",
+      "groupedBecause": "This subtopic welcomes the class and outlines how the lecture will cover the initiation and resolution of immune inflammatory responses.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition of infection and damage",
+      "groupedBecause": "These subtopics explain how the innate immune system senses pathogens and cellular stress through molecular danger patterns, pattern recognition receptor families, and downstream signaling cascades.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Leukocyte recruitment, cell trafficking, and systemic inflammation",
+      "groupedBecause": "These subtopics describe how activated sentinel cells direct immune cell migration into tissues and lymph nodes, as well as the severe systemic risks that arise when inflammatory signaling becomes excessive.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, wound healing, and chronic inflammation",
+      "groupedBecause": "These subtopics explain the passive and active mechanisms that terminate inflammatory responses, coordinate tissue repair, and lead to chronic inflammatory states or granuloma formation when resolution fails.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion and next topic",
+      "groupedBecause": "This subtopic concludes the lecture and announces the upcoming topic on complement.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

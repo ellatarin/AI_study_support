@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "The lecturer welcomes the students, introduces the lecture series, and outlines the core learning objectives regarding the causes and mechanisms of cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Genetics, Environment, and Chance",
+      "groupedBecause": "These subtopics explore how cancer arises from an interplay of endogenous mutations, stochastic bad luck, and environmental exposures, as highlighted by global epidemiological variations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Carcinogenic Agents and Mechanisms of Tumor Development",
+      "groupedBecause": "These subtopics examine the biological, physical, and chemical agents that cause cancer alongside the molecular mechanisms—such as metabolic activation, DNA adduct formation, and tumor promotion—that drive malignancy.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Determining Carcinogenicity",
+      "groupedBecause": "These subtopics describe the analytical, epidemiological, and experimental methods used to identify carcinogens and prove their mutagenic effects on cells.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Balance",
+      "groupedBecause": "The lecturer concludes the lecture by discussing everyday risk-benefit choices concerning carcinogenic exposures and summarizing key takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic provides the opening framing and overview of the lecture's themes on inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Pathogen and damage recognition by innate receptors",
+      "groupedBecause": "These subtopics explain the molecular mechanisms and receptor families through which the innate immune system senses microbial products and cellular damage.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory response propagation and systemic consequences",
+      "groupedBecause": "These subtopics examine the physiological and pathological processes triggered by immune activation, including sentinel signaling, leukocyte recruitment, lymphatic drainage, and septic shock.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic responses",
+      "groupedBecause": "These subtopics describe how the immune response is terminated and how tissues are repaired, as well as the adaptations and pathologies associated with unresolved chronic inflammation.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic provides the closing framing and an announcement for the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

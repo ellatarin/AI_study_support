@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and tumor progression",
+      "groupedBecause": "This opening subtopic introduces the lecture objectives, framework, and progression model of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth signaling cascades",
+      "groupedBecause": "These subtopics explain how oncogenic mutations disrupt extracellular sensing and downstream pathways such as Wnt and receptor tyrosine kinases to drive continuous proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal differentiation",
+      "groupedBecause": "These subtopics examine how cancer cells in hematopoietic lineages and the intestinal epithelium arrest terminal differentiation while retaining proliferative capacity.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis, senescence, and replicative limits",
+      "groupedBecause": "These subtopics describe how cancer cells circumvent programmed cell death, telomere-driven senescence, and p53-mediated stress responses to achieve replicative immortality.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic rewiring and oncometabolites in cancer",
+      "groupedBecause": "These subtopics explore how tumor cells alter cellular metabolism through aerobic glycolysis, tissue-specific profiles, and metabolic enzyme mutations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and the angiogenic switch",
+      "groupedBecause": "This subtopic explains the biological necessity, regulatory balance, and timing of blood vessel formation required to support tumor growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dynamics, and genomics of metastasis",
+      "groupedBecause": "These subtopics analyse the multi-step dissemination cascade, metastatic inefficiency, seed-and-soil interactions, and associated genomic features such as whole genome duplication.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "This closing subtopic reviews the overarching framework of cancer hallmarks and provides concluding administrative and reading recommendations.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

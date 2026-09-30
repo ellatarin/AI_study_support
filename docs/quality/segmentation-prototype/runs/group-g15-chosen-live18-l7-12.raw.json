@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This topic frames the lecture by introducing its overarching themes on cancer evolution, microenvironmental influences, and key learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Mechanisms of Clonal Evolution",
+      "groupedBecause": "These subtopics examine how cell-intrinsic driver mutations and epigenetic chromatin modifications confer selective advantages during clonal evolution.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer Stem Cells and Cell of Origin",
+      "groupedBecause": "These subtopics explore hierarchical stem cell models and experimental evidence demonstrating how specific cells of origin influence tumor initiation and progression.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental Influences, Spatial Profiling, and Cancer Coevolution",
+      "groupedBecause": "These subtopics address how inflammatory and stromal microenvironments promote tumor development, the spatial methods used to analyze these interactions, and an integrative summary of cancer coevolution.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This topic provides the final closing remarks and previews the topic of the next lecture.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

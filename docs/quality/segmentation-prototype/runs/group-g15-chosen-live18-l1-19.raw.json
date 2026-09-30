@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic frames the lecture topic on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate pathogen and damage recognition",
+      "groupedBecause": "These subtopics explain how the innate immune system identifies infections and cellular damage using conserved molecular patterns and germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor systems and inflammatory signaling",
+      "groupedBecause": "These subtopics detail major pattern recognition receptor families, their intracellular signaling pathways, and the activation of the inflammasome.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Acute inflammatory response and leukocyte recruitment",
+      "groupedBecause": "These subtopics describe how sentinel cell activation directs leukocyte extravasation into tissues, lymphatic drainage, and systemic inflammatory consequences like sepsis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic inflammation",
+      "groupedBecause": "These subtopics cover the mechanisms for resolving acute inflammation, repairing tissue damage, and managing persistent inflammatory states or granulomas.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and previews the next topic.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

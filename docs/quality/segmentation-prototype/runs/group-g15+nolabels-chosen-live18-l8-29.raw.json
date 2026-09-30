@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course and Lecture Introduction",
+      "groupedBecause": "This subtopic introduces the final lecture of the course and outlines its learning objectives regarding cancer therapy approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Non-Targeted Cancer Therapies",
+      "groupedBecause": "These subtopics examine traditional non-targeted cancer therapies and the challenges of balancing tumor clearance with systemic toxicity.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting Intrinsic Cancer Cell Vulnerabilities",
+      "groupedBecause": "These subtopics explain therapeutic strategies that selectively exploit intrinsic physiological and genetic vulnerabilities of cancer cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene Addiction and Kinase Inhibitors",
+      "groupedBecause": "These subtopics examine how oncogene addiction is therapeutically exploited using kinase inhibitors and the mechanisms by which tumors develop resistance to these targeted therapies.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "These subtopics describe the use of targeted monoclonal antibodies and antibody-drug conjugates directed against tumor-associated surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tumor Immune Surveillance and Checkpoint Blockade",
+      "groupedBecause": "These subtopics examine the body's natural immune response to tumors and the reactivation of exhausted T cells through immune checkpoint blockade.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Engineered Cellular Immunotherapies",
+      "groupedBecause": "These subtopics describe engineered immunotherapies that redirect cytotoxic T cells to target cancer cells, highlighting bispecific engagers and CAR T-cell technologies.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Challenges, Progress, and Future Directions in Cancer Management",
+      "groupedBecause": "These subtopics reflect on the overarching challenges, historical survival trends, and future directions in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

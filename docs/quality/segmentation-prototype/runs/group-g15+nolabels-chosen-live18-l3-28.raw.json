@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecture series, target audience, and key learning outcomes regarding cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as a Failure of Cellular Differentiation and Tissue Architecture",
+      "groupedBecause": "These subtopics describe cancer as a disruption of normal differentiation programs and three-dimensional tissue organization driven by progressive genetic alterations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor Invasion, Metastasis, and Stepwise Progression",
+      "groupedBecause": "These subtopics explain how local tissue invasion, metastatic spread, and stepwise histological changes distinguish benign tumors from malignant cancers.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Principles of Tumor Nomenclature",
+      "groupedBecause": "This subtopic outlines the standard conventions and exceptions used to name benign and malignant tumors according to their tissue of origin.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic details the anatomical and physiological mechanisms through which primary and secondary tumors cause systemic illness and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Comparative Cancer Incidence Across Species",
+      "groupedBecause": "These subtopics examine patterns of tumor incidence and mortality in human populations and across diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer Detection and Screening Modalities",
+      "groupedBecause": "These subtopics discuss the clinical rationale, histological basis, and relative effectiveness of population screening methods across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "This subtopic wraps up the session with a recap of learning outcomes and logistical notes for upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

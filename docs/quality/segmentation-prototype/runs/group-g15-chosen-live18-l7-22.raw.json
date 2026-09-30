@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Welcome and Lecture Framing",
+      "groupedBecause": "This subtopic provides the introductory framing, learning objectives, and structural overview for the lecture on cancer evolution.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and Epigenetic Mechanisms in Clonal Evolution",
+      "groupedBecause": "These subtopics explain how Darwinian natural selection acts on driver mutations and reversible epigenetic alterations to confer competitive fitness during clonal expansion.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Hierarchies",
+      "groupedBecause": "These subtopics evaluate the cancer stem cell model and investigate how normal tissue hierarchies and the cell of origin influence malignant transformation across different cancer types.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Promotion of Stemness",
+      "groupedBecause": "These subtopics demonstrate how environmental stimuli and chronic inflammation act as promoters by signaling incipient tumor cells to adopt stem-like states.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Established Tumor Microenvironments, Spatial Profiling, and Coevolution",
+      "groupedBecause": "These subtopics examine stromal dependencies in established tumors, the spatial technologies used to resolve these interactions, and the resulting evolutionary framework of cancer progression.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Closing Remarks and Next Lecture",
+      "groupedBecause": "This subtopic provides the concluding housekeeping and an outlook on the upcoming lecture on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

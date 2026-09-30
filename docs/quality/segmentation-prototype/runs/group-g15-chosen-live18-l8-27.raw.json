@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and sets out the learning objectives concerning cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer therapies and their limitations",
+      "groupedBecause": "These subtopics cover traditional treatment modalities including surgery, radiotherapy, and cytotoxic chemotherapy alongside their mechanisms, systemic toxicities, and resistance.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities and genetic defects",
+      "groupedBecause": "These subtopics explain therapeutic strategies designed to target specific vulnerabilities of cancer cells, such as hormone dependency, cell cycle checkpoint defects, and DNA repair deficiencies.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Kinase inhibitors, resistance mechanisms, and drug addiction",
+      "groupedBecause": "These subtopics examine how oncogenically hyperactivated kinases are targeted by small-molecule inhibitors and detail the emergence of resistance mutations, bypass pathways, and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Antibody-based targeted therapies",
+      "groupedBecause": "These subtopics describe the mechanisms and applications of monoclonal antibodies and antibody-drug conjugates directed against tumor surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunotherapy and T-cell-directed strategies",
+      "groupedBecause": "These subtopics review the evidence for cancer immune surveillance and detail immunotherapeutic approaches that harness T cells through checkpoint inhibitors, bispecific engagers, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic challenges, historical trends, and future directions",
+      "groupedBecause": "These subtopics evaluate the ongoing challenges of tumor heterogeneity and resistance, historical trends in survival, and emerging directions and ethical considerations in cancer management.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

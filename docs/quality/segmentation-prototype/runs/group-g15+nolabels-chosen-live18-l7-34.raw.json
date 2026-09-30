@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to Cancer Evolution and the Microenvironment",
+      "groupedBecause": "The subtopic establishes the lecture by setting out its context, key themes, and learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic Clonal Evolution and Epigenetic Alterations",
+      "groupedBecause": "These subtopics explain how sequential genetic mutations and epigenetic modifications drive clonal selection and malignant transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of Origin and Cancer Stem Cell Models",
+      "groupedBecause": "These subtopics evaluate the hierarchical organization of tissues and provide experimental evidence for cancer stem cells driving tumor initiation and propagation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental and Inflammatory Drivers of Cancer",
+      "groupedBecause": "These subtopics demonstrate how chronic inflammation, environmental promoters, and supportive stroma are necessary to enable and sustain tumor growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Investigating Tumor Heterogeneity and Microenvironments",
+      "groupedBecause": "This subtopic details the genomic, transcriptomic, and spatial technologies used to analyze tumor cell states and interactions in tissue.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Synthesis of the Multi-Factorial Model of Cancer Evolution",
+      "groupedBecause": "This subtopic integrates the lecture's core themes into a unified evolutionary framework involving mutations, cellular context, and environmental factors.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The subtopic concludes the session and previews the subject of the next lecture.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

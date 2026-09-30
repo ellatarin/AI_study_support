@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Outcomes",
+      "groupedBecause": "These remarks introduce the lecture themes and outline the intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumour Virology and the Discovery of Transforming Genes",
+      "groupedBecause": "These subtopics explain how the study of transforming viruses established that cancer arises from altered cellular genes and led to experimental assays for transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Oncogenes and Tumour Suppressor Genes",
+      "groupedBecause": "These subtopics explain the functional definitions and genetic mechanisms of oncogenes and tumour suppressor genes in regulating the cell cycle and determining mutant cellular phenotypes.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and Dynamics of Genetic Instability",
+      "groupedBecause": "These subtopics describe the forms of sequence and chromosomal instability, their origins in defective DNA repair and mitosis, and their role in driving multistep tumour progression.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Hereditary Cancer Predispositions and Tumour Evolution",
+      "groupedBecause": "These subtopics examine how inherited germline mutations accelerate cancer development and influence ongoing tumour evolution.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Conclusion and Recommended Reading",
+      "groupedBecause": "These remarks conclude the lecture with recommended reading and an outlook on the next topic.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the scope of the cancer lecture series, and the specific learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology, Risk Factors, and Epidemiological Evidence",
+      "groupedBecause": "These subtopics discuss the fundamental nature of cancer as a genetic and evolutionary process driven by both endogenous factors and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Carcinogenesis: Initiators, Promoters, and Environmental Agents",
+      "groupedBecause": "These subtopics explore how specific biological, chemical, and physical agents drive cancer development through direct and indirect carcinogenic mechanisms.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methods for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, in vivo, and in vitro methodologies used to determine and validate the carcinogenicity of various agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Everyday Risk Assessment",
+      "groupedBecause": "This subtopic concludes the lecture by reflecting on everyday risk-benefit decisions regarding carcinogen exposure.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

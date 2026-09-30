@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and mutation progression",
+      "groupedBecause": "This subtopic introduces the lecture's learning objectives, the multi-step mutation progression model, and the conceptual framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in cell-surface receptors and downstream intracellular cascades drive sustained proliferative signaling and bypass growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in hematopoietic and epithelial cancers",
+      "groupedBecause": "These subtopics examine how genetic disruptions halt terminal differentiation and keep cancer cells in a proliferating progenitor state in leukemias and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evading apoptosis, replicative immortality, and p53 stress regulation",
+      "groupedBecause": "These subtopics explain how cancer cells overcome intrinsic limits on survival and lifespan by evading apoptosis, maintaining telomeres, and altering p53-mediated cell fate decisions.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics describe the metabolic alterations of cancer cells, including aerobic glycolysis, tissue-specific metabolic rewiring, and the role of oncometabolites in driving tumorigenesis.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic addresses the angiogenic switch, detailing how tumors induce new blood vessel formation to supply oxygen and nutrients required for growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms, dynamics, and genomics of tumor metastasis",
+      "groupedBecause": "These subtopics examine the multi-step metastatic cascade, the mechanical and microenvironmental factors determining metastatic efficiency, and the genomic characteristics of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and recommended reading",
+      "groupedBecause": "This subtopic concludes the lecture with an overarching summary of cancer hallmarks, recommended literature, and closing administrative remarks.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

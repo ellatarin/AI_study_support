@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic introduces the final lecture of the course and establishes the core learning objectives regarding cancer therapies and their modes of action.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional modalities: surgery, radiotherapy, and cytotoxic chemotherapy",
+      "groupedBecause": "These subtopics address foundational cancer treatments that eliminate tumors through physical excision, targeted radiation damage, and systemic cytotoxic chemotherapeutic agents.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting intrinsic vulnerabilities and repair defects",
+      "groupedBecause": "These subtopics describe strategies designed to exploit inherent tumor vulnerabilities, including hormone dependence, cell cycle checkpoint failures, and defective DNA repair pathways.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Oncogene addiction, kinase inhibitors, and mechanisms of resistance",
+      "groupedBecause": "These subtopics focus on targeting oncogene-driven signaling with small-molecule kinase inhibitors and explore how tumors develop drug resistance, bypass pathways, and drug addiction.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Therapeutic monoclonal antibodies and antibody-drug conjugates",
+      "groupedBecause": "These subtopics cover the use of engineered monoclonal antibodies to block tumor cell surface receptors, recruit immune effector mechanisms, or deliver targeted cytotoxic payloads.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer immunology, checkpoint inhibitors, and cellular therapies",
+      "groupedBecause": "These subtopics examine tumor-immune interactions and detailed therapeutic approaches to reactivate or engineer T cells, including immune checkpoint blockade, BiTEs, and CAR T cells.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Therapeutic challenges, clinical progress, and future outlook",
+      "groupedBecause": "These subtopics evaluate the ongoing challenges of tumor heterogeneity and resistance, assess historical progress in cancer survival, and consider future directions in therapy.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

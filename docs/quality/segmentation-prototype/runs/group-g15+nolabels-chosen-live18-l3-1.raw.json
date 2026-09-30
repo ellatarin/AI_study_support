@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "The lecturer welcomes the students, introduces the course structure and diverse student cohort, and outlines the key learning outcomes for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological Foundations of Cancer and Differentiation",
+      "groupedBecause": "These subtopics explain how cancer originates from accumulated genetic alterations and the failure of normal multicellular differentiation programs, as well as the experimental models used to study tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Tumor Invasion and Metastasis",
+      "groupedBecause": "These subtopics describe the clinical and histological features of local tissue invasion and metastatic spread that distinguish benign from malignant neoplasms.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Stepwise Tumor Progression and Benign Tumor Behavior",
+      "groupedBecause": "These subtopics examine how benign precursor lesions can progress into invasive adenocarcinomas and explore the clinical risks associated with non-malignant tumors.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumor Nomenclature and Classification",
+      "groupedBecause": "This subtopic defines the standard naming conventions and notable exceptions used to classify benign and malignant neoplasms across different tissue lineages.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Mechanisms of Cancer Morbidity and Mortality",
+      "groupedBecause": "This subtopic details the local, structural, and systemic mechanisms through which primary and metastatic tumors cause physiological dysfunction and death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Patterns of Cancer Incidence Across Populations and Species",
+      "groupedBecause": "These subtopics examine epidemiological cancer incidence and mortality rates in humans and compare tumor susceptibility across diverse animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and Applications of Cancer Screening",
+      "groupedBecause": "These subtopics discuss the rationale, clinical efficacy, and practical challenges of population screening programs designed to detect pre-cancerous and early-stage tumors.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Practical Preparation",
+      "groupedBecause": "The lecturer concludes the session by referencing the learning outcomes and providing directions for upcoming revision and practical classes.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

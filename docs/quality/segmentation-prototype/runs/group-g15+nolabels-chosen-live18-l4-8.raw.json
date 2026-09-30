@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture opening and learning objectives",
+      "groupedBecause": "This subtopic introduces the lecture series, outlines the learning outcomes, and frames the core question of what causes cancer.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic nature of cancer and sources of mutation",
+      "groupedBecause": "These subtopics introduce cancer as a micro-evolutionary genetic disease driven by endogenous errors, inherited predispositions, and environmental exposures.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental cancer risk and epidemiological evidence",
+      "groupedBecause": "These subtopics explore everyday environmental exposures, the debate surrounding intrinsic versus extrinsic cancer risk, and geographical patterns in cancer epidemiology.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Role of infectious agents and viral oncogenesis",
+      "groupedBecause": "These subtopics explain the mechanisms by which pathogens and oncogenic viruses drive cancer, focusing on the cooperative etiology of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of chemical and physical DNA damage",
+      "groupedBecause": "These subtopics describe how physical radiation and metabolically activated chemical compounds produce DNA adducts, reactive oxygen species, and mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor promotion and the two-stage model of carcinogenesis",
+      "groupedBecause": "These subtopics differentiate cancer initiators from promoters, explaining how chronic inflammation and signaling agonists drive the proliferation of mutated cells.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Host developmental timing and summary of carcinogenic mechanisms",
+      "groupedBecause": "These subtopics examine how tissue developmental stages influence carcinogen susceptibility and summarize the diverse pathways leading to malignancy.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methods for evaluating carcinogenicity and mutational signatures",
+      "groupedBecause": "These subtopics survey genomic mutational signatures, epidemiological biobanks, in vivo toxicology, and in vitro assays used to evaluate carcinogens.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture conclusion: risk-benefit considerations",
+      "groupedBecause": "This subtopic concludes the lecture by framing carcinogenic exposure in terms of everyday risk-benefit decisions and summarising key takeaways.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the cancer biology lecture series, outlines its scope, and presents the core learning outcomes for the session.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological foundations of cancer and experimental modelling",
+      "groupedBecause": "These subtopics explore how cancer arises from accumulated genetic changes and disrupted cellular differentiation within tissue architecture, alongside the challenges of modelling these three-dimensional processes in culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology of tumor invasion, metastasis, and benign-to-malignant progression",
+      "groupedBecause": "These subtopics examine how benign and malignant tumors differ in local tissue invasion, metastatic potential, and stepwise pathological progression.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and classification systems",
+      "groupedBecause": "This subtopic outlines the standard conventions and rules used to name and classify benign and malignant neoplasms across diverse tissue lineages.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Pathophysiological mechanisms of cancer morbidity and mortality",
+      "groupedBecause": "This subtopic explains how primary tumors and metastases cause systemic disease, tissue dysfunction, and patient death.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics analyze the epidemiological distribution of cancers in human populations and compare tumor incidence and vulnerability across diverse multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection, screening principles, and diagnostic modalities",
+      "groupedBecause": "These subtopics evaluate the rationale and methodology of population screening, contrasting the diagnostic efficacy of screening programmes across different tumor sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "This subtopic concludes the lecture by reviewing the learning outcomes and providing administrative reminders for practical sessions and upcoming classes.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

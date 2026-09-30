@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, course structure, and key learning outcomes regarding cancer causation and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Genetic Predisposition, Endogenous Mutagenesis, and Environmental Risk",
+      "groupedBecause": "These subtopics explore the conceptual framework of cancer development, weighing the contributions of intrinsic genetic factors, bad luck, and environmental exposures through epidemiological evidence.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Pathogens and Oncogenesis",
+      "groupedBecause": "These subtopics explore how infectious agents, including bacteria, parasites, and viruses, contribute to malignancy, featuring Burkitt lymphoma as a primary case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Carcinogenesis: Initiation, Promotion, and Host Factors",
+      "groupedBecause": "These subtopics detail how dietary, chemical, and physical carcinogens cause malignancy through metabolic activation, DNA adduct formation, chronic inflammation, tumor promotion, and developmental timing.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methodologies for Assessing Carcinogenicity and Mutagenicity",
+      "groupedBecause": "These subtopics explain the experimental and analytical methods—including whole-genome mutational signatures, epidemiological biobanks, in vivo toxicological models, and the in vitro Ames test—used to identify carcinogens.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "This subtopic concludes the lecture with closing remarks on evaluating carcinogenic risk versus practical benefit in everyday exposures.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic provides the opening framing, outlining the scope of the course, student expectations, and lecture learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic, cellular, and structural foundations of cancer",
+      "groupedBecause": "These subtopics establish the foundational concept of cancer as a progressive breakdown of genetic regulation, cellular differentiation, and tissue architecture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and histological progression of tumor invasion and metastasis",
+      "groupedBecause": "These subtopics detail how tumors breach tissue boundaries, disseminate through anatomical routes, and progress histologically from benign lesions to invasive malignancies.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor classification, nomenclature, and pathophysiological consequences",
+      "groupedBecause": "These subtopics examine how neoplasms are named and categorized, alongside the physiological mechanisms through which benign and malignant tumors cause patient morbidity and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer epidemiology and comparative oncology across species",
+      "groupedBecause": "These subtopics examine the incidence and distribution of tumors across human tissues, demographics, and diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical symptoms and screening modalities for early cancer detection",
+      "groupedBecause": "These subtopics evaluate the clinical rationale, histological markers, and practical efficacy of screening methods used to detect pre-malignant and early-stage cancers.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "This subtopic provides the closing framing, reiterating the learning outcomes and directing students toward upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture series, outlines the primary learning outcomes, and establishes the clinical and biological context of cancer study.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological mechanisms of cancer development and tissue modeling",
+      "groupedBecause": "They explain how cancer arises from genetic and epigenetic disruption of cellular differentiation and tissue architecture, alongside laboratory approaches for modeling these tumor cell behaviors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and stepwise malignancy progression",
+      "groupedBecause": "They describe the histological and clinical characteristics of tumor invasion and metastasis, illustrating how benign precursor lesions progress in a stepwise manner into malignant disease.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and clinical mechanisms of morbidity and mortality",
+      "groupedBecause": "They define the naming conventions for benign and malignant neoplasms and explain the pathophysiological mechanisms through which tumor growth causes clinical disease and death.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence across human populations and animal taxa",
+      "groupedBecause": "They evaluate the epidemiological patterns and mortality of major cancer types in humans alongside comparative oncology findings across companion animals and diverse multicellular organisms.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer screening principles and organ-specific modalities",
+      "groupedBecause": "They examine the clinical rationale, histological indicators, and practical effectiveness of population-level screening methods used to detect early-stage tumors across different organs.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and practical preparation",
+      "groupedBecause": "It concludes the lecture by revisiting the learning outcomes and providing administrative guidance for upcoming practical sessions and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

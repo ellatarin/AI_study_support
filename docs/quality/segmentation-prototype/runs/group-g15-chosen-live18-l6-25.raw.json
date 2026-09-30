@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "This opening section outlines the lecture's learning objectives, introduces the hallmarks of cancer framework, and establishes the model of multistep tumor progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Growth signaling pathways and oncogenic mutations",
+      "groupedBecause": "These subtopics examine how mutations in signaling cascades, including Wnt/beta-catenin and receptor tyrosine kinases, drive autonomous proliferation and cell survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "These subtopics explain how malignant cells fail to execute terminal differentiation programs, comparing hematopoietic lineages with intestinal epithelial renewal in colorectal cancer.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic explores how cancer cells circumvent programmed cell death through disruptions in p53 regulation and shifts in the balance between pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomeres, and cellular senescence",
+      "groupedBecause": "These subtopics examine the mechanisms of telomere attrition, TERT reactivation, and p53-mediated senescence checkpoints, concluding the discussion on growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites in cancer",
+      "groupedBecause": "These subtopics address the alteration of cancer cell metabolism, covering aerobic glycolysis, tissue-specific metabolic profiles, and how metabolic enzyme mutations produce oncometabolites that alter gene expression.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "This subtopic details the induction of new blood vessel growth required for tumor nutrient and oxygen supply, including the angiogenic switch and anti-angiogenic strategies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Tumor metastasis and dissemination",
+      "groupedBecause": "These subtopics cover the process of systemic cancer spread, including metastatic inefficiency, the seed and soil hypothesis, clinical biomarkers, and genomic analyses of metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and recommended reading",
+      "groupedBecause": "This closing section summarises the key themes of the lecture, reviews the convergence of cancer hallmarks, and directs students to further literature.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

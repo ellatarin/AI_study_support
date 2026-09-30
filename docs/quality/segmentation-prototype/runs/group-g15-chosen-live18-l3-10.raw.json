@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "It introduces the lecture series, outlines key learning outcomes, and establishes the foundational questions and clinical relevance of cancer biology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Biological and architectural basis of cancer development",
+      "groupedBecause": "They describe cancer as a breakdown of normal cellular differentiation and tissue architecture driven by genetic and epigenetic alterations, alongside the challenges of modeling these processes in culture.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathology and progression of tumor invasion and metastasis",
+      "groupedBecause": "They examine the histological features, anatomical routes, and stepwise pathological progression that distinguish local tissue invasion and distant metastasis from benign lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and mechanisms of clinical morbidity",
+      "groupedBecause": "They establish the standard terminology for classifying neoplasms and explain the pathophysiological mechanisms through which both benign and malignant tumors cause patient morbidity and mortality.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across species",
+      "groupedBecause": "They analyze epidemiological patterns of tumor frequency and mortality in humans and compare tumor incidence across diverse multicellular animal taxa.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Principles and clinical methods of cancer screening",
+      "groupedBecause": "They discuss the clinical rationale for early cancer detection and evaluate specific screening approaches, diagnostic challenges, and outcomes across different tissue sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and practical preview",
+      "groupedBecause": "It concludes the lecture by reiterating the core learning outcomes and pointing forward to the upcoming practical sessions and future lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

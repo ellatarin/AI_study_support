@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Outcomes",
+      "groupedBecause": "This subtopic provides the opening framing for the lecture by reflecting on previous practical work and introducing the learning outcomes on cancer genetics.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Viral Origins of Oncogenes and Assays for Cellular Transformation",
+      "groupedBecause": "These subtopics examine how the study of transforming tumor viruses revealed that oncogenes originate from normal cellular genes and led to experimental assays for testing cellular transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms and Classifications of Oncogenes and Tumor Suppressors",
+      "groupedBecause": "These subtopics define the classes of cancer genes and explore how specific mutations alter cell cycle checkpoints and cellular phenotype.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and Cellular Consequences of Genetic Instability",
+      "groupedBecause": "These subtopics detail how specific defects in DNA repair, replication proofreading, and mitotic chromosome segregation produce sequence and chromosomal instability in cancer cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Multistep Progression, Hereditary Cancer Predisposition, and Tumor Evolution",
+      "groupedBecause": "These subtopics describe how the stepwise accumulation of mutations drives cancer progression and how inherited genetic defects accelerate tumorigenesis and influence ongoing tumor evolution.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture Conclusion and Recommended Reading",
+      "groupedBecause": "This subtopic provides the closing framing for the lecture, summarizing the session, offering recommended reading, and previewing the next topic.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course context, and the core learning objectives for the session on cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations of Cancer Risk: Genetics, Endogenous Mutations, and Environmental Exposure",
+      "groupedBecause": "These subtopics introduce the fundamental drivers of cancer etiology, contrasting endogenous processes and genetic predisposition with external environmental exposures and epidemiological patterns.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Specific Carcinogens, Pathogens, and Tumor Promoters",
+      "groupedBecause": "These subtopics examine specific physical, chemical, and biological agents and the cellular mechanisms—including metabolic activation, direct DNA damage, tissue susceptibility, and promotional inflammation—by which they drive carcinogenesis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Investigating and Proving Carcinogenicity",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, toxicological, and in vitro methodologies used to detect carcinogen exposures and establish causal links to cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Summary and Risk-Benefit Considerations",
+      "groupedBecause": "This subtopic delivers the concluding lecture remarks, summarising key themes on cancer causation and addressing everyday risk-benefit decision-making.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

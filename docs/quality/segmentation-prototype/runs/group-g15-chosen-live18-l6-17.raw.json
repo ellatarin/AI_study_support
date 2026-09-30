@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "It introduces the lecture's learning outcomes, historical tumor progression models, and the framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth signaling pathways",
+      "groupedBecause": "These subtopics explain how oncogenic mutations in receptor tyrosine kinase and Wnt signaling cascades drive autonomous cellular proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation block in hematopoietic and epithelial cancers",
+      "groupedBecause": "These subtopics examine how impaired terminal differentiation prevents cells from exiting the cell cycle across leukemias and colorectal carcinoma.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and p53 regulation",
+      "groupedBecause": "This subtopic details how cancer cells resist programmed cell death through mutations disrupting p53 signaling and the balance between pro- and anti-apoptotic factors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortalization, telomeres, and senescence",
+      "groupedBecause": "These subtopics explain telomere shortening, TERT reactivation mechanisms, and p53-dependent senescence arrest before concluding the growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered cellular metabolism and oncometabolites",
+      "groupedBecause": "These subtopics explore cancer metabolic rewiring, including aerobic glycolysis, tissue-specific profiles, and oncometabolite-generating mutations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis and vasculature induction",
+      "groupedBecause": "This subtopic describes the angiogenic switch and the molecular balance required for tumors to stimulate new blood vessel formation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and genomics of cancer metastasis",
+      "groupedBecause": "These subtopics address the systemic dissemination of cancer cells, metastatic inefficiency under the seed and soil model, and genomic features such as whole genome duplication.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and recommended reading",
+      "groupedBecause": "It concludes the lecture by framing the overall hallmark model and providing recommended literature.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

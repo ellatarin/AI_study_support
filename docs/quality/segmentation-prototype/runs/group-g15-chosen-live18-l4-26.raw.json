@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, outlines the scope of the lecture on cancer causation, and presents the key learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins and Etiology of Cancer: Intrinsic Mutagenesis, Genetics, and Environment",
+      "groupedBecause": "These subtopics establish the conceptual framework of cancer etiology by exploring how intrinsic cellular mutations, genetic predisposition, and environmental exposures interact to drive cancer development across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Biological, Chemical, and Physical Carcinogens and Mechanisms of Carcinogenesis",
+      "groupedBecause": "These subtopics investigate specific biological, chemical, and physical carcinogens to illustrate the diverse molecular and microenvironmental mechanisms underlying tumor initiation, promotion, and tissue vulnerability.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Identifying Mutagens and Determining Carcinogenicity",
+      "groupedBecause": "These subtopics describe the genomic, epidemiological, in vivo, and in vitro methodologies used to detect mutagenic damage and determine the carcinogenicity of various agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Summary and Risk-Benefit Analysis",
+      "groupedBecause": "This closing subtopic summarizes the main themes of the lecture and considers the practical balance between environmental cancer risks and daily benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

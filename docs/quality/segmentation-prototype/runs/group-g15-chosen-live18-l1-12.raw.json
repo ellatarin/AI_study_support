@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "It introduces the lecture topic and frames how previously learned immune components fit into the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate immune recognition and pattern recognition receptors",
+      "groupedBecause": "They detail how the innate immune system detects infection and cellular damage through molecular patterns, receptor families, and downstream signaling complexes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory response, cell recruitment, and systemic complications",
+      "groupedBecause": "They explain the cellular and vascular events of the acute inflammatory cascade, from leukocyte trafficking and lymphatic drainage to the pathological risks of excessive systemic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "They describe the processes that shut down acute inflammation, facilitate tissue repair, and manage persistent or chronic inflammatory states.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "It concludes the lecture and indicates the topic of the following session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

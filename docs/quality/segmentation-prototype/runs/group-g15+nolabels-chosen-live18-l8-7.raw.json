@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "It introduces the final lecture of the course and sets out the key learning objectives regarding cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies: Surgery, Radiotherapy, and Cytotoxic Chemotherapy",
+      "groupedBecause": "They discuss traditional cancer treatment modalities along with their mechanisms of action, systemic toxicities, and drug resistance mechanisms.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities",
+      "groupedBecause": "They explain therapeutic strategies that selectively exploit inherent biological defects in cancer cells, including receptor dependence, cell cycle checkpoint loss, and synthetic lethality.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeting Oncogenic Kinases and Mechanisms of Resistance",
+      "groupedBecause": "They focus on the design of small-molecule inhibitors targeting oncogenic driver kinases and the molecular mechanisms underlying acquired drug resistance.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Monoclonal Antibodies and Antibody-Drug Conjugates",
+      "groupedBecause": "They examine targeted therapies that use engineered antibodies and antibody-toxin conjugates directed against tumor cell surface antigens.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunotherapy and T-Cell Activation",
+      "groupedBecause": "They explore strategies for harnessing the immune system against tumors through immune checkpoint inhibition, bispecific engagers, and cellular therapies.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Challenges, Clinical Progress, and Future Directions in Cancer Therapy",
+      "groupedBecause": "They evaluate the overarching challenges, historical improvements in survival, and future perspectives in the clinical management of cancer.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

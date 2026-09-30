@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction",
+      "groupedBecause": "The lecturer welcomes the class, outlines the scope of the lecture on inflammation, and explains how it builds upon previously introduced concepts.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate Recognition via PAMPs, DAMPs, and Pattern Recognition Receptors",
+      "groupedBecause": "These subtopics explain how the innate immune system detects infection and cellular damage through molecular patterns, receptor localization, and specific pattern recognition receptor signaling cascades.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cellular Recruitment and Systemic Inflammatory Responses",
+      "groupedBecause": "These subtopics examine how activated sentinel cells drive the recruitment and migration of leukocytes to inflamed tissues and lymph nodes, along with the hazards of uncontrolled systemic inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of Inflammation, Tissue Repair, and Chronic Inflammation",
+      "groupedBecause": "These subtopics describe how inflammatory responses are resolved, how damaged tissue is repaired, and the mechanisms and adaptations associated with chronic inflammatory states.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture Conclusion",
+      "groupedBecause": "The lecturer concludes the session and announces the subject of the upcoming lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

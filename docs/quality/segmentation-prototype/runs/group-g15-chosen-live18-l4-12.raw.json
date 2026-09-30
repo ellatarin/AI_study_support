@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic establishes the lecture's framing, course context, and core learning objectives regarding cancer etiology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer as an Evolutionary Genetic Disease Driven by Intrinsic and Inherited Factors",
+      "groupedBecause": "These subtopics describe cancer development as a multi-step evolutionary process driven by clonal selection, microenvironmental factors, endogenous DNA damage, and inherited genetic predispositions.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental Exposures and Epidemiological Evidence in Cancer Risk",
+      "groupedBecause": "These subtopics examine how environmental carcinogens, geographic variations in cancer incidence, and public perceptions contribute to understanding cancer risk.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Molecular and Cellular Mechanisms of Carcinogenic Agents",
+      "groupedBecause": "These subtopics explain the diverse biological and chemical pathways through which pathogens, environmental mutagens, metabolic activation, and inflammatory promoters initiate and drive tumor development.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogenicity",
+      "groupedBecause": "These subtopics outline the genomic, epidemiological, animal, and in vitro experimental approaches used to identify mutational signatures and evaluate the carcinogenic potential of agents.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Perspective",
+      "groupedBecause": "This subtopic provides closing framing that summarises the key takeaways and reflects on everyday risk-benefit decision-making regarding carcinogens.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

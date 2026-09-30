@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the course structure, and the intended learning outcomes regarding environmental carcinogenesis.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer Etiology: Intrinsic Factors, Environmental Exposures, and Epidemiology",
+      "groupedBecause": "These subtopics explore the foundational causes of cancer by examining how intrinsic biological errors, inherited predispositions, and environmental exposures drive cancer incidence across populations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Infectious Agents in Carcinogenesis",
+      "groupedBecause": "These subtopics explain how biological pathogens and co-infections contribute to malignancy, focusing on Epstein-Barr virus and Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "DNA Adducts and Metabolic Activation of Mutagens",
+      "groupedBecause": "These subtopics detail how chemical carcinogens and radiation induce DNA damage directly or via host xenobiotic metabolic activation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammation, and Host Susceptibility",
+      "groupedBecause": "These subtopics examine non-mutagenic drivers of cancer, including chronic inflammatory microenvironments, chemical promoters, and tissue-specific developmental timing.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Detecting and Testing Carcinogens",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, and laboratory assay systems used to identify carcinogens and test mutagenic potential.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Analysis",
+      "groupedBecause": "This subtopic delivers the closing summary of the lecture and frames environmental cancer risk in the context of personal decision-making.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

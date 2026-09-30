@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "This subtopic provides the opening framing, administrative context, and overview comparison for the lecture on complement.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement system overview, nomenclature, and the central role of C3",
+      "groupedBecause": "These subtopics establish the foundational architecture of the complement system, its naming conventions, and the central biochemical role of C3.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation and trigger threshold",
+      "groupedBecause": "These subtopics detail the alternative, lectin, and classical pathways that initiate complement and drive local C3 deposition past the activation threshold.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Downstream effector mechanisms of complement",
+      "groupedBecause": "These subtopics describe the primary immunological outcomes following complement activation, including opsonization, inflammation, and membrane lysis.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host regulation and protection against complement attack",
+      "groupedBecause": "This subtopic examines how host cells utilize surface and soluble regulatory proteins to inhibit inappropriate complement activation on self-tissues.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical pathology of complement deficiencies",
+      "groupedBecause": "This subtopic outlines the distinct clinical manifestations and disease vulnerabilities associated with genetic and acquired complement component deficiencies.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement and biomedical applications",
+      "groupedBecause": "This subtopic explains how microorganisms circumvent complement-mediated destruction and highlights clinical and laboratory uses of microbial evasion proteins.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion and transition to adaptive immunity",
+      "groupedBecause": "This subtopic provides the lecture closing and previews the upcoming session on the adaptive immune system.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture Introduction and Learning Objectives",
+      "groupedBecause": "This subtopic introduces the lecturer, the lecture series context, and the core learning outcomes concerning cancer causation and environmental carcinogens.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conceptual Frameworks and Epidemiological Evidence for Cancer Causation",
+      "groupedBecause": "These subtopics explore the foundational concepts of how cancer arises through an interplay of intrinsic biological errors, genetic predispositions, and environmental exposures supported by global epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Mechanisms of Action of Cancer Initiators and Promoters",
+      "groupedBecause": "These subtopics explain the molecular and cellular mechanisms by which various environmental agents induce DNA damage, drive tumour promotion, or exhibit tissue-specific carcinogenic effects.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Methodologies for Determining Carcinogenicity",
+      "groupedBecause": "These subtopics evaluate the genomic, epidemiological, in vivo, and in vitro approaches used to demonstrate and measure the carcinogenic potential of environmental exposures.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Lecture Conclusion and Risk-Benefit Summary",
+      "groupedBecause": "This subtopic concludes the lecture with summary remarks on the challenges of carcinogen evaluation and the everyday balancing of cancer risks and benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer hallmarks",
+      "groupedBecause": "This subtopic sets out the lecture aims, learning outcomes, and foundational framework of cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth signaling pathways in cancer",
+      "groupedBecause": "These subtopics examine how mutations in signaling cascades, including Wnt/beta-catenin and receptor tyrosine kinases, drive sustained proliferation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal differentiation",
+      "groupedBecause": "These subtopics explain how differentiation arrest contributes to tumorigenesis across hematological malignancies and colorectal carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis",
+      "groupedBecause": "This subtopic details the mechanisms of apoptosis evasion through disruptions in p53 regulation and the Bax/BCL2 balance.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, telomeres, and senescence",
+      "groupedBecause": "These subtopics examine cellular lifespan limitations, telomere maintenance through TERT activation, and p53-mediated stress and senescent responses before summarizing intrinsic growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolism and oncometabolites",
+      "groupedBecause": "These subtopics examine metabolic reprogramming in cancer cells, including the Warburg effect, tissue-specific metabolic profiles, and oncometabolite-generating mutations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic addresses the angiogenic switch, tissue vascularisation requirements, and therapeutic targeting of tumor blood supply.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and clonal evolution",
+      "groupedBecause": "These subtopics outline the biological steps of metastasis, the seed-and-soil hypothesis, and genomic characteristics of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing remarks and recommended reading",
+      "groupedBecause": "This subtopic concludes the lecture with references to current literature and practical course information.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

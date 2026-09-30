@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the course structure, themes, and core learning outcomes for the cancer biology lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mechanisms of tumorigenesis: genetic alterations, differentiation failure, and tissue architecture",
+      "groupedBecause": "These subtopics explain how cumulative genetic and epigenetic alterations disrupt normal cellular differentiation programs and three-dimensional tissue architecture to initiate tumor development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Benign versus malignant tumors: invasion, metastasis, and nomenclature",
+      "groupedBecause": "These subtopics establish the histological, pathological, and clinical distinctions between benign and malignant neoplasms, covering local tissue invasion, metastatic dissemination, and standardized tumor naming conventions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Pathophysiological impacts, epidemiology, and comparative oncology",
+      "groupedBecause": "These subtopics examine the physiological mechanisms causing cancer morbidity and mortality, alongside tumor incidence patterns across human populations and diverse multicellular animal taxa.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Principles and clinical modalities of cancer screening",
+      "groupedBecause": "These subtopics evaluate the clinical rationale for early cancer detection and compare screening strategies and histological markers across different tumor sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "This subtopic concludes the session by reviewing the learning outcomes and providing housekeeping details for subsequent practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

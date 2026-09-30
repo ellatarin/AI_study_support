@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Lecture Objectives",
+      "groupedBecause": "The lecturer introduces the final lecture of the course and outlines the key learning objectives regarding cancer treatment approaches.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional Cancer Therapies and Cytotoxic Chemotherapy",
+      "groupedBecause": "These subtopics examine conventional non-targeted cancer treatment modalities, their mechanisms of action, and their clinical limitations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Exploiting Intrinsic Cancer Cell Vulnerabilities and DNA Repair Defects",
+      "groupedBecause": "These subtopics discuss strategies that selectively target inherent cancer cell vulnerabilities such as hormone dependency, cell-cycle checkpoint failure, and defective DNA repair.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Targeted Kinase Inhibitors and Resistance Mechanisms",
+      "groupedBecause": "These subtopics focus on the application of kinase inhibitors to target oncogene-driven signaling pathways and the molecular mechanisms underlying acquired drug resistance.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Antibody-Based Targeted Therapies",
+      "groupedBecause": "These subtopics detail the use of monoclonal antibodies and antibody-drug conjugates to specifically recognize tumor antigens and eliminate cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Cancer Immunology and Immunotherapies",
+      "groupedBecause": "These subtopics examine how the immune system interacts with tumors and how therapeutic interventions like checkpoint blockade, BiTEs, and CAR T cells reactivate anti-tumor immunity.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Overarching Challenges, Progress, and Future Directions in Oncology",
+      "groupedBecause": "These subtopics synthesize the broader challenges in cancer treatment, historical improvements in patient survival, and emerging directions in oncology.",
+      "firstSubtopicId": 20
+    }
+  ]
+}

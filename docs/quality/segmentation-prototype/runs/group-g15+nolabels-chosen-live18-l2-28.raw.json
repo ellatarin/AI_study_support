@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the lecture",
+      "groupedBecause": "This subtopic provides the opening framing by introducing complement, its complexity, and its significance in immunology.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations and central role of C3 in complement",
+      "groupedBecause": "These subtopics establish the foundational concepts, nomenclature conventions, and the central role of C3 activation in the complement cascade.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathways of complement activation",
+      "groupedBecause": "These subtopics describe the three recognition pathways that initiate complement and converge to reach the trigger threshold of C3 activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "These subtopics detail the downstream effector processes through which activated complement targets and destroys pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Regulation of complement on host cells",
+      "groupedBecause": "This subtopic explains the regulatory proteins and mechanisms that protect host tissues from accidental complement-mediated destruction.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic outlines the distinct clinical presentations and disease phenotypes that arise from deficiencies in specific complement components.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion of complement",
+      "groupedBecause": "This subtopic examines the molecular strategies evolved by pathogens to resist and evade complement-mediated killing.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic provides the closing framing by concluding the complement topic and previewing the next lecture in the series.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

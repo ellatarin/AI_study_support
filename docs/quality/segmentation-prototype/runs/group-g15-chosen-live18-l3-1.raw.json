@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Course introduction and learning outcomes",
+      "groupedBecause": "This subtopic introduces the course structure, themes, and core learning outcomes for the lecture series.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer development, cellular differentiation, and tissue architecture",
+      "groupedBecause": "These subtopics explain cancer as a stepwise accumulation of genetic and epigenetic alterations leading to the breakdown of normal cellular differentiation and three-dimensional tissue architecture, including the challenges of modeling this in vitro.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Tumor invasion, metastasis, and benign versus malignant progression",
+      "groupedBecause": "These subtopics detail the pathological differences between benign and malignant neoplasms, focusing on basement membrane invasion, metastatic dissemination, and the stepwise progression from precursor lesions.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumor nomenclature and pathophysiological causes of morbidity and mortality",
+      "groupedBecause": "These subtopics outline the standardized conventions for naming tumors across tissue lineages and describe the physiological mechanisms through which local and metastatic tumors produce clinical illness and death.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Cancer incidence and comparative oncology across species",
+      "groupedBecause": "These subtopics examine patterns of cancer incidence and mortality across human populations and diverse animal taxa, illustrating that neoplasia is a fundamental vulnerability of multicellular life.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentation and cancer screening strategies",
+      "groupedBecause": "These subtopics evaluate the principles of early clinical detection and compare the diagnostic efficacy and histological basis of screening approaches across different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture closing and housekeeping",
+      "groupedBecause": "This subtopic concludes the lecture with a reminder of the learning outcomes and instructions for upcoming practicals and lectures.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

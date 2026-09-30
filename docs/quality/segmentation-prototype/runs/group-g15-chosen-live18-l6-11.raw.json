@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview of cancer hallmarks",
+      "groupedBecause": "The lecturer introduces the learning outcomes, historical context, and overarching framework of cancer hallmarks and multistep mutation progression.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth signaling pathways",
+      "groupedBecause": "These subtopics examine how mutations in signaling cascades such as Wnt/beta-catenin and receptor tyrosine kinase pathways drive sustained cell proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Block in terminal differentiation",
+      "groupedBecause": "These subtopics explain how cancer cells halt terminal lineage differentiation to maintain proliferative progenitor states in hematopoietic malignancies and intestinal epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptotic cell death",
+      "groupedBecause": "This subtopic details how cancer cells avoid programmed cell death through alterations in p53 regulation and the balance of mitochondrial pro- and anti-apoptotic proteins.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality and cellular senescence",
+      "groupedBecause": "These subtopics explore how cancer cells overcome Hayflick limits through telomerase reactivation and bypass p53-mediated senescence to achieve continuous proliferation.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Altered cellular metabolism and oncometabolites",
+      "groupedBecause": "These subtopics analyze how cancer cells rewire metabolic pathways toward aerobic glycolysis and how metabolic enzyme mutations generate oncometabolites that alter gene expression.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "This subtopic explains the physiological trigger, balance of factors, and timing of new blood vessel recruitment required to sustain expanding tumor tissues.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Mechanisms and biology of cancer metastasis",
+      "groupedBecause": "These subtopics examine the stepwise dissemination of cancer cells through circulation, factors influencing secondary site colonization, and genomic characteristics of metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and recommended reading",
+      "groupedBecause": "The lecturer delivers concluding remarks summarizing the convergence of cancer hallmarks and recommends literature for advanced study.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

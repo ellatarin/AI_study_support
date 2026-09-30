@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to cancer hallmarks and lecture overview",
+      "groupedBecause": "It introduces the lecture by outlining the learning objectives and establishing the hallmarks of cancer framework.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth signaling pathways",
+      "groupedBecause": "They explore how oncogenic mutations dysregulate cell-surface receptors and intracellular signaling cascades to drive continuous proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Blocks in terminal differentiation",
+      "groupedBecause": "They examine how differentiation blocks prevent cells from reaching functional terminal states in both hematological malignancies and solid carcinomas.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Evasion of apoptosis and p53 regulation",
+      "groupedBecause": "It explains the mitochondrial apoptotic pathway and the mechanisms by which cancer cells disable p53 and alter the balance of death regulators to avoid apoptosis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative immortality, senescence, and growth-control summary",
+      "groupedBecause": "They explain how telomere shortening triggers senescence, how cancer cells overcome this barrier through TERT reactivation to achieve replicative immortality, and conclude the discussion of growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Metabolic reprogramming and oncometabolites",
+      "groupedBecause": "They examine how cancer cells rewire cellular metabolism toward aerobic glycolysis and how metabolic enzyme mutations produce epigenetic-modifying oncometabolites.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Induction of tumor angiogenesis",
+      "groupedBecause": "It explains the angiogenic switch and regulatory balance required to establish a blood supply for expanding tumors.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Tumor invasion, metastasis, and systemic dissemination",
+      "groupedBecause": "They detail the multi-step cascade of metastatic dissemination, the factors governing colonization efficiency at secondary sites, and the genomic features of metastatic clones.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture summary and recommended reading",
+      "groupedBecause": "It closes the lecture with a concluding summary of cancer hallmark interactions and suggested supplementary reading.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

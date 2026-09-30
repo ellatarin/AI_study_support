@@ -1,0 +1,29 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and overview",
+      "groupedBecause": "This subtopic introduces the lecture and outlines its focus on the initiation and resolution of inflammation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Innate pathogen recognition and receptor signaling",
+      "groupedBecause": "These subtopics detail how innate immune cells detect microbial products and cellular damage through pattern recognition receptors and downstream activation pathways.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Inflammatory response propagation and systemic effects",
+      "groupedBecause": "These subtopics describe how the initial activation of tissue sentinel cells translates into cellular recruitment, tissue trafficking, and potential systemic pathology.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Resolution of inflammation, tissue repair, and chronic outcomes",
+      "groupedBecause": "These subtopics explain the mechanisms that terminate acute inflammation, guide tissue repair, and maintain containment when tissue insults cannot be fully resolved.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "This subtopic concludes the lecture and previews the upcoming topic on complement.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

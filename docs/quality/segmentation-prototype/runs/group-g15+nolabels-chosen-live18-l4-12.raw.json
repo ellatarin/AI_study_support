@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and Learning Objectives",
+      "groupedBecause": "This opening topic introduces the lecturer, course outline, and the key learning outcomes regarding cancer etiology and carcinogenicity.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Origins of Cancer: Intrinsic Mutation versus Environmental and Genetic Factors",
+      "groupedBecause": "These subtopics explore the multi-step nature of cancer development, evaluating the relative contributions of intrinsic biological bad luck, inherited genetic risk, and environmental exposures supported by epidemiological data.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pathogen-Driven Carcinogenesis and Burkitt Lymphoma",
+      "groupedBecause": "These subtopics explain how infectious agents drive cancer development, detailing the environmental co-factors and molecular pathogenesis of Burkitt lymphoma.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of Chemical and Physical Mutagenesis",
+      "groupedBecause": "These subtopics describe how physical radiation and dietary or inhaled chemical carcinogens undergo metabolic activation and induce DNA damage.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumor Promotion, Inflammatory Microenvironments, and Host Susceptibility",
+      "groupedBecause": "These subtopics address how non-mutagenic factors such as chronic inflammation, tumor promotion, and developmental tissue states facilitate cancer outgrowth, ending with a mechanistic summary.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Methodologies for Identifying and Testing Carcinogens",
+      "groupedBecause": "These subtopics detail the genomic, epidemiological, in vivo, and in vitro experimental approaches used to demonstrate carcinogenicity and identify mutational signatures.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Conclusion and Risk-Benefit Considerations",
+      "groupedBecause": "This closing topic summarizes the challenges in determining carcinogenic potency and concludes the lecture with reflections on balancing everyday risks and benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction",
+      "groupedBecause": "It frames the lecture subject, context, and perceived complexity without yet introducing substantive course material.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Foundations and core principles of complement",
+      "groupedBecause": "They establish the general organization, nomenclature rules, and central molecular hub of the complement system.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways",
+      "groupedBecause": "They explain the upstream recognition mechanisms and threshold requirements that trigger the complement cascade.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Effector mechanisms of complement",
+      "groupedBecause": "They describe the downstream biological processes through which activated complement destroys pathogens and drives inflammation.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Host cell regulation of complement activation",
+      "groupedBecause": "It explains the protective mechanisms and regulatory proteins that prevent complement from damaging host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical presentations of complement deficiencies",
+      "groupedBecause": "It details how deficiencies across different complement cascade proteins lead to specific disease presentations.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen evasion mechanisms and applications of protein A",
+      "groupedBecause": "It examines how microbes subvert complement activity to survive and how these microbial evasion proteins are utilized in laboratory and clinical settings.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture conclusion",
+      "groupedBecause": "It delivers the closing framing and indicates the subject of the upcoming lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}
