@@ -19,15 +19,14 @@ const CONTEXT_LENGTH_CODE = "context_length_exceeded";
 /**
  * OpenRouter's endpoints, relative to the configured base URL.
  *
- * Stated once because three parties address them: this module (`generation`),
- * the config loader's model-ID check (`models`), and the tests that intercept
- * all three. `completions` is the SDK's own path — the pipeline never builds it
- * — and is named here only so a test mocking the call does not have to know it
- * independently of the code under test.
+ * Stated once because more than one party addresses them: the config loader's
+ * model-ID check (`models`), and the tests that intercept both. `completions` is
+ * the SDK's own path — the pipeline never builds it — and is named here only so
+ * a test mocking the call does not have to know it independently of the code
+ * under test.
  */
 export const OPENROUTER_PATHS = {
 	completions: "/chat/completions",
-	generation: "/generation",
 	models: "/models",
 } as const;
 
@@ -238,21 +237,6 @@ function providerErrorMessage(response: unknown): string | null {
 }
 
 /**
- * The generation id a reply carries, read without trusting the SDK's type: a
- * provider's refusal arrives in the shape of a completion but need not carry
- * one (technical-design.md §6).
- *
- * @param response - The accepted completion reply.
- * @returns The generation id, or `null` when the reply carries none.
- */
-function generationIdOf(response: unknown): string | null {
-	if (!isRecord(response) || typeof response.id !== "string") {
-		return null;
-	}
-	return response.id;
-}
-
-/**
  * Renders a rejected completion as an error that names the model and the stage.
  *
  * Every SDK failure arrives as an `APIError` carrying the provider's own words
@@ -322,50 +306,59 @@ async function createCompletion(options: {
 	}
 }
 
-/** The one field the pipeline reads from a `/generation` reply. */
-type GenerationCostReply = { readonly data: { readonly total_cost: number } };
-
 /**
- * Whether a `/generation` reply carries a usable cost.
+ * The `usage` a reply carries, read without trusting the SDK's type: OpenRouter
+ * adds `cost` to it, and a provider's refusal arrives in the shape of a
+ * completion but need not carry any usage at all (technical-design.md §6, §7).
  *
- * Worth checking rather than trusting: a reply that omits `total_cost`, or sends
- * it as a string, would otherwise be read as a `number` that is nothing of the
- * kind and recorded as this stage's cost (technical-design.md §7).
- *
- * @param value - The parsed reply body.
- * @returns `true` when the body carries a numeric `data.total_cost`.
+ * @param response - The accepted completion reply.
+ * @returns The reply's usage, or an empty record when it carries none.
  */
-function isGenerationCostReply(value: unknown): value is GenerationCostReply {
-	if (!isRecord(value)) {
-		return false;
+function usageOf(response: unknown): Readonly<Record<string, unknown>> {
+	if (!isRecord(response) || !isRecord(response.usage)) {
+		return {};
 	}
-	const { data } = value;
-	return isRecord(data) && typeof data.total_cost === "number";
+	return response.usage;
 }
 
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the OpenAI client is a library type that is not deeply readonly (CLAUDE.md permits dropping readonly when a library requires mutable types)
-async function lookupCost(options: {
-	readonly client: OpenAI;
-	readonly generationId: string;
-	readonly openRouter: OpenRouterSettings;
-}): Promise<CostResolution> {
-	try {
-		const body: unknown = await options.client.get(OPENROUTER_PATHS.generation, {
-			// eslint-disable-next-line id-length -- "id" is OpenRouter's generation-endpoint query parameter name
-			query: { id: options.generationId },
-			timeout: options.openRouter.costLookupTimeoutMs,
-			maxRetries: options.openRouter.costLookupMaxRetries,
-		});
-		if (!isGenerationCostReply(body)) {
-			return {
-				costUsd: null,
-				costResolutionError: "Cost lookup returned no numeric data.total_cost",
-			};
-		}
-		return { costUsd: body.data.total_cost };
-	} catch (error: unknown) {
-		return { costUsd: null, costResolutionError: `Cost lookup failed: ${String(error)}` };
+/**
+ * One token count from a reply's usage, zero when the reply does not report it.
+ *
+ * @param value - The field as the reply carried it.
+ * @returns The count, or `0` when it is not a number.
+ */
+function tokenCount(value: unknown): number {
+	return typeof value === "number" ? value : 0;
+}
+
+/**
+ * What a send cost, as the reply itself reports it in `usage.cost`.
+ *
+ * A reply that carries no numeric cost is recorded as unknown with the reason,
+ * never as zero and never as a failure: cost is telemetry, and the call has
+ * already produced its output (technical-design.md §7). The one exception is a
+ * provider's refusal that reports no cost, which is counted as costing nothing,
+ * because OpenRouter does not bill a request that produced no output (§6).
+ *
+ * @param args - The reply's usage, and whether the reply was a refusal.
+ * @param args.usage - The reply's usage.
+ * @param args.refused - Whether the reply carries the provider's refusal.
+ * @returns The send's cost, or why it is unknown.
+ */
+function replyCost({
+	usage,
+	refused,
+}: {
+	readonly usage: Readonly<Record<string, unknown>>;
+	readonly refused: boolean;
+}): CostResolution {
+	if (typeof usage.cost === "number") {
+		return { costUsd: usage.cost };
 	}
+	if (refused) {
+		return { costUsd: 0 };
+	}
+	return { costUsd: null, costResolutionError: "Reply carried no numeric usage.cost" };
 }
 
 /**
@@ -383,36 +376,27 @@ export type CompletionRequest = {
 };
 
 /**
- * What one send of a completion cost: its tokens, and the dollar cost looked up
- * by its generation id. A send with no generation id — a provider's refusal —
- * has nothing to look up and is counted as costing nothing, because OpenRouter
- * does not bill a request that produced no output (technical-design.md §6, §7).
+ * What one send of a completion cost: its tokens and its dollar cost, both as
+ * the reply reports them in its `usage` (technical-design.md §6, §7).
  *
- * @param args - The reply, and where to look its cost up.
+ * @param args - The reply, and whether it was a refusal.
  * @param args.response - The accepted completion reply.
- * @param args.client - The client the call went through.
- * @param args.openRouter - The validated `openRouter` config section.
+ * @param args.refused - Whether the reply carries the provider's refusal.
  * @returns The send's cost.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the OpenAI client and completion types are library types that are not deeply readonly (CLAUDE.md permits dropping readonly when a library requires mutable types)
-async function sendCost({
+function sendCost({
 	response,
-	client,
-	openRouter,
+	refused,
 }: {
-	readonly response: OpenAI.Chat.Completions.ChatCompletion;
-	readonly client: OpenAI;
-	readonly openRouter: OpenRouterSettings;
-}): Promise<StageCost> {
-	const usage = response.usage ?? { prompt_tokens: 0, completion_tokens: 0 };
-	const generationId = generationIdOf(response);
-	const costResolution =
-		generationId === null ? { costUsd: 0 } : await lookupCost({ client, generationId, openRouter });
+	readonly response: unknown;
+	readonly refused: boolean;
+}): StageCost {
+	const usage = usageOf(response);
 	return {
-		promptTokens: usage.prompt_tokens,
-		completionTokens: usage.completion_tokens,
+		promptTokens: tokenCount(usage.prompt_tokens),
+		completionTokens: tokenCount(usage.completion_tokens),
 		callCount: 1,
-		...costResolution,
+		...replyCost({ usage, refused }),
 	};
 }
 
@@ -447,15 +431,14 @@ async function sendCompletionOnce(
 	options.logger.debug(
 		{
 			model: stageConfig.modelId,
-			promptTokens: response.usage?.prompt_tokens ?? 0,
+			promptTokens: tokenCount(usageOf(response).prompt_tokens),
 			latencyMs,
 		},
 		"Completion call",
 	);
-	const { openRouter } = options.config;
 	const providerMessage = providerErrorMessage(response);
 	if (providerMessage !== null) {
-		return { failure: providerMessage, cost: await sendCost({ response, client, openRouter }) };
+		return { failure: providerMessage, cost: sendCost({ response, refused: true }) };
 	}
 	// A provider can reply with no choices at all — content filtering, or an
 	// upstream error the SDK does not raise. Reading choices[0] blindly turns that
@@ -469,18 +452,16 @@ async function sendCompletionOnce(
 	}
 	return {
 		content: choice.message.content ?? "",
-		cost: await sendCost({ response, client, openRouter }),
+		cost: sendCost({ response, refused: false }),
 	};
 }
 
 /**
- * Runs one chat completion for the named stage and returns its text alongside a
- * fully-resolved {@link StageCost}. Token counts are captured from the completion
- * response; the dollar cost is fetched from OpenRouter's generation endpoint and
- * awaited before this promise settles, so the caller never observes a stage as
- * complete while a cost lookup is still outstanding. A failed cost lookup does
- * not fail the call — it yields `costUsd: null` with a `costResolutionError`
- * (technical-design.md §6, §7).
+ * Runs one chat completion for the named stage and returns its text alongside
+ * its {@link StageCost}. Token counts and the dollar cost are both read from the
+ * reply's `usage`, where OpenRouter prices every call. A reply that carries no
+ * usable cost does not fail the call — it yields `costUsd: null` with a
+ * `costResolutionError` (technical-design.md §6, §7).
  *
  * A reply the SDK accepted that carries the provider's refusal in place of a
  * completion is sent again, up to three sends, pausing two seconds and then

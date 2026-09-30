@@ -216,8 +216,6 @@ function requireOpenRouter(value: unknown): PipelineConfig["openRouter"] {
 		baseUrl: openRouter.url("baseUrl"),
 		completionTimeoutMs: openRouter.number("completionTimeoutMs"),
 		completionMaxRetries: openRouter.number("completionMaxRetries"),
-		costLookupTimeoutMs: openRouter.number("costLookupTimeoutMs"),
-		costLookupMaxRetries: openRouter.number("costLookupMaxRetries"),
 	};
 }
 

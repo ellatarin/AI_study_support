@@ -1079,7 +1079,7 @@ type TranscriptionInput = { audioPath: string; sizeBytes: number }
 type TranscriptionOutput = { transcriptPath: string }
 createTranscriptionStage(args: { logger: Logger }): PipelineStage<TranscriptionInput, TranscriptionOutput>
 // Throws TranscriptionError when the audio, the API key, or the configured model is missing,
-// or when the response carries no transcript text. A failed cost lookup is not a failure (§7).
+// or when the response carries no transcript text. A cost that cannot be established is not a failure (§7).
 
 ELEVENLABS_PATHS: { speechToText: "/v1/speech-to-text" }
 // The route the SDK appends to elevenLabs.baseUrl. Named here, not built here (§6).
@@ -1338,7 +1338,7 @@ type TranscriptStructuringOutput = { structuredTranscriptPath: string; lectureTi
 createTranscriptStructuringStage(args: { logger: Logger }): PipelineStage<TranscriptStructuringInput, TranscriptStructuringOutput>
 // Throws TranscriptStructuringError when the transcript is missing or empty, when the response is not the
 // documented JSON object, or when the LLM judges the provisional title unusable yet proposes nothing in its
-// place. A failed cost lookup is not a failure (§7).
+// place. A cost that cannot be established is not a failure (§7).
 ```
 
 ---
@@ -1594,7 +1594,7 @@ const openrouter = new OpenAI({
 });
 ```
 
-**How the pipeline talks to OpenRouter is configuration.** The whole `openRouter` section describes the service and how patiently to wait on it — address, timeouts, retry budgets — none of which is a fact about this codebase, and all of which an operator may need to change without a code edit. A slow gateway wants a longer completion timeout; a flaky one wants more retries; neither should require a release. The two timeouts differ deliberately: a completion is the expensive call worth waiting on, while the `/generation` cost lookup is telemetry that must never hold up a run, so it waits less and gives up sooner (§7).
+**How the pipeline talks to OpenRouter is configuration.** The whole `openRouter` section describes the service and how patiently to wait on it — address, timeouts, retry budgets — none of which is a fact about this codebase, and all of which an operator may need to change without a code edit. A slow gateway wants a longer completion timeout; a flaky one wants more retries; neither should require a release.
 
 **The service address is configuration.** `openRouter.baseUrl` is the single place OpenRouter's address is stated; no source or test file holds the URL as a literal. It is configuration for the same reason a model ID is — it is an operational detail of the service being called, not a fact about this codebase — and keeping it in one place is what allows the pipeline to be pointed at a gateway, a regional endpoint, or a recording proxy without touching code.
 
@@ -1602,7 +1602,7 @@ Everything that addresses OpenRouter derives from it:
 
 | Address | Derived as |
 |---|---|
-| Chat completions, and the `/generation` cost lookup | The SDK's `baseURL`, so both are relative to it |
+| Chat completions | The SDK's `baseURL`, so it is relative to it |
 | The model-ID resolution check | `${baseUrl}/models` |
 | The models page named in a failed check | the origin of `baseUrl`, plus `/models` |
 
@@ -1655,7 +1655,7 @@ makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; r
   Promise<{ content: string; cost: StageCost }>
 // `logger` is the calling stage's, already bound to it by createPipelineStage; the call is recorded on it
 // at `debug` with the model, prompt token count, and latency (§10).
-// Wraps the SDK call and resolves cost from /api/v1/generation (§7). `responseFormat: "json"` sends `response_format: json_object` and
+// Wraps the SDK call and reads its cost from the reply's `usage` (§7). `responseFormat: "json"` sends `response_format: json_object` and
 // the provider routing that makes it stick (see "JSON mode is routed for" below), which the stages
 // returning structured data require; it is stated on every call rather than defaulted so a caller always
 // declares the shape it expects back. `client` is injected by tests; it defaults to the shared instance.
@@ -1671,7 +1671,7 @@ OpenRouter's own parameter reference states that JSON mode requires the prompt t
 
 `tryJsonReplyAs` is `tryJsonReply` followed by the stage turning the reply into what it keeps — where the stage may still find it unusable, as a splitting reply naming words the transcript does not contain — so that failure is resent like any other. The same module builds the two messages a stage sends (`promptMessages`: the prompt as the system message, the material as the user message) and defines a model-calling stage from its id, input reader and run (`defineModelStage`), returning the factory the CLI calls with the logger and client.
 
-**A rejection can arrive inside an accepted reply.** OpenRouter answers some upstream failures with HTTP 200 and a body carrying `{"error": {…}}` where the choices should be, which the SDK reports as a success. The provider's own sentence is the only account of what happened — it says whether the failure is transient and whether retrying is the remedy — so an accepted reply carrying one is logged as a warning quoting it beside the stage and the model, and the call is sent again, up to three sends, pausing two seconds and then four between them. The third refusal is a `CompletionRejectedError` quoting the last one. This holds for every call, in every stage, so no stage needs its own copy of it. A refusal can be transient — a provider rate-limiting several calls at once — and a relaunch would pay for the same call again anyway; a permanent one, such as a prompt too long for the model, costs two extra sends and a few seconds before it fails the stage. Each refused send counts as a call. Its cost is looked up like any other when the refusal carries a generation id; when it carries none there is nothing to look up, and it is counted as costing nothing, because OpenRouter does not bill a request that produced no output. A reply carrying neither choices nor an explanation is the `NoCompletionChoicesError` above.
+**A rejection can arrive inside an accepted reply.** OpenRouter answers some upstream failures with HTTP 200 and a body carrying `{"error": {…}}` where the choices should be, which the SDK reports as a success. The provider's own sentence is the only account of what happened — it says whether the failure is transient and whether retrying is the remedy — so an accepted reply carrying one is logged as a warning quoting it beside the stage and the model, and the call is sent again, up to three sends, pausing two seconds and then four between them. The third refusal is a `CompletionRejectedError` quoting the last one. This holds for every call, in every stage, so no stage needs its own copy of it. A refusal can be transient — a provider rate-limiting several calls at once — and a relaunch would pay for the same call again anyway; a permanent one, such as a prompt too long for the model, costs two extra sends and a few seconds before it fails the stage. Each refused send counts as a call. Its cost is read from its `usage` like any other reply's when the refusal reports one; when it reports none it is counted as costing nothing, because OpenRouter does not bill a request that produced no output. A reply carrying neither choices nor an explanation is the `NoCompletionChoicesError` above.
 
 **A tuning parameter can be left unset out loud.** Every optional field of a stage entry — `temperature`, `maxTokens`, `concurrency`, `callConcurrency`, `sendGapSeconds`, `maxIterations` — may be written as `null`, which means what leaving the key out means: the request carries no such parameter. There are two ways to say it because the choice is worth writing down. Under the routing restriction above, the parameters a request carries decide which endpoints may serve it, and providers differ in what they accept — the same model reached through one provider takes a `temperature` and through another does not. Which tuning a stage sets is therefore part of choosing what can answer it, and a `null` records a deliberate omission beside the tuning that is set, where a missing key reads as an oversight.
 
@@ -1717,9 +1717,7 @@ Each prefix is matched literally, so one carrying a pattern character means itse
   "openRouter": {
     "baseUrl": "https://openrouter.ai/api/v1",   // every OpenRouter address is derived from this
     "completionTimeoutMs": 120000,               // per-attempt budget for a completion
-    "completionMaxRetries": 5,
-    "costLookupTimeoutMs": 30000,                // the /generation lookup is cheap; it waits less
-    "costLookupMaxRetries": 3
+    "completionMaxRetries": 5
   },
   "elevenLabs": {
     "baseUrl": "https://api.elevenlabs.io",  // every ElevenLabs call is made against this; use your account's residency host
@@ -1812,11 +1810,11 @@ Each prefix is matched literally, so one carrying a pattern character means itse
 
 ### Sources
 
-OpenRouter exposes cost via the `/api/v1/generation?id={response.id}` endpoint. After each LLM call, `response.usage.prompt_tokens` and `response.usage.completion_tokens` are captured synchronously, then `makeCompletionCall` awaits the cost lookup before its own promise resolves — its return value already includes a fully-resolved `StageCost`. Stages that issue multiple completions in parallel therefore get their concurrency naturally: cost lookups fan out with the completions. The stage's `run()` awaits every completion promise before returning, so **the stage is never marked `complete` while a cost lookup is still outstanding**. This eliminates the race where a process exit or crash silently drops cost data.
+OpenRouter prices every reply in the reply itself: `response.usage.cost` is the call's cost in US dollars, beside `usage.prompt_tokens` and `usage.completion_tokens`. `makeCompletionCall` reads all three from the reply, so its return value already includes the call's `StageCost`, and **no stage is ever marked `complete` with a cost still to arrive**. The pipeline makes no second request for the price. OpenRouter's `/generation` endpoint also reports it, but its record appears only 10–18 seconds after the reply (measured 2026-09-30), and asking sooner is answered "not found".
 
-Each cost lookup has a 30-second timeout and up to 3 exponential-backoff retries (the generation endpoint is briefly eventually-consistent after completion). If a lookup ultimately fails, the stage still succeeds — cost telemetry MUST NOT gate pipeline progress. The manifest and run-log entries record `cost.costUsd = null` along with `cost.costResolutionError` describing why. Tokens and `callCount` are always populated regardless.
+If a reply carries no numeric `usage.cost`, the call and the stage still succeed — cost telemetry MUST NOT gate pipeline progress. The manifest and run-log entries record `cost.costUsd = null` along with `cost.costResolutionError` describing why; when a stage's calls go unpriced for the same reason, the reason is recorded once. Tokens and `callCount` are always populated regardless.
 
-ElevenLabs returns no price with a transcript, so `transcription` derives transcription cost from the audio's duration (read with `ffprobe`) multiplied by the configured `elevenLabs.costPerAudioHourUsd` (§6). The result is recorded as a normal `StageCost` with `callCount: 1` and zero token counts — Scribe is billed by audio duration, not tokens. If the duration cannot be read, the stage still succeeds and records `costUsd: null` with `costResolutionError`, exactly as a failed OpenRouter cost lookup does: cost telemetry MUST NOT gate pipeline progress.
+ElevenLabs returns no price with a transcript, so `transcription` derives transcription cost from the audio's duration (read with `ffprobe`) multiplied by the configured `elevenLabs.costPerAudioHourUsd` (§6). The result is recorded as a normal `StageCost` with `callCount: 1` and zero token counts — Scribe is billed by audio duration, not tokens. If the duration cannot be read, the stage still succeeds and records `costUsd: null` with `costResolutionError`, exactly as an unpriced OpenRouter reply does: cost telemetry MUST NOT gate pipeline progress.
 
 ### Currency
 

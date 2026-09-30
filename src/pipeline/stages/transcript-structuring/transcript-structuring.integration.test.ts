@@ -40,7 +40,7 @@ describe("transcript structuring against a real module tree", () => {
 	const workspaceNamed = (folderName: string): string =>
 		workspaceRootFor({ moduleRoot, folderName });
 
-	/** Mocks the completion and its cost lookup, capturing what was sent. */
+	/** Mocks the completion, capturing what was sent. */
 	function mockModelReply(reply: Record<string, unknown>): void {
 		sentRequest = stubModelReply(reply);
 	}

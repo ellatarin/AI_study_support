@@ -506,20 +506,6 @@ const shapeCases: readonly ShapeCase[] = [
 		},
 		match: /completionMaxRetries/,
 	},
-	{
-		name: "costLookupTimeoutMs is missing",
-		mutate: (config: Record<string, unknown>) => {
-			config.openRouter = openRouterSection({ costLookupTimeoutMs: undefined });
-		},
-		match: /costLookupTimeoutMs/,
-	},
-	{
-		name: "costLookupMaxRetries is not a number",
-		mutate: (config: Record<string, unknown>) => {
-			config.openRouter = openRouterSection({ costLookupMaxRetries: null });
-		},
-		match: /costLookupMaxRetries/,
-	},
 	missingKeyCase("elevenLabs"),
 	{
 		name: "elevenLabs.baseUrl is missing",

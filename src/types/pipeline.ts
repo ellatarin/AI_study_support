@@ -92,14 +92,16 @@ export type StageStatus = "pending" | "running" | "complete" | "failed" | "skipp
 /**
  * What establishing a call's cost came to.
  *
- * A discriminated union on `costUsd`: a resolved cost carries a number; a failed
- * lookup carries `null` together with the `costResolutionError` explaining why.
+ * A discriminated union on `costUsd`: a resolved cost carries a number; one that
+ * could not be established carries `null` together with the `costResolutionError`
+ * explaining why.
  * Never zero for an unestablished cost, and never simply absent — a cost that
  * could not be established is reported as unknown (NFR-2.2).
  *
  * Declared apart from {@link StageCost} because the two parties that establish a
  * cost answer in exactly this shape before any token count joins it: the
- * OpenRouter generation lookup, and `transcription`'s reading of the audio's duration.
+ * reading of an OpenRouter reply's `usage.cost`, and `transcription`'s reading of
+ * the audio's duration.
  */
 export type CostResolution =
 	| { readonly costUsd: number }
@@ -170,14 +172,6 @@ export type PipelineConfig = {
 		readonly completionTimeoutMs: number;
 		/** How many times a failed completion is retried before giving up. */
 		readonly completionMaxRetries: number;
-		/**
-		 * How long one `/generation` cost lookup may take. Shorter than a
-		 * completion's budget on purpose: cost is telemetry, and must never hold up
-		 * a run that has already produced its output (technical-design.md §7).
-		 */
-		readonly costLookupTimeoutMs: number;
-		/** How many times a failed cost lookup is retried before it resolves to `null`. */
-		readonly costLookupMaxRetries: number;
 	};
 	readonly elevenLabs: {
 		/**

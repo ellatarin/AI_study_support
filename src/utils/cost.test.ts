@@ -40,7 +40,8 @@ describe("accumulateCost", () => {
 
 	// One call's price unknown leaves the stage's own figure unknown, whichever
 	// operand it was: reporting the calls that did resolve would name a price the
-	// stage was not charged. Two unknowns carry both reasons, joined.
+	// stage was not charged. Two unknowns carry both reasons, joined, each once: a
+	// panel stage's many calls usually fail to price for one shared reason.
 	it.each([
 		{
 			name: "the incoming call is unresolved",
@@ -75,6 +76,20 @@ describe("accumulateCost", () => {
 				costResolutionError: "slide 7 lookup failed",
 			},
 			expectedError: "slide 3 lookup failed; slide 7 lookup failed",
+		},
+		{
+			name: "both are unresolved for the same reason",
+			current: {
+				...RUNNING_TOTAL,
+				costUsd: null,
+				costResolutionError: "slide 3 lookup failed; reply carried no cost",
+			},
+			incoming: {
+				...INCOMING_CALL,
+				costUsd: null,
+				costResolutionError: "reply carried no cost",
+			},
+			expectedError: "slide 3 lookup failed; reply carried no cost",
 		},
 	])("should carry the error and null the cost when $name", ({
 		current,

@@ -269,7 +269,6 @@ function configuredAddress(baseUrl: string): ServiceAddress {
 export function openRouterUrlsAt(baseUrl: string): {
 	readonly origin: string;
 	readonly completions: string;
-	readonly generation: string;
 	readonly models: string;
 	readonly modelsPage: string;
 } {
@@ -277,7 +276,6 @@ export function openRouterUrlsAt(baseUrl: string): {
 	return {
 		origin: address.origin,
 		completions: address.pathTo(OPENROUTER_PATHS.completions),
-		generation: address.pathTo(OPENROUTER_PATHS.generation),
 		models: address.pathTo(OPENROUTER_PATHS.models),
 		// The human-facing models page a failed model-ID check links to. Off the
 		// origin rather than the API's base path, as the production code derives it.
@@ -360,17 +358,24 @@ export const transcriptionModelId = exampleStageConfig("transcription").modelId;
 export const openRouterModelId = "openai/gpt-4o";
 
 /**
- * The token counts the stubbed OpenRouter call reports.
- *
- * One value because two responses have to agree about it: the completion's
- * `usage` and the `/generation` lookup's `tokens_prompt`/`tokens_completion`
- * describe the same call, and a suite asserting the resolved `StageCost` is
- * checking that the pipeline carried these counts through unchanged.
+ * The token counts the stubbed OpenRouter call reports in its `usage`. A suite
+ * asserting the resolved `StageCost` is checking that the pipeline carried
+ * these counts through unchanged.
  */
 export const stubbedTokenUsage = { promptTokens: 120, completionTokens: 45 } as const;
 
 /** What the stubbed LLM call is billed at, where a suite needs a settled figure. */
 export const stubbedCostUsd = 0.004;
+
+/**
+ * The `usage` a stubbed OpenRouter reply carries: {@link stubbedTokenUsage}
+ * priced at {@link stubbedCostUsd}, in OpenRouter's own field names.
+ */
+export const stubbedReplyUsage = {
+	prompt_tokens: stubbedTokenUsage.promptTokens,
+	completion_tokens: stubbedTokenUsage.completionTokens,
+	cost: stubbedCostUsd,
+} as const;
 
 /** The whole cost of one stubbed, priced call: its tokens, one call, and its price. */
 export const stubbedCallCost: StageCost = {
@@ -464,22 +469,16 @@ export function openRouterCompletionBody({
 		// eslint-disable-next-line id-length -- OpenRouter's field name, not ours to choose
 		id: "gen-abc",
 		choices: [{ index: 0, message: { role: "assistant", content }, finish_reason: "stop" }],
-		usage: {
-			prompt_tokens: stubbedTokenUsage.promptTokens,
-			completion_tokens: stubbedTokenUsage.completionTokens,
-		},
+		usage: stubbedReplyUsage,
 	};
 }
 
 /**
- * Intercepts one JSON-mode completion and the cost lookup that follows it,
- * handing back what the stage put on the wire.
+ * Intercepts one JSON-mode completion, priced at {@link stubbedCostUsd} in its
+ * own reply, handing back what the stage put on the wire.
  *
- * Every stage that calls a model over a real HTTP boundary needs the same two
- * interceptors and the same capture, and the pair is not either suite's
- * business: a stage that made its call and never had its cost resolved would
- * hang on the second request rather than fail on the first, which is a
- * confusing way to learn a suite forgot one.
+ * Every stage that calls a model over a real HTTP boundary needs the same
+ * interceptor and the same capture, and neither is any one suite's business.
  *
  * The captured body is reached through the returned function rather than a
  * variable the suite keeps, so nothing has to be reset between tests.
@@ -498,10 +497,6 @@ export function stubModelReply(
 			capturedBody = body as Record<string, unknown>;
 			return [200, openRouterCompletionBody({ content: JSON.stringify(reply) })];
 		});
-	nock(openRouterUrls.origin)
-		.get(openRouterUrls.generation)
-		.query(true)
-		.reply(200, { data: { total_cost: stubbedCostUsd } });
 	return () => capturedBody;
 }
 

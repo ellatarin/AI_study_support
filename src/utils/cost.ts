@@ -10,6 +10,9 @@
 
 import type { StageCost } from "../types/pipeline.js";
 
+/** What separates the reasons an unpriced stage cost gives, one per distinct reason. */
+const REASON_SEPARATOR = "; ";
+
 /**
  * Folds the calls a single stage made into that stage's one `StageCost`, summing
  * tokens, call counts and cost at full precision — rounding is a display concern
@@ -21,8 +24,10 @@ import type { StageCost } from "../types/pipeline.js";
  * modules (NFR-2.2).
  *
  * The merged cost is resolved only when both inputs resolved; if either is
- * `null` the result is `null` and the errors are joined, so a stage that could
- * not price one of its calls reports `n/a` rather than the part that came back.
+ * `null` the result is `null` and the errors are joined, each distinct reason
+ * once, so a stage that could not price one of its calls reports `n/a` rather
+ * than the part that came back, and a stage whose many calls failed for one
+ * reason states it once.
  *
  * A running accumulator of `null` means nothing has been counted yet, so a fold
  * can start from the first call's cost rather than from an invented zero.
@@ -52,8 +57,14 @@ export function accumulateCost({
 		const errors = [
 			current.costUsd === null ? current.costResolutionError : null,
 			incoming.costUsd === null ? incoming.costResolutionError : null,
-		].filter((message): message is string => message !== null);
-		return { ...base, costUsd: null, costResolutionError: errors.join("; ") };
+		]
+			.filter((message): message is string => message !== null)
+			.flatMap((message) => message.split(REASON_SEPARATOR));
+		return {
+			...base,
+			costUsd: null,
+			costResolutionError: [...new Set(errors)].join(REASON_SEPARATOR),
+		};
 	}
 	return { ...base, costUsd: current.costUsd + incoming.costUsd };
 }

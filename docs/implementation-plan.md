@@ -155,14 +155,11 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 `openrouter.ts` — HTTP interceptor tests using `nock`:
 - `should send correct baseURL, headers, and model ID when makeCompletionCall invoked`
-- `should await cost lookup before makeCompletionCall promise resolves` — verify no unresolved cost promise leaks
-- `should populate costUsd when generation endpoint returns cost`
-- `should resolve with costUsd null and costResolutionError set when cost lookup fails after all retries`
-- `should retry cost lookup with exponential backoff on transient failure`
+- `should record the cost and token counts the reply carries when a call completes`
+- `should return the reply and record the cost as unresolved, saying why, when $scenario` — `test.each` across a reply whose usage carries no cost, a cost that is a string, null or an object, usage that is not an object, and no usage at all
 - `should retry completion call with exponential backoff when response is 429`
 - `should throw typed ContextLengthError when model returns context length exceeded`
 - `should throw after 120s when completion request times out`
-- `should time out cost lookup after 30s per attempt`
 
 `openrouter.integration.test.ts` intercepts with `nock` like the unit tests above. CLAUDE.md § Testing requires every external service to be mocked, so every suite here runs for anyone who clones the repo, with no key and no spend. `transcription`'s integration test is built the same way: a real file streamed through the real SDK, against a stubbed endpoint.
 
@@ -742,7 +739,7 @@ The deepening tests of the mark are deleted.
 
 **Deliverables:**
 
-- `makeCompletionCall` sends a refused call again, up to three sends, pausing two seconds and then four, logging each refusal as a warning with the provider's sentence; the third refusal is the `CompletionRejectedError` **(TD §6, "A rejection can arrive inside an accepted reply")**. Every refused send counts as a call, costed by its generation id or, without one, as nothing.
+- `makeCompletionCall` sends a refused call again, up to three sends, pausing two seconds and then four, logging each refusal as a warning with the provider's sentence; the third refusal is the `CompletionRejectedError` **(TD §6, "A rejection can arrive inside an accepted reply")**. Every refused send counts as a call, costed by the usage it reports or, without one, as nothing.
 - `src/utils/resend.ts` — `sendUntilAccepted`, the resend loop, moved out of the panel's `sendWithResends` so the completion call and the panel stages share one copy.
 
 **Tests:**
@@ -751,7 +748,7 @@ Integration tests for `makeCompletionCall` (stubbed OpenRouter):
 - `should resend a refused call and return the reply when a later send is accepted`
 - `should fail with the last refusal, naming the model and the stage, when every send is refused`
 - `should log each refusal as a warning with which send it was and the provider's sentence`
-- `should count the refused send as a call when the refusal $scenario` — `test.each` across carrying a generation id, whose cost is looked up, and carrying none, which costs nothing
+- `should count the refused send as a call when the refusal $scenario` — `test.each` across reporting its own usage, which is counted, and reporting none, which costs nothing
 
 The panel's `sendWithResends` tests cover the shared loop's pauses, cost counting and exhaustion unchanged.
 

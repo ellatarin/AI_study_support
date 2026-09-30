@@ -14,6 +14,10 @@ import {
 	openRouterUrlsAt,
 	resetStubbedApi,
 	stubbedApiKey,
+	stubbedCallCost,
+	stubbedCallsCost,
+	stubbedCostUsd,
+	stubbedReplyUsage,
 	stubbedTokenUsage,
 	stubOpenRouterApi,
 	useStubLogger,
@@ -30,9 +34,6 @@ import {
 } from "./openrouter.js";
 
 const config: PipelineConfig = configuringStage({ stageId: "transcript-structuring" });
-
-/** What the stubbed `/generation` lookup reports this call cost. */
-const RESOLVED_COST_USD = 0.0042;
 
 /**
  * The sentence OpenRouter sent this account on 2026-08-31 when the upstream
@@ -51,22 +52,8 @@ function completionBody(overrides: Record<string, unknown> = {}): Record<string,
 	return { ...openRouterCompletionBody({ content: "Structured notes." }), ...overrides };
 }
 
-function generationBody(totalCost: number): Record<string, unknown> {
-	return {
-		data: {
-			total_cost: totalCost,
-			tokens_prompt: stubbedTokenUsage.promptTokens,
-			tokens_completion: stubbedTokenUsage.completionTokens,
-		},
-	};
-}
-
 function mockCompletion(): nock.Interceptor {
 	return nock(openRouterUrls.origin).post(openRouterUrls.completions);
-}
-
-function mockGeneration(): nock.Interceptor {
-	return nock(openRouterUrls.origin).get(openRouterUrls.generation).query(true);
 }
 
 /**
@@ -83,26 +70,21 @@ function mockCompletionReturning(overrides: Record<string, unknown> = {}): void 
  * Mocks the reply a busy provider produces: accepted with HTTP 200, but
  * carrying its own explanation where the choices should be.
  *
- * @param args - What sets this refusal apart; the busy provider's sentence and no id by default.
+ * @param args - What sets this refusal apart; the busy provider's sentence and no usage by default.
  * @param args.message - The provider's sentence.
- * @param args.id - The generation id the refusal carries, if any.
+ * @param args.usage - The usage the refusal reports, if any.
  */
 function mockCompletionRejectedByProvider({
 	message = PROVIDER_BUSY_MESSAGE,
-	id,
+	usage,
 }: {
 	readonly message?: string;
-	readonly id?: string;
+	readonly usage?: Readonly<Record<string, unknown>>;
 } = {}): void {
 	mockCompletion().reply(200, {
-		...(id === undefined ? {} : { id }),
+		...(usage === undefined ? {} : { usage }),
 		error: { message, code: 503 },
 	});
-}
-
-/** Mocks the cost lookup resolving, to the figure the suite prices everything at. */
-function mockCostResolving(): void {
-	mockGeneration().reply(200, generationBody(RESOLVED_COST_USD));
 }
 
 const logged = useStubLogger();
@@ -131,9 +113,9 @@ type CapturedRequest = {
 };
 
 /**
- * Mocks a successful completion that records the request it was sent, plus its
- * cost lookup, then makes the call — the arrange-and-act every test asserting on
- * the outgoing request shares.
+ * Mocks a successful completion that records the request it was sent, then
+ * makes the call — the arrange-and-act every test asserting on the outgoing
+ * request shares.
  */
 async function callCapturingRequest(
 	overrides: Record<string, unknown> = {},
@@ -147,7 +129,6 @@ async function callCapturingRequest(
 		captured.headers = this.req.headers as Record<string, unknown>;
 		return [200, completionBody()];
 	});
-	mockCostResolving();
 
 	await call(overrides);
 
@@ -155,15 +136,14 @@ async function callCapturingRequest(
 }
 
 /**
- * Mocks a completion plus a cost lookup that resolves, then makes the call —
- * the arrange-and-act every test about a successful round trip shares.
+ * Mocks a completion, then makes the call — the arrange-and-act every test
+ * about a round trip that the SDK accepts shares.
  *
  * @param overrides - Fields to replace in the completion body; none by default.
  * @returns What the call resolved with.
  */
 function callSucceeding(overrides: Record<string, unknown> = {}): ReturnType<typeof call> {
 	mockCompletionReturning(overrides);
-	mockCostResolving();
 	return call();
 }
 
@@ -275,7 +255,6 @@ describe("makeCompletionCall", () => {
 		const gatewayCompletion = nock(gateway.origin)
 			.post(gateway.completions)
 			.reply(200, completionBody());
-		nock(gateway.origin).get(gateway.generation).query(true).reply(200, generationBody(0));
 		const openRouter = { ...config.openRouter, baseUrl: GATEWAY_BASE_URL };
 
 		await call({
@@ -298,21 +277,44 @@ describe("makeCompletionCall", () => {
 		});
 	});
 
-	it("should populate costUsd and token counts when the generation endpoint returns cost", async () => {
+	// OpenRouter prices every reply in its own `usage`, so no second request is
+	// made: its `/generation` record appears only 10–18 seconds after the reply.
+	it("should record the cost and token counts the reply carries when a call completes", async () => {
 		const result = await callSucceeding();
 
-		expect(result.cost).toEqual({
-			...stubbedTokenUsage,
-			callCount: 1,
-			costUsd: RESOLVED_COST_USD,
-		});
+		expect(result.cost).toEqual(stubbedCallCost);
 	});
 
-	it("should resolve with a fully-resolved cost when the promise settles after the cost lookup", async () => {
-		const result = await callSucceeding();
+	// A cost is telemetry: however it arrives, the call still hands back the
+	// model's reply, and the cost is recorded as unknown rather than failing it
+	// (technical-design.md §7).
+	it.each([
+		{
+			scenario: "the reply's usage carries no cost",
+			usage: { ...stubbedReplyUsage, cost: undefined },
+		},
+		{
+			scenario: "the cost is a string",
+			usage: { ...stubbedReplyUsage, cost: String(stubbedCostUsd) },
+		},
+		{ scenario: "the cost is null", usage: { ...stubbedReplyUsage, cost: null } },
+		{
+			scenario: "the cost is an object",
+			usage: { ...stubbedReplyUsage, cost: { usd: stubbedCostUsd } },
+		},
+		{ scenario: "the usage is not an object", usage: "garbled" },
+		{ scenario: "the reply carries no usage", usage: undefined },
+	])("should return the reply and record the cost as unresolved, saying why, when $scenario", async ({
+		usage,
+	}) => {
+		const result = await callSucceeding({ usage });
 
-		expect(typeof result.cost.costUsd).toBe("number");
-		expect(nock.isDone()).toBe(true);
+		expect(result.content).toBe("Structured notes.");
+		expect(result.cost).toMatchObject({
+			callCount: 1,
+			costUsd: null,
+			costResolutionError: expect.stringContaining("usage.cost"),
+		});
 	});
 
 	it("should default token counts to zero when the completion response omits usage", async () => {
@@ -378,7 +380,6 @@ describe("makeCompletionCall", () => {
 			mockCompletionRejectedByProvider();
 			mockCompletionRejectedByProvider();
 			mockCompletionReturning();
-			mockCostResolving();
 
 			const result = await settleThroughPauses(call());
 
@@ -404,7 +405,6 @@ describe("makeCompletionCall", () => {
 			mockCompletionRejectedByProvider();
 			mockCompletionRejectedByProvider();
 			mockCompletionReturning();
-			mockCostResolving();
 
 			await settleThroughPauses(call());
 
@@ -418,26 +418,25 @@ describe("makeCompletionCall", () => {
 
 		it.each([
 			{
-				scenario: "carries a generation id, whose cost is looked up",
-				refusal: { id: "gen-refused" },
-				costUsd: RESOLVED_COST_USD * 2,
+				scenario: "reports its own usage, which is counted",
+				refusal: { usage: stubbedReplyUsage },
+				expected: stubbedCallsCost({ calls: 2 }),
 			},
 			{
-				scenario: "carries no generation id, and so costs nothing",
+				scenario: "reports no usage, and so costs nothing",
 				refusal: {},
-				costUsd: RESOLVED_COST_USD,
+				expected: { ...stubbedCallCost, callCount: 2 },
 			},
 		])("should count the refused send as a call when the refusal $scenario", async ({
 			refusal,
-			costUsd,
+			expected,
 		}) => {
 			mockCompletionRejectedByProvider(refusal);
 			mockCompletionReturning();
-			mockGeneration().times(2).reply(200, generationBody(RESOLVED_COST_USD));
 
 			const result = await settleThroughPauses(call());
 
-			expect(result.cost).toEqual({ ...stubbedTokenUsage, callCount: 2, costUsd });
+			expect(result.cost).toEqual(expected);
 		});
 	});
 
@@ -459,47 +458,6 @@ describe("makeCompletionCall", () => {
 
 		expect(error).toBeInstanceOf(NoCompletionChoicesError);
 		expect(error.message).toContain(openRouterModelId);
-	});
-
-	it("should resolve with costUsd null and costResolutionError set when the cost lookup fails after all retries", async () => {
-		mockCompletionReturning();
-		mockGeneration().times(4).reply(500, {}, { "retry-after": "0" });
-
-		const result = await call();
-
-		expect(result.cost.costUsd).toBeNull();
-		expect(result.cost).toMatchObject({ ...stubbedTokenUsage, callCount: 1 });
-		if (result.cost.costUsd === null) {
-			expect(result.cost.costResolutionError).toMatch(/./);
-		}
-	});
-
-	it.each([
-		{ scenario: "the reply carries no cost", body: { data: { tokens_prompt: 12 } } },
-		{ scenario: "the cost is not a number", body: { data: { total_cost: "0.004" } } },
-		{ scenario: "the reply carries no data", body: {} },
-		{ scenario: "the reply is an array", body: [] },
-		{ scenario: "the reply is not an object at all", body: "0.004" },
-	])("should report the cost as unresolved when $scenario", async ({ body }) => {
-		mockCompletionReturning();
-		mockGeneration().reply(200, body);
-
-		const result = await call();
-
-		expect(result.cost.costUsd).toBeNull();
-		if (result.cost.costUsd === null) {
-			expect(result.cost.costResolutionError).toMatch(/./);
-		}
-	});
-
-	it("should retry the cost lookup with backoff and resolve the cost when a transient failure recovers", async () => {
-		mockCompletionReturning();
-		mockGeneration().reply(500, {}, { "retry-after": "0" });
-		mockGeneration().reply(200, generationBody(0.01));
-
-		const result = await call();
-
-		expect(result.cost.costUsd).toBe(0.01);
 	});
 
 	it("should retry the completion call with backoff and succeed when the first response is a 429", async () => {
@@ -576,23 +534,6 @@ describe("makeCompletionCall", () => {
 		const error = await captureError(call({ client: () => client }));
 
 		expect(error.message).toMatch(/timed out|timeout/i);
-	});
-
-	it("should apply the configured per-attempt timeout and retries when the cost lookup runs", async () => {
-		const client = createOpenRouterClient({ openRouter: config.openRouter });
-		const getSpy = vi.spyOn(client, "get");
-		mockCompletionReturning();
-		mockGeneration().reply(200, generationBody(RESOLVED_COST_USD));
-
-		await call({ client: () => client });
-
-		expect(getSpy).toHaveBeenCalledWith(
-			"/generation",
-			expect.objectContaining({
-				timeout: config.openRouter.costLookupTimeoutMs,
-				maxRetries: config.openRouter.costLookupMaxRetries,
-			}),
-		);
 	});
 
 	it("should throw when the requested stage is not present in the config", async () => {

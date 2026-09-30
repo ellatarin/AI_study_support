@@ -23,7 +23,7 @@ import { createPipelineStage, writeStageOutput } from "../pipeline-stage.js";
  * Thrown when transcription cannot proceed or cannot produce a transcript: the
  * extracted audio is missing, `ELEVENLABS_API_KEY` is unset, the stage has no
  * configured model, or the API returns a response carrying no transcript text.
- * A failed cost lookup is NOT one of these — cost telemetry never gates pipeline
+ * A cost that cannot be established is NOT one of these — cost telemetry never gates pipeline
  * progress (technical-design.md §5, `transcription`; §7).
  */
 export class TranscriptionError extends NamedError {}

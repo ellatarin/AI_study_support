@@ -28,7 +28,7 @@ import { buildStructuringMessages } from "./transcript-structuring.prompt.js";
  * Thrown when the transcript cannot be structured: it is missing or empty, the
  * model's reply is not the documented JSON object, or the model judged the
  * lecturer's title unusable yet proposed nothing that can stand in its place. A
- * failed cost lookup is NOT one of these — cost telemetry never gates pipeline
+ * cost that cannot be established is NOT one of these — cost telemetry never gates pipeline
  * progress (technical-design.md §5, `transcript-structuring`; §7).
  */
 export class TranscriptStructuringError extends NamedError {}

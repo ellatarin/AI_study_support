@@ -173,9 +173,6 @@ them, straight after `deepen-subtopic-splitting`. Their work moves into `write-t
 The built stages still carry their earlier names in the code until the redesign is carried through.
 
 
-**Known problem:** the cost lookup currently fails on every OpenRouter call, so runs report their costs
-as unknown ([#10](https://github.com/ellatarin/AI_study_support/issues/10)).
-
 ## Further reading
 
 - [`docs/requirements.md`](docs/requirements.md): what the system must do.

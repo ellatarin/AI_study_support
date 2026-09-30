@@ -435,7 +435,7 @@ describe("PipelineRunner integration", () => {
 			});
 		});
 
-		it("should record the unresolved cost and its reason when a stage's cost lookup failed", async () => {
+		it("should record the unresolved cost and its reason when a stage's cost could not be established", async () => {
 			const costResolutionError = "the generation endpoint timed out";
 			const stage = makeStubStage({
 				stageId: "audio-extraction",

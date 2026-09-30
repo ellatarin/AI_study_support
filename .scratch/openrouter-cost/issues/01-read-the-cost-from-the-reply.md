@@ -4,7 +4,7 @@
 
 **Blocked by:** None — can start immediately
 
-**Status:** needs-triage
+**Status:** resolved
 
 Moved from GitHub issue #10 (opened 2026-09-01) on 2026-09-30, and investigated before filing here.
 
@@ -28,14 +28,16 @@ Two one-word calls to `google/gemini-3.7-flash`, then `/generation` asked at ris
 
 ## What to build
 
-- [ ] A call's `costUsd` is the reply's `usage.cost`; the `/generation` lookup is removed.
-- [ ] A reply without a numeric `usage.cost` records `costUsd: null` with a `costResolutionError` saying so; it never fails the call, the stage or the run (technical-design.md §7).
-- [ ] A provider refusal (an accepted reply carrying an error) keeps costing $0 when it carries no cost, as now; when it does carry `usage.cost`, that figure is used.
-- [ ] `costLookupTimeoutMs` and `costLookupMaxRetries` no longer govern anything, so they leave the config, the example config and the TD. What happens to a config that still carries them is decided at triage: refuse it with a message, or ignore them.
-- [ ] When costs are summed and several parts are unpriced, each distinct reason is recorded once, not once per call: a panel stage makes 18 or more calls and would otherwise repeat the same reason 18 times. (From issue #10's comment of 2026-09-28.)
-- [ ] Covered by tests that do not depend on live OpenRouter timing.
-- [ ] One live call confirms a priced cost reaches the manifest and the run summary.
+- [x] A call's `costUsd` is the reply's `usage.cost`; the `/generation` lookup is removed.
+- [x] A reply without a numeric `usage.cost` records `costUsd: null` with a `costResolutionError` saying so; it never fails the call, the stage or the run (technical-design.md §7).
+- [x] A provider refusal (an accepted reply carrying an error) keeps costing $0 when it carries no cost, as now; when it does carry `usage.cost`, that figure is used.
+- [x] `costLookupTimeoutMs` and `costLookupMaxRetries` no longer govern anything, so they leave the config, the example config and the TD. What happens to a config that still carries them is decided at triage: refuse it with a message, or ignore them.
+- [x] When costs are summed and several parts are unpriced, each distinct reason is recorded once, not once per call: a panel stage makes 18 or more calls and would otherwise repeat the same reason 18 times. (From issue #10's comment of 2026-09-28.)
+- [x] Covered by tests that do not depend on live OpenRouter timing.
+- [x] One live call confirms a priced cost comes back (reaching the manifest and run summary is covered by tests; see the comment below).
 
 ## Comments
 
 2026-09-30: the costs already lost stay lost. Every stage run so far records `n/a`, and no run file saved the reply's `usage.cost`, so nothing can be re-priced after the fact. Past spend can be read from OpenRouter's activity page.
+
+2026-09-30, resolved. Each call's cost is read from the reply's `usage.cost`; the `/generation` request and its two settings are gone. The user chose to delete the two lines from the example config and their own config rather than decide refuse-or-ignore; the loader ignores keys it does not know, so an old config still carrying them keeps working. The user asked for a check that the pipeline keeps working whatever the cost looks like: a reply whose usage has no cost, a cost that is a string, null or an object, usage that is not an object, and no usage at all each still hand back the model's reply, with the cost recorded as unknown and why. Live check, one call through `makeCompletionCall` on the `initial-subtopic-splitting` model: `costUsd` 0.00027975, 3 tokens in, 74 out. The run summary's reading of a priced stage cost was already covered by the runner and report suites; no live stage run was made, since every stage that calls a model would first delete its saved output to run again.

@@ -96,7 +96,7 @@ Include at least one **short** lecture (2–5 minutes) — most tests below only
 ### 2.5 Cost model
 
 - **Transcription** is reported at the configured `elevenLabs.costPerAudioHourUsd` (currently `0.22`), converted at `currency.gbpPerUsd` (currently `0.74`) — roughly **£0.16 per audio hour**, so a 5-minute lecture is about **£0.01**. The figure printed is derived from that configured rate, not from a bill; check it against the real invoice once.
-- **`transcript-structuring` and `transcript-verification`** each cost OpenRouter tokens for one call per lecture, reported from the live generation endpoint, so those figures are actual. `transcript-verification` is the more expensive of the two: it sends both the raw transcript and the structured one, and its reply grows with the number of findings.
+- **`transcript-structuring` and `transcript-verification`** each cost OpenRouter tokens for one call per lecture, reported from the price OpenRouter puts in each reply, so those figures are actual. `transcript-verification` is the more expensive of the two: it sends both the raw transcript and the structured one, and its reply grows with the number of findings.
 - Always use `run <date>` for testing. **Never `batch`** — it takes every lecture in the module.
 
 ---
