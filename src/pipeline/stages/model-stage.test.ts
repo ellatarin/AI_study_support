@@ -10,6 +10,7 @@ import {
 	makeStageContext,
 	openRouterClientFor,
 	stubbedCallCost,
+	unspacedSends,
 	useStubLogger,
 } from "../fixtures.js";
 import { makeCompletionCall } from "../openrouter.js";
@@ -53,6 +54,7 @@ function greetingRequest(content: string): JsonReplyRequest<Greeting> {
 		documentedShape: "greeting",
 		logger: logged().logger,
 		client: openRouterClientFor({ config }),
+		sendGate: unspacedSends,
 	};
 }
 

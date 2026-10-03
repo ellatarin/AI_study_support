@@ -164,7 +164,8 @@ type RunUnderDeepening = {
 	readonly transcript: string;
 	readonly runNumber: number;
 	readonly context: StageContext;
-} & ModelStageDependencies;
+} & ModelStageDependencies &
+	Pick<ModelStageRunArgs<unknown>, "sendGate">;
 
 /**
  * Deepens one subtopic in one round: sends it when it is over the size gate and
@@ -178,6 +179,7 @@ type RunUnderDeepening = {
  * @param args.context - The current lecture run context.
  * @param args.logger - The stage's logger.
  * @param args.client - The OpenAI client the call goes through.
+ * @param args.sendGate - The run's turns to send, which the call waits on.
  * @returns The subtopic's pieces, in order, and what its sends cost — `null` when it was not sent.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino Logger and OpenAI client are library types that are not deeply readonly
@@ -189,6 +191,7 @@ async function deepenSubtopic({
 	context,
 	logger,
 	client,
+	sendGate,
 }: RunUnderDeepening & { readonly subtopic: Subtopic; readonly round: number }): Promise<{
 	readonly pieces: readonly Subtopic[];
 	readonly cost: StageCost | null;
@@ -206,6 +209,7 @@ async function deepenSubtopic({
 		documentedShape: DOCUMENTED_REPLY_SHAPE,
 		logger,
 		client,
+		sendGate,
 		use: ({ cuts }) => ({ reply: cutSubtopic({ transcript, subtopic, cuts }) }),
 	});
 	return { pieces: sent.reply, cost: sent.cost };
@@ -271,6 +275,7 @@ async function deepenRun({
  * @param args.context - The current lecture run context.
  * @param args.logger - The run's logger, on which each model call is recorded.
  * @param args.client - The OpenAI client the calls go through.
+ * @param args.sendGate - The run's turns to send, which every call waits on.
  * @returns Every deepened run, what this launch's calls cost, and the run files.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
@@ -279,6 +284,7 @@ function deepenRuns({
 	context,
 	logger,
 	client,
+	sendGate,
 }: ModelStageRunArgs<DeepenSubtopicSplittingInput>): Promise<
 	StageResult<DeepenSubtopicSplittingOutput>
 > {
@@ -294,6 +300,7 @@ function deepenRuns({
 				context,
 				logger,
 				client,
+				sendGate,
 			}),
 	});
 }

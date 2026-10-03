@@ -5,22 +5,18 @@
    checked as normal. */
 import { readFile } from "node:fs/promises";
 import type { Logger } from "pino";
-import type {
-	LectureIdentityChanges,
-	PipelineStage,
-	StageContext,
-	StageResult,
-} from "../../../types/pipeline.js";
+import type { LectureIdentityChanges, StageContext, StageResult } from "../../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../../utils/errors.js";
 import { isRecord } from "../../../utils/record.js";
 import { moduleDirs, stageOutputPath } from "../../layout.js";
 import { baseNameForLecture, renameLectureFiles } from "../../lecture-files.js";
 import {
-	type ModelStageDependencies,
+	defineModelStage,
+	type ModelStageFactory,
 	type ModelStageRunArgs,
 	requestJsonReply,
 } from "../model-stage.js";
-import { createPipelineStage, writeStageOutput } from "../pipeline-stage.js";
+import { writeStageOutput } from "../pipeline-stage.js";
 import { buildStructuringMessages } from "./transcript-structuring.prompt.js";
 /* jscpd:ignore-end */
 
@@ -280,6 +276,7 @@ function settleTitle({
  * @param args.context - The current lecture run context.
  * @param args.logger - The run's logger, on which the model call is recorded.
  * @param args.client - The OpenAI client the completion goes through, built where the pipeline is assembled.
+ * @param args.sendGate - The run's turns to send, which the call waits on.
  * @returns The structured transcript's path, the settled title, the identity for the runner to record, the call's cost, and the file written.
  * @throws {TranscriptStructuringError} If the reply is unusable or a needed title is missing.
  */
@@ -289,6 +286,7 @@ async function structureTranscript({
 	context,
 	logger,
 	client,
+	sendGate,
 }: ModelStageRunArgs<TranscriptStructuringInput>): Promise<
 	StageResult<TranscriptStructuringOutput>
 > {
@@ -305,6 +303,7 @@ async function structureTranscript({
 		fail: (message) => new TranscriptStructuringError(message),
 		logger,
 		client,
+		sendGate,
 	});
 	// An absent suggestion and an explicit null mean the same thing downstream, so
 	// the difference is settled here rather than at every reader.
@@ -333,29 +332,14 @@ async function structureTranscript({
 	};
 }
 
-/* jscpd:ignore-start -- the division stages are assembled in this same shape;
-   this stage is kept untouched until it is deleted. */
 /**
  * Builds `transcript-structuring`, which structures `Transcript/transcript.txt` into
  * `Structured transcript/structured-transcript.md` and settles the lecture's
  * title, renaming the lecture's files when it replaces one
- * (technical-design.md §5, `transcript-structuring`).
- *
- * @param args - The stage's dependencies.
- * @param args.logger - The run's logger; the factory binds it to this stage.
- * @param args.client - The invocation's OpenAI client, handed to the stage as the logger is (§4.7).
- * @returns The transcript-structuring stage.
+ * (technical-design.md §5, `transcript-structuring`), from the run's logger and
+ * the invocation's OpenAI client.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
-export function createTranscriptStructuringStage({
-	logger,
-	client,
-}: ModelStageDependencies): PipelineStage<TranscriptStructuringInput, TranscriptStructuringOutput> {
-	return createPipelineStage({
-		stageId: STAGE_ID,
-		logger,
-		getInput: readTranscript,
-		run: (args) => structureTranscript({ ...args, client }),
-	});
-}
-/* jscpd:ignore-end */
+export const createTranscriptStructuringStage: ModelStageFactory<
+	TranscriptStructuringInput,
+	TranscriptStructuringOutput
+> = defineModelStage({ stageId: STAGE_ID, getInput: readTranscript, run: structureTranscript });

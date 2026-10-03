@@ -13,6 +13,7 @@ import {
 	openRouterUrls,
 	openRouterUrlsAt,
 	resetStubbedApi,
+	settleThroughPauses,
 	stubbedApiKey,
 	stubbedCallCost,
 	stubbedCallsCost,
@@ -20,6 +21,7 @@ import {
 	stubbedReplyUsage,
 	stubbedTokenUsage,
 	stubOpenRouterApi,
+	unspacedSends,
 	useStubLogger,
 } from "./fixtures.js";
 import {
@@ -144,6 +146,7 @@ function call(
 		// back on — so the default here is the one this suite's config describes,
 		// and a test wanting a different client passes it in `overrides`.
 		client: openRouterClientFor({ config }),
+		sendGate: unspacedSends,
 		...overrides,
 	});
 }
@@ -404,26 +407,6 @@ describe("makeCompletionCall", () => {
 		afterEach(() => {
 			vi.useRealTimers();
 		});
-
-		/**
-		 * Runs the clock forward until `pending` settles: the pause before each
-		 * resend begins only once a refusal has arrived, so the clock is moved in
-		 * small steps, letting the stubbed replies arrive between them. Moved in
-		 * large ones, it would outrun a reply and fire the call's own timeout.
-		 */
-		async function settleThroughPauses<TResult>(pending: Promise<TResult>): Promise<TResult> {
-			let settled = false;
-			const watched = pending.finally(() => {
-				settled = true;
-			});
-			while (!settled) {
-				await new Promise((resolve) => {
-					setImmediate(resolve);
-				});
-				await vi.advanceTimersByTimeAsync(100);
-			}
-			return watched;
-		}
 
 		it("should resend a refused call and return the reply when a later send is accepted", async () => {
 			mockCompletionRejectedByProvider();

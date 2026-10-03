@@ -146,6 +146,7 @@ function readInput(context: StageContext): Promise<TranscriptAndDivision> {
  * @param args.context - The current lecture run context.
  * @param args.logger - The run's logger, on which the call is recorded.
  * @param args.client - The OpenAI client the call goes through.
+ * @param args.sendGate - The run's turns to send, which the call waits on.
  * @returns The retitled division, what the call cost, and the files written.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
@@ -154,6 +155,7 @@ async function retitle({
 	context,
 	logger,
 	client,
+	sendGate,
 }: ModelStageRunArgs<TranscriptAndDivision>): Promise<StageResult<DivisionOutput>> {
 	const messages = buildRetitleMessages({
 		texts: input.subtopics.map((subtopic) => subtopicText({ text: input.transcript, subtopic })),
@@ -167,6 +169,7 @@ async function retitle({
 		documentedShape: DOCUMENTED_REPLY_SHAPE,
 		logger,
 		client,
+		sendGate,
 		use: ({ titles }) => pairTitles({ subtopics: input.subtopics, titles }),
 	});
 	return writeDivisionWithRecord({

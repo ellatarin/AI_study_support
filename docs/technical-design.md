@@ -1672,10 +1672,12 @@ class NoCompletionChoicesError extends NamedError // the call was accepted and c
 // One class per way a completion call fails. Context length keeps its own because it has a remedy of its own —
 // configure a larger-context model — and no choices is distinct from a model answering with empty content,
 // which is a legitimate reply handed back as "".
-makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; responseFormat: "text" | "json"; logger: Logger; client?: OpenAI }):
+makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; responseFormat: "text" | "json"; logger: Logger; client?: OpenAI; sendGate: SendGate }):
   Promise<{ content: string; cost: StageCost }>
 // `logger` is the calling stage's, already bound to it by createPipelineStage; the call is recorded on it
 // at `debug` with the model, prompt token count, latency and finish reason (§10).
+// `sendGate` is the stage run's, made by defineModelStage from the stage's `sendGapSeconds` (src/utils/send-gate.ts):
+// every send, a refusal's resend included, waits its turn, so the gap holds however sends and resends fall.
 // Wraps the SDK call and reads its cost from the reply's `usage` (§7). `responseFormat: "json"` sends `response_format: json_object` and
 // the provider routing that makes it stick (see "JSON mode is routed for" below), which the stages
 // returning structured data require; it is stated on every call rather than defaulted so a caller always

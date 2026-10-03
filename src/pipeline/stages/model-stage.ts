@@ -14,6 +14,8 @@ import type OpenAI from "openai";
 import type { Logger } from "pino";
 import type { PipelineStage, StageContext, StageCost, StageResult } from "../../types/pipeline.js";
 import { errorMessage } from "../../utils/errors.js";
+import { createSendGate } from "../../utils/send-gate.js";
+import { configuredStage } from "../../utils/stage-config.js";
 import {
 	type CompletionRequest,
 	makeCompletionCall,
@@ -33,14 +35,16 @@ export type ModelStageDependencies = {
 
 /**
  * What a model-calling stage's run receives: its prepared input and the lecture
- * it belongs to, alongside the dependencies the factory bound to it.
+ * it belongs to, the dependencies the factory bound to it, and the run's turns
+ * to send, which every call it makes waits on.
  *
  * @typeParam TInput - The input the stage's `getInput` produced.
  */
 export type ModelStageRunArgs<TInput> = {
 	readonly input: TInput;
 	readonly context: StageContext;
-} & ModelStageDependencies;
+} & ModelStageDependencies &
+	Pick<CompletionRequest, "sendGate">;
 
 /**
  * What a stage asks when it wants a JSON reply: the prompt, on whose behalf,
@@ -49,7 +53,10 @@ export type ModelStageRunArgs<TInput> = {
  *
  * @typeParam TReply - The reply the stage expects back.
  */
-export type JsonReplyRequest<TReply> = Pick<CompletionRequest, "messages" | "stageId"> & {
+export type JsonReplyRequest<TReply> = Pick<
+	CompletionRequest,
+	"messages" | "stageId" | "sendGate"
+> & {
 	readonly context: StageContext;
 	readonly isReply: (value: unknown) => value is TReply;
 	readonly documentedShape: string;
@@ -94,6 +101,7 @@ export type JsonReplyOutcome<TReply> =
  * @param args.documentedShape - The reply's shape in words, for the failure a user reads.
  * @param args.logger - The run's logger, on which the call is recorded.
  * @param args.client - The OpenAI client the completion goes through.
+ * @param args.sendGate - The stage run's turns to send, which the call waits on.
  * @returns The validated reply or the reason it failed, with what the call cost.
  * @typeParam TReply - The reply the stage expects back.
  */
@@ -106,6 +114,7 @@ export async function tryJsonReply<TReply>({
 	documentedShape,
 	logger,
 	client,
+	sendGate,
 }: JsonReplyRequest<TReply>): Promise<JsonReplyOutcome<TReply>> {
 	const { content, cost } = await makeCompletionCall({
 		messages,
@@ -114,6 +123,7 @@ export async function tryJsonReply<TReply>({
 		responseFormat: "json",
 		logger,
 		client,
+		sendGate,
 	});
 	if (content.trim() === "") {
 		return { failure: "The model's reply was empty", cost };
@@ -244,5 +254,18 @@ export function defineModelStage<TInput, TOutput>({
 	readonly run: (args: ModelStageRunArgs<TInput>) => Promise<StageResult<TOutput>>;
 }): ModelStageFactory<TInput, TOutput> {
 	return ({ logger, client }) =>
-		createPipelineStage({ stageId, logger, getInput, run: (args) => run({ ...args, client }) });
+		createPipelineStage({
+			stageId,
+			logger,
+			getInput,
+			run: (args) =>
+				run({
+					...args,
+					client,
+					// One gate per run, so a relaunch starts with no turn owed.
+					sendGate: createSendGate({
+						gapSeconds: configuredStage({ config: args.context.config, stageId })?.sendGapSeconds,
+					}),
+				}),
+		});
 }

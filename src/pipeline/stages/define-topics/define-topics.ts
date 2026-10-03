@@ -177,7 +177,7 @@ function makeGroupingRuns(
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 	args: ModelStageRunArgs<TranscriptAndDivision>,
 ): Promise<StageResult<{ readonly runs: readonly GroupingReply[] }>> {
-	const { input, context, logger, client } = args;
+	const { input, context, logger, client, sendGate } = args;
 	const messages = buildGroupingMessages({
 		subtopics: input.subtopics.map((subtopic) => ({
 			title: subtopic.title,
@@ -196,6 +196,7 @@ function makeGroupingRuns(
 			documentedShape: DOCUMENTED_REPLY_SHAPE,
 			logger,
 			client,
+			sendGate,
 			use: (reply) => checkGrouping({ reply, subtopicCount: input.subtopics.length }),
 		},
 	});

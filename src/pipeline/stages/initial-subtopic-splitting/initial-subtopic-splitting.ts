@@ -109,6 +109,7 @@ function divideAsReplied({
  * @param args.context - The current lecture run context.
  * @param args.logger - The run's logger, on which each model call is recorded.
  * @param args.client - The OpenAI client the calls go through.
+ * @param args.sendGate - The run's turns to send, which every call waits on.
  * @returns Every run, what this launch's calls cost, and the run files.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
@@ -117,6 +118,7 @@ function splitTranscript({
 	context,
 	logger,
 	client,
+	sendGate,
 }: ModelStageRunArgs<InitialSubtopicSplittingInput>): Promise<
 	StageResult<InitialSubtopicSplittingOutput>
 > {
@@ -131,6 +133,7 @@ function splitTranscript({
 			documentedShape: DOCUMENTED_REPLY_SHAPE,
 			logger,
 			client,
+			sendGate,
 			use: ({ subtopics }) => divideAsReplied({ transcript: input.transcript, subtopics }),
 		},
 	});

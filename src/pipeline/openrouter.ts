@@ -11,6 +11,7 @@ import {
 import { NamedError } from "../utils/errors.js";
 import { isRecord } from "../utils/record.js";
 import { type FailedSend, sendUntilAccepted } from "../utils/resend.js";
+import type { SendGate } from "../utils/send-gate.js";
 import { configuredStage, unconfiguredStageMessage } from "../utils/stage-config.js";
 
 const OPENROUTER_APP_TITLE = "Lecture Notes Pipeline";
@@ -373,6 +374,7 @@ export type CompletionRequest = {
 	readonly responseFormat: CompletionResponseFormat;
 	readonly logger: Logger;
 	readonly client: OpenRouterClient;
+	readonly sendGate: SendGate;
 };
 
 /**
@@ -501,6 +503,8 @@ async function sendCompletionOnce(
  * @param options.client - Supplies the OpenAI client to call through, provided where the pipeline is
  *   assembled and handed to the stage exactly as its logger is; asked for it here, at the point a
  *   client is actually wanted (§4.7).
+ * @param options.sendGate - The stage run's turns to send; every send, a refusal's resend
+ *   included, waits its turn (§6, `sendGapSeconds`).
  * @returns The completion text and its resolved cost.
  * @throws {UnconfiguredStageError} If the configuration holds no entry for the stage.
  * @throws {ContextLengthError} If the prompt exceeds the model's context window.
@@ -519,7 +523,10 @@ export async function makeCompletionCall(
 	// reaches no model never builds one, and so never needs the API key.
 	const openAiClient = options.client();
 	const { sent, sends, cost } = await sendUntilAccepted({
-		send: () => sendCompletionOnce({ ...options, stageConfig, openAiClient }),
+		send: async () => {
+			await options.sendGate.waitTurn();
+			return sendCompletionOnce({ ...options, stageConfig, openAiClient });
+		},
 		onFailure: ({ send, failure }) => {
 			options.logger.warn(
 				{ model: modelId, send, providerMessage: failure },

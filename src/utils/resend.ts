@@ -22,13 +22,13 @@ const FIRST_PAUSE_MS = 2000;
 export type FailedSend = { readonly failure: string; readonly cost: StageCost };
 
 /**
- * Waits before a resend.
+ * Waits a while: before a resend here, and before a send's turn in `send-gate.ts`.
  *
  * @param args - How long to wait.
  * @param args.milliseconds - The length of the pause.
  * @returns A promise that resolves when the pause is over.
  */
-function pause({ milliseconds }: { readonly milliseconds: number }): Promise<void> {
+export function pause({ milliseconds }: { readonly milliseconds: number }): Promise<void> {
 	return new Promise((resolve) => {
 		setTimeout(resolve, milliseconds);
 	});

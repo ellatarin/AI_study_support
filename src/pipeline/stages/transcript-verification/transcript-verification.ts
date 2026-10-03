@@ -5,7 +5,6 @@
    checked as normal. */
 import { readFile } from "node:fs/promises";
 import {
-	type PipelineStage,
 	QA_SEVERITIES,
 	type QaConsideration,
 	type QaDeficiency,
@@ -18,11 +17,12 @@ import { errorMessage, NamedError } from "../../../utils/errors.js";
 import { isRecord } from "../../../utils/record.js";
 import { type StageWithOutputFile, stageOutputPath } from "../../layout.js";
 import {
-	type ModelStageDependencies,
+	defineModelStage,
+	type ModelStageFactory,
 	type ModelStageRunArgs,
 	requestJsonReply,
 } from "../model-stage.js";
-import { createPipelineStage, writeStageOutputWithReadableView } from "../pipeline-stage.js";
+import { writeStageOutputWithReadableView } from "../pipeline-stage.js";
 import { buildVerificationMessages } from "./transcript-verification.prompt.js";
 import { renderVerificationReport } from "./transcript-verification.view.js";
 /* jscpd:ignore-end */
@@ -239,6 +239,7 @@ const DOCUMENTED_REPORT_SHAPE =
  * @param args.context - The current lecture run context.
  * @param args.logger - The run's logger, on which the model call is recorded.
  * @param args.client - The OpenAI client the completion goes through.
+ * @param args.sendGate - The run's turns to send, which the call waits on.
  * @returns The report's path, how much it found, the call's cost, and both files written.
  * @throws {TranscriptVerificationError} If the reply is not the documented report.
  */
@@ -248,6 +249,7 @@ async function verifyTranscript({
 	context,
 	logger,
 	client,
+	sendGate,
 }: ModelStageRunArgs<TranscriptVerificationInput>): Promise<
 	StageResult<TranscriptVerificationOutput>
 > {
@@ -263,6 +265,7 @@ async function verifyTranscript({
 		fail: (message) => new TranscriptVerificationError(message),
 		logger,
 		client,
+		sendGate,
 	});
 	const { path, filesWritten } = await writeStageOutputWithReadableView({
 		stageId: STAGE_ID,
@@ -287,25 +290,10 @@ async function verifyTranscript({
  * Builds `transcript-verification`, which compares `Structured transcript/structured-transcript.md`
  * with the `Transcript/transcript.txt` it was made from and writes
  * `Transcript verification/verification-report.json`, with a readable
- * `verification-report.md` beside it (technical-design.md §5, `transcript-verification`).
- *
- * @param args - The stage's dependencies.
- * @param args.logger - The run's logger; the factory binds it to this stage.
- * @param args.client - The invocation's OpenAI client, handed to the stage as the logger is (§4.7).
- * @returns The transcript-verification stage.
+ * `verification-report.md` beside it (technical-design.md §5, `transcript-verification`),
+ * from the run's logger and the invocation's OpenAI client.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
-export function createTranscriptVerificationStage({
-	logger,
-	client,
-}: ModelStageDependencies): PipelineStage<
+export const createTranscriptVerificationStage: ModelStageFactory<
 	TranscriptVerificationInput,
 	TranscriptVerificationOutput
-> {
-	return createPipelineStage({
-		stageId: STAGE_ID,
-		logger,
-		getInput: readBothVersions,
-		run: (args) => verifyTranscript({ ...args, client }),
-	});
-}
+> = defineModelStage({ stageId: STAGE_ID, getInput: readBothVersions, run: verifyTranscript });

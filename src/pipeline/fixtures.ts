@@ -30,6 +30,7 @@ import type {
 	StageResult,
 	StageRunConfig,
 } from "../types/pipeline.js";
+import { createSendGate, type SendGate } from "../utils/send-gate.js";
 import { parseConfig } from "./config.js";
 import {
 	datedFileDirs,
@@ -1507,6 +1508,43 @@ export function driveModelStage<TInput, TOutput>({
 		stage: factory({ logger, client: openRouterClientFor({ config }) }),
 		context: makeStageContext({ workspaceRoot, config }),
 	});
+}
+
+/** A gate that spaces nothing, for a suite calling the model outside a stage run. */
+export const unspacedSends: SendGate = createSendGate({ gapSeconds: undefined });
+
+/**
+ * How far {@link settleThroughPauses} moves the faked clock at a time. A stubbed
+ * reply that arrives is noted at the step it arrived in, so a time read off
+ * the faked clock when a request arrives may lag the send by up to one step.
+ */
+export const SETTLE_STEP_MS = 100;
+
+/**
+ * Runs a faked clock forward until `pending` settles: a pause before a resend,
+ * or a wait for a send's turn, begins only once the reply before it has
+ * arrived, so the clock is moved in small steps, letting stubbed replies arrive
+ * between them. Moved in large ones, it would outrun a reply and fire the
+ * call's own timeout.
+ *
+ * @param pending - The work to see through; the suite has faked `setTimeout`.
+ * @returns What `pending` resolves to.
+ * @typeParam TResult - What the work resolves to.
+ */
+export async function settleThroughPauses<TResult>(
+	pending: Readonly<Promise<TResult>>,
+): Promise<TResult> {
+	let settled = false;
+	const watched = pending.finally(() => {
+		settled = true;
+	});
+	while (!settled) {
+		await new Promise((resolve) => {
+			setImmediate(resolve);
+		});
+		await vi.advanceTimersByTimeAsync(SETTLE_STEP_MS);
+	}
+	return watched;
 }
 
 /**
