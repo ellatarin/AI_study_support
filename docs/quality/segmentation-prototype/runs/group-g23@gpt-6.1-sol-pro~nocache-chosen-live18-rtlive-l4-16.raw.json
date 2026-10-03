@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This opening frames the lecture on cancer causation and states what students should learn.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutations, clonal evolution and cancer susceptibility",
+      "groupedBecause": "These subtopics explain how mutations can produce cancer through clonal selection within a susceptible cellular environment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental cancer risks and the bad luck debate",
+      "groupedBecause": "These subtopics examine the evidence for environmental contributions to cancer against the claim that cancer mainly arises through unavoidable chance.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious causes of cancer and Burkitt lymphoma",
+      "groupedBecause": "These subtopics explain how infections contribute to carcinogenesis, with Burkitt lymphoma illustrating the interaction between infection and cellular mutation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "How environmental carcinogens damage DNA",
+      "groupedBecause": "These subtopics trace how environmental exposures produce DNA damage that can become mutations, showing why carcinogenic activity depends on the mechanisms operating within exposed cells.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics establish why mutational initiation may require a subsequent growth-promoting environment for tumours to develop.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Tissue and developmental susceptibility to carcinogens",
+      "groupedBecause": "These subtopics complete and recap the explanation of carcinogenesis by emphasising that carcinogenic effects depend on the biological context of exposure.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methods for investigating carcinogenicity",
+      "groupedBecause": "These subtopics examine how researchers obtain and interpret evidence that an exposure can cause cancer, including the limitations of that evidence.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "This closing draws together the lecture's conclusions about environmental cancer risks and the difficulty of judging them in everyday decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

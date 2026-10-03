@@ -135,3 +135,20 @@ Ten runs sent `chosen-live18-rtlive-l4` (the live run's titles) with caching off
 | live run's | on | prototype script | 10 | 1 | 4 | 5 |
 | live run's | off | prototype script | 10 | 0 | 2 (runs 7, 9) | 8 |
 | live run's | on | live stage | 15 | 1 | 9 | 5 |
+
+## Every lecture 4 batch on 3 October, in time order (BST)
+
+Ten more caching-off runs on the live titles (`~nocache` rtlive 11–20) all kept 18–21 together. All of 3 October's batches in the order sent:
+
+| Sent (about) | Titles | Caching | Sent by | Split at 19 | Split at 20 | 18–21 together |
+|---|---|---|---|---|---|---|
+| 15:59 | live | on | live stage (panel of 5) | 0 | 4 | 1 |
+| 16:08 | prototype | on | prototype (runs 6–10) | 3 | 0 | 2 |
+| 16:2x | prototype | on | prototype (runs 11–20) | 0 | 0 | 10 |
+| 16:27 | live | on | live stage (panel of 10) | 1 | 5 | 4 |
+| 16:3x | live | on | prototype | 1 | 4 | 5 |
+| 16:4x | prototype | off | prototype | 4 | 0 | 6 |
+| 16:4x | live | off | prototype | 0 | 2 | 8 |
+| 17:0x | live | off | prototype | 0 | 0 | 10 |
+
+Live titles: split at 20 in 13 of 25 runs with caching on, 2 of 20 with it off. Every caching-off run was sent after every caching-on run, so caching and time of day cannot be told apart here.

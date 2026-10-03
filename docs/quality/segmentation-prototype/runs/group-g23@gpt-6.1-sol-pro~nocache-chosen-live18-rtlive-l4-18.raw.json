@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This opening frames the lecture within the cancer course and establishes its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic origins and clonal evolution of cancer",
+      "groupedBecause": "These subtopics explain how mutations arise and enable susceptible cells to evolve into cancers within permissive environments.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental cancer risks and interpretation of the evidence",
+      "groupedBecause": "These subtopics examine the contribution of environmental exposures to cancer risk and how evidence for that contribution is interpreted.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain how infections can drive carcinogenesis, developing Burkitt lymphoma as a detailed example.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of DNA damage from environmental carcinogens",
+      "groupedBecause": "These subtopics trace how environmental exposures produce DNA damage that can become mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics establish why mutational initiation may require a separate promotional process for tumours to develop.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Carcinogen susceptibility and recap of causal mechanisms",
+      "groupedBecause": "These subtopics complete the account of context-dependent carcinogenesis through developmental susceptibility and then consolidate the mechanisms already introduced.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methods for investigating carcinogenicity",
+      "groupedBecause": "These subtopics examine how carcinogenicity can be investigated and why the available evidence and tests have limitations.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit perspective",
+      "groupedBecause": "This closing consolidates the lecture’s conclusions and frames everyday exposure decisions as risk–benefit judgments.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

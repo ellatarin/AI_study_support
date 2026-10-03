@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This opening frames the lecture within the cancer course and states what students should learn about cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation, clonal evolution and cancer susceptibility",
+      "groupedBecause": "These subtopics establish how mutations can give rise to cancer through clonal selection within a susceptible cell and a permissive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental cancer risks and the bad luck debate",
+      "groupedBecause": "These subtopics examine how far cancer risk can be attributed to environmental exposure rather than unavoidable processes or inherited susceptibility.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious causes of cancer",
+      "groupedBecause": "These subtopics explain how infections contribute to carcinogenesis, using Burkitt lymphoma as a detailed example of interacting infectious factors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of environmentally induced DNA damage",
+      "groupedBecause": "These subtopics explain how environmental exposures produce DNA damage and mutations, with their effects shaped by cellular metabolism and repair.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics distinguish mutation-producing initiation from the promotion that enables initiated cells to proliferate into tumours.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Tissue and developmental specificity of carcinogenesis",
+      "groupedBecause": "These subtopics complete and recap the account of carcinogenic mechanisms by emphasising how the exposed tissue and its developmental state affect susceptibility.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methods for investigating carcinogenicity",
+      "groupedBecause": "These subtopics examine the evidence and limitations of methods used to connect exposures with mutations and cancer development.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "This closing draws together the lecture’s conclusions and frames everyday exposure decisions as a balance of risks and benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

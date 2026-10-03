@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "The opening situates the lecture within the cancer course and introduces its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation accumulation and cancer development",
+      "groupedBecause": "These subtopics explain how mutations arise and enable clonal evolution toward cancer within a permissive cellular environment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental contributions to cancer risk",
+      "groupedBecause": "These subtopics examine evidence for environmental cancer causation against competing explanations based on chance and inherited susceptibility.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer causation",
+      "groupedBecause": "These subtopics explain how infections contribute to cancer, developing Burkitt lymphoma as a detailed example.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Carcinogen-induced DNA damage",
+      "groupedBecause": "These subtopics trace how environmental carcinogens produce DNA damage and mutations, including the role of metabolism in determining their activity.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics explain why mutational initiation may require a growth-promoting environment before tumours develop.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Tissue and developmental susceptibility to carcinogens",
+      "groupedBecause": "These subtopics explain how the context of exposure determines carcinogenic effects and conclude by recapping the mechanisms leading to that specificity.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Investigating and testing carcinogenicity",
+      "groupedBecause": "These subtopics examine how evidence of carcinogenicity is obtained and why establishing it remains methodologically difficult.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "The closing recaps the lecture's conclusions and frames their practical significance as everyday risk–benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}
