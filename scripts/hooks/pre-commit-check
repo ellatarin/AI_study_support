@@ -91,6 +91,11 @@ if [ -n "$changed_any" ]; then
     || fail "secretlint detected potential secrets in changed files. Review, redact, and re-commit. If it is a genuine false positive, add an allowlist entry to .secretlintrc.json."
 fi
 
+# 0b. .veraignore — must repeat every .gitignore pattern. Runs beside secretlint
+# because drift here lets Vera index .env and send it to the reranking API.
+pnpm run --silent check:veraignore >&2 \
+  || fail ".veraignore is missing .gitignore patterns (listed above). Add them to .veraignore and re-commit."
+
 # 1. biome — format + standard linting on changed files.
 # No --no-errors-on-unmatched: biome.json now covers every path this filter can
 # produce, so "provided but ignored" means the config has a hole, and the gate

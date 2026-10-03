@@ -186,6 +186,7 @@ The built stages still carry their earlier names in the code until the redesign 
 ## Development
 
 Written in TypeScript and run directly with tsx, so there is no build step. `pnpm check` runs every
-check the commit gate runs: secret scanning, formatting, type checking, lint rules, duplication
+check the commit gate runs: secret scanning, a check that `.veraignore` repeats every `.gitignore`
+pattern (Vera reads one instead of the other), formatting, type checking, lint rules, duplication
 detection, and the tests with a coverage floor. `pnpm test` runs the tests alone.
 

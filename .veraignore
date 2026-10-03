@@ -1,2 +1,20 @@
+# Vera reads this file instead of .gitignore, so it repeats every .gitignore
+# pattern; `pnpm check:veraignore` fails the commit gate when one is missing.
+node_modules/
+.env*
+!.env.example
+.claude/
+CLAUDE.md
+coverage/
+.vera/
+.vera.build/
+.vera.lock
+*.log
+pipeline-config.json
+.DS_Store
+__pycache__/
+.venv/
+
+# Tracked in git but noise to search: generated prototype runs and the lockfile.
 docs/quality/segmentation-prototype/runs/
 pnpm-lock.yaml

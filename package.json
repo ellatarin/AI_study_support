@@ -15,7 +15,8 @@
 		"check:duplication": "jscpd --silent",
 		"check:duplication:tests": "jscpd --silent --config .jscpd.tests.json",
 		"check:tests": "vitest --run --coverage --passWithNoTests",
-		"check": "pnpm check:secrets \"**/*\" && pnpm check:format . && pnpm check:types && pnpm check:lint . && pnpm check:duplication && pnpm check:duplication:tests && pnpm check:tests",
+		"check:veraignore": "node scripts/check-veraignore.mjs",
+		"check": "pnpm check:secrets \"**/*\" && pnpm check:veraignore && pnpm check:format . && pnpm check:types && pnpm check:lint . && pnpm check:duplication && pnpm check:duplication:tests && pnpm check:tests",
 		"lint": "pnpm check",
 		"audit:constants": "node scripts/audit-constants.mjs src",
 		"setup": "./scripts/setup"
