@@ -10,7 +10,7 @@
    for line. There is nothing to extract: imports cannot be shared, and barrel
    files are forbidden (CLAUDE.md, File Organisation). Only the imports are
    exempt; the code below is checked as normal. */
-import type { StageContext, StageCost, StageResult } from "../../../types/pipeline.js";
+import type { StageContext, StageResult } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
 import { isRecord } from "../../../utils/record.js";
 import {
@@ -18,18 +18,17 @@ import {
 	isReplySubtopic,
 	placeCuts,
 	type ReplySubtopic,
-	readDivision,
 	replyNaming,
 	type Subtopic,
 	sliceSubtopics,
+	splittingPanel,
 } from "../division.js";
 import {
 	defineModelStage,
 	type ModelStageFactory,
 	type ModelStageRunArgs,
-	tryJsonReplyAs,
 } from "../model-stage.js";
-import { runStagePanel, sendWithResends } from "../panel-runs.js";
+import { runOneCallPanel } from "../panel-runs.js";
 import { readTranscript } from "../stage-input.js";
 import { buildSplittingMessages } from "./initial-subtopic-splitting.prompt.js";
 /* jscpd:ignore-end */
@@ -121,29 +120,18 @@ function splitTranscript({
 }: ModelStageRunArgs<InitialSubtopicSplittingInput>): Promise<
 	StageResult<InitialSubtopicSplittingOutput>
 > {
-	return runStagePanel({
+	return runOneCallPanel({
 		stageId: STAGE_ID,
 		context,
-		readRun: readDivision,
-		makeRun: async ({
-			runNumber,
-		}): Promise<{ readonly run: readonly Subtopic[]; readonly cost: StageCost }> => {
-			const sent = await sendWithResends({
-				what: `Splitting run ${runNumber}`,
-				logger,
-				send: () =>
-					tryJsonReplyAs({
-						messages: buildSplittingMessages({ transcript: input.transcript }),
-						stageId: STAGE_ID,
-						context,
-						isReply: isSplitReply,
-						documentedShape: DOCUMENTED_REPLY_SHAPE,
-						logger,
-						client,
-						use: ({ subtopics }) => divideAsReplied({ transcript: input.transcript, subtopics }),
-					}),
-			});
-			return { run: sent.reply, cost: sent.cost };
+		...splittingPanel(context),
+		runName: "Splitting run",
+		request: {
+			messages: buildSplittingMessages({ transcript: input.transcript }),
+			isReply: isSplitReply,
+			documentedShape: DOCUMENTED_REPLY_SHAPE,
+			logger,
+			client,
+			use: ({ subtopics }) => divideAsReplied({ transcript: input.transcript, subtopics }),
 		},
 	});
 }

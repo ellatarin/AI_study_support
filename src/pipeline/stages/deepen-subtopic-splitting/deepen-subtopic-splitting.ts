@@ -21,10 +21,10 @@ import {
 	isReplySubtopic,
 	placeCuts,
 	type ReplySubtopic,
-	readDivision,
 	replyNaming,
 	type Subtopic,
 	sliceSubtopics,
+	splittingPanel,
 	subtopicText,
 } from "../division.js";
 import {
@@ -32,9 +32,8 @@ import {
 	type ModelStageDependencies,
 	type ModelStageFactory,
 	type ModelStageRunArgs,
-	tryJsonReplyAs,
 } from "../model-stage.js";
-import { runStagePanel, sendWithResends } from "../panel-runs.js";
+import { runStagePanel, sendJsonWithResends } from "../panel-runs.js";
 import { readTranscriptAndRuns } from "../stage-input.js";
 import { buildDeepeningMessages } from "./deepen-subtopic-splitting.prompt.js";
 /* jscpd:ignore-end */
@@ -198,20 +197,16 @@ async function deepenSubtopic({
 	if (countWords(passage) <= context.config.division.sizeGateWords) {
 		return { pieces: [subtopic], cost: null };
 	}
-	const sent = await sendWithResends({
+	const sent = await sendJsonWithResends({
 		what: `Deepening run ${runNumber}, round ${round}, subtopic "${subtopic.title}"`,
+		messages: buildDeepeningMessages({ passage }),
+		stageId: STAGE_ID,
+		context,
+		isReply: isDeepenReply,
+		documentedShape: DOCUMENTED_REPLY_SHAPE,
 		logger,
-		send: () =>
-			tryJsonReplyAs({
-				messages: buildDeepeningMessages({ passage }),
-				stageId: STAGE_ID,
-				context,
-				isReply: isDeepenReply,
-				documentedShape: DOCUMENTED_REPLY_SHAPE,
-				logger,
-				client,
-				use: ({ cuts }) => ({ reply: cutSubtopic({ transcript, subtopic, cuts }) }),
-			}),
+		client,
+		use: ({ cuts }) => ({ reply: cutSubtopic({ transcript, subtopic, cuts }) }),
 	});
 	return { pieces: sent.reply, cost: sent.cost };
 }
@@ -290,7 +285,7 @@ function deepenRuns({
 	return runStagePanel({
 		stageId: STAGE_ID,
 		context,
-		readRun: readDivision,
+		...splittingPanel(context),
 		makeRun: ({ runNumber }) =>
 			deepenRun({
 				transcript: input.transcript,

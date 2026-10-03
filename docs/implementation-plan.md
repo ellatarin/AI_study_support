@@ -877,19 +877,20 @@ Unit tests for `chooseGrouping` (no mocks):
 - `should fail when there are no runs to choose from`
 - `should report the chosen run, its support, the panel size and the rule that decided when $decidedBy decides` — `test.each` across each rule, and a panel whose runs all agree, decided by most runs
 
-Unit tests for the stage (mock `makeCompletionCall`):
-- `should send each retitled subtopic's position, title and trimmed text when a run is made`
-- `should treat a reply as the wrong shape when $problem` — `test.each` across no topics, a blank title, a blank `groupedBecause`, no first subtopic, not starting at 1, a start not after the one before, a start past the last subtopic
+Tests for the stage (mock `makeCompletionCall`; real temp directory, set up by the `useStageReadingDivision` fixture it shares with `retitle-subtopics`):
+- `should send every retitled subtopic as its position, title as label, and text with the blank space at each end removed when each grouping run is made`
+- `should resend a grouping run's call when its reply $problem` — `test.each` across no topics, a blank title, a blank `groupedBecause`, no first subtopic, not starting at 1, a start not after the one before, a start past the last subtopic
 - `should write each topic's title, groupedBecause and first subtopic from the chosen run when the stage completes`
+- `should record beside the topics the chosen run, its support and the deciding rule when the stage completes`
+- `should fail naming the file, without calling the model, when the retitled subtopics $problem` — `test.each` across missing, not JSON, not a list of subtopics
+- `should fail without writing the topics when a run's third send is still unusable`
+- `should save each grouping run as the model replied when the run completes`
 
 Tests of the stage's sending (fake timers; stubbed OpenRouter rather than a mocked `makeCompletionCall`, so a refusal is really resent):
 - `should start no send until the gap has passed since the stage's previous send when sendGapSeconds is set` — first sends, resent bad replies and resent refusals alike
 - `should not space sends when sendGapSeconds is unset`
 
-Unit tests for the config: as Phase 10, for the `grouping` section, the bar exceeding the panel size included; a `sendGapSeconds` row in the `should throw ConfigError when $case` table naming a stage other than `define-topics`.
-
-Integration tests (real temp directory):
-- `should record beside the topics the chosen run, its support and the deciding rule when the stage completes`
+Unit tests for the config: as Phase 10, for the `grouping` section, the bar exceeding the panel size included; a `sendGapSeconds` row in the `should throw ConfigError when $case` table naming a stage other than `define-topics`; `should keep a fractional sendGapSeconds when define-topics sets it`.
 
 **Replay against the prototype:** the prototype's saved `g23` runs on each lecture's `r9`-retitled division (4 per lecture) through `chooseGrouping` at bar 3; each result is compared with the grouping `analysis-2026-09-30/choose_panel.py` chooses from the same runs. That script asks "more topics" even when every run differs, which this rule does not, so a lecture whose runs all differ may disagree; each difference is explained, any other fixed.
 

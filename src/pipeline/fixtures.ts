@@ -1510,6 +1510,60 @@ export function driveModelStage<TInput, TOutput>({
 }
 
 /**
+ * Gives the suite of a model-calling stage that reads a division an earlier
+ * stage wrote: before each test, mocks are cleared, the model's reply is
+ * stubbed, and a transcribed workspace gains {@link transcriptDivision} as the
+ * earlier stage's output. Stated once rather than per suite, so two such suites
+ * cannot come to start from different states.
+ *
+ * @param args - The stage, the stage whose division it reads, and the stubbed reply.
+ * @param args.stageId - The stage under test; names the workspace's temporary directory and picks its config.
+ * @param args.readsFrom - The earlier stage whose division the stage reads.
+ * @param args.factory - The stage's factory, as the CLI calls it.
+ * @param args.stubReply - Stubs the model call's reply; called before each test, after mocks are cleared.
+ * @returns The stage's config, a reader for the current test's workspace, and a runner for the stage.
+ * @typeParam TInput - The stage's input.
+ * @typeParam TOutput - The stage's output.
+ */
+export function useStageReadingDivision<TInput, TOutput>({
+	stageId,
+	readsFrom,
+	factory,
+	stubReply,
+}: {
+	readonly stageId: StageId;
+	readonly readsFrom: StageWithOutputFile;
+	readonly factory: ModelStageFactory<TInput, TOutput>;
+	readonly stubReply: () => void;
+}): {
+	readonly config: PipelineConfig;
+	readonly workspaceRoot: () => string;
+	readonly run: () => Promise<StageResult<TOutput>>;
+} {
+	const workspace = useTranscribedWorkspace({ prefix: `${stageId}-` });
+	const logged = useStubLogger();
+	const config = configuringStage({ stageId });
+	const workspaceRoot = (): string => workspace().workspaceRoot;
+
+	beforeEach(async () => {
+		vi.clearAllMocks();
+		stubReply();
+		await seedStageOutput({
+			workspaceRoot: workspaceRoot(),
+			stageId: readsFrom,
+			contents: JSON.stringify(transcriptDivision),
+		});
+	});
+
+	return {
+		config,
+		workspaceRoot,
+		run: () =>
+			driveModelStage({ factory, config, workspaceRoot: workspaceRoot(), logger: logged().logger }),
+	};
+}
+
+/**
  * Where a panel stage saves run `runNumber`, spelt out here rather than taken
  * from production, so a suite finding a run at this path has checked the name.
  *

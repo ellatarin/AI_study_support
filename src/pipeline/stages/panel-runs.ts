@@ -14,7 +14,7 @@ import { pathExists, readJsonSafe, writeJsonAtomic } from "../../utils/files.js"
 import { sendUntilAccepted } from "../../utils/resend.js";
 import { configuredStage } from "../../utils/stage-config.js";
 import { type StageInWorkspace, stageDirectoryPaths } from "../layout.js";
-import type { JsonReplyOutcome, UsableJsonReply } from "./model-stage.js";
+import { type JsonReplyOutcome, tryJsonReplyAs, type UsableJsonReply } from "./model-stage.js";
 
 /** A call still unusable after its last send. Names what was sent and why the last send failed. */
 export class ResendsExhaustedError extends NamedError {}
@@ -69,6 +69,28 @@ export async function sendWithResends<TReply>({
 			new ResendsExhaustedError(`${what} failed after ${sends} sends: ${failure}`),
 	});
 	return { reply: sent.reply, cost };
+}
+
+/**
+ * Asks the model for a JSON reply on a stage's behalf, resending it until the
+ * reply is usable: {@link sendWithResends} over {@link tryJsonReplyAs}, which is
+ * what every call the splitting, retitling and grouping stages make comes down to.
+ *
+ * @param args - What to ask and what to make of the reply, as for {@link tryJsonReplyAs}, and what to call it.
+ * @param args.what - Names the call in the log and in a failure, e.g. "Grouping run 3".
+ * @returns What the stage keeps from the usable reply, and what every send cost together.
+ * @throws {ResendsExhaustedError} When the third send is still unusable.
+ * @typeParam TReply - The reply the stage expects back.
+ * @typeParam TKept - What the stage makes of it.
+ */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the message-param, pino Logger and OpenAI client types are library types that are not deeply readonly (CLAUDE.md permits dropping readonly where a library requires mutable types)
+export function sendJsonWithResends<TReply, TKept>({
+	what,
+	...request
+}: Parameters<typeof tryJsonReplyAs<TReply, TKept>>[0] & { readonly what: string }): Promise<
+	UsableJsonReply<TKept>
+> {
+	return sendWithResends({ what, logger: request.logger, send: () => tryJsonReplyAs(request) });
 }
 
 /**
@@ -242,9 +264,10 @@ export async function readPanel<TRun>({
  * result: every run, what this launch's calls cost, and the run files as
  * workspace-relative paths.
  *
- * @param args - The stage, its lecture, and how to make and recognise a run.
+ * @param args - The stage, its lecture, the panel's size, and how to make and recognise a run.
  * @param args.stageId - The panel stage; picks its directory and its concurrency.
  * @param args.context - The current lecture run context.
+ * @param args.panelSize - How many runs the panel holds.
  * @param args.readRun - Reads a value parsed back from a run file as a run.
  * @param args.makeRun - Makes one run, given its number counting from 1.
  * @returns The stage's result, holding every run in run order.
@@ -254,16 +277,17 @@ export async function readPanel<TRun>({
 export async function runStagePanel<TRun>({
 	stageId,
 	context,
+	panelSize,
 	readRun,
 	makeRun,
 }: {
 	readonly stageId: StageId;
 	readonly context: StageContext;
-} & Pick<Parameters<typeof runPanel<TRun>>[0], "readRun" | "makeRun">): Promise<
+} & Pick<Parameters<typeof runPanel<TRun>>[0], "panelSize" | "readRun" | "makeRun">): Promise<
 	StageResult<{ readonly runs: readonly TRun[] }>
 > {
 	const { runs, cost, runFiles } = await runPanel({
-		panelSize: context.config.division.panelSize,
+		panelSize,
 		concurrency: configuredStage({ config: context.config, stageId })?.concurrency,
 		directory: panelDirectory({ workspaceRoot: context.workspaceRoot, stageId }),
 		readRun,
@@ -274,4 +298,55 @@ export async function runStagePanel<TRun>({
 		cost,
 		filesWritten: runFiles.map((file) => relative(context.workspaceRoot, file)),
 	};
+}
+
+/**
+ * {@link runStagePanel} for a panel whose every run is one JSON call, the same
+ * request each time, resent until its reply is usable: `initial-subtopic-splitting`'s
+ * and `define-topics`'.
+ *
+ * @param args - The stage, its lecture, the panel's size, how to recognise a saved run, and the call each run makes.
+ * @param args.stageId - The panel stage; picks its directory, concurrency, model and tuning.
+ * @param args.context - The current lecture run context.
+ * @param args.panelSize - How many runs the panel holds.
+ * @param args.readRun - Reads a value parsed back from a run file as a run.
+ * @param args.runName - Names each run in the log and in a failure, before its number, e.g. "Grouping run".
+ * @param args.request - The call each run makes, as for {@link tryJsonReplyAs}, its `use` turning the reply into the run.
+ * @returns The stage's result, holding every run in run order.
+ * @throws {SavedRunUnreadableError} When a run file left by an earlier launch holds no readable run.
+ * @throws {ResendsExhaustedError} When a run's third send is still unusable.
+ * @typeParam TReply - The reply each call expects back.
+ * @typeParam TRun - What a run holds.
+ */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- as for sendJsonWithResends: the request carries library types that are not deeply readonly
+export function runOneCallPanel<TReply, TRun>({
+	stageId,
+	context,
+	panelSize,
+	readRun,
+	runName,
+	request,
+}: {
+	readonly stageId: StageId;
+	readonly context: StageContext;
+	readonly panelSize: number;
+	readonly readRun: (value: unknown) => TRun | null;
+	readonly runName: string;
+	readonly request: Omit<Parameters<typeof tryJsonReplyAs<TReply, TRun>>[0], "stageId" | "context">;
+}): Promise<StageResult<{ readonly runs: readonly TRun[] }>> {
+	return runStagePanel({
+		stageId,
+		context,
+		panelSize,
+		readRun,
+		makeRun: async ({ runNumber }) => {
+			const sent = await sendJsonWithResends({
+				...request,
+				stageId,
+				context,
+				what: `${runName} ${runNumber}`,
+			});
+			return { run: sent.reply, cost: sent.cost };
+		},
+	});
 }

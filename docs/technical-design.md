@@ -1196,10 +1196,21 @@ readTranscriptAndRuns(args: { context; panelStage: "initial-subtopic-splitting" 
   Promise<{ transcript: string; runs: readonly (readonly Subtopic[])[] }>
 // The transcript and the whole panel an earlier splitting stage saved — what deepening and choose-division start
 // from. A missing run is the error `fail` builds, telling the user to run that stage first.
+readTranscriptAndDivision(args: { context; stageId: StageWithOutputFile; purpose: string; fail }): Promise<TranscriptAndDivision>
+// The transcript and the division an earlier stage wrote — what retitle-subtopics and define-topics start from.
+
+// src/pipeline/stages/division.ts
+splittingPanel(context: StageContext): { panelSize: number; readRun }
+// A splitting panel's size (the division's) and its run reader, for the two stages that make one and the reader above.
 
 // src/pipeline/stages/panel-runs.ts — shared by the panel stages
-runStagePanel<TRun>(args: { stageId: StageId; context: StageContext; readRun; makeRun }): Promise<StageResult<{ runs: readonly TRun[] }>>
+runStagePanel<TRun>(args: { stageId: StageId; context: StageContext; panelSize: number; readRun; makeRun }): Promise<StageResult<{ runs: readonly TRun[] }>>
 // Makes the stage's panel in its own directory at its configured concurrency; a run needing no call reports no cost.
+// The panel's size is the caller's: the splitting stages pass the division's, define-topics the grouping's.
+runOneCallPanel<TReply, TRun>(args: { stageId; context; panelSize; readRun; runName: string; request }): Promise<StageResult<{ runs: readonly TRun[] }>>
+// runStagePanel where every run is the same one JSON call: initial-subtopic-splitting and define-topics.
+sendJsonWithResends<TReply, TKept>(args: JsonReplyRequest<TReply> & { what: string; use }): Promise<UsableJsonReply<TKept>>
+// tryJsonReplyAs, resent until usable: every call the splitting, retitling and grouping stages make.
 readPanel<TRun>(args: { panelSize: number; directory: string; readRun; fail }): Promise<readonly TRun[]>
 // readRun reads a parsed run file as a run, or gives null when it is not one, which is a named error.
 // Reads back a panel an earlier stage finished; a missing run throws the error `fail` builds.

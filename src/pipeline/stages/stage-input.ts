@@ -9,7 +9,7 @@ import { readFile } from "node:fs/promises";
 import type { StageContext } from "../../types/pipeline.js";
 import { errorMessage } from "../../utils/errors.js";
 import { type StageWithOutputFile, stageOutputPath } from "../layout.js";
-import { readDivision, type Subtopic } from "./division.js";
+import { readDivision, type Subtopic, splittingPanel } from "./division.js";
 import { panelDirectory, readPanel } from "./panel-runs.js";
 
 /** The stage doing the reading: which lecture it is on, and how it fails. */
@@ -109,6 +109,32 @@ export async function readStageDivision({
 	return subtopics;
 }
 
+/** The transcript, trimmed, and a division of it whose subtopics a stage works on. */
+export type TranscriptAndDivision = {
+	readonly transcript: string;
+	readonly subtopics: readonly Subtopic[];
+};
+
+/**
+ * Reads the transcript and the division an earlier stage wrote: what a stage
+ * working on one division's subtopics starts from, since the division holds
+ * only spans of the transcript.
+ *
+ * @param reading - The lecture, whose division to read and why, and how to fail.
+ * @param reading.context - The current lecture run context.
+ * @param reading.stageId - The stage whose division to read.
+ * @param reading.purpose - What the reading stage does with it, for the failure a user reads, e.g. "retitle".
+ * @param reading.fail - Builds the reading stage's own error from a message.
+ * @returns The transcript, trimmed, and the division's subtopics in order.
+ * @throws The error `fail` builds, if the transcript is missing or empty, or the division is missing, empty, not JSON, or not a list of subtopics.
+ */
+export async function readTranscriptAndDivision(
+	reading: ReadingOutput,
+): Promise<TranscriptAndDivision> {
+	const transcript = await readTranscript(reading);
+	return { transcript, subtopics: await readStageDivision(reading) };
+}
+
 /**
  * Reads the transcript and the whole panel of splitting runs an earlier stage
  * saved: what a division stage working from a finished panel starts from.
@@ -130,9 +156,8 @@ export async function readTranscriptAndRuns({
 }): Promise<{ readonly transcript: string; readonly runs: readonly (readonly Subtopic[])[] }> {
 	const transcript = await readTranscript({ context, fail });
 	const runs = await readPanel({
-		panelSize: context.config.division.panelSize,
+		...splittingPanel(context),
 		directory: panelDirectory({ workspaceRoot: context.workspaceRoot, stageId: panelStage }),
-		readRun: readDivision,
 		fail: (message) => fail(`${message}; run ${panelStage} first`),
 	});
 	return { transcript, runs };

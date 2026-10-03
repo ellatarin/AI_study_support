@@ -5,19 +5,15 @@
    Only the preamble is exempt; the suite below is checked as normal. */
 import { rm, writeFile } from "node:fs/promises";
 import type { Mock } from "vitest";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { pathExists } from "../../../utils/files.js";
 import {
 	captureError,
-	configuringStage,
-	driveModelStage,
 	readJsonFile,
-	seedStageOutput,
 	sentUserMessage,
 	stubbedCallCost,
 	transcriptDivision,
-	useStubLogger,
-	useTranscribedWorkspace,
+	useStageReadingDivision,
 } from "../../fixtures.js";
 import { stageOutputPath, stageRecordPath } from "../../layout.js";
 import { makeCompletionCall } from "../../openrouter.js";
@@ -53,32 +49,13 @@ const RETITLED_DIVISION = [
 ];
 
 describe("createRetitleSubtopicsStage", () => {
-	const workspace = useTranscribedWorkspace({ prefix: "retitle-subtopics-" });
-	const logged = useStubLogger();
-	const config = configuringStage({ stageId: STAGE_ID });
-
-	/** The lecture workspace the current test is running against. */
-	const workspaceRoot = (): string => workspace().workspaceRoot;
-
-	beforeEach(async () => {
-		vi.clearAllMocks();
-		completionMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost });
-		await seedStageOutput({
-			workspaceRoot: workspaceRoot(),
-			stageId: "choose-division",
-			contents: JSON.stringify(transcriptDivision),
-		});
+	const { workspaceRoot, run } = useStageReadingDivision({
+		stageId: STAGE_ID,
+		readsFrom: "choose-division",
+		factory: createRetitleSubtopicsStage,
+		stubReply: () =>
+			completionMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost }),
 	});
-
-	/** Runs the stage against the prepared workspace, the way the runner would. */
-	function run(): ReturnType<typeof driveModelStage> {
-		return driveModelStage({
-			factory: createRetitleSubtopicsStage,
-			config,
-			workspaceRoot: workspaceRoot(),
-			logger: logged().logger,
-		});
-	}
 
 	/** The retitled division the stage wrote, parsed back off disk. */
 	function writtenDivision(): Promise<unknown> {

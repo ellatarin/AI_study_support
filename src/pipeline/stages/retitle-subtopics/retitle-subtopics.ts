@@ -13,10 +13,9 @@ import {
 	defineModelStage,
 	type ModelStageFactory,
 	type ModelStageRunArgs,
-	tryJsonReplyAs,
 } from "../model-stage.js";
-import { sendWithResends } from "../panel-runs.js";
-import { readStageDivision, readTranscript } from "../stage-input.js";
+import { sendJsonWithResends } from "../panel-runs.js";
+import { readTranscriptAndDivision, type TranscriptAndDivision } from "../stage-input.js";
 import { type DivisionOutput, writeDivisionWithRecord } from "../stage-output.js";
 import { buildRetitleMessages } from "./retitle-subtopics.prompt.js";
 
@@ -27,12 +26,6 @@ import { buildRetitleMessages } from "./retitle-subtopics.prompt.js";
 export class RetitleSubtopicsError extends NamedError {}
 
 const STAGE_ID = "retitle-subtopics";
-
-/** The transcript, trimmed, and the chosen division whose subtopics it titles. */
-type RetitleSubtopicsInput = {
-	readonly transcript: string;
-	readonly subtopics: readonly Subtopic[];
-};
 
 /** One entry of the reply: a subtopic's position, counting from 1, and its new title. */
 type ReplyTitle = { readonly id: number; readonly title: string };
@@ -136,16 +129,13 @@ function titleChanges(retitlings: readonly Retitling[]): TitleChanges {
  * @returns The stage's input.
  * @throws {RetitleSubtopicsError} If the transcript is missing or holds no text, or the chosen division is missing or unreadable.
  */
-async function readInput(context: StageContext): Promise<RetitleSubtopicsInput> {
-	const fail = (message: string): RetitleSubtopicsError => new RetitleSubtopicsError(message);
-	const transcript = await readTranscript({ context, fail });
-	const subtopics = await readStageDivision({
+function readInput(context: StageContext): Promise<TranscriptAndDivision> {
+	return readTranscriptAndDivision({
 		context,
 		stageId: "choose-division",
 		purpose: "retitle",
-		fail,
+		fail: (message) => new RetitleSubtopicsError(message),
 	});
-	return { transcript, subtopics };
 }
 
 /**
@@ -164,24 +154,20 @@ async function retitle({
 	context,
 	logger,
 	client,
-}: ModelStageRunArgs<RetitleSubtopicsInput>): Promise<StageResult<DivisionOutput>> {
+}: ModelStageRunArgs<TranscriptAndDivision>): Promise<StageResult<DivisionOutput>> {
 	const messages = buildRetitleMessages({
 		texts: input.subtopics.map((subtopic) => subtopicText({ text: input.transcript, subtopic })),
 	});
-	const sent = await sendWithResends({
+	const sent = await sendJsonWithResends({
 		what: "Retitling",
+		messages,
+		stageId: STAGE_ID,
+		context,
+		isReply: isTitlesReply,
+		documentedShape: DOCUMENTED_REPLY_SHAPE,
 		logger,
-		send: () =>
-			tryJsonReplyAs({
-				messages,
-				stageId: STAGE_ID,
-				context,
-				isReply: isTitlesReply,
-				documentedShape: DOCUMENTED_REPLY_SHAPE,
-				logger,
-				client,
-				use: ({ titles }) => pairTitles({ subtopics: input.subtopics, titles }),
-			}),
+		client,
+		use: ({ titles }) => pairTitles({ subtopics: input.subtopics, titles }),
 	});
 	return writeDivisionWithRecord({
 		stageId: STAGE_ID,
@@ -196,5 +182,5 @@ async function retitle({
  * Builds the `retitle-subtopics` stage from the run's logger and the
  * invocation's OpenAI client.
  */
-export const createRetitleSubtopicsStage: ModelStageFactory<RetitleSubtopicsInput, DivisionOutput> =
+export const createRetitleSubtopicsStage: ModelStageFactory<TranscriptAndDivision, DivisionOutput> =
 	defineModelStage({ stageId: STAGE_ID, getInput: readInput, run: retitle });

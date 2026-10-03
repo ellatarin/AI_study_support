@@ -8,6 +8,7 @@
  * checks that it does before anything is saved.
  */
 
+import type { StageContext } from "../../types/pipeline.js";
 import { NamedError } from "../../utils/errors.js";
 import { isRecord } from "../../utils/record.js";
 
@@ -41,16 +42,35 @@ export function subtopicText({
 }
 
 /**
- * One subtopic as a model's reply names it: what to call it, why it is one
- * thing, and the words it opens with, which say where to cut. The prompts ask
- * for the title as `label`, and are carried over from the prototype word for
- * word, so the word survives here and nowhere past it.
+ * What every part a model's reply names carries — a subtopic when splitting, a
+ * topic when grouping: what to call it, and why it is one thing. The prompts
+ * ask for the title as `label`, and are carried over from the prototype word
+ * for word, so the word survives in replies and nowhere past them.
  */
-export type ReplySubtopic = {
+export type NamedReplyPart = {
 	readonly label: string;
 	readonly groupedBecause: string;
-	readonly startsWith: string;
 };
+
+/**
+ * Whether a value in a parsed reply carries a part's title and reason.
+ *
+ * @param value - One entry of the reply's list.
+ * @returns `true` when it is an object carrying both strings.
+ */
+export function isNamedReplyPart(
+	value: unknown,
+): value is Readonly<Record<string, unknown>> & NamedReplyPart {
+	return (
+		isRecord(value) && typeof value.label === "string" && typeof value.groupedBecause === "string"
+	);
+}
+
+/**
+ * One subtopic as a model's reply names it: its title and reason, and the
+ * words it opens with, which say where to cut.
+ */
+export type ReplySubtopic = NamedReplyPart & { readonly startsWith: string };
 
 /**
  * Whether a value in a parsed reply is a subtopic as the model names one.
@@ -59,12 +79,7 @@ export type ReplySubtopic = {
  * @returns `true` when it carries its three strings.
  */
 export function isReplySubtopic(value: unknown): value is ReplySubtopic {
-	return (
-		isRecord(value) &&
-		typeof value.label === "string" &&
-		typeof value.groupedBecause === "string" &&
-		typeof value.startsWith === "string"
-	);
+	return isNamedReplyPart(value) && typeof value.startsWith === "string";
 }
 
 /**
@@ -113,6 +128,21 @@ export function readDivision(value: unknown): readonly Subtopic[] | null {
 	}
 	const subtopics = value.map(readSubtopic);
 	return subtopics.every((subtopic) => subtopic !== null) ? subtopics : null;
+}
+
+/**
+ * How a splitting panel is sized and its saved runs read back: the same for the
+ * two stages that make one and the stage that reads one, so they cannot come
+ * to disagree about what a splitting panel holds.
+ *
+ * @param context - The current lecture run context, whose `division` section sizes the panel.
+ * @returns The panel's size, and the reader for its run files.
+ */
+export function splittingPanel(context: StageContext): {
+	readonly panelSize: number;
+	readonly readRun: typeof readDivision;
+} {
+	return { panelSize: context.config.division.panelSize, readRun: readDivision };
 }
 
 /** A division whose subtopics do not join back into the transcript. Always a bug. */
