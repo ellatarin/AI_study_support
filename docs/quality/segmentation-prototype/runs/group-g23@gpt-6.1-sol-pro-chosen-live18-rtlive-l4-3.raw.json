@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This opening frames the lecture within the cancer course and sets out what students should learn about cancer causation.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer evolution and the origins of susceptibility",
+      "groupedBecause": "These subtopics explain how mutations arise and enable cancer evolution within a susceptible cell and a permissive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental cancer risks and evidence for their contribution",
+      "groupedBecause": "These subtopics examine the contribution of environmental exposures to cancer risk and how evidence for that contribution should be interpreted.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious causes of cancer",
+      "groupedBecause": "These subtopics explain how infections can drive carcinogenesis, using Burkitt lymphoma to develop the interaction between pathogens and tumour development.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Environmental carcinogens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics trace how environmental exposures damage DNA, showing how their mutagenic effects depend on chemical activity and metabolism.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics distinguish mutational initiation from the conditions that promote tumour outgrowth, grounding that distinction in asbestos exposure and experimental evidence.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Biological context and susceptibility to carcinogens",
+      "groupedBecause": "These subtopics explain how the biological context of exposure affects carcinogenic susceptibility and conclude by synthesising the mechanisms already discussed.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Tracing carcinogen exposure through mutational signatures",
+      "groupedBecause": "This subtopic addresses how patterns in tumour DNA can provide evidence of prior exposure to particular carcinogens.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Methods and limitations of assessing carcinogenicity",
+      "groupedBecause": "These subtopics examine how carcinogenic potential is investigated and why the available methods cannot fully reproduce or establish human cancer risk.",
+      "firstSubtopicId": 19
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "This closing draws together the lecture's conclusions about environmental cancer risks and places them within everyday risk–benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

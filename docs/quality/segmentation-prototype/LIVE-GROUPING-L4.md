@@ -104,3 +104,13 @@ Runs 11–20 sent the same prototype message again, all at once, about an hour a
 | live panel of 5 | 0 | 4 | 1 | split at 20 (4 of 5) |
 | live panel of 10 | 1 | 5 | 4 | split at 20 (5 of 10) |
 | all live runs | 1 of 15 | 9 of 15 | 5 of 15 | |
+
+## Live titles through the prototype, 2026-10-03
+
+`runs/chosen-live18-rtlive-l4.blocks.json` is the prototype's lecture 4 input with only the 22 titles replaced by the live run's (text checked identical). Ten `g23` runs sent it through `group-trial.mts`.
+
+| Titles | Sent by | Runs | Split at 19 | Split at 20 | 18–21 together |
+|---|---|---|---|---|---|
+| prototype's | prototype script | 20 | 3 | 0 | 17 |
+| live run's | prototype script | 10 | 1 | 4 | 5 |
+| live run's | live stage | 15 | 1 | 9 | 5 |

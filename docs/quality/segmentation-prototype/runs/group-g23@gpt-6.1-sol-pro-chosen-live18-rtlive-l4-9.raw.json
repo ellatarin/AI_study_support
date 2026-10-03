@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture within the cancer course and sets out its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation, clonal evolution and cancer susceptibility",
+      "groupedBecause": "These subtopics explain how mutations arising in susceptible cells can support clonal evolution towards cancer in a permissive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental contributions to cancer risk",
+      "groupedBecause": "These subtopics examine how environmental exposures contribute to cancer risk and how confidently that contribution can be inferred.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious causes of cancer",
+      "groupedBecause": "These subtopics explain how infections can drive carcinogenesis, using Burkitt lymphoma as a detailed example.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of environmentally induced DNA damage",
+      "groupedBecause": "These subtopics trace how environmental carcinogens damage DNA and generate mutations, often through the body's own metabolic processes.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics distinguish mutational initiation from the promotion of tumour growth by conditions that favour proliferation.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Biological context and carcinogen susceptibility",
+      "groupedBecause": "These subtopics explain and consolidate how carcinogenic effects depend on the biological context in which exposure occurs.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Assessing carcinogenicity and identifying causal exposures",
+      "groupedBecause": "These subtopics examine the tools used to connect exposures with cancer and the limitations of the evidence those tools produce.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "This subtopic closes the lecture by summarising its conclusions and framing exposure decisions as balances between risks and benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

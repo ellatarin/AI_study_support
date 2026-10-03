@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This opening frames the lecture on cancer causation and establishes its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutations, susceptibility and clonal evolution in cancer",
+      "groupedBecause": "These subtopics explain how mutations arising in susceptible cells can support cancer development through clonal evolution in a permissive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental influences on cancer risk",
+      "groupedBecause": "These subtopics examine the contribution of environmental exposures to cancer risk against explanations based on chance or inherited susceptibility.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer causation",
+      "groupedBecause": "These subtopics explain how infections can contribute to cancer, with Burkitt lymphoma providing a detailed example of cooperating infectious influences.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Environmental carcinogens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics explain how environmental exposures produce DNA damage that can become cancer-driving mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics establish why mutational initiation may require subsequent promotion before tumours develop.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Developmental and tissue specificity of carcinogenesis",
+      "groupedBecause": "These subtopics explain how the biological context of exposure affects carcinogenic susceptibility and consolidate that principle within the preceding account of cancer causation.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Evidence and methods for assessing carcinogenicity",
+      "groupedBecause": "These subtopics examine how evidence of carcinogenic activity is obtained and why its interpretation is constrained by the biological context of cancer development.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "This closing synthesises the lecture's conclusions about environmental cancer risks and carcinogen assessment around everyday risk–benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}
