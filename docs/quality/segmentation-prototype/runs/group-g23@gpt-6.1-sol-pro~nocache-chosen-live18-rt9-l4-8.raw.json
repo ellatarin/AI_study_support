@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "This subtopic frames the lecture within the cancer course and sets out its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation and clonal evolution in cancer development",
+      "groupedBecause": "These subtopics establish how mutations can give cells an evolutionary advantage within conditions that permit cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental influences on cancer risk",
+      "groupedBecause": "These subtopics examine the evidence that environmental exposures influence cancer risk rather than cancer being solely a matter of chance or inherited susceptibility.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain how infections contribute to carcinogenesis, using Burkitt lymphoma as a detailed example.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Environmental carcinogens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics explain how environmental exposures generate DNA damage that can lead to cancer-driving mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics distinguish mutational initiation from the promoter activity that enables initiated cells to proliferate and form tumours.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Tissue and life-stage susceptibility to carcinogens",
+      "groupedBecause": "These subtopics explain how biological context affects susceptibility to carcinogens and conclude with a recap that incorporates this specificity into the preceding mechanisms.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Evidence and methods for assessing carcinogenicity",
+      "groupedBecause": "These subtopics examine how carcinogenic effects can be identified and evaluated despite the limitations of available evidence and testing methods.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "This subtopic closes the lecture by summarising its conclusions and placing cancer risks within everyday risk–benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

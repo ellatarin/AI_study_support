@@ -114,3 +114,12 @@ Runs 11–20 sent the same prototype message again, all at once, about an hour a
 | prototype's | prototype script | 20 | 3 | 0 | 17 |
 | live run's | prototype script | 10 | 1 | 4 | 5 |
 | live run's | live stage | 15 | 1 | 9 | 5 |
+
+## Prompt caching off, 2026-10-03
+
+`group-trial.mts` now records each reply's OpenRouter id, cached and cache-written prompt tokens, and backend fingerprint, and `TRIAL_CACHE=off` sends `prompt_cache_options: { mode: "explicit" }` with no breakpoints, which leaves nothing cacheable. Runs made so carry `~nocache` in their names. Ten runs sent the prototype's `r9`-titled message with caching off: run 1 alone first, then 2–10 together. Every reply reported 0 tokens read from and 0 written to the cache. OpenRouter returned no backend fingerprint.
+
+| Prototype's titles | Runs | Split at 19 | Split at 20 | 18–21 together |
+|---|---|---|---|---|
+| caching on (30 Sept and 3 Oct) | 20 | 3 (runs 6, 7, 8) | 0 | 17 |
+| caching off (3 Oct) | 10 | 4 (runs 4, 7, 9, 10) | 0 | 6 |

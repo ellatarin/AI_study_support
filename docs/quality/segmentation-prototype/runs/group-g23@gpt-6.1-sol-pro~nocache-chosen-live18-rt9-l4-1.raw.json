@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture within the cancer course and sets out its intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer evolution and the origins of cancer susceptibility",
+      "groupedBecause": "These subtopics explain how mutations can generate cancerous clones and why their emergence depends on the cells and conditions in which mutations occur.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental cancer risks and their interpretation",
+      "groupedBecause": "These subtopics examine the evidence that environmental exposures influence cancer risk and how that evidence should be interpreted rather than attributed simply to bad luck.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain how infections contribute to cancer, using Burkitt lymphoma to develop the connection between infection and malignant transformation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Environmental exposures that damage DNA",
+      "groupedBecause": "These subtopics explain how environmental agents produce DNA damage that can become mutations, with their effects depending on biological processing and repair.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics establish why mutagenic initiation may require a growth-promoting environment before tumours develop.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Tissue and developmental susceptibility to carcinogens",
+      "groupedBecause": "These subtopics explain how carcinogenic effects depend on the biological context of exposure and conclude by recapping the mechanisms underlying that dependence.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methods and limitations of linking exposures to cancer",
+      "groupedBecause": "These subtopics examine how carcinogenic effects can be investigated and what limits the conclusions drawn from the resulting evidence.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "This subtopic closes the lecture by summarising its conclusions and framing everyday exposure decisions as a balance of risks and benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

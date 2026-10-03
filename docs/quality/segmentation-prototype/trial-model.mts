@@ -36,6 +36,16 @@ export const EFFORT = process.env["TRIAL_EFFORT"];
 export const EFFORT_TAG = EFFORT === undefined ? "" : `%${EFFORT}`;
 
 /**
+ * Whether a trial turns OpenAI's prompt caching off (`TRIAL_CACHE=off`). Only
+ * OpenAI GPT-5.6 and later accept the setting, and calls require every
+ * parameter to be honoured, so it is never sent unless asked for.
+ */
+export const CACHE_OFF = process.env["TRIAL_CACHE"] === "off";
+
+/** Runs made with caching off carry it in their name, so they never overwrite or pool with cached runs. */
+export const CACHE_TAG = CACHE_OFF ? "~nocache" : "";
+
+/**
  * The stage whose configuration the trials borrow. Nothing here writes to the
  * pipeline; it is only a source of a valid OpenRouter section and stage shape.
  */
@@ -58,6 +68,14 @@ export type TrialReply = {
 	readonly provider: string | null;
 	/** An error OpenRouter sent in place of choices, serialised; null when there was none. */
 	readonly error: string | null;
+	/** OpenRouter's id for the call, for looking it up later. */
+	readonly generationId: string | null;
+	/** OpenAI's identifier for the backend setup that served the call. */
+	readonly systemFingerprint: string | null;
+	/** Prompt tokens read from the provider's cache. */
+	readonly cachedTokens: number | null;
+	/** Prompt tokens written to the provider's cache. */
+	readonly cacheWriteTokens: number | null;
 };
 
 /** The reply an attempt starts from, and what a call that threw leaves behind. */
@@ -69,6 +87,10 @@ export const NO_REPLY: TrialReply = {
 	nativeFinishReason: null,
 	provider: null,
 	error: null,
+	generationId: null,
+	systemFingerprint: null,
+	cachedTokens: null,
+	cacheWriteTokens: null,
 };
 
 /**
@@ -135,7 +157,8 @@ export async function loadTrialConfig({
  * @param options.messages - The system and user messages, in order.
  * @param options.maxTokens - An explicit output ceiling, when one is being tested.
  * @param options.reasoningEffort - A thinking level, such as "high"; the model's default when absent.
- * @returns The reply content alongside usage, finish reason and serving provider.
+ * @param options.cacheOff - True to turn the provider's prompt caching off for this call.
+ * @returns The reply content alongside usage, finish reason, serving provider, backend fingerprint and cache use.
  */
 export async function callTrialModel({
 	config,
@@ -143,12 +166,15 @@ export async function callTrialModel({
 	messages,
 	maxTokens,
 	reasoningEffort,
+	cacheOff,
 }: {
 	readonly config: TrialConfig;
 	readonly modelId: string;
 	readonly messages: readonly TrialMessage[];
 	readonly maxTokens?: number | undefined;
 	readonly reasoningEffort?: string | undefined;
+	/** True to turn the provider's prompt caching off for this call (see {@link CACHE_OFF}). */
+	readonly cacheOff?: boolean | undefined;
 }): Promise<TrialReply> {
 	const client = createOpenRouterClientProvider({ openRouter: config.openRouter })();
 	const response = (await client.chat.completions.create({
@@ -158,20 +184,33 @@ export async function callTrialModel({
 		provider: { require_parameters: true },
 		...(maxTokens === undefined ? {} : { max_tokens: maxTokens }),
 		...(reasoningEffort === undefined ? {} : { reasoning: { effort: reasoningEffort } }),
+		// Explicit mode with no breakpoints marked leaves nothing cacheable.
+		...(cacheOff === true ? { prompt_cache_options: { mode: "explicit" } } : {}),
 	} as never)) as unknown as Record<string, unknown>;
 	const choices = (response["choices"] ?? []) as readonly Record<string, unknown>[];
 	const first = choices[0] ?? {};
 	const message = (first["message"] ?? {}) as Record<string, unknown>;
 	const usage = (response["usage"] ?? {}) as Record<string, unknown>;
+	const promptDetails = (usage["prompt_tokens_details"] ?? {}) as Record<string, unknown>;
 	return {
 		content: typeof message["content"] === "string" ? message["content"] : "",
-		promptTokens: typeof usage["prompt_tokens"] === "number" ? usage["prompt_tokens"] : null,
-		completionTokens:
-			typeof usage["completion_tokens"] === "number" ? usage["completion_tokens"] : null,
-		finishReason: first["finish_reason"] === undefined ? null : String(first["finish_reason"]),
-		nativeFinishReason:
-			first["native_finish_reason"] === undefined ? null : String(first["native_finish_reason"]),
-		provider: response["provider"] === undefined ? null : String(response["provider"]),
+		promptTokens: numberOrNull(usage["prompt_tokens"]),
+		completionTokens: numberOrNull(usage["completion_tokens"]),
+		finishReason: stringOrNull(first["finish_reason"]),
+		nativeFinishReason: stringOrNull(first["native_finish_reason"]),
+		provider: stringOrNull(response["provider"]),
 		error: response["error"] === undefined ? null : JSON.stringify(response["error"]),
+		generationId: stringOrNull(response["id"]),
+		systemFingerprint: stringOrNull(response["system_fingerprint"]),
+		cachedTokens: numberOrNull(promptDetails["cached_tokens"]),
+		cacheWriteTokens: numberOrNull(promptDetails["cache_write_tokens"]),
 	};
+}
+
+function numberOrNull(value: unknown): number | null {
+	return typeof value === "number" ? value : null;
+}
+
+function stringOrNull(value: unknown): string | null {
+	return value === undefined || value === null ? null : String(value);
 }

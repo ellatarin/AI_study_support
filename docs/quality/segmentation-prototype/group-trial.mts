@@ -25,6 +25,8 @@ import { join } from "node:path";
 import { groupPromptVersion } from "./group-prompts.mts";
 import { lectureKeyFor } from "./lecture-key.mts";
 import {
+	CACHE_OFF,
+	CACHE_TAG,
 	callTrialModel,
 	EFFORT,
 	EFFORT_TAG,
@@ -74,6 +76,12 @@ type GroupOutcome = {
 	readonly topics: number | null;
 	readonly subtopics: number;
 	readonly topicSizes: readonly number[];
+	/** Whether the provider's prompt caching was turned off for the call. */
+	readonly cacheOff: boolean;
+	readonly generationId: string | null;
+	readonly systemFingerprint: string | null;
+	readonly cachedTokens: number | null;
+	readonly cacheWriteTokens: number | null;
 };
 
 /**
@@ -190,13 +198,14 @@ async function main(): Promise<void> {
 				{ role: "user", content: JSON.stringify(payload) },
 			],
 			reasoningEffort: EFFORT,
+			cacheOff: CACHE_OFF,
 		});
 	} catch (error: unknown) {
 		verdict = threwVerdict(error);
 	}
 	const seconds = Math.round((performance.now() - startedAt) / 1000);
 
-	const stem =`group-${version.id}${MODEL_TAG}${EFFORT_TAG}${labelsTag}-${sourceRun}-${instance}`;
+	const stem =`group-${version.id}${MODEL_TAG}${EFFORT_TAG}${CACHE_TAG}${labelsTag}-${sourceRun}-${instance}`;
 	await writeFile(join(OUT_DIR, `${stem}.raw.json`), reply.content, "utf8");
 
 	let topicCount: number | null = null;
@@ -274,6 +283,11 @@ async function main(): Promise<void> {
 		topics: topicCount,
 		subtopics: subtopics.length,
 		topicSizes,
+		cacheOff: CACHE_OFF,
+		generationId: reply.generationId,
+		systemFingerprint: reply.systemFingerprint,
+		cachedTokens: reply.cachedTokens,
+		cacheWriteTokens: reply.cacheWriteTokens,
 	};
 	await writeFile(join(OUT_DIR, `${stem}.outcome.json`), JSON.stringify(outcome, null, 2), "utf8");
 	if (rendered.length > 0) {
@@ -288,7 +302,8 @@ async function main(): Promise<void> {
 			`prov=${(reply.provider ?? "-").padEnd(14)} ` +
 			`in=${String(reply.promptTokens ?? "-").padStart(6)} out=${String(reply.completionTokens ?? "-").padStart(6)} ` +
 			`t=${String(topicCount ?? "-").padStart(3)} s=${String(subtopics.length).padStart(3)} ` +
-			`sizes=${JSON.stringify(topicSizes)} ${verdict}`,
+			`sizes=${JSON.stringify(topicSizes)} ${verdict} ` +
+			`fp=${reply.systemFingerprint ?? "-"} cached=${reply.cachedTokens ?? "-"} written=${reply.cacheWriteTokens ?? "-"}`,
 	);
 }
 
