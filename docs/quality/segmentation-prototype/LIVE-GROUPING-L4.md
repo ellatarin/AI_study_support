@@ -160,3 +160,11 @@ Live titles: split at 20 in 13 of 25 runs with caching on, 2 of 20 with it off. 
 | Sent | Titles | Caching | Sent by | Split at 19 | Split at 20 | 18–21 together |
 |---|---|---|---|---|---|---|
 | 17:05 | live | on | live stage (panel of 10) | 0 | 3 | 7 |
+
+## A fourth live panel of 10, 17:08 BST
+
+Same settings as the third. Output kept in `live-runs/l4-2026-10-03-panel10-c`. Chosen: 18–21 together (6 of 10). No warnings in the log. £0.436.
+
+| Sent | Titles | Caching | Sent by | Split at 19 | Split at 20 | 18–21 together |
+|---|---|---|---|---|---|---|
+| 17:08 | live | on | live stage (panel of 10) | 1 | 3 | 6 |

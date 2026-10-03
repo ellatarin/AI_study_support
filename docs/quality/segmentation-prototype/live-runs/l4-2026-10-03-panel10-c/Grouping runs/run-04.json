@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture within the cancer course and states what students should learn.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic origins and clonal evolution of cancer",
+      "groupedBecause": "These subtopics explain how mutations arise and enable susceptible cells to evolve into cancers within a permissive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental cancer risk, bad luck and epidemiological evidence",
+      "groupedBecause": "These subtopics examine how evidence about cancer risk informs the debate over environmental causation versus unavoidable chance.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious causes of cancer",
+      "groupedBecause": "These subtopics explain how infections contribute to carcinogenesis, using Burkitt lymphoma as a detailed example.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of DNA damage by environmental carcinogens",
+      "groupedBecause": "These subtopics trace how environmental exposures produce DNA damage capable of becoming mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics establish why mutational initiation may require a subsequent growth-promoting environment for tumours to develop.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Context-dependent susceptibility to carcinogens",
+      "groupedBecause": "These subtopics conclude the mechanistic discussion by showing how carcinogenic effects depend on the biological context of exposure.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Assessing carcinogenicity and linking exposures to cancer",
+      "groupedBecause": "These subtopics explain how researchers establish evidence of carcinogenic effects and evaluate the limitations of that evidence.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "This subtopic closes the lecture by summarising its conclusions and framing their implications for everyday risk–benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

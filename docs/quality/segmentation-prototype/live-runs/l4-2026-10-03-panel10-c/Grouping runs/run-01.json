@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture within the cancer course and sets out its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer evolution and the origins of susceptibility",
+      "groupedBecause": "These subtopics explain cancer as the evolution of mutation-bearing cells whose progression depends on their biological context.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental contributions to cancer risk",
+      "groupedBecause": "These subtopics examine how cancer occurrence can be attributed to environmental exposures rather than simply to chance or inherited susceptibility.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain how infections contribute to carcinogenesis, developing Burkitt lymphoma as a detailed example.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Environmental carcinogens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics trace how environmental exposures produce DNA damage and mutations through their activity within the body.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics establish why mutation-bearing cells may require a growth-promoting environment before tumours develop.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Context-dependent carcinogen susceptibility and mechanistic summary",
+      "groupedBecause": "These subtopics explain how biological context shapes carcinogen effects and conclude by synthesising the mechanisms discussed.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methods and limitations for identifying cancer-causing exposures",
+      "groupedBecause": "These subtopics examine the evidence researchers can obtain to connect exposures with cancer and the limitations of that evidence.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "This subtopic closes the lecture by recapping its conclusions and framing their implications for everyday risk–benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

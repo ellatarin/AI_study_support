@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This opening frames the lecture within the cancer course and states what students should learn.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic origins and clonal evolution of cancer",
+      "groupedBecause": "These subtopics explain how mutations arise and enable susceptible cells to evolve into cancers within a permissive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental cancer risks and the interpretation of causal evidence",
+      "groupedBecause": "These subtopics examine how evidence about environmental contributions to cancer should be interpreted rather than reduced to chance or genetic predisposition.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain how infections contribute to carcinogenesis, with Burkitt lymphoma developing the general account into a detailed case study.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of DNA damage from environmental carcinogens",
+      "groupedBecause": "These subtopics trace how environmental exposures produce potentially mutagenic DNA damage through processes that depend on their interaction with the body.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics distinguish acquiring initiating mutations from promoting the growth of mutated cells and explain why both processes matter for tumour development.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Context-dependent susceptibility and recap of carcinogenic mechanisms",
+      "groupedBecause": "The discussion of susceptibility at particular developmental stages leads into a recap of how carcinogenic effects depend on the context of exposure.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Evidence linking carcinogen exposure to human cancer",
+      "groupedBecause": "These subtopics explain how evidence collected from human populations and their biological samples can link carcinogen exposure to cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Experimental carcinogenicity testing and its limitations",
+      "groupedBecause": "These subtopics examine how experimental tests assess carcinogenic potential and why their results cannot fully reproduce cancer development in humans.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Closing summary and risk–benefit perspective",
+      "groupedBecause": "This closing consolidates the lecture's main lessons into a final perspective on everyday risk–benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture within the cancer course and establishes its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutations and the cellular origins of cancer",
+      "groupedBecause": "These subtopics explain how mutations can give rise to cancer through clonal evolution within a permissive biological context.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental contributions to cancer risk",
+      "groupedBecause": "These subtopics examine the contribution of environmental exposures to cancer risk and the evidence for distinguishing that contribution from chance and inherited predisposition.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain how infections can drive cancer, using Burkitt lymphoma as a detailed example of infection-dependent carcinogenesis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Environmental mutagens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics explain how environmental exposures produce DNA damage that can become cancer-causing mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics establish how tumour-promoting conditions enable initiated cells to grow into cancers rather than simply causing mutations themselves.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Biological context and carcinogen susceptibility",
+      "groupedBecause": "These subtopics explain how susceptibility depends on the biological context of exposure and conclude with a recap of carcinogenic mechanisms and specificity.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Evidence and methods for assessing carcinogenicity",
+      "groupedBecause": "These subtopics examine the evidence and methodological limitations involved in linking exposures to cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "This subtopic closes the lecture by summarising its conclusions and placing cancer risks within everyday risk–benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}
