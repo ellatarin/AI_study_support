@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.65-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.66-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-10-03
 **Status:** For review
 
@@ -1664,7 +1664,7 @@ class NoCompletionChoicesError extends NamedError // the call was accepted and c
 makeCompletionCall(args: { messages; stageId: StageId; config: PipelineConfig; responseFormat: "text" | "json"; logger: Logger; client?: OpenAI }):
   Promise<{ content: string; cost: StageCost }>
 // `logger` is the calling stage's, already bound to it by createPipelineStage; the call is recorded on it
-// at `debug` with the model, prompt token count, and latency (§10).
+// at `debug` with the model, prompt token count, latency and finish reason (§10).
 // Wraps the SDK call and reads its cost from the reply's `usage` (§7). `responseFormat: "json"` sends `response_format: json_object` and
 // the provider routing that makes it stick (see "JSON mode is routed for" below), which the stages
 // returning structured data require; it is stated on every call rather than defaulted so a caller always
@@ -1682,6 +1682,8 @@ OpenRouter's own parameter reference states that JSON mode requires the prompt t
 `tryJsonReplyAs` is `tryJsonReply` followed by the stage turning the reply into what it keeps — where the stage may still find it unusable, as a splitting reply naming words the transcript does not contain — so that failure is resent like any other. The same module builds the two messages a stage sends (`promptMessages`: the prompt as the system message, the material as the user message) and defines a model-calling stage from its id, input reader and run (`defineModelStage`), returning the factory the CLI calls with the logger and client.
 
 **A rejection can arrive inside an accepted reply.** OpenRouter answers some upstream failures with HTTP 200 and a body carrying `{"error": {…}}` where the choices should be, which the SDK reports as a success. The provider's own sentence is the only account of what happened — it says whether the failure is transient and whether retrying is the remedy — so an accepted reply carrying one is logged as a warning quoting it beside the stage and the model, and the call is sent again, up to three sends, pausing two seconds and then four between them. The third refusal is a `CompletionRejectedError` quoting the last one. This holds for every call, in every stage, so no stage needs its own copy of it. A refusal can be transient — a provider rate-limiting several calls at once — and a relaunch would pay for the same call again anyway; a permanent one, such as a prompt too long for the model, costs two extra sends and a few seconds before it fails the stage. Each refused send counts as a call. Its cost is read from its `usage` like any other reply's when the refusal reports one; when it reports none it is counted as costing nothing, because OpenRouter does not bill a request that produced no output. A reply carrying neither choices nor an explanation is the `NoCompletionChoicesError` above.
+
+A reply that carries the provider's error and an answer as well — a choice whose content is not empty — is not a refusal: the answer is handed back, and the error is logged as a warning quoting the provider's sentence beside the stage, the model, the finish reason and which send it was. Resending it would throw away a complete answer — `openai/gpt-6.1-sol-pro` reported `error` as the finish reason on 11 of the prototype's 72 grouping calls, every one of them a usable answer — and the stage's own check of the answer still resends one that is unusable. A reply's finish reason is never itself a reason to resend.
 
 **A tuning parameter can be left unset out loud.** Every optional field of a stage entry — `temperature`, `maxTokens`, `concurrency`, `callConcurrency`, `sendGapSeconds`, `maxIterations` — may be written as `null`, which means what leaving the key out means: the request carries no such parameter. There are two ways to say it because the choice is worth writing down. Under the routing restriction above, the parameters a request carries decide which endpoints may serve it, and providers differ in what they accept — the same model reached through one provider takes a `temperature` and through another does not. Which tuning a stage sets is therefore part of choosing what can answer it, and a `null` records a deliberate omission beside the tuning that is set, where a missing key reads as an oversight.
 
@@ -2118,7 +2120,7 @@ Each per-lecture stage factory therefore takes `{ logger }` and passes it to `cr
 
 The pino file transport writes newline-delimited JSON to `<projectRoot>/runs/<timestamp>-debug.log`, the path named by `debugLogPath` (§3.3). This file captures operational detail not stored in the run log:
 
-- Every billable model call: model, prompt token count, latency ms. `transcription`'s Scribe upload counts — it is billed by audio duration rather than tokens, so it logs bytes uploaded in place of prompt tokens
+- Every billable model call: model, prompt token count, latency ms, and the finish reason the provider reported, or `null` when it reported none. `transcription`'s Scribe upload counts — it is billed by audio duration rather than tokens, so it logs bytes uploaded in place of prompt tokens
 - Rate limit retries: attempt number, back-off delay, error message
 - Per-slide processing times (`slide-conversion`)
 - File I/O errors: path and OS error code

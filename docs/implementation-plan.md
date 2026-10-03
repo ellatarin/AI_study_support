@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.65-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.66-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-10-03
 **Status:** For review
 
@@ -754,6 +754,24 @@ The panel's `sendWithResends` tests cover the shared loop's pauses, cost countin
 
 **Acceptance:** A refusal no longer fails a stage unless it recurs on the third send.
 
+### Phase 11, continued — answers kept beside a provider's error
+
+**Goal:** Keep a complete answer that arrives with the provider's error, and log every call's finish reason, so a provider's errors can be traced afterwards.
+
+**Deliverables:**
+
+- `makeCompletionCall` hands back the answer of a reply carrying both an answer and the provider's error, logging the error as a warning with the finish reason and which send it was, and adds the finish reason to each call's `debug` record **(TD §6, "A rejection can arrive inside an accepted reply"; TD §10)**.
+
+**Tests:**
+
+Integration tests for `makeCompletionCall` (stubbed OpenRouter):
+- `should return the answer without resending when a reply carries an answer and the provider's error`
+- `should log the provider's error as a warning with the finish reason and which send it was when a reply carries an answer as well`
+- `should return the answer without resending when a reply's finish reason is error`
+- `should record each call's finish reason on its debug line`
+
+**Acceptance:** No complete answer is thrown away over the provider's error, and every call's finish reason can be read from the debug log.
+
 ---
 
 ## Phase 12 — `choose-division`
@@ -861,7 +879,6 @@ Unit tests for `chooseGrouping` (no mocks):
 Unit tests for the stage (mock `makeCompletionCall`):
 - `should send each retitled subtopic's position, title and trimmed text when a run is made`
 - `should treat a reply as the wrong shape when $problem` — `test.each` across no topics, a blank title, a blank `groupedBecause`, no first subtopic, not starting at 1, a start not after the one before, a start past the last subtopic
-- `should accept a valid reply whatever finish reason it reports`
 - `should write each topic's title, groupedBecause and first subtopic from the chosen run when the stage completes`
 
 Unit tests for the panel (fake timers):
