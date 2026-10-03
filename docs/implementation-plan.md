@@ -871,10 +871,11 @@ Unit tests for `chooseGrouping` (no mocks):
 - `should choose the grouping the most runs made when one leads`
 - `should treat runs as the same grouping when their starts match and their titles differ`
 - `should choose the grouping with more topics when two groupings made by more than one run each tie on runs`
-- `should choose the grouping closest to the vote when $case` — `test.each` across every run differing, and tied groupings with as many topics
+- `should choose the run whose topic starts are closest to the vote when $panel` — `test.each` across every run differing, and tied groupings with as many topics
 - `should choose the earliest run when closeness to the vote still ties`
-- `should hand on the earliest run's topics among those that made the chosen grouping`
-- `should report the chosen run, its support, the panel size and the rule that decided`
+- `should hand on the earliest run's topics when several runs made the chosen grouping`
+- `should fail when there are no runs to choose from`
+- `should report the chosen run, its support, the panel size and the rule that decided when $decidedBy decides` — `test.each` across each rule, and a panel whose runs all agree, decided by most runs
 
 Unit tests for the stage (mock `makeCompletionCall`):
 - `should send each retitled subtopic's position, title and trimmed text when a run is made`
