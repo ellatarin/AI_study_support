@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "This opening frames the lecture within the cancer course and sets out its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation accumulation and the biological basis of cancer",
+      "groupedBecause": "These subtopics explain how mutations can give rise to cancer depending on cellular susceptibility and a permissive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental influences on cancer risk",
+      "groupedBecause": "These subtopics examine evidence that environmental exposures contribute to cancer rather than its being solely a matter of inherited susceptibility or bad luck.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain how infections can drive cancer, using Burkitt lymphoma as a detailed example.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of environmental DNA damage",
+      "groupedBecause": "These subtopics trace how environmental carcinogens damage DNA and generate mutations, with their effects often determined by metabolism.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics distinguish mutational initiation from the promotion of tumour growth and explain why a mutagen alone may not produce cancer.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Tissue and developmental susceptibility to carcinogens",
+      "groupedBecause": "These subtopics explain how carcinogenic effects depend on the exposed tissue's biological context and conclude the discussion of carcinogenic mechanisms.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Assessing carcinogenicity and linking exposures to cancer",
+      "groupedBecause": "These subtopics examine how evidence is gathered and interpreted to determine whether an exposure can cause cancer.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "This closing consolidates the lecture's conclusions around the everyday balancing of cancer risks against benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

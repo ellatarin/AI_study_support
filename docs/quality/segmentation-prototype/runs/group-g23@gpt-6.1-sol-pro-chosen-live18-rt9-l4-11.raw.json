@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture within the cancer course and states what students should learn.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and cellular foundations of cancer development",
+      "groupedBecause": "These subtopics explain cancer as the evolution of mutation-bearing cells whose growth depends on their genetic and cellular context.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental contributions to cancer risk",
+      "groupedBecause": "These subtopics examine the evidence that environmental exposures contribute to cancer rather than its being solely a matter of chance or inherited predisposition.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain how infections can drive cancer, using Burkitt lymphoma to develop the interaction between infection and malignant transformation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of environmental carcinogen-induced DNA damage",
+      "groupedBecause": "These subtopics trace how environmental exposures produce DNA damage that can become cancer-driving mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics establish why mutational initiation may require subsequent promotion for tumours to develop.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Tissue susceptibility within the framework of carcinogenesis",
+      "groupedBecause": "These subtopics consolidate the account of carcinogenesis around the dependence of carcinogenic effects on the biological context of exposure.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Evidence and methods for assessing carcinogenicity",
+      "groupedBecause": "These subtopics examine how researchers identify carcinogenic exposures and evaluate the strength and limitations of the resulting evidence.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit perspective",
+      "groupedBecause": "This subtopic closes the lecture by bringing its findings back to everyday decisions about cancer risk.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

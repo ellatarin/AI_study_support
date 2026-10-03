@@ -82,3 +82,15 @@ Why do the live runs start a topic at 20? The live and prototype messages are id
 | live 2–5 | 2026-10-03 | 1,2,4,7,9,14,16,18,20,22 | 20 |
 
 The same message that kept 18–21 together in 5 of 5 runs on 30 September split it in 3 of 5 today. So the titles do not cause the split; with either set of titles, today's runs mostly divide 18–21. The titles change where the cut falls. With the prototype's titles, mutational signatures (18) stands alone and 19–21 become "methods and limitations of carcinogenicity assessment". With the live titles, human evidence (18–19) is cut from experimental tests (20–21). The rulings mark both 19 and 20 "not".
+
+## Ten more runs, 2026-10-03
+
+Runs 11–20 sent the same prototype message again, all at once, about an hour after runs 6–10. All ten made the September grouping (1,2,4,7,9,14,16,18,22): none split 18–21.
+
+| Runs | Sent | Split at 19 | Split at 20 | 18–21 kept together |
+|---|---|---|---|---|
+| prototype 1–5 | 30 Sept | 0 | 0 | 5 |
+| prototype 6–10 | 3 Oct, 16:08 | 3 | 0 | 2 |
+| prototype 11–20 | 3 Oct, about 17:10 | 0 | 0 | 10 |
+| all prototype-message runs | | 3 of 20 | 0 of 20 | 17 of 20 |
+| live 1–5 (live titles) | 3 Oct | 0 | 4 | 1 |
