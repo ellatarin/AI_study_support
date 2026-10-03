@@ -196,6 +196,12 @@ const { rule: GENERAL_POINT_RULE, check: GENERAL_POINT_CHECK } = bestShortDescri
 	checkEnd: `${PRECISE_WORDS.checkEnd}; and where the subtopic makes a general point through a particular case, does the title name the point without implying it is restricted to that case`,
 });
 
+/** r11's R5: r9's, naming a wider point its examples illustrate, and naming precisely what the subtopic teaches. */
+const WIDER_POINT_RULE_AND_CHECK = bestShortDescription({
+	ruleEnd: `${PRECISE_WORDS.ruleEnd}. Where the subtopic uses particular examples to illustrate a point that applies more widely, the title names that point rather than implying it holds only for those examples. Where specific mechanisms or cases are themselves what the subtopic teaches, name them precisely`,
+	checkEnd: `${PRECISE_WORDS.checkEnd}; where the subtopic illustrates a wider point with examples, does the title name the point; and where it teaches specific mechanisms or cases, does the title name them`,
+});
+
 /** r8's rule: a recap is titled as a summary, and the lecture's closing part as its summary or close. */
 const NAME_SUMMARIES_RULE = `
 
@@ -334,6 +340,18 @@ export const RETITLE_PROMPTS: readonly RetitlePromptVersion[] = [
 			...R4_SECTIONS,
 			extraRules: `${R4_SECTIONS.extraRules}${GENERAL_POINT_RULE}${NAME_SUMMARIES_RULE}`,
 			extraChecks: `${R4_SECTIONS.extraChecks}${GENERAL_POINT_CHECK}${NAME_SUMMARIES_CHECK}`,
+		}),
+	},
+	{
+		id: "r11",
+		summary: "r9 with R5 naming a wider point its examples illustrate, and naming precisely the mechanisms or cases a subtopic teaches.",
+		changed:
+			"From r9: R5 and its check only. The rule adds \"Where the subtopic uses particular examples to illustrate a point that applies more widely, the title names that point rather than implying it holds only for those examples. Where specific mechanisms or cases are themselves what the subtopic teaches, name them precisely\", and the check matching questions. r10 fixed l6 5 (general in 5 of 5 runs) but generalised named mechanisms the subtopics teach (l6 4 and 9), which the user judged worse in general; r10's sentence is dropped. Everything else is r9 byte for byte.",
+		scope: "lecture",
+		prompt: RETITLE_PROMPT({
+			...R4_SECTIONS,
+			extraRules: `${R4_SECTIONS.extraRules}${WIDER_POINT_RULE_AND_CHECK.rule}${NAME_SUMMARIES_RULE}`,
+			extraChecks: `${R4_SECTIONS.extraChecks}${WIDER_POINT_RULE_AND_CHECK.check}${NAME_SUMMARIES_CHECK}`,
 		}),
 	},
 ];

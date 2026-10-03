@@ -1,0 +1,141 @@
+{
+  "division": "chosen-live18-l6",
+  "promptVersion": "r11",
+  "modelId": "openai/gpt-6.1-sol-pro",
+  "reasoningEffort": null,
+  "retitled": [
+    {
+      "id": 1,
+      "oldTitle": "Introduction to cancer hallmarks and mutation progression",
+      "newTitle": "Introduction to cancer hallmarks and loss of growth control",
+      "promptTokens": 38187,
+      "completionTokens": 1867
+    },
+    {
+      "id": 2,
+      "oldTitle": "Growth signaling pathways and deregulation",
+      "newTitle": "Extracellular signalling and mutations affecting growth control",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 3,
+      "oldTitle": "Wnt/APC/beta-catenin signaling pathway and mutations",
+      "newTitle": "Wnt–β-catenin signalling and its activation by mutations",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 4,
+      "oldTitle": "Receptor tyrosine kinase signaling pathways and mutations",
+      "newTitle": "Deregulation of Ras–MAPK, PI3K–AKT and TGF-β signalling",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 5,
+      "oldTitle": "Block in terminal differentiation",
+      "newTitle": "Differentiation blocks and cell maturity in haematological cancers",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 6,
+      "oldTitle": "Differentiation block in colorectal carcinoma and intestinal epithelial renewal",
+      "newTitle": "APC loss, intestinal crypt expansion and impaired differentiation",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 7,
+      "oldTitle": "Evasion of apoptosis and p53 regulation",
+      "newTitle": "Apoptosis resistance through p53 loss and altered Bax–BCL2 balance",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 8,
+      "oldTitle": "Replicative immortalization, telomeres, and senescence",
+      "newTitle": "Telomere shortening, replicative limits and senescence",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 9,
+      "oldTitle": "Genetic mechanisms of TERT reactivation in cancer",
+      "newTitle": "TERT activation through promoter mutations and rearrangements",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 10,
+      "oldTitle": "p53-mediated stress signaling and cell fate control",
+      "newTitle": "p53-mediated stress responses and genome protection",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 11,
+      "oldTitle": "Summary of growth-control hallmarks and introduction to complex cancer hallmarks",
+      "newTitle": "From growth-control mutations to complex changes in tumour behaviour",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 12,
+      "oldTitle": "Altered cellular metabolism and the Warburg effect",
+      "newTitle": "The Warburg effect and glucose uptake in cancer",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 13,
+      "oldTitle": "Metabolic rewiring and tissue-specific metabolic profiles across cancer types",
+      "newTitle": "Metabolic rewiring and retention of tissue-specific metabolism",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 14,
+      "oldTitle": "Metabolic gene mutations and oncometabolites as drivers of cancer",
+      "newTitle": "Oncometabolites and feedback between metabolism and the epigenome",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 15,
+      "oldTitle": "Induction of angiogenesis",
+      "newTitle": "The angiogenic switch and vascular support of tumour growth",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 16,
+      "oldTitle": "Metastasis and systemic dissemination",
+      "newTitle": "Metastatic dissemination, lymph node detection and circulating tumour cells",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 17,
+      "oldTitle": "Metastatic inefficiency and the seed and soil hypothesis",
+      "newTitle": "Metastatic inefficiency and seed–soil compatibility",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 18,
+      "oldTitle": "Genomic sequencing of metastases and whole genome duplication",
+      "newTitle": "Clonal origins and whole-genome duplication in metastases",
+      "promptTokens": null,
+      "completionTokens": null
+    },
+    {
+      "id": 19,
+      "oldTitle": "Lecture summary and recommended reading",
+      "newTitle": "Lecture summary: diverse mutational routes to shared cancer hallmarks",
+      "promptTokens": null,
+      "completionTokens": null
+    }
+  ]
+}
