@@ -376,6 +376,30 @@ function writesSetInto<TName extends string>(
 	};
 }
 
+/**
+ * A panel stage that saves its runs in one directory and writes the result it
+ * chose from them into another. The runs' directory comes first, because a
+ * panel saves its runs in the first directory its stage owns.
+ *
+ * @param args - Where the runs go, and what the stage writes.
+ * @param args.runsDirectory - The directory the runs are saved in, as a literal.
+ * @param args.directory - The directory the result is written into, as a literal.
+ * @param args.file - The result's name within that directory.
+ * @returns The stage's workspace.
+ */
+function savesRunsThenWritesInto<TRunsName extends string, TName extends string>(
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- string literal types, which have nothing to mutate; the rule cannot see through the unresolved LiteralName conditional
+	args: WritesIntoArgs<TName> & { readonly runsDirectory: TRunsName & LiteralName<TRunsName> },
+): StageWorkspaceWithFile {
+	return {
+		...writesInto<TName>(args),
+		outputLocation: inWorkspace([
+			declaredName<TRunsName>(args.runsDirectory),
+			declaredName<TName>(args.directory),
+		]),
+	};
+}
+
 /** A stage that renders its output for a reader as well as writing it. */
 type StageWorkspaceWithView = StageWorkspaceWithFile & { readonly readableView: string };
 
@@ -440,6 +464,14 @@ export const STAGE_WORKSPACE = {
 	"retitle-subtopics": {
 		...writesInto({ directory: "Retitled subtopics", file: "subtopics.json" }),
 		record: "changes.json",
+	},
+	"define-topics": {
+		...savesRunsThenWritesInto({
+			runsDirectory: "Grouping runs",
+			directory: "Topics",
+			file: "topics.json",
+		}),
+		record: "choice.json",
 	},
 	"transcript-structuring": writesInto({
 		directory: "Structured transcript",

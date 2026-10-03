@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import {
 	CONFIG_FILENAME,
+	type PanelSettings,
 	type PipelineConfig,
 	type StageConfig,
 	type StageId,
@@ -266,24 +267,64 @@ function requireNaming(value: unknown): PipelineConfig["naming"] {
 }
 
 /**
+ * Reads a panel section's size and bar: how many runs make up the panel, and
+ * how many of them must mark a position for the vote to keep it.
+ *
+ * @param args - The section, and its top-level key for the error.
+ * @param args.section - The section, already checked to be an object.
+ * @param args.label - The section's top-level key.
+ * @returns The panel's size and bar.
+ * @throws {ConfigError} If either is not a whole number of at least 1, or the
+ *   bar exceeds the panel size — the vote could then keep nothing.
+ */
+function requirePanel({
+	section,
+	label,
+}: {
+	readonly section: ReturnType<typeof requireSection>;
+	readonly label: string;
+}): PanelSettings {
+	const panelSize = section.count("panelSize");
+	const bar = section.count("bar");
+	if (bar > panelSize) {
+		throw new ConfigError(
+			`${label}.bar (${bar}) must not exceed ${label}.panelSize (${panelSize}): the vote could keep nothing`,
+		);
+	}
+	return { panelSize, bar };
+}
+
+/**
  * Validates the `division` section: the splitting panel's size, the bar a cut
  * site must reach, and the size gate for deepening (technical-design.md §6).
  *
  * @param value - The raw `division` section.
  * @returns The validated section.
  * @throws {ConfigError} If the section is not an object, a field is not a whole
- *   number of at least 1, or the bar exceeds the panel size — no cut site could then be kept.
+ *   number of at least 1, or the bar exceeds the panel size.
  */
 function requireDivision(value: unknown): PipelineConfig["division"] {
-	const division = requireSection({ value, label: "division" });
-	const panelSize = division.count("panelSize");
-	const bar = division.count("bar");
-	if (bar > panelSize) {
-		throw new ConfigError(
-			`division.bar (${bar}) must not exceed division.panelSize (${panelSize}): no cut site could be kept`,
-		);
-	}
-	return { panelSize, bar, sizeGateWords: division.count("sizeGateWords") };
+	const label = "division";
+	const division = requireSection({ value, label });
+	return {
+		...requirePanel({ section: division, label }),
+		sizeGateWords: division.count("sizeGateWords"),
+	};
+}
+
+/**
+ * Validates the `grouping` section: the grouping panel's size, and the bar a
+ * topic start must reach in the vote that breaks ties (technical-design.md §5,
+ * `define-topics`; §6).
+ *
+ * @param value - The raw `grouping` section.
+ * @returns The validated section.
+ * @throws {ConfigError} If the section is not an object, a field is not a whole
+ *   number of at least 1, or the bar exceeds the panel size.
+ */
+function requireGrouping(value: unknown): PipelineConfig["grouping"] {
+	const label = "grouping";
+	return requirePanel({ section: requireSection({ value, label }), label });
 }
 
 /**
@@ -298,20 +339,64 @@ function requireBatch(value: unknown): PipelineConfig["batch"] {
 	return { concurrency: requireSection({ value, label: "batch" }).count("concurrency") };
 }
 
-/** The one stage whose run makes more than one call, and so the one stage `callConcurrency` means anything to. */
-const CALL_CONCURRENCY_STAGE: StageId = "deepen-subtopic-splitting";
+/**
+ * The settings only one stage reads, each with that stage and why only it does.
+ * Set on any other stage, one would silently do nothing, so it is refused
+ * instead (technical-design.md §6).
+ */
+const SINGLE_STAGE_SETTINGS = {
+	callConcurrency: {
+		readBy: "deepen-subtopic-splitting",
+		because: "the one stage whose run makes more than one call",
+	},
+	sendGapSeconds: {
+		readBy: "define-topics",
+		because: "the one stage that spaces its sends",
+	},
+} as const satisfies Readonly<
+	Partial<Record<keyof StageConfig, { readonly readBy: StageId; readonly because: string }>>
+>;
 
 /**
- * Validates one stage's entry. `callConcurrency` is refused on every stage but
- * {@link CALL_CONCURRENCY_STAGE}: nothing else reads it, so it would otherwise
- * be a setting that silently does nothing (technical-design.md §6).
+ * Reads a setting only one stage reads.
+ *
+ * @param args - The entry, the setting, and the stage the entry configures.
+ * @param args.stage - The raw stage entry, already checked to be an object.
+ * @param args.field - The setting.
+ * @param args.stageId - The stage the entry configures.
+ * @param args.label - The entry's key path, for the error.
+ * @returns The setting, or `undefined` when it is unset.
+ * @throws {ConfigError} If the setting is not a number, or is set on a stage that does not read it.
+ */
+function requireSingleStageSetting({
+	stage,
+	field,
+	stageId,
+	label,
+}: {
+	readonly stage: ReturnType<typeof requireSection>;
+	readonly field: keyof typeof SINGLE_STAGE_SETTINGS;
+	readonly stageId: StageId;
+	readonly label: string;
+}): number | undefined {
+	const value = stage.optionalNumber(field);
+	const { readBy, because } = SINGLE_STAGE_SETTINGS[field];
+	if (value !== undefined && stageId !== readBy) {
+		throw new ConfigError(`${label}.${field} is read only by ${readBy}, ${because}; remove it`);
+	}
+	return value;
+}
+
+/**
+ * Validates one stage's entry. A setting only one stage reads is refused on
+ * every other ({@link SINGLE_STAGE_SETTINGS}).
  *
  * @param args - The raw entry and the stage it configures.
  * @param args.value - The raw stage entry.
  * @param args.stageId - The stage the entry configures.
  * @returns The validated entry.
  * @throws {ConfigError} If the entry is not an object, a field is missing or mistyped, or
- *   `callConcurrency` is set on a stage that does not read it.
+ *   a setting only one stage reads is set on another.
  */
 function requireStageConfig(args: {
 	readonly value: unknown;
@@ -319,18 +404,14 @@ function requireStageConfig(args: {
 }): StageConfig {
 	const label = `stages.${args.stageId}`;
 	const stage = requireSection({ value: args.value, label });
-	const callConcurrency = stage.optionalNumber("callConcurrency");
-	if (callConcurrency !== undefined && args.stageId !== CALL_CONCURRENCY_STAGE) {
-		throw new ConfigError(
-			`${label}.callConcurrency is read only by ${CALL_CONCURRENCY_STAGE}, the one stage whose run makes more than one call; remove it`,
-		);
-	}
+	const singleStage = { stage, stageId: args.stageId, label };
 	return {
 		modelId: stage.string("modelId"),
 		temperature: stage.optionalNumber("temperature"),
 		maxTokens: stage.optionalNumber("maxTokens"),
 		concurrency: stage.optionalNumber("concurrency"),
-		callConcurrency,
+		callConcurrency: requireSingleStageSetting({ ...singleStage, field: "callConcurrency" }),
+		sendGapSeconds: requireSingleStageSetting({ ...singleStage, field: "sendGapSeconds" }),
 		maxIterations: stage.optionalNumber("maxIterations"),
 	};
 }
@@ -408,6 +489,7 @@ export function parseConfig(raw: unknown): PipelineConfig {
 		modelIdCheck: requireModelIdCheck(root.modelIdCheck),
 		naming: requireNaming(root.naming),
 		division: requireDivision(root.division),
+		grouping: requireGrouping(root.grouping),
 		batch: requireBatch(root.batch),
 		stages: requireStages(root.stages),
 		output: requireOutput(root.output),

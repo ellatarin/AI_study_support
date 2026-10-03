@@ -25,6 +25,10 @@
 		"bar": 9,
 		"sizeGateWords": 600
 	},
+	"grouping": {
+		"panelSize": 5,
+		"bar": 3
+	},
 	"batch": {
 		"concurrency": 1
 	},
@@ -43,6 +47,11 @@
 		},
 		"retitle-subtopics": {
 			"modelId": "<REASONING_MODEL>"
+		},
+		"define-topics": {
+			"modelId": "<REASONING_MODEL>",
+			"concurrency": 5,
+			"sendGapSeconds": 0.5
 		},
 		"transcript-structuring": {
 			"modelId": "<REASONING_MODEL>",

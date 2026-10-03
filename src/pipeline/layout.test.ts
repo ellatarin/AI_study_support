@@ -128,10 +128,10 @@ describe("STAGE_WORKSPACE", () => {
 		expect(renderers).toStrictEqual(["transcript-verification"]);
 	});
 
-	it("should keep a record of how the output was reached from choose-division and retitle-subtopics alone when ownership is read", () => {
+	it("should keep a record of how the output was reached from choose-division, retitle-subtopics and define-topics alone when ownership is read", () => {
 		const recorders = STAGE_IDS.filter((stageId) => STAGE_WORKSPACE[stageId].record !== null);
 
-		expect(recorders).toStrictEqual(["choose-division", "retitle-subtopics"]);
+		expect(recorders).toStrictEqual(["choose-division", "retitle-subtopics", "define-topics"]);
 	});
 });
 
@@ -179,6 +179,12 @@ describe("stageDirectoryPaths", () => {
 			scenario: "no directory at all",
 			expected: [],
 		},
+		{
+			// The panel's directory comes first: it is the one its runs are saved in.
+			stageId: "define-topics" as const,
+			scenario: "its grouping runs and then the topics chosen from them",
+			expected: [join(WORKSPACE_ROOT, "Grouping runs"), join(WORKSPACE_ROOT, "Topics")],
+		},
 	])("should locate $scenario when $stageId owns it", ({ stageId, expected }) => {
 		expect(stageDirectoryPaths({ workspaceRoot: WORKSPACE_ROOT, stageId })).toStrictEqual(expected);
 	});
@@ -192,6 +198,7 @@ describe("stageOutputEntry", () => {
 			stageId: "transcript-structuring" as const,
 			expected: join("Structured transcript", "structured-transcript.md"),
 		},
+		{ stageId: "define-topics" as const, expected: join("Topics", "topics.json") },
 	])("should give the workspace-relative output of $stageId when it writes a single file", ({
 		stageId,
 		expected,

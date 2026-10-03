@@ -35,6 +35,7 @@ const TUNING_FIELDS = [
 	"maxTokens",
 	"concurrency",
 	"callConcurrency",
+	"sendGapSeconds",
 	"maxIterations",
 ] as const satisfies readonly (keyof StageConfig)[];
 
@@ -104,7 +105,6 @@ const openRouterSection = sectionCorrupter("openRouter");
 const elevenLabsSection = sectionCorrupter("elevenLabs");
 const outputSection = sectionCorrupter("output");
 const namingSection = sectionCorrupter("naming");
-const divisionSection = sectionCorrupter("division");
 
 /**
  * The config's stages record, as raw entries these tests read and retune field
@@ -353,6 +353,20 @@ describe("loadConfig stage tuning", () => {
 		expect(stage?.[field]).toBeUndefined();
 		expect(stage?.modelId).toBe(STRUCTURING_MODEL_ID);
 	});
+
+	it("should keep a fractional sendGapSeconds when define-topics sets it", async () => {
+		await writeValidConfig((config) => {
+			configuredStages(config)["define-topics"] = {
+				modelId: STRUCTURING_MODEL_ID,
+				sendGapSeconds: 0.5,
+			};
+		});
+		mockModelsResponse(KNOWN_MODEL_IDS);
+
+		const loaded = await loadConfig({ projectRoot });
+
+		expect(loaded.stages["define-topics"]?.sendGapSeconds).toBe(0.5);
+	});
 });
 
 /**
@@ -391,6 +405,23 @@ function missingKeyCase(key: string): ShapeCase {
 		name: `${key} is missing`,
 		mutate: (config) => delete config[key],
 		match: new RegExp(key),
+	};
+}
+
+/**
+ * The case for a panel section whose bar is higher than its panel, so the vote
+ * could keep nothing.
+ *
+ * @param sectionName - The panel section's top-level key.
+ * @returns The case, whose error must name the section's bar.
+ */
+function barExceedsPanelCase(sectionName: string): ShapeCase {
+	return {
+		name: `${sectionName}.bar exceeds the panel size, so the vote could keep nothing`,
+		mutate: (config) => {
+			config[sectionName] = sectionCorrupter(sectionName)({ panelSize: 5, bar: 6 });
+		},
+		match: new RegExp(`${sectionName}\\.bar`),
 	};
 }
 
@@ -678,12 +709,23 @@ const shapeCases: readonly ShapeCase[] = [
 		match: /stages\.transcript-structuring\.callConcurrency/,
 	},
 	{
-		name: "division.bar exceeds the panel size, so no cut site could be kept",
+		// Only grouping spaces its sends, so on any other stage it would silently do nothing.
+		name: "sendGapSeconds is set on a stage other than define-topics",
 		mutate: (config: Record<string, unknown>) => {
-			config.division = divisionSection({ panelSize: 9, bar: 10 });
+			structuringStage(config).sendGapSeconds = 0.5;
 		},
-		match: /division\.bar/,
+		match: /stages\.transcript-structuring\.sendGapSeconds/,
 	},
+	barExceedsPanelCase("division"),
+	missingKeyCase("grouping"),
+	...countFieldCases({
+		sectionName: "grouping",
+		cases: [
+			{ field: "panelSize", value: undefined, problem: "missing" },
+			{ field: "bar", value: 0, problem: "below 1" },
+		],
+	}),
+	barExceedsPanelCase("grouping"),
 ];
 
 describe("loadConfig rejections", () => {

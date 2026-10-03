@@ -39,6 +39,7 @@ export const STAGE_IDS = [
 	"deepen-subtopic-splitting",
 	"choose-division",
 	"retitle-subtopics",
+	"define-topics",
 	"transcript-structuring",
 	"transcript-verification",
 	"slide-conversion",
@@ -130,6 +131,12 @@ type StageParams = {
 	 * reads it; set on any other stage it is refused at load (technical-design.md §6).
 	 */
 	readonly callConcurrency?: number;
+	/**
+	 * The least time, in seconds, between the starts of two of the stage's
+	 * sends, resends included. Only `define-topics` reads it; set on any other
+	 * stage it is refused at load (technical-design.md §6).
+	 */
+	readonly sendGapSeconds?: number;
 	readonly maxIterations?: number;
 };
 
@@ -152,6 +159,14 @@ export type StageRunConfig = {
 export type StageConfig = {
 	readonly modelId: string;
 } & StageParams;
+
+/** A panel of runs, and the support a position needs for the panel's vote to keep it. */
+export type PanelSettings = {
+	/** How many runs make up the panel. */
+	readonly panelSize: number;
+	/** How many of the panel's runs must mark a position for the vote to keep it; at most `panelSize`. */
+	readonly bar: number;
+};
 
 /**
  * Validated contents of `pipeline-config.json` (technical-design.md §6).
@@ -223,14 +238,16 @@ export type PipelineConfig = {
 	 * How the transcript is divided into subtopics by a panel of splitting runs
 	 * (technical-design.md §5, "Dividing the transcript").
 	 */
-	readonly division: {
-		/** How many splitting runs make up the panel. */
-		readonly panelSize: number;
-		/** How many of the panel's runs a cut site needs to be kept; at most `panelSize`. */
-		readonly bar: number;
+	readonly division: PanelSettings & {
 		/** The word count above which a subtopic is sent for deepening. */
 		readonly sizeGateWords: number;
 	};
+	/**
+	 * How the subtopics are grouped into topics by a panel of grouping runs
+	 * (technical-design.md §5, `define-topics`): the bar is the support a topic
+	 * start needs in the vote that breaks ties.
+	 */
+	readonly grouping: PanelSettings;
 	/** How a batch runs (technical-design.md §4.7, §6). */
 	readonly batch: {
 		/** How many lectures a batch runs at once; `--concurrency` overrides it for one command. */
