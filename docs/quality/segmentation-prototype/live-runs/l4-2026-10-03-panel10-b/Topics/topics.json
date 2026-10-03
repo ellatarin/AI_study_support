@@ -1,0 +1,47 @@
+[
+  {
+    "title": "Introduction and learning objectives",
+    "groupedBecause": "The opening frames the lecture within the cancer course and states what students should learn.",
+    "firstSubtopicId": 1
+  },
+  {
+    "title": "Mutations and susceptibility in cancer development",
+    "groupedBecause": "These subtopics explain how mutations can produce evolving cancer clones and why cells differ in their susceptibility to that process.",
+    "firstSubtopicId": 2
+  },
+  {
+    "title": "Environmental influences on cancer risk",
+    "groupedBecause": "These subtopics examine how environmental exposures contribute to cancer risk rather than attributing cancer solely to chance or inherited susceptibility.",
+    "firstSubtopicId": 4
+  },
+  {
+    "title": "Infectious agents in cancer causation",
+    "groupedBecause": "These subtopics explain how infections can drive cancer, using Burkitt lymphoma to develop the interaction between pathogens and malignant transformation.",
+    "firstSubtopicId": 7
+  },
+  {
+    "title": "Mechanisms of DNA damage by environmental carcinogens",
+    "groupedBecause": "These subtopics explain how environmental carcinogens produce DNA damage and mutations, with their activity depending on how the body processes an exposure.",
+    "firstSubtopicId": 9
+  },
+  {
+    "title": "Tumour initiation and promotion",
+    "groupedBecause": "These subtopics establish why mutational initiation may require a tumour-promoting environment for cancer to develop.",
+    "firstSubtopicId": 14
+  },
+  {
+    "title": "Developmental and tissue specificity of carcinogenesis",
+    "groupedBecause": "These subtopics explain how the circumstances of the exposed tissue condition carcinogenic effects and consolidate the preceding account of carcinogen specificity.",
+    "firstSubtopicId": 16
+  },
+  {
+    "title": "Methods for investigating carcinogenicity",
+    "groupedBecause": "These subtopics examine how evidence can establish carcinogenic effects while showing why no available method fully captures cancer causation.",
+    "firstSubtopicId": 18
+  },
+  {
+    "title": "Closing summary and risk–benefit decisions",
+    "groupedBecause": "The closing draws together the lecture's conclusions about environmental cancer risks and the difficulty of assessing them in everyday risk–benefit decisions.",
+    "firstSubtopicId": 22
+  }
+]

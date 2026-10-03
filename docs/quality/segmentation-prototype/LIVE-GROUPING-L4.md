@@ -152,3 +152,11 @@ Ten more caching-off runs on the live titles (`~nocache` rtlive 11–20) all kep
 | 17:0x | live | off | prototype | 0 | 0 | 10 |
 
 Live titles: split at 20 in 13 of 25 runs with caching on, 2 of 20 with it off. Every caching-off run was sent after every caching-on run, so caching and time of day cannot be told apart here.
+
+## A third live panel of 10, 17:05 BST
+
+`define-topics` re-run with `grouping.panelSize` 10 for this run only, caching on as always in the pipeline, same live titles. Output kept in `live-runs/l4-2026-10-03-panel10-b`. Chosen: 18–21 together (7 of 10). No warnings in the log. £0.447.
+
+| Sent | Titles | Caching | Sent by | Split at 19 | Split at 20 | 18–21 together |
+|---|---|---|---|---|---|---|
+| 17:05 | live | on | live stage (panel of 10) | 0 | 3 | 7 |

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture's place in the course and sets out its learning objectives before substantive teaching begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation, clonal evolution and cancer susceptibility",
+      "groupedBecause": "These subtopics establish how mutations lead to cancer within a biological context that determines whether altered cells can expand.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental exposures and their contribution to cancer risk",
+      "groupedBecause": "These subtopics examine the contribution of environmental exposures to cancer risk against competing explanations based on chance or inherited susceptibility.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious causes of cancer",
+      "groupedBecause": "These subtopics explain how infections contribute to carcinogenesis, using Burkitt lymphoma to develop the general mechanisms into a detailed example.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of DNA damage from environmental carcinogens",
+      "groupedBecause": "These subtopics trace how environmental exposures produce DNA damage that can become mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics explain why mutational initiation may require a subsequent growth-promoting environment for tumours to develop.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Carcinogen specificity and biological susceptibility",
+      "groupedBecause": "These subtopics develop the dependence of carcinogenic effects on biological context and conclude by consolidating the preceding mechanistic account.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methods for investigating carcinogenicity",
+      "groupedBecause": "These subtopics examine how evidence of carcinogenicity can be obtained and why the available methods cannot fully establish human cancer risk.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "This subtopic closes the lecture by summarising its conclusions and framing everyday exposure decisions as judgments about risks and benefits.",
+      "firstSubtopicId": 22
+    }
+  ]
+}
