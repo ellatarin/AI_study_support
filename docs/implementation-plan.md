@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.67-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.68-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-10-03
 **Status:** For review
 
@@ -853,13 +853,13 @@ Unit tests for the stage (mock `makeCompletionCall`):
 
 ## Phase 14 — `define-topics`
 
-**Goal:** Group the retitled subtopics into topics by a panel of five grouping runs and keep the grouping most of them made. Judging the lecture title is not in this phase.
+**Goal:** Group the retitled subtopics into topics by a panel of nine grouping runs and keep the grouping most of them made. Judging the lecture title is not in this phase.
 
 **Deliverables:**
 
 `src/pipeline/stages/define-topics/` **(TD §5, `define-topics`)** — the stage, its prompt module (the prototype's `g23` with titles, byte for byte), and `choose-grouping.ts` with `chooseGrouping`, which breaks its ties with Phase 12's `panelVote` and `distanceFromVote`. Added to `lectureStages` after `retitle-subtopics`, with its `STAGE_IDS` and `STAGE_WORKSPACE` entries and cost-report label.
 
-The required `grouping` section — `panelSize` and `bar` — in `PipelineConfig`, its validation, the example config and the user's own; the stage's entry in the example config and the user's own, with `concurrency` 5 and `sendGapSeconds` 0.5 **(TD §6)**.
+The required `grouping` section — `panelSize` and `bar` — in `PipelineConfig`, its validation, the example config and the user's own; the stage's entry in the example config and the user's own, with `concurrency` 9 and `sendGapSeconds` 0.5 **(TD §6)**.
 
 `sendGapSeconds` **(TD §5, "Dividing the transcript", Panel runs; TD §6, "Three settings say how much runs at once")** — accepted on `define-topics` alone; the panel spaces every send the stage makes, refusals resent by `makeCompletionCall` included, at least that far apart.
 
@@ -896,7 +896,7 @@ Unit tests for the config: as Phase 10, for the `grouping` section, the bar exce
 
 **Live run:** `retitle-subtopics` and `define-topics` together on one lecture (about $0.51, stated first): the new titles and the chosen topics beside the prototype's, for the user to read.
 
-**Acceptance:** A lecture gains five grouping runs and a topics file holding the chosen grouping, with a record beside it of which run, its support and the deciding rule; replay agrees or each difference is explained.
+**Acceptance:** A lecture gains nine grouping runs and a topics file holding the chosen grouping, with a record beside it of which run, its support and the deciding rule; replay agrees or each difference is explained.
 
 ---
 

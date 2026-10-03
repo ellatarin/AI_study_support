@@ -28,3 +28,5 @@
 2026-09-30: the record of how the result was reached moved from the manifest to a small file beside the output (the user's choice; TD §4.5, "How a result was reached is kept beside the result").
 
 2026-10-03, replay: `replay-grouping-choice.mts` fed runs 1–4 of each lecture's saved `g23` panel through the stage's choice at bar 3. All 8 lectures chose the same topic starts from the same run as `choose_panel.py` (`REPLAY-GROUPING-CHOICE.md`). The known difference did not arise: no lecture's four runs all differed. l7 was the one tie, settled by more topics in both.
+
+2026-10-03, panel 5 → 9 (the user's call), bar 3 → 5 (more than half the panel), `concurrency` 5 → 9 so the panel is still released together (TD 1.68-draft). Live runs on lecture 4 (`LIVE-GROUPING-L4.md`) found 18–21 a close call whose lean shifted with title wording and from batch to batch; drawn from the saved runs, a panel of 5 chose the grouping the user rejects (a topic starting at 19) in up to about 1 panel in 15, a panel of 9 in about 1 in 70 or fewer (`PANEL-RISK.md`).

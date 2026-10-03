@@ -26,8 +26,8 @@
 		"sizeGateWords": 600
 	},
 	"grouping": {
-		"panelSize": 5,
-		"bar": 3
+		"panelSize": 9,
+		"bar": 5
 	},
 	"batch": {
 		"concurrency": 1
@@ -50,7 +50,7 @@
 		},
 		"define-topics": {
 			"modelId": "<REASONING_MODEL>",
-			"concurrency": 5,
+			"concurrency": 9,
 			"sendGapSeconds": 0.5
 		},
 		"transcript-structuring": {

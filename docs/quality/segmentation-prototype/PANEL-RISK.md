@@ -8,22 +8,29 @@
 |---|---|---|---|---|---|
 | Prototype's titles, caching on | 20 | single runs | 15.0% | 0.0% | 85.0% |
 | | | panel of 5 | 0.9% | 0.0% | 99.1% |
+| | | panel of 9 | 0.0% | 0.0% | 100.0% |
 | | | panel of 10 | 0.0% | 0.0% | 100.0% |
 | Prototype's titles, caching off | 10 | single runs | 40.0% | 0.0% | 60.0% |
-| | | panel of 5 | 26.2% | 0.0% | 73.8% |
+| | | panel of 5 | 26.1% | 0.0% | 73.9% |
+| | | panel of 9 | 0.0% | 0.0% | 100.0% |
 | Prototype's titles, all | 30 | single runs | 23.3% | 0.0% | 76.7% |
-| | | panel of 5 | 6.8% | 0.0% | 93.2% |
+| | | panel of 5 | 6.7% | 0.0% | 93.3% |
+| | | panel of 9 | 1.4% | 0.0% | 98.6% |
 | | | panel of 10 | 2.5% | 0.0% | 97.5% |
 | Live titles, prototype, caching on | 10 | single runs | 10.0% | 40.0% | 50.0% |
-| | | panel of 5 | 0.0% | 50.1% | 49.9% |
+| | | panel of 5 | 0.0% | 49.9% | 50.1% |
+| | | panel of 9 | 0.0% | 50.0% | 50.0% |
 | Live titles, prototype, caching off | 10 | single runs | 0.0% | 20.0% | 80.0% |
 | | | panel of 5 | 0.0% | 0.0% | 100.0% |
-| Live titles, live stage | 15 | single runs | 6.7% | 60.0% | 33.3% |
-| | | panel of 5 | 0.0% | 83.3% | 16.7% |
-| | | panel of 10 | 0.0% | 95.8% | 4.2% |
-| Live titles, all | 35 | single runs | 5.7% | 42.9% | 51.4% |
-| | | panel of 5 | 1.0% | 46.1% | 52.9% |
+| | | panel of 9 | 0.0% | 0.0% | 100.0% |
+| Live titles, live stage | 35 | single runs | 5.7% | 42.9% | 51.4% |
+| | | panel of 5 | 1.0% | 45.9% | 53.1% |
+| | | panel of 9 | 0.0% | 44.0% | 56.0% |
 | | | panel of 10 | 0.0% | 45.5% | 54.5% |
+| Live titles, all | 55 | single runs | 5.5% | 38.2% | 56.4% |
+| | | panel of 5 | 1.2% | 36.6% | 62.2% |
+| | | panel of 9 | 0.1% | 31.5% | 68.5% |
+| | | panel of 10 | 0.0% | 32.8% | 67.2% |
 
 ## 2. Every lecture: the 30 September panels
 

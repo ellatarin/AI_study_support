@@ -26,7 +26,9 @@ const RUNS_DIR = join(PROTOTYPE_DIR, "runs");
 const LIVE_DIR = join(PROTOTYPE_DIR, "live-runs");
 const BAR = 3;
 const DRAWS = 100_000;
-const PANEL_SIZES = [5, 10];
+const PANEL_SIZES = [5, 9, 10];
+/** The live stage's saved panels of 10 on lecture 4, in the order they ran. */
+const LIVE_PANELS_OF_TEN = ["l4-2026-10-03-panel10", "l4-2026-10-03-panel10-b", "l4-2026-10-03-panel10-c"];
 const LECTURES = ["l1", "l2", "l3", "l4", "l5", "l6", "l7", "l8"];
 const SEPTEMBER_RUNS = [1, 2, 3, 4, 5];
 const JUDGED_RUNS = [1, 2, 3, 4];
@@ -77,7 +79,13 @@ const OUTCOMES = ["split at 19", "split at 20", "split at 21", "18–21 together
 async function lectureFourPools(): Promise<{ name: string; runs: GroupingRun[] }[]> {
 	const live = [
 		...(await Promise.all(range(1, 5).map((n) => readRun(join(LIVE_DIR, "l4-2026-10-03-panel5", "Grouping runs", `run-0${n}.json`))))),
-		...(await Promise.all(range(1, 10).map((n) => readRun(join(LIVE_DIR, "l4-2026-10-03-panel10", "Grouping runs", `run-${String(n).padStart(2, "0")}.json`))))),
+		...(
+			await Promise.all(
+				LIVE_PANELS_OF_TEN.flatMap((panel) =>
+					range(1, 10).map((n) => readRun(join(LIVE_DIR, panel, "Grouping runs", `run-${String(n).padStart(2, "0")}.json`))),
+				),
+			)
+		),
 	];
 	const protoTitlesOn = await Promise.all(range(1, 20).map((n) => readRun(protoPath("", "chosen-live18-rt9", "l4", n))));
 	const protoTitlesOff = await Promise.all(range(1, 10).map((n) => readRun(protoPath("~nocache", "chosen-live18-rt9", "l4", n))));

@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.67-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.68-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-10-03
 **Status:** For review
 
@@ -1266,15 +1266,15 @@ This build groups only. One further job belongs to this stage and is not yet des
 
 **One grouping run.** The model is sent every retitled subtopic in order, each as its position (counting from 1), its title and its full text, trimmed; the prompt calls a title a `label`, so it is sent under that name. It replies with a list of topics, each a title (the reply's `label`, read as `title`), a one-sentence `groupedBecause`, and the position of its first subtopic, so a topic can only begin where a subtopic does and the text cannot be touched. A reply is valid when it is a JSON object with a non-empty list of topics; every topic has a non-empty title, a non-empty `groupedBecause` and a first subtopic; the first topic starts at subtopic 1; each later start comes after the one before; and no start is past the last subtopic. Together these put every subtopic in exactly one topic. Anything else is a wrong shape and takes the panel's retry (§5, "Dividing the transcript", Panel runs). The finish reason the provider reports is not one of the checks: `openai/gpt-6.1-sol-pro` sometimes reports `error` on a complete reply, and four such `g23` replies are among those the user accepted. Each run is saved as the model's reply.
 
-**Sending.** The five runs are released together, and every send waits until at least `sendGapSeconds` after the stage's previous send (Panel runs, above). In the prototype, several `openai/gpt-6.1-sol-pro` calls at once were taken to be rate-limited upstream, though no refusal message was kept to show it; spacing the sends keeps first sends and resends from landing together, and a refused send is resent (§6, "A rejection can arrive inside an accepted reply"), so a rate limit costs a pause rather than the stage.
+**Sending.** The nine runs are released together, and every send waits until at least `sendGapSeconds` after the stage's previous send (Panel runs, above). In the prototype, several `openai/gpt-6.1-sol-pro` calls at once were taken to be rate-limited upstream, though no refusal message was kept to show it; spacing the sends keeps first sends and resends from landing together, and a refused send is resent (§6, "A rejection can arrive inside an accepted reply"), so a rate limit costs a pause rather than the stage.
 
 **The chosen grouping.** Each run is read as the set of subtopics it starts a topic at, the first excepted; two runs made the same grouping when their topics start at the same subtopics, whatever they named them. The grouping made by the most runs is chosen. When two or more groupings share the most runs, each made by more than one run, the one with more topics wins. When no grouping was made by more than one run, or the tied groupings have as many topics, the one whose topic starts differ least from the vote wins, and then the earliest run (CONTEXT.md, "Chosen grouping"). More topics is not asked when every run differs, because it would then pick the most finely divided run of the panel with nothing but that run behind it. The vote is the set of subtopics where at least `bar` runs start a topic, reckoned with the vote and distance `choose-division` uses. The topics handed on are the earliest run's among those that made the chosen grouping, so its titles are one reading of the lecture; the vote is never handed on, since it could assemble a grouping no run made.
 
-The panel is 5 runs and the bar 3, more than half the panel. Each run costs about $0.09, so the panel about $0.45 per lecture.
+The panel is 9 runs and the bar 5, more than half the panel. Some stretches of a lecture are a close call for the model, and which way single runs lean shifts with small changes of title wording and from one batch of sends to the next; on such a stretch a panel of 5 still chose a grouping the user rejects about once in fifteen panels, where 9 brought that to about once in seventy or fewer (`docs/quality/segmentation-prototype/PANEL-RISK.md`). Each run costs about $0.06, so the panel about $0.54 per lecture.
 
 **What is written.** `Topics/topics.json` holds each topic of the chosen run as its title, its `groupedBecause`, and the subtopic it starts at. Beside it, `Topics/choice.json` records the chosen run, how many of the panel's runs made its grouping, and which rule decided — most runs, more topics, closest to the vote, or earliest run (§4.5) — so a lecture whose grouping rests on a tie can be seen at a glance.
 
-**Configuration.** `panelSize` (5) and `bar` (3) live in a required `grouping` section of `pipeline-config.json`, separate from the division's, so one may be tuned without the other. `sendGapSeconds` (0.5) is on the stage's own entry (§6).
+**Configuration.** `panelSize` (9) and `bar` (5) live in a required `grouping` section of `pipeline-config.json`, separate from the division's, so one may be tuned without the other. `sendGapSeconds` (0.5) is on the stage's own entry (§6).
 
 The stage fails when the retitled subtopics are missing or unreadable, and when a run fails its third send.
 
@@ -1773,7 +1773,7 @@ Each prefix is matched literally, so one carrying a pattern character means itse
     },
     "define-topics": {
       "modelId": "<REASONING_MODEL>",             // called once per grouping run with every subtopic's title and text
-      "concurrency": 5,
+      "concurrency": 9,
       "sendGapSeconds": 0.5                       // least time between two sends, resends included
     },
     "transcript-structuring": {
@@ -1811,8 +1811,8 @@ Each prefix is matched literally, so one carrying a pattern character means itse
     "sizeGateWords": 600               // a subtopic over this many words is deepened
   },
   "grouping": {
-    "panelSize": 5,                    // grouping runs per lecture
-    "bar": 3                           // runs a topic start needs to count in the vote, which only breaks ties
+    "panelSize": 9,                    // grouping runs per lecture
+    "bar": 5                           // runs a topic start needs to count in the vote, which only breaks ties
   },
   "batch": {
     "concurrency": 1                   // lectures a batch runs at once; --concurrency N overrides it
