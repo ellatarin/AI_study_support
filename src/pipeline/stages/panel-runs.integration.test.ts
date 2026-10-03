@@ -1,9 +1,10 @@
-import { readdir, readFile, writeFile } from "node:fs/promises";
+import { readdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import type { StageCost } from "../../types/pipeline.js";
 import {
 	captureError,
+	readJsonFile,
 	stubbedCallCost,
 	stubbedCallsCost,
 	trackingInFlight,
@@ -85,7 +86,7 @@ describe("runPanel", () => {
 	it("should save each run to its own numbered file when the run completes", async () => {
 		const { runFiles } = await panelOf({ panelSize: 2, makeRun: numberedRunMaker() });
 		expect(runFiles).toEqual([join(directory(), "run-01.json"), join(directory(), "run-02.json")]);
-		expect(JSON.parse(await readFile(join(directory(), "run-02.json"), "utf8"))).toEqual({
+		expect(await readJsonFile(join(directory(), "run-02.json"))).toEqual({
 			madeBy: 2,
 		});
 	});

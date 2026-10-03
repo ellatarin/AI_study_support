@@ -1596,13 +1596,35 @@ export function joinedSubtopics({
 }
 
 /**
+ * The user message a stage sent on its first call to a stubbed
+ * `makeCompletionCall`: the material its prompt is about.
+ *
+ * @param calls - The calls the suite's stub of `makeCompletionCall` received, as its `mock.calls`.
+ * @returns The first call's user message.
+ */
+export function sentUserMessage(calls: readonly (readonly unknown[])[]): string | undefined {
+	const [{ messages }] = calls[0] as [{ messages: { content: string }[] }];
+	return messages[1]?.content;
+}
+
+/**
+ * A JSON file a stage or the runner wrote, parsed back off disk.
+ *
+ * @param path - The file's absolute path.
+ * @returns The parsed file, for the suite to assert on.
+ */
+export async function readJsonFile(path: string): Promise<unknown> {
+	return JSON.parse(await readFile(path, "utf8"));
+}
+
+/**
  * The panel run a stage saved, parsed back off disk.
  *
  * @param run - Which run, as for {@link panelRunPath}.
  * @returns The parsed run file.
  */
-export async function readPanelRun(run: Parameters<typeof panelRunPath>[0]): Promise<unknown> {
-	return JSON.parse(await readFile(panelRunPath(run), "utf8"));
+export function readPanelRun(run: Parameters<typeof panelRunPath>[0]): Promise<unknown> {
+	return readJsonFile(panelRunPath(run));
 }
 
 /**

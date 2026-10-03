@@ -3,7 +3,7 @@
    imports cannot be shared and barrel files are forbidden (CLAUDE.md, File
    Organisation), and vi.mock is hoisted, so it must sit in the file that mocks.
    Only the preamble is exempt; the suite below is checked as normal. */
-import { readFile, rm } from "node:fs/promises";
+import { rm } from "node:fs/promises";
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type {
@@ -22,6 +22,7 @@ import {
 	makeManifest,
 	makeStageContext,
 	openRouterClientFor,
+	readJsonFile,
 	seedStageOutput,
 	structuredMarkdown,
 	stubbedCostUsd,
@@ -173,8 +174,9 @@ describe("createTranscriptVerificationStage", () => {
 
 	/** The report the stage wrote, parsed back off disk. */
 	async function writtenReport(): Promise<QaFindingsReport> {
-		const path = stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID });
-		return JSON.parse(await readFile(path, "utf8")) as QaFindingsReport;
+		return (await readJsonFile(
+			stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID }),
+		)) as QaFindingsReport;
 	}
 
 	it("should write every finding the checker returned when the stage runs", async () => {

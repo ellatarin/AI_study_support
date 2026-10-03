@@ -1,4 +1,3 @@
-import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
 import {
 	captureError,
@@ -6,6 +5,7 @@ import {
 	earlierLaunchRun,
 	makeConfig,
 	makeStageContext,
+	readJsonFile,
 	seedPanelRuns,
 	transcriptDivision,
 	useStubLogger,
@@ -46,16 +46,16 @@ describe("choose-division", () => {
 
 		const result = await run();
 
-		const parsed = async (path: string): Promise<unknown> =>
-			JSON.parse(await readFile(path, "utf8"));
-		expect(await parsed(stageOutputPath({ workspaceRoot, stageId: STAGE_ID }))).toStrictEqual(
+		expect(await readJsonFile(stageOutputPath({ workspaceRoot, stageId: STAGE_ID }))).toStrictEqual(
 			transcriptDivision,
 		);
-		expect(await parsed(stageRecordPath({ workspaceRoot, stageId: STAGE_ID }))).toStrictEqual({
-			chosenRun: 2,
-			distanceFromVote: 0,
-			panelSize: PANEL_SIZE,
-		});
+		expect(await readJsonFile(stageRecordPath({ workspaceRoot, stageId: STAGE_ID }))).toStrictEqual(
+			{
+				chosenRun: 2,
+				distanceFromVote: 0,
+				panelSize: PANEL_SIZE,
+			},
+		);
 		expect(result).toMatchObject({
 			cost: null,
 			filesWritten: ["Chosen division/subtopics.json", "Chosen division/choice.json"],

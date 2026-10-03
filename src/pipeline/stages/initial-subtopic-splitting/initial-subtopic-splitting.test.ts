@@ -15,6 +15,7 @@ import {
 	readPanelRun,
 	seedPanelRun,
 	seedStageOutput,
+	sentUserMessage,
 	stubbedCallCost,
 	transcriptDivision,
 	transcriptSecondOpening,
@@ -108,8 +109,7 @@ describe("createInitialSubtopicSplittingStage", () => {
 			contents: paddedTranscriptText,
 		});
 		await run();
-		const [{ messages }] = completionMock.mock.calls[0] as [{ messages: { content: string }[] }];
-		expect(messages[1]?.content).toBe(`Transcript:\n${transcriptText}`);
+		expect(sentUserMessage(completionMock.mock.calls)).toBe(`Transcript:\n${transcriptText}`);
 	});
 
 	it("should save every run of the panel with each subtopic's span, title and reason when the stage completes", async () => {

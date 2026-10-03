@@ -1,4 +1,4 @@
-import { access, mkdir, readdir, readFile, rename, rm, writeFile } from "node:fs/promises";
+import { access, mkdir, readdir, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 import {
@@ -30,6 +30,7 @@ import {
 	makeTempDir,
 	otherLecture,
 	otherModuleName,
+	readJsonFile,
 	sameDateLecture,
 	seedStageOutput,
 	stageCompletedAt,
@@ -164,8 +165,7 @@ function realIsComplete(stageId: StageId): (context: StageContext) => Promise<bo
 }
 
 async function readRunLog(workspaceRoot: string, runId: string): Promise<RunLog> {
-	const path = join(runsDirPath({ workspaceRoot }), `${runId}.json`);
-	return JSON.parse(await readFile(path, "utf8")) as RunLog;
+	return (await readJsonFile(join(runsDirPath({ workspaceRoot }), `${runId}.json`))) as RunLog;
 }
 
 /**
