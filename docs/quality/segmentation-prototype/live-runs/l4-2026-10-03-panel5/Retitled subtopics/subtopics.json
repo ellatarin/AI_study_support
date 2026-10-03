@@ -1,0 +1,134 @@
+[
+  {
+    "start": 0,
+    "end": 1257,
+    "title": "Introduction and learning objectives for cancer causation",
+    "why": "The lecturer introduces herself, the cancer lecture series, and the key learning outcomes for the session."
+  },
+  {
+    "start": 1257,
+    "end": 4154,
+    "title": "Cancer as clonal evolution in a permissive microenvironment",
+    "why": "The lecturer explains how cancer develops through accumulated mutations and micro-evolution within a supportive tissue microenvironment."
+  },
+  {
+    "start": 4154,
+    "end": 8504,
+    "title": "Endogenous mutations, environmental exposures and inherited cancer susceptibility",
+    "why": "The lecturer outlines the endogenous metabolic causes of DNA damage, inherited predisposition syndromes, and the role of target cell lifespan."
+  },
+  {
+    "start": 8504,
+    "end": 12460,
+    "title": "Established and suspected environmental cancer risks",
+    "why": "The lecturer discusses common environmental carcinogen exposures, public perceptions of risk, and geographical differences revealed by epidemiology."
+  },
+  {
+    "start": 12460,
+    "end": 15110,
+    "title": "The cancer bad luck hypothesis and public interpretation",
+    "why": "It examines the Tomasetti and Vogelstein hypothesis attributing cancer to random endogenous mutations versus environmental causes and discusses public reactions to it."
+  },
+  {
+    "start": 15110,
+    "end": 18507,
+    "title": "Geographic cancer incidence as evidence for environmental and genetic influences",
+    "why": "It explores how worldwide geographic differences and migrant studies in epidemiology help distinguish environmental factors from genetic predispositions."
+  },
+  {
+    "start": 18507,
+    "end": 21878,
+    "title": "Infectious agents and their mechanisms of carcinogenesis",
+    "why": "The lecturer surveys various bacteria, parasites, and viruses that contribute to cancer through chronic inflammation or cell cycle disruption."
+  },
+  {
+    "start": 21878,
+    "end": 26386,
+    "title": "Burkitt lymphoma: discovery, EBV, malaria and MYC translocation",
+    "why": "The lecturer details Denis Burkitt's epidemiological discoveries and the mechanism by which malaria and EBV cooperate to drive Myc translocations."
+  },
+  {
+    "start": 26386,
+    "end": 28255,
+    "title": "Dietary aflatoxin activation and DNA adduct formation",
+    "why": "The lecturer explains how dietary aflatoxin from Aspergillus is converted by liver oxidases into reactive DNA adducts."
+  },
+  {
+    "start": 28255,
+    "end": 28921,
+    "title": "UV-induced thymine dimers and nucleotide excision repair",
+    "why": "The lecturer explains how ultraviolet radiation directly damages DNA by inducing thymine dimers that challenge nucleotide excision repair."
+  },
+  {
+    "start": 28921,
+    "end": 32477,
+    "title": "Benzo[a]pyrene metabolism, DNA adducts and transversion mutations",
+    "why": "The lecturer describes how benzo[a]pyrene and TCDD activate the aryl hydrocarbon receptor pathway to produce reactive epoxides and oxidative stress."
+  },
+  {
+    "start": 32477,
+    "end": 33535,
+    "title": "TCDD-induced oxidative stress and indirect DNA damage",
+    "why": "The lecturer takes up a distinct chemical agent, TCDD, detailing its background in Agent Orange and explaining its mechanism of generating reactive oxygen species via the aryl hydrocarbon receptor."
+  },
+  {
+    "start": 33535,
+    "end": 34955,
+    "title": "Bladder-specific activation of carcinogenic aromatic amines",
+    "why": "The lecturer explains why beta-naphthylamine specifically causes bladder cancer due to local enzymatic reactivation by urinary glucuronidase."
+  },
+  {
+    "start": 34955,
+    "end": 37090,
+    "title": "Asbestos-induced chronic inflammation and tumour promotion",
+    "why": "The lecturer explains how inhaled asbestos fibers induce chronic inflammation in the mesothelium to promote tumor outgrowth without directly damaging DNA."
+  },
+  {
+    "start": 37090,
+    "end": 40092,
+    "title": "Experimental tumour initiation and promotion by DMBA and TPA",
+    "why": "The lecturer explains the Berenbaum initiator-promoter model and details how TPA mimics diacylglycerol to activate protein kinase C."
+  },
+  {
+    "start": 40092,
+    "end": 43357,
+    "title": "Developmental stage and tissue susceptibility to carcinogens",
+    "why": "The lecturer explains how alkylating agents and carcinogenic exposures have heightened effects during specific developmental windows of active proliferation."
+  },
+  {
+    "start": 43357,
+    "end": 44250,
+    "title": "Summary of DNA damage, tumour promotion and carcinogen specificity",
+    "why": "The lecturer takes stock and summarizes the various direct and indirect mechanisms of DNA damage, metabolism, promotion, and tissue or life-stage specificities covered in the lecture."
+  },
+  {
+    "start": 44250,
+    "end": 46131,
+    "title": "Mutational signatures as evidence of carcinogen exposure",
+    "why": "The lecturer explains how characteristic mutational signatures in sequenced cancer genomes can identify the specific carcinogens responsible for DNA damage."
+  },
+  {
+    "start": 46131,
+    "end": 48975,
+    "title": "Investigating carcinogenicity through epidemiology, exposure biomarkers and biobanks",
+    "why": "The lecturer outlines the methods, biomarkers, and practical limitations of using population biobanks and animal models to test carcinogenicity."
+  },
+  {
+    "start": 48975,
+    "end": 50847,
+    "title": "Animal carcinogenicity studies: dose and species limitations",
+    "why": "The lecturer moves from epidemiological approaches and biobanks to animal in vivo toxicity testing, explaining its protocols, limitations, and dosage issues."
+  },
+  {
+    "start": 50847,
+    "end": 52353,
+    "title": "The Ames mutagenicity test and its limitations",
+    "why": "The lecturer explains the bacterial Ames test methodology and its use of liver extracts to assess direct and metabolized mutagens."
+  },
+  {
+    "start": 52353,
+    "end": 53236,
+    "title": "Lecture summary: environmental cancer risks, carcinogen assessment and risk–benefit decisions",
+    "why": "The lecturer concludes the lecture with a summary of environmental carcinogenesis and the personal risk-benefit balances involved."
+  }
+]

@@ -94,3 +94,13 @@ Runs 11–20 sent the same prototype message again, all at once, about an hour a
 | prototype 11–20 | 3 Oct, about 17:10 | 0 | 0 | 10 |
 | all prototype-message runs | | 3 of 20 | 0 of 20 | 17 of 20 |
 | live 1–5 (live titles) | 3 Oct | 0 | 4 | 1 |
+
+## Live panel of 10, 2026-10-03
+
+`define-topics` re-run on its own with `grouping.panelSize` set to 10 for this run only (bar left at 3), on the same retitled subtopics as live runs 1–5. Both live panels' output is kept under `live-runs/`.
+
+| Runs | Split at 19 | Split at 20 | 18–21 together | Chosen |
+|---|---|---|---|---|
+| live panel of 5 | 0 | 4 | 1 | split at 20 (4 of 5) |
+| live panel of 10 | 1 | 5 | 4 | split at 20 (5 of 10) |
+| all live runs | 1 of 15 | 9 of 15 | 5 of 15 | |

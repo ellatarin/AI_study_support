@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture within the cancer course and states its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer evolution and the origins of susceptibility",
+      "groupedBecause": "These subtopics establish how mutations arising in susceptible cells can support clonal evolution into cancer within a permissive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental cancer risk: chance, exposure and population evidence",
+      "groupedBecause": "These subtopics weigh evidence for environmental contributions to cancer against explanations based on chance or inherited susceptibility.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious causes of cancer",
+      "groupedBecause": "These subtopics explain how infections can contribute to carcinogenesis, with Burkitt lymphoma illustrating the interaction between pathogens and tumour development.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Mechanisms of DNA damage from environmental carcinogens",
+      "groupedBecause": "These subtopics trace how environmental exposures produce DNA damage and mutations through processes shaped by cellular metabolism and repair.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics show why mutational initiation may require subsequent promotion that enables altered cells to proliferate.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Biological context and carcinogen susceptibility",
+      "groupedBecause": "These subtopics explain how biological circumstances influence carcinogenic effects and consolidate that dependence within the lecture's account of cancer causation.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Inferring carcinogen exposure from mutational signatures",
+      "groupedBecause": "This subtopic explains how characteristic mutation patterns in cancer genomes can provide evidence of previous carcinogen exposure.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Assessing carcinogenicity and the limitations of testing",
+      "groupedBecause": "These subtopics examine how carcinogenic potential can be investigated when available methods cannot fully reproduce human exposure and tumour development.",
+      "firstSubtopicId": 19
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "This subtopic closes the lecture by summarising its conclusions in terms of everyday risk–benefit decisions.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

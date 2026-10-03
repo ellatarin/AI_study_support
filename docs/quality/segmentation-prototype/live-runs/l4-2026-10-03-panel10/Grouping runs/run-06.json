@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture within the cancer course and sets out its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer evolution and sources of susceptibility",
+      "groupedBecause": "These subtopics explain how mutations accumulate and confer clonal advantages under conditions that permit cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental contributions to cancer risk",
+      "groupedBecause": "These subtopics examine the evidence and uncertainty surrounding how environmental exposure contributes to cancer rather than cancer being simply inevitable or random.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain how infections can drive cancer, with Burkitt lymphoma illustrating the interaction between pathogens and cellular changes.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Environmental carcinogens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics trace how environmental exposures produce DNA damage through processes whose effects depend on metabolism and the exposed tissue.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics establish why mutagenic initiation may require a subsequent growth-promoting environment for tumours to develop.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Developmental susceptibility and recap of carcinogenic mechanisms",
+      "groupedBecause": "These subtopics complete the mechanistic account by explaining developmental susceptibility and then summarising how carcinogenic effects depend on biological context.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Investigating carcinogen exposure and carcinogenicity",
+      "groupedBecause": "These subtopics examine how evidence of carcinogenicity can be obtained and why the available approaches cannot fully establish cancer causation on their own.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Concluding summary and risk–benefit decisions",
+      "groupedBecause": "This subtopic closes the lecture by consolidating its conclusions and placing everyday exposure decisions in a risk–benefit framework.",
+      "firstSubtopicId": 22
+    }
+  ]
+}
