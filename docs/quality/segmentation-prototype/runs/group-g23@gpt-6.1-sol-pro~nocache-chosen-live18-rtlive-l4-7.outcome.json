@@ -1,0 +1,33 @@
+{
+  "sourceRun": "chosen-live18-rtlive-l4",
+  "promptVersion": "g23",
+  "lecture": "l4",
+  "instance": "7",
+  "modelId": "openai/gpt-6.1-sol-pro",
+  "reasoningEffort": null,
+  "labelsShown": true,
+  "seconds": 33,
+  "promptTokens": 42192,
+  "completionTokens": 2654,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": 10,
+  "subtopics": 22,
+  "topicSizes": [
+    1,
+    2,
+    3,
+    2,
+    5,
+    2,
+    2,
+    2,
+    2,
+    1
+  ],
+  "cacheOff": true,
+  "generationId": "gen-1791042418-MDWPnrsTwHyft9UAbWrH",
+  "systemFingerprint": null,
+  "cachedTokens": 0,
+  "cacheWriteTokens": 0
+}

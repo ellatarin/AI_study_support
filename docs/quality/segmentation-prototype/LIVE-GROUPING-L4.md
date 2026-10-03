@@ -123,3 +123,15 @@ Runs 11–20 sent the same prototype message again, all at once, about an hour a
 |---|---|---|---|---|
 | caching on (30 Sept and 3 Oct) | 20 | 3 (runs 6, 7, 8) | 0 | 17 |
 | caching off (3 Oct) | 10 | 4 (runs 4, 7, 9, 10) | 0 | 6 |
+
+## Prompt caching off, live titles, 2026-10-03
+
+Ten runs sent `chosen-live18-rtlive-l4` (the live run's titles) with caching off, all together. Every reply reported 0 cached and 0 written tokens.
+
+| Titles | Caching | Sent by | Runs | Split at 19 | Split at 20 | 18–21 together |
+|---|---|---|---|---|---|---|
+| prototype's | on | prototype script | 20 | 3 | 0 | 17 |
+| prototype's | off | prototype script | 10 | 4 | 0 | 6 |
+| live run's | on | prototype script | 10 | 1 | 4 | 5 |
+| live run's | off | prototype script | 10 | 0 | 2 (runs 7, 9) | 8 |
+| live run's | on | live stage | 15 | 1 | 9 | 5 |
