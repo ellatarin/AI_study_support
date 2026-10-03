@@ -1,0 +1,81 @@
+{
+  "subtopics": 15,
+  "titlesChanged": 15,
+  "changed": [
+    {
+      "position": 1,
+      "oldTitle": "Introduction to complement lecture",
+      "newTitle": "Introduction to complement and its complex nomenclature"
+    },
+    {
+      "position": 2,
+      "oldTitle": "Overview of complement and its primary roles",
+      "newTitle": "Overview of complement activation and effector functions"
+    },
+    {
+      "position": 3,
+      "oldTitle": "Complement nomenclature conventions",
+      "newTitle": "Complement numbering and cleavage fragment nomenclature"
+    },
+    {
+      "position": 4,
+      "oldTitle": "Central role and activation mechanism of C3",
+      "newTitle": "C3 activation, C3b surface binding and C3a inflammation"
+    },
+    {
+      "position": 5,
+      "oldTitle": "The alternative pathway of complement activation",
+      "newTitle": "Three complement activation pathways and their timing"
+    },
+    {
+      "position": 6,
+      "oldTitle": "the mechanism of the alternative pathway of complement activation",
+      "newTitle": "Alternative pathway initiation and surface amplification"
+    },
+    {
+      "position": 7,
+      "oldTitle": "The lectin pathway of complement activation",
+      "newTitle": "Lectin pathway recognition and C3 convertase formation"
+    },
+    {
+      "position": 8,
+      "oldTitle": "The classical pathway and complement trigger threshold",
+      "newTitle": "Classical pathway activation and the local complement threshold"
+    },
+    {
+      "position": 9,
+      "oldTitle": "Effector mechanisms: opsonization, inflammation, and membrane lysis",
+      "newTitle": "Complement-mediated opsonization and phagocytosis"
+    },
+    {
+      "position": 10,
+      "oldTitle": "Complement-mediated inflammation via C3a",
+      "newTitle": "C3a-mediated inflammation and cell recruitment"
+    },
+    {
+      "position": 11,
+      "oldTitle": "Pathogen lysis via the membrane attack complex",
+      "newTitle": "Membrane attack complex assembly and pathogen lysis"
+    },
+    {
+      "position": 12,
+      "oldTitle": "Host cell regulation of complement activation",
+      "newTitle": "Complement regulation and protection of host cells"
+    },
+    {
+      "position": 13,
+      "oldTitle": "Clinical presentations of complement deficiencies",
+      "newTitle": "Clinical consequences of complement component deficiencies"
+    },
+    {
+      "position": 14,
+      "oldTitle": "Pathogen evasion mechanisms and applications of protein A",
+      "newTitle": "Pathogen complement evasion and applications of staphylococcal protein A"
+    },
+    {
+      "position": 15,
+      "oldTitle": "Lecture conclusion and next session preview",
+      "newTitle": "Lecture close: Transition to adaptive immunity"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "This opening frames the lecture's importance and warns about the complexity of complement terminology before substantive teaching begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Fundamentals of the complement cascade",
+      "groupedBecause": "These subtopics establish the basic framework for understanding complement as a protein-cleavage cascade centred on C3 activation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways and the local trigger threshold",
+      "groupedBecause": "These subtopics explain how pathogen recognition produces enough surface-bound C3b to trigger complement activity.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector functions",
+      "groupedBecause": "These subtopics explain how activated complement promotes the elimination of pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Complement regulation and host-cell protection",
+      "groupedBecause": "This subtopic explains how regulatory proteins restrain complement to prevent damage to host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic connects deficiencies in particular complement components to their distinct clinical presentations.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen complement evasion and protein A applications",
+      "groupedBecause": "This subtopic explains bacterial mechanisms for evading complement, including how protein A's antibody-binding mechanism can be exploited clinically and experimentally.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and transition to adaptive immunity",
+      "groupedBecause": "This closing ends the complement lecture and identifies adaptive immunity as the subject of the next lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

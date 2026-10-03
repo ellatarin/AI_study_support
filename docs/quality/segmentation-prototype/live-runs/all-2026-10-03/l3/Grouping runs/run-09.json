@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning outcomes",
+      "groupedBecause": "This opening frames the cancer biology lecture series and sets out what students should learn from this lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer development and the disruption of normal tissue organisation",
+      "groupedBecause": "These subtopics explain cancer as altered cellular behaviour within organised tissues, whose context must be preserved to understand the disease.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing benign and malignant tumours through invasion and metastasis",
+      "groupedBecause": "These subtopics establish how invasion and spread distinguish malignancy from contained benign growth, using clinical and histological evidence.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour progression and the malignant potential of benign growths",
+      "groupedBecause": "These subtopics examine progression from benign growth to invasive cancer while showing that neither malignant transformation nor safety is guaranteed by a benign diagnosis.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumour nomenclature",
+      "groupedBecause": "This subtopic explains how tumour names indicate tissue of origin and malignant status, including exceptions to the naming conventions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "How cancer causes illness and death",
+      "groupedBecause": "This subtopic explains how tumour growth disrupts normal bodily function and ultimately causes morbidity and mortality.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumour incidence in humans and other animals",
+      "groupedBecause": "These subtopics compare the occurrence of tumour types across populations and species to show how widely cancer arises.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening",
+      "groupedBecause": "These subtopics explain why early detection is needed and how the effectiveness of screening depends on the cancer being screened.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and preparation for revision and practicals",
+      "groupedBecause": "This closing directs students back to the learning outcomes and signals the upcoming practicals and lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

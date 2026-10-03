@@ -1,0 +1,104 @@
+[
+  {
+    "start": 0,
+    "end": 3248,
+    "title": "Introduction to cancer biology and lecture learning outcomes",
+    "why": "The lecturer introduces the cancer biology lecture series, course learning outcomes, and interdisciplinary context for the students."
+  },
+  {
+    "start": 3248,
+    "end": 5906,
+    "title": "Accumulation of genetic and epigenetic changes in cancer development",
+    "why": "The lecturer explains the conceptual model of stepwise genetic, epigenetic, and viral changes that drive malignant transformation."
+  },
+  {
+    "start": 5906,
+    "end": 11101,
+    "title": "Cancer as a failure of differentiation and tissue architecture",
+    "why": "The lecturer describes normal differentiation and three-dimensional tissue organization, framing cancer as a failure of these developmental programs."
+  },
+  {
+    "start": 11101,
+    "end": 12723,
+    "title": "Tumour cell culture and the limitations of studying isolated cells",
+    "why": "The lecturer moves from histological examination of tissue invasion to experimental methods for culturing cancer cells in dishes and the need for 3D culture models."
+  },
+  {
+    "start": 12723,
+    "end": 14467,
+    "title": "Invasion as the distinction between benign and malignant tumours",
+    "why": "The lecturer contrasts benign and malignant tumors based on invasion through basement membranes and routes of metastatic spread."
+  },
+  {
+    "start": 14467,
+    "end": 16678,
+    "title": "Routes of metastasis and features of secondary tumours",
+    "why": "explains how cancer cells spread to distant sites through various anatomical routes and presents examples of secondary metastases"
+  },
+  {
+    "start": 16678,
+    "end": 19140,
+    "title": "Histological comparison of benign tumours and invasive malignancy",
+    "why": "The lecturer contrasts encapsulated benign lesions with invasive malignant tumors to illustrate how local tissue invasion appears histologically and anatomically."
+  },
+  {
+    "start": 19140,
+    "end": 28835,
+    "title": "Colorectal adenoma-to-carcinoma progression and histological assessment of invasion",
+    "why": "The lecturer examines colorectal histology to demonstrate how benign adenomatous polyps transition into invasive adenocarcinomas."
+  },
+  {
+    "start": 28835,
+    "end": 29986,
+    "title": "Malignant potential and harmful effects of benign tumours",
+    "why": "The lecturer discusses why benign tumors vary in progression to malignancy and how they can still cause severe clinical harm."
+  },
+  {
+    "start": 29986,
+    "end": 31703,
+    "title": "Tumour nomenclature by tissue of origin and malignant status",
+    "why": "The lecturer explains the naming rules and common exceptions for benign and malignant neoplasms across different tissue lineages."
+  },
+  {
+    "start": 31703,
+    "end": 34310,
+    "title": "Mechanisms of cancer-related illness and death",
+    "why": "The lecturer details the direct physical, systemic, and metastatic mechanisms through which cancer causes illness and death."
+  },
+  {
+    "start": 34310,
+    "end": 36400,
+    "title": "Incidence and mortality of major human tumour types",
+    "why": "The lecturer compares tumor incidence across human tissue types, companion animals, and diverse multicellular organisms."
+  },
+  {
+    "start": 36400,
+    "end": 38251,
+    "title": "Tumour incidence across animal species",
+    "why": "The lecturer examines tumor prevalence across other animal species to show that cancer is a fundamental disorder of differentiation in multicellular organisms."
+  },
+  {
+    "start": 38251,
+    "end": 39699,
+    "title": "Clinical presentation of cancer and the rationale for screening",
+    "why": "The lecturer outlines typical clinical presentations and evaluates population screening approaches for cervical, colorectal, breast, and prostate cancers."
+  },
+  {
+    "start": 39699,
+    "end": 44004,
+    "title": "Cervical screening for HPV-associated pre-invasive lesions",
+    "why": "The lecturer explores cervical cancer screening in depth, explaining the anatomy, squamo-columnar histology, HPV progression to dysplasia, and Pap smear cytology."
+  },
+  {
+    "start": 44004,
+    "end": 45928,
+    "title": "Methods and limitations of colorectal, breast and prostate cancer screening",
+    "why": "The lecturer shifts to colorectal cancer screening along with comparisons to breast and prostate screening programs."
+  },
+  {
+    "start": 45928,
+    "end": 46207,
+    "title": "Lecture close: learning outcomes, revision and upcoming practicals",
+    "why": "The lecturer concludes the session with a recap reference to learning outcomes and notices for upcoming practicals and lectures."
+  }
+]

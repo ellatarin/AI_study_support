@@ -1,0 +1,121 @@
+{
+  "subtopics": 23,
+  "titlesChanged": 23,
+  "changed": [
+    {
+      "position": 1,
+      "oldTitle": "Introduction to cancer therapy",
+      "newTitle": "Cancer therapy approaches and learning objectives"
+    },
+    {
+      "position": 2,
+      "oldTitle": "Surgery and radiotherapy as primary cancer treatments",
+      "newTitle": "Surgery and radiotherapy with adjunctive chemotherapy"
+    },
+    {
+      "position": 3,
+      "oldTitle": "Cytotoxic chemotherapy mechanisms and limitations",
+      "newTitle": "Cytotoxic chemotherapy: mechanisms, efficacy, toxicity and resistance"
+    },
+    {
+      "position": 4,
+      "oldTitle": "Targeting outside-in signaling in hormone-dependent cancers",
+      "newTitle": "Targeting hormone dependence in breast and prostate cancers"
+    },
+    {
+      "position": 5,
+      "oldTitle": "Exploiting cell cycle checkpoint defects and oncolytic viruses",
+      "newTitle": "Exploiting cell cycle checkpoint defects to increase radiosensitivity"
+    },
+    {
+      "position": 6,
+      "oldTitle": "Exploiting p53 deficiency using engineered oncolytic adenoviruses",
+      "newTitle": "Oncolytic adenoviruses targeting p53-deficient cancer cells"
+    },
+    {
+      "position": 7,
+      "oldTitle": "Exploiting DNA repair deficiencies with PARP inhibitors",
+      "newTitle": "PARP inhibition in BRCA-deficient cancers"
+    },
+    {
+      "position": 8,
+      "oldTitle": "Targeting oncogene addiction with kinase inhibitors",
+      "newTitle": "Oncogene addiction and genome-guided targeted therapy"
+    },
+    {
+      "position": 9,
+      "oldTitle": "Targeting hyperactivated kinases with small-molecule inhibitors",
+      "newTitle": "Targeting activated oncogenic kinases with ATP-competitive inhibitors"
+    },
+    {
+      "position": 10,
+      "oldTitle": "Kinase inhibitor resistance, bypass pathways, and drug addiction",
+      "newTitle": "Kinase inhibitor selectivity and resistance through binding-site mutations"
+    },
+    {
+      "position": 11,
+      "oldTitle": "Bypass resistance mechanisms and drug addiction in RAF inhibitors",
+      "newTitle": "BRAF inhibitor resistance, drug addiction and intermittent dosing"
+    },
+    {
+      "position": 12,
+      "oldTitle": "Summary of kinase inhibitors as chronic therapies and their associated side effects",
+      "newTitle": "Summary of long-term kinase inhibitor treatment and its limitations"
+    },
+    {
+      "position": 13,
+      "oldTitle": "Monoclonal antibodies and antibody-drug conjugates",
+      "newTitle": "Monoclonal antibodies for receptor blockade and immune-mediated cancer cell killing"
+    },
+    {
+      "position": 14,
+      "oldTitle": "Antibody-drug conjugates and brentuximab",
+      "newTitle": "Antibody–drug conjugates for targeted cytotoxic delivery"
+    },
+    {
+      "position": 15,
+      "oldTitle": "Historical and clinical evidence for cancer immune surveillance",
+      "newTitle": "Evidence for and against immune surveillance of cancer"
+    },
+    {
+      "position": 16,
+      "oldTitle": "Immune checkpoint inhibitors and neoantigen response",
+      "newTitle": "Immune checkpoint blockade: T cell reactivation, efficacy and toxicity"
+    },
+    {
+      "position": 17,
+      "oldTitle": "tumor neoantigens and mutational burden driving T-cell responses",
+      "newTitle": "Tumor neoantigens and response to immune checkpoint blockade"
+    },
+    {
+      "position": 18,
+      "oldTitle": "Bispecific T-cell engagers and CAR T-cell therapies",
+      "newTitle": "Bispecific T cell engagers in B-cell lymphoma"
+    },
+    {
+      "position": 19,
+      "oldTitle": "CAR T cell therapy mechanism, production, and limitations",
+      "newTitle": "CAR T cell therapy: manufacture, limitations and emerging improvements"
+    },
+    {
+      "position": 20,
+      "oldTitle": "Modern challenges, genomic stratification, and cancer trends",
+      "newTitle": "Summary of cancer therapy challenges and biomarker-guided treatment"
+    },
+    {
+      "position": 21,
+      "oldTitle": "historical trends: cancer therapy improvements versus prevention and early detection",
+      "newTitle": "Cancer outcome trends and the contributions of prevention and early detection"
+    },
+    {
+      "position": 22,
+      "oldTitle": "future directions and ethical dilemmas in cancer management",
+      "newTitle": "Future cancer treatment priorities and ethical dilemmas"
+    },
+    {
+      "position": 23,
+      "oldTitle": "Combination chemotherapy success in pediatric leukemia and ethical dilemmas",
+      "newTitle": "Lecture close: childhood leukemia survival and the challenge of trialling targeted therapies"
+    }
+  ]
+}

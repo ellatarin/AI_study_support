@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture’s aims and connects its focus on cancer evolution to earlier lectures.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation-driven clonal evolution",
+      "groupedBecause": "This subtopic explains how successive mutations confer selective advantages that allow fitter clones to expand.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epigenetic disruption as a route to cancer",
+      "groupedBecause": "This subtopic examines whether altered transcriptional states can drive tumor development without mutational change.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Stemness, tumor hierarchy and the cell of origin",
+      "groupedBecause": "These subtopics examine how a cell’s position in a differentiation hierarchy influences its capacity to initiate and propagate cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness in cancer promotion",
+      "groupedBecause": "These subtopics show how inflammatory microenvironments enable mutation-bearing cells to develop tumors by inducing stem-like properties.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Microenvironmental support of established tumors",
+      "groupedBecause": "This subtopic examines established tumors’ dependence on supportive stromal cells as a vulnerability that therapy could target.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Investigating cancer evolution with single-cell and spatial methods",
+      "groupedBecause": "This subtopic explains how tissue-based molecular methods reveal tumor cell states and interactions within their microenvironment.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Converging conditions for malignant evolution",
+      "groupedBecause": "This subtopic integrates the lecture’s mechanisms into an account of how malignant growth depends on the right cellular conditions arising together, including during childhood development.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This subtopic ends the lecture and announces the forthcoming discussion of cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

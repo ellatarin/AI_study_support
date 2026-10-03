@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and aims",
+      "groupedBecause": "This subtopic frames the lecture as an integration of previously introduced immune cells and molecules.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition",
+      "groupedBecause": "These subtopics explain how innate immunity distinguishes danger through molecular patterns and appropriately positioned, germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and signalling",
+      "groupedBecause": "These subtopics explain how Toll-like receptors translate microbial recognition into responses suited to the location of infection.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Non-TLR recognition pathways and inflammatory disease",
+      "groupedBecause": "These subtopics show how danger sensing through non-TLR pathways activates inflammation that can contribute to chronic disease.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel-cell signalling and leukocyte recruitment",
+      "groupedBecause": "These subtopics explain how activated sentinel cells organise the inflammatory response, including the recruitment of circulating leukocytes to infected tissue.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic transport and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how drainage from infected tissues enables dendritic cells to initiate adaptive immune responses in lymph nodes.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic examines how excessive inflammatory activation becomes a life-threatening systemic response.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mechanisms that resolve inflammation",
+      "groupedBecause": "This subtopic explains how declining inflammatory stimuli and active inhibitory signals bring an immune response to an end.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics examine recovery after inflammatory damage and why persistent triggers can require ongoing containment rather than complete restoration.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This subtopic ends the lecture and identifies complement as the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

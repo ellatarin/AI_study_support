@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture by connecting it to the practicals and outlining its learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the discovery of cellular proto-oncogenes",
+      "groupedBecause": "These subtopics explain how investigations of cancer-causing viruses established that transformation can originate in altered cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental testing of cellular transformation",
+      "groupedBecause": "This subtopic explains how experimental assays establish whether a gene or mutation transforms cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Functional interpretation of cancer genes and mutations",
+      "groupedBecause": "These subtopics explain how a mutation's effects on protein activity and cellular regulation determine its role in promoting or restraining cancer.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Mechanisms and consequences of genetic instability",
+      "groupedBecause": "These subtopics explain how failures of genome maintenance generate genetic instability and alter cancer-cell behavior.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mutation order in colorectal cancer progression",
+      "groupedBecause": "This subtopic examines how the timing of mutation acquisition influences the progression from normal colorectal tissue to metastatic cancer.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Inherited tumor-suppressor mutations and the course of cancer",
+      "groupedBecause": "These subtopics trace how inherited tumor-suppressor defects predispose to cancer, with BRCA2 restoration illustrating why an established tumor can remain malignant after a defect is corrected.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Closing, further reading, and questions",
+      "groupedBecause": "This subtopic closes the lecture with an invitation for questions, recommended reading, and a preview of the next session.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

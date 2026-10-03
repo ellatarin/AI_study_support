@@ -1,0 +1,66 @@
+{
+  "subtopics": 12,
+  "titlesChanged": 12,
+  "changed": [
+    {
+      "position": 1,
+      "oldTitle": "Welcome and Lecture Framing",
+      "newTitle": "Introduction to cancer evolution, cell of origin and the microenvironment"
+    },
+    {
+      "position": 2,
+      "oldTitle": "Clonal Evolution and Selection of Driver Mutations",
+      "newTitle": "Evidence for mutation-driven clonal evolution and selection"
+    },
+    {
+      "position": 3,
+      "oldTitle": "Epigenetic Regulation in Cancer Hallmarks",
+      "newTitle": "Epigenetic disruption as a driver of tumor development"
+    },
+    {
+      "position": 4,
+      "oldTitle": "Cell of Origin and Cancer Stem Cells",
+      "newTitle": "Stem cell properties and stochastic versus hierarchical models of cancer"
+    },
+    {
+      "position": 5,
+      "oldTitle": "evidence for cancer stem cells in leukemia",
+      "newTitle": "Evidence for cancer stem cells and tumor hierarchy in leukemia"
+    },
+    {
+      "position": 6,
+      "oldTitle": "cell of origin and bottom-up transformation in colorectal cancer",
+      "newTitle": "Cell of origin and APC loss in intestinal tumor initiation"
+    },
+    {
+      "position": 7,
+      "oldTitle": "Microenvironmental and Inflammatory Promotion",
+      "newTitle": "Pollution-induced inflammation and stemness in lung cancer promotion"
+    },
+    {
+      "position": 8,
+      "oldTitle": "Colon cancer and inflammation in the APC knockout model",
+      "newTitle": "Inflammation-induced stemness and tumor formation in APC-deficient intestinal progenitors"
+    },
+    {
+      "position": 9,
+      "oldTitle": "Established Tumor Microenvironment and Spatial Profiling",
+      "newTitle": "Stromal support of established tumors and microenvironment-targeted therapy"
+    },
+    {
+      "position": 10,
+      "oldTitle": "methods for studying tumor heterogeneity and the microenvironment",
+      "newTitle": "Investigating cancer evolution and cell interactions with single-cell and spatial omics"
+    },
+    {
+      "position": 11,
+      "oldTitle": "Summary of Coevolution and Routes to Malignancy",
+      "newTitle": "Lecture summary: mutations, cell identity and microenvironment in cancer evolution"
+    },
+    {
+      "position": 12,
+      "oldTitle": "Closing Remarks and Next Lecture",
+      "newTitle": "Lecture close: next lecture on cancer therapy"
+    }
+  ]
+}

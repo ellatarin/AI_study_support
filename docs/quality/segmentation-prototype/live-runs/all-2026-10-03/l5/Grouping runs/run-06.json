@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This opening frames the lecture by connecting it to the practicals and outlining its learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the discovery of cellular proto-oncogenes",
+      "groupedBecause": "These subtopics trace how research into cancer-causing viruses established that transformation can originate in altered normal cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental tests of cellular transformation",
+      "groupedBecause": "This subtopic explains how laboratory assays establish whether a gene or mutation produces transformed cellular properties.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Functional classification and effects of cancer mutations",
+      "groupedBecause": "These subtopics explain how cancer mutations are classified by their functional effects and show why those effects depend on the affected pathway and the particular mutation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Genetic instability and defects in genome maintenance",
+      "groupedBecause": "These subtopics explain how failures to preserve genome fidelity produce sequence or chromosomal instability and its cellular consequences.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mutation order in colorectal cancer progression",
+      "groupedBecause": "This subtopic examines how the timing and order of mutation acquisition influence progression from normal colorectal epithelium to metastatic cancer.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Inherited cancer predisposition and tumor suppressor defects",
+      "groupedBecause": "These subtopics examine how inherited tumor suppressor defects predispose cells to cancer without necessarily remaining essential to established malignancy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture close, further reading and questions",
+      "groupedBecause": "This closing returns to the learning outcomes and offers questions, recommended reading and a preview of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

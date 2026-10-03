@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to inflammation initiation and resolution",
+      "groupedBecause": "The opening frames the lecture as an integration of previously introduced immune cells and molecules.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition",
+      "groupedBecause": "These subtopics explain how innate immunity detects infection and damage through suitable molecular patterns and appropriately positioned, germline-encoded receptors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor pathways and inflammatory signalling",
+      "groupedBecause": "These subtopics explain how specific pattern recognition systems translate microbial or damage signals into immune responses.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Sentinel cell activation and leukocyte recruitment",
+      "groupedBecause": "These subtopics trace how activated sentinel cells initiate inflammation that brings circulating leukocytes to the infection site.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic drainage and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how the lymphatic system enables infection signals from tissues to reach lymph nodes and initiate adaptive immunity.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic examines how excessive inflammatory activation becomes a life-threatening systemic response.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Passive and active resolution of inflammation",
+      "groupedBecause": "This subtopic explains how inflammation subsides through withdrawal of inflammatory stimulation and active inhibitory signals.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics examine what happens when inflamed tissue is repaired or remains chronically inflamed because the underlying problem cannot be eliminated.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture on complement",
+      "groupedBecause": "The closing ends the lecture and identifies complement as the subject of the next session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

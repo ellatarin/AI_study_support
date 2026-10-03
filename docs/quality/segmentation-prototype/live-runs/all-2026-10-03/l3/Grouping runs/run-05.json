@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture series and sets out what students should learn from this lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer development as disruption of normal cellular differentiation",
+      "groupedBecause": "These subtopics explain how acquired cellular changes disrupt normal tissue organisation and why cancer must be studied in that tissue context.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing benign tumours from invasive and metastatic malignancy",
+      "groupedBecause": "These subtopics establish spread beyond a tumour's original boundaries as a feature of malignancy and illustrate how that spread is recognised.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour progression and the significance of benign status",
+      "groupedBecause": "These subtopics examine what a tumour's benign or invasive status implies for its subsequent course, showing that benign growth neither inevitably becomes malignant nor guarantees harmlessness.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumour nomenclature",
+      "groupedBecause": "This subtopic explains how tumour names indicate tissue of origin and malignant status, including exceptions to the naming conventions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "How cancer causes illness and death",
+      "groupedBecause": "This subtopic explains how tumour growth disrupts normal bodily function and produces potentially fatal disease.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumour incidence in humans and other animals",
+      "groupedBecause": "These subtopics compare the frequency and distribution of tumour types across human and animal populations.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer presentation and the effectiveness of screening",
+      "groupedBecause": "These subtopics explain the need for early detection and assess how effectively screening can identify treatable disease in different cancer types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and upcoming practicals",
+      "groupedBecause": "This subtopic closes the lecture by returning to the learning outcomes and directing students towards revision and upcoming teaching.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

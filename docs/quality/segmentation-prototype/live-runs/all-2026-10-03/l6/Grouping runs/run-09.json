@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing: cancer hallmarks and their genetic basis",
+      "groupedBecause": "The opening establishes the lecture’s aims and introduces the framework for connecting cancer mutations to functional hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Signaling mutations that deregulate growth and survival",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signaling pathways free cancer cells from normal controls on proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Disrupted differentiation in blood cancers and intestinal epithelium",
+      "groupedBecause": "These subtopics show how the differentiation state of cancer cells explains their abnormal expansion and tissue organization.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how altered p53 signaling and the balance of mitochondrial apoptotic regulators allow cancer cells to evade death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and cancer cell immortalization",
+      "groupedBecause": "These subtopics connect telomere-dependent limits on cell division to the mutations that enable cancer cells to bypass those limits.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53 stress responses and genome protection",
+      "groupedBecause": "These subtopics explain p53-mediated safeguards against transformation and conclude the discussion of mutation-driven loss of growth control.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Cancer metabolic rewiring",
+      "groupedBecause": "These subtopics examine how altered metabolism supports cancer and participates in self-reinforcing changes to gene regulation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "The angiogenic switch in tumor growth",
+      "groupedBecause": "This subtopic explains why tumors require new vasculature and how the balance of angiogenic signals enables its development.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and successful colonization",
+      "groupedBecause": "These subtopics examine what allows tumor cells to spread from a primary site and survive as detectable tumors elsewhere.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing synthesis, further reading and practicals",
+      "groupedBecause": "The closing reiterates the lecture’s central takeaway and learning goals before offering further reading and directing students to the practicals.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

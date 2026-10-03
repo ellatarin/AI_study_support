@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing: cancer hallmarks and their genetic basis",
+      "groupedBecause": "This opening establishes the lecture’s learning outcomes and its use of cancer hallmarks to connect mutations with changes in tissue behavior.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth and survival signaling",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signaling pathways make cancer cells less dependent on growth stimulation and less responsive to growth inhibition.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in blood cancers and intestinal epithelium",
+      "groupedBecause": "These subtopics show how disrupted differentiation changes the identity and organization of cancer cells relative to their normal maturation pathways.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how altered p53 signaling and the balance of mitochondrial apoptotic regulators allow cancer cells to evade cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Replicative limits, senescence and cancer-cell immortalization",
+      "groupedBecause": "These subtopics explain the safeguards that limit continued cell division and how cancer cells overcome them, concluding with a recap of growth-control hallmarks.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Cancer metabolic rewiring",
+      "groupedBecause": "These subtopics examine altered cancer metabolism as a functional adaptation that both reflects and reinforces molecular changes in tumors.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis in tumor development",
+      "groupedBecause": "This subtopic explains how tumors recruit a blood supply to overcome the limits of oxygen and nutrient diffusion.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and successful colonization",
+      "groupedBecause": "These subtopics examine how cancer cells reach distant sites and what determines whether they survive there to form detectable metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing synthesis and further reading",
+      "groupedBecause": "This closing returns to the lecture’s learning outcomes, emphasizes convergence on shared hallmarks, and offers further reading before the farewell.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

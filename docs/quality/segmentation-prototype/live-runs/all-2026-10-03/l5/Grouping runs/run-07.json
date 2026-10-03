@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The opening connects the lecture to the histopathology practicals and outlines its learning goals.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the discovery of cellular proto-oncogenes",
+      "groupedBecause": "These subtopics trace how research into tumor-causing viruses established that cancer can originate from altered normal cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental testing of cellular transformation",
+      "groupedBecause": "This subtopic explains how experimental assays establish whether a gene or mutation gives cells transformed properties.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cancer gene functions and the effects of mutations",
+      "groupedBecause": "These subtopics explain how cancer mutations are classified by their functional effects and why their behavior depends on the affected protein and pathway.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Genetic instability and defective DNA repair",
+      "groupedBecause": "These subtopics explain the contrasting forms of genetic instability through the DNA repair defects that produce them.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Genetic instability from replication and mitotic errors",
+      "groupedBecause": "These subtopics show how failures to faithfully copy and distribute the genome during cell division generate instability that can promote tumor adaptation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mutation order in colorectal cancer progression",
+      "groupedBecause": "This subtopic examines how the timing of mutation acquisition, especially the onset of genetic instability, influences colorectal tumor progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Hereditary cancer predisposition and BRCA2 restoration",
+      "groupedBecause": "These subtopics follow inherited tumor suppressor defects from increased cancer susceptibility to a BRCA2 example showing that the resulting repair deficiency need not persist for malignancy to continue.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Further reading, questions, and lecture close",
+      "groupedBecause": "The closing returns to the learning outcomes, offers further reading and questions, and previews the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

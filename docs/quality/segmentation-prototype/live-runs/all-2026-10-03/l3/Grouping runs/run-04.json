@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture series and sets out what students should learn from this lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular changes, differentiation and tissue organisation in cancer",
+      "groupedBecause": "These subtopics establish cancer as a disruption of normal cellular programmes whose development must be understood in the context of organised tissues.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Distinguishing benign and malignant tumours through invasion and metastasis",
+      "groupedBecause": "These subtopics explain how tumour spread distinguishes malignancy from benign growth and demonstrate how that distinction is recognised clinically and histologically.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Benign tumour progression and clinical significance",
+      "groupedBecause": "These subtopics examine the possible course of benign tumours, showing that progression to invasive cancer is neither inevitable nor necessary for a tumour to cause serious harm.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumour nomenclature",
+      "groupedBecause": "This subtopic explains how tumour names convey tissue of origin and malignant status, including exceptions to the naming conventions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "How cancer causes illness and death",
+      "groupedBecause": "This subtopic explains how tumour growth disrupts normal bodily function and ultimately causes morbidity and mortality.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumour incidence in humans and other animals",
+      "groupedBecause": "These subtopics compare the occurrence of tumour types across populations and species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening",
+      "groupedBecause": "These subtopics explain why early cancer detection is difficult and assess how effectively screening can identify treatable disease at different anatomical sites.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and follow-up",
+      "groupedBecause": "This subtopic closes the lecture by returning to the learning outcomes and directing students towards revision and upcoming practicals.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

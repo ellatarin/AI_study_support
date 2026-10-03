@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing: cancer hallmarks and their genetic basis",
+      "groupedBecause": "This subtopic establishes the lecture’s aims, its relationship to earlier lectures, and the hallmark framework used throughout.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Signaling mutations that deregulate growth and survival",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signaling pathways free cancer cells from normal controls on proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Disrupted differentiation in cancer",
+      "groupedBecause": "These subtopics show how altered differentiation produces malignant cell populations and disrupts normal tissue renewal.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how disruption of the p53–Bax–BCL2 balance allows cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and replicative immortalization",
+      "groupedBecause": "These subtopics explain how cancer cells overcome telomere-dependent limits on division by restoring telomerase expression.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53-mediated genome protection and growth-control recap",
+      "groupedBecause": "These subtopics explain p53’s protective responses to cellular stress and conclude the discussion of genetically disrupted growth control.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics examine how altered metabolism supports cancer and interacts with the genetic and epigenetic changes driving it.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "This subtopic explains how the angiogenic switch supplies developing tumors with the perfusion needed for continued growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic spread and successful colonization",
+      "groupedBecause": "These subtopics investigate how tumor cells reach distant sites and what determines whether they establish clinically detectable metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing synthesis and further reading",
+      "groupedBecause": "This subtopic closes the lecture by restating its central message, recommending further reading, and inviting questions before the practicals.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

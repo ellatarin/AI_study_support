@@ -1,0 +1,84 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This opening frames the lecture and states what students should learn about cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery and radiotherapy in cancer treatment",
+      "groupedBecause": "This material explains how local treatments remove or destroy tumors and how chemotherapy supports their effectiveness.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic chemotherapy",
+      "groupedBecause": "This material explains the effectiveness and limitations of drugs that damage cancer cells but also affect healthy dividing cells.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Targeting hormone-dependent cancers",
+      "groupedBecause": "This material shows how blocking required hormonal signals can suppress breast and prostate cancer growth.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Exploiting cell cycle checkpoint defects",
+      "groupedBecause": "These subtopics explain how missing checkpoint proteins create selective vulnerabilities to irradiation and oncolytic viruses.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "PARP inhibition in BRCA-deficient cancers",
+      "groupedBecause": "This material explains how inhibiting a remaining DNA repair pathway selectively kills cancer cells already deficient in BRCA-mediated repair.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Oncogene addiction and targeted kinase inhibition",
+      "groupedBecause": "These subtopics explain how identifying the oncogenic driver of a tumor enables treatment directed at its essential growth machinery.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Limitations and resistance in kinase inhibitor treatment",
+      "groupedBecause": "These subtopics explain why kinase inhibition often becomes long-term disease control rather than a cure and how treatment must adapt to resistant tumor populations.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Antibody therapies targeting cancer-cell surface proteins",
+      "groupedBecause": "These subtopics explain how antibody recognition of surface proteins directs therapeutic activity toward cancer cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Evidence for immune surveillance of cancer",
+      "groupedBecause": "This material evaluates whether the body's existing immune system protects against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Immune checkpoint blockade and tumor neoantigens",
+      "groupedBecause": "These subtopics explain how checkpoint blockade restores antitumor T-cell activity and why recognition of tumor neoantigens influences its effectiveness.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Redirecting T cells with bispecific engagers and CAR T cells",
+      "groupedBecause": "These subtopics describe engineered approaches that direct T-cell cytotoxicity toward selected tumor antigens.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Treatment challenges and biomarker-guided cancer care",
+      "groupedBecause": "This material explains why matching treatment to a patient's evolving cancer is essential but remains difficult.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Cancer outcome trends, prevention and early detection",
+      "groupedBecause": "This material examines how prevention and earlier diagnosis complicate the interpretation of improvements in cancer outcomes.",
+      "firstSubtopicId": 21
+    },
+    {
+      "label": "Future treatment priorities and ethical dilemmas",
+      "groupedBecause": "This material considers how future cancer care should balance opportunities for improvement against treatment burdens and patient quality of life.",
+      "firstSubtopicId": 22
+    },
+    {
+      "label": "Concluding case: childhood leukemia survival and trials of new therapies",
+      "groupedBecause": "This concluding case uses the success of cytotoxic treatment in childhood leukemia to illustrate the dilemma of testing newer therapies against highly effective established care.",
+      "firstSubtopicId": 23
+    }
+  ]
+}

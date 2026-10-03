@@ -1,0 +1,86 @@
+{
+  "subtopics": 16,
+  "titlesChanged": 16,
+  "changed": [
+    {
+      "position": 1,
+      "oldTitle": "Lecture introduction and overview",
+      "newTitle": "Introduction to the initiation and resolution of inflammation"
+    },
+    {
+      "position": 2,
+      "oldTitle": "Innate immune recognition via PAMPs and DAMPs",
+      "newTitle": "Innate immune recognition of PAMPs and DAMPs"
+    },
+    {
+      "position": 3,
+      "oldTitle": "Properties and examples of effective PAMPs",
+      "newTitle": "Properties of effective PAMPs and self–non-self discrimination"
+    },
+    {
+      "position": 4,
+      "oldTitle": "Genetic encoding and subcellular localization of PRRs",
+      "newTitle": "Germline encoding and cellular localisation of pattern recognition receptors"
+    },
+    {
+      "position": 5,
+      "oldTitle": "Toll-like receptors and their ligands",
+      "newTitle": "Toll-like receptors and their microbial ligands"
+    },
+    {
+      "position": 6,
+      "oldTitle": "TLR signaling pathways and stress integration",
+      "newTitle": "Location-dependent TLR signalling and synergy with cellular stress"
+    },
+    {
+      "position": 7,
+      "oldTitle": "Alternative PRR families: CLRs, RLRs, and NLRs",
+      "newTitle": "Other pattern recognition receptor families and NOD2 in Crohn's disease"
+    },
+    {
+      "position": 8,
+      "oldTitle": "The inflammasome and IL-1beta activation",
+      "newTitle": "Inflammasome assembly, IL-1β activation and chronic inflammation"
+    },
+    {
+      "position": 9,
+      "oldTitle": "Sentinel cell activation and systemic cytokine effects",
+      "newTitle": "Sentinel cell activation and local and systemic inflammatory effects"
+    },
+    {
+      "position": 10,
+      "oldTitle": "Leukocyte extravasation and chemokine migration",
+      "newTitle": "Leukocyte recruitment through adhesion, extravasation and chemotaxis"
+    },
+    {
+      "position": 11,
+      "oldTitle": "Lymphatic drainage and adaptive immune priming",
+      "newTitle": "Lymphatic drainage and dendritic cell migration for adaptive immune priming"
+    },
+    {
+      "position": 12,
+      "oldTitle": "Systemic inflammatory pathology: sepsis and septic shock",
+      "newTitle": "Excessive systemic inflammation and septic shock"
+    },
+    {
+      "position": 13,
+      "oldTitle": "Passive and active resolution of inflammation",
+      "newTitle": "Passive and active mechanisms of inflammation resolution"
+    },
+    {
+      "position": 14,
+      "oldTitle": "Tissue repair, scarring, and chronic inflammation",
+      "newTitle": "Tissue repair and causes of persistent inflammation"
+    },
+    {
+      "position": 15,
+      "oldTitle": "Protective role of granulomas in persistent infections",
+      "newTitle": "Granuloma formation as a strategy for containing persistent infection"
+    },
+    {
+      "position": 16,
+      "oldTitle": "Lecture conclusion",
+      "newTitle": "Lecture close: introduction to the next lecture on complement"
+    }
+  ]
+}

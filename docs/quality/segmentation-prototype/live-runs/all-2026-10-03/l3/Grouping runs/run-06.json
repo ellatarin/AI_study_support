@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture series and sets out what students should learn from this lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Accumulation of genetic and epigenetic changes in cancer",
+      "groupedBecause": "This subtopic establishes the stepwise accumulation of cellular changes as a model of cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer as disrupted differentiation and tissue organisation",
+      "groupedBecause": "These subtopics explain why cancer must be understood in the context of organised tissues rather than through isolated tumour cells alone.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Distinguishing benign tumours from invasive and metastatic malignancy",
+      "groupedBecause": "These subtopics establish invasion and spread as defining features of malignancy and show how those features are recognised in tumour specimens.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Benign tumours and progression to invasive cancer",
+      "groupedBecause": "These subtopics examine progression from benign growth to invasive malignancy while qualifying what benign status means for a patient's risk.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumour nomenclature",
+      "groupedBecause": "This subtopic explains how tumour names convey tissue of origin and malignant status, including exceptions to the naming rules.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "How cancer causes illness and death",
+      "groupedBecause": "This subtopic explains how tumour growth and metastatic spread impair normal bodily function and can become lethal.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumour incidence in humans and other animals",
+      "groupedBecause": "These subtopics compare the frequency and distribution of tumour types across human populations and animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening",
+      "groupedBecause": "These subtopics examine why early cancer detection is difficult and what makes screening effective or limited in different tumour types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and upcoming practicals",
+      "groupedBecause": "This subtopic closes the lecture by directing students back to the learning outcomes and ahead to revision and practical teaching.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

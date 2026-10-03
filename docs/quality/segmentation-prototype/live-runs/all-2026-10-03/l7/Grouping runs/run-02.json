@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning aims",
+      "groupedBecause": "This opening frames the lecture's place in the course and introduces its intended learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Molecular changes driving clonal evolution and tumor development",
+      "groupedBecause": "These subtopics examine how changes in gene function or activity confer properties that enable cells to expand and develop into tumors.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stemness, tumor hierarchy and the cell of origin",
+      "groupedBecause": "These subtopics investigate how a cell's position in a differentiation hierarchy affects its capacity to initiate and propagate cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness and cancer promotion",
+      "groupedBecause": "These subtopics show how inflammatory signaling can give mutation-bearing cells the stem-like properties needed for tumor formation.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Stromal dependence of established tumors and therapeutic targeting",
+      "groupedBecause": "This subtopic examines established tumors' dependence on supportive stromal cells as a vulnerability that treatment could exploit.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Investigating cancer evolution with single-cell and spatial omics",
+      "groupedBecause": "This subtopic explains how tissue-based molecular methods reveal tumor evolution and interactions between cells.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Converging conditions for malignant outgrowth",
+      "groupedBecause": "This synthesis explains cancer development as the convergence of cellular fitness and a permissive environment at the right time and place.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This closing ends the lecture and announces the forthcoming session on therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

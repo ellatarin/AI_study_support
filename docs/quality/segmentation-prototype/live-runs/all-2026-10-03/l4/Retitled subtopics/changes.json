@@ -1,0 +1,116 @@
+{
+  "subtopics": 22,
+  "titlesChanged": 22,
+  "changed": [
+    {
+      "position": 1,
+      "oldTitle": "Lecture Introduction and Learning Objectives",
+      "newTitle": "Introduction to cancer causes and lecture objectives"
+    },
+    {
+      "position": 2,
+      "oldTitle": "Cancer as a Genetic and Evolutionary Disease",
+      "newTitle": "Cancer as genetic evolution within a permissive microenvironment"
+    },
+    {
+      "position": 3,
+      "oldTitle": "Endogenous Mutational Processes and Genetic Predisposition",
+      "newTitle": "Endogenous mutations, environmental exposures and inherited cancer predisposition"
+    },
+    {
+      "position": 4,
+      "oldTitle": "Environmental Carcinogens and Epidemiological Variation",
+      "newTitle": "Known and suspected environmental cancer risks"
+    },
+    {
+      "position": 5,
+      "oldTitle": "The 'bad luck' vs. environmental exposure debate and public perception of cancer risk",
+      "newTitle": "The cancer bad luck hypothesis and public interpretation"
+    },
+    {
+      "position": 6,
+      "oldTitle": "Epidemiological studies and geographic variation in cancer incidence",
+      "newTitle": "Geographical cancer incidence as evidence for environmental and genetic influences"
+    },
+    {
+      "position": 7,
+      "oldTitle": "Infectious Pathogens and Cancer Risk",
+      "newTitle": "Infectious agents and their mechanisms of carcinogenesis"
+    },
+    {
+      "position": 8,
+      "oldTitle": "Burkitt Lymphoma and the Lymphoma Belt",
+      "newTitle": "Burkitt lymphoma: EBV, malaria and MYC translocation"
+    },
+    {
+      "position": 9,
+      "oldTitle": "Dietary Carcinogens and Aflatoxin Activation",
+      "newTitle": "Dietary aflatoxin activation and DNA adduct formation"
+    },
+    {
+      "position": 10,
+      "oldTitle": "UV Radiation and Thymine Dimer Formation",
+      "newTitle": "UV-induced thymine dimers and nucleotide excision repair"
+    },
+    {
+      "position": 11,
+      "oldTitle": "Polycyclic Aromatic Hydrocarbons and Xenobiotic Metabolism",
+      "newTitle": "Benzo[a]pyrene metabolic activation, DNA adducts and transversion mutations"
+    },
+    {
+      "position": 12,
+      "oldTitle": "TCDD toxicity and mechanism of DNA damage through oxidative stress",
+      "newTitle": "TCDD-induced oxidative stress and indirect DNA damage"
+    },
+    {
+      "position": 13,
+      "oldTitle": "Tissue-Specific Activation of Beta-Naphthylamine",
+      "newTitle": "Bladder-specific activation of aromatic amine carcinogens"
+    },
+    {
+      "position": 14,
+      "oldTitle": "Asbestos and Chronic Inflammation as a Promoter",
+      "newTitle": "Asbestos-induced chronic inflammation and tumour promotion"
+    },
+    {
+      "position": 15,
+      "oldTitle": "Two-Stage Carcinogenesis and Tumor Promoters",
+      "newTitle": "Two-stage carcinogenesis: DMBA initiation and TPA-mediated promotion"
+    },
+    {
+      "position": 16,
+      "oldTitle": "Developmental Stage Susceptibility and Alkylating Agents",
+      "newTitle": "Developmental stage and tissue susceptibility to carcinogens"
+    },
+    {
+      "position": 17,
+      "oldTitle": "Summary of mechanisms and factors in cancer causation",
+      "newTitle": "Summary of DNA damage, tumour promotion and tissue-specific carcinogenesis"
+    },
+    {
+      "position": 18,
+      "oldTitle": "Mutational Signatures from Whole Genome Sequencing",
+      "newTitle": "Mutational signatures as evidence of carcinogen exposure"
+    },
+    {
+      "position": 19,
+      "oldTitle": "Epidemiological Biobanks and Animal Carcinogenicity Studies",
+      "newTitle": "Epidemiology, exposure biomarkers and biobanks in carcinogenicity research"
+    },
+    {
+      "position": 20,
+      "oldTitle": "Animal studies and toxicological testing for carcinogenicity",
+      "newTitle": "Animal carcinogenicity testing: species differences and dose limitations"
+    },
+    {
+      "position": 21,
+      "oldTitle": "The Ames Test for Mutagenicity",
+      "newTitle": "The Ames mutagenicity test and its limitations"
+    },
+    {
+      "position": 22,
+      "oldTitle": "Lecture Summary and Risk-Benefit Analysis",
+      "newTitle": "Lecture summary: environmental cancer risks, carcinogenicity assessment and risk–benefit decisions"
+    }
+  ]
+}

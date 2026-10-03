@@ -1,0 +1,79 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture and states what students should learn about cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery and radiotherapy in cancer treatment",
+      "groupedBecause": "This subtopic explains how local treatment can eliminate tumours and why its success depends on tumour accessibility and extent.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic chemotherapy and its limitations",
+      "groupedBecause": "This subtopic examines how cytotoxic drugs kill cancer cells and why their effectiveness is constrained by toxicity and resistance.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Targeting hormone-dependent cancers",
+      "groupedBecause": "This subtopic explains how blocking hormone signalling suppresses cancers that remain dependent on it for growth.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Exploiting cancer cell checkpoint defects",
+      "groupedBecause": "These subtopics show how missing cell cycle checkpoint functions create vulnerabilities that treatments can selectively exploit.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "PARP inhibition in BRCA-deficient cancers",
+      "groupedBecause": "This subtopic explains how inhibiting a complementary DNA repair mechanism selectively kills BRCA-deficient cancer cells.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Oncogene addiction and targeted kinase inhibition",
+      "groupedBecause": "These subtopics explain how identifying the oncogenic activity sustaining a tumour enables treatment directed against that activity.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Kinase inhibitor resistance and long-term treatment limitations",
+      "groupedBecause": "These subtopics examine why kinase inhibition often becomes ongoing disease management rather than a cure.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Antibody-directed cancer treatment",
+      "groupedBecause": "These subtopics explain how antibody recognition of cancer cell surface proteins directs therapeutic effects towards those cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Evidence for cancer immune surveillance",
+      "groupedBecause": "This subtopic evaluates whether the body's existing immune responses protect against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Immune checkpoint blockade and tumour antigen recognition",
+      "groupedBecause": "These subtopics explain how releasing inhibitory signals can restore antitumour T cell activity and why tumour neoantigens influence the response.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Redirecting T cells against cancer",
+      "groupedBecause": "These subtopics examine therapies that deliberately give T cells the ability to engage and kill selected cancer cells.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Treatment challenges and biomarker-guided selection",
+      "groupedBecause": "This subtopic explains why variable treatment responses require better ways to match patients to effective therapies.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Cancer outcome trends, prevention and early detection",
+      "groupedBecause": "This subtopic examines how prevention and earlier diagnosis complicate the attribution of improved cancer outcomes to treatment.",
+      "firstSubtopicId": 21
+    },
+    {
+      "label": "Future cancer care priorities and treatment dilemmas",
+      "groupedBecause": "These subtopics consider how future improvements in cancer care must be weighed against established survival benefits and patients' quality of life.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

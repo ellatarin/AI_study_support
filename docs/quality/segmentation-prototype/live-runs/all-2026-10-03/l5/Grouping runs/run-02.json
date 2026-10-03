@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture by connecting it to the practicals and outlining its learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the discovery of cellular proto-oncogenes",
+      "groupedBecause": "These subtopics trace how investigations of cancer-causing viruses revealed that transformation originates in altered cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental tests of cellular transformation",
+      "groupedBecause": "This subtopic explains how experimental assays establish whether a gene or mutation gives cells transformed properties.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cancer gene classification and the functional effects of mutations",
+      "groupedBecause": "These subtopics explain how cancer mutations are classified by their functional effects, using cell-cycle regulation and mutation dominance to illustrate and qualify those classifications.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Genetic instability and its role in tumor progression",
+      "groupedBecause": "These subtopics explain how failures of genome maintenance generate genetic instability that changes the course of tumor development.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Hereditary cancer predisposition and the consequences of tumor-suppressor mutations",
+      "groupedBecause": "These subtopics follow inherited tumor-suppressor defects through cancer development, with BRCA2 restoration illustrating why the initiating defect need not remain necessary for malignancy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Closing, further reading, and questions",
+      "groupedBecause": "This subtopic closes the lecture with an invitation for questions, recommended reading, and a preview of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture series and sets out what students should learn from this lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic changes in cancer development",
+      "groupedBecause": "This subtopic establishes the accumulation of cellular changes as the basis of stepwise cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer as disrupted differentiation and tissue organisation",
+      "groupedBecause": "These subtopics explain why cancer must be understood in the context of organised tissues rather than isolated tumour cells.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Distinguishing benign and malignant tumours through invasion and metastasis",
+      "groupedBecause": "These subtopics establish how invasion and spread distinguish malignant tumours from contained benign growth, using anatomical and histological examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour progression and the clinical risks of benign growth",
+      "groupedBecause": "These subtopics examine the transition from benign growth to malignancy and explain why remaining benign does not necessarily make a tumour harmless.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumour nomenclature",
+      "groupedBecause": "This subtopic explains how tumour names indicate tissue of origin and malignant status, including exceptions to the naming conventions.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "How cancer causes illness and death",
+      "groupedBecause": "This subtopic explains how tumour growth disrupts normal bodily function and how metastatic disease can lead to fatal organ failure.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumour incidence in humans and other animals",
+      "groupedBecause": "These subtopics compare the frequency and distribution of tumour types across human populations and animal species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Cancer presentation and screening",
+      "groupedBecause": "These subtopics explain the need for early cancer detection and assess how effectively screening can meet that need in different tumour types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and upcoming practicals",
+      "groupedBecause": "This subtopic closes the lecture by returning to the learning outcomes and directing students towards revision and forthcoming teaching.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture framing",
+      "groupedBecause": "The opening frames the lecture as an integration of previously introduced immune cells and molecules.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate recognition of infection and damage",
+      "groupedBecause": "These subtopics explain how innate immunity identifies danger through molecular patterns and receptors suited to detecting them.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor families and inflammatory signalling",
+      "groupedBecause": "These subtopics explain how specific pattern recognition systems translate danger detection into inflammatory responses.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Sentinel cell activation and leukocyte recruitment",
+      "groupedBecause": "These subtopics trace how activated sentinel cells generate signals that mobilise an inflammatory response at the infection site.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic transport and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how drainage from infected tissues enables dendritic cells to initiate adaptive immune responses in lymph nodes.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic examines how excessive inflammatory activation becomes a life-threatening systemic response.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Passive and active resolution of inflammation",
+      "groupedBecause": "This subtopic explains how inflammatory activity subsides through the withdrawal of stimulation and the action of inhibitory signals.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics examine the outcomes of incomplete recovery from tissue inflammation, including chronic damage and containment of persistent infection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture on complement",
+      "groupedBecause": "The closing ends the lecture and identifies complement as the subject of the next session.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

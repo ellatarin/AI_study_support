@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "The opening connects the lecture to the histopathology practicals and outlines what students should learn.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the discovery of cellular proto-oncogenes",
+      "groupedBecause": "These subtopics trace how research into cancer-causing viruses revealed that transformation originates in altered cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental tests of cellular transformation",
+      "groupedBecause": "This subtopic explains how laboratory assays establish whether a gene or mutation produces transformed cellular behavior.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cancer gene function and the effects of mutations",
+      "groupedBecause": "These subtopics explain how mutations are classified by their effects on tumor formation and why those effects depend on the affected protein's function.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Genetic instability and defective DNA repair",
+      "groupedBecause": "These subtopics distinguish sequence from chromosomal instability and explain how failures in DNA repair produce these phenotypes.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Genetic instability from replication and mitotic errors",
+      "groupedBecause": "These subtopics explain how errors during genome copying and segregation generate instability that can promote tumor adaptation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mutation order in colorectal cancer progression",
+      "groupedBecause": "This subtopic examines how the timing of mutation acquisition and genetic instability affects the progression from normal tissue to metastatic cancer.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Inherited cancer predisposition and tumor suppressor defects",
+      "groupedBecause": "These subtopics follow inherited tumor suppressor defects through cancer development, with BRCA2 restoration illustrating that the initiating defect need not remain necessary for malignancy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Further reading, questions, and next lecture",
+      "groupedBecause": "The closing returns to the learning outcomes and offers questions, recommended reading, and a preview of the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

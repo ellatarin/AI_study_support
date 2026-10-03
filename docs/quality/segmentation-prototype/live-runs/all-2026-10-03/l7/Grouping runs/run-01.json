@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture's scope and learning goals before the substantive discussion begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation-driven clonal evolution and epigenetic tumor development",
+      "groupedBecause": "These subtopics examine how changes within cells drive tumor development, extending mutation-based explanations to changes in transcriptional state.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and cancer stem cell hierarchies",
+      "groupedBecause": "These subtopics examine how stemness and a cell's position in a tissue hierarchy affect its capacity to initiate or propagate cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness as a promoter of cancer",
+      "groupedBecause": "These subtopics show how inflammatory signals can enable mutant cells to form tumors by inducing a stem-like state.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Stromal support and therapeutic targeting of established tumors",
+      "groupedBecause": "This subtopic examines established tumors' dependence on their surrounding stroma as a potential therapeutic vulnerability.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Investigating and integrating the determinants of cancer evolution",
+      "groupedBecause": "These subtopics explain how cancer evolution can be understood by examining molecular changes and cell states in their environmental context.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This subtopic ends the lecture and announces the next session on therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

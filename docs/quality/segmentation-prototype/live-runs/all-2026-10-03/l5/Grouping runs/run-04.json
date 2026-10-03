@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture by connecting it to the practicals and outlining its learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the discovery of cellular proto-oncogenes",
+      "groupedBecause": "These subtopics trace how research into cancer-causing viruses revealed that transformation originates in altered cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental tests of cellular transformation",
+      "groupedBecause": "This subtopic explains how experimental assays establish whether genes and mutations confer transformed properties on cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Functional classification and effects of cancer mutations",
+      "groupedBecause": "These subtopics explain how cancer mutations are classified by their functional effects, using checkpoint regulation and mutation dominance to illustrate and qualify those classifications.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Genetic instability and defective DNA repair",
+      "groupedBecause": "These subtopics distinguish sequence from chromosomal instability and explain how failures of DNA repair produce these abnormalities.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Genetic instability from replication and mitotic errors",
+      "groupedBecause": "These subtopics explain how failures to copy and segregate the genome faithfully during cell division generate instability in cancer cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mutation order in colorectal cancer progression",
+      "groupedBecause": "This subtopic examines how the timing of mutation acquisition, particularly the onset of genetic instability, shapes colorectal tumor progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Hereditary cancer predisposition and the changing role of inherited defects",
+      "groupedBecause": "These subtopics explain how inherited tumor-suppressor defects predispose to cancer while showing that a defect contributing to tumor development need not remain necessary for malignancy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Closing, further reading and questions",
+      "groupedBecause": "This subtopic closes the lecture by inviting questions, recommending reading and previewing the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

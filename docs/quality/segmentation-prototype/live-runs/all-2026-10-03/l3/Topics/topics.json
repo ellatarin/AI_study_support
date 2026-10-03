@@ -1,0 +1,47 @@
+[
+  {
+    "title": "Introduction and lecture learning outcomes",
+    "groupedBecause": "This opening frames the lecture series, identifies its audience and sets out the learning outcomes.",
+    "firstSubtopicId": 1
+  },
+  {
+    "title": "Cancer development and the importance of tissue context",
+    "groupedBecause": "These subtopics explain the transformation of normal cells into cancer cells as a disruption of differentiation that must be understood within tissue architecture.",
+    "firstSubtopicId": 2
+  },
+  {
+    "title": "Distinguishing benign and malignant tumours through invasion and metastasis",
+    "groupedBecause": "These subtopics establish how local invasion and distant spread distinguish malignant tumours from contained benign growths.",
+    "firstSubtopicId": 5
+  },
+  {
+    "title": "Benign tumour progression and clinical risks",
+    "groupedBecause": "These subtopics examine the clinical significance of benign tumours, showing how some progress to invasive cancer while others can cause harm without becoming malignant.",
+    "firstSubtopicId": 8
+  },
+  {
+    "title": "Tumour nomenclature",
+    "groupedBecause": "This subtopic explains how tumour names indicate tissue of origin and malignant status, including exceptions to the naming conventions.",
+    "firstSubtopicId": 10
+  },
+  {
+    "title": "How cancer causes illness and death",
+    "groupedBecause": "This subtopic explains how tumour growth and metastatic spread disrupt normal bodily functions and cause morbidity and mortality.",
+    "firstSubtopicId": 11
+  },
+  {
+    "title": "Tumour incidence in humans and other animals",
+    "groupedBecause": "These subtopics compare the frequency and distribution of tumour types across human populations and animal species.",
+    "firstSubtopicId": 12
+  },
+  {
+    "title": "Cancer detection and screening",
+    "groupedBecause": "These subtopics explain why early cancer detection is difficult and evaluate screening approaches according to their ability to identify treatable disease.",
+    "firstSubtopicId": 14
+  },
+  {
+    "title": "Lecture close and upcoming practicals",
+    "groupedBecause": "This closing returns to the learning outcomes and directs students towards revision and upcoming teaching sessions.",
+    "firstSubtopicId": 17
+  }
+]

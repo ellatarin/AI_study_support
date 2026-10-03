@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture's place in the course and introduces its aims without yet developing the substantive material.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Molecular changes driving cancer development",
+      "groupedBecause": "These subtopics examine how changes in a cell's molecular state can enable tumor development beyond a strictly ordered accumulation of mutations.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cell of origin and cancer stem cell hierarchies",
+      "groupedBecause": "These subtopics investigate how a cell's position in a tissue hierarchy influences its capacity to initiate or propagate a tumor.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness as a promoter of cancer",
+      "groupedBecause": "These subtopics show how inflammatory signals can confer stem-like properties that enable previously nonmalignant mutant cells to form tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Stromal dependence of established tumors",
+      "groupedBecause": "This subtopic examines established tumors' dependence on supportive stromal cells as a basis for targeting the tumor microenvironment therapeutically.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Investigating cancer with single-cell and spatial omics",
+      "groupedBecause": "This subtopic explains how molecular profiling of tissue specimens can reveal tumor evolution and interactions between cells.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "An integrated account of cancer evolution and susceptibility",
+      "groupedBecause": "This subtopic synthesizes cancer development as the convergence of favorable cellular and environmental conditions, extending that account to developmental susceptibility in childhood.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This subtopic ends the lecture and announces the forthcoming discussion of therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

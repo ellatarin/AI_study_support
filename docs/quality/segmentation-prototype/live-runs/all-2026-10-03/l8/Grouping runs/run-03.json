@@ -1,0 +1,69 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture and states what students should learn about cancer treatment.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatment and its limitations",
+      "groupedBecause": "These subtopics explain established approaches to eliminating tumors and the practical limitations of treating cancer without cancer-specific molecular targeting.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting hormone-dependent cancers",
+      "groupedBecause": "This subtopic explains how continued dependence on hormonal signals provides a selective treatment opportunity.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Exploiting defective cell cycle checkpoints",
+      "groupedBecause": "These subtopics show how loss of checkpoint proteins creates vulnerabilities that treatments can exploit selectively in cancer cells.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "PARP inhibition in BRCA-deficient cancers",
+      "groupedBecause": "This subtopic explains how blocking an additional DNA repair pathway selectively kills cells already deficient in BRCA-mediated repair.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Oncogene addiction and targeted kinase inhibition",
+      "groupedBecause": "These subtopics develop the strategy of inhibiting cancer-driving oncogenes through its molecular basis and the complications that limit sustained treatment success.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Antibody-based targeting of cancer cells",
+      "groupedBecause": "These subtopics explain how antibodies recognizing cancer cell surface proteins direct therapeutic activity toward those cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Evidence for immune surveillance of cancer",
+      "groupedBecause": "This subtopic evaluates whether naturally occurring immune responses protect against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Immune checkpoint blockade and tumor recognition",
+      "groupedBecause": "These subtopics explain the effectiveness and limitations of reactivating T cells that recognize tumor antigens.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Redirecting T cells against cancer",
+      "groupedBecause": "These subtopics examine therapies that deliberately connect T cell cytotoxic activity to selected cancer cell antigens.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Treatment challenges and biomarker-guided selection",
+      "groupedBecause": "This subtopic examines the difficulty of matching effective treatments to individual patients as cancers vary and evolve.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Cancer outcome trends, prevention and early detection",
+      "groupedBecause": "This subtopic assesses how prevention and earlier detection contribute to observed improvements in cancer outcomes.",
+      "firstSubtopicId": 21
+    },
+    {
+      "label": "Future treatment priorities and ethical dilemmas",
+      "groupedBecause": "These subtopics consider how future treatment development must balance potential improvements against the benefits and burdens of established care.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

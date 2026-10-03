@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "This opening frames complement as an important but terminology-heavy subject and sets expectations for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement cascade fundamentals and C3 activation",
+      "groupedBecause": "These subtopics establish how to understand the complement cascade, whose central C3 cleavage step connects activation to immune effects.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways and the local trigger threshold",
+      "groupedBecause": "These subtopics explain how pathogen recognition generates enough surface-bound C3b to overcome clearance and trigger complement activity.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics explain how activated complement translates into immune actions that promote pathogen elimination.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Complement regulation and host-cell protection",
+      "groupedBecause": "This subtopic explains how regulatory proteins restrain complement activation to prevent damage to host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic connects the functions of individual complement components to the distinct clinical consequences of their deficiency.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen complement evasion and protein A applications",
+      "groupedBecause": "This subtopic explains pathogen adaptations that undermine complement, including an antibody-binding adaptation exploited in medicine and research.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and transition to adaptive immunity",
+      "groupedBecause": "This closing ends the complement lecture and announces adaptive immunity as the next subject.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

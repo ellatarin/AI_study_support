@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and lecture objectives",
+      "groupedBecause": "This opening frames the lecture within the cancer course and states its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic evolution and the foundations of cancer susceptibility",
+      "groupedBecause": "These subtopics establish how mutations accumulate and enable cancer development within a susceptible cell and a permissive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental cancer risk versus chance and genetic predisposition",
+      "groupedBecause": "These subtopics examine how far cancer risk can be attributed to environmental exposures rather than chance or genetic predisposition.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious agents in cancer development",
+      "groupedBecause": "These subtopics explain how infections contribute to carcinogenesis, using Burkitt lymphoma as a detailed example.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Environmental carcinogens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics trace how environmental carcinogens produce DNA damage that can become cancer-driving mutations.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour promotion and two-stage carcinogenesis",
+      "groupedBecause": "These subtopics explain why mutational initiation may require subsequent promotion before tumours develop.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Tissue and developmental susceptibility, with a recap of carcinogenesis",
+      "groupedBecause": "The account of tissue susceptibility completes the mechanistic discussion of carcinogenesis that the following subtopic recaps.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Human evidence linking carcinogen exposure to cancer",
+      "groupedBecause": "These subtopics explain how evidence from human samples and populations can connect carcinogen exposure with cancer development.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Experimental carcinogenicity testing and its limitations",
+      "groupedBecause": "These subtopics assess how experimental tests detect carcinogenic potential and why their results may not fully predict human cancer risk.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Closing summary and risk–benefit decisions",
+      "groupedBecause": "This closing distils the lecture's conclusions into the risk–benefit decisions surrounding carcinogen exposure.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and framing",
+      "groupedBecause": "This subtopic frames the lecture as an integration of previously introduced immune cells and molecules.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition",
+      "groupedBecause": "These subtopics explain how germline-encoded receptors distinguish signs of infection or damage from normal host components.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor pathways and inflammatory signalling",
+      "groupedBecause": "These subtopics examine the receptor mechanisms that translate microbial or damage signals into inflammatory responses.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Sentinel cell activation and leukocyte recruitment",
+      "groupedBecause": "These subtopics explain how activated sentinel cells initiate inflammation that brings circulating immune cells to the infection site.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic transport and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how infection information leaves the tissue through lymphatic drainage to initiate adaptive responses in lymph nodes.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic examines how excessive inflammatory activation becomes a life-threatening systemic response.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mechanisms of inflammation resolution",
+      "groupedBecause": "This subtopic explains how the balance of inflammatory activation and inhibition shifts to shut down an immune response.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics examine what happens when damaged tissue cannot be fully restored to an inflammation-free state, including containment of persistent infection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This subtopic ends the lecture and identifies complement as the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

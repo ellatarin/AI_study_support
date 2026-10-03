@@ -1,0 +1,98 @@
+[
+  {
+    "start": 0,
+    "end": 628,
+    "title": "Introduction to the initiation and resolution of inflammation",
+    "why": "The lecturer welcomes the students and outlines the lecture's focus on deepening existing knowledge of immune mechanisms."
+  },
+  {
+    "start": 628,
+    "end": 4555,
+    "title": "Innate immune recognition of PAMPs and DAMPs",
+    "why": "The lecturer introduces how the innate immune system senses infections directly through microbial products and indirectly through tissue damage."
+  },
+  {
+    "start": 4555,
+    "end": 8091,
+    "title": "Properties of effective PAMPs and self–non-self discrimination",
+    "why": "The lecturer defines the necessary evolutionary criteria for pathogen-associated molecular patterns to distinguish self from non-self."
+  },
+  {
+    "start": 8091,
+    "end": 10400,
+    "title": "Germline encoding and cellular localisation of pattern recognition receptors",
+    "why": "The lecturer explains that pattern recognition receptors are germline-encoded and positioned in specific cellular compartments to encounter pathogens."
+  },
+  {
+    "start": 10400,
+    "end": 14421,
+    "title": "Toll-like receptors and their microbial ligands",
+    "why": "The lecturer describes the discovery, structure, and ligand specificity of Toll-like receptors, highlighting TLR4."
+  },
+  {
+    "start": 14421,
+    "end": 17970,
+    "title": "Location-dependent TLR signalling and synergy with cellular stress",
+    "why": "The lecturer explains how surface and endosomal TLR signaling pathways lead to distinct gene responses and synergize with cellular stress."
+  },
+  {
+    "start": 17970,
+    "end": 19019,
+    "title": "Other pattern recognition receptor families and NOD2 in Crohn's disease",
+    "why": "The lecturer introduces non-TLR pattern recognition receptors, focusing on cytoplasmic sensing and the role of NOD2 in Crohn's disease."
+  },
+  {
+    "start": 19019,
+    "end": 21847,
+    "title": "Inflammasome assembly, IL-1β activation and chronic inflammation",
+    "why": "The lecturer details the structure of the inflammasome, its activation of caspase-1 and IL-1beta, and its triggering by non-infectious DAMPs."
+  },
+  {
+    "start": 21847,
+    "end": 24082,
+    "title": "Sentinel cell activation and local and systemic inflammatory effects",
+    "why": "The lecturer explains how mast cells and macrophages respond to danger signals and produce both local and systemic inflammatory effects."
+  },
+  {
+    "start": 24082,
+    "end": 31550,
+    "title": "Leukocyte recruitment through adhesion, extravasation and chemotaxis",
+    "why": "The lecturer details the multi-step mechanism of immune cell recruitment from blood vessels into inflamed tissues."
+  },
+  {
+    "start": 31550,
+    "end": 33592,
+    "title": "Lymphatic drainage and dendritic cell migration for adaptive immune priming",
+    "why": "The lecturer describes how dendritic cells migrate through the lymphatic system to initiate adaptive immune responses in lymph nodes."
+  },
+  {
+    "start": 33592,
+    "end": 35296,
+    "title": "Excessive systemic inflammation and septic shock",
+    "why": "The lecturer discusses the dangerous clinical consequences when inflammatory cytokine production becomes excessive and systemic."
+  },
+  {
+    "start": 35296,
+    "end": 38138,
+    "title": "Passive and active mechanisms of inflammation resolution",
+    "why": "The lecturer explains the mechanisms that terminate immune reactions, including mediator decay, lipid mediator switching, and anti-inflammatory cytokines."
+  },
+  {
+    "start": 38138,
+    "end": 41865,
+    "title": "Tissue repair and causes of persistent inflammation",
+    "why": "The lecturer covers granulation tissue formation by fibroblasts and macrophages, and the factors leading to chronic inflammation and inflammaging."
+  },
+  {
+    "start": 41865,
+    "end": 44196,
+    "title": "Granuloma formation as a strategy for containing persistent infection",
+    "why": "The lecturer explains how granuloma formation evolved as an adaptive response to wall off intractable pathogens like tuberculosis."
+  },
+  {
+    "start": 44196,
+    "end": 44248,
+    "title": "Lecture close: introduction to the next lecture on complement",
+    "why": "The lecturer concludes the session and mentions the topic for the next lecture."
+  }
+]

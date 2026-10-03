@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing: cancer hallmarks and their genetic basis",
+      "groupedBecause": "This opening establishes the lecture’s aims and its framework for connecting genetic mutations to cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated signaling promotes growth and survival",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signaling pathways free cancer cells from normal controls on proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in blood cancers and intestinal epithelium",
+      "groupedBecause": "These subtopics examine how disrupted cellular differentiation contributes to cancer and becomes recognizable in tissue organization and cell identity.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how alterations in p53 signaling and the balance of mitochondrial apoptotic regulators allow cancer cells to evade death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and cancer cell immortalization",
+      "groupedBecause": "These subtopics explain the telomere-dependent limit on cell division and how increased telomerase expression enables cancer cells to bypass it.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53 stress responses and the growth-control recap",
+      "groupedBecause": "These subtopics complete the account of growth-control safeguards by explaining p53-mediated responses to cellular stress before recapping the hallmarks discussed.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics examine how altered metabolism characterizes cancer cells and can reinforce the molecular changes that sustain malignancy.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "The angiogenic switch in tumor growth",
+      "groupedBecause": "This subtopic explains how tumors recruit a blood supply to overcome limits on oxygen and nutrient delivery.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and successful colonization",
+      "groupedBecause": "These subtopics investigate what enables cancer cells to spread from a primary tumor and establish detectable tumors at distant sites.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing synthesis and further reading",
+      "groupedBecause": "This closing draws together the convergence of diverse genetic routes on cancer hallmarks and ends with reading guidance and final remarks.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

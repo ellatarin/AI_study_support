@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "This subtopic frames the lecture by introducing complement's importance and the challenges of its nomenclature.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement fundamentals and the central role of C3",
+      "groupedBecause": "These subtopics establish the basic framework for understanding complement as a protein-cleavage cascade centered on C3 activation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways and the local activation threshold",
+      "groupedBecause": "These subtopics explain how pathogen recognition generates enough surface-bound C3b to cross the threshold for complement activation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics explain how activated complement promotes pathogen elimination.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Complement regulation and host-cell protection",
+      "groupedBecause": "This subtopic explains how regulatory proteins restrain complement activity to prevent damage to host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic connects deficiencies in particular complement components to their distinct clinical presentations.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen complement evasion and protein A applications",
+      "groupedBecause": "This subtopic explains how pathogens circumvent complement, culminating in the practical use of an antibody-binding evasion protein.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and transition to adaptive immunity",
+      "groupedBecause": "This subtopic closes the lecture series and identifies adaptive immunity as the subject of the next lecture.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing and learning outcomes",
+      "groupedBecause": "This opening establishes the lecture’s scope, its relationship to previous teaching and the framework used to explain cancer hallmarks.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Signaling mutations that deregulate growth and survival",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signaling pathways make cancer cells proliferate and survive independently of normal regulatory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Disrupted differentiation in cancer",
+      "groupedBecause": "These subtopics show how altered differentiation produces abnormal cancer cell populations in hematological and intestinal tissues.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how disruption of the p53–Bax–BCL2 balance enables cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and replicative immortality",
+      "groupedBecause": "These subtopics explain how telomere shortening limits cellular proliferation and how increased telomerase expression allows cancer cells to overcome that limit.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53-mediated genome protection and growth-control recap",
+      "groupedBecause": "These subtopics conclude the account of growth control by explaining p53’s protective responses to cellular stress and recapping how mutations undermine normal growth constraints.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics explain how cancer-associated metabolic changes arise and contribute to tumor behavior.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Tumor angiogenesis",
+      "groupedBecause": "This subtopic explains how the angiogenic switch supplies the perfusion needed for tumor growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and establishment",
+      "groupedBecause": "These subtopics examine what enables tumor cells to leave their primary site and establish clinically detectable tumors elsewhere.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing synthesis and further reading",
+      "groupedBecause": "This closing returns to the lecture’s overall message and learning goals before offering further reading and inviting questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This opening frames the lecture's place in the series and introduces its aims for understanding cancer evolution.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation-driven clonal evolution",
+      "groupedBecause": "The evidence presented explains how successive mutations give cell clones selective advantages during cancer development.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epigenetic disruption in tumor development",
+      "groupedBecause": "This material examines how altered transcriptional accessibility can drive tumor development without new mutations.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Cell of origin and cancer stem cell hierarchies",
+      "groupedBecause": "These subtopics examine how stemness and position within a cellular hierarchy affect a cell's capacity to initiate and propagate cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammatory promotion of cancer through acquired stemness",
+      "groupedBecause": "Both cancer models show how inflammatory signals can confer stem-like properties that allow mutation-bearing cells to form tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Stromal dependence of established tumors",
+      "groupedBecause": "This material connects established tumors' dependence on supportive stromal cells to opportunities for microenvironment-targeted therapy.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Single-cell and spatial approaches to studying cancer",
+      "groupedBecause": "This material explains how molecular profiling of human tissues can reveal tumor evolution and interactions between cell populations.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Context-dependent routes to malignancy",
+      "groupedBecause": "This synthesis explains cancer development as the convergence of cellular fitness and a permissive environment, extending that framework to developmental contexts such as childhood cancer.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and next session",
+      "groupedBecause": "This closing ends the lecture and announces the next session on cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

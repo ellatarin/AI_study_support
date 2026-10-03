@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to inflammation initiation and resolution",
+      "groupedBecause": "This subtopic frames the lecture as an integration of previously introduced immune cells and molecules.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition",
+      "groupedBecause": "These subtopics establish how innate immune receptors distinguish signs of infection and damage through the properties and locations of the signals they recognise.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Pattern recognition receptor pathways and inflammatory activation",
+      "groupedBecause": "These subtopics explain how specific pattern recognition receptor systems translate microbial or damage signals into inflammatory responses.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Sentinel-cell activation and leukocyte recruitment",
+      "groupedBecause": "These subtopics follow how activated sentinel cells generate inflammatory signals that mobilise immune cells to the site of infection.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic drainage and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how drainage from infected tissues enables dendritic cells to initiate adaptive immune responses in lymph nodes.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic examines how excessive inflammatory activation becomes a life-threatening systemic response.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Passive and active resolution of inflammation",
+      "groupedBecause": "This subtopic explains how inflammation subsides through the loss of activating stimuli and the increasing influence of inhibitory signals.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics examine recovery of inflamed tissue and why persistent inflammation can remain when damage or infection cannot be fully eliminated.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture on complement",
+      "groupedBecause": "This subtopic ends the lecture and identifies complement as the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

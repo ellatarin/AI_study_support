@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture by connecting it to the practicals and outlining its learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the discovery of cellular oncogenes",
+      "groupedBecause": "These subtopics trace how studies of tumor-causing viruses established that cancer can originate through changes to normal cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental assays of cellular transformation",
+      "groupedBecause": "This subtopic explains how experiments test whether genes and mutations confer transformed properties on cells.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Functional classification and effects of cancer mutations",
+      "groupedBecause": "These subtopics explain how cancer mutations are classified by their functional effects, using cell-cycle regulation and p53 to demonstrate and qualify those classifications.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Genetic instability and defective DNA repair",
+      "groupedBecause": "These subtopics distinguish sequence instability from chromosomal instability and explain how failures of DNA repair produce these abnormalities.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Genetic instability from replication and mitotic errors",
+      "groupedBecause": "These subtopics explain how errors in copying and segregating the genome generate instability that can support tumor adaptation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Mutation order in colorectal cancer progression",
+      "groupedBecause": "This subtopic examines how the timing and order of mutation acquisition influence colorectal tumor progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Hereditary cancer predisposition and BRCA2-deficient tumor evolution",
+      "groupedBecause": "These subtopics follow the consequences of inherited tumor-suppressor mutations from increased cancer risk to the evolution of a BRCA2-deficient tumor during treatment.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Lecture close, further reading, and questions",
+      "groupedBecause": "This subtopic closes the lecture by inviting questions, recommending reading, and introducing the next lecture.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

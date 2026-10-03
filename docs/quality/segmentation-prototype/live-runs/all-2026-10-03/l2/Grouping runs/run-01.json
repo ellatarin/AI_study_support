@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to the complement lecture",
+      "groupedBecause": "This opening frames complement as an important but nomenclaturally challenging subject and sets expectations for the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Complement cascade fundamentals and the central role of C3",
+      "groupedBecause": "These subtopics establish the conceptual and molecular framework for understanding how inactive complement becomes a pathogen-clearing response.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Complement activation pathways and the local activation threshold",
+      "groupedBecause": "These subtopics explain how pathogen recognition generates enough surface-bound C3b to trigger complement activity.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Complement effector mechanisms",
+      "groupedBecause": "These subtopics explain how activated complement produces the effector responses that combat pathogens.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Complement regulation and host-cell protection",
+      "groupedBecause": "This subtopic explains how regulatory proteins restrain complement activity to prevent damage to host cells.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical consequences of complement deficiencies",
+      "groupedBecause": "This subtopic connects the functions of complement components to the distinct clinical consequences of their deficiency.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Pathogen complement evasion and protein A applications",
+      "groupedBecause": "This subtopic examines pathogen adaptations that evade complement, extending the protein A example to its practical uses.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and transition to adaptive immunity",
+      "groupedBecause": "This closing ends the complement lecture and identifies adaptive immunity as the next lecture's subject.",
+      "firstSubtopicId": 15
+    }
+  ]
+}

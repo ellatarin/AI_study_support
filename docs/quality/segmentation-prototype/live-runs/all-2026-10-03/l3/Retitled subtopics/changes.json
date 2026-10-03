@@ -1,0 +1,91 @@
+{
+  "subtopics": 17,
+  "titlesChanged": 17,
+  "changed": [
+    {
+      "position": 1,
+      "oldTitle": "Course introduction and learning outcomes",
+      "newTitle": "Introduction to cancer biology and lecture learning outcomes"
+    },
+    {
+      "position": 2,
+      "oldTitle": "Stepwise genetic and epigenetic changes in cancer",
+      "newTitle": "Accumulation of genetic and epigenetic changes in cancer development"
+    },
+    {
+      "position": 3,
+      "oldTitle": "Cancer as a failure of cellular differentiation and tissue architecture",
+      "newTitle": "Cancer as a failure of differentiation and tissue architecture"
+    },
+    {
+      "position": 4,
+      "oldTitle": "Culturing tumor cells in vitro and the limitations of 2D models",
+      "newTitle": "Tumour cell culture and the limitations of studying isolated cells"
+    },
+    {
+      "position": 5,
+      "oldTitle": "Mechanisms and pathology of invasion and metastasis",
+      "newTitle": "Invasion as the distinction between benign and malignant tumours"
+    },
+    {
+      "position": 6,
+      "oldTitle": "metastasis and routes of secondary tumor spread",
+      "newTitle": "Routes of metastasis and features of secondary tumours"
+    },
+    {
+      "position": 7,
+      "oldTitle": "Benign tumor characteristics versus local tissue invasion in malignant tumors",
+      "newTitle": "Histological comparison of benign tumours and invasive malignancy"
+    },
+    {
+      "position": 8,
+      "oldTitle": "Stepwise progression from adenoma to adenocarcinoma in colorectal polyps",
+      "newTitle": "Colorectal adenoma-to-carcinoma progression and histological assessment of invasion"
+    },
+    {
+      "position": 9,
+      "oldTitle": "Clinical risks and behaviors of benign tumors",
+      "newTitle": "Malignant potential and harmful effects of benign tumours"
+    },
+    {
+      "position": 10,
+      "oldTitle": "Tumor nomenclature and classification systems",
+      "newTitle": "Tumour nomenclature by tissue of origin and malignant status"
+    },
+    {
+      "position": 11,
+      "oldTitle": "Pathophysiological causes of cancer morbidity and mortality",
+      "newTitle": "Mechanisms of cancer-related illness and death"
+    },
+    {
+      "position": 12,
+      "oldTitle": "Cancer incidence and comparative oncology across taxa",
+      "newTitle": "Incidence and mortality of major human tumour types"
+    },
+    {
+      "position": 13,
+      "oldTitle": "cancer incidence across companion animals and other multicellular taxa",
+      "newTitle": "Tumour incidence across animal species"
+    },
+    {
+      "position": 14,
+      "oldTitle": "Clinical symptoms and cancer screening modalities",
+      "newTitle": "Clinical presentation of cancer and the rationale for screening"
+    },
+    {
+      "position": 15,
+      "oldTitle": "Cervical cancer screening, histology, and dysplasia detection",
+      "newTitle": "Cervical screening for HPV-associated pre-invasive lesions"
+    },
+    {
+      "position": 16,
+      "oldTitle": "Colorectal and other cancer screening modalities",
+      "newTitle": "Methods and limitations of colorectal, breast and prostate cancer screening"
+    },
+    {
+      "position": 17,
+      "oldTitle": "Lecture closing and housekeeping",
+      "newTitle": "Lecture close: learning outcomes, revision and upcoming practicals"
+    }
+  ]
+}

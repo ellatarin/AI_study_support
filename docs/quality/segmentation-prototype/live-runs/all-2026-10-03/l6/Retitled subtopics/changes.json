@@ -1,0 +1,101 @@
+{
+  "subtopics": 19,
+  "titlesChanged": 19,
+  "changed": [
+    {
+      "position": 1,
+      "oldTitle": "Introduction to cancer hallmarks and mutation progression",
+      "newTitle": "Introduction to cancer hallmarks and their genetic basis"
+    },
+    {
+      "position": 2,
+      "oldTitle": "Growth signaling pathways and deregulation",
+      "newTitle": "Mutations in extracellular signaling pathways controlling growth and survival"
+    },
+    {
+      "position": 3,
+      "oldTitle": "Wnt/APC/beta-catenin signaling pathway and mutations",
+      "newTitle": "APC and β-catenin mutations in Wnt-driven proliferation"
+    },
+    {
+      "position": 4,
+      "oldTitle": "Receptor tyrosine kinase signaling pathways and mutations",
+      "newTitle": "Deregulation of MAPK, PI3K–AKT and TGF-β signaling"
+    },
+    {
+      "position": 5,
+      "oldTitle": "Block in terminal differentiation",
+      "newTitle": "Differentiation blocks and cell origins in hematological cancers"
+    },
+    {
+      "position": 6,
+      "oldTitle": "Differentiation block in colorectal carcinoma and intestinal epithelial renewal",
+      "newTitle": "APC loss disrupts intestinal epithelial differentiation and renewal"
+    },
+    {
+      "position": 7,
+      "oldTitle": "Evasion of apoptosis and p53 regulation",
+      "newTitle": "Resistance to apoptosis through p53 loss and BCL2 activity"
+    },
+    {
+      "position": 8,
+      "oldTitle": "Replicative immortalization, telomeres, and senescence",
+      "newTitle": "Telomere shortening, replicative limits and cellular senescence"
+    },
+    {
+      "position": 9,
+      "oldTitle": "Genetic mechanisms of TERT reactivation in cancer",
+      "newTitle": "TERT promoter mutations and rearrangements enabling immortalization"
+    },
+    {
+      "position": 10,
+      "oldTitle": "p53-mediated stress signaling and cell fate control",
+      "newTitle": "p53-mediated stress responses preserve genome integrity"
+    },
+    {
+      "position": 11,
+      "oldTitle": "Summary of growth-control hallmarks and introduction to complex cancer hallmarks",
+      "newTitle": "Summary of growth control hallmarks and introduction to broader cancer behaviors"
+    },
+    {
+      "position": 12,
+      "oldTitle": "Altered cellular metabolism and the Warburg effect",
+      "newTitle": "The Warburg effect and glucose uptake in cancer diagnosis"
+    },
+    {
+      "position": 13,
+      "oldTitle": "Metabolic rewiring and tissue-specific metabolic profiles across cancer types",
+      "newTitle": "Cancer metabolic rewiring retains tissue-specific features"
+    },
+    {
+      "position": 14,
+      "oldTitle": "Metabolic gene mutations and oncometabolites as drivers of cancer",
+      "newTitle": "Oncometabolites and feedback between metabolism and the epigenome"
+    },
+    {
+      "position": 15,
+      "oldTitle": "Induction of angiogenesis",
+      "newTitle": "The angiogenic switch in tumor development and growth"
+    },
+    {
+      "position": 16,
+      "oldTitle": "Metastasis and systemic dissemination",
+      "newTitle": "Metastatic dissemination, circulatory routes and clinical monitoring"
+    },
+    {
+      "position": 17,
+      "oldTitle": "Metastatic inefficiency and the seed and soil hypothesis",
+      "newTitle": "Metastatic inefficiency and seed–soil compatibility"
+    },
+    {
+      "position": 18,
+      "oldTitle": "Genomic sequencing of metastases and whole genome duplication",
+      "newTitle": "Shared driver mutations and whole-genome duplication in metastases"
+    },
+    {
+      "position": 19,
+      "oldTitle": "Lecture summary and recommended reading",
+      "newTitle": "Lecture summary: diverse genetic routes converge on cancer hallmarks"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This opening frames the lecture’s aims and connects its coverage of cancer genetics to the histopathology practicals.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Tumor virology and the discovery of cellular proto-oncogenes",
+      "groupedBecause": "These subtopics trace how studies of transforming viruses established that cancer can arise through altered activity of normal cellular genes.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Experimental assessment of cellular transformation",
+      "groupedBecause": "This subtopic explains how experimental assays establish whether a gene or mutation gives cells transformed properties.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Cancer gene classification and the functional effects of mutations",
+      "groupedBecause": "These subtopics explain how mutations are classified by their effects on tumor formation and why their specific molecular consequences determine how those classifications apply.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Genetic instability and failures of genome maintenance",
+      "groupedBecause": "These subtopics explain how failures to preserve genome fidelity generate genetic instability and its consequences for cancer cells.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Mutation order and colorectal cancer progression",
+      "groupedBecause": "This subtopic examines how the timing of mutation acquisition, especially the early emergence of genetic instability, affects colorectal tumor progression.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Inherited cancer predisposition and BRCA2 restoration",
+      "groupedBecause": "These subtopics examine how inherited tumor-suppressor defects promote cancer development while the BRCA2 treatment example shows that the initiating defect need not remain necessary for malignancy.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Closing, further reading, and questions",
+      "groupedBecause": "This closing concludes the lecture with an invitation for questions, recommended reading, and a preview of the next session.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

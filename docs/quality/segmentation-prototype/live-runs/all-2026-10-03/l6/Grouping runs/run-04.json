@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing and introduction to cancer hallmarks",
+      "groupedBecause": "This opening establishes the lecture's learning outcomes and its use of cancer hallmarks to connect mutations with changes in tumour behaviour.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulated growth and survival signalling",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signalling pathways free cancer cells from normal controls on proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "These subtopics show how disrupted differentiation alters cancer cell populations and tissue organisation in blood cancers and intestinal epithelium.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how disruption of the p53–Bax pathway or increased BCL2 activity prevents cancer cells from undergoing apoptosis.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and replicative immortality",
+      "groupedBecause": "These subtopics explain how cancer cells overcome telomere-dependent limits on replication by restoring telomerase expression.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53-mediated genome protection and growth-control synthesis",
+      "groupedBecause": "These subtopics complete the account of intrinsic growth-control safeguards by explaining p53-dependent stress responses and reviewing how mutations undermine normal growth control.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Cancer metabolic rewiring",
+      "groupedBecause": "These subtopics examine how altered metabolism supports cancer and interacts with the genetic and epigenetic changes that drive it.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis in tumour development",
+      "groupedBecause": "This subtopic explains why tumour growth requires an angiogenic switch and how that switch emerges during tumour development.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and establishment",
+      "groupedBecause": "These subtopics examine how cancer cells reach and establish distant tumours, highlighting the barriers to successful metastasis and the difficulty of identifying a distinct metastatic genetic signature.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing synthesis and further reading",
+      "groupedBecause": "This closing returns to the lecture's learning goals, emphasises convergence on shared cancer hallmarks and offers further reading before the farewell.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

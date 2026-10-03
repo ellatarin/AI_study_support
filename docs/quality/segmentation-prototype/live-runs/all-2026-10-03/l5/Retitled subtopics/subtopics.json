@@ -1,0 +1,104 @@
+[
+  {
+    "start": 0,
+    "end": 1987,
+    "title": "Introduction to cellular transformation and cancer genetics",
+    "why": "The lecturer introduces the session, recaps histology practical observations, and outlines the learning outcomes."
+  },
+  {
+    "start": 1987,
+    "end": 6566,
+    "title": "From cell and germ theories to tumor virology",
+    "why": "The lecturer traces the historical development from cell and germ theories to Rous sarcoma virus and the discovery of oncogenic viruses."
+  },
+  {
+    "start": 6566,
+    "end": 8985,
+    "title": "Retroviral capture of cellular proto-oncogenes",
+    "why": "The lecturer explains how retroviruses capture cellular proto-oncogenes and how experimental transformation assays are performed."
+  },
+  {
+    "start": 8985,
+    "end": 11606,
+    "title": "Experimental assays of cellular transformation and cancer mutations",
+    "why": "It explains the laboratory assays and phenotypic markers used in cell culture and animal models to test whether a gene can transform cells."
+  },
+  {
+    "start": 11606,
+    "end": 14058,
+    "title": "Functional classification of cancer genes and mutations",
+    "why": "The lecturer defines oncogenes, tumor suppressor genes, driver versus passenger mutations, and gatekeepers versus caretakers."
+  },
+  {
+    "start": 14058,
+    "end": 17453,
+    "title": "G1–S checkpoint regulation and its disruption in cancer",
+    "why": "The lecturer explains how Rb, cyclins, CDKs, and kinase inhibitors govern the G1 to S transition and how mutations disrupt this checkpoint."
+  },
+  {
+    "start": 17453,
+    "end": 21158,
+    "title": "Mutation dominance and dominant-negative effects in p53",
+    "why": "The lecturer explains how point mutations in multimeric proteins like p53 exert a dominant negative effect compared to null mutations."
+  },
+  {
+    "start": 21158,
+    "end": 25549,
+    "title": "Sequence instability and chromosomal instability in cancer",
+    "why": "The lecturer defines genetic instability in cancer and contrasts chromosomal instability with sequence-level instability using karyotypes."
+  },
+  {
+    "start": 25549,
+    "end": 26665,
+    "title": "Excision repair and single-strand break repair",
+    "why": "The lecturer explains mismatch repair failure leading to microsatellite instability and homologous recombination defects leading to chromosomal aberrations."
+  },
+  {
+    "start": 26665,
+    "end": 28616,
+    "title": "Mismatch repair defects and microsatellite instability",
+    "why": "It examines the mismatch repair pathway, replication slippage at microsatellites, and how mutations in this pathway drive colorectal cancer."
+  },
+  {
+    "start": 28616,
+    "end": 32336,
+    "title": "Double-strand break repair defects and chromosomal instability",
+    "why": "It details double-strand break repair through homologous recombination versus error-prone joining mechanisms, and how BRCA mutations cause chromosomal instability."
+  },
+  {
+    "start": 32336,
+    "end": 33185,
+    "title": "DNA polymerase epsilon mutations and sequence instability",
+    "why": "The lecturer discusses polymerase epsilon mutations, lagging chromosomes in mitosis, micronuclei, chromothripsis, and the cGAS-STING stress cascade."
+  },
+  {
+    "start": 33185,
+    "end": 37387,
+    "title": "Mitotic errors and their consequences for tumor adaptation",
+    "why": "The lecturer moves from DNA replication errors causing sequence instability to examining how mitotic failure produces chromosomal instability and downstream cellular consequences."
+  },
+  {
+    "start": 37387,
+    "end": 40370,
+    "title": "Mutation order and genetic instability in colorectal cancer progression",
+    "why": "The lecturer presents the multistep model of tumor progression, the early role of genomic instability, and the order of mutation acquisition."
+  },
+  {
+    "start": 40370,
+    "end": 45147,
+    "title": "Hereditary cancer predisposition and tumor suppressor mutations",
+    "why": "The lecturer explains Knudson's two-hit concept and examines hereditary syndromes including FAP, Lynch syndrome, BRCA-related breast cancer, and retinoblastoma."
+  },
+  {
+    "start": 45147,
+    "end": 46163,
+    "title": "BRCA2 restoration during treatment shows genetic instability is not required for malignancy",
+    "why": "The lecturer explains how tumor evolution under cisplatin can restore BRCA2 function to show that genetic instability is dispensable for sustaining malignancy."
+  },
+  {
+    "start": 46163,
+    "end": 46516,
+    "title": "Lecture close: further reading and questions",
+    "why": "The lecturer closes the session with recommended reading and outlines the topic for the next lecture."
+  }
+]

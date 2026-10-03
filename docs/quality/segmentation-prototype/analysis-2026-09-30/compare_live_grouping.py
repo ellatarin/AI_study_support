@@ -36,14 +36,16 @@ def apart(one: list[int], other: list[int]) -> int:
 
 
 def against_rulings(starts: list[int], rules: dict, expected: list[int], set_aside: set[int]) -> str:
+    if all(r == "unruled" for r in rules.values()):
+        return "— | — | —"
     missed = [s for s in expected if s not in starts]
     wrong = [s for s in starts if s > 1 and s not in set_aside and rules[s] == "not"]
     exact = "yes" if not missed and not wrong else "no"
     return f"{exact} | {','.join(map(str, missed)) or '-'} | {','.join(map(str, wrong)) or '-'}"
 
 
-def main() -> None:
-    lecture, workspace = sys.argv[1], Path(sys.argv[2])
+def compare(lecture: str, workspace: Path) -> tuple[list[str], dict]:
+    """The report's lines for one lecture, and the figures a summary across lectures needs."""
     live_titles = [s["title"] for s in json.loads((workspace / "Retitled subtopics" / "subtopics.json").read_text())]
     proto_titles = [b["label"] for b in read(f"chosen-live18-rt9-{lecture}.blocks.json")["blocks"]]
     old_titles = [b["label"] for b in read(f"chosen-live18-{lecture}.blocks.json")["blocks"]]
@@ -116,6 +118,24 @@ def main() -> None:
         start = t["firstSubtopicId"]
         if start in proto_by_start:
             out.append(f"| {start} | {t['title']} | {proto_by_start[start]} | {word_overlap(t['title'], proto_by_start[start]):.2f} |")
+    summary = {
+        "subtopics": len(live_titles),
+        "exactTitles": exact_titles,
+        "titleOverlap": sum(overlaps) / len(overlaps),
+        "liveStarts": live_chosen,
+        "protoStarts": proto_chosen,
+        "apart": apart(live_chosen, proto_chosen),
+        "support": f"{choice['support']} of {choice['panelSize']}",
+        "liveGroupings": len({tuple(starts_of(t)) for t in live_runs}),
+        "liveAgainstRulings": against_rulings(live_chosen, rules, expected, set_aside),
+        "protoAgainstRulings": against_rulings(proto_chosen, rules, expected, set_aside),
+    }
+    return out, summary
+
+
+def main() -> None:
+    lecture, workspace = sys.argv[1], Path(sys.argv[2])
+    out, _ = compare(lecture, workspace)
     report = "\n".join(out) + "\n"
     (RUNS.parent / f"LIVE-GROUPING-{lecture.upper()}.md").write_text(report)
     print(report)

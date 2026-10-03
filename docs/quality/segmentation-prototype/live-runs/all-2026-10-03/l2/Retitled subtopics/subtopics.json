@@ -1,0 +1,92 @@
+[
+  {
+    "start": 0,
+    "end": 645,
+    "title": "Introduction to complement and its complex nomenclature",
+    "why": "The lecturer introduces the topic, acknowledges its complex nomenclature, and frames the session's scope."
+  },
+  {
+    "start": 645,
+    "end": 3846,
+    "title": "Overview of complement activation and effector functions",
+    "why": "The lecturer outlines the three stages of complement and summarizes its main immunological and janitorial functions."
+  },
+  {
+    "start": 3846,
+    "end": 5160,
+    "title": "Complement numbering and cleavage fragment nomenclature",
+    "why": "The lecturer explains the historical numbering system, cleavage fragment labels, and exceptions within complement naming."
+  },
+  {
+    "start": 5160,
+    "end": 6838,
+    "title": "C3 activation, C3b surface binding and C3a inflammation",
+    "why": "The lecturer details the cleavage of C3 into C3a and C3b and the reactive thioester bond mechanism that drives covalent binding."
+  },
+  {
+    "start": 6838,
+    "end": 7622,
+    "title": "Three complement activation pathways and their timing",
+    "why": "The lecturer describes how spontaneous tick-over creates fluid-phase convertases that deposit C3b onto pathogen surfaces to amplify convertase generation."
+  },
+  {
+    "start": 7622,
+    "end": 10964,
+    "title": "Alternative pathway initiation and surface amplification",
+    "why": "It details the step-by-step mechanism of the alternative pathway from fluid-phase convertase formation to surface amplification."
+  },
+  {
+    "start": 10964,
+    "end": 12868,
+    "title": "Lectin pathway recognition and C3 convertase formation",
+    "why": "The lecturer explains how mannose-binding lectin recognizes bacterial sugars to assemble the classical convertase and deposit C3b."
+  },
+  {
+    "start": 12868,
+    "end": 14920,
+    "title": "Classical pathway activation and the local complement threshold",
+    "why": "The lecturer explains antibody-mediated activation via C1 and how local concentration of convertases overcomes clearance mechanisms to reach a trigger threshold."
+  },
+  {
+    "start": 14920,
+    "end": 15883,
+    "title": "Complement-mediated opsonization and phagocytosis",
+    "why": "The lecturer explains the three downstream effector actions of activated complement, including phagocytic signaling, generic inflammation, and MAC pore formation."
+  },
+  {
+    "start": 15883,
+    "end": 16268,
+    "title": "C3a-mediated inflammation and cell recruitment",
+    "why": "The lecturer explains how C3a acts as a soluble inflammatory mediator to recruit immune cells to the infection site."
+  },
+  {
+    "start": 16268,
+    "end": 18319,
+    "title": "Membrane attack complex assembly and pathogen lysis",
+    "why": "The lecturer details the mechanism of C5 convertase, pore formation by C5b through C9, and why the membrane attack complex targets certain pathogens but not others."
+  },
+  {
+    "start": 18319,
+    "end": 22726,
+    "title": "Complement regulation and protection of host cells",
+    "why": "The lecturer details the regulatory proteins that protect host cells by inhibiting convertases and blocking membrane attack complex insertion."
+  },
+  {
+    "start": 22726,
+    "end": 26777,
+    "title": "Clinical consequences of complement component deficiencies",
+    "why": "The lecturer systematically reviews how genetic and secondary deficiencies in distinct complement proteins produce specific clinical outcomes."
+  },
+  {
+    "start": 26777,
+    "end": 31303,
+    "title": "Pathogen complement evasion and applications of staphylococcal protein A",
+    "why": "The lecturer describes strategies pathogens use to avoid complement destruction, focusing on Staphylococcus aureus adaptations and the practical uses of protein A."
+  },
+  {
+    "start": 31303,
+    "end": 31479,
+    "title": "Lecture close: Transition to adaptive immunity",
+    "why": "The lecturer delivers concluding remarks and states the topic of the upcoming lecture."
+  }
+]

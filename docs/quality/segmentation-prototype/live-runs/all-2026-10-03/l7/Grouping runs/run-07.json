@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This opening frames the lecture's focus on cancer evolution and explains what students should learn.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic drivers of cancer development",
+      "groupedBecause": "These subtopics examine how changes within cells can drive tumor development, extending mutation-based clonal evolution to include altered transcriptional states.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer stem cells, tumor hierarchy and cell of origin",
+      "groupedBecause": "These subtopics investigate how a cell's position in a tissue hierarchy affects its capacity to initiate or sustain a tumor.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness and tumor promotion",
+      "groupedBecause": "These subtopics show how inflammatory microenvironments can confer stem-like properties that enable previously mutated cells to form tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Stromal dependence of established tumors",
+      "groupedBecause": "This subtopic examines established tumors' dependence on supportive stromal cells as a potential therapeutic vulnerability.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Single-cell and spatial approaches to studying cancer",
+      "groupedBecause": "This subtopic explains how tissue-based molecular methods reveal tumor evolution and interactions between cells.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "An integrated evolutionary model of cancer development",
+      "groupedBecause": "This synthesis explains malignant outgrowth as the convergence of cellular fitness and a permissive environment, extending that reasoning to cancer risk at different stages of life.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This closing ends the lecture and identifies cancer therapy as the subject of the next session.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

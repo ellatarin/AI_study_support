@@ -1,0 +1,74 @@
+[
+  {
+    "start": 0,
+    "end": 1321,
+    "title": "Introduction to cancer evolution, cell of origin and the microenvironment",
+    "why": "The lecturer introduces the fifth lecture of the series and outlines the key learning objectives regarding cancer evolution, the microenvironment, and Darwinian selection."
+  },
+  {
+    "start": 1321,
+    "end": 8718,
+    "title": "Evidence for mutation-driven clonal evolution and selection",
+    "why": "The lecturer explains how cancers evolve through successive clonal mutations and selective advantages using pre-neoplastic sequencing data, mouse esophageal models, and human eyelid tissue studies."
+  },
+  {
+    "start": 8718,
+    "end": 10441,
+    "title": "Epigenetic disruption as a driver of tumor development",
+    "why": "The lecturer explores how transient chromatin and transcriptional remodeling, evidenced by Polycomb repressive complex studies in Drosophila, can drive tumorigenesis independently of DNA mutations."
+  },
+  {
+    "start": 10441,
+    "end": 15916,
+    "title": "Stem cell properties and stochastic versus hierarchical models of cancer",
+    "why": "The lecturer examines the hierarchy of normal tissue differentiation and compares stem cell properties to cancer development using leukemia and intestinal crypt APC knockout models."
+  },
+  {
+    "start": 15916,
+    "end": 19035,
+    "title": "Evidence for cancer stem cells and tumor hierarchy in leukemia",
+    "why": "The lecturer moves from theoretical models of cancer hierarchy to examining experimental evidence for cancer stem cells in leukemia and clarifying related terminology."
+  },
+  {
+    "start": 19035,
+    "end": 22553,
+    "title": "Cell of origin and APC loss in intestinal tumor initiation",
+    "why": "The lecturer turns to solid tumors, examining the intestinal crypt model and APC knockout experiments to identify the cell of origin in colorectal cancer."
+  },
+  {
+    "start": 22553,
+    "end": 27131,
+    "title": "Pollution-induced inflammation and stemness in lung cancer promotion",
+    "why": "The lecturer demonstrates that genetic mutations require permissive environmental and inflammatory stimuli to progress to malignancy, highlighting pollution in lung cancer and colitis in colon cancer."
+  },
+  {
+    "start": 27131,
+    "end": 30817,
+    "title": "Inflammation-induced stemness and tumor formation in APC-deficient intestinal progenitors",
+    "why": "The lecturer examines how chronic inflammation or K-RAS mutation cooperates with APC loss to activate NF-kappa B and induce a stem cell signature in the colon."
+  },
+  {
+    "start": 30817,
+    "end": 32746,
+    "title": "Stromal support of established tumors and microenvironment-targeted therapy",
+    "why": "The lecturer discusses stromal dependence in established tumors, potential microenvironment-targeted therapies, and modern single-cell and spatial profiling methodologies used to map tumor interactions."
+  },
+  {
+    "start": 32746,
+    "end": 34628,
+    "title": "Investigating cancer evolution and cell interactions with single-cell and spatial omics",
+    "why": "it explains the experimental and computational techniques used to investigate human tumor biology and cellular interactions in the lab"
+  },
+  {
+    "start": 34628,
+    "end": 39286,
+    "title": "Lecture summary: mutations, cell identity and microenvironment in cancer evolution",
+    "why": "The lecturer synthesizes how genetics, cell type properties, transcriptional plasticity, and environmental promoters converge through an evolutionary process to produce cancer."
+  },
+  {
+    "start": 39286,
+    "end": 39367,
+    "title": "Lecture close: next lecture on cancer therapy",
+    "why": "The lecturer concludes the session and announces the topic for the following lecture."
+  }
+]

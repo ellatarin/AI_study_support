@@ -1,0 +1,52 @@
+[
+  {
+    "title": "Lecture framing and the cancer hallmarks framework",
+    "groupedBecause": "This opening establishes the lecture’s aims and introduces the framework used to connect cancer mutations with their functional consequences.",
+    "firstSubtopicId": 1
+  },
+  {
+    "title": "Signaling mutations that promote growth and survival",
+    "groupedBecause": "These subtopics explain how mutations in extracellular signaling pathways free cancer cells from normal controls on growth and survival.",
+    "firstSubtopicId": 2
+  },
+  {
+    "title": "Disrupted differentiation in blood and intestinal cancers",
+    "groupedBecause": "These subtopics show how altered differentiation shapes cancer cell behavior and tissue organization.",
+    "firstSubtopicId": 5
+  },
+  {
+    "title": "Resistance to apoptosis",
+    "groupedBecause": "This subtopic explains how changes in the p53-regulated apoptotic machinery allow cancer cells to evade death.",
+    "firstSubtopicId": 7
+  },
+  {
+    "title": "Telomere maintenance and cancer cell immortalization",
+    "groupedBecause": "These subtopics explain the telomere-dependent limit on cell division and how cancer cells overcome it by increasing telomerase expression.",
+    "firstSubtopicId": 8
+  },
+  {
+    "title": "p53-mediated genome protection and growth-control safeguards",
+    "groupedBecause": "These subtopics explain p53-dependent safeguards against transformation and conclude the discussion of how mutations undermine normal growth control.",
+    "firstSubtopicId": 10
+  },
+  {
+    "title": "Metabolic rewiring in cancer",
+    "groupedBecause": "These subtopics examine how altered metabolism supports cancer and interacts with the molecular changes driving it.",
+    "firstSubtopicId": 12
+  },
+  {
+    "title": "Angiogenesis in tumor development",
+    "groupedBecause": "This subtopic explains how the angiogenic switch supplies the perfusion needed for tumors to grow.",
+    "firstSubtopicId": 15
+  },
+  {
+    "title": "Metastatic spread and successful colonization",
+    "groupedBecause": "These subtopics examine how cancer cells reach distant sites and what determines whether they establish detectable metastases.",
+    "firstSubtopicId": 16
+  },
+  {
+    "title": "Lecture conclusions and further reading",
+    "groupedBecause": "This closing draws together the hallmarks framework, recommends further reading, and ends with questions and practical-session arrangements.",
+    "firstSubtopicId": 19
+  }
+]

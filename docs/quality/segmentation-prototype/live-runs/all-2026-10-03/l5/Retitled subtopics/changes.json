@@ -1,0 +1,91 @@
+{
+  "subtopics": 17,
+  "titlesChanged": 17,
+  "changed": [
+    {
+      "position": 1,
+      "oldTitle": "Lecture introduction and learning outcomes",
+      "newTitle": "Introduction to cellular transformation and cancer genetics"
+    },
+    {
+      "position": 2,
+      "oldTitle": "History of cell theory and discovery of tumor viruses",
+      "newTitle": "From cell and germ theories to tumor virology"
+    },
+    {
+      "position": 3,
+      "oldTitle": "Retroviral oncogene capture and transformation assays",
+      "newTitle": "Retroviral capture of cellular proto-oncogenes"
+    },
+    {
+      "position": 4,
+      "oldTitle": "Assays for measuring cell transformation and oncogenic potential",
+      "newTitle": "Experimental assays of cellular transformation and cancer mutations"
+    },
+    {
+      "position": 5,
+      "oldTitle": "Classification of cancer mutations",
+      "newTitle": "Functional classification of cancer genes and mutations"
+    },
+    {
+      "position": 6,
+      "oldTitle": "Cell cycle regulation at the G1/S checkpoint",
+      "newTitle": "G1–S checkpoint regulation and its disruption in cancer"
+    },
+    {
+      "position": 7,
+      "oldTitle": "Dominant negative mutations and p53 tetramerization",
+      "newTitle": "Mutation dominance and dominant-negative effects in p53"
+    },
+    {
+      "position": 8,
+      "oldTitle": "Sequence instability versus chromosomal instability",
+      "newTitle": "Sequence instability and chromosomal instability in cancer"
+    },
+    {
+      "position": 9,
+      "oldTitle": "DNA repair pathway defects in cancer",
+      "newTitle": "Excision repair and single-strand break repair"
+    },
+    {
+      "position": 10,
+      "oldTitle": "Mismatch repair pathway and microsatellite instability in cancer",
+      "newTitle": "Mismatch repair defects and microsatellite instability"
+    },
+    {
+      "position": 11,
+      "oldTitle": "Double-strand break repair pathways and chromosomal instability",
+      "newTitle": "Double-strand break repair defects and chromosomal instability"
+    },
+    {
+      "position": 12,
+      "oldTitle": "Replication and mitotic errors and their cellular consequences",
+      "newTitle": "DNA polymerase epsilon mutations and sequence instability"
+    },
+    {
+      "position": 13,
+      "oldTitle": "Chromosomal instability and mitotic defects",
+      "newTitle": "Mitotic errors and their consequences for tumor adaptation"
+    },
+    {
+      "position": 14,
+      "oldTitle": "The Vogelstein model of stepwise tumorigenesis",
+      "newTitle": "Mutation order and genetic instability in colorectal cancer progression"
+    },
+    {
+      "position": 15,
+      "oldTitle": "Hereditary cancer predisposition syndromes",
+      "newTitle": "Hereditary cancer predisposition and tumor suppressor mutations"
+    },
+    {
+      "position": 16,
+      "oldTitle": "Genetic instability is not required for malignancy",
+      "newTitle": "BRCA2 restoration during treatment shows genetic instability is not required for malignancy"
+    },
+    {
+      "position": 17,
+      "oldTitle": "Lecture wrap-up and reading recommendations",
+      "newTitle": "Lecture close: further reading and questions"
+    }
+  ]
+}

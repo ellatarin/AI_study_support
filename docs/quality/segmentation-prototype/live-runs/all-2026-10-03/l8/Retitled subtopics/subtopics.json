@@ -1,0 +1,140 @@
+[
+  {
+    "start": 0,
+    "end": 440,
+    "title": "Cancer therapy approaches and learning objectives",
+    "why": "The lecturer welcomes students to the final lecture and introduces the learning objectives regarding cancer treatments and modes of action."
+  },
+  {
+    "start": 440,
+    "end": 2927,
+    "title": "Surgery and radiotherapy with adjunctive chemotherapy",
+    "why": "This section discusses localized physical approaches to cancer treatment, including surgical resection, radiotherapy, and the importance of clean margins and early detection."
+  },
+  {
+    "start": 2927,
+    "end": 8648,
+    "title": "Cytotoxic chemotherapy: mechanisms, efficacy, toxicity and resistance",
+    "why": "This section covers classical cytotoxic chemotherapeutic agents, their DNA-damaging mechanisms, clinical efficacy, and major drawbacks such as systemic toxicity and multidrug resistance."
+  },
+  {
+    "start": 8648,
+    "end": 10947,
+    "title": "Targeting hormone dependence in breast and prostate cancers",
+    "why": "This section details how hormone-dependent cancers are treated by blocking extracellular signaling receptors using drugs such as tamoxifen and enzalutamide."
+  },
+  {
+    "start": 10947,
+    "end": 12782,
+    "title": "Exploiting cell cycle checkpoint defects to increase radiosensitivity",
+    "why": "This section explains strategies to exploit defective cell cycle checkpoints in tumor cells through combination irradiation or p53-selective oncolytic adenoviruses."
+  },
+  {
+    "start": 12782,
+    "end": 14538,
+    "title": "Oncolytic adenoviruses targeting p53-deficient cancer cells",
+    "why": "It details how oncolytic adenoviruses lacking E1B 55K selectively replicate in and destroy p53-deficient cancer cells, along with the clinical limitations of this approach."
+  },
+  {
+    "start": 14538,
+    "end": 17226,
+    "title": "PARP inhibition in BRCA-deficient cancers",
+    "why": "This section explains synthetic lethality in BRCA-deficient cancers through the use of PARP inhibitors to prevent single-strand DNA break repair."
+  },
+  {
+    "start": 17226,
+    "end": 20336,
+    "title": "Oncogene addiction and genome-guided targeted therapy",
+    "why": "This section covers the concept of oncogene addiction and the structural targeting of hyperactivated oncogenic kinases like BCR-ABL, ALK, and EGFR with small molecule inhibitors."
+  },
+  {
+    "start": 20336,
+    "end": 23453,
+    "title": "Targeting activated oncogenic kinases with ATP-competitive inhibitors",
+    "why": "The lecturer moves from the general principles of genomic classification and oncogene addiction to the specific mechanisms of kinase hyperactivation and their therapeutic inhibition."
+  },
+  {
+    "start": 23453,
+    "end": 25954,
+    "title": "Kinase inhibitor selectivity and resistance through binding-site mutations",
+    "why": "This section addresses the clinical challenges of kinase inhibitors, detailing point mutations, bypass pathways, drug addiction in BRAF-mutant melanoma, and metronomic dosing strategies."
+  },
+  {
+    "start": 25954,
+    "end": 31068,
+    "title": "BRAF inhibitor resistance, drug addiction and intermittent dosing",
+    "why": "The passage develops how cancer cells use bypass pathways and paradoxical pathway hyperactivation to resist BRAF V600E targeted therapy, leading to drug addiction and metronomic dosing strategies."
+  },
+  {
+    "start": 31068,
+    "end": 31823,
+    "title": "Summary of long-term kinase inhibitor treatment and its limitations",
+    "why": "The lecturer steps back to take stock of kinase inhibitors overall, discussing their transformation of cancer into a chronic condition and remaining side effect challenges."
+  },
+  {
+    "start": 31823,
+    "end": 34065,
+    "title": "Monoclonal antibodies for receptor blockade and immune-mediated cancer cell killing",
+    "why": "This section describes therapeutic antibody technologies, including naked monoclonal antibodies targeting surface receptors and antibody-drug conjugates delivering cytotoxic payloads."
+  },
+  {
+    "start": 34065,
+    "end": 35401,
+    "title": "Antibody–drug conjugates for targeted cytotoxic delivery",
+    "why": "It explains the mechanism, toxin delivery, and clinical side effects of antibody-drug conjugates using brentuximab as the primary example."
+  },
+  {
+    "start": 35401,
+    "end": 39445,
+    "title": "Evidence for and against immune surveillance of cancer",
+    "why": "This section evaluates the evidence for innate cancer immune surveillance through historical transplant studies, immunosuppression outcomes, and adult thymectomy data."
+  },
+  {
+    "start": 39445,
+    "end": 42371,
+    "title": "Immune checkpoint blockade: T cell reactivation, efficacy and toxicity",
+    "why": "This section explains how checkpoint inhibitor antibodies like anti-CTLA4 reactivate exhausted T cells, alongside their toxicities and association with tumor mutational burden."
+  },
+  {
+    "start": 42371,
+    "end": 43531,
+    "title": "Tumor neoantigens and response to immune checkpoint blockade",
+    "why": "explains what antigens reactivated T cells recognize and how tumor mutational load correlates with immunotherapy response"
+  },
+  {
+    "start": 43531,
+    "end": 44539,
+    "title": "Bispecific T cell engagers in B-cell lymphoma",
+    "why": "This section covers advanced cellular immunotherapies, detailing the mechanisms, manufacturing challenges, and adverse effects of BiTEs and CAR T cells."
+  },
+  {
+    "start": 44539,
+    "end": 47766,
+    "title": "CAR T cell therapy: manufacture, limitations and emerging improvements",
+    "why": "The passage explains chimeric antigen receptor (CAR) T cells as a distinct cell-based immunotherapy modality, covering their engineering process, clinical drawbacks, and ongoing improvements."
+  },
+  {
+    "start": 47766,
+    "end": 50845,
+    "title": "Summary of cancer therapy challenges and biomarker-guided treatment",
+    "why": "This section reviews overarching obstacles in cancer treatment, including tumor heterogeneity, whole genome sequencing, historical incidence trends, and future directions."
+  },
+  {
+    "start": 50845,
+    "end": 51973,
+    "title": "Cancer outcome trends and the contributions of prevention and early detection",
+    "why": "the lecturer examines whether 50–70 year improvements in cancer outcomes are due to better therapy or rather improved prevention and early detection across various cancer types"
+  },
+  {
+    "start": 51973,
+    "end": 53599,
+    "title": "Future cancer treatment priorities and ethical dilemmas",
+    "why": "the lecturer explores upcoming frontiers and questions in cancer care, including cancer vaccines, prevention, and palliative care versus continued treatment"
+  },
+  {
+    "start": 53599,
+    "end": 54781,
+    "title": "Lecture close: childhood leukemia survival and the challenge of trialling targeted therapies",
+    "why": "This section concludes with the success of empirical combination chemotherapy in pediatric leukemia and discusses the clinical dilemma of introducing novel targeted therapies against established cytotoxic regimens."
+  }
+]

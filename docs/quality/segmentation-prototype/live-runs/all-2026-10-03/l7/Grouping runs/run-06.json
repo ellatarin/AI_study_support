@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture's place in the series and introduces its aims before substantive teaching begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutation-driven clonal evolution",
+      "groupedBecause": "This subtopic develops the evidence that mutations confer selective advantages through successive clonal expansion.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Epigenetic disruption in tumor development",
+      "groupedBecause": "This subtopic examines how altered transcriptional accessibility can drive tumor development without additional mutations.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Cancer stem cells, tumor hierarchy and cell of origin",
+      "groupedBecause": "These subtopics examine how a cell's position in a differentiation hierarchy affects its capacity to initiate and sustain cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness and cancer promotion",
+      "groupedBecause": "These subtopics show how inflammatory signals enable mutation-bearing cells to acquire stemness and develop into tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Microenvironmental support of established tumors",
+      "groupedBecause": "This subtopic examines established tumors' dependence on supportive stromal cells as a potential therapeutic vulnerability.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Investigating cancer with single-cell and spatial omics",
+      "groupedBecause": "This subtopic explains how molecular profiling of human tissue can reveal tumor evolution and interactions within the microenvironment.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Converging influences on cancer evolution and developmental susceptibility",
+      "groupedBecause": "This subtopic explains malignancy as the convergence of favorable evolutionary conditions and extends that synthesis to susceptibility during childhood development.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This subtopic ends the lecture and identifies therapy as the subject of the next session.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction to inflammation initiation and resolution",
+      "groupedBecause": "This opening frames the lecture as an integration of previously introduced immune cells and molecules.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Principles of innate immune recognition",
+      "groupedBecause": "These subtopics explain how germline-encoded receptors distinguish microbial products and tissue damage from normal host components.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Toll-like receptor recognition and signalling",
+      "groupedBecause": "These subtopics explain how toll-like receptors translate microbial recognition into responses shaped by the location of detection.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Other pattern recognition receptors and inflammasome activation",
+      "groupedBecause": "These subtopics develop recognition pathways beyond toll-like receptors that connect infection or damage sensing to inflammatory disease.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Sentinel-cell activation and inflammatory cell recruitment",
+      "groupedBecause": "These subtopics trace how activated sentinel cells generate inflammatory signals that mobilize immune cells to an infection site.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Lymphatic transport and adaptive immune priming",
+      "groupedBecause": "This subtopic explains how drainage from infected tissues carries evidence of infection to lymph nodes for adaptive immune activation.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Excessive systemic inflammation and septic shock",
+      "groupedBecause": "This subtopic examines how excessive inflammatory activation produces dangerous systemic effects and septic shock.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Passive and active resolution of inflammation",
+      "groupedBecause": "This subtopic explains how inflammatory responses are shut down through declining stimulation and active inhibitory signals.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Tissue repair and persistent inflammation",
+      "groupedBecause": "These subtopics examine why inflamed tissue may fail to return to normal and how persistent inflammation can sometimes contain an otherwise uncleared infection.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and next lecture on complement",
+      "groupedBecause": "This closing ends the lecture and identifies complement as the subject of the next lecture.",
+      "firstSubtopicId": 16
+    }
+  ]
+}

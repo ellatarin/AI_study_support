@@ -1,0 +1,39 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture’s aims and places cancer evolution within the preceding Cancer Biology lectures.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular changes driving clonal evolution and transformation",
+      "groupedBecause": "These subtopics examine how changes within cells create the potential for clonal expansion and malignant transformation.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stemness, tumor hierarchy and the cell of origin",
+      "groupedBecause": "These subtopics investigate how a cell’s position in a differentiation hierarchy affects its capacity to initiate or propagate cancer.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Microenvironmental support for tumor initiation and growth",
+      "groupedBecause": "These subtopics show how signals from surrounding cells provide conditions that enable mutant cells to develop into tumors and sustain malignant growth.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Investigating cancer evolution with single-cell and spatial omics",
+      "groupedBecause": "This subtopic explains how molecular profiling of human tissue can reveal tumor evolution and interactions between cells.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Converging conditions for malignant evolution",
+      "groupedBecause": "This subtopic integrates the conditions required for malignant evolution and extends their implications to developmental timing and changing cellular states.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This subtopic ends the lecture and announces the forthcoming discussion of cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

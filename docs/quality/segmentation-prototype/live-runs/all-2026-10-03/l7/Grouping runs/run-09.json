@@ -1,0 +1,44 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning outcomes",
+      "groupedBecause": "This subtopic frames the lecture's aims and its relationship to earlier teaching before the substantive discussion begins.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cellular changes driving cancer development",
+      "groupedBecause": "These subtopics examine how altered cellular states drive tumor development, extending the account of mutation-driven clonal selection to transformation through epigenetic disruption.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Stemness, tumor hierarchy and the cell of origin",
+      "groupedBecause": "These subtopics investigate how a cell's position in a tissue hierarchy and its capacity for self-renewal influence cancer initiation and propagation.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Inflammation-induced stemness and cancer promotion",
+      "groupedBecause": "These subtopics show how inflammatory signals can confer stem-like properties that enable previously nonmalignant mutant cells to form tumors.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Microenvironmental support of established tumors",
+      "groupedBecause": "This subtopic examines established tumors' dependence on supportive stromal cells and the therapeutic opportunities created by that dependence.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Methods for investigating cancer evolution and cell interactions",
+      "groupedBecause": "This subtopic explains how molecular profiling of human tissue can reveal tumor evolution and interactions within the tumor microenvironment.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Multiple routes to malignancy through converging cellular and environmental conditions",
+      "groupedBecause": "This subtopic integrates the lecture's mechanisms into an account of the conditions permitting malignant outgrowth and extends that account to developmental timing and childhood cancer.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Lecture close and next lecture",
+      "groupedBecause": "This subtopic ends the lecture and announces the forthcoming discussion of cancer therapy.",
+      "firstSubtopicId": 12
+    }
+  ]
+}

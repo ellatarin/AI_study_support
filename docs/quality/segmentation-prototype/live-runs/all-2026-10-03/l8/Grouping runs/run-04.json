@@ -1,0 +1,69 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "The opening frames the final lecture and states what students should learn about cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Conventional cancer treatment",
+      "groupedBecause": "These subtopics explain established ways of removing or killing cancer cells and the limitations imposed by damage to healthy tissue.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Targeting hormone-dependent cancers",
+      "groupedBecause": "This subtopic explains how blocking hormone signalling can suppress cancers that remain dependent on it for growth.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Exploiting cancer cell checkpoint defects",
+      "groupedBecause": "These subtopics show how missing cell cycle checkpoints can make cancer cells selectively vulnerable to treatment.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "PARP inhibition in BRCA-deficient cancers",
+      "groupedBecause": "This subtopic explains how inhibiting an additional DNA repair pathway selectively kills cells already deficient in BRCA-mediated repair.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Oncogene addiction and targeted kinase inhibition",
+      "groupedBecause": "These subtopics develop the strategy of identifying a cancer's driving oncogenic event and inhibiting the activated protein it depends on.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Kinase inhibitor resistance and long-term treatment limitations",
+      "groupedBecause": "These subtopics explain why kinase inhibition often becomes long-term disease control rather than a cure and how treatment must adapt to resistance.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Antibody targeting of cancer cell surface proteins",
+      "groupedBecause": "These subtopics explain how antibodies recognising cancer cell surface proteins can direct therapeutic effects towards those cells.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Immune surveillance and checkpoint blockade",
+      "groupedBecause": "These subtopics examine whether endogenous T cells recognise cancer and how releasing immune checkpoints can make that recognition therapeutically effective.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Redirecting T cells towards cancer cells",
+      "groupedBecause": "These subtopics describe approaches that deliberately give T cells access to tumour targets rather than relying on naturally occurring tumour recognition.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Treatment challenges and biomarker-guided patient selection",
+      "groupedBecause": "This subtopic explains the difficulty of matching heterogeneous cancers to effective, tolerable treatment and the role of biomarkers in that process.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Cancer outcome trends, prevention and early detection",
+      "groupedBecause": "This subtopic examines how prevention and earlier detection contribute to apparent improvements in cancer outcomes.",
+      "firstSubtopicId": 21
+    },
+    {
+      "label": "Future treatment priorities and ethical dilemmas",
+      "groupedBecause": "These subtopics consider how to pursue better cancer treatments when patient welfare and the success of existing therapies complicate clinical decisions and trials.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

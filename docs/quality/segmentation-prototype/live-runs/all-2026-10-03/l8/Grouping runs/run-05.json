@@ -1,0 +1,79 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning objectives",
+      "groupedBecause": "The opening frames the lecture and states what students should learn about cancer treatments.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Surgery and radiotherapy in cancer treatment",
+      "groupedBecause": "This section explains how local treatment removes or destroys tumors and how chemotherapy supports its effectiveness.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cytotoxic chemotherapy: action, effectiveness and limitations",
+      "groupedBecause": "This section examines how conventional cytotoxic drugs kill cancer cells and why toxicity and resistance limit their use.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Targeting hormone-dependent cancers",
+      "groupedBecause": "This section explains how blocking hormone signaling suppresses cancers that remain dependent on estrogen or androgens.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Exploiting cancer cell checkpoint defects",
+      "groupedBecause": "These subtopics show how missing cell cycle checkpoint proteins create selective vulnerabilities that treatment can exploit.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "PARP inhibition in BRCA-deficient cancers",
+      "groupedBecause": "This section explains how inhibiting an alternative repair mechanism selectively kills cancer cells with defective BRCA-mediated DNA repair.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Oncogene-guided treatment and targeted kinase inhibition",
+      "groupedBecause": "These subtopics develop the principle of targeting the oncogenic driver on which a cancer depends and explain its application through kinase inhibitors.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Limitations of kinase inhibitors and strategies for managing resistance",
+      "groupedBecause": "These subtopics explain why kinase inhibition often becomes long-term disease control rather than a cure and how treatment can adapt to evolving resistance.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Antibody-based targeting of cancer cells",
+      "groupedBecause": "These subtopics explain how antibodies recognizing cancer cell surface proteins provide a targeted means of producing therapeutic effects.",
+      "firstSubtopicId": 13
+    },
+    {
+      "label": "Evidence for immune surveillance of cancer",
+      "groupedBecause": "This section evaluates whether the body's existing immune defenses protect against cancer.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Immune checkpoint blockade and tumor antigen recognition",
+      "groupedBecause": "These subtopics explain how checkpoint blockade restores antitumor T cell activity and why recognition of tumor neoantigens influences its effectiveness.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Redirecting T cells against cancer",
+      "groupedBecause": "These subtopics describe therapies that deliberately connect T cell cytotoxic activity to selected tumor antigens rather than relying on naturally occurring recognition.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Treatment challenges and biomarker-guided therapy",
+      "groupedBecause": "This section explains why matching treatments to individual cancers is necessary but remains difficult as tumors evolve.",
+      "firstSubtopicId": 20
+    },
+    {
+      "label": "Cancer outcome trends, prevention and early detection",
+      "groupedBecause": "This section assesses improvements in cancer outcomes while distinguishing treatment effects from the contributions of prevention and earlier diagnosis.",
+      "firstSubtopicId": 21
+    },
+    {
+      "label": "Future treatment priorities and ethical dilemmas",
+      "groupedBecause": "These concluding subtopics consider how future cancer treatment should advance while balancing uncertain benefits against established survival gains and patients' quality of life.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

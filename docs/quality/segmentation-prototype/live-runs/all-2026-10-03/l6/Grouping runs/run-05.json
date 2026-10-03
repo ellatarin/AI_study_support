@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing and learning outcomes",
+      "groupedBecause": "This subtopic introduces the lecture’s scope, connects it to previous lectures, and sets out the learning outcomes.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Signaling mutations that deregulate growth and survival",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signaling pathways allow cancer cells to proliferate and survive without normal growth controls.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation defects in blood cancers and intestinal epithelium",
+      "groupedBecause": "These subtopics examine how a cancer cell’s differentiation state shapes its abnormal proliferation and tissue appearance.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how disruption of the balance between pro-apoptotic and anti-apoptotic proteins allows cancer cells to evade death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and cancer cell immortalization",
+      "groupedBecause": "These subtopics explain how telomere shortening limits normal cell division and how increased telomerase expression enables cancer cells to bypass that limit.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53 safeguards and the growth-control hallmarks",
+      "groupedBecause": "These subtopics explain and consolidate how cellular safeguards oppose the loss of growth control caused by mutations and cellular stress.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics examine how altered metabolism supports cancer and participates in self-reinforcing changes to gene regulation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "The angiogenic switch in tumor growth",
+      "groupedBecause": "This subtopic explains how tumors recruit a blood supply to overcome the limits imposed by oxygen and nutrient diffusion.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic spread, survival and genetic characteristics",
+      "groupedBecause": "These subtopics investigate how cancer cells reach distant sites and what determines whether they establish detectable metastases.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture wrap-up and further reading",
+      "groupedBecause": "This subtopic closes the lecture by restating its central takeaway, recommending further reading, and inviting questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

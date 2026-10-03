@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Introduction and learning outcomes",
+      "groupedBecause": "This opening frames the lecture series and sets out what students should learn from this lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Genetic and epigenetic changes in cancer development",
+      "groupedBecause": "This material establishes cancer development as a stepwise accumulation of cellular changes and identifies the questions that this model raises.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Cancer as a failure of differentiation and tissue organisation",
+      "groupedBecause": "These subtopics explain why understanding cancer requires studying cells within the organised tissue context that isolated cell cultures cannot fully reproduce.",
+      "firstSubtopicId": 3
+    },
+    {
+      "label": "Invasion and metastasis as features of malignancy",
+      "groupedBecause": "These subtopics establish how malignant tumours differ from benign tumours through invasion of surrounding tissue and the capacity to spread to distant sites.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Tumour progression and the clinical significance of benign tumours",
+      "groupedBecause": "These subtopics examine the transition from benign to malignant growth while explaining why benign status guarantees neither progression nor harmlessness.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Tumour nomenclature",
+      "groupedBecause": "This material explains how tumour names indicate tissue of origin and malignant status, including exceptions to the naming rules.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "How cancer causes illness and death",
+      "groupedBecause": "This material explains how tumour growth disrupts normal bodily function and how widespread metastases can produce fatal organ failure.",
+      "firstSubtopicId": 11
+    },
+    {
+      "label": "Tumour incidence in humans and other animals",
+      "groupedBecause": "These subtopics compare the frequency and distribution of tumour types across populations and species.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Clinical detection and cancer screening",
+      "groupedBecause": "These subtopics explain the rationale for detecting cancer early and assess how effectively screening can achieve this in different tumour types.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Lecture close and upcoming practicals",
+      "groupedBecause": "This closing returns students to the learning outcomes and directs them towards revision and forthcoming teaching.",
+      "firstSubtopicId": 17
+    }
+  ]
+}

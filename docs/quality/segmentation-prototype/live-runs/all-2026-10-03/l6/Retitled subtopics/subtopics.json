@@ -1,0 +1,116 @@
+[
+  {
+    "start": 0,
+    "end": 3892,
+    "title": "Introduction to cancer hallmarks and their genetic basis",
+    "why": "The lecturer frames the session's learning outcomes and introduces the Hanahan and Weinberg hallmarks of cancer framework."
+  },
+  {
+    "start": 3892,
+    "end": 5813,
+    "title": "Mutations in extracellular signaling pathways controlling growth and survival",
+    "why": "The lecturer explains how mutations in Wnt/beta-catenin, RTK/Ras/MAPK, PI3K/Akt, and TGF-beta cascades enable growth signal independence and resistance to inhibitory signals."
+  },
+  {
+    "start": 5813,
+    "end": 7985,
+    "title": "APC and β-catenin mutations in Wnt-driven proliferation",
+    "why": "It explains the normal mechanism of the Wnt degradation complex and how mutations in APC and beta-catenin drive proliferation."
+  },
+  {
+    "start": 7985,
+    "end": 10880,
+    "title": "Deregulation of MAPK, PI3K–AKT and TGF-β signaling",
+    "why": "It details how receptor tyrosine kinases signal through Ras-MAPK and PI3K-AKT cascades and how activating mutations promote cancer cell proliferation and survival."
+  },
+  {
+    "start": 10880,
+    "end": 14756,
+    "title": "Differentiation blocks and cell origins in hematological cancers",
+    "why": "The lecturer examines how cancer cells fail to terminally differentiate, using examples from hematopoiesis, leukemias, and intestinal crypts."
+  },
+  {
+    "start": 14756,
+    "end": 18082,
+    "title": "APC loss disrupts intestinal epithelial differentiation and renewal",
+    "why": "The lecturer examines differentiation failure in a solid tissue context, detailing normal crypt-villus differentiation dynamics and how APC/Wnt mutations disrupt this process."
+  },
+  {
+    "start": 18082,
+    "end": 21315,
+    "title": "Resistance to apoptosis through p53 loss and BCL2 activity",
+    "why": "The lecturer details the apoptotic pathway governed by p53, MDM2, Bax pore formation, and anti-apoptotic BCL2 balance."
+  },
+  {
+    "start": 21315,
+    "end": 25552,
+    "title": "Telomere shortening, replicative limits and cellular senescence",
+    "why": "The lecturer describes the Hayflick limit, telomere shortening, TERT activation mechanisms, and stress-induced senescence."
+  },
+  {
+    "start": 25552,
+    "end": 27351,
+    "title": "TERT promoter mutations and rearrangements enabling immortalization",
+    "why": "The lecturer moves from the normal telomere biology and senescence barrier to the specific oncogenic mutations (promoter point mutations and rearrangements) that reactivate telomerase in cancer cells."
+  },
+  {
+    "start": 27351,
+    "end": 29466,
+    "title": "p53-mediated stress responses preserve genome integrity",
+    "why": "The lecturer explains how p53 integrates multiple stress signals—telomere shortening, DNA damage, and oncogene activation—to safeguard genome integrity through arrest, senescence, or apoptosis."
+  },
+  {
+    "start": 29466,
+    "end": 30368,
+    "title": "Summary of growth control hallmarks and introduction to broader cancer behaviors",
+    "why": "The lecturer takes stock of the genetic mutation-driven hallmarks of growth control covered so far and previews the upcoming set of hallmarks."
+  },
+  {
+    "start": 30368,
+    "end": 32490,
+    "title": "The Warburg effect and glucose uptake in cancer diagnosis",
+    "why": "The lecturer explains aerobic glycolysis, diagnostic PET imaging, and Krebs cycle mutations producing oncometabolites that alter the epigenome."
+  },
+  {
+    "start": 32490,
+    "end": 34292,
+    "title": "Cancer metabolic rewiring retains tissue-specific features",
+    "why": "The lecturer moves from the specific mechanism and reasons behind the Warburg effect to discussing a study on broad metabolic rewiring across diverse cancer types and tissues of origin."
+  },
+  {
+    "start": 34292,
+    "end": 37276,
+    "title": "Oncometabolites and feedback between metabolism and the epigenome",
+    "why": "It examines whether metabolic alterations are causes or effects of cancer by detailing Krebs cycle enzyme mutations and the resulting oncometabolites and epigenetic changes."
+  },
+  {
+    "start": 37276,
+    "end": 40976,
+    "title": "The angiogenic switch in tumor development and growth",
+    "why": "The lecturer explains the angiogenic switch, oxygen diffusion limits, timing during pre-malignant stages, and the balance of activators and inhibitors."
+  },
+  {
+    "start": 40976,
+    "end": 46760,
+    "title": "Metastatic dissemination, circulatory routes and clinical monitoring",
+    "why": "The lecturer discusses the metastatic cascade, lymph node mapping, circulating tumor cells as liquid biopsies, seed-and-soil compatibility, and whole genome duplication."
+  },
+  {
+    "start": 46760,
+    "end": 48370,
+    "title": "Metastatic inefficiency and seed–soil compatibility",
+    "why": "The lecturer explains why metastatic colonization is highly inefficient and how successful metastasis depends on mechanical factors and the compatibility between cancer cells and the target tissue environment."
+  },
+  {
+    "start": 48370,
+    "end": 49930,
+    "title": "Shared driver mutations and whole-genome duplication in metastases",
+    "why": "The lecturer examines sequencing studies comparing primary and metastatic tumors, explaining that metastases are clonal derivatives lacking specific driver mutations but often exhibiting whole genome duplication."
+  },
+  {
+    "start": 49930,
+    "end": 51085,
+    "title": "Lecture summary: diverse genetic routes converge on cancer hallmarks",
+    "why": "The lecturer concludes the session with overarching remarks on the hallmarks framework and points to recommended reading."
+  }
+]
