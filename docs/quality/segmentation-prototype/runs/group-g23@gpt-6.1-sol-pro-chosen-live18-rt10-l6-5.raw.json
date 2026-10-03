@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing and the cancer hallmarks framework",
+      "groupedBecause": "This opening establishes the lecture's learning outcomes and introduces the hallmarks framework used to explain cancer's loss of growth control.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutational deregulation of growth and survival signalling",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signalling pathways make cancer cells proliferate and survive independently of normal growth controls.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "These subtopics show how disrupted differentiation sustains abnormal cell populations, using blood cancers and intestinal epithelial renewal as examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how altered p53 signalling and the balance of apoptotic regulators allow cancer cells to evade programmed cell death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and cancer cell immortalization",
+      "groupedBecause": "These subtopics explain the telomere-dependent limit on cell division and how cancer cells overcome it by reactivating telomerase.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "Genome safeguards and mutation-driven loss of growth control",
+      "groupedBecause": "These subtopics conclude the account of mutation-driven loss of growth control by explaining p53's genome-protective responses before recapping how mutations produce cancer hallmarks.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics examine how altered metabolism supports cancer and participates in self-reinforcing changes to gene regulation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis supporting tumour growth",
+      "groupedBecause": "This subtopic explains how tumours activate blood vessel formation to obtain the oxygen and nutrients needed for continued growth.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic spread and survival at secondary sites",
+      "groupedBecause": "These subtopics examine how cancer cells disseminate and establish secondary tumours, emphasizing the difficulty of identifying a distinct genetic basis for metastatic success.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing synthesis and further reading",
+      "groupedBecause": "This closing returns to the lecture's learning goals, summarizes convergence on shared cancer hallmarks, and offers further reading before inviting questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing and the cancer hallmarks framework",
+      "groupedBecause": "This opening establishes the learning outcomes and the hallmarks framework that will organise the lecture.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutational deregulation of growth and survival signalling",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signalling pathways make cancer cells less dependent on normal growth controls.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in blood cancers and intestinal epithelium",
+      "groupedBecause": "These subtopics show how disrupted differentiation sustains abnormal cell populations rather than normal tissue maturation.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how altered regulation of the mitochondrial apoptotic pathway allows cancer cells to avoid death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and replicative immortality",
+      "groupedBecause": "These subtopics explain the telomere-dependent limit on cell division and how cancer cells overcome it by reactivating telomerase.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53-mediated genome protection and growth-control recap",
+      "groupedBecause": "These subtopics conclude the account of mutation-driven loss of growth control through an explanation of p53's protective responses and a recap of the hallmarks discussed.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics examine how altered metabolism supports cancer and participates in a self-reinforcing relationship with genetic and epigenetic deregulation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis as a requirement for tumour growth",
+      "groupedBecause": "This subtopic explains how the angiogenic switch supplies the perfusion needed for tumours to grow.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and successful secondary growth",
+      "groupedBecause": "These subtopics investigate how cancer cells spread and what determines whether disseminated cells establish detectable tumours at secondary sites.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing synthesis, further reading and questions",
+      "groupedBecause": "This closing returns to the lecture's learning goals and shared cancer hallmarks before offering further reading and inviting questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

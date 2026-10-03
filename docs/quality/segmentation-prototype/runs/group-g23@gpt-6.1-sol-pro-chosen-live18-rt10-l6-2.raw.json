@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing and introduction to cancer hallmarks",
+      "groupedBecause": "This opening establishes the lecture's learning outcomes and frames cancer hallmarks as a way to understand mutation-driven loss of growth control.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Deregulation of growth and survival signalling",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signalling pathways free cancer cells from normal controls on proliferation and survival.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "These subtopics show how disrupted differentiation alters cancer-cell populations and tissue architecture.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how disruption of p53-dependent apoptotic regulation allows cancer cells to evade programmed death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and cancer-cell immortalization",
+      "groupedBecause": "These subtopics explain how telomere shortening limits normal cell replication and how telomerase reactivation enables cancer cells to bypass that limit.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53-mediated genome protection and growth-control recap",
+      "groupedBecause": "These subtopics complete the account of mutation-driven loss of growth control by explaining p53's protective stress responses before recapping the hallmarks already discussed.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics examine how altered metabolism supports cancer and participates in self-reinforcing changes to cellular regulation.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "Angiogenesis supporting tumour growth",
+      "groupedBecause": "This subtopic explains why tumour growth requires an angiogenic switch that supplies oxygen and nutrients.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic spread and establishment",
+      "groupedBecause": "These subtopics examine how cancer cells spread from a primary tumour and what determines their ability to establish detectable tumours at secondary sites.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Lecture conclusion and shared cancer hallmarks",
+      "groupedBecause": "This closing returns to the lecture's central message that diverse mutational routes converge on shared hallmarks and ends with reading guidance and practical-session signposting.",
+      "firstSubtopicId": 19
+    }
+  ]
+}

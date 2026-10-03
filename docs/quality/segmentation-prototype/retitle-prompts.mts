@@ -181,10 +181,19 @@ Make the title ${BEST_SHORT_DESCRIPTION}${ruleEnd}.`,
 /** r7's R5. */
 const { rule: BEST_SHORT_DESCRIPTION_RULE, check: BEST_SHORT_DESCRIPTION_CHECK } = bestShortDescription({});
 
-/** r9's R5: r7's, asking for the most precise words. */
-const { rule: PRECISE_DESCRIPTION_RULE, check: PRECISE_DESCRIPTION_CHECK } = bestShortDescription({
+/** What r9 adds to R5's rule and check: the most precise words. */
+const PRECISE_WORDS = {
 	ruleEnd: ", using the most precise words for it",
 	checkEnd: ", and is each word the most precise one for it",
+};
+
+/** r9's R5: r7's, asking for the most precise words. */
+const { rule: PRECISE_DESCRIPTION_RULE, check: PRECISE_DESCRIPTION_CHECK } = bestShortDescription(PRECISE_WORDS);
+
+/** r10's R5: r9's, naming a general point rather than the case it is made through. */
+const { rule: GENERAL_POINT_RULE, check: GENERAL_POINT_CHECK } = bestShortDescription({
+	ruleEnd: `${PRECISE_WORDS.ruleEnd}. Where the subtopic makes a general point through a particular case, the title names the point; be careful not to give the impression that a general point is restricted to particular subcases`,
+	checkEnd: `${PRECISE_WORDS.checkEnd}; and where the subtopic makes a general point through a particular case, does the title name the point without implying it is restricted to that case`,
 });
 
 /** r8's rule: a recap is titled as a summary, and the lecture's closing part as its summary or close. */
@@ -313,6 +322,18 @@ export const RETITLE_PROMPTS: readonly RetitlePromptVersion[] = [
 			...R4_SECTIONS,
 			extraRules: `${R4_SECTIONS.extraRules}${PRECISE_DESCRIPTION_RULE}${NAME_SUMMARIES_RULE}`,
 			extraChecks: `${R4_SECTIONS.extraChecks}${PRECISE_DESCRIPTION_CHECK}${NAME_SUMMARIES_CHECK}`,
+		}),
+	},
+	{
+		id: "r10",
+		summary: "r9 with R5 naming a general point rather than the case it is made through.",
+		changed:
+			"R5 and its check only: the rule adds \"Where the subtopic makes a general point through a particular case, the title names the point; be careful not to give the impression that a general point is restricted to particular subcases\", and the check a matching question. On l6 (live, 2026-10-03) r9 narrowed subtopic 5 from its pre-retitling title, a general point, to the case it was taught through, and the grouping's topic name inherited the narrowing; the user worded the addition. Everything else is r9 byte for byte.",
+		scope: "lecture",
+		prompt: RETITLE_PROMPT({
+			...R4_SECTIONS,
+			extraRules: `${R4_SECTIONS.extraRules}${GENERAL_POINT_RULE}${NAME_SUMMARIES_RULE}`,
+			extraChecks: `${R4_SECTIONS.extraChecks}${GENERAL_POINT_CHECK}${NAME_SUMMARIES_CHECK}`,
 		}),
 	},
 ];

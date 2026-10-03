@@ -1,0 +1,54 @@
+{
+  "topics": [
+    {
+      "label": "Lecture framing and the cancer hallmarks",
+      "groupedBecause": "This opening establishes the lecture’s learning outcomes and introduces the hallmarks as a framework for understanding loss of growth control.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Mutational deregulation of growth and survival signalling",
+      "groupedBecause": "These subtopics explain how mutations in extracellular signalling pathways make cancer cells proliferate and survive independently of normal regulatory signals.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Differentiation blocks in cancer",
+      "groupedBecause": "These subtopics show how disrupted differentiation changes cancer cell populations and tissue architecture, using blood cancers and intestinal epithelium as examples.",
+      "firstSubtopicId": 5
+    },
+    {
+      "label": "Resistance to apoptosis",
+      "groupedBecause": "This subtopic explains how altered p53 signalling and the balance of mitochondrial apoptotic regulators allow cancer cells to evade death.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Telomere maintenance and cancer cell immortalisation",
+      "groupedBecause": "These subtopics explain the telomere-dependent limit on cell division and how cancer cells overcome it by reactivating telomerase.",
+      "firstSubtopicId": 8
+    },
+    {
+      "label": "p53-mediated genome protection and summary of mutation-driven hallmarks",
+      "groupedBecause": "These subtopics conclude the account of mutation-driven growth deregulation by explaining p53’s protective responses and then reviewing how mutations generate cancer hallmarks.",
+      "firstSubtopicId": 10
+    },
+    {
+      "label": "Metabolic rewiring in cancer",
+      "groupedBecause": "These subtopics examine how cancer metabolism is altered and how those alterations can both reflect and reinforce tumour development.",
+      "firstSubtopicId": 12
+    },
+    {
+      "label": "The angiogenic switch in tumour growth",
+      "groupedBecause": "This subtopic explains why growing tumours require new blood vessels and how the balance of angiogenic signals enables their formation.",
+      "firstSubtopicId": 15
+    },
+    {
+      "label": "Metastatic dissemination and establishment",
+      "groupedBecause": "These subtopics investigate how cancer cells spread and establish secondary tumours, including the evidence used to detect and explain successful metastasis.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Closing synthesis and further reading",
+      "groupedBecause": "This closing returns to the lecture’s learning goals, emphasises convergence on shared hallmarks, and offers further reading before inviting questions.",
+      "firstSubtopicId": 19
+    }
+  ]
+}
