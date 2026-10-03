@@ -1,0 +1,28 @@
+{
+  "sourceRun": "chosen-live18-rt9-l4",
+  "promptVersion": "g23",
+  "lecture": "l4",
+  "instance": "8",
+  "modelId": "openai/gpt-6.1-sol-pro",
+  "reasoningEffort": null,
+  "labelsShown": true,
+  "seconds": 51,
+  "promptTokens": 42082,
+  "completionTokens": 2603,
+  "finishReason": "stop",
+  "verdict": "OK",
+  "topics": 10,
+  "subtopics": 22,
+  "topicSizes": [
+    1,
+    2,
+    3,
+    2,
+    5,
+    2,
+    2,
+    1,
+    3,
+    1
+  ]
+}

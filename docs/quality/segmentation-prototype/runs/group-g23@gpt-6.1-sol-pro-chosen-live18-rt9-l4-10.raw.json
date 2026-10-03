@@ -1,0 +1,49 @@
+{
+  "topics": [
+    {
+      "label": "Lecture introduction and learning objectives",
+      "groupedBecause": "This subtopic frames the lecture within the cancer course and introduces its learning objectives.",
+      "firstSubtopicId": 1
+    },
+    {
+      "label": "Cancer evolution and the origins of cancer-driving mutations",
+      "groupedBecause": "These subtopics explain how mutations arise and enable clonal evolution toward cancer within a permissive microenvironment.",
+      "firstSubtopicId": 2
+    },
+    {
+      "label": "Environmental cancer risks and evidence for their contribution",
+      "groupedBecause": "These subtopics examine the evidence and uncertainty surrounding environmental contributions to cancer rather than attributing it solely to chance or inherited predisposition.",
+      "firstSubtopicId": 4
+    },
+    {
+      "label": "Infectious causes of cancer",
+      "groupedBecause": "These subtopics explain how infections contribute to cancer, with Burkitt lymphoma illustrating cooperation between pathogens and cellular changes.",
+      "firstSubtopicId": 7
+    },
+    {
+      "label": "Environmental carcinogens and mechanisms of DNA damage",
+      "groupedBecause": "These subtopics trace how environmental exposures produce DNA damage and mutations through mechanisms shaped by their chemical properties and metabolism.",
+      "firstSubtopicId": 9
+    },
+    {
+      "label": "Tumour initiation and promotion",
+      "groupedBecause": "These subtopics distinguish mutation-producing initiation from promotion that enables altered cells to proliferate in a supportive environment.",
+      "firstSubtopicId": 14
+    },
+    {
+      "label": "Tissue and developmental susceptibility, with a recap of carcinogenic mechanisms",
+      "groupedBecause": "These subtopics explain context-dependent susceptibility to carcinogens and conclude by placing it within the preceding account of cancer-causing mechanisms.",
+      "firstSubtopicId": 16
+    },
+    {
+      "label": "Methods for identifying exposures and assessing carcinogenicity",
+      "groupedBecause": "These subtopics examine how evidence of carcinogen exposure and cancer-causing potential can be obtained, interpreted and limited.",
+      "firstSubtopicId": 18
+    },
+    {
+      "label": "Closing summary and risk–benefit perspective",
+      "groupedBecause": "This subtopic closes the lecture by summarising its conclusions and framing everyday exposure decisions as risk–benefit judgments.",
+      "firstSubtopicId": 22
+    }
+  ]
+}

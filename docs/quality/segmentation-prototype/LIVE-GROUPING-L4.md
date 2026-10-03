@@ -68,3 +68,17 @@ Every run, live and prototype. "Apart" counts topic starts the run has and the p
 | 16 | Tissue and developmental susceptibility, with a recap of carcinogenic mechanisms | Developmental and tissue susceptibility within carcinogenic mechanisms | 0.55 |
 | 18 | Evidence linking human cancers to carcinogen exposure | Evidence and tests for carcinogenicity | 0.09 |
 | 22 | Closing summary and risk–benefit decisions | Closing summary and risk–benefit decisions | 1.00 |
+
+## Follow-up, 2026-10-03: the prototype's titles, sent again today
+
+Why do the live runs start a topic at 20? The live and prototype messages are identical apart from the subtopic titles, and the request settings match. So runs 6–10 sent the prototype's `r9`-titled message again today, unchanged, through `group-trial.mts`.
+
+| Run | Sent | Topic starts | Splits 18–21 at |
+|---|---|---|---|
+| prototype 1–5 | 2026-09-30 | 1,2,4,7,9,14,16,18,22 | — |
+| prototype 6, 7, 8 | 2026-10-03 | 1,2,4,7,9,14,16,18,19,22 | 19 |
+| prototype 9, 10 | 2026-10-03 | 1,2,4,7,9,14,16,18,22 | — |
+| live 1 | 2026-10-03 | 1,2,4,7,9,14,16,18,22 | — |
+| live 2–5 | 2026-10-03 | 1,2,4,7,9,14,16,18,20,22 | 20 |
+
+The same message that kept 18–21 together in 5 of 5 runs on 30 September split it in 3 of 5 today. So the titles do not cause the split; with either set of titles, today's runs mostly divide 18–21. The titles change where the cut falls. With the prototype's titles, mutational signatures (18) stands alone and 19–21 become "methods and limitations of carcinogenicity assessment". With the live titles, human evidence (18–19) is cut from experimental tests (20–21). The rulings mark both 19 and 20 "not".
