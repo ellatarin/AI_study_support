@@ -128,10 +128,10 @@ describe("STAGE_WORKSPACE", () => {
 		expect(renderers).toStrictEqual(["transcript-verification"]);
 	});
 
-	it("should keep a record of how the output was reached from choose-division alone when ownership is read", () => {
+	it("should keep a record of how the output was reached from choose-division and retitle-subtopics alone when ownership is read", () => {
 		const recorders = STAGE_IDS.filter((stageId) => STAGE_WORKSPACE[stageId].record !== null);
 
-		expect(recorders).toStrictEqual(["choose-division"]);
+		expect(recorders).toStrictEqual(["choose-division", "retitle-subtopics"]);
 	});
 });
 

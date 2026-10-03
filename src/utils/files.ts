@@ -133,6 +133,17 @@ const TMP_SUFFIX = ".tmp";
 const JSON_INDENT = 2;
 
 /**
+ * A value as the text of a JSON file a stage writes: indented as every JSON file
+ * the pipeline writes is, and ending in a newline.
+ *
+ * @param value - The value to serialise.
+ * @returns The file's text.
+ */
+export function jsonFileContent(value: unknown): string {
+	return `${JSON.stringify(value, null, JSON_INDENT)}\n`;
+}
+
+/**
  * Writes a value as indented JSON, atomically.
  *
  * Every JSON file the pipeline persists — the lecture manifest and the run logs —

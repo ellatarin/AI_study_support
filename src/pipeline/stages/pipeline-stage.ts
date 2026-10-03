@@ -4,6 +4,7 @@ import type { Logger } from "pino";
 import type { PipelineStage, StageContext, StageId, StageResult } from "../../types/pipeline.js";
 import {
 	cleanTmpFiles,
+	jsonFileContent,
 	type ProduceFile,
 	pathExists,
 	produceFileAtomic,
@@ -240,26 +241,32 @@ export function writeStageOutputWithReadableView({
  * Writes the file a stage owns and the record beside it of how the stage
  * reached it, and names both as `filesWritten` records them (technical-design.md
  * §3.3, §4.5). The record is written with the output rather than into the
- * manifest, so it is replaced, and cleared, with the output it describes.
+ * manifest, so it is replaced, and cleared, with the output it describes. Both
+ * are JSON, as every stage keeping a record writes it, so both are given as values.
  *
  * @param args - The stage, the workspace, the output and its record.
  * @param args.stageId - The stage whose output this is; only a stage that keeps a record.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
- * @param args.content - The output file's text.
+ * @param args.value - The output, written as JSON.
  * @param args.record - How the stage reached the output, written as JSON.
  * @returns The absolute path of the output, and the `filesWritten` naming both files.
  */
 export function writeStageOutputWithRecord({
+	value,
 	record,
-	...output
-}: StageOutputWrite & {
+	...target
+}: StageOutputTarget & {
 	readonly stageId: StageWithRecord;
+	readonly value: unknown;
 	readonly record: unknown;
 }): Promise<RecordedStageOutput> {
-	const content = `${JSON.stringify(record, null, 2)}\n`;
 	return writeStageOutputBeside({
-		output,
-		beside: { path: stageRecordPath(output), entry: stageRecordEntry(output.stageId), content },
+		output: { ...target, content: jsonFileContent(value) },
+		beside: {
+			path: stageRecordPath(target),
+			entry: stageRecordEntry(target.stageId),
+			content: jsonFileContent(record),
+		},
 	});
 }
 

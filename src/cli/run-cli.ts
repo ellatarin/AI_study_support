@@ -17,6 +17,7 @@ import { createAudioExtractionStage } from "../pipeline/stages/audio-extraction/
 import { createChooseDivisionStage } from "../pipeline/stages/choose-division/choose-division.js";
 import { createDeepenSubtopicSplittingStage } from "../pipeline/stages/deepen-subtopic-splitting/deepen-subtopic-splitting.js";
 import { createInitialSubtopicSplittingStage } from "../pipeline/stages/initial-subtopic-splitting/initial-subtopic-splitting.js";
+import { createRetitleSubtopicsStage } from "../pipeline/stages/retitle-subtopics/retitle-subtopics.js";
 import { createSourceNormalisationStage } from "../pipeline/stages/source-normalisation/source-normalisation.js";
 import { createTranscriptStructuringStage } from "../pipeline/stages/transcript-structuring/transcript-structuring.js";
 import { createTranscriptVerificationStage } from "../pipeline/stages/transcript-verification/transcript-verification.js";
@@ -86,6 +87,7 @@ async function assembleDeps({
 			createInitialSubtopicSplittingStage({ logger, client }),
 			createDeepenSubtopicSplittingStage({ logger, client }),
 			createChooseDivisionStage({ logger }),
+			createRetitleSubtopicsStage({ logger, client }),
 			createTranscriptStructuringStage({ logger, client }),
 			createTranscriptVerificationStage({ logger, client }),
 		],

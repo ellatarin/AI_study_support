@@ -437,6 +437,10 @@ export const STAGE_WORKSPACE = {
 		...writesInto({ directory: "Chosen division", file: "subtopics.json" }),
 		record: "choice.json",
 	},
+	"retitle-subtopics": {
+		...writesInto({ directory: "Retitled subtopics", file: "subtopics.json" }),
+		record: "changes.json",
+	},
 	"transcript-structuring": writesInto({
 		directory: "Structured transcript",
 		file: "structured-transcript.md",

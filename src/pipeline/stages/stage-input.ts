@@ -1,6 +1,6 @@
 /**
- * Reading the text an earlier stage wrote. Shared by the four division stages,
- * which each read the transcript: their run files hold positions, never text,
+ * Reading what an earlier stage wrote. Shared by the stages that read the
+ * transcript or a division: run files and divisions hold positions, never text,
  * so each needs the transcript to turn positions back into subtopics
  * (technical-design.md §5, "Dividing the transcript").
  */
@@ -18,6 +18,14 @@ type ReadingStage = {
 	readonly context: StageContext;
 	/** Builds the reading stage's own error from a message. */
 	readonly fail: (message: string) => Error;
+};
+
+/** The reading stage, and which earlier stage's output it reads and why. */
+type ReadingOutput = ReadingStage & {
+	/** The stage whose output file to read; only a stage that writes one. */
+	readonly stageId: StageWithOutputFile;
+	/** What the reading stage does with it, for the failure a user reads, e.g. "divide". */
+	readonly purpose: string;
 };
 
 /**
@@ -38,10 +46,7 @@ export async function readStageText({
 	stageId,
 	purpose,
 	fail,
-}: ReadingStage & {
-	readonly stageId: StageWithOutputFile;
-	readonly purpose: string;
-}): Promise<string> {
+}: ReadingOutput): Promise<string> {
 	const path = stageOutputPath({ workspaceRoot: context.workspaceRoot, stageId });
 	let text: string;
 	try {
@@ -69,6 +74,39 @@ export async function readStageText({
 export async function readTranscript({ context, fail }: ReadingStage): Promise<string> {
 	const text = await readStageText({ context, stageId: "transcription", purpose: "divide", fail });
 	return text.trim();
+}
+
+/**
+ * Reads the division an earlier stage wrote as its output: a list of subtopics,
+ * each a span of the transcript with its title and reason.
+ *
+ * @param args - Whose division to read, and how to fail.
+ * @param args.context - The current lecture run context.
+ * @param args.stageId - The stage whose division to read.
+ * @param args.purpose - What the reading stage does with it, for the failure a user reads, e.g. "retitle".
+ * @param args.fail - Builds the reading stage's own error from a message.
+ * @returns The division's subtopics, in order.
+ * @throws The error `fail` builds, if the file is missing, empty, not JSON, or not a list of subtopics.
+ */
+export async function readStageDivision({
+	context,
+	stageId,
+	purpose,
+	fail,
+}: ReadingOutput): Promise<readonly Subtopic[]> {
+	const text = await readStageText({ context, stageId, purpose, fail });
+	const path = stageOutputPath({ workspaceRoot: context.workspaceRoot, stageId });
+	let parsed: unknown;
+	try {
+		parsed = JSON.parse(text);
+	} catch (error: unknown) {
+		throw fail(`The file at ${path} is not JSON (${errorMessage(error)})`);
+	}
+	const subtopics = readDivision(parsed);
+	if (subtopics === null) {
+		throw fail(`The file at ${path} is not a list of subtopics`);
+	}
+	return subtopics;
 }
 
 /**

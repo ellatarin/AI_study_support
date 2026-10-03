@@ -1,0 +1,219 @@
+/* jscpd:ignore-start -- sibling stage suites import the same fixtures and mock the
+   same module, so their preambles match line for line. Neither half can move:
+   imports cannot be shared and barrel files are forbidden (CLAUDE.md, File
+   Organisation), and vi.mock is hoisted, so it must sit in the file that mocks.
+   Only the preamble is exempt; the suite below is checked as normal. */
+import { rm, writeFile } from "node:fs/promises";
+import type { Mock } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { pathExists } from "../../../utils/files.js";
+import {
+	captureError,
+	configuringStage,
+	driveModelStage,
+	readJsonFile,
+	seedStageOutput,
+	sentUserMessage,
+	stubbedCallCost,
+	transcriptDivision,
+	useStubLogger,
+	useTranscribedWorkspace,
+} from "../../fixtures.js";
+import { stageOutputPath, stageRecordPath } from "../../layout.js";
+import { makeCompletionCall } from "../../openrouter.js";
+import { ResendsExhaustedError } from "../panel-runs.js";
+import { createRetitleSubtopicsStage, RetitleSubtopicsError } from "./retitle-subtopics.js";
+
+// Only the call is stubbed; everything else the module exports stays real.
+vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
+	...(await importOriginal()),
+	makeCompletionCall: vi.fn(),
+}));
+
+const completionMock = makeCompletionCall as unknown as Mock;
+/* jscpd:ignore-end */
+
+const STAGE_ID = "retitle-subtopics";
+
+/** The titles the stubbed model gives the subtopics of {@link transcriptDivision}, in order. */
+const NEW_TITLES = ["Introduction to the lecture", "Cell injury and immunity"];
+
+/** A reply giving each subtopic the title at its place in `titles`, by position. */
+function titlesReply(titles: readonly string[]): string {
+	return JSON.stringify({ titles: titles.map((title, index) => ({ id: index + 1, title })) });
+}
+
+/** A reply giving each subtopic its new title. */
+const GOOD_REPLY = titlesReply(NEW_TITLES);
+
+/** {@link transcriptDivision} as the stage should write it after {@link GOOD_REPLY}. */
+const RETITLED_DIVISION = [
+	{ ...transcriptDivision[0], title: NEW_TITLES[0] },
+	{ ...transcriptDivision[1], title: NEW_TITLES[1] },
+];
+
+describe("createRetitleSubtopicsStage", () => {
+	const workspace = useTranscribedWorkspace({ prefix: "retitle-subtopics-" });
+	const logged = useStubLogger();
+	const config = configuringStage({ stageId: STAGE_ID });
+
+	/** The lecture workspace the current test is running against. */
+	const workspaceRoot = (): string => workspace().workspaceRoot;
+
+	beforeEach(async () => {
+		vi.clearAllMocks();
+		completionMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost });
+		await seedStageOutput({
+			workspaceRoot: workspaceRoot(),
+			stageId: "choose-division",
+			contents: JSON.stringify(transcriptDivision),
+		});
+	});
+
+	/** Runs the stage against the prepared workspace, the way the runner would. */
+	function run(): ReturnType<typeof driveModelStage> {
+		return driveModelStage({
+			factory: createRetitleSubtopicsStage,
+			config,
+			workspaceRoot: workspaceRoot(),
+			logger: logged().logger,
+		});
+	}
+
+	/** The retitled division the stage wrote, parsed back off disk. */
+	function writtenDivision(): Promise<unknown> {
+		return readJsonFile(stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID }));
+	}
+
+	it("should send every subtopic as its position and trimmed text, without its title, in one call when the stage runs", async () => {
+		await run();
+
+		expect(completionMock).toHaveBeenCalledTimes(1);
+		expect(sentUserMessage(completionMock.mock.calls)).toBe(
+			JSON.stringify({
+				subtopics: [
+					{ id: 1, text: "Today we are covering" },
+					{ id: 2, text: "cell injury and the immune system." },
+				],
+			}),
+		);
+	});
+
+	it("should write the chosen division with every title replaced and spans and reasons unchanged when the stage completes", async () => {
+		await run();
+
+		expect(await writtenDivision()).toStrictEqual(RETITLED_DIVISION);
+	});
+
+	it.each([
+		{ problem: "is empty", content: "" },
+		{ problem: "is not JSON", content: "Here are the titles." },
+		{ problem: "is not an object", content: JSON.stringify("titles") },
+		{ problem: "misses a subtopic", content: titlesReply(NEW_TITLES.slice(0, 1)) },
+		{
+			problem: "repeats a position",
+			content: JSON.stringify({
+				titles: [
+					{ id: 1, title: "First" },
+					{ id: 1, title: "Again" },
+				],
+			}),
+		},
+		{
+			problem: "names a position out of range",
+			content: JSON.stringify({
+				titles: [
+					{ id: 1, title: "First" },
+					{ id: 3, title: "Third" },
+				],
+			}),
+		},
+		{
+			problem: "gives the positions out of order",
+			content: JSON.stringify({
+				titles: [
+					{ id: 2, title: "Second" },
+					{ id: 1, title: "First" },
+				],
+			}),
+		},
+		{ problem: "gives a blank title", content: titlesReply(["First", "  "]) },
+		{
+			problem: "titles a subtopic past the last",
+			content: titlesReply([...NEW_TITLES, "Third"]),
+		},
+	])("should resend the call and use the next reply when the reply $problem", async ({
+		content,
+	}) => {
+		completionMock.mockResolvedValueOnce({ content, cost: stubbedCallCost });
+
+		await run();
+
+		expect(completionMock).toHaveBeenCalledTimes(2);
+		expect(await writtenDivision()).toStrictEqual(RETITLED_DIVISION);
+	});
+
+	it("should fail without writing the division when the third send's reply is still unusable", {
+		// Two real pauses, of two seconds and then four, come before the third send fails.
+		timeout: 10_000,
+	}, async () => {
+		completionMock.mockResolvedValue({ content: "", cost: stubbedCallCost });
+
+		const error = await captureError(run());
+
+		expect(error).toBeInstanceOf(ResendsExhaustedError);
+		expect(completionMock).toHaveBeenCalledTimes(3);
+		expect(
+			await pathExists(stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID })),
+		).toBe(false);
+	});
+
+	it.each([
+		{ problem: "is missing", contents: null },
+		{ problem: "is not JSON", contents: "Opening, then cell injury." },
+		{ problem: "is not a list of subtopics", contents: JSON.stringify({ subtopics: [] }) },
+	])("should fail without calling the model when the chosen division $problem", async ({
+		contents,
+	}) => {
+		const chosen = stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: "choose-division" });
+		await (contents === null ? rm(chosen) : writeFile(chosen, contents));
+
+		const error = await captureError(run());
+
+		expect(error).toBeInstanceOf(RetitleSubtopicsError);
+		expect(error.message).toContain(chosen);
+		expect(completionMock).not.toHaveBeenCalled();
+	});
+
+	it("should leave the chosen division's subtopics as they were when the stage completes", async () => {
+		await run();
+
+		expect(
+			await readJsonFile(
+				stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: "choose-division" }),
+			),
+		).toStrictEqual(transcriptDivision);
+	});
+
+	it("should record beside the division each title that changed, and not one returned unchanged, when the stage completes", async () => {
+		const [opening, second] = transcriptDivision;
+		completionMock.mockResolvedValue({
+			content: titlesReply([opening?.title ?? "", NEW_TITLES[1] ?? ""]),
+			cost: stubbedCallCost,
+		});
+
+		const result = await run();
+
+		expect(
+			await readJsonFile(stageRecordPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID })),
+		).toStrictEqual({
+			subtopics: 2,
+			titlesChanged: 1,
+			changed: [{ position: 2, oldTitle: second?.title, newTitle: NEW_TITLES[1] }],
+		});
+		expect(result.filesWritten).toStrictEqual([
+			"Retitled subtopics/subtopics.json",
+			"Retitled subtopics/changes.json",
+		]);
+	});
+});

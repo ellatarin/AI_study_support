@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.64-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-09-30
+**Suite version:** 1.65-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-10-03
 **Status:** For review
 
 ---
@@ -810,17 +810,22 @@ Integration tests for the stage (real temp directory):
 
 `src/pipeline/stages/retitle-subtopics/` **(TD §5, `retitle-subtopics`)** — the stage and its prompt module, the prototype's `r9` byte for byte; its entry in the example config and the user's own (`openai/gpt-6.1-sol-pro`), `STAGE_IDS`, `STAGE_WORKSPACE` and the cost-report label. Added to `lectureStages` after `choose-division`.
 
-`retitle-subtopics` declares a record, `Retitled subtopics/changes.json`, written with Phase 12's `writeStageOutputWithRecord` **(TD §4.5)**.
+`retitle-subtopics` declares a record, `Retitled subtopics/changes.json`, written with Phase 12's `writeStageOutputWithRecord` **(TD §4.5)**, which now takes the output as a value and writes it as JSON, as it does the record.
+
+`writeDivisionWithRecord` in a new `stage-output.ts` **(TD §5, "Dividing the transcript")** — a division and its record written, and the stage's result given; shared by `choose-division` and `retitle-subtopics`, tested through both.
+
+`readStageDivision` in `stage-input.ts` **(TD §5, "Dividing the transcript")** — the division an earlier stage wrote, failing with the reading stage's own error when it is missing, blank, not JSON or not a list of subtopics; tested through the stage.
 
 **Tests:**
 
 Unit tests for the stage (mock `makeCompletionCall`):
-- `should send every subtopic's position and trimmed text, and no title, in one call`
-- `should resend the call when the reply $problem` — `test.each` across not an object, a subtopic missing, a position repeated, a position out of range, titles out of order, a blank title
-- `should fail the stage when the call fails every send`
-- `should write the whole division with every title replaced and spans and reasons unchanged when the stage completes`
-- `should record beside the division the subtopic count, the changed-title count and each changed title's position, old title and new, not counting a title returned unchanged, when the stage completes`
-- `should fail when the chosen division is $state` — `test.each` across missing and unreadable
+- `should send every subtopic as its position and trimmed text, without its title, in one call when the stage runs`
+- `should write the chosen division with every title replaced and spans and reasons unchanged when the stage completes`
+- `should resend the call and use the next reply when the reply $problem` — `test.each` across empty, not JSON, not an object, a subtopic missing, a position repeated, a position out of range, positions out of order, a blank title
+- `should fail without writing the division when the third send's reply is still unusable`
+- `should fail without calling the model when the chosen division $problem` — `test.each` across missing, not JSON, and not a list of subtopics
+- `should leave the chosen division's subtopics as they were when the stage completes`
+- `should record beside the division each title that changed, and not one returned unchanged, when the stage completes`
 
 **Side by side with the prototype:** covered by Phase 14's live run, which shows the new titles beside the prototype's `r9` titles.
 

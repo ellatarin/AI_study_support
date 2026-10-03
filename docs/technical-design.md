@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.64-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-09-30
+**Suite version:** 1.65-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Date:** 2026-10-03
 **Status:** For review
 
 ---
@@ -445,12 +445,13 @@ writeStageOutputWithReadableView(args: {
 writeStageOutputWithRecord(args: {
   stageId: StageWithOutputFile & StageWithRecord
   workspaceRoot: string
-  content: string
+  value: unknown
   record: unknown
 }): Promise<RecordedStageOutput>
-// The same act for a stage that keeps a record of how it reached its output: the record is written as JSON
-// beside the output, and both entries are returned. The two writers share the step that writes an output
-// and one file beside it.
+// The same act for a stage that keeps a record of how it reached its output: the output and the record are
+// each written as JSON, the record beside the output, and both entries are returned. Every stage keeping a
+// record writes JSON, so both are given as values. The two writers share the step that writes an output and
+// one file beside it.
 ```
 
 **Stage status semantics:**
@@ -1177,11 +1178,20 @@ readDivision(value: unknown): readonly Subtopic[] | null   // a run file read ba
 type ReplySubtopic = { label: string; groupedBecause: string; startsWith: string }
 isReplySubtopic(value: unknown): value is ReplySubtopic   // one subtopic or cut as a reply names it; `label` is the prompt's word
 
-// src/pipeline/stages/stage-input.ts — shared by the four division stages, which each read the transcript
+// src/pipeline/stages/stage-input.ts — shared by the stages that read the transcript or an earlier stage's division
 readStageText(args: { context: StageContext; stageId: StageWithOutputFile; purpose: string; fail: (message: string) => Error }): Promise<string>
 // The earlier stage's output as written; a missing or blank file throws the error `fail` builds from the message.
 readTranscript(args: { context: StageContext; fail: (message: string) => Error }): Promise<string>
 // The transcript, with the whitespace at its two ends removed.
+readStageDivision(args: { context: StageContext; stageId: StageWithOutputFile; purpose: string; fail: (message: string) => Error }): Promise<readonly Subtopic[]>
+// The division an earlier stage wrote as its output — what retitle-subtopics reads from choose-division. A missing,
+// blank or non-JSON file, or one that is not a list of subtopics, throws the error `fail` builds.
+
+// src/pipeline/stages/stage-output.ts — shared by choose-division and retitle-subtopics, whose output is a division
+type DivisionOutput = { subtopics: readonly Subtopic[] }
+writeDivisionWithRecord(args: { stageId: StageWithRecord; context: StageContext; subtopics: readonly Subtopic[]; record: unknown; cost: StageCost | null }):
+  Promise<StageResult<DivisionOutput>>
+// Writes the division and its record beside it (§4.5) and gives the stage's result.
 readTranscriptAndRuns(args: { context; panelStage: "initial-subtopic-splitting" | "deepen-subtopic-splitting"; fail }):
   Promise<{ transcript: string; runs: readonly (readonly Subtopic[])[] }>
 // The transcript and the whole panel an earlier splitting stage saved — what deepening and choose-division start

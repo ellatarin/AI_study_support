@@ -6,12 +6,12 @@
 
 **Status:** ready-for-agent
 
-- [ ] One call per lecture sends every subtopic in order, each as its position (counting from 1) and its trimmed text, and no title.
-- [ ] A reply is valid only when it holds exactly one non-blank title for every subtopic, in order, with no position missing, repeated or out of range. Anything else, and an empty or non-JSON reply, is resent (ticket 04's retries); the third failure fails the stage.
-- [ ] `Retitled subtopics/subtopics.json` holds the whole chosen division with every title replaced and spans and reasons unchanged; `Chosen division/subtopics.json` is untouched.
-- [ ] `Retitled subtopics/changes.json`, beside the division, records how many subtopics there are, how many titles changed, and each changed title as its position, old title and new — a title returned unchanged is not a change.
-- [ ] The stage fails when the chosen division is missing or unreadable.
-- [ ] The stage's entry is in the example config (model placeholder) and the user's own (`openai/gpt-6.1-sol-pro`); no reasoning-effort setting is sent.
+- [x] One call per lecture sends every subtopic in order, each as its position (counting from 1) and its trimmed text, and no title.
+- [x] A reply is valid only when it holds exactly one non-blank title for every subtopic, in order, with no position missing, repeated or out of range. Anything else, and an empty or non-JSON reply, is resent (ticket 04's retries); the third failure fails the stage.
+- [x] `Retitled subtopics/subtopics.json` holds the whole chosen division with every title replaced and spans and reasons unchanged; `Chosen division/subtopics.json` is untouched.
+- [x] `Retitled subtopics/changes.json`, beside the division, records how many subtopics there are, how many titles changed, and each changed title as its position, old title and new — a title returned unchanged is not a change.
+- [x] The stage fails when the chosen division is missing or unreadable.
+- [x] The stage's entry is in the example config (model placeholder) and the user's own (`openai/gpt-6.1-sol-pro`); no reasoning-effort setting is sent.
 - [ ] **Live run:** in ticket 08's joint live run, beside the prototype's `r9` titles.
 
 ## Comments
@@ -21,3 +21,5 @@
 2026-09-30, redesigned before any build (grill, TD 374a543): retitling is back before grouping. With `r9` titles on `openai/gpt-6.1-sol-pro`, grouping found every ruled start on lecture 4, and the user judged `r9` "really good and stable enough to rely on one run… should be built into the pipeline as is". `r3`, one call per marked subtopic with its neighbours' titles, and `callConcurrency` on this stage are dropped; every subtopic is retitled in one call. Now blocked by 07 and 12 (a refused Sol Pro call is resent).
 
 2026-09-30: the record of how the result was reached moved from the manifest to a small file beside the output (the user's choice; TD §4.5, "How a result was reached is kept beside the result").
+
+2026-10-03, built: every item but the live run is done. Each changed title is recorded as `{ position, oldTitle, newTitle }` rather than the agreed `from`/`to`, because `to` breaks the three-character name rule (the user chose the rename). The prompt was checked byte for byte against the prototype's `r9` (2,706 bytes).

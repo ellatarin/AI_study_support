@@ -11,8 +11,9 @@ import type { PipelineStage, StageContext } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
 import type { Subtopic } from "../division.js";
 import { distanceFromVote, panelVote } from "../panel-vote.js";
-import { createPipelineStage, writeStageOutputWithRecord } from "../pipeline-stage.js";
+import { createPipelineStage } from "../pipeline-stage.js";
 import { readTranscriptAndRuns } from "../stage-input.js";
+import { type DivisionOutput, writeDivisionWithRecord } from "../stage-output.js";
 
 const STAGE_ID = "choose-division";
 
@@ -213,24 +214,24 @@ export function createChooseDivisionStage({
 	logger,
 }: {
 	readonly logger: Logger;
-}): PipelineStage<ChooseDivisionInput, { readonly subtopics: readonly Subtopic[] }> {
+}): PipelineStage<ChooseDivisionInput, DivisionOutput> {
 	return createPipelineStage({
 		stageId: STAGE_ID,
 		logger,
 		getInput: readInput,
-		run: async ({ input, context }) => {
+		run: ({ input, context }) => {
 			const { subtopics, choice } = chooseDivision({
 				text: input.transcript,
 				runs: input.runs,
 				bar: context.config.division.bar,
 			});
-			const { filesWritten } = await writeStageOutputWithRecord({
+			return writeDivisionWithRecord({
 				stageId: STAGE_ID,
-				workspaceRoot: context.workspaceRoot,
-				content: `${JSON.stringify(subtopics, null, 2)}\n`,
+				context,
+				subtopics,
 				record: choice,
+				cost: null,
 			});
-			return { output: { subtopics }, cost: null, filesWritten };
 		},
 	});
 }

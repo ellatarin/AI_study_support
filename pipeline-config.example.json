@@ -41,6 +41,9 @@
 			"concurrency": 6,
 			"callConcurrency": 10
 		},
+		"retitle-subtopics": {
+			"modelId": "<REASONING_MODEL>"
+		},
 		"transcript-structuring": {
 			"modelId": "<REASONING_MODEL>",
 			"temperature": 0.2,
