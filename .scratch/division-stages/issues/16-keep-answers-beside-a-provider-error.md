@@ -4,15 +4,15 @@
 
 **Blocked by:** None — can start immediately
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 What happens now: the completion call looks for the provider's error before it reads the answer, so a reply carrying both is treated as a refusal — logged, resent, and its answer thrown away; three such replies fail the stage. The finish reason is never read or logged. `openai/gpt-6.1-sol-pro` reported `error` as the finish reason on 11 of the prototype's 72 grouping calls, all of them usable answers. The prototype kept only the parsed answer, so whether those replies also carried an error field is unknown; the first live `define-topics` run will show it.
 
-- [ ] A reply with an answer and the provider's error returns the answer after one send.
-- [ ] That error is logged as a warning with the provider's sentence, the stage, the model, the finish reason and which send it was.
-- [ ] A reply whose finish reason is `error` and which carries no error field returns its answer after one send.
-- [ ] Every call's `debug` record carries the finish reason, or `null` when none was reported.
-- [ ] A reply with the provider's error and no answer — no choice, or a choice with empty content — is still a refusal, resent as before.
+- [x] A reply with an answer and the provider's error returns the answer after one send.
+- [x] That error is logged as a warning with the provider's sentence, the stage, the model, the finish reason and which send it was.
+- [x] A reply whose finish reason is `error` and which carries no error field returns its answer after one send.
+- [x] Every call's `debug` record carries the finish reason, or `null` when none was reported.
+- [x] A reply with the provider's error and no answer — no choice, or a choice with empty content — is still a refusal, resent as before.
 
 ## Comments
 

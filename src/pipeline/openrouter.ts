@@ -401,13 +401,26 @@ function sendCost({
 }
 
 /**
+ * A send that brought back an answer, with the provider's error when one came
+ * with it, so the error can still be logged once the answer is kept.
+ */
+type AnsweredSend = {
+	readonly content: string;
+	readonly cost: StageCost;
+	readonly keptError: {
+		readonly providerMessage: string;
+		readonly finishReason: string | null;
+	} | null;
+};
+
+/**
  * Sends one completion and reads what came back: its text and cost, or the
  * provider's refusal and its cost, to be sent again.
  *
  * @param options - As {@link makeCompletionCall}, with the stage's settings and the client resolved.
  * @param options.stageConfig - The stage's model and tuning.
  * @param options.openAiClient - The client to call through.
- * @returns The completion's text and cost, or the refusal and its cost.
+ * @returns The completion's text, cost and any provider error that came with it, or the refusal and its cost.
  * @throws {ContextLengthError} If the prompt exceeds the model's context window.
  * @throws {CompletionRejectedError} If the API rejects the call with a failure status.
  * @throws {NoCompletionChoicesError} If the reply carries neither choices nor a refusal.
@@ -415,7 +428,7 @@ function sendCost({
 async function sendCompletionOnce(
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- as for makeCompletionCall: library types that are not deeply readonly
 	options: CompletionRequest & { readonly stageConfig: StageConfig; readonly openAiClient: OpenAI },
-): Promise<{ readonly content: string; readonly cost: StageCost } | FailedSend> {
+): Promise<AnsweredSend | FailedSend> {
 	const { stageConfig, openAiClient: client } = options;
 	// Measured here rather than handed back for the caller to log: the latency of
 	// the call is only observable from inside it (§10).
@@ -428,31 +441,37 @@ async function sendCompletionOnce(
 		responseFormat: options.responseFormat,
 	});
 	const latencyMs = Math.round(performance.now() - startedAt);
+	const [choice] = response.choices ?? [];
+	const finishReason = choice?.finish_reason ?? null;
 	options.logger.debug(
 		{
 			model: stageConfig.modelId,
 			promptTokens: tokenCount(usageOf(response).prompt_tokens),
 			latencyMs,
+			finishReason,
 		},
 		"Completion call",
 	);
+	// Read before the provider's error: a reply carrying both is an answer, not a
+	// refusal, and resending it would throw a complete answer away (§6).
+	const content = choice?.message.content ?? "";
 	const providerMessage = providerErrorMessage(response);
-	if (providerMessage !== null) {
+	if (providerMessage !== null && content === "") {
 		return { failure: providerMessage, cost: sendCost({ response, refused: true }) };
 	}
 	// A provider can reply with no choices at all — content filtering, or an
 	// upstream error the SDK does not raise. Reading choices[0] blindly turns that
 	// into a TypeError naming nothing; failing here names the stage and the model.
 	// Empty content is a different matter and stays tolerated as "" below.
-	const [choice] = response.choices ?? [];
 	if (choice === undefined) {
 		throw new NoCompletionChoicesError(
 			`Model "${stageConfig.modelId}" returned no choices for stage "${options.stageId}"`,
 		);
 	}
 	return {
-		content: choice.message.content ?? "",
+		content,
 		cost: sendCost({ response, refused: false }),
+		keptError: providerMessage === null ? null : { providerMessage, finishReason },
 	};
 }
 
@@ -467,6 +486,9 @@ async function sendCompletionOnce(
  * completion is sent again, up to three sends, pausing two seconds and then
  * four; each refusal is logged as a warning, and the cost returned covers every
  * send (technical-design.md §6, "A rejection can arrive inside an accepted reply").
+ * A reply carrying the provider's error beside a non-empty answer is not a
+ * refusal: the answer is returned and the error logged as a warning with the
+ * finish reason and which send it was. The finish reason never causes a resend.
  *
  * @param options - Call options.
  * @param options.messages - The chat messages to send.
@@ -496,7 +518,7 @@ export async function makeCompletionCall(
 	// Asked for at the one moment a client is genuinely needed. A command that
 	// reaches no model never builds one, and so never needs the API key.
 	const openAiClient = options.client();
-	const { sent, cost } = await sendUntilAccepted({
+	const { sent, sends, cost } = await sendUntilAccepted({
 		send: () => sendCompletionOnce({ ...options, stageConfig, openAiClient }),
 		onFailure: ({ send, failure }) => {
 			options.logger.warn(
@@ -509,5 +531,11 @@ export async function makeCompletionCall(
 				rejectionMessage({ stageId: options.stageId, modelId, providerMessage: failure }),
 			),
 	});
+	if (sent.keptError !== null) {
+		options.logger.warn(
+			{ model: modelId, send: sends, ...sent.keptError },
+			"Answer kept beside the provider's error",
+		);
+	}
 	return { content: sent.content, cost };
 }

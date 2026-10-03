@@ -765,10 +765,10 @@ The panel's `sendWithResends` tests cover the shared loop's pauses, cost countin
 **Tests:**
 
 Integration tests for `makeCompletionCall` (stubbed OpenRouter):
-- `should return the answer without resending when a reply carries an answer and the provider's error`
+- `should return the answer without resending when a reply $reply` — `test.each` across carrying an answer and the provider's error, and reporting `error` as its finish reason
 - `should log the provider's error as a warning with the finish reason and which send it was when a reply carries an answer as well`
-- `should return the answer without resending when a reply's finish reason is error`
-- `should record each call's finish reason on its debug line`
+- `should resend a reply carrying the provider's error when its answer is empty`
+- `should record the model, prompt tokens, latency and finish reason when a call completes reporting $reported` — `test.each` across `stop` and none; replaces the test of the same line without the finish reason
 
 **Acceptance:** No complete answer is thrown away over the provider's error, and every call's finish reason can be read from the debug log.
 

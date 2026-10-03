@@ -48,8 +48,22 @@ const GATEWAY_BASE_URL = "https://gateway.example.test/openrouter/v1";
 
 const messages = [{ role: "user", content: "Structure this transcript." }] as const;
 
+/** What the stubbed model answers. */
+const ANSWER = "Structured notes.";
+
 function completionBody(overrides: Record<string, unknown> = {}): Record<string, unknown> {
-	return { ...openRouterCompletionBody({ content: "Structured notes." }), ...overrides };
+	return { ...openRouterCompletionBody({ content: ANSWER }), ...overrides };
+}
+
+/**
+ * The stubbed answer's choices, reporting the given finish reason.
+ *
+ * @param finishReason - The finish reason reported, or `null` for none.
+ * @returns The `choices` field to override a completion body with.
+ */
+function answerFinishing(finishReason: string | null): Record<string, unknown> {
+	const { choices } = openRouterCompletionBody({ content: ANSWER, finishReason });
+	return { choices };
 }
 
 function mockCompletion(): nock.Interceptor {
@@ -65,6 +79,19 @@ function mockCompletion(): nock.Interceptor {
 function mockCompletionReturning(overrides: Record<string, unknown> = {}): void {
 	mockCompletion().reply(200, completionBody(overrides));
 }
+
+/**
+ * The error field OpenRouter puts in an accepted reply, carrying the provider's sentence.
+ *
+ * @param message - The provider's sentence.
+ * @returns The reply's `error` field.
+ */
+function providerError(message: string): Record<string, unknown> {
+	return { message, code: 503 };
+}
+
+/** The busy provider's error field, to lay over a completion body. */
+const BUSY_ERROR = { error: providerError(PROVIDER_BUSY_MESSAGE) };
 
 /**
  * Mocks the reply a busy provider produces: accepted with HTTP 200, but
@@ -83,11 +110,26 @@ function mockCompletionRejectedByProvider({
 } = {}): void {
 	mockCompletion().reply(200, {
 		...(usage === undefined ? {} : { usage }),
-		error: { message, code: 503 },
+		error: providerError(message),
 	});
 }
 
 const logged = useStubLogger();
+
+/** What each warning the call logged carried, in order. */
+function warningsLogged(): readonly unknown[] {
+	return loggedAt({ entries: logged().entries, level: "warn" }).map((entry) => entry.payload);
+}
+
+/**
+ * The warning a refusal of the busy provider's is logged with.
+ *
+ * @param send - Which send was refused, counting from 1.
+ * @returns The warning's payload.
+ */
+function refusalWarning(send: number): Record<string, unknown> {
+	return { model: openRouterModelId, send, providerMessage: PROVIDER_BUSY_MESSAGE };
+}
 
 function call(
 	overrides: Record<string, unknown> = {},
@@ -265,8 +307,14 @@ describe("makeCompletionCall", () => {
 		expect(gatewayCompletion.isDone()).toBe(true);
 	});
 
-	it("should record the model, prompt tokens and latency when a call completes", async () => {
-		await callSucceeding();
+	it.each([
+		{ reported: "stop", finishReason: "stop" },
+		{ reported: null, finishReason: null },
+	])("should record the model, prompt tokens, latency and finish reason when a call completes reporting $reported", async ({
+		reported,
+		finishReason,
+	}) => {
+		await callSucceeding(answerFinishing(reported));
 
 		const [entry] = loggedAt({ entries: logged().entries, level: "debug" });
 		expect(entry?.message).toBe("Completion call");
@@ -274,6 +322,7 @@ describe("makeCompletionCall", () => {
 			model: openRouterModelId,
 			promptTokens: stubbedTokenUsage.promptTokens,
 			latencyMs: expect.any(Number),
+			finishReason,
 		});
 	});
 
@@ -309,7 +358,7 @@ describe("makeCompletionCall", () => {
 	}) => {
 		const result = await callSucceeding({ usage });
 
-		expect(result.content).toBe("Structured notes.");
+		expect(result.content).toBe(ANSWER);
 		expect(result.cost).toMatchObject({
 			callCount: 1,
 			costUsd: null,
@@ -346,7 +395,7 @@ describe("makeCompletionCall", () => {
 	// where the choices should be, so the SDK sees a success and hands the body
 	// back. Such a refusal can be transient, so it is sent again, pausing two
 	// seconds and then four (technical-design.md §6).
-	describe("when the provider refuses inside an accepted reply", () => {
+	describe("when an accepted reply carries the provider's error", () => {
 		beforeEach(() => {
 			// Only the pauses are faked: nock's replies must still arrive on their own.
 			vi.useFakeTimers({ toFake: ["setTimeout"] });
@@ -383,7 +432,7 @@ describe("makeCompletionCall", () => {
 
 			const result = await settleThroughPauses(call());
 
-			expect(result.content).toBe("Structured notes.");
+			expect(result.content).toBe(ANSWER);
 		});
 
 		it("should fail with the last refusal, naming the model and the stage, when every send is refused", async () => {
@@ -408,12 +457,7 @@ describe("makeCompletionCall", () => {
 
 			await settleThroughPauses(call());
 
-			expect(
-				loggedAt({ entries: logged().entries, level: "warn" }).map((entry) => entry.payload),
-			).toEqual([
-				{ model: openRouterModelId, send: 1, providerMessage: PROVIDER_BUSY_MESSAGE },
-				{ model: openRouterModelId, send: 2, providerMessage: PROVIDER_BUSY_MESSAGE },
-			]);
+			expect(warningsLogged()).toEqual([refusalWarning(1), refusalWarning(2)]);
 		});
 
 		it.each([
@@ -437,6 +481,43 @@ describe("makeCompletionCall", () => {
 			const result = await settleThroughPauses(call());
 
 			expect(result.cost).toEqual(expected);
+		});
+
+		it.each([
+			{
+				reply: "carries an answer and the provider's error",
+				overrides: BUSY_ERROR,
+			},
+			{ reply: "reports error as its finish reason", overrides: answerFinishing("error") },
+		])("should return the answer without resending when a reply $reply", async ({ overrides }) => {
+			mockCompletionReturning(overrides);
+
+			const result = await settleThroughPauses(call());
+
+			expect(result.content).toBe(ANSWER);
+			expect(result.cost.callCount).toBe(1);
+		});
+
+		it("should resend a reply carrying the provider's error when its answer is empty", async () => {
+			mockCompletionReturning({ ...BUSY_ERROR, ...openRouterCompletionBody({ content: "" }) });
+			mockCompletionReturning();
+
+			const result = await settleThroughPauses(call());
+
+			expect(result.cost.callCount).toBe(2);
+		});
+
+		// The answer is kept, so the log is the only place the provider's error survives.
+		it("should log the provider's error as a warning with the finish reason and which send it was when a reply carries an answer as well", async () => {
+			mockCompletionRejectedByProvider();
+			mockCompletionReturning({ ...BUSY_ERROR, ...answerFinishing("error") });
+
+			await settleThroughPauses(call());
+
+			expect(warningsLogged()).toEqual([
+				refusalWarning(1),
+				{ ...refusalWarning(2), finishReason: "error" },
+			]);
 		});
 	});
 
@@ -465,7 +546,7 @@ describe("makeCompletionCall", () => {
 
 		const result = await callSucceeding();
 
-		expect(result.content).toBe("Structured notes.");
+		expect(result.content).toBe(ANSWER);
 	});
 
 	it("should throw a typed ContextLengthError when the model reports the context length is exceeded", async () => {

@@ -55,7 +55,7 @@ function isFailedSend<TSent>(outcome: TSent | FailedSend): outcome is FailedSend
  * @param args.send - Makes the call once.
  * @param args.onFailure - Told of each failed send: which send it was, counting from 1, and why.
  * @param args.exhausted - Builds the error thrown when the last send fails too.
- * @returns The successful send and what every send cost together.
+ * @returns The successful send, which send it was, counting from 1, and what every send cost together.
  * @throws The error `exhausted` builds, when every send fails.
  * @typeParam TSent - What a successful send comes back with.
  */
@@ -67,14 +67,14 @@ export async function sendUntilAccepted<TSent extends { readonly cost: StageCost
 	readonly send: () => Promise<TSent | FailedSend>;
 	readonly onFailure: (args: { readonly send: number; readonly failure: string }) => void;
 	readonly exhausted: (args: { readonly failure: string; readonly sends: number }) => Error;
-}): Promise<{ readonly sent: TSent; readonly cost: StageCost }> {
+}): Promise<{ readonly sent: TSent; readonly sends: number; readonly cost: StageCost }> {
 	let cost: StageCost | null = null;
 	let pauseMs = FIRST_PAUSE_MS;
 	for (let sends = 1; ; sends++) {
 		const outcome = await send();
 		cost = accumulateCost({ current: cost, incoming: outcome.cost });
 		if (!isFailedSend(outcome)) {
-			return { sent: outcome, cost };
+			return { sent: outcome, sends, cost };
 		}
 		onFailure({ send: sends, failure: outcome.failure });
 		if (sends === MAX_SENDS) {

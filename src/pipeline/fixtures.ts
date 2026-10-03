@@ -456,19 +456,22 @@ export function scribeResponseBody({ text }: { readonly text: string }): Record<
  * Two suites need one, and its shape is the SDK's contract rather than either
  * suite's business.
  *
- * @param args - What the model should appear to have said.
+ * @param args - What the model should appear to have said, and how it reported finishing.
  * @param args.content - The assistant message content.
+ * @param args.finishReason - The finish reason reported; `"stop"` by default, `null` for none.
  * @returns The response body to reply with.
  */
 export function openRouterCompletionBody({
 	content,
+	finishReason = "stop",
 }: {
 	readonly content: string;
+	readonly finishReason?: string | null;
 }): Record<string, unknown> {
 	return {
 		// eslint-disable-next-line id-length -- OpenRouter's field name, not ours to choose
 		id: "gen-abc",
-		choices: [{ index: 0, message: { role: "assistant", content }, finish_reason: "stop" }],
+		choices: [{ index: 0, message: { role: "assistant", content }, finish_reason: finishReason }],
 		usage: stubbedReplyUsage,
 	};
 }
