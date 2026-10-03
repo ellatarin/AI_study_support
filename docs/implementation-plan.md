@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.66-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.67-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-10-03
 **Status:** For review
 
@@ -859,7 +859,7 @@ Unit tests for the stage (mock `makeCompletionCall`):
 
 `src/pipeline/stages/define-topics/` **(TD §5, `define-topics`)** — the stage, its prompt module (the prototype's `g23` with titles, byte for byte), and `choose-grouping.ts` with `chooseGrouping`, which breaks its ties with Phase 12's `panelVote` and `distanceFromVote`. Added to `lectureStages` after `retitle-subtopics`, with its `STAGE_IDS` and `STAGE_WORKSPACE` entries and cost-report label.
 
-The required `grouping` section — `panelSize` and `bar` — in `PipelineConfig`, its validation, the example config and the user's own; the stage's entry in the example config and the user's own, with `concurrency` 5 and `sendGapSeconds` 2 **(TD §6)**.
+The required `grouping` section — `panelSize` and `bar` — in `PipelineConfig`, its validation, the example config and the user's own; the stage's entry in the example config and the user's own, with `concurrency` 5 and `sendGapSeconds` 0.5 **(TD §6)**.
 
 `sendGapSeconds` **(TD §5, "Dividing the transcript", Panel runs; TD §6, "Three settings say how much runs at once")** — accepted on `define-topics` alone; the panel spaces every send the stage makes, refusals resent by `makeCompletionCall` included, at least that far apart.
 
@@ -881,8 +881,8 @@ Unit tests for the stage (mock `makeCompletionCall`):
 - `should treat a reply as the wrong shape when $problem` — `test.each` across no topics, a blank title, a blank `groupedBecause`, no first subtopic, not starting at 1, a start not after the one before, a start past the last subtopic
 - `should write each topic's title, groupedBecause and first subtopic from the chosen run when the stage completes`
 
-Unit tests for the panel (fake timers):
-- `should start no send until the gap has passed since the stage's previous send when sendGapSeconds is set` — first sends and resends alike
+Tests of the stage's sending (fake timers; stubbed OpenRouter rather than a mocked `makeCompletionCall`, so a refusal is really resent):
+- `should start no send until the gap has passed since the stage's previous send when sendGapSeconds is set` — first sends, resent bad replies and resent refusals alike
 - `should not space sends when sendGapSeconds is unset`
 
 Unit tests for the config: as Phase 10, for the `grouping` section, the bar exceeding the panel size included; a `sendGapSeconds` row in the `should throw ConfigError when $case` table naming a stage other than `define-topics`.

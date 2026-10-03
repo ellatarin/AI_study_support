@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.66-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
+**Suite version:** 1.67-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
 **Date:** 2026-10-03
 **Status:** For review
 
@@ -643,7 +643,7 @@ Each stage entry records `configUsed` — a `StageRunConfig` capturing the model
     "define-topics": {
       "status": "complete",
       "completedAt": "...",
-      "configUsed": { "modelId": "openai/gpt-6.1-sol-pro", "concurrency": 5, "sendGapSeconds": 2 },
+      "configUsed": { "modelId": "openai/gpt-6.1-sol-pro", "concurrency": 5, "sendGapSeconds": 0.5 },
       "cost": { "promptTokens": 76000, "completionTokens": 4300, "costUsd": 0.45, "callCount": 5 },
       "filesWritten": ["Grouping runs/run-01.json", "…", "Grouping runs/run-05.json", "Topics/topics.json", "Topics/choice.json"]
     },
@@ -1263,7 +1263,7 @@ The panel is 5 runs and the bar 3, more than half the panel. Each run costs abou
 
 **What is written.** `Topics/topics.json` holds each topic of the chosen run as its title, its `groupedBecause`, and the subtopic it starts at. Beside it, `Topics/choice.json` records the chosen run, how many of the panel's runs made its grouping, and which rule decided — most runs, more topics, closest to the vote, or earliest run (§4.5) — so a lecture whose grouping rests on a tie can be seen at a glance.
 
-**Configuration.** `panelSize` (5) and `bar` (3) live in a required `grouping` section of `pipeline-config.json`, separate from the division's, so one may be tuned without the other. `sendGapSeconds` (2) is on the stage's own entry (§6).
+**Configuration.** `panelSize` (5) and `bar` (3) live in a required `grouping` section of `pipeline-config.json`, separate from the division's, so one may be tuned without the other. `sendGapSeconds` (0.5) is on the stage's own entry (§6).
 
 The stage fails when the retitled subtopics are missing or unreadable, and when a run fails its third send.
 
@@ -1761,7 +1761,7 @@ Each prefix is matched literally, so one carrying a pattern character means itse
     "define-topics": {
       "modelId": "<REASONING_MODEL>",             // called once per grouping run with every subtopic's title and text
       "concurrency": 5,
-      "sendGapSeconds": 2                         // least time between two sends, resends included
+      "sendGapSeconds": 0.5                       // least time between two sends, resends included
     },
     "transcript-structuring": {
       "modelId": "<REASONING_MODEL>",             // long-context text model with strong structure/summarisation
