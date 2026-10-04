@@ -4,7 +4,7 @@
 
 **Blocked by:** None — can start immediately
 
-**Status:** ready-for-agent
+**Status:** wontfix
 
 What happens now: a panel stage (the two splitting stages; grouping when built) saves each run to its own file, and a relaunch reads back the runs already saved and pays only for the missing ones. The stage's manifest entry is then written with the cost of this launch alone. The cost of the reused runs is gone from the manifest, so the cost report under-states what the stage cost. Three ways to get there:
 
@@ -24,3 +24,5 @@ The run logs are not affected: each records what that run paid, which is correct
 ## Comments
 
 2026-10-04, triage: the user ruled the stage's cost means money spent, not the cost of the runs on disk. This rules out keeping a cost per run file: it could never count a run that failed, and it would under-state spend when a deleted run is re-made. The eight lectures already topped up are not backfilled; they keep the cost of runs 10–18 only.
+
+2026-10-04, closed: the ruling above contradicted TD §7, where the manifest records what the output on disk cost and the run logs record every call paid for. Fixing it to the design meant saving a cost beside every run and carrying two cost figures through every stage's result. The user ruled it an edge case not worth that complexity: a cost reported wrong in a minority of situations is acceptable. Recorded as a known limitation in TD §7, "Two-Level Tracking". The failed-stage half is ticket 17.

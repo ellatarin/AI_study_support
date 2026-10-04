@@ -1856,6 +1856,11 @@ Keeping the conversion at the edge means a stale or corrected rate never invalid
 
 Both levels are read a stage at a time. Neither stores a figure spanning stages, runs, lectures or modules: a stage's cost is compared against the same stage's cost under a different model, which is the comparison the two levels exist to serve, and a sum across stages answers no question the pipeline is asked (NFR-2.2).
 
+**Known limitations.** Both levels record only what a stage's launch returned, and in two edge cases that falls short. Neither is worth the machinery that would close it:
+
+- **A panel stage relaunched over saved runs** (§5, "Dividing the transcript", Panel runs) records in the manifest only the cost of the runs that launch made, not the runs it reused, so the manifest under-states what the output cost.
+- **A stage that fails** records no cost in either level, so the calls it made before failing, resends and refusals included, appear nowhere.
+
 ### Run Classification
 
 The pipeline runner classifies each run automatically by inspecting the manifest state at the time the run starts:
