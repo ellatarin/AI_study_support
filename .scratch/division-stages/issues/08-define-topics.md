@@ -4,7 +4,7 @@
 
 **Blocked by:** 11, 12
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 - [x] Each grouping run sends every retitled subtopic's id, title (as `label`, the prompt's word) and trimmed text, with the prototype's `g23` prompt in its titled form, byte-identical.
 - [x] A reply is valid when it is a JSON object with a non-empty list of topics; every topic has a non-blank title, a non-blank `groupedBecause` and a first subtopic; the first topic starts at subtopic 1; each later start comes after the one before; no start is past the last subtopic. Anything else is a failed send (ticket 04's retries, then the stage fails). The reported finish reason is not checked: a valid reply reporting `error` is accepted.
@@ -14,7 +14,7 @@
 - [x] Each run is saved in `Grouping runs/run-NN.json` with the model's full reply; `Topics/topics.json` holds each topic's title, `groupedBecause` and first subtopic from the chosen run.
 - [x] `Topics/choice.json`, beside the topics, records the chosen run, how many runs made its grouping, the panel size, and which rule decided (most runs, more topics, closest to the vote, earliest run).
 - [x] **Replay against the prototype:** a one-off script feeds the prototype's saved `g23` runs on each lecture's `r9`-retitled division (4 per lecture) through the new choice at bar 3 and compares it with what `analysis-2026-09-30/choose_panel.py` chooses from the same runs. That script asks "more topics" even when every run differs, which this rule does not; each difference is explained, any other fixed.
-- [ ] **Live run:** `retitle-subtopics` and `define-topics` together on one lecture (about $0.51; the cost is stated and agreed first); the new titles and chosen topics are shown beside the prototype's for the user to read, with any refusal warnings from the log reported.
+- [x] **Live run:** `retitle-subtopics` and `define-topics` together on one lecture (about $0.51; the cost is stated and agreed first); the new titles and chosen topics are shown beside the prototype's for the user to read, with any refusal warnings from the log reported.
 - [x] The replay script and results stay in the prototype folder.
 
 ## Comments
@@ -30,3 +30,5 @@
 2026-10-03, replay: `replay-grouping-choice.mts` fed runs 1–4 of each lecture's saved `g23` panel through the stage's choice at bar 3. All 8 lectures chose the same topic starts from the same run as `choose_panel.py` (`REPLAY-GROUPING-CHOICE.md`). The known difference did not arise: no lecture's four runs all differed. l7 was the one tie, settled by more topics in both.
 
 2026-10-03, panel 5 → 9 (the user's call), bar 3 → 5 (more than half the panel), `concurrency` 5 → 9 so the panel is still released together (TD 1.68-draft). Live runs on lecture 4 (`LIVE-GROUPING-L4.md`) found 18–21 a close call whose lean shifted with title wording and from batch to batch; drawn from the saved runs, a panel of 5 chose the grouping the user rejects (a topic starting at 19) in up to about 1 panel in 15, a panel of 9 in about 1 in 70 or fewer (`PANEL-RISK.md`).
+
+2026-10-04, live run done: lecture 4 first (`LIVE-GROUPING-L4.md`), then all eight lectures with the panel of 9 (`LIVE-ALL-LECTURES.md`, output in `live-runs/all-2026-10-03/`), read by the user. No refusal warnings and no answers kept beside a provider error. Retitling stays on `r9` (the user's call after trying `r10` and `r11` on lecture 6).
