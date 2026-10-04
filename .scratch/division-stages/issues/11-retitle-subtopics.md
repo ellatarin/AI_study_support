@@ -4,7 +4,7 @@
 
 **Blocked by:** 07, 12
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 - [x] One call per lecture sends every subtopic in order, each as its position (counting from 1) and its trimmed text, and no title.
 - [x] A reply is valid only when it holds exactly one non-blank title for every subtopic, in order, with no position missing, repeated or out of range. Anything else, and an empty or non-JSON reply, is resent (ticket 04's retries); the third failure fails the stage.
@@ -12,7 +12,7 @@
 - [x] `Retitled subtopics/changes.json`, beside the division, records how many subtopics there are, how many titles changed, and each changed title as its position, old title and new — a title returned unchanged is not a change.
 - [x] The stage fails when the chosen division is missing or unreadable.
 - [x] The stage's entry is in the example config (model placeholder) and the user's own (`openai/gpt-6.1-sol-pro`); no reasoning-effort setting is sent.
-- [ ] **Live run:** in ticket 08's joint live run, beside the prototype's `r9` titles.
+- [x] **Live run:** in ticket 08's joint live run, beside the prototype's `r9` titles.
 
 ## Comments
 
@@ -23,3 +23,5 @@
 2026-09-30: the record of how the result was reached moved from the manifest to a small file beside the output (the user's choice; TD §4.5, "How a result was reached is kept beside the result").
 
 2026-10-03, built: every item but the live run is done. Each changed title is recorded as `{ position, oldTitle, newTitle }` rather than the agreed `from`/`to`, because `to` breaks the three-character name rule (the user chose the rename). The prompt was checked byte for byte against the prototype's `r9` (2,706 bytes).
+
+2026-10-04, live run done as part of ticket 08's: every lecture retitled live, the titles shown beside the prototype's `r9` titles (`LIVE-ALL-LECTURES.md`; 2 to 12 per lecture word for word the same, mean word overlap 0.61 to 0.87). The user tried `r10` and `r11` on lecture 6 and kept `r9`.
