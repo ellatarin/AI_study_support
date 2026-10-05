@@ -170,3 +170,10 @@ Two things any folder or file rename must also fix: each manifest's `filesWritte
 - A25: the comment pass changes only the comments of the renamed names. The general rewording of a bare "run" is left to tickets 04 to 13.
 - A31: the fixture `userChosenTitle` becomes `testUserTitle`, to match the other `test…` fixtures. The ticket's `userTitle` is the manifest field.
 - A33: the fixture `outputFile` becomes `finalOutputFile`, beside `videoRecordingFile` and `slideDeckFile`. The final output folder names stay, as ruled for B6.
+
+2026-10-05, the user's rulings on A34 to A36:
+
+- Every naming choice is explained, and agreed, before it is made. A name says plainly what the thing does, in STE terms.
+- A34: `recordingStage` becomes `stubThatListsDates`, because it is a stub and not a stage. Its list `ran` becomes `datesInRunOrder`. `runRecordingStage` becomes `runStageAndReturnWhatItReceived`. `contextRecordingOutput` becomes `contextAfterStageCompletes`.
+- A35: `renameLectureFiles` stays. It is close enough.
+- A36: `SUBJECT` becomes `LECTURE_TITLE`.
