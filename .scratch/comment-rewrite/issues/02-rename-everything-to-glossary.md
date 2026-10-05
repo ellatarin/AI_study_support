@@ -146,4 +146,7 @@ Two things any folder or file rename must also fix: each manifest's `filesWritte
 - Code renames use a script that drives TypeScript's own rename, one group of related names per commit. A pass by hand then picks up what the script missed: test titles, comments, strings and file names.
 - Each rename group also changes the old word to the new one in the comments of the files it touches, in the same commit, so that comments and names agree. Style is still left to the rewording tickets. Prompt text is not touched.
 - Say "deficiency type", never "type" alone, in names, comments and test titles: a bare "type" reads as the code construct. The glossary entry now avoids it. The stored key `type` stays.
+- Provider error messages say the model "returned an error", not "rejected the request": the error can arrive inside an accepted reply.
+- "Readable view" becomes **verification report Markdown** (glossary entry renamed). Its visible text says deficiencies and deficiency type.
+- Stored token counts: `promptTokens` → `sentTokens` and `completionTokens` → `replyTokens` (option c). Done in the stored-name stage.
 - "Completion" is the provider library's word. The pipeline's own names say model call, send or reply instead; `createCompletion` and the library's own fields keep it. Done as its own group.
