@@ -33,8 +33,8 @@ import {
 	type ConfirmPrompt,
 	discoverWorkspaces,
 	type ExistingWorkspace,
-	findOrphans,
-	resolveOrphans,
+	findOrphanedWorkspaces,
+	resolveOrphanedWorkspaces,
 } from "./orphaned-workspaces.js";
 import { applyRenames, completeInterruptedRenames, planRenames } from "./source-renames.js";
 
@@ -76,7 +76,7 @@ function abortNormalisation({
 }
 
 /**
- * Aborts orphan handling: logs why at `error` and throws, having made no
+ * Aborts orphaned workspace handling: logs why at `error` and throws, having made no
  * filesystem change. Declining any prompt lands here, so a whole source folder
  * moved by mistake costs nothing.
  *
@@ -87,7 +87,7 @@ function abortNormalisation({
  * @throws {@link SourceNormalisationError} always — this function never returns.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
-function abortOrphanHandling({
+function abortOrphanedWorkspaceHandling({
 	logger,
 	moduleRoot,
 	reason,
@@ -266,22 +266,22 @@ export function createSourceNormalisationStage({
 		const existingWorkspaces = await discoverWorkspaces({ moduleRoot });
 		const existingPdfs = await discoverFinalOutput(dirs.finalOutput);
 
-		const orphans = findOrphans({
+		const orphanedWorkspaces = findOrphanedWorkspaces({
 			workspaces: existingWorkspaces,
 			presentLectureDates: new Set(
 				videoRecordings.dated.map((videoRecording) => videoRecording.lectureDate),
 			),
 		});
-		if (orphans.length > 0) {
-			const outcome = await resolveOrphans({
-				orphans,
+		if (orphanedWorkspaces.length > 0) {
+			const outcome = await resolveOrphanedWorkspaces({
+				orphanedWorkspaces,
 				moduleRoot,
 				existingPdfs,
 				logger,
 				confirm,
 			});
 			if (outcome.state === "declined") {
-				abortOrphanHandling({ logger, moduleRoot, reason: outcome.reason });
+				abortOrphanedWorkspaceHandling({ logger, moduleRoot, reason: outcome.reason });
 			}
 		}
 

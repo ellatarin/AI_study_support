@@ -92,7 +92,7 @@ export async function renameLecture({
  * everything the pipeline produced in it, and its finished PDF.
  *
  * Deleting the sources as well as the workspace is what keeps the module
- * consistent — a workspace left without sources is an orphan `source-normalisation` would stop
+ * consistent — a workspace left without sources is an orphaned workspace `source-normalisation` would stop
  * to ask about, and sources left without a workspace would simply be normalised
  * back into one. The renumbering of the lectures that follow falls out of the
  * `source-normalisation` pass the command runs afterwards (technical-design.md §4.7, §5).

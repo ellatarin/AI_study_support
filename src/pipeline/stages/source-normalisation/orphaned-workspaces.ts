@@ -41,14 +41,14 @@ export type ConfirmPrompt = (args: { readonly message: string }) => Promise<bool
 export type ExistingWorkspace = { readonly folder: string; readonly manifest: Manifest };
 
 /**
- * What the deletion protocol concluded: every orphan gone, or the question the
+ * What the deletion protocol concluded: every orphaned workspace gone, or the question the
  * user said no to.
  *
  * The refusal is returned rather than thrown so this module owes nothing to the
  * stage that drives it — the stage owns what aborting a run means and says so in
  * its own error.
  */
-export type OrphanOutcome =
+export type OrphanedWorkspaceOutcome =
 	| { readonly state: "deleted" }
 	| { readonly state: "declined"; readonly reason: string };
 
@@ -93,7 +93,7 @@ export async function discoverWorkspaces({
  * @returns The orphaned workspaces, in date order.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a ReadonlyMap and a ReadonlySet are already the readonly form; the rule does not recognise the built-in collection interfaces as deeply readonly, and both are only read here
-export function findOrphans({
+export function findOrphanedWorkspaces({
 	workspaces,
 	presentLectureDates,
 }: {
@@ -107,7 +107,7 @@ export function findOrphans({
 }
 
 /**
- * The per-orphan prompt: which lecture it is, so the user can judge the deletion
+ * The prompt for one orphaned workspace: which lecture it is, so the user can judge the deletion
  * rather than answer blind.
  *
  * It quotes no figure. What a lecture has cost is the sum of its stages, and
@@ -115,41 +115,41 @@ export function findOrphans({
  * per-stage figures for as long as the workspace stands.
  *
  * @param args - The lecture being asked about.
- * @param args.manifest - The orphaned lecture's manifest.
+ * @param args.manifest - The orphaned workspace's manifest.
  * @returns The question put to the user.
  */
-function orphanPrompt({ manifest }: { readonly manifest: Manifest }): string {
+function orphanedWorkspacePrompt({ manifest }: { readonly manifest: Manifest }): string {
 	const title = manifest.lectureTitle === "" ? "(untitled)" : manifest.lectureTitle;
 	return `Lecture ${manifest.lectureNumber} "${title}" (${manifest.lectureDate}) has no video recording or slide deck left. Delete its workspace and any final output?`;
 }
 
-/** Where an orphan's files live and where its removal is recorded. */
-type OrphanContext = {
+/** Where an orphaned workspace's files live and where its removal is recorded. */
+type OrphanedWorkspaceContext = {
 	readonly moduleRoot: string;
 	readonly existingPdfs: ReadonlyMap<string, string>;
 	readonly logger: Logger;
 };
 
 /**
- * Deletes one approved orphan — its workspace folder (manifest included) and its
+ * Deletes one approved orphaned workspace — its folder (manifest included) and its
  * `Final output/` PDF — and records the prior state the deletion destroyed.
  *
- * @param args - The orphan and where its files live.
- * @param args.orphan - The orphaned workspace to delete.
+ * @param args - The orphaned workspace and where its files live.
+ * @param args.orphanedWorkspace - The orphaned workspace to delete.
  * @param args.moduleRoot - Absolute path to the module directory.
  * @param args.existingPdfs - Existing `Final output/` PDFs keyed by date.
  * @param args.logger - The run logger.
  * @returns A promise that resolves once the workspace and PDF are gone.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- OrphanContext carries pino's Logger and a ReadonlyMap: the first has mutable properties the rule cannot see past, the second is already the readonly form it declines to recognise (CLAUDE.md permits dropping readonly where a library requires a mutable type)
-async function deleteOrphan({
-	orphan,
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- OrphanedWorkspaceContext carries pino's Logger and a ReadonlyMap: the first has mutable properties the rule cannot see past, the second is already the readonly form it declines to recognise (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+async function deleteOrphanedWorkspace({
+	orphanedWorkspace,
 	moduleRoot,
 	existingPdfs,
 	logger,
-}: { readonly orphan: ExistingWorkspace } & OrphanContext): Promise<void> {
-	const { manifest } = orphan;
-	await rm(workspaceRootFor({ moduleRoot, folderName: orphan.folder }), {
+}: { readonly orphanedWorkspace: ExistingWorkspace } & OrphanedWorkspaceContext): Promise<void> {
+	const { manifest } = orphanedWorkspace;
+	await rm(workspaceRootFor({ moduleRoot, folderName: orphanedWorkspace.folder }), {
 		recursive: true,
 		force: true,
 	});
@@ -159,62 +159,69 @@ async function deleteOrphan({
 	}
 	logger.info(
 		{
-			folder: orphan.folder,
+			folder: orphanedWorkspace.folder,
 			lectureNumber: manifest.lectureNumber,
 			lectureTitle: manifest.lectureTitle,
 			lectureDate: manifest.lectureDate,
 		},
-		"Deleted orphaned lecture workspace",
+		"Deleted orphaned workspace",
 	);
 }
 
 /**
- * Runs the direct-deletion guard: asks about each orphan in turn, then asks once
- * more before acting. Every orphan must be approved and the final confirmation
+ * Runs the direct-deletion guard: asks about each orphaned workspace in turn, then asks once
+ * more before acting. Every orphaned workspace must be approved and the final confirmation
  * given, or nothing is deleted at all — a partial "delete some, keep others"
  * outcome is never produced, since a missing batch of sources usually means one
  * mistake rather than several deliberate deletions.
  *
- * @param args - The orphans, their locations, and the injected dependencies.
- * @param args.orphans - The orphaned workspaces (non-empty).
+ * @param args - The orphaned workspaces, their locations, and the injected dependencies.
+ * @param args.orphanedWorkspaces - The orphaned workspaces (non-empty).
  * @param args.moduleRoot - Absolute path to the module being normalised.
  * @param args.existingPdfs - Existing `Final output/` PDFs keyed by date.
  * @param args.logger - The run logger.
  * @param args.confirm - The user prompt.
- * @returns Whether every orphan was deleted, or which question was declined.
+ * @returns Whether every orphaned workspace was deleted, or which question was declined.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- OrphanContext carries pino's Logger and a ReadonlyMap: the first has mutable properties the rule cannot see past, the second is already the readonly form it declines to recognise (CLAUDE.md permits dropping readonly where a library requires a mutable type)
-export async function resolveOrphans({
-	orphans,
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- OrphanedWorkspaceContext carries pino's Logger and a ReadonlyMap: the first has mutable properties the rule cannot see past, the second is already the readonly form it declines to recognise (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+export async function resolveOrphanedWorkspaces({
+	orphanedWorkspaces,
 	moduleRoot,
 	existingPdfs,
 	logger,
 	confirm,
 }: {
-	readonly orphans: readonly ExistingWorkspace[];
+	readonly orphanedWorkspaces: readonly ExistingWorkspace[];
 	readonly confirm: ConfirmPrompt;
-} & OrphanContext): Promise<OrphanOutcome> {
+} & OrphanedWorkspaceContext): Promise<OrphanedWorkspaceOutcome> {
 	logger.info(
-		{ moduleRoot, orphans: orphans.map((orphan) => orphan.folder) },
+		{
+			moduleRoot,
+			orphanedWorkspaces: orphanedWorkspaces.map((orphanedWorkspace) => orphanedWorkspace.folder),
+		},
 		"Lecture workspaces have no source files left",
 	);
 
-	for (const orphan of orphans) {
-		if (!(await confirm({ message: orphanPrompt({ manifest: orphan.manifest }) }))) {
+	for (const orphanedWorkspace of orphanedWorkspaces) {
+		if (
+			!(await confirm({
+				message: orphanedWorkspacePrompt({ manifest: orphanedWorkspace.manifest }),
+			}))
+		) {
 			return {
 				state: "declined",
-				reason: `deleting lecture ${orphan.manifest.lectureDate} was declined`,
+				reason: `deleting lecture ${orphanedWorkspace.manifest.lectureDate} was declined`,
 			};
 		}
 	}
 
-	const finalMessage = `Permanently delete ${orphans.length} lecture workspace(s) and their final output? This cannot be undone.`;
+	const finalMessage = `Permanently delete ${orphanedWorkspaces.length} lecture workspace(s) and their final output? This cannot be undone.`;
 	if (!(await confirm({ message: finalMessage }))) {
 		return { state: "declined", reason: "the final confirmation was declined" };
 	}
 
-	for (const orphan of orphans) {
-		await deleteOrphan({ orphan, moduleRoot, existingPdfs, logger });
+	for (const orphanedWorkspace of orphanedWorkspaces) {
+		await deleteOrphanedWorkspace({ orphanedWorkspace, moduleRoot, existingPdfs, logger });
 	}
 	return { state: "deleted" };
 }

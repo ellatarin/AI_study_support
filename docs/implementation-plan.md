@@ -282,7 +282,7 @@ End to end — integration tests through `runCli`:
 
 **Deliverables:**
 
-**TD §5, `source-normalisation`** in four files: date parsing, lecture numbering, slide-to-video matching and provisional titles in `src/pipeline/stages/source-normalisation/lecture-resolution.ts`; collision-safe renaming and interrupted-rename recovery in `src/pipeline/stages/source-normalisation/source-renames.ts`; the orphan direct-deletion guard (NFR-4.3) and workspace discovery in `src/pipeline/stages/source-normalisation/orphaned-workspaces.ts`; and in `src/pipeline/stages/source-normalisation/source-normalisation.ts` the order they run in, what aborting means, and workspace and manifest creation with renumbering on re-run.
+**TD §5, `source-normalisation`** in four files: date parsing, lecture numbering, slide-to-video matching and provisional titles in `src/pipeline/stages/source-normalisation/lecture-resolution.ts`; collision-safe renaming and interrupted-rename recovery in `src/pipeline/stages/source-normalisation/source-renames.ts`; the orphaned workspace direct-deletion guard (NFR-4.3) and workspace discovery in `src/pipeline/stages/source-normalisation/orphaned-workspaces.ts`; and in `src/pipeline/stages/source-normalisation/source-normalisation.ts` the order they run in, what aborting means, and workspace and manifest creation with renumbering on re-run.
 
 The CLI identity-mutation commands that drive this same machinery — `rename`, `delete`, `change-date` (FR-6.7, TD §4.7) — are built with the CLI, not in this phase.
 
@@ -301,7 +301,7 @@ Unit tests (no directory tree — filenames in, answers out):
 - `should move a video and its slide onto the lecture's base name when they are freshly named`
 - `should plan nothing when every item already sits at the name the numbering wants`
 - `should move the workspace folder and the final PDF too when a lecture is renumbered`
-- `should find the workspace whose date has no sources left when one is removed`, and `should list orphans in date order when several workspaces have lost their sources`
+- `should find the workspace whose date has no sources left when one is removed`, and `should list orphaned workspaces in date order when several workspaces have lost their sources`
 
 Integration tests (real temp directory with fixture source files) — everything that only shows on disk:
 - `should assign correct lecture numbers when lectures sorted by date` — `test.each` across straight sequence and mid-sequence insertion
@@ -313,9 +313,9 @@ Integration tests (real temp directory with fixture source files) — everything
 - `should seed initial manifest with lectureTitle equal to provisionalTitle and userTitle and aiDerivedTitle null`
 - `should name an existing lecture from its manifest lectureTitle when the title changed after source-normalisation`
 - `should produce no filesystem changes when source-normalisation re-run on already-normalised sources`
-- `should delete the workspace and its Final output PDF when an orphaned lecture is approved` — `test.each` for one orphan and for several orphans all approved
-- `should renumber the remaining lectures and log the prior number, title, and date when an orphan is deleted`
-- `should abort without filesystem changes when a confirmation is declined` — `test.each` for: an orphan declined, the final confirmation declined
+- `should delete the workspace and its Final output PDF when an orphaned workspace is approved` — `test.each` for one orphaned workspace and for several all approved
+- `should renumber the remaining lectures and log the prior number, title, and date when an orphaned workspace is deleted`
+- `should abort without filesystem changes when a confirmation is declined` — `test.each` for: an orphaned workspace declined, the final confirmation declined
 - `should not prompt when every workspace still has its source pair`
 - `should restore a temporary source file to its target name when a previous run was interrupted` — and the same for a workspace folder
 - `should abort without filesystem changes when a temporary file's target name is taken`

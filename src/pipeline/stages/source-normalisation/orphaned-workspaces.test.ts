@@ -5,9 +5,9 @@ import {
 	makeManifest,
 	vaccinationSources,
 } from "../../fixtures.js";
-import { type ExistingWorkspace, findOrphans } from "./orphaned-workspaces.js";
+import { type ExistingWorkspace, findOrphanedWorkspaces } from "./orphaned-workspaces.js";
 
-// Only the dates matter here: what makes a workspace an orphan is that its date
+// Only the dates matter here: what makes a workspace orphaned is that its date
 // has no sources left, and the order they are put to the user in is date order.
 const CELL_INJURY_DATE = cellInjurySources.date;
 const IMMUNITY_DATE = immunitySources.date;
@@ -29,30 +29,30 @@ function workspacesOn(dates: readonly string[]): ReadonlyMap<string, ExistingWor
 }
 
 /**
- * The folders {@link findOrphans} would put to the user, in the order it asks.
+ * The folders {@link findOrphanedWorkspaces} would put to the user, in the order it asks.
  *
  * @param args - The state to compare.
  * @param args.workspaceDates - The dates workspaces exist for.
  * @param args.sourceDates - The dates a video recording and slide deck are still present for.
- * @returns The orphaned folder names.
+ * @returns The orphaned workspace folder names.
  */
-function orphanedFolders({
+function orphanedWorkspaceFolders({
 	workspaceDates,
 	sourceDates,
 }: {
 	readonly workspaceDates: readonly string[];
 	readonly sourceDates: readonly string[];
 }): readonly string[] {
-	return findOrphans({
+	return findOrphanedWorkspaces({
 		workspaces: workspacesOn(workspaceDates),
 		presentLectureDates: new Set(sourceDates),
-	}).map((orphan) => orphan.folder);
+	}).map((orphanedWorkspace) => orphanedWorkspace.folder);
 }
 
-describe("findOrphans", () => {
+describe("findOrphanedWorkspaces", () => {
 	it("should find nothing when every workspace still has its source pair", () => {
 		expect(
-			orphanedFolders({
+			orphanedWorkspaceFolders({
 				workspaceDates: [CELL_INJURY_DATE, VACCINATION_DATE],
 				sourceDates: [CELL_INJURY_DATE, VACCINATION_DATE],
 			}),
@@ -61,16 +61,16 @@ describe("findOrphans", () => {
 
 	it("should find the workspace whose date has no sources left when one is removed", () => {
 		expect(
-			orphanedFolders({
+			orphanedWorkspaceFolders({
 				workspaceDates: [CELL_INJURY_DATE, VACCINATION_DATE],
 				sourceDates: [VACCINATION_DATE],
 			}),
 		).toEqual([`workspace ${CELL_INJURY_DATE}`]);
 	});
 
-	it("should list orphans in date order when several workspaces have lost their sources", () => {
+	it("should list orphaned workspaces in date order when several workspaces have lost their sources", () => {
 		expect(
-			orphanedFolders({
+			orphanedWorkspaceFolders({
 				workspaceDates: [VACCINATION_DATE, CELL_INJURY_DATE, IMMUNITY_DATE],
 				sourceDates: [],
 			}),
@@ -82,6 +82,8 @@ describe("findOrphans", () => {
 	});
 
 	it("should find nothing when there are no workspaces at all", () => {
-		expect(orphanedFolders({ workspaceDates: [], sourceDates: [CELL_INJURY_DATE] })).toEqual([]);
+		expect(
+			orphanedWorkspaceFolders({ workspaceDates: [], sourceDates: [CELL_INJURY_DATE] }),
+		).toEqual([]);
 	});
 });

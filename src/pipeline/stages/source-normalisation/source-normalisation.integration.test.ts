@@ -40,6 +40,9 @@ import {
 // arranges that state.
 const TEMP_SUFFIX = ".stage0-tmp";
 
+/** A slide deck on a date that has no video recording. */
+const UNMATCHED_SLIDE_DECK = `${cellInjurySources.date} Unmatched deck.pdf`;
+
 function videoRecordingsDir(moduleRoot: string): string {
 	return moduleDirs({ moduleRoot }).videoRecording;
 }
@@ -337,7 +340,7 @@ describe("createSourceNormalisationStage", () => {
 			{
 				scenario: "a slide has no matching video",
 				setup: async (): Promise<void> => {
-					await writeInto(slideDecksDir(moduleRoot), `${cellInjurySources.date} Orphan deck.pdf`);
+					await writeInto(slideDecksDir(moduleRoot), UNMATCHED_SLIDE_DECK);
 				},
 			},
 			{
@@ -370,11 +373,11 @@ describe("createSourceNormalisationStage", () => {
 
 		it("should report every broken rule in a single error when several sources are wrong", async () => {
 			await writeInto(videoRecordingsDir(moduleRoot), "BOD_no date.mp4");
-			await writeInto(slideDecksDir(moduleRoot), `${cellInjurySources.date} Orphan deck.pdf`);
+			await writeInto(slideDecksDir(moduleRoot), UNMATCHED_SLIDE_DECK);
 
 			const rejection = stage.normaliseModule({ moduleRoot });
 
-			await expect(rejection).rejects.toThrow(/no date.*mp4|Orphan/s);
+			await expect(rejection).rejects.toThrow(/no date.*mp4|Unmatched/s);
 		});
 	});
 
@@ -481,7 +484,7 @@ describe("createSourceNormalisationStage", () => {
 		});
 	});
 
-	describe("orphan handling", () => {
+	describe("orphaned workspace handling", () => {
 		function promptMessages(): readonly string[] {
 			return confirm.mock.calls.map(([args]) => args.message);
 		}
@@ -509,7 +512,7 @@ describe("createSourceNormalisationStage", () => {
 			{ detail: "the lecture number", fragment: "Lecture 1" },
 			{ detail: "the title", fragment: "Cell Injury" },
 			{ detail: "the date", fragment: cellInjurySources.date },
-		])("should show $detail in the orphan prompt when a lecture's sources are gone", async ({
+		])("should show $detail in the orphaned workspace prompt when a lecture's sources are gone", async ({
 			fragment,
 		}) => {
 			await removeSourcePair(cellInjuryAsFirst);
@@ -519,7 +522,7 @@ describe("createSourceNormalisationStage", () => {
 			expect(promptMessages()).toContainEqual(expect.stringContaining(fragment));
 		});
 
-		it("should quote no figure in the orphan prompt when a lecture's sources are gone", async () => {
+		it("should quote no figure in the orphaned workspace prompt when a lecture's sources are gone", async () => {
 			// What a lecture has cost is the sum of its stages, and stage costs are
 			// not summed (NFR-2.2). `cost-report` still has the per-stage figures for
 			// as long as the workspace stands.
@@ -532,7 +535,7 @@ describe("createSourceNormalisationStage", () => {
 			}
 		});
 
-		it("should delete the workspace and its Final output PDF and renumber the remainder when an orphan is approved", async () => {
+		it("should delete the workspace and its Final output PDF and renumber the remainder when an orphaned workspace is approved", async () => {
 			await removeSourcePair(cellInjuryAsFirst);
 
 			await stage.normaliseModule({ moduleRoot });
@@ -544,7 +547,7 @@ describe("createSourceNormalisationStage", () => {
 			]);
 		});
 
-		it("should take a final confirmation and delete every orphan when several are all approved", async () => {
+		it("should take a final confirmation and delete every orphaned workspace when several are all approved", async () => {
 			await removeSourcePair(cellInjuryAsFirst);
 			await removeSourcePair(vaccinationAsSecond);
 
@@ -555,7 +558,7 @@ describe("createSourceNormalisationStage", () => {
 			expect(await listNames(finalOutputDir(moduleRoot))).toEqual([]);
 		});
 
-		it("should describe an orphan as untitled when its manifest carries no title", async () => {
+		it("should describe an orphaned workspace as untitled when its manifest carries no title", async () => {
 			await amendManifestIn({
 				folder: workspaceRootFor({ moduleRoot, folderName: cellInjuryAsFirst }),
 				patch: { lectureTitle: "" },
@@ -567,7 +570,7 @@ describe("createSourceNormalisationStage", () => {
 			expect(promptMessages()).toContainEqual(expect.stringContaining("(untitled)"));
 		});
 
-		it("should delete the workspace when an orphan has no final output PDF", async () => {
+		it("should delete an orphaned workspace when it has no final output PDF", async () => {
 			await rm(join(finalOutputDir(moduleRoot), `${cellInjuryAsFirst}.pdf`));
 			await removeSourcePair(cellInjuryAsFirst);
 
@@ -576,7 +579,7 @@ describe("createSourceNormalisationStage", () => {
 			expect(await listNames(processingDir(moduleRoot))).toEqual([vaccinationAsFirst]);
 		});
 
-		it("should log the prior number, title, and date when an orphan is deleted", async () => {
+		it("should log the prior number, title, and date when an orphaned workspace is deleted", async () => {
 			await removeSourcePair(cellInjuryAsFirst);
 
 			await stage.normaliseModule({ moduleRoot });
@@ -591,7 +594,7 @@ describe("createSourceNormalisationStage", () => {
 		});
 
 		it.each([
-			{ scenario: "an orphan deletion is declined", responses: [false] },
+			{ scenario: "an orphaned workspace deletion is declined", responses: [false] },
 			{ scenario: "the final confirmation is declined", responses: [true, false] },
 		])("should abort without filesystem changes when $scenario", async ({ responses }) => {
 			await removeSourcePair(cellInjuryAsFirst);
