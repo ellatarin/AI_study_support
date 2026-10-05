@@ -6,7 +6,7 @@ import { assembleContext } from "./stage-context.js";
 
 describe("assembleContext", () => {
 	const moduleRoot = resolve("/base", testModuleName);
-	const workspaceRoot = workspaceRootFor({ moduleRoot, folderName: "L1" });
+	const workspaceRoot = workspaceRootFor({ moduleRoot, baseName: "L1" });
 
 	it("should derive moduleRoot two levels up and attach config and manifest when assembling a context", () => {
 		const manifest = makeManifest({ lectureNumber: 3, lectureTitle: "Cellular Respiration" });

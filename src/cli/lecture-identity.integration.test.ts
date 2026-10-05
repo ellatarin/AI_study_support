@@ -96,11 +96,11 @@ describe("lecture identity commands", () => {
 		});
 
 		it("should leave other lectures untouched when deleting", async () => {
-			await writeFile(join(dirs.videoRecording, `${otherLecture.folderName}.mp4`), "video");
+			await writeFile(join(dirs.videoRecording, `${otherLecture.baseName}.mp4`), "video");
 
 			await deleteLecture({ match });
 
-			expect(await pathExists(join(dirs.videoRecording, `${otherLecture.folderName}.mp4`))).toBe(
+			expect(await pathExists(join(dirs.videoRecording, `${otherLecture.baseName}.mp4`))).toBe(
 				true,
 			);
 		});
@@ -115,7 +115,7 @@ describe("lecture identity commands", () => {
 	describe("changeLectureDate", () => {
 		// The name `source-normalisation` would give this lecture at its new date, derived rather
 		// than written out so the expectation follows the naming rule.
-		const MOVED_FOLDER = baseNameForLecture({
+		const MOVED_BASE_NAME = baseNameForLecture({
 			lectureNumber: testLecture.number,
 			title: testLecture.title,
 			lectureDate: changedDate,
@@ -123,7 +123,7 @@ describe("lecture identity commands", () => {
 
 		/** Where that folder sits, once the module the lecture is in is known. */
 		const movedWorkspaceRoot = (): string =>
-			workspaceRootFor({ moduleRoot: match.moduleRoot, folderName: MOVED_FOLDER });
+			workspaceRootFor({ moduleRoot: match.moduleRoot, baseName: MOVED_BASE_NAME });
 
 		/** The act every case here performs: move the lecture onto {@link changedDate}. */
 		function changeDate(): Promise<void> {
@@ -135,7 +135,7 @@ describe("lecture identity commands", () => {
 
 			const manifest = await readManifest({ workspaceRoot: movedWorkspaceRoot() });
 			expect(manifest.lectureDate).toBe(changedDate);
-			expect(manifest.workspaceFolderName).toBe(MOVED_FOLDER);
+			expect(manifest.workspaceFolderName).toBe(MOVED_BASE_NAME);
 		});
 
 		// Each of the four things a lecture is on disk moves, and the name it left
@@ -144,12 +144,12 @@ describe("lecture identity commands", () => {
 		it.each([
 			{
 				what: "the source video",
-				moved: () => join(dirs.videoRecording, `${MOVED_FOLDER}.mp4`),
+				moved: () => join(dirs.videoRecording, `${MOVED_BASE_NAME}.mp4`),
 				left: () => join(dirs.videoRecording, testLecture.videoRecordingFile),
 			},
 			{
 				what: "the source slide",
-				moved: () => join(dirs.slideDeck, `${MOVED_FOLDER}.pdf`),
+				moved: () => join(dirs.slideDeck, `${MOVED_BASE_NAME}.pdf`),
 				left: () => join(dirs.slideDeck, testLecture.slideDeckFile),
 			},
 			{
@@ -159,7 +159,7 @@ describe("lecture identity commands", () => {
 			},
 			{
 				what: "the final output",
-				moved: () => join(dirs.finalOutput, `${MOVED_FOLDER}.pdf`),
+				moved: () => join(dirs.finalOutput, `${MOVED_BASE_NAME}.pdf`),
 				left: () => join(dirs.finalOutput, testLecture.outputFile),
 			},
 		])("should rename $what to the new date when changing the date", async ({ moved, left }) => {
@@ -174,12 +174,12 @@ describe("lecture identity commands", () => {
 
 			await changeDate();
 
-			expect(await pathExists(join(dirs.videoRecording, `${MOVED_FOLDER}.mp4`))).toBe(true);
+			expect(await pathExists(join(dirs.videoRecording, `${MOVED_BASE_NAME}.mp4`))).toBe(true);
 		});
 
 		describe("with another lecture's file at the new date", () => {
 			beforeEach(async () => {
-				await writeFile(join(dirs.videoRecording, `${MOVED_FOLDER}.mp4`), "another lecture");
+				await writeFile(join(dirs.videoRecording, `${MOVED_BASE_NAME}.mp4`), "another lecture");
 			});
 
 			it("should reject the change when the move would overwrite it", async () => {

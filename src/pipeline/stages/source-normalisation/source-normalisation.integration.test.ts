@@ -26,7 +26,7 @@ import {
 	SourceNormalisationError,
 } from "./source-normalisation.js";
 
-// The raw sources and the canonical names `source-normalisation` gives them are fixtures. They
+// The raw sources and the base names `source-normalisation` gives them are fixtures. They
 // are still written out rather than derived — this suite tests the naming rule,
 // so deriving them would assert it against itself — but they are written out in
 // one place, because the unit suite over the resolution rules asserts the same
@@ -143,7 +143,7 @@ describe("createSourceNormalisationStage", () => {
 	async function normaliseNewLecture(): Promise<Manifest> {
 		await writeLecture(cellInjurySources);
 		await stage.normaliseModule({ moduleRoot });
-		return readManifestIn(workspaceRootFor({ moduleRoot, folderName: cellInjuryAsFirst }));
+		return readManifestIn(workspaceRootFor({ moduleRoot, baseName: cellInjuryAsFirst }));
 	}
 
 	/** Normalises a two-lecture module, the starting point for renumbering cases. */
@@ -208,12 +208,12 @@ describe("createSourceNormalisationStage", () => {
 			immunityAsSecond,
 		]);
 		const first = await readManifestIn(
-			workspaceRootFor({ moduleRoot, folderName: cellInjuryAsFirst }),
+			workspaceRootFor({ moduleRoot, baseName: cellInjuryAsFirst }),
 		);
 		expect(first).toMatchObject({ lectureNumber: 1, lectureDate: "2025-10-10" });
 	});
 
-	it("should rename the video recording and matched slide deck to canonical names when normalisation runs", async () => {
+	it("should rename the video recording and matched slide deck to their base name when normalisation runs", async () => {
 		await writeLecture(cellInjurySources);
 
 		await stage.normaliseModule({ moduleRoot });
@@ -247,7 +247,7 @@ describe("createSourceNormalisationStage", () => {
 		await writeLecture(cellInjurySources);
 		await stage.normaliseModule({ moduleRoot });
 		await amendManifestIn({
-			folder: workspaceRootFor({ moduleRoot, folderName: cellInjuryAsFirst }),
+			folder: workspaceRootFor({ moduleRoot, baseName: cellInjuryAsFirst }),
 			patch: { lectureTitle: "Innate Immune Response" },
 		});
 
@@ -267,7 +267,7 @@ describe("createSourceNormalisationStage", () => {
 		await stage.normaliseModule({ moduleRoot });
 
 		expect(await listNames(processingDir(moduleRoot))).toEqual([untitled]);
-		const manifest = await readManifestIn(workspaceRootFor({ moduleRoot, folderName: untitled }));
+		const manifest = await readManifestIn(workspaceRootFor({ moduleRoot, baseName: untitled }));
 		expect(manifest.provisionalTitle).toBe("");
 		expect(manifest.lectureTitle).toBe("");
 	});
@@ -384,7 +384,7 @@ describe("createSourceNormalisationStage", () => {
 	it("should produce no filesystem changes when re-run on already-normalised sources", async () => {
 		await writeLecture(cellInjurySources);
 		await stage.normaliseModule({ moduleRoot });
-		const folder = workspaceRootFor({ moduleRoot, folderName: cellInjuryAsFirst });
+		const folder = workspaceRootFor({ moduleRoot, baseName: cellInjuryAsFirst });
 		const manifestAfterFirst = await readManifestIn(folder);
 		const sourcesAfterFirst = await sourceNames();
 
@@ -407,7 +407,7 @@ describe("createSourceNormalisationStage", () => {
 			vaccinationAsThird,
 		]);
 		const renumbered = await readManifestIn(
-			workspaceRootFor({ moduleRoot, folderName: vaccinationAsThird }),
+			workspaceRootFor({ moduleRoot, baseName: vaccinationAsThird }),
 		);
 		expect(renumbered.lectureNumber).toBe(3);
 		expect(renumbered.workspaceFolderName).toBe(vaccinationAsThird);
@@ -426,7 +426,7 @@ describe("createSourceNormalisationStage", () => {
 
 	it("should leave a workspace folder untouched when it has no readable manifest", async () => {
 		await writeLecture(cellInjurySources);
-		await mkdir(workspaceRootFor({ moduleRoot, folderName: "Notes I dropped in here" }), {
+		await mkdir(workspaceRootFor({ moduleRoot, baseName: "Notes I dropped in here" }), {
 			recursive: true,
 		});
 
@@ -560,7 +560,7 @@ describe("createSourceNormalisationStage", () => {
 
 		it("should describe an orphaned workspace as untitled when its manifest carries no title", async () => {
 			await amendManifestIn({
-				folder: workspaceRootFor({ moduleRoot, folderName: cellInjuryAsFirst }),
+				folder: workspaceRootFor({ moduleRoot, baseName: cellInjuryAsFirst }),
 				patch: { lectureTitle: "" },
 			});
 			await removeSourcePair(cellInjuryAsFirst);

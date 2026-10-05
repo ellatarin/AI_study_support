@@ -33,7 +33,7 @@ const VIDEO_DIR = join(MODULE_ROOT, "Source files", "Video files");
 const SLIDE_DIR = join(MODULE_ROOT, "Source files", "Lecture slides");
 const PROCESSING_DIR = join(MODULE_ROOT, "Pipeline processing");
 const FINAL_OUTPUT_DIR = join(MODULE_ROOT, "Final output");
-const WORKSPACE_ROOT = join(PROCESSING_DIR, testLecture.folderName);
+const WORKSPACE_ROOT = join(PROCESSING_DIR, testLecture.baseName);
 const QA_DIRS = [join(WORKSPACE_ROOT, "QA iterations"), join(WORKSPACE_ROOT, "QA checked")];
 
 describe("moduleDirs", () => {
@@ -75,7 +75,7 @@ describe("debugLogPath", () => {
 
 describe("workspaceRootFor", () => {
 	it("should place a lecture's workspace under the module's processing directory when it is named", () => {
-		expect(workspaceRootFor({ moduleRoot: MODULE_ROOT, folderName: testLecture.folderName })).toBe(
+		expect(workspaceRootFor({ moduleRoot: MODULE_ROOT, baseName: testLecture.baseName })).toBe(
 			WORKSPACE_ROOT,
 		);
 	});
@@ -89,7 +89,7 @@ describe("moduleRootOf", () => {
 	it("should invert workspaceRootFor when a workspace it built is given", () => {
 		const workspaceRoot = workspaceRootFor({
 			moduleRoot: MODULE_ROOT,
-			folderName: testLecture.folderName,
+			baseName: testLecture.baseName,
 		});
 
 		expect(moduleRootOf({ workspaceRoot })).toBe(MODULE_ROOT);

@@ -1,10 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-	EmptyNameError,
-	extractProvisionalTitle,
-	filenameSafe,
-	lectureFolderName,
-} from "./naming.js";
+import { EmptyNameError, extractProvisionalTitle, filenameSafe, titledBaseName } from "./naming.js";
 
 const NULL_BYTE = String.fromCharCode(0);
 const CONTROL_CHAR = String.fromCharCode(1);
@@ -90,7 +85,7 @@ describe("extractProvisionalTitle", () => {
 
 	it.each([
 		{ filename: "2025-10-10 Lecture 5.mp4", remainder: "a date and lecture number" },
-		{ filename: "Lecture 1 - 2025-10-10.mp4", remainder: "a canonical untitled name" },
+		{ filename: "Lecture 1 - 2025-10-10.mp4", remainder: "an untitled base name" },
 	])("should return an empty string when the filename holds only $remainder", ({ filename }) => {
 		expect(extractProvisionalTitle({ filename, modulePrefixes: MODULE_PREFIXES })).toBe("");
 	});
@@ -120,7 +115,7 @@ describe("filenameSafe", () => {
 	});
 });
 
-describe("lectureFolderName", () => {
+describe("titledBaseName", () => {
 	it.each([
 		{
 			scenario: "given a number, a title, and a date",
@@ -136,12 +131,7 @@ describe("lectureFolderName", () => {
 			date: new Date(2025, 9, 13, 12, 0, 0),
 			expected: "Lecture 2 - Cell Injury - 2025-10-13",
 		},
-	])("should build the canonical name when $scenario", ({
-		lectureNumber,
-		title,
-		date,
-		expected,
-	}) => {
-		expect(lectureFolderName({ lectureNumber, title, date })).toBe(expected);
+	])("should build the base name when $scenario", ({ lectureNumber, title, date, expected }) => {
+		expect(titledBaseName({ lectureNumber, title, date })).toBe(expected);
 	});
 });

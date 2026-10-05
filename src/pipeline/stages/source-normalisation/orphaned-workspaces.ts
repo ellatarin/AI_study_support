@@ -4,7 +4,7 @@
  *
  * A workspace records which lecture it belongs to, so a lecture that has been
  * renumbered is still found by the date its manifest carries rather than by the
- * folder name it happens to have. When a run finds a workspace whose date has no
+ * base name it happens to have. When a run finds a workspace whose date has no
  * video recording and slide deck left, the user deleted those sources by hand, and the
  * work already paid for is about to become unreachable.
  *
@@ -38,7 +38,7 @@ import { readManifestSafe } from "../../manifest.js";
 export type ConfirmPrompt = (args: { readonly message: string }) => Promise<boolean>;
 
 /** An existing lecture workspace, discovered by its manifest's date. */
-export type ExistingWorkspace = { readonly folder: string; readonly manifest: Manifest };
+export type ExistingWorkspace = { readonly baseName: string; readonly manifest: Manifest };
 
 /**
  * What the deletion protocol concluded: every orphaned workspace gone, or the question the
@@ -53,7 +53,7 @@ export type OrphanedWorkspaceOutcome =
 	| { readonly state: "declined"; readonly reason: string };
 
 /**
- * Maps each existing lecture workspace to its folder name by reading its
+ * Maps each existing lecture workspace to its base name by reading its
  * manifest's `lectureDate`, so a renumbered lecture can be found by date.
  *
  * A folder with no readable manifest is not a lecture workspace this run knows
@@ -61,7 +61,7 @@ export type OrphanedWorkspaceOutcome =
  *
  * @param args - The module to look in.
  * @param args.moduleRoot - Absolute path to the module directory.
- * @returns A map of `lectureDate` → existing workspace (folder name and manifest).
+ * @returns A map of `lectureDate` → existing workspace (base name and manifest).
  */
 export async function discoverWorkspaces({
 	moduleRoot,
@@ -69,14 +69,14 @@ export async function discoverWorkspaces({
 	readonly moduleRoot: string;
 }): Promise<ReadonlyMap<string, ExistingWorkspace>> {
 	const workspaces = new Map<string, ExistingWorkspace>();
-	for (const folder of await listSubdirectoryNames(moduleDirs({ moduleRoot }).processing)) {
+	for (const baseName of await listSubdirectoryNames(moduleDirs({ moduleRoot }).processing)) {
 		const manifest = await readManifestSafe({
-			workspaceRoot: workspaceRootFor({ moduleRoot, folderName: folder }),
+			workspaceRoot: workspaceRootFor({ moduleRoot, baseName }),
 		});
 		if (manifest === null) {
 			continue;
 		}
-		workspaces.set(manifest.lectureDate, { folder, manifest });
+		workspaces.set(manifest.lectureDate, { baseName, manifest });
 	}
 	return workspaces;
 }
@@ -149,7 +149,7 @@ async function deleteOrphanedWorkspace({
 	logger,
 }: { readonly orphanedWorkspace: ExistingWorkspace } & OrphanedWorkspaceContext): Promise<void> {
 	const { manifest } = orphanedWorkspace;
-	await rm(workspaceRootFor({ moduleRoot, folderName: orphanedWorkspace.folder }), {
+	await rm(workspaceRootFor({ moduleRoot, baseName: orphanedWorkspace.baseName }), {
 		recursive: true,
 		force: true,
 	});
@@ -159,7 +159,7 @@ async function deleteOrphanedWorkspace({
 	}
 	logger.info(
 		{
-			folder: orphanedWorkspace.folder,
+			baseName: orphanedWorkspace.baseName,
 			lectureNumber: manifest.lectureNumber,
 			lectureTitle: manifest.lectureTitle,
 			lectureDate: manifest.lectureDate,
@@ -197,7 +197,7 @@ export async function resolveOrphanedWorkspaces({
 	logger.info(
 		{
 			moduleRoot,
-			orphanedWorkspaces: orphanedWorkspaces.map((orphanedWorkspace) => orphanedWorkspace.folder),
+			orphanedWorkspaces: orphanedWorkspaces.map((orphanedWorkspace) => orphanedWorkspace.baseName),
 		},
 		"Lecture workspaces have no source files left",
 	);

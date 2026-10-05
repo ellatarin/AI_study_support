@@ -62,20 +62,20 @@ const vaccination = lectureNamed({
  *
  * @param args - The state to reconcile.
  * @param args.lectures - The target lectures.
- * @param args.existingFolders - Existing workspace folder names, keyed by lecture date.
+ * @param args.existingBaseNames - The base names of the existing workspaces, keyed by lecture date.
  * @param args.existingPdfs - Existing `Final output/` PDF names, keyed by lecture date.
  * @returns One `dir/source → target` line per planned move.
  */
 function plannedMoves({
 	lectures,
-	existingFolders = new Map<string, string>(),
+	existingBaseNames = new Map<string, string>(),
 	existingPdfs = new Map<string, string>(),
 }: {
 	readonly lectures: readonly Lecture[];
-	readonly existingFolders?: ReadonlyMap<string, string>;
+	readonly existingBaseNames?: ReadonlyMap<string, string>;
 	readonly existingPdfs?: ReadonlyMap<string, string>;
 }): readonly string[] {
-	return planRenames({ lectures, dirs, existingFolders, existingPdfs }).map(
+	return planRenames({ lectures, dirs, existingBaseNames, existingPdfs }).map(
 		(operation) => `${join(operation.dir, operation.source)} → ${operation.target}`,
 	);
 }
@@ -99,7 +99,7 @@ describe("planRenames", () => {
 		expect(
 			plannedMoves({
 				lectures: [settled],
-				existingFolders: new Map([[settled.lectureDate, cellInjuryAsFirst]]),
+				existingBaseNames: new Map([[settled.lectureDate, cellInjuryAsFirst]]),
 				existingPdfs: new Map([[settled.lectureDate, `${cellInjuryAsFirst}.pdf`]]),
 			}),
 		).toEqual([]);
@@ -116,7 +116,7 @@ describe("planRenames", () => {
 		expect(
 			plannedMoves({
 				lectures: [renumbered],
-				existingFolders: new Map([[renumbered.lectureDate, cellInjuryAsFirst]]),
+				existingBaseNames: new Map([[renumbered.lectureDate, cellInjuryAsFirst]]),
 				existingPdfs: new Map([[renumbered.lectureDate, `${cellInjuryAsFirst}.pdf`]]),
 			}),
 		).toEqual([

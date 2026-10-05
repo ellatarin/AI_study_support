@@ -135,13 +135,13 @@ extractProvisionalTitle(args: { filename: string; modulePrefixes: readonly strin
 // being written here: a prefix names a module, and the pipeline is pointed at several. Each is matched
 // literally and without regard to case, so one carrying a pattern character means itself, and an empty
 // list strips nothing.
-lectureFolderName(args: { lectureNumber: number; title: string; date: Date }): string
-// The canonical `Lecture N - <title> - YYYY-MM-DD` form shared by the folder, sources, and PDF. Takes the
+titledBaseName(args: { lectureNumber: number; title: string; date: Date }): string
+// The titled `Lecture N - <title> - YYYY-MM-DD` base name shared by the workspace, sources, and PDF. Takes the
 // parsed Date rather than a formatted string so the one place that formats a lecture date is formatDateISO.
 lectureBaseName(args: { lectureNumber: number; title: string; date: Date }): string
 // The same name, falling back to a bare `Lecture N - YYYY-MM-DD` when the title is empty — which a filename
 // carrying nothing but a date and a number leaves it. This is the name every caller that renames a lecture
-// asks for; lectureFolderName is the form beneath it. It lives here rather than in source-normalisation, which first
+// asks for; titledBaseName is the form beneath it. It lives here rather than in source-normalisation, which first
 // needed it, because pipeline infrastructure may not depend on a stage (§9).
 filenameSafe(title: string): string                  // see §4.4 for the rules it enforces
 class EmptyNameError extends NamedError              // sanitising left nothing to name a file with
@@ -249,8 +249,8 @@ debugLogPath(args: { projectRoot: string; runId: string }): string
 // invocation is wider than a lecture run — a batch spans every configured module, and source-normalisation's work happens
 // before any lecture is chosen — and because a relative path would follow the directory the user invoked
 // from (§10).
-workspaceRootFor(args: { moduleRoot: string; folderName: string }): string
-// Where one lecture's workspace sits: a folder named after the lecture, inside the module's processing
+workspaceRootFor(args: { moduleRoot: string; baseName: string }): string
+// Where one lecture's workspace sits: a folder named with the lecture's base name, inside the module's processing
 // directory. Every stage, the runner, the CLI and every suite that lays a lecture out asks for it here.
 moduleRootOf(args: { workspaceRoot: string }): string
 // The module two levels up from a lecture workspace (`moduleRoot/Pipeline processing/<folder>`) — the inverse
@@ -535,7 +535,7 @@ resolveManifestPath(query: ManifestPathQuery): Promise<string>
 
 These live in a module of their own rather than among the filesystem conveniences in `src/utils/files.ts` (§4.3), because they differ from those in kind and not in subject. Listing a directory or writing a file without leaving half of one behind are conveniences: getting one wrong is an inconvenience. This is the one place in the pipeline where getting it wrong means a path escaping the tree the user pointed the tool at, and it is worth being able to read and review on its own. Keeping the trusted resolver beside the untrusted one is deliberate: the two are a pair, and which one a caller reaches for is the decision the pair exists to make visible.
 
-**`filenameSafe(title)`.** Titles reach the filesystem via workspace folder names, source file renames, and the `Final output/` PDF name. Titles originate from user filenames (`source-normalisation`) or LLM output (`transcript-structuring`) — neither is a trusted path component. `filenameSafe` MUST:
+**`filenameSafe(title)`.** Titles reach the filesystem in the base name, which the workspace, the renamed source files, and the `Final output/` PDF carry. Titles originate from user filenames (`source-normalisation`) or LLM output (`transcript-structuring`) — neither is a trusted path component. `filenameSafe` MUST:
 
 - Strip path separators (`/`, `\`), directory-traversal segments (`.`, `..`), null bytes, and ASCII control characters.
 - Collapse whitespace runs to a single space; trim leading/trailing whitespace and dots.
@@ -1010,7 +1010,7 @@ A prompt module has no test file of its own. Its builder is a pure assembly whos
 
 4. **Title resolution:** For a **new** lecture, extract a provisional title from the video filename — strip whichever of the date, day names (Mon–Sun), a configured module prefix (e.g. `BOD_`, `Biology of Disease -`; see `naming.modulePrefixes`, §6), embedded lecture-number token (e.g. `Lecture 1`), and trailing artefacts (`co`, `copy`, `v2`) are present, keeping the lecturer's capitalisation exactly as typed (§3.2). A filename with nothing beyond a date and lecture number yields an **empty** provisional title, and the lecture falls back to a bare `Lecture N` name. Whether the title is meaningful is **not** judged here; `transcript-structuring` makes that call. For an **existing** lecture, the title is taken from its manifest (`lectureTitle`), never re-extracted — so a CLI `rename` and a `transcript-structuring` rename are both preserved.
 
-5. **Canonical naming:** Rename the source video and its matched slide, the workspace folder, and any `Final output/` PDF to the shared base name `Lecture N - <title> - YYYY-MM-DD` (bare `Lecture N - YYYY-MM-DD` when the title is empty). Items already at their target are left untouched.
+5. **Base names:** Rename the source video and its matched slide, the workspace folder, and any `Final output/` PDF to the shared base name `Lecture N - <title> - YYYY-MM-DD` (bare `Lecture N - YYYY-MM-DD` when the title is empty). Items already at their target are left untouched.
 
 6. **Workspace + manifest:** Create `Pipeline processing/Lecture N - <title> - YYYY-MM-DD/` for any lecture that does not already have one, writing an initial `manifest.json` with `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle = provisionalTitle`, `userTitle = null`, `aiDerivedTitle = null`, and all stage statuses `pending`. For an existing lecture whose number or folder changed, update `lectureNumber` and `workspaceFolderName` in its manifest, preserving everything else.
 
@@ -1049,7 +1049,7 @@ same files onto the same names a normalisation would give them (§4.7).
 
 Extracts the audio track from the video using fluent-ffmpeg with `-acodec copy` (no re-encoding). Displays a `cli-progress` bar showing extraction percentage. The extracted audio is retained in `Audio/` for the life of the lecture workspace.
 
-The source video is located by base name: the workspace folder name plus whatever extension the video carries, since `source-normalisation` gives the video, the slide, and the workspace folder the same base name but preserves the original container extension. A missing or ambiguous video is a stage failure, reported before ffmpeg is invoked. fluent-ffmpeg spawns with an explicit argv array, satisfying the no-shell-interpolation rule (§4.4). Extraction writes to a `.tmp` sibling and renames on success (§4.3), so a killed run never leaves a truncated `audio.m4a` that a later run would mistake for complete — and because that `.tmp` suffix stops ffmpeg inferring the container, the m4a muxer is named explicitly. This stage makes no billable call, so its recorded cost is `null`.
+The source video is located by base name: the workspace's base name plus whatever extension the video carries, since `source-normalisation` gives the video, the slide, and the workspace folder the same base name but preserves the original container extension. A missing or ambiguous video is a stage failure, reported before ffmpeg is invoked. fluent-ffmpeg spawns with an explicit argv array, satisfying the no-shell-interpolation rule (§4.4). Extraction writes to a `.tmp` sibling and renames on success (§4.3), so a killed run never leaves a truncated `audio.m4a` that a later run would mistake for complete — and because that `.tmp` suffix stops ffmpeg inferring the container, the m4a muxer is named explicitly. This stage makes no billable call, so its recorded cost is `null`.
 
 ```typescript
 // src/pipeline/stages/audio-extraction/audio-extraction.ts

@@ -76,7 +76,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `src/pipeline/workspace-paths.ts` — `workspacePath` and `resolveManifestPath` with its `ManifestPathError` **(TD §4.4)**; apart from the conveniences above because a mistake here is a path escaping the module tree rather than an inconvenience
 - `src/utils/logger.ts` — `createRootLogger`, `createStageLogger` **(TD §10, Logging and Progress Helpers)**
 - `src/utils/date.ts` — `extractDate`, `formatDateISO`, `isCalendarDate` **(TD §3.2, Date and Naming Helpers)**
-- `src/utils/naming.ts` — `extractProvisionalTitle`, `lectureFolderName`, `lectureBaseName` **(TD §3.2)**; `filenameSafe` and the `EmptyNameError` it raises **(TD §4.4)**
+- `src/utils/naming.ts` — `extractProvisionalTitle`, `titledBaseName`, `lectureBaseName` **(TD §3.2)**; `filenameSafe` and the `EmptyNameError` it raises **(TD §4.4)**
 - `src/utils/progress.ts` — `createProgressBar` and `createUploadProgressStream` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`. `createParallelWorkBar` is specified in TD §10 but built in Phase 15, with the first stage that calls it
 - `src/utils/cost.ts` — `accumulateCost`, the arithmetic alone **(TD §7)**
 - `src/pipeline/reports.ts` — `createMoneyFormatter`, `formatCostReport` and the table engine beneath them **(TD §7, Cost and Reporting Modules)**

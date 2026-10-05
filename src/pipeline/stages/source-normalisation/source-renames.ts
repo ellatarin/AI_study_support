@@ -154,7 +154,7 @@ function renameIfMoved({
  * @param args - The lectures and the directories and existing state to reconcile.
  * @param args.lectures - The target lectures.
  * @param args.dirs - The module's directories.
- * @param args.existingFolders - Existing workspace folder names, keyed by lecture date.
+ * @param args.existingBaseNames - The base names of the existing workspaces, keyed by lecture date.
  * @param args.existingPdfs - Existing `Final output/` PDF names, keyed by lecture date.
  * @returns The rename operations to apply, collision-safely.
  */
@@ -162,12 +162,12 @@ function renameIfMoved({
 export function planRenames({
 	lectures,
 	dirs,
-	existingFolders,
+	existingBaseNames,
 	existingPdfs,
 }: {
 	readonly lectures: readonly Lecture[];
 	readonly dirs: ModuleDirs;
-	readonly existingFolders: ReadonlyMap<string, string>;
+	readonly existingBaseNames: ReadonlyMap<string, string>;
 	readonly existingPdfs: ReadonlyMap<string, string>;
 }): readonly RenameOp[] {
 	return lectures.flatMap((lecture) =>
@@ -184,7 +184,7 @@ export function planRenames({
 			}),
 			renameIfMoved({
 				dir: dirs.processing,
-				source: existingFolders.get(lecture.lectureDate),
+				source: existingBaseNames.get(lecture.lectureDate),
 				target: lecture.baseName,
 			}),
 			renameIfMoved({

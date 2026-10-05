@@ -168,7 +168,7 @@ describe("manifest I/O", () => {
 			// writeManifest actually has to create.
 			const nested = workspaceRootFor({
 				moduleRoot: workspaceRoot,
-				folderName: testLecture.folderName,
+				baseName: testLecture.baseName,
 			});
 
 			await writeManifest({ workspaceRoot: nested, manifest: makeManifest() });

@@ -106,11 +106,11 @@ describe("executeCommand", () => {
 	}
 
 	/** Records one finished transcription, so a cost report has something to show. */
-	async function writeLectureManifest(workspace: string, folder?: string): Promise<void> {
+	async function writeLectureManifest(workspace: string, baseName?: string): Promise<void> {
 		await writeManifest({
 			workspaceRoot: workspace,
 			manifest: makeManifest({
-				...(folder === undefined ? {} : { workspaceFolderName: folder }),
+				...(baseName === undefined ? {} : { workspaceFolderName: baseName }),
 				stages: {
 					transcription: finishedEntry({
 						configUsed: { modelId: transcriptionModelId },
@@ -123,9 +123,9 @@ describe("executeCommand", () => {
 	}
 
 	/** A second workspace in the same module, for the multi-match cases. */
-	async function makeLectureWorkspace(folder: string): Promise<string> {
-		const workspace = workspaceRootFor({ moduleRoot, folderName: folder });
-		await writeLectureManifest(workspace, folder);
+	async function makeLectureWorkspace(baseName: string): Promise<string> {
+		const workspace = workspaceRootFor({ moduleRoot, baseName });
+		await writeLectureManifest(workspace, baseName);
 		return workspace;
 	}
 
@@ -216,7 +216,7 @@ describe("executeCommand", () => {
 	async function makeSecondLecture(): Promise<LectureMatch> {
 		return {
 			moduleRoot,
-			workspaceRoot: await makeLectureWorkspace(sameDateLecture.folderName),
+			workspaceRoot: await makeLectureWorkspace(sameDateLecture.baseName),
 			lectureNumber: sameDateLecture.number,
 			lectureTitle: sameDateLecture.title,
 		};
@@ -589,7 +589,7 @@ describe("executeCommand", () => {
 				moduleRoot: secondModuleRoot(),
 				workspaceRoot: workspaceRootFor({
 					moduleRoot: secondModuleRoot(),
-					folderName: sameDateLecture.folderName,
+					baseName: sameDateLecture.baseName,
 				}),
 				lectureNumber: sameDateLecture.number,
 				lectureTitle: sameDateLecture.title,
@@ -742,12 +742,12 @@ describe("executeCommand", () => {
 
 			expect(code).toBe(0);
 			// The same lecture, renamed for its new date by the pipeline's own rule.
-			const movedFolder = baseNameForLecture({
+			const movedBaseName = baseNameForLecture({
 				lectureNumber: testLecture.number,
 				title: testLecture.title,
 				lectureDate: changedDate,
 			});
-			const moved = workspaceRootFor({ moduleRoot, folderName: movedFolder });
+			const moved = workspaceRootFor({ moduleRoot, baseName: movedBaseName });
 			expect((await readManifest({ workspaceRoot: moved })).lectureDate).toBe(changedDate);
 		});
 

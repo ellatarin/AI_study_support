@@ -54,11 +54,11 @@ import { pendingStages, readManifest, writeManifest } from "./manifest.js";
 import { PipelineRunner } from "./runner.js";
 import { isStageComplete } from "./stages/pipeline-stage.js";
 
-// The runner never parses a workspace folder name — it is handed the path — so
+// The runner never parses a base name — it is handed the path — so
 // this suite uses short synthetic names rather than {@link testLecture}'s, which
 // would only make the assertions harder to read.
-const LECTURE_FOLDER = "L1";
-const EMPTY_FOLDER = "L-empty";
+const LECTURE_BASE_NAME = "L1";
+const EMPTY_BASE_NAME = "L-empty";
 
 // The instant a stage finished on some run before the one under test. Not an ISO
 // timestamp on purpose: nothing parses it, and the cases that seed it are
@@ -66,8 +66,8 @@ const EMPTY_FOLDER = "L-empty";
 // stamping its own, which a value that could plausibly be either would hide.
 const BEFORE_THIS_RUN = "earlier";
 
-/** The folder a lecture moves to once `transcript-structuring` has replaced its title. */
-const RENAMED_FOLDER = `${LECTURE_FOLDER} - ${aiDerivedLecture.title}`;
+/** The base name a lecture moves to once `transcript-structuring` has replaced its title. */
+const RENAMED_BASE_NAME = `${LECTURE_BASE_NAME} - ${aiDerivedLecture.title}`;
 
 // What `transcript-structuring` settles when it replaces the lecture's title: the new title, the
 // record of what the model derived, and the base name the files move onto. Two
@@ -75,7 +75,7 @@ const RENAMED_FOLDER = `${LECTURE_FOLDER} - ${aiDerivedLecture.title}`;
 const SETTLED_IDENTITY: LectureIdentityChanges = {
 	lectureTitle: aiDerivedLecture.title,
 	aiDerivedTitle: aiDerivedLecture.title,
-	workspaceFolderName: RENAMED_FOLDER,
+	workspaceFolderName: RENAMED_BASE_NAME,
 };
 
 // The runner is driven through a single configured stage throughout, so the
@@ -238,7 +238,7 @@ describe("PipelineRunner integration", () => {
 	beforeEach(async () => {
 		tempDir = await makeTempDir({ prefix: "runner-" });
 		moduleRoot = join(tempDir, testModuleName);
-		workspaceRoot = workspaceRootFor({ moduleRoot, folderName: LECTURE_FOLDER });
+		workspaceRoot = workspaceRootFor({ moduleRoot, baseName: LECTURE_BASE_NAME });
 		normaliseModule = vi.fn(() => Promise.resolve(undefined));
 		events = [];
 	});
@@ -917,22 +917,22 @@ describe("PipelineRunner integration", () => {
 			moduleA = join(tempDir, otherModuleName);
 			moduleB = join(tempDir, "Pharmacology");
 			moduleC = join(tempDir, "Microbiology");
-			const write = async (root: string, folder: string, manifest: Manifest): Promise<void> => {
+			const write = async (root: string, baseName: string, manifest: Manifest): Promise<void> => {
 				await writeManifest({
-					workspaceRoot: workspaceRootFor({ moduleRoot: root, folderName: folder }),
+					workspaceRoot: workspaceRootFor({ moduleRoot: root, baseName }),
 					manifest,
 				});
 			};
 			// Three lectures, differing in the ways these tests turn on: the test
 			// lecture, another in the same module on its own date, and a third in a
 			// second module sharing the test lecture's date.
-			await write(moduleA, LECTURE_FOLDER, manifestFor(testLecture));
+			await write(moduleA, LECTURE_BASE_NAME, manifestFor(testLecture));
 			await write(moduleA, "L2", manifestFor(otherLecture));
 			await write(moduleB, "L3", manifestFor(sameDateLecture));
 			// Two things the scan has to walk past: a workspace folder holding no
 			// manifest, and a module directory the pipeline has never processed, so
 			// it has no `Pipeline processing/` at all.
-			await mkdir(workspaceRootFor({ moduleRoot: moduleA, folderName: EMPTY_FOLDER }), {
+			await mkdir(workspaceRootFor({ moduleRoot: moduleA, baseName: EMPTY_BASE_NAME }), {
 				recursive: true,
 			});
 			await mkdir(moduleC, { recursive: true });
@@ -1013,10 +1013,10 @@ describe("PipelineRunner integration", () => {
 
 		beforeEach(async () => {
 			moduleA = join(tempDir, otherModuleName);
-			const workspaceIn = (folderName: string): string =>
-				workspaceRootFor({ moduleRoot: moduleA, folderName });
+			const workspaceIn = (baseName: string): string =>
+				workspaceRootFor({ moduleRoot: moduleA, baseName });
 			await writeManifest({
-				workspaceRoot: workspaceIn(LECTURE_FOLDER),
+				workspaceRoot: workspaceIn(LECTURE_BASE_NAME),
 				manifest: makeManifest({ lectureNumber: 1 }),
 			});
 			await writeManifest({
@@ -1060,14 +1060,14 @@ describe("PipelineRunner integration", () => {
 			// might take them: "Lecture 10" sorts before "Lecture 2" lexicographically,
 			// and neither matches the order the dates put them in.
 			const byDate = [
-				{ folder: "Lecture 10 - Autumn - 2025-09-01", lectureDate: "2025-09-01" },
-				{ folder: "Lecture 2 - Winter - 2025-11-20", lectureDate: "2025-11-20" },
-				{ folder: "Lecture 1 - Spring - 2025-12-05", lectureDate: "2025-12-05" },
+				{ baseName: "Lecture 10 - Autumn - 2025-09-01", lectureDate: "2025-09-01" },
+				{ baseName: "Lecture 2 - Winter - 2025-11-20", lectureDate: "2025-11-20" },
+				{ baseName: "Lecture 1 - Spring - 2025-12-05", lectureDate: "2025-12-05" },
 			];
 			const moduleB = join(tempDir, "Chronology");
-			for (const { folder, lectureDate } of byDate) {
+			for (const { baseName, lectureDate } of byDate) {
 				await writeManifest({
-					workspaceRoot: workspaceRootFor({ moduleRoot: moduleB, folderName: folder }),
+					workspaceRoot: workspaceRootFor({ moduleRoot: moduleB, baseName }),
 					manifest: makeManifest({ lectureDate }),
 				});
 			}
@@ -1086,7 +1086,7 @@ describe("PipelineRunner integration", () => {
 		});
 
 		it("should run every lecture and skip the folder when one holds no manifest", async () => {
-			await mkdir(workspaceRootFor({ moduleRoot: moduleA, folderName: EMPTY_FOLDER }), {
+			await mkdir(workspaceRootFor({ moduleRoot: moduleA, baseName: EMPTY_BASE_NAME }), {
 				recursive: true,
 			});
 
@@ -1146,7 +1146,7 @@ describe("PipelineRunner integration", () => {
 			// manifest — all skipped by the reader.
 			await mkdir(join(runsDir, "nested"), { recursive: true });
 			await writeFile(join(runsDir, "corrupt.json"), corruptJson);
-			await mkdir(workspaceRootFor({ moduleRoot, folderName: EMPTY_FOLDER }), { recursive: true });
+			await mkdir(workspaceRootFor({ moduleRoot, baseName: EMPTY_BASE_NAME }), { recursive: true });
 		});
 
 		it("should return the current pipeline cost section when reporting all lectures", async () => {
@@ -1359,7 +1359,7 @@ describe("PipelineRunner integration", () => {
 		}
 
 		beforeEach(async () => {
-			renamedWorkspaceRoot = workspaceRootFor({ moduleRoot, folderName: RENAMED_FOLDER });
+			renamedWorkspaceRoot = workspaceRootFor({ moduleRoot, baseName: RENAMED_BASE_NAME });
 			await writeManifest({ workspaceRoot, manifest: makeManifest() });
 		});
 

@@ -1,5 +1,5 @@
 /**
- * Title and folder-name derivation for lecture files.
+ * Title and base name derivation for lecture files.
  *
  * User-supplied lecture filenames vary widely: the date is always present, but
  * a module-code prefix, day name, lecture-number token, trailing artefacts
@@ -7,7 +7,7 @@
  * {@link extractProvisionalTitle} recovers a best-effort title by removing
  * whichever of those noise elements it finds; the result may be thin or empty,
  * and `transcript-structuring`'s LLM later judges its adequacy against the transcript.
- * {@link lectureFolderName} builds the canonical workspace name, and
+ * {@link lectureBaseName} builds the base name, and
  * {@link filenameSafe} sanitises any title before it reaches the filesystem.
  *
  * See technical-design.md §3 (naming) and §4.4 (path validation).
@@ -61,7 +61,7 @@ const LECTURE_NUMBER_TOKEN = /\bLectures?\s*\d+\b/gi;
 
 /**
  * Separator debris at either end, left where a stripped token used to be: a
- * canonical `Lecture 1 - Cell Injury - 2025-10-10` loses its number and date and
+ * base name `Lecture 1 - Cell Injury - 2025-10-10` loses its number and date and
  * comes back as `- Cell Injury -`.
  */
 const EDGE_SEPARATORS = /^[\s-]+|[\s-]+$/g;
@@ -114,7 +114,7 @@ function stripControlChars(text: string): string {
  * `transcript-structuring`'s LLM later judges whether the title is meaningful.
  *
  * **The lecturer's capitalisation is kept exactly as they typed it.** The title
- * becomes the workspace folder name and the final PDF name, so re-casing it
+ * becomes part of the base name, which the final PDF also carries, so re-casing it
  * misspells the subject in both — and no rule can tell `mRNA` from an ordinary
  * word, since either may mix cases. The cost is that a filename typed in lower
  * case yields a lower-case title: names are exactly as consistent as the
@@ -122,7 +122,7 @@ function stripControlChars(text: string): string {
  *
  * The separator strip is what lets a name this module built be read back: a
  * lecture whose sources were renamed by a run that then stopped before writing
- * its manifest is re-read from its canonical filename on the next run, and must
+ * its manifest is re-read from its base name on the next run, and must
  * yield the title that name was built from (technical-design.md §3.2).
  *
  * @param args - The filename to read, and what counts as a module prefix.
@@ -164,8 +164,8 @@ export function extractProvisionalTitle({
 /**
  * Removes characters that are unsafe in a filesystem name.
  *
- * Titles reach the filesystem as workspace folder names, source-file renames,
- * and the final PDF name; they originate from untrusted user filenames or LLM
+ * Titles reach the filesystem in the base name, which the workspace, the renamed
+ * source files and the final PDF carry; they originate from untrusted user filenames or LLM
  * output. This strips null bytes and ASCII control characters, path separators,
  * and directory-traversal segments (`.`, `..`), collapses whitespace, and trims
  * surrounding whitespace and dots.
@@ -199,7 +199,7 @@ export function filenameSafe(title: string): string {
 }
 
 /**
- * The three things a lecture's canonical folder/file name is built from.
+ * The three things a lecture's base name is built from.
  *
  * Not the lecture's identity, which is what `types/pipeline.ts` records and is a
  * wider thing: a recorded identity carries an ISO date string and both a
@@ -207,7 +207,7 @@ export function filenameSafe(title: string): string {
  * and a real `Date`. The two were both called `LectureIdentity`, which read as
  * one type declared twice.
  */
-type LectureNameParts = {
+type BaseNameParts = {
 	readonly lectureNumber: number;
 	readonly title: string;
 	/**
@@ -220,27 +220,27 @@ type LectureNameParts = {
 };
 
 /**
- * Builds the canonical `Lecture N - Title - YYYY-MM-DD` name.
+ * Builds the titled `Lecture N - Title - YYYY-MM-DD` base name.
  *
- * Used for both the workspace folder and the final PDF (which appends `.pdf`).
+ * Used for both the workspace and the final PDF (which appends `.pdf`).
  * The title is passed through {@link filenameSafe} so the assembled name is
  * always filesystem-safe.
  *
  * @param parts - The lecture number, title, and date.
- * @returns The canonical folder/file name (without extension).
+ * @returns The base name (without extension).
  * @throws Error when the title sanitises to empty (see {@link filenameSafe}).
  *
  * @example
- * lectureFolderName({ lectureNumber: 1, title: "Immune System", date });
+ * titledBaseName({ lectureNumber: 1, title: "Immune System", date });
  * // → "Lecture 1 - Immune System - 2025-10-10"
  */
-export function lectureFolderName(parts: LectureNameParts): string {
+export function titledBaseName(parts: BaseNameParts): string {
 	const { lectureNumber, title, date } = parts;
 	return `Lecture ${lectureNumber} - ${filenameSafe(title)} - ${formatDateISO(date)}`;
 }
 
 /**
- * The canonical `Lecture N - Title - YYYY-MM-DD` base name, falling back to
+ * The `Lecture N - Title - YYYY-MM-DD` base name, falling back to
  * `Lecture N - YYYY-MM-DD` when the provisional title is empty
  * (technical-design.md §3.2, §4.7).
  *
@@ -256,10 +256,10 @@ export function lectureFolderName(parts: LectureNameParts): string {
  * lectureBaseName({ lectureNumber: 2, title: "", date });
  * // → "Lecture 2 - 2025-10-17"
  */
-export function lectureBaseName(parts: LectureNameParts): string {
+export function lectureBaseName(parts: BaseNameParts): string {
 	const { lectureNumber, title, date } = parts;
 	if (title === "") {
 		return `Lecture ${lectureNumber} - ${formatDateISO(date)}`;
 	}
-	return lectureFolderName(parts);
+	return titledBaseName(parts);
 }

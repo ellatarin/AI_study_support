@@ -23,20 +23,20 @@ function workspacesOn(dates: readonly string[]): ReadonlyMap<string, ExistingWor
 	return new Map(
 		dates.map((lectureDate) => [
 			lectureDate,
-			{ folder: `workspace ${lectureDate}`, manifest: makeManifest({ lectureDate }) },
+			{ baseName: `workspace ${lectureDate}`, manifest: makeManifest({ lectureDate }) },
 		]),
 	);
 }
 
 /**
- * The folders {@link findOrphanedWorkspaces} would put to the user, in the order it asks.
+ * The workspaces {@link findOrphanedWorkspaces} would put to the user, in the order it asks.
  *
  * @param args - The state to compare.
  * @param args.workspaceDates - The dates workspaces exist for.
  * @param args.sourceDates - The dates a video recording and slide deck are still present for.
- * @returns The orphaned workspace folder names.
+ * @returns The base names of the orphaned workspaces.
  */
-function orphanedWorkspaceFolders({
+function baseNamesOfOrphanedWorkspaces({
 	workspaceDates,
 	sourceDates,
 }: {
@@ -46,13 +46,13 @@ function orphanedWorkspaceFolders({
 	return findOrphanedWorkspaces({
 		workspaces: workspacesOn(workspaceDates),
 		presentLectureDates: new Set(sourceDates),
-	}).map((orphanedWorkspace) => orphanedWorkspace.folder);
+	}).map((orphanedWorkspace) => orphanedWorkspace.baseName);
 }
 
 describe("findOrphanedWorkspaces", () => {
 	it("should find nothing when every workspace still has its source pair", () => {
 		expect(
-			orphanedWorkspaceFolders({
+			baseNamesOfOrphanedWorkspaces({
 				workspaceDates: [CELL_INJURY_DATE, VACCINATION_DATE],
 				sourceDates: [CELL_INJURY_DATE, VACCINATION_DATE],
 			}),
@@ -61,7 +61,7 @@ describe("findOrphanedWorkspaces", () => {
 
 	it("should find the workspace whose date has no sources left when one is removed", () => {
 		expect(
-			orphanedWorkspaceFolders({
+			baseNamesOfOrphanedWorkspaces({
 				workspaceDates: [CELL_INJURY_DATE, VACCINATION_DATE],
 				sourceDates: [VACCINATION_DATE],
 			}),
@@ -70,7 +70,7 @@ describe("findOrphanedWorkspaces", () => {
 
 	it("should list orphaned workspaces in date order when several workspaces have lost their sources", () => {
 		expect(
-			orphanedWorkspaceFolders({
+			baseNamesOfOrphanedWorkspaces({
 				workspaceDates: [VACCINATION_DATE, CELL_INJURY_DATE, IMMUNITY_DATE],
 				sourceDates: [],
 			}),
@@ -83,7 +83,7 @@ describe("findOrphanedWorkspaces", () => {
 
 	it("should find nothing when there are no workspaces at all", () => {
 		expect(
-			orphanedWorkspaceFolders({ workspaceDates: [], sourceDates: [CELL_INJURY_DATE] }),
+			baseNamesOfOrphanedWorkspaces({ workspaceDates: [], sourceDates: [CELL_INJURY_DATE] }),
 		).toEqual([]);
 	});
 });

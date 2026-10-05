@@ -569,7 +569,7 @@ export type TestLecture = {
 	readonly number: number;
 	readonly date: string;
 	readonly title: string;
-	readonly folderName: string;
+	readonly baseName: string;
 	/** The source video {@link makeLectureTree} writes for this lecture. */
 	readonly videoRecordingFile: string;
 	/** The source slide deck it writes alongside. */
@@ -580,28 +580,28 @@ export type TestLecture = {
 
 /**
  * Names a lecture the way `source-normalisation` would, so a fixture can never describe a
- * lecture the pipeline would not produce — a folder name that disagreed with its
+ * lecture the pipeline would not produce — a base name that disagreed with its
  * own date would fail suites for a reason unrelated to what they test.
  *
- * The source video, slide deck and finished PDF all share that folder name, as
+ * The source video, slide deck and finished PDF all share that base name, as
  * `source-normalisation` leaves them, so they are derived here too rather than reassembled from
- * `${folderName}.mp4` wherever a suite happens to need one.
+ * `${baseName}.mp4` wherever a suite happens to need one.
  *
  * @param lecture - The lecture's number, date, and title.
- * @returns The lecture with its canonical folder and file names filled in.
+ * @returns The lecture with its base name and file names filled in.
  */
 function describeLecture(lecture: Pick<TestLecture, "number" | "date" | "title">): TestLecture {
-	const folderName = baseNameForLecture({
+	const baseName = baseNameForLecture({
 		lectureNumber: lecture.number,
 		title: lecture.title,
 		lectureDate: lecture.date,
 	});
 	return {
 		...lecture,
-		folderName,
-		videoRecordingFile: `${folderName}.mp4`,
-		slideDeckFile: `${folderName}.pdf`,
-		outputFile: `${folderName}.pdf`,
+		baseName,
+		videoRecordingFile: `${baseName}.mp4`,
+		slideDeckFile: `${baseName}.pdf`,
+		outputFile: `${baseName}.pdf`,
 	};
 }
 
@@ -609,7 +609,7 @@ function describeLecture(lecture: Pick<TestLecture, "number" | "date" | "title">
  * The lecture the suites use when they need a concrete one.
  *
  * Its identity was restated across a dozen files — the date in eleven, the
- * folder name in ten, the title in nine — so changing the example meant a sweep,
+ * base name in ten, the title in nine — so changing the example meant a sweep,
  * and any suite that updated one part but not another broke confusingly.
  *
  * Suites that *test* the naming keep their own literals: asserting a derived
@@ -638,16 +638,16 @@ export type LectureSources = {
 };
 
 /**
- * Raw sources, and the canonical names `source-normalisation` gives them.
+ * Raw sources, and the base names `source-normalisation` gives them.
  *
  * Two suites work in these terms: `source-normalisation`'s own, which lays them out on disk,
  * and the resolution rules', which reads the same names without one. They must
  * agree about what the rule produces, so the names are stated once.
  *
- * Unlike {@link describeLecture}, the canonical names below are **written out
+ * Unlike {@link describeLecture}, the base names below are **written out
  * rather than derived**. Both suites test the naming and numbering rules, and an
  * expectation derived from {@link baseNameForLecture} would assert the rule
- * against itself. That some of these strings coincide with a `folderName`
+ * against itself. That some of these strings coincide with a `baseName`
  * {@link describeLecture} computes is a coincidence of the example, not a shared
  * fact: one is a convenience for suites that do not care how a lecture is named,
  * the other is the assertion.
@@ -1040,7 +1040,7 @@ export function makeManifest(overrides: Partial<Manifest> = {}): Manifest {
 		lectureTitle: testLecture.title,
 		userTitle: null,
 		aiDerivedTitle: null,
-		workspaceFolderName: testLecture.folderName,
+		workspaceFolderName: testLecture.baseName,
 		createdAt: `${testLecture.date}T00:00:00.000Z`,
 		updatedAt: `${testLecture.date}T00:00:00.000Z`,
 		stages: pendingStages(),
@@ -1120,7 +1120,7 @@ export function stubElevenLabsApi(): void {
 
 /**
  * Creates a temporary module tree laid out the way the pipeline expects —
- * `<moduleRoot>/Pipeline processing/<folderName>` — and returns both roots.
+ * `<moduleRoot>/Pipeline processing/<baseName>` — and returns both roots.
  *
  * Stage tests need this exact nesting rather than any two directories, because
  * {@link makeStageContext} derives `moduleRoot` two levels above the workspace
@@ -1128,18 +1128,18 @@ export function stubElevenLabsApi(): void {
  *
  * @param args - The layout inputs.
  * @param args.prefix - Prefix for the temporary directory name, identifying the suite.
- * @param args.folderName - The workspace folder name; defaults to {@link testLecture}'s.
+ * @param args.baseName - The lecture's base name; defaults to {@link testLecture}'s.
  * @returns The module root and the workspace root inside it.
  */
 export async function makeWorkspaceTree({
 	prefix,
-	folderName = testLecture.folderName,
+	baseName = testLecture.baseName,
 }: {
 	readonly prefix: string;
-	readonly folderName?: string;
+	readonly baseName?: string;
 }): Promise<{ readonly moduleRoot: string; readonly workspaceRoot: string }> {
 	const moduleRoot = await makeTempDir({ prefix });
-	const workspaceRoot = workspaceRootFor({ moduleRoot, folderName });
+	const workspaceRoot = workspaceRootFor({ moduleRoot, baseName });
 	await mkdir(workspaceRoot, { recursive: true });
 	return { moduleRoot, workspaceRoot };
 }
@@ -1226,7 +1226,7 @@ export async function makeLectureTree({ prefix }: { readonly prefix: string }): 
 	const tempDir = await makeTempDir({ prefix });
 	const moduleRoot = join(tempDir, testModuleName);
 	const dirs = moduleDirs({ moduleRoot });
-	const workspaceRoot = workspaceRootFor({ moduleRoot, folderName: testLecture.folderName });
+	const workspaceRoot = workspaceRootFor({ moduleRoot, baseName: testLecture.baseName });
 
 	for (const dir of [...datedFileDirs({ dirs }), workspaceRoot]) {
 		await mkdir(dir, { recursive: true });

@@ -190,7 +190,7 @@ async function reconcileManifest({
 	readonly moduleRoot: string;
 	readonly isExisting: boolean;
 }): Promise<"created" | "updated" | "unchanged"> {
-	const workspaceRoot = workspaceRootFor({ moduleRoot, folderName: lecture.baseName });
+	const workspaceRoot = workspaceRootFor({ moduleRoot, baseName: lecture.baseName });
 	if (!isExisting) {
 		await writeManifest({ workspaceRoot, manifest: initialManifest(lecture) });
 		return "created";
@@ -314,9 +314,9 @@ export function createSourceNormalisationStage({
 		const renames = planRenames({
 			lectures,
 			dirs,
-			existingFolders: projectWorkspaces({
+			existingBaseNames: projectWorkspaces({
 				workspaces: existingWorkspaces,
-				take: (workspace) => workspace.folder,
+				take: (workspace) => workspace.baseName,
 			}),
 			existingPdfs,
 		});
@@ -333,7 +333,7 @@ export function createSourceNormalisationStage({
 			});
 			if (action !== "unchanged") {
 				logger.info(
-					{ folder: lecture.baseName, lectureNumber: lecture.lectureNumber, action },
+					{ baseName: lecture.baseName, lectureNumber: lecture.lectureNumber, action },
 					"Reconciled lecture workspace",
 				);
 			}

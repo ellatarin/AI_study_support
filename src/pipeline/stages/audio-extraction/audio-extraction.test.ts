@@ -175,13 +175,11 @@ describe("createAudioExtractionStage", () => {
 	});
 
 	it("should locate the video recording when its extension is not .mp4", async () => {
-		await writeVideoRecording(`${testLecture.folderName}.mov`);
+		await writeVideoRecording(`${testLecture.baseName}.mov`);
 
 		const input = await makeStage().getInput(contextWith());
 
-		expect(input.videoRecordingPath).toBe(
-			join(videoRecordingsDir, `${testLecture.folderName}.mov`),
-		);
+		expect(input.videoRecordingPath).toBe(join(videoRecordingsDir, `${testLecture.baseName}.mov`));
 	});
 
 	it("should fail before invoking ffmpeg when the video recording is missing", async () => {
@@ -191,7 +189,7 @@ describe("createAudioExtractionStage", () => {
 
 	it("should fail before invoking ffmpeg when two video recordings share the workspace base name", async () => {
 		await writeVideoRecording(testLecture.videoRecordingFile);
-		await writeVideoRecording(`${testLecture.folderName}.mov`);
+		await writeVideoRecording(`${testLecture.baseName}.mov`);
 
 		await expect(makeStage().getInput(contextWith())).rejects.toThrow(AudioExtractionError);
 		expect(ffmpegMock).not.toHaveBeenCalled();

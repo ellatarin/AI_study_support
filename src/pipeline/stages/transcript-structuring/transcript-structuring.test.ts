@@ -115,10 +115,10 @@ describe("createTranscriptStructuringStage", () => {
 
 	/** Whether the stage left a manifest anywhere it might have written one. */
 	async function anyManifestWritten(): Promise<boolean> {
-		const folders = [testLecture.folderName, aiDerivedLecture.folderName];
+		const baseNames = [testLecture.baseName, aiDerivedLecture.baseName];
 		const written = await Promise.all(
-			folders.map((folder) =>
-				pathExists(manifestPath({ workspaceRoot: join(dirname(workspaceRoot()), folder) })),
+			baseNames.map((baseName) =>
+				pathExists(manifestPath({ workspaceRoot: join(dirname(workspaceRoot()), baseName) })),
 			),
 		);
 		return written.includes(true);
@@ -233,7 +233,7 @@ describe("createTranscriptStructuringStage", () => {
 			expect(result.identityChanges).toEqual({
 				aiDerivedTitle: aiDerivedLecture.title,
 				lectureTitle: aiDerivedLecture.title,
-				workspaceFolderName: aiDerivedLecture.folderName,
+				workspaceFolderName: aiDerivedLecture.baseName,
 			});
 		});
 

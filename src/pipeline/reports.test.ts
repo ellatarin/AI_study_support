@@ -528,14 +528,14 @@ describe("formatRunSummary", () => {
 
 const lecture = ({
 	moduleRoot,
-	folder,
+	baseName,
 	overallStatus,
 }: {
 	readonly moduleRoot: string;
-	readonly folder: string;
+	readonly baseName: string;
 	readonly overallStatus: OverallStatus;
 }): RunSummary => ({
-	workspaceRoot: workspaceRootFor({ moduleRoot, folderName: folder }),
+	workspaceRoot: workspaceRootFor({ moduleRoot, baseName }),
 	runId: testRunId,
 	startedAt: "2025-10-10T09:00:00.000Z",
 	endedAt: "2025-10-10T09:30:00.000Z",
@@ -545,13 +545,13 @@ const lecture = ({
 
 const succeededLecture = lecture({
 	moduleRoot: testModuleRoot,
-	folder: testLecture.folderName,
+	baseName: testLecture.baseName,
 	overallStatus: "success",
 });
 
 const failedLecture = lecture({
 	moduleRoot: testModuleRoot,
-	folder: otherLecture.folderName,
+	baseName: otherLecture.baseName,
 	overallStatus: "failed",
 });
 
@@ -559,7 +559,7 @@ const failedLecture = lecture({
 // differs from the first's. Its own identity is not shared.
 const otherModuleLecture = lecture({
 	moduleRoot: otherModuleRoot,
-	folder: "Lecture 1 - Antigens - 2025-10-11",
+	baseName: "Lecture 1 - Antigens - 2025-10-11",
 	overallStatus: "success",
 });
 
@@ -622,7 +622,7 @@ describe("formatBatchSummary", () => {
 		// the two hold different lectures.
 		const namesake = lecture({
 			moduleRoot: join(otherModuleRoot, testModuleName),
-			folder: otherLecture.folderName,
+			baseName: otherLecture.baseName,
 			overallStatus: "failed",
 		});
 

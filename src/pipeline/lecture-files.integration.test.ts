@@ -15,7 +15,7 @@ describe("lecture files", () => {
 
 	/** Where the lecture's workspace lands once it has been renamed. */
 	const renamedWorkspaceRoot = (): string =>
-		workspaceRootFor({ moduleRoot, folderName: aiDerivedLecture.folderName });
+		workspaceRootFor({ moduleRoot, baseName: aiDerivedLecture.baseName });
 
 	/** Moves the lecture laid out in `beforeEach` onto the AI-derived name. */
 	const renameToNewBase = (): Promise<string> =>
@@ -23,7 +23,7 @@ describe("lecture files", () => {
 			dirs,
 			workspaceRoot,
 			lectureDate: testLecture.date,
-			baseName: aiDerivedLecture.folderName,
+			baseName: aiDerivedLecture.baseName,
 		});
 
 	beforeEach(async () => {
@@ -54,7 +54,7 @@ describe("lecture files", () => {
 		});
 
 		it("should return the file when its title carries a date of its own", async () => {
-			// A canonical name puts the title before the date, and titles come from
+			// A base name puts the title before the date, and titles come from
 			// lecturer filenames or `transcript-structuring`'s LLM — so one can name a date too.
 			const lectureDate = "2025-12-05";
 			const named = `Lecture 4 - Cohort 01-02-2019 Results - ${lectureDate}.mp4`;
@@ -109,12 +109,10 @@ describe("lecture files", () => {
 		}) => {
 			await renameToNewBase();
 
-			expect(await pathExists(join(dirs[key], `${aiDerivedLecture.folderName}${extension}`))).toBe(
+			expect(await pathExists(join(dirs[key], `${aiDerivedLecture.baseName}${extension}`))).toBe(
 				true,
 			);
-			expect(await pathExists(join(dirs[key], `${testLecture.folderName}${extension}`))).toBe(
-				false,
-			);
+			expect(await pathExists(join(dirs[key], `${testLecture.baseName}${extension}`))).toBe(false);
 		});
 
 		it("should move the workspace and everything in it when the lecture moves", async () => {
@@ -135,10 +133,10 @@ describe("lecture files", () => {
 
 			await renameToNewBase();
 
-			expect(
-				await pathExists(join(dirs.videoRecording, `${aiDerivedLecture.folderName}.mp4`)),
-			).toBe(true);
-			expect(await pathExists(join(dirs.finalOutput, `${aiDerivedLecture.folderName}.pdf`))).toBe(
+			expect(await pathExists(join(dirs.videoRecording, `${aiDerivedLecture.baseName}.mp4`))).toBe(
+				true,
+			);
+			expect(await pathExists(join(dirs.finalOutput, `${aiDerivedLecture.baseName}.pdf`))).toBe(
 				false,
 			);
 		});

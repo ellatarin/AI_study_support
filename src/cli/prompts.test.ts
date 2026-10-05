@@ -44,7 +44,7 @@ function matchIn({
 }): LectureMatch {
 	return {
 		moduleRoot,
-		workspaceRoot: workspaceRootFor({ moduleRoot, folderName: lecture.folderName }),
+		workspaceRoot: workspaceRootFor({ moduleRoot, baseName: lecture.baseName }),
 		lectureNumber: lecture.number,
 		lectureTitle: lecture.title,
 	};
