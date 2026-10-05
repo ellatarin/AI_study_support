@@ -1,8 +1,8 @@
-# 02 — Pilot: reword the shared pipeline types
+# 03 — Pilot: reword the shared pipeline types
 
 **What to build:** the comments on the shared pipeline types (stage contract, stage result, cost, manifest and run-log shapes) reworded to `../spec.md`. These types hold the core vocabulary, so this ticket calibrates the style before the other areas start. About 580 comment lines.
 
-**Blocked by:** 01
+**Blocked by:** 02
 
 **Status:** ready-for-agent
 

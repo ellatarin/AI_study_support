@@ -1,9 +1,9 @@
-# 04 — Reword layout and config
+# 05 — Reword layout and config
 
 **What to build:** the comments on the workspace layout (what each stage owns on disk) and the pipeline configuration reworded to `../spec.md`, source and tests together. About 820 comment lines.
 
-**Blocked by:** 02
+**Blocked by:** 03
 
 **Status:** ready-for-agent
 
-- [ ] Every criterion in `../spec.md`, "Criteria every rewording ticket shares", and every correction recorded on ticket 02.
+- [ ] Every criterion in `../spec.md`, "Criteria every rewording ticket shares", and every correction recorded on ticket 03.

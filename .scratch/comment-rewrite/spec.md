@@ -21,4 +21,4 @@ Agreed 2026-10-04. About 8,800 comment lines, split into tickets by area, each t
 - [ ] References to sections of the technical design, the plan and the requirements are kept.
 - [ ] Lint-disable comments keep their justification, reworded if needed.
 - [ ] Prompt text is not touched: prompts are carried over word for word.
-- [ ] No code changes. The commit gate passes.
+- [ ] No code changes: ticket 02 made every rename. The commit gate passes.
