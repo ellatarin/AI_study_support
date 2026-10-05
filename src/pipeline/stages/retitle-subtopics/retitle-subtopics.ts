@@ -16,7 +16,7 @@ import {
 } from "../model-stage.js";
 import { sendJsonWithResends } from "../panel-runs.js";
 import { readTranscriptAndDivision, type TranscriptAndDivision } from "../stage-input.js";
-import { type DivisionOutput, writeDivisionWithRecord } from "../stage-output.js";
+import { type DivisionOutput, writeDivisionWithStageRecord } from "../stage-output.js";
 import { buildRetitleMessages } from "./retitle-subtopics.prompt.js";
 
 /**
@@ -111,7 +111,7 @@ type TitleChanges = {
  * not a change.
  *
  * @param retitlings - Each subtopic of the chosen division with its new title, in order.
- * @returns The record written beside the retitled division.
+ * @returns The stage record written beside the retitled division.
  */
 function titleChanges(retitlings: readonly Retitling[]): TitleChanges {
 	const changed = [...retitlings.entries()].flatMap(([index, { subtopic, newTitle }]) =>
@@ -172,11 +172,11 @@ async function retitle({
 		sendGate,
 		use: ({ titles }) => pairTitles({ subtopics: input.subtopics, titles }),
 	});
-	return writeDivisionWithRecord({
+	return writeDivisionWithStageRecord({
 		stageId: STAGE_ID,
 		context,
 		subtopics: sent.reply.map(({ subtopic, newTitle }) => ({ ...subtopic, title: newTitle })),
-		record: titleChanges(sent.reply),
+		stageRecord: titleChanges(sent.reply),
 		cost: sent.cost,
 	});
 }

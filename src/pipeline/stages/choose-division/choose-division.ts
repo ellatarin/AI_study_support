@@ -13,7 +13,7 @@ import type { Subtopic } from "../division.js";
 import { distanceFromVote, panelVote } from "../panel-vote.js";
 import { createPipelineStage } from "../pipeline-stage.js";
 import { readTranscriptAndRuns } from "../stage-input.js";
-import { type DivisionOutput, writeDivisionWithRecord } from "../stage-output.js";
+import { type DivisionOutput, writeDivisionWithStageRecord } from "../stage-output.js";
 
 const STAGE_ID = "choose-division";
 
@@ -201,7 +201,7 @@ function readInput(context: StageContext): Promise<ChooseDivisionInput> {
 
 /**
  * Builds the `choose-division` stage: the deepened runs vote, and the run
- * nearest the vote is written as the lecture's division, with a record beside
+ * nearest the vote is written as the lecture's division, with a stage record beside
  * it of which run was chosen and how far it stands from the vote. No model is
  * called (technical-design.md §5, `choose-division`).
  *
@@ -225,11 +225,11 @@ export function createChooseDivisionStage({
 				runs: input.runs,
 				bar: context.config.division.bar,
 			});
-			return writeDivisionWithRecord({
+			return writeDivisionWithStageRecord({
 				stageId: STAGE_ID,
 				context,
 				subtopics,
-				record: choice,
+				stageRecord: choice,
 				cost: null,
 			});
 		},

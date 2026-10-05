@@ -279,9 +279,9 @@ type StageFiles = {
   outputLocation: StageOutputLocation
   outputFile: string | null
   markdownVersion: string | null
-  record: string | null
+  stageRecord: string | null
 }
-// `record` is a small JSON file beside `outputFile` saying how the stage reached it — which run a panel chose
+// `stageRecord` is a small JSON file beside `outputFile` saying how the stage reached it — which run a panel chose
 // and why, or which titles changed. choose-division, retitle-subtopics and define-topics declare one
 // (§4.5, "How a result was reached is kept beside the result"). It is recorded in `filesWritten` and cleared
 // with the output, so the two cannot come apart.
@@ -328,9 +328,9 @@ stageMarkdownVersionEntry(stageId: StageWithMarkdownVersion): string
 stageMarkdownVersionPath(query: { workspaceRoot: string; stageId: StageWithMarkdownVersion }): string
 // The view's path relative to the workspace and absolute, answering for the view exactly as the two above
 // answer for the output. Both are recorded in `filesWritten`, so a view deleted by hand re-runs its stage.
-type StageWithRecord = /* the keys of STAGE_FILES whose record is a string */
-stageRecordEntry(stageId: StageWithRecord): string
-stageRecordPath(query: { workspaceRoot: string; stageId: StageWithRecord }): string
+type StageWithStageRecord = /* the keys of STAGE_FILES whose stageRecord is a string */
+stageRecordEntry(stageId: StageWithStageRecord): string
+stageRecordPath(query: { workspaceRoot: string; stageId: StageWithStageRecord }): string
 // The same three for the record.
 type ResolvedStageOutput =
   | { root: "workspace"; directories: readonly string[] }
@@ -442,15 +442,15 @@ writeStageOutputWithMarkdownVersion(args: {
 // both entries, and `path` is still the machine-readable one. A separate function rather than an optional
 // argument, because the parameter type is what ties supplying a view to a stage that declares one — a stage
 // that does not cannot be named here, and one that does cannot forget to render it.
-writeStageOutputWithRecord(args: {
-  stageId: StageWithOutputFile & StageWithRecord
+writeStageOutputWithStageRecord(args: {
+  stageId: StageWithOutputFile & StageWithStageRecord
   workspaceRoot: string
   value: unknown
-  record: unknown
+  stageRecord: unknown
 }): Promise<RecordedStageOutput>
-// The same act for a stage that keeps a record of how it reached its output: the output and the record are
-// each written as JSON, the record beside the output, and both entries are returned. Every stage keeping a
-// record writes JSON, so both are given as values. The two writers share the step that writes an output and
+// The same act for a stage that keeps a stage record of how it reached its output: the output and the stage
+// record are each written as JSON, the stage record beside the output, and both entries are returned. Every
+// stage keeping a stage record writes JSON, so both are given as values. The two writers share the step that writes an output and
 // one file beside it.
 ```
 
@@ -1189,7 +1189,7 @@ readStageDivision(args: { context: StageContext; stageId: StageWithOutputFile; p
 
 // src/pipeline/stages/stage-output.ts — shared by choose-division and retitle-subtopics, whose output is a division
 type DivisionOutput = { subtopics: readonly Subtopic[] }
-writeDivisionWithRecord(args: { stageId: StageWithRecord; context: StageContext; subtopics: readonly Subtopic[]; record: unknown; cost: StageCost | null }):
+writeDivisionWithStageRecord(args: { stageId: StageWithStageRecord; context: StageContext; subtopics: readonly Subtopic[]; stageRecord: unknown; cost: StageCost | null }):
   Promise<StageResult<DivisionOutput>>
 // Writes the division and its record beside it (§4.5) and gives the stage's result.
 readTranscriptAndRuns(args: { context; panelStage: "initial-subtopic-splitting" | "deepen-subtopic-splitting"; fail }):

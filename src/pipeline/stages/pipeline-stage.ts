@@ -14,7 +14,7 @@ import { createStageLogger } from "../../utils/logger.js";
 import {
 	type StageWithMarkdownVersion,
 	type StageWithOutputFile,
-	type StageWithRecord,
+	type StageWithStageRecord,
 	stageDirectoryPaths,
 	stageMarkdownVersionEntry,
 	stageMarkdownVersionPath,
@@ -238,34 +238,34 @@ export function writeStageOutputWithMarkdownVersion({
 }
 
 /**
- * Writes the file a stage owns and the record beside it of how the stage
+ * Writes the file a stage owns and the stage record beside it of how the stage
  * reached it, and names both as `filesWritten` records them (technical-design.md
- * §3.3, §4.5). The record is written with the output rather than into the
+ * §3.3, §4.5). The stage record is written with the output rather than into the
  * manifest, so it is replaced, and cleared, with the output it describes. Both
- * are JSON, as every stage keeping a record writes it, so both are given as values.
+ * are JSON, as every stage keeping a stage record writes it, so both are given as values.
  *
- * @param args - The stage, the workspace, the output and its record.
- * @param args.stageId - The stage whose output this is; only a stage that keeps a record.
+ * @param args - The stage, the workspace, the output and its stage record.
+ * @param args.stageId - The stage whose output this is; only a stage that keeps a stage record.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
  * @param args.value - The output, written as JSON.
- * @param args.record - How the stage reached the output, written as JSON.
+ * @param args.stageRecord - How the stage reached the output, written as JSON.
  * @returns The absolute path of the output, and the `filesWritten` naming both files.
  */
-export function writeStageOutputWithRecord({
+export function writeStageOutputWithStageRecord({
 	value,
-	record,
+	stageRecord,
 	...target
 }: StageOutputTarget & {
-	readonly stageId: StageWithRecord;
+	readonly stageId: StageWithStageRecord;
 	readonly value: unknown;
-	readonly record: unknown;
+	readonly stageRecord: unknown;
 }): Promise<RecordedStageOutput> {
 	return writeStageOutputBeside({
 		output: { ...target, content: jsonFileContent(value) },
 		beside: {
 			path: stageRecordPath(target),
 			entry: stageRecordEntry(target.stageId),
-			content: jsonFileContent(record),
+			content: jsonFileContent(stageRecord),
 		},
 	});
 }
@@ -276,7 +276,7 @@ type StageOutputWrite = StageOutputTarget & { readonly content: string };
 /**
  * Writes a stage's output and one further file beside it, and names both as
  * `filesWritten` records them: what writing a Markdown version and writing a
- * record have in common.
+ * stage record have in common.
  *
  * @param args - The output, and the file beside it.
  * @param args.output - The stage, the workspace, and the output file's text.

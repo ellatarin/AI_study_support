@@ -18,7 +18,7 @@ import {
 	type ModelStageRunArgs,
 } from "../model-stage.js";
 import { runOneCallPanel } from "../panel-runs.js";
-import { writeStageOutputWithRecord } from "../pipeline-stage.js";
+import { writeStageOutputWithStageRecord } from "../pipeline-stage.js";
 import { readTranscriptAndDivision, type TranscriptAndDivision } from "../stage-input.js";
 import {
 	chooseGrouping,
@@ -130,7 +130,7 @@ function asGroupingRun(reply: GroupingReply): GroupingRun {
 
 /**
  * Makes the panel of grouping runs, resuming from any an earlier launch saved,
- * then writes the topics of the grouping chosen from them, with the record
+ * then writes the topics of the grouping chosen from them, with the stage record
  * beside them of how it was chosen.
  *
  * @param args - The stage's input, context and dependencies.
@@ -150,11 +150,11 @@ async function defineTopics(
 		runs: panel.output.runs.map(asGroupingRun),
 		bar: context.config.grouping.bar,
 	});
-	const written = await writeStageOutputWithRecord({
+	const written = await writeStageOutputWithStageRecord({
 		stageId: STAGE_ID,
 		workspaceRoot: context.workspaceRoot,
 		value: topics,
-		record: choice,
+		stageRecord: choice,
 	});
 	return {
 		output: { topics },

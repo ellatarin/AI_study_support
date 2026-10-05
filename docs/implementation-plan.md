@@ -784,7 +784,7 @@ Integration tests for `callModel` (stubbed OpenRouter):
 
 `src/pipeline/stages/choose-division/` **(TD §5, `choose-division`)** — `chooseDivision`, which groups cuts into cut sites and chooses the run nearest the vote over them, and the stage around it. Added to `lectureStages`, with its `STAGE_IDS` and `STAGE_FILES` entries and cost-report label.
 
-A record beside a stage's output **(TD §3.3; §4.5, "How a result was reached is kept beside the result")**: a `record` field on every `STAGE_FILES` entry, `StageWithRecord`, `stageRecordEntry`, `stageRecordPath`, and `writeStageOutputWithRecord`, which shares its writing step with `writeStageOutputWithMarkdownVersion`. `choose-division` declares `Chosen division/choice.json`.
+A stage record beside a stage's output **(TD §3.3; §4.5, "How a result was reached is kept beside the result")**: a `stageRecord` field on every `STAGE_FILES` entry, `StageWithStageRecord`, `stageRecordEntry`, `stageRecordPath`, and `writeStageOutputWithStageRecord`, which shares its writing step with `writeStageOutputWithMarkdownVersion`. `choose-division` declares `Chosen division/choice.json`.
 
 `readTranscriptAndRuns` in `stage-input.ts` **(TD §5, "Dividing the transcript")** — the transcript and a finished splitting panel, read the same way by `deepen-subtopic-splitting` and `choose-division`; tested in `stage-input.integration.test.ts` (`should return the transcript and every run of the panel when the panel is complete`, `should raise the reading stage's own error naming the stage to run when a run is missing`).
 
@@ -828,9 +828,9 @@ Integration tests for the stage (real temp directory):
 
 `src/pipeline/stages/retitle-subtopics/` **(TD §5, `retitle-subtopics`)** — the stage and its prompt module, the prototype's `r9` byte for byte; its entry in the example config and the user's own (`openai/gpt-6.1-sol-pro`), `STAGE_IDS`, `STAGE_FILES` and the cost-report label. Added to `lectureStages` after `choose-division`.
 
-`retitle-subtopics` declares a record, `Retitled subtopics/changes.json`, written with Phase 12's `writeStageOutputWithRecord` **(TD §4.5)**, which now takes the output as a value and writes it as JSON, as it does the record.
+`retitle-subtopics` declares a stage record, `Retitled subtopics/changes.json`, written with Phase 12's `writeStageOutputWithStageRecord` **(TD §4.5)**, which now takes the output as a value and writes it as JSON, as it does the stage record.
 
-`writeDivisionWithRecord` in a new `stage-output.ts` **(TD §5, "Dividing the transcript")** — a division and its record written, and the stage's result given; shared by `choose-division` and `retitle-subtopics`, tested through both.
+`writeDivisionWithStageRecord` in a new `stage-output.ts` **(TD §5, "Dividing the transcript")** — a division and its stage record written, and the stage's result given; shared by `choose-division` and `retitle-subtopics`, tested through both.
 
 `readStageDivision` in `stage-input.ts` **(TD §5, "Dividing the transcript")** — the division an earlier stage wrote, failing with the reading stage's own error when it is missing, blank, not JSON or not a list of subtopics; tested through the stage.
 
@@ -863,7 +863,7 @@ The required `grouping` section — `panelSize` and `bar` — in `PipelineConfig
 
 `sendGapSeconds` **(TD §5, "Dividing the transcript", Panel runs; TD §6, "Three settings say how much runs at once")** — accepted on `define-topics` alone; the panel spaces every send the stage makes, refusals resent by `callModel` included, at least that far apart.
 
-`define-topics` declares a record, `Topics/choice.json`, written with Phase 12's `writeStageOutputWithRecord` **(TD §4.5, "How a result was reached is kept beside the result")**.
+`define-topics` declares a stage record, `Topics/choice.json`, written with Phase 12's `writeStageOutputWithStageRecord` **(TD §4.5, "How a result was reached is kept beside the result")**.
 
 **Tests:**
 

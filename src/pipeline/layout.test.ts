@@ -130,15 +130,21 @@ describe("STAGE_FILES", () => {
 		expect(markdownVersionWriters).toStrictEqual(["transcript-verification"]);
 	});
 
-	it("should keep a record of how the output was reached from choose-division, retitle-subtopics and define-topics alone when ownership is read", () => {
-		const recorders = STAGE_IDS.filter((stageId) => STAGE_FILES[stageId].record !== null);
+	it("should keep a stage record from choose-division, retitle-subtopics and define-topics alone when ownership is read", () => {
+		const stageRecordWriters = STAGE_IDS.filter(
+			(stageId) => STAGE_FILES[stageId].stageRecord !== null,
+		);
 
-		expect(recorders).toStrictEqual(["choose-division", "retitle-subtopics", "define-topics"]);
+		expect(stageRecordWriters).toStrictEqual([
+			"choose-division",
+			"retitle-subtopics",
+			"define-topics",
+		]);
 	});
 });
 
 describe("stageRecordPath", () => {
-	it("should resolve the record beside the output it describes when a workspace is given", () => {
+	it("should resolve the stage record beside the output it describes when a workspace is given", () => {
 		expect(stageRecordPath({ workspaceRoot: WORKSPACE_ROOT, stageId: "choose-division" })).toBe(
 			join(WORKSPACE_ROOT, "Chosen division", "choice.json"),
 		);
