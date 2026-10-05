@@ -885,7 +885,7 @@ export function verificationReport(
 
 /**
  * The same report as the model's reply, where a test may replace a field with
- * something the report's type would refuse — which is how the malformed-reply
+ * something the report's type would refuse — which is how the unusable-reply
  * cases are stated.
  *
  * @param overrides - The fields this test's behaviour depends on, valid or not.

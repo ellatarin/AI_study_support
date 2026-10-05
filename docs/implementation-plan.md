@@ -529,7 +529,7 @@ Every doc naming a moved file is updated in the same commit.
 
 ## Phase 9 — Panel Runs
 
-**Goal:** One shared behaviour for any stage that makes a panel of independent model runs: bounded concurrency, each run saved as it completes, resume on relaunch, resend on an empty or malformed reply.
+**Goal:** One shared behaviour for any stage that makes a panel of independent model runs: bounded concurrency, each run saved as it completes, resume on relaunch, resend on an unusable reply.
 
 **Deliverables:**
 

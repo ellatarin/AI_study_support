@@ -84,8 +84,7 @@ function stubReply(overrides: Readonly<Record<string, unknown>> = {}): void {
 }
 
 /**
- * Replies that are not the documented report, each malformed in a different
- * place: the reply as a whole, a top-level field, a deficiency, and a
+ * Unusable replies, each wrong in a different place: the reply as a whole, a top-level field, a deficiency, and a
  * consideration.
  */
 const UNUSABLE_REPLIES = [

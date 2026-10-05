@@ -301,7 +301,7 @@ describe("createTranscriptStructuringStage", () => {
 		});
 	});
 
-	describe("rejecting a reply that is not the documented JSON object", () => {
+	describe("treating as unusable a reply that is not the documented JSON object", () => {
 		it.each([
 			{ what: "prose rather than JSON", content: "Here are your structured notes!" },
 			{ what: "JSON that is not an object", content: '"a string"' },

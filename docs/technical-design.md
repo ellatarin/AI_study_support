@@ -1115,7 +1115,7 @@ These three stages, `retitle-subtopics` and `define-topics` (below) run after tr
 - Every send is costed, failed ones included.
 - Every unusable reply is logged as a warning naming the run, which send it was and why it was unusable, so how often replies fail, and in what way, can be read from the run's log even when a later send succeeds.
 
-The retry sits above the SDK's own, which retries only failures at the HTTP level (§8, API Error Handling); an empty or malformed reply arrives as a success and reaches the stage.
+The retry sits above the SDK's own, which retries only failures at the HTTP level (§8, API Error Handling); an unusable reply arrives as a success and reaches the stage.
 
 **The model never returns text.** Every call is asked only where a subtopic begins, as its first eight to twelve words. Code finds those words in the transcript and cuts there, so each subtopic is sliced from the original and the division always reproduces the transcript exactly. Every stage checks this before writing: its subtopics, joined in order, must equal the transcript character for character. A mismatch is a bug and fails the stage. "The transcript" here is `transcript.txt` with the whitespace at its two ends removed, once, as it is read: several transcripts begin or end with stray spaces, which carry nothing, and removing them is what the prototype did, so the model is sent exactly what the prototype sent.
 
