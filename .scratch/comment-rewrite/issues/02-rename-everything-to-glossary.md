@@ -139,3 +139,8 @@ Two things any folder or file rename must also fix: each manifest's `filesWritte
 - A topic's reason stays `groupedBecause`, in code and on disk ("better than reason"). A subtopic's `why` still becomes `reason`.
 - S14 and S15 stay as they are: the verification report keeps `considered` and `whyNotRaised`, and the readable view stays `verification-report.md`.
 - Every other stored rename is agreed: S1–S9, S11, S13, S16, S17 (with `finalOutput`), S18 (old debug logs are left as history). `titleInherited` is dropped from the splitting saved runs when they are fixed.
+
+2026-10-05, the user's rulings on method:
+
+- Where a model's reply is translated into glossary names, a short comment at the translation says that the code chose the new name for readability and left the prompt unchanged.
+- Code renames use a script that drives TypeScript's own rename, one group of related names per commit. A pass by hand then picks up what the script missed: test titles, comments, strings and file names.
