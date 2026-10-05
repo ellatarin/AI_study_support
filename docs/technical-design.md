@@ -1667,7 +1667,7 @@ API_KEY_VARIABLE: "OPENROUTER_API_KEY"
 // environment (§2, Environment Variables). transcription names its own the same way (§5, transcription).
 class UnconfiguredStageError extends NamedError    // the config holds no entry for the stage; nothing was sent
 class ContextLengthError extends NamedError       // the prompt exceeds the model's context window
-class ProviderError extends NamedError  // the provider rejected the request for any other reason
+class ProviderError extends NamedError  // the provider returned an error for any other reason
 class NoReplyChoicesError extends NamedError // the call was accepted and carries no choices to read
 // One class per way a completion call fails. Context length keeps its own because it has a remedy of its own —
 // configure a larger-context model — and no choices is distinct from a model answering with empty content,

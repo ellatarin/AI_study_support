@@ -208,7 +208,7 @@ function providerErrorDescription(options: {
 	readonly modelId: string;
 	readonly providerMessage: string;
 }): string {
-	return `Model "${options.modelId}" rejected the request for stage "${options.stageId}": ${options.providerMessage}`;
+	return `Model "${options.modelId}" returned an error for stage "${options.stageId}": ${options.providerMessage}`;
 }
 
 /**
@@ -260,7 +260,7 @@ function toProviderError(options: {
 	}
 	if (options.error.code === CONTEXT_LENGTH_CODE) {
 		return new ContextLengthError(
-			`Model "${options.modelId}" rejected the request: context length exceeded. Configure a larger-context model for this stage in ${CONFIG_FILENAME}.`,
+			`Model "${options.modelId}" returned an error: context length exceeded. Configure a larger-context model for this stage in ${CONFIG_FILENAME}.`,
 		);
 	}
 	return new ProviderError(
