@@ -177,3 +177,9 @@ Two things any folder or file rename must also fix: each manifest's `filesWritte
 - A34: `recordingStage` becomes `stubThatListsDates`, because it is a stub and not a stage. Its list `ran` becomes `datesInRunOrder`. `runRecordingStage` becomes `runStageAndReturnWhatItReceived`. `contextRecordingOutput` becomes `contextAfterStageCompletes`.
 - A35: `renameLectureFiles` stays. It is close enough.
 - A36: `SUBJECT` becomes `LECTURE_TITLE`.
+
+2026-10-05, the user's rulings on C1 to C5:
+
+- C1 `StageCostAndFiles`, C3 `StageStatusWriter` (with `createStageStatusWriter` and `statusWriter`), and C4 `progressBar` are done as ruled. C2 was done earlier.
+- C5: `TextMatch`, `DateMatch` and `TimePeriod` as ruled. `testRunSpan` becomes `testTimePeriod`, because batch summaries use it too. `cutSiteSpans` becomes `cutSites`.
+- C5: the two digit date helpers merge into one, `digitDateMatches`, which takes a list of formats. The patterns are named by digit count: `EIGHT_DIGIT_DATE`, `SIX_DIGIT_DATE`, with `fromEightDigits` and `fromSixDigits`. Each pattern and its reader is a `DigitDateFormat`. `parseDateSpans` becomes `chronoDateMatches`.
