@@ -2,8 +2,8 @@ import { destination, type Logger, pino } from "pino";
 import type { StageId } from "../types/pipeline.js";
 
 /**
- * Creates the root logger for a single pipeline invocation, writing structured
- * output as newline-delimited JSON to the given file. The destination is
+ * Creates the root logger for a single invocation, which writes the debug log:
+ * structured output as newline-delimited JSON to the given file. The destination is
  * asynchronous (`sync: false`) and file-only, so debug output never reaches
  * stdout or stderr and cannot interfere with the cli-progress bars
  * (technical-design.md §10).
@@ -14,13 +14,13 @@ import type { StageId } from "../types/pipeline.js";
  * pipeline to read one — nor name a file of its own that nothing else can find.
  *
  * @param args - Where the invocation's debug output goes.
- * @param args.logFile - Absolute path to write the debug log at; its directory is created.
+ * @param args.debugLogFile - Absolute path to write the debug log at; its directory is created.
  * @returns A pino logger writing at `debug` level to that file.
  * @example
- * const logger = createRootLogger({ logFile: debugLogPath({ projectRoot, runId }) });
+ * const logger = createDebugLogger({ debugLogFile: debugLogPath({ projectRoot, runId }) });
  */
-export function createRootLogger({ logFile }: { readonly logFile: string }): Logger {
-	return pino({ level: "debug" }, destination({ dest: logFile, sync: false, mkdir: true }));
+export function createDebugLogger({ debugLogFile }: { readonly debugLogFile: string }): Logger {
+	return pino({ level: "debug" }, destination({ dest: debugLogFile, sync: false, mkdir: true }));
 }
 
 /**

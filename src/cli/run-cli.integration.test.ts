@@ -105,15 +105,15 @@ describe("runCli", () => {
 		expect(out.join("")).toContain(testLecture.date);
 	});
 
-	// The suite never changes directory, so this fails if the log is placed
+	// The suite never changes directory, so this fails if the debug log is placed
 	// relative to wherever the process happens to be running — which would
-	// scatter a user's logs across whatever directory they invoked from.
+	// scatter a user's debug logs across whatever directory they invoked from.
 	it("should write the debug log under the project root when a command runs", async () => {
 		await writeConfig([moduleRoot]);
 
 		await invoke(["run", testLecture.date]);
 
-		const logs = await listFileNames(join(projectRoot, RUNS_DIR));
-		expect(logs.filter((name) => name.endsWith("-debug.log"))).toHaveLength(1);
+		const fileNames = await listFileNames(join(projectRoot, RUNS_DIR));
+		expect(fileNames.filter((name) => name.endsWith("-debug.log"))).toHaveLength(1);
 	});
 });

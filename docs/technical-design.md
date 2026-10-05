@@ -2197,8 +2197,8 @@ A completed stage that bought nothing — audio extraction, PDF generation — i
 ```typescript
 // src/utils/logger.ts — file-only; the user-facing messaging in the table above is emitted by the
 // CLI and runner, not by this logger.
-createRootLogger(args: { logFile: string }): Logger
-// Writes newline-delimited JSON to logFile (sync: false, mkdir). Takes the whole path from its caller rather
+createDebugLogger(args: { debugLogFile: string }): Logger
+// Writes newline-delimited JSON to debugLogFile (sync: false, mkdir). Takes the whole path from its caller rather
 // than assembling one: every directory and filename is declared in layout.ts (§3.3), and a utility must not
 // reach up into the pipeline
 // to read it.

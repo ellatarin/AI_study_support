@@ -638,7 +638,7 @@ async function writeRunLog({
  * this reader, and parsing as JSON is not the same as being a run. Shallow for
  * the reason the manifest reader's own guard is: it checks what every consumer reads —
  * the id a run is filed under, and the stage map the cost report iterates — and
- * no more, so a log written by an older version is not discarded over a field it
+ * no more, so a run log written by an older version is not discarded over a field it
  * predates.
  *
  * @param value - The parsed file contents.
@@ -650,17 +650,17 @@ function isRunLog(value: unknown): value is RunLog {
 
 async function readRunLogs(workspaceRoot: string): Promise<readonly RunLog[]> {
 	const runsDir = runsDirPath({ workspaceRoot });
-	const logs: RunLog[] = [];
+	const runLogs: RunLog[] = [];
 	for (const entry of await readDirSafe(runsDir)) {
 		if (!entry.isFile()) {
 			continue;
 		}
-		const log = await readJsonSafe(join(runsDir, entry.name));
-		if (isRunLog(log)) {
-			logs.push(log);
+		const parsed = await readJsonSafe(join(runsDir, entry.name));
+		if (isRunLog(parsed)) {
+			runLogs.push(parsed);
 		}
 	}
-	return logs;
+	return runLogs;
 }
 
 /**

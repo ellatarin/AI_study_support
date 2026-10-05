@@ -24,7 +24,7 @@ import { createTranscriptStructuringStage } from "../pipeline/stages/transcript-
 import { createTranscriptVerificationStage } from "../pipeline/stages/transcript-verification/transcript-verification.js";
 import { createTranscriptionStage } from "../pipeline/stages/transcription/transcription.js";
 import { errorMessage } from "../utils/errors.js";
-import { createRootLogger } from "../utils/logger.js";
+import { createDebugLogger } from "../utils/logger.js";
 import { CliUsageError, parseCliArgs, USAGE } from "./args.js";
 import {
 	type CliDeps,
@@ -62,8 +62,8 @@ async function assembleDeps({
 	readonly write: WriteText;
 }): Promise<CliDeps> {
 	const config = await loadConfig({ projectRoot });
-	const logFile = debugLogPath({ projectRoot, runId: deriveRunId({ instant: new Date() }) });
-	const logger = createRootLogger({ logFile });
+	const debugLogFile = debugLogPath({ projectRoot, runId: deriveRunId({ instant: new Date() }) });
+	const logger = createDebugLogger({ debugLogFile });
 	// One client for the invocation, provided from here for the reason the logger
 	// is: a stage is handed what it needs rather than reaching for a shared one,
 	// so nothing in the pipeline holds state outliving a run. It is a provider
@@ -104,7 +104,7 @@ async function assembleDeps({
 		selectMatches: selectLectureMatches,
 		selectMatch: selectLectureMatch,
 		confirm: confirmPrompt,
-		debugLogPath: logFile,
+		debugLogPath: debugLogFile,
 		write,
 	};
 }
