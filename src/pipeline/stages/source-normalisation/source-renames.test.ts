@@ -22,32 +22,39 @@ const dirs = moduleDirs({ moduleRoot: testModuleRoot });
  *
  * @param lecture - The parts the plan turns on.
  * @param lecture.baseName - The name every one of the lecture's four items should carry.
- * @param lecture.videoName - The source video's current name.
- * @param lecture.slideName - The slide deck's current name.
- * @param lecture.iso - The lecture's `YYYY-MM-DD` date.
+ * @param lecture.videoRecordingName - The source video's current name.
+ * @param lecture.slideDeckName - The slide deck's current name.
+ * @param lecture.lectureDate - The lecture's `YYYY-MM-DD` date.
  * @returns The lecture.
  */
 function lectureNamed({
 	baseName,
-	videoName,
-	slideName,
-	iso,
-}: Pick<Lecture, "baseName" | "videoName" | "slideName" | "iso">): Lecture {
-	return { baseName, videoName, slideName, iso, lectureNumber: 1, provisionalTitle: "" };
+	videoRecordingName,
+	slideDeckName,
+	lectureDate,
+}: Pick<Lecture, "baseName" | "videoRecordingName" | "slideDeckName" | "lectureDate">): Lecture {
+	return {
+		baseName,
+		videoRecordingName,
+		slideDeckName,
+		lectureDate,
+		lectureNumber: 1,
+		provisionalTitle: "",
+	};
 }
 
 const cellInjury = lectureNamed({
 	baseName: cellInjuryAsFirst,
-	videoName: cellInjurySources.video,
-	slideName: cellInjurySources.slide,
-	iso: cellInjurySources.date,
+	videoRecordingName: cellInjurySources.videoRecording,
+	slideDeckName: cellInjurySources.slideDeck,
+	lectureDate: cellInjurySources.date,
 });
 
 const vaccination = lectureNamed({
 	baseName: vaccinationAsSecond,
-	videoName: vaccinationSources.video,
-	slideName: vaccinationSources.slide,
-	iso: vaccinationSources.date,
+	videoRecordingName: vaccinationSources.videoRecording,
+	slideDeckName: vaccinationSources.slideDeck,
+	lectureDate: vaccinationSources.date,
 });
 
 /**
@@ -74,26 +81,26 @@ function plannedMoves({
 }
 
 describe("planRenames", () => {
-	it("should move a video and its slide onto the lecture's base name when they are freshly named", () => {
+	it("should move a video recording and its slide deck onto the lecture's base name when they are freshly named", () => {
 		expect(plannedMoves({ lectures: [cellInjury] })).toEqual([
-			`${join(dirs.video, cellInjurySources.video)} → ${cellInjuryAsFirst}.mp4`,
-			`${join(dirs.slide, cellInjurySources.slide)} → ${cellInjuryAsFirst}.pdf`,
+			`${join(dirs.videoRecording, cellInjurySources.videoRecording)} → ${cellInjuryAsFirst}.mp4`,
+			`${join(dirs.slideDeck, cellInjurySources.slideDeck)} → ${cellInjuryAsFirst}.pdf`,
 		]);
 	});
 
 	it("should plan nothing when every item already sits at the name the numbering wants", () => {
 		const settled = lectureNamed({
 			baseName: cellInjuryAsFirst,
-			videoName: `${cellInjuryAsFirst}.mp4`,
-			slideName: `${cellInjuryAsFirst}.pdf`,
-			iso: cellInjury.iso,
+			videoRecordingName: `${cellInjuryAsFirst}.mp4`,
+			slideDeckName: `${cellInjuryAsFirst}.pdf`,
+			lectureDate: cellInjury.lectureDate,
 		});
 
 		expect(
 			plannedMoves({
 				lectures: [settled],
-				existingFolders: new Map([[settled.iso, cellInjuryAsFirst]]),
-				existingPdfs: new Map([[settled.iso, `${cellInjuryAsFirst}.pdf`]]),
+				existingFolders: new Map([[settled.lectureDate, cellInjuryAsFirst]]),
+				existingPdfs: new Map([[settled.lectureDate, `${cellInjuryAsFirst}.pdf`]]),
 			}),
 		).toEqual([]);
 	});
@@ -101,20 +108,20 @@ describe("planRenames", () => {
 	it("should move the workspace folder and the final PDF too when a lecture is renumbered", () => {
 		const renumbered = lectureNamed({
 			baseName: vaccinationAsSecond,
-			videoName: `${cellInjuryAsFirst}.mp4`,
-			slideName: `${cellInjuryAsFirst}.pdf`,
-			iso: vaccination.iso,
+			videoRecordingName: `${cellInjuryAsFirst}.mp4`,
+			slideDeckName: `${cellInjuryAsFirst}.pdf`,
+			lectureDate: vaccination.lectureDate,
 		});
 
 		expect(
 			plannedMoves({
 				lectures: [renumbered],
-				existingFolders: new Map([[renumbered.iso, cellInjuryAsFirst]]),
-				existingPdfs: new Map([[renumbered.iso, `${cellInjuryAsFirst}.pdf`]]),
+				existingFolders: new Map([[renumbered.lectureDate, cellInjuryAsFirst]]),
+				existingPdfs: new Map([[renumbered.lectureDate, `${cellInjuryAsFirst}.pdf`]]),
 			}),
 		).toEqual([
-			`${join(dirs.video, cellInjuryAsFirst)}.mp4 → ${vaccinationAsSecond}.mp4`,
-			`${join(dirs.slide, cellInjuryAsFirst)}.pdf → ${vaccinationAsSecond}.pdf`,
+			`${join(dirs.videoRecording, cellInjuryAsFirst)}.mp4 → ${vaccinationAsSecond}.mp4`,
+			`${join(dirs.slideDeck, cellInjuryAsFirst)}.pdf → ${vaccinationAsSecond}.pdf`,
 			`${join(dirs.processing, cellInjuryAsFirst)} → ${vaccinationAsSecond}`,
 			`${join(dirs.finalOutput, cellInjuryAsFirst)}.pdf → ${vaccinationAsSecond}.pdf`,
 		]);
@@ -123,14 +130,14 @@ describe("planRenames", () => {
 	it("should keep the extension each source carried when the names differ between them", () => {
 		const mixed = lectureNamed({
 			baseName: cellInjuryAsFirst,
-			videoName: `${cellInjurySources.date} BOD_Cell Injury.mkv`,
-			slideName: `${cellInjurySources.date} Cell Injury deck.pptx`,
-			iso: cellInjury.iso,
+			videoRecordingName: `${cellInjurySources.date} BOD_Cell Injury.mkv`,
+			slideDeckName: `${cellInjurySources.date} Cell Injury deck.pptx`,
+			lectureDate: cellInjury.lectureDate,
 		});
 
 		expect(plannedMoves({ lectures: [mixed] })).toEqual([
-			`${join(dirs.video, mixed.videoName)} → ${cellInjuryAsFirst}.mkv`,
-			`${join(dirs.slide, mixed.slideName)} → ${cellInjuryAsFirst}.pptx`,
+			`${join(dirs.videoRecording, mixed.videoRecordingName)} → ${cellInjuryAsFirst}.mkv`,
+			`${join(dirs.slideDeck, mixed.slideDeckName)} → ${cellInjuryAsFirst}.pptx`,
 		]);
 	});
 

@@ -5,7 +5,7 @@
  * A workspace records which lecture it belongs to, so a lecture that has been
  * renumbered is still found by the date its manifest carries rather than by the
  * folder name it happens to have. When a run finds a workspace whose date has no
- * source video and slide left, the user deleted those sources by hand, and the
+ * video recording and slide deck left, the user deleted those sources by hand, and the
  * work already paid for is about to become unreachable.
  *
  * This is the only code in the project that permanently destroys a user's work,
@@ -89,21 +89,21 @@ export async function discoverWorkspaces({
  *
  * @param args - The discovered workspaces and the dates still backed by sources.
  * @param args.workspaces - Existing workspaces keyed by lecture date.
- * @param args.presentIsos - The ISO dates that still have a video and slide.
+ * @param args.presentLectureDates - The lecture dates that still have a video recording and slide deck.
  * @returns The orphaned workspaces, in date order.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a ReadonlyMap and a ReadonlySet are already the readonly form; the rule does not recognise the built-in collection interfaces as deeply readonly, and both are only read here
 export function findOrphans({
 	workspaces,
-	presentIsos,
+	presentLectureDates,
 }: {
 	readonly workspaces: ReadonlyMap<string, ExistingWorkspace>;
-	readonly presentIsos: ReadonlySet<string>;
+	readonly presentLectureDates: ReadonlySet<string>;
 }): readonly ExistingWorkspace[] {
 	return [...workspaces.keys()]
-		.filter((iso) => !presentIsos.has(iso))
+		.filter((lectureDate) => !presentLectureDates.has(lectureDate))
 		.sort()
-		.map((iso) => workspaces.get(iso) as ExistingWorkspace);
+		.map((lectureDate) => workspaces.get(lectureDate) as ExistingWorkspace);
 }
 
 /**
@@ -120,7 +120,7 @@ export function findOrphans({
  */
 function orphanPrompt({ manifest }: { readonly manifest: Manifest }): string {
 	const title = manifest.lectureTitle === "" ? "(untitled)" : manifest.lectureTitle;
-	return `Lecture ${manifest.lectureNumber} "${title}" (${manifest.lectureDate}) has no source video or slide left. Delete its workspace and any final output?`;
+	return `Lecture ${manifest.lectureNumber} "${title}" (${manifest.lectureDate}) has no video recording or slide deck left. Delete its workspace and any final output?`;
 }
 
 /** Where an orphan's files live and where its removal is recorded. */

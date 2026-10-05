@@ -42,8 +42,8 @@ describe("runCli", () => {
 	beforeEach(async () => {
 		projectRoot = await makeTempDir({ prefix: "run-cli-" });
 		moduleRoot = join(projectRoot, testModuleName);
-		const { video, slide } = moduleDirs({ moduleRoot });
-		for (const dir of [video, slide]) {
+		const { videoRecording, slideDeck } = moduleDirs({ moduleRoot });
+		for (const dir of [videoRecording, slideDeck]) {
 			await mkdir(dir, { recursive: true });
 		}
 		out = [];

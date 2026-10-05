@@ -34,9 +34,9 @@ import {
 import { applyRenames, completeInterruptedRenames, planRenames } from "./source-renames.js";
 
 /**
- * Thrown when a module's raw sources cannot be normalised: an undateable video or
- * slide, a video or slide with no 1:1 date match, or a duplicate video or slide
- * date. Carries every problem found so the CLI can list them; the stage makes no
+ * Thrown when a module's raw sources cannot be normalised: an undateable video
+ * recording or slide deck, a video recording or slide deck with no 1:1 date match,
+ * or a duplicate video recording or slide deck date. Carries every problem found so the CLI can list them; the stage makes no
  * filesystem changes when it throws (technical-design.md §5, `source-normalisation`).
  */
 export class SourceNormalisationError extends NamedError {}
@@ -136,7 +136,7 @@ function projectWorkspaces<TValue>({
 	readonly workspaces: ReadonlyMap<string, ExistingWorkspace>;
 	readonly take: (workspace: ExistingWorkspace) => TValue;
 }): ReadonlyMap<string, TValue> {
-	return new Map([...workspaces].map(([iso, workspace]) => [iso, take(workspace)]));
+	return new Map([...workspaces].map(([lectureDate, workspace]) => [lectureDate, take(workspace)]));
 }
 
 /**
@@ -153,7 +153,7 @@ function initialManifest(lecture: Lecture): Manifest {
 	return {
 		version: MANIFEST_VERSION,
 		lectureNumber: lecture.lectureNumber,
-		lectureDate: lecture.iso,
+		lectureDate: lecture.lectureDate,
 		provisionalTitle: lecture.provisionalTitle,
 		lectureTitle: lecture.provisionalTitle,
 		userTitle: null,
@@ -241,14 +241,14 @@ export function createSourceNormalisationStage({
 			});
 		}
 
-		const videos = toDatedFiles(await listFileNames(dirs.video));
-		const slides = toDatedFiles(await listFileNames(dirs.slide));
+		const videoRecordings = toDatedFiles(await listFileNames(dirs.videoRecording));
+		const slideDecks = toDatedFiles(await listFileNames(dirs.slideDeck));
 		logger.info(
-			{ moduleRoot, videos: videos.dated.length, slides: slides.dated.length },
+			{ moduleRoot, videos: videoRecordings.dated.length, slides: slideDecks.dated.length },
 			"Normalising module sources",
 		);
 
-		const checked = checkSources({ videos, slides });
+		const checked = checkSources({ videoRecordings, slideDecks });
 		if (checked.state === "anomalies") {
 			abortNormalisation({
 				logger,
@@ -263,7 +263,9 @@ export function createSourceNormalisationStage({
 
 		const orphans = findOrphans({
 			workspaces: existingWorkspaces,
-			presentIsos: new Set(videos.dated.map((video) => video.iso)),
+			presentLectureDates: new Set(
+				videoRecordings.dated.map((videoRecording) => videoRecording.lectureDate),
+			),
 		});
 		if (orphans.length > 0) {
 			const outcome = await resolveOrphans({
@@ -279,7 +281,7 @@ export function createSourceNormalisationStage({
 		}
 
 		const lectures = orderLectures({
-			pairs: checked.pairs,
+			sourcePairs: checked.sourcePairs,
 			existingManifests: projectWorkspaces({
 				workspaces: existingWorkspaces,
 				take: (workspace) => workspace.manifest,
@@ -287,7 +289,7 @@ export function createSourceNormalisationStage({
 			modulePrefixes,
 		});
 		// One line per lecture, before anything is renamed: the date read off the
-		// filename, the number that date earned it, and the slide it was matched
+		// filename, the number that date earned it, and the slide deck it was matched
 		// with. Between them they are the whole answer to "why is this Lecture 3?",
 		// which is otherwise reconstructable only by re-deriving the ordering by hand
 		// (technical-design.md §10).
@@ -295,9 +297,9 @@ export function createSourceNormalisationStage({
 			logger.debug(
 				{
 					lectureNumber: lecture.lectureNumber,
-					lectureDate: lecture.iso,
-					videoName: lecture.videoName,
-					slideName: lecture.slideName,
+					lectureDate: lecture.lectureDate,
+					videoName: lecture.videoRecordingName,
+					slideName: lecture.slideDeckName,
 					provisionalTitle: lecture.provisionalTitle,
 				},
 				"Resolved lecture",
@@ -322,7 +324,7 @@ export function createSourceNormalisationStage({
 			const action = await reconcileManifest({
 				lecture,
 				moduleRoot,
-				isExisting: existingWorkspaces.has(lecture.iso),
+				isExisting: existingWorkspaces.has(lecture.lectureDate),
 			});
 			if (action !== "unchanged") {
 				logger.info(

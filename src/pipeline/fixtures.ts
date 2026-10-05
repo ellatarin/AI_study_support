@@ -571,9 +571,9 @@ export type TestLecture = {
 	readonly title: string;
 	readonly folderName: string;
 	/** The source video {@link makeLectureTree} writes for this lecture. */
-	readonly videoFile: string;
+	readonly videoRecordingFile: string;
 	/** The source slide deck it writes alongside. */
-	readonly slideFile: string;
+	readonly slideDeckFile: string;
 	/** The finished PDF it leaves in `Final output`. */
 	readonly outputFile: string;
 };
@@ -599,8 +599,8 @@ function describeLecture(lecture: Pick<TestLecture, "number" | "date" | "title">
 	return {
 		...lecture,
 		folderName,
-		videoFile: `${folderName}.mp4`,
-		slideFile: `${folderName}.pdf`,
+		videoRecordingFile: `${folderName}.mp4`,
+		slideDeckFile: `${folderName}.pdf`,
 		outputFile: `${folderName}.pdf`,
 	};
 }
@@ -627,9 +627,9 @@ export const testModuleName = "Biology of Disease";
 /** One lecture's raw sources, named as the lecturer left them. */
 export type LectureSources = {
 	/** The source video. */
-	readonly video: string;
+	readonly videoRecording: string;
 	/** The slide deck sharing its date. */
-	readonly slide: string;
+	readonly slideDeck: string;
 	/**
 	 * The date both names carry, stated rather than read off them: reading a date
 	 * off a filename is the rule these suites test.
@@ -653,8 +653,8 @@ export type LectureSources = {
  * the other is the assertion.
  */
 export const cellInjurySources: LectureSources = {
-	video: "2025-10-10 BOD_Cell Injury.mp4",
-	slide: "2025-10-10 Cell Injury deck.pdf",
+	videoRecording: "2025-10-10 BOD_Cell Injury.mp4",
+	slideDeck: "2025-10-10 Cell Injury deck.pdf",
 	// The same lecture {@link testLecture} describes, so its date is that one and
 	// not a second copy of it.
 	date: testLecture.date,
@@ -662,15 +662,15 @@ export const cellInjurySources: LectureSources = {
 
 /** The second lecture's raw sources; see {@link cellInjurySources}. */
 export const vaccinationSources: LectureSources = {
-	video: "2025-10-17 BOD_Vaccination.mp4",
-	slide: "2025-10-17 Vaccination deck.pdf",
+	videoRecording: "2025-10-17 BOD_Vaccination.mp4",
+	slideDeck: "2025-10-17 Vaccination deck.pdf",
 	date: "2025-10-17",
 };
 
 /** A lecture dated between the other two, for the renumbering cases. */
 export const immunitySources: LectureSources = {
-	video: "2025-10-13 BOD_Immunity to Infection.mp4",
-	slide: "2025-10-13 Immunity deck.pdf",
+	videoRecording: "2025-10-13 BOD_Immunity to Infection.mp4",
+	slideDeck: "2025-10-13 Immunity deck.pdf",
 	date: "2025-10-13",
 };
 
@@ -1231,8 +1231,8 @@ export async function makeLectureTree({ prefix }: { readonly prefix: string }): 
 	for (const dir of [...datedFileDirs({ dirs }), workspaceRoot]) {
 		await mkdir(dir, { recursive: true });
 	}
-	await writeFile(join(dirs.video, testLecture.videoFile), "video");
-	await writeFile(join(dirs.slide, testLecture.slideFile), "slides");
+	await writeFile(join(dirs.videoRecording, testLecture.videoRecordingFile), "video");
+	await writeFile(join(dirs.slideDeck, testLecture.slideDeckFile), "slides");
 	await writeFile(join(dirs.finalOutput, testLecture.outputFile), "notes");
 
 	return { tempDir, moduleRoot, dirs, workspaceRoot };

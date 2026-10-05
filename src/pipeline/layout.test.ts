@@ -38,8 +38,8 @@ const QA_DIRS = [join(WORKSPACE_ROOT, "QA iterations"), join(WORKSPACE_ROOT, "QA
 
 describe("moduleDirs", () => {
 	it.each([
-		{ key: "video" as const, expected: VIDEO_DIR },
-		{ key: "slide" as const, expected: SLIDE_DIR },
+		{ key: "videoRecording" as const, expected: VIDEO_DIR },
+		{ key: "slideDeck" as const, expected: SLIDE_DIR },
 		{ key: "processing" as const, expected: PROCESSING_DIR },
 		{ key: "finalOutput" as const, expected: FINAL_OUTPUT_DIR },
 	])("should place $key under the module root when the module is resolved", ({ key, expected }) => {

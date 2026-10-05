@@ -33,9 +33,9 @@ export const RUNS_DIR = "runs";
  */
 export type ModuleDirs = {
 	/** Where the source videos live. */
-	readonly video: string;
+	readonly videoRecording: string;
 	/** Where the source slide decks live. */
-	readonly slide: string;
+	readonly slideDeck: string;
 	/** Where each lecture's pipeline workspace lives. */
 	readonly processing: string;
 	/** Where the finished PDFs are deposited. */
@@ -51,16 +51,16 @@ export type ModuleDirs = {
  */
 export function moduleDirs({ moduleRoot }: { readonly moduleRoot: string }): ModuleDirs {
 	return {
-		video: join(moduleRoot, SOURCE_DIR, VIDEO_SUBDIR),
-		slide: join(moduleRoot, SOURCE_DIR, SLIDE_SUBDIR),
+		videoRecording: join(moduleRoot, SOURCE_DIR, VIDEO_SUBDIR),
+		slideDeck: join(moduleRoot, SOURCE_DIR, SLIDE_SUBDIR),
 		processing: join(moduleRoot, PROCESSING_DIR),
 		finalOutput: join(moduleRoot, FINAL_OUTPUT_DIR),
 	};
 }
 
 /**
- * The module directories a lecture keeps a file of its own in: its source video,
- * its source slides, and its finished PDF.
+ * The module directories a lecture keeps a file of its own in: its video recording,
+ * its slide deck, and its finished PDF.
  *
  * The workspace directory is not among them, because a lecture's workspace is a
  * *folder* named after the lecture while these three hold a *file* named after
@@ -70,10 +70,10 @@ export function moduleDirs({ moduleRoot }: { readonly moduleRoot: string }): Mod
  *
  * @param args - The module to select from.
  * @param args.dirs - The module's four directories.
- * @returns The three directories, in video, slide, output order.
+ * @returns The three directories, in video recording, slide deck, final output order.
  */
 export function datedFileDirs({ dirs }: { readonly dirs: ModuleDirs }): readonly string[] {
-	return [dirs.video, dirs.slide, dirs.finalOutput];
+	return [dirs.videoRecording, dirs.slideDeck, dirs.finalOutput];
 }
 
 /**

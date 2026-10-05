@@ -43,7 +43,7 @@ type RunBehaviour = (args: {
 describe("createAudioExtractionStage", () => {
 	let moduleRoot: string;
 	let workspaceRoot: string;
-	let videoDir: string;
+	let videoRecordingsDir: string;
 	let calls: ExtractionCall[];
 	const logged = useStubLogger();
 
@@ -51,8 +51,8 @@ describe("createAudioExtractionStage", () => {
 		vi.clearAllMocks();
 		calls = [];
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "audio-extraction-" }));
-		videoDir = moduleDirs({ moduleRoot }).video;
-		await mkdir(videoDir, { recursive: true });
+		videoRecordingsDir = moduleDirs({ moduleRoot }).videoRecording;
+		await mkdir(videoRecordingsDir, { recursive: true });
 	});
 
 	afterEach(async () => {
@@ -139,8 +139,8 @@ describe("createAudioExtractionStage", () => {
 		return call;
 	}
 
-	async function writeSourceVideo(name: string): Promise<void> {
-		await writeFile(join(videoDir, name), "video bytes");
+	async function writeVideoRecording(name: string): Promise<void> {
+		await writeFile(join(videoRecordingsDir, name), "video bytes");
 	}
 
 	/** The stage under test, logging into {@link logged}. */
@@ -174,30 +174,32 @@ describe("createAudioExtractionStage", () => {
 		expect(await makeStage().isComplete(completedContext())).toBe(false);
 	});
 
-	it("should locate the source video when its extension is not .mp4", async () => {
-		await writeSourceVideo(`${testLecture.folderName}.mov`);
+	it("should locate the video recording when its extension is not .mp4", async () => {
+		await writeVideoRecording(`${testLecture.folderName}.mov`);
 
 		const input = await makeStage().getInput(contextWith());
 
-		expect(input.sourceVideoPath).toBe(join(videoDir, `${testLecture.folderName}.mov`));
+		expect(input.videoRecordingPath).toBe(
+			join(videoRecordingsDir, `${testLecture.folderName}.mov`),
+		);
 	});
 
-	it("should fail before invoking ffmpeg when the source video is missing", async () => {
+	it("should fail before invoking ffmpeg when the video recording is missing", async () => {
 		await expect(makeStage().getInput(contextWith())).rejects.toThrow(AudioExtractionError);
 		expect(ffmpegMock).not.toHaveBeenCalled();
 	});
 
-	it("should fail before invoking ffmpeg when two videos share the workspace base name", async () => {
-		await writeSourceVideo(testLecture.videoFile);
-		await writeSourceVideo(`${testLecture.folderName}.mov`);
+	it("should fail before invoking ffmpeg when two video recordings share the workspace base name", async () => {
+		await writeVideoRecording(testLecture.videoRecordingFile);
+		await writeVideoRecording(`${testLecture.folderName}.mov`);
 
 		await expect(makeStage().getInput(contextWith())).rejects.toThrow(AudioExtractionError);
 		expect(ffmpegMock).not.toHaveBeenCalled();
 	});
 
-	describe("once the source video is in place and ffmpeg succeeds", () => {
+	describe("once the video recording is in place and ffmpeg succeeds", () => {
 		beforeEach(async () => {
-			await writeSourceVideo(testLecture.videoFile);
+			await writeVideoRecording(testLecture.videoRecordingFile);
 			stubFfmpeg(succeed);
 		});
 
@@ -208,14 +210,14 @@ describe("createAudioExtractionStage", () => {
 			expect(result.output.audioPath).toBe(audioPath());
 		});
 
-		it("should record which source video it chose when extraction completes", async () => {
+		it("should record which video recording it chose when extraction completes", async () => {
 			await runStage();
 
 			const [entry] = loggedAt({ entries: logged().entries, level: "debug" });
 			expect(entry?.message).toBe("Extracted audio track");
 			expect(entry?.bindings).toMatchObject({ stage: "audio-extraction" });
 			expect(entry?.payload).toEqual({
-				sourceVideoPath: join(videoDir, testLecture.videoFile),
+				videoRecordingPath: join(videoRecordingsDir, testLecture.videoRecordingFile),
 				audioPath: audioPath(),
 				latencyMs: expect.any(Number),
 			});
@@ -232,7 +234,7 @@ describe("createAudioExtractionStage", () => {
 
 			const call = extractionCall();
 
-			expect(call.inputPath).toBe(join(videoDir, testLecture.videoFile));
+			expect(call.inputPath).toBe(join(videoRecordingsDir, testLecture.videoRecordingFile));
 			expect(call.audioCodecs).toStrictEqual(["copy"]);
 			expect(call.noVideoCalled).toBe(true);
 		});
@@ -266,7 +268,7 @@ describe("createAudioExtractionStage", () => {
 		{ label: "an Error", failure: new Error("ffmpeg exited with code 1") },
 		{ label: "a bare string", failure: "ffmpeg exited with code 1" },
 	])("should reject and leave no audio file when ffmpeg fails with $label", async ({ failure }) => {
-		await writeSourceVideo(testLecture.videoFile);
+		await writeVideoRecording(testLecture.videoRecordingFile);
 		stubFfmpeg(failWith(failure));
 
 		await expect(runStage()).rejects.toThrow(AudioExtractionError);

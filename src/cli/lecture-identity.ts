@@ -2,8 +2,8 @@
  * The filesystem half of the identity-mutation commands — `rename`, `delete`,
  * and `change-date`.
  *
- * A lecture's identity is spread across four places: its source video, its
- * slides, its pipeline workspace, and its finished PDF. Editing any of them by
+ * A lecture's identity is spread across four places: its video recording, its
+ * slide deck, its pipeline workspace, and its finished PDF. Editing any of them by
  * hand desynchronises the manifest from the filesystem, so these commands are
  * the only supported way to change it. Each makes its change and leaves the
  * module in a state `source-normalisation` can finish — renumbering, and renaming anything the
@@ -53,7 +53,7 @@ async function openLecture(match: LectureMatch): Promise<{
  *
  * The title is recorded as `userTitle`, which outranks both the provisional
  * title and any title `transcript-structuring` derives, so it survives every later
- * run. Only the manifest changes here: the renaming of the video, slides,
+ * run. Only the manifest changes here: the renaming of the video recording, slide deck,
  * workspace, and PDF falls out of the `source-normalisation` pass the command runs
  * afterwards, which is the same code path that names them in the first place
  * (technical-design.md §5, `source-normalisation`).
@@ -88,7 +88,7 @@ export async function renameLecture({
 }
 
 /**
- * Removes a lecture entirely: its source video and slides, its workspace and
+ * Removes a lecture entirely: its video recording and slide deck, its workspace and
  * everything the pipeline produced in it, and its finished PDF.
  *
  * Deleting the sources as well as the workspace is what keeps the module
@@ -121,7 +121,7 @@ export async function deleteLecture({ match }: { readonly match: LectureMatch })
  * @param args.dirs - The module's directories.
  * @param args.lectureDate - The lecture's current date.
  * @returns Nothing.
- * @throws {LectureIdentityError} When the source video or slide is missing.
+ * @throws {LectureIdentityError} When the video recording or slide deck is missing.
  */
 async function assertSourcePairPresent({
 	dirs,
@@ -130,11 +130,11 @@ async function assertSourcePairPresent({
 	readonly dirs: ModuleDirs;
 	readonly lectureDate: string;
 }): Promise<void> {
-	const video = await findDatedFile({ dir: dirs.video, lectureDate });
-	const slide = await findDatedFile({ dir: dirs.slide, lectureDate });
-	if (video === null || slide === null) {
+	const videoRecording = await findDatedFile({ dir: dirs.videoRecording, lectureDate });
+	const slideDeck = await findDatedFile({ dir: dirs.slideDeck, lectureDate });
+	if (videoRecording === null || slideDeck === null) {
 		throw new LectureIdentityError(
-			`The lecture on ${lectureDate} has no source ${video === null ? "video" : "slide"}, so its date cannot be changed. Restore the file and try again.`,
+			`The lecture on ${lectureDate} has no ${videoRecording === null ? "video recording" : "slide deck"}, so its date cannot be changed. Restore the file and try again.`,
 		);
 	}
 }
@@ -143,7 +143,7 @@ async function assertSourcePairPresent({
  * Fails when a source file already sits on the date being moved to, so a change
  * can never overwrite another lecture's sources (technical-design.md §4.7).
  *
- * The video and slide directories are the whole check. A lecture's date lives in
+ * The video recording and slide deck directories are the whole check. A lecture's date lives in
  * its source filenames, so a date another lecture holds is a date one of those
  * two directories already carries.
  *
@@ -151,7 +151,7 @@ async function assertSourcePairPresent({
  * @param args.dirs - The module's directories.
  * @param args.newLectureDate - The date being moved to.
  * @returns Nothing.
- * @throws {LectureIdentityError} When a source video or slide already carries that date.
+ * @throws {LectureIdentityError} When a video recording or slide deck already carries that date.
  */
 async function assertDateIsFree({
 	dirs,
@@ -160,7 +160,7 @@ async function assertDateIsFree({
 	readonly dirs: ModuleDirs;
 	readonly newLectureDate: string;
 }): Promise<void> {
-	for (const dir of [dirs.video, dirs.slide]) {
+	for (const dir of [dirs.videoRecording, dirs.slideDeck]) {
 		const occupant = await findDatedFile({ dir, lectureDate: newLectureDate });
 		if (occupant !== null) {
 			throw new LectureIdentityError(
@@ -171,7 +171,7 @@ async function assertDateIsFree({
 }
 
 /**
- * Moves a lecture to another date: its source video and slides, its workspace,
+ * Moves a lecture to another date: its video recording and slide deck, its workspace,
  * its finished PDF, and the date recorded in its manifest.
  *
  * The files are given the name `source-normalisation` would give them at the new

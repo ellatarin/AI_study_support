@@ -33,7 +33,7 @@ function workspacesOn(dates: readonly string[]): ReadonlyMap<string, ExistingWor
  *
  * @param args - The state to compare.
  * @param args.workspaceDates - The dates workspaces exist for.
- * @param args.sourceDates - The dates a video and slide are still present for.
+ * @param args.sourceDates - The dates a video recording and slide deck are still present for.
  * @returns The orphaned folder names.
  */
 function orphanedFolders({
@@ -45,7 +45,7 @@ function orphanedFolders({
 }): readonly string[] {
 	return findOrphans({
 		workspaces: workspacesOn(workspaceDates),
-		presentIsos: new Set(sourceDates),
+		presentLectureDates: new Set(sourceDates),
 	}).map((orphan) => orphan.folder);
 }
 

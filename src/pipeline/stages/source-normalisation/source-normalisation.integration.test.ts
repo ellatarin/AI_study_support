@@ -40,12 +40,12 @@ import {
 // arranges that state.
 const TEMP_SUFFIX = ".stage0-tmp";
 
-function videoDir(moduleRoot: string): string {
-	return moduleDirs({ moduleRoot }).video;
+function videoRecordingsDir(moduleRoot: string): string {
+	return moduleDirs({ moduleRoot }).videoRecording;
 }
 
-function slideDir(moduleRoot: string): string {
-	return moduleDirs({ moduleRoot }).slide;
+function slideDecksDir(moduleRoot: string): string {
+	return moduleDirs({ moduleRoot }).slideDeck;
 }
 
 function processingDir(moduleRoot: string): string {
@@ -129,11 +129,11 @@ describe("createSourceNormalisationStage", () => {
 	});
 
 	async function writeLecture({
-		video,
-		slide,
-	}: Pick<LectureSources, "video" | "slide">): Promise<void> {
-		await writeInto(videoDir(moduleRoot), video);
-		await writeInto(slideDir(moduleRoot), slide);
+		videoRecording,
+		slideDeck,
+	}: Pick<LectureSources, "videoRecording" | "slideDeck">): Promise<void> {
+		await writeInto(videoRecordingsDir(moduleRoot), videoRecording);
+		await writeInto(slideDecksDir(moduleRoot), slideDeck);
 	}
 
 	/** Normalises a single new lecture and returns the manifest `source-normalisation` wrote. */
@@ -152,21 +152,21 @@ describe("createSourceNormalisationStage", () => {
 
 	/** The module's raw sources: what stands in the video and slide directories. */
 	async function sourceNames(): Promise<{
-		readonly videos: readonly string[];
-		readonly slides: readonly string[];
+		readonly videoRecordings: readonly string[];
+		readonly slideDecks: readonly string[];
 	}> {
 		return {
-			videos: await listNames(videoDir(moduleRoot)),
-			slides: await listNames(slideDir(moduleRoot)),
+			videoRecordings: await listNames(videoRecordingsDir(moduleRoot)),
+			slideDecks: await listNames(slideDecksDir(moduleRoot)),
 		};
 	}
 
 	/** The pair of names `source-normalisation` renames a lecture's sources to. */
 	function sourcesNamed(baseName: string): {
-		readonly videos: string[];
-		readonly slides: string[];
+		readonly videoRecordings: string[];
+		readonly slideDecks: string[];
 	} {
-		return { videos: [`${baseName}.mp4`], slides: [`${baseName}.pdf`] };
+		return { videoRecordings: [`${baseName}.mp4`], slideDecks: [`${baseName}.pdf`] };
 	}
 
 	/**
@@ -189,10 +189,13 @@ describe("createSourceNormalisationStage", () => {
 		expect(stage.stageId).toBe("source-normalisation");
 	});
 
-	it("should assign sequential lecture numbers when videos are sorted by date", async () => {
+	it("should assign sequential lecture numbers when video recordings are sorted by date", async () => {
 		// Immunity's date written the other way round, so the ordering is decided by
 		// the date the name carries rather than by the form it is written in.
-		await writeLecture({ ...immunitySources, video: "13 Oct 2025 BOD_Immunity to Infection.mp4" });
+		await writeLecture({
+			...immunitySources,
+			videoRecording: "13 Oct 2025 BOD_Immunity to Infection.mp4",
+		});
 		await writeLecture(cellInjurySources);
 
 		await stage.normaliseModule({ moduleRoot });
@@ -207,7 +210,7 @@ describe("createSourceNormalisationStage", () => {
 		expect(first).toMatchObject({ lectureNumber: 1, lectureDate: "2025-10-10" });
 	});
 
-	it("should rename the source video and matched slide to canonical names when normalisation runs", async () => {
+	it("should rename the video recording and matched slide deck to canonical names when normalisation runs", async () => {
 		await writeLecture(cellInjurySources);
 
 		await stage.normaliseModule({ moduleRoot });
@@ -248,14 +251,14 @@ describe("createSourceNormalisationStage", () => {
 		await stage.normaliseModule({ moduleRoot });
 
 		expect(await listNames(processingDir(moduleRoot))).toEqual([retitled]);
-		expect(await listNames(videoDir(moduleRoot))).toEqual([`${retitled}.mp4`]);
+		expect(await listNames(videoRecordingsDir(moduleRoot))).toEqual([`${retitled}.mp4`]);
 	});
 
-	it("should fall back to a bare Lecture N name when the video filename has no descriptive title", async () => {
+	it("should fall back to a bare Lecture N name when the video recording's filename has no descriptive title", async () => {
 		const untitled = "Lecture 1 - 2025-10-10";
 		await writeLecture({
-			video: `${cellInjurySources.date} Lecture 1.mp4`,
-			slide: `${cellInjurySources.date} deck.pdf`,
+			videoRecording: `${cellInjurySources.date} Lecture 1.mp4`,
+			slideDeck: `${cellInjurySources.date} deck.pdf`,
 		});
 
 		await stage.normaliseModule({ moduleRoot });
@@ -286,15 +289,15 @@ describe("createSourceNormalisationStage", () => {
 			{
 				lectureNumber: 1,
 				lectureDate: cellInjurySources.date,
-				videoName: cellInjurySources.video,
-				slideName: cellInjurySources.slide,
+				videoName: cellInjurySources.videoRecording,
+				slideName: cellInjurySources.slideDeck,
 				provisionalTitle: "Cell Injury",
 			},
 			{
 				lectureNumber: 2,
 				lectureDate: vaccinationSources.date,
-				videoName: vaccinationSources.video,
-				slideName: vaccinationSources.slide,
+				videoName: vaccinationSources.videoRecording,
+				slideName: vaccinationSources.slideDeck,
 				provisionalTitle: "Vaccination",
 			},
 		]);
@@ -302,8 +305,8 @@ describe("createSourceNormalisationStage", () => {
 
 	it("should ignore dotfiles in the source directories when normalising", async () => {
 		await writeLecture(cellInjurySources);
-		await writeInto(videoDir(moduleRoot), ".DS_Store");
-		await writeInto(slideDir(moduleRoot), ".DS_Store");
+		await writeInto(videoRecordingsDir(moduleRoot), ".DS_Store");
+		await writeInto(slideDecksDir(moduleRoot), ".DS_Store");
 
 		await stage.normaliseModule({ moduleRoot });
 
@@ -316,41 +319,44 @@ describe("createSourceNormalisationStage", () => {
 			{
 				scenario: "a video has no extractable date",
 				setup: async (): Promise<void> => {
-					await writeInto(videoDir(moduleRoot), "BOD_Cell Injury no date.mp4");
+					await writeInto(videoRecordingsDir(moduleRoot), "BOD_Cell Injury no date.mp4");
 				},
 			},
 			{
 				scenario: "a slide has no extractable date",
 				setup: async (): Promise<void> => {
-					await writeInto(slideDir(moduleRoot), "BOD_Cell Injury deck no date.pdf");
+					await writeInto(slideDecksDir(moduleRoot), "BOD_Cell Injury deck no date.pdf");
 				},
 			},
 			{
 				scenario: "a video has no matching slide",
 				setup: async (): Promise<void> => {
-					await writeInto(videoDir(moduleRoot), cellInjurySources.video);
+					await writeInto(videoRecordingsDir(moduleRoot), cellInjurySources.videoRecording);
 				},
 			},
 			{
 				scenario: "a slide has no matching video",
 				setup: async (): Promise<void> => {
-					await writeInto(slideDir(moduleRoot), `${cellInjurySources.date} Orphan deck.pdf`);
+					await writeInto(slideDecksDir(moduleRoot), `${cellInjurySources.date} Orphan deck.pdf`);
 				},
 			},
 			{
 				scenario: "two videos share a date",
 				setup: async (): Promise<void> => {
-					await writeInto(videoDir(moduleRoot), cellInjurySources.video);
-					await writeInto(videoDir(moduleRoot), `${cellInjurySources.date} BOD_Immunity.mp4`);
-					await writeInto(slideDir(moduleRoot), `${cellInjurySources.date} deck.pdf`);
+					await writeInto(videoRecordingsDir(moduleRoot), cellInjurySources.videoRecording);
+					await writeInto(
+						videoRecordingsDir(moduleRoot),
+						`${cellInjurySources.date} BOD_Immunity.mp4`,
+					);
+					await writeInto(slideDecksDir(moduleRoot), `${cellInjurySources.date} deck.pdf`);
 				},
 			},
 			{
 				scenario: "two slides share a date",
 				setup: async (): Promise<void> => {
-					await writeInto(videoDir(moduleRoot), cellInjurySources.video);
-					await writeInto(slideDir(moduleRoot), cellInjurySources.slide);
-					await writeInto(slideDir(moduleRoot), `${cellInjurySources.date} Extra deck.pdf`);
+					await writeInto(videoRecordingsDir(moduleRoot), cellInjurySources.videoRecording);
+					await writeInto(slideDecksDir(moduleRoot), cellInjurySources.slideDeck);
+					await writeInto(slideDecksDir(moduleRoot), `${cellInjurySources.date} Extra deck.pdf`);
 				},
 			},
 		])("should log an error and make no filesystem changes when $scenario", async ({ setup }) => {
@@ -363,8 +369,8 @@ describe("createSourceNormalisationStage", () => {
 		});
 
 		it("should report every anomaly in a single error when several sources are wrong", async () => {
-			await writeInto(videoDir(moduleRoot), "BOD_no date.mp4");
-			await writeInto(slideDir(moduleRoot), `${cellInjurySources.date} Orphan deck.pdf`);
+			await writeInto(videoRecordingsDir(moduleRoot), "BOD_no date.mp4");
+			await writeInto(slideDecksDir(moduleRoot), `${cellInjurySources.date} Orphan deck.pdf`);
 
 			const rejection = stage.normaliseModule({ moduleRoot });
 
@@ -402,7 +408,7 @@ describe("createSourceNormalisationStage", () => {
 		);
 		expect(renumbered.lectureNumber).toBe(3);
 		expect(renumbered.workspaceFolderName).toBe(vaccinationAsThird);
-		expect(await listNames(videoDir(moduleRoot))).toContain(`${vaccinationAsThird}.mp4`);
+		expect(await listNames(videoRecordingsDir(moduleRoot))).toContain(`${vaccinationAsThird}.mp4`);
 	});
 
 	it("should leave an undateable file in Final output untouched when normalisation runs", async () => {
@@ -432,8 +438,8 @@ describe("createSourceNormalisationStage", () => {
 
 	describe("interrupted renames", () => {
 		it("should restore a temporary source file to its target name when a previous run was interrupted", async () => {
-			await writeInto(videoDir(moduleRoot), `${cellInjuryAsFirst}.mp4${TEMP_SUFFIX}`);
-			await writeInto(slideDir(moduleRoot), `${cellInjuryAsFirst}.pdf${TEMP_SUFFIX}`);
+			await writeInto(videoRecordingsDir(moduleRoot), `${cellInjuryAsFirst}.mp4${TEMP_SUFFIX}`);
+			await writeInto(slideDecksDir(moduleRoot), `${cellInjuryAsFirst}.pdf${TEMP_SUFFIX}`);
 
 			await stage.normaliseModule({ moduleRoot });
 
@@ -457,9 +463,9 @@ describe("createSourceNormalisationStage", () => {
 		});
 
 		it("should abort without filesystem changes when a temporary file's target name is taken", async () => {
-			await writeInto(videoDir(moduleRoot), `${cellInjuryAsFirst}.mp4`);
-			await writeInto(videoDir(moduleRoot), `${cellInjuryAsFirst}.mp4${TEMP_SUFFIX}`);
-			await writeInto(slideDir(moduleRoot), `${cellInjuryAsFirst}.pdf`);
+			await writeInto(videoRecordingsDir(moduleRoot), `${cellInjuryAsFirst}.mp4`);
+			await writeInto(videoRecordingsDir(moduleRoot), `${cellInjuryAsFirst}.mp4${TEMP_SUFFIX}`);
+			await writeInto(slideDecksDir(moduleRoot), `${cellInjuryAsFirst}.pdf`);
 
 			await expectNormalisationToAbort([]);
 
@@ -468,7 +474,7 @@ describe("createSourceNormalisationStage", () => {
 					anomalies: [expect.stringContaining(`${cellInjuryAsFirst}.mp4${TEMP_SUFFIX}`)],
 				}),
 			);
-			expect(await listNames(videoDir(moduleRoot))).toEqual([
+			expect(await listNames(videoRecordingsDir(moduleRoot))).toEqual([
 				`${cellInjuryAsFirst}.mp4`,
 				`${cellInjuryAsFirst}.mp4${TEMP_SUFFIX}`,
 			]);
@@ -481,8 +487,8 @@ describe("createSourceNormalisationStage", () => {
 		}
 
 		async function removeSourcePair(baseName: string): Promise<void> {
-			await rm(join(videoDir(moduleRoot), `${baseName}.mp4`));
-			await rm(join(slideDir(moduleRoot), `${baseName}.pdf`));
+			await rm(join(videoRecordingsDir(moduleRoot), `${baseName}.mp4`));
+			await rm(join(slideDecksDir(moduleRoot), `${baseName}.pdf`));
 		}
 
 		beforeEach(async () => {
@@ -533,7 +539,9 @@ describe("createSourceNormalisationStage", () => {
 
 			expect(await listNames(processingDir(moduleRoot))).toEqual([vaccinationAsFirst]);
 			expect(await listNames(finalOutputDir(moduleRoot))).toEqual([`${vaccinationAsFirst}.pdf`]);
-			expect(await listNames(videoDir(moduleRoot))).toEqual([`${vaccinationAsFirst}.mp4`]);
+			expect(await listNames(videoRecordingsDir(moduleRoot))).toEqual([
+				`${vaccinationAsFirst}.mp4`,
+			]);
 		});
 
 		it("should take a final confirmation and delete every orphan when several are all approved", async () => {
@@ -597,7 +605,9 @@ describe("createSourceNormalisationStage", () => {
 				`${cellInjuryAsFirst}.pdf`,
 				`${vaccinationAsSecond}.pdf`,
 			]);
-			expect(await listNames(videoDir(moduleRoot))).toEqual([`${vaccinationAsSecond}.mp4`]);
+			expect(await listNames(videoRecordingsDir(moduleRoot))).toEqual([
+				`${vaccinationAsSecond}.mp4`,
+			]);
 		});
 	});
 

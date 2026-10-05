@@ -20,7 +20,7 @@ import { createAudioExtractionStage } from "./audio-extraction.js";
 const FIXTURE_SECONDS = 1;
 
 /** Renders a tiny H.264 + AAC test video, so the suite needs no binary fixture. */
-function renderFixtureVideo(outputPath: string): Promise<void> {
+function renderFixtureVideoRecording(outputPath: string): Promise<void> {
 	return renderFixtureMedia({
 		ffmpegArgs: [
 			...lavfiInput(`testsrc=duration=${String(FIXTURE_SECONDS)}:size=160x120:rate=10`),
@@ -52,7 +52,7 @@ describe("createAudioExtractionStage against real ffmpeg", () => {
 
 	beforeEach(async () => {
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "audio-extraction-live-" }));
-		await mkdir(moduleDirs({ moduleRoot }).video, { recursive: true });
+		await mkdir(moduleDirs({ moduleRoot }).videoRecording, { recursive: true });
 	});
 
 	afterEach(async () => {
@@ -62,7 +62,9 @@ describe("createAudioExtractionStage against real ffmpeg", () => {
 	it(
 		"should produce valid m4a output when extracting the audio track from a real video file",
 		async () => {
-			await renderFixtureVideo(join(moduleDirs({ moduleRoot }).video, testLecture.videoFile));
+			await renderFixtureVideoRecording(
+				join(moduleDirs({ moduleRoot }).videoRecording, testLecture.videoRecordingFile),
+			);
 			const stage = createAudioExtractionStage({ logger: makeStubLogger().logger });
 			const context = makeStageContext({ workspaceRoot });
 

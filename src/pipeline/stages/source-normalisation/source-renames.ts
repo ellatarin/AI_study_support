@@ -9,7 +9,7 @@
  * name something else still holds.
  *
  * The price of that is a crash between the two passes, which leaves a complete
- * item — possibly the only copy of a lecture's video — sitting under a temporary
+ * item — possibly the only copy of a lecture's video recording — sitting under a temporary
  * name. Finishing those is the first thing the next run does, and it happens
  * here too, because the two halves only work by agreeing on the suffix.
  *
@@ -71,10 +71,10 @@ async function findPendingRenames(dirs: ModuleDirs): Promise<readonly PendingRen
  * through, before anything is read.
  *
  * A temporary entry holds a *complete* item that has left its old name and not
- * yet reached its new one — the sole copy of a source video, or a whole lecture
+ * yet reached its new one — the sole copy of a video recording, or a whole lecture
  * workspace — so the run that finds one moves it on to its target rather than
  * treating it as the discardable partial output §4.3 sweeps up. Left in place it
- * is read as a second video on its lecture's date, which validation then refuses
+ * is read as a second video recording on its lecture's date, which validation then refuses
  * as a duplicate for as long as it sits there.
  *
  * A target name that is already taken cannot be resolved this way. Nothing is
@@ -147,8 +147,8 @@ function renameIfMoved({
 }
 
 /**
- * Plans every rename needed to bring the module to its target numbering: source
- * video, matched slide, existing workspace folder, and existing `Final output/`
+ * Plans every rename needed to bring the module to its target numbering: video
+ * recording, matched slide deck, existing workspace folder, and existing `Final output/`
  * PDF. Items already at their target are omitted (so a re-run is a no-op).
  *
  * @param args - The lectures and the directories and existing state to reconcile.
@@ -173,23 +173,23 @@ export function planRenames({
 	return lectures.flatMap((lecture) =>
 		[
 			renameIfMoved({
-				dir: dirs.video,
-				source: lecture.videoName,
-				target: `${lecture.baseName}${extname(lecture.videoName)}`,
+				dir: dirs.videoRecording,
+				source: lecture.videoRecordingName,
+				target: `${lecture.baseName}${extname(lecture.videoRecordingName)}`,
 			}),
 			renameIfMoved({
-				dir: dirs.slide,
-				source: lecture.slideName,
-				target: `${lecture.baseName}${extname(lecture.slideName)}`,
+				dir: dirs.slideDeck,
+				source: lecture.slideDeckName,
+				target: `${lecture.baseName}${extname(lecture.slideDeckName)}`,
 			}),
 			renameIfMoved({
 				dir: dirs.processing,
-				source: existingFolders.get(lecture.iso),
+				source: existingFolders.get(lecture.lectureDate),
 				target: lecture.baseName,
 			}),
 			renameIfMoved({
 				dir: dirs.finalOutput,
-				source: existingPdfs.get(lecture.iso),
+				source: existingPdfs.get(lecture.lectureDate),
 				target: `${lecture.baseName}.pdf`,
 			}),
 		].filter((operation) => operation !== null),

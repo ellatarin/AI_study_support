@@ -1053,7 +1053,7 @@ The source video is located by base name: the workspace folder name plus whateve
 
 ```typescript
 // src/pipeline/stages/audio-extraction/audio-extraction.ts
-type AudioExtractionInput = { sourceVideoPath: string }
+type AudioExtractionInput = { videoRecordingPath: string }
 type AudioExtractionOutput = { audioPath: string }
 createAudioExtractionStage(args: { logger: Logger }): PipelineStage<AudioExtractionInput, AudioExtractionOutput>
 // Throws AudioExtractionError when the source video is missing or ambiguous, or when ffmpeg fails.

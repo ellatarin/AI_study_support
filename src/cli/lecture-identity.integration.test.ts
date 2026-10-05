@@ -63,7 +63,9 @@ describe("lecture identity commands", () => {
 		it("should leave the files for the renormalisation to rename when renaming", async () => {
 			await renameLecture({ workspaceRoot: match.workspaceRoot, title: userChosenTitle });
 
-			expect(await pathExists(join(dirs.video, testLecture.videoFile))).toBe(true);
+			expect(await pathExists(join(dirs.videoRecording, testLecture.videoRecordingFile))).toBe(
+				true,
+			);
 		});
 
 		it("should reject the rename when the title has no usable characters", async () => {
@@ -80,8 +82,11 @@ describe("lecture identity commands", () => {
 		// Thunks, because every path here is built from state the enclosing
 		// beforeEach assigns, long after this table is read.
 		it.each([
-			{ what: "the source video", path: () => join(dirs.video, testLecture.videoFile) },
-			{ what: "the source slide", path: () => join(dirs.slide, testLecture.slideFile) },
+			{
+				what: "the source video",
+				path: () => join(dirs.videoRecording, testLecture.videoRecordingFile),
+			},
+			{ what: "the source slide", path: () => join(dirs.slideDeck, testLecture.slideDeckFile) },
 			{ what: "the workspace and everything in it", path: () => match.workspaceRoot },
 			{ what: "the final output", path: () => join(dirs.finalOutput, testLecture.outputFile) },
 		])("should remove $what when deleting", async ({ path }) => {
@@ -91,11 +96,13 @@ describe("lecture identity commands", () => {
 		});
 
 		it("should leave other lectures untouched when deleting", async () => {
-			await writeFile(join(dirs.video, `${otherLecture.folderName}.mp4`), "video");
+			await writeFile(join(dirs.videoRecording, `${otherLecture.folderName}.mp4`), "video");
 
 			await deleteLecture({ match });
 
-			expect(await pathExists(join(dirs.video, `${otherLecture.folderName}.mp4`))).toBe(true);
+			expect(await pathExists(join(dirs.videoRecording, `${otherLecture.folderName}.mp4`))).toBe(
+				true,
+			);
 		});
 
 		it("should succeed when the lecture has produced no final output yet", async () => {
@@ -137,13 +144,13 @@ describe("lecture identity commands", () => {
 		it.each([
 			{
 				what: "the source video",
-				moved: () => join(dirs.video, `${MOVED_FOLDER}.mp4`),
-				left: () => join(dirs.video, testLecture.videoFile),
+				moved: () => join(dirs.videoRecording, `${MOVED_FOLDER}.mp4`),
+				left: () => join(dirs.videoRecording, testLecture.videoRecordingFile),
 			},
 			{
 				what: "the source slide",
-				moved: () => join(dirs.slide, `${MOVED_FOLDER}.pdf`),
-				left: () => join(dirs.slide, testLecture.slideFile),
+				moved: () => join(dirs.slideDeck, `${MOVED_FOLDER}.pdf`),
+				left: () => join(dirs.slideDeck, testLecture.slideDeckFile),
 			},
 			{
 				what: "the workspace",
@@ -167,12 +174,12 @@ describe("lecture identity commands", () => {
 
 			await changeDate();
 
-			expect(await pathExists(join(dirs.video, `${MOVED_FOLDER}.mp4`))).toBe(true);
+			expect(await pathExists(join(dirs.videoRecording, `${MOVED_FOLDER}.mp4`))).toBe(true);
 		});
 
 		describe("with another lecture's file at the new date", () => {
 			beforeEach(async () => {
-				await writeFile(join(dirs.video, `${MOVED_FOLDER}.mp4`), "another lecture");
+				await writeFile(join(dirs.videoRecording, `${MOVED_FOLDER}.mp4`), "another lecture");
 			});
 
 			it("should reject the change when the move would overwrite it", async () => {
@@ -185,15 +192,17 @@ describe("lecture identity commands", () => {
 			it("should leave the lecture untouched when the change is rejected", async () => {
 				await captureError(changeDate());
 
-				expect(await pathExists(join(dirs.video, testLecture.videoFile))).toBe(true);
+				expect(await pathExists(join(dirs.videoRecording, testLecture.videoRecordingFile))).toBe(
+					true,
+				);
 				expect((await readManifest({ workspaceRoot: match.workspaceRoot })).lectureDate).toBe(
 					testLecture.date,
 				);
 			});
 		});
 
-		it("should reject the change when the lecture's source video is missing", async () => {
-			await rm(join(dirs.video, testLecture.videoFile));
+		it("should reject the change when the lecture's video recording is missing", async () => {
+			await rm(join(dirs.videoRecording, testLecture.videoRecordingFile));
 
 			const error = await captureError(changeDate());
 

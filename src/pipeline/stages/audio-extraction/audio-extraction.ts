@@ -9,16 +9,16 @@ import { moduleDirs } from "../../layout.js";
 import { createPipelineStage, writeStageOutput } from "../pipeline-stage.js";
 
 /**
- * Thrown when the lecture's source video cannot be located unambiguously, or
+ * Thrown when the lecture's video recording cannot be located unambiguously, or
  * when ffmpeg fails to extract its audio track. Either way no `audio.m4a` is
  * left behind (technical-design.md §5, `audio-extraction`).
  */
 export class AudioExtractionError extends NamedError {}
 
-/** The source video `audio-extraction` extracts audio from. */
+/** The video recording `audio-extraction` extracts audio from. */
 export type AudioExtractionInput = {
-	/** Absolute path to the lecture's source video, whatever container it uses. */
-	readonly sourceVideoPath: string;
+	/** Absolute path to the lecture's video recording, whatever container it uses. */
+	readonly videoRecordingPath: string;
 };
 
 /** The extracted audio `audio-extraction` produces. */
@@ -39,42 +39,44 @@ const PERCENT_COMPLETE = 100;
 const PERCENT_BEFORE_END = 99;
 
 /**
- * Locates the lecture's source video by base name. `source-normalisation` gives the video, the
- * slide, and the workspace folder the same base name but preserves the original
- * container extension, so the video is whichever file in the module's video
- * directory shares the workspace folder's name (technical-design.md §5, `audio-extraction`).
+ * Locates the lecture's video recording by base name. `source-normalisation` gives the video
+ * recording, the slide deck, and the workspace folder the same base name but preserves the
+ * original container extension, so the video recording is whichever file in the module's video
+ * recordings directory shares the workspace folder's name (technical-design.md §5, `audio-extraction`).
  *
  * @param context - The current lecture run context.
- * @returns The located source video.
- * @throws {AudioExtractionError} If no video matches, or more than one does.
+ * @returns The located video recording.
+ * @throws {AudioExtractionError} If no video recording matches, or more than one does.
  */
-async function locateSourceVideo(context: StageContext): Promise<AudioExtractionInput> {
-	const videoDir = moduleDirs({ moduleRoot: context.moduleRoot }).video;
+async function locateVideoRecording(context: StageContext): Promise<AudioExtractionInput> {
+	const videoRecordingsDir = moduleDirs({ moduleRoot: context.moduleRoot }).videoRecording;
 	const baseName = context.manifest.workspaceFolderName;
-	const matches = (await listFileNames(videoDir)).filter(
+	const matches = (await listFileNames(videoRecordingsDir)).filter(
 		(name) => basename(name, extname(name)) === baseName,
 	);
 
-	const [sourceVideo, ...surplus] = matches;
-	if (sourceVideo === undefined) {
-		throw new AudioExtractionError(`No source video named "${baseName}" found in ${videoDir}`);
+	const [videoRecording, ...surplus] = matches;
+	if (videoRecording === undefined) {
+		throw new AudioExtractionError(
+			`No video recording named "${baseName}" found in ${videoRecordingsDir}`,
+		);
 	}
 	if (surplus.length > 0) {
 		throw new AudioExtractionError(
-			`Multiple source videos named "${baseName}" found in ${videoDir}: ${matches.join(", ")}`,
+			`Multiple video recordings named "${baseName}" found in ${videoRecordingsDir}: ${matches.join(", ")}`,
 		);
 	}
-	return { sourceVideoPath: join(videoDir, sourceVideo) };
+	return { videoRecordingPath: join(videoRecordingsDir, videoRecording) };
 }
 
 /**
- * Copies the video's audio track into `outputPath` without re-encoding, driving a
+ * Copies the video recording's audio track into `outputPath` without re-encoding, driving a
  * percentage progress bar from ffmpeg's progress events. fluent-ffmpeg spawns
  * with an explicit argv array, so no path is ever interpolated into a shell
  * command (technical-design.md §4.4).
  *
  * @param args - The extraction paths.
- * @param args.inputPath - Absolute path to the source video.
+ * @param args.inputPath - Absolute path to the video recording.
  * @param args.outputPath - Absolute path to write the audio track to.
  * @returns A promise that resolves once ffmpeg reports completion.
  */
@@ -117,13 +119,13 @@ function copyAudioTrack({
  * and renaming only on success so a killed run never leaves a truncated file a
  * later run would mistake for complete (technical-design.md §4.3).
  *
- * The source video is logged with the extraction: this stage picks it by base
- * name from whatever the module's video directory holds, so which file was
+ * The video recording is logged with the extraction: this stage picks it by base
+ * name from whatever the module's video recordings directory holds, so which file was
  * chosen is a decision worth being able to check afterwards
  * (technical-design.md §10).
  *
  * @param args - The run inputs.
- * @param args.input - The located source video.
+ * @param args.input - The located video recording.
  * @param args.context - The current lecture run context.
  * @param args.logger - The stage's logger, which records the extraction.
  * @returns The extracted audio path, a `null` cost, and the file written.
@@ -146,16 +148,16 @@ async function extractAudio({
 			stageId: STAGE_ID,
 			workspaceRoot: context.workspaceRoot,
 			produce: (tmpPath) =>
-				copyAudioTrack({ inputPath: input.sourceVideoPath, outputPath: tmpPath }),
+				copyAudioTrack({ inputPath: input.videoRecordingPath, outputPath: tmpPath }),
 		});
 	} catch (error: unknown) {
 		throw new AudioExtractionError(
-			`Audio extraction failed for ${input.sourceVideoPath}: ${errorMessage(error)}`,
+			`Audio extraction failed for ${input.videoRecordingPath}: ${errorMessage(error)}`,
 		);
 	}
 	logger.debug(
 		{
-			sourceVideoPath: input.sourceVideoPath,
+			videoRecordingPath: input.videoRecordingPath,
 			audioPath: written.path,
 			latencyMs: Math.round(performance.now() - startedAt),
 		},
@@ -171,7 +173,7 @@ async function extractAudio({
 }
 
 /**
- * Builds `audio-extraction`, which extracts the lecture video's audio track to
+ * Builds `audio-extraction`, which extracts the lecture's video recording's audio track to
  * `Audio/audio.m4a` with `-acodec copy` — no re-encoding — and retains it for the
  * life of the workspace (technical-design.md §5, `audio-extraction`).
  *
@@ -188,7 +190,7 @@ export function createAudioExtractionStage({
 	return createPipelineStage({
 		stageId: STAGE_ID,
 		logger,
-		getInput: locateSourceVideo,
+		getInput: locateVideoRecording,
 		run: extractAudio,
 	});
 }

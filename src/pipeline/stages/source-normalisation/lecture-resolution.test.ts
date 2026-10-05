@@ -10,7 +10,7 @@ import {
 import {
 	checkSources,
 	orderLectures,
-	type PairedSources,
+	type SourcePair,
 	toDatedFiles,
 } from "./lecture-resolution.js";
 
@@ -18,54 +18,54 @@ import {
 const MODULE_PREFIXES = ["BOD"] as const;
 
 /**
- * The pairs a listing yields, for the numbering tests.
+ * The source pairs a listing yields, for the numbering tests.
  *
- * Numbering consumes what matching produced, so the pairs are taken from the
- * matcher rather than hand-built: a hand-built pair could carry a date its two
+ * Numbering consumes what matching produced, so the source pairs are taken from the
+ * matcher rather than hand-built: a hand-built source pair could carry a date its two
  * files do not, which is a state the rules cannot reach.
  *
  * @param args - The source listings.
- * @param args.videos - The video file names.
- * @param args.slides - The slide file names.
- * @returns The matched pairs.
+ * @param args.videoRecordings - The video recording file names.
+ * @param args.slideDecks - The slide deck file names.
+ * @returns The matched source pairs.
  * @throws Error when the listings do not match, which no numbering test intends.
  */
-function matchedPairs({
-	videos,
-	slides,
+function matchedSourcePairs({
+	videoRecordings,
+	slideDecks,
 }: {
-	readonly videos: readonly string[];
-	readonly slides: readonly string[];
-}): readonly PairedSources[] {
+	readonly videoRecordings: readonly string[];
+	readonly slideDecks: readonly string[];
+}): readonly SourcePair[] {
 	const checked = checkSources({
-		videos: toDatedFiles(videos),
-		slides: toDatedFiles(slides),
+		videoRecordings: toDatedFiles(videoRecordings),
+		slideDecks: toDatedFiles(slideDecks),
 	});
 	if (checked.state === "anomalies") {
 		throw new Error(`expected matched sources, got: ${checked.anomalies.join("; ")}`);
 	}
-	return checked.pairs;
+	return checked.sourcePairs;
 }
 
 /**
  * The anomalies a listing produces.
  *
  * @param args - The source listings.
- * @param args.videos - The video file names.
- * @param args.slides - The slide file names.
+ * @param args.videoRecordings - The video recording file names.
+ * @param args.slideDecks - The slide deck file names.
  * @returns The anomaly lines.
  * @throws Error when the listings match, which no validation test intends.
  */
 function anomaliesFor({
-	videos,
-	slides,
+	videoRecordings,
+	slideDecks,
 }: {
-	readonly videos: readonly string[];
-	readonly slides: readonly string[];
+	readonly videoRecordings: readonly string[];
+	readonly slideDecks: readonly string[];
 }): readonly string[] {
 	const checked = checkSources({
-		videos: toDatedFiles(videos),
-		slides: toDatedFiles(slides),
+		videoRecordings: toDatedFiles(videoRecordings),
+		slideDecks: toDatedFiles(slideDecks),
 	});
 	if (checked.state === "matched") {
 		throw new Error("expected anomalies, but every source matched");
@@ -75,13 +75,15 @@ function anomaliesFor({
 
 describe("toDatedFiles", () => {
 	it.each([
-		{ name: cellInjurySources.video, iso: cellInjurySources.date },
-		{ name: "13 Oct 2025 BOD_Immunity to Infection.mp4", iso: immunitySources.date },
-	])("should read $iso off $name when the name carries a date", ({ name, iso }) => {
+		{ name: cellInjurySources.videoRecording, lectureDate: cellInjurySources.date },
+		{ name: "13 Oct 2025 BOD_Immunity to Infection.mp4", lectureDate: immunitySources.date },
+	])("should read $lectureDate off $name when the name carries a date", ({ name, lectureDate }) => {
 		const { dated, undateable } = toDatedFiles([name]);
 
 		expect(undateable).toEqual([]);
-		expect(dated.map((file) => ({ name: file.name, iso: file.iso }))).toEqual([{ name, iso }]);
+		expect(dated.map((file) => ({ name: file.name, lectureDate: file.lectureDate }))).toEqual([
+			{ name, lectureDate },
+		]);
 	});
 
 	it("should classify a name as undateable when it carries no date", () => {
@@ -93,67 +95,85 @@ describe("toDatedFiles", () => {
 });
 
 describe("checkSources", () => {
-	it("should pair each video with the slide sharing its date when every date matches", () => {
-		const pairs = matchedPairs({
-			videos: [vaccinationSources.video, cellInjurySources.video],
-			slides: [cellInjurySources.slide, vaccinationSources.slide],
+	it("should pair each video recording with the slide deck sharing its date when every date matches", () => {
+		const sourcePairs = matchedSourcePairs({
+			videoRecordings: [vaccinationSources.videoRecording, cellInjurySources.videoRecording],
+			slideDecks: [cellInjurySources.slideDeck, vaccinationSources.slideDeck],
 		});
 
-		expect(pairs.map((pair) => ({ video: pair.video.name, slide: pair.slideName }))).toEqual([
-			{ video: vaccinationSources.video, slide: vaccinationSources.slide },
-			{ video: cellInjurySources.video, slide: cellInjurySources.slide },
+		expect(
+			sourcePairs.map((sourcePair) => ({
+				videoRecording: sourcePair.videoRecording.name,
+				slideDeck: sourcePair.slideDeckName,
+			})),
+		).toEqual([
+			{
+				videoRecording: vaccinationSources.videoRecording,
+				slideDeck: vaccinationSources.slideDeck,
+			},
+			{ videoRecording: cellInjurySources.videoRecording, slideDeck: cellInjurySources.slideDeck },
 		]);
 	});
 
 	// Every rule that stops a run, in the order the report puts them: both kinds
 	// of undateable file, then both kinds of duplicate date, then both directions
-	// of an unmatched pair. One table rather than three, because what each case
+	// of an unmatched source pair. One table rather than three, because what each case
 	// asks is the same question of a different listing.
 	it.each([
 		{
-			problem: "a video carries no readable date",
-			videos: ["Cell Injury.mp4", cellInjurySources.video],
-			slides: [cellInjurySources.slide],
-			expected: 'video "Cell Injury.mp4" has no extractable date',
+			problem: "a video recording carries no readable date",
+			videoRecordings: ["Cell Injury.mp4", cellInjurySources.videoRecording],
+			slideDecks: [cellInjurySources.slideDeck],
+			expected: 'video recording "Cell Injury.mp4" has no extractable date',
 		},
 		{
-			problem: "a slide carries no readable date",
-			videos: [cellInjurySources.video],
-			slides: ["Cell Injury deck.pdf", cellInjurySources.slide],
-			expected: 'slide "Cell Injury deck.pdf" has no extractable date',
+			problem: "a slide deck carries no readable date",
+			videoRecordings: [cellInjurySources.videoRecording],
+			slideDecks: ["Cell Injury deck.pdf", cellInjurySources.slideDeck],
+			expected: 'slide deck "Cell Injury deck.pdf" has no extractable date',
 		},
 		{
-			problem: "two videos share a date",
-			videos: [cellInjurySources.video, `${cellInjurySources.date} BOD_Cell Injury take two.mp4`],
-			slides: [cellInjurySources.slide],
-			expected: `two or more videos share the date ${cellInjurySources.date}`,
+			problem: "two video recordings share a date",
+			videoRecordings: [
+				cellInjurySources.videoRecording,
+				`${cellInjurySources.date} BOD_Cell Injury take two.mp4`,
+			],
+			slideDecks: [cellInjurySources.slideDeck],
+			expected: `two or more video recordings share the date ${cellInjurySources.date}`,
 		},
 		{
-			problem: "two slides share a date",
-			videos: [cellInjurySources.video],
-			slides: [cellInjurySources.slide, `${cellInjurySources.date} Cell Injury handout.pdf`],
-			expected: `two or more slides share the date ${cellInjurySources.date}`,
+			problem: "two slide decks share a date",
+			videoRecordings: [cellInjurySources.videoRecording],
+			slideDecks: [
+				cellInjurySources.slideDeck,
+				`${cellInjurySources.date} Cell Injury handout.pdf`,
+			],
+			expected: `two or more slide decks share the date ${cellInjurySources.date}`,
 		},
 		{
-			problem: "a video has no slide on its date",
-			videos: [cellInjurySources.video, vaccinationSources.video],
-			slides: [cellInjurySources.slide],
-			expected: `video "${vaccinationSources.video}" has no matching slide (date ${vaccinationSources.date})`,
+			problem: "a video recording has no slide deck on its date",
+			videoRecordings: [cellInjurySources.videoRecording, vaccinationSources.videoRecording],
+			slideDecks: [cellInjurySources.slideDeck],
+			expected: `video recording "${vaccinationSources.videoRecording}" has no matching slide deck (date ${vaccinationSources.date})`,
 		},
 		{
-			problem: "a slide has no video on its date",
-			videos: [cellInjurySources.video],
-			slides: [cellInjurySources.slide, vaccinationSources.slide],
-			expected: `slide "${vaccinationSources.slide}" has no matching video (date ${vaccinationSources.date})`,
+			problem: "a slide deck has no video recording on its date",
+			videoRecordings: [cellInjurySources.videoRecording],
+			slideDecks: [cellInjurySources.slideDeck, vaccinationSources.slideDeck],
+			expected: `slide deck "${vaccinationSources.slideDeck}" has no matching video recording (date ${vaccinationSources.date})`,
 		},
-	])("should refuse the sources and say so when $problem", ({ videos, slides, expected }) => {
-		expect(anomaliesFor({ videos, slides })).toContain(expected);
+	])("should refuse the sources and say so when $problem", ({
+		videoRecordings,
+		slideDecks,
+		expected,
+	}) => {
+		expect(anomaliesFor({ videoRecordings, slideDecks })).toContain(expected);
 	});
 
 	it("should report every problem rather than the first when several sources are wrong", () => {
 		const anomalies = anomaliesFor({
-			videos: ["Cell Injury.mp4", vaccinationSources.video],
-			slides: [immunitySources.slide],
+			videoRecordings: ["Cell Injury.mp4", vaccinationSources.videoRecording],
+			slideDecks: [immunitySources.slideDeck],
 		});
 
 		expect(anomalies).toHaveLength(3);
@@ -165,19 +185,19 @@ describe("orderLectures", () => {
 	 * Numbers a listing, with no lecture already on disk.
 	 *
 	 * @param args - The source listings.
-	 * @param args.videos - The video file names.
-	 * @param args.slides - The slide file names.
+	 * @param args.videoRecordings - The video file names.
+	 * @param args.slideDecks - The slide file names.
 	 * @returns The numbered lectures.
 	 */
 	function numberFresh({
-		videos,
-		slides,
+		videoRecordings,
+		slideDecks,
 	}: {
-		readonly videos: readonly string[];
-		readonly slides: readonly string[];
+		readonly videoRecordings: readonly string[];
+		readonly slideDecks: readonly string[];
 	}): ReturnType<typeof orderLectures> {
 		return orderLectures({
-			pairs: matchedPairs({ videos, slides }),
+			sourcePairs: matchedSourcePairs({ videoRecordings, slideDecks }),
 			existingManifests: new Map<string, Manifest>(),
 			modulePrefixes: MODULE_PREFIXES,
 		});
@@ -185,12 +205,20 @@ describe("orderLectures", () => {
 
 	it("should number lectures from one in date order when the listing is in another order", () => {
 		const lectures = numberFresh({
-			videos: [vaccinationSources.video, immunitySources.video, cellInjurySources.video],
-			slides: [immunitySources.slide, cellInjurySources.slide, vaccinationSources.slide],
+			videoRecordings: [
+				vaccinationSources.videoRecording,
+				immunitySources.videoRecording,
+				cellInjurySources.videoRecording,
+			],
+			slideDecks: [
+				immunitySources.slideDeck,
+				cellInjurySources.slideDeck,
+				vaccinationSources.slideDeck,
+			],
 		});
 
 		expect(
-			lectures.map((lecture) => ({ number: lecture.lectureNumber, iso: lecture.iso })),
+			lectures.map((lecture) => ({ number: lecture.lectureNumber, iso: lecture.lectureDate })),
 		).toEqual([
 			{ number: 1, iso: cellInjurySources.date },
 			{ number: 2, iso: immunitySources.date },
@@ -200,8 +228,8 @@ describe("orderLectures", () => {
 
 	it("should name a lecture from its number, title and date when it is new", () => {
 		const [lecture] = numberFresh({
-			videos: [cellInjurySources.video],
-			slides: [cellInjurySources.slide],
+			videoRecordings: [cellInjurySources.videoRecording],
+			slideDecks: [cellInjurySources.slideDeck],
 		});
 
 		expect(lecture?.baseName).toBe(cellInjuryAsFirst);
@@ -209,8 +237,8 @@ describe("orderLectures", () => {
 
 	it("should strip a configured module prefix when it reads a title off a filename", () => {
 		const [lecture] = numberFresh({
-			videos: [cellInjurySources.video],
-			slides: [cellInjurySources.slide],
+			videoRecordings: [cellInjurySources.videoRecording],
+			slideDecks: [cellInjurySources.slideDeck],
 		});
 
 		expect(lecture?.provisionalTitle).toBe("Cell Injury");
@@ -221,8 +249,8 @@ describe("orderLectures", () => {
 	// name, and nothing about it should look tied to the other three.
 	it("should name a lecture by its number and date alone when the filename yields no title", () => {
 		const [lecture] = numberFresh({
-			videos: ["2025-11-07 Lecture 1.mp4"],
-			slides: ["2025-11-07 deck.pdf"],
+			videoRecordings: ["2025-11-07 Lecture 1.mp4"],
+			slideDecks: ["2025-11-07 deck.pdf"],
 		});
 
 		expect(lecture?.provisionalTitle).toBe("");
@@ -233,9 +261,9 @@ describe("orderLectures", () => {
 		const lectureDate = cellInjurySources.date;
 
 		const [lecture] = orderLectures({
-			pairs: matchedPairs({
-				videos: [cellInjurySources.video],
-				slides: [cellInjurySources.slide],
+			sourcePairs: matchedSourcePairs({
+				videoRecordings: [cellInjurySources.videoRecording],
+				slideDecks: [cellInjurySources.slideDeck],
 			}),
 			existingManifests: new Map([
 				[lectureDate, makeManifest({ lectureDate, lectureTitle: "Innate Immune Response" })],
@@ -250,9 +278,9 @@ describe("orderLectures", () => {
 		const lectureDate = cellInjurySources.date;
 
 		const [lecture] = orderLectures({
-			pairs: matchedPairs({
-				videos: [`${cellInjuryAsFirst}.mp4`],
-				slides: [`${cellInjuryAsFirst}.pdf`],
+			sourcePairs: matchedSourcePairs({
+				videoRecordings: [`${cellInjuryAsFirst}.mp4`],
+				slideDecks: [`${cellInjuryAsFirst}.pdf`],
 			}),
 			existingManifests: new Map([
 				[lectureDate, makeManifest({ lectureDate, provisionalTitle: "Cell Injury" })],
@@ -263,15 +291,15 @@ describe("orderLectures", () => {
 		expect(lecture?.provisionalTitle).toBe("Cell Injury");
 	});
 
-	it("should carry the matched video and slide names through when a lecture is numbered", () => {
+	it("should carry the matched video recording and slide deck names through when a lecture is numbered", () => {
 		const [lecture] = numberFresh({
-			videos: [cellInjurySources.video],
-			slides: [cellInjurySources.slide],
+			videoRecordings: [cellInjurySources.videoRecording],
+			slideDecks: [cellInjurySources.slideDeck],
 		});
 
 		expect(lecture).toMatchObject({
-			videoName: cellInjurySources.video,
-			slideName: cellInjurySources.slide,
+			videoRecordingName: cellInjurySources.videoRecording,
+			slideDeckName: cellInjurySources.slideDeck,
 		});
 	});
 });

@@ -39,13 +39,16 @@ describe("lecture files", () => {
 
 	describe("findDatedFile", () => {
 		it("should return the file carrying the lecture date when the directory holds one", async () => {
-			const found = await findDatedFile({ dir: dirs.video, lectureDate: testLecture.date });
+			const found = await findDatedFile({
+				dir: dirs.videoRecording,
+				lectureDate: testLecture.date,
+			});
 
-			expect(found).toBe(testLecture.videoFile);
+			expect(found).toBe(testLecture.videoRecordingFile);
 		});
 
 		it("should return null when no file carries the lecture date", async () => {
-			const found = await findDatedFile({ dir: dirs.video, lectureDate: "2025-11-21" });
+			const found = await findDatedFile({ dir: dirs.videoRecording, lectureDate: "2025-11-21" });
 
 			expect(found).toBeNull();
 		});
@@ -55,9 +58,9 @@ describe("lecture files", () => {
 			// lecturer filenames or `transcript-structuring`'s LLM — so one can name a date too.
 			const lectureDate = "2025-12-05";
 			const named = `Lecture 4 - Cohort 01-02-2019 Results - ${lectureDate}.mp4`;
-			await writeFile(join(dirs.video, named), "");
+			await writeFile(join(dirs.videoRecording, named), "");
 
-			const found = await findDatedFile({ dir: dirs.video, lectureDate });
+			const found = await findDatedFile({ dir: dirs.videoRecording, lectureDate });
 
 			expect(found).toBe(named);
 		});
@@ -74,7 +77,7 @@ describe("lecture files", () => {
 
 	describe("removeDatedFile", () => {
 		beforeEach(async () => {
-			await writeFile(join(dirs.video, otherLecture.videoFile), "video");
+			await writeFile(join(dirs.videoRecording, otherLecture.videoRecordingFile), "video");
 		});
 
 		it.each([
@@ -84,17 +87,21 @@ describe("lecture files", () => {
 			lectureDate,
 			remains,
 		}) => {
-			await removeDatedFile({ dir: dirs.video, lectureDate });
+			await removeDatedFile({ dir: dirs.videoRecording, lectureDate });
 
-			expect(await pathExists(join(dirs.video, testLecture.videoFile))).toBe(remains);
-			expect(await pathExists(join(dirs.video, otherLecture.videoFile))).toBe(true);
+			expect(await pathExists(join(dirs.videoRecording, testLecture.videoRecordingFile))).toBe(
+				remains,
+			);
+			expect(await pathExists(join(dirs.videoRecording, otherLecture.videoRecordingFile))).toBe(
+				true,
+			);
 		});
 	});
 
 	describe("renameLectureFiles", () => {
 		it.each([
-			{ what: "source video", key: "video" as const, extension: ".mp4" },
-			{ what: "source slide", key: "slide" as const, extension: ".pdf" },
+			{ what: "video recording", key: "videoRecording" as const, extension: ".mp4" },
+			{ what: "slide deck", key: "slideDeck" as const, extension: ".pdf" },
 			{ what: "final output PDF", key: "finalOutput" as const, extension: ".pdf" },
 		])("should rename the $what when the lecture moves to a new base name", async ({
 			key,
@@ -128,18 +135,22 @@ describe("lecture files", () => {
 
 			await renameToNewBase();
 
-			expect(await pathExists(join(dirs.video, `${aiDerivedLecture.folderName}.mp4`))).toBe(true);
+			expect(
+				await pathExists(join(dirs.videoRecording, `${aiDerivedLecture.folderName}.mp4`)),
+			).toBe(true);
 			expect(await pathExists(join(dirs.finalOutput, `${aiDerivedLecture.folderName}.pdf`))).toBe(
 				false,
 			);
 		});
 
 		it("should leave another lecture's files untouched when one lecture moves", async () => {
-			await writeFile(join(dirs.video, otherLecture.videoFile), "video");
+			await writeFile(join(dirs.videoRecording, otherLecture.videoRecordingFile), "video");
 
 			await renameToNewBase();
 
-			expect(await pathExists(join(dirs.video, otherLecture.videoFile))).toBe(true);
+			expect(await pathExists(join(dirs.videoRecording, otherLecture.videoRecordingFile))).toBe(
+				true,
+			);
 		});
 	});
 });

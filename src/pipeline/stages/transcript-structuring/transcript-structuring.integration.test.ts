@@ -108,8 +108,8 @@ describe("transcript structuring against a real module tree", () => {
 
 		await runStage(await prepareLecture());
 
-		expect(await pathExists(join(dirs.video, `${folder}.mp4`))).toBe(true);
-		expect(await pathExists(join(dirs.slide, `${folder}.pdf`))).toBe(true);
+		expect(await pathExists(join(dirs.videoRecording, `${folder}.mp4`))).toBe(true);
+		expect(await pathExists(join(dirs.slideDeck, `${folder}.pdf`))).toBe(true);
 		expect(await pathExists(join(dirs.finalOutput, `${folder}.pdf`))).toBe(true);
 		expect(
 			await pathExists(
@@ -119,7 +119,7 @@ describe("transcript structuring against a real module tree", () => {
 				}),
 			),
 		).toBe(true);
-		expect(await pathExists(join(dirs.video, `${extinct}.mp4`))).toBe(false);
+		expect(await pathExists(join(dirs.videoRecording, `${extinct}.mp4`))).toBe(false);
 	});
 
 	it.each([
@@ -166,7 +166,7 @@ describe("transcript structuring against a real module tree", () => {
 		);
 
 		expect(settled).toEqual({ aiDerivedTitle: aiDerivedLecture.title });
-		expect(await pathExists(join(dirs.video, testLecture.videoFile))).toBe(true);
+		expect(await pathExists(join(dirs.videoRecording, testLecture.videoRecordingFile))).toBe(true);
 		expect(await pathExists(workspaceNamed(aiDerivedLecture.folderName))).toBe(false);
 	});
 
