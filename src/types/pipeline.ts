@@ -304,8 +304,8 @@ export type QaIterationSummary = {
 export type TerminationReason = "qa-passed" | "max-iterations-reached" | "stalled";
 
 /**
- * What one run of a stage produced: what the work cost, and what it left on
- * disk.
+ * What a stage produced when it ran: what the work cost, and the files it left
+ * on disk.
  *
  * Declared once because these two travel together from the stage to the
  * manifest — the runner reads both off {@link StageResult} and writes both into
@@ -313,13 +313,13 @@ export type TerminationReason = "qa-passed" | "max-iterations-reached" | "stalle
  * supplies that from the configuration it resolved, so it belongs to the entry
  * rather than to what the stage handed back (technical-design.md §4.2).
  */
-type StageRunRecord = {
+type StageCostAndFiles = {
 	readonly cost: StageCost | null;
 	readonly filesWritten: readonly string[];
 };
 
 /** Output-related fields common to every terminal stage entry. */
-type StageOutputData = StageRunRecord & {
+type StageOutputData = StageCostAndFiles & {
 	readonly configUsed: StageConfigUsed | null;
 };
 
@@ -491,7 +491,7 @@ export type LectureIdentityChanges = Partial<
  *
  * @typeParam TOutput - The stage-specific output payload.
  */
-export type StageResult<TOutput> = StageRunRecord & {
+export type StageResult<TOutput> = StageCostAndFiles & {
 	readonly output: TOutput;
 	/**
 	 * What the stage decided about the lecture's identity, written by the runner
