@@ -12,14 +12,14 @@ import {
 } from "../../utils/files.js";
 import { createStageLogger } from "../../utils/logger.js";
 import {
+	type StageWithMarkdownVersion,
 	type StageWithOutputFile,
-	type StageWithReadableView,
 	type StageWithRecord,
 	stageDirectoryPaths,
+	stageMarkdownVersionEntry,
+	stageMarkdownVersionPath,
 	stageOutputEntry,
 	stageOutputPath,
-	stageReadableViewEntry,
-	stageReadableViewPath,
 	stageRecordEntry,
 	stageRecordPath,
 } from "../layout.js";
@@ -200,41 +200,41 @@ export async function writeStageOutput(
 }
 
 /**
- * Writes the file a stage owns and the reader's view of it, and names both as
+ * Writes the file a stage owns and the Markdown version of it, and names both as
  * `filesWritten` records them (technical-design.md §3.3, §4.5).
  *
- * The same act as {@link writeStageOutput} for a stage that renders its own
- * output: the view is derived from what has just been written rather than
- * fetched or asked for again, so the two files say the same thing by
- * construction.
+ * The same act as {@link writeStageOutput} for a stage that writes a Markdown
+ * version of its output: the Markdown version is derived from what has just been
+ * written rather than fetched or asked for again, so the two files say the same
+ * thing by construction.
  *
  * A separate function rather than an optional argument, because the parameter
- * type is what ties supplying a view to a stage that declares one: a stage
- * rendering nothing cannot be named here, and one that does cannot forget to
- * render it. Both entries are recorded, so deleting either file re-runs the
+ * type is what ties supplying a Markdown version to a stage that declares one: a
+ * stage with none cannot be named here, and one that has one cannot forget to
+ * write it. Both entries are recorded, so deleting either file re-runs the
  * stage (§4.2).
  *
  * @param args - The stage, the workspace, and both files' contents.
- * @param args.stageId - The stage whose output this is; only a stage that renders a view.
+ * @param args.stageId - The stage whose output this is; only a stage that writes a Markdown version.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
  * @param args.content - The output file's text.
- * @param args.readableView - The rendering of that output for a person to read.
+ * @param args.markdownVersion - The Markdown version of that output, for a person to read.
  * @returns The absolute path of the output, and the `filesWritten` naming both files.
  * @example
- * await writeStageOutputWithReadableView({ stageId, workspaceRoot, content: json, readableView: markdown });
+ * await writeStageOutputWithMarkdownVersion({ stageId, workspaceRoot, content: json, markdownVersion: markdown });
  */
-export function writeStageOutputWithReadableView({
-	readableView,
+export function writeStageOutputWithMarkdownVersion({
+	markdownVersion,
 	...output
 }: StageOutputWrite & {
-	readonly stageId: StageWithReadableView;
-	readonly readableView: string;
+	readonly stageId: StageWithMarkdownVersion;
+	readonly markdownVersion: string;
 }): Promise<RecordedStageOutput> {
 	const beside = {
-		path: stageReadableViewPath(output),
-		entry: stageReadableViewEntry(output.stageId),
+		path: stageMarkdownVersionPath(output),
+		entry: stageMarkdownVersionEntry(output.stageId),
 	};
-	return writeStageOutputBeside({ output, beside: { ...beside, content: readableView } });
+	return writeStageOutputBeside({ output, beside: { ...beside, content: markdownVersion } });
 }
 
 /**
@@ -275,7 +275,7 @@ type StageOutputWrite = StageOutputTarget & { readonly content: string };
 
 /**
  * Writes a stage's output and one further file beside it, and names both as
- * `filesWritten` records them: what writing a readable view and writing a
+ * `filesWritten` records them: what writing a Markdown version and writing a
  * record have in common.
  *
  * @param args - The output, and the file beside it.

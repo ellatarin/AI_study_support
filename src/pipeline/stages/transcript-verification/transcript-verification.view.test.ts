@@ -5,7 +5,7 @@ import {
 	verificationDeficiency,
 	verificationReport,
 } from "../../fixtures.js";
-import { renderVerificationReport } from "./transcript-verification.view.js";
+import { renderVerificationReportMarkdown } from "./transcript-verification.view.js";
 
 /**
  * One deficiency, with the fields this test's behaviour depends on replaced. Every
@@ -27,7 +27,7 @@ function deficiency(overrides: Readonly<Partial<QaDeficiency>> = {}): QaDeficien
  * @returns The rendered document.
  */
 function render(overrides: Readonly<Partial<QaCheckerReport>> = {}): string {
-	return renderVerificationReport({ report: verificationReport(overrides) });
+	return renderVerificationReportMarkdown({ report: verificationReport(overrides) });
 }
 
 /**
@@ -50,7 +50,7 @@ function positionOf({
 	return document.indexOf(passage);
 }
 
-describe("renderVerificationReport", () => {
+describe("renderVerificationReportMarkdown", () => {
 	it("should open with the verdict, the coverage score and the count when a report is rendered", () => {
 		const document = render({
 			overallVerdict: "fail",

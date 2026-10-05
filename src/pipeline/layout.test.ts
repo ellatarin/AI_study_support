@@ -12,14 +12,14 @@ import {
 	RUNS_DIR,
 	resolveStageOutput,
 	runsDirPath,
-	STAGE_WORKSPACE,
+	STAGE_FILES,
+	type StageWithMarkdownVersion,
 	type StageWithOutputFile,
-	type StageWithReadableView,
 	stageDirectoryPaths,
+	stageMarkdownVersionEntry,
+	stageMarkdownVersionPath,
 	stageOutputEntry,
 	stageOutputPath,
-	stageReadableViewEntry,
-	stageReadableViewPath,
 	stageRecordPath,
 	workspaceRootFor,
 } from "./layout.js";
@@ -102,13 +102,13 @@ describe("moduleName", () => {
 	});
 });
 
-describe("STAGE_WORKSPACE", () => {
+describe("STAGE_FILES", () => {
 	it("should describe every stage when the pipeline is enumerated", () => {
-		expect(Object.keys(STAGE_WORKSPACE).sort()).toStrictEqual([...STAGE_IDS].sort());
+		expect(Object.keys(STAGE_FILES).sort()).toStrictEqual([...STAGE_IDS].sort());
 	});
 
 	it("should give source-normalisation no workspace directory when it owns none", () => {
-		expect(STAGE_WORKSPACE["source-normalisation"].outputLocation).toStrictEqual({
+		expect(STAGE_FILES["source-normalisation"].outputLocation).toStrictEqual({
 			root: "workspace",
 			directories: [],
 		});
@@ -116,20 +116,22 @@ describe("STAGE_WORKSPACE", () => {
 
 	it("should keep every stage but pdf-generation inside the workspace when ownership is read", () => {
 		const moduleRooted = STAGE_IDS.filter(
-			(stageId) => STAGE_WORKSPACE[stageId].outputLocation.root === "module",
+			(stageId) => STAGE_FILES[stageId].outputLocation.root === "module",
 		);
 
 		expect(moduleRooted).toStrictEqual(["pdf-generation"]);
 	});
 
-	it("should render a view for a reader from transcript-verification alone when ownership is read", () => {
-		const renderers = STAGE_IDS.filter((stageId) => STAGE_WORKSPACE[stageId].readableView !== null);
+	it("should write a Markdown version from transcript-verification alone when ownership is read", () => {
+		const markdownVersionWriters = STAGE_IDS.filter(
+			(stageId) => STAGE_FILES[stageId].markdownVersion !== null,
+		);
 
-		expect(renderers).toStrictEqual(["transcript-verification"]);
+		expect(markdownVersionWriters).toStrictEqual(["transcript-verification"]);
 	});
 
 	it("should keep a record of how the output was reached from choose-division, retitle-subtopics and define-topics alone when ownership is read", () => {
-		const recorders = STAGE_IDS.filter((stageId) => STAGE_WORKSPACE[stageId].record !== null);
+		const recorders = STAGE_IDS.filter((stageId) => STAGE_FILES[stageId].record !== null);
 
 		expect(recorders).toStrictEqual(["choose-division", "retitle-subtopics", "define-topics"]);
 	});
@@ -237,32 +239,34 @@ describe("stageOutputPath", () => {
 	});
 });
 
-describe("stageReadableViewEntry", () => {
-	it("should put the view beside the report it renders when transcript-verification is asked", () => {
-		expect(stageReadableViewEntry("transcript-verification")).toBe(
+describe("stageMarkdownCopyEntry", () => {
+	it("should put the Markdown version beside the report it presents when transcript-verification is asked", () => {
+		expect(stageMarkdownVersionEntry("transcript-verification")).toBe(
 			join("Transcript verification", "verification-report.md"),
 		);
 	});
 
-	// A stage that renders no view has no path to give, so asking is a compile
+	// A stage that writes no Markdown version has no path to give, so asking is a compile
 	// error rather than a failure at run time — the same refusal stageOutputEntry
 	// makes for a stage that writes no single file. The expect-error is what
 	// asserts it: remove the narrowing and it becomes unused, which fails the build.
-	it("should admit only the stages rendering a view when a renderer is named", () => {
-		const renderers: readonly StageWithReadableView[] = ["transcript-verification"];
+	it("should admit only the stages writing a Markdown version when one is named", () => {
+		const markdownVersionWriters: readonly StageWithMarkdownVersion[] = ["transcript-verification"];
 
-		// @ts-expect-error -- transcription writes a transcript and renders nothing for a reader
-		const notARenderer: StageWithReadableView = "transcription";
+		// @ts-expect-error -- transcription writes a transcript and no Markdown version
+		const noMarkdownVersionWriter: StageWithMarkdownVersion = "transcription";
 
-		expect(renderers.map(stageReadableViewEntry)).toHaveLength(renderers.length);
-		expect(notARenderer).toBe("transcription");
+		expect(markdownVersionWriters.map(stageMarkdownVersionEntry)).toHaveLength(
+			markdownVersionWriters.length,
+		);
+		expect(noMarkdownVersionWriter).toBe("transcription");
 	});
 });
 
-describe("stageReadableViewPath", () => {
-	it("should resolve the view under the workspace when a workspace is given", () => {
+describe("stageMarkdownCopyPath", () => {
+	it("should resolve the Markdown version under the workspace when a workspace is given", () => {
 		expect(
-			stageReadableViewPath({
+			stageMarkdownVersionPath({
 				workspaceRoot: WORKSPACE_ROOT,
 				stageId: "transcript-verification",
 			}),

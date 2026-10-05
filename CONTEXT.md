@@ -216,7 +216,7 @@ The kind of fault a deficiency is. Omission, underexplained, distortion and unso
 _Avoid_: category, type (alone, since a type is also a code construct)
 
 **Verification report**:
-The file that transcript verification writes. It holds the checker's verdict, its coverage score, its deficiencies and its considerations. The readable view is a copy of it.
+The file that transcript verification writes. It holds the checker's verdict, its coverage score, its deficiencies and its considerations. The verification report Markdown is a version of it for a person to read.
 _Avoid_: findings report, QA report
 
 **Prose fault**:
@@ -439,6 +439,6 @@ _Avoid_: result, outcome
 One of the four things that share a lecture's base name: its video recording, its slide deck, its workspace and its PDF. A rename moves all four.
 _Avoid_: asset, entry
 
-**Readable view**:
-A copy of a stage's output, written for a person to read, beside the file that the next stage reads. Only transcript verification writes one. It is temporary, and will be deleted once the checker is calibrated.
-_Avoid_: report (for the copy), rendering
+**Verification report Markdown**:
+A Markdown version of the verification report, written for a person to read, beside the JSON file that the next stage reads. It is temporary, and will be deleted once the checker is calibrated.
+_Avoid_: readable view, report (for the copy), rendering

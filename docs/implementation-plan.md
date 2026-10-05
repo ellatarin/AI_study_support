@@ -71,7 +71,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 **Deliverables:**
 
 - `src/types/pipeline.ts` — every shared type, `STAGE_IDS`, the ordered stage list `StageId` is derived from, and `CONFIG_FILENAME`, the configuration file every layer names **(TD §4.1, §4.2, §4.7, §6)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, `StageStatus`), the persisted shapes (`Manifest`, `StageEntry`, `RunLog`, `RunLogStageEntry`, `RunLogCost`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaCheckerReport`, `QaDeficienciesReport`, `QaSourcePassage`, `QaConsideration`), and the runner-facing `LectureMatch`, `RunOptions`, `BatchOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, `BatchSummary`, with `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`
-- `src/pipeline/layout.ts` — the filesystem vocabulary, declared once: `moduleDirs`, `datedFileDirs`, `workspaceRootFor`, `moduleRootOf`, `moduleName`, `MANIFEST_FILE`, `RUNS_DIR`, `runsDirPath`, `debugLogPath`, `STAGE_WORKSPACE`, `StageWithOutputFile` and the `stageOutputEntry` that admits only those stages, `stageOutputPath`, `resolveStageOutput`, `stageDirectoryPaths` **(TD §3.3, "The layout has one owner")**. Every stage, the runner, the CLI, and the fixtures take directory and file names from here; no other module states one as a literal
+- `src/pipeline/layout.ts` — the filesystem vocabulary, declared once: `moduleDirs`, `datedFileDirs`, `workspaceRootFor`, `moduleRootOf`, `moduleName`, `MANIFEST_FILE`, `RUNS_DIR`, `runsDirPath`, `debugLogPath`, `STAGE_FILES`, `StageWithOutputFile` and the `stageOutputEntry` that admits only those stages, `stageOutputPath`, `resolveStageOutput`, `stageDirectoryPaths` **(TD §3.3, "The layout has one owner")**. Every stage, the runner, the CLI, and the fixtures take directory and file names from here; no other module states one as a literal
 - `src/utils/files.ts` — `writeFileAtomic`, `writeJsonAtomic`, `readJsonSafe`, `cleanTmpFiles`, `pathExists`, and the directory reads `readDirSafe`/`listFileNames`/`listSubdirectoryNames` **(TD §4.3)**
 - `src/pipeline/workspace-paths.ts` — `workspacePath` and `resolveManifestPath` with its `ManifestPathError` **(TD §4.4)**; apart from the conveniences above because a mistake here is a path escaping the module tree rather than an inconvenience
 - `src/utils/logger.ts` — `createRootLogger`, `createStageLogger` **(TD §10, Logging and Progress Helpers)**
@@ -452,15 +452,15 @@ Integration tests for the runner following the move:
 
 `src/pipeline/stages/transcript-verification/transcript-verification.ts` **(TD §5, `transcript-verification`)** — a single JSON-mode call carrying the raw transcript and the structured one, writing the report to `Transcript verification/verification-report.json` and its readable view to `verification-report.md` beside it. Offers only the faithfulness categories of `QaDeficiencyType`. Added to `lectureStages` in `src/cli/run-cli.ts`, which is what makes it run.
 
-`src/pipeline/stages/transcript-verification/transcript-verification.view.ts` **(TD §5, `transcript-verification`, "The findings are also written as a document")** — `renderVerificationReport`, turning a stored report into the page a person reads. Its own file and its own suite, because the view is provisional: when the checker no longer needs reading by eye, this file and the layout's `readableView` come out together.
+`src/pipeline/stages/transcript-verification/transcript-verification.view.ts` **(TD §5, `transcript-verification`, "The findings are also written as a document")** — `renderVerificationReportMarkdown`, turning a stored report into the page a person reads. Its own file and its own suite, because the view is provisional: when the checker no longer needs reading by eye, this file and the layout's `markdownVersion` come out together.
 
-`readableView` in `STAGE_WORKSPACE`, with `StageWithReadableView`, `stageReadableViewEntry` and `stageReadableViewPath` **(TD §3.3)**, and `writeStageOutputWithReadableView` in `src/pipeline/stages/pipeline-stage.ts` **(TD §4.2)** — a stage's output may now be accompanied by a rendering of itself, written and recorded in the same act as the output. `transcript-verification` is the only stage that declares one.
+`markdownVersion` in `STAGE_FILES`, with `StageWithMarkdownVersion`, `stageMarkdownVersionEntry` and `stageMarkdownVersionPath` **(TD §3.3)**, and `writeStageOutputWithMarkdownVersion` in `src/pipeline/stages/pipeline-stage.ts` **(TD §4.2)** — a stage's output may now be accompanied by a rendering of itself, written and recorded in the same act as the output. `transcript-verification` is the only stage that declares one.
 
 `QA_SEVERITIES` in `src/types/pipeline.ts` **(TD §4.1)** — the three severities as an ordered list, worst first, with `QaSeverity` derived from it as `StageId` is from `STAGE_IDS`. The stage validates a reply against it and the view orders findings by it, and an ordering written beside a membership check is the same fact twice.
 
 `src/pipeline/stages/model-stage.ts` **(TD §6, "A stage asks for a JSON reply through one shared act")** — `requestJsonReply`, plus the dependency pair and run arguments every model-calling stage takes. Extracted here because `transcript-verification` is the second stage to do all three, and `transcript-structuring` moves onto it in the same change. No test file of its own; both stages' suites exercise it, each failure included.
 
-The stage set gains a tenth entry **(TD §4.1)** — `STAGE_IDS`, `STAGE_WORKSPACE`, the cost report's labels and the config example all follow from it; the manifest, config keys, `--from-stage` validation and the run log derive from `STAGE_IDS` and need no edit.
+The stage set gains a tenth entry **(TD §4.1)** — `STAGE_IDS`, `STAGE_FILES`, the cost report's labels and the config example all follow from it; the manifest, config keys, `--from-stage` validation and the run log derive from `STAGE_IDS` and need no edit.
 
 **Tests:**
 
@@ -473,7 +473,7 @@ Unit tests for the stage (mock `callModel`):
 - `should fail when a finding carries the prose category %s` — the categories this checker is never offered
 - `should send neither a temperature nor a token cap when the shipped example configures the stage` — the routing narrowing of A11.2d is what this prevents
 
-Unit tests for the view (`renderVerificationReport`, no mocks — it is handed a report and returns text):
+Unit tests for the view (`renderVerificationReportMarkdown`, no mocks — it is handed a report and returns text):
 - `should open with the verdict, the coverage score and the count when a report is rendered`
 - `should say the checker raised nothing when the report carries no findings`
 - `should count the findings of each category when the report carries several`
@@ -498,14 +498,14 @@ Integration tests for the writer (real temp directory):
 Integration tests (real temp directory):
 - `should write the report to Transcript verification when the stage completes`
 - `should write the report as readable JSON when the stage completes`
-- `should write the readable view beside the report when the stage completes`
+- `should write the verification report Markdown beside the report when the stage completes`
 - `should record both files as written when the stage completes`
 - `should ask OpenRouter for JSON when the stage calls the model`
 - `should put both versions in front of the checker when the stage calls the model`
 
 Skipping when the report is present, re-running under `--from-stage`, recording status, cost and `filesWritten`, and leaving the exit code alone are the runner's behaviour rather than this stage's, and `runner.integration.test.ts` already covers them against a stub stage. Restating them per stage would be the duplication Rule Zero forbids, so the acceptance below is met through those tests, not new ones.
 
-**Acceptance:** A lecture with a structured transcript produces a verification report and a readable view of it, both recorded as written; a poor verdict changes neither the stage's status, the run, nor the exit code; the stage skips and re-runs like every other.
+**Acceptance:** A lecture with a structured transcript produces a verification report and its Markdown version, both recorded as written; a poor verdict changes neither the stage's status, the run, nor the exit code; the stage skips and re-runs like every other.
 
 ---
 
@@ -515,7 +515,7 @@ Skipping when the report is present, re-running under `--from-stage`, recording 
 
 **Deliverables:**
 
-Each existing stage's module, prompt module, readable view, the parts only it uses, and their tests move into `src/pipeline/stages/<stage-id>/`; `pipeline-stage.ts` and `model-stage.ts` stay one level up **(TD §9, "Each stage owns a folder")**.
+Each existing stage's module, prompt module, Markdown version, the parts only it uses, and their tests move into `src/pipeline/stages/<stage-id>/`; `pipeline-stage.ts` and `model-stage.ts` stay one level up **(TD §9, "Each stage owns a folder")**.
 
 An ESLint zone forbidding a stage folder from importing another's, beside the existing infrastructure-never-imports-a-stage zone **(TD §9)**.
 
@@ -586,7 +586,7 @@ Clearing a stage's run files under `--from-stage` is the runner's reset of the s
 
 `src/pipeline/stages/initial-subtopic-splitting/` **(TD §5, `initial-subtopic-splitting`)** — the stage and its prompt module, the prototype's `s6` byte for byte. Added to `lectureStages` after transcription.
 
-The stage set gains `initial-subtopic-splitting` after `transcription` in `STAGE_IDS`, with its `STAGE_WORKSPACE` entry and cost-report label **(TD §3.3, §4.1)**; each later division phase adds its own stage the same way, after the one before. Old manifests need no migration, since a missing entry reads as not yet run.
+The stage set gains `initial-subtopic-splitting` after `transcription` in `STAGE_IDS`, with its `STAGE_FILES` entry and cost-report label **(TD §3.3, §4.1)**; each later division phase adds its own stage the same way, after the one before. Old manifests need no migration, since a missing entry reads as not yet run.
 
 The required `division` section — `panelSize`, `bar`, `sizeGateWords` — in `PipelineConfig`, its validation, `pipeline-config.example.json` and the user's own `pipeline-config.json`; the stage's entry in the example config **(TD §6)**.
 
@@ -633,7 +633,7 @@ Config tests — rows added to the existing `should throw ConfigError when $case
 
 **Deliverables:**
 
-`src/pipeline/stages/deepen-subtopic-splitting/` **(TD §5, `deepen-subtopic-splitting`)** — the stage and its prompt module, the prototype's `d13` byte for byte; its entry in the example config, `STAGE_IDS`, `STAGE_WORKSPACE` and the cost-report label. Added to `lectureStages`.
+`src/pipeline/stages/deepen-subtopic-splitting/` **(TD §5, `deepen-subtopic-splitting`)** — the stage and its prompt module, the prototype's `d13` byte for byte; its entry in the example config, `STAGE_IDS`, `STAGE_FILES` and the cost-report label. Added to `lectureStages`.
 
 What it shares with `initial-subtopic-splitting`, moved out of that stage rather than copied **(TD §5, §6)**: `readTranscript` in `stage-input.ts`; `isDivision`, `isReplySubtopic` and `subtopicText` in `division.ts`; `runStagePanel`, `readPanel` and `panelDirectory` in `panel-runs.ts`, where a run needing no call now reports no cost; `tryJsonReplyAs`, `promptMessages` and `defineModelStage` in `model-stage.ts`.
 
@@ -782,9 +782,9 @@ Integration tests for `callModel` (stubbed OpenRouter):
 
 `src/pipeline/stages/panel-vote.ts` **(TD §5, `choose-division` and `define-topics`)** — `panelVote` and `distanceFromVote`, built here for any panel of runs given as lists of positions, since `define-topics` (Phase 14) breaks its ties with them.
 
-`src/pipeline/stages/choose-division/` **(TD §5, `choose-division`)** — `chooseDivision`, which groups cuts into cut sites and chooses the run nearest the vote over them, and the stage around it. Added to `lectureStages`, with its `STAGE_IDS` and `STAGE_WORKSPACE` entries and cost-report label.
+`src/pipeline/stages/choose-division/` **(TD §5, `choose-division`)** — `chooseDivision`, which groups cuts into cut sites and chooses the run nearest the vote over them, and the stage around it. Added to `lectureStages`, with its `STAGE_IDS` and `STAGE_FILES` entries and cost-report label.
 
-A record beside a stage's output **(TD §3.3; §4.5, "How a result was reached is kept beside the result")**: a `record` field on every `STAGE_WORKSPACE` entry, `StageWithRecord`, `stageRecordEntry`, `stageRecordPath`, and `writeStageOutputWithRecord`, which shares its writing step with `writeStageOutputWithReadableView`. `choose-division` declares `Chosen division/choice.json`.
+A record beside a stage's output **(TD §3.3; §4.5, "How a result was reached is kept beside the result")**: a `record` field on every `STAGE_FILES` entry, `StageWithRecord`, `stageRecordEntry`, `stageRecordPath`, and `writeStageOutputWithRecord`, which shares its writing step with `writeStageOutputWithMarkdownVersion`. `choose-division` declares `Chosen division/choice.json`.
 
 `readTranscriptAndRuns` in `stage-input.ts` **(TD §5, "Dividing the transcript")** — the transcript and a finished splitting panel, read the same way by `deepen-subtopic-splitting` and `choose-division`; tested in `stage-input.integration.test.ts` (`should return the transcript and every run of the panel when the panel is complete`, `should raise the reading stage's own error naming the stage to run when a run is missing`).
 
@@ -826,7 +826,7 @@ Integration tests for the stage (real temp directory):
 
 **Deliverables:**
 
-`src/pipeline/stages/retitle-subtopics/` **(TD §5, `retitle-subtopics`)** — the stage and its prompt module, the prototype's `r9` byte for byte; its entry in the example config and the user's own (`openai/gpt-6.1-sol-pro`), `STAGE_IDS`, `STAGE_WORKSPACE` and the cost-report label. Added to `lectureStages` after `choose-division`.
+`src/pipeline/stages/retitle-subtopics/` **(TD §5, `retitle-subtopics`)** — the stage and its prompt module, the prototype's `r9` byte for byte; its entry in the example config and the user's own (`openai/gpt-6.1-sol-pro`), `STAGE_IDS`, `STAGE_FILES` and the cost-report label. Added to `lectureStages` after `choose-division`.
 
 `retitle-subtopics` declares a record, `Retitled subtopics/changes.json`, written with Phase 12's `writeStageOutputWithRecord` **(TD §4.5)**, which now takes the output as a value and writes it as JSON, as it does the record.
 
@@ -857,7 +857,7 @@ Unit tests for the stage (mock `callModel`):
 
 **Deliverables:**
 
-`src/pipeline/stages/define-topics/` **(TD §5, `define-topics`)** — the stage, its prompt module (the prototype's `g23` with titles, byte for byte), and `choose-grouping.ts` with `chooseGrouping`, which breaks its ties with Phase 12's `panelVote` and `distanceFromVote`. Added to `lectureStages` after `retitle-subtopics`, with its `STAGE_IDS` and `STAGE_WORKSPACE` entries and cost-report label.
+`src/pipeline/stages/define-topics/` **(TD §5, `define-topics`)** — the stage, its prompt module (the prototype's `g23` with titles, byte for byte), and `choose-grouping.ts` with `chooseGrouping`, which breaks its ties with Phase 12's `panelVote` and `distanceFromVote`. Added to `lectureStages` after `retitle-subtopics`, with its `STAGE_IDS` and `STAGE_FILES` entries and cost-report label.
 
 The required `grouping` section — `panelSize` and `bar` — in `PipelineConfig`, its validation, the example config and the user's own; the stage's entry in the example config and the user's own, with `concurrency` 9 and `sendGapSeconds` 0.5 **(TD §6)**.
 

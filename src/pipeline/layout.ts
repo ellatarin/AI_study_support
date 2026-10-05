@@ -220,14 +220,14 @@ type OutputLocation<TName extends string> =
 			readonly directory: TName;
 	  };
 
-/** Where a stage's work sits, as declared in {@link STAGE_WORKSPACE}. */
+/** Where a stage's work sits, as declared in {@link STAGE_FILES}. */
 export type StageOutputLocation = OutputLocation<StageDirectoryName>;
 
 /** The same, resolved against a lecture's workspace into absolute paths. */
 export type ResolvedStageOutput = OutputLocation<string>;
 
 /** What one stage owns on disk. */
-export type StageWorkspace = {
+export type StageFiles = {
 	/**
 	 * Where the stage's work sits, and what a `--from-stage` re-run clears for
 	 * the nominated stage and everything downstream (technical-design.md §4.7).
@@ -247,17 +247,17 @@ export type StageWorkspace = {
 	 */
 	readonly outputFile: string | null;
 	/**
-	 * A second file holding the same content as {@link outputFile} in a form a
-	 * person reads, written by us from what was already stored rather than
-	 * produced again. `null` where the stage renders none, which is every stage
-	 * but transcript-verification.
+	 * A Markdown version of {@link outputFile} for a person to read, written by us
+	 * from what was already stored rather than produced again. `null` where the
+	 * stage writes none, which is every stage but transcript-verification, whose
+	 * copy is the verification report Markdown.
 	 *
 	 * It sits beside the output rather than joining it in a list because the two
 	 * are not peers: the output is the file the stage after it opens, and a
 	 * downstream stage handed a list could not tell which member was meant. The
-	 * view has no reader but a person (technical-design.md §3.3).
+	 * Markdown version has no reader but a person (technical-design.md §3.3).
 	 */
-	readonly readableView: string | null;
+	readonly markdownVersion: string | null;
 	/**
 	 * The name of a small file beside {@link outputFile} saying how the stage
 	 * reached it — which run a panel chose, and why — written with the output so
@@ -272,18 +272,18 @@ export type StageWorkspace = {
 /**
  * What a stage owns when one of the things it owns is a single output file.
  *
- * The narrower half of {@link StageWorkspace}, and what {@link writesInto}
+ * The narrower half of {@link StageFiles}, and what {@link writesInto}
  * returns. Declaring it is what lets the table below keep, per stage, whether
  * that stage has a file to name — which is the fact {@link StageWithOutputFile}
  * is derived from.
  */
-type StageWorkspaceWithFile = {
+type StageFilesWithOutputFile = {
 	/** Where the stage's work sits. */
 	readonly outputLocation: StageOutputLocation;
 	/** The single file the stage writes, relative to the lecture's workspace. */
 	readonly outputFile: string;
-	/** The reader's view of that file, relative to the workspace; `null` where there is none. */
-	readonly readableView: string | null;
+	/** The Markdown version of that file, relative to the workspace; `null` where there is none. */
+	readonly markdownVersion: string | null;
 	/** The name of the record of how that file was reached, beside it; `null` where there is none. */
 	readonly record: string | null;
 };
@@ -347,7 +347,7 @@ type WritesIntoArgs<TName extends string> = {
 };
 
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- string literal types, which have nothing to mutate; the rule cannot see through the unresolved LiteralName conditional
-function writesInto<TName extends string>(args: WritesIntoArgs<TName>): StageWorkspaceWithFile {
+function writesInto<TName extends string>(args: WritesIntoArgs<TName>): StageFilesWithOutputFile {
 	return { ...writesSetInto<TName>(args), outputFile: join(args.directory, args.file) };
 }
 
@@ -363,15 +363,15 @@ function writesInto<TName extends string>(args: WritesIntoArgs<TName>): StageWor
 function writesSetInto<TName extends string>(
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- string literal types, which have nothing to mutate; the rule cannot see through the unresolved LiteralName conditional
 	args: Pick<WritesIntoArgs<TName>, "directory">,
-): StageWorkspace & {
+): StageFiles & {
 	readonly outputFile: null;
-	readonly readableView: null;
+	readonly markdownVersion: null;
 	readonly record: null;
 } {
 	return {
 		outputLocation: inWorkspace([declaredName<TName>(args.directory)]),
 		outputFile: null,
-		readableView: null,
+		markdownVersion: null,
 		record: null,
 	};
 }
@@ -390,7 +390,7 @@ function writesSetInto<TName extends string>(
 function savesRunsThenWritesInto<TRunsName extends string, TName extends string>(
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- string literal types, which have nothing to mutate; the rule cannot see through the unresolved LiteralName conditional
 	args: WritesIntoArgs<TName> & { readonly runsDirectory: TRunsName & LiteralName<TRunsName> },
-): StageWorkspaceWithFile {
+): StageFilesWithOutputFile {
 	return {
 		...writesInto<TName>(args),
 		outputLocation: inWorkspace([
@@ -400,34 +400,36 @@ function savesRunsThenWritesInto<TRunsName extends string, TName extends string>
 	};
 }
 
-/** A stage that renders its output for a reader as well as writing it. */
-type StageWorkspaceWithView = StageWorkspaceWithFile & { readonly readableView: string };
+/** A stage that writes a Markdown version of its output as well as the output. */
+type StageFilesWithMarkdownVersion = StageFilesWithOutputFile & {
+	readonly markdownVersion: string;
+};
 
 /**
- * A stage that writes one file and renders a second beside it holding the same
- * content in a form a person reads.
+ * A stage that writes one file and a Markdown version of it beside it, for a person
+ * to read.
  *
- * Built on {@link writesInto} rather than beside it, so the view's directory is
+ * Built on {@link writesInto} rather than beside it, so the Markdown version's directory is
  * the output's directory by construction: named separately, a directory renamed
  * for one would leave the other's file somewhere else entirely.
  *
- * The narrower return type is what lets {@link StageWithReadableView} be derived
- * from the table below — a stage rendering nothing carries `null` here and
+ * The narrower return type is what lets {@link StageWithMarkdownVersion} be derived
+ * from the table below — a stage with no Markdown version carries `null` here and
  * cannot be asked for a path.
  *
- * @param args - What the stage owns, what it writes, and what it renders.
+ * @param args - What the stage owns, what it writes, and its Markdown version.
  * @param args.directory - The workspace directory's name, as a literal.
  * @param args.file - The output file's name within that directory.
- * @param args.readableView - The view's name within that same directory.
- * @returns The stage's workspace, carrying both files.
+ * @param args.markdownVersion - The Markdown version's name within that same directory.
+ * @returns The stage's files, both of them.
  */
-function writesIntoAndRenders<TName extends string>(
+function writesIntoWithMarkdownVersion<TName extends string>(
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- string literal types, which have nothing to mutate; the rule cannot see through the unresolved LiteralName conditional
-	args: WritesIntoArgs<TName> & { readonly readableView: string },
-): StageWorkspaceWithView {
+	args: WritesIntoArgs<TName> & { readonly markdownVersion: string },
+): StageFilesWithMarkdownVersion {
 	return {
 		...writesInto<TName>({ directory: args.directory, file: args.file }),
-		readableView: join(args.directory, args.readableView),
+		markdownVersion: join(args.directory, args.markdownVersion),
 	};
 }
 
@@ -441,16 +443,16 @@ function writesIntoAndRenders<TName extends string>(
  * deposits into that directory rather than owning it.
  *
  * Read as the literal it is rather than annotated as a map of
- * {@link StageWorkspace}, so the compiler keeps *which* stages carry a file and
+ * {@link StageFiles}, so the compiler keeps *which* stages carry a file and
  * {@link StageWithOutputFile} can be derived from it. `satisfies` still proves
  * every stage appears: a stage added to `StageId` and forgotten here fails to
  * compile, exactly as the annotation used to make it.
  */
-export const STAGE_WORKSPACE = {
+export const STAGE_FILES = {
 	"source-normalisation": {
 		outputLocation: inWorkspace([]),
 		outputFile: null,
-		readableView: null,
+		markdownVersion: null,
 		record: null,
 	},
 	"audio-extraction": writesInto({ directory: "Audio", file: "audio.m4a" }),
@@ -477,10 +479,10 @@ export const STAGE_WORKSPACE = {
 		directory: "Structured transcript",
 		file: "structured-transcript.md",
 	}),
-	"transcript-verification": writesIntoAndRenders({
+	"transcript-verification": writesIntoWithMarkdownVersion({
 		directory: "Transcript verification",
 		file: "verification-report.json",
-		readableView: "verification-report.md",
+		markdownVersion: "verification-report.md",
 	}),
 	"slide-conversion": writesInto({ directory: "Slide content", file: "slides.md" }),
 	"image-extraction": writesSetInto({ directory: "Slide images" }),
@@ -488,22 +490,22 @@ export const STAGE_WORKSPACE = {
 	"qa-loop": {
 		outputLocation: inWorkspace([declaredName("QA iterations"), declaredName("QA checked")]),
 		outputFile: null,
-		readableView: null,
+		markdownVersion: null,
 		record: null,
 	},
 	"pdf-generation": {
 		outputLocation: { root: "module", directory: declaredName(FINAL_OUTPUT_DIR) },
 		outputFile: null,
-		readableView: null,
+		markdownVersion: null,
 		record: null,
 	},
-} satisfies Readonly<Record<StageId, StageWorkspace>>;
+} satisfies Readonly<Record<StageId, StageFiles>>;
 
 /**
  * The stages that write one named file inside the lecture's workspace, and so
  * the only ones that can be asked to name it.
  *
- * Derived from {@link STAGE_WORKSPACE} rather than listed, so the table stays
+ * Derived from {@link STAGE_FILES} rather than listed, so the table stays
  * the single statement of which stages have a file: giving a stage a file, or
  * taking one away, changes who may be asked without anything here being edited.
  *
@@ -512,36 +514,34 @@ export const STAGE_WORKSPACE = {
  * refuses rather than a failure raised while the pipeline runs.
  */
 export type StageWithOutputFile = {
-	[TStage in StageId]: (typeof STAGE_WORKSPACE)[TStage]["outputFile"] extends string
-		? TStage
-		: never;
+	[TStage in StageId]: (typeof STAGE_FILES)[TStage]["outputFile"] extends string ? TStage : never;
 }[StageId];
 
 /**
- * The stages that render their output for a reader, and so the only ones that
- * can be asked where that rendering goes.
+ * The stages that write a Markdown version of their output, and so the only ones
+ * that can be asked where it goes.
  *
- * Derived from {@link STAGE_WORKSPACE} exactly as {@link StageWithOutputFile}
- * is, so the table stays the single statement of which stages render one. The
- * view is provisional (technical-design.md §5, `transcript-verification`): when it is withdrawn
+ * Derived from {@link STAGE_FILES} exactly as {@link StageWithOutputFile}
+ * is, so the table stays the single statement of which stages write one. The
+ * Markdown version is provisional (technical-design.md §5, `transcript-verification`): when it is withdrawn
  * this set is empty and every caller of the two resolvers below stops compiling,
  * which is how the withdrawal is made to be complete rather than partial.
  */
-export type StageWithReadableView = {
-	[TStage in StageId]: (typeof STAGE_WORKSPACE)[TStage]["readableView"] extends string
+export type StageWithMarkdownVersion = {
+	[TStage in StageId]: (typeof STAGE_FILES)[TStage]["markdownVersion"] extends string
 		? TStage
 		: never;
 }[StageId];
 
 /**
  * The stages that keep a record of how they reached their output, and so the
- * only ones that can be asked where it goes. Derived from {@link STAGE_WORKSPACE}
- * exactly as {@link StageWithReadableView} is, and narrowed to the stages that
+ * only ones that can be asked where it goes. Derived from {@link STAGE_FILES}
+ * exactly as {@link StageWithMarkdownVersion} is, and narrowed to the stages that
  * write one output file, since the record sits beside it.
  */
 export type StageWithRecord = StageWithOutputFile &
 	{
-		[TStage in StageId]: (typeof STAGE_WORKSPACE)[TStage]["record"] extends string ? TStage : never;
+		[TStage in StageId]: (typeof STAGE_FILES)[TStage]["record"] extends string ? TStage : never;
 	}[StageId];
 
 /**
@@ -552,18 +552,18 @@ export type StageWithRecord = StageWithOutputFile &
  * @returns The workspace-relative path.
  */
 export function stageOutputEntry(stageId: StageWithOutputFile): string {
-	return STAGE_WORKSPACE[stageId].outputFile;
+	return STAGE_FILES[stageId].outputFile;
 }
 
 /**
- * A stage's readable view relative to its workspace, as recorded in
- * `filesWritten` beside the output it renders (technical-design.md §3.3).
+ * A stage's Markdown version relative to its workspace, as recorded in
+ * `filesWritten` beside the output it presents (technical-design.md §3.3).
  *
- * @param stageId - The stage whose view to name; only a stage that renders one.
+ * @param stageId - The stage whose Markdown version to name; only a stage that writes one.
  * @returns The workspace-relative path.
  */
-export function stageReadableViewEntry(stageId: StageWithReadableView): string {
-	return STAGE_WORKSPACE[stageId].readableView;
+export function stageMarkdownVersionEntry(stageId: StageWithMarkdownVersion): string {
+	return STAGE_FILES[stageId].markdownVersion;
 }
 
 /**
@@ -605,26 +605,29 @@ export function stageOutputPath({ workspaceRoot, stageId }: StageFileInWorkspace
 }
 
 /**
- * One stage's readable view within one lecture's workspace. The narrower half of
- * {@link StageInWorkspace} again: only a stage that renders a view can be named.
+ * One stage's Markdown version within one lecture's workspace. The narrower half of
+ * {@link StageInWorkspace} again: only a stage that writes a Markdown version can be named.
  */
-export type StageViewInWorkspace = {
+export type StageMarkdownVersionInWorkspace = {
 	/** Absolute path to the lecture workspace. */
 	readonly workspaceRoot: string;
-	/** The stage whose readable view within it is meant. */
-	readonly stageId: StageWithReadableView;
+	/** The stage whose Markdown version within it is meant. */
+	readonly stageId: StageWithMarkdownVersion;
 };
 
 /**
- * A stage's readable view as an absolute path, beside the output it renders.
+ * A stage's Markdown version as an absolute path, beside the output it presents.
  *
  * @param args - The workspace and the stage.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
- * @param args.stageId - The stage whose view to locate; only a stage that renders one.
- * @returns The absolute path to that stage's readable view.
+ * @param args.stageId - The stage whose Markdown version to locate; only a stage that writes one.
+ * @returns The absolute path to that stage's Markdown version.
  */
-export function stageReadableViewPath({ workspaceRoot, stageId }: StageViewInWorkspace): string {
-	return join(workspaceRoot, stageReadableViewEntry(stageId));
+export function stageMarkdownVersionPath({
+	workspaceRoot,
+	stageId,
+}: StageMarkdownVersionInWorkspace): string {
+	return join(workspaceRoot, stageMarkdownVersionEntry(stageId));
 }
 
 /**
@@ -635,7 +638,7 @@ export function stageReadableViewPath({ workspaceRoot, stageId }: StageViewInWor
  * @returns The workspace-relative path.
  */
 export function stageRecordEntry(stageId: StageWithRecord): string {
-	return join(dirname(stageOutputEntry(stageId)), STAGE_WORKSPACE[stageId].record);
+	return join(dirname(stageOutputEntry(stageId)), STAGE_FILES[stageId].record);
 }
 
 /**
@@ -675,7 +678,7 @@ export function resolveStageOutput({
 	workspaceRoot,
 	stageId,
 }: StageInWorkspace): ResolvedStageOutput {
-	const location = STAGE_WORKSPACE[stageId].outputLocation;
+	const location = STAGE_FILES[stageId].outputLocation;
 	if (location.root === "module") {
 		return {
 			root: "module",

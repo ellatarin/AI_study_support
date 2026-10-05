@@ -17,17 +17,17 @@ import {
 } from "../fixtures.js";
 import {
 	stageDirectoryPaths,
+	stageMarkdownVersionEntry,
+	stageMarkdownVersionPath,
 	stageOutputEntry,
 	stageOutputPath,
-	stageReadableViewEntry,
-	stageReadableViewPath,
 } from "../layout.js";
 import { ManifestPathError } from "../workspace-paths.js";
 import {
 	createPipelineStage,
 	isStageComplete,
 	writeStageOutput,
-	writeStageOutputWithReadableView,
+	writeStageOutputWithMarkdownVersion,
 } from "./pipeline-stage.js";
 
 // Any stage with a single output file would do; `audio-extraction`'s is the simplest.
@@ -240,9 +240,9 @@ describe("createPipelineStage", () => {
 // put in place — which is what these assert, by resolving the entry the way the
 // next run's completeness check resolves it rather than by rebuilding the path
 // (technical-design.md §4.3, §4.5).
-// The one stage that renders its output for a reader as well as writing it
-// (technical-design.md §3.3). Provisional, like the view itself.
-const VIEWED_STAGE = "transcript-verification";
+// The one stage that writes a Markdown version of its output as well as the output
+// (technical-design.md §3.3). Provisional, like the Markdown version itself.
+const MARKDOWN_VERSION_STAGE = "transcript-verification";
 
 describe("recording what a stage wrote", () => {
 	let moduleRoot: string;
@@ -250,7 +250,7 @@ describe("recording what a stage wrote", () => {
 
 	beforeEach(async () => {
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "stage-output-" }));
-		for (const stageId of [STAGE_ID, VIEWED_STAGE] as const) {
+		for (const stageId of [STAGE_ID, MARKDOWN_VERSION_STAGE] as const) {
 			await mkdir(dirname(stageOutputPath({ workspaceRoot, stageId })), { recursive: true });
 		}
 	});
@@ -307,31 +307,34 @@ describe("recording what a stage wrote", () => {
 		expect(await pathExists(stageOutputPath({ workspaceRoot, stageId: STAGE_ID }))).toBe(false);
 	});
 
-	it("should put the view beside the output when a stage renders one", async () => {
-		const { path } = await writeStageOutputWithReadableView({
-			stageId: VIEWED_STAGE,
+	it("should put the Markdown version beside the output when a stage writes one", async () => {
+		const { path } = await writeStageOutputWithMarkdownVersion({
+			stageId: MARKDOWN_VERSION_STAGE,
 			workspaceRoot,
 			content: '{"overallVerdict":"pass"}',
-			readableView: "# Transcript verification\n",
+			markdownVersion: "# Transcript verification\n",
 		});
 
 		expect(await readFile(path, "utf8")).toBe('{"overallVerdict":"pass"}');
 		expect(
-			await readFile(stageReadableViewPath({ workspaceRoot, stageId: VIEWED_STAGE }), "utf8"),
+			await readFile(
+				stageMarkdownVersionPath({ workspaceRoot, stageId: MARKDOWN_VERSION_STAGE }),
+				"utf8",
+			),
 		).toBe("# Transcript verification\n");
 	});
 
-	it("should record both files when a stage renders its output for a reader", async () => {
-		const { filesWritten } = await writeStageOutputWithReadableView({
-			stageId: VIEWED_STAGE,
+	it("should record both files when a stage writes a Markdown version of its output", async () => {
+		const { filesWritten } = await writeStageOutputWithMarkdownVersion({
+			stageId: MARKDOWN_VERSION_STAGE,
 			workspaceRoot,
 			content: "{}",
-			readableView: "# Transcript verification\n",
+			markdownVersion: "# Transcript verification\n",
 		});
 
 		expect(filesWritten).toStrictEqual([
-			stageOutputEntry(VIEWED_STAGE),
-			stageReadableViewEntry(VIEWED_STAGE),
+			stageOutputEntry(MARKDOWN_VERSION_STAGE),
+			stageMarkdownVersionEntry(MARKDOWN_VERSION_STAGE),
 		]);
 	});
 });

@@ -275,22 +275,22 @@ type StageOutputLocation =
 // `Final output/` holds every lecture in the module, so a reset there takes only the file belonging to the
 // lecture being reset — which is why that variant names a directory *deposited into* rather than a set owned.
 // A stage cannot declare that it owns a module-wide directory, so no reset can sweep one (§4.7).
-type StageWorkspace = {
+type StageFiles = {
   outputLocation: StageOutputLocation
   outputFile: string | null
-  readableView: string | null
+  markdownVersion: string | null
   record: string | null
 }
 // `record` is a small JSON file beside `outputFile` saying how the stage reached it — which run a panel chose
 // and why, or which titles changed. choose-division, retitle-subtopics and define-topics declare one
 // (§4.5, "How a result was reached is kept beside the result"). It is recorded in `filesWritten` and cleared
 // with the output, so the two cannot come apart.
-// `readableView` is a second file holding the same content as `outputFile` in a form a person reads, written
+// `markdownVersion` is a second file holding the same content as `outputFile` in a form a person reads, written
 // by us from what was already stored rather than produced again. Only transcript-verification declares one
-// (transcript-verification), and it is provisional — see transcript-verification, "The readable view is temporary". A stage's *output* is
+// (transcript-verification), and it is provisional — see transcript-verification, "The verification report Markdown is temporary". A stage's *output* is
 // still the one file the stage after it reads, which is why the view is a field beside it rather than a second
 // entry in a list: nothing downstream could be pointed at a list and know which member to open.
-STAGE_WORKSPACE = { … } satisfies Readonly<Record<StageId, StageWorkspace>>
+STAGE_FILES = { … } satisfies Readonly<Record<StageId, StageFiles>>
 // What each stage owns: where its work sits, and the single file it writes where it writes one. Every stage but
 // pdf-generation works in workspace directories; pdf-generation deposits its PDF in the module's `Final
 // output/`. `outputFile` is null for source-normalisation (which writes nothing of its own), for the stages
@@ -304,10 +304,10 @@ STAGE_WORKSPACE = { … } satisfies Readonly<Record<StageId, StageWorkspace>>
 // file; `satisfies` still proves every stage appears, so one added to StageId and forgotten here fails to
 // compile.
 
-type StageWithOutputFile = /* the keys of STAGE_WORKSPACE whose outputFile is a string */
+type StageWithOutputFile = /* the keys of STAGE_FILES whose outputFile is a string */
 // The stages that write one named file, derived from the table rather than listed beside it: giving a
 // stage a file or taking one away changes who may be asked, with nothing else edited.
-type StageWithReadableView = /* the keys of STAGE_WORKSPACE whose readableView is a string */
+type StageWithMarkdownVersion = /* the keys of STAGE_FILES whose markdownVersion is a string */
 // The same derivation for the view, so a stage that does not render one cannot be asked for its path. Today
 // that is transcript-verification alone; when the view is withdrawn the set is empty and every caller of the
 // two resolvers below stops compiling, which is the point.
@@ -324,11 +324,11 @@ stageOutputEntry(stageId: StageWithOutputFile): string
 stageOutputPath(query: StageFileInWorkspace): string
 // The same path, absolute. A stage uses it for its own output and for its upstream's input, so a hand-off
 // between two stages is stated once rather than at both ends.
-stageReadableViewEntry(stageId: StageWithReadableView): string
-stageReadableViewPath(query: { workspaceRoot: string; stageId: StageWithReadableView }): string
+stageMarkdownVersionEntry(stageId: StageWithMarkdownVersion): string
+stageMarkdownVersionPath(query: { workspaceRoot: string; stageId: StageWithMarkdownVersion }): string
 // The view's path relative to the workspace and absolute, answering for the view exactly as the two above
 // answer for the output. Both are recorded in `filesWritten`, so a view deleted by hand re-runs its stage.
-type StageWithRecord = /* the keys of STAGE_WORKSPACE whose record is a string */
+type StageWithRecord = /* the keys of STAGE_FILES whose record is a string */
 stageRecordEntry(stageId: StageWithRecord): string
 stageRecordPath(query: { workspaceRoot: string; stageId: StageWithRecord }): string
 // The same three for the record.
@@ -432,11 +432,11 @@ writeStageOutput(args: { stageId: StageWithOutputFile; workspaceRoot: string } &
 // track that way (§4.3). Written as one function because the pairing it protects is one fact.
 // It takes a stage that writes one file (§3.3); a stage producing a set builds its own `filesWritten`, and
 // pdf-generation names a file outside the workspace, so neither is served by this.
-writeStageOutputWithReadableView(args: {
-  stageId: StageWithOutputFile & StageWithReadableView
+writeStageOutputWithMarkdownVersion(args: {
+  stageId: StageWithOutputFile & StageWithMarkdownVersion
   workspaceRoot: string
   content: string
-  readableView: string
+  markdownVersion: string
 }): Promise<RecordedStageOutput>
 // The same act for a stage that also renders its output for a reader (§3.3): it writes both files and returns
 // both entries, and `path` is still the machine-readable one. A separate function rather than an optional
@@ -470,7 +470,7 @@ writeStageOutputWithRecord(args: {
 
 Every file is written to a `.tmp`-suffixed path first, then renamed on success. Any file that exists on disk without a `.tmp` suffix is guaranteed to be complete. At the start of every stage run, the stage's output directories are created if absent and any `.tmp` files left by a previous crashed run are deleted, before processing begins. This is automatic and requires no user intervention.
 
-The stage does not do this for itself — `createPipelineStage` does it on every stage's behalf (§4.2), reading the directories from `STAGE_WORKSPACE` (§3.3) rather than from the stage's output file, so a stage owning several directories, or one outside the workspace as `pdf-generation` does, is prepared as completely as a stage owning a single one.
+The stage does not do this for itself — `createPipelineStage` does it on every stage's behalf (§4.2), reading the directories from `STAGE_FILES` (§3.3) rather than from the stage's output file, so a stage owning several directories, or one outside the workspace as `pdf-generation` does, is prepared as completely as a stage owning a single one.
 
 Output a stage does not hold in memory — bytes written by a subprocess, such as `audio-extraction`'s ffmpeg extraction — goes through the same discipline via `produceFileAtomic`, which hands the producer the `.tmp` path and renames only once it resolves. A stage reaches it through `writeStageOutput` (§4.2) rather than directly, so the path it writes and the entry recording it still come from one place. This has one consequence for a stage that muxes: a `.tmp` suffix defeats the container inference ffmpeg does from the output extension, so a stage writing through a temporary path names its output format explicitly.
 
@@ -520,7 +520,7 @@ listSubdirectoryNames(dir: string): Promise<readonly string[]>
 
 This is enforced in every place a path from `filesWritten` or the manifest is used. Today that is one place — the `isComplete()` existence checks, via `recordedFileExists` — and it extends to `cost-report` file discovery and PDF output resolution as those are built.
 
-`--from-stage` cleanup takes no manifest-derived path, so the boundary check has nothing to act on there. Every directory it works in comes from the hard-coded `STAGE_WORKSPACE`, and it reads `filesWritten` at no point (see "Stage cleanup boundaries" below): the untrusted input is kept out of the function rather than checked on the way in. `isComplete()` reads `filesWritten` as its whole job, so the check belongs there.
+`--from-stage` cleanup takes no manifest-derived path, so the boundary check has nothing to act on there. Every directory it works in comes from the hard-coded `STAGE_FILES`, and it reads `filesWritten` at no point (see "Stage cleanup boundaries" below): the untrusted input is kept out of the function rather than checked on the way in. `isComplete()` reads `filesWritten` as its whole job, so the check belongs there.
 
 ```typescript
 // src/pipeline/workspace-paths.ts — the two path resolvers, one per kind of input
@@ -545,7 +545,7 @@ These live in a module of their own rather than among the filesystem convenience
 filenameSafe(title: string): string   // src/utils/naming.ts; throws when the result would be empty
 ```
 
-**Stage cleanup boundaries.** `--from-stage <stageId>` MUST NOT drive its cleanup off `filesWritten` from the manifest. Cleanup works from the per-stage, hard-coded `STAGE_WORKSPACE` (§3.3) — `Slide content/` for `slide-conversion`, the module's `Final output/` for `pdf-generation` — so a corrupt manifest cannot trigger deletion of unintended files. "Hard-coded" is enforced by the type system rather than left to convention: a stage directory name is branded, and the private constructor that mints it rejects a widened `string` (§3.3). A `filesWritten` entry or LLM-supplied name reaching that map is a compile error.
+**Stage cleanup boundaries.** `--from-stage <stageId>` MUST NOT drive its cleanup off `filesWritten` from the manifest. Cleanup works from the per-stage, hard-coded `STAGE_FILES` (§3.3) — `Slide content/` for `slide-conversion`, the module's `Final output/` for `pdf-generation` — so a corrupt manifest cannot trigger deletion of unintended files. "Hard-coded" is enforced by the type system rather than left to convention: a stage directory name is branded, and the private constructor that mints it rejects a widened `string` (§3.3). A `filesWritten` entry or LLM-supplied name reaching that map is a compile error.
 
 `pdf-generation`'s directory is the sole one resolved against `moduleRoot` rather than the workspace, and it holds every lecture in the module. What a stage declares is therefore a `StageOutputLocation` (§3.3), and the variant decides how cleanup proceeds. Its `workspace` variant carries directories, which cleanup takes whole, since each holds one lecture's work and nothing else. Its `module` variant carries the directory the stage deposits into, where cleanup removes the single file carrying the reset lecture's date and leaves the directory and every other lecture's PDF standing. A stage has no way to declare that it owns a module-wide directory, so the reach of a reset is bounded by the type rather than by the care taken at each call site.
 
@@ -1383,7 +1383,7 @@ It makes a single JSON-mode call carrying both texts, and writes back a `QaCheck
 
 The rendering is ours and is derived from the report already on disk, never from a second call. Two consequences follow. The two files cannot disagree, because one is a projection of the other. And the model is never asked to be good at judgement and at prose in the same breath — the priority order a reader sees comes from the severity the checker assigned, not from a second opinion about what matters.
 
-**The readable view is temporary.** It exists because the checker is being calibrated by hand: its reports are read, compared against the assessments in `docs/quality/`, and argued with, and a JSON file is the wrong medium for that. Once a checker is settled on, nobody reads these by eye and the stage goes back to writing the one machine-readable file — at which point `verification-report.md`, the renderer, and the layout's `readableView` come out together.
+**The verification report Markdown is temporary.** It exists because the checker is being calibrated by hand: its reports are read, compared against the assessments in `docs/quality/`, and argued with, and a JSON file is the wrong medium for that. Once a checker is settled on, nobody reads these by eye and the stage goes back to writing the one machine-readable file — at which point `verification-report.md`, the renderer, and the layout's `markdownVersion` come out together.
 
 ```typescript
 // src/pipeline/stages/transcript-verification/transcript-verification.prompt.ts
@@ -2101,7 +2101,7 @@ src/
 │       ├── retitle-subtopics/        # stage module and its r9 prompt module
 │       ├── define-topics/            # stage module, its g23 prompt module, choose-grouping.ts
 │       ├── transcript-structuring/   # stage module and its prompt module
-│       ├── transcript-verification/  # stage module, prompt module and the readable view
+│       ├── transcript-verification/  # stage module, prompt module and the verification report Markdown
 │       ├── slide-conversion/         # PDF render + per-slide vision LLM
 │       ├── image-extraction/         # vision-guided crop + labelling
 │       ├── synthesis/                # context assembly, chunking fallback
@@ -2124,7 +2124,7 @@ src/
     └── logger.ts                     # pino instance and child-logger factory
 ```
 
-**Each stage owns a folder.** A stage's module, its prompt module, any readable view, the parts only it uses, and the tests of all of them live in the folder named for its stage id. A stage used to be one file; the division stages are several — a prompt, the reply's validation, the choice of result — and a folder keeps what belongs to one stage together without making any of it look shared. What more than one stage uses sits one level up, beside the stage factory: the model-call and panel-run machinery every model stage reaches, and `division.ts`, which the three division stages share. A stage folder never imports from another stage's folder; ESLint enforces it alongside the existing rule that pipeline infrastructure never imports from a stage. No stage folder has an `index.ts`.
+**Each stage owns a folder.** A stage's module, its prompt module, any Markdown version, the parts only it uses, and the tests of all of them live in the folder named for its stage id. A stage used to be one file; the division stages are several — a prompt, the reply's validation, the choice of result — and a folder keeps what belongs to one stage together without making any of it look shared. What more than one stage uses sits one level up, beside the stage factory: the model-call and panel-run machinery every model stage reaches, and `division.ts`, which the three division stages share. A stage folder never imports from another stage's folder; ESLint enforces it alongside the existing rule that pipeline infrastructure never imports from a stage. No stage folder has an `index.ts`.
 
 ---
 

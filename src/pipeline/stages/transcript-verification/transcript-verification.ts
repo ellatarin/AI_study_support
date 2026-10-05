@@ -22,9 +22,9 @@ import {
 	type ModelStageRunArgs,
 	requestJsonReply,
 } from "../model-stage.js";
-import { writeStageOutputWithReadableView } from "../pipeline-stage.js";
+import { writeStageOutputWithMarkdownVersion } from "../pipeline-stage.js";
 import { buildVerificationMessages } from "./transcript-verification.prompt.js";
-import { renderVerificationReport } from "./transcript-verification.view.js";
+import { renderVerificationReportMarkdown } from "./transcript-verification.view.js";
 /* jscpd:ignore-end */
 
 /**
@@ -267,11 +267,11 @@ async function verifyTranscript({
 		client,
 		sendGate,
 	});
-	const { path, filesWritten } = await writeStageOutputWithReadableView({
+	const { path, filesWritten } = await writeStageOutputWithMarkdownVersion({
 		stageId: STAGE_ID,
 		workspaceRoot: context.workspaceRoot,
 		content: JSON.stringify(report, null, REPORT_INDENT),
-		readableView: renderVerificationReport({ report }),
+		markdownVersion: renderVerificationReportMarkdown({ report }),
 	});
 	// Recorded, not acted on: the count says what the stage found, and the stage
 	// completes whatever it is.
@@ -289,8 +289,8 @@ async function verifyTranscript({
 /**
  * Builds `transcript-verification`, which compares `Structured transcript/structured-transcript.md`
  * with the `Transcript/transcript.txt` it was made from and writes
- * `Transcript verification/verification-report.json`, with a readable
- * `verification-report.md` beside it (technical-design.md §5, `transcript-verification`),
+ * `Transcript verification/verification-report.json`, with the verification
+ * report Markdown, `verification-report.md`, beside it (technical-design.md §5, `transcript-verification`),
  * from the run's logger and the invocation's OpenAI client.
  */
 export const createTranscriptVerificationStage: ModelStageFactory<

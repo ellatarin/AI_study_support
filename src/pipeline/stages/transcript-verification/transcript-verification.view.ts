@@ -1,17 +1,17 @@
 /**
- * `transcript-verification`'s report as a page a person reads.
+ * The verification report Markdown: `transcript-verification`'s report as a page a person reads.
  *
- * The same deficiencies as `verification-report.json`, projected into markdown: this
+ * The same deficiencies as `verification-report.json`, arranged in Markdown: this
  * module is handed the report that was already stored and returns text, so the
  * two files cannot disagree about what the checker said, and no second call is
  * made to write prose about a judgement that has already been made.
  *
- * It is provisional. The view exists while the checker is being calibrated by
+ * It is provisional. The Markdown version exists while the checker is being calibrated by
  * hand against the assessments in `docs/quality/`, which is work done by reading
  * reports and arguing with them; a JSON file is the wrong medium for that. When
- * a checker is settled on, this file goes, along with the stage's `readableView`
- * declaration (technical-design.md §5, `transcript-verification`, "The readable
- * view is temporary").
+ * a checker is settled on, this file goes, along with the stage's `markdownVersion`
+ * declaration (technical-design.md §5, `transcript-verification`, "The verification
+ * report Markdown is temporary").
  */
 
 import {
@@ -240,9 +240,13 @@ function renderConsiderations(considered: readonly QaConsideration[]): string {
  * @param args.report - The report the checker returned, as it was stored.
  * @returns The whole document, ending in a newline.
  * @example
- * renderVerificationReport({ report }); // "# Transcript verification\n\nVerdict **fail**, …"
+ * renderVerificationReportMarkdown({ report }); // "# Transcript verification\n\nVerdict **fail**, …"
  */
-export function renderVerificationReport({ report }: { readonly report: QaCheckerReport }): string {
+export function renderVerificationReportMarkdown({
+	report,
+}: {
+	readonly report: QaCheckerReport;
+}): string {
 	const summary = `Verdict **${report.overallVerdict}**, coverage **${report.coverageScore}/100**, **${pluralise({ count: report.deficiencies.length, noun: "deficiency" })}**.`;
 	const sections = [
 		"# Transcript verification",
