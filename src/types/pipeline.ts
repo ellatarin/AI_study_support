@@ -584,19 +584,19 @@ export const QA_SEVERITIES = ["critical", "major", "minor"] as const;
 export type QaSeverity = (typeof QA_SEVERITIES)[number];
 
 /**
- * Category of a single quality finding.
+ * The deficiency type of a single deficiency.
  *
  * One union shared by every stage that checks an output against the source it
  * was made from, so two checkers cannot end up describing the same fault in
  * different words. Each stage's prompt offers only its own subset: a checker
- * asked for a category it has no way to judge will find one.
+ * asked for a deficiency type it has no way to judge will find one.
  *
- * The faithfulness categories below are asked for by transcript verification
- * and by the QA loop alike; the prose categories are faults in the notes
+ * The faithfulness deficiency types below are asked for by transcript verification
+ * and by the QA loop alike; the prose fault types are faults in the notes
  * themselves, which only the QA loop looks for.
  *
  * `distortion` and `unsourced-addition` divide on what the reviser must do, and
- * that line is the whole reason they are separate categories: a distortion
+ * that line is the whole reason they are separate deficiency types: a distortion
  * contradicts the source and is corrected against it, an unsourced addition is
  * absent from the source and is deleted. Looking for a source that would
  * support one instead would violate NFR-1.3 (technical-design.md §5, `qa-loop`).
@@ -607,7 +607,7 @@ export type QaDeficiencyType =
 	| "underexplained" // present, but stripped of the mechanism or reasoning that makes it usable (FR-4.2)
 	| "distortion" // the output asserts something the source contradicts (FR-4.3)
 	| "unsourced-addition" // present in the output, absent from the source (FR-4.3)
-	| "other" // a real finding no category fits — a standing prompt to invent the one it needs
+	| "other" // a real deficiency no deficiency type fits — a standing prompt to invent the one it needs
 	// Prose faults in the notes: the QA loop only.
 	| "clarity" // factually correct but ambiguous, muddled, or hard to follow (FR-4.3)
 	| "british-english" // spelling, punctuation, or idiom deviating from en-GB
@@ -615,15 +615,15 @@ export type QaDeficiencyType =
 	| "figure-reference"; // wrong image, missing image, or broken relative path
 
 /**
- * The passage in the source a finding is about: the words themselves, and where
+ * The passage in the source a deficiency is about: the words themselves, and where
  * to go and read them.
  *
  * Both together, because a quote with no locator sends a reader hunting through
  * a whole transcript for it, and a locator with no quote cannot be checked
- * without opening the source. Stated once and reused, so a finding and a
- * cleared consideration point at a source the same way.
+ * without opening the source. Stated once and reused, so a deficiency and a
+ * consideration point at a source the same way.
  */
-export type QaSourceAnchor = {
+export type QaSourcePassage = {
 	readonly evidence: string; // direct quote from the source material
 	readonly location: string; // where that quote sits: topic block, slide number, or timestamp
 };
@@ -632,19 +632,19 @@ export type QaSourceAnchor = {
  * A single issue found by a quality checker, with the evidence and the
  * suggested remedy the reviser will act on (technical-design.md §5, `qa-loop`).
  *
- * A finding locates both ends. `outputLocation` is where in the output the
+ * A deficiency locates both ends. `outputLocation` is where in the output the
  * fault sits, or — for an omission, where nothing sits yet — the place the
- * missing content belongs. `source` is the passage it is about. A category with
+ * missing content belongs. `source` is the passage it is about. A deficiency type with
  * no source end carries `null` there rather than an invented locator: an
  * unsourced addition is defined by its absence from the source, and a prose
  * fault is about the output alone. Nothing branches on that `null`; which
- * categories have a source end is settled by `type`.
+ * deficiency types have a source end is settled by `type`.
  */
 export type QaDeficiency = {
 	readonly severity: QaSeverity;
 	readonly type: QaDeficiencyType;
 	readonly description: string;
-	readonly source: QaSourceAnchor | null;
+	readonly source: QaSourcePassage | null;
 	readonly suggestedFix: string;
 	readonly outputLocation: string; // section heading, "Glossary", or "throughout"
 };
@@ -652,14 +652,14 @@ export type QaDeficiency = {
 /**
  * Something a checker examined and decided was not a deficiency, and why.
  *
- * Recorded because a findings list alone cannot distinguish a checker that
+ * Recorded because a list of deficiencies alone cannot distinguish a checker that
  * missed something from one that looked at it and cleared it, and only the
  * first is a reason to distrust the checker. A lecturer's aside, an
  * administrative announcement, or a filler phrase dropped on purpose belongs
  * here rather than going unmentioned (technical-design.md §5, `qa-loop`).
  */
 export type QaConsideration = {
-	readonly source: QaSourceAnchor;
+	readonly source: QaSourcePassage;
 	readonly whyNotRaised: string;
 };
 
@@ -672,7 +672,7 @@ export type QaConsideration = {
  * asked for it would have to guess. Transcript verification runs once and has no
  * iteration at all (technical-design.md §5, `transcript-verification` and `qa-loop`).
  */
-export type QaFindingsReport = {
+export type QaCheckerReport = {
 	readonly overallVerdict: QaVerdict;
 	readonly coverageScore: number; // 0–100, LLM self-assessed
 	readonly deficiencies: readonly QaDeficiency[];
@@ -680,10 +680,10 @@ export type QaFindingsReport = {
 };
 
 /**
- * One iteration's findings as the QA loop records them: what the checker said,
+ * One iteration's deficiencies as the QA loop records them: what the checker said,
  * stamped with which pass said it (technical-design.md §5, `qa-loop`).
  */
-export type QaDeficienciesReport = QaFindingsReport & {
+export type QaDeficienciesReport = QaCheckerReport & {
 	readonly iteration: number;
 };
 

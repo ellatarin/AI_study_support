@@ -1,7 +1,7 @@
 import { readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { QaFindingsReport, StageContext } from "../../../types/pipeline.js";
+import type { QaCheckerReport, StageContext } from "../../../types/pipeline.js";
 import { pathExists } from "../../../utils/files.js";
 import {
 	configuringStage,
@@ -19,7 +19,7 @@ import {
 	stubModelReply,
 	stubOpenRouterApi,
 	transcriptText,
-	verificationFinding,
+	verificationDeficiency,
 	verificationReply,
 } from "../../fixtures.js";
 import { writeManifest } from "../../manifest.js";
@@ -118,7 +118,7 @@ describe("transcript verification against a real module tree", () => {
 
 		const written = await readFile(join(workspaceRoot, VIEW_LOCATION), "utf8");
 		expect(written).toContain("# Transcript verification");
-		expect(written).toContain(verificationFinding.description);
+		expect(written).toContain(verificationDeficiency.description);
 	});
 
 	it("should record both files as written when the stage completes", async () => {
@@ -132,6 +132,6 @@ describe("transcript verification against a real module tree", () => {
 
 		const written = await readFile(join(workspaceRoot, REPORT_LOCATION), "utf8");
 		expect(written).toContain("\n");
-		expect(JSON.parse(written) as QaFindingsReport).toEqual(verificationReply());
+		expect(JSON.parse(written) as QaCheckerReport).toEqual(verificationReply());
 	});
 });

@@ -1,18 +1,22 @@
 import { describe, expect, it } from "vitest";
-import type { QaDeficiency, QaFindingsReport } from "../../../types/pipeline.js";
-import { verificationCleared, verificationFinding, verificationReport } from "../../fixtures.js";
+import type { QaCheckerReport, QaDeficiency } from "../../../types/pipeline.js";
+import {
+	verificationConsideration,
+	verificationDeficiency,
+	verificationReport,
+} from "../../fixtures.js";
 import { renderVerificationReport } from "./transcript-verification.view.js";
 
 /**
- * One finding, with the fields this test's behaviour depends on replaced. Every
- * test here is about one property of a finding — its category, its severity, or
- * whether it anchors to the source — and states only that property.
+ * One deficiency, with the fields this test's behaviour depends on replaced. Every
+ * test here is about one property of a deficiency — its deficiency type, its severity, or
+ * whether it names a source passage — and states only that property.
  *
  * @param overrides - The fields this test is about.
- * @returns A well-formed finding carrying them.
+ * @returns A well-formed deficiency carrying them.
  */
-function finding(overrides: Readonly<Partial<QaDeficiency>> = {}): QaDeficiency {
-	return { ...verificationFinding, ...overrides };
+function deficiency(overrides: Readonly<Partial<QaDeficiency>> = {}): QaDeficiency {
+	return { ...verificationDeficiency, ...overrides };
 }
 
 /**
@@ -22,7 +26,7 @@ function finding(overrides: Readonly<Partial<QaDeficiency>> = {}): QaDeficiency 
  * @param overrides - The report fields this test is about.
  * @returns The rendered document.
  */
-function render(overrides: Readonly<Partial<QaFindingsReport>> = {}): string {
+function render(overrides: Readonly<Partial<QaCheckerReport>> = {}): string {
 	return renderVerificationReport({ report: verificationReport(overrides) });
 }
 
@@ -51,7 +55,7 @@ describe("renderVerificationReport", () => {
 		const document = render({
 			overallVerdict: "fail",
 			coverageScore: 72,
-			deficiencies: [finding(), finding()],
+			deficiencies: [deficiency(), deficiency()],
 		});
 
 		expect(document).toContain("# Transcript verification");
@@ -60,7 +64,7 @@ describe("renderVerificationReport", () => {
 		expect(document).toContain("**2 findings**");
 	});
 
-	it("should say the checker raised nothing when the report carries no findings", () => {
+	it("should say the checker raised nothing when the report carries no deficiencies", () => {
 		const document = render({ overallVerdict: "pass", coverageScore: 94, deficiencies: [] });
 
 		expect(document).toContain("# Transcript verification");
@@ -68,12 +72,12 @@ describe("renderVerificationReport", () => {
 		expect(document).toContain("**0 findings**");
 	});
 
-	it("should count the findings of each category when the report carries several", () => {
+	it("should count the deficiencies of each deficiency type when the report carries several", () => {
 		const document = render({
 			deficiencies: [
-				finding({ type: "distortion" }),
-				finding({ type: "omission" }),
-				finding({ type: "distortion" }),
+				deficiency({ type: "distortion" }),
+				deficiency({ type: "omission" }),
+				deficiency({ type: "distortion" }),
 			],
 		});
 
@@ -81,9 +85,9 @@ describe("renderVerificationReport", () => {
 		expect(document).toContain("| Omission | 1 |");
 	});
 
-	it("should keep the counts in one table when the report carries several categories", () => {
+	it("should keep the counts in one table when the report carries several deficiency types", () => {
 		const document = render({
-			deficiencies: [finding({ type: "distortion" }), finding({ type: "omission" })],
+			deficiencies: [deficiency({ type: "distortion" }), deficiency({ type: "omission" })],
 		});
 
 		expect(document).toContain(
@@ -91,9 +95,9 @@ describe("renderVerificationReport", () => {
 		);
 	});
 
-	it("should put distortions before every other category when the report carries both", () => {
+	it("should put distortions before every other deficiency type when the report carries both", () => {
 		const document = render({
-			deficiencies: [finding({ type: "omission" }), finding({ type: "distortion" })],
+			deficiencies: [deficiency({ type: "omission" }), deficiency({ type: "distortion" })],
 		});
 
 		expect(positionOf({ document, passage: "### Distortion" })).toBeLessThan(
@@ -101,12 +105,12 @@ describe("renderVerificationReport", () => {
 		);
 	});
 
-	it("should order findings from critical to minor when a category carries several", () => {
+	it("should order deficiencies from critical to minor when a deficiency type carries several", () => {
 		const document = render({
 			deficiencies: [
-				finding({ severity: "minor", description: "The least of it." }),
-				finding({ severity: "critical", description: "The worst of it." }),
-				finding({ severity: "major", description: "The middle of it." }),
+				deficiency({ severity: "minor", description: "The least of it." }),
+				deficiency({ severity: "critical", description: "The worst of it." }),
+				deficiency({ severity: "major", description: "The middle of it." }),
 			],
 		});
 
@@ -118,32 +122,32 @@ describe("renderVerificationReport", () => {
 		);
 	});
 
-	it("should show both locations and the source quote when a finding carries a source", () => {
-		const document = render({ deficiencies: [finding()] });
+	it("should show both locations and the source quote when a deficiency carries a source", () => {
+		const document = render({ deficiencies: [deficiency()] });
 
-		expect(document).toContain(verificationFinding.outputLocation);
-		expect(document).toContain(verificationFinding.source.location);
-		expect(document).toContain(verificationFinding.source.evidence);
-		expect(document).toContain(verificationFinding.suggestedFix);
+		expect(document).toContain(verificationDeficiency.outputLocation);
+		expect(document).toContain(verificationDeficiency.source.location);
+		expect(document).toContain(verificationDeficiency.source.evidence);
+		expect(document).toContain(verificationDeficiency.suggestedFix);
 		expect(document).toContain("Major");
 	});
 
-	it("should say the source carries no such passage when a finding has no source anchor", () => {
+	it("should say the source carries no such passage when a deficiency has no source passage", () => {
 		const document = render({
-			deficiencies: [finding({ type: "unsourced-addition", source: null })],
+			deficiencies: [deficiency({ type: "unsourced-addition", source: null })],
 		});
 
 		expect(document).toContain("the source carries no such passage");
-		expect(document).not.toContain(verificationFinding.source.evidence);
+		expect(document).not.toContain(verificationDeficiency.source.evidence);
 	});
 
 	it("should record what the checker cleared when the report carries considerations", () => {
-		const document = render({ considered: [verificationCleared] });
+		const document = render({ considered: [verificationConsideration] });
 
 		expect(document).toContain("**1 passage**");
-		expect(document).toContain(verificationCleared.source.evidence);
-		expect(document).toContain(verificationCleared.source.location);
-		expect(document).toContain(verificationCleared.whyNotRaised);
+		expect(document).toContain(verificationConsideration.source.evidence);
+		expect(document).toContain(verificationConsideration.source.location);
+		expect(document).toContain(verificationConsideration.whyNotRaised);
 	});
 
 	it("should say nothing was cleared when the checker recorded no considerations", () => {

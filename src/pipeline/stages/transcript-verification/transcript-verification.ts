@@ -6,10 +6,10 @@
 import { readFile } from "node:fs/promises";
 import {
 	QA_SEVERITIES,
+	type QaCheckerReport,
 	type QaConsideration,
 	type QaDeficiency,
-	type QaFindingsReport,
-	type QaSourceAnchor,
+	type QaSourcePassage,
 	type StageContext,
 	type StageResult,
 } from "../../../types/pipeline.js";
@@ -31,7 +31,7 @@ import { renderVerificationReport } from "./transcript-verification.view.js";
  * Thrown when the structured transcript cannot be verified: either version is
  * missing or empty, or the checker's reply is not the documented report.
  *
- * A report full of findings is emphatically NOT one of these — that is the stage
+ * A report full of deficiencies is emphatically NOT one of these — that is the stage
  * working. Nothing about a verdict fails this stage (technical-design.md §5,
  * `transcript-verification`).
  */
@@ -50,11 +50,11 @@ export type TranscriptVerificationOutput = {
 	/** Absolute path to the written `Transcript verification/verification-report.json`. */
 	readonly verificationReportPath: string;
 	/**
-	 * How many findings the report carries. Surfaced so the runner can say what
+	 * How many deficiencies the report carries. Surfaced so the runner can say what
 	 * the stage did without reading the file — and never acted on: no count
 	 * fails a stage or a run (technical-design.md §5, `transcript-verification`).
 	 */
-	readonly findingCount: number;
+	readonly deficiencyCount: number;
 };
 
 const STAGE_ID = "transcript-verification";
@@ -63,11 +63,11 @@ const STAGE_ID = "transcript-verification";
 const REPORT_INDENT = 2;
 
 /**
- * The categories this stage's checker may report.
+ * The deficiency types this stage's checker may report.
  *
- * The faithfulness half of `QaDeficiencyType`. The prose categories are absent
+ * The faithfulness half of `QaDeficiencyType`. The prose fault types are absent
  * because this call compares two transcripts and has no notes to judge the
- * writing of, and a checker offered a category it cannot judge will find one
+ * writing of, and a checker offered a deficiency type it cannot judge will find one
  * (technical-design.md §5, `qa-loop`).
  */
 const VERIFICATION_TYPES = new Set([
@@ -78,7 +78,7 @@ const VERIFICATION_TYPES = new Set([
 	"other",
 ]);
 
-/** The severities a finding may carry, as `QA_SEVERITIES` declares them. */
+/** The severities a deficiency may carry, as `QA_SEVERITIES` declares them. */
 const SEVERITIES = new Set<string>(QA_SEVERITIES);
 
 /* jscpd:ignore-start -- the division stages share this reader as stage-input.ts;
@@ -148,28 +148,28 @@ async function readBothVersions(context: StageContext): Promise<TranscriptVerifi
 }
 
 /**
- * Whether a value is the `{ evidence, location }` pair a finding points at its
- * source with.
+ * Whether a value is the `{ evidence, location }` pair that names the source
+ * passage a deficiency is about.
  *
  * @param value - The parsed value to check.
  * @returns `true` when both fields are present as strings.
  */
-function isSourceAnchor(value: unknown): value is QaSourceAnchor {
+function isSourcePassage(value: unknown): value is QaSourcePassage {
 	return (
 		isRecord(value) && typeof value.evidence === "string" && typeof value.location === "string"
 	);
 }
 
 /**
- * Whether a parsed finding carries every documented field, with a category this
- * stage's checker was actually offered.
+ * Whether a parsed deficiency carries every documented field, with a deficiency
+ * type this stage's checker was actually offered.
  *
- * A category outside the offered set is rejected rather than passed through: it
+ * A deficiency type outside the offered set is rejected rather than passed through: it
  * means the model answered about something it was not asked to judge, and a
  * report is only comparable with the committed assessments if its vocabulary is
  * the one they use.
  *
- * @param value - The parsed finding to check.
+ * @param value - The parsed deficiency to check.
  * @returns `true` when the value is a usable {@link QaDeficiency}.
  */
 function isDeficiency(value: unknown): value is QaDeficiency {
@@ -185,7 +185,7 @@ function isDeficiency(value: unknown): value is QaDeficiency {
 		typeof value.description === "string" &&
 		typeof value.suggestedFix === "string" &&
 		typeof value.outputLocation === "string" &&
-		(source === null || isSourceAnchor(source))
+		(source === null || isSourcePassage(source))
 	);
 }
 
@@ -196,16 +196,16 @@ function isDeficiency(value: unknown): value is QaDeficiency {
  * @returns `true` when the value is a usable {@link QaConsideration}.
  */
 function isConsideration(value: unknown): value is QaConsideration {
-	return isRecord(value) && isSourceAnchor(value.source) && typeof value.whyNotRaised === "string";
+	return isRecord(value) && isSourcePassage(value.source) && typeof value.whyNotRaised === "string";
 }
 
 /**
  * Whether a parsed reply is the documented report.
  *
  * @param value - The parsed reply to check.
- * @returns `true` when the value is a usable {@link QaFindingsReport}.
+ * @returns `true` when the value is a usable {@link QaCheckerReport}.
  */
-function isFindingsReport(value: unknown): value is QaFindingsReport {
+function isCheckerReport(value: unknown): value is QaCheckerReport {
 	if (!isRecord(value)) {
 		return false;
 	}
@@ -260,7 +260,7 @@ async function verifyTranscript({
 		}),
 		stageId: STAGE_ID,
 		context,
-		isReply: isFindingsReport,
+		isReply: isCheckerReport,
 		documentedShape: DOCUMENTED_REPORT_SHAPE,
 		fail: (message) => new TranscriptVerificationError(message),
 		logger,
@@ -276,11 +276,11 @@ async function verifyTranscript({
 	// Recorded, not acted on: the count says what the stage found, and the stage
 	// completes whatever it is.
 	logger.info(
-		{ findings: report.deficiencies.length, verdict: report.overallVerdict },
+		{ deficiencies: report.deficiencies.length, verdict: report.overallVerdict },
 		"Transcript verified",
 	);
 	return {
-		output: { verificationReportPath: path, findingCount: report.deficiencies.length },
+		output: { verificationReportPath: path, deficiencyCount: report.deficiencies.length },
 		cost,
 		filesWritten,
 	};

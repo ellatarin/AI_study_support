@@ -1371,7 +1371,7 @@ createTranscriptStructuringStage(args: { logger: Logger }): PipelineStage<Transc
 
 `transcript-structuring` rewrites a transcript, and nothing downstream reads the raw one again: from `slide-conversion` onwards the structured transcript *is* the lecture. Whatever `transcript-structuring` drops is therefore not recoverable later, and no other stage is positioned to notice it had been dropped — `synthesis` checks the notes against the structured transcript, so content lost before that point is invisible to it. This stage is the one place the two versions sit side by side.
 
-It makes a single JSON-mode call carrying both texts, and writes back a `QaFindingsReport` (§4.1, `src/types/pipeline.ts`) — everything a checker is in a position to say, with no iteration number, because this stage runs once and the number belongs to the QA loop that calls its checker repeatedly. The report holds the findings, each with its severity, category, the source passage it is about and where it belongs in the output, plus the `considered` list of what the checker examined and cleared. Only the faithfulness categories are offered — `omission`, `underexplained`, `distortion`, `unsourced-addition`, `other` — because this stage compares two transcripts and has no notes to judge the prose of (`qa-loop`).
+It makes a single JSON-mode call carrying both texts, and writes back a `QaCheckerReport` (§4.1, `src/types/pipeline.ts`) — everything a checker is in a position to say, with no iteration number, because this stage runs once and the number belongs to the QA loop that calls its checker repeatedly. The report holds the findings, each with its severity, category, the source passage it is about and where it belongs in the output, plus the `considered` list of what the checker examined and cleared. Only the faithfulness categories are offered — `omission`, `underexplained`, `distortion`, `unsourced-addition`, `other` — because this stage compares two transcripts and has no notes to judge the prose of (`qa-loop`).
 
 **It reports; it never gates.** No verdict fails the stage, ends the run, or changes the exit code, and no severity blocks anything downstream. A lecture whose structured transcript is poor still produces notes and a PDF, and the report is how the user finds out. This is deliberate and is the first half of a two-step plan: a checker has to be shown to be right about a corpus before anything is allowed to act on what it says, and a checker that can stop a run is one whose false positives cost a user their run. A revision loop becomes possible once the reports are trusted; until then the cost of the stage being wrong is a file nobody has to read.
 
@@ -1393,7 +1393,7 @@ buildVerificationMessages(args: { transcriptText: string; structuredTranscriptTe
 // as through `responseFormat`, which JSON mode requires (§6).
 
 // src/pipeline/stages/transcript-verification/transcript-verification.view.ts
-renderVerificationReport(args: { report: QaFindingsReport }): string
+renderVerificationReport(args: { report: QaCheckerReport }): string
 // The report as the document described above. Pure: it is handed the stored report and returns text, calls
 // nothing, and reads no file — which is what makes every ordering and counting rule testable on its own.
 // Total over `QaDeficiencyType` rather than over the five categories this checker is offered, so the QA loop's
@@ -1401,7 +1401,7 @@ renderVerificationReport(args: { report: QaFindingsReport }): string
 
 // src/pipeline/stages/transcript-verification/transcript-verification.ts
 type TranscriptVerificationInput = { transcriptText: string; structuredTranscriptText: string }
-type TranscriptVerificationOutput = { verificationReportPath: string; findingCount: number }
+type TranscriptVerificationOutput = { verificationReportPath: string; deficiencyCount: number }
 createTranscriptVerificationStage(args: { logger: Logger; client: OpenRouterClient }):
   PipelineStage<TranscriptVerificationInput, TranscriptVerificationOutput>
 // Throws TranscriptVerificationError when either input file is missing or empty, or when the reply is not
@@ -1557,7 +1557,7 @@ QA and revision are two separate LLM calls per iteration. Combining them in one 
 
 #### Deficiency Schema
 
-The QA checker returns a `QaDeficienciesReport`: an `overallVerdict` (`pass`/`fail`), a self-assessed `coverageScore` (0–100), a list of `QaDeficiency` items, and the `considered` list of what it examined and cleared. Each deficiency carries a `severity` (`critical`/`major`/`minor`), a `type` (the categories listed in the reviser-branch table above, each mapped to FR-4.2/FR-4.3), a `description`, a `suggestedFix`, and both ends of where it applies — an `outputLocation`, and a `source` holding the quote from the source material and where that quote sits. Exact shapes and per-field/per-category documentation are the single source of truth in `src/types/pipeline.ts` (`QaDeficienciesReport`, `QaDeficiency`, `QaDeficiencyType`, `QaSourceAnchor`, `QaConsideration`, `QaSeverity`).
+The QA checker returns a `QaDeficienciesReport`: an `overallVerdict` (`pass`/`fail`), a self-assessed `coverageScore` (0–100), a list of `QaDeficiency` items, and the `considered` list of what it examined and cleared. Each deficiency carries a `severity` (`critical`/`major`/`minor`), a `type` (the categories listed in the reviser-branch table above, each mapped to FR-4.2/FR-4.3), a `description`, a `suggestedFix`, and both ends of where it applies — an `outputLocation`, and a `source` holding the quote from the source material and where that quote sits. Exact shapes and per-field/per-category documentation are the single source of truth in `src/types/pipeline.ts` (`QaDeficienciesReport`, `QaDeficiency`, `QaDeficiencyType`, `QaSourcePassage`, `QaConsideration`, `QaSeverity`).
 
 **The category set is shared, the prompts are not.** One `QaDeficiencyType` union serves both this stage and transcript verification, so the same fault cannot acquire two names depending on which checker found it — and a finding can be compared across stages, which is what makes the calibration corpus in `docs/quality/` readable against either. What differs is what each prompt offers: transcript verification asks only for the faithfulness categories, because it compares a transcript with a structured transcript and has no notes to judge the prose of. `other` sits in both, deliberately unglamorous — a checker with no way to report a real finding will force it into whichever category fits worst, and a recurring `other` is the evidence that a category is missing.
 

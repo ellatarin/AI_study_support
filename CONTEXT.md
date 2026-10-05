@@ -212,8 +212,8 @@ One fault that a checker found. It says what is wrong, how bad it is, where it i
 _Avoid_: finding, issue, error, bug, defect, problem
 
 **Deficiency type**:
-The kind of fault a deficiency is. Omission, underexplained, distortion and unsourced addition are faults of faithfulness. Clarity, British English, formatting and figure reference are prose faults. "Other" is the type of a deficiency that fits none of these.
-_Avoid_: category
+The kind of fault a deficiency is. Omission, underexplained, distortion and unsourced addition are faults of faithfulness. Clarity, British English, formatting and figure reference are prose faults. "Other" is the deficiency type of a deficiency that fits none of these.
+_Avoid_: category, type (alone, since a type is also a code construct)
 
 **Verification report**:
 The file that transcript verification writes. It holds the checker's verdict, its coverage score, its deficiencies and its considerations. The readable view is a copy of it.

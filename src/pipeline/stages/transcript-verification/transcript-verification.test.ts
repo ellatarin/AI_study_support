@@ -8,8 +8,8 @@ import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type {
 	Manifest,
+	QaCheckerReport,
 	QaDeficiencyType,
-	QaFindingsReport,
 	QaSeverity,
 	StageContext,
 	StageCost,
@@ -28,8 +28,8 @@ import {
 	stubbedCostUsd,
 	useStubLogger,
 	useTranscribedWorkspace,
-	verificationCleared,
-	verificationFinding,
+	verificationConsideration,
+	verificationDeficiency,
 	verificationReply,
 } from "../../fixtures.js";
 import { type StageWithOutputFile, stageOutputPath } from "../../layout.js";
@@ -85,10 +85,10 @@ function stubReply(overrides: Readonly<Record<string, unknown>> = {}): void {
 
 /**
  * Replies that are not the documented report, each malformed in a different
- * place: the reply as a whole, a top-level field, a finding, and a cleared
+ * place: the reply as a whole, a top-level field, a deficiency, and a
  * consideration.
  */
-const MALFORMED_REPLIES = [
+const UNUSABLE_REPLIES = [
 	{ label: "not JSON at all", content: "The structuring looks faithful to me." },
 	{ label: "a JSON list rather than a report", content: "[]" },
 	{
@@ -100,35 +100,35 @@ const MALFORMED_REPLIES = [
 		content: JSON.stringify(verificationReply({ coverageScore: "72%" })),
 	},
 	{
-		label: "findings that are not a list",
-		content: JSON.stringify(verificationReply({ deficiencies: verificationFinding })),
+		label: "deficiencies that are not a list",
+		content: JSON.stringify(verificationReply({ deficiencies: verificationDeficiency })),
 	},
 	{
-		label: "a finding with no suggested fix",
+		label: "a deficiency with no suggested fix",
 		content: JSON.stringify(
-			verificationReply({ deficiencies: [{ ...verificationFinding, suggestedFix: undefined }] }),
+			verificationReply({ deficiencies: [{ ...verificationDeficiency, suggestedFix: undefined }] }),
 		),
 	},
 	{
 		label: "a cleared consideration with no reason",
 		content: JSON.stringify(
-			verificationReply({ considered: [{ source: verificationCleared.source }] }),
+			verificationReply({ considered: [{ source: verificationConsideration.source }] }),
 		),
 	},
 ] as const satisfies readonly { readonly label: string; readonly content: string }[];
 
 /**
- * Every severity a finding can carry. The stage completes on all of them, so the
+ * Every severity a deficiency can carry. The stage completes on all of them, so the
  * never-gates rule is stated across the whole scale rather than at its top.
  */
 const SEVERITIES = ["critical", "major", "minor"] as const satisfies readonly QaSeverity[];
 
 /**
- * The categories that judge the writing of the notes rather than faithfulness to
+ * The deficiency types that judge the writing of the notes rather than faithfulness to
  * the source. This checker compares two transcripts and is never offered them,
  * so a reply carrying one is answering a question it was not asked.
  */
-const PROSE_CATEGORIES = [
+const PROSE_FAULT_TYPES = [
 	"clarity",
 	"british-english",
 	"formatting",
@@ -173,33 +173,33 @@ describe("createTranscriptVerificationStage", () => {
 	}
 
 	/** The report the stage wrote, parsed back off disk. */
-	async function writtenReport(): Promise<QaFindingsReport> {
+	async function writtenReport(): Promise<QaCheckerReport> {
 		return (await readJsonFile(
 			stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID }),
-		)) as QaFindingsReport;
+		)) as QaCheckerReport;
 	}
 
-	it("should write every finding the checker returned when the stage runs", async () => {
+	it("should write every deficiency the checker returned when the stage runs", async () => {
 		await run();
 
-		expect(await writtenReport()).toMatchObject({ deficiencies: [verificationFinding] });
+		expect(await writtenReport()).toMatchObject({ deficiencies: [verificationDeficiency] });
 	});
 
 	it("should record what the checker cleared when it reports having considered it", async () => {
 		await run();
 
-		expect(await writtenReport()).toMatchObject({ considered: [verificationCleared] });
+		expect(await writtenReport()).toMatchObject({ considered: [verificationConsideration] });
 	});
 
 	it.each(
 		SEVERITIES,
-	)("should complete rather than fail when the checker returns a %s finding", async (severity) => {
+	)("should complete rather than fail when the checker returns a %s deficiency", async (severity) => {
 		stubReply({
 			overallVerdict: "fail",
-			deficiencies: [{ ...verificationFinding, severity }],
+			deficiencies: [{ ...verificationDeficiency, severity }],
 		});
 
-		await expect(run()).resolves.toMatchObject({ output: { findingCount: 1 } });
+		await expect(run()).resolves.toMatchObject({ output: { deficiencyCount: 1 } });
 	});
 
 	it.each(UNUSABLE_INPUTS)("should fail when the $stageId output is $state", async ({
@@ -219,16 +219,16 @@ describe("createTranscriptVerificationStage", () => {
 		expect(error.message).toContain(path);
 	});
 
-	it.each(MALFORMED_REPLIES)("should fail when the reply is $label", async ({ content }) => {
+	it.each(UNUSABLE_REPLIES)("should fail when the reply is $label", async ({ content }) => {
 		stubRawReply(content);
 
 		expect(await captureError(run())).toBeInstanceOf(TranscriptVerificationError);
 	});
 
 	it.each(
-		PROSE_CATEGORIES,
-	)("should fail when a finding carries the prose category %s", async (type) => {
-		stubReply({ deficiencies: [{ ...verificationFinding, type }] });
+		PROSE_FAULT_TYPES,
+	)("should fail when a deficiency carries the prose fault deficiency type %s", async (type) => {
+		stubReply({ deficiencies: [{ ...verificationDeficiency, type }] });
 
 		expect(await captureError(run())).toBeInstanceOf(TranscriptVerificationError);
 	});

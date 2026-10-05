@@ -21,7 +21,7 @@ import type {
 	OutputLanguage,
 	PipelineConfig,
 	PipelineStage,
-	QaFindingsReport,
+	QaCheckerReport,
 	StageConfig,
 	StageContext,
 	StageCost,
@@ -836,14 +836,14 @@ export function structuringReply(
 }
 
 /**
- * One finding a verification checker returns: a concept the structuring dropped,
+ * One deficiency a verification checker returns: a concept the structuring dropped,
  * with the words it dropped and where they belonged.
  *
- * Stated once because the two parties to a finding are the stage that writes it
+ * Stated once because the two parties to a deficiency are the stage that writes it
  * and the suite that reads it back, and they must agree on its shape or the
  * assertion proves nothing.
  */
-export const verificationFinding = {
+export const verificationDeficiency = {
 	severity: "major",
 	type: "omission",
 	description: "The base-rate argument for benign tumours is absent.",
@@ -852,8 +852,8 @@ export const verificationFinding = {
 	outputLocation: "Comparative Oncology and Tumour Incidence",
 } as const;
 
-/** Something the checker looked at and cleared, which a report records beside its findings. */
-export const verificationCleared = {
+/** A consideration: something the checker looked at and cleared, which a report records beside its deficiencies. */
+export const verificationConsideration = {
 	source: { evidence: "the exam is in January", location: "closing remarks" },
 	whyNotRaised: "Administrative aside, not subject content.",
 } as const;
@@ -867,13 +867,13 @@ export const verificationCleared = {
  * @returns The report, as the stage holds it once the reply has been read.
  */
 export function verificationReport(
-	overrides: Readonly<Partial<QaFindingsReport>> = {},
-): QaFindingsReport {
+	overrides: Readonly<Partial<QaCheckerReport>> = {},
+): QaCheckerReport {
 	return {
 		overallVerdict: "fail",
 		coverageScore: 72,
-		deficiencies: [verificationFinding],
-		considered: [verificationCleared],
+		deficiencies: [verificationDeficiency],
+		considered: [verificationConsideration],
 		...overrides,
 	};
 }
