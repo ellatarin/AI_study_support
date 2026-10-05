@@ -611,7 +611,7 @@ Integration tests for `stage-input.ts` (real temp directory):
 Unit tests for the stage (mock `callModel`):
 - `should send the transcript without its surrounding whitespace when a run is made`
 - `should save every run of the panel with each subtopic's span, label and reason when the stage completes`
-- `should record every saved run as written when the stage completes`
+- `should record every saved run in the manifest as one of the stage's recorded files when the stage completes`
 - `should resend a run when the reply $problem` — `test.each` across start words the transcript does not contain, not an object, no list of subtopics, an empty list, and a subtopic without its start words
 - `should make only the missing runs when an earlier invocation saved some`
 - `should fail when a saved run holds $problem` — `test.each` across not a list and a subtopic without its reason
@@ -649,7 +649,7 @@ Unit tests (mock `callModel`):
 - `should make no second round when the first round cut nothing`
 - `should stop after two rounds when a piece stays over the gate`
 - `should reproduce the transcript exactly when a deepened splitting run is joined`
-- `should record every saved deepened splitting run as written when the stage completes`
+- `should record every saved deepened splitting run in the manifest as one of the stage's recorded files when the stage completes`
 - `should resend a subtopic when the reply $problem` — `test.each` across not an object, no list of cuts, a cut without its start words
 - `should fail the stage without saving the run when a subtopic fails every send` — never recorded as one step
 - `should make only the missing runs when an earlier invocation saved some`

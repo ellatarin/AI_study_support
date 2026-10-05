@@ -327,7 +327,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		);
 	});
 
-	it("should record every saved deepened splitting run as written when the stage completes", async () => {
+	it("should record every saved deepened splitting run in the manifest as one of the stage's recorded files when the stage completes", async () => {
 		const { filesWritten } = await run(SECOND_ONLY);
 		expect(filesWritten).toHaveLength(PANEL_SIZE);
 		expect(filesWritten[0]).toBe(join("Deepened subtopics", "run-01.json"));

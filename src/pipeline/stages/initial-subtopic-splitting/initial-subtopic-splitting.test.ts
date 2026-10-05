@@ -119,7 +119,7 @@ describe("createInitialSubtopicSplittingStage", () => {
 		expect(await savedRun(PANEL_SIZE)).toEqual(transcriptDivision);
 	});
 
-	it("should record every saved run as written when the stage completes", async () => {
+	it("should record every saved run in the manifest as one of the stage's recorded files when the stage completes", async () => {
 		const { filesWritten } = await run();
 		expect(filesWritten).toHaveLength(PANEL_SIZE);
 		expect(filesWritten[0]).toBe(join("Initial subtopics", "run-01.json"));
