@@ -141,7 +141,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `should list picked ids in the in-flight suffix when workers pick up items`
 - `should advance the value and drop the id from in-flight when an item completes`
 - `should highlight the id with a red control sequence when an item fails`
-- `should pass bytes through unchanged and advance the bar when data flows` — the upload stream
+- `should pass bytes through unchanged and advance the progress bar when data flows` — the upload stream
 
 `logger.ts` — integration tests, because the point of the module is a file on disk:
 - `should write a JSON debug log at the given path when the debug logger logs`

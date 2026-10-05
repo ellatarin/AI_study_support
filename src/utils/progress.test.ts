@@ -24,10 +24,10 @@ describe("createProgressBar", () => {
 });
 
 describe("createUploadProgressStream", () => {
-	it("should pass bytes through unchanged and advance the bar when data flows", async () => {
-		const { stream, bar } = createUploadProgressStream(10);
+	it("should pass bytes through unchanged and advance the progress bar when data flows", async () => {
+		const { stream, progressBar } = createUploadProgressStream(10);
 		expect(stream).toBeInstanceOf(Transform);
-		const updateSpy = vi.spyOn(bar, "update");
+		const updateSpy = vi.spyOn(progressBar, "update");
 
 		const received: Buffer[] = [];
 		stream.on("data", (chunk: Buffer) => received.push(chunk));
@@ -37,23 +37,23 @@ describe("createUploadProgressStream", () => {
 
 		expect(Buffer.concat(received).toString()).toBe("hello");
 		expect(updateSpy).toHaveBeenCalledWith(5);
-		bar.stop();
+		progressBar.stop();
 	});
 });
 
-describe("the upload bar's value display", () => {
-	// Driven through the bar rather than by calling the formatter, because the
+describe("the upload progress bar's value display", () => {
+	// Driven through the progress bar rather than by calling the formatter, because the
 	// formatter is cli-progress's to call: what this suite has to show is that an
 	// upload reports itself in megabytes, and that the percentage beside them is
 	// left alone rather than being read as a byte count too.
-	function renderUploadBar({
+	function renderUploadProgressBar({
 		uploaded,
 		total,
 	}: {
 		readonly uploaded: number;
 		readonly total: number;
 	}): string {
-		// A bar renders nothing off a terminal, so the stream is told it is one for
+		// A progress bar renders nothing off a terminal, so the stream is told it is one for
 		// the duration of the render, exactly as the in-flight suffix's ANSI test does.
 		const realIsTTY = process.stderr.isTTY;
 		process.stderr.isTTY = true;
@@ -64,23 +64,23 @@ describe("the upload bar's value display", () => {
 				written.push(String(chunk));
 				return true;
 			});
-		const { bar } = createUploadProgressStream(total);
-		bar.start(total, uploaded);
-		bar.stop();
+		const { progressBar } = createUploadProgressStream(total);
+		progressBar.start(total, uploaded);
+		progressBar.stop();
 		writeSpy.mockRestore();
 		process.stderr.isTTY = realIsTTY;
 		return written.join("");
 	}
 
-	it("should report the bytes moved and the upload's size in megabytes when the bar renders", () => {
-		const rendered = renderUploadBar({ uploaded: 1_048_576, total: 2_621_440 });
+	it("should report the bytes moved and the upload's size in megabytes when the progress bar renders", () => {
+		const rendered = renderUploadProgressBar({ uploaded: 1_048_576, total: 2_621_440 });
 
 		expect(rendered).toContain("1.0 MB");
 		expect(rendered).toContain("2.5 MB");
 	});
 
-	it("should leave the percentage as a number when the bar renders", () => {
-		const rendered = renderUploadBar({ uploaded: 1_048_576, total: 2_097_152 });
+	it("should leave the percentage as a number when the progress bar renders", () => {
+		const rendered = renderUploadProgressBar({ uploaded: 1_048_576, total: 2_097_152 });
 
 		expect(rendered).toContain("50%");
 	});

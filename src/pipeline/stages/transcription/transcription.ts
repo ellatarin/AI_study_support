@@ -152,7 +152,7 @@ async function requestTranscript({
 	readonly input: TranscriptionInput;
 	readonly elevenLabs: PipelineConfig["elevenLabs"];
 }): Promise<string> {
-	const { stream, bar } = createUploadProgressStream(input.sizeBytes);
+	const { stream, progressBar } = createUploadProgressStream(input.sizeBytes);
 	const client = new ElevenLabsClient({ apiKey, baseUrl: elevenLabs.baseUrl });
 	try {
 		const result = await client.speechToText.convert({
@@ -173,7 +173,7 @@ async function requestTranscript({
 		}
 		return result.text;
 	} finally {
-		bar.stop();
+		progressBar.stop();
 	}
 }
 

@@ -89,8 +89,8 @@ function copyAudioTrack({
 }): Promise<void> {
 	// eslint-disable-next-line max-params -- Promise executor signature is spec-defined
 	return new Promise((resolve, reject) => {
-		const bar = createProgressBar({ format: PROGRESS_FORMAT });
-		bar.start(PERCENT_COMPLETE, 0);
+		const progressBar = createProgressBar({ format: PROGRESS_FORMAT });
+		progressBar.start(PERCENT_COMPLETE, 0);
 
 		ffmpeg(inputPath)
 			.noVideo()
@@ -98,16 +98,16 @@ function copyAudioTrack({
 			.format(TMP_OUTPUT_FORMAT)
 			.output(outputPath)
 			.on("progress", (progress: { readonly percent?: number }) => {
-				bar.update(Math.min(Math.round(progress.percent ?? 0), PERCENT_BEFORE_END));
+				progressBar.update(Math.min(Math.round(progress.percent ?? 0), PERCENT_BEFORE_END));
 			})
 			.on("end", () => {
-				bar.update(PERCENT_COMPLETE);
-				bar.stop();
+				progressBar.update(PERCENT_COMPLETE);
+				progressBar.stop();
 				resolve();
 			})
 			// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- fluent-ffmpeg declares the error handler's parameter; it is only rejected with here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 			.on("error", (error: Error) => {
-				bar.stop();
+				progressBar.stop();
 				reject(error);
 			})
 			.run();
