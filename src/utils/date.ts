@@ -4,7 +4,7 @@
  * Lecture source files are named by the user with the recording date embedded
  * in a variety of formats (`2025-10-10 ...`, `10 Oct 2025 ...`, `Fri 10th Oct
  * ...`). {@link extractDate} recovers the date; {@link stripDateTokens} removes
- * every date-like span so the naming utilities can derive a clean title.
+ * every date-like match so the naming utilities can derive a clean title.
  * `chrono-node` is invoked in exactly one place here so both consumers share a
  * single detection policy.
  *
@@ -16,25 +16,25 @@ import { parse } from "chrono-node";
 import { collapseWhitespace } from "./text.js";
 
 /**
- * Where a span sits in the text. Ordering spans and testing them for overlap
+ * Where a match sits in the text. Ordering matches and testing them for overlap
  * are the whole of what {@link byIndex} and {@link overlaps} do, and neither
  * looks at the date, so this is what they ask for.
  */
-type TextSpan = {
+type TextMatch = {
 	readonly index: number;
 	readonly length: number;
 };
 
 /**
- * A span of text read as a date. `date` is `null` where the span has a date's
- * shape but names no real day: the span is still claimed, so chrono cannot
+ * A match read as a date. `date` is `null` where the match has a date's
+ * shape but names no real day: the match is still claimed, so chrono cannot
  * reinterpret it — left to chrono, `2025-13-10` comes back as a valid date with
  * the month quietly corrected.
  */
-type DateSpan = TextSpan & {
+type DateMatch = TextMatch & {
 	readonly date: Date | null;
 	/**
-	 * Whether the span names a day of the year. A bare weekday does not, yet is
+	 * Whether the match names a day of the year. A bare weekday does not, yet is
 	 * still stripped from a title — so what a date is read from is narrower than
 	 * what is removed, and the two must not be conflated.
 	 */
@@ -132,38 +132,40 @@ function fromSeparated(parts: readonly [string, string, string]): Date | null {
 }
 
 /**
- * Orders spans by where they appear, which is the order every consumer wants:
+ * Orders matches by where they appear, which is the order every consumer wants:
  * the first date in a filename is the one it is about, and stripping runs from
  * the last backwards.
  *
- * @param left - The span to order first.
- * @param right - The span to order against it.
+ * @param left - The match to order first.
+ * @param right - The match to order against it.
  * @returns Negative, zero or positive, as `Array.prototype.sort` expects.
  */
 // eslint-disable-next-line max-params -- Array.prototype.sort's comparator is spec-defined
-function byIndex(left: TextSpan, right: TextSpan): number {
+function byIndex(left: TextMatch, right: TextMatch): number {
 	return left.index - right.index;
 }
 
 /**
- * Whether a span of text overlaps any already claimed.
+ * Whether a piece of text overlaps any match already claimed.
  *
- * @param args - The claimed spans and the candidate's position.
- * @param args.spans - The spans already claimed.
+ * @param args - The claimed matches and the candidate's position.
+ * @param args.matches - The matches already claimed.
  * @param args.index - Where the candidate starts.
  * @param args.length - How long the candidate is.
- * @returns `true` when the candidate overlaps a claimed span.
+ * @returns `true` when the candidate overlaps a claimed match.
  */
 function overlaps({
-	spans,
+	matches,
 	index,
 	length,
 }: {
-	readonly spans: readonly TextSpan[];
+	readonly matches: readonly TextMatch[];
 	readonly index: number;
 	readonly length: number;
 }): boolean {
-	return spans.some((span) => index < span.index + span.length && span.index < index + length);
+	return matches.some(
+		(match) => index < match.index + match.length && match.index < index + length,
+	);
 }
 
 /**
@@ -249,7 +251,7 @@ function claimedSpans({
 	readonly text: string;
 	readonly pattern: Readonly<RegExp>;
 	readonly read: (match: readonly string[]) => Date | null;
-}): readonly DateSpan[] {
+}): readonly DateMatch[] {
 	return [...text.matchAll(pattern)].map((match) => ({
 		index: match.index,
 		length: match[0].length,
@@ -264,7 +266,7 @@ function claimedSpans({
  * @param text - Arbitrary text, typically a filename.
  * @returns The spans each numeric date occupied, with the date it resolved to.
  */
-function numericDateSpans(text: string): readonly DateSpan[] {
+function numericDateSpans(text: string): readonly DateMatch[] {
 	return [
 		...claimedSpans({
 			text,
@@ -285,7 +287,7 @@ function numericDateSpans(text: string): readonly DateSpan[] {
  *
  * Underscores are replaced with spaces first: chrono treats `_` as a word
  * character, so `BOD_13 Oct 2025` hides the date from it. The substitution is
- * one character for one, so every span index it reports still addresses the
+ * one character for one, so every index it reports still addresses the
  * original text.
  *
  * @param text - Arbitrary text, typically a filename.
@@ -300,20 +302,20 @@ function parseDateSpans(text: string): readonly ParsedResult[] {
  * chrono's for the dates written in words, and only if neither yielded a date,
  * the six-digit `DDMMYY` fallback.
  *
- * A chrono span overlapping a numeric one is dropped — chrono reads `10/11/2025`
+ * A chrono match overlapping a numeric one is dropped — chrono reads `10/11/2025`
  * as the eleventh of October, and the numeric reading is the one that carries
  * the British convention. The fallback is last because six bare digits are as
  * likely to be an identifier as a date; where one does slip through, `source-normalisation`'s
  * 1:1 video-to-slide date match is what catches it (technical-design.md §3.2).
  *
  * @param text - Arbitrary text, typically a filename.
- * @returns Every date span found, in the order it appears in the text.
+ * @returns Every date match found, in the order it appears in the text.
  */
-function allDateSpans(text: string): readonly DateSpan[] {
+function allDateMatches(text: string): readonly DateMatch[] {
 	const numeric = numericDateSpans(text);
 	const chrono = parseDateSpans(text)
 		.filter(
-			(result) => !overlaps({ spans: numeric, index: result.index, length: result.text.length }),
+			(result) => !overlaps({ matches: numeric, index: result.index, length: result.text.length }),
 		)
 		.map((result) => ({
 			index: result.index,
@@ -323,7 +325,7 @@ function allDateSpans(text: string): readonly DateSpan[] {
 		}));
 
 	const found = [...numeric, ...chrono];
-	if (found.some((span) => span.date !== null && span.confident)) {
+	if (found.some((match) => match.date !== null && match.confident)) {
 		return found.sort(byIndex);
 	}
 
@@ -332,8 +334,9 @@ function allDateSpans(text: string): readonly DateSpan[] {
 		pattern: COMPACT_SHORT_DATE,
 		read: (match) => fromCompactShort(match[1] as string),
 	}).filter(
-		(span) =>
-			span.date !== null && !overlaps({ spans: found, index: span.index, length: span.length }),
+		(match) =>
+			match.date !== null &&
+			!overlaps({ matches: found, index: match.index, length: match.length }),
 	);
 	return [...found, ...fallback].sort(byIndex);
 }
@@ -341,17 +344,17 @@ function allDateSpans(text: string): readonly DateSpan[] {
 /**
  * Extracts a recording date from a filename.
  *
- * A span is accepted only when it is confident, and the two kinds of span earn
- * that differently. A numeric span is confident by its form: the
+ * A match is accepted only when it is confident, and the two kinds of match earn
+ * that differently. A numeric match is confident by its form: the
  * British-convention patterns in this module identify day, month and year by
- * position, so a match needs no further judgement. A span chrono found — a date
+ * position, so a match needs no further judgement. A match chrono found — a date
  * written in words — is confident only when chrono is certain of both the day
  * and the month, which rules out bare years, standalone weekdays, and incidental
  * numbers that would otherwise resolve to a spurious date. The year may be
  * inferred (e.g. `Fri 10th Oct`); chrono anchors it to the reference date.
  *
  * The bare six-digit `DDMMYY` form is the exception at both ends: it is tried
- * only when nothing else yielded a confident span, and it is confident whenever
+ * only when nothing else yielded a confident match, and it is confident whenever
  * it names a real day (technical-design.md §3.2).
  *
  * @param filename - The filename to inspect (extension optional).
@@ -376,7 +379,7 @@ export function extractDate(filename: string): Date | null {
  * (technical-design.md §3.2, §4.7).
  *
  * Confidence is judged exactly as {@link extractDate} judges it — the two read
- * the same spans, and `extractDate` is the first of these.
+ * the same matches, and `extractDate` is the first of these.
  *
  * @param filename - The filename to inspect (extension optional).
  * @returns Every sufficiently confident {@link Date}, in the order they appear.
@@ -386,15 +389,15 @@ export function extractDate(filename: string): Date | null {
  * // → [Date for 2019-02-01, Date for 2025-12-05]
  */
 export function extractDates(filename: string): readonly Date[] {
-	return allDateSpans(filename).flatMap((span) =>
-		span.date !== null && span.confident ? [span.date] : [],
+	return allDateMatches(filename).flatMap((match) =>
+		match.date !== null && match.confident ? [match.date] : [],
 	);
 }
 
 /**
- * Removes every date-like span from the text.
+ * Removes every date-like match from the text.
  *
- * Unlike {@link extractDate}, this strips all chrono-detected spans regardless
+ * Unlike {@link extractDate}, this strips all chrono-detected matches regardless
  * of confidence — including standalone weekdays such as `Fri` — so that title
  * extraction is left with only the descriptive portion of the filename.
  * Surrounding whitespace left by the removals is collapsed and trimmed.
@@ -406,12 +409,12 @@ export function extractDates(filename: string): readonly Date[] {
  * stripDateTokens("2025-10-10 Immune System Fri"); // → "Immune System"
  */
 export function stripDateTokens(text: string): string {
-	const spans = allDateSpans(text);
+	const matches = allDateMatches(text);
 	let withoutDates = text;
-	// Spans arrive in ascending index order; splice from the last backwards so
+	// Matches arrive in ascending index order; splice from the last backwards so
 	// earlier indices remain valid as the string shrinks.
-	for (const span of [...spans].reverse()) {
-		withoutDates = `${withoutDates.slice(0, span.index)} ${withoutDates.slice(span.index + span.length)}`;
+	for (const match of [...matches].reverse()) {
+		withoutDates = `${withoutDates.slice(0, match.index)} ${withoutDates.slice(match.index + match.length)}`;
 	}
 	return collapseWhitespace(withoutDates);
 }

@@ -748,7 +748,7 @@ export type RunLogStageEntry =
  * places to correct should the pair ever gain a third member or change its
  * format.
  */
-type TimeSpan = {
+type TimePeriod = {
 	readonly startedAt: string;
 	readonly endedAt: string;
 };
@@ -758,7 +758,7 @@ type TimeSpan = {
  * complete financial audit trail for one pipeline invocation, including failed
  * attempts (technical-design.md §4.6).
  */
-export type RunLog = TimeSpan & {
+export type RunLog = TimePeriod & {
 	readonly runId: string;
 	readonly triggeredBy: PipelineRunTrigger;
 	readonly runType: RunType;
@@ -866,7 +866,7 @@ export type PipelineStageOutcome = {
  * The outcome of one pipeline run: one lecture through the pipeline
  * (technical-design.md §4.7).
  */
-export type PipelineRunSummary = TimeSpan & {
+export type PipelineRunSummary = TimePeriod & {
 	readonly workspaceRoot: string;
 	readonly runId: string; // matches the run log created for this pipeline run
 	readonly stageOutcomes: readonly PipelineStageOutcome[]; // in execution order
@@ -877,7 +877,7 @@ export type PipelineRunSummary = TimeSpan & {
  * The outcome of running a batch of lectures across one or more modules
  * (technical-design.md §4.7).
  */
-export type BatchSummary = TimeSpan & {
+export type BatchSummary = TimePeriod & {
 	readonly lectures: readonly PipelineRunSummary[]; // one entry per lecture attempted, in the order they ran
 	readonly overallStatus: OverallStatus;
 };

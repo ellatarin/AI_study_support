@@ -12,7 +12,7 @@ import {
 	testLecture,
 	testModuleName,
 	testRunId,
-	testRunSpan,
+	testTimePeriod,
 	testUserTitle,
 	transcriptionModelId,
 } from "../pipeline/fixtures.js";
@@ -89,7 +89,7 @@ describe("executeCommand", () => {
 		return {
 			workspaceRoot: workspace,
 			runId: testRunId,
-			...testRunSpan,
+			...testTimePeriod,
 			stageOutcomes: [
 				{
 					stageId: "transcription",
@@ -427,7 +427,7 @@ describe("executeCommand", () => {
 
 		function batchSummary(overallStatus: OverallStatus): BatchSummary {
 			return {
-				...testRunSpan,
+				...testTimePeriod,
 				lectures: [runSummaryFor({ workspace: workspaceRoot })],
 				overallStatus,
 			};

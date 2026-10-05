@@ -923,9 +923,9 @@ export const testRunId = `${testLecture.date}T09-00-00Z`;
  * `PipelineRunSummary` and `BatchSummary` both require the pair, so a suite stubbing one
  * has to fill it in whether or not it cares — and each was inventing a half-hour
  * of its own. Arbitrary for the same reason {@link stageCompletedAt} is: a suite
- * that states a span is saying the span matters.
+ * that states a time period is saying the period matters.
  */
-export const testRunSpan = {
+export const testTimePeriod = {
 	startedAt: `${testLecture.date}T09:00:00.000Z`,
 	endedAt: `${testLecture.date}T09:30:00.000Z`,
 } as const;

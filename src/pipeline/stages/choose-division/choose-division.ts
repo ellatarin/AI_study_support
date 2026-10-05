@@ -62,26 +62,26 @@ function cutsInPercent({
  * @param cuts - Every run's cuts together, in percent.
  * @returns Each site's first and last cut, in order.
  */
-function cutSiteSpans(
+function cutSites(
 	cuts: readonly number[],
 ): readonly { readonly first: number; readonly last: number }[] {
-	const spans: { first: number; last: number }[] = [];
+	const sites: { first: number; last: number }[] = [];
 	// eslint-disable-next-line max-params -- Array.prototype.sort's comparator is spec-defined
 	for (const cut of [...cuts].sort((earlier, later) => earlier - later)) {
-		const current = spans.at(-1);
+		const current = sites.at(-1);
 		if (current !== undefined && cut - current.first <= CUT_SITE_TOLERANCE_PERCENT) {
 			current.last = cut;
 		} else {
-			spans.push({ first: cut, last: cut });
+			sites.push({ first: cut, last: cut });
 		}
 	}
-	return spans;
+	return sites;
 }
 
 /**
  * Each run's division as the cut sites it cuts at. A run cuts at a site when
- * any of its cuts lies within the site's span widened by half the tolerance
- * each way, so a cut just outside a site still counts for it, and one cut can
+ * any of its cuts lies within the site, widened by half the tolerance each
+ * way, so a cut just outside a site still counts for it, and one cut can
  * count for two sites close together.
  *
  * @param args - The runs, and the transcript's length.
@@ -97,12 +97,12 @@ function runsAsCutSites({
 	readonly length: number;
 }): readonly (readonly number[])[] {
 	const cuts = runs.map((run) => cutsInPercent({ run, length }));
-	const spans = [...cutSiteSpans(cuts.flat()).entries()];
+	const sites = [...cutSites(cuts.flat()).entries()];
 	const margin = CUT_SITE_TOLERANCE_PERCENT / 2;
 	return cuts.map((runCuts) =>
-		spans
-			.filter(([, span]) =>
-				runCuts.some((cut) => span.first - margin <= cut && cut <= span.last + margin),
+		sites
+			.filter(([, site]) =>
+				runCuts.some((cut) => site.first - margin <= cut && cut <= site.last + margin),
 			)
 			.map(([index]) => index),
 	);
