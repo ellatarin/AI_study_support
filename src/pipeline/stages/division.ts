@@ -20,7 +20,7 @@ export type Subtopic = {
 	readonly why: string;
 };
 
-/** The title and reason of a subtopic, under the keys that are saved. */
+/** The title and reason of a subtopic, as they are saved. */
 type TitleAndReason = Pick<Subtopic, "title" | "why">;
 
 /**
@@ -83,8 +83,8 @@ export function isReplySubtopic(value: unknown): value is ReplySubtopic {
 }
 
 /**
- * Gives the title and reason of a reply subtopic under the keys that a
- * subtopic uses. `label` becomes `title`, and `groupedBecause` becomes `why`.
+ * Takes the title and reason from a reply subtopic. `label` becomes `title`,
+ * and `groupedBecause` becomes `why`.
  * The code uses these names because they are easier to read. The prompt keeps
  * its own words.
  *
