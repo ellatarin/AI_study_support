@@ -83,7 +83,7 @@ export const OUTPUT_LANGUAGES = {
 export type OutputLanguage = keyof typeof OUTPUT_LANGUAGES;
 
 /**
- * Lifecycle status of a stage as recorded in the run manifest.
+ * Lifecycle status of a stage as recorded in the manifest.
  *
  * `running` is written before a stage begins; a crash therefore leaves
  * `running` behind, which the next launch treats as `failed`
@@ -380,7 +380,7 @@ type SharedStageEntry =
 export type SettledStageEntry = StageEntryComplete | StageEntrySkipped;
 
 /**
- * A stage's entry in the run manifest, discriminated by `status` so that
+ * A stage's entry in the manifest, discriminated by `status` so that
  * status-specific fields (`completedAt`, `failedAt`, `error`) are present only
  * when they are meaningful. Applies to every stage except `qa-loop`, which
  * carries additional data — see {@link QaStageEntry}. Defined in technical-design.md §4.5.
@@ -388,7 +388,7 @@ export type SettledStageEntry = StageEntryComplete | StageEntrySkipped;
 export type StageEntry = SharedStageEntry | StageEntryComplete;
 
 /**
- * The `qa-loop` stage's manifest entry. Identical to {@link StageEntry}
+ * The `qa-loop` stage's stage entry. Identical to {@link StageEntry}
  * except that a completed entry additionally records the per-iteration
  * summaries and the reason the loop terminated (technical-design.md §5, `qa-loop`).
  */
@@ -694,7 +694,7 @@ export type QaDeficienciesReport = QaCheckerReport & {
 export type RunTrigger = "manual" | "from-stage";
 
 /**
- * Automatic classification of a run, derived from manifest state at start, used
+ * The run type of a run, decided from manifest state at start, used
  * to lay out the cost report (technical-design.md §7).
  */
 export type RunType = "normal" | "error-recovery" | "experiment";
@@ -820,7 +820,7 @@ export type RunOptions = {
 };
 
 /**
- * Options controlling a batch run: everything a single lecture run takes, plus
+ * Options controlling a batch: everything a single pipeline run takes, plus
  * the one thing only a batch can say (technical-design.md §4.7).
  */
 export type BatchOptions = RunOptions & {
@@ -837,7 +837,7 @@ export type BatchOptions = RunOptions & {
 /** What a lecture run does when its caller expresses no preference. */
 export const DEFAULT_RUN_OPTIONS: RunOptions = { onStageFailure: "halt" };
 
-/** What a batch run does when its caller expresses no preference: one at a time. */
+/** What a batch does when its caller expresses no preference: one at a time. */
 export const DEFAULT_BATCH_OPTIONS: BatchOptions = {
 	...DEFAULT_RUN_OPTIONS,
 	concurrency: 1,

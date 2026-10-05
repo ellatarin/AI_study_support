@@ -171,7 +171,7 @@ function ranFrom({
 }
 
 // The original failure, as technical-design.md §7's worked example has it: an
-// ordinary run that no --from-stage preceded, so the classifier types it
+// ordinary run that no --from-stage preceded, so its run type is
 // `normal`. Section 2 reaches it through the failure, not through the run's type.
 const originalFailure: RunLog = {
 	...ranFrom({ startedAt: "2025-10-10T09:00:00.000Z", endedAt: "2025-10-10T09:02:00.000Z" }),

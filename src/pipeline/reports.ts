@@ -262,7 +262,7 @@ type StageEntrySelector = (args: {
 /**
  * Flattens the run logs into the executed stage entries a section asks for, so
  * the sections iterate results rather than re-walking logs. Each brings its own
- * rule: a run's classification says why it was started and a stage entry says
+ * rule: a run's run type says why it was started and a stage entry says
  * what came of it, and the sections divide on both.
  *
  * @param args - The selection inputs.
@@ -288,7 +288,7 @@ function ranStageEntries({
 /**
  * Section 2's rule: a stage that failed, wherever it failed, and every stage of
  * a run started to recover from one. The run that first meets a failure is
- * classified `normal`, so the original failure — the spend the section exists to
+ * given the run type `normal`, so the original failure — the spend the section exists to
  * price — is reached through the failure itself (technical-design.md §7).
  *
  * @param args - The entry being judged.
@@ -373,7 +373,7 @@ const CURRENT_PIPELINE_WIDTHS = { stage: 24, model: MODEL_WIDTH, calls: 7 } as c
  * Section 1: what the outputs currently on disk cost to produce.
  *
  * @param args - The section inputs.
- * @param args.manifest - The lecture's run manifest.
+ * @param args.manifest - The lecture's manifest.
  * @param args.formatMoney - The report's money formatter.
  * @returns The section's lines.
  */
@@ -487,7 +487,7 @@ function experimentSection({ runLogs, formatMoney }: RunLogSectionArgs): readonl
  *
  * @param args - The report inputs.
  * @param args.runLogs - The lecture's run logs.
- * @param args.manifest - The lecture's run manifest.
+ * @param args.manifest - The lecture's manifest.
  * @param args.formatMoney - Renders a stored dollar figure for display.
  * @returns The formatted multi-section report string.
  */
@@ -561,7 +561,7 @@ function tokensCell(cost: StageCost | null): Cell {
  * lecture is identified would be read as two different lectures.
  *
  * @param args - The lecture to name.
- * @param args.manifest - The lecture's run manifest.
+ * @param args.manifest - The lecture's manifest.
  * @returns The lecture named for a heading.
  * @example
  * lectureHeading({ manifest }); // "Lecture 1: Cell Injury (2025-10-10)"

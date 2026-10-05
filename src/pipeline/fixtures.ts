@@ -925,7 +925,7 @@ export const testRunSpan = {
 } as const;
 
 /**
- * A finished stage's manifest entry, in either of the two ways a stage finishes.
+ * A finished stage's stage entry, in either of the two ways a stage finishes.
  * `complete` and `skipped` carry the same fields and mean the same thing about
  * the disk — the stage's output is there — which is what the suites asserting on
  * either of them need to say.
@@ -943,7 +943,7 @@ export const testRunSpan = {
  * @param args.configUsed - The model and tuning it resolved; none by default.
  * @param args.cost - What the stage cost; none by default.
  * @param args.filesWritten - The workspace-relative outputs it recorded; none by default.
- * @returns The manifest entry.
+ * @returns The stage entry.
  */
 export function finishedEntry({
 	status = "complete",
@@ -962,13 +962,13 @@ export function finishedEntry({
 }
 
 /**
- * A failed stage's manifest entry. Structurally complete, so a suite asserting
+ * A failed stage's stage entry. Structurally complete, so a suite asserting
  * how a failed stage is treated does so against data a real run could produce
  * rather than a cast-away partial object.
  *
  * @param args - What the stage recorded before it failed.
  * @param args.filesWritten - Any workspace-relative outputs it left behind; none by default.
- * @returns The manifest entry.
+ * @returns The stage entry.
  */
 export function failedEntry({
 	filesWritten = [],

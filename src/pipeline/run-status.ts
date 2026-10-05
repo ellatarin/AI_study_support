@@ -21,7 +21,7 @@ import type {
 } from "../types/pipeline.js";
 
 /**
- * Whether a stage's manifest entry means its output is on disk.
+ * Whether a stage's stage entry means its output is on disk.
  *
  * `complete` and `skipped` both say so: the first is the run that did the work,
  * the second is every run after it, which finds the output already there and
@@ -32,7 +32,7 @@ import type {
  * A type guard rather than a boolean, so a caller that has checked can read the
  * entry's `filesWritten` without asserting.
  *
- * @param entry - The manifest entry, or `undefined` for a stage with none.
+ * @param entry - The stage entry, or `undefined` for a stage with none.
  * @returns `true` when the entry is a completed or skipped one.
  */
 export function hasSettledOutput(

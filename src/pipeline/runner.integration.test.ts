@@ -466,7 +466,7 @@ describe("PipelineRunner integration", () => {
 				costResolutionError,
 			});
 			// The run log records the unresolved cost but not why: `RunLogCost` is the
-			// amount and the call count, and the reason stays on the manifest entry.
+			// amount and the call count, and the reason stays on the stage entry.
 			const runLog = await readRunLog(workspaceRoot, summary.runId);
 			expect(runLog.stages["audio-extraction"]).toMatchObject({
 				cost: { costUsd: null, callCount: 1 },
@@ -1188,10 +1188,10 @@ describe("PipelineRunner integration", () => {
 		});
 	});
 
-	// A run's classification is read off the run log, which is where the cost
-	// report picks it up (§7), so the classification is exercised the way the
+	// A run's run type is read off the run log, which is where the cost
+	// report picks it up (§7), so the run type is exercised the way the
 	// report meets it rather than through the runner's internals.
-	describe("classifying the run", () => {
+	describe("deciding the run type", () => {
 		const TARGET_STAGE = "transcription" as const satisfies StageId;
 
 		/**
@@ -1210,10 +1210,10 @@ describe("PipelineRunner integration", () => {
 
 		/**
 		 * Runs a lecture whose target stage is in the given state, and reports how
-		 * the run log classified the run.
+		 * the run log records the run type.
 		 *
 		 * @param args - The lecture's starting state and how the run was invoked.
-		 * @param args.entry - The target stage's manifest entry, or `null` to leave it out of the manifest entirely.
+		 * @param args.entry - The target stage's stage entry, or `null` to leave it out of the manifest entirely.
 		 * @param args.fromStage - The `--from-stage` target, or `null` for a plain run.
 		 * @returns The run type recorded in the run log.
 		 */
@@ -1236,7 +1236,7 @@ describe("PipelineRunner integration", () => {
 			return (await readRunLog(workspaceRoot, summary.runId)).runType;
 		}
 
-		it("should classify the run as normal when no from-stage is given", async () => {
+		it("should give the run type normal when no from-stage is given", async () => {
 			expect(await runTypeOf({ entry: null, fromStage: null })).toBe<RunType>("normal");
 		});
 
@@ -1269,7 +1269,7 @@ describe("PipelineRunner integration", () => {
 				expected: "error-recovery",
 			},
 			{ state: "absent from the manifest", entry: null, expected: "error-recovery" },
-		])("should classify the run as $expected when from-stage targets a stage $state", async ({
+		])("should give the run type $expected when from-stage targets a stage $state", async ({
 			entry,
 			expected,
 		}) => {

@@ -18,7 +18,7 @@ import { moduleRootOf } from "./layout.js";
  *
  * @param args - The context inputs.
  * @param args.workspaceRoot - Absolute path to the lecture workspace folder.
- * @param args.manifest - The lecture's run manifest, the source of lecture identity.
+ * @param args.manifest - The lecture's manifest, the source of lecture identity.
  * @param args.config - The validated pipeline configuration.
  * @returns The frozen stage context shared by every stage in the run.
  */

@@ -104,16 +104,16 @@ export function deriveRunId({ instant }: { readonly instant: Date }): string {
 }
 
 /**
- * Classifies a run from the manifest state of its `--from-stage` target: a run
+ * Decides a run's run type from the manifest state of its `--from-stage` target: a run
  * with no target is `normal`; re-running a stage whose output already exists
  * (`complete` or `skipped`) is an `experiment`; anything else — a failed,
  * pending, running, or absent target — is `error-recovery` (technical-design.md
  * §7).
  *
- * @param args - The classification inputs.
- * @param args.options - The run options; `fromStage` drives the classification.
+ * @param args - What the run type is decided from.
+ * @param args.options - The run options; `fromStage` decides the run type.
  * @param args.manifest - The manifest whose target-stage status is inspected.
- * @returns The run classification.
+ * @returns The run type.
  */
 function decideRunType({
 	options,
