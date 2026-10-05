@@ -184,8 +184,8 @@ Cross-references to the technical design are noted as **(TD §N)**.
 `src/index.ts` and `src/cli/` — the CLI. Invoked in docs and examples as `lecture-notes <cmd>` via the `bin/lecture-notes` wrapper installed by `scripts/setup`. During dev without the wrapper, equivalent to `pnpm exec tsx src/index.ts <cmd>`.
 - Commands: `run <date>`, `batch [<moduleRoot>]`, `cost-report [--date <YYYY-MM-DD>] [--module <moduleRoot>]`
 - Flags: `--from-stage <stageId>`, `--to-stage <stageId>`, `--concurrency N`, `--continue-on-error`
-- The identity-mutation commands (`rename`, `delete`, `change-date`) land with this deliverable too
-- Behaviour of each — the module layout, the multi-match picker, batch scope, what `--from-stage` resets and deletes, where `--to-stage` stops the run, exit codes, and how each mutation leaves the module for `source-normalisation` to finish — is specified in **TD §4.7**
+- The identity-change commands (`rename`, `delete`, `change-date`) land with this deliverable too
+- Behaviour of each — the module layout, the multi-match picker, batch scope, what `--from-stage` resets and deletes, where `--to-stage` stops the run, exit codes, and how each identity change leaves the module for `source-normalisation` to finish — is specified in **TD §4.7**
 
 `formatRunSummary` and `formatBatchSummary` in `src/pipeline/reports.ts` — the end-of-run and batch summaries the CLI prints (**TD §7**). Neither sums anything: the run summary ends at its last stage row, and the batch table shows lecture counts and status without a money column.
 
@@ -250,7 +250,7 @@ CLI argument parsing — unit tests (no filesystem, no runner):
 CLI prompts — unit tests with `@inquirer/prompts` mocked:
 - `should label every match with its module, number, and title when prompting`
 - `should return every match when the user chooses all matches` / `nothing when the user cancels`
-- `should offer no all-matches choice when prompting` — the single-choice picker the identity mutations use
+- `should offer no all-matches choice when prompting` — the single-choice picker the identity changes use
 
 Identity commands — integration tests (real temp module tree with sources, workspace, and PDF):
 - `should record the new title as the user's own when renaming`
@@ -261,7 +261,7 @@ Identity commands — integration tests (real temp module tree with sources, wor
 Command dispatch — integration tests (real manifests, stubbed runner and prompts):
 - `should normalise every configured module before looking for the lecture when running`
 - `should ask which lectures to run when several share the date`
-- `should ask for one lecture only when $command.command is given the date` — parametrised across all three identity mutations
+- `should ask for one lecture only when $command.command is given the date` — parametrised across all three identity changes
 - `should report that nothing matched when no lecture carries the date`
 - `should name only the module it searched when --module narrowed it and nothing matched` — the message reports the scope the search actually used, not the whole configuration
 - `should not offer to run the pipeline again when no lecture carries the date` — `cost-report` only reads what has already run, so it offers no remedy that would spend
@@ -284,7 +284,7 @@ End to end — integration tests through `runCli`:
 
 **TD §5, `source-normalisation`** in four files: date parsing, lecture numbering, slide-to-video matching and provisional titles in `src/pipeline/stages/source-normalisation/lecture-resolution.ts`; collision-safe renaming and interrupted-rename recovery in `src/pipeline/stages/source-normalisation/source-renames.ts`; the orphaned workspace direct-deletion guard (NFR-4.3) and workspace discovery in `src/pipeline/stages/source-normalisation/orphaned-workspaces.ts`; and in `src/pipeline/stages/source-normalisation/source-normalisation.ts` the order they run in, what aborting means, and workspace and manifest creation with renumbering on re-run.
 
-The CLI identity-mutation commands that drive this same machinery — `rename`, `delete`, `change-date` (FR-6.7, TD §4.7) — are built with the CLI, not in this phase.
+The CLI identity-change commands that drive this same machinery — `rename`, `delete`, `change-date` (FR-6.7, TD §4.7) — are built with the CLI, not in this phase.
 
 **Tests:**
 

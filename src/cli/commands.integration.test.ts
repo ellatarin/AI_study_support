@@ -758,7 +758,7 @@ describe("executeCommand", () => {
 		});
 	});
 
-	describe("identity mutations on a date several lectures share", () => {
+	describe("identity changes on a date several lectures share", () => {
 		it.each([
 			{
 				command: { command: "rename", lectureDate: testLecture.date, title: "New Title" } as const,

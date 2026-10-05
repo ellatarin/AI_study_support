@@ -182,7 +182,7 @@ describe("parseCliArgs", () => {
 		});
 	});
 
-	describe("identity mutations", () => {
+	describe("identity changes", () => {
 		it("should carry the new title when rename is invoked", () => {
 			expect(parse(["rename", testLecture.date, userChosenTitle])).toEqual({
 				command: "rename",

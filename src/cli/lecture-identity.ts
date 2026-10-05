@@ -1,5 +1,5 @@
 /**
- * The filesystem half of the identity-mutation commands — `rename`, `delete`,
+ * The filesystem half of the identity-change commands — `rename`, `delete`,
  * and `change-date`.
  *
  * A lecture's identity is spread across four places: its video recording, its

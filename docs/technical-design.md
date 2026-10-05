@@ -878,16 +878,16 @@ The context is **rebuilt between stages** rather than assembled once for the run
 
 **`cost-report` command:** Reads the run logs of every lecture across the configured `moduleRoots` and renders one three-section report per lecture, each headed by the lecture it covers — what its outputs on disk cost, what its failures and retries cost, and its model experiments grouped for comparison (see §7). Figures are per stage throughout; nothing is summed across stages, runs, lectures or modules (NFR-2.2). The reports are handed back for the CLI to write (§8). Narrowed by `--date` (via `resolveLecturesByDate`, with the same multi-match prompt) or `--module <moduleRoot>`. Where the scope holds no lecture, the command says so and succeeds.
 
-**Identity-mutation commands (`rename`, `delete`, `change-date`).** A lecture's identity is changed only through these commands — never by editing the filesystem directly — so the manifest and filesystem stay in lock-step (see `source-normalisation`, §5):
+**Identity-change commands (`rename`, `delete`, `change-date`).** A lecture's identity is changed only through these commands — never by editing the filesystem directly — so the manifest and filesystem stay in lock-step (see `source-normalisation`, §5):
 - `rename <date> "<new title>"` — sets `userTitle` in the manifest (which then wins the title precedence) and renames the video, slide, workspace folder, and any `Final output/` PDF to match.
 - `delete <date>` — removes the lecture's video, slide, workspace, and outputs, then renumbers the remaining lectures.
 - `change-date <date> <new date>` — moves the lecture (video, slide, workspace, outputs) to the new date, updates its manifest, and renumbers.
 
 Each performs its change and then re-runs `source-normalisation` to return the module to a consistent, renumbered state. A lecture is addressed by `<date>`, resolved through `resolveLecturesByDate`.
 
-**A mutation acts on exactly one lecture.** FR-6.7 asks for commands to rename *a* lecture, delete *a* lecture, and change *a* lecture's date, so a date that turns out to name several is a question to settle, not a licence to act on all of them: all three use a single-choice picker with no "All matches", and cancelling leaves the module untouched. `run` and `cost-report` keep the multi-select picker, since running or reporting on several lectures at once is exactly what they are for.
+**An identity change acts on exactly one lecture.** FR-6.7 asks for commands to rename *a* lecture, delete *a* lecture, and change *a* lecture's date, so a date that turns out to name several is a question to settle, not a licence to act on all of them: all three use a single-choice picker with no "All matches", and cancelling leaves the module untouched. `run` and `cost-report` keep the multi-select picker, since running or reporting on several lectures at once is exactly what they are for.
 
-Each mutation leaves the module in a state `source-normalisation` can finish, rather than doing its work itself:
+Each identity change leaves the module in a state `source-normalisation` can finish, rather than doing its work itself:
 
 - **`rename`** writes `userTitle` (and `lectureTitle`) to the manifest and stops there. The renaming of video, slide, workspace, and PDF falls out of the following `source-normalisation` pass, which names them from the manifest's current `lectureTitle` — the same code path that named them originally, so a rename cannot drift from a normalisation.
 - **`delete`** removes the video, the slide, the workspace, and the `Final output/` PDF, having first asked for confirmation. Removing the sources *and* the workspace together is what keeps the module consistent: a workspace left without sources is an orphaned workspace the next `source-normalisation` run would stop to ask about, and sources left without a workspace would simply be normalised back into one. `source-normalisation` then renumbers the lectures that follow.
@@ -938,7 +938,7 @@ confirmPrompt: ConfirmPrompt                                                  //
 selectLectureMatches(args: { matches: readonly LectureMatch[] }): Promise<readonly LectureMatch[]>
 // The checkbox picker: several lectures, "All matches", and "Cancel".
 selectLectureMatch(args: { matches: readonly LectureMatch[] }): Promise<LectureMatch | null>
-// The single-choice picker the identity mutations use; `null` when the user cancels.
+// The single-choice picker the identity changes use; `null` when the user cancels.
 
 // src/cli/lecture-identity.ts — the filesystem half of rename/delete/change-date
 renameLecture(args: { workspaceRoot: string; title: string }): Promise<void>
@@ -952,7 +952,7 @@ type PipelineRunnerFacade = { readonly [TOperation in RunnerOperation]: Pipeline
 // stub in without constructing a real runner and its stages.
 type CliDeps = { runner: PipelineRunnerFacade; moduleRoots; batchConcurrency; gbpPerUsd; selectMatches; selectMatch; confirm; write }
 // Two pickers, because the two questions differ: `selectMatches` is the checkbox picker `run` and
-// `cost-report` use, `selectMatch` the single-choice one the identity mutations use ("A mutation acts on
+// `cost-report` use, `selectMatch` the single-choice one the identity changes use ("An identity change acts on
 // exactly one lecture").
 type RunnableCliCommand = Exclude<CliCommand, { command: 'help' }>
 // `help` is answered before the configuration is read, so it never reaches a command that needs deps.

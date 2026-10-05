@@ -127,7 +127,7 @@ type LectureReport = { readonly deps: CliDeps; readonly summary: RunSummary };
 type ChosenLectures = readonly [LectureMatch, ...LectureMatch[]];
 
 /**
- * The picker every identity mutation uses: exactly one lecture, or none.
+ * The picker every identity change uses: exactly one lecture, or none.
  *
  * `rename`, `delete`, and `change-date` each name a single lecture (FR-6.7), so
  * a date that turns out to name several is a question to settle rather than a
@@ -542,28 +542,32 @@ async function confirmReset({
  * its module so numbering and file names catch up (technical-design.md §4.7).
  * A change the user declines leaves the module alone, so nothing is normalised.
  *
- * @param args - The mutation inputs.
- * @param args.command - The parsed mutation command.
+ * @param args - The identity-change inputs.
+ * @param args.command - The parsed identity-change command.
  * @param args.deps - The command dependencies.
  * @param args.lectureMatch - The lecture to change.
  * @returns The success exit code once the change and any renormalisation are done.
  */
-async function mutateLecture({ command, deps, lectureMatch }: MutationTarget): Promise<number> {
-	if (await applyMutation({ command, deps, lectureMatch })) {
+async function changeLectureIdentity({
+	command,
+	deps,
+	lectureMatch,
+}: IdentityChangeTarget): Promise<number> {
+	if (await applyIdentityChange({ command, deps, lectureMatch })) {
 		await deps.runner.normaliseSources({ moduleRoots: [lectureMatch.moduleRoot] });
 	}
 	return EXIT_SUCCESS;
 }
 
 /**
- * The identity-mutation commands, which share a shape: resolve the date, apply
+ * The identity-change commands, which share a shape: resolve the date, apply
  * the change, then renormalise (technical-design.md §4.7).
  */
-type MutationCommand = Extract<CliCommand, { command: "rename" | "delete" | "change-date" }>;
+type IdentityChangeCommand = Extract<CliCommand, { command: "rename" | "delete" | "change-date" }>;
 
 /** The lecture an identity change is being made to, and the change to make. */
-type MutationTarget = {
-	readonly command: MutationCommand;
+type IdentityChangeTarget = {
+	readonly command: IdentityChangeCommand;
 	readonly deps: CliDeps;
 	readonly lectureMatch: LectureMatch;
 };
@@ -573,12 +577,16 @@ type MutationTarget = {
  * work.
  *
  * @param args - The change inputs.
- * @param args.command - The parsed mutation command.
+ * @param args.command - The parsed identity-change command.
  * @param args.deps - The command dependencies.
  * @param args.lectureMatch - The lecture to change.
  * @returns Whether the change was made; `false` when the user declined it.
  */
-async function applyMutation({ command, deps, lectureMatch }: MutationTarget): Promise<boolean> {
+async function applyIdentityChange({
+	command,
+	deps,
+	lectureMatch,
+}: IdentityChangeTarget): Promise<boolean> {
 	if (command.command === "rename") {
 		await renameLecture({ workspaceRoot: lectureMatch.workspaceRoot, title: command.title });
 		deps.write(`Renamed to "${command.title}".\n`);
@@ -599,20 +607,23 @@ async function applyMutation({ command, deps, lectureMatch }: MutationTarget): P
 }
 
 /**
- * Runs an identity-mutation command against the single lecture its date names.
+ * Runs an identity-change command against the single lecture its date names.
  *
  * @param args - The command inputs.
- * @param args.command - The parsed mutation command.
+ * @param args.command - The parsed identity-change command.
  * @param args.deps - The command dependencies.
  * @returns The exit code.
  */
-function mutationCommand({ command, deps }: CommandArgs<MutationCommand>): Promise<number> {
+function identityChangeCommand({
+	command,
+	deps,
+}: CommandArgs<IdentityChangeCommand>): Promise<number> {
 	return withResolvedLectures({
 		deps,
 		lectureDate: command.lectureDate,
 		...ACROSS_EVERY_MODULE,
 		choose: chooseOneLecture(deps),
-		act: ([lectureMatch]) => mutateLecture({ command, deps, lectureMatch }),
+		act: ([lectureMatch]) => changeLectureIdentity({ command, deps, lectureMatch }),
 	});
 }
 
@@ -647,5 +658,5 @@ export function executeCommand({
 	if (command.command === "cost-report") {
 		return costReportCommand({ command, deps });
 	}
-	return mutationCommand({ command, deps });
+	return identityChangeCommand({ command, deps });
 }
