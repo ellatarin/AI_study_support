@@ -574,8 +574,8 @@ export type TestLecture = {
 	readonly videoRecordingFile: string;
 	/** The source slide deck it writes alongside. */
 	readonly slideDeckFile: string;
-	/** The finished PDF it leaves in `Final output`. */
-	readonly outputFile: string;
+	/** The notes PDF it leaves in the final output folder. */
+	readonly finalOutputFile: string;
 };
 
 /**
@@ -583,7 +583,7 @@ export type TestLecture = {
  * lecture the pipeline would not produce — a base name that disagreed with its
  * own date would fail suites for a reason unrelated to what they test.
  *
- * The source video, slide deck and finished PDF all share that base name, as
+ * The video recording, slide deck and notes PDF all share that base name, as
  * `source-normalisation` leaves them, so they are derived here too rather than reassembled from
  * `${baseName}.mp4` wherever a suite happens to need one.
  *
@@ -601,7 +601,7 @@ function describeLecture(lecture: Pick<TestLecture, "number" | "date" | "title">
 		baseName,
 		videoRecordingFile: `${baseName}.mp4`,
 		slideDeckFile: `${baseName}.pdf`,
-		outputFile: `${baseName}.pdf`,
+		finalOutputFile: `${baseName}.pdf`,
 	};
 }
 
@@ -1239,7 +1239,7 @@ export async function makeLectureTree({ prefix }: { readonly prefix: string }): 
 	}
 	await writeFile(join(dirs.videoRecording, testLecture.videoRecordingFile), "video");
 	await writeFile(join(dirs.slideDeck, testLecture.slideDeckFile), "slides");
-	await writeFile(join(dirs.finalOutput, testLecture.outputFile), "notes");
+	await writeFile(join(dirs.finalOutput, testLecture.finalOutputFile), "notes");
 
 	return { tempDir, moduleRoot, dirs, workspaceRoot };
 }

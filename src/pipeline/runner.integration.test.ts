@@ -791,7 +791,7 @@ describe("PipelineRunner integration", () => {
 				finalOutput = moduleDirs({ moduleRoot }).finalOutput;
 				await mkdir(finalOutput, { recursive: true });
 				for (const lecture of [testLecture, otherLecture]) {
-					await writeFile(join(finalOutput, lecture.outputFile), "pdf");
+					await writeFile(join(finalOutput, lecture.finalOutputFile), "pdf");
 				}
 			});
 
@@ -804,8 +804,8 @@ describe("PipelineRunner integration", () => {
 			] as const satisfies readonly StageId[])("should take this lecture's PDF and leave the module's other lectures alone when --from-stage %s is given", async (fromStage) => {
 				await runFromStage(fromStage);
 
-				expect(await pathExists(join(finalOutput, testLecture.outputFile))).toBe(false);
-				expect(await pathExists(join(finalOutput, otherLecture.outputFile))).toBe(true);
+				expect(await pathExists(join(finalOutput, testLecture.finalOutputFile))).toBe(false);
+				expect(await pathExists(join(finalOutput, otherLecture.finalOutputFile))).toBe(true);
 			});
 		});
 	});

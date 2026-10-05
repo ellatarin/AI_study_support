@@ -88,7 +88,7 @@ describe("lecture identity commands", () => {
 			},
 			{ what: "the source slide", path: () => join(dirs.slideDeck, testLecture.slideDeckFile) },
 			{ what: "the workspace and everything in it", path: () => match.workspaceRoot },
-			{ what: "the final output", path: () => join(dirs.finalOutput, testLecture.outputFile) },
+			{ what: "the final output", path: () => join(dirs.finalOutput, testLecture.finalOutputFile) },
 		])("should remove $what when deleting", async ({ path }) => {
 			await deleteLecture({ match });
 
@@ -106,7 +106,7 @@ describe("lecture identity commands", () => {
 		});
 
 		it("should succeed when the lecture has produced no final output yet", async () => {
-			await rm(join(dirs.finalOutput, testLecture.outputFile));
+			await rm(join(dirs.finalOutput, testLecture.finalOutputFile));
 
 			await expect(deleteLecture({ match })).resolves.toBeUndefined();
 		});
@@ -160,7 +160,7 @@ describe("lecture identity commands", () => {
 			{
 				what: "the final output",
 				moved: () => join(dirs.finalOutput, `${MOVED_BASE_NAME}.pdf`),
-				left: () => join(dirs.finalOutput, testLecture.outputFile),
+				left: () => join(dirs.finalOutput, testLecture.finalOutputFile),
 			},
 		])("should rename $what to the new date when changing the date", async ({ moved, left }) => {
 			await changeDate();
@@ -170,7 +170,7 @@ describe("lecture identity commands", () => {
 		});
 
 		it("should succeed when the lecture has produced no final output yet", async () => {
-			await rm(join(dirs.finalOutput, testLecture.outputFile));
+			await rm(join(dirs.finalOutput, testLecture.finalOutputFile));
 
 			await changeDate();
 

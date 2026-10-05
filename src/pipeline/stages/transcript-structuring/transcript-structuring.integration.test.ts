@@ -170,7 +170,7 @@ describe("transcript structuring against a real module tree", () => {
 	});
 
 	it("should move a lecture that has produced no PDF yet when the title is replaced", async () => {
-		await rm(join(dirs.finalOutput, testLecture.outputFile));
+		await rm(join(dirs.finalOutput, testLecture.finalOutputFile));
 		mockModelReply(titleJudgement(false));
 
 		await runStage(await prepareLecture());

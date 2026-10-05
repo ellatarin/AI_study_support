@@ -129,7 +129,7 @@ describe("lecture files", () => {
 		});
 
 		it("should skip the final output PDF when the lecture has none yet", async () => {
-			await rm(join(dirs.finalOutput, testLecture.outputFile));
+			await rm(join(dirs.finalOutput, testLecture.finalOutputFile));
 
 			await renameToNewBase();
 
