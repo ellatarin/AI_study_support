@@ -121,7 +121,7 @@ describe("transcript verification against a real module tree", () => {
 		expect(written).toContain(verificationDeficiency.description);
 	});
 
-	it("should record both files as written when the stage completes", async () => {
+	it("should record both files in the manifest as the stage's recorded files when the stage completes", async () => {
 		const { filesWritten } = await runStage();
 
 		expect(filesWritten).toEqual([REPORT_LOCATION, VIEW_LOCATION]);

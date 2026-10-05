@@ -499,7 +499,7 @@ Integration tests (real temp directory):
 - `should write the report to Transcript verification when the stage completes`
 - `should write the report as readable JSON when the stage completes`
 - `should write the verification report Markdown beside the report when the stage completes`
-- `should record both files as written when the stage completes`
+- `should record both files in the manifest as the stage's recorded files when the stage completes`
 - `should ask OpenRouter for JSON when the stage calls the model`
 - `should put both versions in front of the checker when the stage calls the model`
 
