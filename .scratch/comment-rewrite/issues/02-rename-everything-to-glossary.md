@@ -59,7 +59,7 @@ The ticket covers two kinds of name:
 | A30 | `SubtopicNaming`, `NamedReplyPart`, `isNamedReplyPart`, `replyNaming`, `named` | Title (_Avoid_: name) | `TitleAndReason`, `TitledReplyPart`, `isTitledReplyPart`, `replyTitleAndReason`, `titled` |
 | A31 | `userChosenTitle` | User title | `userTitle` |
 | A32 | `verdict(meaningful)` test helper | Title judgement | `titleJudgement` |
-| A33 | `outputFile` (the PDF), `FINAL_OUTPUT_DIR` (constant), `finalOutput`, `finalOutputDir`, `discoverFinalOutput` | Notes | `notesFile`, `NOTES_DIR`, `notesDir`, `discoverNotesPdfs` (the folder's name on disk is S8) |
+| A33 | `outputFile` (the PDF), `FINAL_OUTPUT_DIR` (constant), `finalOutput`, `finalOutputDir`, `discoverFinalOutput` | Notes | `finalOutputFile`; the folder names stay (see the A24–A33 rulings) |
 | A34 | `recordingStage`, `runRecordingStage`, `contextRecordingOutput` ("recording" meaning noting down) | Recording is the source file | `orderLoggingStage`, `runObservedStage`, `contextCapturingOutput` |
 | A35 | `renameLectureFiles` | Item | `renameItems` |
 | A36 | `SUBJECT` (holds a title) in `date.test.ts` | Module (_Avoid_: subject) | `TITLE` |
@@ -161,3 +161,12 @@ Two things any folder or file rename must also fix: each manifest's `filesWritte
 
 - The words a model returns to mark where a subtopic starts are **start words**, not "subtopic start". `subtopicStarts` would sit beside a subtopic's numeric `start` and read as positions. Names: `startWords`, `secondStartWords`, `transcriptSecondStartWords`; the number `SECOND_START` becomes `SECOND_SUBTOPIC_START`, since it is a position. The glossary entry is renamed to match.
 - The file names `choice.json` and `changes.json` stay.
+
+2026-10-05, the user's rulings on A24 to A33:
+
+- A24: the test fixture that reads a saved run back is `readSavedRunJson`. Production already has a private `readSavedRun`, which also checks the run. The list of saved run paths is `savedRunPaths`. The fixture run from an earlier invocation is `earlierSavedRun`. `NumberedRun` stays.
+- Test titles say "in the manifest as the stage's recorded files", not "as written". A run is saved to disk when it finishes. The manifest lists it only when the stage completes.
+- A25: `RunStageOutcome` becomes `PipelineStageOutcome`. `StageRunConfig` becomes `StageConfigUsed`, to match the stored key `configUsed`. `RunSummary` becomes `PipelineRunSummary`. `BatchSummary` and `BatchOptions` stay, because "batch" needs no qualifier.
+- A25: the comment pass changes only the comments of the renamed names. The general rewording of a bare "run" is left to tickets 04 to 13.
+- A31: the fixture `userChosenTitle` becomes `testUserTitle`, to match the other `test…` fixtures. The ticket's `userTitle` is the manifest field.
+- A33: the fixture `outputFile` becomes `finalOutputFile`, beside `videoRecordingFile` and `slideDeckFile`. The final output folder names stay, as ruled for B6.
