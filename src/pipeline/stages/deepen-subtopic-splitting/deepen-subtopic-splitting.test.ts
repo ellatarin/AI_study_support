@@ -30,7 +30,7 @@ import {
 	useTranscribedWorkspace,
 	waitTurns,
 } from "../../fixtures.js";
-import { makeCompletionCall } from "../../openrouter.js";
+import { callModel } from "../../openrouter.js";
 import { type Subtopic, subtopicText } from "../division.js";
 import { ResendsExhaustedError } from "../panel-runs.js";
 import {
@@ -41,10 +41,10 @@ import {
 // Only the call is stubbed; everything else the module exports stays real.
 vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 	...(await importOriginal()),
-	makeCompletionCall: vi.fn(),
+	callModel: vi.fn(),
 }));
 
-const completionMock = makeCompletionCall as unknown as Mock;
+const modelCallMock = callModel as unknown as Mock;
 /* jscpd:ignore-end */
 
 const STAGE_ID = "deepen-subtopic-splitting";
@@ -96,7 +96,7 @@ type SentRequest = { readonly messages: readonly { readonly content: string }[] 
 
 /** The user message of every call made, in the order made. */
 function sentMessages(): readonly string[] {
-	return (completionMock.mock.calls as [SentRequest][]).map(
+	return (modelCallMock.mock.calls as [SentRequest][]).map(
 		([{ messages }]) => messages[1]?.content ?? "",
 	);
 }
@@ -163,7 +163,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 
 	/** Answers every call as {@link answerFrom} does for `replies`. */
 	function answering(replies: Readonly<Record<string, string>>): void {
-		completionMock.mockImplementation(answerFrom(replies));
+		modelCallMock.mockImplementation(answerFrom(replies));
 	}
 
 	/**
@@ -280,13 +280,13 @@ describe("createDeepenSubtopicSplittingStage", () => {
 
 	it("should make no second round when the first round cut nothing", async () => {
 		await run(ALMOST_EVERYTHING);
-		expect(completionMock).toHaveBeenCalledTimes(2 * PANEL_SIZE);
+		expect(modelCallMock).toHaveBeenCalledTimes(2 * PANEL_SIZE);
 	});
 
 	it("should stop after two rounds when a piece stays over the gate", async () => {
 		answering(CUTTING_BOTH_ROUNDS);
 		await run(ALMOST_EVERYTHING);
-		expect(completionMock).toHaveBeenCalledTimes(5 * PANEL_SIZE);
+		expect(modelCallMock).toHaveBeenCalledTimes(5 * PANEL_SIZE);
 		expect(await savedStarts(1)).toEqual(CUT_IN_BOTH_ROUNDS);
 	});
 
@@ -301,7 +301,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		expected,
 	}) => {
 		const { tracked, peak } = trackingInFlight(answerFrom(CUTTING_BOTH_ROUNDS));
-		completionMock.mockImplementation(tracked);
+		modelCallMock.mockImplementation(tracked);
 		await run({ ...ALMOST_EVERYTHING, tuning: { concurrency: 1, callConcurrency } });
 		expect(peak()).toBe(expected);
 	});
@@ -310,7 +310,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		const answer = answerFrom(CUTTING_BOTH_ROUNDS);
 		let callsMade = 0;
 		// Each call waits fewer turns than the one before it, so later calls answer first.
-		completionMock.mockImplementation(async (request: SentRequest) => {
+		modelCallMock.mockImplementation(async (request: SentRequest) => {
 			callsMade += 1;
 			await waitTurns({ turns: 100 - callsMade });
 			return answer(request);
@@ -341,16 +341,16 @@ describe("createDeepenSubtopicSplittingStage", () => {
 			content: JSON.stringify({ cuts: [{ label: "Piece", groupedBecause: "Why." }] }),
 		},
 	])("should resend a subtopic when the reply $problem", async ({ content }) => {
-		completionMock.mockResolvedValueOnce({ content, cost: stubbedCallCost });
+		modelCallMock.mockResolvedValueOnce({ content, cost: stubbedCallCost });
 		await run(SECOND_ONLY);
-		expect(completionMock).toHaveBeenCalledTimes(PANEL_SIZE + 1);
+		expect(modelCallMock).toHaveBeenCalledTimes(PANEL_SIZE + 1);
 	});
 
 	it("should fail the stage without saving the run when a subtopic fails every send", {
 		// Two real pauses, of two seconds and then four, come before the third send fails.
 		timeout: 10_000,
 	}, async () => {
-		completionMock.mockResolvedValue({ content: "", cost: stubbedCallCost });
+		modelCallMock.mockResolvedValue({ content: "", cost: stubbedCallCost });
 		expect(await captureError(run(SECOND_ONLY))).toBeInstanceOf(ResendsExhaustedError);
 		await expect(
 			readPanelRun({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID, runNumber: 1 }),
@@ -365,7 +365,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 			contents: earlierLaunchRun,
 		});
 		await run(SECOND_ONLY);
-		expect(completionMock).toHaveBeenCalledTimes(PANEL_SIZE - 1);
+		expect(modelCallMock).toHaveBeenCalledTimes(PANEL_SIZE - 1);
 		expect(await savedRun(1)).toEqual(earlierLaunchRun);
 	});
 
@@ -378,12 +378,12 @@ describe("createDeepenSubtopicSplittingStage", () => {
 			}),
 		);
 		expect(await captureError(run(SECOND_ONLY))).toBeInstanceOf(DeepenSubtopicSplittingError);
-		expect(completionMock).not.toHaveBeenCalled();
+		expect(modelCallMock).not.toHaveBeenCalled();
 	});
 
 	it.each(unusableTranscripts)("should fail when the transcript is $state", async ({ spoil }) => {
 		await spoil(workspaceRoot());
 		expect(await captureError(run(SECOND_ONLY))).toBeInstanceOf(DeepenSubtopicSplittingError);
-		expect(completionMock).not.toHaveBeenCalled();
+		expect(modelCallMock).not.toHaveBeenCalled();
 	});
 });

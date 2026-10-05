@@ -16,11 +16,7 @@ import type { PipelineStage, StageContext, StageCost, StageResult } from "../../
 import { errorMessage } from "../../utils/errors.js";
 import { createSendGate } from "../../utils/send-gate.js";
 import { configuredStage } from "../../utils/stage-config.js";
-import {
-	type CompletionRequest,
-	makeCompletionCall,
-	type OpenRouterClient,
-} from "../openrouter.js";
+import { callModel, type ModelCallRequest, type OpenRouterClient } from "../openrouter.js";
 import { createPipelineStage } from "./pipeline-stage.js";
 
 /**
@@ -44,7 +40,7 @@ export type ModelStageRunArgs<TInput> = {
 	readonly input: TInput;
 	readonly context: StageContext;
 } & ModelStageDependencies &
-	Pick<CompletionRequest, "sendGate">;
+	Pick<ModelCallRequest, "sendGate">;
 
 /**
  * What a stage asks when it wants a JSON reply: the prompt, on whose behalf,
@@ -54,7 +50,7 @@ export type ModelStageRunArgs<TInput> = {
  * @typeParam TReply - The reply the stage expects back.
  */
 export type JsonReplyRequest<TReply> = Pick<
-	CompletionRequest,
+	ModelCallRequest,
 	"messages" | "stageId" | "sendGate"
 > & {
 	readonly context: StageContext;
@@ -100,7 +96,7 @@ export type JsonReplyOutcome<TReply> =
  * @param args.isReply - Whether a parsed value is the documented reply.
  * @param args.documentedShape - The reply's shape in words, for the failure a user reads.
  * @param args.logger - The run's logger, on which the call is recorded.
- * @param args.client - The OpenAI client the completion goes through.
+ * @param args.client - The OpenAI client the model call goes through.
  * @param args.sendGate - The stage run's turns to send, which the call waits on.
  * @returns The validated reply or the reason it failed, with what the call cost.
  * @typeParam TReply - The reply the stage expects back.
@@ -116,7 +112,7 @@ export async function tryJsonReply<TReply>({
 	client,
 	sendGate,
 }: JsonReplyRequest<TReply>): Promise<JsonReplyOutcome<TReply>> {
-	const { content, cost } = await makeCompletionCall({
+	const { content, cost } = await callModel({
 		messages,
 		stageId,
 		config: context.config,

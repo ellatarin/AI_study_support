@@ -32,7 +32,7 @@ import {
 } from "../../fixtures.js";
 import { stageOutputEntry, stageOutputPath } from "../../layout.js";
 import { manifestPath } from "../../manifest.js";
-import { makeCompletionCall } from "../../openrouter.js";
+import { callModel } from "../../openrouter.js";
 import type { TranscriptStructuringOutput } from "./transcript-structuring.js";
 import {
 	createTranscriptStructuringStage,
@@ -43,10 +43,10 @@ import {
 // paths the fixtures build their URLs from — stays real.
 vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 	...(await importOriginal()),
-	makeCompletionCall: vi.fn(),
+	callModel: vi.fn(),
 }));
 
-const completionMock = makeCompletionCall as unknown as Mock;
+const modelCallMock = callModel as unknown as Mock;
 
 /** The lecture as `rename` leaves it: the user's title, already in force. */
 const userNamed = { userTitle: userChosenTitle, lectureTitle: userChosenTitle };
@@ -59,7 +59,7 @@ const COST: StageCost = {
 
 /** A well-formed model reply, with the fields a test cares about overridden. */
 function stubReply(overrides: Readonly<Record<string, unknown>> = {}): void {
-	completionMock.mockResolvedValue({
+	modelCallMock.mockResolvedValue({
 		content: JSON.stringify(structuringReply(overrides)),
 		cost: COST,
 	});
@@ -95,7 +95,7 @@ describe("createTranscriptStructuringStage", () => {
 	function makeStage(): ReturnType<typeof createTranscriptStructuringStage> {
 		return createTranscriptStructuringStage({
 			logger: logged().logger,
-			// The completion call is mocked wholesale in this suite, so the client is
+			// The model call is mocked wholesale in this suite, so the client is
 			// never reached; it is here because the stage requires one.
 			client: openRouterClientFor({ config: exampleConfig }),
 		});
@@ -146,7 +146,7 @@ describe("createTranscriptStructuringStage", () => {
 	it("should ask the model for JSON when the stage calls it", async () => {
 		await runStage(contextWith());
 
-		expect(completionMock).toHaveBeenCalledWith(
+		expect(modelCallMock).toHaveBeenCalledWith(
 			expect.objectContaining({ stageId: "transcript-structuring", responseFormat: "json" }),
 		);
 	});
@@ -154,7 +154,7 @@ describe("createTranscriptStructuringStage", () => {
 	it("should send the transcript and the provisional title when the stage calls the model", async () => {
 		await runStage(contextWith());
 
-		const sent = JSON.stringify(completionMock.mock.calls[0]?.[0].messages);
+		const sent = JSON.stringify(modelCallMock.mock.calls[0]?.[0].messages);
 		expect(sent).toContain(transcriptText);
 		expect(sent).toContain(testLecture.title);
 	});
@@ -171,7 +171,7 @@ describe("createTranscriptStructuringStage", () => {
 	}) => {
 		await runStage(contextWith({ language }));
 
-		const sent = JSON.stringify(completionMock.mock.calls[0]?.[0].messages);
+		const sent = JSON.stringify(modelCallMock.mock.calls[0]?.[0].messages);
 		expect(sent).toContain(`Write in ${instruction}`);
 	});
 
@@ -315,7 +315,7 @@ describe("createTranscriptStructuringStage", () => {
 					'{"provisionalTitleMeaningful":"yes","suggestedTitle":null,"structuredMarkdown":"x"}',
 			},
 		])("should fail when the model returns $what", async ({ content }) => {
-			completionMock.mockResolvedValue({ content, cost: COST });
+			modelCallMock.mockResolvedValue({ content, cost: COST });
 
 			const error = await captureError(runStage(contextWith()));
 

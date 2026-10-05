@@ -33,7 +33,7 @@ import {
 	verificationReply,
 } from "../../fixtures.js";
 import { type StageWithOutputFile, stageOutputPath } from "../../layout.js";
-import { makeCompletionCall } from "../../openrouter.js";
+import { callModel } from "../../openrouter.js";
 import {
 	createTranscriptVerificationStage,
 	TranscriptVerificationError,
@@ -42,10 +42,10 @@ import {
 // Only the call is stubbed; everything else the module exports stays real.
 vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 	...(await importOriginal()),
-	makeCompletionCall: vi.fn(),
+	callModel: vi.fn(),
 }));
 
-const completionMock = makeCompletionCall as unknown as Mock;
+const modelCallMock = callModel as unknown as Mock;
 /* jscpd:ignore-end */
 
 const STAGE_ID = "transcript-verification";
@@ -75,7 +75,7 @@ const UNUSABLE_INPUTS = [
 
 /** Sends back exactly this text as the checker's reply, whether or not it is a report. */
 function stubRawReply(content: string): void {
-	completionMock.mockResolvedValue({ content, cost: COST });
+	modelCallMock.mockResolvedValue({ content, cost: COST });
 }
 
 /** A well-formed checker reply, with the fields a test is about replaced. */

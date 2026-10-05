@@ -16,17 +16,17 @@ import {
 	useStageReadingDivision,
 } from "../../fixtures.js";
 import { stageOutputPath, stageRecordPath } from "../../layout.js";
-import { makeCompletionCall } from "../../openrouter.js";
+import { callModel } from "../../openrouter.js";
 import { ResendsExhaustedError } from "../panel-runs.js";
 import { createRetitleSubtopicsStage, RetitleSubtopicsError } from "./retitle-subtopics.js";
 
 // Only the call is stubbed; everything else the module exports stays real.
 vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 	...(await importOriginal()),
-	makeCompletionCall: vi.fn(),
+	callModel: vi.fn(),
 }));
 
-const completionMock = makeCompletionCall as unknown as Mock;
+const modelCallMock = callModel as unknown as Mock;
 /* jscpd:ignore-end */
 
 const STAGE_ID = "retitle-subtopics";
@@ -54,7 +54,7 @@ describe("createRetitleSubtopicsStage", () => {
 		readsFrom: "choose-division",
 		factory: createRetitleSubtopicsStage,
 		stubReply: () =>
-			completionMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost }),
+			modelCallMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost }),
 	});
 
 	/** The retitled division the stage wrote, parsed back off disk. */
@@ -65,8 +65,8 @@ describe("createRetitleSubtopicsStage", () => {
 	it("should send every subtopic as its position and trimmed text, without its title, in one call when the stage runs", async () => {
 		await run();
 
-		expect(completionMock).toHaveBeenCalledTimes(1);
-		expect(sentUserMessage(completionMock.mock.calls)).toBe(
+		expect(modelCallMock).toHaveBeenCalledTimes(1);
+		expect(sentUserMessage(modelCallMock.mock.calls)).toBe(
 			JSON.stringify({
 				subtopics: [
 					{ id: 1, text: "Today we are covering" },
@@ -122,11 +122,11 @@ describe("createRetitleSubtopicsStage", () => {
 	])("should resend the call and use the next reply when the reply $problem", async ({
 		content,
 	}) => {
-		completionMock.mockResolvedValueOnce({ content, cost: stubbedCallCost });
+		modelCallMock.mockResolvedValueOnce({ content, cost: stubbedCallCost });
 
 		await run();
 
-		expect(completionMock).toHaveBeenCalledTimes(2);
+		expect(modelCallMock).toHaveBeenCalledTimes(2);
 		expect(await writtenDivision()).toStrictEqual(RETITLED_DIVISION);
 	});
 
@@ -134,12 +134,12 @@ describe("createRetitleSubtopicsStage", () => {
 		// Two real pauses, of two seconds and then four, come before the third send fails.
 		timeout: 10_000,
 	}, async () => {
-		completionMock.mockResolvedValue({ content: "", cost: stubbedCallCost });
+		modelCallMock.mockResolvedValue({ content: "", cost: stubbedCallCost });
 
 		const error = await captureError(run());
 
 		expect(error).toBeInstanceOf(ResendsExhaustedError);
-		expect(completionMock).toHaveBeenCalledTimes(3);
+		expect(modelCallMock).toHaveBeenCalledTimes(3);
 		expect(
 			await pathExists(stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID })),
 		).toBe(false);
@@ -159,7 +159,7 @@ describe("createRetitleSubtopicsStage", () => {
 
 		expect(error).toBeInstanceOf(RetitleSubtopicsError);
 		expect(error.message).toContain(chosen);
-		expect(completionMock).not.toHaveBeenCalled();
+		expect(modelCallMock).not.toHaveBeenCalled();
 	});
 
 	it("should leave the chosen division's subtopics as they were when the stage completes", async () => {
@@ -174,7 +174,7 @@ describe("createRetitleSubtopicsStage", () => {
 
 	it("should record beside the division each title that changed, and not one returned unchanged, when the stage completes", async () => {
 		const [opening, second] = transcriptDivision;
-		completionMock.mockResolvedValue({
+		modelCallMock.mockResolvedValue({
 			content: titlesReply([opening?.title ?? "", NEW_TITLES[1] ?? ""]),
 			cost: stubbedCallCost,
 		});

@@ -22,7 +22,7 @@ import {
 	stageRecordEntry,
 	stageRecordPath,
 } from "../../layout.js";
-import { makeCompletionCall } from "../../openrouter.js";
+import { callModel } from "../../openrouter.js";
 import { ResendsExhaustedError } from "../panel-runs.js";
 import { DefineTopicsError } from "./choose-grouping.js";
 import { createDefineTopicsStage } from "./define-topics.js";
@@ -30,10 +30,10 @@ import { createDefineTopicsStage } from "./define-topics.js";
 // Only the call is stubbed; everything else the module exports stays real.
 vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 	...(await importOriginal()),
-	makeCompletionCall: vi.fn(),
+	callModel: vi.fn(),
 }));
 
-const completionMock = makeCompletionCall as unknown as Mock;
+const modelCallMock = callModel as unknown as Mock;
 /* jscpd:ignore-end */
 
 const STAGE_ID = "define-topics";
@@ -66,7 +66,7 @@ describe("createDefineTopicsStage", () => {
 		readsFrom: "retitle-subtopics",
 		factory: createDefineTopicsStage,
 		stubReply: () =>
-			completionMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost }),
+			modelCallMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost }),
 	});
 
 	/** Where a grouping run is saved, counting from 1. */
@@ -76,7 +76,7 @@ describe("createDefineTopicsStage", () => {
 	it("should send every retitled subtopic as its position, title as label, and text with the blank space at each end removed when each grouping run is made", async () => {
 		await run();
 
-		const sent = completionMock.mock.calls.map((call) => sentUserMessage([call]));
+		const sent = modelCallMock.mock.calls.map((call) => sentUserMessage([call]));
 		expect(sent).toStrictEqual(
 			Array(config.grouping.panelSize).fill(
 				JSON.stringify({
@@ -116,11 +116,11 @@ describe("createDefineTopicsStage", () => {
 			content: replyOf(OPENING_TOPIC, { ...SUBJECT_TOPIC, firstSubtopicId: 3 }),
 		},
 	])("should resend a grouping run's call when its reply $problem", async ({ content }) => {
-		completionMock.mockResolvedValueOnce({ content, cost: stubbedCallCost });
+		modelCallMock.mockResolvedValueOnce({ content, cost: stubbedCallCost });
 
 		await run();
 
-		expect(completionMock).toHaveBeenCalledTimes(config.grouping.panelSize + 1);
+		expect(modelCallMock).toHaveBeenCalledTimes(config.grouping.panelSize + 1);
 	});
 
 	it("should write each topic's title, groupedBecause and first subtopic from the chosen run when the stage completes", async () => {
@@ -171,14 +171,14 @@ describe("createDefineTopicsStage", () => {
 
 		expect(error).toBeInstanceOf(DefineTopicsError);
 		expect(error.message).toContain(retitled);
-		expect(completionMock).not.toHaveBeenCalled();
+		expect(modelCallMock).not.toHaveBeenCalled();
 	});
 
 	it("should fail without writing the topics when a run's third send is still unusable", {
 		// Two real pauses, of two seconds and then four, come before the third send fails.
 		timeout: 10_000,
 	}, async () => {
-		completionMock.mockResolvedValue({ content: replyOf(), cost: stubbedCallCost });
+		modelCallMock.mockResolvedValue({ content: replyOf(), cost: stubbedCallCost });
 
 		const error = await captureError(run());
 

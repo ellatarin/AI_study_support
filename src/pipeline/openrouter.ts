@@ -51,7 +51,7 @@ type OpenRouterSettings = PipelineConfig["openRouter"];
 export class ContextLengthError extends NamedError {}
 
 /**
- * Thrown when the configuration holds no entry for the stage a completion was
+ * Thrown when the configuration holds no entry for the stage a model call was
  * asked for, so there is no model to call. Named separately from the provider errors
  * below because it is settled before the request is made: nothing was sent, and
  * the remedy is an edit to the config file (technical-design.md §6, §8).
@@ -67,19 +67,19 @@ export class UnconfiguredStageError extends NamedError {}
 export class ProviderError extends NamedError {}
 
 /**
- * Thrown when a completion is accepted but carries no choices at all, which
+ * Thrown when a reply is accepted but carries no choices at all, which
  * leaves nothing to read. Distinct from a model answering with empty content,
  * which is a legitimate reply this module hands back as `""`
  * (technical-design.md §8).
  */
-export class NoCompletionChoicesError extends NamedError {}
+export class NoReplyChoicesError extends NamedError {}
 
 /**
  * The shape a caller expects the model's reply to take. Stated on every call
  * rather than defaulted, so a caller always declares what it is about to parse
  * (technical-design.md §6).
  */
-export type CompletionResponseFormat = "text" | "json";
+export type ReplyFormat = "text" | "json";
 
 /**
  * OpenRouter's own routing controls, which ride alongside the OpenAI-compatible
@@ -107,9 +107,7 @@ type JsonModeFields = OpenRouterRouting & {
  * @param responseFormat - The shape the caller expects back.
  * @returns The fields to merge into the request body; none, for a text call.
  */
-function responseFormatFields(
-	responseFormat: CompletionResponseFormat,
-): JsonModeFields | Record<string, never> {
+function responseFormatFields(responseFormat: ReplyFormat): JsonModeFields | Record<string, never> {
 	if (responseFormat === "text") {
 		return {};
 	}
@@ -215,7 +213,7 @@ function providerErrorDescription(options: {
 
 /**
  * The provider's own explanation, when an accepted reply carries one instead of
- * a completion.
+ * an answer.
  *
  * OpenRouter answers some upstream failures with HTTP 200 and a body holding
  * `{"error": {...}}` and no `choices`, which the SDK hands back as a success.
@@ -223,7 +221,7 @@ function providerErrorDescription(options: {
  * the failure is transient and whether retrying is the remedy — so it is read
  * off a reply the SDK's type says cannot hold it (technical-design.md §8).
  *
- * @param response - The accepted completion reply.
+ * @param response - The accepted reply.
  * @returns The provider's message, or `null` when the reply carries no usable one.
  */
 function providerErrorMessage(response: unknown): string | null {
@@ -252,7 +250,7 @@ function providerErrorMessage(response: unknown): string | null {
  * @param options.modelId - The model the stage is configured to use.
  * @returns The error to throw, or `null` when the failure did not come from the API.
  */
-function toCompletionError(options: {
+function toProviderError(options: {
 	readonly error: unknown;
 	readonly stageId: StageId;
 	readonly modelId: string;
@@ -280,7 +278,7 @@ async function createCompletion(options: {
 	readonly stageId: StageId;
 	readonly stageConfig: StageConfig;
 	readonly messages: readonly OpenAI.Chat.Completions.ChatCompletionMessageParam[];
-	readonly responseFormat: CompletionResponseFormat;
+	readonly responseFormat: ReplyFormat;
 }): Promise<OpenAI.Chat.Completions.ChatCompletion> {
 	// Annotated in two steps so the SDK still type-checks the fields it owns, while
 	// the assembled body's type openly carries OpenRouter's `provider` extension —
@@ -295,13 +293,13 @@ async function createCompletion(options: {
 	try {
 		return await options.client.chat.completions.create(body);
 	} catch (error: unknown) {
-		const completionError = toCompletionError({
+		const providerError = toProviderError({
 			error,
 			stageId: options.stageId,
 			modelId: options.stageConfig.modelId,
 		});
-		if (completionError !== null) {
-			throw completionError;
+		if (providerError !== null) {
+			throw providerError;
 		}
 		throw error;
 	}
@@ -310,9 +308,9 @@ async function createCompletion(options: {
 /**
  * The `usage` a reply carries, read without trusting the SDK's type: OpenRouter
  * adds `cost` to it, and a provider error arrives in the shape of a
- * completion but need not carry any usage at all (technical-design.md §6, §7).
+ * reply but need not carry any usage at all (technical-design.md §6, §7).
  *
- * @param response - The accepted completion reply.
+ * @param response - The accepted reply.
  * @returns The reply's usage, or an empty record when it carries none.
  */
 function usageOf(response: unknown): Readonly<Record<string, unknown>> {
@@ -363,26 +361,26 @@ function replyCost({
 }
 
 /**
- * Everything one completion call needs. Named rather than written inline so a
+ * Everything one model call needs. Named rather than written inline so a
  * caller that forwards part of it — the stage helper that asks for a JSON reply
  * — can say which part it forwards instead of restating the fields.
  */
-export type CompletionRequest = {
+export type ModelCallRequest = {
 	readonly messages: readonly OpenAI.Chat.Completions.ChatCompletionMessageParam[];
 	readonly stageId: StageId;
 	readonly config: PipelineConfig;
-	readonly responseFormat: CompletionResponseFormat;
+	readonly responseFormat: ReplyFormat;
 	readonly logger: Logger;
 	readonly client: OpenRouterClient;
 	readonly sendGate: SendGate;
 };
 
 /**
- * What one send of a completion cost: its tokens and its dollar cost, both as
+ * What one send of a model call cost: its tokens and its dollar cost, both as
  * the reply reports them in its `usage` (technical-design.md §6, §7).
  *
  * @param args - The reply, and whether it carries a provider error.
- * @param args.response - The accepted completion reply.
+ * @param args.response - The accepted reply.
  * @param args.hasProviderError - Whether the reply carries a provider error.
  * @returns The send's cost.
  */
@@ -416,20 +414,20 @@ type AnsweredSend = {
 };
 
 /**
- * Sends one completion and reads what came back: its text and cost, or the
+ * Makes one send of a model call and reads what came back: its text and cost, or the
  * provider error and its cost, to be sent again.
  *
- * @param options - As {@link makeCompletionCall}, with the stage's settings and the client resolved.
+ * @param options - As {@link callModel}, with the stage's settings and the client resolved.
  * @param options.stageConfig - The stage's model and tuning.
  * @param options.openAiClient - The client to call through.
- * @returns The completion's text, cost and any provider error that came with it, or the provider error and its cost.
+ * @returns The reply's text, cost and any provider error that came with it, or the provider error and its cost.
  * @throws {ContextLengthError} If the prompt exceeds the model's context window.
  * @throws {ProviderError} If the API answers the call with a failure status.
- * @throws {NoCompletionChoicesError} If the reply carries neither choices nor a provider error.
+ * @throws {NoReplyChoicesError} If the reply carries neither choices nor a provider error.
  */
-async function sendCompletionOnce(
-	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- as for makeCompletionCall: library types that are not deeply readonly
-	options: CompletionRequest & { readonly stageConfig: StageConfig; readonly openAiClient: OpenAI },
+async function sendOnce(
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- as for callModel: library types that are not deeply readonly
+	options: ModelCallRequest & { readonly stageConfig: StageConfig; readonly openAiClient: OpenAI },
 ): Promise<AnsweredSend | FailedSend> {
 	const { stageConfig, openAiClient: client } = options;
 	// Measured here rather than handed back for the caller to log: the latency of
@@ -452,7 +450,7 @@ async function sendCompletionOnce(
 			latencyMs,
 			finishReason,
 		},
-		"Completion call",
+		"Model call",
 	);
 	// Read before the provider's error: a reply carrying both is an answer, not a
 	// failed send, and resending it would throw a complete answer away (§6).
@@ -466,7 +464,7 @@ async function sendCompletionOnce(
 	// into a TypeError naming nothing; failing here names the stage and the model.
 	// Empty content is a different matter and stays tolerated as "" below.
 	if (choice === undefined) {
-		throw new NoCompletionChoicesError(
+		throw new NoReplyChoicesError(
 			`Model "${stageConfig.modelId}" returned no choices for stage "${options.stageId}"`,
 		);
 	}
@@ -478,14 +476,14 @@ async function sendCompletionOnce(
 }
 
 /**
- * Runs one chat completion for the named stage and returns its text alongside
+ * Makes one model call for the named stage and returns the reply's text alongside
  * its {@link StageCost}. Token counts and the dollar cost are both read from the
  * reply's `usage`, where OpenRouter prices every call. A reply that carries no
  * usable cost does not fail the call — it yields `costUsd: null` with a
  * `costResolutionError` (technical-design.md §6, §7).
  *
- * A reply the SDK accepted that carries a provider error in place of a
- * completion is sent again, up to three sends, pausing two seconds and then
+ * A model call whose reply the SDK accepted but which carries a provider error
+ * in place of an answer is sent again, up to three sends, pausing two seconds and then
  * four; each provider error is logged as a warning, and the cost returned covers every
  * send (technical-design.md §6, "A rejection can arrive inside an accepted reply").
  * A reply carrying the provider's error beside a non-empty answer is not a
@@ -505,17 +503,17 @@ async function sendCompletionOnce(
  *   client is actually wanted (§4.7).
  * @param options.sendGate - The stage run's turns to send; every send, a resend after a
  *   provider error included, waits its turn (§6, `sendGapSeconds`).
- * @returns The completion text and its resolved cost.
+ * @returns The reply's text and its resolved cost.
  * @throws {UnconfiguredStageError} If the configuration holds no entry for the stage.
  * @throws {ContextLengthError} If the prompt exceeds the model's context window.
  * @throws {ProviderError} If the provider reports an error for any other reason, including a
  *   reply the SDK accepted that carries a provider error on every send.
- * @throws {NoCompletionChoicesError} If the call is accepted but the model returns no choices.
+ * @throws {NoReplyChoicesError} If the call is accepted but the model returns no choices.
  *   Every one of these names the model and the stage in its message (§8).
  */
-export async function makeCompletionCall(
+export async function callModel(
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the OpenAI client, message-param and pino Logger types are library types that are not deeply readonly (CLAUDE.md permits dropping readonly when a library requires mutable types)
-	options: CompletionRequest,
+	options: ModelCallRequest,
 ): Promise<{ readonly content: string; readonly cost: StageCost }> {
 	const stageConfig = stageConfigFor({ config: options.config, stageId: options.stageId });
 	const { modelId } = stageConfig;
@@ -525,7 +523,7 @@ export async function makeCompletionCall(
 	const { sent, sends, cost } = await sendUntilAccepted({
 		send: async () => {
 			await options.sendGate.waitTurn();
-			return sendCompletionOnce({ ...options, stageConfig, openAiClient });
+			return sendOnce({ ...options, stageConfig, openAiClient });
 		},
 		onFailure: ({ send, failure }) => {
 			options.logger.warn(

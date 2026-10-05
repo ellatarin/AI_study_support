@@ -292,7 +292,7 @@ export const openRouterUrls = openRouterUrlsAt(exampleConfig.openRouter.baseUrl)
  * composition root makes it.
  *
  * Nothing holds a shared client any more — a stage is handed a provider, as it
- * is handed its logger — so every suite driving a stage or a completion call
+ * is handed its logger — so every suite driving a stage or a model call
  * supplies one. They ask here rather than each reaching into the config's
  * `openRouter` section for themselves. A suite that needs the client itself
  * calls what this returns.
@@ -452,7 +452,7 @@ export function scribeResponseBody({ text }: { readonly text: string }): Record<
 }
 
 /**
- * A well-formed OpenRouter chat-completion response body.
+ * A well-formed OpenRouter reply body, in the shape of the chat completions API.
  *
  * Two suites need one, and its shape is the SDK's contract rather than either
  * suite's business.
@@ -462,7 +462,7 @@ export function scribeResponseBody({ text }: { readonly text: string }): Record<
  * @param args.finishReason - The finish reason reported; `"stop"` by default, `null` for none.
  * @returns The response body to reply with.
  */
-export function openRouterCompletionBody({
+export function openRouterReplyBody({
 	content,
 	finishReason = "stop",
 }: {
@@ -478,7 +478,7 @@ export function openRouterCompletionBody({
 }
 
 /**
- * Intercepts one JSON-mode completion, priced at {@link stubbedCostUsd} in its
+ * Intercepts one JSON-mode model call, priced at {@link stubbedCostUsd} in its
  * own reply, handing back what the stage put on the wire.
  *
  * Every stage that calls a model over a real HTTP boundary needs the same
@@ -499,7 +499,7 @@ export function stubModelReply(
 		// eslint-disable-next-line max-params -- nock hands its reply callback (uri, body) positionally; the signature is the library's, not ours to shape
 		.reply((_uri, body) => {
 			capturedBody = body as Record<string, unknown>;
-			return [200, openRouterCompletionBody({ content: JSON.stringify(reply) })];
+			return [200, openRouterReplyBody({ content: JSON.stringify(reply) })];
 		});
 	return () => capturedBody;
 }
@@ -1692,9 +1692,9 @@ export function joinedSubtopics({
 
 /**
  * The user message a stage sent on its first call to a stubbed
- * `makeCompletionCall`: the material its prompt is about.
+ * `callModel`: the material its prompt is about.
  *
- * @param calls - The calls the suite's stub of `makeCompletionCall` received, as its `mock.calls`.
+ * @param calls - The calls the suite's stub of `callModel` received, as its `mock.calls`.
  * @returns The first call's user message.
  */
 export function sentUserMessage(calls: readonly (readonly unknown[])[]): string | undefined {

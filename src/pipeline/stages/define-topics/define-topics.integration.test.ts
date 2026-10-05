@@ -5,7 +5,7 @@ import {
 	driveModelStage,
 	exampleStageConfig,
 	makeStubLogger,
-	openRouterCompletionBody,
+	openRouterReplyBody,
 	openRouterUrls,
 	resetStubbedApi,
 	SETTLE_STEP_MS,
@@ -29,7 +29,7 @@ const USABLE_ANSWER = JSON.stringify({
  */
 const REPLIES_BY_ARRIVAL: readonly Readonly<Record<string, unknown>>[] = [
 	{ error: { message: "Upstream rate limit reached.", code: 429 } },
-	openRouterCompletionBody({ content: JSON.stringify({ topics: [] }) }),
+	openRouterReplyBody({ content: JSON.stringify({ topics: [] }) }),
 ];
 
 /**
@@ -50,7 +50,7 @@ function stubSendsArrivingAt(
 			arrivals.push(Date.now());
 			return [
 				200,
-				firstReplies[arrivals.length - 1] ?? openRouterCompletionBody({ content: USABLE_ANSWER }),
+				firstReplies[arrivals.length - 1] ?? openRouterReplyBody({ content: USABLE_ANSWER }),
 			];
 		});
 	return arrivals;

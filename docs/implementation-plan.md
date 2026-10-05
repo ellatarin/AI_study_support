@@ -87,7 +87,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `src/utils/text.ts` — `collapseWhitespace`: closing up the gaps that removing a fragment leaves, which both the naming rules and the date reader end by doing **(TD §3)**; `pluralise`: a count and its noun agreeing with each other, for every place that tells the user how many of something there are
 - `src/utils/stage-config.ts` — `configuredStage`, `unconfiguredStageMessage`: a stage's entry in the config file and the sentence reporting its absence, for the OpenRouter client, `transcription` and the runner alike **(TD §6)**
 - `src/pipeline/config.ts` — `loadConfig`, plus the model-ID resolution check and its provider exemptions **(TD §6)**
-- `src/pipeline/openrouter.ts` — `createOpenRouterClient`, `makeCompletionCall`, and the exported `UnconfiguredStageError`, `ContextLengthError`, `ProviderError` and `NoCompletionChoicesError` **(TD §6)**
+- `src/pipeline/openrouter.ts` — `createOpenRouterClient`, `callModel`, and the exported `UnconfiguredStageError`, `ContextLengthError`, `ProviderError` and `NoReplyChoicesError` **(TD §6)**
 - `src/pipeline/fixtures.ts` — the shared test vocabulary: the example lecture and its derived file names, the module tree builders, the stub logger, the manifest and stage-entry builders. It belongs to this phase because it is what stops each later phase's suites inventing their own lecture, but it is the one deliverable that keeps growing: a phase that needs a fixture the suites will share extends this module rather than restating the value. Production code never imports it, which `eslint.config.js` exempts it in order to allow — it is the one file under `src/pipeline/` permitted to import from `src/pipeline/stages/`
 
 **Tests:**
@@ -154,7 +154,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `should build no client when a provider is made without an API key` — the commands that reach no model must run without one, so making the provider must not build a client
 
 `openrouter.ts` — HTTP interceptor tests using `nock`:
-- `should send correct baseURL, headers, and model ID when makeCompletionCall invoked`
+- `should send correct baseURL, headers, and model ID when callModel invoked`
 - `should record the cost and token counts the reply carries when a call completes`
 - `should return the reply and record the cost as unresolved, saying why, when $scenario` — `test.each` across a reply whose usage carries no cost, a cost that is a string, null or an object, usage that is not an object, and no usage at all
 - `should retry completion call with exponential backoff when response is 429`
@@ -401,7 +401,7 @@ The transcription integration test streams a real file through the real SDK but 
 
 `src/pipeline/lecture-files.ts` **(TD §4.7, "Moving a lecture's files")** — `baseNameForLecture`, `findDatedFile`, `removeDatedFile` and `renameLectureFiles`, lifted out of the private helpers in `src/cli/lecture-identity.ts` so `transcript-structuring` and `change-date` share one sweep rather than growing a second copy. `change-date` is rewritten onto it; the module sits under `src/pipeline/` because a stage may not import from `src/cli/`.
 
-`makeCompletionCall` gains `responseFormat` **(TD §6)** — `"text" | "json"`, stated on every call, setting the SDK's `response_format` to `json_object` for the stages that return structured data. `transcript-structuring` is its first production caller.
+`callModel` gains `responseFormat` **(TD §6)** — `"text" | "json"`, stated on every call, setting the SDK's `response_format` to `json_object` for the stages that return structured data. `transcript-structuring` is its first production caller.
 
 `PipelineRunner` follows a relocated workspace **(TD §4.7, "Following a relocated workspace" and `StageContext` assembly)** — `findLectureByDate` extracted from `resolveLecturesByDate`; new `resolveWorkspace`; `updateManifest` takes and returns the manifest rather than re-reading it; `runStage` returns `StageOutcome`; `#runStages` carries each stage's context on to the next; the run log and `RunSummary.workspaceRoot` use the resolved path.
 
@@ -411,14 +411,14 @@ The transcription integration test streams a real file through the real SDK but 
 
 **Tests:**
 
-Unit tests for the stage (mock `makeCompletionCall`):
+Unit tests for the stage (mock `callModel`):
 - `should extract structured markdown and keep the provisional title when LLM judges it meaningful`
 - `should store suggestedTitle as aiDerivedTitle when LLM judges the provisional not meaningful`
 - `should settle no identity when the model judges the title meaningful` — the stage returns no `identityChanges`, so the runner writes none and `aiDerivedTitle` stays as it was
 - `should fail when the response is not the documented JSON object`
 - `should fail when the LLM judges the provisional not meaningful but proposes no title`
 
-Unit tests for `makeCompletionCall`:
+Unit tests for `callModel`:
 - `should request the json_object response format when responseFormat is json`
 - `should send no response format when responseFormat is text`
 
@@ -464,7 +464,7 @@ The stage set gains a tenth entry **(TD §4.1)** — `STAGE_IDS`, `STAGE_WORKSPA
 
 **Tests:**
 
-Unit tests for the stage (mock `makeCompletionCall`):
+Unit tests for the stage (mock `callModel`):
 - `should write every finding the checker returned when the stage runs`
 - `should record what the checker cleared when it reports having considered it`
 - `should complete rather than fail when the checker returns a %s finding` — `test.each` across every severity
@@ -541,7 +541,7 @@ Every doc naming a moved file is updated in the same commit.
 
 **Tests:**
 
-Unit tests for `tryJsonReply` (mock `makeCompletionCall`):
+Unit tests for `tryJsonReply` (mock `callModel`):
 - `should hand back the reply and its cost when the reply is the documented shape`
 - `should give the reason and the call's cost when the reply is $label` — `test.each` across empty, not JSON, and the wrong shape
 
@@ -608,7 +608,7 @@ Integration tests for `stage-input.ts` (real temp directory):
 - `should return the file's text when the stage's output holds text`
 - `should raise the reading stage's own error naming the file when it is $state` — `test.each` across missing and blank
 
-Unit tests for the stage (mock `makeCompletionCall`):
+Unit tests for the stage (mock `callModel`):
 - `should send the transcript without its surrounding whitespace when a run is made`
 - `should save every run of the panel with each subtopic's span, label and reason when the stage completes`
 - `should record every run file as written when the stage completes`
@@ -639,7 +639,7 @@ What it shares with `initial-subtopic-splitting`, moved out of that stage rather
 
 **Tests:**
 
-Unit tests (mock `makeCompletionCall`):
+Unit tests (mock `callModel`):
 - `should send only the subtopics over the size gate when a run is deepened`
 - `should cut the transcript without its surrounding whitespace when a run is deepened`
 - `should leave a subtopic unchanged when the reply says it is one step`
@@ -681,7 +681,7 @@ Unit tests for `mapWithConcurrency`:
 - `should start no further task when one fails`
 - `should let the tasks in flight finish before failing when one fails`
 
-Unit tests for the stage (mock `makeCompletionCall`):
+Unit tests for the stage (mock `callModel`):
 - `should have at most $expected calls in flight in one run when callConcurrency is $callConcurrency` — `test.each`, unset included (one at a time)
 - `should give the same deepened run when the replies arrive out of order`
 
@@ -739,12 +739,12 @@ The deepening tests of the mark are deleted.
 
 **Deliverables:**
 
-- `makeCompletionCall` sends a refused call again, up to three sends, pausing two seconds and then four, logging each refusal as a warning with the provider's sentence; the third refusal is the `ProviderError` **(TD §6, "A rejection can arrive inside an accepted reply")**. Every refused send counts as a call, costed by the usage it reports or, without one, as nothing.
+- `callModel` sends a refused call again, up to three sends, pausing two seconds and then four, logging each refusal as a warning with the provider's sentence; the third refusal is the `ProviderError` **(TD §6, "A rejection can arrive inside an accepted reply")**. Every refused send counts as a call, costed by the usage it reports or, without one, as nothing.
 - `src/utils/resend.ts` — `sendUntilAccepted`, the resend loop, moved out of the panel's `sendWithResends` so the completion call and the panel stages share one copy.
 
 **Tests:**
 
-Integration tests for `makeCompletionCall` (stubbed OpenRouter):
+Integration tests for `callModel` (stubbed OpenRouter):
 - `should resend a refused call and return the reply when a later send is accepted`
 - `should fail with the last refusal, naming the model and the stage, when every send is refused`
 - `should log each refusal as a warning with which send it was and the provider's sentence`
@@ -760,11 +760,11 @@ The panel's `sendWithResends` tests cover the shared loop's pauses, cost countin
 
 **Deliverables:**
 
-- `makeCompletionCall` hands back the answer of a reply carrying both an answer and the provider's error, logging the error as a warning with the finish reason and which send it was, and adds the finish reason to each call's `debug` record **(TD §6, "A rejection can arrive inside an accepted reply"; TD §10)**.
+- `callModel` hands back the answer of a reply carrying both an answer and the provider's error, logging the error as a warning with the finish reason and which send it was, and adds the finish reason to each call's `debug` record **(TD §6, "A rejection can arrive inside an accepted reply"; TD §10)**.
 
 **Tests:**
 
-Integration tests for `makeCompletionCall` (stubbed OpenRouter):
+Integration tests for `callModel` (stubbed OpenRouter):
 - `should return the answer without resending when a reply $reply` — `test.each` across carrying an answer and the provider's error, and reporting `error` as its finish reason
 - `should log the provider's error as a warning with the finish reason and which send it was when a reply carries an answer as well`
 - `should resend a reply carrying the provider's error when its answer is empty`
@@ -836,7 +836,7 @@ Integration tests for the stage (real temp directory):
 
 **Tests:**
 
-Unit tests for the stage (mock `makeCompletionCall`):
+Unit tests for the stage (mock `callModel`):
 - `should send every subtopic as its position and trimmed text, without its title, in one call when the stage runs`
 - `should write the chosen division with every title replaced and spans and reasons unchanged when the stage completes`
 - `should resend the call and use the next reply when the reply $problem` — `test.each` across empty, not JSON, not an object, a subtopic missing, a position repeated, a position out of range, positions out of order, a blank title
@@ -861,7 +861,7 @@ Unit tests for the stage (mock `makeCompletionCall`):
 
 The required `grouping` section — `panelSize` and `bar` — in `PipelineConfig`, its validation, the example config and the user's own; the stage's entry in the example config and the user's own, with `concurrency` 9 and `sendGapSeconds` 0.5 **(TD §6)**.
 
-`sendGapSeconds` **(TD §5, "Dividing the transcript", Panel runs; TD §6, "Three settings say how much runs at once")** — accepted on `define-topics` alone; the panel spaces every send the stage makes, refusals resent by `makeCompletionCall` included, at least that far apart.
+`sendGapSeconds` **(TD §5, "Dividing the transcript", Panel runs; TD §6, "Three settings say how much runs at once")** — accepted on `define-topics` alone; the panel spaces every send the stage makes, refusals resent by `callModel` included, at least that far apart.
 
 `define-topics` declares a record, `Topics/choice.json`, written with Phase 12's `writeStageOutputWithRecord` **(TD §4.5, "How a result was reached is kept beside the result")**.
 
@@ -877,7 +877,7 @@ Unit tests for `chooseGrouping` (no mocks):
 - `should fail when there are no runs to choose from`
 - `should report the chosen run, its support, the panel size and the rule that decided when $decidedBy decides` — `test.each` across each rule, and a panel whose runs all agree, decided by most runs
 
-Tests for the stage (mock `makeCompletionCall`; real temp directory, set up by the `useStageReadingDivision` fixture it shares with `retitle-subtopics`):
+Tests for the stage (mock `callModel`; real temp directory, set up by the `useStageReadingDivision` fixture it shares with `retitle-subtopics`):
 - `should send every retitled subtopic as its position, title as label, and text with the blank space at each end removed when each grouping run is made`
 - `should resend a grouping run's call when its reply $problem` — `test.each` across no topics, a blank title, a blank `groupedBecause`, no first subtopic, not starting at 1, a start not after the one before, a start past the last subtopic
 - `should write each topic's title, groupedBecause and first subtopic from the chosen run when the stage completes`
@@ -886,7 +886,7 @@ Tests for the stage (mock `makeCompletionCall`; real temp directory, set up by t
 - `should fail without writing the topics when a run's third send is still unusable`
 - `should save each grouping run as the model replied when the run completes`
 
-Tests of the stage's sending (fake timers; stubbed OpenRouter rather than a mocked `makeCompletionCall`, so a refusal is really resent):
+Tests of the stage's sending (fake timers; stubbed OpenRouter rather than a mocked `callModel`, so a refusal is really resent):
 - `should start no send until the gap has passed since the stage's previous send when sendGapSeconds is set` — first sends, resent bad replies and resent refusals alike
 - `should not space sends when sendGapSeconds is unset`
 
@@ -912,7 +912,7 @@ Unit tests for the config: as Phase 10, for the `grouping` section, the bar exce
 
 **Tests:**
 
-Unit tests (mock `makeCompletionCall`; mock `pdfjs-dist`):
+Unit tests (mock `callModel`; mock `pdfjs-dist`):
 - `should skip slide when per-slide markdown already exists`
 - `should concatenate all per-slide markdown files with correct separators and headings`
 
@@ -980,7 +980,7 @@ Unit tests:
 
 **Tests:**
 
-Unit tests (mock `makeCompletionCall` via `nock`) — `test.each` across all three termination conditions:
+Unit tests (mock `callModel` via `nock`) — `test.each` across all three termination conditions:
 - `should terminate with qa-passed when checker returns overallVerdict pass`
 - `should terminate with max-iterations-reached when iteration count reaches configured maximum`
 - `should terminate with stalled when deficiency count is identical across two consecutive iterations`

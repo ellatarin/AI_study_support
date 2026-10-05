@@ -8,8 +8,8 @@ import {
 	exampleConfig,
 	loggedAt,
 	openRouterClientFor,
-	openRouterCompletionBody,
 	openRouterModelId,
+	openRouterReplyBody,
 	openRouterUrls,
 	openRouterUrlsAt,
 	resetStubbedApi,
@@ -26,10 +26,10 @@ import {
 } from "./fixtures.js";
 import {
 	ContextLengthError,
+	callModel,
 	createOpenRouterClient,
 	createOpenRouterClientProvider,
-	makeCompletionCall,
-	NoCompletionChoicesError,
+	NoReplyChoicesError,
 	API_KEY_VARIABLE as OPENROUTER_KEY_VARIABLE,
 	ProviderError,
 	UnconfiguredStageError,
@@ -53,33 +53,33 @@ const messages = [{ role: "user", content: "Structure this transcript." }] as co
 /** What the stubbed model answers. */
 const ANSWER = "Structured notes.";
 
-function completionBody(overrides: Record<string, unknown> = {}): Record<string, unknown> {
-	return { ...openRouterCompletionBody({ content: ANSWER }), ...overrides };
+function replyBody(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+	return { ...openRouterReplyBody({ content: ANSWER }), ...overrides };
 }
 
 /**
  * The stubbed answer's choices, reporting the given finish reason.
  *
  * @param finishReason - The finish reason reported, or `null` for none.
- * @returns The `choices` field to override a completion body with.
+ * @returns The `choices` field to override a reply body with.
  */
 function answerFinishing(finishReason: string | null): Record<string, unknown> {
-	const { choices } = openRouterCompletionBody({ content: ANSWER, finishReason });
+	const { choices } = openRouterReplyBody({ content: ANSWER, finishReason });
 	return { choices };
 }
 
-function mockCompletion(): nock.Interceptor {
+function mockReply(): nock.Interceptor {
 	return nock(openRouterUrls.origin).post(openRouterUrls.completions);
 }
 
 /**
- * Mocks one completion returning the well-formed body, with the fields a test
+ * Mocks one reply with the well-formed body, with the fields a test
  * is about replaced.
  *
- * @param overrides - Fields to replace in the completion body; none by default.
+ * @param overrides - Fields to replace in the reply body; none by default.
  */
-function mockCompletionReturning(overrides: Record<string, unknown> = {}): void {
-	mockCompletion().reply(200, completionBody(overrides));
+function mockReplyReturning(overrides: Record<string, unknown> = {}): void {
+	mockReply().reply(200, replyBody(overrides));
 }
 
 /**
@@ -92,7 +92,7 @@ function providerError(message: string): Record<string, unknown> {
 	return { message, code: 503 };
 }
 
-/** The busy provider's error field, to lay over a completion body. */
+/** The busy provider's error field, to lay over a reply body. */
 const BUSY_ERROR = { error: providerError(PROVIDER_BUSY_MESSAGE) };
 
 /**
@@ -110,7 +110,7 @@ function mockProviderError({
 	readonly message?: string;
 	readonly usage?: Readonly<Record<string, unknown>>;
 } = {}): void {
-	mockCompletion().reply(200, {
+	mockReply().reply(200, {
 		...(usage === undefined ? {} : { usage }),
 		error: providerError(message),
 	});
@@ -136,7 +136,7 @@ function providerErrorWarning(send: number): Record<string, unknown> {
 function call(
 	overrides: Record<string, unknown> = {},
 ): Promise<{ content: string; cost: import("../types/pipeline.js").StageCost }> {
-	return makeCompletionCall({
+	return callModel({
 		messages,
 		stageId: "transcript-structuring",
 		config,
@@ -151,14 +151,14 @@ function call(
 	});
 }
 
-/** What one completion request carried, for tests asserting on what was sent. */
+/** What one model call's request carried, for tests asserting on what was sent. */
 type CapturedRequest = {
 	readonly body: Record<string, unknown>;
 	readonly headers: Record<string, unknown>;
 };
 
 /**
- * Mocks a successful completion that records the request it was sent, then
+ * Mocks a successful reply that records the request it was sent, then
  * makes the call — the arrange-and-act every test asserting on the outgoing
  * request shares.
  */
@@ -169,10 +169,10 @@ async function callCapturingRequest(
 		body: {},
 		headers: {},
 	};
-	mockCompletion().reply(function reply(_uri, body) {
+	mockReply().reply(function reply(_uri, body) {
 		captured.body = body as Record<string, unknown>;
 		captured.headers = this.req.headers as Record<string, unknown>;
-		return [200, completionBody()];
+		return [200, replyBody()];
 	});
 
 	await call(overrides);
@@ -181,14 +181,14 @@ async function callCapturingRequest(
 }
 
 /**
- * Mocks a completion, then makes the call — the arrange-and-act every test
+ * Mocks a reply, then makes the call — the arrange-and-act every test
  * about a round trip that the SDK accepts shares.
  *
- * @param overrides - Fields to replace in the completion body; none by default.
+ * @param overrides - Fields to replace in the reply body; none by default.
  * @returns What the call resolved with.
  */
 function callSucceeding(overrides: Record<string, unknown> = {}): ReturnType<typeof call> {
-	mockCompletionReturning(overrides);
+	mockReplyReturning(overrides);
 	return call();
 }
 
@@ -240,8 +240,8 @@ describe("createOpenRouterClientProvider", () => {
 	});
 });
 
-describe("makeCompletionCall", () => {
-	it("should send the correct baseURL, headers, and model ID when makeCompletionCall is invoked", async () => {
+describe("callModel", () => {
+	it("should send the correct baseURL, headers, and model ID when callModel is invoked", async () => {
 		const { body, headers } = await callCapturingRequest();
 
 		expect(body.model).toBe(openRouterModelId);
@@ -297,9 +297,7 @@ describe("makeCompletionCall", () => {
 	it("should reach the new address when the client is built for a different address", async () => {
 		await callSucceeding();
 		const gateway = openRouterUrlsAt(GATEWAY_BASE_URL);
-		const gatewayCompletion = nock(gateway.origin)
-			.post(gateway.completions)
-			.reply(200, completionBody());
+		const gatewayReply = nock(gateway.origin).post(gateway.completions).reply(200, replyBody());
 		const openRouter = { ...config.openRouter, baseUrl: GATEWAY_BASE_URL };
 
 		await call({
@@ -307,7 +305,7 @@ describe("makeCompletionCall", () => {
 			client: () => createOpenRouterClient({ openRouter }),
 		});
 
-		expect(gatewayCompletion.isDone()).toBe(true);
+		expect(gatewayReply.isDone()).toBe(true);
 	});
 
 	it.each([
@@ -320,7 +318,7 @@ describe("makeCompletionCall", () => {
 		await callSucceeding(answerFinishing(reported));
 
 		const [entry] = loggedAt({ entries: logged().entries, level: "debug" });
-		expect(entry?.message).toBe("Completion call");
+		expect(entry?.message).toBe("Model call");
 		expect(entry?.payload).toEqual({
 			model: openRouterModelId,
 			promptTokens: stubbedTokenUsage.promptTokens,
@@ -369,7 +367,7 @@ describe("makeCompletionCall", () => {
 		});
 	});
 
-	it("should default token counts to zero when the completion response omits usage", async () => {
+	it("should default token counts to zero when the reply omits usage", async () => {
 		const result = await callSucceeding({ usage: undefined });
 
 		expect(result.cost.promptTokens).toBe(0);
@@ -385,11 +383,11 @@ describe("makeCompletionCall", () => {
 	});
 
 	it("should name the model and stage when the provider returns no choices", async () => {
-		mockCompletionReturning({ choices: [] });
+		mockReplyReturning({ choices: [] });
 
 		const error = await captureError(call());
 
-		expect(error).toBeInstanceOf(NoCompletionChoicesError);
+		expect(error).toBeInstanceOf(NoReplyChoicesError);
 		expect(error.message).toMatch(new RegExp(openRouterModelId));
 		expect(error.message).toMatch(/no choices/i);
 	});
@@ -411,7 +409,7 @@ describe("makeCompletionCall", () => {
 		it("should resend a call that met a provider error and return the reply when a later send is accepted", async () => {
 			mockProviderError();
 			mockProviderError();
-			mockCompletionReturning();
+			mockReplyReturning();
 
 			const result = await settleThroughPauses(call());
 
@@ -436,7 +434,7 @@ describe("makeCompletionCall", () => {
 		it("should log each provider error as a warning with which send it was and the provider's sentence when a resend gets past it", async () => {
 			mockProviderError();
 			mockProviderError();
-			mockCompletionReturning();
+			mockReplyReturning();
 
 			await settleThroughPauses(call());
 
@@ -459,7 +457,7 @@ describe("makeCompletionCall", () => {
 			expected,
 		}) => {
 			mockProviderError(erroredReply);
-			mockCompletionReturning();
+			mockReplyReturning();
 
 			const result = await settleThroughPauses(call());
 
@@ -473,7 +471,7 @@ describe("makeCompletionCall", () => {
 			},
 			{ reply: "reports error as its finish reason", overrides: answerFinishing("error") },
 		])("should return the answer without resending when a reply $reply", async ({ overrides }) => {
-			mockCompletionReturning(overrides);
+			mockReplyReturning(overrides);
 
 			const result = await settleThroughPauses(call());
 
@@ -482,8 +480,8 @@ describe("makeCompletionCall", () => {
 		});
 
 		it("should resend a reply carrying the provider's error when its answer is empty", async () => {
-			mockCompletionReturning({ ...BUSY_ERROR, ...openRouterCompletionBody({ content: "" }) });
-			mockCompletionReturning();
+			mockReplyReturning({ ...BUSY_ERROR, ...openRouterReplyBody({ content: "" }) });
+			mockReplyReturning();
 
 			const result = await settleThroughPauses(call());
 
@@ -493,7 +491,7 @@ describe("makeCompletionCall", () => {
 		// The answer is kept, so the log is the only place the provider's error survives.
 		it("should log the provider's error as a warning with the finish reason and which send it was when a reply carries an answer as well", async () => {
 			mockProviderError();
-			mockCompletionReturning({ ...BUSY_ERROR, ...answerFinishing("error") });
+			mockReplyReturning({ ...BUSY_ERROR, ...answerFinishing("error") });
 
 			await settleThroughPauses(call());
 
@@ -516,16 +514,16 @@ describe("makeCompletionCall", () => {
 		{ scenario: "is an array", body: [] },
 		{ scenario: "is not an object at all", body: '"done"' },
 	])("should report no choices when a 200 reply $scenario", async ({ body }) => {
-		mockCompletion().reply(200, body);
+		mockReply().reply(200, body);
 
 		const error = await captureError(call());
 
-		expect(error).toBeInstanceOf(NoCompletionChoicesError);
+		expect(error).toBeInstanceOf(NoReplyChoicesError);
 		expect(error.message).toContain(openRouterModelId);
 	});
 
-	it("should retry the completion call with backoff and succeed when the first response is a 429", async () => {
-		mockCompletion().reply(429, {}, { "retry-after": "0" });
+	it("should retry the model call with backoff and succeed when the first response is a 429", async () => {
+		mockReply().reply(429, {}, { "retry-after": "0" });
 
 		const result = await callSucceeding();
 
@@ -533,7 +531,7 @@ describe("makeCompletionCall", () => {
 	});
 
 	it("should throw a typed ContextLengthError when the model reports the context length is exceeded", async () => {
-		mockCompletion().reply(400, {
+		mockReply().reply(400, {
 			error: {
 				message: "maximum context length exceeded",
 				code: "context_length_exceeded",
@@ -560,7 +558,7 @@ describe("makeCompletionCall", () => {
 			body: { error: { message: "Provider returned error", code: "invalid_request_error" } },
 		},
 	])("should name the model and the stage when $scenario", async ({ status, body }) => {
-		mockCompletion().reply(status, body);
+		mockReply().reply(status, body);
 
 		const error = await captureError(call());
 
@@ -579,21 +577,21 @@ describe("makeCompletionCall", () => {
 	});
 
 	it("should keep the provider's own explanation when a provider error is reported", async () => {
-		mockCompletion().reply(404, { error: { message: "No endpoints found for this model." } });
+		mockReply().reply(404, { error: { message: "No endpoints found for this model." } });
 
 		const error = await captureError(call());
 
 		expect(error.message).toContain("No endpoints found for this model.");
 	});
 
-	it("should throw when the completion request times out before a response arrives", async () => {
+	it("should throw when the model call times out before a response arrives", async () => {
 		const client = new OpenAI({
 			apiKey: stubbedApiKey,
 			baseURL: exampleConfig.openRouter.baseUrl,
 			timeout: 20,
 			maxRetries: 0,
 		});
-		mockCompletion().delay(200).reply(200, completionBody());
+		mockReply().delay(200).reply(200, replyBody());
 
 		const error = await captureError(call({ client: () => client }));
 

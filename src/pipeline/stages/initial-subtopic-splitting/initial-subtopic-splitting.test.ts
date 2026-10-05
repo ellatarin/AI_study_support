@@ -24,7 +24,7 @@ import {
 	useStubLogger,
 	useTranscribedWorkspace,
 } from "../../fixtures.js";
-import { makeCompletionCall } from "../../openrouter.js";
+import { callModel } from "../../openrouter.js";
 import { SavedRunUnreadableError } from "../panel-runs.js";
 import {
 	createInitialSubtopicSplittingStage,
@@ -34,10 +34,10 @@ import {
 // Only the call is stubbed; everything else the module exports stays real.
 vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 	...(await importOriginal()),
-	makeCompletionCall: vi.fn(),
+	callModel: vi.fn(),
 }));
 
-const completionMock = makeCompletionCall as unknown as Mock;
+const modelCallMock = callModel as unknown as Mock;
 /* jscpd:ignore-end */
 
 const STAGE_ID = "initial-subtopic-splitting";
@@ -74,7 +74,7 @@ describe("createInitialSubtopicSplittingStage", () => {
 
 	beforeEach(() => {
 		vi.clearAllMocks();
-		completionMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost });
+		modelCallMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost });
 	});
 
 	/** Runs the stage against the prepared workspace, the way the runner would. */
@@ -109,12 +109,12 @@ describe("createInitialSubtopicSplittingStage", () => {
 			contents: paddedTranscriptText,
 		});
 		await run();
-		expect(sentUserMessage(completionMock.mock.calls)).toBe(`Transcript:\n${transcriptText}`);
+		expect(sentUserMessage(modelCallMock.mock.calls)).toBe(`Transcript:\n${transcriptText}`);
 	});
 
 	it("should save every run of the panel with each subtopic's span, title and reason when the stage completes", async () => {
 		await run();
-		expect(completionMock).toHaveBeenCalledTimes(PANEL_SIZE);
+		expect(modelCallMock).toHaveBeenCalledTimes(PANEL_SIZE);
 		expect(await savedRun(1)).toEqual(transcriptDivision);
 		expect(await savedRun(PANEL_SIZE)).toEqual(transcriptDivision);
 	});
@@ -138,16 +138,16 @@ describe("createInitialSubtopicSplittingStage", () => {
 			content: JSON.stringify({ subtopics: [{ label: "Opening", groupedBecause: "Why." }] }),
 		},
 	])("should resend a run when the reply $problem", async ({ content }) => {
-		completionMock.mockResolvedValueOnce({ content, cost: stubbedCallCost });
+		modelCallMock.mockResolvedValueOnce({ content, cost: stubbedCallCost });
 		await run();
-		expect(completionMock).toHaveBeenCalledTimes(PANEL_SIZE + 1);
+		expect(modelCallMock).toHaveBeenCalledTimes(PANEL_SIZE + 1);
 		expect(await savedRun(1)).toHaveLength(2);
 	});
 
 	it("should make only the missing runs when an earlier launch saved some", async () => {
 		await leaveFirstRun(earlierLaunchRun);
 		await run();
-		expect(completionMock).toHaveBeenCalledTimes(PANEL_SIZE - 1);
+		expect(modelCallMock).toHaveBeenCalledTimes(PANEL_SIZE - 1);
 		expect(await savedRun(1)).toEqual(earlierLaunchRun);
 	});
 
@@ -166,6 +166,6 @@ describe("createInitialSubtopicSplittingStage", () => {
 	it.each(unusableTranscripts)("should fail when the transcript is $state", async ({ spoil }) => {
 		await spoil(workspaceRoot());
 		expect(await captureError(run())).toBeInstanceOf(InitialSubtopicSplittingError);
-		expect(completionMock).not.toHaveBeenCalled();
+		expect(modelCallMock).not.toHaveBeenCalled();
 	});
 });

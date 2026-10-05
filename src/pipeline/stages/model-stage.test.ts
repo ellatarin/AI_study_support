@@ -13,7 +13,7 @@ import {
 	unspacedSends,
 	useStubLogger,
 } from "../fixtures.js";
-import { makeCompletionCall } from "../openrouter.js";
+import { callModel } from "../openrouter.js";
 import {
 	type JsonReplyRequest,
 	promptMessages,
@@ -24,10 +24,10 @@ import {
 // Only the call is stubbed; everything else the module exports stays real.
 vi.mock(import("../openrouter.js"), async (importOriginal) => ({
 	...(await importOriginal()),
-	makeCompletionCall: vi.fn(),
+	callModel: vi.fn(),
 }));
 
-const completionMock = makeCompletionCall as unknown as Mock;
+const modelCallMock = callModel as unknown as Mock;
 /* jscpd:ignore-end */
 
 const STAGE_ID = "transcript-verification";
@@ -44,7 +44,7 @@ beforeEach(() => {
 
 /** A request for a greeting, with the model answering `content`. */
 function greetingRequest(content: string): JsonReplyRequest<Greeting> {
-	completionMock.mockResolvedValue({ content, cost: stubbedCallCost });
+	modelCallMock.mockResolvedValue({ content, cost: stubbedCallCost });
 	return {
 		messages: promptMessages({ system: "Greet the user.", user: "Say hello." }),
 		stageId: STAGE_ID,
