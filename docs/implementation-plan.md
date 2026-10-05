@@ -702,7 +702,7 @@ CLI tests:
 
 **Deliverables:**
 
-- `label` becomes `title` in code, saved run files and comments: `Subtopic`, `sliceSubtopics`' `named`, the tests and fixtures. The prompts are unchanged and still ask for `label`; a reply's `label` becomes `title` as the reply is read **(TD §5, `initial-subtopic-splitting`)**. Run files saved before the rename no longer read as a division, and are made again.
+- `label` becomes `title` in code, saved run files and comments: `Subtopic`, `sliceSubtopics`' `titled`, the tests and fixtures. The prompts are unchanged and still ask for `label`; a reply's `label` becomes `title` as the reply is read **(TD §5, `initial-subtopic-splitting`)**. Run files saved before the rename no longer read as a division, and are made again.
 
 **Tests:**
 

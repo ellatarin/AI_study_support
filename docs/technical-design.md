@@ -1172,7 +1172,7 @@ placeCuts(args: { text: string; startWords: readonly string[] }):
 // Finds each subtopic's start words in turn, forward from the previous cut, and returns where each subtopic
 // starts — the first always at 0, whatever its start words. The first start words that cannot be found are
 // returned instead.
-sliceSubtopics(args: { text: string; cuts: readonly number[]; named: readonly { title: string; why: string }[] }): readonly Subtopic[]
+sliceSubtopics(args: { text: string; cuts: readonly number[]; titled: readonly { title: string; why: string }[] }): readonly Subtopic[]
 assertLossless(args: { text: string; subtopics: readonly Subtopic[] }): void
 subtopicText(args: { text: string; subtopic: Pick<Subtopic, "start" | "end"> }): string
 readDivision(value: unknown): readonly Subtopic[] | null   // a run file read back, keeping only what a subtopic holds; an old run's inherited-title mark is dropped

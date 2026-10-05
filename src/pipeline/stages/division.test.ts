@@ -6,7 +6,7 @@ import {
 	isReplySubtopic,
 	placeCuts,
 	readDivision,
-	replyNaming,
+	replyTitleAndReason,
 	type Subtopic,
 	sliceSubtopics,
 } from "./division.js";
@@ -76,18 +76,18 @@ describe("placeCuts", () => {
 });
 
 describe("sliceSubtopics", () => {
-	const named = [
+	const titled = [
 		{ title: "Opening", why: "Framing." },
 		{ title: "The membrane", why: "One structure." },
 	];
 
 	it("should reproduce the text exactly when the subtopics are joined", () => {
-		const subtopics = sliceSubtopics({ text: TEXT, cuts: [0, at("So the first")], named });
+		const subtopics = sliceSubtopics({ text: TEXT, cuts: [0, at("So the first")], titled });
 		expect(joinedSubtopics({ text: TEXT, subtopics })).toBe(TEXT);
 	});
 
 	it("should give each subtopic its span, title and reason when the text is cut", () => {
-		expect(sliceSubtopics({ text: TEXT, cuts: [0, at("So the first")], named })).toStrictEqual([
+		expect(sliceSubtopics({ text: TEXT, cuts: [0, at("So the first")], titled })).toStrictEqual([
 			{ start: 0, end: at("So the first"), title: "Opening", why: "Framing." },
 			{ start: at("So the first"), end: TEXT.length, title: "The membrane", why: "One structure." },
 		]);
@@ -153,10 +153,10 @@ describe("isReplySubtopic", () => {
 	});
 });
 
-describe("replyNaming", () => {
+describe("replyTitleAndReason", () => {
 	it("should take the reply's label as the title and its groupedBecause as the reason when a reply subtopic is read", () => {
 		expect(
-			replyNaming({ label: "Opening", groupedBecause: "Framing.", startsWith: "Welcome" }),
+			replyTitleAndReason({ label: "Opening", groupedBecause: "Framing.", startsWith: "Welcome" }),
 		).toEqual({
 			title: "Opening",
 			why: "Framing.",

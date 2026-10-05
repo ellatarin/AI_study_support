@@ -11,7 +11,7 @@
    exempt; the code below is checked as normal. */
 import type { StageResult } from "../../../types/pipeline.js";
 import { isRecord } from "../../../utils/record.js";
-import { isNamedReplyPart, type NamedReplyPart, subtopicText } from "../division.js";
+import { isTitledReplyPart, subtopicText, type TitledReplyPart } from "../division.js";
 import {
 	defineModelStage,
 	type ModelStageFactory,
@@ -33,7 +33,7 @@ import { buildGroupingMessages } from "./define-topics.prompt.js";
 const STAGE_ID = "define-topics";
 
 /** One topic as the `g23` prompt asks for it: its title and reason, and the subtopic it starts at. */
-type ReplyTopic = NamedReplyPart & { readonly firstSubtopicId: number };
+type ReplyTopic = TitledReplyPart & { readonly firstSubtopicId: number };
 
 /** A grouping run as the model replied: its topics, in order. Saved as it came. */
 type GroupingReply = { readonly topics: readonly ReplyTopic[] };
@@ -48,7 +48,7 @@ const DOCUMENTED_REPLY_SHAPE = "{ topics: [{ label, groupedBecause, firstSubtopi
  * @returns `true` when it carries a string label and reason and a numeric first subtopic.
  */
 function isReplyTopic(value: unknown): value is ReplyTopic {
-	return isNamedReplyPart(value) && typeof value.firstSubtopicId === "number";
+	return isTitledReplyPart(value) && typeof value.firstSubtopicId === "number";
 }
 
 /**

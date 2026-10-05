@@ -21,7 +21,7 @@ import {
 	isReplySubtopic,
 	placeCuts,
 	type ReplySubtopic,
-	replyNaming,
+	replyTitleAndReason,
 	type Subtopic,
 	sliceSubtopics,
 	splittingPanel,
@@ -147,7 +147,7 @@ function cutSubtopic({
 	const [first, ...later] = sliceSubtopics({
 		text: passage,
 		cuts: positions,
-		named: [subtopic, ...kept.map(replyNaming)],
+		titled: [subtopic, ...kept.map(replyTitleAndReason)],
 	}).map((piece) => ({
 		...piece,
 		start: piece.start + subtopic.start,

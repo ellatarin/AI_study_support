@@ -20,8 +20,8 @@ export type Subtopic = {
 	readonly why: string;
 };
 
-/** What a subtopic is called and why it is one thing, as it is saved. */
-type SubtopicNaming = Pick<Subtopic, "title" | "why">;
+/** A subtopic's title and the reason it is one thing, as it is saved. */
+type TitleAndReason = Pick<Subtopic, "title" | "why">;
 
 /**
  * The text of one subtopic: its span of the transcript.
@@ -42,12 +42,12 @@ export function subtopicText({
 }
 
 /**
- * What every part a model's reply names carries — a subtopic when splitting, a
- * topic when grouping: what to call it, and why it is one thing. The prompts
+ * What every part of a model's reply carries — a subtopic when splitting, a
+ * topic when grouping: its title, and the reason it is one thing. The prompts
  * ask for the title as `label`, and are carried over from the prototype word
  * for word, so the word survives in replies and nowhere past them.
  */
-export type NamedReplyPart = {
+export type TitledReplyPart = {
 	readonly label: string;
 	readonly groupedBecause: string;
 };
@@ -58,39 +58,39 @@ export type NamedReplyPart = {
  * @param value - One entry of the reply's list.
  * @returns `true` when it is an object carrying both strings.
  */
-export function isNamedReplyPart(
+export function isTitledReplyPart(
 	value: unknown,
-): value is Readonly<Record<string, unknown>> & NamedReplyPart {
+): value is Readonly<Record<string, unknown>> & TitledReplyPart {
 	return (
 		isRecord(value) && typeof value.label === "string" && typeof value.groupedBecause === "string"
 	);
 }
 
 /**
- * One subtopic as a model's reply names it: its title and reason, and the
+ * One subtopic as a model's reply gives it: its title and reason, and the
  * words it opens with, which say where to cut.
  */
-export type ReplySubtopic = NamedReplyPart & { readonly startsWith: string };
+export type ReplySubtopic = TitledReplyPart & { readonly startsWith: string };
 
 /**
- * Whether a value in a parsed reply is a subtopic as the model names one.
+ * Whether a value in a parsed reply is a subtopic as the model gives one.
  *
  * @param value - One entry of the reply's list.
  * @returns `true` when it carries its three strings.
  */
 export function isReplySubtopic(value: unknown): value is ReplySubtopic {
-	return isNamedReplyPart(value) && typeof value.startsWith === "string";
+	return isTitledReplyPart(value) && typeof value.startsWith === "string";
 }
 
 /**
  * A reply subtopic's title and reason, as a subtopic carries them.
  *
- * @param reply - One subtopic or cut as the model's reply names it.
- * @param reply.label - What the model called it: the title.
+ * @param reply - One subtopic or cut as the model's reply gives it.
+ * @param reply.label - The prompt's word for the title.
  * @param reply.groupedBecause - Why the model holds it to be one thing: the reason.
  * @returns Its `label` as the title and its `groupedBecause` as the reason.
  */
-export function replyNaming({ label, groupedBecause }: ReplySubtopic): SubtopicNaming {
+export function replyTitleAndReason({ label, groupedBecause }: ReplySubtopic): TitleAndReason {
 	return { title: label, why: groupedBecause };
 }
 
@@ -289,26 +289,26 @@ export function placeCuts({
  * Cuts the text at the given positions into subtopics carrying the model's
  * titles and reasons, in order.
  *
- * @param args - The text, where each subtopic starts, and what the model called each.
+ * @param args - The text, where each subtopic starts, and each subtopic's title and reason.
  * @param args.text - The transcript being divided.
  * @param args.cuts - Each subtopic's start position, as {@link placeCuts} returned them.
- * @param args.named - Each subtopic's title and reason, in the same order.
+ * @param args.titled - Each subtopic's title and reason, in the same order.
  * @returns The subtopics, the last running to the end of the text.
  */
 export function sliceSubtopics({
 	text,
 	cuts,
-	named,
+	titled,
 }: {
 	readonly text: string;
 	readonly cuts: readonly number[];
-	readonly named: readonly SubtopicNaming[];
+	readonly titled: readonly TitleAndReason[];
 }): readonly Subtopic[] {
 	return [...cuts.entries()].map(([index, start]) => ({
 		start,
 		end: cuts[index + 1] ?? text.length,
-		title: named[index]?.title ?? "",
-		why: named[index]?.why ?? "",
+		title: titled[index]?.title ?? "",
+		why: titled[index]?.why ?? "",
 	}));
 }
 
