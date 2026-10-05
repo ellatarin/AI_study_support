@@ -13,8 +13,8 @@ import {
 	testModuleName,
 	testRunId,
 	testRunSpan,
+	testUserTitle,
 	transcriptionModelId,
-	userChosenTitle,
 } from "../pipeline/fixtures.js";
 import { stageOutputEntry, workspaceRootFor } from "../pipeline/layout.js";
 import { baseNameForLecture } from "../pipeline/lecture-files.js";
@@ -651,14 +651,14 @@ describe("executeCommand", () => {
 		const renameCommand = {
 			command: "rename",
 			lectureDate: testLecture.date,
-			title: userChosenTitle,
+			title: testUserTitle,
 		} as const;
 
 		it("should record the new title when renaming", async () => {
 			const code = await invoke(renameCommand);
 
 			expect(code).toBe(0);
-			expect((await readManifest({ workspaceRoot })).userTitle).toBe(userChosenTitle);
+			expect((await readManifest({ workspaceRoot })).userTitle).toBe(testUserTitle);
 		});
 
 		it("should renormalise the lecture's module when renaming", async () => {
@@ -695,7 +695,7 @@ describe("executeCommand", () => {
 			await invoke(renameCommand);
 
 			expect((await readManifest({ workspaceRoot: other.workspaceRoot })).userTitle).toBe(
-				userChosenTitle,
+				testUserTitle,
 			);
 			expect((await readManifest({ workspaceRoot })).userTitle).toBeNull();
 		});

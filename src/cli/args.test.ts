@@ -5,7 +5,7 @@ import {
 	otherModuleRoot,
 	testLecture,
 	testModuleRoot,
-	userChosenTitle,
+	testUserTitle,
 } from "../pipeline/fixtures.js";
 import { DEFAULT_PIPELINE_RUN_OPTIONS } from "../types/pipeline.js";
 import { type CliCommand, CliUsageError, parseCliArgs, USAGE } from "./args.js";
@@ -184,10 +184,10 @@ describe("parseCliArgs", () => {
 
 	describe("identity changes", () => {
 		it("should carry the new title when rename is invoked", () => {
-			expect(parse(["rename", testLecture.date, userChosenTitle])).toEqual({
+			expect(parse(["rename", testLecture.date, testUserTitle])).toEqual({
 				command: "rename",
 				lectureDate: testLecture.date,
-				title: userChosenTitle,
+				title: testUserTitle,
 			});
 		});
 

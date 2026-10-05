@@ -8,7 +8,7 @@ import {
 	makeManifest,
 	otherLecture,
 	testLecture,
-	userChosenTitle,
+	testUserTitle,
 } from "../pipeline/fixtures.js";
 import { type ModuleDirs, workspaceRootFor } from "../pipeline/layout.js";
 import { baseNameForLecture } from "../pipeline/lecture-files.js";
@@ -50,18 +50,18 @@ describe("lecture identity commands", () => {
 		it.each([
 			// The user's title wins the precedence, so it is recorded as both their own
 			// and the effective one; the provisional title is history and stays put.
-			{ field: "userTitle" as const, expected: userChosenTitle },
-			{ field: "lectureTitle" as const, expected: userChosenTitle },
+			{ field: "userTitle" as const, expected: testUserTitle },
+			{ field: "lectureTitle" as const, expected: testUserTitle },
 			{ field: "provisionalTitle" as const, expected: testLecture.title },
 		])("should record $field as $expected when renaming", async ({ field, expected }) => {
-			await renameLecture({ workspaceRoot: match.workspaceRoot, title: userChosenTitle });
+			await renameLecture({ workspaceRoot: match.workspaceRoot, title: testUserTitle });
 
 			const manifest = await readManifest({ workspaceRoot: match.workspaceRoot });
 			expect(manifest[field]).toBe(expected);
 		});
 
 		it("should leave the files for the renormalisation to rename when renaming", async () => {
-			await renameLecture({ workspaceRoot: match.workspaceRoot, title: userChosenTitle });
+			await renameLecture({ workspaceRoot: match.workspaceRoot, title: testUserTitle });
 
 			expect(await pathExists(join(dirs.videoRecording, testLecture.videoRecordingFile))).toBe(
 				true,

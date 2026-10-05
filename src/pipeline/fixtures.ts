@@ -811,11 +811,11 @@ export const aiDerivedLecture = describeLecture({
 	title: "Innate Immune Response",
 });
 
-/** The model's verdict when it judges the lecturer's provisional title good enough. */
+/** The title judgement when the model keeps the lecturer's provisional title. */
 export const titleKept = { provisionalTitleMeaningful: true, suggestedTitle: null };
 
 /**
- * The model's verdict when it rejects the provisional title and proposes
+ * The title judgement when the model rejects the provisional title and proposes
  * {@link aiDerivedLecture}'s in its place — the case both `transcript-structuring` suites write
  * every title test across.
  */
@@ -825,7 +825,7 @@ export const titleRejected = {
 };
 
 /**
- * A well-formed `transcript-structuring` reply: the model's verdict on the provisional title and
+ * A well-formed `transcript-structuring` reply: the model's title judgement and
  * the markdown it structured. The shape is the stage's documented contract
  * rather than either suite's business, so both state it through here and
  * override only the field the test at hand is about.
@@ -898,7 +898,7 @@ export function verificationReply(
 }
 
 /** The title a user sets through the CLI's `rename` command. */
-export const userChosenTitle = "Cell Injury and Death";
+export const testUserTitle = "Cell Injury and Death";
 
 /** The date the CLI's `change-date` command moves {@link testLecture} to. */
 export const changedDate = "2025-10-24";

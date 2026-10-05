@@ -20,10 +20,10 @@ import {
 	stubModelReply,
 	stubOpenRouterApi,
 	testLecture,
+	testUserTitle,
 	titleKept,
 	titleRejected,
 	transcriptText,
-	userChosenTitle,
 } from "../../fixtures.js";
 import { type ModuleDirs, stageOutputPath, workspaceRootFor } from "../../layout.js";
 import { readManifest, writeManifest } from "../../manifest.js";
@@ -44,8 +44,8 @@ describe("transcript structuring against a real module tree", () => {
 		sentRequest = stubModelReply(reply);
 	}
 
-	/** The model's verdict, as the two cases every title test is written across. */
-	function verdict(meaningful: boolean): Record<string, unknown> {
+	/** A reply whose title judgement keeps or rejects the provisional title. Every title test uses both cases. */
+	function titleJudgement(meaningful: boolean): Record<string, unknown> {
 		return structuringReply(meaningful ? titleKept : titleRejected);
 	}
 
@@ -88,7 +88,7 @@ describe("transcript structuring against a real module tree", () => {
 	}
 
 	it("should ask OpenRouter for JSON when the stage calls the model", async () => {
-		mockModelReply(verdict(true));
+		mockModelReply(titleJudgement(true));
 
 		await runStage(await prepareLecture());
 
@@ -103,7 +103,7 @@ describe("transcript structuring against a real module tree", () => {
 		baseName,
 		extinct,
 	}) => {
-		mockModelReply(verdict(meaningful));
+		mockModelReply(titleJudgement(meaningful));
 
 		await runStage(await prepareLecture());
 
@@ -135,7 +135,7 @@ describe("transcript structuring against a real module tree", () => {
 		meaningful,
 		decided,
 	}) => {
-		mockModelReply(verdict(meaningful));
+		mockModelReply(titleJudgement(meaningful));
 
 		expect(await runStage(await prepareLecture())).toEqual(decided);
 	});
@@ -148,7 +148,7 @@ describe("transcript structuring against a real module tree", () => {
 	])("should leave the manifest to the runner when provisionalTitleMeaningful is $meaningful", async ({
 		meaningful,
 	}) => {
-		mockModelReply(verdict(meaningful));
+		mockModelReply(titleJudgement(meaningful));
 		const context = await prepareLecture();
 
 		await runStage(context);
@@ -157,11 +157,11 @@ describe("transcript structuring against a real module tree", () => {
 		expect(await manifestAt(baseName)).toEqual(context.manifest);
 	});
 
-	it("should leave the lecture's title and every file alone when the user has named it", async () => {
-		mockModelReply(verdict(false));
+	it("should leave the lecture's title and every file alone when the lecture has a user title", async () => {
+		mockModelReply(titleJudgement(false));
 
 		const decided = await runStage(
-			await prepareLecture({ userTitle: userChosenTitle, lectureTitle: userChosenTitle }),
+			await prepareLecture({ userTitle: testUserTitle, lectureTitle: testUserTitle }),
 		);
 
 		expect(decided).toEqual({ aiDerivedTitle: aiDerivedLecture.title });
@@ -171,7 +171,7 @@ describe("transcript structuring against a real module tree", () => {
 
 	it("should move a lecture that has produced no PDF yet when the title is replaced", async () => {
 		await rm(join(dirs.finalOutput, testLecture.outputFile));
-		mockModelReply(verdict(false));
+		mockModelReply(titleJudgement(false));
 
 		await runStage(await prepareLecture());
 

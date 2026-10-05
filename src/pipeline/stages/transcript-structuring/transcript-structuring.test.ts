@@ -23,10 +23,10 @@ import {
 	structuringReply,
 	stubbedCostUsd,
 	testLecture,
+	testUserTitle,
 	titleKept,
 	titleRejected,
 	transcriptText,
-	userChosenTitle,
 	useStubLogger,
 	useTranscribedWorkspace,
 } from "../../fixtures.js";
@@ -49,7 +49,7 @@ vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 const modelCallMock = callModel as unknown as Mock;
 
 /** The lecture as `rename` leaves it: the user's title, already in force. */
-const userNamed = { userTitle: userChosenTitle, lectureTitle: userChosenTitle };
+const withUserTitle = { userTitle: testUserTitle, lectureTitle: testUserTitle };
 const COST: StageCost = {
 	promptTokens: 1200,
 	completionTokens: 300,
@@ -263,23 +263,23 @@ describe("createTranscriptStructuringStage", () => {
 			stubReply(titleRejected);
 		});
 
-		it("should keep the user's title as the lecture title when they have named it", async () => {
-			const result = await runStage(contextWith({ manifest: userNamed }));
+		it("should keep the user title as the lecture title when the lecture has one", async () => {
+			const result = await runStage(contextWith({ manifest: withUserTitle }));
 
-			expect(result.output.lectureTitle).toBe(userChosenTitle);
+			expect(result.output.lectureTitle).toBe(testUserTitle);
 		});
 
-		// `aiDerivedTitle` alone: the user's title holds, so neither `lectureTitle`
-		// nor the base name on disk changes, and deciding either would move files
-		// the user has already named.
-		it("should decide only what the model derived when the user has named it", async () => {
-			const result = await runStage(contextWith({ manifest: userNamed }));
+		// The stage decides `aiDerivedTitle` only. The user title holds, so
+		// `lectureTitle` and the base name on disk do not change. Deciding either
+		// would move files that already carry the user title.
+		it("should decide only what the model derived when the lecture has a user title", async () => {
+			const result = await runStage(contextWith({ manifest: withUserTitle }));
 
 			expect(result.identityChanges).toEqual({ aiDerivedTitle: aiDerivedLecture.title });
 		});
 
-		it("should leave the workspace where it stands when the user has named it", async () => {
-			await runStage(contextWith({ manifest: userNamed }));
+		it("should leave the workspace where it stands when the lecture has a user title", async () => {
+			await runStage(contextWith({ manifest: withUserTitle }));
 
 			expect(await pathExists(workspaceRoot())).toBe(true);
 		});
@@ -291,7 +291,7 @@ describe("createTranscriptStructuringStage", () => {
 		it.each([
 			{ outcome: "kept-provisional", reply: titleKept, manifest: {} },
 			{ outcome: "adopted-derived", reply: titleRejected, manifest: {} },
-			{ outcome: "kept-user-title", reply: titleRejected, manifest: userNamed },
+			{ outcome: "kept-user-title", reply: titleRejected, manifest: withUserTitle },
 		])("should record $outcome when that is how the title was decided", async (decided) => {
 			stubReply(decided.reply);
 
