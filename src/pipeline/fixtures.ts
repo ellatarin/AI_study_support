@@ -728,11 +728,11 @@ export const transcriptDivision: readonly Subtopic[] = [
 ];
 
 /**
- * A run an earlier launch saved, holding {@link transcriptText} whole: unlike
+ * A saved run that an earlier invocation left, holding {@link transcriptText} whole: unlike
  * any run the division suites' stubbed replies make, so a suite finding it
  * afterwards knows the stage kept it rather than making the run again.
  */
-export const earlierLaunchRun: readonly Subtopic[] = [
+export const earlierSavedRun: readonly Subtopic[] = [
 	{ start: 0, end: transcriptText.length, title: "Whole", why: "Earlier." },
 ];
 
@@ -1614,9 +1614,9 @@ export function useStageReadingDivision<TInput, TOutput>({
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
  * @param args.stageId - The panel stage.
  * @param args.runNumber - The run, counting from 1.
- * @returns The run file's absolute path.
+ * @returns The saved run's absolute path.
  */
-export function panelRunPath({
+export function savedRunPath({
 	workspaceRoot,
 	stageId,
 	runNumber,
@@ -1632,8 +1632,8 @@ export function panelRunPath({
 }
 
 /**
- * Leaves a panel run on disk as an earlier launch, or an earlier stage, would
- * have saved it.
+ * Leaves a saved run on disk as an earlier invocation, or an earlier stage,
+ * would have saved it.
  *
  * @param args - Which run, and what it holds.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
@@ -1642,17 +1642,17 @@ export function panelRunPath({
  * @param args.contents - The run, written as JSON.
  * @returns A promise that resolves once the file is written.
  */
-export async function seedPanelRun({
+export async function seedSavedRun({
 	contents,
 	...run
-}: Parameters<typeof panelRunPath>[0] & { readonly contents: unknown }): Promise<void> {
-	const path = panelRunPath(run);
+}: Parameters<typeof savedRunPath>[0] & { readonly contents: unknown }): Promise<void> {
+	const path = savedRunPath(run);
 	await mkdir(dirname(path), { recursive: true });
 	await writeFile(path, JSON.stringify(contents));
 }
 
 /**
- * Leaves runs 1 to `count` of a panel on disk, as an earlier launch or an
+ * Leaves runs 1 to `count` of a panel on disk, as an earlier invocation or an
  * earlier stage would have saved them.
  *
  * @param args - Which panel, how many runs, and what each holds.
@@ -1662,17 +1662,17 @@ export async function seedPanelRun({
  * @param args.contents - What run `runNumber` holds, written as JSON.
  * @returns A promise that resolves once every file is written.
  */
-export async function seedPanelRuns({
+export async function seedSavedRuns({
 	workspaceRoot,
 	stageId,
 	count,
 	contents,
-}: Omit<Parameters<typeof panelRunPath>[0], "runNumber"> & {
+}: Omit<Parameters<typeof savedRunPath>[0], "runNumber"> & {
 	readonly count: number;
 	readonly contents: (runNumber: number) => unknown;
 }): Promise<void> {
 	for (let runNumber = 1; runNumber <= count; runNumber += 1) {
-		await seedPanelRun({ workspaceRoot, stageId, runNumber, contents: contents(runNumber) });
+		await seedSavedRun({ workspaceRoot, stageId, runNumber, contents: contents(runNumber) });
 	}
 }
 
@@ -1718,13 +1718,13 @@ export async function readJsonFile(path: string): Promise<unknown> {
 }
 
 /**
- * The panel run a stage saved, parsed back off disk.
+ * The saved run a stage wrote, parsed back off disk and not checked.
  *
- * @param run - Which run, as for {@link panelRunPath}.
- * @returns The parsed run file.
+ * @param run - Which run, as for {@link savedRunPath}.
+ * @returns The parsed JSON.
  */
-export function readPanelRun(run: Parameters<typeof panelRunPath>[0]): Promise<unknown> {
-	return readJsonFile(panelRunPath(run));
+export function readSavedRunJson(run: Parameters<typeof savedRunPath>[0]): Promise<unknown> {
+	return readJsonFile(savedRunPath(run));
 }
 
 /**

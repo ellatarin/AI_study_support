@@ -2,11 +2,11 @@ import { describe, expect, it } from "vitest";
 import {
 	captureError,
 	driveStage,
-	earlierLaunchRun,
+	earlierSavedRun,
 	makeConfig,
 	makeStageContext,
 	readJsonFile,
-	seedPanelRuns,
+	seedSavedRuns,
 	transcriptDivision,
 	useStubLogger,
 	useTranscribedWorkspace,
@@ -25,11 +25,11 @@ describe("choose-division", () => {
 
 	/** Leaves deepened splitting runs 1 to `count` on disk, run 1 cutting nowhere and the rest as the fixture division does. */
 	function seedDeepenedSplittingRuns(count: number): Promise<void> {
-		return seedPanelRuns({
+		return seedSavedRuns({
 			workspaceRoot: workspace().workspaceRoot,
 			stageId: "deepen-subtopic-splitting",
 			count,
-			contents: (runNumber) => (runNumber === 1 ? earlierLaunchRun : transcriptDivision),
+			contents: (runNumber) => (runNumber === 1 ? earlierSavedRun : transcriptDivision),
 		});
 	}
 

@@ -10,8 +10,8 @@ import { describe, expect, it, vi } from "vitest";
 import { pathExists } from "../../../utils/files.js";
 import {
 	captureError,
-	panelRunPath,
 	readJsonFile,
+	savedRunPath,
 	sentUserMessage,
 	stubbedCallCost,
 	useStageReadingDivision,
@@ -71,7 +71,7 @@ describe("createDefineTopicsStage", () => {
 
 	/** Where a grouping run is saved, counting from 1. */
 	const runPath = (runNumber: number): string =>
-		panelRunPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID, runNumber });
+		savedRunPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID, runNumber });
 
 	it("should send every retitled subtopic as its position, title as label, and text with the blank space at each end removed when each grouping run is made", async () => {
 		await run();

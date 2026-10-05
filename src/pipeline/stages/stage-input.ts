@@ -1,6 +1,6 @@
 /**
  * Reading what an earlier stage wrote. Shared by the stages that read the
- * transcript or a division: run files and divisions hold positions, never text,
+ * transcript or a division: saved runs and divisions hold positions, never text,
  * so each needs the transcript to turn positions back into subtopics
  * (technical-design.md §5, "Dividing the transcript").
  */
@@ -145,7 +145,7 @@ export async function readTranscriptAndDivision(
  * @param args.fail - Builds the reading stage's own error from a message.
  * @returns The transcript, trimmed, and the panel's runs in run order.
  * @throws The error `fail` builds, if the transcript is missing or empty, or a run is missing.
- * @throws {SavedRunUnreadableError} When a run file holds no readable run.
+ * @throws {SavedRunUnreadableError} When a saved run holds no readable run.
  */
 export async function readTranscriptAndRuns({
 	context,

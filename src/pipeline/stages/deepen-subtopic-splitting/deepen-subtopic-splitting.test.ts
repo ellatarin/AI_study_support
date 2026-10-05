@@ -12,14 +12,14 @@ import {
 	captureError,
 	configuringStage,
 	driveModelStage,
-	earlierLaunchRun,
+	earlierSavedRun,
 	joinedSubtopics,
 	openRouterStageConfig,
 	paddedTranscriptText,
-	panelRunPath,
-	readPanelRun,
-	seedPanelRun,
-	seedPanelRuns,
+	readSavedRunJson,
+	savedRunPath,
+	seedSavedRun,
+	seedSavedRuns,
 	seedStageOutput,
 	stubbedCallCost,
 	trackingInFlight,
@@ -147,7 +147,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 
 	/** Leaves the whole initial splitting panel on disk, every run holding `run`. */
 	function seedSplittingRunsBeforeDeepening(run: unknown): Promise<void> {
-		return seedPanelRuns({
+		return seedSavedRuns({
 			workspaceRoot: workspaceRoot(),
 			stageId: "initial-subtopic-splitting",
 			count: PANEL_SIZE,
@@ -192,7 +192,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 
 	/** The deepened splitting run the stage saved as run `runNumber`, parsed back off disk. */
 	async function savedRun(runNumber: number): Promise<readonly Subtopic[]> {
-		return (await readPanelRun({
+		return (await readSavedRunJson({
 			workspaceRoot: workspaceRoot(),
 			stageId: STAGE_ID,
 			runNumber,
@@ -327,7 +327,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		);
 	});
 
-	it("should record every deepened splitting run file as written when the stage completes", async () => {
+	it("should record every saved deepened splitting run as written when the stage completes", async () => {
 		const { filesWritten } = await run(SECOND_ONLY);
 		expect(filesWritten).toHaveLength(PANEL_SIZE);
 		expect(filesWritten[0]).toBe(join("Deepened subtopics", "run-01.json"));
@@ -353,25 +353,25 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		modelCallMock.mockResolvedValue({ content: "", cost: stubbedCallCost });
 		expect(await captureError(run(SECOND_ONLY))).toBeInstanceOf(ResendsExhaustedError);
 		await expect(
-			readPanelRun({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID, runNumber: 1 }),
+			readSavedRunJson({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID, runNumber: 1 }),
 		).rejects.toThrow();
 	});
 
-	it("should make only the missing runs when an earlier launch saved some", async () => {
-		await seedPanelRun({
+	it("should make only the missing runs when an earlier invocation saved some", async () => {
+		await seedSavedRun({
 			workspaceRoot: workspaceRoot(),
 			stageId: STAGE_ID,
 			runNumber: 1,
-			contents: earlierLaunchRun,
+			contents: earlierSavedRun,
 		});
 		await run(SECOND_ONLY);
 		expect(modelCallMock).toHaveBeenCalledTimes(PANEL_SIZE - 1);
-		expect(await savedRun(1)).toEqual(earlierLaunchRun);
+		expect(await savedRun(1)).toEqual(earlierSavedRun);
 	});
 
 	it("should fail when a splitting run before deepening is missing", async () => {
 		await rm(
-			panelRunPath({
+			savedRunPath({
 				workspaceRoot: workspaceRoot(),
 				stageId: "initial-subtopic-splitting",
 				runNumber: PANEL_SIZE,

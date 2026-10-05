@@ -4,7 +4,7 @@ import {
 	captureError,
 	makeStageContext,
 	paddedTranscriptText,
-	seedPanelRuns,
+	seedSavedRuns,
 	seedStageOutput,
 	transcriptDivision,
 	transcriptText,
@@ -86,7 +86,7 @@ describe("readTranscriptAndRuns", () => {
 
 	/** Leaves the first `count` runs of the initial splitting panel on disk. */
 	function seedSplittingRunsBeforeDeepening(count: number): Promise<void> {
-		return seedPanelRuns({
+		return seedSavedRuns({
 			workspaceRoot: workspace().workspaceRoot,
 			stageId: "initial-subtopic-splitting",
 			count,

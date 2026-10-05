@@ -46,7 +46,7 @@ function numberedRunMaker(): ReturnType<
 
 const directory = useTempDir({ prefix: "panel-" });
 
-/** Writes a file into the panel's directory as a previous launch would have left it. */
+/** Writes a file into the panel's directory as an earlier invocation would have left it. */
 function leaveBehind({
 	name,
 	contents,
@@ -84,14 +84,17 @@ describe("runPanel", () => {
 	});
 
 	it("should save each run to its own numbered file when the run completes", async () => {
-		const { runFiles } = await panelOf({ panelSize: 2, makeRun: numberedRunMaker() });
-		expect(runFiles).toEqual([join(directory(), "run-01.json"), join(directory(), "run-02.json")]);
+		const { savedRunFiles } = await panelOf({ panelSize: 2, makeRun: numberedRunMaker() });
+		expect(savedRunFiles).toEqual([
+			join(directory(), "run-01.json"),
+			join(directory(), "run-02.json"),
+		]);
 		expect(await readJsonFile(join(directory(), "run-02.json"))).toEqual({
 			madeBy: 2,
 		});
 	});
 
-	it("should make only the missing runs when some were saved by an earlier launch", async () => {
+	it("should make only the missing runs when some were saved by an earlier invocation", async () => {
 		await leaveBehind({ name: "run-02.json", contents: JSON.stringify({ madeBy: 99 }) });
 		const makeRun = numberedRunMaker();
 		const { runs } = await panelOf({ panelSize: 3, makeRun });
@@ -99,13 +102,13 @@ describe("runPanel", () => {
 		expect(runs).toEqual([{ madeBy: 1 }, { madeBy: 99 }, { madeBy: 3 }]);
 	});
 
-	it("should add up the cost of the runs it made when some were saved by an earlier launch", async () => {
+	it("should add up the cost of the runs it made when some were saved by an earlier invocation", async () => {
 		await leaveBehind({ name: "run-01.json", contents: JSON.stringify({ madeBy: 1 }) });
 		const { cost } = await panelOf({ panelSize: 3, makeRun: numberedRunMaker() });
 		expect(cost).toEqual(stubbedCallsCost({ calls: 2 }));
 	});
 
-	it("should report no cost when every run was saved by an earlier launch", async () => {
+	it("should report no cost when every run was saved by an earlier invocation", async () => {
 		await leaveBehind({ name: "run-01.json", contents: JSON.stringify({ madeBy: 1 }) });
 		const makeRun = numberedRunMaker();
 		const { cost } = await panelOf({ panelSize: 1, makeRun });

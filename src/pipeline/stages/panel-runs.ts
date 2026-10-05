@@ -1,7 +1,7 @@
 /**
  * What the panel stages share around the model call: resending a reply that
  * came back unusable, and making a panel of runs that survives failure and
- * relaunch (technical-design.md §5, "Dividing the transcript", Panel runs).
+ * a later invocation (technical-design.md §5, "Dividing the transcript", Panel runs).
  */
 
 import { join, relative } from "node:path";
@@ -20,8 +20,8 @@ import { type JsonReplyOutcome, tryJsonReplyAs, type UsableJsonReply } from "./m
 export class ResendsExhaustedError extends NamedError {}
 
 /**
- * A run file an earlier launch left that is not JSON or not a run. Every run
- * file is written whole or not at all (technical-design.md §4.3), so one that
+ * A saved run an earlier invocation left that is not JSON or not a run. Every
+ * saved run is written whole or not at all (technical-design.md §4.3), so one that
  * cannot be read was changed by something outside the pipeline, and is reported
  * rather than silently made again.
  */
@@ -102,10 +102,10 @@ export function sendJsonWithResends<TReply, TKept>({
 type SavedPanel<TRun> = {
 	/** How many runs the panel holds. */
 	readonly panelSize: number;
-	/** Where the run files are saved. */
+	/** Where the saved runs are written. */
 	readonly directory: string;
 	/**
-	 * Reads a value parsed back from a run file as a run, keeping only what a
+	 * Reads a value parsed back from a saved run as a run, keeping only what a
 	 * run holds, or gives `null` when it is not one.
 	 */
 	readonly readRun: (value: unknown) => TRun | null;
@@ -131,9 +131,9 @@ export function panelDirectory({ workspaceRoot, stageId }: StageInWorkspace): st
  * @param args - Where the panel saves, and how many runs it holds.
  * @param args.directory - The panel's directory.
  * @param args.panelSize - How many runs the panel holds.
- * @returns Each run file's absolute path.
+ * @returns Each saved run's absolute path.
  */
-function panelRunFiles({
+function savedRunPaths({
 	directory,
 	panelSize,
 }: Pick<SavedPanel<unknown>, "directory" | "panelSize">): readonly string[] {
@@ -143,10 +143,10 @@ function panelRunFiles({
 }
 
 /**
- * The run an earlier launch saved at `path`, or `null` when there is none.
+ * The run an earlier invocation saved at `path`, or `null` when there is none.
  *
  * @param args - The file, and what counts as a run.
- * @param args.path - The run file.
+ * @param args.path - The saved run's path.
  * @param args.readRun - Reads a parsed value as a run.
  * @returns The saved run, or `null` when no file is there.
  * @throws {SavedRunUnreadableError} When a file is there but holds no readable run.
@@ -162,7 +162,7 @@ async function readSavedRun<TRun>({
 	const saved = readRun(await readJsonSafe(path));
 	if (saved === null) {
 		throw new SavedRunUnreadableError(
-			`${path} holds no readable run. A run file is written whole, so something else changed it; delete it to make the run again.`,
+			`${path} holds no readable run. A saved run is written whole, so something else changed it; delete it to make the run again.`,
 		);
 	}
 	return saved;
@@ -170,7 +170,7 @@ async function readSavedRun<TRun>({
 
 /**
  * Makes a panel of independent runs, a few at a time, saving each to its own
- * file the moment it completes. A relaunch reads back the runs already saved
+ * file the moment it completes. A later invocation reads back the runs already saved
  * and makes only the missing ones, so a crash or a failed run loses only the
  * runs in flight, and nothing already paid for is paid for again. The panel is
  * all or nothing: a run that fails fails the panel, and no partial panel is
@@ -179,13 +179,13 @@ async function readSavedRun<TRun>({
  * @param args - The panel's size and home, and how to make and recognise a run.
  * @param args.panelSize - How many runs the panel holds.
  * @param args.concurrency - The most runs in flight at once; unset means one at a time.
- * @param args.directory - Where the run files are saved; it must already exist.
- * @param args.readRun - Reads a value parsed back from a run file as a run.
+ * @param args.directory - Where the saved runs are written; it must already exist.
+ * @param args.readRun - Reads a value parsed back from a saved run as a run.
  * @param args.makeRun - Makes one run, given its number counting from 1, with
  *   what its calls cost — `null` for a run that needed none.
- * @returns Every run in run order, the cost of the runs made by this launch —
- *   `null` when none of them made a call — and the run files.
- * @throws {SavedRunUnreadableError} When a run file left by an earlier launch holds no readable run.
+ * @returns Every run in run order, the cost of the runs made by this invocation —
+ *   `null` when none of them made a call — and the saved runs' paths.
+ * @throws {SavedRunUnreadableError} When a saved run left by an earlier invocation holds no readable run.
  * @typeParam TRun - What a run holds.
  */
 export async function runPanel<TRun>({
@@ -202,11 +202,11 @@ export async function runPanel<TRun>({
 }): Promise<{
 	readonly runs: readonly TRun[];
 	readonly cost: StageCost | null;
-	readonly runFiles: readonly string[];
+	readonly savedRunFiles: readonly string[];
 }> {
-	const runFiles = panelRunFiles({ directory, panelSize });
+	const savedRunFiles = savedRunPaths({ directory, panelSize });
 	const outcomes = await mapWithConcurrency({
-		items: runFiles,
+		items: savedRunFiles,
 		limit: concurrency,
 		work: async ({ item: path, index }) => {
 			const saved = await readSavedRun({ path, readRun });
@@ -221,7 +221,7 @@ export async function runPanel<TRun>({
 	return {
 		runs: outcomes.map((outcome) => outcome.run),
 		cost: totalCost(outcomes.map((outcome) => outcome.cost)),
-		runFiles,
+		savedRunFiles,
 	};
 }
 
@@ -233,12 +233,12 @@ export async function runPanel<TRun>({
  *
  * @param args - Where the panel was saved, its size, what counts as a run, and how to fail.
  * @param args.panelSize - How many runs the panel holds.
- * @param args.directory - Where the run files were saved.
- * @param args.readRun - Reads a value parsed back from a run file as a run.
+ * @param args.directory - Where the saved runs were written.
+ * @param args.readRun - Reads a value parsed back from a saved run as a run.
  * @param args.fail - Builds the reading stage's own error from a message.
  * @returns Every run, in run order.
  * @throws The error `fail` builds, naming the file, when a run is missing.
- * @throws {SavedRunUnreadableError} When a run file holds no readable run.
+ * @throws {SavedRunUnreadableError} When a saved run holds no readable run.
  * @typeParam TRun - What a run holds.
  */
 export async function readPanel<TRun>({
@@ -248,7 +248,7 @@ export async function readPanel<TRun>({
 	fail,
 }: SavedPanel<TRun> & { readonly fail: (message: string) => Error }): Promise<readonly TRun[]> {
 	const runs: TRun[] = [];
-	for (const path of panelRunFiles({ directory, panelSize })) {
+	for (const path of savedRunPaths({ directory, panelSize })) {
 		const saved = await readSavedRun({ path, readRun });
 		if (saved === null) {
 			throw fail(`No run at ${path}: the panel of ${panelSize} runs is not complete`);
@@ -261,17 +261,17 @@ export async function readPanel<TRun>({
 /**
  * Makes a stage's panel in the stage's own directory, with as many runs in
  * flight as the stage's `concurrency` allows, and reports it as the stage's
- * result: every run, what this launch's calls cost, and the run files as
+ * result: every run, what this invocation's calls cost, and the saved runs'
  * workspace-relative paths.
  *
  * @param args - The stage, its lecture, the panel's size, and how to make and recognise a run.
  * @param args.stageId - The panel stage; picks its directory and its concurrency.
  * @param args.context - The current lecture run context.
  * @param args.panelSize - How many runs the panel holds.
- * @param args.readRun - Reads a value parsed back from a run file as a run.
+ * @param args.readRun - Reads a value parsed back from a saved run as a run.
  * @param args.makeRun - Makes one run, given its number counting from 1.
  * @returns The stage's result, holding every run in run order.
- * @throws {SavedRunUnreadableError} When a run file left by an earlier launch holds no readable run.
+ * @throws {SavedRunUnreadableError} When a saved run left by an earlier invocation holds no readable run.
  * @typeParam TRun - What a run holds.
  */
 export async function runStagePanel<TRun>({
@@ -286,7 +286,7 @@ export async function runStagePanel<TRun>({
 } & Pick<Parameters<typeof runPanel<TRun>>[0], "panelSize" | "readRun" | "makeRun">): Promise<
 	StageResult<{ readonly runs: readonly TRun[] }>
 > {
-	const { runs, cost, runFiles } = await runPanel({
+	const { runs, cost, savedRunFiles } = await runPanel({
 		panelSize,
 		concurrency: configuredStage({ config: context.config, stageId })?.concurrency,
 		directory: panelDirectory({ workspaceRoot: context.workspaceRoot, stageId }),
@@ -296,7 +296,7 @@ export async function runStagePanel<TRun>({
 	return {
 		output: { runs },
 		cost,
-		filesWritten: runFiles.map((file) => relative(context.workspaceRoot, file)),
+		filesWritten: savedRunFiles.map((file) => relative(context.workspaceRoot, file)),
 	};
 }
 
@@ -309,11 +309,11 @@ export async function runStagePanel<TRun>({
  * @param args.stageId - The panel stage; picks its directory, concurrency, model and tuning.
  * @param args.context - The current lecture run context.
  * @param args.panelSize - How many runs the panel holds.
- * @param args.readRun - Reads a value parsed back from a run file as a run.
+ * @param args.readRun - Reads a value parsed back from a saved run as a run.
  * @param args.runName - Names each run in the log and in a failure, before its number, e.g. "Grouping run".
  * @param args.request - The call each run makes, as for {@link tryJsonReplyAs}, its `use` turning the reply into the run.
  * @returns The stage's result, holding every run in run order.
- * @throws {SavedRunUnreadableError} When a run file left by an earlier launch holds no readable run.
+ * @throws {SavedRunUnreadableError} When a saved run left by an earlier invocation holds no readable run.
  * @throws {ResendsExhaustedError} When a run's third send is still unusable.
  * @typeParam TReply - The reply each call expects back.
  * @typeParam TRun - What a run holds.

@@ -10,10 +10,10 @@ import {
 	captureError,
 	configuringStage,
 	driveModelStage,
-	earlierLaunchRun,
+	earlierSavedRun,
 	paddedTranscriptText,
-	readPanelRun,
-	seedPanelRun,
+	readSavedRunJson,
+	seedSavedRun,
 	seedStageOutput,
 	sentUserMessage,
 	stubbedCallCost,
@@ -87,14 +87,14 @@ describe("createInitialSubtopicSplittingStage", () => {
 		});
 	}
 
-	/** The run file the stage saved for run `runNumber`, parsed back off disk. */
+	/** The saved run the stage wrote for run `runNumber`, parsed back off disk. */
 	function savedRun(runNumber: number): Promise<unknown> {
-		return readPanelRun({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID, runNumber });
+		return readSavedRunJson({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID, runNumber });
 	}
 
-	/** Leaves run 1 on disk as an earlier launch would have, holding `contents`. */
+	/** Leaves run 1 on disk as an earlier invocation would have, holding `contents`. */
 	function leaveFirstRun(contents: unknown): Promise<void> {
-		return seedPanelRun({
+		return seedSavedRun({
 			workspaceRoot: workspaceRoot(),
 			stageId: STAGE_ID,
 			runNumber: 1,
@@ -119,7 +119,7 @@ describe("createInitialSubtopicSplittingStage", () => {
 		expect(await savedRun(PANEL_SIZE)).toEqual(transcriptDivision);
 	});
 
-	it("should record every run file as written when the stage completes", async () => {
+	it("should record every saved run as written when the stage completes", async () => {
 		const { filesWritten } = await run();
 		expect(filesWritten).toHaveLength(PANEL_SIZE);
 		expect(filesWritten[0]).toBe(join("Initial subtopics", "run-01.json"));
@@ -144,11 +144,11 @@ describe("createInitialSubtopicSplittingStage", () => {
 		expect(await savedRun(1)).toHaveLength(2);
 	});
 
-	it("should make only the missing runs when an earlier launch saved some", async () => {
-		await leaveFirstRun(earlierLaunchRun);
+	it("should make only the missing runs when an earlier invocation saved some", async () => {
+		await leaveFirstRun(earlierSavedRun);
 		await run();
 		expect(modelCallMock).toHaveBeenCalledTimes(PANEL_SIZE - 1);
-		expect(await savedRun(1)).toEqual(earlierLaunchRun);
+		expect(await savedRun(1)).toEqual(earlierSavedRun);
 	});
 
 	it.each([
