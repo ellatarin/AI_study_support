@@ -57,13 +57,13 @@ describe("isStageComplete", () => {
 	}
 
 	/**
-	 * The context as it stands once the stage has completed and recorded its
-	 * output, for the workspace under test.
+	 * The lecture context after the stage completes, for the workspace under
+	 * test.
 	 *
 	 * @param status - Which of the two completed statuses the entry carries.
 	 * @returns The stage context.
 	 */
-	function contextRecordingOutput(status: "complete" | "skipped"): StageContext {
+	function contextAfterStageCompletes(status: "complete" | "skipped"): StageContext {
 		return contextWithOutput({ workspaceRoot, stageId: STAGE_ID, status });
 	}
 
@@ -93,7 +93,7 @@ describe("isStageComplete", () => {
 		status,
 	}) => {
 		await writeOutputFile();
-		const context = contextRecordingOutput(status);
+		const context = contextAfterStageCompletes(status);
 
 		expect(await isStageComplete({ context, stageId: STAGE_ID })).toBe(true);
 	});
@@ -103,7 +103,7 @@ describe("isStageComplete", () => {
 	)("should report incomplete when a $status stage's recorded output file has been deleted", async ({
 		status,
 	}) => {
-		const context = contextRecordingOutput(status);
+		const context = contextAfterStageCompletes(status);
 
 		expect(await isStageComplete({ context, stageId: STAGE_ID })).toBe(false);
 	});
@@ -164,12 +164,13 @@ describe("createPipelineStage", () => {
 	}
 
 	/**
-	 * Builds a stage whose `run` records what it was handed — its logger and its
-	 * lecture — and reports what was on disk when it began, then runs it.
+	 * Builds a stage and runs it. The stage keeps the logger and the lecture
+	 * context that it receives. It also lists the files in its folder when it
+	 * starts.
 	 *
-	 * @returns What `run` observed.
+	 * @returns The logger, the lecture context and the list of files.
 	 */
-	async function runRecordingStage(): Promise<{
+	async function runStageAndReturnWhatItReceived(): Promise<{
 		readonly logger: Logger;
 		readonly namesOnEntry: readonly string[];
 		readonly context: StageContext;
@@ -197,7 +198,7 @@ describe("createPipelineStage", () => {
 	}
 
 	it("should create the stage's output directory when run begins without one", async () => {
-		const { namesOnEntry } = await runRecordingStage();
+		const { namesOnEntry } = await runStageAndReturnWhatItReceived();
 
 		expect(namesOnEntry).toStrictEqual([]);
 		expect(await pathExists(stageDir())).toBe(true);
@@ -208,13 +209,13 @@ describe("createPipelineStage", () => {
 		await writeFile(join(stageDir(), "audio.m4a.tmp"), "half an audio track");
 		await writeFile(join(stageDir(), "keep.m4a"), "a finished file");
 
-		const { namesOnEntry } = await runRecordingStage();
+		const { namesOnEntry } = await runStageAndReturnWhatItReceived();
 
 		expect(namesOnEntry).toStrictEqual(["keep.m4a"]);
 	});
 
 	it("should stamp the stage and the lecture onto every entry when run logs through the logger it was given", async () => {
-		const { logger, context } = await runRecordingStage();
+		const { logger, context } = await runStageAndReturnWhatItReceived();
 
 		logger.debug({ detail: 1 }, "from inside the stage");
 

@@ -1071,18 +1071,18 @@ describe("PipelineRunner integration", () => {
 					manifest: makeManifest({ lectureDate }),
 				});
 			}
-			const ran: string[] = [];
-			const recordingStage = makeStubStage({
+			const datesInRunOrder: string[] = [];
+			const stubThatListsDates = makeStubStage({
 				stageId: "audio-extraction",
 				run: ({ context }) => {
-					ran.push(context.lectureDate);
+					datesInRunOrder.push(context.lectureDate);
 					return Promise.resolve(PRODUCED_NOTHING);
 				},
 			});
 
-			await makeRunner([recordingStage]).runBatch({ moduleRoots: [moduleB] });
+			await makeRunner([stubThatListsDates]).runBatch({ moduleRoots: [moduleB] });
 
-			expect(ran).toEqual(["2025-09-01", "2025-11-20", "2025-12-05"]);
+			expect(datesInRunOrder).toEqual(["2025-09-01", "2025-11-20", "2025-12-05"]);
 		});
 
 		it("should run every lecture and skip the folder when one holds no manifest", async () => {
