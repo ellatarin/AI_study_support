@@ -54,14 +54,14 @@ type DateMatch = TextMatch & {
 const SEPARATED_DATE = /(?<!\d)(\d{1,4})([-./])(\d{1,2})\2(\d{1,4})(?!\d)/g;
 
 /** The same, written with no separators at all: `DDMMYYYY` or `YYYYMMDD`. */
-const COMPACT_DATE = /(?<!\d)(\d{8})(?!\d)/g;
+const EIGHT_DIGIT_DATE = /(?<!\d)(\d{8})(?!\d)/g;
 
 /**
  * `DDMMYY`, tried only when the filename yields no date any other way. Six bare
  * digits are a common shape for something that is not a date at all, so this
  * cannot compete with a date written unambiguously.
  */
-const COMPACT_SHORT_DATE = /(?<!\d)(\d{6})(?!\d)/g;
+const SIX_DIGIT_DATE = /(?<!\d)(\d{6})(?!\d)/g;
 
 /** A two-digit year is always this century — `26` is 2026, never 1926. */
 const SHORT_YEAR_BASE = 2000;
@@ -169,9 +169,9 @@ function overlaps({
 }
 
 /**
- * Reads a compact run day first, taking the year from the caller — the two
- * compact forms differ only in where their year comes from and how wide it is,
- * so the day and month are read in one place.
+ * Reads a run of digits day first, taking the year from the caller. The six-
+ * and eight-digit forms differ only in where their year comes from and how wide
+ * it is, so the day and month are read in one place.
  *
  * @param args - The digits and the year already resolved from them.
  * @param args.digits - The run as written; the day and month are its first four.
@@ -198,7 +198,7 @@ function fromDayFirstDigits({
  * @param digits - The six digits as written.
  * @returns The date, or `null` when they name no real day.
  */
-function fromCompactShort(digits: string): Date | null {
+function fromSixDigits(digits: string): Date | null {
 	return fromDayFirstDigits({ digits, year: SHORT_YEAR_BASE + Number(digits.slice(4, 6)) });
 }
 
@@ -210,7 +210,7 @@ function fromCompactShort(digits: string): Date | null {
  * @param digits - The eight digits as written.
  * @returns The date, or `null` when the digits name no real day either way.
  */
-function fromCompact(digits: string): Date | null {
+function fromEightDigits(digits: string): Date | null {
 	const plausibleYear = (value: number): boolean => value >= EARLIEST_YEAR && value <= LATEST_YEAR;
 
 	const leadingYear = Number(digits.slice(0, 4));
@@ -231,6 +231,31 @@ function fromCompact(digits: string): Date | null {
 	return fromDayFirstDigits({ digits, year: trailingYear });
 }
 
+/** A way of writing a date in digits: its global pattern, and how to read one match of it. */
+type DigitDateFormat = {
+	readonly pattern: Readonly<RegExp>;
+	/** Reads one match as a date, or gives `null` where it names no real day. */
+	readonly read: (match: readonly string[]) => Date | null;
+};
+
+/** Day, month and year with separators, in either order: `10-10-2025`, `2025.10.10`. */
+const SEPARATED_DATE_FORMAT: DigitDateFormat = {
+	pattern: SEPARATED_DATE,
+	read: (match) => fromSeparated([match[1] as string, match[3] as string, match[4] as string]),
+};
+
+/** Eight digits, in either order: `10102025`, `20251010`. */
+const EIGHT_DIGIT_DATE_FORMAT: DigitDateFormat = {
+	pattern: EIGHT_DIGIT_DATE,
+	read: (match) => fromEightDigits(match[1] as string),
+};
+
+/** Six digits, day first: `101025`. */
+const SIX_DIGIT_DATE_FORMAT: DigitDateFormat = {
+	pattern: SIX_DIGIT_DATE,
+	read: (match) => fromSixDigits(match[1] as string),
+};
+
 /**
  * Every date written in digits in the text, for the given formats, in the order
  * it appears.
@@ -240,8 +265,7 @@ function fromCompact(digits: string): Date | null {
  *
  * @param args - The text, and the digit formats to look for.
  * @param args.text - The text to scan.
- * @param args.formats - Each format's global pattern, and how to read one match
- *   of it as a date, or `null` where it names none.
+ * @param args.formats - The digit formats to look for.
  * @returns One match for each place a format matched, in text order.
  */
 function digitDateMatches({
@@ -249,10 +273,7 @@ function digitDateMatches({
 	formats,
 }: {
 	readonly text: string;
-	readonly formats: readonly {
-		readonly pattern: Readonly<RegExp>;
-		readonly read: (match: readonly string[]) => Date | null;
-	}[];
+	readonly formats: readonly DigitDateFormat[];
 }): readonly DateMatch[] {
 	return formats
 		.flatMap(({ pattern, read }) =>
@@ -299,14 +320,7 @@ function parseDateSpans(text: string): readonly ParsedResult[] {
 function allDateMatches(text: string): readonly DateMatch[] {
 	const numeric = digitDateMatches({
 		text,
-		formats: [
-			{
-				pattern: SEPARATED_DATE,
-				read: (match) =>
-					fromSeparated([match[1] as string, match[3] as string, match[4] as string]),
-			},
-			{ pattern: COMPACT_DATE, read: (match) => fromCompact(match[1] as string) },
-		],
+		formats: [SEPARATED_DATE_FORMAT, EIGHT_DIGIT_DATE_FORMAT],
 	});
 	const chrono = parseDateSpans(text)
 		.filter(
@@ -326,9 +340,7 @@ function allDateMatches(text: string): readonly DateMatch[] {
 
 	const fallback = digitDateMatches({
 		text,
-		formats: [
-			{ pattern: COMPACT_SHORT_DATE, read: (match) => fromCompactShort(match[1] as string) },
-		],
+		formats: [SIX_DIGIT_DATE_FORMAT],
 	}).filter(
 		(match) =>
 			match.date !== null &&
