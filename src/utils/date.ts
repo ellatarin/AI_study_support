@@ -232,53 +232,38 @@ function fromCompact(digits: string): Date | null {
 }
 
 /**
- * Every match of one numeric pattern, as spans claimed against the text.
+ * Every date written in digits in the text, for the given formats, in the order
+ * it appears.
  *
- * The claim is made whether or not the digits resolve, so a shape that names no
- * real day still keeps chrono off it.
+ * Each match is claimed whether or not its digits name a real day. So a match
+ * that names no real day still keeps chrono off that text.
  *
- * @param args - The text, the pattern, and how to read a match.
+ * @param args - The text, and the digit formats to look for.
  * @param args.text - The text to scan.
- * @param args.pattern - The global pattern to scan it with.
- * @param args.read - Turns one match into a date, or `null` where it names none.
- * @returns One span per match, in the order they appear.
+ * @param args.formats - Each format's global pattern, and how to read one match
+ *   of it as a date, or `null` where it names none.
+ * @returns One match for each place a format matched, in text order.
  */
-function claimedSpans({
+function digitDateMatches({
 	text,
-	pattern,
-	read,
+	formats,
 }: {
 	readonly text: string;
-	readonly pattern: Readonly<RegExp>;
-	readonly read: (match: readonly string[]) => Date | null;
+	readonly formats: readonly {
+		readonly pattern: Readonly<RegExp>;
+		readonly read: (match: readonly string[]) => Date | null;
+	}[];
 }): readonly DateMatch[] {
-	return [...text.matchAll(pattern)].map((match) => ({
-		index: match.index,
-		length: match[0].length,
-		date: read(match),
-		confident: true,
-	}));
-}
-
-/**
- * Every numeric date in the text, in the order it appears.
- *
- * @param text - Arbitrary text, typically a filename.
- * @returns The spans each numeric date occupied, with the date it resolved to.
- */
-function numericDateSpans(text: string): readonly DateMatch[] {
-	return [
-		...claimedSpans({
-			text,
-			pattern: SEPARATED_DATE,
-			read: (match) => fromSeparated([match[1] as string, match[3] as string, match[4] as string]),
-		}),
-		...claimedSpans({
-			text,
-			pattern: COMPACT_DATE,
-			read: (match) => fromCompact(match[1] as string),
-		}),
-	].sort(byIndex);
+	return formats
+		.flatMap(({ pattern, read }) =>
+			[...text.matchAll(pattern)].map((match) => ({
+				index: match.index,
+				length: match[0].length,
+				date: read(match),
+				confident: true,
+			})),
+		)
+		.sort(byIndex);
 }
 
 /**
@@ -312,7 +297,17 @@ function parseDateSpans(text: string): readonly ParsedResult[] {
  * @returns Every date match found, in the order it appears in the text.
  */
 function allDateMatches(text: string): readonly DateMatch[] {
-	const numeric = numericDateSpans(text);
+	const numeric = digitDateMatches({
+		text,
+		formats: [
+			{
+				pattern: SEPARATED_DATE,
+				read: (match) =>
+					fromSeparated([match[1] as string, match[3] as string, match[4] as string]),
+			},
+			{ pattern: COMPACT_DATE, read: (match) => fromCompact(match[1] as string) },
+		],
+	});
 	const chrono = parseDateSpans(text)
 		.filter(
 			(result) => !overlaps({ matches: numeric, index: result.index, length: result.text.length }),
@@ -329,10 +324,11 @@ function allDateMatches(text: string): readonly DateMatch[] {
 		return found.sort(byIndex);
 	}
 
-	const fallback = claimedSpans({
+	const fallback = digitDateMatches({
 		text,
-		pattern: COMPACT_SHORT_DATE,
-		read: (match) => fromCompactShort(match[1] as string),
+		formats: [
+			{ pattern: COMPACT_SHORT_DATE, read: (match) => fromCompactShort(match[1] as string) },
+		],
 	}).filter(
 		(match) =>
 			match.date !== null &&
