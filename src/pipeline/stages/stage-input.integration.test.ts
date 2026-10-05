@@ -85,7 +85,7 @@ describe("readTranscriptAndRuns", () => {
 		makeStageContext({ workspaceRoot: workspace().workspaceRoot });
 
 	/** Leaves the first `count` runs of the initial splitting panel on disk. */
-	function seedInitialRuns(count: number): Promise<void> {
+	function seedSplittingRunsBeforeDeepening(count: number): Promise<void> {
 		return seedPanelRuns({
 			workspaceRoot: workspace().workspaceRoot,
 			stageId: "initial-subtopic-splitting",
@@ -105,7 +105,7 @@ describe("readTranscriptAndRuns", () => {
 
 	it("should return the transcript and every run of the panel when the panel is complete", async () => {
 		const { panelSize } = context().config.division;
-		await seedInitialRuns(panelSize);
+		await seedSplittingRunsBeforeDeepening(panelSize);
 		expect(await read()).toStrictEqual({
 			transcript: transcriptText,
 			runs: Array(panelSize).fill(transcriptDivision),
@@ -113,7 +113,7 @@ describe("readTranscriptAndRuns", () => {
 	});
 
 	it("should raise the reading stage's own error naming the stage to run when a run is missing", async () => {
-		await seedInitialRuns(1);
+		await seedSplittingRunsBeforeDeepening(1);
 		const error = await captureError(read());
 		expect(error).toBeInstanceOf(ReadingStageError);
 		expect(error.message).toContain("run initial-subtopic-splitting first");

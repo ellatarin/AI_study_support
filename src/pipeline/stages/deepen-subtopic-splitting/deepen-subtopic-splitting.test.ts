@@ -146,7 +146,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 	const workspaceRoot = (): string => workspace().workspaceRoot;
 
 	/** Leaves the whole initial splitting panel on disk, every run holding `run`. */
-	function seedInitialRuns(run: unknown): Promise<void> {
+	function seedSplittingRunsBeforeDeepening(run: unknown): Promise<void> {
 		return seedPanelRuns({
 			workspaceRoot: workspaceRoot(),
 			stageId: "initial-subtopic-splitting",
@@ -158,7 +158,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 	beforeEach(async () => {
 		vi.clearAllMocks();
 		answering({});
-		await seedInitialRuns(transcriptDivision);
+		await seedSplittingRunsBeforeDeepening(transcriptDivision);
 	});
 
 	/** Answers every call as {@link answerFrom} does for `replies`. */
@@ -190,7 +190,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		});
 	}
 
-	/** The deepened run the stage saved for run `runNumber`, parsed back off disk. */
+	/** The splitting run the stage saved for run `runNumber` after deepening, parsed back off disk. */
 	async function savedRun(runNumber: number): Promise<readonly Subtopic[]> {
 		return (await readPanelRun({
 			workspaceRoot: workspaceRoot(),
@@ -199,7 +199,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		})) as readonly Subtopic[];
 	}
 
-	/** Where each subtopic of the deepened run `runNumber` starts. */
+	/** Where each subtopic of splitting run `runNumber` starts after deepening. */
 	async function savedStarts(runNumber: number): Promise<readonly number[]> {
 		return (await savedRun(runNumber)).map((subtopic) => subtopic.start);
 	}
@@ -249,10 +249,10 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		]);
 	});
 
-	// Initial runs saved while deepening marked inherited titles carry the mark.
+	// Splitting runs saved while deepening marked inherited titles carry the mark.
 	// They are still read, and the mark goes no further.
-	it("should write no inherited-title mark when the initial runs it reads carry one", async () => {
-		await seedInitialRuns(
+	it("should write no inherited-title mark when the splitting runs it reads carry one", async () => {
+		await seedSplittingRunsBeforeDeepening(
 			transcriptDivision.map((subtopic) => ({ ...subtopic, titleInherited: false })),
 		);
 		answering({ [SECOND]: cutsAt(SECOND_CUT) });
@@ -306,7 +306,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		expect(peak()).toBe(expected);
 	});
 
-	it("should give the same deepened run when the replies arrive out of order", async () => {
+	it("should give the same splitting run when the replies arrive out of order", async () => {
 		const answer = answerFrom(CUTTING_BOTH_ROUNDS);
 		let callsMade = 0;
 		// Each call waits fewer turns than the one before it, so later calls answer first.
@@ -319,7 +319,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		expect(await savedStarts(1)).toEqual(CUT_IN_BOTH_ROUNDS);
 	});
 
-	it("should reproduce the transcript exactly when a deepened run is joined", async () => {
+	it("should reproduce the transcript exactly when a splitting run is joined after deepening", async () => {
 		answering(CUTTING_BOTH_ROUNDS);
 		await run(ALMOST_EVERYTHING);
 		expect(joinedSubtopics({ text: transcriptText, subtopics: await savedRun(1) })).toBe(
@@ -327,7 +327,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		);
 	});
 
-	it("should record every deepened run file as written when the stage completes", async () => {
+	it("should record every splitting run file as written when the stage completes", async () => {
 		const { filesWritten } = await run(SECOND_ONLY);
 		expect(filesWritten).toHaveLength(PANEL_SIZE);
 		expect(filesWritten[0]).toBe(join("Deepened subtopics", "run-01.json"));
@@ -369,7 +369,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		expect(await savedRun(1)).toEqual(earlierLaunchRun);
 	});
 
-	it("should fail when an initial splitting run is missing", async () => {
+	it("should fail when a splitting run before deepening is missing", async () => {
 		await rm(
 			panelRunPath({
 				workspaceRoot: workspaceRoot(),

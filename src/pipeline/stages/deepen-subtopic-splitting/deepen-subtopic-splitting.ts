@@ -1,6 +1,6 @@
 /**
  * `deepen-subtopic-splitting`: the second of the three division stages. In each
- * initial splitting run, every subtopic over the size gate is sent on its own
+ * splitting run before deepening, every subtopic over the size gate is sent on its own
  * with the `d13` prompt and cut where the model says it divides, for at most two
  * rounds (technical-design.md §5, "Dividing the transcript").
  */
@@ -40,7 +40,7 @@ import { buildDeepeningMessages } from "./deepen-subtopic-splitting.prompt.js";
 
 /**
  * Thrown when there is nothing to deepen: the transcript is missing or empty, or
- * an initial splitting run is missing. A subtopic whose replies stay unusable
+ * a splitting run before deepening is missing. A subtopic whose replies stay unusable
  * fails the stage with the panel's own error.
  */
 export class DeepenSubtopicSplittingError extends NamedError {}
@@ -48,18 +48,18 @@ export class DeepenSubtopicSplittingError extends NamedError {}
 const STAGE_ID = "deepen-subtopic-splitting";
 
 /**
- * How many rounds a run is deepened for. A second round asks again about every
+ * How many deepening rounds a splitting run has. A second round asks again about every
  * subtopic still over the gate; the prototype measured nothing gained by a third.
  */
 const MAX_ROUNDS = 2;
 
-/** The transcript, and the initial splitting runs this stage deepens. */
+/** The transcript, and the splitting runs this stage deepens. */
 export type DeepenSubtopicSplittingInput = {
 	readonly transcript: string;
-	readonly initialRuns: readonly (readonly Subtopic[])[];
+	readonly splittingRunsBeforeDeepening: readonly (readonly Subtopic[])[];
 };
 
-/** Every deepened run, in run order: one per initial run. */
+/** Every splitting run after deepening, in run order. */
 export type DeepenSubtopicSplittingOutput = { readonly runs: readonly (readonly Subtopic[])[] };
 
 /** The object the `d13` prompt asks for. Its `verdict` is not read: no cuts means one step. */
@@ -159,8 +159,8 @@ function cutSubtopic({
 	return [first, ...later];
 }
 
-/** A run being deepened, and what the calls about it need. */
-type RunUnderDeepening = {
+/** A splitting run being deepened, and what the calls about it need. */
+type SplittingRunUnderDeepening = {
 	readonly transcript: string;
 	readonly runNumber: number;
 	readonly context: StageContext;
@@ -192,7 +192,7 @@ async function deepenSubtopic({
 	logger,
 	client,
 	sendGate,
-}: RunUnderDeepening & { readonly subtopic: Subtopic; readonly round: number }): Promise<{
+}: SplittingRunUnderDeepening & { readonly subtopic: Subtopic; readonly round: number }): Promise<{
 	readonly pieces: readonly Subtopic[];
 	readonly cost: StageCost | null;
 }> {
@@ -201,7 +201,7 @@ async function deepenSubtopic({
 		return { pieces: [subtopic], cost: null };
 	}
 	const sent = await sendJsonWithResends({
-		what: `Deepening run ${runNumber}, round ${round}, subtopic "${subtopic.title}"`,
+		what: `Deepening splitting run ${runNumber}, round ${round}, subtopic "${subtopic.title}"`,
 		messages: buildDeepeningMessages({ passage }),
 		stageId: STAGE_ID,
 		context,
@@ -216,7 +216,7 @@ async function deepenSubtopic({
 }
 
 /**
- * Deepens one initial splitting run. Each round sends every subtopic over the
+ * Deepens one splitting run. Each deepening round sends every subtopic over the
  * size gate, as many at once as the stage's `callConcurrency` allows — one at a
  * time when it is unset — and puts each one's pieces back in its place, so how
  * many are sent together never changes the result. When a round cuts nothing,
@@ -224,20 +224,22 @@ async function deepenSubtopic({
  * whose every send fails fails the stage, rather than being left whole as
  * though the model had called it one step.
  *
- * @param args - The transcript, the run, and what the calls need.
- * @param args.transcript - The transcript the run's spans index into.
- * @param args.initialRun - The initial splitting run to deepen.
- * @param args.runNumber - The run, counting from 1, for the log and any failure.
+ * @param args - The transcript, the splitting run, and what the calls need.
+ * @param args.transcript - The transcript the splitting run's spans index into.
+ * @param args.splittingRunBeforeDeepening - The splitting run to deepen.
+ * @param args.runNumber - The splitting run, counting from 1, for the log and any failure.
  * @param args.context - The current lecture run context.
  * @param args.logger - The stage's logger.
  * @param args.client - The OpenAI client the calls go through.
- * @returns The deepened run, and what its calls cost — `null` when none was over the gate.
+ * @returns The splitting run after deepening, and what its calls cost — `null` when none was over the gate.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino Logger and OpenAI client are library types that are not deeply readonly
-async function deepenRun({
-	initialRun,
+async function deepenSplittingRun({
+	splittingRunBeforeDeepening,
 	...underDeepening
-}: RunUnderDeepening & { readonly initialRun: readonly Subtopic[] }): Promise<{
+}: SplittingRunUnderDeepening & {
+	readonly splittingRunBeforeDeepening: readonly Subtopic[];
+}): Promise<{
 	readonly run: readonly Subtopic[];
 	readonly cost: StageCost | null;
 }> {
@@ -246,7 +248,7 @@ async function deepenRun({
 		config: context.config,
 		stageId: STAGE_ID,
 	})?.callConcurrency;
-	let subtopics = initialRun;
+	let subtopics = splittingRunBeforeDeepening;
 	let cost: StageCost | null = null;
 	for (let round = 1; round <= MAX_ROUNDS; round += 1) {
 		const deepened = await mapWithConcurrency({
@@ -267,19 +269,19 @@ async function deepenRun({
 }
 
 /**
- * Makes the panel of deepened runs, one per initial run, resuming from any an
- * earlier launch saved.
+ * Deepens every splitting run of the panel, resuming from any an earlier launch
+ * saved.
  *
  * @param args - The stage's input, context and dependencies.
- * @param args.input - The transcript and the initial runs.
+ * @param args.input - The transcript and the splitting runs before deepening.
  * @param args.context - The current lecture run context.
  * @param args.logger - The run's logger, on which each model call is recorded.
  * @param args.client - The OpenAI client the calls go through.
  * @param args.sendGate - The run's turns to send, which every call waits on.
- * @returns Every deepened run, what this launch's calls cost, and the run files.
+ * @returns Every splitting run after deepening, what this launch's calls cost, and the run files.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
-function deepenRuns({
+function deepenSplittingRuns({
 	input,
 	context,
 	logger,
@@ -293,9 +295,9 @@ function deepenRuns({
 		context,
 		...splittingPanel(context),
 		makeRun: ({ runNumber }) =>
-			deepenRun({
+			deepenSplittingRun({
 				transcript: input.transcript,
-				initialRun: input.initialRuns[runNumber - 1] ?? [],
+				splittingRunBeforeDeepening: input.splittingRunsBeforeDeepening[runNumber - 1] ?? [],
 				runNumber,
 				context,
 				logger,
@@ -306,11 +308,11 @@ function deepenRuns({
 }
 
 /**
- * Reads the transcript and every initial splitting run.
+ * Reads the transcript and every splitting run before deepening.
  *
  * @param context - The current lecture run context.
- * @returns The transcript, trimmed, and the initial runs in run order.
- * @throws {DeepenSubtopicSplittingError} If the transcript is missing or empty, or an initial run is missing.
+ * @returns The transcript, trimmed, and the splitting runs in run order.
+ * @throws {DeepenSubtopicSplittingError} If the transcript is missing or empty, or a splitting run is missing.
  */
 async function readInput(context: StageContext): Promise<DeepenSubtopicSplittingInput> {
 	const { transcript, runs } = await readTranscriptAndRuns({
@@ -318,7 +320,7 @@ async function readInput(context: StageContext): Promise<DeepenSubtopicSplitting
 		panelStage: "initial-subtopic-splitting",
 		fail: (message) => new DeepenSubtopicSplittingError(message),
 	});
-	return { transcript, initialRuns: runs };
+	return { transcript, splittingRunsBeforeDeepening: runs };
 }
 
 /**
@@ -331,5 +333,5 @@ export const createDeepenSubtopicSplittingStage: ModelStageFactory<
 > = defineModelStage({
 	stageId: STAGE_ID,
 	getInput: readInput,
-	run: deepenRuns,
+	run: deepenSplittingRuns,
 });
