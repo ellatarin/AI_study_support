@@ -18,7 +18,7 @@ import {
 	sentUserMessage,
 	stubbedCallCost,
 	transcriptDivision,
-	transcriptSecondOpening,
+	transcriptSecondStartWords,
 	transcriptText,
 	unusableTranscripts,
 	useStubLogger,
@@ -44,22 +44,22 @@ const STAGE_ID = "initial-subtopic-splitting";
 
 /**
  * A reply dividing the fixture transcript as {@link transcriptDivision} does,
- * the second subtopic opening at `secondQuote`.
+ * the second subtopic starting at `secondStartWords`.
  */
-function splitReply({ secondQuote }: { readonly secondQuote: string }): string {
-	const quotes = ["Today we are covering", secondQuote];
+function splitReply({ secondStartWords }: { readonly secondStartWords: string }): string {
+	const startWords = ["Today we are covering", secondStartWords];
 	return JSON.stringify({
 		subtopics: transcriptDivision.map((subtopic, index) => ({
 			id: index + 1,
 			label: subtopic.title,
 			groupedBecause: subtopic.why,
-			startsWith: quotes[index],
+			startsWith: startWords[index],
 		})),
 	});
 }
 
 /** Every run's model reply, when the model divides the transcript as intended. */
-const GOOD_REPLY = splitReply({ secondQuote: transcriptSecondOpening });
+const GOOD_REPLY = splitReply({ secondStartWords: transcriptSecondStartWords });
 
 /** How many runs the example config's panel holds. */
 const PANEL_SIZE = configuringStage({ stageId: STAGE_ID }).division.panelSize;
@@ -127,14 +127,14 @@ describe("createInitialSubtopicSplittingStage", () => {
 
 	it.each([
 		{
-			problem: "names opening words the transcript does not contain",
-			content: splitReply({ secondQuote: "mitochondria are the powerhouse" }),
+			problem: "gives start words the transcript does not contain",
+			content: splitReply({ secondStartWords: "mitochondria are the powerhouse" }),
 		},
 		{ problem: "is not an object", content: JSON.stringify("subtopics") },
 		{ problem: "holds no list of subtopics", content: JSON.stringify({ subtopics: "one" }) },
 		{ problem: "holds an empty list", content: JSON.stringify({ subtopics: [] }) },
 		{
-			problem: "gives a subtopic without its opening words",
+			problem: "gives a subtopic without its start words",
 			content: JSON.stringify({ subtopics: [{ label: "Opening", groupedBecause: "Why." }] }),
 		},
 	])("should resend a run when the reply $problem", async ({ content }) => {

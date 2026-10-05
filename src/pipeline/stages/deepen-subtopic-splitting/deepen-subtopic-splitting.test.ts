@@ -72,18 +72,18 @@ const HEAD_CUT = "injury and";
 const ONE_STEP = JSON.stringify({ verdict: "one step", cuts: [], heldBecause: "One thing." });
 
 /**
- * A reply dividing the section at each of `quotes`.
+ * A reply dividing the section at each of `startWords`.
  *
- * @param quotes - Where each new subtopic begins.
+ * @param startWords - Where each new subtopic begins.
  * @returns The reply's JSON.
  */
-function cutsAt(...quotes: readonly string[]): string {
+function cutsAt(...startWords: readonly string[]): string {
 	return JSON.stringify({
 		verdict: "divides",
-		cuts: quotes.map((quote) => ({
-			label: `From ${quote}`,
+		cuts: startWords.map((words) => ({
+			label: `From ${words}`,
 			groupedBecause: "Its own step.",
-			startsWith: quote,
+			startsWith: words,
 		})),
 	});
 }
@@ -337,7 +337,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		{ problem: "is not an object", content: JSON.stringify("cuts") },
 		{ problem: "holds no list of cuts", content: JSON.stringify({ cuts: "one" }) },
 		{
-			problem: "gives a cut without its opening words",
+			problem: "gives a cut without its start words",
 			content: JSON.stringify({ cuts: [{ label: "Piece", groupedBecause: "Why." }] }),
 		},
 	])("should resend a subtopic when the reply $problem", async ({ content }) => {

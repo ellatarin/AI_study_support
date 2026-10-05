@@ -11,8 +11,8 @@ import {
 	sliceSubtopics,
 } from "./division.js";
 
-// A short transcript with each case the cutting has to handle: a plain opening,
-// openings after a dropped "So" and a dropped "Right so", a connective that does
+// A short transcript with each case the cutting has to handle: plain start words,
+// start words after a dropped "So" and a dropped "Right so", a connective that does
 // not open its sentence, and a phrase ("the membrane") said twice.
 const TEXT =
 	"Welcome to the lecture. Today we cover cells. " +
@@ -25,50 +25,50 @@ function at(phrase: string): number {
 }
 
 describe("placeCuts", () => {
-	it("should start the first subtopic at the start of the text when its quote names somewhere else", () => {
-		expect(placeCuts({ text: TEXT, quotes: ["anything at all"] })).toEqual({ cuts: [0] });
+	it("should start the first subtopic at the start of the text when its start words name somewhere else", () => {
+		expect(placeCuts({ text: TEXT, startWords: ["anything at all"] })).toEqual({ cuts: [0] });
 	});
 
-	it("should cut at the quote when it matches the text exactly", () => {
-		expect(placeCuts({ text: TEXT, quotes: ["Welcome", "Today we cover cells"] })).toEqual({
+	it("should cut at the start words when they match the text exactly", () => {
+		expect(placeCuts({ text: TEXT, startWords: ["Welcome", "Today we cover cells"] })).toEqual({
 			cuts: [0, at("Today")],
 		});
 	});
 
-	it("should find a quote when its case and spacing differ from the text", () => {
-		expect(placeCuts({ text: TEXT, quotes: ["Welcome", "today   WE cover\ncells"] })).toEqual({
+	it("should find start words when their case and spacing differ from the text", () => {
+		expect(placeCuts({ text: TEXT, startWords: ["Welcome", "today   WE cover\ncells"] })).toEqual({
 			cuts: [0, at("Today")],
 		});
 	});
 
 	it.each([
-		{ dropped: "So", quote: "the first thing is the membrane", opening: "So the first" },
-		{ dropped: "Right so", quote: "we move on to transport", opening: "Right so we" },
-	])("should move the cut back to the sentence start when the quote drops a leading $dropped", ({
-		quote,
-		opening,
+		{ dropped: "So", words: "the first thing is the membrane", sentenceStart: "So the first" },
+		{ dropped: "Right so", words: "we move on to transport", sentenceStart: "Right so we" },
+	])("should move the cut back to the sentence start when the start words drop a leading $dropped", ({
+		words,
+		sentenceStart,
 	}) => {
-		expect(placeCuts({ text: TEXT, quotes: ["Welcome", quote] })).toEqual({
-			cuts: [0, at(opening)],
+		expect(placeCuts({ text: TEXT, startWords: ["Welcome", words] })).toEqual({
+			cuts: [0, at(sentenceStart)],
 		});
 	});
 
 	it("should leave the cut where it is when the word before it does not open its sentence", () => {
-		expect(placeCuts({ text: TEXT, quotes: ["Welcome", "proteins sit in it"] })).toEqual({
+		expect(placeCuts({ text: TEXT, startWords: ["Welcome", "proteins sit in it"] })).toEqual({
 			cuts: [0, at("proteins sit")],
 		});
 	});
 
-	it("should search forward from the previous cut when the quote also appears earlier", () => {
+	it("should search forward from the previous cut when the start words also appear earlier", () => {
 		const secondMention = TEXT.indexOf("the membrane", at("the membrane") + 1);
 		expect(
-			placeCuts({ text: TEXT, quotes: ["Welcome", "Right so we move on", "the membrane"] }),
+			placeCuts({ text: TEXT, startWords: ["Welcome", "Right so we move on", "the membrane"] }),
 		).toEqual({ cuts: [0, at("Right so"), secondMention] });
 	});
 
-	it("should report the quote rather than guess when it is not in the text", () => {
+	it("should report the start words rather than guess when they are not in the text", () => {
 		expect(
-			placeCuts({ text: TEXT, quotes: ["Welcome", "mitochondria are the powerhouse"] }),
+			placeCuts({ text: TEXT, startWords: ["Welcome", "mitochondria are the powerhouse"] }),
 		).toEqual({
 			unplaced: "mitochondria are the powerhouse",
 		});
@@ -142,11 +142,11 @@ describe("readDivision", () => {
 describe("isReplySubtopic", () => {
 	it.each([
 		{
-			held: "a label, a reason and opening words",
+			held: "a label, a reason and start words",
 			value: { label: "a", groupedBecause: "b", startsWith: "c" },
 			is: true,
 		},
-		{ held: "no opening words", value: { label: "a", groupedBecause: "b" }, is: false },
+		{ held: "no start words", value: { label: "a", groupedBecause: "b" }, is: false },
 		{ held: "a string", value: "a", is: false },
 	])("should recognise a reply entry as a subtopic only when it holds $held", ({ value, is }) => {
 		expect(isReplySubtopic(value)).toBe(is);

@@ -1119,7 +1119,7 @@ The retry sits above the SDK's own, which retries only failures at the HTTP leve
 
 **The model never returns text.** Every call is asked only where a subtopic begins, as its first eight to twelve words. Code finds those words in the transcript and cuts there, so each subtopic is sliced from the original and the division always reproduces the transcript exactly. Every stage checks this before writing: its subtopics, joined in order, must equal the transcript character for character. A mismatch is a bug and fails the stage. "The transcript" here is `transcript.txt` with the whitespace at its two ends removed, once, as it is read: several transcripts begin or end with stray spaces, which carry nothing, and removing them is what the prototype did, so the model is sent exactly what the prototype sent.
 
-**Finding a quote.** A quote is searched for with case and whitespace ignored, forward from the previous cut, because the model tidies capitalisation and spacing even when told not to. The cut is made in the original text at the matching position. When the quote begins one or two words into its sentence — the model having dropped the lecturer's opening "So", "Now" or similar — the cut moves back to the start of the sentence, so no subtopic ends halfway through one. A quote that cannot be found is never guessed at.
+**Finding the start words.** A subtopic's start words are searched for with case and whitespace ignored, forward from the previous cut, because the model tidies capitalisation and spacing even when told not to. The cut is made in the original text at the matching position. When the start words begin one or two words into their sentence — the model having dropped the lecturer's opening "So", "Now" or similar — the cut moves back to the start of the sentence, so no subtopic ends halfway through one. Start words that cannot be found are never guessed at.
 
 **Configuration.** Each of the two model-calling stages has its own model and `concurrency`, as every stage does, and `deepen-subtopic-splitting` also has `callConcurrency` (§6); the prototype's model is `google/gemini-3.7-flash`. The division's own settings live in one required `division` section of `pipeline-config.json`: `panelSize` (18), `bar` (9, the number of the panel's runs a cut site needs), and `sizeGateWords` (600). Eighteen runs make the division steadier from one panel to the next than nine. Estimated from how often each cut site was cut in the prototype's 18 `d13` runs, leaving out sites the user ruled either way, two panels disagree on 3.8 cut sites across the eight lectures at nine runs with a bar of five, 2.5 at eighteen with a bar of ten and 2.2 at a bar of nine; a panel makes 3.9, 3.2 and 3.1 errors against the user's rulings. Eighteen runs cost about $0.85 more per lecture than nine. At a bar of nine, a cut site made by exactly half the runs is kept. On the live pipeline's own 18 runs, the division chosen matched the one chosen from the prototype's 18 runs at every cut site on six of the eight lectures, and the user judged the three cuts that differed acceptable (`docs/quality/segmentation-prototype/DIVISION-AND-GROUPING-RESULTS.md`). The tolerance within which two cuts are one cut site — one percent of the transcript's length — is fixed in code, not configured: it is a measured property of how runs disagree, not a choice.
 
@@ -1128,9 +1128,9 @@ The retry sits above the SDK's own, which retries only failures at the HTTP leve
 **Input:** `Transcript/transcript.txt`
 **Output:** `Initial subtopics/run-01.json` … `run-18.json`
 
-Makes `panelSize` splitting runs, each an independent call that sends the whole transcript with the `s6` prompt and gets back the opening words of every subtopic. Each run is written as soon as it is complete, holding each subtopic's start and end position in the transcript, its title, and the model's one-sentence reason for grouping it. The prompt asks for each title as `label`, and the prompt is carried over word for word, so the reply's `label` becomes `title` as the reply is read; nothing past the reply calls it a label. A re-launched stage keeps the run files already written and makes only the missing ones.
+Makes `panelSize` splitting runs, each an independent call that sends the whole transcript with the `s6` prompt and gets back the start words of every subtopic. Each run is written as soon as it is complete, holding each subtopic's start and end position in the transcript, its title, and the model's one-sentence reason for grouping it. The prompt asks for each title as `label`, and the prompt is carried over word for word, so the reply's `label` becomes `title` as the reply is read; nothing past the reply calls it a label. A re-launched stage keeps the run files already written and makes only the missing ones.
 
-A send can fail in four ways: no reply, a reply that is not JSON, a reply of the wrong shape, or a quote that cannot be found. A quote that cannot be found counts as a wrong shape, so all four take the panel's retry: up to three sends for one run, then the stage fails. A division missing a cut would cast a wrong vote on that cut site, and the principle is to fail loudly rather than record a partial result.
+A send can fail in four ways: no reply, a reply that is not JSON, a reply of the wrong shape, or start words that cannot be found. Start words that cannot be found count as a wrong shape, so all four take the panel's retry: up to three sends for one run, then the stage fails. A division missing a cut would cast a wrong vote on that cut site, and the principle is to fail loudly rather than record a partial result.
 
 #### `deepen-subtopic-splitting`
 
@@ -1167,10 +1167,11 @@ The stage fails when fewer than `panelSize` deepened runs are present.
 ```typescript
 // src/pipeline/stages/division.ts — shared by the division stages and retitle-subtopics
 type Subtopic = { start: number; end: number; title: string; why: string }
-placeCuts(args: { text: string; quotes: readonly string[] }):
+placeCuts(args: { text: string; startWords: readonly string[] }):
   { cuts: readonly number[] } | { unplaced: string }
-// Finds each quote in turn, forward from the previous cut, and returns where each subtopic starts —
-// the first always at 0, whatever its quote. The first quote that cannot be found is returned instead.
+// Finds each subtopic's start words in turn, forward from the previous cut, and returns where each subtopic
+// starts — the first always at 0, whatever its start words. The first start words that cannot be found are
+// returned instead.
 sliceSubtopics(args: { text: string; cuts: readonly number[]; named: readonly { title: string; why: string }[] }): readonly Subtopic[]
 assertLossless(args: { text: string; subtopics: readonly Subtopic[] }): void
 subtopicText(args: { text: string; subtopic: Pick<Subtopic, "start" | "end"> }): string

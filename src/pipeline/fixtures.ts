@@ -707,10 +707,10 @@ export const transcriptText = "Today we are covering cell injury and the immune 
 export const paddedTranscriptText = `  ${transcriptText}\n\n`;
 
 /** Where the second subtopic of {@link transcriptDivision} opens. */
-export const transcriptSecondOpening = "cell injury and the immune system";
+export const transcriptSecondStartWords = "cell injury and the immune system";
 
-/** Where {@link transcriptSecondOpening} begins in {@link transcriptText}. */
-const SECOND_START = transcriptText.indexOf(transcriptSecondOpening);
+/** Where {@link transcriptSecondStartWords} begins in {@link transcriptText}. */
+const SECOND_SUBTOPIC_START = transcriptText.indexOf(transcriptSecondStartWords);
 
 /**
  * {@link transcriptText} divided in two, as a splitting run saves it: what the
@@ -718,8 +718,13 @@ const SECOND_START = transcriptText.indexOf(transcriptSecondOpening);
  * starts from.
  */
 export const transcriptDivision: readonly Subtopic[] = [
-	{ start: 0, end: SECOND_START, title: "Opening", why: "The framing." },
-	{ start: SECOND_START, end: transcriptText.length, title: "Cell injury", why: "One topic." },
+	{ start: 0, end: SECOND_SUBTOPIC_START, title: "Opening", why: "The framing." },
+	{
+		start: SECOND_SUBTOPIC_START,
+		end: transcriptText.length,
+		title: "Cell injury",
+		why: "One topic.",
+	},
 ];
 
 /**

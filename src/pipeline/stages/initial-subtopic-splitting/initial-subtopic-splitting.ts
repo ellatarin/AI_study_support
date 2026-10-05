@@ -67,8 +67,8 @@ function isSplitReply(value: unknown): value is SplitReply {
 }
 
 /**
- * Cuts the transcript where a reply says each subtopic begins. A reply naming an
- * opening the transcript does not contain is as unusable as one that is not
+ * Cuts the transcript where a reply says each subtopic begins. A reply giving
+ * start words the transcript does not contain is as unusable as one that is not
  * JSON, so it is returned as a failure for the panel to resend.
  *
  * @param args - The transcript, and the reply's subtopics.
@@ -85,11 +85,11 @@ function divideAsReplied({
 }): { readonly reply: readonly Subtopic[] } | { readonly failure: string } {
 	const placed = placeCuts({
 		text: transcript,
-		quotes: subtopics.map((subtopic) => subtopic.startsWith),
+		startWords: subtopics.map((subtopic) => subtopic.startsWith),
 	});
 	if ("unplaced" in placed) {
 		return {
-			failure: `The model's opening words "${placed.unplaced}" are not in the transcript after the previous cut`,
+			failure: `The model's start words "${placed.unplaced}" are not in the transcript after the previous cut`,
 		};
 	}
 	const division = sliceSubtopics({

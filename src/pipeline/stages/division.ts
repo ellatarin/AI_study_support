@@ -2,7 +2,7 @@
  * Cutting a transcript into subtopics at the places a model named, shared by
  * the three division stages (technical-design.md §5, "Dividing the transcript").
  *
- * The model never returns text, only the opening words of each subtopic. Every
+ * The model never returns text, only the start words of each subtopic. Every
  * subtopic is sliced from the transcript itself, so a division reproduces the
  * transcript exactly whatever the model wrote — and {@link assertLossless}
  * checks that it does before anything is saved.
@@ -150,7 +150,7 @@ export class DivisionNotLosslessError extends NamedError {}
 
 /**
  * Words the lecturer hinges one subtopic to the next with, and which the model
- * sometimes leaves off the opening it quotes. Measured in the prototype: 12 of
+ * sometimes leaves off the start words it returns. Measured in the prototype: 12 of
  * 565 cuts, every one a bare "So".
  */
 const CONNECTIVES: ReadonlySet<string> = new Set([
@@ -181,7 +181,7 @@ function isSpace(character: string | undefined): boolean {
 
 /**
  * A whitespace-free, lower-cased view of the text, with a map from each position
- * in it back to the original. Searching this view finds a quote whose case or
+ * in it back to the original. Searching this view finds start words whose case or
  * spacing the model tidied; the cut is then made in the original.
  *
  * @param args - The text to index.
@@ -212,7 +212,7 @@ function foldedIndex({ text }: { readonly text: string }): {
  *
  * @param args - The text, the cut, and how far back it may go.
  * @param args.text - The transcript.
- * @param args.cut - Where the located quote begins.
+ * @param args.cut - Where the located start words begin.
  * @param args.notBefore - The previous cut, which this one may never reach.
  * @returns The cut, moved back over any connectives that open its sentence.
  */
@@ -253,31 +253,31 @@ function overLeadingConnectives({
 
 /**
  * Finds where each subtopic begins. The first always begins at the start of the
- * text, whatever its quote; each later quote is searched for with case and
- * whitespace ignored, forward from the previous cut. A quote that cannot be
- * found is reported, never guessed at.
+ * text, whatever its start words; each later subtopic's start words are searched
+ * for with case and whitespace ignored, forward from the previous cut. Start
+ * words that cannot be found are reported, never guessed at.
  *
- * @param args - The text, and each subtopic's opening words in order.
+ * @param args - The text, and each subtopic's start words in order.
  * @param args.text - The transcript being divided.
- * @param args.quotes - Every subtopic's opening words, the first included.
- * @returns Each subtopic's start position, or the first quote that could not be placed.
+ * @param args.startWords - Every subtopic's start words, the first included.
+ * @returns Each subtopic's start position, or the first start words that could not be placed.
  */
 export function placeCuts({
 	text,
-	quotes,
+	startWords,
 }: {
 	readonly text: string;
-	readonly quotes: readonly string[];
+	readonly startWords: readonly string[];
 }): { readonly cuts: readonly number[] } | { readonly unplaced: string } {
 	const { folded, origin } = foldedIndex({ text });
 	const cuts: number[] = [0];
 	let searchFrom = 0;
-	for (const quote of quotes.slice(1)) {
-		const needle = quote.replace(/\s+/gu, "").toLowerCase();
+	for (const words of startWords.slice(1)) {
+		const needle = words.replace(/\s+/gu, "").toLowerCase();
 		const found = needle === "" ? -1 : folded.indexOf(needle, searchFrom);
 		const position = origin[found];
 		if (found === -1 || position === undefined) {
-			return { unplaced: quote };
+			return { unplaced: words };
 		}
 		cuts.push(overLeadingConnectives({ text, cut: position, notBefore: cuts.at(-1) ?? 0 }));
 		searchFrom = found + 1;

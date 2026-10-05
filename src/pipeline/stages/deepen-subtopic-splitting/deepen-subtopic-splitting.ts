@@ -110,10 +110,10 @@ function placeWithin({
 	let kept: readonly ReplySubtopic[] = [];
 	let positions: readonly number[] = [0];
 	for (const cut of cuts) {
-		// The first quote stands for the passage's own start, which is never searched for.
+		// The first start words stand for the passage's own start, which is never searched for.
 		const placed = placeCuts({
 			text: passage,
-			quotes: ["", ...[...kept, cut].map((proposed) => proposed.startsWith)],
+			startWords: ["", ...[...kept, cut].map((proposed) => proposed.startsWith)],
 		});
 		if ("cuts" in placed) {
 			kept = [...kept, cut];

@@ -156,3 +156,8 @@ Two things any folder or file rename must also fix: each manifest's `filesWritte
 - `isComplete` and `isStageComplete` stay. In plain English they give the right answer: a skipped stage is complete, and a stage whose files were deleted, or whose panel failed, is not.
 - "Settled" and "finished" are dropped for this idea. The names become `CompletedStageEntry` (was `SettledStageEntry`), `isCompletedEntry` (was `hasSettledOutput`), `completedEntry` (was `finishedEntry`) and `COMPLETED_STATUSES` (was `FINISHED_STATUSES`).
 - The glossary entry **Settled** becomes **Completed stage**, with "settled" on its _Avoid_ list.
+
+2026-10-05, the user's ruling on A22, which changes it:
+
+- The words a model returns to mark where a subtopic starts are **start words**, not "subtopic start". `subtopicStarts` would sit beside a subtopic's numeric `start` and read as positions. Names: `startWords`, `secondStartWords`, `transcriptSecondStartWords`; the number `SECOND_START` becomes `SECOND_SUBTOPIC_START`, since it is a position. The glossary entry is renamed to match.
+- The file names `choice.json` and `changes.json` stay.

@@ -269,9 +269,9 @@ _Avoid_: segmentation, split (as a noun)
 The four stages that divide the transcript and group it: initial subtopic splitting, deepening, choosing the division, and grouping into topics. Retitling runs between the last two. It is not a division stage, because it changes only titles.
 _Avoid_: segmentation stages
 
-**Subtopic start**:
-The words a model returns to show where a subtopic starts. The code finds these words in the transcript and puts the cut there. So the model never returns the text of a subtopic.
-_Avoid_: opening, quote, opening words
+**Start words**:
+The words a model returns to show where a subtopic starts. The code finds these words in the transcript and puts the cut there. So the model never returns the text of a subtopic. A subtopic's `start` is a different thing: the position in the transcript where the cut is made.
+_Avoid_: subtopic start (it reads as the position), opening, quote, opening words
 
 **Reason**:
 A model's grounds for making a subtopic or topic one thing, stored beside its title.

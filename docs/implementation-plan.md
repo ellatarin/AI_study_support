@@ -593,13 +593,13 @@ The required `division` section — `panelSize`, `bar`, `sizeGateWords` — in `
 **Tests:**
 
 Unit tests for `division.ts` (no mocks):
-- `should start the first subtopic at the start of the text when its quote names somewhere else`
-- `should cut at the quote when it matches the text exactly`
-- `should find a quote when its case and spacing differ from the text`
-- `should move the cut back to the sentence start when the quote drops a leading $dropped` — `test.each` across one and two words
+- `should start the first subtopic at the start of the text when its start words name somewhere else`
+- `should cut at the start words when they match the text exactly`
+- `should find start words when their case and spacing differ from the text`
+- `should move the cut back to the sentence start when the start words drop a leading $dropped` — `test.each` across one and two words
 - `should leave the cut where it is when the word before it does not open its sentence`
-- `should search forward from the previous cut when the quote also appears earlier`
-- `should report the quote rather than guess when it is not in the text`
+- `should search forward from the previous cut when the start words also appear earlier`
+- `should report the start words rather than guess when they are not in the text`
 - `should reproduce the text exactly when the subtopics are joined`
 - `should give each subtopic its span, label and reason when the text is cut`
 - `should accept the division only when its subtopics leave $shape` — `test.each` across no gap, a gap, an overlap and a short ending
@@ -612,7 +612,7 @@ Unit tests for the stage (mock `callModel`):
 - `should send the transcript without its surrounding whitespace when a run is made`
 - `should save every run of the panel with each subtopic's span, label and reason when the stage completes`
 - `should record every run file as written when the stage completes`
-- `should resend a run when the reply $problem` — `test.each` across opening words the transcript does not contain, not an object, no list of subtopics, an empty list, and a subtopic without its opening words
+- `should resend a run when the reply $problem` — `test.each` across start words the transcript does not contain, not an object, no list of subtopics, an empty list, and a subtopic without its start words
 - `should make only the missing runs when an earlier launch saved some`
 - `should fail when a saved run holds $problem` — `test.each` across not a list and a subtopic without its reason
 - `should fail when the transcript is $state` — `test.each` across missing and blank
@@ -650,7 +650,7 @@ Unit tests (mock `callModel`):
 - `should stop after two rounds when a piece stays over the gate`
 - `should reproduce the transcript exactly when a deepened run is joined`
 - `should record every deepened run file as written when the stage completes`
-- `should resend a subtopic when the reply $problem` — `test.each` across not an object, no list of cuts, a cut without its opening words
+- `should resend a subtopic when the reply $problem` — `test.each` across not an object, no list of cuts, a cut without its start words
 - `should fail the stage without saving the run when a subtopic fails every send` — never recorded as one step
 - `should make only the missing runs when an earlier launch saved some`
 - `should fail when an initial splitting run is missing`
