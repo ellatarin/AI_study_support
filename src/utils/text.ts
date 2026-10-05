@@ -25,20 +25,24 @@ export function collapseWhitespace(text: string): string {
 	return text.replace(WHITESPACE_RUN, " ").trim();
 }
 
+/** A word ending in a consonant and `y`, whose plural ends in `ies`. */
+const CONSONANT_THEN_Y = /[^aeiou]y$/i;
+
 /**
- * Counts a thing in a sentence: the number, then the noun, pluralised with a
- * trailing `s` for any count but one.
+ * Counts a thing in a sentence: the number, then the noun, pluralised for any
+ * count but one.
  *
- * Every noun this is asked for takes a plain `s`; a noun that does not would
- * have to say so, and none of them arises here.
+ * A noun that ends in a consonant and `y` takes `ies`. Every other noun takes a
+ * plain `s`. No noun this is asked for is irregular.
  *
  * @param args - What is being counted.
  * @param args.count - How many there are.
  * @param args.noun - The singular noun.
  * @returns The count and the noun, agreeing with each other.
  * @example
- * pluralise({ count: 1, noun: "lecture" }); // "1 lecture"
- * pluralise({ count: 3, noun: "call" });    // "3 calls"
+ * pluralise({ count: 1, noun: "lecture" });    // "1 lecture"
+ * pluralise({ count: 3, noun: "call" });       // "3 calls"
+ * pluralise({ count: 2, noun: "deficiency" }); // "2 deficiencies"
  */
 export function pluralise({
 	count,
@@ -47,5 +51,8 @@ export function pluralise({
 	readonly count: number;
 	readonly noun: string;
 }): string {
-	return `${count} ${noun}${count === 1 ? "" : "s"}`;
+	if (count === 1) {
+		return `${count} ${noun}`;
+	}
+	return `${count} ${CONSONANT_THEN_Y.test(noun) ? `${noun.slice(0, -1)}ies` : `${noun}s`}`;
 }

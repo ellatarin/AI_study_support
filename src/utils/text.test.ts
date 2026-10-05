@@ -46,4 +46,12 @@ describe("pluralise", () => {
 	])("should read $expected when $scenario", ({ count, expected }) => {
 		expect(pluralise({ count, noun: "lecture" })).toBe(expected);
 	});
+
+	it.each([
+		{ noun: "deficiency", count: 2, expected: "2 deficiencies" },
+		{ noun: "deficiency", count: 1, expected: "1 deficiency" },
+		{ noun: "day", count: 2, expected: "2 days" },
+	])("should read $expected when the noun ends in y", ({ noun, count, expected }) => {
+		expect(pluralise({ count, noun })).toBe(expected);
+	});
 });

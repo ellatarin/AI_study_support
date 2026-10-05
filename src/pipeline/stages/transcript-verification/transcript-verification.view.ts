@@ -174,8 +174,8 @@ function renderDeficiencyTypeCounts(deficiencies: readonly QaDeficiency[]): stri
 				DEFICIENCY_TYPE_PRESENTATION[left].rank - DEFICIENCY_TYPE_PRESENTATION[right].rank,
 		)
 		.map(([type, count]) => `| ${DEFICIENCY_TYPE_PRESENTATION[type].label} | ${count} |`);
-	const table = ["| Category | Findings |", "| --- | --- |", ...rows].join("\n");
-	return ["## Findings by category", table].join(BLOCK_BREAK);
+	const table = ["| Deficiency type | Deficiencies |", "| --- | --- |", ...rows].join("\n");
+	return ["## Deficiencies by deficiency type", table].join(BLOCK_BREAK);
 }
 
 /**
@@ -187,9 +187,9 @@ function renderDeficiencyTypeCounts(deficiencies: readonly QaDeficiency[]): stri
  */
 function renderDeficiencies(deficiencies: readonly QaDeficiency[]): string {
 	if (deficiencies.length === 0) {
-		return ["## Findings", "The checker raised nothing."].join(BLOCK_BREAK);
+		return ["## Deficiencies", "The checker raised nothing."].join(BLOCK_BREAK);
 	}
-	const blocks: string[] = ["## Findings"];
+	const blocks: string[] = ["## Deficiencies"];
 	let openDeficiencyType: QaDeficiencyType | null = null;
 	for (const deficiency of inReadingOrder(deficiencies)) {
 		if (deficiency.type !== openDeficiencyType) {
@@ -243,7 +243,7 @@ function renderConsiderations(considered: readonly QaConsideration[]): string {
  * renderVerificationReport({ report }); // "# Transcript verification\n\nVerdict **fail**, …"
  */
 export function renderVerificationReport({ report }: { readonly report: QaCheckerReport }): string {
-	const summary = `Verdict **${report.overallVerdict}**, coverage **${report.coverageScore}/100**, **${pluralise({ count: report.deficiencies.length, noun: "finding" })}**.`;
+	const summary = `Verdict **${report.overallVerdict}**, coverage **${report.coverageScore}/100**, **${pluralise({ count: report.deficiencies.length, noun: "deficiency" })}**.`;
 	const sections = [
 		"# Transcript verification",
 		summary,

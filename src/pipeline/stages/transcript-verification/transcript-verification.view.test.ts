@@ -61,7 +61,7 @@ describe("renderVerificationReport", () => {
 		expect(document).toContain("# Transcript verification");
 		expect(document).toContain("**fail**");
 		expect(document).toContain("**72/100**");
-		expect(document).toContain("**2 findings**");
+		expect(document).toContain("**2 deficiencies**");
 	});
 
 	it("should say the checker raised nothing when the report carries no deficiencies", () => {
@@ -69,7 +69,7 @@ describe("renderVerificationReport", () => {
 
 		expect(document).toContain("# Transcript verification");
 		expect(document).toContain("The checker raised nothing");
-		expect(document).toContain("**0 findings**");
+		expect(document).toContain("**0 deficiencies**");
 	});
 
 	it("should count the deficiencies of each deficiency type when the report carries several", () => {
@@ -91,7 +91,7 @@ describe("renderVerificationReport", () => {
 		});
 
 		expect(document).toContain(
-			"| Category | Findings |\n| --- | --- |\n| Distortion | 1 |\n| Omission | 1 |",
+			"| Deficiency type | Deficiencies |\n| --- | --- |\n| Distortion | 1 |\n| Omission | 1 |",
 		);
 	});
 
