@@ -99,9 +99,9 @@ const BUSY_ERROR = { error: providerError(PROVIDER_BUSY_MESSAGE) };
  * Mocks the reply a busy provider produces: accepted with HTTP 200, but
  * carrying its own explanation where the choices should be.
  *
- * @param args - What sets this refusal apart; the busy provider's sentence and no usage by default.
+ * @param args - What sets this provider error apart; the busy provider's sentence and no usage by default.
  * @param args.message - The provider's sentence.
- * @param args.usage - The usage the refusal reports, if any.
+ * @param args.usage - The usage the provider error reports, if any.
  */
 function mockProviderError({
 	message = PROVIDER_BUSY_MESSAGE,
@@ -124,9 +124,9 @@ function warningsLogged(): readonly unknown[] {
 }
 
 /**
- * The warning a refusal of the busy provider's is logged with.
+ * The warning the busy provider's provider error is logged with.
  *
- * @param send - Which send was refused, counting from 1.
+ * @param send - Which send failed, counting from 1.
  * @returns The warning's payload.
  */
 function providerErrorWarning(send: number): Record<string, unknown> {
@@ -396,7 +396,7 @@ describe("makeCompletionCall", () => {
 
 	// OpenRouter answers some upstream failures with HTTP 200 and an error object
 	// where the choices should be, so the SDK sees a success and hands the body
-	// back. Such a refusal can be transient, so it is sent again, pausing two
+	// back. Such a provider error can be transient, so it is sent again, pausing two
 	// seconds and then four (technical-design.md §6).
 	describe("when an accepted reply carries the provider's error", () => {
 		beforeEach(() => {
@@ -408,7 +408,7 @@ describe("makeCompletionCall", () => {
 			vi.useRealTimers();
 		});
 
-		it("should resend a refused call and return the reply when a later send is accepted", async () => {
+		it("should resend a call that met a provider error and return the reply when a later send is accepted", async () => {
 			mockProviderError();
 			mockProviderError();
 			mockCompletionReturning();
@@ -418,7 +418,7 @@ describe("makeCompletionCall", () => {
 			expect(result.content).toBe(ANSWER);
 		});
 
-		it("should fail with the last refusal, naming the model and the stage, when every send is refused", async () => {
+		it("should fail with the last provider error, naming the model and the stage, when every send meets one", async () => {
 			mockProviderError();
 			mockProviderError();
 			mockProviderError({ message: "Upstream rate limit reached." });
@@ -431,9 +431,9 @@ describe("makeCompletionCall", () => {
 			expect(error.message).toContain("transcript-structuring");
 		});
 
-		// The error reaches the user only when every send is refused; the log is
-		// where a refusal that a resend got past can still be seen.
-		it("should log each refusal as a warning with which send it was and the provider's sentence when a resend gets past it", async () => {
+		// The error reaches the user only when every send meets a provider error; the
+		// log is where a provider error that a resend got past can still be seen.
+		it("should log each provider error as a warning with which send it was and the provider's sentence when a resend gets past it", async () => {
 			mockProviderError();
 			mockProviderError();
 			mockCompletionReturning();
@@ -446,16 +446,16 @@ describe("makeCompletionCall", () => {
 		it.each([
 			{
 				scenario: "reports its own usage, which is counted",
-				refusal: { usage: stubbedReplyUsage },
+				erroredReply: { usage: stubbedReplyUsage },
 				expected: stubbedCallsCost({ calls: 2 }),
 			},
 			{
 				scenario: "reports no usage, and so costs nothing",
-				refusal: {},
+				erroredReply: {},
 				expected: { ...stubbedCallCost, callCount: 2 },
 			},
-		])("should count the refused send as a call when the refusal $scenario", async ({
-			refusal: erroredReply,
+		])("should count the send that met a provider error as a call when the provider error $scenario", async ({
+			erroredReply,
 			expected,
 		}) => {
 			mockProviderError(erroredReply);
@@ -555,7 +555,7 @@ describe("makeCompletionCall", () => {
 			body: { error: { message: "No endpoints found for this model.", code: 404 } },
 		},
 		{
-			scenario: "the request is rejected for a reason the pipeline does not special-case",
+			scenario: "the provider reports an error the pipeline does not special-case",
 			status: 400,
 			body: { error: { message: "Provider returned error", code: "invalid_request_error" } },
 		},
@@ -578,7 +578,7 @@ describe("makeCompletionCall", () => {
 		expect(error.message).toBe("socket exploded");
 	});
 
-	it("should keep the provider's own explanation when a rejected request is reported", async () => {
+	it("should keep the provider's own explanation when a provider error is reported", async () => {
 		mockCompletion().reply(404, { error: { message: "No endpoints found for this model." } });
 
 		const error = await captureError(call());

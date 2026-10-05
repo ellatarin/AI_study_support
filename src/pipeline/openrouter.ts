@@ -43,7 +43,7 @@ export const API_KEY_VARIABLE = "OPENROUTER_API_KEY";
 type OpenRouterSettings = PipelineConfig["openRouter"];
 
 /**
- * Thrown when a completion is rejected because the prompt exceeds the model's
+ * Thrown when the provider reports an error because the prompt exceeds the model's
  * context window. Surfaced as a distinct type so the runner can advise switching
  * to a larger-context model rather than treating it as a generic failure
  * (technical-design.md §8).
@@ -52,16 +52,16 @@ export class ContextLengthError extends NamedError {}
 
 /**
  * Thrown when the configuration holds no entry for the stage a completion was
- * asked for, so there is no model to call. Named separately from the rejections
+ * asked for, so there is no model to call. Named separately from the provider errors
  * below because it is settled before the request is made: nothing was sent, and
  * the remedy is an edit to the config file (technical-design.md §6, §8).
  */
 export class UnconfiguredStageError extends NamedError {}
 
 /**
- * Thrown when the provider rejects a completion request for any reason the
- * pipeline does not treat specially — an unavailable model, a refused request,
- * an unreachable endpoint. {@link ContextLengthError} is the one rejection with a
+ * Thrown when the provider reports an error for any reason the
+ * pipeline does not treat specially — an unavailable model, a busy provider,
+ * an unreachable endpoint. {@link ContextLengthError} is the one provider error with a
  * remedy of its own and keeps its own type (technical-design.md §8).
  */
 export class ProviderError extends NamedError {}
@@ -191,9 +191,9 @@ function stageConfigFor(options: {
 }
 
 /**
- * The one wording a rejected completion is reported in.
+ * The one wording a provider error is reported in.
  *
- * A rejection reaches this module by two routes — the SDK raising on a failure
+ * A provider error reaches this module by two routes — the SDK raising on a failure
  * status, and a provider error arriving inside an accepted reply — and a reader
  * has no reason to care which. Both name the model, the stage, and the
  * provider's own sentence, in the same order, because they describe the same
@@ -203,7 +203,7 @@ function stageConfigFor(options: {
  * @param options.stageId - The stage the call was made for.
  * @param options.modelId - The model the stage is configured to use.
  * @param options.providerMessage - The provider's own account of the failure.
- * @returns The message to report the rejection under.
+ * @returns The message to report the provider error under.
  */
 function providerErrorDescription(options: {
 	readonly stageId: StageId;
@@ -238,7 +238,7 @@ function providerErrorMessage(response: unknown): string | null {
 }
 
 /**
- * Renders a rejected completion as an error that names the model and the stage.
+ * Renders a provider error as an error that names the model and the stage.
  *
  * Every SDK failure arrives as an `APIError` carrying the provider's own words
  * and nothing else, so the model that was called has to be added here — it is
@@ -309,7 +309,7 @@ async function createCompletion(options: {
 
 /**
  * The `usage` a reply carries, read without trusting the SDK's type: OpenRouter
- * adds `cost` to it, and a provider's refusal arrives in the shape of a
+ * adds `cost` to it, and a provider error arrives in the shape of a
  * completion but need not carry any usage at all (technical-design.md §6, §7).
  *
  * @param response - The accepted completion reply.
@@ -338,12 +338,12 @@ function tokenCount(value: unknown): number {
  * A reply that carries no numeric cost is recorded as unknown with the reason,
  * never as zero and never as a failure: cost is telemetry, and the call has
  * already produced its output (technical-design.md §7). The one exception is a
- * provider's refusal that reports no cost, which is counted as costing nothing,
+ * provider error that reports no cost, which is counted as costing nothing,
  * because OpenRouter does not bill a request that produced no output (§6).
  *
- * @param args - The reply's usage, and whether the reply was a refusal.
+ * @param args - The reply's usage, and whether the reply carries a provider error.
  * @param args.usage - The reply's usage.
- * @param args.hasProviderError - Whether the reply carries the provider's refusal.
+ * @param args.hasProviderError - Whether the reply carries a provider error.
  * @returns The send's cost, or why it is unknown.
  */
 function replyCost({
@@ -381,9 +381,9 @@ export type CompletionRequest = {
  * What one send of a completion cost: its tokens and its dollar cost, both as
  * the reply reports them in its `usage` (technical-design.md §6, §7).
  *
- * @param args - The reply, and whether it was a refusal.
+ * @param args - The reply, and whether it carries a provider error.
  * @param args.response - The accepted completion reply.
- * @param args.hasProviderError - Whether the reply carries the provider's refusal.
+ * @param args.hasProviderError - Whether the reply carries a provider error.
  * @returns The send's cost.
  */
 function sendCost({
@@ -417,15 +417,15 @@ type AnsweredSend = {
 
 /**
  * Sends one completion and reads what came back: its text and cost, or the
- * provider's refusal and its cost, to be sent again.
+ * provider error and its cost, to be sent again.
  *
  * @param options - As {@link makeCompletionCall}, with the stage's settings and the client resolved.
  * @param options.stageConfig - The stage's model and tuning.
  * @param options.openAiClient - The client to call through.
- * @returns The completion's text, cost and any provider error that came with it, or the refusal and its cost.
+ * @returns The completion's text, cost and any provider error that came with it, or the provider error and its cost.
  * @throws {ContextLengthError} If the prompt exceeds the model's context window.
- * @throws {ProviderError} If the API rejects the call with a failure status.
- * @throws {NoCompletionChoicesError} If the reply carries neither choices nor a refusal.
+ * @throws {ProviderError} If the API answers the call with a failure status.
+ * @throws {NoCompletionChoicesError} If the reply carries neither choices nor a provider error.
  */
 async function sendCompletionOnce(
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- as for makeCompletionCall: library types that are not deeply readonly
@@ -455,7 +455,7 @@ async function sendCompletionOnce(
 		"Completion call",
 	);
 	// Read before the provider's error: a reply carrying both is an answer, not a
-	// refusal, and resending it would throw a complete answer away (§6).
+	// failed send, and resending it would throw a complete answer away (§6).
 	const content = choice?.message.content ?? "";
 	const providerMessage = providerErrorMessage(response);
 	if (providerMessage !== null && content === "") {
@@ -484,12 +484,12 @@ async function sendCompletionOnce(
  * usable cost does not fail the call — it yields `costUsd: null` with a
  * `costResolutionError` (technical-design.md §6, §7).
  *
- * A reply the SDK accepted that carries the provider's refusal in place of a
+ * A reply the SDK accepted that carries a provider error in place of a
  * completion is sent again, up to three sends, pausing two seconds and then
- * four; each refusal is logged as a warning, and the cost returned covers every
+ * four; each provider error is logged as a warning, and the cost returned covers every
  * send (technical-design.md §6, "A rejection can arrive inside an accepted reply").
  * A reply carrying the provider's error beside a non-empty answer is not a
- * refusal: the answer is returned and the error logged as a warning with the
+ * failed send: the answer is returned and the error logged as a warning with the
  * finish reason and which send it was. The finish reason never causes a resend.
  *
  * @param options - Call options.
@@ -503,13 +503,13 @@ async function sendCompletionOnce(
  * @param options.client - Supplies the OpenAI client to call through, provided where the pipeline is
  *   assembled and handed to the stage exactly as its logger is; asked for it here, at the point a
  *   client is actually wanted (§4.7).
- * @param options.sendGate - The stage run's turns to send; every send, a refusal's resend
- *   included, waits its turn (§6, `sendGapSeconds`).
+ * @param options.sendGate - The stage run's turns to send; every send, a resend after a
+ *   provider error included, waits its turn (§6, `sendGapSeconds`).
  * @returns The completion text and its resolved cost.
  * @throws {UnconfiguredStageError} If the configuration holds no entry for the stage.
  * @throws {ContextLengthError} If the prompt exceeds the model's context window.
- * @throws {ProviderError} If the API rejects the call for any other reason, including a
- *   reply the SDK accepted that carries the provider's refusal on every send.
+ * @throws {ProviderError} If the provider reports an error for any other reason, including a
+ *   reply the SDK accepted that carries a provider error on every send.
  * @throws {NoCompletionChoicesError} If the call is accepted but the model returns no choices.
  *   Every one of these names the model and the stage in its message (§8).
  */
@@ -530,7 +530,7 @@ export async function makeCompletionCall(
 		onFailure: ({ send, failure }) => {
 			options.logger.warn(
 				{ model: modelId, send, providerMessage: failure },
-				"Completion refused by provider",
+				"Provider error on a send",
 			);
 		},
 		exhausted: ({ failure }) =>
