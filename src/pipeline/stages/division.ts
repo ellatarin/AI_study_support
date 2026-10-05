@@ -20,7 +20,7 @@ export type Subtopic = {
 	readonly why: string;
 };
 
-/** A subtopic's title and the reason it is one thing, as it is saved. */
+/** The title and reason of a subtopic, under the keys that are saved. */
 type TitleAndReason = Pick<Subtopic, "title" | "why">;
 
 /**
@@ -42,10 +42,10 @@ export function subtopicText({
 }
 
 /**
- * What every part of a model's reply carries — a subtopic when splitting, a
- * topic when grouping: its title, and the reason it is one thing. The prompts
- * ask for the title as `label`, and are carried over from the prototype word
- * for word, so the word survives in replies and nowhere past them.
+ * One part of a model's reply. The part is a subtopic in a splitting reply and
+ * a topic in a grouping reply. It holds a title and a reason. The prompts call
+ * the title `label` and the reason `groupedBecause`. The prompts are copied
+ * from the prototype without change, so the reply uses these keys.
  */
 export type TitledReplyPart = {
 	readonly label: string;
@@ -67,13 +67,13 @@ export function isTitledReplyPart(
 }
 
 /**
- * One subtopic as a model's reply gives it: its title and reason, and the
- * words it opens with, which say where to cut.
+ * One subtopic in a model's reply. It holds a title, a reason and start words.
+ * The start words show where to cut.
  */
 export type ReplySubtopic = TitledReplyPart & { readonly startsWith: string };
 
 /**
- * Whether a value in a parsed reply is a subtopic as the model gives one.
+ * Whether a value in a parsed reply is a reply subtopic.
  *
  * @param value - One entry of the reply's list.
  * @returns `true` when it carries its three strings.
@@ -83,12 +83,15 @@ export function isReplySubtopic(value: unknown): value is ReplySubtopic {
 }
 
 /**
- * A reply subtopic's title and reason, as a subtopic carries them.
+ * Gives the title and reason of a reply subtopic under the keys that a
+ * subtopic uses. `label` becomes `title`, and `groupedBecause` becomes `why`.
+ * The code uses these names because they are easier to read. The prompt keeps
+ * its own words.
  *
- * @param reply - One subtopic or cut as the model's reply gives it.
- * @param reply.label - The prompt's word for the title.
- * @param reply.groupedBecause - Why the model holds it to be one thing: the reason.
- * @returns Its `label` as the title and its `groupedBecause` as the reason.
+ * @param reply - One subtopic or cut in the model's reply.
+ * @param reply.label - The title.
+ * @param reply.groupedBecause - The reason.
+ * @returns The title and the reason.
  */
 export function replyTitleAndReason({ label, groupedBecause }: ReplySubtopic): TitleAndReason {
 	return { title: label, why: groupedBecause };
