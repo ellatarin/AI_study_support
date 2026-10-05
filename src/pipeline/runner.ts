@@ -358,10 +358,10 @@ type StageOutcome = {
  *
  * Every transition patches the same stage of the same manifest at the same
  * instant; only what is recorded differs. Each locates the workspace first,
- * since the stage may have moved it, so the recorder is what tracks where the
- * lecture currently stands.
+ * since the stage may have moved it, so the status writer is what tracks where
+ * the lecture currently stands.
  */
-type StageRecorder = {
+type StageStatusWriter = {
 	/** The stage's output already exists: keep the earlier completion's record of it. */
 	skipped(): Promise<void>;
 	/** Written before the stage begins, so a crash leaves `running` behind for the next launch to treat as failed rather than as never attempted (§4.5). */
@@ -381,16 +381,16 @@ type StageRecorder = {
 };
 
 /**
- * Builds the {@link StageRecorder} for one stage of one lecture.
+ * Builds the {@link StageStatusWriter} for one stage of one lecture.
  *
- * @param args - The stage being recorded and the run it belongs to.
+ * @param args - The stage whose status is written, and its lecture.
  * @param args.stageId - The stage whose entry every write patches.
  * @param args.context - The context the stage was invoked with.
  * @param args.config - The validated pipeline configuration, for rebuilding the context.
  * @param args.timestamp - The instant every write is stamped with.
- * @returns The recorder.
+ * @returns The status writer.
  */
-function createStageRecorder({
+function createStageStatusWriter({
 	stageId,
 	context,
 	config,
@@ -400,7 +400,7 @@ function createStageRecorder({
 	readonly context: StageContext;
 	readonly config: PipelineConfig;
 	readonly timestamp: string;
-}): StageRecorder {
+}): StageStatusWriter {
 	// The context the NEXT stage runs against. The stage itself is handed the one
 	// passed in, so it never sees its own entry change under it.
 	let nextContext = context;
@@ -475,24 +475,24 @@ async function runStage({
 	readonly reporter: PipelineRunReporter;
 }): Promise<StageOutcome> {
 	const { stageId } = stage;
-	const recorder = createStageRecorder({ stageId, context, config, timestamp });
+	const statusWriter = createStageStatusWriter({ stageId, context, config, timestamp });
 
 	if (await stage.isComplete(context)) {
 		reporter({ event: "stage-skipped", stageId });
-		await recorder.skipped();
-		return { entry: { action: "skipped" }, context: recorder.context() };
+		await statusWriter.skipped();
+		return { entry: { action: "skipped" }, context: statusWriter.context() };
 	}
 	const configUsed = resolveStageRunConfig({ config, stageId });
 	reporter({ event: "stage-started", stageId });
-	await recorder.running();
+	await statusWriter.running();
 	try {
 		const input = await stage.getInput(context);
 		const result = await stage.run({ input, context });
-		await recorder.complete({ configUsed, result });
+		await statusWriter.complete({ configUsed, result });
 		reporter({ event: "stage-completed", stageId, cost: result.cost });
 		return {
 			entry: { action: "ran", status: "complete", configUsed, cost: runLogCost(result.cost) },
-			context: recorder.context(),
+			context: statusWriter.context(),
 		};
 	} catch (error: unknown) {
 		const message = errorMessage(error);
@@ -500,7 +500,7 @@ async function runStage({
 		// is where an unanticipated failure is actually diagnosed (§8, §10).
 		createStageLogger({ logger, stageId }).error({ err: error }, "Stage failed");
 		reporter({ event: "stage-failed", stageId });
-		await recorder.failed({ configUsed, error: message });
+		await statusWriter.failed({ configUsed, error: message });
 		return {
 			entry: {
 				action: "ran",
@@ -509,7 +509,7 @@ async function runStage({
 				configUsed,
 				cost: runLogCost(null),
 			},
-			context: recorder.context(),
+			context: statusWriter.context(),
 		};
 	}
 }

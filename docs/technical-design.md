@@ -792,12 +792,12 @@ runStage(args: { stage: PipelineStage<unknown, unknown>; context: StageContext; 
 // Runs or skips one stage: marks it `running`, converts a throw into a failed entry (never throws), and logs
 // any failure with its stack (§8). Returns the run-log entry together with the context the next stage runs
 // against — see "Following a relocated workspace" below. It owns the decisions — run, skip, map a throw to
-// an entry — and delegates every manifest transition to a recorder.
-createStageRecorder(args: { stageId: StageId; context: StageContext; config: PipelineConfig; timestamp: string }): StageRecorder
-type StageRecorder = { skipped(): Promise<void>; running(): Promise<void>
-                       complete(args: { configUsed: StageConfigUsed | null; result: StageResult<unknown> }): Promise<void>
-                       failed(args: { configUsed: StageConfigUsed | null; error: string }): Promise<void>
-                       context(): StageContext }
+// an entry — and delegates every manifest transition to a status writer.
+createStageStatusWriter(args: { stageId: StageId; context: StageContext; config: PipelineConfig; timestamp: string }): StageStatusWriter
+type StageStatusWriter = { skipped(): Promise<void>; running(): Promise<void>
+                           complete(args: { configUsed: StageConfigUsed | null; result: StageResult<unknown> }): Promise<void>
+                           failed(args: { configUsed: StageConfigUsed | null; error: string }): Promise<void>
+                           context(): StageContext }
 // One stage's manifest transitions, and the context that follows from the last of them. Each write locates
 // the workspace first (the stage may have moved it), patches the entry through updateManifest, and rebuilds
 // the context from what was written. `complete` also carries the stage's `identityChanges` (§4.2).
