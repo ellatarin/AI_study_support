@@ -15,15 +15,15 @@
 
 import type {
 	BatchSummary,
-	ManifestStageEntry,
+	Manifest,
 	OverallStatus,
-	QaManifestStageEntry,
+	QaStageEntry,
 	RunLog,
 	RunLogStageEntry,
-	RunManifest,
 	RunStageOutcome,
 	RunSummary,
 	StageCost,
+	StageEntry,
 	StageId,
 } from "../types/pipeline.js";
 import { STAGE_IDS } from "../types/pipeline.js";
@@ -329,9 +329,7 @@ type StageCostRow = {
  * @param entry - The manifest stage entry, or `undefined` if the stage never ran.
  * @returns The stage's model and recorded cost, or `null` if it earns no row.
  */
-function stageCostRow(
-	entry: ManifestStageEntry | QaManifestStageEntry | undefined,
-): StageCostRow | null {
+function stageCostRow(entry: StageEntry | QaStageEntry | undefined): StageCostRow | null {
 	if (entry === undefined || entry.status === "pending" || entry.status === "running") {
 		return null;
 	}
@@ -352,13 +350,13 @@ function stageCostRow(
  * thing it draws on. `formatBatchSummary` is not among them: it shows no money.
  */
 type ManifestWithMoney = {
-	readonly manifest: RunManifest;
+	readonly manifest: Manifest;
 	readonly formatMoney: MoneyFormatter;
 };
 
 /** Inputs for the section driven by the manifest, plus the shared formatter. */
 type ManifestSectionArgs = {
-	readonly manifest: RunManifest;
+	readonly manifest: Manifest;
 	readonly formatMoney: MoneyFormatter;
 };
 
@@ -568,7 +566,7 @@ function tokensCell(cost: StageCost | null): Cell {
  * @example
  * lectureHeading({ manifest }); // "Lecture 1: Cell Injury (2025-10-10)"
  */
-export function lectureHeading({ manifest }: { readonly manifest: RunManifest }): string {
+export function lectureHeading({ manifest }: { readonly manifest: Manifest }): string {
 	return `Lecture ${manifest.lectureNumber}: ${manifest.lectureTitle} (${manifest.lectureDate})`;
 }
 
@@ -588,7 +586,7 @@ function executedStages({
 	manifest,
 }: {
 	readonly outcomes: readonly RunStageOutcome[];
-	readonly manifest: RunManifest;
+	readonly manifest: Manifest;
 }): readonly (StageCostRow & { readonly stageId: StageId })[] {
 	const stages: (StageCostRow & { readonly stageId: StageId })[] = [];
 	for (const outcome of outcomes) {

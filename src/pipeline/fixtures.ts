@@ -1,7 +1,7 @@
 /**
  * Shared test fixtures and helpers for the pipeline modules.
  *
- * `PipelineConfig` and `RunManifest` are wide, fully-required shapes, so a test
+ * `PipelineConfig` and `Manifest` are wide, fully-required shapes, so a test
  * needing either would otherwise restate the whole thing — and adding a field to
  * either type would mean editing every copy. Building them here keeps that to a
  * single edit. Each builder takes an `overrides` object so a test states only the
@@ -17,15 +17,15 @@ import nock from "nock";
 import type { Logger } from "pino";
 import { afterEach, beforeEach, expect, vi } from "vitest";
 import type {
-	ManifestStageEntry,
+	Manifest,
 	OutputLanguage,
 	PipelineConfig,
 	PipelineStage,
 	QaFindingsReport,
-	RunManifest,
 	StageConfig,
 	StageContext,
 	StageCost,
+	StageEntry,
 	StageId,
 	StageResult,
 	StageRunConfig,
@@ -957,7 +957,7 @@ export function finishedEntry({
 	readonly configUsed?: StageRunConfig | null;
 	readonly cost?: StageCost | null;
 	readonly filesWritten?: readonly string[];
-} = {}): ManifestStageEntry {
+} = {}): StageEntry {
 	return { status, completedAt, configUsed, cost, filesWritten };
 }
 
@@ -974,7 +974,7 @@ export function failedEntry({
 	filesWritten = [],
 }: {
 	readonly filesWritten?: readonly string[];
-} = {}): ManifestStageEntry {
+} = {}): StageEntry {
 	return {
 		status: "failed",
 		failedAt: stageCompletedAt,
@@ -1025,13 +1025,13 @@ export const testModuleRoot = join(SYNTHETIC_MODULES_DIR, testModuleName);
 export const otherModuleRoot = join(SYNTHETIC_MODULES_DIR, otherModuleName);
 
 /**
- * Builds a structurally valid {@link RunManifest} for {@link testLecture}, with
+ * Builds a structurally valid {@link Manifest} for {@link testLecture}, with
  * every stage pending and no cost recorded.
  *
  * @param overrides - Top-level fields to replace on the base manifest.
  * @returns The manifest.
  */
-export function makeManifest(overrides: Partial<RunManifest> = {}): RunManifest {
+export function makeManifest(overrides: Partial<Manifest> = {}): Manifest {
 	return {
 		version: MANIFEST_VERSION,
 		lectureNumber: testLecture.number,
@@ -1362,9 +1362,9 @@ export function stagesWith({
 	entry,
 }: {
 	readonly stageId: StageId;
-	readonly entry: ManifestStageEntry;
-}): RunManifest["stages"] {
-	return { ...pendingStages(), [stageId]: entry } as RunManifest["stages"];
+	readonly entry: StageEntry;
+}): Manifest["stages"] {
+	return { ...pendingStages(), [stageId]: entry } as Manifest["stages"];
 }
 
 /**
@@ -1386,7 +1386,7 @@ export function makeStageContext({
 	config = makeConfig(),
 }: {
 	readonly workspaceRoot: string;
-	readonly manifest?: RunManifest;
+	readonly manifest?: Manifest;
 	readonly config?: PipelineConfig;
 }): StageContext {
 	return assembleContext({ workspaceRoot, manifest, config });
@@ -1410,7 +1410,7 @@ export function contextWithEntry({
 }: {
 	readonly workspaceRoot: string;
 	readonly stageId: StageId;
-	readonly entry: ManifestStageEntry;
+	readonly entry: StageEntry;
 }): StageContext {
 	return makeStageContext({
 		workspaceRoot,

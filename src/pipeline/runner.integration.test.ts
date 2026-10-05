@@ -5,17 +5,17 @@ import {
 	DEFAULT_BATCH_OPTIONS,
 	DEFAULT_RUN_OPTIONS,
 	type LectureIdentityChanges,
-	type ManifestStageEntry,
+	type Manifest,
 	type PipelineConfig,
 	type PipelineStage,
 	type RunEvent,
 	type RunLog,
-	type RunManifest,
 	type RunSummary,
 	type RunType,
 	type SourceNormalisationStage,
 	type StageContext,
 	type StageCost,
+	type StageEntry,
 	type StageId,
 	type StageResult,
 } from "../types/pipeline.js";
@@ -323,7 +323,7 @@ describe("PipelineRunner integration", () => {
 		describe("a stage skipped on run after run", () => {
 			let stage: PipelineStage<unknown, unknown>;
 			let runner: PipelineRunner;
-			let completedEntry: ManifestStageEntry | undefined;
+			let completedEntry: StageEntry | undefined;
 
 			// The first run completes the stage; the next two skip it. The third is
 			// the first to find a `skipped` entry where the stage's record should be.
@@ -688,7 +688,7 @@ describe("PipelineRunner integration", () => {
 		}
 
 		beforeEach(async () => {
-			const stages: Record<string, RunManifest["stages"][StageId]> = {};
+			const stages: Record<string, Manifest["stages"][StageId]> = {};
 			for (const stageId of SPANNING_STAGES) {
 				stages[stageId] = finishedEntry({
 					status: "complete",
@@ -698,7 +698,7 @@ describe("PipelineRunner integration", () => {
 			await writeManifest({
 				workspaceRoot,
 				manifest: makeManifest({
-					stages: { ...pendingStages(), ...stages } as RunManifest["stages"],
+					stages: { ...pendingStages(), ...stages } as Manifest["stages"],
 				}),
 			});
 		});
@@ -905,7 +905,7 @@ describe("PipelineRunner integration", () => {
 		let moduleC: string;
 
 		/** A manifest recording the given lecture's identity, as a scan reads it back. */
-		function manifestFor(lecture: TestLecture): RunManifest {
+		function manifestFor(lecture: TestLecture): Manifest {
 			return makeManifest({
 				lectureNumber: lecture.number,
 				lectureDate: lecture.date,
@@ -917,7 +917,7 @@ describe("PipelineRunner integration", () => {
 			moduleA = join(tempDir, otherModuleName);
 			moduleB = join(tempDir, "Pharmacology");
 			moduleC = join(tempDir, "Microbiology");
-			const write = async (root: string, folder: string, manifest: RunManifest): Promise<void> => {
+			const write = async (root: string, folder: string, manifest: Manifest): Promise<void> => {
 				await writeManifest({
 					workspaceRoot: workspaceRootFor({ moduleRoot: root, folderName: folder }),
 					manifest,
@@ -1202,9 +1202,9 @@ describe("PipelineRunner integration", () => {
 		 * @param stageId - The stage to leave out of the map.
 		 * @returns The stage map.
 		 */
-		function stagesWithout(stageId: StageId): RunManifest["stages"] {
+		function stagesWithout(stageId: StageId): Manifest["stages"] {
 			const stages = pendingStages();
-			delete (stages as Record<string, ManifestStageEntry>)[stageId];
+			delete (stages as Record<string, StageEntry>)[stageId];
 			return stages;
 		}
 
@@ -1217,11 +1217,11 @@ describe("PipelineRunner integration", () => {
 		 * @param args.fromStage - The `--from-stage` target, or `null` for a plain run.
 		 * @returns The run type recorded in the run log.
 		 */
-		async function classificationOf({
+		async function runTypeOf({
 			entry,
 			fromStage,
 		}: {
-			readonly entry: ManifestStageEntry | null;
+			readonly entry: StageEntry | null;
 			readonly fromStage: StageId | null;
 		}): Promise<RunType> {
 			const stages =
@@ -1237,7 +1237,7 @@ describe("PipelineRunner integration", () => {
 		}
 
 		it("should classify the run as normal when no from-stage is given", async () => {
-			expect(await classificationOf({ entry: null, fromStage: null })).toBe<RunType>("normal");
+			expect(await runTypeOf({ entry: null, fromStage: null })).toBe<RunType>("normal");
 		});
 
 		// Re-running a stage whose output already exists is an experiment; anything
@@ -1255,17 +1255,17 @@ describe("PipelineRunner integration", () => {
 					configUsed: null,
 					cost: null,
 					filesWritten: [],
-				} satisfies ManifestStageEntry,
+				} satisfies StageEntry,
 				expected: "error-recovery",
 			},
 			{
 				state: "pending",
-				entry: { status: "pending" } satisfies ManifestStageEntry,
+				entry: { status: "pending" } satisfies StageEntry,
 				expected: "error-recovery",
 			},
 			{
 				state: "running",
-				entry: { status: "running" } satisfies ManifestStageEntry,
+				entry: { status: "running" } satisfies StageEntry,
 				expected: "error-recovery",
 			},
 			{ state: "absent from the manifest", entry: null, expected: "error-recovery" },
@@ -1273,7 +1273,7 @@ describe("PipelineRunner integration", () => {
 			entry,
 			expected,
 		}) => {
-			expect(await classificationOf({ entry, fromStage: TARGET_STAGE })).toBe<RunType>(
+			expect(await runTypeOf({ entry, fromStage: TARGET_STAGE })).toBe<RunType>(
 				expected as RunType,
 			);
 		});

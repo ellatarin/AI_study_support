@@ -4,9 +4,9 @@ import ffmpeg from "fluent-ffmpeg";
 import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type {
-	ManifestStageEntry,
 	PipelineConfig,
 	StageContext,
+	StageEntry,
 	StageResult,
 } from "../../../types/pipeline.js";
 import { CONFIG_FILENAME } from "../../../types/pipeline.js";
@@ -86,7 +86,7 @@ describe("createTranscriptionStage", () => {
 
 	function contextWith(
 		overrides: {
-			readonly entry?: ManifestStageEntry;
+			readonly entry?: StageEntry;
 			readonly modelId?: string | null;
 			readonly elevenLabs?: Partial<PipelineConfig["elevenLabs"]>;
 		} = {},

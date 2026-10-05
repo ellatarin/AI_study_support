@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { RunManifest } from "../../../types/pipeline.js";
+import type { Manifest } from "../../../types/pipeline.js";
 import {
 	cellInjuryAsFirst,
 	cellInjurySources,
@@ -178,7 +178,7 @@ describe("orderLectures", () => {
 	}): ReturnType<typeof orderLectures> {
 		return orderLectures({
 			pairs: matchedPairs({ videos, slides }),
-			existingManifests: new Map<string, RunManifest>(),
+			existingManifests: new Map<string, Manifest>(),
 			modulePrefixes: MODULE_PREFIXES,
 		});
 	}

@@ -2,14 +2,14 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import type {
 	BatchSummary,
-	ManifestStageEntry,
+	Manifest,
 	OverallStatus,
 	RunLog,
 	RunLogStageEntry,
-	RunManifest,
 	RunStageOutcome,
 	RunSummary,
 	StageCost,
+	StageEntry,
 	StageRunConfig,
 } from "../types/pipeline.js";
 import {
@@ -85,7 +85,7 @@ const SYNTHESIS_FAILURE = "synthesis failed";
  * carries {@link SYNTHESIS_MODEL_ID}, and the width cases ask for one past any
  * column's width.
  */
-function synthesisEntryFor(modelId = SYNTHESIS_MODEL_ID): ManifestStageEntry {
+function synthesisEntryFor(modelId = SYNTHESIS_MODEL_ID): StageEntry {
 	return finishedEntry({
 		configUsed: { modelId, maxTokens: 8192 },
 		cost: resolved({ callCount: 1, costUsd: 0.312 }),
@@ -99,7 +99,7 @@ const synthesisEntry = synthesisEntryFor();
  * Synthesis as a stage that failed: it names a model, so it keeps a row, and it
  * left no output and recorded no cost, so there is nothing for that row to price.
  */
-const failedSynthesisEntry: ManifestStageEntry = {
+const failedSynthesisEntry: StageEntry = {
 	status: "failed",
 	failedAt: "2025-10-10T09:40:00.000Z",
 	error: SYNTHESIS_FAILURE,
@@ -110,7 +110,7 @@ const failedSynthesisEntry: ManifestStageEntry = {
 
 const IMAGE_EXTRACTION_MODEL_ID = "openai/gpt-4.1";
 
-const manifest: RunManifest = makeManifest({
+const manifest: Manifest = makeManifest({
 	stages: {
 		// Completed, and names no model: it makes no model call, so no table gives
 		// it a row however it finished.
@@ -421,7 +421,7 @@ const runOutcomes: readonly RunStageOutcome[] = [
 	{ stageId: "pdf-generation", entry: { action: "not-reached" } },
 ];
 
-const runManifest: RunManifest = {
+const runSummaryManifest: Manifest = {
 	...manifest,
 	stages: {
 		"audio-extraction": finishedEntry({
@@ -453,7 +453,7 @@ const runManifest: RunManifest = {
 function runSummary(overrides: Partial<Parameters<typeof formatRunSummary>[0]> = {}): string {
 	return formatRunSummary({
 		outcomes: runOutcomes,
-		manifest: runManifest,
+		manifest: runSummaryManifest,
 		formatMoney: formatTestMoney,
 		...overrides,
 	});

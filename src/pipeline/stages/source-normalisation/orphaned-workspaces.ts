@@ -23,7 +23,7 @@
 import { rm } from "node:fs/promises";
 import { join } from "node:path";
 import type { Logger } from "pino";
-import type { RunManifest } from "../../../types/pipeline.js";
+import type { Manifest } from "../../../types/pipeline.js";
 /* jscpd:ignore-end */
 import { listSubdirectoryNames } from "../../../utils/files.js";
 import { moduleDirs, workspaceRootFor } from "../../layout.js";
@@ -38,7 +38,7 @@ import { readManifestSafe } from "../../manifest.js";
 export type ConfirmPrompt = (args: { readonly message: string }) => Promise<boolean>;
 
 /** An existing lecture workspace, discovered by its manifest's date. */
-export type ExistingWorkspace = { readonly folder: string; readonly manifest: RunManifest };
+export type ExistingWorkspace = { readonly folder: string; readonly manifest: Manifest };
 
 /**
  * What the deletion protocol concluded: every orphan gone, or the question the
@@ -118,7 +118,7 @@ export function findOrphans({
  * @param args.manifest - The orphaned lecture's manifest.
  * @returns The question put to the user.
  */
-function orphanPrompt({ manifest }: { readonly manifest: RunManifest }): string {
+function orphanPrompt({ manifest }: { readonly manifest: Manifest }): string {
 	const title = manifest.lectureTitle === "" ? "(untitled)" : manifest.lectureTitle;
 	return `Lecture ${manifest.lectureNumber} "${title}" (${manifest.lectureDate}) has no source video or slide left. Delete its workspace and any final output?`;
 }

@@ -14,7 +14,7 @@
  * See technical-design.md §3.2 (naming) and §5, `source-normalisation`.
  */
 
-import type { RunManifest } from "../../../types/pipeline.js";
+import type { Manifest } from "../../../types/pipeline.js";
 import { extractDate, formatDateISO } from "../../../utils/date.js";
 import { extractProvisionalTitle, lectureBaseName } from "../../../utils/naming.js";
 
@@ -210,7 +210,7 @@ export function orderLectures({
 	modulePrefixes,
 }: {
 	readonly pairs: readonly PairedSources[];
-	readonly existingManifests: ReadonlyMap<string, RunManifest>;
+	readonly existingManifests: ReadonlyMap<string, Manifest>;
 	readonly modulePrefixes: readonly string[];
 }): readonly Lecture[] {
 	// `YYYY-MM-DD` sorts lexicographically into date order, which is why the isos

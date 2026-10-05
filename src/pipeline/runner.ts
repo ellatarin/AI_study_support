@@ -2,18 +2,17 @@ import { mkdir, rm } from "node:fs/promises";
 import { join } from "node:path";
 import type { Logger } from "pino";
 import type {
-	BatchRunOptions,
+	BatchOptions,
 	BatchSummary,
 	LectureIdentityChanges,
 	LectureMatch,
-	ManifestStageEntry,
+	Manifest,
 	PipelineConfig,
 	PipelineStage,
 	ReportOptions,
 	RunLog,
 	RunLogCost,
 	RunLogStageEntry,
-	RunManifest,
 	RunOptions,
 	RunReporter,
 	RunStageOutcome,
@@ -22,6 +21,7 @@ import type {
 	SourceNormalisationStage,
 	StageContext,
 	StageCost,
+	StageEntry,
 	StageId,
 	StageResult,
 	StageRunConfig,
@@ -115,12 +115,12 @@ export function deriveRunId({ instant }: { readonly instant: Date }): string {
  * @param args.manifest - The manifest whose target-stage status is inspected.
  * @returns The run classification.
  */
-function classifyRunType({
+function decideRunType({
 	options,
 	manifest,
 }: {
 	readonly options: RunOptions;
-	readonly manifest: RunManifest;
+	readonly manifest: Manifest;
 }): RunType {
 	const { fromStage } = options;
 	if (fromStage === undefined) {
@@ -144,7 +144,7 @@ async function listWorkspaces({ moduleRoot }: ModuleQuery): Promise<readonly str
 /** A lecture workspace paired with the manifest that identifies it. */
 type LocatedWorkspace = {
 	readonly workspaceRoot: string;
-	readonly manifest: RunManifest;
+	readonly manifest: Manifest;
 };
 
 /**
@@ -260,10 +260,10 @@ function patchStages({
 	stageId,
 	entry,
 }: {
-	readonly stages: RunManifest["stages"];
+	readonly stages: Manifest["stages"];
 	readonly stageId: StageId;
-	readonly entry: ManifestStageEntry;
-}): RunManifest["stages"] {
+	readonly entry: StageEntry;
+}): Manifest["stages"] {
 	return { ...stages, [stageId]: entry };
 }
 
@@ -294,12 +294,12 @@ function updateManifest({
 	timestamp,
 }: {
 	readonly workspaceRoot: string;
-	readonly manifest: RunManifest;
+	readonly manifest: Manifest;
 	readonly stageId: StageId;
-	readonly entry: ManifestStageEntry;
+	readonly entry: StageEntry;
 	readonly identityChanges: LectureIdentityChanges;
 	readonly timestamp: string;
-}): Promise<RunManifest> {
+}): Promise<Manifest> {
 	return patchManifest({
 		workspaceRoot,
 		manifest,
@@ -319,7 +319,7 @@ function skippedEntry({
 	readonly context: StageContext;
 	readonly stageId: StageId;
 	readonly timestamp: string;
-}): ManifestStageEntry {
+}): StageEntry {
 	const prior = context.manifest.stages[stageId];
 	const completed = hasSettledOutput(prior) ? prior : null;
 	return {
@@ -404,7 +404,7 @@ function createStageRecorder({
 		entry,
 		identityChanges,
 	}: {
-		readonly entry: ManifestStageEntry;
+		readonly entry: StageEntry;
 		readonly identityChanges: LectureIdentityChanges;
 	}): Promise<void> => {
 		const located = await resolveWorkspace({
@@ -546,16 +546,16 @@ async function resetFromStage({
 	timestamp,
 }: {
 	readonly workspaceRoot: string;
-	readonly manifest: RunManifest;
+	readonly manifest: Manifest;
 	readonly fromStage: StageId;
 	readonly timestamp: string;
-}): Promise<RunManifest> {
+}): Promise<Manifest> {
 	let stages = manifest.stages;
 	for (const stageId of STAGE_IDS.slice(STAGE_IDS.indexOf(fromStage))) {
 		stages = patchStages({ stages, stageId, entry: { status: "pending" } });
 		await deleteStageOutput({ workspaceRoot, stageId, lectureDate: manifest.lectureDate });
 	}
-	const updated: RunManifest = { ...manifest, stages, updatedAt: timestamp };
+	const updated: Manifest = { ...manifest, stages, updatedAt: timestamp };
 	await writeManifest({ workspaceRoot, manifest: updated });
 	return updated;
 }
@@ -736,7 +736,7 @@ export class PipelineRunner {
 		// After the manifest is read, because naming the lecture is the point of the
 		// notice, and before anything is reset: what follows belongs under this name.
 		this.#reporter({ event: "lecture-started", manifest: initialManifest });
-		const runType = classifyRunType({ options, manifest: initialManifest });
+		const runType = decideRunType({ options, manifest: initialManifest });
 		const manifest =
 			options.fromStage === undefined
 				? initialManifest
@@ -848,7 +848,7 @@ export class PipelineRunner {
 	public async runBatch({
 		moduleRoots,
 		options = DEFAULT_BATCH_OPTIONS,
-	}: ModuleScopedArgs<BatchRunOptions>): Promise<BatchSummary> {
+	}: ModuleScopedArgs<BatchOptions>): Promise<BatchSummary> {
 		const startedAt = new Date().toISOString();
 		await this.normaliseSources({ moduleRoots });
 		const workspaces = (await this.#collectLectures(moduleRoots)).map(

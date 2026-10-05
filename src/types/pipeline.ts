@@ -122,7 +122,7 @@ export type StageCost = {
 } & CostResolution;
 
 /** Optional model tuning parameters shared by resolved and configured stage configs. */
-type StageParams = {
+type StageTuning = {
 	readonly temperature?: number;
 	readonly maxTokens?: number;
 	readonly concurrency?: number;
@@ -149,7 +149,7 @@ type StageParams = {
  */
 export type StageRunConfig = {
 	readonly modelId: string | null;
-} & StageParams;
+} & StageTuning;
 
 /**
  * Per-stage model and parameter configuration as declared in
@@ -158,7 +158,7 @@ export type StageRunConfig = {
  */
 export type StageConfig = {
 	readonly modelId: string;
-} & StageParams;
+} & StageTuning;
 
 /** A panel of runs, and the support a position needs for the panel's vote to keep it. */
 export type PanelSettings = {
@@ -383,16 +383,16 @@ export type SettledStageEntry = StageEntryComplete | StageEntrySkipped;
  * A stage's entry in the run manifest, discriminated by `status` so that
  * status-specific fields (`completedAt`, `failedAt`, `error`) are present only
  * when they are meaningful. Applies to every stage except `qa-loop`, which
- * carries additional data — see {@link QaManifestStageEntry}. Defined in technical-design.md §4.5.
+ * carries additional data — see {@link QaStageEntry}. Defined in technical-design.md §4.5.
  */
-export type ManifestStageEntry = SharedStageEntry | StageEntryComplete;
+export type StageEntry = SharedStageEntry | StageEntryComplete;
 
 /**
- * The `qa-loop` stage's manifest entry. Identical to {@link ManifestStageEntry}
+ * The `qa-loop` stage's manifest entry. Identical to {@link StageEntry}
  * except that a completed entry additionally records the per-iteration
  * summaries and the reason the loop terminated (technical-design.md §5, `qa-loop`).
  */
-export type QaManifestStageEntry = SharedStageEntry | StageEntryQaComplete;
+export type QaStageEntry = SharedStageEntry | StageEntryQaComplete;
 
 /**
  * The per-stage map in the manifest: `qa-loop` maps to its richer entry type,
@@ -400,8 +400,8 @@ export type QaManifestStageEntry = SharedStageEntry | StageEntryQaComplete;
  * dynamic stage id yields the union of both entry types.
  */
 type ManifestStages = {
-	readonly "qa-loop"?: QaManifestStageEntry;
-} & Readonly<Partial<Record<Exclude<StageId, "qa-loop">, ManifestStageEntry>>>;
+	readonly "qa-loop"?: QaStageEntry;
+} & Readonly<Partial<Record<Exclude<StageId, "qa-loop">, StageEntry>>>;
 
 /** The lecture-identity fields common to the manifest and the stage context. */
 type LectureIdentity = {
@@ -428,7 +428,7 @@ type LectureIdentity = {
  * relative to `workspaceRoot` so the manifest survives a folder rename
  * (technical-design.md §4.5).
  */
-export type RunManifest = {
+export type Manifest = {
 	readonly version: string;
 } & LectureIdentity & {
 		/**
@@ -468,7 +468,7 @@ export type StageContext = LectureIdentity & {
 	readonly workspaceRoot: string; // canonical internal handle; absolute path to workspace folder
 	readonly moduleRoot: string; // absolute path to the containing module (e.g. Biology of Disease/)
 	readonly config: PipelineConfig;
-	readonly manifest: RunManifest;
+	readonly manifest: Manifest;
 };
 
 /**
@@ -478,7 +478,7 @@ export type StageContext = LectureIdentity & {
  * a new base name (technical-design.md §4.2; §5, `transcript-structuring`).
  */
 export type LectureIdentityChanges = Partial<
-	Pick<RunManifest, "lectureTitle" | "aiDerivedTitle" | "workspaceFolderName">
+	Pick<Manifest, "lectureTitle" | "aiDerivedTitle" | "workspaceFolderName">
 >;
 
 /**
@@ -823,7 +823,7 @@ export type RunOptions = {
  * Options controlling a batch run: everything a single lecture run takes, plus
  * the one thing only a batch can say (technical-design.md §4.7).
  */
-export type BatchRunOptions = RunOptions & {
+export type BatchOptions = RunOptions & {
 	/**
 	 * How many lectures `runBatch` processes at once, drawn from one queue across
 	 * every module in the batch. Absent from {@link RunOptions} because `run`
@@ -838,7 +838,7 @@ export type BatchRunOptions = RunOptions & {
 export const DEFAULT_RUN_OPTIONS: RunOptions = { onStageFailure: "halt" };
 
 /** What a batch run does when its caller expresses no preference: one at a time. */
-export const DEFAULT_BATCH_OPTIONS: BatchRunOptions = {
+export const DEFAULT_BATCH_OPTIONS: BatchOptions = {
 	...DEFAULT_RUN_OPTIONS,
 	concurrency: 1,
 };
@@ -894,7 +894,7 @@ export type BatchSummary = TimeSpan & {
  * what keeps the runner out of the business of writing to a user (§8).
  */
 export type RunEvent =
-	| { readonly event: "lecture-started"; readonly manifest: RunManifest }
+	| { readonly event: "lecture-started"; readonly manifest: Manifest }
 	| { readonly event: "stage-started"; readonly stageId: StageId }
 	| { readonly event: "stage-skipped"; readonly stageId: StageId }
 	| {

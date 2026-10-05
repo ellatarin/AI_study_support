@@ -1,7 +1,7 @@
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { RunManifest } from "../types/pipeline.js";
+import type { Manifest } from "../types/pipeline.js";
 import { captureError, corruptJson, makeManifest, makeTempDir, testLecture } from "./fixtures.js";
 import { MANIFEST_FILE, workspaceRootFor } from "./layout.js";
 import {
@@ -153,7 +153,7 @@ describe("manifest I/O", () => {
 			await writeManifest({ workspaceRoot, manifest });
 
 			const written = await readFile(manifestPath({ workspaceRoot }), "utf8");
-			expect(JSON.parse(written) as RunManifest).toEqual(manifest);
+			expect(JSON.parse(written) as Manifest).toEqual(manifest);
 			expect(written).toContain('\n  "version"');
 		});
 

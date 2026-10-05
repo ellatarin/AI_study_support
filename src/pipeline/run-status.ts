@@ -13,11 +13,11 @@
  */
 
 import type {
-	ManifestStageEntry,
 	OverallStatus,
-	QaManifestStageEntry,
+	QaStageEntry,
 	RunLogStageEntry,
 	SettledStageEntry,
+	StageEntry,
 } from "../types/pipeline.js";
 
 /**
@@ -36,7 +36,7 @@ import type {
  * @returns `true` when the entry is a completed or skipped one.
  */
 export function hasSettledOutput(
-	entry: ManifestStageEntry | QaManifestStageEntry | undefined,
+	entry: StageEntry | QaStageEntry | undefined,
 ): entry is SettledStageEntry {
 	return entry?.status === "complete" || entry?.status === "skipped";
 }

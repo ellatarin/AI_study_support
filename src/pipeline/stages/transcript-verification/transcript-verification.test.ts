@@ -7,10 +7,10 @@ import { rm } from "node:fs/promises";
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type {
+	Manifest,
 	QaDeficiencyType,
 	QaFindingsReport,
 	QaSeverity,
-	RunManifest,
 	StageContext,
 	StageCost,
 } from "../../../types/pipeline.js";
@@ -152,7 +152,7 @@ describe("createTranscriptVerificationStage", () => {
 		stubReply();
 	});
 
-	function contextWith(manifest: Partial<RunManifest> = {}): StageContext {
+	function contextWith(manifest: Partial<Manifest> = {}): StageContext {
 		return makeStageContext({
 			workspaceRoot: workspaceRoot(),
 			manifest: makeManifest(manifest),
@@ -161,7 +161,7 @@ describe("createTranscriptVerificationStage", () => {
 	}
 
 	/** Runs the stage against a prepared workspace, the way the runner would. */
-	async function run(manifest: Partial<RunManifest> = {}): ReturnType<typeof driveStage> {
+	async function run(manifest: Partial<Manifest> = {}): ReturnType<typeof driveStage> {
 		const result = await driveStage({
 			stage: createTranscriptVerificationStage({
 				logger: logged().logger,

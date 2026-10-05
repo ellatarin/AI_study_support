@@ -387,7 +387,7 @@ The four division stages and `retitle-subtopics` run after `transcription` with 
 
 ### 4.2 Stage Interface
 
-Every stage implements a common `PipelineStage<TInput, TOutput>` contract: an idempotency check `isComplete(context)`, an input step `getInput(context)`, and `run({ input, context })` returning a `StageResult`. Stages read an immutable `StageContext` — lecture identity, `workspaceRoot`, `moduleRoot`, the resolved `PipelineConfig`, and the current `RunManifest` — and never mutate it. A stage's own bookkeeping in the manifest — its status, cost, and `filesWritten` — is written by the runner, never by the stage, and so is the manifest's *lecture identity*. **No per-lecture stage writes `manifest.json`.** `transcript-structuring` settles the lecture's title (§5, `transcript-structuring`) and is the only stage that changes anything about the lecture's identity; it reports what it settled on `StageResult.identityChanges` and the runner writes it with the stage's `complete` entry.
+Every stage implements a common `PipelineStage<TInput, TOutput>` contract: an idempotency check `isComplete(context)`, an input step `getInput(context)`, and `run({ input, context })` returning a `StageResult`. Stages read an immutable `StageContext` — lecture identity, `workspaceRoot`, `moduleRoot`, the resolved `PipelineConfig`, and the current `Manifest` — and never mutate it. A stage's own bookkeeping in the manifest — its status, cost, and `filesWritten` — is written by the runner, never by the stage, and so is the manifest's *lecture identity*. **No per-lecture stage writes `manifest.json`.** `transcript-structuring` settles the lecture's title (§5, `transcript-structuring`) and is the only stage that changes anything about the lecture's identity; it reports what it settled on `StageResult.identityChanges` and the runner writes it with the stage's `complete` entry.
 
 A stage's context is assembled before its own entry is marked `running`, so the manifest copy it carries is out of date in that field for as long as the stage runs. The copy is a read model. The runner re-reads the manifest immediately before each write and is its only writer, so every write has a current base, and the `running` marker survives the stage it belongs to (§4.5). Currency and trust are separate questions: the manifest is untrusted input however fresh it is, bounded by §4.4.
 
@@ -557,7 +557,7 @@ The delete target is anchored at the other end too: `workspaceRoot` is always bu
 
 One `manifest.json` per lecture, stored in the workspace root. All paths are relative to `workspaceRoot` so the manifest survives a folder rename.
 
-The manifest tracks the **current pipeline state** and the cost of the most recent successful execution of each stage. Historical cost across multiple runs is the responsibility of the run logs (§4.6). Its TypeScript shape is `RunManifest` in `src/types/pipeline.ts` (single source of truth); the example below is illustrative, not the schema.
+The manifest tracks the **current pipeline state** and the cost of the most recent successful execution of each stage. Historical cost across multiple runs is the responsibility of the run logs (§4.6). Its TypeScript shape is `Manifest` in `src/types/pipeline.ts` (single source of truth); the example below is illustrative, not the schema.
 
 Three separate callers touch it — `source-normalisation` creates and renumbers it, the runner patches a stage entry after every stage (and with it any lecture-identity change `transcript-structuring` settled, §4.2), and the CLI's identity commands rewrite a lecture's title or date — so where it lives and how it is written are stated once:
 
@@ -568,7 +568,7 @@ MANIFEST_VERSION: string   // "1" — the schema version stamped into every mani
 // manifest, and the fixtures, which seed one per suite — would otherwise hold their own, and nothing reads
 // `version` back to notice. Bumping it here bumps what the suites seed, so a migration is tested against the
 // version it migrates from.
-pendingStages(): RunManifest["stages"]   // every stage `pending`, as source-normalisation writes it for a new workspace
+pendingStages(): Manifest["stages"]   // every stage `pending`, as source-normalisation writes it for a new workspace
 // Beside the version and for the same reason: source-normalisation writes this map and the fixtures seed one, and each had
 // been building its own. Nothing reads the map back in a way that would notice the two drifting apart.
 manifestPath(args: { workspaceRoot: string }): string
@@ -578,19 +578,19 @@ class ManifestShapeError extends NamedError        // parses, but describes no l
 // One class per way `readManifest` fails, the two the platform raises included: a caught failure names which
 // of the three happened from its type, and a raw `ENOENT` or `SyntaxError` reaching a caller says only that
 // something below went wrong.
-readManifest(args: { workspaceRoot: string }): Promise<RunManifest>        // throws when missing or malformed
+readManifest(args: { workspaceRoot: string }): Promise<Manifest>        // throws when missing or malformed
 // "Malformed" is judged the same way both readers judge it, on the parsed value rather than on whether parsing
 // threw. `{}`, `[]` and `null` all parse and none describes a lecture. The two readers differ only in what they
 // do about it: this one throws, `readManifestSafe` answers `null`.
-readManifestSafe(args: { workspaceRoot: string }): Promise<RunManifest | null>
+readManifestSafe(args: { workspaceRoot: string }): Promise<Manifest | null>
 // null instead: a folder under `Pipeline processing/` with no readable manifest is not a lecture, which is a
 // fact to skip over rather than an error, since both source-normalisation and the runner scan those folders speculatively.
 // "Readable" is judged on the parsed value, not on whether parsing threw: a `manifest.json` holding `{}` or
 // `[]` parses perfectly and still identifies no lecture. The check is the three fields every scanning caller
 // goes on to read — `lectureNumber`, `lectureDate`, `stages` — so a manifest with imperfect stage entries
 // still describes a lecture and reaches the caller that reads them.
-writeManifest(args: { workspaceRoot: string; manifest: RunManifest }): Promise<void>   // atomic (§4.3); creates the workspace if absent
-patchManifest(args: { workspaceRoot: string; manifest: RunManifest; changes: Partial<RunManifest>; updatedAt: string }): Promise<RunManifest>
+writeManifest(args: { workspaceRoot: string; manifest: Manifest }): Promise<void>   // atomic (§4.3); creates the workspace if absent
+patchManifest(args: { workspaceRoot: string; manifest: Manifest; changes: Partial<Manifest>; updatedAt: string }): Promise<Manifest>
 // Lays changes over the manifest, stamps `updatedAt`, and writes the result. All three callers do exactly
 // that, so an edit cannot leave a manifest claiming nothing happened to it. The instant is given rather than
 // read here because the runner's is not simply "now": it stamps the same instant it writes into the stage
@@ -751,9 +751,9 @@ A run log records what each stage of that run cost and stops there — no figure
 
 ### 4.7 Pipeline Runner
 
-The runner-facing types — `LectureMatch`, `RunOptions`, `BatchRunOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, and `BatchSummary` — are defined in `src/types/pipeline.ts` (single source of truth).
+The runner-facing types — `LectureMatch`, `RunOptions`, `BatchOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, and `BatchSummary` — are defined in `src/types/pipeline.ts` (single source of truth).
 
-`RunOptions` carries what any run can be told: which stage to restart from, which stage to stop after, and `onStageFailure`, `'halt' | 'continue'`, which the caller always states. `BatchRunOptions` extends it with `concurrency`, how many lectures are in flight at once; only a batch has more than one lecture to place, so the option lives on the batch's type alone and a single-lecture run cannot express it. What a caller who states no preference gets is named once, as `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`: halt at the first failed stage, one lecture at a time. The CLI never relies on the second's `concurrency`: `batch` always states one, from `--concurrency` or else the config's `batch.concurrency`.
+`RunOptions` carries what any run can be told: which stage to restart from, which stage to stop after, and `onStageFailure`, `'halt' | 'continue'`, which the caller always states. `BatchOptions` extends it with `concurrency`, how many lectures are in flight at once; only a batch has more than one lecture to place, so the option lives on the batch's type alone and a single-lecture run cannot express it. What a caller who states no preference gets is named once, as `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`: halt at the first failed stage, one lecture at a time. The CLI never relies on the second's `concurrency`: `batch` always states one, from `--concurrency` or else the config's `batch.concurrency`.
 
 The `PipelineRunner` surface:
 
@@ -765,7 +765,7 @@ class PipelineRunner {
   // the same reason: the runner states the facts, and the CLI decides how — and whether — a user sees them.
   async normaliseSources(args: { moduleRoots: readonly string[] }): Promise<void>          // source-normalisation
   async runLecture(args: { workspaceRoot: string; options?: RunOptions }): Promise<RunSummary>
-  async runBatch(args: { moduleRoots: readonly string[]; options?: BatchRunOptions }): Promise<BatchSummary>
+  async runBatch(args: { moduleRoots: readonly string[]; options?: BatchOptions }): Promise<BatchSummary>
   async costReport(args: { moduleRoots: readonly string[]; options?: ReportOptions }): Promise<readonly string[]>
   // One rendered report per reported lecture, handed back rather than printed. The CLI writes them
   // through its injected stream like every other block of output (§8), so nothing in the pipeline
@@ -784,7 +784,7 @@ type SourceNormalisationStage = { stageId: "source-normalisation"; normaliseModu
 // return values and concurrent lectures share no state.
 export deriveRunId(args: { instant: Date }): string     // filesystem-safe run id, e.g. 2025-10-10T09-00-00Z
 // Exported for the CLI, which names the run's debug log after the run it belongs to (§10).
-classifyRunType(args: { options: RunOptions; manifest: RunManifest }): RunType  // normal | experiment | error-recovery (§7)
+decideRunType(args: { options: RunOptions; manifest: Manifest }): RunType  // normal | experiment | error-recovery (§7)
 // Private. The classification reaches the outside world on `RunLog.runType`, which is where the cost report
 // reads it and where the runner's tests assert it.
 type StageOutcome = { entry: RunLogStageEntry; context: StageContext }
@@ -801,14 +801,14 @@ type StageRecorder = { skipped(): Promise<void>; running(): Promise<void>
 // One stage's manifest transitions, and the context that follows from the last of them. Each write locates
 // the workspace first (the stage may have moved it), patches the entry through updateManifest, and rebuilds
 // the context from what was written. `complete` also carries the stage's `identityChanges` (§4.2).
-updateManifest(args: { workspaceRoot: string; manifest: RunManifest; stageId: StageId; entry: ManifestStageEntry; identityChanges: LectureIdentityChanges; timestamp: string }): Promise<RunManifest>
+updateManifest(args: { workspaceRoot: string; manifest: Manifest; stageId: StageId; entry: StageEntry; identityChanges: LectureIdentityChanges; timestamp: string }): Promise<Manifest>
 // Atomic per-stage manifest patch via manifest.ts (§4.5). Takes the manifest to patch rather than reading it,
 // and returns what it wrote, so the caller rebuilds the stage context without a second read. It is the one
 // place a manifest gains a stage entry and a lecture-identity change, so the two always land in a single write.
-resolveWorkspace(args: { workspaceRoot: string; moduleRoot: string; lectureDate: string }): Promise<{ workspaceRoot: string; manifest: RunManifest }>
+resolveWorkspace(args: { workspaceRoot: string; moduleRoot: string; lectureDate: string }): Promise<{ workspaceRoot: string; manifest: Manifest }>
 // Where the workspace is now, and what its manifest says. Returns the path given when its manifest still
 // reads; otherwise finds the lecture again by date (see "Following a relocated workspace").
-findLectureByDate(args: { moduleRoot: string; lectureDate: string }): Promise<{ workspaceRoot: string; manifest: RunManifest } | null>
+findLectureByDate(args: { moduleRoot: string; lectureDate: string }): Promise<{ workspaceRoot: string; manifest: Manifest } | null>
 // Scans `moduleRoot/Pipeline processing/*/manifest.json` for the lecture carrying this date. Shared by
 // resolveWorkspace and resolveLecturesByDate, which apply the same identity rule to different ends.
 ```
@@ -830,7 +830,7 @@ summariseLectures(args: { lectures: readonly { overallStatus: OverallStatus }[] 
 // The same rule over lectures, which carry their own status: the runner folds a whole batch this way and the
 // batch table folds each module's rows, so the projection is written once. The parameter asks for the status
 // alone rather than a whole RunSummary, because that is all the rule reads.
-hasSettledOutput(entry: ManifestStageEntry | QaManifestStageEntry | undefined): entry is SettledStageEntry
+hasSettledOutput(entry: StageEntry | QaStageEntry | undefined): entry is SettledStageEntry
 // Whether a *manifest* entry means the stage's output is on disk — `complete` or `skipped` (§4.2). Three
 // unrelated callers ask it: the shared `isComplete`, the run classifier, and the cost report's current-pipeline
 // section. A type guard rather than a boolean, so a caller that has checked can read `filesWritten` without a cast.
@@ -864,7 +864,7 @@ The assembly lives in its own module rather than on the runner, because the runn
 
 ```typescript
 // src/pipeline/stage-context.ts
-assembleContext(args: { workspaceRoot: string; manifest: RunManifest; config: PipelineConfig }): StageContext
+assembleContext(args: { workspaceRoot: string; manifest: Manifest; config: PipelineConfig }): StageContext
 // moduleRoot derived two levels up; the result is frozen.
 ```
 
@@ -1977,16 +1977,16 @@ createMoneyFormatter(args: { gbpPerUsd: number }): MoneyFormatter
 // when cost resolution failed. The rate is bound once and the resulting function passed down to each
 // section, so no section knows about rates or currency at all (see Currency above).
 
-lectureHeading(args: { manifest: RunManifest }): string
+lectureHeading(args: { manifest: Manifest }): string
 // How a lecture is named at the head of anything written about it — "Lecture 1: Cell Injury (2025-10-10)".
 // Three places name a lecture this way: the end-of-run summary, the cost report, and the notice the CLI
 // writes as a run starts (§10). A batch shows several one after another, so two of them identifying a
 // lecture differently would read as two lectures.
 
-formatCostReport(args: { runLogs: readonly RunLog[]; manifest: RunManifest; formatMoney: MoneyFormatter }): string
+formatCostReport(args: { runLogs: readonly RunLog[]; manifest: Manifest; formatMoney: MoneyFormatter }): string
 // The three sections above, rendered as a single string.
 
-formatRunSummary(args: { outcomes: readonly RunStageOutcome[]; manifest: RunManifest; formatMoney: MoneyFormatter }): string
+formatRunSummary(args: { outcomes: readonly RunStageOutcome[]; manifest: Manifest; formatMoney: MoneyFormatter }): string
 // The end-of-run summary above. The outcomes say which stages this invocation executed; the manifest, read
 // after the run, says what each one used and cost — tokens live there and not in the run log. A stage that
 // names a model gets a row, its cost cell `n/a` wherever no figure resolved; a stage naming none gets none.
@@ -2066,7 +2066,7 @@ src/
 │   └── run-cli.ts                    # Composition root: config, logger, runner, stages, prompts
 ├── types/
 │   └── pipeline.ts                   # All shared types: StageId, StageContext, StageResult,
-│                                     # StageCost, RunManifest, QaDeficiency
+│                                     # StageCost, Manifest, QaDeficiency
 ├── pipeline/
 │   ├── runner.ts                     # Orchestrator, run log creation, batch mode, cost accumulation
 │   ├── layout.ts                     # Every directory and filename, declared once (§3.3)
@@ -2171,7 +2171,7 @@ The runner tells the user what it is doing, one stage at a time, through a `RunR
 
 ```typescript
 type RunEvent =
-  | { event: "lecture-started"; manifest: RunManifest }
+  | { event: "lecture-started"; manifest: Manifest }
   | { event: "stage-started"; stageId: StageId }
   | { event: "stage-skipped"; stageId: StageId }
   | { event: "stage-completed"; stageId: StageId; cost: StageCost | null }

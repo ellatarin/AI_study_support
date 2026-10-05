@@ -17,7 +17,7 @@
  */
 
 import type { Logger } from "pino";
-import type { RunManifest, SourceNormalisationStage } from "../../../types/pipeline.js";
+import type { Manifest, SourceNormalisationStage } from "../../../types/pipeline.js";
 import { extractDate, formatDateISO } from "../../../utils/date.js";
 import { NamedError } from "../../../utils/errors.js";
 import { listFileNames } from "../../../utils/files.js";
@@ -145,9 +145,9 @@ function projectWorkspaces<TValue>({
  * null, every stage pending, and zeroed cost.
  *
  * @param lecture - The resolved lecture.
- * @returns The initial `RunManifest`.
+ * @returns The initial `Manifest`.
  */
-function initialManifest(lecture: Lecture): RunManifest {
+function initialManifest(lecture: Lecture): Manifest {
 	const now = new Date().toISOString();
 	const stages = pendingStages();
 	return {
@@ -197,7 +197,7 @@ async function reconcileManifest({
 	) {
 		return "unchanged";
 	}
-	const updated: RunManifest = {
+	const updated: Manifest = {
 		...manifest,
 		lectureNumber: lecture.lectureNumber,
 		workspaceFolderName: lecture.baseName,

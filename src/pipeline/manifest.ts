@@ -18,7 +18,7 @@
    normal. */
 import { mkdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { type RunManifest, STAGE_IDS } from "../types/pipeline.js";
+import { type Manifest, STAGE_IDS } from "../types/pipeline.js";
 import { isCalendarDate } from "../utils/date.js";
 import { errorMessage, NamedError } from "../utils/errors.js";
 import { readJsonSafe, writeJsonAtomic } from "../utils/files.js";
@@ -73,9 +73,9 @@ export const MANIFEST_VERSION = "1";
  *
  * @returns A fresh stage map, safe for the caller to spread over.
  */
-export function pendingStages(): RunManifest["stages"] {
+export function pendingStages(): Manifest["stages"] {
 	const entries = STAGE_IDS.map((stageId) => [stageId, { status: "pending" }] as const);
-	return Object.fromEntries(entries) as RunManifest["stages"];
+	return Object.fromEntries(entries) as Manifest["stages"];
 }
 
 /**
@@ -96,7 +96,7 @@ export function manifestPath({ workspaceRoot }: { readonly workspaceRoot: string
  *
  * Parsing is not the same as being a manifest: `{}`, `[]` and `null` all parse
  * and none of them describes a lecture. The parsed value goes through the same
- * {@link isRunManifest} that {@link readManifestSafe} uses, so the two readers
+ * {@link isManifest} that {@link readManifestSafe} uses, so the two readers
  * agree on what a manifest is and differ only in what they do about its absence.
  *
  * Each of the three ways this fails raises a named error of its own, the two the
@@ -115,10 +115,10 @@ export async function readManifest({
 	workspaceRoot,
 }: {
 	readonly workspaceRoot: string;
-}): Promise<RunManifest> {
+}): Promise<Manifest> {
 	const path = manifestPath({ workspaceRoot });
 	const parsed = parseManifest({ path, contents: await readManifestFile(path) });
-	if (!isRunManifest(parsed)) {
+	if (!isManifest(parsed)) {
 		throw new ManifestShapeError(`${path} is not a lecture manifest`);
 	}
 	return parsed;
@@ -181,7 +181,7 @@ function parseManifest({
  * @param value - The parsed file contents.
  * @returns `true` when the value identifies a lecture.
  */
-function isRunManifest(value: unknown): value is RunManifest {
+function isManifest(value: unknown): value is Manifest {
 	if (!isRecord(value)) {
 		return false;
 	}
@@ -201,7 +201,7 @@ function isRunManifest(value: unknown): value is RunManifest {
  *
  * Malformed covers more than a parse failure: a `manifest.json` holding `{}` or
  * `[]` parses perfectly and is still not a lecture, so the parsed value is put
- * through {@link isRunManifest} before it is handed back as one.
+ * through {@link isManifest} before it is handed back as one.
  *
  * @param args - The workspace to read.
  * @param args.workspaceRoot - Absolute path to the candidate workspace folder.
@@ -211,9 +211,9 @@ export async function readManifestSafe({
 	workspaceRoot,
 }: {
 	readonly workspaceRoot: string;
-}): Promise<RunManifest | null> {
+}): Promise<Manifest | null> {
 	const parsed = await readJsonSafe(manifestPath({ workspaceRoot }));
-	return isRunManifest(parsed) ? parsed : null;
+	return isManifest(parsed) ? parsed : null;
 }
 
 /**
@@ -231,7 +231,7 @@ export async function writeManifest({
 	manifest,
 }: {
 	readonly workspaceRoot: string;
-	readonly manifest: RunManifest;
+	readonly manifest: Manifest;
 }): Promise<void> {
 	const path = manifestPath({ workspaceRoot });
 	await mkdir(dirname(path), { recursive: true });
@@ -266,11 +266,11 @@ export async function patchManifest({
 	updatedAt,
 }: {
 	readonly workspaceRoot: string;
-	readonly manifest: RunManifest;
-	readonly changes: Partial<RunManifest>;
+	readonly manifest: Manifest;
+	readonly changes: Partial<Manifest>;
 	readonly updatedAt: string;
-}): Promise<RunManifest> {
-	const updated: RunManifest = { ...manifest, ...changes, updatedAt };
+}): Promise<Manifest> {
+	const updated: Manifest = { ...manifest, ...changes, updatedAt };
 	await writeManifest({ workspaceRoot, manifest: updated });
 	return updated;
 }

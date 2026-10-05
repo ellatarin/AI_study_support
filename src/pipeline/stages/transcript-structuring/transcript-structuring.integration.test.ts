@@ -1,7 +1,7 @@
 import { rm } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { LectureIdentityChanges, RunManifest, StageContext } from "../../../types/pipeline.js";
+import type { LectureIdentityChanges, Manifest, StageContext } from "../../../types/pipeline.js";
 import { pathExists } from "../../../utils/files.js";
 import {
 	aiDerivedLecture,
@@ -65,7 +65,7 @@ describe("transcript structuring against a real module tree", () => {
 	});
 
 	/** Writes the lecture's manifest and returns the context built from it. */
-	async function prepareLecture(overrides: Partial<RunManifest> = {}): Promise<StageContext> {
+	async function prepareLecture(overrides: Partial<Manifest> = {}): Promise<StageContext> {
 		const manifest = makeManifest(overrides);
 		await writeManifest({ workspaceRoot, manifest });
 		return makeStageContext({
@@ -84,7 +84,7 @@ describe("transcript structuring against a real module tree", () => {
 		return result.identityChanges;
 	}
 
-	function manifestAt(folderName: string): Promise<RunManifest> {
+	function manifestAt(folderName: string): Promise<Manifest> {
 		return readManifest({ workspaceRoot: workspaceNamed(folderName) });
 	}
 

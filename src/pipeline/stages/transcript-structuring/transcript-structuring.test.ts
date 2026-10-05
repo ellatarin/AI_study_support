@@ -3,8 +3,8 @@ import { dirname, join } from "node:path";
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type {
+	Manifest,
 	OutputLanguage,
-	RunManifest,
 	StageContext,
 	StageCost,
 	StageResult,
@@ -81,7 +81,7 @@ describe("createTranscriptStructuringStage", () => {
 		manifest = {},
 		language,
 	}: {
-		readonly manifest?: Partial<RunManifest>;
+		readonly manifest?: Partial<Manifest>;
 		readonly language?: OutputLanguage;
 	} = {}): StageContext {
 		return makeStageContext({

@@ -7,7 +7,7 @@
  * together exactly as a real run puts it together (technical-design.md §4.7).
  */
 
-import type { PipelineConfig, RunManifest, StageContext } from "../types/pipeline.js";
+import type { Manifest, PipelineConfig, StageContext } from "../types/pipeline.js";
 import { moduleRootOf } from "./layout.js";
 
 /**
@@ -28,7 +28,7 @@ export function assembleContext({
 	config,
 }: {
 	readonly workspaceRoot: string;
-	readonly manifest: RunManifest;
+	readonly manifest: Manifest;
 	readonly config: PipelineConfig;
 }): StageContext {
 	return Object.freeze({

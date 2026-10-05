@@ -19,7 +19,7 @@ import {
 	renameLectureFiles,
 } from "../pipeline/lecture-files.js";
 import { patchManifest, readManifest } from "../pipeline/manifest.js";
-import type { LectureMatch, RunManifest } from "../types/pipeline.js";
+import type { LectureMatch, Manifest } from "../types/pipeline.js";
 import { errorMessage, NamedError } from "../utils/errors.js";
 import { filenameSafe } from "../utils/naming.js";
 
@@ -40,7 +40,7 @@ export class LectureIdentityError extends NamedError {}
  */
 async function openLecture(match: LectureMatch): Promise<{
 	readonly dirs: ModuleDirs;
-	readonly manifest: RunManifest;
+	readonly manifest: Manifest;
 }> {
 	return {
 		dirs: moduleDirs({ moduleRoot: match.moduleRoot }),

@@ -2,7 +2,7 @@ import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import type { Logger } from "pino";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { ManifestStageEntry, StageContext } from "../../types/pipeline.js";
+import type { StageContext, StageEntry } from "../../types/pipeline.js";
 import { pathExists } from "../../utils/files.js";
 import {
 	contextWithEntry,
@@ -52,7 +52,7 @@ describe("isStageComplete", () => {
 		await rm(moduleRoot, { recursive: true, force: true });
 	});
 
-	function contextWith(entry: ManifestStageEntry): StageContext {
+	function contextWith(entry: StageEntry): StageContext {
 		return contextWithEntry({ workspaceRoot, stageId: STAGE_ID, entry });
 	}
 
@@ -76,7 +76,7 @@ describe("isStageComplete", () => {
 		await writeFile(outputPath(), "audio bytes");
 	}
 
-	it.each<{ readonly scenario: string; readonly entry: ManifestStageEntry }>([
+	it.each<{ readonly scenario: string; readonly entry: StageEntry }>([
 		{ scenario: "has not run", entry: { status: "pending" } },
 		{ scenario: "is still running", entry: { status: "running" } },
 		{ scenario: "failed", entry: failedEntry() },

@@ -2,7 +2,7 @@ import { mkdir, readdir, rename, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { RunManifest } from "../../../types/pipeline.js";
+import type { Manifest } from "../../../types/pipeline.js";
 import type { LectureSources, LoggedEntry, LoggedLevel } from "../../fixtures.js";
 import {
 	cellInjuryAsFirst,
@@ -70,7 +70,7 @@ async function listNames(dir: string): Promise<readonly string[]> {
 }
 
 /** This suite's folders are workspace roots; naming that once keeps the reads short. */
-function readManifestIn(folder: string): Promise<RunManifest> {
+function readManifestIn(folder: string): Promise<Manifest> {
 	return readManifest({ workspaceRoot: folder });
 }
 
@@ -79,7 +79,7 @@ async function amendManifestIn({
 	patch,
 }: {
 	readonly folder: string;
-	readonly patch: Partial<RunManifest>;
+	readonly patch: Partial<Manifest>;
 }): Promise<void> {
 	await patchManifest({
 		workspaceRoot: folder,
@@ -137,7 +137,7 @@ describe("createSourceNormalisationStage", () => {
 	}
 
 	/** Normalises a single new lecture and returns the manifest `source-normalisation` wrote. */
-	async function normaliseNewLecture(): Promise<RunManifest> {
+	async function normaliseNewLecture(): Promise<Manifest> {
 		await writeLecture(cellInjurySources);
 		await stage.normaliseModule({ moduleRoot });
 		return readManifestIn(workspaceRootFor({ moduleRoot, folderName: cellInjuryAsFirst }));
