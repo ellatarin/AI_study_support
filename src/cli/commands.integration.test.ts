@@ -277,7 +277,7 @@ describe("executeCommand", () => {
 			});
 		});
 
-		it("should print the end-of-run summary when a lecture has run", async () => {
+		it("should print the pipeline run summary when a pipeline run finishes", async () => {
 			await invoke(runCommand);
 
 			expect(printed()).toContain("Run summary");

@@ -272,7 +272,7 @@ describe("createSourceNormalisationStage", () => {
 		expect(manifest.lectureTitle).toBe("");
 	});
 
-	it("should record actions on the run logger when normalisation succeeds", async () => {
+	it("should log each action to the debug log when normalisation succeeds", async () => {
 		await writeLecture(cellInjurySources);
 
 		await stage.normaliseModule({ moduleRoot });
@@ -440,7 +440,7 @@ describe("createSourceNormalisationStage", () => {
 	});
 
 	describe("interrupted renames", () => {
-		it("should restore a temporary source file to its target name when a previous run was interrupted", async () => {
+		it("should restore a temporary source file to its target name when an earlier invocation was interrupted", async () => {
 			await writeInto(videoRecordingsDir(moduleRoot), `${cellInjuryAsFirst}.mp4${TEMP_SUFFIX}`);
 			await writeInto(slideDecksDir(moduleRoot), `${cellInjuryAsFirst}.pdf${TEMP_SUFFIX}`);
 
@@ -450,7 +450,7 @@ describe("createSourceNormalisationStage", () => {
 			expect(await listNames(processingDir(moduleRoot))).toEqual([cellInjuryAsFirst]);
 		});
 
-		it("should restore a temporary workspace folder to its target name when a previous run was interrupted", async () => {
+		it("should restore a temporary workspace folder to its target name when an earlier invocation was interrupted", async () => {
 			await normaliseNewLecture();
 			const processing = processingDir(moduleRoot);
 			await rename(

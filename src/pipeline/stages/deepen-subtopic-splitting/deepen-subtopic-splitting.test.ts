@@ -266,7 +266,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		expect(await savedRun(1)).toEqual(transcriptDivision);
 	});
 
-	it("should send every subtopic still over the gate again when the first round cut anything", async () => {
+	it("should send every subtopic still over the size gate again when the first round cut anything", async () => {
 		answering({ [SECOND]: cutsAt(SECOND_CUT) });
 		await run(ALMOST_EVERYTHING);
 		expect(sentPassages().slice(0, 5)).toEqual([
@@ -283,7 +283,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		expect(modelCallMock).toHaveBeenCalledTimes(2 * PANEL_SIZE);
 	});
 
-	it("should stop after two rounds when a piece stays over the gate", async () => {
+	it("should stop after two rounds when a piece stays over the size gate", async () => {
 		answering(CUTTING_BOTH_ROUNDS);
 		await run(ALMOST_EVERYTHING);
 		expect(modelCallMock).toHaveBeenCalledTimes(5 * PANEL_SIZE);

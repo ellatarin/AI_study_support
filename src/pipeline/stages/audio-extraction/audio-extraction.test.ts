@@ -249,7 +249,7 @@ describe("createAudioExtractionStage", () => {
 			expect(await readdir(audioDir())).toStrictEqual([basename(audioPath())]);
 		});
 
-		it("should remove stale .tmp files when a previous run left them behind", async () => {
+		it("should remove stale .tmp files when an earlier invocation left them behind", async () => {
 			await mkdir(audioDir(), { recursive: true });
 			await writeFile(`${audioPath()}.tmp`, "half-written");
 			await writeFile(join(audioDir(), "stale.m4a.tmp"), "half-written");

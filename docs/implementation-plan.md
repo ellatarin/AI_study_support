@@ -317,7 +317,7 @@ Integration tests (real temp directory with fixture source files) — everything
 - `should renumber the remaining lectures and log the prior number, title, and date when an orphaned workspace is deleted`
 - `should abort without filesystem changes when a confirmation is declined` — `test.each` for: an orphaned workspace declined, the final confirmation declined
 - `should not prompt when every workspace still has its source pair`
-- `should restore a temporary source file to its target name when a previous run was interrupted` — and the same for a workspace folder
+- `should restore a temporary source file to its target name when an earlier invocation was interrupted` — and the same for a workspace folder
 - `should abort without filesystem changes when a temporary file's target name is taken`
 
 **Acceptance:** Given a folder of raw video and slide files, `source-normalisation` produces correct workspace folders, manifests, renamed source files, and handles mid-sequence insertion correctly.
@@ -645,9 +645,9 @@ Unit tests (mock `callModel`):
 - `should leave a subtopic unchanged when the reply says it is one step`
 - `should add the cuts inside the subtopic when the reply divides it`
 - `should ignore a cut proposed outside its subtopic when the reply places one there`
-- `should send every subtopic still over the gate again when the first round cut anything` — one held as one step included
+- `should send every subtopic still over the size gate again when the first round cut anything` — one held as one step included
 - `should make no second round when the first round cut nothing`
-- `should stop after two rounds when a piece stays over the gate`
+- `should stop after two rounds when a piece stays over the size gate`
 - `should reproduce the transcript exactly when a deepened splitting run is joined`
 - `should record every saved deepened splitting run in the manifest as one of the stage's recorded files when the stage completes`
 - `should resend a subtopic when the reply $problem` — `test.each` across not an object, no list of cuts, a cut without its start words
