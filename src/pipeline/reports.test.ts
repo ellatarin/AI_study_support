@@ -13,7 +13,7 @@ import type {
 	StageRunConfig,
 } from "../types/pipeline.js";
 import {
-	finishedEntry,
+	completedEntry,
 	formatTestMoney,
 	GBP_PER_USD,
 	makeManifest,
@@ -86,7 +86,7 @@ const SYNTHESIS_FAILURE = "synthesis failed";
  * column's width.
  */
 function synthesisEntryFor(modelId = SYNTHESIS_MODEL_ID): StageEntry {
-	return finishedEntry({
+	return completedEntry({
 		configUsed: { modelId, maxTokens: 8192 },
 		cost: resolved({ callCount: 1, costUsd: 0.312 }),
 		filesWritten: [stageOutputEntry("synthesis")],
@@ -114,9 +114,9 @@ const manifest: Manifest = makeManifest({
 	stages: {
 		// Completed, and names no model: it makes no model call, so no table gives
 		// it a row however it finished.
-		"audio-extraction": finishedEntry({ filesWritten: [stageOutputEntry("audio-extraction")] }),
+		"audio-extraction": completedEntry({ filesWritten: [stageOutputEntry("audio-extraction")] }),
 		// Names a model, and its cost lookup failed: a row, reading n/a.
-		"image-extraction": finishedEntry({
+		"image-extraction": completedEntry({
 			configUsed: { modelId: IMAGE_EXTRACTION_MODEL_ID },
 			cost: {
 				promptTokens: 0,
@@ -126,12 +126,12 @@ const manifest: Manifest = makeManifest({
 				costResolutionError: "the generation endpoint timed out",
 			},
 		}),
-		transcription: finishedEntry({
+		transcription: completedEntry({
 			configUsed: { modelId: transcriptionModelId },
 			cost: resolved({ callCount: 1, costUsd: 0.042 }),
 			filesWritten: [stageOutputEntry("transcription")],
 		}),
-		"slide-conversion": finishedEntry({
+		"slide-conversion": completedEntry({
 			configUsed: SLIDE_CONVERSION_CONFIG,
 			cost: resolved({
 				callCount: SLIDE_CONVERSION_CALLS,
@@ -424,13 +424,13 @@ const runOutcomes: readonly RunStageOutcome[] = [
 const runSummaryManifest: Manifest = {
 	...manifest,
 	stages: {
-		"audio-extraction": finishedEntry({
+		"audio-extraction": completedEntry({
 			status: "skipped",
 			filesWritten: [stageOutputEntry("audio-extraction")],
 		}),
 		// The same transcription entry the report fixture uses: one call, no tokens.
 		transcription: manifest.stages.transcription,
-		"slide-conversion": finishedEntry({
+		"slide-conversion": completedEntry({
 			configUsed: SLIDE_CONVERSION_CONFIG,
 			cost: {
 				promptTokens: 41_000,

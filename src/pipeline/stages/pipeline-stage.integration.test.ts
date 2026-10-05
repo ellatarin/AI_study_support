@@ -5,11 +5,11 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { StageContext, StageEntry } from "../../types/pipeline.js";
 import { pathExists } from "../../utils/files.js";
 import {
+	completedEntry,
 	contextWithEntry,
 	contextWithOutput,
 	driveStage,
 	failedEntry,
-	finishedEntry,
 	makeManifest,
 	makeStageContext,
 	makeWorkspaceTree,
@@ -33,11 +33,11 @@ import {
 // Any stage with a single output file would do; `audio-extraction`'s is the simplest.
 const STAGE_ID = "audio-extraction";
 
-// The two ways a stage finishes with its output on disk. `skipped` is what the
+// The two statuses of a completed stage. `skipped` is what the
 // runner writes over `complete` on the second run, so every case below that
 // holds for one must hold for the other or a third run pays for the work again
 // (technical-design.md §4.2).
-const FINISHED_STATUSES = [{ status: "complete" }, { status: "skipped" }] as const;
+const COMPLETED_STATUSES = [{ status: "complete" }, { status: "skipped" }] as const;
 
 describe("isStageComplete", () => {
 	let moduleRoot: string;
@@ -57,10 +57,10 @@ describe("isStageComplete", () => {
 	}
 
 	/**
-	 * The context as it stands once the stage has finished and recorded its
+	 * The context as it stands once the stage has completed and recorded its
 	 * output, for the workspace under test.
 	 *
-	 * @param status - Which of the two finished statuses the entry carries.
+	 * @param status - Which of the two completed statuses the entry carries.
 	 * @returns The stage context.
 	 */
 	function contextRecordingOutput(status: "complete" | "skipped"): StageContext {
@@ -88,7 +88,7 @@ describe("isStageComplete", () => {
 	});
 
 	it.each(
-		FINISHED_STATUSES,
+		COMPLETED_STATUSES,
 	)("should report complete when a $status stage's every recorded file exists", async ({
 		status,
 	}) => {
@@ -99,7 +99,7 @@ describe("isStageComplete", () => {
 	});
 
 	it.each(
-		FINISHED_STATUSES,
+		COMPLETED_STATUSES,
 	)("should report incomplete when a $status stage's recorded output file has been deleted", async ({
 		status,
 	}) => {
@@ -109,30 +109,30 @@ describe("isStageComplete", () => {
 	});
 
 	it.each(
-		FINISHED_STATUSES,
+		COMPLETED_STATUSES,
 	)("should report incomplete when only some of a $status stage's recorded files exist", async ({
 		status,
 	}) => {
 		await writeOutputFile();
 		const missingSibling = join(dirname(stageOutputEntry(STAGE_ID)), "extra.m4a");
 		const context = contextWith(
-			finishedEntry({ status, filesWritten: [stageOutputEntry(STAGE_ID), missingSibling] }),
+			completedEntry({ status, filesWritten: [stageOutputEntry(STAGE_ID), missingSibling] }),
 		);
 
 		expect(await isStageComplete({ context, stageId: STAGE_ID })).toBe(false);
 	});
 
 	it.each(
-		FINISHED_STATUSES,
+		COMPLETED_STATUSES,
 	)("should report complete when a $status stage recorded no output files", async ({ status }) => {
-		const context = contextWith(finishedEntry({ status }));
+		const context = contextWith(completedEntry({ status }));
 
 		expect(await isStageComplete({ context, stageId: STAGE_ID })).toBe(true);
 	});
 
 	it("should throw ManifestPathError when a recorded path escapes the module root", async () => {
 		const context = contextWith(
-			finishedEntry({ status: "complete", filesWritten: [join("..", "..", "..", "escaped.m4a")] }),
+			completedEntry({ status: "complete", filesWritten: [join("..", "..", "..", "escaped.m4a")] }),
 		);
 
 		await expect(isStageComplete({ context, stageId: STAGE_ID })).rejects.toThrow(

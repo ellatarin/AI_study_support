@@ -8,15 +8,15 @@
  * that prints those summaries (technical-design.md §4.7).
  *
  * And reading a manifest stage entry for the one question three unrelated
- * callers ask of it — {@link hasSettledOutput} — which belongs beside the above
+ * callers ask of it — {@link isCompletedEntry} — which belongs beside the above
  * for the same reason: interpreting a status is one job with one home.
  */
 
 import type {
+	CompletedStageEntry,
 	OverallStatus,
 	QaStageEntry,
 	RunLogStageEntry,
-	SettledStageEntry,
 	StageEntry,
 } from "../types/pipeline.js";
 
@@ -26,7 +26,7 @@ import type {
  * `complete` and `skipped` both say so: the first is the run that did the work,
  * the second is every run after it, which finds the output already there and
  * records that it did not repeat it (technical-design.md §4.2). Treating only
- * `complete` as finished makes the second run erase the record that the work was
+ * `complete` as completed makes the second run erase the record that the work was
  * done, and the third pay for it again.
  *
  * A type guard rather than a boolean, so a caller that has checked can read the
@@ -35,9 +35,9 @@ import type {
  * @param entry - The stage entry, or `undefined` for a stage with none.
  * @returns `true` when the entry is a completed or skipped one.
  */
-export function hasSettledOutput(
+export function isCompletedEntry(
 	entry: StageEntry | QaStageEntry | undefined,
-): entry is SettledStageEntry {
+): entry is CompletedStageEntry {
 	return entry?.status === "complete" || entry?.status === "skipped";
 }
 
@@ -48,7 +48,7 @@ export function hasSettledOutput(
  * This is what a stage contributes to the fold below, not a verdict on the stage
  * in isolation — `success` here means "nothing about this stage makes the run a
  * failure", which is as true of a stage the run never reached as of one that
- * finished. A skipped stage reads the same way {@link hasSettledOutput} reads it:
+ * finished. A skipped stage reads the same way {@link isCompletedEntry} reads it:
  * its output is on disk, and the run declining to produce it a second time is
  * the pipeline working, not work left undone.
  *
@@ -91,7 +91,7 @@ export function summariseOverallStatus({
  * because that is all the rule reads; a `RunSummary` satisfies it.
  *
  * @param args - The lectures to combine.
- * @param args.lectures - Each lecture's settled status, in any order.
+ * @param args.lectures - Each lecture's overall status, in any order.
  * @returns The status of the set.
  */
 export function summariseLectures({

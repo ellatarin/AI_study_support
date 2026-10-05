@@ -823,14 +823,14 @@ A `RunSummary` lists its stages as `RunStageOutcome` — the run-log entry *pair
 stageOutcomeStatus(entry: RunLogStageEntry): OverallStatus            // failed where the stage ran and failed
 // What a stage contributes to the fold, not a verdict on the stage alone: `success` means "nothing here makes
 // the run a failure", which is as true of a stage never reached as of one that finished. A skipped stage reads
-// as `hasSettledOutput` reads it — its output is on disk, and declining to produce it again is the pipeline
+// as `isCompletedEntry` reads it — its output is on disk, and declining to produce it again is the pipeline
 // working rather than work left undone.
 summariseOverallStatus(args: { statuses: readonly OverallStatus[] }): OverallStatus  // any failure wins
 summariseLectures(args: { lectures: readonly { overallStatus: OverallStatus }[] }): OverallStatus
 // The same rule over lectures, which carry their own status: the runner folds a whole batch this way and the
 // batch table folds each module's rows, so the projection is written once. The parameter asks for the status
 // alone rather than a whole RunSummary, because that is all the rule reads.
-hasSettledOutput(entry: StageEntry | QaStageEntry | undefined): entry is SettledStageEntry
+isCompletedEntry(entry: StageEntry | QaStageEntry | undefined): entry is CompletedStageEntry
 // Whether a *manifest* entry means the stage's output is on disk — `complete` or `skipped` (§4.2). Three
 // unrelated callers ask it: the shared `isComplete`, the run classifier, and the cost report's current-pipeline
 // section. A type guard rather than a boolean, so a caller that has checked can read `filesWritten` without a cast.
@@ -2078,7 +2078,7 @@ src/
 │   ├── reports.ts                    # Every report a reader sees, the table engine, stage labels and
 │   │                                 # money formatting (§7)
 │   ├── run-status.ts                 # Reducing stage and lecture outcomes to an OverallStatus, and
-│   │                                 # reading a stage entry for settled output (§4.2)
+│   │                                 # reading a stage entry as completed (§4.2)
 │   ├── config.ts                     # Config file loader and validator
 │   ├── openrouter.ts                 # OpenAI SDK client configured for OpenRouter
 │   ├── fixtures.ts                   # The shared test fixtures — the example lecture, the stub logger,

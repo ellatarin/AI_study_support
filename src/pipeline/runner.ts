@@ -44,7 +44,7 @@ import { removeDatedFile } from "./lecture-files.js";
 import { patchManifest, readManifest, readManifestSafe, writeManifest } from "./manifest.js";
 import { createMoneyFormatter, formatCostReport } from "./reports.js";
 import {
-	hasSettledOutput,
+	isCompletedEntry,
 	stageOutcomeStatus,
 	summariseLectures,
 	summariseOverallStatus,
@@ -126,7 +126,7 @@ function decideRunType({
 	if (fromStage === undefined) {
 		return "normal";
 	}
-	if (hasSettledOutput(manifest.stages[fromStage])) {
+	if (isCompletedEntry(manifest.stages[fromStage])) {
 		return "experiment";
 	}
 	return "error-recovery";
@@ -321,7 +321,7 @@ function skippedEntry({
 	readonly timestamp: string;
 }): StageEntry {
 	const prior = context.manifest.stages[stageId];
-	const completed = hasSettledOutput(prior) ? prior : null;
+	const completed = isCompletedEntry(prior) ? prior : null;
 	return {
 		status: "skipped",
 		completedAt: completed?.completedAt ?? timestamp,

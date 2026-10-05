@@ -22,8 +22,8 @@ import {
 import { pathExists } from "../utils/files.js";
 import {
 	aiDerivedLecture,
+	completedEntry,
 	corruptJson,
-	finishedEntry,
 	loggedAt,
 	makeConfig,
 	makeManifest,
@@ -323,7 +323,7 @@ describe("PipelineRunner integration", () => {
 		describe("a stage skipped on run after run", () => {
 			let stage: PipelineStage<unknown, unknown>;
 			let runner: PipelineRunner;
-			let completedEntry: StageEntry | undefined;
+			let firstRunEntry: StageEntry | undefined;
 
 			// The first run completes the stage; the next two skip it. The third is
 			// the first to find a `skipped` entry where the stage's record should be.
@@ -331,7 +331,7 @@ describe("PipelineRunner integration", () => {
 				stage = audioStageCosting(oneCallCosting(0.5));
 				runner = makeRunner([stage]);
 				await runner.runLecture({ workspaceRoot });
-				completedEntry = (await readManifest({ workspaceRoot })).stages["audio-extraction"];
+				firstRunEntry = (await readManifest({ workspaceRoot })).stages["audio-extraction"];
 				await runner.runLecture({ workspaceRoot });
 				await runner.runLecture({ workspaceRoot });
 			});
@@ -340,7 +340,7 @@ describe("PipelineRunner integration", () => {
 				const manifest = await readManifest({ workspaceRoot });
 
 				expect(manifest.stages["audio-extraction"]).toEqual({
-					...completedEntry,
+					...firstRunEntry,
 					status: "skipped",
 				});
 			});
@@ -549,7 +549,7 @@ describe("PipelineRunner integration", () => {
 				manifest: makeManifest({
 					stages: stagesWith({
 						stageId: "audio-extraction",
-						entry: finishedEntry({
+						entry: completedEntry({
 							completedAt: BEFORE_THIS_RUN,
 							filesWritten: [writtenEntry],
 						}),
@@ -690,7 +690,7 @@ describe("PipelineRunner integration", () => {
 		beforeEach(async () => {
 			const stages: Record<string, Manifest["stages"][StageId]> = {};
 			for (const stageId of SPANNING_STAGES) {
-				stages[stageId] = finishedEntry({
+				stages[stageId] = completedEntry({
 					status: "complete",
 					filesWritten: [await seedStageOutput({ workspaceRoot, stageId })],
 				});
@@ -1121,7 +1121,7 @@ describe("PipelineRunner integration", () => {
 				manifest: makeManifest({
 					stages: stagesWith({
 						stageId: "audio-extraction",
-						entry: finishedEntry({
+						entry: completedEntry({
 							completedAt: BEFORE_THIS_RUN,
 							configUsed: { modelId: "openrouter/model-a" },
 							cost: { promptTokens: 1, completionTokens: 1, callCount: 1, costUsd: 0.5 },
@@ -1244,8 +1244,8 @@ describe("PipelineRunner integration", () => {
 		// else the target could be — failed, pending, or never recorded — is a
 		// recovery from something that went wrong.
 		it.each([
-			{ state: "complete", entry: finishedEntry({ status: "complete" }), expected: "experiment" },
-			{ state: "skipped", entry: finishedEntry({ status: "skipped" }), expected: "experiment" },
+			{ state: "complete", entry: completedEntry({ status: "complete" }), expected: "experiment" },
+			{ state: "skipped", entry: completedEntry({ status: "skipped" }), expected: "experiment" },
 			{
 				state: "failed",
 				entry: {

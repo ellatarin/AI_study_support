@@ -126,7 +126,7 @@ _Avoid_: wipe, clean
 **Run type**:
 The reason a pipeline run started. The runner decides the run type from the manifest when the run starts.
 - *Normal*: no `--from-stage`.
-- *Experiment*: `--from-stage` on a settled stage. The stage makes its output again, to compare with the first.
+- *Experiment*: `--from-stage` on a completed stage. The stage makes its output again, to compare with the first.
 - *Error-recovery*: `--from-stage` on any other stage.
 
 _Avoid_: run classification, mode
@@ -163,9 +163,9 @@ _Avoid_: spending report
 The table printed after a pipeline run. It has one row for each stage that ran, with the stage's model, calls, tokens and cost. A batch also ends with a **batch summary**.
 _Avoid_: end-of-run report
 
-**Settled**:
-A stage is settled when its output is on disk, whether this pipeline run made it or an earlier one did. The runner does not run a settled stage again, and does not pay for it twice. Say "settled" only of output. A title or identity that a stage chooses is *decided*.
-_Avoid_: done, cached, finished
+**Completed stage**:
+A stage whose stage entry is `complete` or `skipped` and whose recorded files are all on disk, whether this pipeline run made them or an earlier one did. The runner does not run a completed stage again, and does not pay for it twice. Saved runs from a failed panel do not make a stage completed. A title or identity that a stage chooses is *decided*.
+_Avoid_: settled, done, cached, finished
 
 **Orphaned workspace**:
 A workspace whose source pair was deleted directly, not through the tool. The tool never deletes one silently. Deleting an orphaned workspace is the only action here that destroys a user's work for good.
@@ -404,7 +404,7 @@ _Avoid_: criteria (as a bare noun), checklist, test cases
 *Words for how the code is built, not for the problem it solves. Each is also documented where the code defines it.*
 
 **Runner**:
-The code that drives a pipeline run. It runs a lecture's stages in order and skips settled ones. It writes each stage entry and the run log. It also carries out resets and bounded runs.
+The code that drives a pipeline run. It runs a lecture's stages in order and skips completed ones. It writes each stage entry and the run log. It also carries out resets and bounded runs.
 _Avoid_: orchestrator, engine
 
 **Stage context**:

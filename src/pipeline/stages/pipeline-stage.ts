@@ -23,7 +23,7 @@ import {
 	stageRecordEntry,
 	stageRecordPath,
 } from "../layout.js";
-import { hasSettledOutput } from "../run-status.js";
+import { isCompletedEntry } from "../run-status.js";
 import {
 	ManifestPathError,
 	type ManifestPathQuery,
@@ -59,7 +59,7 @@ async function recordedFileExists(query: ManifestPathQuery): Promise<boolean> {
 /**
  * The shared idempotency check every per-lecture stage uses for
  * `PipelineStage.isComplete`: the stage is complete only when its manifest entry
- * has settled output — `complete` or `skipped` — AND every file it recorded in
+ * is a completed one — `complete` or `skipped` — AND every file it recorded in
  * `filesWritten` is still on disk. A completed stage whose output was deleted
  * therefore re-runs automatically (technical-design.md §4.2).
  *
@@ -86,7 +86,7 @@ export async function isStageComplete({
 	readonly stageId: StageId;
 }): Promise<boolean> {
 	const entry = context.manifest.stages[stageId];
-	if (!hasSettledOutput(entry)) {
+	if (!isCompletedEntry(entry)) {
 		return false;
 	}
 	for (const written of entry.filesWritten) {

@@ -11,8 +11,8 @@ import type {
 } from "../../../types/pipeline.js";
 import { CONFIG_FILENAME } from "../../../types/pipeline.js";
 import {
+	completedEntry,
 	exampleConfig,
-	finishedEntry,
 	interceptScribeUpload,
 	loggedAt,
 	makeConfig,
@@ -125,7 +125,7 @@ describe("createTranscriptionStage", () => {
 		await mkdir(dirname(transcriptPath()), { recursive: true });
 		await writeFile(transcriptPath(), transcriptText);
 		const context = contextWith({
-			entry: finishedEntry({
+			entry: completedEntry({
 				configUsed: { modelId: transcriptionModelId },
 				filesWritten: [stageOutputEntry("transcription")],
 			}),

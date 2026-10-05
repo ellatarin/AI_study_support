@@ -925,7 +925,7 @@ export const testRunSpan = {
 } as const;
 
 /**
- * A finished stage's stage entry, in either of the two ways a stage finishes.
+ * A completed stage's stage entry, with either of the two completed statuses.
  * `complete` and `skipped` carry the same fields and mean the same thing about
  * the disk — the stage's output is there — which is what the suites asserting on
  * either of them need to say.
@@ -945,7 +945,7 @@ export const testRunSpan = {
  * @param args.filesWritten - The workspace-relative outputs it recorded; none by default.
  * @returns The stage entry.
  */
-export function finishedEntry({
+export function completedEntry({
 	status = "complete",
 	completedAt = stageCompletedAt,
 	configUsed = null,
@@ -1419,15 +1419,15 @@ export function contextWithEntry({
 }
 
 /**
- * A stage context whose manifest records the stage as finished, having written
+ * A stage context whose manifest records the stage as completed, having written
  * the one output file the layout gives it. Whether that file is actually on
  * disk is left to the caller — which is the difference the idempotency tests
  * turn on.
  *
- * @param args - The workspace, the stage, and how it finished.
+ * @param args - The workspace, the stage, and how it completed.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
- * @param args.stageId - The stage that finished.
- * @param args.status - Which of the two finished statuses it carries; complete by default.
+ * @param args.stageId - The completed stage.
+ * @param args.status - Which of the two completed statuses it carries; complete by default.
  * @returns The stage context.
  */
 export function contextWithOutput({
@@ -1442,7 +1442,7 @@ export function contextWithOutput({
 	return contextWithEntry({
 		workspaceRoot,
 		stageId,
-		entry: finishedEntry({ status, filesWritten: [stageOutputEntry(stageId)] }),
+		entry: completedEntry({ status, filesWritten: [stageOutputEntry(stageId)] }),
 	});
 }
 

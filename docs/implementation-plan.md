@@ -177,7 +177,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 `src/pipeline/manifest.ts` — where `manifest.json` lives, how it is read and atomically written, and the schema version it is stamped with: `MANIFEST_VERSION`, `pendingStages`, `manifestPath`, `ManifestUnreadableError`, `ManifestNotJsonError`, `ManifestShapeError`, `readManifest`, `readManifestSafe`, `writeManifest`, `patchManifest`. Extracted because `source-normalisation`, the runner, and the CLI all touch it (**TD §4.5**).
 
-`src/pipeline/run-status.ts` — the shared rule reducing stage and lecture outcomes to an `OverallStatus`: `stageOutcomeStatus`, `summariseOverallStatus`, `summariseLectures`, `hasSettledOutput` (**TD §4.7**).
+`src/pipeline/run-status.ts` — the shared rule reducing stage and lecture outcomes to an `OverallStatus`: `stageOutcomeStatus`, `summariseOverallStatus`, `summariseLectures`, `isCompletedEntry` (**TD §4.7**).
 
 `src/cli/run-reporter.ts` — `createRunReporter`: the wording of the notices a run writes as it goes, one per stage, built over the `RunEvent`s the runner reports (**TD §10**).
 

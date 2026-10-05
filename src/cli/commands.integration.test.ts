@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 import {
 	changedDate,
-	finishedEntry,
+	completedEntry,
 	formatTestMoney,
 	makeLectureTree,
 	makeManifest,
@@ -112,7 +112,7 @@ describe("executeCommand", () => {
 			manifest: makeManifest({
 				...(baseName === undefined ? {} : { workspaceFolderName: baseName }),
 				stages: {
-					transcription: finishedEntry({
+					transcription: completedEntry({
 						configUsed: { modelId: transcriptionModelId },
 						cost: { promptTokens: 0, completionTokens: 0, callCount: 1, costUsd: 0.2 },
 						filesWritten: [stageOutputEntry("transcription")],

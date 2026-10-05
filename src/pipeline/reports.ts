@@ -28,7 +28,7 @@ import type {
 } from "../types/pipeline.js";
 import { STAGE_IDS } from "../types/pipeline.js";
 import { moduleName, moduleRootOf } from "./layout.js";
-import { hasSettledOutput, summariseLectures } from "./run-status.js";
+import { isCompletedEntry, summariseLectures } from "./run-status.js";
 
 /** Human-readable label for each stage, in pipeline order (technical-design.md §4.1). */
 const STAGE_LABELS: Readonly<Record<StageId, string>> = {
@@ -382,7 +382,7 @@ function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs):
 		const entry = manifest.stages[stageId];
 		// What the outputs on disk cost: a stage that failed left none behind, and
 		// what it spent getting there is section 2's to report.
-		if (!hasSettledOutput(entry)) {
+		if (!isCompletedEntry(entry)) {
 			return [];
 		}
 		const row = stageCostRow(entry);

@@ -377,7 +377,7 @@ type SharedStageEntry =
  * `qa-loop`'s completed entry extends {@link StageEntryComplete}, so it is a
  * member of this union and narrowing preserves its extra fields.
  */
-export type SettledStageEntry = StageEntryComplete | StageEntrySkipped;
+export type CompletedStageEntry = StageEntryComplete | StageEntrySkipped;
 
 /**
  * A stage's entry in the manifest, discriminated by `status` so that
@@ -518,7 +518,7 @@ export type PipelineStage<TInput, TOutput> = {
 	 * Whether the stage's work already exists on disk and need not re-run.
 	 * @param context - The current lecture run context.
 	 * @returns `true` when the manifest marks the stage complete or skipped (see
-	 * {@link SettledStageEntry}) and every recorded output file exists.
+	 * {@link CompletedStageEntry}) and every recorded output file exists.
 	 */
 	isComplete(context: StageContext): Promise<boolean>;
 

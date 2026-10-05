@@ -150,3 +150,9 @@ Two things any folder or file rename must also fix: each manifest's `filesWritte
 - "Readable view" becomes **verification report Markdown** (glossary entry renamed). Its visible text says deficiencies and deficiency type.
 - Stored token counts: `promptTokens` → `sentTokens` and `completionTokens` → `replyTokens` (option c). Done in the stored-name stage.
 - "Completion" is the provider library's word. The pipeline's own names say model call, send or reply instead; `createCompletion` and the library's own fields keep it. Done as its own group.
+
+2026-10-05, the user's ruling on A13, which reverses it:
+
+- `isComplete` and `isStageComplete` stay. In plain English they give the right answer: a skipped stage is complete, and a stage whose files were deleted, or whose panel failed, is not.
+- "Settled" and "finished" are dropped for this idea. The names become `CompletedStageEntry` (was `SettledStageEntry`), `isCompletedEntry` (was `hasSettledOutput`), `completedEntry` (was `finishedEntry`) and `COMPLETED_STATUSES` (was `FINISHED_STATUSES`).
+- The glossary entry **Settled** becomes **Completed stage**, with "settled" on its _Avoid_ list.
