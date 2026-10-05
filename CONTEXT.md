@@ -1,6 +1,6 @@
 # Lecture Notes Generator
 
-The tool turns each lecture's recording and slide deck into one set of textbook-quality notes. Transcription is not the difficult part. The difficult part is to lose nothing and invent nothing between what the lecturer said and what the student reads.
+The tool turns each lecture's video recording and slide deck into one set of textbook-quality notes. Transcription is not the difficult part. The difficult part is to lose nothing and invent nothing between what the lecturer said and what the student reads.
 
 ## Language
 
@@ -14,13 +14,25 @@ _Avoid_: course, subject, class
 One taught session. The date of delivery identifies it within its module.
 _Avoid_: session, class, recording, video
 
+**Video recording**:
+The video file of one lecture as it was delivered. The audio for transcription comes from it.
+_Avoid_: video (alone), recording (alone), source video
+
 **Source pair**:
-The recording and the slide deck of one lecture. Every lecture has exactly one of each, matched by date. A lecture that does not have both cannot be processed.
+The video recording and the slide deck of one lecture. Every lecture has exactly one of each, matched by date. A lecture that does not have both cannot be processed.
 _Avoid_: inputs, raw files, assets
 
 **Workspace**:
 The folder that holds everything one lecture collects on its way through the pipeline, from audio to finished notes. The folder takes its name from the lecture. When a lecture is renumbered, the folder is renamed and nothing inside it changes.
 _Avoid_: output directory, working directory, scratch folder
+
+**Processing folder**:
+The folder in a module that holds the workspaces of all its lectures.
+_Avoid_: output folder, pipeline folder
+
+**Final output folder**:
+The folder in a module that holds the notes PDFs of all its lectures. The config section `finalOutput` holds the settings for them.
+_Avoid_: notes folder, output folder
 
 **Transcript**:
 The verbatim text of what was said, as the transcriber produced it. It has no spelling of its own, because speech has none.
@@ -48,6 +60,10 @@ _Avoid_: index, sequence number
 The title taken from the lecturer's own filename. It is a best guess and can be empty. A later stage judges whether it is any good.
 _Avoid_: draft title, filename title
 
+**Module prefix**:
+A module code or module name that a lecturer puts at the start of a filename, such as `BOD_` or `Biology of Disease - `. Normalisation removes it when it takes the provisional title from the filename. The config file lists the module prefixes.
+_Avoid_: prefix (alone), module code
+
 **AI-derived title**:
 A replacement title proposed from the transcript. A stage proposes one only when it judges the provisional title not meaningful. A title the lecturer wrote on purpose is authoritative, so most lectures never get an AI-derived title.
 _Avoid_: generated title, suggested title
@@ -61,7 +77,7 @@ The title in force: the user title if set, otherwise the AI-derived title, other
 _Avoid_: name, display title, effective title
 
 **Base name**:
-The one name that a lecture's recording, slide deck, workspace and PDF share. To rename a lecture, all four move to one new name together.
+The one name that a lecture's video recording, slide deck, workspace and PDF share. To rename a lecture, all four move to one new name together.
 _Avoid_: filename, stem, prefix, canonical name, folder name, lecture name
 
 **Lecture identity**:
@@ -81,8 +97,8 @@ _Avoid_: ingest, import, setup, scan
 **Source rule**:
 A condition that normalisation checks before it changes anything. The rules are:
 - every source file has a lecture date
-- no two recordings, and no two slide decks, share a date
-- every recording has a slide deck of the same date, and every slide deck has a recording.
+- no two video recordings, and no two slide decks, share a date
+- every video recording has a slide deck of the same date, and every slide deck has a video recording.
 
 One broken rule stops normalisation. Normalisation reports every broken rule.
 _Avoid_: anomaly, problem, undateable
@@ -194,6 +210,14 @@ _Avoid_: fixer, editor, rewriter
 **Deficiency**:
 One fault that a checker found. It says what is wrong, how bad it is, where it is in the output, and which passage of the source it is about.
 _Avoid_: finding, issue, error, bug, defect, problem
+
+**Deficiency type**:
+The kind of fault a deficiency is. Omission, underexplained, distortion and unsourced addition are faults of faithfulness. Clarity, British English, formatting and figure reference are prose faults. "Other" is the type of a deficiency that fits none of these.
+_Avoid_: category
+
+**Verification report**:
+The file that transcript verification writes. It holds the checker's verdict, its coverage score, its deficiencies and its considerations. The readable view is a copy of it.
+_Avoid_: findings report, QA report
 
 **Prose fault**:
 A deficiency in how the output is written, such as clarity, spelling or formatting, and not in its faithfulness to the source.
@@ -412,7 +436,7 @@ A checker's overall pass or fail on an output. A model's decision on whether a p
 _Avoid_: result, outcome
 
 **Item**:
-One of the four things that share a lecture's base name: its recording, its slide deck, its workspace and its PDF. A rename moves all four.
+One of the four things that share a lecture's base name: its video recording, its slide deck, its workspace and its PDF. A rename moves all four.
 _Avoid_: asset, entry
 
 **Readable view**:
