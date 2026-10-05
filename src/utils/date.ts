@@ -299,7 +299,7 @@ function digitDateMatches({
  * @param text - Arbitrary text, typically a filename.
  * @returns The parsed results in the order chrono discovered them.
  */
-function parseDateSpans(text: string): readonly ParsedResult[] {
+function chronoDateMatches(text: string): readonly ParsedResult[] {
 	return parse(text.replace(/_/g, " "));
 }
 
@@ -322,7 +322,7 @@ function allDateMatches(text: string): readonly DateMatch[] {
 		text,
 		formats: [SEPARATED_DATE_FORMAT, EIGHT_DIGIT_DATE_FORMAT],
 	});
-	const chrono = parseDateSpans(text)
+	const chrono = chronoDateMatches(text)
 		.filter(
 			(result) => !overlaps({ matches: numeric, index: result.index, length: result.text.length }),
 		)
