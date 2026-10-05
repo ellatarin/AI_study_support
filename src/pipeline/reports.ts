@@ -163,30 +163,31 @@ function fitToColumn({ text, width }: { readonly text: string; readonly width: n
 }
 
 /**
- * Groups items under a key derived from each, in the order the keys were first
- * seen.
+ * Groups the members under a key taken from each, in the order the keys were
+ * first seen.
  *
  * Two sections of this report group: the experiment table by the stage a run
  * re-ran, and the batch summary by the module a lecture belongs to. Both want
  * first-seen order — the report follows the run rather than sorting it — which
  * is what a `Map` gives and what makes the two the same operation.
  *
- * @param args - The items and how to key them.
- * @param args.items - The items to group.
- * @param args.keyOf - The key an item belongs under.
- * @returns The items by key, keys in first-seen order.
+ * @param args - The members and how to key them.
+ * @param args.members - The things to group.
+ * @param args.keyOf - The key a member belongs under.
+ * @returns The members by key, keys in first-seen order.
+ * @typeParam TMember - One thing to group.
  */
-function groupBy<TItem>({
-	items,
+function groupBy<TMember>({
+	members,
 	keyOf,
 }: {
-	readonly items: readonly TItem[];
-	readonly keyOf: (item: TItem) => string;
-}): ReadonlyMap<string, readonly TItem[]> {
-	const grouped = new Map<string, TItem[]>();
-	for (const item of items) {
-		const key = keyOf(item);
-		grouped.set(key, [...(grouped.get(key) ?? []), item]);
+	readonly members: readonly TMember[];
+	readonly keyOf: (member: TMember) => string;
+}): ReadonlyMap<string, readonly TMember[]> {
+	const grouped = new Map<string, TMember[]>();
+	for (const member of members) {
+		const key = keyOf(member);
+		grouped.set(key, [...(grouped.get(key) ?? []), member]);
 	}
 	return grouped;
 }
@@ -460,7 +461,7 @@ function errorRecoverySection({ runLogs, formatMoney }: RunLogSectionArgs): read
  */
 function experimentSection({ runLogs, formatMoney }: RunLogSectionArgs): readonly string[] {
 	const byStage = groupBy({
-		items: ranStageEntries({ runLogs, selects: wasAnExperiment }),
+		members: ranStageEntries({ runLogs, selects: wasAnExperiment }),
 		keyOf: ({ stageId }) => stageId,
 	});
 	return [
@@ -661,7 +662,7 @@ function lecturesByModule(
 	lectures: readonly PipelineRunSummary[],
 ): ReadonlyMap<string, readonly PipelineRunSummary[]> {
 	return groupBy({
-		items: lectures,
+		members: lectures,
 		keyOf: (lecture) => moduleRootOf({ workspaceRoot: lecture.workspaceRoot }),
 	});
 }
