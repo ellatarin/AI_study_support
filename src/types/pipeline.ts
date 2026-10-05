@@ -141,19 +141,19 @@ type StageTuning = {
 };
 
 /**
- * The resolved per-stage configuration actually used for a run, recorded in the
+ * The resolved per-stage configuration a stage actually used, recorded in the
  * manifest and run log so cost data can be attributed to a specific model and
  * parameter set. `modelId` is `null` only for stages that make no LLM calls (in
- * which case the whole `StageRunConfig` is typically `null`). Recorded per stage
+ * which case the whole `StageConfigUsed` is typically `null`). Recorded per stage
  * in the manifest and run log (technical-design.md §4.5, §4.6).
  */
-export type StageRunConfig = {
+export type StageConfigUsed = {
 	readonly modelId: string | null;
 } & StageTuning;
 
 /**
  * Per-stage model and parameter configuration as declared in
- * `pipeline-config.json`. Unlike {@link StageRunConfig}, `modelId` is required
+ * `pipeline-config.json`. Unlike {@link StageConfigUsed}, `modelId` is required
  * here — a configured stage always names a model (technical-design.md §6).
  */
 export type StageConfig = {
@@ -320,7 +320,7 @@ type StageRunRecord = {
 
 /** Output-related fields common to every terminal stage entry. */
 type StageOutputData = StageRunRecord & {
-	readonly configUsed: StageRunConfig | null;
+	readonly configUsed: StageConfigUsed | null;
 };
 
 /** Fields carried by a successfully completed or skipped stage entry. */
@@ -688,10 +688,10 @@ export type QaDeficienciesReport = QaCheckerReport & {
 };
 
 /**
- * How a run was initiated: a normal manual invocation or a `--from-stage`
- * re-run (technical-design.md §4.6).
+ * How a pipeline run was initiated: a normal manual invocation or a
+ * `--from-stage` re-run (technical-design.md §4.6).
  */
-export type RunTrigger = "manual" | "from-stage";
+export type PipelineRunTrigger = "manual" | "from-stage";
 
 /**
  * The run type of a run, decided from manifest state at start, used
@@ -721,7 +721,7 @@ export type RunLogCost = {
 /** Fields common to every `ran` run-log entry, before status discrimination. */
 type RanStageBase = {
 	readonly action: "ran";
-	readonly configUsed: StageRunConfig | null;
+	readonly configUsed: StageConfigUsed | null;
 	readonly cost: RunLogCost;
 };
 
@@ -760,7 +760,7 @@ type TimeSpan = {
  */
 export type RunLog = TimeSpan & {
 	readonly runId: string;
-	readonly triggeredBy: RunTrigger;
+	readonly triggeredBy: PipelineRunTrigger;
 	readonly runType: RunType;
 	readonly fromStage: StageId | null;
 	/** The `--to-stage` bound, or `null` for a run that was not bounded; the stages after it read `not-reached`. */
@@ -794,9 +794,9 @@ export type LectureMatch = {
 };
 
 /**
- * Options controlling a single lecture run (technical-design.md §4.7).
+ * Options controlling a single pipeline run (technical-design.md §4.7).
  */
-export type RunOptions = {
+export type PipelineRunOptions = {
 	readonly fromStage?: StageId; // reset this stage + all downstream to pending before running
 	/**
 	 * The last stage the run performs. Stages after it are not run and are
@@ -813,8 +813,8 @@ export type RunOptions = {
 	 * What the runner does once a stage has failed: `halt` stops the run, leaving
 	 * the stages after it `not-reached`; `continue` logs the failure and moves on
 	 * to the next stage (technical-design.md §8, Stage Failure Protocol). Always
-	 * stated — the default is {@link DEFAULT_RUN_OPTIONS}, not the absence of a
-	 * value.
+	 * stated — the default is {@link DEFAULT_PIPELINE_RUN_OPTIONS}, not the
+	 * absence of a value.
 	 */
 	readonly onStageFailure: "halt" | "continue";
 };
@@ -823,10 +823,10 @@ export type RunOptions = {
  * Options controlling a batch: everything a single pipeline run takes, plus
  * the one thing only a batch can say (technical-design.md §4.7).
  */
-export type BatchOptions = RunOptions & {
+export type BatchOptions = PipelineRunOptions & {
 	/**
 	 * How many lectures `runBatch` processes at once, drawn from one queue across
-	 * every module in the batch. Absent from {@link RunOptions} because `run`
+	 * every module in the batch. Absent from {@link PipelineRunOptions} because `run`
 	 * addresses a single lecture and could do nothing with it. Distinct from
 	 * `StageConfig.concurrency`, which bounds the parallel API calls made
 	 * *within* one stage.
@@ -834,12 +834,12 @@ export type BatchOptions = RunOptions & {
 	readonly concurrency: number;
 };
 
-/** What a lecture run does when its caller expresses no preference. */
-export const DEFAULT_RUN_OPTIONS: RunOptions = { onStageFailure: "halt" };
+/** What a pipeline run does when its caller expresses no preference. */
+export const DEFAULT_PIPELINE_RUN_OPTIONS: PipelineRunOptions = { onStageFailure: "halt" };
 
 /** What a batch does when its caller expresses no preference: one at a time. */
 export const DEFAULT_BATCH_OPTIONS: BatchOptions = {
-	...DEFAULT_RUN_OPTIONS,
+	...DEFAULT_PIPELINE_RUN_OPTIONS,
 	concurrency: 1,
 };
 
@@ -851,24 +851,25 @@ export type ReportOptions = {
 };
 
 /**
- * What one stage did during a run, paired with the stage it happened to. The run
- * log keys its entries by stage id; a summary is an ordered list, so it carries
- * the id alongside each entry — without it a caller (the CLI's end-of-run
- * summary) could not say which stage an outcome belongs to
+ * What one stage did during a pipeline run, paired with the stage it happened
+ * to. The run log keys its entries by stage id; a summary is an ordered list, so
+ * it carries the id alongside each entry — without it a caller (the CLI's
+ * pipeline run summary) could not say which stage an outcome belongs to
  * (technical-design.md §4.7, §7).
  */
-export type RunStageOutcome = {
+export type PipelineStageOutcome = {
 	readonly stageId: StageId;
 	readonly entry: RunLogStageEntry;
 };
 
 /**
- * The outcome of running one lecture through the pipeline (technical-design.md §4.7).
+ * The outcome of one pipeline run: one lecture through the pipeline
+ * (technical-design.md §4.7).
  */
-export type RunSummary = TimeSpan & {
+export type PipelineRunSummary = TimeSpan & {
 	readonly workspaceRoot: string;
-	readonly runId: string; // matches the run log created for this run
-	readonly stageOutcomes: readonly RunStageOutcome[]; // in execution order
+	readonly runId: string; // matches the run log created for this pipeline run
+	readonly stageOutcomes: readonly PipelineStageOutcome[]; // in execution order
 	readonly overallStatus: OverallStatus;
 };
 
@@ -877,7 +878,7 @@ export type RunSummary = TimeSpan & {
  * (technical-design.md §4.7).
  */
 export type BatchSummary = TimeSpan & {
-	readonly lectures: readonly RunSummary[]; // one entry per lecture attempted, in the order they ran
+	readonly lectures: readonly PipelineRunSummary[]; // one entry per lecture attempted, in the order they ran
 	readonly overallStatus: OverallStatus;
 };
 
@@ -885,15 +886,15 @@ export type BatchSummary = TimeSpan & {
  * Something worth telling the user about, at the moment it happens
  * (technical-design.md §10).
  *
- * A run summary describes a run that has finished. These describe one that is
- * still going, which is the only way a user learns what a long run is doing —
- * and, for a run that repeats nothing, the only way they learn it did anything
+ * A pipeline run summary describes a pipeline run that has finished. These
+ * describe one that is still going, which is the only way a user learns what a
+ * long pipeline run is doing — and, for a pipeline run that repeats nothing, the only way they learn it did anything
  * at all.
  *
  * They carry facts rather than sentences: the wording is the CLI's, which is
  * what keeps the runner out of the business of writing to a user (§8).
  */
-export type RunEvent =
+export type PipelineRunEvent =
 	| { readonly event: "lecture-started"; readonly manifest: Manifest }
 	| { readonly event: "stage-started"; readonly stageId: StageId }
 	| { readonly event: "stage-skipped"; readonly stageId: StageId }
@@ -905,8 +906,8 @@ export type RunEvent =
 	| { readonly event: "stage-failed"; readonly stageId: StageId };
 
 /**
- * Where a run's events are told to. The runner is given one the way it is given
+ * Where a pipeline run's events are told to. The runner is given one the way it is given
  * a logger; the CLI supplies one that writes to the stream it owns
  * (technical-design.md §10).
  */
-export type RunReporter = (event: RunEvent) => void;
+export type PipelineRunReporter = (event: PipelineRunEvent) => void;

@@ -17,11 +17,11 @@ import type {
 	BatchSummary,
 	Manifest,
 	OverallStatus,
+	PipelineRunSummary,
+	PipelineStageOutcome,
 	QaStageEntry,
 	RunLog,
 	RunLogStageEntry,
-	RunStageOutcome,
-	RunSummary,
 	StageCost,
 	StageEntry,
 	StageId,
@@ -585,7 +585,7 @@ function executedStages({
 	outcomes,
 	manifest,
 }: {
-	readonly outcomes: readonly RunStageOutcome[];
+	readonly outcomes: readonly PipelineStageOutcome[];
 	readonly manifest: Manifest;
 }): readonly (StageCostRow & { readonly stageId: StageId })[] {
 	const stages: (StageCostRow & { readonly stageId: StageId })[] = [];
@@ -620,7 +620,7 @@ export function formatRunSummary({
 	outcomes,
 	manifest,
 	formatMoney,
-}: ManifestWithMoney & { readonly outcomes: readonly RunStageOutcome[] }): string {
+}: ManifestWithMoney & { readonly outcomes: readonly PipelineStageOutcome[] }): string {
 	const rows = executedStages({ outcomes, manifest }).map(
 		({ stageId, model, cost }): readonly Cell[] => [
 			[stageLabel({ stageId }), RUN_SUMMARY_WIDTHS.stage, "left"],
@@ -658,8 +658,8 @@ const BATCH_SUMMARY_WIDTHS = { module: 30, lectures: 10, status: 10 } as const;
  * @returns The lectures grouped by module root.
  */
 function lecturesByModule(
-	lectures: readonly RunSummary[],
-): ReadonlyMap<string, readonly RunSummary[]> {
+	lectures: readonly PipelineRunSummary[],
+): ReadonlyMap<string, readonly PipelineRunSummary[]> {
 	return groupBy({
 		items: lectures,
 		keyOf: (lecture) => moduleRootOf({ workspaceRoot: lecture.workspaceRoot }),

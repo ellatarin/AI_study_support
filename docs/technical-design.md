@@ -391,7 +391,7 @@ Every stage implements a common `PipelineStage<TInput, TOutput>` contract: an id
 
 A stage's context is assembled before its own entry is marked `running`, so the manifest copy it carries is out of date in that field for as long as the stage runs. The copy is a read model. The runner re-reads the manifest immediately before each write and is its only writer, so every write has a current base, and the `running` marker survives the stage it belongs to (§4.5). Currency and trust are separate questions: the manifest is untrusted input however fresh it is, bounded by §4.4.
 
-**Authoritative types.** The exact shape of every pipeline contract — `PipelineStage`, `StageId`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, and the rest — lives in `src/types/pipeline.ts` with per-field documentation. That file is the single source of truth; this section describes intent and the invariants those types encode, not field lists:
+**Authoritative types.** The exact shape of every pipeline contract — `PipelineStage`, `StageId`, `StageContext`, `StageResult`, `StageCost`, `StageConfigUsed`, and the rest — lives in `src/types/pipeline.ts` with per-field documentation. That file is the single source of truth; this section describes intent and the invariants those types encode, not field lists:
 
 - `StageResult.cost` is `null` for stages that make no billable calls (audio-extraction, pdf-generation).
 - `StageResult.filesWritten` holds paths relative to `workspaceRoot`, and MAY escape upward with `..` (e.g. pdf-generation writes to `../../Final output/`) but MUST resolve under `moduleRoot` — enforced by §4.4.
@@ -597,7 +597,7 @@ patchManifest(args: { workspaceRoot: string; manifest: Manifest; changes: Partia
 // entry, so the manifest and the entry inside it name one moment.
 ```
 
-Each stage entry records `configUsed` — a `StageRunConfig` capturing the model ID and tuning parameters (temperature, max tokens, concurrency, calls at once, max QA iterations) actually resolved for that run, or `null` for stages that make no LLM calls. This lets spend be attributed to a specific model and configuration and lets model experiments be compared (NFR-3.2). The run logs (§4.6) record the same `configUsed` per attempt.
+Each stage entry records `configUsed` — a `StageConfigUsed` capturing the model ID and tuning parameters (temperature, max tokens, concurrency, calls at once, max QA iterations) actually resolved for that run, or `null` for stages that make no LLM calls. This lets spend be attributed to a specific model and configuration and lets model experiments be compared (NFR-3.2). The run logs (§4.6) record the same `configUsed` per attempt.
 
 ```jsonc
 {
@@ -751,20 +751,20 @@ A run log records what each stage of that run cost and stops there — no figure
 
 ### 4.7 Pipeline Runner
 
-The runner-facing types — `LectureMatch`, `RunOptions`, `BatchOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, and `BatchSummary` — are defined in `src/types/pipeline.ts` (single source of truth).
+The runner-facing types — `LectureMatch`, `PipelineRunOptions`, `BatchOptions`, `ReportOptions`, `PipelineStageOutcome`, `PipelineRunSummary`, and `BatchSummary` — are defined in `src/types/pipeline.ts` (single source of truth).
 
-`RunOptions` carries what any run can be told: which stage to restart from, which stage to stop after, and `onStageFailure`, `'halt' | 'continue'`, which the caller always states. `BatchOptions` extends it with `concurrency`, how many lectures are in flight at once; only a batch has more than one lecture to place, so the option lives on the batch's type alone and a single-lecture run cannot express it. What a caller who states no preference gets is named once, as `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`: halt at the first failed stage, one lecture at a time. The CLI never relies on the second's `concurrency`: `batch` always states one, from `--concurrency` or else the config's `batch.concurrency`.
+`PipelineRunOptions` carries what any run can be told: which stage to restart from, which stage to stop after, and `onStageFailure`, `'halt' | 'continue'`, which the caller always states. `BatchOptions` extends it with `concurrency`, how many lectures are in flight at once; only a batch has more than one lecture to place, so the option lives on the batch's type alone and a single-lecture run cannot express it. What a caller who states no preference gets is named once, as `DEFAULT_PIPELINE_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`: halt at the first failed stage, one lecture at a time. The CLI never relies on the second's `concurrency`: `batch` always states one, from `--concurrency` or else the config's `batch.concurrency`.
 
 The `PipelineRunner` surface:
 
 ```typescript
 class PipelineRunner {
   // Stages are injected so the runner is driven by stub stages under test and real stages in production.
-  constructor(deps: { config: PipelineConfig; sourceNormalisation: Readonly<SourceNormalisationStage>; lectureStages: readonly Readonly<PipelineStage<unknown, unknown>>[]; logger: Logger; reporter: RunReporter })
+  constructor(deps: { config: PipelineConfig; sourceNormalisation: Readonly<SourceNormalisationStage>; lectureStages: readonly Readonly<PipelineStage<unknown, unknown>>[]; logger: Logger; reporter: PipelineRunReporter })
   // `reporter` is where the run says what it is doing as it happens (§10). Injected like the logger and for
   // the same reason: the runner states the facts, and the CLI decides how — and whether — a user sees them.
   async normaliseSources(args: { moduleRoots: readonly string[] }): Promise<void>          // source-normalisation
-  async runLecture(args: { workspaceRoot: string; options?: RunOptions }): Promise<RunSummary>
+  async runLecture(args: { workspaceRoot: string; options?: PipelineRunOptions }): Promise<PipelineRunSummary>
   async runBatch(args: { moduleRoots: readonly string[]; options?: BatchOptions }): Promise<BatchSummary>
   async costReport(args: { moduleRoots: readonly string[]; options?: ReportOptions }): Promise<readonly string[]>
   // One rendered report per reported lecture, handed back rather than printed. The CLI writes them
@@ -784,7 +784,7 @@ type SourceNormalisationStage = { stageId: "source-normalisation"; normaliseModu
 // return values and concurrent lectures share no state.
 export deriveRunId(args: { instant: Date }): string     // filesystem-safe run id, e.g. 2025-10-10T09-00-00Z
 // Exported for the CLI, which names the run's debug log after the run it belongs to (§10).
-decideRunType(args: { options: RunOptions; manifest: Manifest }): RunType  // normal | experiment | error-recovery (§7)
+decideRunType(args: { options: PipelineRunOptions; manifest: Manifest }): RunType  // normal | experiment | error-recovery (§7)
 // Private. The classification reaches the outside world on `RunLog.runType`, which is where the cost report
 // reads it and where the runner's tests assert it.
 type StageOutcome = { entry: RunLogStageEntry; context: StageContext }
@@ -795,8 +795,8 @@ runStage(args: { stage: PipelineStage<unknown, unknown>; context: StageContext; 
 // an entry — and delegates every manifest transition to a recorder.
 createStageRecorder(args: { stageId: StageId; context: StageContext; config: PipelineConfig; timestamp: string }): StageRecorder
 type StageRecorder = { skipped(): Promise<void>; running(): Promise<void>
-                       complete(args: { configUsed: StageRunConfig | null; result: StageResult<unknown> }): Promise<void>
-                       failed(args: { configUsed: StageRunConfig | null; error: string }): Promise<void>
+                       complete(args: { configUsed: StageConfigUsed | null; result: StageResult<unknown> }): Promise<void>
+                       failed(args: { configUsed: StageConfigUsed | null; error: string }): Promise<void>
                        context(): StageContext }
 // One stage's manifest transitions, and the context that follows from the last of them. Each write locates
 // the workspace first (the stage may have moved it), patches the entry through updateManifest, and rebuilds
@@ -813,7 +813,7 @@ findLectureByDate(args: { moduleRoot: string; lectureDate: string }): Promise<{ 
 // resolveWorkspace and resolveLecturesByDate, which apply the same identity rule to different ends.
 ```
 
-A `RunSummary` lists its stages as `RunStageOutcome` — the run-log entry *paired with the stage id it belongs to*. The run log keys entries by stage id, but a summary is an ordered list, and its consumer (the end-of-run summary, §7) has to name each stage it reports.
+A `PipelineRunSummary` lists its stages as `PipelineStageOutcome` — the run-log entry *paired with the stage id it belongs to*. The run log keys entries by stage id, but a summary is an ordered list, and its consumer (the end-of-run summary, §7) has to name each stage it reports.
 
 **Reducing outcomes to a status.** The same rule applies at every level — a stage within a lecture, a lecture within a module, a module within a batch — so it is stated once in `src/pipeline/run-status.ts` and applied by both the runner and the reporting that prints its summaries.
 
@@ -829,14 +829,14 @@ summariseOverallStatus(args: { statuses: readonly OverallStatus[] }): OverallSta
 summariseLectures(args: { lectures: readonly { overallStatus: OverallStatus }[] }): OverallStatus
 // The same rule over lectures, which carry their own status: the runner folds a whole batch this way and the
 // batch table folds each module's rows, so the projection is written once. The parameter asks for the status
-// alone rather than a whole RunSummary, because that is all the rule reads.
+// alone rather than a whole PipelineRunSummary, because that is all the rule reads.
 isCompletedEntry(entry: StageEntry | QaStageEntry | undefined): entry is CompletedStageEntry
 // Whether a *manifest* entry means the stage's output is on disk — `complete` or `skipped` (§4.2). Three
 // unrelated callers ask it: the shared `isComplete`, the run classifier, and the cost report's current-pipeline
 // section. A type guard rather than a boolean, so a caller that has checked can read `filesWritten` without a cast.
 ```
 
-**Run outcome classification.** A `RunSummary.overallStatus` — and the aggregate `BatchSummary.overallStatus` across a batch's lectures — is `failed` when at least one stage failed, and `success` otherwise, a stage whose output already stood and was skipped included. It reports on this run, not on the lecture: a run bounded by `--to-stage` succeeds with later stages still `pending`, and the manifest is where how far a lecture has got is read.
+**Run outcome classification.** A `PipelineRunSummary.overallStatus` — and the aggregate `BatchSummary.overallStatus` across a batch's lectures — is `failed` when at least one stage failed, and `success` otherwise, a stage whose output already stood and was skipped included. It reports on this run, not on the lecture: a run bounded by `--to-stage` succeeds with later stages still `pending`, and the manifest is where how far a lecture has got is read.
 
 **Pipeline order comes from `STAGE_IDS`.** `src/types/pipeline.ts` declares `STAGE_IDS` as the ordered stage list, and everything that walks the stages in order — the runner's `--from-stage` reset, the cost report's per-stage breakdown — iterates that array. A map elsewhere in the code is a lookup keyed *by* stage, and its key order is that map's own; the pipeline's order has one statement, and adding a stage to it is what puts the stage in the sequence.
 
@@ -870,7 +870,7 @@ assembleContext(args: { workspaceRoot: string; manifest: Manifest; config: Pipel
 
 The context is **rebuilt between stages** rather than assembled once for the run. It costs no extra reads: the runner already re-reads the manifest at every stage transition, so `updateManifest` hands back what it wrote and the next context is assembled from that. What it buys is that a stage's manifest changes reach the stages that follow — `transcript-structuring` replaces `lectureTitle`, and `pdf-generation` names the PDF from it.
 
-**Following a relocated workspace.** `transcript-structuring` renames the workspace folder when it replaces the lecture's title (§5, `transcript-structuring`), which invalidates the path the runner is holding mid-run. Stages do not report the move; the runner re-locates the lecture by the identity this section treats as canonical — `(moduleRoot, lectureDate)`. `resolveWorkspace` reads the manifest at the path it has and, failing that, falls back to `findLectureByDate`, which scans `Pipeline processing/` for the workspace whose manifest carries the date. The fallback is reached only after a stage has moved the folder; every other transition costs the read it always cost. The run log is written at the resolved path and `RunSummary.workspaceRoot` reports it, so a run that renames its own workspace still leaves its log beside the work.
+**Following a relocated workspace.** `transcript-structuring` renames the workspace folder when it replaces the lecture's title (§5, `transcript-structuring`), which invalidates the path the runner is holding mid-run. Stages do not report the move; the runner re-locates the lecture by the identity this section treats as canonical — `(moduleRoot, lectureDate)`. `resolveWorkspace` reads the manifest at the path it has and, failing that, falls back to `findLectureByDate`, which scans `Pipeline processing/` for the workspace whose manifest carries the date. The fallback is reached only after a stage has moved the folder; every other transition costs the read it always cost. The run log is written at the resolved path and `PipelineRunSummary.workspaceRoot` reports it, so a run that renames its own workspace still leaves its log beside the work.
 
 **Counting a batch's scope.** `countLectures({ moduleRoots })` reports how many lectures stand across those modules, applying the same reading as the batch itself: a folder holding no manifest is not a lecture, and a module the pipeline has never processed holds none. It exists because the `--from-stage` confirmation has to state a number the user has no other way of knowing, and it is called only on that path — the scan it costs is not something an ordinary batch should pay for. Sources are normalised before it runs, so a lecture whose video and slides were only just added is counted; the batch is about to run it either way.
 
@@ -1987,7 +1987,7 @@ lectureHeading(args: { manifest: Manifest }): string
 formatCostReport(args: { runLogs: readonly RunLog[]; manifest: Manifest; formatMoney: MoneyFormatter }): string
 // The three sections above, rendered as a single string.
 
-formatRunSummary(args: { outcomes: readonly RunStageOutcome[]; manifest: Manifest; formatMoney: MoneyFormatter }): string
+formatRunSummary(args: { outcomes: readonly PipelineStageOutcome[]; manifest: Manifest; formatMoney: MoneyFormatter }): string
 // The end-of-run summary above. The outcomes say which stages this invocation executed; the manifest, read
 // after the run, says what each one used and cost — tokens live there and not in the run log. A stage that
 // names a model gets a row, its cost cell `n/a` wherever no figure resolved; a stage naming none gets none.
@@ -2063,7 +2063,7 @@ src/
 │   ├── prompts.ts                    # The only terminal I/O: confirm, multi-match picker
 │   ├── lecture-identity.ts           # rename/delete/change-date on the filesystem
 │   ├── commands.ts                   # Carrying a parsed command out; exit codes
-│   ├── run-reporter.ts               # The wording of the notices a run writes as it goes (§10)
+│   ├── pipeline-run-reporter.ts               # The wording of the notices a run writes as it goes (§10)
 │   └── run-cli.ts                    # Composition root: config, logger, runner, stages, prompts
 ├── types/
 │   └── pipeline.ts                   # All shared types: StageId, StageContext, StageResult,
@@ -2168,17 +2168,17 @@ The pino file transport is configured with `sync: false` and routes only to the 
 
 ### Stage Notices
 
-The runner tells the user what it is doing, one stage at a time, through a `RunReporter` it is given the way it is given a logger. A run summary describes a run that has finished; these describe one still going, and for a run that repeats nothing they are the only sign it did anything at all.
+The runner tells the user what it is doing, one stage at a time, through a `PipelineRunReporter` it is given the way it is given a logger. A pipeline run summary describes a pipeline run that has finished; these describe one still going, and for a pipeline run that repeats nothing they are the only sign it did anything at all.
 
 ```typescript
-type RunEvent =
+type PipelineRunEvent =
   | { event: "lecture-started"; manifest: Manifest }
   | { event: "stage-started"; stageId: StageId }
   | { event: "stage-skipped"; stageId: StageId }
   | { event: "stage-completed"; stageId: StageId; cost: StageCost | null }
   | { event: "stage-failed"; stageId: StageId }
-type RunReporter = (event: RunEvent) => void
-// Facts, not sentences. The wording is `src/cli/run-reporter.ts`'s, which is what keeps the runner out of the
+type PipelineRunReporter = (event: PipelineRunEvent) => void
+// Facts, not sentences. The wording is `src/cli/pipeline-run-reporter.ts`'s, which is what keeps the runner out of the
 // business of writing to a user (§8) while still letting it speak at the moment there is something to say.
 ```
 

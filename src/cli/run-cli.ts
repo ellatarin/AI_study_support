@@ -33,8 +33,8 @@ import {
 	executeCommand,
 	type WriteText,
 } from "./commands.js";
+import { createPipelineRunReporter } from "./pipeline-run-reporter.js";
 import { confirmPrompt, selectLectureMatch, selectLectureMatches } from "./prompts.js";
-import { createRunReporter } from "./run-reporter.js";
 
 /** Where the CLI's two streams of output go; replaced wholesale under test. */
 type CliOutput = {
@@ -94,7 +94,7 @@ async function assembleDeps({
 			createTranscriptVerificationStage({ logger, client }),
 		],
 		logger,
-		reporter: createRunReporter({ write, formatMoney }),
+		reporter: createPipelineRunReporter({ write, formatMoney }),
 	});
 	return {
 		runner,

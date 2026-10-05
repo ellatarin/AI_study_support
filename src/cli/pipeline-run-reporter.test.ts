@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { makeManifest } from "../pipeline/fixtures.js";
 import { createMoneyFormatter } from "../pipeline/reports.js";
-import type { RunEvent } from "../types/pipeline.js";
-import { createRunReporter } from "./run-reporter.js";
+import type { PipelineRunEvent } from "../types/pipeline.js";
+import { createPipelineRunReporter } from "./pipeline-run-reporter.js";
 
 /**
  * The rate the suite reports at, chosen so a converted figure is not its own
@@ -11,13 +11,13 @@ import { createRunReporter } from "./run-reporter.js";
  */
 const GBP_PER_USD = 0.8;
 
-describe("createRunReporter", () => {
+describe("createPipelineRunReporter", () => {
 	let written: string[];
-	let report: (event: RunEvent) => void;
+	let report: (event: PipelineRunEvent) => void;
 
 	beforeEach(() => {
 		written = [];
-		report = createRunReporter({
+		report = createPipelineRunReporter({
 			write: (text) => {
 				written.push(text);
 			},
@@ -30,7 +30,7 @@ describe("createRunReporter", () => {
 		return written.join("");
 	}
 
-	it("should name the lecture when a lecture run starts", () => {
+	it("should name the lecture when a pipeline run starts", () => {
 		report({ event: "lecture-started", manifest: makeManifest() });
 
 		expect(printed()).toContain("Lecture 1: Cell Injury (2025-10-10)");
@@ -93,7 +93,7 @@ describe("createRunReporter", () => {
 		expect(printed()).not.toContain("call");
 	});
 
-	// The message and the pointer to the debug log follow the run summary (§8);
+	// The message and the pointer to the debug log follow the pipeline run summary (§8);
 	// this line exists so that a stage announced as started is not left hanging.
 	it("should mark the stage failed without repeating the message when it fails", () => {
 		report({ event: "stage-failed", stageId: "transcription" });

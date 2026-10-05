@@ -9,8 +9,8 @@
  */
 
 import { parseArgs } from "node:util";
-import type { RunOptions, StageId } from "../types/pipeline.js";
-import { DEFAULT_RUN_OPTIONS } from "../types/pipeline.js";
+import type { PipelineRunOptions, StageId } from "../types/pipeline.js";
+import { DEFAULT_PIPELINE_RUN_OPTIONS } from "../types/pipeline.js";
 import { isCalendarDate } from "../utils/date.js";
 import { errorMessage, NamedError } from "../utils/errors.js";
 import {
@@ -34,12 +34,12 @@ export class CliUsageError extends NamedError {}
  * (technical-design.md §4.7).
  */
 export type CliCommand =
-	| { readonly command: "run"; readonly lectureDate: string; readonly options: RunOptions }
+	| { readonly command: "run"; readonly lectureDate: string; readonly options: PipelineRunOptions }
 	| {
 			readonly command: "batch";
 			/** The single module to process, or `null` for every configured module. */
 			readonly moduleRoot: string | null;
-			readonly options: RunOptions;
+			readonly options: PipelineRunOptions;
 			/** How many lectures to run at once, from `--concurrency`; `null` takes the config's `batch.concurrency`. */
 			readonly concurrency: number | null;
 	  }
@@ -252,10 +252,10 @@ function parseConcurrency(value: string | undefined): number | null {
  * was typed.
  *
  * @param flags - The parsed flag values.
- * @returns The options for one lecture's run.
+ * @returns The options for one pipeline run.
  * @throws {CliUsageError} When either stage flag is invalid, or when the two are given out of pipeline order.
  */
-function toRunOptions(flags: ParsedFlags): RunOptions {
+function toPipelineRunOptions(flags: ParsedFlags): PipelineRunOptions {
 	const fromStage = parseStageFlag({ value: flags["from-stage"], flag: "--from-stage" });
 	const toStage = parseStageFlag({ value: flags["to-stage"], flag: "--to-stage" });
 	if (
@@ -271,7 +271,9 @@ function toRunOptions(flags: ParsedFlags): RunOptions {
 		...(fromStage === undefined ? {} : { fromStage }),
 		...(toStage === undefined ? {} : { toStage }),
 		onStageFailure:
-			flags["continue-on-error"] === true ? "continue" : DEFAULT_RUN_OPTIONS.onStageFailure,
+			flags["continue-on-error"] === true
+				? "continue"
+				: DEFAULT_PIPELINE_RUN_OPTIONS.onStageFailure,
 	};
 }
 
@@ -360,7 +362,7 @@ const COMMAND_SPECS: Readonly<Record<CommandName, CommandSpec>> = {
 		build: (input) => ({
 			command: "run",
 			lectureDate: input.lectureDate(),
-			options: toRunOptions(input.flags),
+			options: toPipelineRunOptions(input.flags),
 		}),
 	},
 	batch: {
@@ -371,7 +373,7 @@ const COMMAND_SPECS: Readonly<Record<CommandName, CommandSpec>> = {
 		build: (input) => ({
 			command: "batch",
 			moduleRoot: input.positionals[0] ?? null,
-			options: toRunOptions(input.flags),
+			options: toPipelineRunOptions(input.flags),
 			concurrency: parseConcurrency(input.flags.concurrency),
 		}),
 	},

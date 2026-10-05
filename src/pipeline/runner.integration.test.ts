@@ -3,14 +3,14 @@ import { dirname, join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 import {
 	DEFAULT_BATCH_OPTIONS,
-	DEFAULT_RUN_OPTIONS,
+	DEFAULT_PIPELINE_RUN_OPTIONS,
 	type LectureIdentityChanges,
 	type Manifest,
 	type PipelineConfig,
+	type PipelineRunEvent,
+	type PipelineRunSummary,
 	type PipelineStage,
-	type RunEvent,
 	type RunLog,
-	type RunSummary,
 	type RunType,
 	type SourceNormalisationStage,
 	type StageContext,
@@ -233,7 +233,7 @@ describe("PipelineRunner integration", () => {
 	// What the runner told the user about as it went. Kept as the events
 	// themselves rather than as rendered lines: the wording is the CLI's, and
 	// this suite is asking what the runner said happened, not how it reads.
-	let events: RunEvent[];
+	let events: PipelineRunEvent[];
 
 	beforeEach(async () => {
 		tempDir = await makeTempDir({ prefix: "runner-" });
@@ -265,7 +265,7 @@ describe("PipelineRunner integration", () => {
 			sourceNormalisation,
 			lectureStages,
 			logger: logged().logger,
-			reporter: (event: RunEvent) => {
+			reporter: (event: PipelineRunEvent) => {
 				events.push(event);
 			},
 		});
@@ -722,10 +722,10 @@ describe("PipelineRunner integration", () => {
 		 * @param fromStage - The stage to run again, along with everything after it.
 		 * @returns The run summary.
 		 */
-		function runFromStage(fromStage: StageId): Promise<RunSummary> {
+		function runFromStage(fromStage: StageId): Promise<PipelineRunSummary> {
 			return fromStageRunner().runLecture({
 				workspaceRoot,
-				options: { ...DEFAULT_RUN_OPTIONS, fromStage },
+				options: { ...DEFAULT_PIPELINE_RUN_OPTIONS, fromStage },
 			});
 		}
 
@@ -842,13 +842,13 @@ describe("PipelineRunner integration", () => {
 		 * @returns The run summary, and the stages' spies.
 		 */
 		async function runToStage(toStage: StageId): Promise<{
-			readonly summary: RunSummary;
+			readonly summary: PipelineRunSummary;
 			readonly runs: ReadonlyMap<StageId, Mock<() => Promise<StageResult<unknown>>>>;
 		}> {
 			const { stages, runs } = spyingStages();
 			const summary = await makeRunner(stages).runLecture({
 				workspaceRoot,
-				options: { ...DEFAULT_RUN_OPTIONS, toStage },
+				options: { ...DEFAULT_PIPELINE_RUN_OPTIONS, toStage },
 			});
 			return { summary, runs };
 		}
@@ -1230,7 +1230,9 @@ describe("PipelineRunner integration", () => {
 			const summary = await makeRunner([makeStubStage({ stageId: "audio-extraction" })]).runLecture(
 				{
 					workspaceRoot,
-					...(fromStage === null ? {} : { options: { ...DEFAULT_RUN_OPTIONS, fromStage } }),
+					...(fromStage === null
+						? {}
+						: { options: { ...DEFAULT_PIPELINE_RUN_OPTIONS, fromStage } }),
 				},
 			);
 			return (await readRunLog(workspaceRoot, summary.runId)).runType;
@@ -1354,7 +1356,7 @@ describe("PipelineRunner integration", () => {
 		}
 
 		/** Runs a pipeline that is nothing but the renaming stage. */
-		function runRenamingWorkspace(): Promise<RunSummary> {
+		function runRenamingWorkspace(): Promise<PipelineRunSummary> {
 			return makeRunner([makeRenamingStage()]).runLecture({ workspaceRoot });
 		}
 

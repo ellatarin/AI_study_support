@@ -70,7 +70,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 **Deliverables:**
 
-- `src/types/pipeline.ts` — every shared type, `STAGE_IDS`, the ordered stage list `StageId` is derived from, and `CONFIG_FILENAME`, the configuration file every layer names **(TD §4.1, §4.2, §4.7, §6)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageRunConfig`, `StageStatus`), the persisted shapes (`Manifest`, `StageEntry`, `RunLog`, `RunLogStageEntry`, `RunLogCost`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaCheckerReport`, `QaDeficienciesReport`, `QaSourcePassage`, `QaConsideration`), and the runner-facing `LectureMatch`, `RunOptions`, `BatchOptions`, `ReportOptions`, `RunStageOutcome`, `RunSummary`, `BatchSummary`, with `DEFAULT_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`
+- `src/types/pipeline.ts` — every shared type, `STAGE_IDS`, the ordered stage list `StageId` is derived from, and `CONFIG_FILENAME`, the configuration file every layer names **(TD §4.1, §4.2, §4.7, §6)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageConfigUsed`, `StageStatus`), the persisted shapes (`Manifest`, `StageEntry`, `RunLog`, `RunLogStageEntry`, `RunLogCost`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaCheckerReport`, `QaDeficienciesReport`, `QaSourcePassage`, `QaConsideration`), and the runner-facing `LectureMatch`, `PipelineRunOptions`, `BatchOptions`, `ReportOptions`, `PipelineStageOutcome`, `PipelineRunSummary`, `BatchSummary`, with `DEFAULT_PIPELINE_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`
 - `src/pipeline/layout.ts` — the filesystem vocabulary, declared once: `moduleDirs`, `datedFileDirs`, `workspaceRootFor`, `moduleRootOf`, `moduleName`, `MANIFEST_FILE`, `RUNS_DIR`, `runsDirPath`, `debugLogPath`, `STAGE_FILES`, `StageWithOutputFile` and the `stageOutputEntry` that admits only those stages, `stageOutputPath`, `resolveStageOutput`, `stageDirectoryPaths` **(TD §3.3, "The layout has one owner")**. Every stage, the runner, the CLI, and the fixtures take directory and file names from here; no other module states one as a literal
 - `src/utils/files.ts` — `writeFileAtomic`, `writeJsonAtomic`, `readJsonSafe`, `cleanTmpFiles`, `pathExists`, and the directory reads `readDirSafe`/`listFileNames`/`listSubdirectoryNames` **(TD §4.3)**
 - `src/pipeline/workspace-paths.ts` — `workspacePath` and `resolveManifestPath` with its `ManifestPathError` **(TD §4.4)**; apart from the conveniences above because a mistake here is a path escaping the module tree rather than an inconvenience
@@ -179,7 +179,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 `src/pipeline/run-status.ts` — the shared rule reducing stage and lecture outcomes to an `OverallStatus`: `stageOutcomeStatus`, `summariseOverallStatus`, `summariseLectures`, `isCompletedEntry` (**TD §4.7**).
 
-`src/cli/run-reporter.ts` — `createRunReporter`: the wording of the notices a run writes as it goes, one per stage, built over the `RunEvent`s the runner reports (**TD §10**).
+`src/cli/pipeline-run-reporter.ts` — `createPipelineRunReporter`: the wording of the notices a pipeline run writes as it goes, one per stage, built over the `PipelineRunEvent`s the runner reports (**TD §10**).
 
 `src/index.ts` and `src/cli/` — the CLI. Invoked in docs and examples as `lecture-notes <cmd>` via the `bin/lecture-notes` wrapper installed by `scripts/setup`. During dev without the wrapper, equivalent to `pnpm exec tsx src/index.ts <cmd>`.
 - Commands: `run <date>`, `batch [<moduleRoot>]`, `cost-report [--date <YYYY-MM-DD>] [--module <moduleRoot>]`
@@ -403,7 +403,7 @@ The transcription integration test streams a real file through the real SDK but 
 
 `callModel` gains `responseFormat` **(TD §6)** — `"text" | "json"`, stated on every call, setting the SDK's `response_format` to `json_object` for the stages that return structured data. `transcript-structuring` is its first production caller.
 
-`PipelineRunner` follows a relocated workspace **(TD §4.7, "Following a relocated workspace" and `StageContext` assembly)** — `findLectureByDate` extracted from `resolveLecturesByDate`; new `resolveWorkspace`; `updateManifest` takes and returns the manifest rather than re-reading it; `runStage` returns `StageOutcome`; `#runStages` carries each stage's context on to the next; the run log and `RunSummary.workspaceRoot` use the resolved path.
+`PipelineRunner` follows a relocated workspace **(TD §4.7, "Following a relocated workspace" and `StageContext` assembly)** — `findLectureByDate` extracted from `resolveLecturesByDate`; new `resolveWorkspace`; `updateManifest` takes and returns the manifest rather than re-reading it; `runStage` returns `StageOutcome`; `#runStages` carries each stage's context on to the next; the run log and `PipelineRunSummary.workspaceRoot` use the resolved path.
 
 `src/pipeline/stages/transcript-structuring/transcript-structuring.prompt.ts` **(TD §5, "Where prompts live")** — `buildStructuringMessages`, the first of the per-stage prompt modules. No test file of its own; the stage's tests exercise it.
 

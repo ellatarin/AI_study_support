@@ -23,12 +23,12 @@ import type {
 	PipelineStage,
 	QaCheckerReport,
 	StageConfig,
+	StageConfigUsed,
 	StageContext,
 	StageCost,
 	StageEntry,
 	StageId,
 	StageResult,
-	StageRunConfig,
 } from "../types/pipeline.js";
 import { createSendGate, type SendGate } from "../utils/send-gate.js";
 import { parseConfig } from "./config.js";
@@ -917,9 +917,10 @@ export const stageCompletedAt = `${testLecture.date}T10:00:00.000Z`;
 export const testRunId = `${testLecture.date}T09-00-00Z`;
 
 /**
- * When a run began and ended, where neither instant is what a suite is checking.
+ * When a pipeline run or batch began and ended, where neither instant is what a
+ * suite is checking.
  *
- * `RunSummary` and `BatchSummary` both require the pair, so a suite stubbing one
+ * `PipelineRunSummary` and `BatchSummary` both require the pair, so a suite stubbing one
  * has to fill it in whether or not it cares — and each was inventing a half-hour
  * of its own. Arbitrary for the same reason {@link stageCompletedAt} is: a suite
  * that states a span is saying the span matters.
@@ -959,7 +960,7 @@ export function completedEntry({
 }: {
 	readonly status?: "complete" | "skipped";
 	readonly completedAt?: string;
-	readonly configUsed?: StageRunConfig | null;
+	readonly configUsed?: StageConfigUsed | null;
 	readonly cost?: StageCost | null;
 	readonly filesWritten?: readonly string[];
 } = {}): StageEntry {

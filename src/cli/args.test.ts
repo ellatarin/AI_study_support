@@ -7,7 +7,7 @@ import {
 	testModuleRoot,
 	userChosenTitle,
 } from "../pipeline/fixtures.js";
-import { DEFAULT_RUN_OPTIONS } from "../types/pipeline.js";
+import { DEFAULT_PIPELINE_RUN_OPTIONS } from "../types/pipeline.js";
 import { type CliCommand, CliUsageError, parseCliArgs, USAGE } from "./args.js";
 
 function parse(argv: readonly string[]): CliCommand {
@@ -59,7 +59,7 @@ describe("parseCliArgs", () => {
 			expect(parse(["run", testLecture.date])).toEqual({
 				command: "run",
 				lectureDate: testLecture.date,
-				options: DEFAULT_RUN_OPTIONS,
+				options: DEFAULT_PIPELINE_RUN_OPTIONS,
 			});
 		});
 
@@ -117,7 +117,7 @@ describe("parseCliArgs", () => {
 			expect(parse(["batch"])).toEqual({
 				command: "batch",
 				moduleRoot: null,
-				options: DEFAULT_RUN_OPTIONS,
+				options: DEFAULT_PIPELINE_RUN_OPTIONS,
 				concurrency: null,
 			});
 		});
@@ -126,7 +126,7 @@ describe("parseCliArgs", () => {
 			expect(parse(["batch", testModuleRoot])).toEqual({
 				command: "batch",
 				moduleRoot: testModuleRoot,
-				options: DEFAULT_RUN_OPTIONS,
+				options: DEFAULT_PIPELINE_RUN_OPTIONS,
 				concurrency: null,
 			});
 		});
@@ -288,7 +288,7 @@ describe("parseCliArgs", () => {
 				options: {
 					fromStage: "transcription",
 					toStage: "transcription",
-					onStageFailure: DEFAULT_RUN_OPTIONS.onStageFailure,
+					onStageFailure: DEFAULT_PIPELINE_RUN_OPTIONS.onStageFailure,
 				},
 			});
 		});

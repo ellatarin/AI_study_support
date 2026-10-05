@@ -4,13 +4,13 @@ import type {
 	BatchSummary,
 	Manifest,
 	OverallStatus,
+	PipelineRunSummary,
+	PipelineStageOutcome,
 	RunLog,
 	RunLogStageEntry,
-	RunStageOutcome,
-	RunSummary,
+	StageConfigUsed,
 	StageCost,
 	StageEntry,
-	StageRunConfig,
 } from "../types/pipeline.js";
 import {
 	completedEntry,
@@ -48,7 +48,7 @@ import {
 // Slide conversion is the stage these tables are built around: it is the one
 // with a per-call model, a concurrency, and enough calls for its own figure to
 // be worth checking. Every fixture below records the same run of it.
-const SLIDE_CONVERSION_CONFIG: StageRunConfig = {
+const SLIDE_CONVERSION_CONFIG: StageConfigUsed = {
 	modelId: "google/gemini-2.5-flash",
 	concurrency: 3,
 };
@@ -413,7 +413,7 @@ const ran = (status: "complete" | "failed"): RunLogStageEntry =>
 
 // The stages this run touched: two that completed, one that failed, one skipped
 // because its output already existed, and one never reached after the failure.
-const runOutcomes: readonly RunStageOutcome[] = [
+const runOutcomes: readonly PipelineStageOutcome[] = [
 	{ stageId: "audio-extraction", entry: { action: "skipped" } },
 	{ stageId: "transcription", entry: ran("complete") },
 	{ stageId: "slide-conversion", entry: ran("complete") },
@@ -534,7 +534,7 @@ const lecture = ({
 	readonly moduleRoot: string;
 	readonly baseName: string;
 	readonly overallStatus: OverallStatus;
-}): RunSummary => ({
+}): PipelineRunSummary => ({
 	workspaceRoot: workspaceRootFor({ moduleRoot, baseName }),
 	runId: testRunId,
 	startedAt: "2025-10-10T09:00:00.000Z",

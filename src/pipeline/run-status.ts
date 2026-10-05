@@ -87,8 +87,9 @@ export function summariseOverallStatus({
  * it. Written once, the two cannot come to disagree about what a module of
  * half-failed lectures amounts to.
  *
- * The parameter asks for the status alone rather than for a whole `RunSummary`,
- * because that is all the rule reads; a `RunSummary` satisfies it.
+ * The parameter asks for the status alone rather than for a whole
+ * `PipelineRunSummary`, because that is all the rule reads; a
+ * `PipelineRunSummary` satisfies it.
  *
  * @param args - The lectures to combine.
  * @param args.lectures - Each lecture's overall status, in any order.

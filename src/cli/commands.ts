@@ -21,9 +21,9 @@ import type { PipelineRunner } from "../pipeline/runner.js";
 import type { ConfirmPrompt } from "../pipeline/stages/source-normalisation/orphaned-workspaces.js";
 import type {
 	LectureMatch,
+	PipelineRunOptions,
+	PipelineRunSummary,
 	ReportOptions,
-	RunOptions,
-	RunSummary,
 	StageId,
 } from "../types/pipeline.js";
 import { pluralise } from "../utils/text.js";
@@ -118,7 +118,7 @@ export const EXIT_FAILURE = 1;
 type CommandArgs<TCommand> = { readonly command: TCommand; readonly deps: CliDeps };
 
 /** What the two halves of reporting a finished lecture are handed. */
-type LectureReport = { readonly deps: CliDeps; readonly summary: RunSummary };
+type LectureReport = { readonly deps: CliDeps; readonly summary: PipelineRunSummary };
 
 /**
  * The lectures an action is handed: at least one, because a date naming none is
@@ -313,7 +313,7 @@ async function runLectures({
 }: {
 	readonly deps: CliDeps;
 	readonly matches: readonly LectureMatch[];
-	readonly options: RunOptions;
+	readonly options: PipelineRunOptions;
 }): Promise<number> {
 	const proceed = await confirmReset({
 		deps,

@@ -8,25 +8,29 @@ import type {
 	LectureMatch,
 	Manifest,
 	PipelineConfig,
+	PipelineRunOptions,
+	PipelineRunReporter,
+	PipelineRunSummary,
 	PipelineStage,
+	PipelineStageOutcome,
 	ReportOptions,
 	RunLog,
 	RunLogCost,
 	RunLogStageEntry,
-	RunOptions,
-	RunReporter,
-	RunStageOutcome,
-	RunSummary,
 	RunType,
 	SourceNormalisationStage,
+	StageConfigUsed,
 	StageContext,
 	StageCost,
 	StageEntry,
 	StageId,
 	StageResult,
-	StageRunConfig,
 } from "../types/pipeline.js";
-import { DEFAULT_BATCH_OPTIONS, DEFAULT_RUN_OPTIONS, STAGE_IDS } from "../types/pipeline.js";
+import {
+	DEFAULT_BATCH_OPTIONS,
+	DEFAULT_PIPELINE_RUN_OPTIONS,
+	STAGE_IDS,
+} from "../types/pipeline.js";
 import { mapWithConcurrency } from "../utils/concurrency.js";
 import { errorMessage } from "../utils/errors.js";
 import {
@@ -67,7 +71,7 @@ export type PipelineRunnerDeps = {
 	 * like the logger and for the same reason: the runner reports the facts and the
 	 * CLI decides how — and whether — a user sees them (technical-design.md §10).
 	 */
-	readonly reporter: RunReporter;
+	readonly reporter: PipelineRunReporter;
 };
 
 // Inputs addressing a set of modules with optional run- or report-specific options.
@@ -119,7 +123,7 @@ function decideRunType({
 	options,
 	manifest,
 }: {
-	readonly options: RunOptions;
+	readonly options: PipelineRunOptions;
 	readonly manifest: Manifest;
 }): RunType {
 	const { fromStage } = options;
@@ -250,7 +254,7 @@ async function resolveWorkspace({
 function resolveStageRunConfig(args: {
 	readonly config: PipelineConfig;
 	readonly stageId: StageId;
-}): StageRunConfig | null {
+}): StageConfigUsed | null {
 	const stageConfig = configuredStage(args);
 	return stageConfig === null ? null : { ...stageConfig };
 }
@@ -364,12 +368,12 @@ type StageRecorder = {
 	running(): Promise<void>;
 	/** The stage returned: record what it produced, and any lecture identity it decided (§4.2). */
 	complete(args: {
-		readonly configUsed: StageRunConfig | null;
+		readonly configUsed: StageConfigUsed | null;
 		readonly result: StageResult<unknown>;
 	}): Promise<void>;
 	/** The stage threw: record the message the user will see. */
 	failed(args: {
-		readonly configUsed: StageRunConfig | null;
+		readonly configUsed: StageConfigUsed | null;
 		readonly error: string;
 	}): Promise<void>;
 	/** The context the next stage runs against, as of the last transition recorded. */
@@ -468,7 +472,7 @@ async function runStage({
 	readonly config: PipelineConfig;
 	readonly timestamp: string;
 	readonly logger: Logger;
-	readonly reporter: RunReporter;
+	readonly reporter: PipelineRunReporter;
 }): Promise<StageOutcome> {
 	const { stageId } = stage;
 	const recorder = createStageRecorder({ stageId, context, config, timestamp });
@@ -595,9 +599,9 @@ function buildRunLog({
 	readonly runId: string;
 	readonly startedAt: string;
 	readonly endedAt: string;
-	readonly options: RunOptions;
+	readonly options: PipelineRunOptions;
 	readonly runType: RunType;
-	readonly outcomes: readonly RunStageOutcome[];
+	readonly outcomes: readonly PipelineStageOutcome[];
 }): RunLog {
 	const stages: Record<string, RunLogStageEntry> = {};
 	for (const { stageId, entry } of outcomes) {
@@ -671,7 +675,7 @@ export class PipelineRunner {
 	readonly #sourceNormalisation: Readonly<SourceNormalisationStage>;
 	readonly #lectureStages: readonly Readonly<PipelineStage<unknown, unknown>>[];
 	readonly #logger: Logger;
-	readonly #reporter: RunReporter;
+	readonly #reporter: PipelineRunReporter;
 
 	/**
 	 * @param deps - The runner's injected configuration and stages.
@@ -715,16 +719,16 @@ export class PipelineRunner {
 	 *
 	 * @param args - The run inputs.
 	 * @param args.workspaceRoot - Absolute path to the lecture workspace.
-	 * @param args.options - Options controlling the run; {@link DEFAULT_RUN_OPTIONS} when omitted.
+	 * @param args.options - Options controlling the run; {@link DEFAULT_PIPELINE_RUN_OPTIONS} when omitted.
 	 * @returns The summary of the lecture run.
 	 */
 	public async runLecture({
 		workspaceRoot,
-		options = DEFAULT_RUN_OPTIONS,
+		options = DEFAULT_PIPELINE_RUN_OPTIONS,
 	}: {
 		readonly workspaceRoot: string;
-		readonly options?: RunOptions;
-	}): Promise<RunSummary> {
+		readonly options?: PipelineRunOptions;
+	}): Promise<PipelineRunSummary> {
 		const startedAt = new Date();
 		const runId = deriveRunId({ instant: startedAt });
 		const startedIso = startedAt.toISOString();
@@ -778,12 +782,12 @@ export class PipelineRunner {
 		options,
 	}: {
 		readonly context: StageContext;
-		readonly options: RunOptions;
+		readonly options: PipelineRunOptions;
 	}): Promise<{
-		readonly outcomes: readonly RunStageOutcome[];
+		readonly outcomes: readonly PipelineStageOutcome[];
 		readonly context: StageContext;
 	}> {
-		const outcomes: RunStageOutcome[] = [];
+		const outcomes: PipelineStageOutcome[] = [];
 		// Carried from stage to stage rather than assembled once, so a stage that
 		// rewrites the lecture's identity hands the next stage the lecture as it now
 		// stands — including a workspace it has moved (§4.7).

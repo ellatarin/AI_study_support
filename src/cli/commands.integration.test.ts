@@ -21,10 +21,10 @@ import { baseNameForLecture } from "../pipeline/lecture-files.js";
 import { readManifest, writeManifest } from "../pipeline/manifest.js";
 import {
 	type BatchSummary,
-	DEFAULT_RUN_OPTIONS,
+	DEFAULT_PIPELINE_RUN_OPTIONS,
 	type LectureMatch,
 	type OverallStatus,
-	type RunSummary,
+	type PipelineRunSummary,
 } from "../types/pipeline.js";
 import {
 	type CliDeps,
@@ -85,7 +85,7 @@ describe("executeCommand", () => {
 	}: {
 		readonly workspace: string;
 		readonly overallStatus?: OverallStatus;
-	}): RunSummary {
+	}): PipelineRunSummary {
 		return {
 			workspaceRoot: workspace,
 			runId: testRunId,
@@ -255,7 +255,7 @@ describe("executeCommand", () => {
 		const runCommand = {
 			command: "run",
 			lectureDate: testLecture.date,
-			options: DEFAULT_RUN_OPTIONS,
+			options: DEFAULT_PIPELINE_RUN_OPTIONS,
 		} as const;
 
 		it("should normalise every configured module before looking for the lecture when running", async () => {
@@ -273,7 +273,7 @@ describe("executeCommand", () => {
 			expect(selectMatches).not.toHaveBeenCalled();
 			expect(runner.runLecture).toHaveBeenCalledWith({
 				workspaceRoot,
-				options: DEFAULT_RUN_OPTIONS,
+				options: DEFAULT_PIPELINE_RUN_OPTIONS,
 			});
 		});
 
@@ -384,7 +384,7 @@ describe("executeCommand", () => {
 		describe("--from-stage", () => {
 			const resetCommand = {
 				...runCommand,
-				options: { ...DEFAULT_RUN_OPTIONS, fromStage: RESET_FROM },
+				options: { ...DEFAULT_PIPELINE_RUN_OPTIONS, fromStage: RESET_FROM },
 			} as const;
 
 			it("should name the stage and how many lectures lose work when asking", async () => {
@@ -415,13 +415,13 @@ describe("executeCommand", () => {
 		const batchCommand = {
 			command: "batch",
 			moduleRoot: null,
-			options: DEFAULT_RUN_OPTIONS,
+			options: DEFAULT_PIPELINE_RUN_OPTIONS,
 			concurrency: null,
 		} as const;
 
 		/** What the runner is asked to do by a batch with no flags beyond the one under test. */
 		const configuredBatchOptions = {
-			...DEFAULT_RUN_OPTIONS,
+			...DEFAULT_PIPELINE_RUN_OPTIONS,
 			concurrency: CONFIGURED_BATCH_CONCURRENCY,
 		};
 
@@ -496,7 +496,7 @@ describe("executeCommand", () => {
 		describe("--from-stage", () => {
 			const resetCommand = {
 				...batchCommand,
-				options: { ...DEFAULT_RUN_OPTIONS, fromStage: RESET_FROM },
+				options: { ...DEFAULT_PIPELINE_RUN_OPTIONS, fromStage: RESET_FROM },
 			} as const;
 
 			beforeEach(() => {

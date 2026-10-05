@@ -1,5 +1,5 @@
 /**
- * Saying what a run is doing, while it does it.
+ * Saying what a pipeline run is doing, while it does it.
  *
  * The runner reports what happens to each stage as it happens; this turns those
  * facts into the lines a user reads. The wording lives here rather than in the
@@ -9,7 +9,7 @@
  */
 
 import { lectureHeading, type MoneyFormatter, stageLabel } from "../pipeline/reports.js";
-import type { RunEvent, RunReporter, StageCost } from "../types/pipeline.js";
+import type { PipelineRunEvent, PipelineRunReporter, StageCost } from "../types/pipeline.js";
 import { pluralise } from "../utils/text.js";
 import type { WriteText } from "./commands.js";
 
@@ -29,7 +29,7 @@ const FAILED = "✖";
  * What a completed stage spent, as the tail of its notice — the calls it made
  * and what they cost. A stage that makes no billable call has no tail at all,
  * rather than one reading zero: audio extraction and PDF generation buy nothing,
- * and saying so every run would be noise (technical-design.md §7).
+ * and saying so every pipeline run would be noise (technical-design.md §7).
  *
  * @param args - The stage's recorded cost and the report's money formatter.
  * @param args.cost - What the stage recorded, or `null` if it charged nothing.
@@ -61,12 +61,12 @@ function noticeFor({
 	event,
 	formatMoney,
 }: {
-	readonly event: RunEvent;
+	readonly event: PipelineRunEvent;
 	readonly formatMoney: MoneyFormatter;
 }): string {
 	if (event.event === "lecture-started") {
 		// A blank line above, because a batch writes one of these between lectures
-		// and the eye needs the break to see where one lecture's run ends.
+		// and the eye needs the break to see where one lecture's pipeline run ends.
 		return `\n${lectureHeading({ manifest: event.manifest })}\n`;
 	}
 	const label = stageLabel({ stageId: event.stageId });
@@ -79,7 +79,7 @@ function noticeFor({
 	if (event.event === "stage-completed") {
 		return `${COMPLETED} ${label}${spendTail({ cost: event.cost, formatMoney })}\n`;
 	}
-	// The message and the pointer to the debug log follow the run summary (§8).
+	// The message and the pointer to the debug log follow the pipeline run summary (§8).
 	// This line exists so a stage announced as started is not left hanging.
 	return `${FAILED} ${label} — failed\n`;
 }
@@ -93,13 +93,13 @@ function noticeFor({
  * @param args.formatMoney - Renders a stored dollar figure; the same one the summaries use.
  * @returns The reporter to hand the runner.
  */
-export function createRunReporter({
+export function createPipelineRunReporter({
 	write,
 	formatMoney,
 }: {
 	readonly write: WriteText;
 	readonly formatMoney: MoneyFormatter;
-}): RunReporter {
+}): PipelineRunReporter {
 	return (event) => {
 		write(noticeFor({ event, formatMoney }));
 	};
