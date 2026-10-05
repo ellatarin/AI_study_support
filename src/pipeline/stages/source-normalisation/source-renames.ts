@@ -9,7 +9,7 @@
  * name something else still holds.
  *
  * The price of that is a crash between the two passes, which leaves a complete
- * item — possibly the only copy of a lecture's video recording — sitting under a temporary
+ * lecture file — possibly the only copy of a lecture's video recording — sitting under a temporary
  * name. Finishing those is the first thing the next run does, and it happens
  * here too, because the two halves only work by agreeing on the suffix.
  *
@@ -28,10 +28,10 @@ import type { ModuleDirs } from "../../layout.js";
 import type { Lecture } from "./lecture-resolution.js";
 
 /**
- * The suffix an item wears between the two passes.
+ * The suffix a lecture file wears between the two passes.
  *
  * Deliberately not the `.tmp` of an atomic write: a `.tmp` here would name a
- * *complete* item mid-move rather than a partial one, and §4.3's sweep of
+ * *complete* lecture file mid-move rather than a partial one, and §4.3's sweep of
  * leftover partial output would delete it (technical-design.md §4.3).
  */
 const TEMP_SUFFIX = ".stage0-tmp";
@@ -70,7 +70,7 @@ async function findPendingRenames(dirs: ModuleDirs): Promise<readonly PendingRen
  * Finishes the second pass of a rename an earlier run was interrupted partway
  * through, before anything is read.
  *
- * A temporary entry holds a *complete* item that has left its old name and not
+ * A temporary entry holds a *complete* lecture file that has left its old name and not
  * yet reached its new one — the sole copy of a video recording, or a whole lecture
  * workspace — so the run that finds one moves it on to its target rather than
  * treating it as the discardable partial output §4.3 sweeps up. Left in place it
@@ -117,17 +117,17 @@ export async function completeInterruptedRenames({
 }
 
 /**
- * One item's rename, or `null` when there is nothing to do: the item is absent,
- * or it already sits at the name the numbering wants.
+ * One lecture file's rename, or `null` when there is nothing to do: the lecture
+ * file is absent, or it already sits at the name the numbering wants.
  *
  * The four things a lecture is spread across each ask this same question, and a
  * fifth would too, so it is asked in one place — the absent case and the
  * already-there case being the same answer is what each of the four was
  * spelling out for itself.
  *
- * @param args - The item and where it should end up.
- * @param args.dir - The directory the item sits in.
- * @param args.source - Its current name, or `undefined` when there is no such item.
+ * @param args - The lecture file and where it should end up.
+ * @param args.dir - The directory the lecture file sits in.
+ * @param args.source - Its current name, or `undefined` when there is no such lecture file.
  * @param args.target - The name the target numbering gives it.
  * @returns The rename to apply, or `null` when none is needed.
  */
@@ -149,7 +149,7 @@ function renameIfMoved({
 /**
  * Plans every rename needed to bring the module to its target numbering: video
  * recording, matched slide deck, existing workspace folder, and existing `Final output/`
- * PDF. Items already at their target are omitted (so a re-run is a no-op).
+ * PDF. Lecture files already at their target are omitted (so a re-run is a no-op).
  *
  * @param args - The lectures and the directories and existing state to reconcile.
  * @param args.lectures - The target lectures.
@@ -197,14 +197,14 @@ export function planRenames({
 }
 
 /**
- * Where an item waits between the two passes of a rename: at its target name,
+ * Where a lecture file waits between the two passes of a rename: at its target name,
  * under the temporary suffix. Written once because the two passes address it
  * from opposite ends — one renames onto it, the next renames off it — and a
  * crash between them leaves it there for the sweep at the start of the next run
  * to find.
  *
  * @param operation - The rename being applied.
- * @returns The absolute path the item is staged at.
+ * @returns The absolute path the lecture file is staged at.
  */
 function stagingPath(operation: RenameOp): string {
 	return join(operation.dir, `${operation.target}${TEMP_SUFFIX}`);

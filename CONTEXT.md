@@ -435,9 +435,9 @@ _Avoid_: gate (alone), throttle
 A checker's overall pass or fail on an output. A model's decision on whether a provisional title is meaningful is a *title judgement*, not a verdict.
 _Avoid_: result, outcome
 
-**Item**:
-One of the four things that share a lecture's base name: its video recording, its slide deck, its workspace and its PDF. A rename moves all four.
-_Avoid_: asset, entry
+**Lecture file**:
+One of the four things that share a lecture's base name: its video recording, its slide deck, its workspace and its notes PDF. The workspace is a folder, but it counts as a lecture file. A rename moves all four.
+_Avoid_: item, asset, entry
 
 **Verification report Markdown**:
 A Markdown version of the verification report, written for a person to read, beside the JSON file that the next stage reads. It is temporary, and will be deleted once the checker is calibrated.

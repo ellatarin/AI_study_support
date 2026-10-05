@@ -21,7 +21,7 @@ const dirs = moduleDirs({ moduleRoot: testModuleRoot });
  * rather than restated by each test.
  *
  * @param lecture - The parts the plan turns on.
- * @param lecture.baseName - The name every one of the lecture's four items should carry.
+ * @param lecture.baseName - The name every one of the lecture's four lecture files should carry.
  * @param lecture.videoRecordingName - The source video's current name.
  * @param lecture.slideDeckName - The slide deck's current name.
  * @param lecture.lectureDate - The lecture's `YYYY-MM-DD` date.
@@ -88,7 +88,7 @@ describe("planRenames", () => {
 		]);
 	});
 
-	it("should plan nothing when every item already sits at the name the numbering wants", () => {
+	it("should plan nothing when every lecture file already sits at the name the numbering wants", () => {
 		const settled = lectureNamed({
 			baseName: cellInjuryAsFirst,
 			videoRecordingName: `${cellInjuryAsFirst}.mp4`,

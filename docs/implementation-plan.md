@@ -299,7 +299,7 @@ Unit tests (no directory tree — filenames in, answers out):
 - `should name a lecture from its number, title and date when it is new`, and by number and date alone when the filename yields no title
 - `should take an existing lecture's name from its manifest title when it has been retitled`
 - `should move a video and its slide onto the lecture's base name when they are freshly named`
-- `should plan nothing when every item already sits at the name the numbering wants`
+- `should plan nothing when every lecture file already sits at the name the numbering wants`
 - `should move the workspace folder and the final PDF too when a lecture is renumbered`
 - `should find the workspace whose date has no sources left when one is removed`, and `should list orphaned workspaces in date order when several workspaces have lost their sources`
 
