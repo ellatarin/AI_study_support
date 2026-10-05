@@ -87,7 +87,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `src/utils/text.ts` — `collapseWhitespace`: closing up the gaps that removing a fragment leaves, which both the naming rules and the date reader end by doing **(TD §3)**; `pluralise`: a count and its noun agreeing with each other, for every place that tells the user how many of something there are
 - `src/utils/stage-config.ts` — `configuredStage`, `unconfiguredStageMessage`: a stage's entry in the config file and the sentence reporting its absence, for the OpenRouter client, `transcription` and the runner alike **(TD §6)**
 - `src/pipeline/config.ts` — `loadConfig`, plus the model-ID resolution check and its provider exemptions **(TD §6)**
-- `src/pipeline/openrouter.ts` — `createOpenRouterClient`, `makeCompletionCall`, and the exported `UnconfiguredStageError`, `ContextLengthError`, `CompletionRejectedError` and `NoCompletionChoicesError` **(TD §6)**
+- `src/pipeline/openrouter.ts` — `createOpenRouterClient`, `makeCompletionCall`, and the exported `UnconfiguredStageError`, `ContextLengthError`, `ProviderError` and `NoCompletionChoicesError` **(TD §6)**
 - `src/pipeline/fixtures.ts` — the shared test vocabulary: the example lecture and its derived file names, the module tree builders, the stub logger, the manifest and stage-entry builders. It belongs to this phase because it is what stops each later phase's suites inventing their own lecture, but it is the one deliverable that keeps growing: a phase that needs a fixture the suites will share extends this module rather than restating the value. Production code never imports it, which `eslint.config.js` exempts it in order to allow — it is the one file under `src/pipeline/` permitted to import from `src/pipeline/stages/`
 
 **Tests:**
@@ -739,7 +739,7 @@ The deepening tests of the mark are deleted.
 
 **Deliverables:**
 
-- `makeCompletionCall` sends a refused call again, up to three sends, pausing two seconds and then four, logging each refusal as a warning with the provider's sentence; the third refusal is the `CompletionRejectedError` **(TD §6, "A rejection can arrive inside an accepted reply")**. Every refused send counts as a call, costed by the usage it reports or, without one, as nothing.
+- `makeCompletionCall` sends a refused call again, up to three sends, pausing two seconds and then four, logging each refusal as a warning with the provider's sentence; the third refusal is the `ProviderError` **(TD §6, "A rejection can arrive inside an accepted reply")**. Every refused send counts as a call, costed by the usage it reports or, without one, as nothing.
 - `src/utils/resend.ts` — `sendUntilAccepted`, the resend loop, moved out of the panel's `sendWithResends` so the completion call and the panel stages share one copy.
 
 **Tests:**

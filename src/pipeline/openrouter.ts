@@ -64,7 +64,7 @@ export class UnconfiguredStageError extends NamedError {}
  * an unreachable endpoint. {@link ContextLengthError} is the one rejection with a
  * remedy of its own and keeps its own type (technical-design.md §8).
  */
-export class CompletionRejectedError extends NamedError {}
+export class ProviderError extends NamedError {}
 
 /**
  * Thrown when a completion is accepted but carries no choices at all, which
@@ -205,7 +205,7 @@ function stageConfigFor(options: {
  * @param options.providerMessage - The provider's own account of the failure.
  * @returns The message to report the rejection under.
  */
-function rejectionMessage(options: {
+function providerErrorDescription(options: {
 	readonly stageId: StageId;
 	readonly modelId: string;
 	readonly providerMessage: string;
@@ -256,7 +256,7 @@ function toCompletionError(options: {
 	readonly error: unknown;
 	readonly stageId: StageId;
 	readonly modelId: string;
-}): ContextLengthError | CompletionRejectedError | null {
+}): ContextLengthError | ProviderError | null {
 	if (!(options.error instanceof OpenAI.APIError)) {
 		return null;
 	}
@@ -265,8 +265,8 @@ function toCompletionError(options: {
 			`Model "${options.modelId}" rejected the request: context length exceeded. Configure a larger-context model for this stage in ${CONFIG_FILENAME}.`,
 		);
 	}
-	return new CompletionRejectedError(
-		rejectionMessage({
+	return new ProviderError(
+		providerErrorDescription({
 			stageId: options.stageId,
 			modelId: options.modelId,
 			providerMessage: options.error.message,
@@ -343,20 +343,20 @@ function tokenCount(value: unknown): number {
  *
  * @param args - The reply's usage, and whether the reply was a refusal.
  * @param args.usage - The reply's usage.
- * @param args.refused - Whether the reply carries the provider's refusal.
+ * @param args.hasProviderError - Whether the reply carries the provider's refusal.
  * @returns The send's cost, or why it is unknown.
  */
 function replyCost({
 	usage,
-	refused,
+	hasProviderError,
 }: {
 	readonly usage: Readonly<Record<string, unknown>>;
-	readonly refused: boolean;
+	readonly hasProviderError: boolean;
 }): CostResolution {
 	if (typeof usage.cost === "number") {
 		return { costUsd: usage.cost };
 	}
-	if (refused) {
+	if (hasProviderError) {
 		return { costUsd: 0 };
 	}
 	return { costUsd: null, costResolutionError: "Reply carried no numeric usage.cost" };
@@ -383,22 +383,22 @@ export type CompletionRequest = {
  *
  * @param args - The reply, and whether it was a refusal.
  * @param args.response - The accepted completion reply.
- * @param args.refused - Whether the reply carries the provider's refusal.
+ * @param args.hasProviderError - Whether the reply carries the provider's refusal.
  * @returns The send's cost.
  */
 function sendCost({
 	response,
-	refused,
+	hasProviderError,
 }: {
 	readonly response: unknown;
-	readonly refused: boolean;
+	readonly hasProviderError: boolean;
 }): StageCost {
 	const usage = usageOf(response);
 	return {
 		promptTokens: tokenCount(usage.prompt_tokens),
 		completionTokens: tokenCount(usage.completion_tokens),
 		callCount: 1,
-		...replyCost({ usage, refused }),
+		...replyCost({ usage, hasProviderError }),
 	};
 }
 
@@ -424,7 +424,7 @@ type AnsweredSend = {
  * @param options.openAiClient - The client to call through.
  * @returns The completion's text, cost and any provider error that came with it, or the refusal and its cost.
  * @throws {ContextLengthError} If the prompt exceeds the model's context window.
- * @throws {CompletionRejectedError} If the API rejects the call with a failure status.
+ * @throws {ProviderError} If the API rejects the call with a failure status.
  * @throws {NoCompletionChoicesError} If the reply carries neither choices nor a refusal.
  */
 async function sendCompletionOnce(
@@ -459,7 +459,7 @@ async function sendCompletionOnce(
 	const content = choice?.message.content ?? "";
 	const providerMessage = providerErrorMessage(response);
 	if (providerMessage !== null && content === "") {
-		return { failure: providerMessage, cost: sendCost({ response, refused: true }) };
+		return { failure: providerMessage, cost: sendCost({ response, hasProviderError: true }) };
 	}
 	// A provider can reply with no choices at all — content filtering, or an
 	// upstream error the SDK does not raise. Reading choices[0] blindly turns that
@@ -472,7 +472,7 @@ async function sendCompletionOnce(
 	}
 	return {
 		content,
-		cost: sendCost({ response, refused: false }),
+		cost: sendCost({ response, hasProviderError: false }),
 		keptError: providerMessage === null ? null : { providerMessage, finishReason },
 	};
 }
@@ -508,7 +508,7 @@ async function sendCompletionOnce(
  * @returns The completion text and its resolved cost.
  * @throws {UnconfiguredStageError} If the configuration holds no entry for the stage.
  * @throws {ContextLengthError} If the prompt exceeds the model's context window.
- * @throws {CompletionRejectedError} If the API rejects the call for any other reason, including a
+ * @throws {ProviderError} If the API rejects the call for any other reason, including a
  *   reply the SDK accepted that carries the provider's refusal on every send.
  * @throws {NoCompletionChoicesError} If the call is accepted but the model returns no choices.
  *   Every one of these names the model and the stage in its message (§8).
@@ -534,8 +534,8 @@ export async function makeCompletionCall(
 			);
 		},
 		exhausted: ({ failure }) =>
-			new CompletionRejectedError(
-				rejectionMessage({ stageId: options.stageId, modelId, providerMessage: failure }),
+			new ProviderError(
+				providerErrorDescription({ stageId: options.stageId, modelId, providerMessage: failure }),
 			),
 	});
 	if (sent.keptError !== null) {

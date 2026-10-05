@@ -25,13 +25,13 @@ import {
 	useStubLogger,
 } from "./fixtures.js";
 import {
-	CompletionRejectedError,
 	ContextLengthError,
 	createOpenRouterClient,
 	createOpenRouterClientProvider,
 	makeCompletionCall,
 	NoCompletionChoicesError,
 	API_KEY_VARIABLE as OPENROUTER_KEY_VARIABLE,
+	ProviderError,
 	UnconfiguredStageError,
 } from "./openrouter.js";
 
@@ -103,7 +103,7 @@ const BUSY_ERROR = { error: providerError(PROVIDER_BUSY_MESSAGE) };
  * @param args.message - The provider's sentence.
  * @param args.usage - The usage the refusal reports, if any.
  */
-function mockCompletionRejectedByProvider({
+function mockProviderError({
 	message = PROVIDER_BUSY_MESSAGE,
 	usage,
 }: {
@@ -129,7 +129,7 @@ function warningsLogged(): readonly unknown[] {
  * @param send - Which send was refused, counting from 1.
  * @returns The warning's payload.
  */
-function refusalWarning(send: number): Record<string, unknown> {
+function providerErrorWarning(send: number): Record<string, unknown> {
 	return { model: openRouterModelId, send, providerMessage: PROVIDER_BUSY_MESSAGE };
 }
 
@@ -409,8 +409,8 @@ describe("makeCompletionCall", () => {
 		});
 
 		it("should resend a refused call and return the reply when a later send is accepted", async () => {
-			mockCompletionRejectedByProvider();
-			mockCompletionRejectedByProvider();
+			mockProviderError();
+			mockProviderError();
 			mockCompletionReturning();
 
 			const result = await settleThroughPauses(call());
@@ -419,13 +419,13 @@ describe("makeCompletionCall", () => {
 		});
 
 		it("should fail with the last refusal, naming the model and the stage, when every send is refused", async () => {
-			mockCompletionRejectedByProvider();
-			mockCompletionRejectedByProvider();
-			mockCompletionRejectedByProvider({ message: "Upstream rate limit reached." });
+			mockProviderError();
+			mockProviderError();
+			mockProviderError({ message: "Upstream rate limit reached." });
 
 			const error = await settleThroughPauses(captureError(call()));
 
-			expect(error).toBeInstanceOf(CompletionRejectedError);
+			expect(error).toBeInstanceOf(ProviderError);
 			expect(error.message).toContain("Upstream rate limit reached.");
 			expect(error.message).toContain(openRouterModelId);
 			expect(error.message).toContain("transcript-structuring");
@@ -434,13 +434,13 @@ describe("makeCompletionCall", () => {
 		// The error reaches the user only when every send is refused; the log is
 		// where a refusal that a resend got past can still be seen.
 		it("should log each refusal as a warning with which send it was and the provider's sentence when a resend gets past it", async () => {
-			mockCompletionRejectedByProvider();
-			mockCompletionRejectedByProvider();
+			mockProviderError();
+			mockProviderError();
 			mockCompletionReturning();
 
 			await settleThroughPauses(call());
 
-			expect(warningsLogged()).toEqual([refusalWarning(1), refusalWarning(2)]);
+			expect(warningsLogged()).toEqual([providerErrorWarning(1), providerErrorWarning(2)]);
 		});
 
 		it.each([
@@ -455,10 +455,10 @@ describe("makeCompletionCall", () => {
 				expected: { ...stubbedCallCost, callCount: 2 },
 			},
 		])("should count the refused send as a call when the refusal $scenario", async ({
-			refusal,
+			refusal: erroredReply,
 			expected,
 		}) => {
-			mockCompletionRejectedByProvider(refusal);
+			mockProviderError(erroredReply);
 			mockCompletionReturning();
 
 			const result = await settleThroughPauses(call());
@@ -492,14 +492,14 @@ describe("makeCompletionCall", () => {
 
 		// The answer is kept, so the log is the only place the provider's error survives.
 		it("should log the provider's error as a warning with the finish reason and which send it was when a reply carries an answer as well", async () => {
-			mockCompletionRejectedByProvider();
+			mockProviderError();
 			mockCompletionReturning({ ...BUSY_ERROR, ...answerFinishing("error") });
 
 			await settleThroughPauses(call());
 
 			expect(warningsLogged()).toEqual([
-				refusalWarning(1),
-				{ ...refusalWarning(2), finishReason: "error" },
+				providerErrorWarning(1),
+				{ ...providerErrorWarning(2), finishReason: "error" },
 			]);
 		});
 	});
@@ -564,7 +564,7 @@ describe("makeCompletionCall", () => {
 
 		const error = await captureError(call());
 
-		expect(error).toBeInstanceOf(CompletionRejectedError);
+		expect(error).toBeInstanceOf(ProviderError);
 		expect(error.message).toContain(openRouterModelId);
 		expect(error.message).toContain("transcript-structuring");
 	});
