@@ -8,7 +8,7 @@ import {
 	vaccinationSources,
 } from "../../fixtures.js";
 import {
-	checkSources,
+	checkSourceRules,
 	orderLectures,
 	type SourcePair,
 	toDatedFiles,
@@ -37,40 +37,40 @@ function matchedSourcePairs({
 	readonly videoRecordings: readonly string[];
 	readonly slideDecks: readonly string[];
 }): readonly SourcePair[] {
-	const checked = checkSources({
+	const checked = checkSourceRules({
 		videoRecordings: toDatedFiles(videoRecordings),
 		slideDecks: toDatedFiles(slideDecks),
 	});
-	if (checked.state === "anomalies") {
-		throw new Error(`expected matched sources, got: ${checked.anomalies.join("; ")}`);
+	if (checked.state === "rules-broken") {
+		throw new Error(`expected matched sources, got: ${checked.brokenRules.join("; ")}`);
 	}
 	return checked.sourcePairs;
 }
 
 /**
- * The anomalies a listing produces.
+ * The broken rules a listing produces.
  *
  * @param args - The source listings.
  * @param args.videoRecordings - The video recording file names.
  * @param args.slideDecks - The slide deck file names.
- * @returns The anomaly lines.
- * @throws Error when the listings match, which no validation test intends.
+ * @returns The broken-rule lines.
+ * @throws Error when the listings match, which no source-rule test intends.
  */
-function anomaliesFor({
+function brokenRulesFor({
 	videoRecordings,
 	slideDecks,
 }: {
 	readonly videoRecordings: readonly string[];
 	readonly slideDecks: readonly string[];
 }): readonly string[] {
-	const checked = checkSources({
+	const checked = checkSourceRules({
 		videoRecordings: toDatedFiles(videoRecordings),
 		slideDecks: toDatedFiles(slideDecks),
 	});
 	if (checked.state === "matched") {
-		throw new Error("expected anomalies, but every source matched");
+		throw new Error("expected broken rules, but every source matched");
 	}
-	return checked.anomalies;
+	return checked.brokenRules;
 }
 
 describe("toDatedFiles", () => {
@@ -78,23 +78,23 @@ describe("toDatedFiles", () => {
 		{ name: cellInjurySources.videoRecording, lectureDate: cellInjurySources.date },
 		{ name: "13 Oct 2025 BOD_Immunity to Infection.mp4", lectureDate: immunitySources.date },
 	])("should read $lectureDate off $name when the name carries a date", ({ name, lectureDate }) => {
-		const { dated, undateable } = toDatedFiles([name]);
+		const { dated, undated } = toDatedFiles([name]);
 
-		expect(undateable).toEqual([]);
+		expect(undated).toEqual([]);
 		expect(dated.map((file) => ({ name: file.name, lectureDate: file.lectureDate }))).toEqual([
 			{ name, lectureDate },
 		]);
 	});
 
-	it("should classify a name as undateable when it carries no date", () => {
-		const { dated, undateable } = toDatedFiles(["Cell Injury.mp4"]);
+	it("should classify a name as undated when it carries no date", () => {
+		const { dated, undated } = toDatedFiles(["Cell Injury.mp4"]);
 
 		expect(dated).toEqual([]);
-		expect(undateable).toEqual(["Cell Injury.mp4"]);
+		expect(undated).toEqual(["Cell Injury.mp4"]);
 	});
 });
 
-describe("checkSources", () => {
+describe("checkSourceRules", () => {
 	it("should pair each video recording with the slide deck sharing its date when every date matches", () => {
 		const sourcePairs = matchedSourcePairs({
 			videoRecordings: [vaccinationSources.videoRecording, cellInjurySources.videoRecording],
@@ -116,7 +116,7 @@ describe("checkSources", () => {
 	});
 
 	// Every rule that stops a run, in the order the report puts them: both kinds
-	// of undateable file, then both kinds of duplicate date, then both directions
+	// of undated file, then both kinds of duplicate date, then both directions
 	// of an unmatched source pair. One table rather than three, because what each case
 	// asks is the same question of a different listing.
 	it.each([
@@ -167,16 +167,16 @@ describe("checkSources", () => {
 		slideDecks,
 		expected,
 	}) => {
-		expect(anomaliesFor({ videoRecordings, slideDecks })).toContain(expected);
+		expect(brokenRulesFor({ videoRecordings, slideDecks })).toContain(expected);
 	});
 
 	it("should report every problem rather than the first when several sources are wrong", () => {
-		const anomalies = anomaliesFor({
+		const brokenRules = brokenRulesFor({
 			videoRecordings: ["Cell Injury.mp4", vaccinationSources.videoRecording],
 			slideDecks: [immunitySources.slideDeck],
 		});
 
-		expect(anomalies).toHaveLength(3);
+		expect(brokenRules).toHaveLength(3);
 	});
 });
 

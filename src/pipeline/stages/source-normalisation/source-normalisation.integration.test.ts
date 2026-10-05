@@ -314,7 +314,7 @@ describe("createSourceNormalisationStage", () => {
 		expect(await listNames(processingDir(moduleRoot))).toEqual([cellInjuryAsFirst]);
 	});
 
-	describe("validation errors", () => {
+	describe("broken source rules", () => {
 		it.each([
 			{
 				scenario: "a video has no extractable date",
@@ -368,7 +368,7 @@ describe("createSourceNormalisationStage", () => {
 			expect(await sourceNames()).toEqual(before);
 		});
 
-		it("should report every anomaly in a single error when several sources are wrong", async () => {
+		it("should report every broken rule in a single error when several sources are wrong", async () => {
 			await writeInto(videoRecordingsDir(moduleRoot), "BOD_no date.mp4");
 			await writeInto(slideDecksDir(moduleRoot), `${cellInjurySources.date} Orphan deck.pdf`);
 
@@ -411,7 +411,7 @@ describe("createSourceNormalisationStage", () => {
 		expect(await listNames(videoRecordingsDir(moduleRoot))).toContain(`${vaccinationAsThird}.mp4`);
 	});
 
-	it("should leave an undateable file in Final output untouched when normalisation runs", async () => {
+	it("should leave an undated file in Final output untouched when normalisation runs", async () => {
 		await writeLecture(cellInjurySources);
 		await writeInto(finalOutputDir(moduleRoot), "Module handbook.pdf");
 
@@ -471,7 +471,7 @@ describe("createSourceNormalisationStage", () => {
 
 			expect(logsAt("error").map((entry) => entry.payload)).toContainEqual(
 				expect.objectContaining({
-					anomalies: [expect.stringContaining(`${cellInjuryAsFirst}.mp4${TEMP_SUFFIX}`)],
+					problems: [expect.stringContaining(`${cellInjuryAsFirst}.mp4${TEMP_SUFFIX}`)],
 				}),
 			);
 			expect(await listNames(videoRecordingsDir(moduleRoot))).toEqual([

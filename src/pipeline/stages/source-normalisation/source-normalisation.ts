@@ -23,7 +23,12 @@ import { NamedError } from "../../../utils/errors.js";
 import { listFileNames } from "../../../utils/files.js";
 import { moduleDirs, workspaceRootFor } from "../../layout.js";
 import { MANIFEST_VERSION, pendingStages, readManifest, writeManifest } from "../../manifest.js";
-import { checkSources, type Lecture, orderLectures, toDatedFiles } from "./lecture-resolution.js";
+import {
+	checkSourceRules,
+	type Lecture,
+	orderLectures,
+	toDatedFiles,
+} from "./lecture-resolution.js";
 import {
 	type ConfirmPrompt,
 	discoverWorkspaces,
@@ -34,7 +39,7 @@ import {
 import { applyRenames, completeInterruptedRenames, planRenames } from "./source-renames.js";
 
 /**
- * Thrown when a module's raw sources cannot be normalised: an undateable video
+ * Thrown when a module's raw sources cannot be normalised: an undated video
  * recording or slide deck, a video recording or slide deck with no 1:1 date match,
  * or a duplicate video recording or slide deck date. Carries every problem found so the CLI can list them; the stage makes no
  * filesystem changes when it throws (technical-design.md §5, `source-normalisation`).
@@ -48,7 +53,7 @@ export class SourceNormalisationError extends NamedError {}
  * @param args - The abort context.
  * @param args.logger - The run logger.
  * @param args.moduleRoot - The module being normalised.
- * @param args.anomalies - Every problem found, one human-readable line each.
+ * @param args.problems - Every problem found, one human-readable line each.
  * @param args.reason - The class of problem, for the log message.
  * @throws {@link SourceNormalisationError} always — this function never returns.
  */
@@ -56,17 +61,17 @@ export class SourceNormalisationError extends NamedError {}
 function abortNormalisation({
 	logger,
 	moduleRoot,
-	anomalies,
+	problems,
 	reason,
 }: {
 	readonly logger: Logger;
 	readonly moduleRoot: string;
-	readonly anomalies: readonly string[];
+	readonly problems: readonly string[];
 	readonly reason: string;
 }): never {
-	logger.error({ moduleRoot, anomalies }, `Source normalisation aborted: ${reason}`);
+	logger.error({ moduleRoot, problems }, `Source normalisation aborted: ${reason}`);
 	throw new SourceNormalisationError(
-		`Source normalisation failed for ${moduleRoot}:\n- ${anomalies.join("\n- ")}`,
+		`Source normalisation failed for ${moduleRoot}:\n- ${problems.join("\n- ")}`,
 	);
 }
 
@@ -236,7 +241,7 @@ export function createSourceNormalisationStage({
 			abortNormalisation({
 				logger,
 				moduleRoot,
-				anomalies: blocked,
+				problems: blocked,
 				reason: "interrupted renames cannot be completed",
 			});
 		}
@@ -248,13 +253,13 @@ export function createSourceNormalisationStage({
 			"Normalising module sources",
 		);
 
-		const checked = checkSources({ videoRecordings, slideDecks });
-		if (checked.state === "anomalies") {
+		const checked = checkSourceRules({ videoRecordings, slideDecks });
+		if (checked.state === "rules-broken") {
 			abortNormalisation({
 				logger,
 				moduleRoot,
-				anomalies: checked.anomalies,
-				reason: "source anomalies",
+				problems: checked.brokenRules,
+				reason: "source rules broken",
 			});
 		}
 

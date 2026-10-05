@@ -27,7 +27,7 @@ export type DatedFile = SourceRef & { readonly date: Date };
 /** The dated files in one source directory, split from those with no date. */
 export type DatedListing = {
 	readonly dated: readonly DatedFile[];
-	readonly undateable: readonly string[];
+	readonly undated: readonly string[];
 };
 
 /** A dated video recording and the slide deck sharing its date. */
@@ -42,8 +42,8 @@ export type SourcePair = { readonly videoRecording: DatedFile; readonly slideDec
  * that re-derives it from the two listings has to assert an invariant it cannot
  * see — which is what a cast here used to do.
  */
-export type SourceCheck =
-	| { readonly state: "anomalies"; readonly anomalies: readonly string[] }
+export type SourceRuleCheck =
+	| { readonly state: "rules-broken"; readonly brokenRules: readonly string[] }
 	| { readonly state: "matched"; readonly sourcePairs: readonly SourcePair[] };
 
 /** A fully-resolved lecture: its number, date, title, and current source names. */
@@ -61,20 +61,20 @@ export type Lecture = {
  * without.
  *
  * @param names - The source file names to classify.
- * @returns The dated files (with parsed date and ISO string) and the undateable names.
+ * @returns The dated files (with parsed date and ISO string) and the undated names.
  */
 export function toDatedFiles(names: readonly string[]): DatedListing {
 	const dated: DatedFile[] = [];
-	const undateable: string[] = [];
+	const undated: string[] = [];
 	for (const name of names) {
 		const date = extractDate(name);
 		if (date === null) {
-			undateable.push(name);
+			undated.push(name);
 			continue;
 		}
 		dated.push({ name, lectureDate: formatDateISO(date), date });
 	}
-	return { dated, undateable };
+	return { dated, undated };
 }
 
 /**
@@ -115,7 +115,7 @@ function lectureDatesIn(listing: DatedListing): ReadonlySet<string> {
  * @param args.kind - The kind of source that is unmatched.
  * @param args.counterpart - The kind it should have been matched with.
  * @param args.file - The unmatched file.
- * @returns The anomaly line.
+ * @returns The broken-rule line.
  */
 function missingCounterpart({
 	kind,
@@ -130,40 +130,40 @@ function missingCounterpart({
 }
 
 /**
- * Checks every source rule that must stop the run — undateable files, duplicate
+ * Checks every source rule that must stop the run — undated files, duplicate
  * dates within video recordings or slide decks, and any video recording or slide deck
  * without a 1:1 date match — and, when they all hold, hands back the source pairs it matched.
  *
  * @param args - The dated video recording and slide deck listings.
  * @param args.videoRecordings - The classified video recordings.
  * @param args.slideDecks - The classified slide decks.
- * @returns Every anomaly found, or the matched source pairs when there are none.
+ * @returns Every broken rule found, or the matched source pairs when there are none.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- DatedFile carries a parsed Date, whose mutators leave it un-readonly to this rule however it is declared; both listings are only read here
-export function checkSources({
+export function checkSourceRules({
 	videoRecordings,
 	slideDecks,
 }: {
 	readonly videoRecordings: DatedListing;
 	readonly slideDecks: DatedListing;
-}): SourceCheck {
+}): SourceRuleCheck {
 	// The first two rules hold of both kinds of source, and the report keeps the
-	// rules in order rather than the kinds, so the reader meets every undateable
+	// rules in order rather than the kinds, so the reader meets every undated
 	// file before the first missing match.
 	const sides = [
 		{ kind: "video recording", listing: videoRecordings },
 		{ kind: "slide deck", listing: slideDecks },
 	] as const;
 
-	const anomalies: string[] = [];
+	const brokenRules: string[] = [];
 	for (const { kind, listing } of sides) {
-		for (const name of listing.undateable) {
-			anomalies.push(`${kind} "${name}" has no extractable date`);
+		for (const name of listing.undated) {
+			brokenRules.push(`${kind} "${name}" has no extractable date`);
 		}
 	}
 	for (const { kind, listing } of sides) {
 		for (const lectureDate of duplicateLectureDates(listing.dated)) {
-			anomalies.push(`two or more ${kind}s share the date ${lectureDate}`);
+			brokenRules.push(`two or more ${kind}s share the date ${lectureDate}`);
 		}
 	}
 
@@ -177,7 +177,7 @@ export function checkSources({
 	for (const videoRecording of videoRecordings.dated) {
 		const slideDeckName = slideDeckNameByDate.get(videoRecording.lectureDate);
 		if (slideDeckName === undefined) {
-			anomalies.push(
+			brokenRules.push(
 				missingCounterpart({
 					kind: "video recording",
 					counterpart: "slide deck",
@@ -191,14 +191,14 @@ export function checkSources({
 	const videoRecordingDates = lectureDatesIn(videoRecordings);
 	for (const slideDeck of slideDecks.dated) {
 		if (!videoRecordingDates.has(slideDeck.lectureDate)) {
-			anomalies.push(
+			brokenRules.push(
 				missingCounterpart({ kind: "slide deck", counterpart: "video recording", file: slideDeck }),
 			);
 		}
 	}
 
-	return anomalies.length > 0
-		? { state: "anomalies", anomalies }
+	return brokenRules.length > 0
+		? { state: "rules-broken", brokenRules }
 		: { state: "matched", sourcePairs };
 }
 
@@ -210,7 +210,7 @@ export function checkSources({
  * (which would corrupt the title) nor reverts a `transcript-structuring` AI-derived rename.
  *
  * @param args - The matched sources, the manifests already on disk, and what counts as a module prefix.
- * @param args.sourcePairs - Each video recording with the slide deck {@link checkSources} matched to it.
+ * @param args.sourcePairs - Each video recording with the slide deck {@link checkSourceRules} matched to it.
  * @param args.existingManifests - Existing lectures' manifests keyed by date, for title continuity.
  * @param args.modulePrefixes - The configured module prefixes, stripped from a freshly extracted title.
  * @returns The lectures in date order, numbered from 1.

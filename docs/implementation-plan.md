@@ -291,9 +291,9 @@ The CLI identity-mutation commands that drive this same machinery — `rename`, 
 Note: `extractDate` and `extractProvisionalTitle` unit tests are covered in Phase 2.
 
 Unit tests (no directory tree — filenames in, answers out):
-- `should read $iso off $name when the name carries a date`, and the undateable counterpart
+- `should read $iso off $name when the name carries a date`, and the undated counterpart
 - `should pair each video with the slide sharing its date when every date matches`
-- `should refuse the sources and say so when $problem` — `test.each` for: an undateable video, an undateable slide, two videos sharing a date, two slides sharing a date, a video with no slide on its date, a slide with no video on its date
+- `should refuse the sources and say so when $problem` — `test.each` for: an undated video, an undated slide, two videos sharing a date, two slides sharing a date, a video with no slide on its date, a slide with no video on its date
 - `should report every problem rather than the first when several sources are wrong`
 - `should number lectures from one in date order when the listing is in another order`
 - `should name a lecture from its number, title and date when it is new`, and by number and date alone when the filename yields no title
@@ -307,7 +307,7 @@ Integration tests (real temp directory with fixture source files) — everything
 - `should assign correct lecture numbers when lectures sorted by date` — `test.each` across straight sequence and mid-sequence insertion
 - `should renumber all affected lectures when new lecture inserted between existing dates`
 - `should match slide PDF to video when dates align`
-- `should log an error and stop without filesystem changes when a source anomaly is found` — `test.each` for: undateable file, unmatched video, unmatched slide, duplicate video date, duplicate slide date
+- `should log an error and stop without filesystem changes when a source rule is broken` — `test.each` for: undated file, unmatched video, unmatched slide, duplicate video date, duplicate slide date
 - `should rename source files atomically when normalisation runs`
 - `should create workspace folder and write initial manifest when lecture is new`
 - `should seed initial manifest with lectureTitle equal to provisionalTitle and userTitle and aiDerivedTitle null`
