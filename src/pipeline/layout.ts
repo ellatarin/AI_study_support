@@ -96,25 +96,25 @@ export function runsDirPath({ workspaceRoot }: { readonly workspaceRoot: string 
  * The debug log one invocation of the CLI writes.
  *
  * Anchored to the project rather than to a workspace, because an invocation is
- * a wider thing than a lecture run: `batch` covers every lecture in every
+ * a wider thing than a pipeline run: `batch` covers every lecture in every
  * configured module, and `source-normalisation`'s work over a module happens before any lecture
- * has been chosen, so no single workspace could hold the log of it. The project
+ * has been chosen, so no single workspace could hold its debug log. The project
  * root is also the one location that does not move with the directory the user
  * happened to invoke from (technical-design.md §10).
  *
- * @param args - The invocation to name a log for.
+ * @param args - The invocation to name a debug log for.
  * @param args.projectRoot - Absolute path to the directory holding the configuration.
- * @param args.runId - The invocation's timestamp identifier.
+ * @param args.invocationId - The invocation's timestamp identifier.
  * @returns The absolute path to write the debug log at.
  */
 export function debugLogPath({
 	projectRoot,
-	runId,
+	invocationId,
 }: {
 	readonly projectRoot: string;
-	readonly runId: string;
+	readonly invocationId: string;
 }): string {
-	return join(projectRoot, RUNS_DIR, `${runId}-debug.log`);
+	return join(projectRoot, RUNS_DIR, `${invocationId}-debug.log`);
 }
 
 /**

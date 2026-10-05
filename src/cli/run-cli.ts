@@ -62,7 +62,10 @@ async function assembleDeps({
 	readonly write: WriteText;
 }): Promise<CliDeps> {
 	const config = await loadConfig({ projectRoot });
-	const debugLogFile = debugLogPath({ projectRoot, runId: deriveRunId({ instant: new Date() }) });
+	const debugLogFile = debugLogPath({
+		projectRoot,
+		invocationId: deriveRunId({ instant: new Date() }),
+	});
 	const logger = createDebugLogger({ debugLogFile });
 	// One client for the invocation, provided from here for the reason the logger
 	// is: a stage is handed what it needs rather than reaching for a shared one,

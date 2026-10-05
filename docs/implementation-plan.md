@@ -104,7 +104,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `should place a lecture's workspace under the module's processing directory when it is named` — `workspaceRootFor`
 - `should give the directories a lecture's own files sit in when a module is given` — `datedFileDirs` names three of the four, the workspace excluded
 - `should resolve the run logs under the workspace when a workspace is given` — `runsDirPath`
-- `should place the invocation's debug log under the project root when a run is identified` — `debugLogPath`, anchored to the project rather than to any one workspace
+- `should place the invocation's debug log under the project root when an invocation is identified` — `debugLogPath`, anchored to the project rather than to any one workspace
 - `should fail when the stage writes no single output file` — the stages whose `outputFile` is `null`
 
 `model-id.ts` — unit tests:

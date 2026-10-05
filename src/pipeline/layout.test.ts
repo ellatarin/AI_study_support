@@ -66,8 +66,8 @@ describe("runsDirPath", () => {
 describe("debugLogPath", () => {
 	// Anchored to the project, not the workspace: one invocation writes one debug
 	// log and may run many lectures, so no single workspace could hold it.
-	it("should place the invocation's debug log under the project root when a run is identified", () => {
-		expect(debugLogPath({ projectRoot: MODULE_ROOT, runId: testRunId })).toBe(
+	it("should place the invocation's debug log under the project root when an invocation is identified", () => {
+		expect(debugLogPath({ projectRoot: MODULE_ROOT, invocationId: testRunId })).toBe(
 			join(MODULE_ROOT, "runs", `${testRunId}-debug.log`),
 		);
 	});

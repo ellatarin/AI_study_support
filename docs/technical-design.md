@@ -244,9 +244,9 @@ RUNS_DIR: string                                          // "runs"
 runsDirPath(args: { workspaceRoot: string }): string
 // That directory within one workspace. The runner writes a log into it and reads every log back out of it,
 // and the suites look for what it wrote, so the three address it through one name rather than rebuilding it.
-debugLogPath(args: { projectRoot: string; runId: string }): string
-// One invocation's debug log, at <projectRoot>/runs/<runId>-debug.log. Anchored to the project because an
-// invocation is wider than a lecture run — a batch spans every configured module, and source-normalisation's work happens
+debugLogPath(args: { projectRoot: string; invocationId: string }): string
+// One invocation's debug log, at <projectRoot>/runs/<invocationId>-debug.log. Anchored to the project because an
+// invocation is wider than a pipeline run — a batch spans every configured module, and source-normalisation's work happens
 // before any lecture is chosen — and because a relative path would follow the directory the user invoked
 // from (§10).
 workspaceRootFor(args: { moduleRoot: string; baseName: string }): string
@@ -2149,7 +2149,7 @@ The pino file transport writes newline-delimited JSON to `<projectRoot>/runs/<ti
 
 The debug log is for human inspection when diagnosing failures. Its JSON format also makes it trivially parseable if automated analysis is ever needed.
 
-**A debug log belongs to an invocation; a run log belongs to one lecture run.** They are different scopes and cannot share an identity: `batch` runs many lectures against one root logger, so one debug log faces as many run logs as there were lectures. The two are tied together from the other end instead — the runner writes a `debug` entry carrying `{ runId, workspaceRoot }` as each lecture run starts, before any stage does anything, so a reader holding a run log can find the debug output that produced it and a reader holding the debug log can see which runs are in it.
+**A debug log belongs to an invocation; a run log belongs to one pipeline run.** They are different scopes and cannot share an identity: `batch` runs many lectures against one root logger, so one debug log faces as many run logs as there were lectures. The two are tied together from the other end instead — the runner writes a `debug` entry carrying `{ runId, workspaceRoot }` as each pipeline run starts, before any stage does anything, so a reader holding a run log can find the debug output that produced it and a reader holding the debug log can see which pipeline runs are in it.
 
 The project root is what the log is anchored to, rather than a workspace or the process's working directory. `source-normalisation`'s work over a module happens before any lecture has been chosen, and a batch spans every configured module, so no single workspace could hold the record of an invocation; and a relative path would put the log wherever the user happened to be standing when they typed the command.
 
