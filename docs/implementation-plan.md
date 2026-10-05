@@ -414,7 +414,7 @@ The transcription integration test streams a real file through the real SDK but 
 Unit tests for the stage (mock `callModel`):
 - `should extract structured markdown and keep the provisional title when LLM judges it meaningful`
 - `should store suggestedTitle as aiDerivedTitle when LLM judges the provisional not meaningful`
-- `should settle no identity when the model judges the title meaningful` — the stage returns no `identityChanges`, so the runner writes none and `aiDerivedTitle` stays as it was
+- `should decide no identity when the model judges the title meaningful` — the stage returns no `identityChanges`, so the runner writes none and `aiDerivedTitle` stays as it was
 - `should fail when the response is not the documented JSON object`
 - `should fail when the LLM judges the provisional not meaningful but proposes no title`
 

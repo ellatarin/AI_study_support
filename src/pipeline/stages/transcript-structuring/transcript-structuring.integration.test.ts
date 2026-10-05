@@ -124,20 +124,20 @@ describe("transcript structuring against a real module tree", () => {
 	it.each([
 		{
 			meaningful: false,
-			settled: {
+			decided: {
 				aiDerivedTitle: aiDerivedLecture.title,
 				lectureTitle: aiDerivedLecture.title,
 				workspaceFolderName: aiDerivedLecture.baseName,
 			},
 		},
-		{ meaningful: true, settled: {} },
-	])("should settle $settled when provisionalTitleMeaningful is $meaningful", async ({
+		{ meaningful: true, decided: {} },
+	])("should decide $decided when provisionalTitleMeaningful is $meaningful", async ({
 		meaningful,
-		settled,
+		decided,
 	}) => {
 		mockModelReply(verdict(meaningful));
 
-		expect(await runStage(await prepareLecture())).toEqual(settled);
+		expect(await runStage(await prepareLecture())).toEqual(decided);
 	});
 
 	// The lecture's own manifest is on disk throughout, so a stage that wrote one
@@ -160,11 +160,11 @@ describe("transcript structuring against a real module tree", () => {
 	it("should leave the lecture's title and every file alone when the user has named it", async () => {
 		mockModelReply(verdict(false));
 
-		const settled = await runStage(
+		const decided = await runStage(
 			await prepareLecture({ userTitle: userChosenTitle, lectureTitle: userChosenTitle }),
 		);
 
-		expect(settled).toEqual({ aiDerivedTitle: aiDerivedLecture.title });
+		expect(decided).toEqual({ aiDerivedTitle: aiDerivedLecture.title });
 		expect(await pathExists(join(dirs.videoRecording, testLecture.videoRecordingFile))).toBe(true);
 		expect(await pathExists(workspaceNamed(aiDerivedLecture.baseName))).toBe(false);
 	});

@@ -472,8 +472,8 @@ export type StageContext = LectureIdentity & {
 };
 
 /**
- * The lecture-identity fields a stage may settle, for the runner to write into
- * the manifest. Only `transcript-structuring` ever settles any: it judges the lecturer's
+ * The lecture-identity fields a stage may decide, for the runner to write into
+ * the manifest. Only `transcript-structuring` ever decides any: it judges the lecturer's
  * provisional title and, when it replaces it, renames the lecture's files onto
  * a new base name (technical-design.md §4.2; §5, `transcript-structuring`).
  */
@@ -494,12 +494,12 @@ export type LectureIdentityChanges = Partial<
 export type StageResult<TOutput> = StageRunRecord & {
 	readonly output: TOutput;
 	/**
-	 * What the stage settled about the lecture's identity, written by the runner
+	 * What the stage decided about the lecture's identity, written by the runner
 	 * with the stage's `complete` entry — no stage writes the manifest itself
 	 * (technical-design.md §4.2).
 	 *
-	 * Absent and `{}` both mean the stage settled nothing; the runner spreads it
-	 * either way. Only `transcript-structuring` settles anything, which is why the field is
+	 * Absent and `{}` both mean the stage decided nothing; the runner spreads it
+	 * either way. Only `transcript-structuring` decides anything, which is why the field is
 	 * optional rather than required of every stage.
 	 */
 	readonly identityChanges?: LectureIdentityChanges;

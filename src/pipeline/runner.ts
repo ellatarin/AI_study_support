@@ -268,11 +268,11 @@ function patchStages({
 }
 
 /**
- * Patches one stage's entry — and any lecture identity the stage settled — into
+ * Patches one stage's entry — and any lecture identity the stage decided — into
  * a manifest and writes it back, returning what it wrote so the caller can
  * rebuild the stage context without a second read (technical-design.md §4.5).
  *
- * A stage's entry and the identity it settled describe one moment in the run,
+ * A stage's entry and the identity it decided describe one moment in the run,
  * and this is the only place either is written, so the two land in a single
  * write (§4.2).
  *
@@ -281,7 +281,7 @@ function patchStages({
  * @param args.manifest - The manifest to patch, already read by the caller.
  * @param args.stageId - The stage whose entry is being set.
  * @param args.entry - The entry to record for that stage.
- * @param args.identityChanges - The lecture-identity fields the stage settled; empty for every stage but `transcript-structuring`.
+ * @param args.identityChanges - The lecture-identity fields the stage decided; empty for every stage but `transcript-structuring`.
  * @param args.timestamp - The instant to stamp the manifest with.
  * @returns The manifest as written.
  */
@@ -362,7 +362,7 @@ type StageRecorder = {
 	skipped(): Promise<void>;
 	/** Written before the stage begins, so a crash leaves `running` behind for the next launch to treat as failed rather than as never attempted (§4.5). */
 	running(): Promise<void>;
-	/** The stage returned: record what it produced, and any lecture identity it settled (§4.2). */
+	/** The stage returned: record what it produced, and any lecture identity it decided (§4.2). */
 	complete(args: {
 		readonly configUsed: StageRunConfig | null;
 		readonly result: StageResult<unknown>;

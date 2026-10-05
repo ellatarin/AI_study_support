@@ -203,7 +203,7 @@ export function filenameSafe(title: string): string {
  *
  * Not the lecture's identity, which is what `types/pipeline.ts` records and is a
  * wider thing: a recorded identity carries an ISO date string and both a
- * provisional and a settled title, and a name is built from exactly one title
+ * provisional and a decided title, and a name is built from exactly one title
  * and a real `Date`. The two were both called `LectureIdentity`, which read as
  * one type declared twice.
  */

@@ -396,7 +396,7 @@ A stage's context is assembled before its own entry is marked `running`, so the 
 - `StageResult.cost` is `null` for stages that make no billable calls (audio-extraction, pdf-generation).
 - `StageResult.filesWritten` holds paths relative to `workspaceRoot`, and MAY escape upward with `..` (e.g. pdf-generation writes to `../../Final output/`) but MUST resolve under `moduleRoot` — enforced by §4.4.
 - `StageCost` is discriminated on `costUsd`: a resolved cost is a `number`; a failed lookup is `null` paired with a `costResolutionError` (see §7).
-- `StageResult.identityChanges` holds the lecture-identity fields the stage settled — `lectureTitle`, `aiDerivedTitle`, `workspaceFolderName` — for the runner to write. Absent and `{}` both mean the stage settled nothing; only `transcript-structuring` ever settles anything. `workspaceFolderName` is the lecture's canonical base name recorded in the manifest, not the runner's handle on the workspace — the runner locates that itself (§4.7).
+- `StageResult.identityChanges` holds the lecture-identity fields the stage decided — `lectureTitle`, `aiDerivedTitle`, `workspaceFolderName` — for the runner to write. Absent and `{}` both mean the stage decided nothing; only `transcript-structuring` ever decides anything. `workspaceFolderName` is the lecture's canonical base name recorded in the manifest, not the runner's handle on the workspace — the runner locates that itself (§4.7).
 - `lectureTitle` is always non-null — seeded by `source-normalisation`, possibly overwritten by `transcript-structuring` (see §3.2, `transcript-structuring`).
 
 `isComplete()` checks two conditions: the manifest marks the stage `'complete'` or `'skipped'`, AND every path in `manifest.stages[stageId].filesWritten` exists on disk. Both must be true. The two statuses count alike because a run that honours this check records `skipped` in place of the `complete` it read, so from the next run's point of view they describe the same disk — the work is done and does not need paying for again. This means a completed stage whose output was manually deleted returns `false` and re-runs automatically. A recorded path that cannot be resolved at all counts as absent rather than as an error, since deleting a stage's output usually removes its containing directory too; a path resolving *outside* `moduleRoot` is a different matter and always throws (§4.4).
@@ -559,7 +559,7 @@ One `manifest.json` per lecture, stored in the workspace root. All paths are rel
 
 The manifest tracks the **current pipeline state** and the cost of the most recent successful execution of each stage. Historical cost across multiple runs is the responsibility of the run logs (§4.6). Its TypeScript shape is `Manifest` in `src/types/pipeline.ts` (single source of truth); the example below is illustrative, not the schema.
 
-Three separate callers touch it — `source-normalisation` creates and renumbers it, the runner patches a stage entry after every stage (and with it any lecture-identity change `transcript-structuring` settled, §4.2), and the CLI's identity commands rewrite a lecture's title or date — so where it lives and how it is written are stated once:
+Three separate callers touch it — `source-normalisation` creates and renumbers it, the runner patches a stage entry after every stage (and with it any lecture-identity change `transcript-structuring` decided, §4.2), and the CLI's identity commands rewrite a lecture's title or date — so where it lives and how it is written are stated once:
 
 ```typescript
 // src/pipeline/manifest.ts
@@ -1323,7 +1323,7 @@ The rename is **conditional** on the LLM's judgement:
 
 1. Make the LLM call and parse the response.
 2. Write `Structured transcript/structured-transcript.md` atomically (§4.3).
-3. Settle the title, which decides the identity changes the stage returns. The provisional title stands: no changes. `userTitle` is set: `aiDerivedTitle` alone, since the user's title holds and no name on disk changes. Otherwise: `aiDerivedTitle`, `lectureTitle`, and `workspaceFolderName`, the last being the base name `lectureBaseName` builds from the new title (§5, `source-normalisation`).
+3. Decide the title, and with it the identity changes the stage returns. The provisional title stands: no changes. `userTitle` is set: `aiDerivedTitle` alone, since the user's title holds and no name on disk changes. Otherwise: `aiDerivedTitle`, `lectureTitle`, and `workspaceFolderName`, the last being the base name `lectureBaseName` builds from the new title (§5, `source-normalisation`).
 4. In that last case only, rename the source video, the source slide, any `Final output/` PDF, and the workspace folder via `renameLectureFiles` (§4.7).
 5. Return the changes on `StageResult.identityChanges`. The runner writes them into the manifest together with the stage's `complete` entry, re-locating the workspace by `(moduleRoot, lectureDate)` first (§4.2, §4.7).
 
@@ -2142,7 +2142,7 @@ The pino file transport writes newline-delimited JSON to `<projectRoot>/runs/<ti
 - Rate limit retries: attempt number, back-off delay, error message
 - Per-slide processing times (`slide-conversion`)
 - File I/O errors: path and OS error code
-- **Decisions that name things downstream.** Which source video `audio-extraction` chose, since it selects by base name from whatever the video directory holds; and which of the three ways `transcript-structuring` settled the lecture's title (§5, `transcript-structuring`), since every later stage names its output from it
+- **Decisions that name things downstream.** Which source video `audio-extraction` chose, since it selects by base name from whatever the video directory holds; and which of the three ways `transcript-structuring` decided the lecture's title (§5, `transcript-structuring`), since every later stage names its output from it
 - **Failures the run survives**, at `warn` — chiefly `transcription`'s audio-duration lookup, whose only other trace is a `null` in a cost report read days later, and every unusable model reply a panel stage resends (§5, "Dividing the transcript", Panel runs)
 - Every stage failure, with its stack, bound to the stage that raised it (§8)
 

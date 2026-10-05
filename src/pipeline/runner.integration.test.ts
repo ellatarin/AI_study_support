@@ -69,10 +69,10 @@ const BEFORE_THIS_RUN = "earlier";
 /** The base name a lecture moves to once `transcript-structuring` has replaced its title. */
 const RENAMED_BASE_NAME = `${LECTURE_BASE_NAME} - ${aiDerivedLecture.title}`;
 
-// What `transcript-structuring` settles when it replaces the lecture's title: the new title, the
+// What `transcript-structuring` decides when it replaces the lecture's title: the new title, the
 // record of what the model derived, and the base name the files move onto. Two
 // suites need it — one with the rename, one without — so it is stated here.
-const SETTLED_IDENTITY: LectureIdentityChanges = {
+const DECIDED_IDENTITY: LectureIdentityChanges = {
 	lectureTitle: aiDerivedLecture.title,
 	aiDerivedTitle: aiDerivedLecture.title,
 	workspaceFolderName: RENAMED_BASE_NAME,
@@ -1279,13 +1279,13 @@ describe("PipelineRunner integration", () => {
 		});
 	});
 
-	describe("identity a stage settles", () => {
+	describe("identity a stage decides", () => {
 		beforeEach(async () => {
 			await writeManifest({ workspaceRoot, manifest: makeManifest() });
 		});
 
-		/** A stage that settles the given identity and writes nothing itself. */
-		function makeSettlingStage(
+		/** A stage that decides the given identity and writes nothing itself. */
+		function makeDecidingStage(
 			identityChanges: LectureIdentityChanges,
 		): PipelineStage<unknown, unknown> {
 			return makeStubStage({
@@ -1300,21 +1300,21 @@ describe("PipelineRunner integration", () => {
 			});
 		}
 
-		it("should write the identity a stage settled when the stage completes", async () => {
-			await makeRunner([makeSettlingStage(SETTLED_IDENTITY)]).runLecture({ workspaceRoot });
+		it("should write the identity a stage decided when the stage completes", async () => {
+			await makeRunner([makeDecidingStage(DECIDED_IDENTITY)]).runLecture({ workspaceRoot });
 
-			expect(await readManifest({ workspaceRoot })).toMatchObject(SETTLED_IDENTITY);
+			expect(await readManifest({ workspaceRoot })).toMatchObject(DECIDED_IDENTITY);
 		});
 
-		it("should record the stage complete in the same write when a stage settles identity", async () => {
-			await makeRunner([makeSettlingStage(SETTLED_IDENTITY)]).runLecture({ workspaceRoot });
+		it("should record the stage complete in the same write when a stage decides identity", async () => {
+			await makeRunner([makeDecidingStage(DECIDED_IDENTITY)]).runLecture({ workspaceRoot });
 
 			expect((await readManifest({ workspaceRoot })).stages["audio-extraction"]?.status).toBe(
 				"complete",
 			);
 		});
 
-		it("should leave the lecture's identity alone when a stage settles nothing", async () => {
+		it("should leave the lecture's identity alone when a stage decides nothing", async () => {
 			await makeRunner([makeStubStage({ stageId: "audio-extraction" })]).runLecture({
 				workspaceRoot,
 			});
@@ -1336,7 +1336,7 @@ describe("PipelineRunner integration", () => {
 		/**
 		 * A stage that does what `transcript-structuring` does when it replaces a lecture's title:
 		 * moves the workspace out from under the runner and reports the identity it
-		 * settled, leaving the manifest write to the runner.
+		 * decided, leaving the manifest write to the runner.
 		 */
 		function makeRenamingStage(): PipelineStage<unknown, unknown> {
 			return makeStubStage({
@@ -1347,7 +1347,7 @@ describe("PipelineRunner integration", () => {
 						output: undefined,
 						cost: null,
 						filesWritten: [],
-						identityChanges: SETTLED_IDENTITY,
+						identityChanges: DECIDED_IDENTITY,
 					} as StageResult<unknown>;
 				},
 			});

@@ -35,7 +35,7 @@ export type TranscriptStructuringInput = {
 	readonly transcriptText: string;
 };
 
-/** The structured transcript `transcript-structuring` produces, and the title it settled on. */
+/** The structured transcript `transcript-structuring` produces, and the title it decided on. */
 export type TranscriptStructuringOutput = {
 	/** Absolute path to the written `Structured transcript/structured-transcript.md`. */
 	readonly structuredTranscriptPath: string;
@@ -121,7 +121,7 @@ function requireSuggestedTitle(suggestedTitle: string | null): string {
 }
 
 /**
- * Where the lecture stands once this stage has settled its title: the title itself,
+ * Where the lecture stands once this stage has decided its title: the title itself,
  * the workspace's path (which the stage may just have moved), and the identity
  * the runner is to write into the manifest (technical-design.md §4.2).
  */
@@ -162,7 +162,7 @@ function deriveBaseName({
 
 /**
  * Adopts the model's title: moves the lecture's files onto the matching base
- * name, and settles the identity the runner will record.
+ * name, and decides the identity the runner will record.
  *
  * The rename comes after the structured transcript has been written, so that
  * write lands at a path that still exists; the manifest is the runner's to write
@@ -172,7 +172,7 @@ function deriveBaseName({
  * @param args - The lecture and the title to adopt.
  * @param args.context - The current lecture run context.
  * @param args.aiDerivedTitle - The title the model proposed.
- * @returns The adopted title, the workspace's new path, and the identity settled.
+ * @returns The adopted title, the workspace's new path, and the identity decided.
  */
 async function adoptDerivedTitle({
 	context,
@@ -200,16 +200,16 @@ async function adoptDerivedTitle({
 }
 
 /**
- * Settles the lecture's title on the model's judgement.
+ * Decides the lecture's title on the model's judgement.
  *
- * Three outcomes: the lecturer's title stands and nothing is settled; the user
+ * Three outcomes: the lecturer's title stands and nothing is decided; the user
  * has named the lecture themselves, so their title outranks the model's and only
- * `aiDerivedTitle` is settled; or the model's title is adopted and the lecture's
+ * `aiDerivedTitle` is decided; or the model's title is adopted and the lecture's
  * files move with it (technical-design.md §5, `transcript-structuring`).
  *
  * Each outcome is logged, because which one happened is what explains the
  * lecture's name from here on: every later stage names its output from the title
- * settled here (technical-design.md §10).
+ * decided here (technical-design.md §10).
  *
  * @param args - The reply and the lecture it concerns.
  * @param args.reply - The model's parsed reply.
@@ -221,7 +221,7 @@ async function adoptDerivedTitle({
 // Only one of the three outcomes touches the disk; the other two resolve
 // immediately.
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
-function settleTitle({
+function decideTitle({
 	reply,
 	context,
 	logger,
@@ -246,13 +246,13 @@ function settleTitle({
 	if (reply.provisionalTitleMeaningful) {
 		logger.debug(
 			{ lectureTitle: context.lectureTitle, outcome: "kept-provisional" },
-			"Settled lecture title",
+			"Decided lecture title",
 		);
 		return whereItStands({});
 	}
 	const aiDerivedTitle = requireSuggestedTitle(reply.suggestedTitle);
 	if (context.manifest.userTitle === null) {
-		logger.debug({ aiDerivedTitle, outcome: "adopted-derived" }, "Settled lecture title");
+		logger.debug({ aiDerivedTitle, outcome: "adopted-derived" }, "Decided lecture title");
 		return adoptDerivedTitle({ context, aiDerivedTitle });
 	}
 	// The user named this lecture, which outranks anything the model derives. What
@@ -260,13 +260,13 @@ function settleTitle({
 	// what the title falls back to were the user's ever cleared.
 	logger.debug(
 		{ aiDerivedTitle, lectureTitle: context.lectureTitle, outcome: "kept-user-title" },
-		"Settled lecture title",
+		"Decided lecture title",
 	);
 	return whereItStands({ aiDerivedTitle });
 }
 
 /**
- * Structures the transcript and settles the lecture's title in a single call,
+ * Structures the transcript and decides the lecture's title in a single call,
  * writing `Structured transcript/structured-transcript.md` and renaming the
  * lecture's files when the model replaces the title (technical-design.md §5,
  * `transcript-structuring`).
@@ -277,7 +277,7 @@ function settleTitle({
  * @param args.logger - The run's logger, on which the model call is recorded.
  * @param args.client - The OpenAI client the completion goes through, built where the pipeline is assembled.
  * @param args.sendGate - The run's turns to send, which the call waits on.
- * @returns The structured transcript's path, the settled title, the identity for the runner to record, the call's cost, and the file written.
+ * @returns The structured transcript's path, the decided title, the identity for the runner to record, the call's cost, and the file written.
  * @throws {TranscriptStructuringError} If the reply is unusable or a needed title is missing.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
@@ -306,7 +306,7 @@ async function structureTranscript({
 		sendGate,
 	});
 	// An absent suggestion and an explicit null mean the same thing downstream, so
-	// the difference is settled here rather than at every reader.
+	// the difference is removed here rather than at every reader.
 	const reply: StructuringReply = { ...replied, suggestedTitle: replied.suggestedTitle ?? null };
 
 	const { filesWritten } = await writeStageOutput({
@@ -314,27 +314,27 @@ async function structureTranscript({
 		workspaceRoot: context.workspaceRoot,
 		content: reply.structuredMarkdown,
 	});
-	const settled = await settleTitle({ reply, context, logger });
+	const decided = await decideTitle({ reply, context, logger });
 
 	return {
 		output: {
-			// Resolved against where the workspace ended up: settling the title may have
+			// Resolved against where the workspace ended up: deciding the title may have
 			// moved it, taking the file just written along with it.
 			structuredTranscriptPath: stageOutputPath({
-				workspaceRoot: settled.workspaceRoot,
+				workspaceRoot: decided.workspaceRoot,
 				stageId: STAGE_ID,
 			}),
-			lectureTitle: settled.lectureTitle,
+			lectureTitle: decided.lectureTitle,
 		},
 		cost,
 		filesWritten,
-		identityChanges: settled.identityChanges,
+		identityChanges: decided.identityChanges,
 	};
 }
 
 /**
  * Builds `transcript-structuring`, which structures `Transcript/transcript.txt` into
- * `Structured transcript/structured-transcript.md` and settles the lecture's
+ * `Structured transcript/structured-transcript.md` and decides the lecture's
  * title, renaming the lecture's files when it replaces one
  * (technical-design.md §5, `transcript-structuring`), from the run's logger and
  * the invocation's OpenAI client.

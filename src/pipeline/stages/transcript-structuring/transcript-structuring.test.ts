@@ -102,9 +102,9 @@ describe("createTranscriptStructuringStage", () => {
 	}
 
 	/** The outcome the stage recorded for the lecture's title. */
-	function settledTitleOutcome(): unknown {
+	function decidedTitleOutcome(): unknown {
 		const [entry] = loggedAt({ entries: logged().entries, level: "debug" }).filter(
-			(logEntry) => logEntry.message === "Settled lecture title",
+			(logEntry) => logEntry.message === "Decided lecture title",
 		);
 		return entry?.payload.outcome;
 	}
@@ -196,7 +196,7 @@ describe("createTranscriptStructuringStage", () => {
 		expect(result.output.lectureTitle).toBe(testLecture.title);
 	});
 
-	it("should settle no identity when the model judges the title meaningful", async () => {
+	it("should decide no identity when the model judges the title meaningful", async () => {
 		const result = await runStage(contextWith());
 
 		expect(result.identityChanges).toEqual({});
@@ -210,7 +210,7 @@ describe("createTranscriptStructuringStage", () => {
 
 	// The runner hands a stage the context as it stood before the stage began, so a
 	// stage writing the manifest back reverts its own `running` entry (§4.2).
-	// `transcript-structuring` settles the lecture's identity and is the likeliest stage to try; it must not.
+	// `transcript-structuring` decides the lecture's identity and is the likeliest stage to try; it must not.
 	it.each([
 		{ what: "the provisional title stands", reply: titleKept },
 		{ what: "the title is replaced", reply: titleRejected },
@@ -227,7 +227,7 @@ describe("createTranscriptStructuringStage", () => {
 			stubReply(titleRejected);
 		});
 
-		it("should settle the whole identity for the runner when the provisional is not meaningful", async () => {
+		it("should decide the whole identity for the runner when the provisional is not meaningful", async () => {
 			const result = await runStage(contextWith());
 
 			expect(result.identityChanges).toEqual({
@@ -270,9 +270,9 @@ describe("createTranscriptStructuringStage", () => {
 		});
 
 		// `aiDerivedTitle` alone: the user's title holds, so neither `lectureTitle`
-		// nor the base name on disk changes, and settling either would move files
+		// nor the base name on disk changes, and deciding either would move files
 		// the user has already named.
-		it("should settle only what the model derived when the user has named it", async () => {
+		it("should decide only what the model derived when the user has named it", async () => {
 			const result = await runStage(contextWith({ manifest: userNamed }));
 
 			expect(result.identityChanges).toEqual({ aiDerivedTitle: aiDerivedLecture.title });
@@ -285,19 +285,19 @@ describe("createTranscriptStructuringStage", () => {
 		});
 	});
 
-	describe("recording which way the title was settled", () => {
-		// Every later stage names its output from the title settled here, so which
+	describe("recording which way the title was decided", () => {
+		// Every later stage names its output from the title decided here, so which
 		// branch ran is the fact the debug log has to carry (§10).
 		it.each([
 			{ outcome: "kept-provisional", reply: titleKept, manifest: {} },
 			{ outcome: "adopted-derived", reply: titleRejected, manifest: {} },
 			{ outcome: "kept-user-title", reply: titleRejected, manifest: userNamed },
-		])("should record $outcome when that is how the title was settled", async (settled) => {
-			stubReply(settled.reply);
+		])("should record $outcome when that is how the title was decided", async (decided) => {
+			stubReply(decided.reply);
 
-			await runStage(contextWith({ manifest: settled.manifest }));
+			await runStage(contextWith({ manifest: decided.manifest }));
 
-			expect(settledTitleOutcome()).toBe(settled.outcome);
+			expect(decidedTitleOutcome()).toBe(decided.outcome);
 		});
 	});
 
