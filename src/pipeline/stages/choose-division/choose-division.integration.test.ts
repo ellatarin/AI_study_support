@@ -24,7 +24,7 @@ describe("choose-division", () => {
 	const workspace = useTranscribedWorkspace({ prefix: "choose-division-" });
 
 	/** Leaves deepened splitting runs 1 to `count` on disk, run 1 cutting nowhere and the rest as the fixture division does. */
-	function seedSplittingRuns(count: number): Promise<void> {
+	function seedDeepenedSplittingRuns(count: number): Promise<void> {
 		return seedPanelRuns({
 			workspaceRoot: workspace().workspaceRoot,
 			stageId: "deepen-subtopic-splitting",
@@ -41,7 +41,7 @@ describe("choose-division", () => {
 	}
 
 	it("should write the chosen run's subtopics, and beside them which run was chosen, when the stage completes", async () => {
-		await seedSplittingRuns(PANEL_SIZE);
+		await seedDeepenedSplittingRuns(PANEL_SIZE);
 		const { workspaceRoot } = workspace();
 
 		const result = await run();
@@ -62,8 +62,8 @@ describe("choose-division", () => {
 		});
 	});
 
-	it("should fail naming the missing run when fewer splitting runs are saved than the panel holds", async () => {
-		await seedSplittingRuns(PANEL_SIZE - 1);
+	it("should fail naming the missing run when fewer deepened splitting runs are saved than the panel holds", async () => {
+		await seedDeepenedSplittingRuns(PANEL_SIZE - 1);
 
 		const error = await captureError(run());
 

@@ -648,8 +648,8 @@ Unit tests (mock `callModel`):
 - `should send every subtopic still over the gate again when the first round cut anything` — one held as one step included
 - `should make no second round when the first round cut nothing`
 - `should stop after two rounds when a piece stays over the gate`
-- `should reproduce the transcript exactly when a splitting run is joined after deepening`
-- `should record every splitting run file as written when the stage completes`
+- `should reproduce the transcript exactly when a deepened splitting run is joined`
+- `should record every deepened splitting run file as written when the stage completes`
 - `should resend a subtopic when the reply $problem` — `test.each` across not an object, no list of cuts, a cut without its start words
 - `should fail the stage without saving the run when a subtopic fails every send` — never recorded as one step
 - `should make only the missing runs when an earlier launch saved some`
@@ -658,7 +658,7 @@ Unit tests (mock `callModel`):
 
 Tests for the shared pieces: `isDivision` and `isReplySubtopic` (`test.each`, in `division.test.ts`); `readPanel` — every run in order, the caller's error for a missing run, an unreadable run — and `runPanel` reporting no cost when its runs needed no calls (`panel-runs.integration.test.ts`); `readTranscript` trimming the transcript (`stage-input.integration.test.ts`); `promptMessages` and `tryJsonReplyAs` (`model-stage.test.ts`).
 
-**Side by side with the prototype, in place of a replay:** the prototype saved its splitting runs after deepening but not the replies that made them, so there is nothing to replay. A one-off script sets the live splitting runs after deepening beside the prototype's for the same lecture, subtopic by subtopic, for the user to read.
+**Side by side with the prototype, in place of a replay:** the prototype saved its deepened splitting runs but not the replies that made them, so there is nothing to replay. A one-off script sets the live deepened splitting runs beside the prototype's for the same lecture, subtopic by subtopic, for the user to read.
 
 **Live run:** on the Phase 10 lecture, comparing deepened subtopic counts with the prototype's `d13` range.
 
@@ -683,7 +683,7 @@ Unit tests for `mapWithConcurrency`:
 
 Unit tests for the stage (mock `callModel`):
 - `should have at most $expected calls in flight in one run when callConcurrency is $callConcurrency` — `test.each`, unset included (one at a time)
-- `should give the same splitting run when the replies arrive out of order`
+- `should give the same deepened splitting run when the replies arrive out of order`
 
 Unit tests for `totalCost` in `src/utils/cost.ts`, which folds the costs of a stage's parts where some made no call — the panel's runs and a round's calls both need it:
 - `should be null when $case` — `test.each` across no parts and no part making a call
@@ -731,7 +731,7 @@ Unit tests for `deepen-subtopic-splitting`:
 
 The deepening tests of the mark are deleted.
 
-**Acceptance:** The live splitting runs of all eight lectures still read as divisions; nothing written carries the mark.
+**Acceptance:** The live deepened splitting runs of all eight lectures still read as divisions; nothing written carries the mark.
 
 ### Phase 11, continued — refusals resent
 
@@ -776,7 +776,7 @@ Integration tests for `callModel` (stubbed OpenRouter):
 
 ## Phase 12 — `choose-division`
 
-**Goal:** Vote over the splitting runs and keep, whole, the run nearest the vote. No model call.
+**Goal:** Vote over the deepened splitting runs and keep, whole, the run nearest the vote. No model call.
 
 **Deliverables:**
 
@@ -810,11 +810,11 @@ Unit tests for the layout:
 
 Integration tests for the stage (real temp directory):
 - `should write the chosen run's subtopics, and beside them which run was chosen, when the stage completes`
-- `should fail naming the missing run when fewer splitting runs are saved than the panel holds`
+- `should fail naming the missing run when fewer deepened splitting runs are saved than the panel holds`
 
 **Replay against the prototype:** a one-off script in the prototype folder runs `chooseDivision` on each lecture's 18 `d13` runs at a bar of nine, and on every panel of nine drawn from them at a bar of five, and checks that it chooses the same run as `division_support.py`'s `closest_to_vote_run`. Any difference is explained or fixed.
 
-**Live run:** the stage over Phase 11's live splitting runs on all eight lectures: which run each chose, and its distance from the vote.
+**Live run:** the stage over Phase 11's live deepened splitting runs on all eight lectures: which run each chose, and its distance from the vote.
 
 **Acceptance:** A lecture gains one chosen division, a run of its panel handed on unchanged, with a record beside it of which run and how far from the vote; replay agrees on every panel.
 

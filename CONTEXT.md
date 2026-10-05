@@ -302,8 +302,8 @@ The word count above which a subtopic goes to deepening. Code counts it, not the
 _Avoid_: gate (alone), threshold, limit
 
 **Splitting run**:
-One complete attempt at dividing one lecture into subtopics: initial subtopic splitting, then deepening. A panel is made of splitting runs. Between the two parts, call it "a splitting run before deepening".
-_Avoid_: run (alone, since a pipeline run is something else), initial run, deepened run, trial, sample
+One complete attempt at dividing one lecture into subtopics: initial subtopic splitting, then deepening. A panel is made of splitting runs. Between the two parts, call it "a splitting run before deepening". Once deepening is done, call it "a deepened splitting run" wherever the difference matters, as it does for the vote.
+_Avoid_: run (alone, since a pipeline run is something else), initial run, deepened run (without "splitting"), trial, sample
 
 **Grouping**:
 The separate call that assembles finished subtopics into topics. It is kept apart from cutting because subtopics stay steady across splitting runs and models, but their grouping does not.

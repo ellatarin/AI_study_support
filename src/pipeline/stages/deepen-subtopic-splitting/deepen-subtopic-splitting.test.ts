@@ -190,7 +190,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		});
 	}
 
-	/** The splitting run the stage saved for run `runNumber` after deepening, parsed back off disk. */
+	/** The deepened splitting run the stage saved as run `runNumber`, parsed back off disk. */
 	async function savedRun(runNumber: number): Promise<readonly Subtopic[]> {
 		return (await readPanelRun({
 			workspaceRoot: workspaceRoot(),
@@ -199,7 +199,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		})) as readonly Subtopic[];
 	}
 
-	/** Where each subtopic of splitting run `runNumber` starts after deepening. */
+	/** Where each subtopic of deepened splitting run `runNumber` starts. */
 	async function savedStarts(runNumber: number): Promise<readonly number[]> {
 		return (await savedRun(runNumber)).map((subtopic) => subtopic.start);
 	}
@@ -306,7 +306,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		expect(peak()).toBe(expected);
 	});
 
-	it("should give the same splitting run when the replies arrive out of order", async () => {
+	it("should give the same deepened splitting run when the replies arrive out of order", async () => {
 		const answer = answerFrom(CUTTING_BOTH_ROUNDS);
 		let callsMade = 0;
 		// Each call waits fewer turns than the one before it, so later calls answer first.
@@ -319,7 +319,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		expect(await savedStarts(1)).toEqual(CUT_IN_BOTH_ROUNDS);
 	});
 
-	it("should reproduce the transcript exactly when a splitting run is joined after deepening", async () => {
+	it("should reproduce the transcript exactly when a deepened splitting run is joined", async () => {
 		answering(CUTTING_BOTH_ROUNDS);
 		await run(ALMOST_EVERYTHING);
 		expect(joinedSubtopics({ text: transcriptText, subtopics: await savedRun(1) })).toBe(
@@ -327,7 +327,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		);
 	});
 
-	it("should record every splitting run file as written when the stage completes", async () => {
+	it("should record every deepened splitting run file as written when the stage completes", async () => {
 		const { filesWritten } = await run(SECOND_ONLY);
 		expect(filesWritten).toHaveLength(PANEL_SIZE);
 		expect(filesWritten[0]).toBe(join("Deepened subtopics", "run-01.json"));

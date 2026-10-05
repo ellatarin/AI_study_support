@@ -59,7 +59,7 @@ export type DeepenSubtopicSplittingInput = {
 	readonly splittingRunsBeforeDeepening: readonly (readonly Subtopic[])[];
 };
 
-/** Every splitting run after deepening, in run order. */
+/** Every deepened splitting run, in run order. */
 export type DeepenSubtopicSplittingOutput = { readonly runs: readonly (readonly Subtopic[])[] };
 
 /** The object the `d13` prompt asks for. Its `verdict` is not read: no cuts means one step. */
@@ -159,8 +159,8 @@ function cutSubtopic({
 	return [first, ...later];
 }
 
-/** A splitting run being deepened, and what the calls about it need. */
-type SplittingRunUnderDeepening = {
+/** What every model call made while deepening one splitting run needs. */
+type DeepeningCallArgs = {
 	readonly transcript: string;
 	readonly runNumber: number;
 	readonly context: StageContext;
@@ -192,7 +192,7 @@ async function deepenSubtopic({
 	logger,
 	client,
 	sendGate,
-}: SplittingRunUnderDeepening & { readonly subtopic: Subtopic; readonly round: number }): Promise<{
+}: DeepeningCallArgs & { readonly subtopic: Subtopic; readonly round: number }): Promise<{
 	readonly pieces: readonly Subtopic[];
 	readonly cost: StageCost | null;
 }> {
@@ -231,13 +231,13 @@ async function deepenSubtopic({
  * @param args.context - The current lecture run context.
  * @param args.logger - The stage's logger.
  * @param args.client - The OpenAI client the calls go through.
- * @returns The splitting run after deepening, and what its calls cost — `null` when none was over the gate.
+ * @returns The deepened splitting run, and what its calls cost — `null` when none was over the gate.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino Logger and OpenAI client are library types that are not deeply readonly
 async function deepenSplittingRun({
 	splittingRunBeforeDeepening,
 	...underDeepening
-}: SplittingRunUnderDeepening & {
+}: DeepeningCallArgs & {
 	readonly splittingRunBeforeDeepening: readonly Subtopic[];
 }): Promise<{
 	readonly run: readonly Subtopic[];
@@ -278,7 +278,7 @@ async function deepenSplittingRun({
  * @param args.logger - The run's logger, on which each model call is recorded.
  * @param args.client - The OpenAI client the calls go through.
  * @param args.sendGate - The run's turns to send, which every call waits on.
- * @returns Every splitting run after deepening, what this launch's calls cost, and the run files.
+ * @returns Every deepened splitting run, what this launch's calls cost, and the run files.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 function deepenSplittingRuns({
