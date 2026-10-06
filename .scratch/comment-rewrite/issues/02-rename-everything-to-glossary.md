@@ -4,7 +4,7 @@
 
 **Blocked by:** 01
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 The ticket covers two kinds of name:
 
@@ -240,3 +240,5 @@ Two things any folder or file rename must also fix: each manifest's `filesWritte
 - B5 is reversed. `completionMaxRetries` and `completionTimeoutMs` stay. They are the provider library's own settings, and the library retries a request inside one send. "Resend" keeps one meaning: a stage sending a call again.
 - The rule for words: what the pipeline does uses the glossary words (model call, send, resend, reply). What belongs to the provider or its library keeps the provider's words: its token counts and its client settings.
 - S15: `requireDivision` becomes `requireSubtopicSplitting`, `requireOutput` becomes `requireFinalOutput`, and the test helper `outputSection` becomes `finalOutputSection`.
+
+2026-10-06, closed. Every code and stored rename is done, and the lecture files on disk are fixed. A test on a copy of the Biology of Disease module, without API keys, read every renamed file: the cost report, a batch run, and rebuilds of the chosen division and the topics from the saved runs. The rebuilt files were the same as the current files, and no model call was made.
