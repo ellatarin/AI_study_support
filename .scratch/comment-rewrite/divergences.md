@@ -66,7 +66,7 @@ When the user rules, the status becomes `code wrong`, `intent wrong` or `both wr
 - **The code does:** a stage after the `--to-stage` bound is recorded `not-reached`, as a stage after a halt is.
 - **The intent says:** the old comment: "`not-reached` means an upstream failure prevented it from being attempted". technical-design.md §4.2, after the status table (line 468): "`not-reached`, the run log action used when an upstream failure prevented a stage from being attempted at all".
 - **Other sources:** technical-design.md §4.7 (line 848) and the old `RunLog.toStage` comment agree with the code.
-- **Status:** open
+- **Status:** code wrong, ruled by the user 2026-10-06. One action for two situations is not clear. Filed as `.scratch/run-outcomes/issues/01-mark-stages-after-to-stage-as-not-requested.md`.
 
 ## D7 — `QaSourcePassage.location` names a word the glossary avoids, and a set the prompt does not give
 
@@ -90,7 +90,7 @@ When the user rules, the status becomes `code wrong`, `intent wrong` or `both wr
 - **The code does:** nothing reads `running` back as `failed`. The next pipeline run does the stage again, because it is not a completed stage. `decideRunType` (`src/pipeline/runner.ts:111–136`) gives `error-recovery` for a `--from-stage` on it, as for `failed` and `pending`. The cost report (`stageCostRow`, `src/pipeline/reports.ts:334`) gives it no row, as for `pending`. A `failed` entry gets a row.
 - **The intent says:** the old comment: "a crash therefore leaves `running` behind, which the next launch treats as `failed`". technical-design.md §4.2, status table (line 463): "Currently executing, or crashed mid-run — treated as `failed` on next launch". The runner's own comment (`runner.ts:367`) says the same.
 - **Other sources:** none.
-- **Status:** open
+- **Status:** intent wrong, ruled by the user 2026-10-06. The next pipeline run does the stage again, and that is the right behaviour. The cost report can leave the crashed stage out, because the next run of the stage rebuilds its cost. Fix technical-design.md §4.2 and the comment at `runner.ts:367` in the design-doc rewording.
 
 ## D10 — `aiDerivedTitle` is also set when a user title keeps the lecture title
 
