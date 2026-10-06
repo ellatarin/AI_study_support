@@ -1,11 +1,10 @@
 /**
- * Shared test fixtures and helpers for the pipeline modules.
+ * Test fixtures and helpers that the pipeline suites share.
  *
- * `PipelineConfig` and `Manifest` are wide, fully-required shapes, so a test
- * needing either would otherwise restate the whole thing — and adding a field to
- * either type would mean editing every copy. Building them here keeps that to a
- * single edit. Each builder takes an `overrides` object so a test states only the
- * fields its behaviour actually depends on.
+ * `PipelineConfig` and `Manifest` have many required fields. The builders here
+ * make them, so a new field needs one edit and not one edit in each suite. Each
+ * builder takes `overrides`, so a test states only the fields that its behaviour
+ * depends on.
  */
 
 import { spawn } from "node:child_process";
@@ -60,19 +59,18 @@ import {
 } from "./stages/transcription/transcription.js";
 
 /**
- * Awaits a promise that a test expects to reject and returns the rejection, so
- * the test can make several assertions about one error. `rejects.toThrow` only
- * matches a single condition, and a bare try/catch silently passes when the
- * promise unexpectedly resolves — hence the explicit throw here.
+ * Awaits a promise that must reject, and returns the error. A test can then make
+ * several assertions about one error. `rejects.toThrow` checks only one
+ * condition. A bare try/catch passes when the promise resolves, so this function
+ * throws in that case.
  *
- * @param promise - The promise under test, expected to reject.
- * @returns The error the promise rejected with.
- * @throws {Error} If the promise resolves instead of rejecting.
+ * @param promise - The promise under test. It must reject.
+ * @returns The error that the promise rejected with.
+ * @throws {Error} If the promise resolves.
  */
-// prefer-readonly-parameter-types cannot see a Promise as read-only (it is a
-// built-in carrying methods). Awaiting one cannot mutate it, so the rule has
-// nothing to protect here — same rationale as the file-wide disable in
-// source-normalisation.ts, narrowed to the one parameter that needs it.
+// prefer-readonly-parameter-types cannot see a Promise as read-only, because a
+// Promise is a built-in type with methods. To await a promise does not change it,
+// so the rule protects nothing here.
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 export async function captureError(promise: Promise<unknown>): Promise<Error> {
 	try {
@@ -83,13 +81,13 @@ export async function captureError(promise: Promise<unknown>): Promise<Error> {
 	throw new Error("Expected the promise to reject, but it resolved");
 }
 
-/** The pino levels {@link makeStubLogger} records. */
+/** The pino levels that {@link makeStubLogger} records. */
 const LOGGED_LEVELS = ["debug", "info", "warn", "error"] as const;
 
-/** One level a stub logger records against. */
+/** One level that a stub logger records. */
 export type LoggedLevel = (typeof LOGGED_LEVELS)[number];
 
-/** One call made against {@link makeStubLogger}, with the bindings in force. */
+/** One call to a {@link makeStubLogger} logger, with the bindings of the logger that took it. */
 export type LoggedEntry = {
 	readonly level: LoggedLevel;
 	readonly bindings: Readonly<Record<string, unknown>>;
@@ -97,30 +95,30 @@ export type LoggedEntry = {
 	readonly message: string;
 };
 
-/** A logger to inject, and the entries it has recorded so far. */
+/** A logger to inject, and the entries that it recorded until now. */
 export type StubLogger = {
 	readonly logger: Logger;
 	readonly entries: readonly LoggedEntry[];
 };
 
 /**
- * A pino stand-in that records every call made against it.
+ * A pino stand-in that records each call to it.
  *
- * Callers log through a child logger bound to the stage, so a stub has to
- * support `child()` and carry its bindings down — which is exactly what a test
- * asserting "this was logged against the right stage" needs to see. Every level
- * is recorded rather than only `error`, because the same three facts are asked
- * of a `debug` line as of a failure: what was logged, with what payload, under
- * which bindings.
+ * Callers log through a child logger that is bound to the stage. So the stub
+ * supports `child()`. Each child records the bindings of its parent logger and
+ * its own bindings. A test can then check
+ * that a line was logged against the correct stage. The stub records every
+ * level, not only `error`. A test asks the same three things of a `debug` line
+ * and of a failure: the message, the payload and the bindings.
  *
- * @returns The logger to inject, and the entries it has recorded so far.
+ * @returns The logger to inject, and the entries that it recorded until now.
  */
 export function makeStubLogger(): StubLogger {
 	const entries: LoggedEntry[] = [];
 	const makeChild = (bindings: Readonly<Record<string, unknown>>): Logger => {
 		const record =
 			(level: LoggedLevel) =>
-			// eslint-disable-next-line max-params -- mirrors pino's own (payload, message) signature
+			// eslint-disable-next-line max-params -- pino's own signature is (payload, message)
 			(payload: Readonly<Record<string, unknown>>, message: string) => {
 				entries.push({ level, bindings, payload, message });
 			};
@@ -135,16 +133,17 @@ export function makeStubLogger(): StubLogger {
 }
 
 /**
- * Gives a suite a stub logger of its own, made afresh before each test, so a
- * test asserting on what was logged never reads an earlier test's entries.
+ * Gives a suite its own stub logger, made again before each test. A test that
+ * checks the log then never reads the entries of an earlier test.
  *
- * Every suite that reads its logs back wants exactly this and nothing more, so
- * it is stated here rather than as a `let` and a hook in each of them.
+ * Each suite that reads its log needs a stub logger that is made again before
+ * each test. So this function is in this file, and no suite has its own `let`
+ * and hook for the stub logger.
  *
- * Returns a reader rather than the logger, because it does not exist until the
- * hook has run — the shape {@link useTempDir} already establishes here.
+ * The function returns a reader, not the logger, because the logger does not
+ * exist until the hook runs. {@link useTempDir} has the same shape.
  *
- * @returns A function giving the current test's stub logger.
+ * @returns A function that gives the stub logger of the current test.
  */
 export function useStubLogger(): () => StubLogger {
 	let stubLogger: StubLogger | null = null;
@@ -162,13 +161,12 @@ export function useStubLogger(): () => StubLogger {
 }
 
 /**
- * The entries a stub logger recorded at one level, in the order they were
- * logged.
+ * The entries that a stub logger recorded at one level, in the order of logging.
  *
- * @param args - The recording to filter.
- * @param args.entries - Everything the stub logger recorded.
+ * @param args - The entries and the level.
+ * @param args.entries - All the entries that the stub logger recorded.
  * @param args.level - The level to keep.
- * @returns The matching entries.
+ * @returns The entries at that level.
  */
 export function loggedAt({
 	entries,
@@ -181,16 +179,16 @@ export function loggedAt({
 }
 
 /**
- * The shipped example configuration, validated.
+ * The example configuration in the repository, after the config check.
  *
- * Configuration lives in the config file, so tests read it rather than restating
- * it: a suite needing OpenRouter's address or a timeout takes it from here, and
- * adding a required field means editing one file. The *example* rather than
- * `pipeline-config.json`, because that one is gitignored and edited per machine
- * — tests must not behave differently on the author's laptop than anywhere else.
+ * Tests read configuration from here and do not restate it. A suite that needs
+ * the OpenRouter address or a timeout takes it from here. A new required field
+ * then needs an edit in one file. The fixtures read the example, not
+ * `pipeline-config.json`, because git ignores that file and each machine has
+ * its own copy. A test must give the same result on every machine.
  *
- * Parsing it through the real validator also makes every suite a check that the
- * shipped example is loadable, which nothing else verifies.
+ * The real config check parses the example. So each suite also checks that the
+ * example loads. Nothing else checks this.
  */
 export const exampleConfig: PipelineConfig = parseConfig(
 	JSON.parse(
@@ -199,73 +197,68 @@ export const exampleConfig: PipelineConfig = parseConfig(
 );
 
 /**
- * The rate the suites present money at, fixed here and deliberately **not**
- * taken from `currency.gbpPerUsd`.
+ * The number of pounds for one US dollar in the suites. It is not taken from
+ * `currency.gbpPerUsd`.
  *
- * Every expected pounds figure in a suite is worked out by hand at this rate, so
- * reading it from the config would make an unrelated config edit fail those
- * assertions with "expected £0.148, got £0.170" — blaming the formatter for a
- * change in the rate. Deriving the expectations instead would multiply by the
- * same rate the code under test does, and prove nothing.
+ * Each expected pounds figure in a suite is calculated by hand at this rate. If
+ * the rate came from the config, a change to the config rate would make those
+ * assertions fail. The failure would then seem to come from the formatter. If
+ * the expected figures used the config rate, they would use the same rate as the
+ * code under test, and they would prove nothing.
  */
 export const GBP_PER_USD = 0.74;
 
 /**
- * The formatter every suite showing money renders through, at {@link
- * GBP_PER_USD}.
- *
- * The reports take a formatter rather than a rate, so four suites were each
- * building one from the same constant. Built once here, as the CLI builds one
- * for everything it writes.
+ * The money formatter of the suites, at {@link GBP_PER_USD}. The reports take a
+ * formatter, not a rate. The suites share this one formatter, as the CLI makes
+ * one formatter for its stage notices and its summaries.
  */
 export const formatTestMoney: MoneyFormatter = createMoneyFormatter({ gbpPerUsd: GBP_PER_USD });
 
-/** A configured service address, split into the two halves nock asks for. */
+/** A configured service address, split into the two parts that nock needs. */
 type ServiceAddress = {
-	/** The scheme and host, as nock's scope. */
+	/** The scheme and host, for the nock scope. */
 	readonly origin: string;
 	/**
-	 * The full path to one of the service's endpoints: its route beneath the
-	 * configured base path, which is what an interceptor matches on.
+	 * The full path to one endpoint of the service: the configured base path and
+	 * then the endpoint route. An interceptor matches on this path.
 	 *
-	 * @param endpoint - The service's own route, as the production code names it.
+	 * @param endpoint - The route of the endpoint, as the production code gives it.
 	 * @returns The path to intercept.
 	 */
 	readonly pathTo: (endpoint: string) => string;
 };
 
 /**
- * Reads a configured base URL the way a suite intercepting that service needs
- * it.
+ * Splits a configured base URL into the parts that a suite needs to intercept
+ * the service.
  *
- * Parsed once here rather than at each field below, so every address a suite
- * mocks comes from one reading of the configuration: a base URL that moves takes
- * the interceptors with it, and the origin a scope is opened on cannot come to
- * disagree with the path it then matches.
+ * Each address that a suite intercepts comes from this one parse of the
+ * configuration. So if a base URL changes, the interceptors change with it. Also,
+ * the origin of a scope always agrees with the path that the scope matches.
  *
- * @param baseUrl - The service's configured address.
- * @returns Its origin, and how its endpoints hang off it.
+ * @param baseUrl - The configured address of the service.
+ * @returns The origin, and the paths to the endpoints.
  */
 function configuredAddress(baseUrl: string): ServiceAddress {
 	const address = new URL(baseUrl);
-	// A base URL that is a bare host parses to a "/" path, which would double the
-	// separator the endpoint already carries.
+	// A base URL that is only a host parses to the path "/". The endpoint route
+	// starts with "/" too, so the trailing "/" is removed.
 	const basePath = address.pathname.replace(/\/$/, "");
 	return { origin: address.origin, pathTo: (endpoint) => `${basePath}${endpoint}` };
 }
 
 /**
- * Where a suite intercepting OpenRouter at a given address should point nock:
- * that address split into the origin and full paths nock wants.
+ * The OpenRouter addresses that a suite gives to nock, for one base URL.
  *
- * Assembled from the base URL and the endpoint paths the production code calls,
- * so a suite mocking OpenRouter neither restates the URL nor knows an endpoint
- * independently of the code under test — if either moves, the mocks move with
- * it. Takes the address rather than reading the example's, because the config
- * suite points the loader at a gateway to prove it reads the configuration.
+ * The addresses come from the base URL and from the endpoint paths that the
+ * production code calls. So a suite does not restate the URL or an endpoint. If
+ * either changes, the interceptors change with it. The function takes the
+ * address, and does not read the example, because some suites use a gateway
+ * address. They prove that the code reads the configured address.
  *
  * @param baseUrl - The configured OpenRouter base URL.
- * @returns The origin, the endpoint paths, and the human-facing models page.
+ * @returns The origin, the endpoint paths, and the models page for people.
  */
 export function openRouterUrlsAt(baseUrl: string): {
 	readonly origin: string;
@@ -278,28 +271,25 @@ export function openRouterUrlsAt(baseUrl: string): {
 		origin: address.origin,
 		completions: address.pathTo(OPENROUTER_PATHS.completions),
 		models: address.pathTo(OPENROUTER_PATHS.models),
-		// The human-facing models page a failed model-ID check links to. Off the
-		// origin rather than the API's base path, as the production code derives it.
+		// The models page for people, which the error of a failed model-ID check
+		// gives. It is on the origin, not the API base path, as in the production code.
 		modelsPage: `${address.origin}${OPENROUTER_PATHS.models}`,
 	};
 }
 
-/** Where a suite intercepting the *configured* OpenRouter should point nock. */
+/** The OpenRouter addresses of the example configuration, for nock. */
 export const openRouterUrls = openRouterUrlsAt(exampleConfig.openRouter.baseUrl);
 
 /**
- * The OpenRouter client provider a config describes, made the way the
- * composition root makes it.
+ * The OpenRouter client provider for a config, made as the CLI makes it.
  *
- * Nothing holds a shared client any more — a stage is handed a provider, as it
- * is handed its logger — so every suite driving a stage or a model call
- * supplies one. They ask here rather than each reaching into the config's
- * `openRouter` section for themselves. A suite that needs the client itself
- * calls what this returns.
+ * A stage gets a client provider, as it gets its logger. So each suite that
+ * runs a stage or a model call gives one, from here. A suite that needs the
+ * client calls the provider.
  *
- * @param args - Which config's OpenRouter section to build from.
- * @param args.config - The validated config the client should point at.
- * @returns A provider handing back one client for that config.
+ * @param args - The config.
+ * @param args.config - The checked config whose `openRouter` section the client uses.
+ * @returns A provider that gives one client for that config.
  */
 export function openRouterClientFor({
 	config,
@@ -309,34 +299,28 @@ export function openRouterClientFor({
 	return createOpenRouterClientProvider({ openRouter: config.openRouter });
 }
 
-/** The ElevenLabs counterpart to {@link openRouterAddress}. */
 const elevenLabsAddress = configuredAddress(exampleConfig.elevenLabs.baseUrl);
 
 /**
- * Where a suite intercepting ElevenLabs should point nock: the configured
- * address and the route the SDK appends to it.
- *
- * Assembled the same way {@link openRouterUrls} is, so a suite mocking Scribe
- * neither restates the host nor knows the endpoint independently of the code
- * under test.
+ * The ElevenLabs addresses of the example configuration, for nock. They come
+ * from the configured address and the SDK route, as {@link openRouterUrls} does.
+ * So a suite does not restate the host or the endpoint.
  */
 export const elevenLabsUrls = {
-	/** The scheme and host, as nock's scope. */
+	/** The scheme and host, for the nock scope. */
 	origin: elevenLabsAddress.origin,
-	/** Path to the speech-to-text endpoint the transcription stage posts to. */
+	/** The path to the speech-to-text endpoint that the transcription stage posts to. */
 	speechToText: elevenLabsAddress.pathTo(ELEVENLABS_PATHS.speechToText),
 } as const;
 
 /**
- * A stage's configuration, as the shipped example holds it.
- *
- * Read from the example rather than restated, so a suite exercising a stage
- * takes the same model and tuning its configuration does, and fails loudly if
- * the example stops configuring it.
+ * The configuration of a stage in the example configuration. A suite takes the
+ * model and tuning from here and does not restate them. If the example does not
+ * configure the stage, the suite fails.
  *
  * @param stageId - The stage whose configuration to read.
- * @returns The configured stage.
- * @throws {Error} If the example configures no such stage.
+ * @returns The configuration of the stage.
+ * @throws {Error} If the example does not configure the stage.
  */
 export function exampleStageConfig(stageId: StageId): StageConfig {
 	const configured = exampleConfig.stages[stageId];
@@ -346,31 +330,28 @@ export function exampleStageConfig(stageId: StageId): StageConfig {
 	return configured;
 }
 
-/** The Scribe model the example configures, provider-qualified as `transcription` expects. */
+/** The Scribe model ID in the example, with the provider prefix that `transcription` expects. */
 export const transcriptionModelId = exampleStageConfig("transcription").modelId;
 
 /**
- * A concrete OpenRouter model for the suites that need one.
- *
- * Not taken from the example config: every OpenRouter stage there holds a
- * capability-based placeholder (`<REASONING_MODEL>`) that would fail the
- * model-ID check, so the suites must name a real routing string themselves.
+ * A real OpenRouter model ID for the suites. It is not from the example config.
+ * Each OpenRouter stage there has a placeholder such as `<REASONING_MODEL>`,
+ * which fails the model-ID check.
  */
 export const openRouterModelId = "openai/gpt-4o";
 
 /**
- * The token counts the stubbed OpenRouter call reports in its `usage`. A suite
- * asserting the resolved `StageCost` is checking that the pipeline carried
- * these counts through unchanged.
+ * The token counts in the `usage` of a stubbed OpenRouter reply. A suite that
+ * checks a `StageCost` checks that the pipeline kept these counts unchanged.
  */
 export const stubbedTokenUsage = { promptTokens: 120, completionTokens: 45 } as const;
 
-/** What the stubbed LLM call is billed at, where a suite needs a settled figure. */
+/** The price of one stubbed model call, in US dollars. */
 export const stubbedCostUsd = 0.004;
 
 /**
- * The `usage` a stubbed OpenRouter reply carries: {@link stubbedTokenUsage}
- * priced at {@link stubbedCostUsd}, in OpenRouter's own field names.
+ * The `usage` of a stubbed OpenRouter reply: {@link stubbedTokenUsage} at the
+ * price {@link stubbedCostUsd}, in the OpenRouter field names.
  */
 export const stubbedReplyUsage = {
 	prompt_tokens: stubbedTokenUsage.promptTokens,
@@ -378,7 +359,7 @@ export const stubbedReplyUsage = {
 	cost: stubbedCostUsd,
 } as const;
 
-/** The whole cost of one stubbed, priced call: its tokens, one call, and its price. */
+/** The cost of one stubbed model call: its tokens, one call and its price. */
 export const stubbedCallCost: StageCost = {
 	...stubbedTokenUsage,
 	callCount: 1,
@@ -386,12 +367,12 @@ export const stubbedCallCost: StageCost = {
 };
 
 /**
- * {@link stubbedCallCost} taken `calls` times over — what a stage that made that
- * many stubbed calls should have added up to.
+ * The cost of a stage that made `calls` stubbed model calls: {@link stubbedCallCost}
+ * `calls` times.
  *
- * @param args - How many calls.
- * @param args.calls - The number of stubbed calls made.
- * @returns Their combined cost.
+ * @param args - The number of calls.
+ * @param args.calls - The number of stubbed model calls.
+ * @returns The total cost of the calls.
  */
 export function stubbedCallsCost({ calls }: { readonly calls: number }): StageCost {
 	return {
@@ -403,25 +384,24 @@ export function stubbedCallsCost({ calls }: { readonly calls: number }): StageCo
 }
 
 /**
- * How long a test that renders real media with ffmpeg may take. Well beyond the
- * default: these encode and probe an actual file rather than stub one.
+ * The time limit of a test that makes real media with ffmpeg. It is much longer
+ * than the default, because these tests encode and probe a real file.
  */
 export const mediaTestTimeoutMs = 30_000;
 
 /**
- * A whole stage configuration as the example ships it — temperature, token
- * budget and any other tuning — with only the placeholder model swapped for
- * {@link openRouterModelId}.
+ * The full configuration of a stage in the example, with its tuning, and with
+ * a real model ID in place of the placeholder.
  *
- * A stage's parameters belong with its model rather than beside it: a suite
- * that stated `temperature` and `maxTokens` itself was restating the example's
- * tuning, and would keep passing after that tuning changed.
+ * A suite takes the tuning from here and does not state `temperature` or
+ * `maxTokens` itself. A suite that restated the tuning would still pass after
+ * the example tuning changed.
  *
- * @param args - Which stage, and which model to put in its place.
+ * @param args - The stage, and the model to use.
  * @param args.stageId - The stage whose configuration to take.
- * @param args.modelId - The model to substitute; defaults to {@link openRouterModelId}.
- * @returns The stage config, ready to hand to {@link makeConfig}.
- * @throws {Error} If the example configures no such stage.
+ * @param args.modelId - The model ID to use. The default is {@link openRouterModelId}.
+ * @returns The stage config, for {@link makeConfig}.
+ * @throws {Error} If the example does not configure the stage.
  */
 export function openRouterStageConfig({
 	stageId,
@@ -433,34 +413,32 @@ export function openRouterStageConfig({
 	return { ...exampleStageConfig(stageId), modelId };
 }
 
-/** Text that is not valid JSON, for the suites checking a corrupt file is reported. */
+/** Text that is not valid JSON, for the suites that check the error for a corrupt file. */
 export const corruptJson = "{ not json";
 
 /**
- * A well-formed Scribe single-channel response body, as the SDK deserialises it.
+ * A correct Scribe single-channel response body, as the SDK reads it.
  *
- * Both suites that intercept a transcription need one, and its shape — down to
- * the language fields the stage never reads — is ElevenLabs' contract rather
- * than either suite's business.
+ * The shape belongs to ElevenLabs, not to the suites. It includes the language
+ * fields that the stage does not read. So the suites that intercept a
+ * transcription share this one body.
  *
- * @param args - What Scribe should appear to have heard.
+ * @param args - The transcript.
  * @param args.text - The transcript text to return.
- * @returns The response body to reply with.
+ * @returns The response body.
  */
 export function scribeResponseBody({ text }: { readonly text: string }): Record<string, unknown> {
 	return { language_code: "eng", language_probability: 0.99, text, words: [] };
 }
 
 /**
- * A well-formed OpenRouter reply body, in the shape of the chat completions API.
+ * A correct OpenRouter reply body, in the shape of the chat completions API. The
+ * shape belongs to the API, not to the suites, so the suites share this body.
  *
- * Two suites need one, and its shape is the SDK's contract rather than either
- * suite's business.
- *
- * @param args - What the model should appear to have said, and how it reported finishing.
- * @param args.content - The assistant message content.
- * @param args.finishReason - The finish reason reported; `"stop"` by default, `null` for none.
- * @returns The response body to reply with.
+ * @param args - The reply text, and the finish reason.
+ * @param args.content - The content of the assistant message.
+ * @param args.finishReason - The finish reason. The default is `"stop"`. `null` gives no finish reason.
+ * @returns The response body.
  */
 export function openRouterReplyBody({
 	content,
@@ -470,7 +448,7 @@ export function openRouterReplyBody({
 	readonly finishReason?: string | null;
 }): Record<string, unknown> {
 	return {
-		// eslint-disable-next-line id-length -- OpenRouter's field name, not ours to choose
+		// eslint-disable-next-line id-length -- the field name belongs to OpenRouter, so this code cannot change it
 		id: "gen-abc",
 		choices: [{ index: 0, message: { role: "assistant", content }, finish_reason: finishReason }],
 		usage: stubbedReplyUsage,
@@ -478,17 +456,16 @@ export function openRouterReplyBody({
 }
 
 /**
- * Intercepts one JSON-mode model call, priced at {@link stubbedCostUsd} in its
- * own reply, handing back what the stage put on the wire.
+ * Intercepts one JSON-mode model call, and replies with `reply` at the price
+ * {@link stubbedCostUsd}. It keeps the request body that the stage sent.
  *
- * Every stage that calls a model over a real HTTP boundary needs the same
- * interceptor and the same capture, and neither is any one suite's business.
+ * Each suite of a stage that calls a model over real HTTP needs this interceptor
+ * and this capture, so the suites share this function. The suite reads the body through the
+ * returned function, not through a variable of its own. So no test has to reset
+ * it.
  *
- * The captured body is reached through the returned function rather than a
- * variable the suite keeps, so nothing has to be reset between tests.
- *
- * @param reply - The JSON object the model should appear to have replied with.
- * @returns A function giving the request body the stage sent.
+ * @param reply - The JSON object that the model replies with.
+ * @returns A function that gives the request body that the stage sent.
  */
 export function stubModelReply(
 	reply: Readonly<Record<string, unknown>>,
@@ -496,7 +473,7 @@ export function stubModelReply(
 	let capturedBody: Record<string, unknown> = {};
 	nock(openRouterUrls.origin)
 		.post(openRouterUrls.completions)
-		// eslint-disable-next-line max-params -- nock hands its reply callback (uri, body) positionally; the signature is the library's, not ours to shape
+		// eslint-disable-next-line max-params -- nock gives (uri, body) to its reply callback as positional parameters. The signature belongs to the library
 		.reply((_uri, body) => {
 			capturedBody = body as Record<string, unknown>;
 			return [200, openRouterReplyBody({ content: JSON.stringify(reply) })];
@@ -505,15 +482,14 @@ export function stubModelReply(
 }
 
 /**
- * Asserts a captured request asked for JSON, routing included.
+ * Checks that a captured request asks for JSON, with the routing that JSON mode
+ * needs (technical-design.md §6).
  *
- * Both halves or neither: `response_format` alone is a preference OpenRouter may
- * drop, and it is `require_parameters` that turns a model which cannot honour it
- * into a failed call rather than prose. A suite checking one and not the other
- * would pass on a stage that pays for a call and gets an unparseable reply, so
- * the pair is asserted from one place for every stage that calls in JSON mode.
+ * The function checks `response_format` and `require_parameters` together. A
+ * suite that checked only one of them could pass on a stage that sends only one of the two fields. That stage
+ * would pay for a call and get a reply that it cannot parse.
  *
- * @param request - The request body the stage sent, as `stubModelReply` captured it.
+ * @param request - The request body that the stage sent, as `stubModelReply` captured it.
  * @returns Nothing.
  */
 export function expectJsonModeRequest(request: Readonly<Record<string, unknown>>): void {
@@ -522,14 +498,14 @@ export function expectJsonModeRequest(request: Readonly<Record<string, unknown>>
 }
 
 /**
- * The example configuration with its module and stage lists emptied.
+ * The example configuration with no module roots and no stages. All other
+ * values are the real example values.
  *
- * The emptying is the only fixture decision left here — everything else is real
- * configuration. A suite states the stages it exercises rather than inheriting
- * all nine, so a test that forgets to configure a stage fails loudly instead of
- * quietly using a placeholder model.
+ * A suite states the stages that it tests, and does not get every stage of the
+ * example. So a test that does not configure a stage fails, and does not use a
+ * placeholder model.
  *
- * @param overrides - Top-level fields to replace.
+ * @param overrides - The top-level fields to replace.
  * @returns The config.
  */
 export function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineConfig {
@@ -537,13 +513,12 @@ export function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineCon
 }
 
 /**
- * A configuration that configures exactly one stage, on {@link
- * openRouterModelId} — what a suite exercising a single stage needs, and the
- * shape {@link makeConfig}'s emptied stage list is there to be filled with.
+ * A {@link makeConfig} configuration with exactly one stage, on
+ * {@link openRouterModelId}, for a suite that tests one stage.
  *
- * @param args - Which stage to configure, and how it should write.
+ * @param args - The stage, and the language of the notes.
  * @param args.stageId - The stage to configure.
- * @param args.language - The language the prose stages are told to write in; the example config's when omitted.
+ * @param args.language - The language that the prose stages must use. The default is the language of the example config.
  * @returns The config.
  */
 export function configuringStage({
@@ -561,34 +536,34 @@ export function configuringStage({
 	};
 }
 
-/** The imaginary directory {@link testModuleRoot} and its sibling sit under. */
+/** A directory that does not exist, which holds {@link testModuleRoot} and {@link otherModuleRoot}. */
 const SYNTHETIC_MODULES_DIR = "/modules";
 
-/** One lecture's identity, as the suites refer to it. */
+/** The identity and the file names of one lecture in the suites. */
 export type TestLecture = {
 	readonly number: number;
 	readonly date: string;
 	readonly title: string;
 	readonly baseName: string;
-	/** The source video {@link makeLectureTree} writes for this lecture. */
+	/** The video recording that {@link makeLectureTree} writes for the lecture. */
 	readonly videoRecordingFile: string;
-	/** The source slide deck it writes alongside. */
+	/** The slide deck that {@link makeLectureTree} writes for the lecture. */
 	readonly slideDeckFile: string;
-	/** The notes PDF it leaves in the final output folder. */
+	/** The notes PDF that {@link makeLectureTree} writes in the final output folder. */
 	readonly finalOutputFile: string;
 };
 
 /**
- * Names a lecture the way `source-normalisation` would, so a fixture can never describe a
- * lecture the pipeline would not produce — a base name that disagreed with its
- * own date would fail suites for a reason unrelated to what they test.
+ * Gives a lecture the base name that `source-normalisation` gives it. A fixture
+ * then cannot describe a lecture that the pipeline would not make. A base name
+ * that disagreed with its date would make suites fail for an unrelated reason.
  *
- * The video recording, slide deck and notes PDF all share that base name, as
- * `source-normalisation` leaves them, so they are derived here too rather than reassembled from
- * `${baseName}.mp4` wherever a suite happens to need one.
+ * The video recording, the slide deck and the notes PDF have that base name, as
+ * `source-normalisation` leaves them. So their names come from here too, and a
+ * suite does not make them again from `${baseName}.mp4`.
  *
- * @param lecture - The lecture's number, date, and title.
- * @returns The lecture with its base name and file names filled in.
+ * @param lecture - The number, date and title of the lecture.
+ * @returns The lecture with its base name and file names.
  */
 function describeLecture(lecture: Pick<TestLecture, "number" | "date" | "title">): TestLecture {
 	const baseName = baseNameForLecture({
@@ -606,14 +581,12 @@ function describeLecture(lecture: Pick<TestLecture, "number" | "date" | "title">
 }
 
 /**
- * The lecture the suites use when they need a concrete one.
+ * The lecture that the suites use when they need one. Its number, date and title
+ * have one home. So a change to them is one edit, and the suites cannot disagree
+ * about them.
  *
- * Its identity was restated across a dozen files — the date in eleven, the
- * base name in ten, the title in nine — so changing the example meant a sweep,
- * and any suite that updated one part but not another broke confusingly.
- *
- * Suites that *test* the naming keep their own literals: asserting a derived
- * value against itself would prove nothing.
+ * Suites that test the naming keep their own literals. A derived value checked
+ * against itself proves nothing.
  */
 export const testLecture = describeLecture({
 	number: 1,
@@ -621,101 +594,99 @@ export const testLecture = describeLecture({
 	title: "Cell Injury",
 });
 
-/** The module {@link testLecture} belongs to. */
+/** The module of {@link testLecture}. */
 export const testModuleName = "Biology of Disease";
 
-/** One lecture's raw sources, named as the lecturer left them. */
+/** The source files of one lecture, with the names that the lecturer gave them. */
 export type LectureSources = {
-	/** The source video. */
 	readonly videoRecording: string;
-	/** The slide deck sharing its date. */
+	/** The slide deck with the same date. */
 	readonly slideDeck: string;
 	/**
-	 * The date both names carry, stated rather than read off them: reading a date
-	 * off a filename is the rule these suites test.
+	 * The date in both names. It is stated, and not read from the names, because
+	 * the suites test the rule that reads a date from a filename.
 	 */
 	readonly date: string;
 };
 
 /**
- * Raw sources, and the base names `source-normalisation` gives them.
+ * Source files, and the base names that `source-normalisation` gives them.
  *
- * Two suites work in these terms: `source-normalisation`'s own, which lays them out on disk,
- * and the resolution rules', which reads the same names without one. They must
- * agree about what the rule produces, so the names are stated once.
+ * Two suites use these names: the `source-normalisation` suite, which writes the
+ * files on disk, and the `lecture-resolution` suite, which reads the names with no disk.
+ * The two suites must agree about the base names that `source-normalisation`
+ * gives, so the names are stated once.
  *
- * Unlike {@link describeLecture}, the base names below are **written out
- * rather than derived**. Both suites test the naming and numbering rules, and an
- * expectation derived from {@link baseNameForLecture} would assert the rule
- * against itself. That some of these strings coincide with a `baseName`
- * {@link describeLecture} computes is a coincidence of the example, not a shared
- * fact: one is a convenience for suites that do not care how a lecture is named,
- * the other is the assertion.
+ * The base names below are stated in full, not derived as in
+ * {@link describeLecture}. Both suites test the naming and numbering rules. An
+ * expected value from {@link baseNameForLecture} would check the rule against
+ * itself. Some of these strings are the same as a `baseName` from
+ * {@link describeLecture}. That is an accident of the example, not a shared
+ * fact.
  */
 export const cellInjurySources: LectureSources = {
 	videoRecording: "2025-10-10 BOD_Cell Injury.mp4",
 	slideDeck: "2025-10-10 Cell Injury deck.pdf",
-	// The same lecture {@link testLecture} describes, so its date is that one and
-	// not a second copy of it.
+	// This is the lecture of {@link testLecture}, so the date comes from there.
 	date: testLecture.date,
 };
 
-/** The second lecture's raw sources; see {@link cellInjurySources}. */
+/** The source files of the second lecture. See {@link cellInjurySources}. */
 export const vaccinationSources: LectureSources = {
 	videoRecording: "2025-10-17 BOD_Vaccination.mp4",
 	slideDeck: "2025-10-17 Vaccination deck.pdf",
 	date: "2025-10-17",
 };
 
-/** A lecture dated between the other two, for the renumbering cases. */
+/** The source files of a lecture dated between the other two, for the renumbering cases. */
 export const immunitySources: LectureSources = {
 	videoRecording: "2025-10-13 BOD_Immunity to Infection.mp4",
 	slideDeck: "2025-10-13 Immunity deck.pdf",
 	date: "2025-10-13",
 };
 
-/** What {@link cellInjurySources} is named when it is the module's first lecture. */
+/** The base name of {@link cellInjurySources} when it is the first lecture of the module. */
 export const cellInjuryAsFirst = "Lecture 1 - Cell Injury - 2025-10-10";
 
-/** What {@link vaccinationSources} is named as the second of two. */
+/** The base name of {@link vaccinationSources} when it is the second of two lectures. */
 export const vaccinationAsSecond = "Lecture 2 - Vaccination - 2025-10-17";
 
-/** What {@link immunitySources} is named when it is inserted as the second of three. */
+/** The base name of {@link immunitySources} when it is added as the second of three lectures. */
 export const immunityAsSecond = "Lecture 2 - Immunity to Infection - 2025-10-13";
 
-/** What inserting {@link immunitySources} renames {@link vaccinationSources} to. */
+/** The base name of {@link vaccinationSources} after {@link immunitySources} is added. */
 export const vaccinationAsThird = "Lecture 3 - Vaccination - 2025-10-17";
 
-/** What deleting the first lecture renames {@link vaccinationSources} to. */
+/** The base name of {@link vaccinationSources} after the first lecture is removed. */
 export const vaccinationAsFirst = "Lecture 1 - Vaccination - 2025-10-17";
 
 /**
- * The markdown `transcript-structuring`'s model returns, shared by the two suites that stub the
- * call — they assert the same body reaches disk, so it is one value.
+ * The Markdown that the `transcript-structuring` model returns. The suites that
+ * stub the call check that this text is written to disk, so it is one value.
  */
 export const structuredMarkdown = "## The Innate Immune Response\n\nBarrier defences come first.";
 
 /**
- * What a transcript says. Four suites need one — the two that produce a
- * transcript and the two that consume one — and no assertion anywhere reads the
- * words: each only checks that the text it put in is the text that came out. So
- * it is one value, and a suite that states its own is claiming otherwise.
+ * The text of a transcript, for the suites that write a transcript and the
+ * suites that read one. No assertion reads the words. Each suite checks only
+ * that the text that it gave is the text that it received. So it is one value,
+ * and a suite that states its own text says that the words matter.
  */
 export const transcriptText = "Today we are covering cell injury and the immune system.";
 
-/** {@link transcriptText} as a transcript file may hold it, with whitespace at both ends. */
+/** {@link transcriptText} with whitespace at the two ends, as a transcript file can hold it. */
 export const paddedTranscriptText = `  ${transcriptText}\n\n`;
 
-/** Where the second subtopic of {@link transcriptDivision} opens. */
+/** The start words of the second subtopic of {@link transcriptDivision}. */
 export const transcriptSecondStartWords = "cell injury and the immune system";
 
-/** Where {@link transcriptSecondStartWords} begins in {@link transcriptText}. */
+/** The position of {@link transcriptSecondStartWords} in {@link transcriptText}. */
 const SECOND_SUBTOPIC_START = transcriptText.indexOf(transcriptSecondStartWords);
 
 /**
- * {@link transcriptText} divided in two, as a splitting run saves it: what the
- * initial splitting suite expects a run to hold, and what the deepening suite
- * starts from.
+ * {@link transcriptText} divided in two, as a splitting run saves it. The
+ * `initial-subtopic-splitting` suite expects a saved run to hold it, and the
+ * `deepen-subtopic-splitting` suite starts from it.
  */
 export const transcriptDivision: readonly Subtopic[] = [
 	{ start: 0, end: SECOND_SUBTOPIC_START, title: "Opening", reason: "The framing." },
@@ -728,18 +699,19 @@ export const transcriptDivision: readonly Subtopic[] = [
 ];
 
 /**
- * A saved run that an earlier invocation left, holding {@link transcriptText} whole: unlike
- * any run the division suites' stubbed replies make, so a suite finding it
- * afterwards knows the stage kept it rather than making the run again.
+ * A saved run that an earlier invocation left. It holds {@link transcriptText}
+ * as one subtopic, which no stubbed reply of the division suites makes. So if a
+ * suite finds it after the stage runs, the stage kept the saved run and did not
+ * make the splitting run again.
  */
 export const earlierSavedRun: readonly Subtopic[] = [
 	{ start: 0, end: transcriptText.length, title: "Whole", reason: "Earlier." },
 ];
 
 /**
- * The ways the transcript a division stage reads can be unusable, each with how
- * to leave a workspace's transcript that way and what the failure then says,
- * for a suite's `it.each`.
+ * The ways in which the transcript that a division stage reads can be unusable,
+ * for a suite's `it.each`. Each one has a function that spoils the transcript
+ * of a workspace, and the text that the error then contains.
  */
 export const unusableTranscripts: readonly {
 	readonly state: string;
@@ -759,31 +731,30 @@ export const unusableTranscripts: readonly {
 	},
 ];
 
-/** A Scribe upload a suite has intercepted, and what the stage sent with it. */
+/** A Scribe upload that a suite intercepted, and the body that the stage sent. */
 export type ScribeUpload = {
-	/** The nock scope, for asserting the upload was or was not made. */
+	/** The nock scope, to check whether the upload was made. */
 	readonly scope: nock.Scope;
 	/**
-	 * The request body ElevenLabs received, or `""` if no upload was made. A
-	 * function because the upload happens while the stage runs, long after the
-	 * caller has taken this record.
+	 * The request body that ElevenLabs received, or `""` if no upload was made. It
+	 * is a function because the upload occurs while the stage runs, after the
+	 * caller got this value.
 	 */
 	readonly uploadedBody: () => string;
 };
 
 /**
- * Intercepts the speech-to-text upload the transcription stage makes, answers
- * it with a transcript, and records what was sent.
+ * Intercepts the speech-to-text upload of the transcription stage, replies with
+ * a transcript, and records the body that the stage sent.
  *
- * Both transcription suites arm this before running the stage, and almost every
- * one of them wants the same well-formed reply from the configured host — so
- * the host and the reply are defaulted here rather than restated at every call
- * site. Overriding `origin` intercepts another residency host instead;
- * overriding `body` answers with a reply the stage should reject.
+ * Almost every test in the transcription suites needs the same correct reply
+ * from the configured host. So the host and the reply have defaults here. A
+ * different `origin` intercepts a host for another data residency. A different
+ * `body` gives a reply that the stage must reject.
  *
- * @param args - What Scribe should appear to be, and to say.
- * @param args.origin - Host to intercept; defaults to the configured one.
- * @param args.body - Response body to reply with; defaults to a transcript of {@link transcriptText}.
+ * @param args - The host and the reply.
+ * @param args.origin - The host to intercept. The default is the configured host.
+ * @param args.body - The response body. The default is a transcript of {@link transcriptText}.
  * @returns The intercepted upload.
  */
 export function interceptScribeUpload({
@@ -796,7 +767,7 @@ export function interceptScribeUpload({
 	let uploaded = "";
 	const scope = nock(origin)
 		.post(elevenLabsUrls.speechToText)
-		// eslint-disable-next-line max-params, @typescript-eslint/prefer-readonly-parameter-types -- nock defines this reply signature: two positional parameters, the second a library type carrying mutable properties the rule cannot see past. It is only read here.
+		// eslint-disable-next-line max-params, @typescript-eslint/prefer-readonly-parameter-types -- nock sets this reply signature: two positional parameters. The second is a library type with mutable properties that the rule cannot ignore. This code only reads it.
 		.reply(200, (_uri: string, requestBody: nock.Body) => {
 			uploaded = typeof requestBody === "string" ? requestBody : JSON.stringify(requestBody);
 			return body;
@@ -804,20 +775,23 @@ export function interceptScribeUpload({
 	return { scope, uploadedBody: () => uploaded };
 }
 
-/** The title `transcript-structuring`'s model proposes when it judges the lecturer's inadequate. */
+/**
+ * {@link testLecture} with the AI-derived title that the `transcript-structuring`
+ * model proposes when it judges the provisional title not meaningful.
+ */
 export const aiDerivedLecture = describeLecture({
 	number: testLecture.number,
 	date: testLecture.date,
 	title: "Innate Immune Response",
 });
 
-/** The title judgement when the model keeps the lecturer's provisional title. */
+/** The title judgement when the model keeps the provisional title. */
 export const titleKept = { provisionalTitleMeaningful: true, suggestedTitle: null };
 
 /**
- * The title judgement when the model rejects the provisional title and proposes
- * {@link aiDerivedLecture}'s in its place — the case both `transcript-structuring` suites write
- * every title test across.
+ * The title judgement when the model judges the provisional title not
+ * meaningful and proposes the title of {@link aiDerivedLecture}. The title tests
+ * of the two `transcript-structuring` suites use this case.
  */
 export const titleRejected = {
 	provisionalTitleMeaningful: false,
@@ -825,14 +799,14 @@ export const titleRejected = {
 };
 
 /**
- * A well-formed `transcript-structuring` reply: the model's title judgement and
- * the markdown it structured. The shape is the stage's documented contract
- * rather than either suite's business, so both state it through here and
- * override only the field the test at hand is about.
+ * A correct `transcript-structuring` reply: the title judgement and the
+ * structured Markdown. The shape is the documented contract of the stage. So
+ * the suites make the reply here, and change only the field that the test is
+ * about.
  *
- * @param overrides - The fields this test's behaviour depends on; defaults to
- * {@link titleKept}.
- * @returns The reply, ready to be serialised as the model's content.
+ * @param overrides - The fields that the behaviour of the test depends on. The
+ * default title judgement is {@link titleKept}.
+ * @returns The reply, to serialise as the content of the model reply.
  */
 export function structuringReply(
 	overrides: Readonly<Record<string, unknown>> = {},
@@ -841,12 +815,12 @@ export function structuringReply(
 }
 
 /**
- * One deficiency a verification checker returns: a concept the structuring dropped,
- * with the words it dropped and where they belonged.
+ * One deficiency that the verification checker returns: an omission, with the
+ * source passage and the place in the output where it belongs.
  *
- * Stated once because the two parties to a deficiency are the stage that writes it
- * and the suite that reads it back, and they must agree on its shape or the
- * assertion proves nothing.
+ * It is stated once because the stage that writes a deficiency and the suite
+ * that reads it must agree on its shape. If they do not agree, the
+ * assertions of the suite about the deficiency prove nothing.
  */
 export const verificationDeficiency = {
 	severity: "major",
@@ -857,19 +831,19 @@ export const verificationDeficiency = {
 	outputLocation: "Comparative Oncology and Tumour Incidence",
 } as const;
 
-/** A consideration: something the checker looked at and cleared, which a report records beside its deficiencies. */
+/** One consideration in a verification report. */
 export const verificationConsideration = {
 	source: { evidence: "the exam is in January", location: "closing remarks" },
 	whyNotRaised: "Administrative aside, not subject content.",
 } as const;
 
 /**
- * A well-formed verification report. The shape is the stage's documented
- * contract rather than any one suite's business, so every suite states it
- * through here and overrides only the field its test is about.
+ * A correct verification report. The shape is the documented contract of the
+ * stage. So each suite makes the report here, and changes only the field that
+ * its test is about.
  *
- * @param overrides - The fields this test's behaviour depends on.
- * @returns The report, as the stage holds it once the reply has been read.
+ * @param overrides - The fields that the behaviour of the test depends on.
+ * @returns The report, as the stage holds it after it reads the reply.
  */
 export function verificationReport(
 	overrides: Readonly<Partial<QaCheckerReport>> = {},
@@ -884,12 +858,11 @@ export function verificationReport(
 }
 
 /**
- * The same report as the model's reply, where a test may replace a field with
- * something the report's type would refuse — which is how the unusable-reply
- * cases are stated.
+ * The same report as the model reply. A test can replace a field with a value
+ * that the report type does not allow. The unusable reply cases use this.
  *
- * @param overrides - The fields this test's behaviour depends on, valid or not.
- * @returns The report, ready to be serialised as the model's content.
+ * @param overrides - The fields that the behaviour of the test depends on. They can be invalid.
+ * @returns The report, to serialise as the content of the model reply.
  */
 export function verificationReply(
 	overrides: Readonly<Record<string, unknown>> = {},
@@ -897,34 +870,31 @@ export function verificationReply(
 	return { ...verificationReport(), ...overrides };
 }
 
-/** The title a user sets through the CLI's `rename` command. */
+/** The user title that the CLI `rename` command sets. */
 export const testUserTitle = "Cell Injury and Death";
 
-/** The date the CLI's `change-date` command moves {@link testLecture} to. */
+/** The date to which the CLI `change-date` command moves {@link testLecture}. */
 export const changedDate = "2025-10-24";
 
 /**
- * When a completed stage records that it finished. Any instant would do — no
- * assertion depends on the value — so the suites share one rather than each
- * inventing a timestamp that reads as though it mattered.
+ * The time at which a stage completed. No assertion depends on the
+ * value. So the suites share it, and no suite has a timestamp that seems to
+ * matter.
  */
 export const stageCompletedAt = `${testLecture.date}T10:00:00.000Z`;
 
 /**
- * An id in the form `deriveTimestampId` produces. Tests use it as a pipeline run
- * id and as an invocation id. Arbitrary like
- * {@link stageCompletedAt}; the suite that checks the *form* derives its own.
+ * An id in the form that `deriveTimestampId` gives. Tests use it as a pipeline
+ * run id and as an invocation id. The value does not matter, as for
+ * {@link stageCompletedAt}. The suite that checks the form makes its own id.
  */
 export const testTimestampId = `${testLecture.date}T09-00-00Z`;
 
 /**
- * When a pipeline run or batch began and ended, where neither instant is what a
- * suite is checking.
- *
- * `PipelineRunSummary` and `BatchSummary` both require the pair, so a suite stubbing one
- * has to fill it in whether or not it cares — and each was inventing a half-hour
- * of its own. Arbitrary for the same reason {@link stageCompletedAt} is: a suite
- * that states a time period is saying the period matters.
+ * The start and end of a pipeline run or a batch, for a suite that does not
+ * check them. `PipelineRunSummary` and `BatchSummary` require them. The value
+ * does not matter, as for {@link stageCompletedAt}. A suite that states its own
+ * time period says that the period matters.
  */
 export const testTimePeriod = {
 	startedAt: `${testLecture.date}T09:00:00.000Z`,
@@ -932,24 +902,19 @@ export const testTimePeriod = {
 } as const;
 
 /**
- * A completed stage's stage entry, with either of the two completed statuses.
- * `complete` and `skipped` carry the same fields and mean the same thing about
- * the disk — the stage's output is there — which is what the suites asserting on
- * either of them need to say.
+ * The stage entry of a completed stage, with the status `complete` or `skipped`.
+ * The two statuses have the same fields, and both mean that the output of the
+ * stage is on disk.
  *
- * Every field defaults, because most suites care about one of them and had been
- * restating the other four to reach it: a stage suite wants the output it
- * recorded, the cost report wants the model and the money, and the runner's
- * skip cases want an instant earlier than the run under way. The default
- * instant is arbitrary and comes from {@link stageCompletedAt}, so a suite that
- * states one is saying the value matters.
+ * Each field has a default, because most suites need only one field. A suite
+ * that states a field says that its value matters.
  *
- * @param args - What the stage did; every field optional.
- * @param args.status - Whether the stage ran to completion or was skipped; complete by default.
- * @param args.completedAt - When it finished; {@link stageCompletedAt} by default.
- * @param args.configUsed - The model and tuning it resolved; none by default.
- * @param args.cost - What the stage cost; none by default.
- * @param args.filesWritten - The workspace-relative outputs it recorded; none by default.
+ * @param args - The fields of the entry. Each one is optional.
+ * @param args.status - `complete` or `skipped`. The default is `complete`.
+ * @param args.completedAt - The time at which the stage completed. The default is {@link stageCompletedAt}.
+ * @param args.configUsed - The model and tuning that the stage used. The default is `null`.
+ * @param args.cost - The cost of the stage. The default is `null`.
+ * @param args.filesWritten - The workspace-relative files that the stage recorded. The default is none.
  * @returns The stage entry.
  */
 export function completedEntry({
@@ -969,12 +934,12 @@ export function completedEntry({
 }
 
 /**
- * A failed stage's stage entry. Structurally complete, so a suite asserting
- * how a failed stage is treated does so against data a real run could produce
- * rather than a cast-away partial object.
+ * The stage entry of a failed stage. It has every field. So a suite tests a
+ * failed stage against data that a real pipeline run can make, and not against a
+ * partial object with a cast.
  *
- * @param args - What the stage recorded before it failed.
- * @param args.filesWritten - Any workspace-relative outputs it left behind; none by default.
+ * @param args - The files that the stage recorded before it failed.
+ * @param args.filesWritten - The workspace-relative files that the stage left. The default is none.
  * @returns The stage entry.
  */
 export function failedEntry({
@@ -993,9 +958,9 @@ export function failedEntry({
 }
 
 /**
- * A second lecture, differing from {@link testLecture} in number, date and title.
- * For "left untouched" assertions, and for the second choice a picker offers.
- * Which module it is taken to sit in is the caller's to say.
+ * A second lecture, with a number, date and title different from those of
+ * {@link testLecture}. Suites use it to check that a lecture stays unchanged,
+ * and as the second choice in a picker. The caller says which module it is in.
  */
 export const otherLecture = describeLecture({
 	number: 2,
@@ -1004,12 +969,11 @@ export const otherLecture = describeLecture({
 });
 
 /**
- * A second lecture carrying {@link testLecture}'s own date, for the cases where a
- * date names more than one lecture and the CLI has to ask which is meant.
+ * A second lecture with the date of {@link testLecture}, for the cases where a
+ * date names more than one lecture and the CLI asks which one.
  *
- * Distinct from {@link otherLecture} precisely in the field those cases turn on:
- * a sibling on a *different* date would be a lecture the pipeline never produced,
- * because the manifest written beside it records this one.
+ * {@link otherLecture} has a different date, so it cannot be used for these
+ * cases.
  */
 export const sameDateLecture = describeLecture({
 	number: 2,
@@ -1021,21 +985,21 @@ export const sameDateLecture = describeLecture({
 export const otherModuleName = "Immunology";
 
 /**
- * Absolute module roots for the suites that never touch the disk — argument
- * parsing, prompt rendering, and the runner's own unit tests all need a path
- * that looks real without one existing. Suites that do write to disk build
- * theirs under a temporary directory instead ({@link makeLectureTree}).
+ * An absolute module root for the suites that do not use the disk. Argument
+ * parsing, prompt rendering and the runner unit tests need a path that seems
+ * real but does not exist. Suites that write to disk use a temporary directory
+ * ({@link makeLectureTree}).
  */
 export const testModuleRoot = join(SYNTHETIC_MODULES_DIR, testModuleName);
 
-/** The {@link otherModuleName} counterpart to {@link testModuleRoot}. */
+/** The module root of {@link otherModuleName}, as {@link testModuleRoot} is for its module. */
 export const otherModuleRoot = join(SYNTHETIC_MODULES_DIR, otherModuleName);
 
 /**
- * Builds a structurally valid {@link Manifest} for {@link testLecture}, with
- * every stage pending and no cost recorded.
+ * Makes a valid {@link Manifest} for {@link testLecture}, with every stage
+ * pending and no cost.
  *
- * @param overrides - Top-level fields to replace on the base manifest.
+ * @param overrides - The top-level fields to replace.
  * @returns The manifest.
  */
 export function makeManifest(overrides: Partial<Manifest> = {}): Manifest {
@@ -1056,20 +1020,20 @@ export function makeManifest(overrides: Partial<Manifest> = {}): Manifest {
 }
 
 /**
- * The key a stubbed service is armed with. One value, because a suite asserting
- * the key reached the wire is checking for the same key the fixture put in the
- * environment — two spellings would let that assertion pass against nothing.
+ * The API key that a stubbed service gets. A suite that checks the key in the
+ * request checks for the key that the fixture set in the environment. So it is
+ * one value.
  */
 export const stubbedApiKey = "test-key";
 
 /**
- * Clears any leftover interceptors and blocks all outbound connections, so a
- * request a test forgot to intercept fails loudly instead of reaching the real
+ * Removes all remaining interceptors and blocks all outbound connections. So a
+ * request that a test did not intercept fails, and does not reach the real
  * service.
  *
- * Everything arming a stubbed API does apart from supplying a key — which is
- * all a suite needs when the code under test sends none. Undone by
- * {@link resetStubbedApi}.
+ * {@link stubOpenRouterApi} and {@link stubElevenLabsApi} also do this, and add
+ * a key. A suite whose code under test sends no key needs only this.
+ * {@link resetStubbedApi} reverses it.
  *
  * @returns Nothing.
  */
@@ -1079,10 +1043,10 @@ export function blockNetwork(): void {
 }
 
 /**
- * Arms a test to exercise a billable API without reaching it: blocks the
- * network as {@link blockNetwork} does, and supplies a dummy key.
+ * Prepares a test to call a paid API without a connection to it. The function
+ * blocks the network as {@link blockNetwork} does, and sets a dummy key.
  *
- * @param apiKeyVariable - The environment variable that service reads its key from.
+ * @param apiKeyVariable - The environment variable from which the service reads its key.
  * @returns Nothing.
  */
 function stubApi(apiKeyVariable: string): void {
@@ -1091,7 +1055,7 @@ function stubApi(apiKeyVariable: string): void {
 }
 
 /**
- * Arms a test to exercise an OpenRouter call without reaching OpenRouter.
+ * Prepares a test to make an OpenRouter call without a connection to OpenRouter.
  *
  * @returns Nothing.
  */
@@ -1100,13 +1064,12 @@ export function stubOpenRouterApi(): void {
 }
 
 /**
- * Undoes {@link blockNetwork}, {@link stubOpenRouterApi} or
- * {@link stubElevenLabsApi}, restoring real network access and the real
- * environment for any suite that follows.
+ * Reverses {@link blockNetwork}, {@link stubOpenRouterApi} or
+ * {@link stubElevenLabsApi}. The next suite gets the real network and the real
+ * environment.
  *
- * One function rather than one per service: nothing it does is particular to
- * either, and `vi.unstubAllEnvs` was already clearing both suites' keys whichever
- * of the two a suite called.
+ * There is one function, not one for each service, because nothing in it is
+ * specific to a service. `vi.unstubAllEnvs` removes the keys of both services.
  *
  * @returns Nothing.
  */
@@ -1117,7 +1080,7 @@ export function resetStubbedApi(): void {
 }
 
 /**
- * Arms a test to exercise the transcription stage without reaching ElevenLabs.
+ * Prepares a test to run the transcription stage without a connection to ElevenLabs.
  *
  * @returns Nothing.
  */
@@ -1126,17 +1089,17 @@ export function stubElevenLabsApi(): void {
 }
 
 /**
- * Creates a temporary module tree laid out the way the pipeline expects —
- * `<moduleRoot>/Pipeline processing/<baseName>` — and returns both roots.
+ * Makes a temporary module tree with the layout of the pipeline,
+ * `<moduleRoot>/Pipeline processing/<baseName>`, and returns the two roots.
  *
- * Stage tests need this exact nesting rather than any two directories, because
- * {@link makeStageContext} derives `moduleRoot` two levels above the workspace
- * just as a real run does. The caller is responsible for removing `moduleRoot`.
+ * Stage tests need this layout, because {@link makeStageContext} finds
+ * `moduleRoot` two levels above the workspace, as a real pipeline run does. The
+ * caller must remove `moduleRoot`.
  *
  * @param args - The layout inputs.
- * @param args.prefix - Prefix for the temporary directory name, identifying the suite.
- * @param args.baseName - The lecture's base name; defaults to {@link testLecture}'s.
- * @returns The module root and the workspace root inside it.
+ * @param args.prefix - The prefix of the temporary directory name, which names the suite.
+ * @param args.baseName - The base name of the lecture. The default is that of {@link testLecture}.
+ * @returns The module root and the workspace root in it.
  */
 export async function makeWorkspaceTree({
 	prefix,
@@ -1151,28 +1114,28 @@ export async function makeWorkspaceTree({
 	return { moduleRoot, workspaceRoot };
 }
 
-/** A module tree with one lecture's workspace in it. */
+/** A module tree with the workspace of one lecture in it. */
 export type WorkspaceTree = {
 	readonly moduleRoot: string;
 	readonly workspaceRoot: string;
 };
 
 /**
- * Gives a suite a workspace with `transcription`'s transcript already in it, made afresh
- * before each test and removed after.
+ * Gives a suite a workspace that holds the transcript of `transcription`. The
+ * workspace is made before each test and removed after it.
  *
- * Every stage downstream of transcription starts from exactly this state, and
- * every suite exercising one wants the same three things: a tree, a transcript
- * in it, and the tree gone afterwards. Stated here rather than as two `let`s and
- * a pair of hooks in each suite — which is also how two suites could come to
- * disagree about what the transcript says while both still pass.
+ * Each stage after transcription starts from this state. Each suite of such a
+ * stage needs a tree, a transcript in it, and the removal of the tree after the
+ * test. So this function is in this file, and no suite has two `let`s and two
+ * hooks for the workspace.
+ * Also, two suites then cannot use different transcript text.
  *
- * Returns a reader rather than the tree, because it does not exist until the
- * hook has run — the shape {@link useStubLogger} already establishes here.
+ * The function returns a reader, not the tree, because the tree does not exist
+ * until the hook runs. {@link useStubLogger} has the same shape.
  *
- * @param args - How to name the temporary directory.
- * @param args.prefix - The temporary directory's prefix, naming the suite that made it.
- * @returns A function giving the current test's workspace.
+ * @param args - The name of the temporary directory.
+ * @param args.prefix - The prefix of the temporary directory name, which names the suite.
+ * @returns A function that gives the workspace of the current test.
  */
 export function useTranscribedWorkspace({
 	prefix,
@@ -1205,24 +1168,23 @@ export function useTranscribedWorkspace({
 }
 
 /**
- * Lays a whole lecture out on disk as `source-normalisation` leaves it: the module's four
- * directories, a source video and slide deck sharing the workspace's base name,
- * a finished PDF, and the empty workspace itself.
+ * Writes the lecture {@link testLecture} on disk as `source-normalisation`
+ * leaves it. The tree has the module directories and the empty workspace. It
+ * also has a video recording, a slide deck and a notes PDF, each with the base
+ * name of the workspace.
  *
- * Anything that moves a lecture needs all of this — the `change-date` command
- * and `transcript-structuring` both rename the four together — so the layout is built here rather
- * than restated by each suite that exercises a rename. The caller writes
- * whatever else its stage reads (a transcript, a manifest) and removes
- * `tempDir` afterwards.
+ * Code that moves a lecture needs the module directories, the workspace, the
+ * video recording, the slide deck and the notes PDF. The `change-date` command and
+ * `transcript-structuring` both rename the four lecture files together. So the suites that test a rename get the layout from here.
+ * The caller writes all other files that its code reads, such as a transcript
+ * or a manifest. The caller removes `tempDir` after the test.
  *
- * The lecture it lays out is {@link testLecture}, and each of the three files is
- * named from that lecture rather than reassembled here: `describeLecture` is
- * where a lecture's file names are derived, and deriving them twice is how the
- * two spellings drift apart.
+ * The file names come from {@link testLecture}, because `describeLecture` is the
+ * one place that makes the file names of a lecture.
  *
  * @param args - The layout inputs.
- * @param args.prefix - Prefix for the temporary directory name, identifying the suite.
- * @returns The temp directory to clean up, the module root and its directories, and the workspace.
+ * @param args.prefix - The prefix of the temporary directory name, which names the suite.
+ * @returns The temporary directory to remove, the module root and its directories, and the workspace.
  */
 export async function makeLectureTree({ prefix }: { readonly prefix: string }): Promise<{
 	readonly tempDir: string;
@@ -1246,16 +1208,16 @@ export async function makeLectureTree({ prefix }: { readonly prefix: string }): 
 }
 
 /**
- * Creates an empty temporary directory for a suite to build its own tree in, and
- * to remove afterwards.
+ * Makes an empty temporary directory, in which a suite makes its own tree. The
+ * suite removes it after the test.
  *
- * Every integration test that touches the filesystem starts this way; stating it
- * once keeps the temp-directory dance — and the platform imports it needs — out
- * of each suite. Where the tree is a lecture workspace, {@link makeWorkspaceTree}
- * lays out the nesting too.
+ * Each integration test that uses the filesystem starts with an empty temporary
+ * directory. So the call that makes the directory and the platform imports that
+ * the call needs are here, and not in each suite. For a
+ * lecture workspace, {@link makeWorkspaceTree} also makes the layout.
  *
  * @param args - The directory inputs.
- * @param args.prefix - Prefix for the directory name, identifying the suite in `/tmp`.
+ * @param args.prefix - The prefix of the directory name, which names the suite in `/tmp`.
  * @returns The absolute path of the new directory.
  */
 export function makeTempDir({ prefix }: { readonly prefix: string }): Promise<string> {
@@ -1263,20 +1225,20 @@ export function makeTempDir({ prefix }: { readonly prefix: string }): Promise<st
 }
 
 /**
- * Gives a suite a temporary directory of its own, made before each test and
- * removed after it, so the two halves cannot be written apart.
+ * Gives a suite its own temporary directory, made before each test and removed
+ * after it. The two hooks are together, so a suite cannot have one without the
+ * other.
  *
- * For a suite whose setup is the directory and nothing else. A suite that also
- * builds a module tree inside it is stating a different setup and keeps its own
- * hooks — the duplicate this replaces is the bare create-and-destroy pair.
+ * It is for a suite whose setup is only the directory. A suite that also makes
+ * a module tree in the directory has a different setup, and keeps its own hooks.
  *
- * Returns a reader rather than the path, because the path does not exist until
- * the hook has run. Reads like the `audioPath()` and `stageDir()` accessors the
- * stage suites already use.
+ * The function returns a reader, not the path, because the path does not exist
+ * until the hook runs. The stage suites use the same shape for `audioPath()`
+ * and `stageDir()`.
  *
- * @param args - How to name it.
- * @param args.prefix - The prefix handed to {@link makeTempDir}.
- * @returns A function giving the current test's temporary directory.
+ * @param args - The name of the directory.
+ * @param args.prefix - The prefix for {@link makeTempDir}.
+ * @returns A function that gives the temporary directory of the current test.
  */
 export function useTempDir({ prefix }: { readonly prefix: string }): () => string {
 	let tempDir: string | null = null;
@@ -1300,23 +1262,24 @@ export function useTempDir({ prefix }: { readonly prefix: string }): () => strin
 }
 
 /**
- * Renders a media fixture by invoking the `ffmpeg` binary directly, so an
- * integration test can generate its own audio or video rather than commit a
- * binary file. Invoked directly rather than through fluent-ffmpeg because
- * fluent-ffmpeg validates input formats against `ffmpeg -formats`, which omits
- * the `lavfi` synthetic-source device these fixtures are built from.
+ * Makes a media file for a test with the `ffmpeg` program. An integration test
+ * can then make its own audio or video, and no binary file is in git.
  *
- * @param args - The invocation inputs.
- * @param args.ffmpegArgs - The ffmpeg argv, excluding the leading `-y`.
- * @returns A promise that resolves once ffmpeg exits successfully.
- * @throws {Error} If ffmpeg cannot be spawned or exits non-zero.
+ * The function starts `ffmpeg` itself, not through fluent-ffmpeg. fluent-ffmpeg
+ * checks input formats against `ffmpeg -formats`, which does not list the
+ * `lavfi` synthetic source that these files come from.
+ *
+ * @param args - The ffmpeg inputs.
+ * @param args.ffmpegArgs - The ffmpeg arguments, without the first `-y`.
+ * @returns A promise that resolves when ffmpeg exits with code 0.
+ * @throws {Error} If ffmpeg cannot start, or exits with a code that is not 0.
  */
 export function renderFixtureMedia({
 	ffmpegArgs,
 }: {
 	readonly ffmpegArgs: readonly string[];
 }): Promise<void> {
-	// eslint-disable-next-line max-params -- Promise executor signature is spec-defined
+	// eslint-disable-next-line max-params -- the language specification sets the signature of a Promise executor
 	return new Promise((resolve, reject) => {
 		const child = spawn("ffmpeg", ["-y", ...ffmpegArgs], { stdio: "ignore" });
 		child.on("error", reject);
@@ -1331,38 +1294,36 @@ export function renderFixtureMedia({
 }
 
 /**
- * Names one of ffmpeg's synthetic `lavfi` sources as an input, which is the
- * three-argument incantation the media suites would otherwise each write out.
+ * The ffmpeg arguments that give a synthetic `lavfi` source as the input.
  *
- * @param source - The lavfi source string, such as `sine=frequency=440:duration=2`.
- * @returns The argv fragment naming that input.
+ * @param source - The lavfi source, such as `sine=frequency=440:duration=2`.
+ * @returns The arguments for that input.
  */
 export function lavfiInput(source: string): readonly string[] {
 	return ["-f", "lavfi", "-i", source];
 }
 
 /**
- * A synthetic audio track of a given length: a plain 440 Hz tone. Both suites
- * that render real media need one and neither asserts on the pitch — only that
- * the file holds genuine audio ffprobe can read — so the frequency is one fact
- * while the duration stays each suite's own.
+ * The ffmpeg input for a synthetic audio track: a 440 Hz tone. No suite checks
+ * the pitch. A suite checks only that ffprobe can read the audio. So the
+ * frequency is one value here, and each suite sets its own length.
  *
- * @param args - How long the tone should run.
- * @param args.seconds - The track's duration.
- * @returns The argv fragment naming that input.
+ * @param args - The length of the tone.
+ * @param args.seconds - The length of the track, in seconds.
+ * @returns The arguments for that input.
  */
 export function toneInput({ seconds }: { readonly seconds: number }): readonly string[] {
 	return lavfiInput(`sine=frequency=440:duration=${String(seconds)}`);
 }
 
 /**
- * Builds a manifest stage map with every stage pending except one, so a test can
- * state just the entry whose status its behaviour depends on.
+ * Makes the `stages` of a manifest with every stage pending except one. A test
+ * then states only the stage entry that its behaviour depends on.
  *
- * @param args - The single stage entry to set.
- * @param args.stageId - The stage whose entry replaces the pending default.
- * @param args.entry - The entry to record for that stage.
- * @returns The stage map.
+ * @param args - The one stage entry to set.
+ * @param args.stageId - The stage whose entry is not pending.
+ * @param args.entry - The stage entry for that stage.
+ * @returns The `stages` of the manifest.
  */
 export function stagesWith({
 	stageId,
@@ -1375,16 +1336,15 @@ export function stagesWith({
 }
 
 /**
- * Builds a {@link StageContext} for a stage under test through the runner's own
- * `assembleContext`, so the fixture cannot drift from how a real run assembles
- * the context — including deriving `moduleRoot` two levels above the workspace.
- * A test therefore has to lay its temp directories out the way the pipeline
- * really does (`moduleRoot/Pipeline processing/<folder>`).
+ * Makes a {@link StageContext} with `assembleContext`, which the runner also
+ * uses. So the context is the same as in a real pipeline run. It finds
+ * `moduleRoot` two levels above the workspace. So a test must use the layout of
+ * the pipeline: `moduleRoot/Pipeline processing/<baseName>`.
  *
  * @param args - The context inputs.
- * @param args.workspaceRoot - Absolute path to the lecture workspace.
- * @param args.manifest - The lecture's manifest; defaults to {@link makeManifest}.
- * @param args.config - The pipeline config; defaults to {@link makeConfig}.
+ * @param args.workspaceRoot - The absolute path to the lecture workspace.
+ * @param args.manifest - The manifest of the lecture. The default is {@link makeManifest}.
+ * @param args.config - The pipeline config. The default is {@link makeConfig}.
  * @returns The stage context.
  */
 export function makeStageContext({
@@ -1400,14 +1360,14 @@ export function makeStageContext({
 }
 
 /**
- * A stage context whose manifest records one entry against one stage and leaves
- * every other stage pending — what a suite exercising a single stage builds
- * whenever the behaviour under test turns on that stage's recorded state.
+ * A stage context whose manifest has one stage entry for one stage. All other
+ * stages are pending. A suite uses it when the behaviour under test depends on
+ * the stage entry of one stage.
  *
- * @param args - The workspace, and the entry to record in it.
- * @param args.workspaceRoot - Absolute path to the lecture workspace.
- * @param args.stageId - The stage the entry belongs to.
- * @param args.entry - The entry to record for it.
+ * @param args - The workspace, and the stage entry.
+ * @param args.workspaceRoot - The absolute path to the lecture workspace.
+ * @param args.stageId - The stage of the stage entry.
+ * @param args.entry - The stage entry.
  * @returns The stage context.
  */
 export function contextWithEntry({
@@ -1426,15 +1386,14 @@ export function contextWithEntry({
 }
 
 /**
- * A stage context whose manifest records the stage as completed, having written
- * the one output file the layout gives it. Whether that file is actually on
- * disk is left to the caller — which is the difference the idempotency tests
- * turn on.
+ * A stage context whose manifest records the stage as completed, with the one
+ * output file that the layout gives the stage. The caller decides whether the
+ * file is on disk. The idempotency tests depend on that difference.
  *
- * @param args - The workspace, the stage, and how it completed.
- * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args - The workspace, the stage, and its status.
+ * @param args.workspaceRoot - The absolute path to the lecture workspace.
  * @param args.stageId - The completed stage.
- * @param args.status - Which of the two completed statuses it carries; complete by default.
+ * @param args.status - `complete` or `skipped`. The default is `complete`.
  * @returns The stage context.
  */
 export function contextWithOutput({
@@ -1454,22 +1413,22 @@ export function contextWithOutput({
 }
 
 /**
- * Puts a stage's declared output file where the layout says it belongs, as a
- * finished run would have left it, and returns the workspace-relative entry to
- * record in `filesWritten` — so a suite standing up a workspace, or depending on
- * an earlier stage's output, never names that path at either end.
+ * Writes the output file of a stage at its path in the layout, as a completed
+ * stage leaves it. The function returns the workspace-relative path for `filesWritten`. So a
+ * suite that prepares a workspace, or needs the output of an earlier stage, does
+ * not state that path.
  *
- * Seeds rather than writes, and named for it: production's `writeStageOutput`
- * writes what a stage just produced into a directory the stage factory has
- * already prepared, whereas this is setting up a workspace that no run has
- * touched, so it makes the directory itself.
+ * The production `writeStageOutput` writes into a directory that the stage
+ * factory made before the stage ran. This function prepares a workspace in which
+ * no stage ran, so it makes the directory itself. The name "seed" shows this
+ * difference.
  *
- * @param args - Which output to write, and what to put in it.
- * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args - The output to write, and its text.
+ * @param args.workspaceRoot - The absolute path to the lecture workspace.
  * @param args.stageId - The stage whose output to write.
- * @param args.contents - The file's text; defaults to a byte no test reads, for
- * the suites that need the output only to exist.
- * @returns The `filesWritten` entry for that output.
+ * @param args.contents - The text of the file. The default is one character
+ * that no test reads, for the suites that need only the file to exist.
+ * @returns The `filesWritten` path of that output.
  */
 export async function seedStageOutput({
 	workspaceRoot,
@@ -1487,19 +1446,20 @@ export async function seedStageOutput({
 }
 
 /**
- * Builds a model-calling stage with the suite's logger and a client for its
- * config, and drives it against a workspace the way the runner would.
+ * Makes a stage that calls a model, with the logger of the suite and a client
+ * for the config. The function then runs the stage against a workspace, as the
+ * runner does.
  *
- * @param args - The stage's factory, and what to run it with and against.
- * @param args.factory - The stage's factory, as the CLI calls it.
- * @param args.config - The configuration the stage and its client read.
- * @param args.workspaceRoot - Absolute path to the lecture workspace.
- * @param args.logger - The suite's stub logger.
- * @returns The stage's result.
- * @typeParam TInput - The stage's input.
- * @typeParam TOutput - The stage's output.
+ * @param args - The stage factory, the config, the workspace and the logger.
+ * @param args.factory - The stage factory, as the CLI calls it.
+ * @param args.config - The configuration that the stage and its client read.
+ * @param args.workspaceRoot - The absolute path to the lecture workspace.
+ * @param args.logger - The stub logger of the suite.
+ * @returns The result of the stage.
+ * @typeParam TInput - The input of the stage.
+ * @typeParam TOutput - The output of the stage.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only handed on from here
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This code only gives it to the stage
 export function driveModelStage<TInput, TOutput>({
 	factory,
 	config,
@@ -1517,26 +1477,26 @@ export function driveModelStage<TInput, TOutput>({
 	});
 }
 
-/** A gate that spaces nothing, for a suite calling the model outside a stage run. */
+/** A send gate with no gap, for a suite that calls the model outside a stage. */
 export const unspacedSends: SendGate = createSendGate({ gapSeconds: undefined });
 
 /**
- * How far {@link settleThroughPauses} moves the faked clock at a time. A stubbed
- * reply that arrives is noted at the step it arrived in, so a time read off
- * the faked clock when a request arrives may lag the send by up to one step.
+ * The step, in milliseconds, by which {@link settleThroughPauses} moves the fake
+ * clock. A stubbed reply is noted at the step in which it arrives. So a time
+ * that a suite reads from the fake clock can be up to one step after the send
+ * started.
  */
 export const SETTLE_STEP_MS = 100;
 
 /**
- * Runs a faked clock forward until `pending` settles: a pause before a resend,
- * or a wait for a send's turn, begins only once the reply before it has
- * arrived, so the clock is moved in small steps, letting stubbed replies arrive
- * between them. Moved in large ones, it would outrun a reply and fire the
- * call's own timeout.
+ * Moves a fake clock forward until `pending` settles. A pause before a resend,
+ * or a wait for the turn of a send, starts only after the previous reply
+ * arrives. So the clock moves in small steps, and stubbed replies arrive between
+ * the steps. Large steps would pass a reply and fire the timeout of the call.
  *
- * @param pending - The work to see through; the suite has faked `setTimeout`.
- * @returns What `pending` resolves to.
- * @typeParam TResult - What the work resolves to.
+ * @param pending - The work to complete. The suite must use a fake `setTimeout`.
+ * @returns The value that `pending` resolves to.
+ * @typeParam TResult - The type of that value.
  */
 export async function settleThroughPauses<TResult>(
 	pending: Readonly<Promise<TResult>>,
@@ -1555,20 +1515,20 @@ export async function settleThroughPauses<TResult>(
 }
 
 /**
- * Gives the suite of a model-calling stage that reads a division an earlier
- * stage wrote: before each test, mocks are cleared, the model's reply is
- * stubbed, and a transcribed workspace gains {@link transcriptDivision} as the
- * earlier stage's output. Stated once rather than per suite, so two such suites
- * cannot come to start from different states.
+ * Prepares the suite of a stage that calls a model and reads the division of an
+ * earlier stage. Before each test, the function clears the mocks and stubs the
+ * model reply. It also writes {@link transcriptDivision} into a workspace with a
+ * transcript, as the output of the earlier stage. The setup is in one place, so
+ * two such suites cannot start from different states.
  *
- * @param args - The stage, the stage whose division it reads, and the stubbed reply.
- * @param args.stageId - The stage under test; names the workspace's temporary directory and picks its config.
+ * @param args - The stage, the earlier stage, the stage factory and the stubbed reply.
+ * @param args.stageId - The stage under test. It names the temporary directory and selects the config.
  * @param args.readsFrom - The earlier stage whose division the stage reads.
- * @param args.factory - The stage's factory, as the CLI calls it.
- * @param args.stubReply - Stubs the model call's reply; called before each test, after mocks are cleared.
- * @returns The stage's config, a reader for the current test's workspace, and a runner for the stage.
- * @typeParam TInput - The stage's input.
- * @typeParam TOutput - The stage's output.
+ * @param args.factory - The stage factory, as the CLI calls it.
+ * @param args.stubReply - Stubs the model reply. It is called before each test, after the mocks are cleared.
+ * @returns The config of the stage, a reader for the workspace of the current test, and a function that runs the stage.
+ * @typeParam TInput - The input of the stage.
+ * @typeParam TOutput - The output of the stage.
  */
 export function useStageReadingDivision<TInput, TOutput>({
 	stageId,
@@ -1609,14 +1569,15 @@ export function useStageReadingDivision<TInput, TOutput>({
 }
 
 /**
- * Where a panel stage saves run `runNumber`, spelt out here rather than taken
- * from production, so a suite finding a run at this path has checked the name.
+ * The path at which a panel stage saves run `runNumber`. The file name is
+ * stated in full here, and not taken from the production code. So a suite that
+ * finds a saved run at this path checks the name.
  *
- * @param args - The workspace, the panel stage, and the run.
- * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args - The workspace, the panel stage and the run.
+ * @param args.workspaceRoot - The absolute path to the lecture workspace.
  * @param args.stageId - The panel stage.
- * @param args.runNumber - The run, counting from 1.
- * @returns The saved run's absolute path.
+ * @param args.runNumber - The number of the run, from 1.
+ * @returns The absolute path of the saved run.
  */
 export function savedRunPath({
 	workspaceRoot,
@@ -1634,15 +1595,15 @@ export function savedRunPath({
 }
 
 /**
- * Leaves a saved run on disk as an earlier invocation, or an earlier stage,
- * would have saved it.
+ * Writes a saved run on disk, as an earlier invocation or an earlier stage
+ * saves it.
  *
- * @param args - Which run, and what it holds.
- * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args - The run, and its contents.
+ * @param args.workspaceRoot - The absolute path to the lecture workspace.
  * @param args.stageId - The panel stage.
- * @param args.runNumber - The run, counting from 1.
+ * @param args.runNumber - The number of the run, from 1.
  * @param args.contents - The run, written as JSON.
- * @returns A promise that resolves once the file is written.
+ * @returns A promise that resolves when the file is written.
  */
 export async function seedSavedRun({
 	contents,
@@ -1653,19 +1614,18 @@ export async function seedSavedRun({
 	await writeFile(path, JSON.stringify(contents));
 }
 
-/** What a panel stage's suite does with run 1, as an earlier invocation would have saved it. */
 type FirstSavedRun = {
-	/** Leaves run 1 on disk holding `contents`, written as JSON. */
+	/** Writes saved run 1 on disk with `contents`, as JSON. */
 	readonly leaveFirstRun: (contents: unknown) => Promise<void>;
-	/** Leaves run 1 holding `contents`, runs the stage, and checks that the stage fails because it cannot read run 1. */
+	/** Writes saved run 1 with `contents`, runs the stage, and checks that the stage fails because it cannot read run 1. */
 	readonly expectUnreadableFirstRun: (contents: unknown) => Promise<void>;
 };
 
 /**
- * Makes the helpers a panel stage's suite uses to leave run 1 on disk before the
- * stage runs.
+ * Makes the helpers with which the suite of a panel stage writes saved run 1
+ * before the stage runs.
  *
- * @param args - The panel stage, its workspace, and how to run it.
+ * @param args - The panel stage, its workspace, and a function that runs it.
  * @param args.workspaceRoot - Gives the absolute path to the lecture workspace of the current test.
  * @param args.stageId - The panel stage.
  * @param args.run - Runs the stage.
@@ -1692,15 +1652,15 @@ export function firstSavedRun({
 }
 
 /**
- * Leaves runs 1 to `count` of a panel on disk, as an earlier invocation or an
- * earlier stage would have saved them.
+ * Writes saved runs 1 to `count` of a panel on disk, as an earlier invocation
+ * or an earlier stage saves them.
  *
- * @param args - Which panel, how many runs, and what each holds.
- * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args - The panel, the number of runs, and their contents.
+ * @param args.workspaceRoot - The absolute path to the lecture workspace.
  * @param args.stageId - The panel stage.
- * @param args.count - How many runs to leave, counting from run 1.
- * @param args.contents - What run `runNumber` holds, written as JSON.
- * @returns A promise that resolves once every file is written.
+ * @param args.count - The number of saved runs to write, from run 1.
+ * @param args.contents - Gives the contents of run `runNumber`, written as JSON.
+ * @returns A promise that resolves when every file is written.
  */
 export async function seedSavedRuns({
 	workspaceRoot,
@@ -1717,13 +1677,13 @@ export async function seedSavedRuns({
 }
 
 /**
- * The text a division's subtopics cover, joined in order: the transcript itself
- * when the division is lossless.
+ * The text of the subtopics of a division, joined in order. If the division is
+ * lossless, this is the transcript.
  *
- * @param args - The divided text, and its subtopics' spans.
+ * @param args - The divided text, and the spans of its subtopics.
  * @param args.text - The text that was divided.
- * @param args.subtopics - Each subtopic's span of it, in order.
- * @returns The spans' text, joined.
+ * @param args.subtopics - The span of each subtopic, in order.
+ * @returns The text of the spans, joined.
  */
 export function joinedSubtopics({
 	text,
@@ -1736,11 +1696,11 @@ export function joinedSubtopics({
 }
 
 /**
- * The user message a stage sent on its first call to a stubbed
- * `callModel`: the material its prompt is about.
+ * The user message of the first call that a stage made to a stubbed
+ * `callModel`. It holds the material that the prompt is about.
  *
- * @param calls - The calls the suite's stub of `callModel` received, as its `mock.calls`.
- * @returns The first call's user message.
+ * @param calls - The calls to the stub of `callModel`, as its `mock.calls`.
+ * @returns The user message of the first call.
  */
 export function sentUserMessage(calls: readonly (readonly unknown[])[]): string | undefined {
 	const [{ messages }] = calls[0] as [{ messages: { content: string }[] }];
@@ -1748,19 +1708,19 @@ export function sentUserMessage(calls: readonly (readonly unknown[])[]): string 
 }
 
 /**
- * A JSON file a stage or the runner wrote, parsed back off disk.
+ * Reads a JSON file that a stage or the runner wrote, and parses it.
  *
- * @param path - The file's absolute path.
- * @returns The parsed file, for the suite to assert on.
+ * @param path - The absolute path of the file.
+ * @returns The parsed file, for the suite to check.
  */
 export async function readJsonFile(path: string): Promise<unknown> {
 	return JSON.parse(await readFile(path, "utf8"));
 }
 
 /**
- * The saved run a stage wrote, parsed back off disk and not checked.
+ * Reads a saved run that a stage wrote, and parses it. It does not check the run.
  *
- * @param run - Which run, as for {@link savedRunPath}.
+ * @param run - The run, as for {@link savedRunPath}.
  * @returns The parsed JSON.
  */
 export function readSavedRunJson(run: Parameters<typeof savedRunPath>[0]): Promise<unknown> {
@@ -1768,18 +1728,17 @@ export function readSavedRunJson(run: Parameters<typeof savedRunPath>[0]): Promi
 }
 
 /**
- * Drives a stage end to end the way the runner does — the stage's own
- * `getInput`, then its `run` with what that produced — so a suite exercising a
- * stage cannot drift from the order the pipeline really invokes it in.
+ * Runs a stage as the runner does: first `getInput`, then `run` with that
+ * input. So a suite calls the stage in the same order as the pipeline.
  *
- * The stage is `Readonly` for the reason `PipelineRunnerFacade` is a mapped
- * type, stated there: a type carrying methods is not deeply readonly, so
- * `prefer-readonly-parameter-types` reports every function taking one.
+ * The stage is `Readonly` because a type with methods is not deeply readonly.
+ * `prefer-readonly-parameter-types` reports each function that takes such a
+ * type. `PipelineRunnerFacade` gives the same reason.
  *
- * @param args - The stage and what to run it against.
+ * @param args - The stage and its context.
  * @param args.stage - The stage under test.
- * @param args.context - The context the runner would have assembled for it.
- * @returns The stage's result.
+ * @param args.context - The context that the runner makes for the stage.
+ * @returns The result of the stage.
  */
 export async function driveStage<TInput, TOutput>({
 	stage,
@@ -1792,13 +1751,13 @@ export async function driveStage<TInput, TOutput>({
 }
 
 /**
- * Resolves after `turns` turns of the event loop, so tasks a suite starts
- * together genuinely overlap rather than each finishing before the next begins,
- * and a task waiting more turns finishes after one waiting fewer.
+ * Resolves after `turns` turns of the event loop. Tasks that a suite starts
+ * together then run at the same time, and no task finishes before the next one
+ * starts. A task that waits more turns finishes after a task that waits fewer.
  *
- * @param args - How long to wait.
- * @param args.turns - How many turns of the event loop to let pass.
- * @returns A promise that resolves once they have.
+ * @param args - The wait.
+ * @param args.turns - The number of event loop turns to wait.
+ * @returns A promise that resolves after those turns.
  */
 export async function waitTurns({ turns }: { readonly turns: number }): Promise<void> {
 	for (let turn = 0; turn < turns; turn += 1) {
@@ -1809,14 +1768,15 @@ export async function waitTurns({ turns }: { readonly turns: number }): Promise<
 }
 
 /**
- * Wraps a task so a suite can see how many were in flight at once. Each call
- * counts itself in, yields a turn so that others started alongside it overlap
- * it, does the task, and counts itself out.
+ * Wraps a task, so a suite can see how many calls of it were in flight at the
+ * same time. Each call adds one to the count, and waits one turn so that calls
+ * started with it overlap it. Then it does the task, and subtracts one from the
+ * count.
  *
  * @param task - The task to track.
- * @returns The tracked task, and the most calls that were ever in flight together.
- * @typeParam TTaskArgs - What the task is given.
- * @typeParam TTaskResult - What the task produces.
+ * @returns The tracked task, and the largest number of calls that were in flight at the same time.
+ * @typeParam TTaskArgs - The arguments of the task.
+ * @typeParam TTaskResult - The result of the task.
  */
 export function trackingInFlight<TTaskArgs, TTaskResult>(
 	task: (args: TTaskArgs) => Promise<TTaskResult>,
