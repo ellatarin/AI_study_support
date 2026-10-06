@@ -113,7 +113,9 @@ function readGroupingRun(value: unknown): GroupingReply | null {
 type DefineTopicsOutput = { readonly topics: readonly Topic[] };
 
 /**
- * A run as the chooser reads it: the reply's `label`, the prompt's word, read as the topic's title.
+ * Changes a grouping run, as the model replied, into the run that the chooser
+ * reads. The reply's `label` becomes `title`. The code uses this name because it
+ * is easier to read. The prompt keeps its own word.
  *
  * @param reply - A grouping run as the model replied.
  * @returns The run's topics, titled.

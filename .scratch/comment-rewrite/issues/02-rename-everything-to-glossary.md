@@ -189,3 +189,9 @@ Two things any folder or file rename must also fix: each manifest's `filesWritte
 
 - C7: `POSITION_KEY` becomes `SUBTOPIC_ID_KEY`. Its value `"id"` is the prompt's word and stays. The retitling comments and test titles say "subtopic id", not "position". New glossary entry **Subtopic id**, with "position" on its _Avoid_ list. The stored key `changed[].position` is renamed in S7, not here.
 - C8: the name `sourceFile` is not correct. These helpers also act on the final output folder, and a notes PDF is not a source file. The names are `findLectureFileByDate`, `removeLectureFileByDate`, `LectureFileQuery` and `sharedLectureFileDirs`. "ByDate" says how the file is found: by the last date in its name, not by the whole name. The `DatedFile` type in source normalisation stays, because it is only ever a source file.
+
+2026-10-06, the user's rulings on B4 and B1:
+
+- B4 is done together with stored rename S1: the stage id, the folder and file names, the report label "Group into topics", and the code names (`GroupIntoTopicsError`, `createGroupIntoTopicsStage`, `GroupIntoTopicsOutput`, `groupIntoTopics`). If the code names changed first, the code and the stage id would disagree until S1.
+- B1, code part: only the grouping comment changes. Splitting already translates its reply. Deepening's `verdict` and `heldBecause` are not read. The checker keeps `considered` and `whyNotRaised`, as ruled. Grouping's saved runs change `label` to `title` in S11. A topic's `groupedBecause` stays.
+- B1: transcript structuring is not translated now. The user expects that stage to change greatly, so work on it now is premature.
