@@ -911,10 +911,11 @@ export const changedDate = "2025-10-24";
 export const stageCompletedAt = `${testLecture.date}T10:00:00.000Z`;
 
 /**
- * A run identifier in the form `deriveRunId` produces. Arbitrary like
+ * An id in the form `deriveTimestampId` produces. Tests use it as a pipeline run
+ * id and as an invocation id. Arbitrary like
  * {@link stageCompletedAt}; the suite that checks the *form* derives its own.
  */
-export const testRunId = `${testLecture.date}T09-00-00Z`;
+export const testTimestampId = `${testLecture.date}T09-00-00Z`;
 
 /**
  * When a pipeline run or batch began and ended, where neither instant is what a

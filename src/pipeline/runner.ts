@@ -100,7 +100,7 @@ type ModuleScopedArgs<TOptions> = ModuleScope & {
  * @returns The filesystem-safe run identifier.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- Date is a built-in with mutating methods, but is only read here
-export function deriveRunId({ instant }: { readonly instant: Date }): string {
+export function deriveTimestampId({ instant }: { readonly instant: Date }): string {
 	return instant
 		.toISOString()
 		.replace(/\.\d+Z$/, "Z")
@@ -589,14 +589,14 @@ function beyondBound({
 }
 
 function buildRunLog({
-	runId,
+	pipelineRunId,
 	startedAt,
 	endedAt,
 	options,
 	runType,
 	outcomes,
 }: {
-	readonly runId: string;
+	readonly pipelineRunId: string;
 	readonly startedAt: string;
 	readonly endedAt: string;
 	readonly options: PipelineRunOptions;
@@ -608,7 +608,7 @@ function buildRunLog({
 		stages[stageId] = entry;
 	}
 	return {
-		runId,
+		pipelineRunId,
 		startedAt,
 		endedAt,
 		triggeredBy: options.fromStage === undefined ? "manual" : "from-stage",
@@ -628,7 +628,7 @@ async function writeRunLog({
 }): Promise<void> {
 	const runsDir = runsDirPath({ workspaceRoot });
 	await mkdir(runsDir, { recursive: true });
-	await writeJsonAtomic({ path: join(runsDir, `${runLog.runId}.json`), value: runLog });
+	await writeJsonAtomic({ path: join(runsDir, `${runLog.pipelineRunId}.json`), value: runLog });
 }
 
 /**
@@ -645,7 +645,7 @@ async function writeRunLog({
  * @returns `true` when the value is a run log.
  */
 function isRunLog(value: unknown): value is RunLog {
-	return isRecord(value) && typeof value.runId === "string" && isRecord(value.stages);
+	return isRecord(value) && typeof value.pipelineRunId === "string" && isRecord(value.stages);
 }
 
 async function readRunLogs(workspaceRoot: string): Promise<readonly RunLog[]> {
@@ -730,12 +730,12 @@ export class PipelineRunner {
 		readonly options?: PipelineRunOptions;
 	}): Promise<PipelineRunSummary> {
 		const startedAt = new Date();
-		const runId = deriveRunId({ instant: startedAt });
+		const pipelineRunId = deriveTimestampId({ instant: startedAt });
 		const startedIso = startedAt.toISOString();
 		// One invocation writes one debug log and may run many lectures, so the log
 		// cannot be named for a run. Naming each run inside it is what gets a reader
 		// from a run log back to the debug output that produced it (§10).
-		this.#logger.debug({ runId, workspaceRoot }, "Lecture run started");
+		this.#logger.debug({ pipelineRunId, workspaceRoot }, "Pipeline run started");
 		const initialManifest = await readManifest({ workspaceRoot });
 		// After the manifest is read, because naming the lecture is the point of the
 		// notice, and before anything is reset: what follows belongs under this name.
@@ -755,7 +755,7 @@ export class PipelineRunner {
 		const { outcomes, context: finalContext } = await this.#runStages({ context, options });
 		const endedIso = new Date().toISOString();
 		const runLog = buildRunLog({
-			runId,
+			pipelineRunId,
 			startedAt: startedIso,
 			endedAt: endedIso,
 			options,
@@ -767,7 +767,7 @@ export class PipelineRunner {
 		await writeRunLog({ workspaceRoot: finalContext.workspaceRoot, runLog });
 		return {
 			workspaceRoot: finalContext.workspaceRoot,
-			runId,
+			pipelineRunId,
 			startedAt: startedIso,
 			endedAt: endedIso,
 			stageOutcomes: outcomes,

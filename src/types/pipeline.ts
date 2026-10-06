@@ -759,7 +759,7 @@ type TimePeriod = {
  * attempts (technical-design.md §4.6).
  */
 export type RunLog = TimePeriod & {
-	readonly runId: string;
+	readonly pipelineRunId: string;
 	readonly triggeredBy: PipelineRunTrigger;
 	readonly runType: RunType;
 	readonly fromStage: StageId | null;
@@ -868,7 +868,7 @@ export type PipelineStageOutcome = {
  */
 export type PipelineRunSummary = TimePeriod & {
 	readonly workspaceRoot: string;
-	readonly runId: string; // matches the run log created for this pipeline run
+	readonly pipelineRunId: string; // matches the run log created for this pipeline run
 	readonly stageOutcomes: readonly PipelineStageOutcome[]; // in execution order
 	readonly overallStatus: OverallStatus;
 };

@@ -23,7 +23,7 @@ import {
 	testLecture,
 	testModuleName,
 	testModuleRoot,
-	testRunId,
+	testTimestampId,
 	transcriptionModelId,
 } from "./fixtures.js";
 import { stageOutputEntry, workspaceRootFor } from "./layout.js";
@@ -149,7 +149,7 @@ const manifest: Manifest = makeManifest({
  * The id is derived rather than invented per run. Nothing reads it — no
  * assertion, and section 2 shows a run by its start instant — so five ids
  * written by hand were five values claiming to matter, and none of them was even
- * in the form `deriveRunId` produces.
+ * in the form `deriveTimestampId` produces.
  *
  * `toStage` comes with them because no run in this suite is bounded — the cost
  * report reads what a run spent, which a bound does not bear on — so stating it
@@ -166,8 +166,8 @@ function ranFrom({
 }: {
 	readonly startedAt: string;
 	readonly endedAt: string;
-}): Pick<RunLog, "runId" | "startedAt" | "endedAt" | "toStage"> {
-	return { runId: `run-at-${startedAt}`, startedAt, endedAt, toStage: null };
+}): Pick<RunLog, "pipelineRunId" | "startedAt" | "endedAt" | "toStage"> {
+	return { pipelineRunId: `run-at-${startedAt}`, startedAt, endedAt, toStage: null };
 }
 
 // The original failure, as technical-design.md §7's worked example has it: an
@@ -536,7 +536,7 @@ const lecture = ({
 	readonly overallStatus: OverallStatus;
 }): PipelineRunSummary => ({
 	workspaceRoot: workspaceRootFor({ moduleRoot, baseName }),
-	runId: testRunId,
+	pipelineRunId: testTimestampId,
 	startedAt: "2025-10-10T09:00:00.000Z",
 	endedAt: "2025-10-10T09:30:00.000Z",
 	stageOutcomes: [],

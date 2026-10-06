@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { makeConfig, makeStubLogger, otherModuleRoot, testModuleRoot } from "./fixtures.js";
-import { deriveRunId, PipelineRunner } from "./runner.js";
+import { deriveTimestampId, PipelineRunner } from "./runner.js";
 
-describe("deriveRunId", () => {
+describe("deriveTimestampId", () => {
 	it.each([
 		{
 			scenario: "the instant carries milliseconds",
@@ -18,7 +18,7 @@ describe("deriveRunId", () => {
 		instant,
 		expected,
 	}) => {
-		expect(deriveRunId({ instant: new Date(instant) })).toBe(expected);
+		expect(deriveTimestampId({ instant: new Date(instant) })).toBe(expected);
 	});
 });
 

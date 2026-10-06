@@ -717,11 +717,11 @@ Every pipeline invocation creates a new log file in `runs/` named by ISO timesta
 
 Each log records which stages were attempted, skipped, or re-run; cost and model per stage; and whether each stage succeeded or failed. This provides a complete financial audit trail including failed attempts and model experiments.
 
-`runs/` is read by scanning it, not from an index, so the cost report is offered every file that sits there — including one the pipeline never wrote, such as a debug log dropped alongside them (§10). Parsing as JSON is not enough to be a run: a file is taken as one only if it carries the `runId` it is filed under and the stage map the report iterates. Anything else is skipped, the same judgement `readManifestSafe` makes about a folder that is not a lecture (§4.5).
+`runs/` is read by scanning it, not from an index, so the cost report is offered every file that sits there — including one the pipeline never wrote, such as a debug log dropped alongside them (§10). Parsing as JSON is not enough to be a run: a file is taken as one only if it carries the `pipelineRunId` it is filed under and the stage map the report iterates. Anything else is skipped, the same judgement `readManifestSafe` makes about a folder that is not a lecture (§4.5).
 
 ```jsonc
 {
-  "runId": "2025-10-10T09-00-00Z",
+  "pipelineRunId": "2025-10-10T09-00-00Z",
   "startedAt": "2025-10-10T09:00:00.000Z",
   "endedAt": "2025-10-10T09:12:00.000Z",
   "triggeredBy": "manual",          // 'manual' | 'from-stage'
@@ -778,12 +778,12 @@ class PipelineRunner {
 type SourceNormalisationStage = { stageId: "source-normalisation"; normaliseModule(args: { moduleRoot: string }): Promise<void> }
 
 // The runner's supporting logic lives in module-level functions rather than private methods, so each has one
-// job and the class stays orchestration. All of them are module-private but `deriveRunId`: `PipelineRunner`
+// job and the class stays orchestration. All of them are module-private but `deriveTimestampId`: `PipelineRunner`
 // is the module's surface, and the surface its own tests drive. runStage returns its outcome: the caller
 // collects the entries, decides whether to halt, and fills `not-reached`, so the run log is assembled from
 // return values and concurrent lectures share no state.
-export deriveRunId(args: { instant: Date }): string     // filesystem-safe run id, e.g. 2025-10-10T09-00-00Z
-// Exported for the CLI, which names the run's debug log after the run it belongs to (§10).
+export deriveTimestampId(args: { instant: Date }): string     // filesystem-safe id, e.g. 2025-10-10T09-00-00Z
+// The id of a pipeline run, and of an invocation. Exported for the CLI, which names an invocation's debug log with it (§10).
 decideRunType(args: { options: PipelineRunOptions; manifest: Manifest }): RunType  // normal | experiment | error-recovery (§7)
 // Private. The classification reaches the outside world on `RunLog.runType`, which is where the cost report
 // reads it and where the runner's tests assert it.
@@ -2149,7 +2149,7 @@ The pino file transport writes newline-delimited JSON to `<projectRoot>/runs/<ti
 
 The debug log is for human inspection when diagnosing failures. Its JSON format also makes it trivially parseable if automated analysis is ever needed.
 
-**A debug log belongs to an invocation; a run log belongs to one pipeline run.** They are different scopes and cannot share an identity: `batch` runs many lectures against one root logger, so one debug log faces as many run logs as there were lectures. The two are tied together from the other end instead — the runner writes a `debug` entry carrying `{ runId, workspaceRoot }` as each pipeline run starts, before any stage does anything, so a reader holding a run log can find the debug output that produced it and a reader holding the debug log can see which pipeline runs are in it.
+**A debug log belongs to an invocation; a run log belongs to one pipeline run.** They are different scopes and cannot share an identity: `batch` runs many lectures against one root logger, so one debug log faces as many run logs as there were lectures. The two are tied together from the other end instead — the runner writes a `debug` entry carrying `{ pipelineRunId, workspaceRoot }` as each pipeline run starts, before any stage does anything, so a reader holding a run log can find the debug output that produced it and a reader holding the debug log can see which pipeline runs are in it.
 
 The project root is what the log is anchored to, rather than a workspace or the process's working directory. `source-normalisation`'s work over a module happens before any lecture has been chosen, and a batch spans every configured module, so no single workspace could hold the record of an invocation; and a relative path would put the log wherever the user happened to be standing when they typed the command.
 

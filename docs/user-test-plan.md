@@ -114,7 +114,7 @@ Include at least one **short** lecture (2–5 minutes) — most tests below only
 |---|---|
 | Stage outputs | `<moduleRoot>/Pipeline processing/<Lecture folder>/` |
 | Manifest | `<workspace>/manifest.json` — per-stage status, cost, `filesWritten` |
-| Run log (JSON, per invocation) | `<workspace>/runs/<runId>.json` |
+| Run log (JSON, per invocation) | `<workspace>/runs/<pipelineRunId>.json` |
 | Debug log | `<repo root>/runs/<timestamp>-debug.log` |
 
 Note the debug log lands under the **repo root**, not the workspace, unlike the run log. Confirm that is intended.
@@ -182,7 +182,7 @@ From here each run bills real transcription. Use the short lecture.
 - `Transcript verification/verification-report.json` holds a verdict, a coverage score, the findings, and what the checker cleared — and the run completes and exits 0 whatever it says
 - `Transcript verification/verification-report.md` says the same thing as a page you can read: verdict and counts at the top, then the findings with distortions first and the worst of each category first, then what the checker looked at and let pass
 - Cost summary printed, exit 0
-- `manifest.json` shows the four built stages complete with costs; `runs/<runId>.json` exists
+- `manifest.json` shows the four built stages complete with costs; `runs/<pipelineRunId>.json` exists
 - **The manifest also lists `slide-conversion`, `image-extraction`, `synthesis`, `qa-loop` and `pdf-generation` as `pending`, and always will.** It is written with every stage in `STAGE_IDS` set to pending, so it describes the whole pipeline rather than the built part of it. Those five are never attempted — see §1
 
 **Judge the output quality here, not just its presence** — this is the first sight of what the pipeline actually produces.
@@ -221,7 +221,7 @@ One full-length lecture end to end, to confirm nothing depends on the short file
 
 ## 7. What to record
 
-For each test: the command, the exit code, what was printed, and pass/fail. For failures, keep `runs/<runId>.json` and the debug log.
+For each test: the command, the exit code, what was printed, and pass/fail. For failures, keep `runs/<pipelineRunId>.json` and the debug log.
 
 Worth noting separately as they come up:
 - Wording that misleads, and any stage notice that says something other than what the stage did

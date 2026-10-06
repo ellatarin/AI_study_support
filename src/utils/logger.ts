@@ -17,7 +17,7 @@ import type { StageId } from "../types/pipeline.js";
  * @param args.debugLogFile - Absolute path to write the debug log at; its directory is created.
  * @returns A pino logger writing at `debug` level to that file.
  * @example
- * const logger = createDebugLogger({ debugLogFile: debugLogPath({ projectRoot, runId }) });
+ * const logger = createDebugLogger({ debugLogFile: debugLogPath({ projectRoot, invocationId }) });
  */
 export function createDebugLogger({ debugLogFile }: { readonly debugLogFile: string }): Logger {
 	return pino({ level: "debug" }, destination({ dest: debugLogFile, sync: false, mkdir: true }));

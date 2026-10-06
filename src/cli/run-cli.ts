@@ -12,7 +12,7 @@ import { loadConfig } from "../pipeline/config.js";
 import { debugLogPath } from "../pipeline/layout.js";
 import { createOpenRouterClientProvider } from "../pipeline/openrouter.js";
 import { createMoneyFormatter } from "../pipeline/reports.js";
-import { deriveRunId, PipelineRunner } from "../pipeline/runner.js";
+import { deriveTimestampId, PipelineRunner } from "../pipeline/runner.js";
 import { createAudioExtractionStage } from "../pipeline/stages/audio-extraction/audio-extraction.js";
 import { createChooseDivisionStage } from "../pipeline/stages/choose-division/choose-division.js";
 import { createDeepenSubtopicSplittingStage } from "../pipeline/stages/deepen-subtopic-splitting/deepen-subtopic-splitting.js";
@@ -64,7 +64,7 @@ async function assembleDeps({
 	const config = await loadConfig({ projectRoot });
 	const debugLogFile = debugLogPath({
 		projectRoot,
-		invocationId: deriveRunId({ instant: new Date() }),
+		invocationId: deriveTimestampId({ instant: new Date() }),
 	});
 	const logger = createDebugLogger({ debugLogFile });
 	// One client for the invocation, provided from here for the reason the logger

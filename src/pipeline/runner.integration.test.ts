@@ -38,7 +38,7 @@ import {
 	type TestLecture,
 	testLecture,
 	testModuleName,
-	testRunId,
+	testTimestampId,
 	useStubLogger,
 } from "./fixtures.js";
 import {
@@ -164,8 +164,10 @@ function realIsComplete(stageId: StageId): (context: StageContext) => Promise<bo
 	return (context) => isStageComplete({ context, stageId });
 }
 
-async function readRunLog(workspaceRoot: string, runId: string): Promise<RunLog> {
-	return (await readJsonFile(join(runsDirPath({ workspaceRoot }), `${runId}.json`))) as RunLog;
+async function readRunLog(workspaceRoot: string, pipelineRunId: string): Promise<RunLog> {
+	return (await readJsonFile(
+		join(runsDirPath({ workspaceRoot }), `${pipelineRunId}.json`),
+	)) as RunLog;
 }
 
 /**
@@ -428,7 +430,7 @@ describe("PipelineRunner integration", () => {
 			expect(entry?.status === "complete" && entry.filesWritten).toEqual([
 				stageOutputEntry("audio-extraction"),
 			]);
-			const runLog = await readRunLog(workspaceRoot, summary.runId);
+			const runLog = await readRunLog(workspaceRoot, summary.pipelineRunId);
 			expect(runLog.stages["audio-extraction"]).toMatchObject({
 				action: "ran",
 				status: "complete",
@@ -467,7 +469,7 @@ describe("PipelineRunner integration", () => {
 			});
 			// The run log records the unresolved cost but not why: `RunLogCost` is the
 			// amount and the call count, and the reason stays on the stage entry.
-			const runLog = await readRunLog(workspaceRoot, summary.runId);
+			const runLog = await readRunLog(workspaceRoot, summary.pipelineRunId);
 			expect(runLog.stages["audio-extraction"]).toMatchObject({
 				cost: { costUsd: null, callCount: 1 },
 			});
@@ -596,7 +598,7 @@ describe("PipelineRunner integration", () => {
 			expect(thirdRun).not.toHaveBeenCalled();
 			expect(summary.overallStatus).toBe("failed");
 			expect(summary.stageOutcomes).toEqual(outcomesStoppingAfterTheSecond("failed"));
-			const runLog = await readRunLog(workspaceRoot, summary.runId);
+			const runLog = await readRunLog(workspaceRoot, summary.pipelineRunId);
 			expect(runLog.stages.synthesis).toEqual({ action: "not-reached" });
 		});
 
@@ -632,8 +634,8 @@ describe("PipelineRunner integration", () => {
 
 			const files = await readdir(runsDirPath({ workspaceRoot }));
 			expect(files).toHaveLength(2);
-			expect(files).toContain(`${first.runId}.json`);
-			expect(files).toContain(`${second.runId}.json`);
+			expect(files).toContain(`${first.pipelineRunId}.json`);
+			expect(files).toContain(`${second.pipelineRunId}.json`);
 		});
 
 		// One invocation writes one debug log and may run many lectures, so the
@@ -648,7 +650,7 @@ describe("PipelineRunner integration", () => {
 			expect(logged().entries).toContainEqual(
 				expect.objectContaining({
 					level: "debug",
-					payload: expect.objectContaining({ runId: summary.runId, workspaceRoot }),
+					payload: expect.objectContaining({ pipelineRunId: summary.pipelineRunId, workspaceRoot }),
 				}),
 			);
 		});
@@ -734,7 +736,7 @@ describe("PipelineRunner integration", () => {
 
 			await expect(access(stageDir("transcription"))).rejects.toThrow();
 			await expect(access(stageDir("synthesis"))).rejects.toThrow();
-			const runLog = await readRunLog(workspaceRoot, summary.runId);
+			const runLog = await readRunLog(workspaceRoot, summary.pipelineRunId);
 			expect(runLog.runType).toBe("experiment");
 			expect(runLog.fromStage).toBe("transcription");
 		});
@@ -874,7 +876,7 @@ describe("PipelineRunner integration", () => {
 		it("should record the bound in the run log when --to-stage is given", async () => {
 			const { summary } = await runToStage("transcription");
 
-			const runLog = await readRunLog(workspaceRoot, summary.runId);
+			const runLog = await readRunLog(workspaceRoot, summary.pipelineRunId);
 			expect(runLog.toStage).toBe("transcription");
 		});
 
@@ -1130,7 +1132,7 @@ describe("PipelineRunner integration", () => {
 				}),
 			});
 			const runLog: RunLog = {
-				runId: testRunId,
+				pipelineRunId: testTimestampId,
 				startedAt: "2025-10-10T09:00:00Z",
 				endedAt: "2025-10-10T09:00:01Z",
 				triggeredBy: "manual",
@@ -1141,7 +1143,7 @@ describe("PipelineRunner integration", () => {
 			};
 			const runsDir = runsDirPath({ workspaceRoot });
 			await mkdir(runsDir, { recursive: true });
-			await writeFile(join(runsDir, `${runLog.runId}.json`), JSON.stringify(runLog));
+			await writeFile(join(runsDir, `${runLog.pipelineRunId}.json`), JSON.stringify(runLog));
 			// A non-file entry in runs/, a corrupt run log, and a workspace without a
 			// manifest — all skipped by the reader.
 			await mkdir(join(runsDir, "nested"), { recursive: true });
@@ -1235,7 +1237,7 @@ describe("PipelineRunner integration", () => {
 						: { options: { ...DEFAULT_PIPELINE_RUN_OPTIONS, fromStage } }),
 				},
 			);
-			return (await readRunLog(workspaceRoot, summary.runId)).runType;
+			return (await readRunLog(workspaceRoot, summary.pipelineRunId)).runType;
 		}
 
 		it("should give the run type normal when no from-stage is given", async () => {
@@ -1410,8 +1412,8 @@ describe("PipelineRunner integration", () => {
 		it("should write the run log to the renamed workspace when a stage renames it", async () => {
 			const summary = await runRenamingWorkspace();
 
-			await expect(readRunLog(renamedWorkspaceRoot, summary.runId)).resolves.toMatchObject({
-				runId: summary.runId,
+			await expect(readRunLog(renamedWorkspaceRoot, summary.pipelineRunId)).resolves.toMatchObject({
+				pipelineRunId: summary.pipelineRunId,
 			});
 		});
 
