@@ -16,8 +16,8 @@ import { basename, dirname, join, resolve } from "node:path";
 import type { StageId } from "../types/pipeline.js";
 
 const SOURCE_DIR = "Source files";
-const VIDEO_SUBDIR = "Video files";
-const SLIDE_SUBDIR = "Lecture slides";
+const VIDEO_RECORDINGS_DIR = "Video recordings";
+const SLIDE_DECKS_DIR = "Slide decks";
 const PROCESSING_DIR = "Pipeline processing";
 const FINAL_OUTPUT_DIR = "Final output";
 
@@ -54,8 +54,8 @@ export type ModuleDirs = {
  */
 export function moduleDirs({ moduleRoot }: { readonly moduleRoot: string }): ModuleDirs {
 	return {
-		videoRecording: join(moduleRoot, SOURCE_DIR, VIDEO_SUBDIR),
-		slideDeck: join(moduleRoot, SOURCE_DIR, SLIDE_SUBDIR),
+		videoRecording: join(moduleRoot, SOURCE_DIR, VIDEO_RECORDINGS_DIR),
+		slideDeck: join(moduleRoot, SOURCE_DIR, SLIDE_DECKS_DIR),
 		processing: join(moduleRoot, PROCESSING_DIR),
 		finalOutput: join(moduleRoot, FINAL_OUTPUT_DIR),
 	};

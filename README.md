@@ -31,8 +31,8 @@ Each subject module lives in its own folder. The module's lecture recordings and
 ```
 Biology of Disease/
 ├── Source files/
-│   ├── Video files/          ← lecture recordings
-│   └── Lecture slides/       ← slide PDFs
+│   ├── Video recordings/     ← lecture recordings
+│   └── Slide decks/          ← slide PDFs
 ├── Pipeline processing/      ← one working folder per lecture, holding every intermediate file
 └── Final output/
     ├── Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10.pdf

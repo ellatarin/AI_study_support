@@ -30,8 +30,8 @@ import {
 // against layout.ts itself would prove nothing. Each name is written out once
 // here and read by every case that expects it.
 const MODULE_ROOT = testModuleRoot;
-const VIDEO_DIR = join(MODULE_ROOT, "Source files", "Video files");
-const SLIDE_DIR = join(MODULE_ROOT, "Source files", "Lecture slides");
+const VIDEO_DIR = join(MODULE_ROOT, "Source files", "Video recordings");
+const SLIDE_DIR = join(MODULE_ROOT, "Source files", "Slide decks");
 const PROCESSING_DIR = join(MODULE_ROOT, "Pipeline processing");
 const FINAL_OUTPUT_DIR = join(MODULE_ROOT, "Final output");
 const WORKSPACE_ROOT = join(PROCESSING_DIR, testLecture.baseName);

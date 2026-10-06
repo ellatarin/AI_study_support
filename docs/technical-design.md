@@ -47,8 +47,8 @@ OPENROUTER_API_KEY=...
 ```
 Biology of Disease/
 ├── Source files/
-│   ├── Video files/
-│   └── Lecture slides/
+│   ├── Video recordings/
+│   └── Slide decks/
 ├── Pipeline processing/
 │   └── Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │       └── (see §3.3)
@@ -61,11 +61,11 @@ All pipeline artefacts for a lecture live inside a single named workspace folder
 
 `Final output/` is a direct subfolder of the module root and is the human-facing deliverable. Because it is a flat folder shared across all lectures, its PDFs carry the full descriptive filename.
 
-**Folder-name convention.** Only `moduleRoots[i]` is configurable (see §6). The subfolder names shown above — `Source files/`, `Video files/`, `Lecture slides/`, `Pipeline processing/`, `Final output/` — are fixed conventions baked into the pipeline. Every module folder that the pipeline manages MUST follow this layout. The tool creates these subfolders on demand; users should not rename them.
+**Folder-name convention.** Only `moduleRoots[i]` is configurable (see §6). The subfolder names shown above — `Source files/`, `Video recordings/`, `Slide decks/`, `Pipeline processing/`, `Final output/` — are fixed conventions baked into the pipeline. Every module folder that the pipeline manages MUST follow this layout. The tool creates these subfolders on demand; users should not rename them.
 
 ### 3.2 Source Files
 
-#### Video files
+#### Video recordings
 
 Source videos may have the date in any position and any format. `source-normalisation` extracts the date, assigns a lecture number by date order, and produces the provisional title by stripping the date, day names (Mon–Sun), configured module prefixes (e.g. `BOD_`, `Biology of Disease -`), any embedded lecture-number token (e.g. `Lecture 1`, which would otherwise duplicate the assigned number), and trailing artefacts (`co`, `copy`) from the original filename, keeping the lecturer's capitalisation as typed. The separators left behind by those removals go too, so a name `source-normalisation` itself produced reads back as the title it was built from: `Lecture 1 - Cell Injury - 2025-10-10.mp4` gives `Cell Injury`, which is how a lecture renamed by a run that stopped before writing its manifest keeps its title on the next one.
 
@@ -100,7 +100,7 @@ The provisional title is a best-effort guess from whatever the filename happens 
 | Meaningful (lecturer's title kept) | `Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10.mp4` *(unchanged)* |
 | Not meaningful (replaced by `transcript-structuring`) | `Lecture 1 - Innate Immune Response - 2025-10-10.mp4` *(renamed by `transcript-structuring`)* |
 
-#### Lecture slides
+#### Slide decks
 
 Slide PDFs are supplied with the date at the very beginning of the filename (e.g. `2025-10-10 Lecture slides.pdf`). `source-normalisation` matches each slide to the video with the same date and renames it on the same schedule as the video.
 
@@ -990,7 +990,7 @@ A prompt module has no test file of its own. Its builder is a pure assembly whos
 
 **Runs across all lectures in the module at once, not per-lecture**, and is re-run over the module's life as new lectures are added (they arrive weekly). Each run is a full pass over whatever sources are currently present. Whole-module scope is required because lecture numbers are sequential by date across the module: a newly added, earlier-dated lecture shifts later numbers, so correct numbering and collision-safe renumbering are impossible lecture-in-isolation.
 
-**Inputs:** All files in `Source files/Video files/` and `Source files/Lecture slides/`.
+**Inputs:** All files in `Source files/Video recordings/` and `Source files/Slide decks/`.
 
 **Identity and source of truth.** A lecture is identified by its **date** (unique within a module, enforced below). The **filesystem is authoritative for a lecture's existence**: adding a lecture means dropping its `video + slide` into the source folders, which `source-normalisation` picks up on the next run. The **manifest is authoritative for a lecture's title, cost, and history**. Because the two must never drift, **identity changes — rename, delete, change date — are made only through the CLI** (§4.7), which drives the same `source-normalisation` machinery and updates manifest and filesystem together. The user is instructed never to rename, move, or delete sources or workspaces directly; only *adding* a pair is done by dropping files. The sole guard against an accidental direct deletion is orphaned workspace handling (below).
 
@@ -1045,7 +1045,7 @@ same files onto the same names a normalisation would give them (§4.7).
 
 ### `audio-extraction` — Audio Extraction
 
-**Input:** `Source files/Video files/Lecture N - YYYY-MM-DD.mp4`
+**Input:** `Source files/Video recordings/Lecture N - YYYY-MM-DD.mp4`
 **Output:** `Audio/audio.m4a`
 
 Extracts the audio track from the video using fluent-ffmpeg with `-acodec copy` (no re-encoding). Displays a `cli-progress` bar showing extraction percentage. The extracted audio is retained in `Audio/` for the life of the lecture workspace.
@@ -1414,7 +1414,7 @@ createTranscriptVerificationStage(args: { logger: Logger; client: OpenRouterClie
 
 ### `slide-conversion` — Slide Conversion
 
-**Input:** `Source files/Lecture slides/Lecture N - [Title] - YYYY-MM-DD.pdf`
+**Input:** `Source files/Slide decks/Lecture N - [Title] - YYYY-MM-DD.pdf`
 **Output:** `Slide content/raw/slide-{003d}.md` (one per slide), `Slide content/slides.md` (concatenated)
 
 #### Approach: Vision LLM per slide

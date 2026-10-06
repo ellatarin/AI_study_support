@@ -60,8 +60,8 @@ The two keys fail differently, which matters when reading an error: transcriptio
 `source-normalisation` validates the **whole module** before touching anything, and refuses to proceed unless every video has a parseable date and a 1:1 slide match by date:
 
 ```
-<moduleRoot>/Source files/Video files/<something with a date>.mp4
-<moduleRoot>/Source files/Lecture slides/<same date>.pdf
+<moduleRoot>/Source files/Video recordings/<something with a date>.mp4
+<moduleRoot>/Source files/Slide decks/<same date>.pdf
 ```
 
 ### 2.3 Filename dates
