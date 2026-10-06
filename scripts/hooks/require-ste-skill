@@ -11,10 +11,9 @@
  * the skill loaded.
  */
 
-import fs from "node:fs";
 import { readPayloadFromStdin } from "./lib/hook-payload.mjs";
 import { OVERRIDE_HINT } from "./lib/search-guidance.mjs";
-import { transcriptLoadsSkill } from "./lib/skill-load.mjs";
+import { readEditorRecord, transcriptLoadsSkill } from "./lib/skill-load.mjs";
 import { STE_SKILL_NAME, writesProse } from "./lib/ste-prose.mjs";
 import { acceptOverride } from "./lib/tool-override.mjs";
 
@@ -28,12 +27,7 @@ if (!writesProse({ filePath, toolInput: payload.tool_input ?? {} })) {
 	process.exit(0);
 }
 
-let transcriptText = "";
-try {
-	transcriptText = fs.readFileSync(String(payload.transcript_path), "utf8");
-} catch {
-	transcriptText = "";
-}
+const transcriptText = readEditorRecord({ payload });
 if (transcriptLoadsSkill({ transcriptText, skillName: STE_SKILL_NAME })) {
 	process.exit(0);
 }

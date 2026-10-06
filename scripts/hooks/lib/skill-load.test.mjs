@@ -1,5 +1,8 @@
-import { describe, expect, it } from "vitest";
-import { transcriptLoadsSkill } from "./skill-load.mjs";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { readEditorRecord, transcriptLoadsSkill } from "./skill-load.mjs";
 
 /**
  * One session record line in which the assistant calls the Skill tool.
@@ -54,5 +57,55 @@ describe("transcriptLoadsSkill", () => {
 		const transcriptText = lines.join("\n");
 
 		expect(transcriptLoadsSkill({ transcriptText, skillName: "asd-ste100" })).toBe(expected);
+	});
+});
+
+describe("readEditorRecord", () => {
+	const sessionId = "session-1";
+	const agentId = "agent-1";
+	let projectFolder = "";
+	let transcriptPath = "";
+
+	beforeEach(() => {
+		projectFolder = fs.mkdtempSync(path.join(os.tmpdir(), "skill-record-"));
+		transcriptPath = path.join(projectFolder, `${sessionId}.jsonl`);
+		fs.writeFileSync(transcriptPath, "main session");
+	});
+
+	afterEach(() => {
+		fs.rmSync(projectFolder, { recursive: true, force: true });
+	});
+
+	/**
+	 * Writes an agent's session record below the session's subagents folder.
+	 *
+	 * @param {string[]} folders - The folders between the subagents folder and the record.
+	 */
+	function writeAgentRecord(folders) {
+		const folder = path.join(projectFolder, sessionId, "subagents", ...folders);
+		fs.mkdirSync(folder, { recursive: true });
+		fs.writeFileSync(path.join(folder, `agent-${agentId}.jsonl`), "agent");
+	}
+
+	it("should return the main session's record when the edit has no agent", () => {
+		const payload = { session_id: sessionId, transcript_path: transcriptPath };
+
+		expect(readEditorRecord({ payload })).toBe("main session");
+	});
+
+	it.each([
+		{ folders: [], why: "the agent's record is in the subagents folder" },
+		{ folders: ["workflows", "run-1"], why: "the agent's record is in a workflow run folder" },
+	])("should return the agent's own record when $why", ({ folders }) => {
+		writeAgentRecord(folders);
+		const payload = { session_id: sessionId, transcript_path: transcriptPath, agent_id: agentId };
+
+		expect(readEditorRecord({ payload })).toBe("agent");
+	});
+
+	it("should return an empty record when the agent's record is missing", () => {
+		const payload = { session_id: sessionId, transcript_path: transcriptPath, agent_id: agentId };
+
+		expect(readEditorRecord({ payload })).toBe("");
 	});
 });
