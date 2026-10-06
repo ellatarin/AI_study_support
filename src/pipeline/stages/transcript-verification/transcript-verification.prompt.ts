@@ -1,24 +1,16 @@
 /**
- * `transcript-verification`'s prompt: the fidelity-assessment method, stated as chat messages.
- *
- * Kept beside the stage rather than inside it so that prompt changes — the part
- * iterated on hardest once real lectures run — read as their own diffs
- * (technical-design.md §5, "Where prompts live").
+ * The messages that `transcript-verification` sends: the assessment method and the
+ * shape of the reply (technical-design.md §5, `transcript-verification` and "Where
+ * prompts live").
  */
 
 import type OpenAI from "openai";
 
 /**
- * The assessment method, exactly as it was written by hand.
- *
- * This is the prompt that produced the assessments committed in `docs/quality/`,
- * carried over word for word. It is quoted rather than paraphrased because those
- * assessments are the calibration corpus every later change to this stage is
- * measured against: reword the method and the corpus stops describing what the
- * stage does, so a change in the findings could no longer be attributed to the
- * change that caused it (technical-design.md §5, `transcript-verification`).
- *
- * Edit it only deliberately, and expect to re-read the corpus when you do.
+ * The assessment method. It is the prompt that made the assessments in
+ * `docs/quality/`, copied word for word. Those assessments are the measure for
+ * each change to this stage (technical-design.md §5, `transcript-verification`).
+ * After a change to the assessment method, read the assessments again.
  */
 const ASSESSMENT_METHOD = `I want you to make a detailed assessment of the structured transcript and transcript files to see if any concepts have been lost or underexplained in the structured version. Please make a report.
 Approach:
@@ -31,19 +23,12 @@ Approach:
 `;
 
 /**
- * The reply contract, restated in the prompt.
- *
- * The only thing appended to the method above, and it adds no judgement: it says
- * how to write down findings the method has already decided on. The category
- * names translate the method's own words into the shared vocabulary every
- * checker reports in — "lost" is an `omission`, the reverse-direction check
- * yields an `unsourced-addition` — so two stages cannot end up naming the same
- * fault differently (`QaDeficiencyType`, technical-design.md §5, `qa-loop`). The prose
- * categories that union also carries are deliberately absent: this call compares
- * two transcripts and has no notes to judge the writing of.
- *
- * JSON mode alone does not guarantee the shape, and OpenRouter documents that a
- * JSON-mode call must ask for JSON in its messages too (technical-design.md §6).
+ * The shape of the reply, stated in the prompt. It is the only text that the
+ * system message adds to the assessment method, and it adds no judgement. It maps
+ * the words of the method to the deficiency types that every checker uses
+ * (technical-design.md §5, `qa-loop`).
+ * JSON mode does not fix the shape, and a JSON-mode call must also ask for JSON in
+ * its messages (technical-design.md §6).
  */
 const REPLY_CONTRACT = `Reply with a single JSON object and nothing else, in this exact shape:
 
@@ -79,13 +64,13 @@ Items you classify as preserved or as compressed but intact are not findings and
 
 Order "deficiencies" by severity, most severe first.`;
 
-/* jscpd:ignore-start -- the division stages build their messages in this same
-   shape; this stage is kept untouched until it is deleted. */
+/* jscpd:ignore-start -- the division stages build their messages in the same
+   shape. This stage keeps its code with no change until the stage is deleted. */
 /**
- * Builds the messages for `transcript-verification`'s single call.
+ * Builds the messages of the one model call of `transcript-verification`.
  *
- * @param args - The two versions being compared.
- * @param args.transcriptText - The raw transcript from `transcription`.
+ * @param args - The transcript and the structured transcript.
+ * @param args.transcriptText - The transcript from `transcription`.
  * @param args.structuredTranscriptText - The structured transcript from `transcript-structuring`.
  * @returns The chat messages to send.
  */

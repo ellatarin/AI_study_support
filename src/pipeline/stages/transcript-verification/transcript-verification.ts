@@ -1,8 +1,7 @@
-/* jscpd:ignore-start -- every stage pulls in the same pipeline types, error, and
-   file helpers, so sibling stages' import blocks match line for line. There is
-   nothing to extract: imports cannot be shared, and barrel files are forbidden
-   (CLAUDE.md, File Organisation). Only the imports are exempt; the code below is
-   checked as normal. */
+/* jscpd:ignore-start -- every stage imports the same pipeline types, error and
+   file helpers. So the import blocks of sibling stages are the same line for
+   line. Imports cannot be shared, and CLAUDE.md (File Organisation) forbids
+   barrel files. Only the imports are exempt. jscpd checks the code below. */
 import { readFile } from "node:fs/promises";
 import {
 	QA_SEVERITIES,
@@ -28,47 +27,39 @@ import { renderVerificationReportMarkdown } from "./transcript-verification.view
 /* jscpd:ignore-end */
 
 /**
- * Thrown when the structured transcript cannot be verified: either version is
- * missing or empty, or the checker's reply is not the documented report.
- *
- * A report full of deficiencies is emphatically NOT one of these — that is the stage
- * working. Nothing about a verdict fails this stage (technical-design.md §5,
- * `transcript-verification`).
+ * The error when the transcript or the structured transcript is missing or holds
+ * no text, or when the reply is unusable. A verdict never causes it
+ * (technical-design.md §5, `transcript-verification`).
  */
 export class TranscriptVerificationError extends NamedError {}
 
-/** The two versions `transcript-verification` compares. */
+/** The transcript and the structured transcript that `transcript-verification` compares. */
 export type TranscriptVerificationInput = {
-	/** The full text of `Transcript/transcript.txt`, as `transcription` wrote it. */
+	/** The full text of `Transcript/transcript.txt`. */
 	readonly transcriptText: string;
-	/** The full text of `Structured transcript/structured-transcript.md`, as `transcript-structuring` wrote it. */
+	/** The full text of `Structured transcript/structured-transcript.md`. */
 	readonly structuredTranscriptText: string;
 };
 
-/** Where this stage's report landed, and how much it found. */
+/** The path of the verification report, and the number of deficiencies in it. */
 export type TranscriptVerificationOutput = {
-	/** Absolute path to the written `Transcript verification/verification-report.json`. */
+	/** The absolute path of `Transcript verification/verification-report.json`. */
 	readonly verificationReportPath: string;
-	/**
-	 * How many deficiencies the report carries. Surfaced so the runner can say what
-	 * the stage did without reading the file — and never acted on: no count
-	 * fails a stage or a run (technical-design.md §5, `transcript-verification`).
-	 */
+	/** No count of deficiencies fails a stage or a pipeline run (technical-design.md §5, `transcript-verification`). */
 	readonly deficiencyCount: number;
 };
 
 const STAGE_ID = "transcript-verification";
 
-/** How the report is indented on disk: written for a person to read, not only a parser. */
+/** The indent of the verification report on disk. A person reads the file, as well as a parser. */
 const REPORT_INDENT = 2;
 
 /**
- * The deficiency types this stage's checker may report.
- *
- * The faithfulness half of `QaDeficiencyType`. The prose fault types are absent
- * because this call compares two transcripts and has no notes to judge the
- * writing of, and a checker offered a deficiency type it cannot judge will find one
- * (technical-design.md §5, `qa-loop`).
+ * The deficiency types that the checker of this stage can report: the faults of
+ * faithfulness, and `other`. The prose faults are not offered, because this call
+ * has no notes to judge the prose of (technical-design.md §5, `qa-loop`). A
+ * checker that is offered a deficiency type it cannot judge will report a
+ * deficiency of that type.
  */
 const VERIFICATION_TYPES = new Set([
 	"omission",
@@ -78,24 +69,20 @@ const VERIFICATION_TYPES = new Set([
 	"other",
 ]);
 
-/** The severities a deficiency may carry, as `QA_SEVERITIES` declares them. */
 const SEVERITIES = new Set<string>(QA_SEVERITIES);
 
-/* jscpd:ignore-start -- the division stages share this reader as stage-input.ts;
-   this stage keeps its own copy, untouched, until the stage is deleted. */
+/* jscpd:ignore-start -- the division stages share this reader in stage-input.ts.
+   This stage keeps its own copy, with no change, until the stage is deleted. */
 /**
- * Reads one of the two versions being compared, insisting it holds text.
+ * Reads the output file of an earlier stage. The two reads of this stage share
+ * one function, so that the two messages for a missing file cannot become
+ * different.
  *
- * Both reads are the same act against a different stage's output, so they are
- * one function: written twice, the two could drift into reporting a missing
- * file differently, and which file is missing is the whole content of the
- * message.
- *
- * @param args - Which stage's output to read, and for whom.
- * @param args.context - The current lecture run context.
- * @param args.stageId - The stage whose output file to read; only a stage that writes one.
- * @param args.producedBy - How to name the stage in a failure the user reads.
- * @returns The file's text.
+ * @param args - The stage context, and the stage whose output to read.
+ * @param args.context - The stage context.
+ * @param args.stageId - The stage whose output file to read. Only a stage that writes one.
+ * @param args.producedBy - The name of that stage in the message for a missing file.
+ * @returns The text of the file.
  * @throws {TranscriptVerificationError} If the file is missing or holds no text.
  */
 async function readStageText({
@@ -126,11 +113,11 @@ async function readStageText({
 /* jscpd:ignore-end */
 
 /**
- * Reads both versions the checker compares.
+ * Reads the transcript and the structured transcript that the checker compares.
  *
- * @param context - The current lecture run context.
- * @returns The raw transcript and the structured one.
- * @throws {TranscriptVerificationError} If either is missing or holds no text.
+ * @param context - The stage context.
+ * @returns The transcript and the structured transcript.
+ * @throws {TranscriptVerificationError} If either file is missing or holds no text.
  */
 async function readBothVersions(context: StageContext): Promise<TranscriptVerificationInput> {
 	return {
@@ -148,11 +135,10 @@ async function readBothVersions(context: StageContext): Promise<TranscriptVerifi
 }
 
 /**
- * Whether a value is the `{ evidence, location }` pair that names the source
- * passage a deficiency is about.
+ * Checks that a parsed value is a source passage.
  *
- * @param value - The parsed value to check.
- * @returns `true` when both fields are present as strings.
+ * @param value - The parsed value.
+ * @returns `true` when `evidence` and `location` are both strings.
  */
 function isSourcePassage(value: unknown): value is QaSourcePassage {
 	return (
@@ -161,16 +147,14 @@ function isSourcePassage(value: unknown): value is QaSourcePassage {
 }
 
 /**
- * Whether a parsed deficiency carries every documented field, with a deficiency
- * type this stage's checker was actually offered.
+ * Checks that a parsed deficiency has every field, and a deficiency type that
+ * the checker of this stage was offered. A deficiency of another deficiency type
+ * makes the reply unusable, for two reasons. The model judged something that the prompt did
+ * not ask for. Also, a report can be compared with the assessments in
+ * `docs/quality/` only if it uses their deficiency types.
  *
- * A deficiency type outside the offered set is rejected rather than passed through: it
- * means the model answered about something it was not asked to judge, and a
- * report is only comparable with the committed assessments if its vocabulary is
- * the one they use.
- *
- * @param value - The parsed deficiency to check.
- * @returns `true` when the value is a usable {@link QaDeficiency}.
+ * @param value - The parsed deficiency.
+ * @returns `true` when the value is a {@link QaDeficiency}.
  */
 function isDeficiency(value: unknown): value is QaDeficiency {
 	if (!isRecord(value)) {
@@ -190,20 +174,20 @@ function isDeficiency(value: unknown): value is QaDeficiency {
 }
 
 /**
- * Whether a parsed entry is something the checker examined and cleared.
+ * Checks that a parsed entry is a consideration.
  *
- * @param value - The parsed entry to check.
- * @returns `true` when the value is a usable {@link QaConsideration}.
+ * @param value - The parsed entry.
+ * @returns `true` when the value is a {@link QaConsideration}.
  */
 function isConsideration(value: unknown): value is QaConsideration {
 	return isRecord(value) && isSourcePassage(value.source) && typeof value.whyNotRaised === "string";
 }
 
 /**
- * Whether a parsed reply is the documented report.
+ * Checks that a parsed reply is a verification report.
  *
- * @param value - The parsed reply to check.
- * @returns `true` when the value is a usable {@link QaCheckerReport}.
+ * @param value - The parsed reply.
+ * @returns `true` when the value is a {@link QaCheckerReport}.
  */
 function isCheckerReport(value: unknown): value is QaCheckerReport {
 	if (!isRecord(value)) {
@@ -220,30 +204,27 @@ function isCheckerReport(value: unknown): value is QaCheckerReport {
 	);
 }
 
-/** The report's shape in words, for the failure a user reads when a reply is not one. */
+/** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPORT_SHAPE =
 	"{ overallVerdict, coverageScore, deficiencies, considered } report";
 
 /**
- * Compares the structured transcript with the raw one and writes what the
- * checker found, both as the stored report and as a page a person reads
- * (technical-design.md §5, `transcript-verification`).
+ * Compares the structured transcript with the transcript in one model call. It
+ * writes the verification report and the verification report Markdown
+ * (technical-design.md §5, `transcript-verification`). The stage completes
+ * whatever the verdict is, because the report only tells the user. It does not
+ * gate the pipeline run.
  *
- * The verdict is recorded and never acted on. A report saying the structuring
- * lost half the lecture completes exactly as a clean one does: this stage exists
- * to tell the user something, and a checker that can stop a run is one whose
- * false positives cost them the run.
- *
- * @param args - The run inputs.
- * @param args.input - The two versions to compare.
- * @param args.context - The current lecture run context.
- * @param args.logger - The run's logger, on which the model call is recorded.
- * @param args.client - The OpenAI client the completion goes through.
- * @param args.sendGate - The run's turns to send, which the call waits on.
- * @returns The report's path, how much it found, the call's cost, and both files written.
- * @throws {TranscriptVerificationError} If the reply is not the documented report.
+ * @param args - The input, the stage context and the dependencies of the stage.
+ * @param args.input - The transcript and the structured transcript.
+ * @param args.context - The stage context.
+ * @param args.logger - The logger that records the model call.
+ * @param args.client - The OpenRouter client that sends the call.
+ * @param args.sendGate - The send gate of this stage run. The model call waits on it.
+ * @returns The report path, the number of deficiencies, the cost of the call and the two files written.
+ * @throws {TranscriptVerificationError} If the reply is unusable.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only writes log lines to it. CLAUDE.md permits a mutable type that a library requires.
 async function verifyTranscript({
 	input,
 	context,
@@ -273,8 +254,6 @@ async function verifyTranscript({
 		content: JSON.stringify(report, null, REPORT_INDENT),
 		markdownVersion: renderVerificationReportMarkdown({ report }),
 	});
-	// Recorded, not acted on: the count says what the stage found, and the stage
-	// completes whatever it is.
 	logger.info(
 		{ deficiencies: report.deficiencies.length, verdict: report.overallVerdict },
 		"Transcript verified",
@@ -287,11 +266,8 @@ async function verifyTranscript({
 }
 
 /**
- * Builds `transcript-verification`, which compares `Structured transcript/structured-transcript.md`
- * with the `Transcript/transcript.txt` it was made from and writes
- * `Transcript verification/verification-report.json`, with the verification
- * report Markdown, `verification-report.md`, beside it (technical-design.md §5, `transcript-verification`),
- * from the run's logger and the invocation's OpenAI client.
+ * Builds the `transcript-verification` stage from the logger and the OpenRouter
+ * client of the invocation (technical-design.md §5, `transcript-verification`).
  */
 export const createTranscriptVerificationStage: ModelStageFactory<
 	TranscriptVerificationInput,

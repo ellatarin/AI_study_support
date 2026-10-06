@@ -1,10 +1,7 @@
 /**
- * `transcript-structuring`'s prompt: the title judgement and the transcript-structuring rules,
- * stated as chat messages.
- *
- * Kept beside the stage rather than inside it so that prompt changes — the part
- * iterated on hardest once real lectures run — read as their own diffs
- * (technical-design.md §5, "Where prompts live").
+ * The messages that `transcript-structuring` sends: the title judgement and the
+ * structuring rules (technical-design.md §5, `transcript-structuring` and "Where
+ * prompts live").
  */
 
 import type OpenAI from "openai";
@@ -12,9 +9,8 @@ import type { OutputLanguage } from "../../../types/pipeline.js";
 import { languageRule } from "../../../utils/language.js";
 
 /**
- * The reply contract, restated in the prompt. JSON mode alone does not
- * guarantee the shape, and OpenRouter documents that a JSON-mode call must ask
- * for JSON in its messages too (technical-design.md §6).
+ * The shape of the reply, stated in the prompt. JSON mode does not fix the shape,
+ * and a JSON-mode call must also ask for JSON in its messages (technical-design.md §6).
  */
 const REPLY_CONTRACT = `Reply with a single JSON object and nothing else, in this exact shape:
 
@@ -25,18 +21,13 @@ const REPLY_CONTRACT = `Reply with a single JSON object and nothing else, in thi
 }`;
 
 /**
- * What the model is asked to do, and the rules it must follow.
+ * Gives the task of the model and its rules. The language rule does not break
+ * the rule "Add nothing that is not in the transcript". It sets only the spelling,
+ * and the transcript has no spelling of its own (technical-design.md §5,
+ * `transcript-structuring`, "Transcript Structuring").
  *
- * The language rule sits alongside "add nothing that is not in the transcript"
- * and does not contradict it, because it corrects rather than adds: speech
- * carries no spelling, so the transcript's spelling is the transcriber's rather
- * than the lecturer's, and `transcription` cannot influence it — ElevenLabs takes an
- * ISO-639-1 or ISO-639-3 language code, neither of which can express a regional
- * variant, so `eng` names English and nothing more. An LLM call is the first
- * point in the pipeline at which the output's language can be chosen at all.
- *
- * @param language - The configured language every prose stage writes in.
- * @returns The system prompt's role and rules.
+ * @param language - The language of the notes, from `finalOutput.language`.
+ * @returns The role and the rules of the system message.
  */
 function roleAndRules(language: OutputLanguage): string {
 	return `You are preparing a university lecture transcript for study use. You do two things in one pass: judge the lecture's working title, and structure the transcript.
@@ -58,12 +49,12 @@ Put the structured transcript in "structuredMarkdown", following these rules:
 }
 
 /**
- * Builds the messages for `transcript-structuring`'s single call.
+ * Builds the messages of the one model call of `transcript-structuring`.
  *
- * @param args - What the model is being asked to judge and structure.
- * @param args.transcriptText - The raw transcript from `transcription`.
- * @param args.provisionalTitle - The title `source-normalisation` derived from the filename; may be empty.
- * @param args.language - The configured language the structured transcript is written in.
+ * @param args - The title to judge and the transcript to structure.
+ * @param args.transcriptText - The transcript from `transcription`.
+ * @param args.provisionalTitle - The provisional title. It can be empty.
+ * @param args.language - The language of the structured transcript, from `finalOutput.language`.
  * @returns The chat messages to send.
  */
 export function buildStructuringMessages({

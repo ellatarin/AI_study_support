@@ -28,13 +28,14 @@ import { createTranscriptVerificationStage } from "./transcript-verification.js"
 const STAGE_ID = "transcript-verification";
 
 /**
- * Where the report belongs, spelled out rather than derived from the layout the
- * stage itself uses: the folder and file names are what the user goes looking
- * for, so a test that rebuilt them could not notice them changing.
+ * The path of the verification report in the workspace. The test writes the path
+ * in full, and does not take it from the layout. The user expects to find these
+ * names. A path from the layout would change with the layout, and the test would
+ * not see the change.
  */
 const REPORT_LOCATION = join("Transcript verification", "verification-report.json");
 
-/** Where the reader's view of that report belongs, spelled out for the same reason. */
+/** The path of the verification report Markdown, written in full for the same reason. */
 const VIEW_LOCATION = join("Transcript verification", "verification-report.md");
 
 describe("transcript verification against a real module tree", () => {
@@ -59,7 +60,7 @@ describe("transcript verification against a real module tree", () => {
 		await rm(tempDir, { recursive: true, force: true });
 	});
 
-	/** Writes the lecture's manifest and returns the context built from it. */
+	/** Writes the manifest of the lecture, and gives the stage context built from it. */
 	async function prepareLecture(): Promise<StageContext> {
 		const manifest = makeManifest();
 		await writeManifest({ workspaceRoot, manifest });
@@ -70,7 +71,7 @@ describe("transcript verification against a real module tree", () => {
 		});
 	}
 
-	/** Runs the stage the way the runner would, against the prepared lecture. */
+	/** Runs the stage on the prepared lecture, as the runner does. */
 	async function runStage(): ReturnType<typeof driveStage> {
 		return driveStage({
 			stage: createTranscriptVerificationStage({
@@ -82,9 +83,9 @@ describe("transcript verification against a real module tree", () => {
 	}
 
 	/**
-	 * Everything the request put in front of the model, as one searchable string.
-	 * The messages' own text, not the encoded request: a JSON-escaped body holds
-	 * no newline a transcript could be found by.
+	 * Gives the text of the sent messages as one string. The test searches this
+	 * text, not the request body, because the JSON body escapes each newline of the
+	 * transcript.
 	 */
 	function sentToModel(): string {
 		const messages = sentRequest().messages as readonly { readonly content: string }[];

@@ -36,15 +36,15 @@ describe("transcript structuring against a real module tree", () => {
 	let workspaceRoot: string;
 	let sentRequest: () => Record<string, unknown>;
 
-	/** The workspace a lecture with `baseName` occupies in this module. */
+	/** The workspace path of a lecture with this base name in the module. */
 	const workspaceNamed = (baseName: string): string => workspaceRootFor({ moduleRoot, baseName });
 
-	/** Mocks the completion, capturing what was sent. */
+	/** Stubs the reply, and keeps the request that the stage sends. */
 	function mockModelReply(reply: Record<string, unknown>): void {
 		sentRequest = stubModelReply(reply);
 	}
 
-	/** A reply whose title judgement keeps or rejects the provisional title. Every title test uses both cases. */
+	/** A reply whose title judgement keeps or rejects the provisional title. */
 	function titleJudgement(meaningful: boolean): Record<string, unknown> {
 		return structuringReply(meaningful ? titleKept : titleRejected);
 	}
@@ -63,7 +63,7 @@ describe("transcript structuring against a real module tree", () => {
 		await rm(tempDir, { recursive: true, force: true });
 	});
 
-	/** Writes the lecture's manifest and returns the context built from it. */
+	/** Writes the manifest of the lecture, and gives the stage context built from it. */
 	async function prepareLecture(overrides: Partial<Manifest> = {}): Promise<StageContext> {
 		const manifest = makeManifest(overrides);
 		await writeManifest({ workspaceRoot, manifest });
@@ -140,8 +140,8 @@ describe("transcript structuring against a real module tree", () => {
 		expect(await runStage(await prepareLecture())).toEqual(decided);
 	});
 
-	// The lecture's own manifest is on disk throughout, so a stage that wrote one
-	// would be caught here rather than only in the unit suite (§4.2).
+	// The manifest of the lecture is on disk in this suite. So this test finds a
+	// stage that writes the manifest (technical-design.md §4.2).
 	it.each([
 		{ meaningful: false },
 		{ meaningful: true },

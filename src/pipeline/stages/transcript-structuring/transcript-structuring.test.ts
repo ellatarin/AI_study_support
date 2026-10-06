@@ -39,8 +39,8 @@ import {
 	TranscriptStructuringError,
 } from "./transcript-structuring.js";
 
-// Only the call is stubbed; everything else the module exports — the endpoint
-// paths the fixtures build their URLs from — stays real.
+// The suite stubs only the model call. The other exports stay real, because the
+// fixtures build their URLs from the endpoint paths.
 vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 	...(await importOriginal()),
 	callModel: vi.fn(),
@@ -48,7 +48,7 @@ vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 
 const modelCallMock = callModel as unknown as Mock;
 
-/** The lecture as `rename` leaves it: the user's title, already in force. */
+/** The lecture after `rename`. The user title is the lecture title. */
 const withUserTitle = { userTitle: testUserTitle, lectureTitle: testUserTitle };
 const COST: StageCost = {
 	promptTokens: 1200,
@@ -57,7 +57,7 @@ const COST: StageCost = {
 	costUsd: stubbedCostUsd,
 };
 
-/** A well-formed model reply, with the fields a test cares about overridden. */
+/** Stubs a usable reply. The overrides replace the fields that a test needs. */
 function stubReply(overrides: Readonly<Record<string, unknown>> = {}): void {
 	modelCallMock.mockResolvedValue({
 		content: JSON.stringify(structuringReply(overrides)),
@@ -69,7 +69,7 @@ describe("createTranscriptStructuringStage", () => {
 	const workspace = useTranscribedWorkspace({ prefix: "structuring-" });
 	const logged = useStubLogger();
 
-	/** The lecture workspace the current test is running against. */
+	/** The workspace of the current test. */
 	const workspaceRoot = (): string => workspace().workspaceRoot;
 
 	beforeEach(() => {
@@ -91,17 +91,17 @@ describe("createTranscriptStructuringStage", () => {
 		});
 	}
 
-	/** The stage under test, logging into {@link logged}. */
+	/** The stage under test. It logs into {@link logged}. */
 	function makeStage(): ReturnType<typeof createTranscriptStructuringStage> {
 		return createTranscriptStructuringStage({
 			logger: logged().logger,
-			// The model call is mocked wholesale in this suite, so the client is
-			// never reached; it is here because the stage requires one.
+			// The suite stubs the model call, so the stage never uses the client.
+			// The stage requires one.
 			client: openRouterClientFor({ config: exampleConfig }),
 		});
 	}
 
-	/** The outcome the stage recorded for the lecture's title. */
+	/** The outcome that the stage logged for the lecture title. */
 	function decidedTitleOutcome(): unknown {
 		const [entry] = loggedAt({ entries: logged().entries, level: "debug" }).filter(
 			(logEntry) => logEntry.message === "Decided lecture title",
@@ -113,7 +113,7 @@ describe("createTranscriptStructuringStage", () => {
 		return driveStage({ stage: makeStage(), context });
 	}
 
-	/** Whether the stage left a manifest anywhere it might have written one. */
+	/** Checks for a manifest at the workspace path before and after a title change. */
 	async function anyManifestWritten(): Promise<boolean> {
 		const baseNames = [testLecture.baseName, aiDerivedLecture.baseName];
 		const written = await Promise.all(
@@ -159,9 +159,9 @@ describe("createTranscriptStructuringStage", () => {
 		expect(sent).toContain(testLecture.title);
 	});
 
-	// The transcript's spelling is the transcriber's, not the lecturer's, so this
-	// is the first point in the pipeline where the output's language is chosen at
-	// all. Both rows matter: one language would leave the config setting unproven.
+	// The model call of `transcript-structuring` is the first in the pipeline that sets the language of the output
+	// (technical-design.md §5, `transcript-structuring`). Two languages prove that
+	// the stage reads the config setting.
 	it.each([
 		{ language: "en-GB", instruction: "British English" },
 		{ language: "en-US", instruction: "American English" },
@@ -208,9 +208,9 @@ describe("createTranscriptStructuringStage", () => {
 		expect(await pathExists(workspaceRoot())).toBe(true);
 	});
 
-	// The runner hands a stage the context as it stood before the stage began, so a
-	// stage writing the manifest back reverts its own `running` entry (§4.2).
-	// `transcript-structuring` decides the lecture's identity and is the likeliest stage to try; it must not.
+	// The stage context holds the manifest from before the stage started. So a stage
+	// that writes the manifest reverts its own `running` entry (technical-design.md
+	// §4.2). This stage decides the lecture identity, so it is the stage most likely to write the manifest.
 	it.each([
 		{ what: "the provisional title stands", reply: titleKept },
 		{ what: "the title is replaced", reply: titleRejected },
@@ -269,9 +269,8 @@ describe("createTranscriptStructuringStage", () => {
 			expect(result.output.lectureTitle).toBe(testUserTitle);
 		});
 
-		// The stage decides `aiDerivedTitle` only. The user title holds, so
-		// `lectureTitle` and the base name on disk do not change. Deciding either
-		// would move files that already carry the user title.
+		// The user title holds, so the lecture title and the base name do not change.
+		// A change to either would move lecture files that carry the user title.
 		it("should decide only what the model derived when the lecture has a user title", async () => {
 			const result = await runStage(contextWith({ manifest: withUserTitle }));
 
@@ -286,8 +285,8 @@ describe("createTranscriptStructuringStage", () => {
 	});
 
 	describe("recording which way the title was decided", () => {
-		// Every later stage names its output from the title decided here, so which
-		// branch ran is the fact the debug log has to carry (§10).
+		// Every later stage names its output from this title. So the debug log must
+		// record the outcome (technical-design.md §10).
 		it.each([
 			{ outcome: "kept-provisional", reply: titleKept, manifest: {} },
 			{ outcome: "adopted-derived", reply: titleRejected, manifest: {} },

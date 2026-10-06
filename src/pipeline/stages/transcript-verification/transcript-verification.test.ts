@@ -1,8 +1,8 @@
 /* jscpd:ignore-start -- sibling stage suites import the same fixtures and mock the
-   same module, so their preambles match line for line. Neither half can move:
-   imports cannot be shared and barrel files are forbidden (CLAUDE.md, File
-   Organisation), and vi.mock is hoisted, so it must sit in the file that mocks.
-   Only the preamble is exempt; the suite below is checked as normal. */
+   same module. So their preambles are the same line for line. Imports cannot be
+   shared, and CLAUDE.md (File Organisation) forbids barrel files. vi.mock is
+   hoisted, so it must be in the file that mocks. Only the preamble is exempt.
+   jscpd checks the suite below. */
 import { rm } from "node:fs/promises";
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -39,7 +39,7 @@ import {
 	TranscriptVerificationError,
 } from "./transcript-verification.js";
 
-// Only the call is stubbed; everything else the module exports stays real.
+// The suite stubs only the model call. The other exports stay real.
 vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 	...(await importOriginal()),
 	callModel: vi.fn(),
@@ -58,9 +58,8 @@ const COST: StageCost = {
 };
 
 /**
- * Every way one of the two versions can leave the stage with nothing to compare:
- * each input absent, and each input present but blank. `contents` of `null` means
- * remove the file; anything else is written into it.
+ * Each input file, missing and with no text. A `contents` of `null` removes the
+ * file. Other contents replace the text of the file.
  */
 const UNUSABLE_INPUTS = [
 	{ stageId: "transcription", state: "missing", contents: null },
@@ -73,19 +72,19 @@ const UNUSABLE_INPUTS = [
 	readonly contents: string | null;
 }[];
 
-/** Sends back exactly this text as the checker's reply, whether or not it is a report. */
+/** Stubs a reply with this text, whether or not it is a report. */
 function stubRawReply(content: string): void {
 	modelCallMock.mockResolvedValue({ content, cost: COST });
 }
 
-/** A well-formed checker reply, with the fields a test is about replaced. */
+/** Stubs a usable reply. The overrides replace the fields that a test needs. */
 function stubReply(overrides: Readonly<Record<string, unknown>> = {}): void {
 	stubRawReply(JSON.stringify(verificationReply(overrides)));
 }
 
 /**
- * Unusable replies, each wrong in a different place: the reply as a whole, a top-level field, a deficiency, and a
- * consideration.
+ * Unusable replies. Each has its fault in a different place: the whole reply, a
+ * top-level field, a deficiency or a consideration.
  */
 const UNUSABLE_REPLIES = [
 	{ label: "not JSON at all", content: "The structuring looks faithful to me." },
@@ -117,15 +116,14 @@ const UNUSABLE_REPLIES = [
 ] as const satisfies readonly { readonly label: string; readonly content: string }[];
 
 /**
- * Every severity a deficiency can carry. The stage completes on all of them, so the
- * never-gates rule is stated across the whole scale rather than at its top.
+ * Every severity of a deficiency. The stage completes with each severity, so the
+ * test of the rule that the stage never gates the pipeline run covers all severities.
  */
 const SEVERITIES = ["critical", "major", "minor"] as const satisfies readonly QaSeverity[];
 
 /**
- * The deficiency types that judge the writing of the notes rather than faithfulness to
- * the source. This checker compares two transcripts and is never offered them,
- * so a reply carrying one is answering a question it was not asked.
+ * The prose fault types. The checker of this stage is not offered them, so a
+ * reply with one judges something that the prompt did not ask for.
  */
 const PROSE_FAULT_TYPES = [
 	"clarity",
@@ -138,7 +136,7 @@ describe("createTranscriptVerificationStage", () => {
 	const workspace = useTranscribedWorkspace({ prefix: "verification-" });
 	const logged = useStubLogger();
 
-	/** The lecture workspace the current test is running against. */
+	/** The workspace of the current test. */
 	const workspaceRoot = (): string => workspace().workspaceRoot;
 
 	beforeEach(async () => {
@@ -159,7 +157,7 @@ describe("createTranscriptVerificationStage", () => {
 		});
 	}
 
-	/** Runs the stage against a prepared workspace, the way the runner would. */
+	/** Runs the stage on the workspace, as the runner does. */
 	async function run(manifest: Partial<Manifest> = {}): ReturnType<typeof driveStage> {
 		const result = await driveStage({
 			stage: createTranscriptVerificationStage({
@@ -171,7 +169,7 @@ describe("createTranscriptVerificationStage", () => {
 		return result;
 	}
 
-	/** The report the stage wrote, parsed back off disk. */
+	/** Reads the verification report that the stage wrote. */
 	async function writtenReport(): Promise<QaCheckerReport> {
 		return (await readJsonFile(
 			stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID }),
@@ -232,8 +230,9 @@ describe("createTranscriptVerificationStage", () => {
 		expect(await captureError(run())).toBeInstanceOf(TranscriptVerificationError);
 	});
 
-	// A tuning parameter narrows routing to the providers that honour it, and this
-	// call wants the reasoning model's own defaults over a narrowed pool (A11.2d).
+	// Each tuning setting in a request limits the providers that can serve it. This
+	// model call of `transcript-verification` uses the defaults of the model instead (technical-design.md §5,
+	// `transcript-verification`, and A11.2d).
 	it("should send neither a temperature nor a token cap when the shipped example configures the stage", () => {
 		const { temperature, maxTokens } = exampleStageConfig(STAGE_ID);
 

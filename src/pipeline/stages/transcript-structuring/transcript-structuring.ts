@@ -1,8 +1,7 @@
-/* jscpd:ignore-start -- every stage pulls in the same pipeline types, error, and
-   file helpers, so sibling stages' import blocks match line for line. There is
-   nothing to extract: imports cannot be shared, and barrel files are forbidden
-   (CLAUDE.md, File Organisation). Only the imports are exempt; the code below is
-   checked as normal. */
+/* jscpd:ignore-start -- every stage imports the same pipeline types, error and
+   file helpers. So the import blocks of sibling stages are the same line for
+   line. Imports cannot be shared, and CLAUDE.md (File Organisation) forbids
+   barrel files. Only the imports are exempt. jscpd checks the code below. */
 import { readFile } from "node:fs/promises";
 import type { Logger } from "pino";
 import type { LectureIdentityChanges, StageContext, StageResult } from "../../../types/pipeline.js";
@@ -21,31 +20,29 @@ import { buildStructuringMessages } from "./transcript-structuring.prompt.js";
 /* jscpd:ignore-end */
 
 /**
- * Thrown when the transcript cannot be structured: it is missing or empty, the
- * model's reply is not the documented JSON object, or the model judged the
- * lecturer's title unusable yet proposed nothing that can stand in its place. A
- * cost that cannot be established is NOT one of these — cost telemetry never gates pipeline
- * progress (technical-design.md §5, `transcript-structuring`; §7).
+ * The error when the transcript is missing or holds no text, or when the reply
+ * is unusable. It is also the error when the model judges the provisional title
+ * not meaningful and proposes no usable title. An unknown cost does not cause it
+ * (technical-design.md §5, `transcript-structuring`, and §7).
  */
 export class TranscriptStructuringError extends NamedError {}
 
-/** The transcript `transcript-structuring` structures. */
+/** The transcript that `transcript-structuring` structures. */
 export type TranscriptStructuringInput = {
 	/** The full text of `Transcript/transcript.txt`. */
 	readonly transcriptText: string;
 };
 
-/** The structured transcript `transcript-structuring` produces, and the title it decided on. */
+/** The structured transcript that `transcript-structuring` writes, and the lecture title after it. */
 export type TranscriptStructuringOutput = {
-	/** Absolute path to the written `Structured transcript/structured-transcript.md`. */
+	/** The absolute path of `Structured transcript/structured-transcript.md`. */
 	readonly structuredTranscriptPath: string;
-	/** The lecture's title after this stage, which downstream stages name output from. */
 	readonly lectureTitle: string;
 };
 
 const STAGE_ID = "transcript-structuring";
 
-/** The object this stage's single call is contracted to return. */
+/** The reply that the prompt asks for. */
 type StructuringReply = {
 	readonly provisionalTitleMeaningful: boolean;
 	readonly suggestedTitle: string | null;
@@ -53,9 +50,9 @@ type StructuringReply = {
 };
 
 /**
- * Reads and validates the transcript `transcription` wrote.
+ * Reads the transcript that `transcription` wrote.
  *
- * @param context - The current lecture run context.
+ * @param context - The stage context.
  * @returns The transcript text.
  * @throws {TranscriptStructuringError} If the transcript is missing or holds no text.
  */
@@ -81,12 +78,12 @@ async function readTranscript(context: StageContext): Promise<TranscriptStructur
 }
 
 /**
- * Whether a parsed reply carries the three documented fields with the right
- * types. `suggestedTitle` is accepted as absent as well as `null`, since a model
- * omitting a null field means the same thing as sending one.
+ * Checks that a parsed reply has the three fields of the prompt, with the right
+ * types. An absent `suggestedTitle` is accepted, because a model that omits a
+ * null field means the same as one that sends it.
  *
- * @param value - The parsed reply to check.
- * @returns `true` when the value is a usable {@link StructuringReply}.
+ * @param value - The parsed reply.
+ * @returns `true` when the value is a {@link StructuringReply}.
  */
 function isStructuringReply(value: unknown): value is StructuringReply {
 	if (!isRecord(value)) {
@@ -100,16 +97,16 @@ function isStructuringReply(value: unknown): value is StructuringReply {
 	);
 }
 
-/** The reply's shape in words, for the failure a user reads when a reply is not one. */
+/** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE =
 	"{ provisionalTitleMeaningful, suggestedTitle, structuredMarkdown } object";
 
 /**
- * The title the model proposed, insisting it actually proposed one.
+ * Gives the AI-derived title from the reply.
  *
  * @param suggestedTitle - The title from the reply.
- * @returns The trimmed title.
- * @throws {TranscriptStructuringError} If nothing usable was proposed.
+ * @returns The title, with the whitespace at its ends removed.
+ * @throws {TranscriptStructuringError} If the reply has no title, or a title of only whitespace.
  */
 function requireSuggestedTitle(suggestedTitle: string | null): string {
 	if (suggestedTitle === null || suggestedTitle.trim() === "") {
@@ -121,9 +118,9 @@ function requireSuggestedTitle(suggestedTitle: string | null): string {
 }
 
 /**
- * Where the lecture stands once this stage has decided its title: the title itself,
- * the workspace's path (which the stage may just have moved), and the identity
- * the runner is to write into the manifest (technical-design.md §4.2).
+ * The lecture after the title is decided: the lecture title, the workspace path,
+ * and the identity changes for the runner to write (technical-design.md §4.2).
+ * The workspace path changes when the stage renames the lecture files.
  */
 type TitleResolution = {
 	readonly lectureTitle: string;
@@ -132,13 +129,13 @@ type TitleResolution = {
 };
 
 /**
- * The canonical base name for a lecture retitled by the model.
+ * Builds the base name of a lecture from its AI-derived title.
  *
  * @param args - The lecture and its new title.
- * @param args.context - The current lecture run context.
- * @param args.title - The model's proposed title.
- * @returns The base name the lecture's files are renamed onto.
- * @throws {TranscriptStructuringError} If the title has no characters usable in a filename.
+ * @param args.context - The stage context.
+ * @param args.title - The AI-derived title.
+ * @returns The base name that the lecture files move to.
+ * @throws {TranscriptStructuringError} If the title has no characters that a filename can use.
  */
 function deriveBaseName({
 	context,
@@ -161,18 +158,17 @@ function deriveBaseName({
 }
 
 /**
- * Adopts the model's title: moves the lecture's files onto the matching base
- * name, and decides the identity the runner will record.
+ * Makes the AI-derived title the lecture title. It moves the lecture files to the
+ * new base name, and gives the identity changes for the runner to write. The
+ * caller must write the structured transcript first, because the move changes the
+ * workspace path (technical-design.md §5, `transcript-structuring`, "Order of
+ * Operations"). The runner writes the manifest after the stage returns. The runner
+ * finds the workspace again by the lecture date (technical-design.md §4.2, §4.7).
  *
- * The rename comes after the structured transcript has been written, so that
- * write lands at a path that still exists; the manifest is the runner's to write
- * afterwards, and it re-locates the workspace by date to do it
- * (technical-design.md §5, `transcript-structuring`; §4.2, §4.7).
- *
- * @param args - The lecture and the title to adopt.
- * @param args.context - The current lecture run context.
- * @param args.aiDerivedTitle - The title the model proposed.
- * @returns The adopted title, the workspace's new path, and the identity decided.
+ * @param args - The lecture and its AI-derived title.
+ * @param args.context - The stage context.
+ * @param args.aiDerivedTitle - The AI-derived title.
+ * @returns The new lecture title, the new workspace path and the identity changes.
  */
 async function adoptDerivedTitle({
 	context,
@@ -200,27 +196,26 @@ async function adoptDerivedTitle({
 }
 
 /**
- * Decides the lecture's title on the model's judgement.
+ * Decides the lecture title from the title judgement of the model. There are
+ * three outcomes (technical-design.md §5, `transcript-structuring`):
  *
- * Three outcomes: the lecturer's title stands and nothing is decided; the user
- * has named the lecture themselves, so their title outranks the model's and only
- * `aiDerivedTitle` is decided; or the model's title is adopted and the lecture's
- * files move with it (technical-design.md §5, `transcript-structuring`).
+ * - The provisional title is meaningful. Nothing changes.
+ * - The lecture has a user title. Only the AI-derived title is recorded.
+ * - Otherwise the AI-derived title becomes the lecture title, and the lecture files move.
  *
- * Each outcome is logged, because which one happened is what explains the
- * lecture's name from here on: every later stage names its output from the title
- * decided here (technical-design.md §10).
+ * The debug log records the outcome, because every later stage names its output
+ * from this title (technical-design.md §10).
  *
- * @param args - The reply and the lecture it concerns.
- * @param args.reply - The model's parsed reply.
- * @param args.context - The current lecture run context.
- * @param args.logger - The stage's logger, which records which outcome was taken.
- * @returns The effective title, the workspace's path afterwards, and the identity for the runner to record.
- * @throws {TranscriptStructuringError} If a replacement is called for but none was proposed.
+ * @param args - The reply and its lecture.
+ * @param args.reply - The parsed reply.
+ * @param args.context - The stage context.
+ * @param args.logger - The logger that records the outcome.
+ * @returns The lecture title, the workspace path after the outcome, and the identity changes.
+ * @throws {TranscriptStructuringError} If the provisional title is not meaningful and the reply has no usable title.
  */
-// Only one of the three outcomes touches the disk; the other two resolve
-// immediately.
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// Only the outcome that adopts the AI-derived title waits on the disk. The outcomes
+// that keep the provisional title or the user title give a resolved promise at once.
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only writes log lines to it. CLAUDE.md permits a mutable type that a library requires.
 function decideTitle({
 	reply,
 	context,
@@ -231,10 +226,10 @@ function decideTitle({
 	readonly logger: Logger;
 }): Promise<TitleResolution> {
 	/**
-	 * The lecture as it stands, with nothing on disk moved.
+	 * Gives the lecture with its current title and workspace path.
 	 *
-	 * @param identityChanges - The identity the runner is to record, if any.
-	 * @returns The resolution for an outcome that renames nothing.
+	 * @param identityChanges - The identity changes for the runner to write.
+	 * @returns The resolution of an outcome that moves no lecture file.
 	 */
 	const whereItStands = (identityChanges: LectureIdentityChanges): Promise<TitleResolution> =>
 		Promise.resolve({
@@ -255,9 +250,8 @@ function decideTitle({
 		logger.debug({ aiDerivedTitle, outcome: "adopted-derived" }, "Decided lecture title");
 		return adoptDerivedTitle({ context, aiDerivedTitle });
 	}
-	// The user named this lecture, which outranks anything the model derives. What
-	// it derived is still recorded — it is a true fact about the transcript, and
-	// what the title falls back to were the user's ever cleared.
+	// A user title outranks the AI-derived title. The AI-derived title is still
+	// recorded (technical-design.md §5, `transcript-structuring`).
 	logger.debug(
 		{ aiDerivedTitle, lectureTitle: context.lectureTitle, outcome: "kept-user-title" },
 		"Decided lecture title",
@@ -266,21 +260,21 @@ function decideTitle({
 }
 
 /**
- * Structures the transcript and decides the lecture's title in a single call,
- * writing `Structured transcript/structured-transcript.md` and renaming the
- * lecture's files when the model replaces the title (technical-design.md §5,
- * `transcript-structuring`).
+ * Structures the transcript and decides the lecture title in one model call. It
+ * writes `Structured transcript/structured-transcript.md`. It moves the lecture
+ * files when the AI-derived title becomes the lecture title
+ * (technical-design.md §5, `transcript-structuring`).
  *
- * @param args - The run inputs.
+ * @param args - The input, the stage context and the dependencies of the stage.
  * @param args.input - The transcript to structure.
- * @param args.context - The current lecture run context.
- * @param args.logger - The run's logger, on which the model call is recorded.
- * @param args.client - The OpenAI client the completion goes through, built where the pipeline is assembled.
- * @param args.sendGate - The run's turns to send, which the call waits on.
- * @returns The structured transcript's path, the decided title, the identity for the runner to record, the call's cost, and the file written.
- * @throws {TranscriptStructuringError} If the reply is unusable or a needed title is missing.
+ * @param args.context - The stage context.
+ * @param args.logger - The logger that records the model call.
+ * @param args.client - The OpenRouter client that sends the call.
+ * @param args.sendGate - The send gate of this stage run. The model call waits on it.
+ * @returns The structured transcript path, the lecture title, the identity changes, the cost of the call and the file written.
+ * @throws {TranscriptStructuringError} If the reply is unusable, or if the stage needs an AI-derived title and the reply has no usable one.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only writes log lines to it. CLAUDE.md permits a mutable type that a library requires.
 async function structureTranscript({
 	input,
 	context,
@@ -305,8 +299,8 @@ async function structureTranscript({
 		client,
 		sendGate,
 	});
-	// An absent suggestion and an explicit null mean the same thing downstream, so
-	// the difference is removed here rather than at every reader.
+	// An absent title and a null title mean the same. The stage makes them one
+	// value, `null`, here, so that no code after this line has to check for both.
 	const reply: StructuringReply = { ...replied, suggestedTitle: replied.suggestedTitle ?? null };
 
 	const { filesWritten } = await writeStageOutput({
@@ -318,8 +312,8 @@ async function structureTranscript({
 
 	return {
 		output: {
-			// Resolved against where the workspace ended up: deciding the title may have
-			// moved it, taking the file just written along with it.
+			// The path uses the workspace path after the title is decided. A move of the
+			// workspace also moves the file that the stage wrote.
 			structuredTranscriptPath: stageOutputPath({
 				workspaceRoot: decided.workspaceRoot,
 				stageId: STAGE_ID,
@@ -333,11 +327,8 @@ async function structureTranscript({
 }
 
 /**
- * Builds `transcript-structuring`, which structures `Transcript/transcript.txt` into
- * `Structured transcript/structured-transcript.md` and decides the lecture's
- * title, renaming the lecture's files when it replaces one
- * (technical-design.md §5, `transcript-structuring`), from the run's logger and
- * the invocation's OpenAI client.
+ * Builds the `transcript-structuring` stage from the logger and the OpenRouter client
+ * of the invocation (technical-design.md §5, `transcript-structuring`).
  */
 export const createTranscriptStructuringStage: ModelStageFactory<
 	TranscriptStructuringInput,

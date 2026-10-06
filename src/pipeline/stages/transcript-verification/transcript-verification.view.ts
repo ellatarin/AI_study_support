@@ -1,17 +1,10 @@
 /**
- * The verification report Markdown: `transcript-verification`'s report as a page a person reads.
+ * The verification report Markdown. This module makes it from the stored
+ * verification report, with no model call. So the two files cannot disagree.
  *
- * The same deficiencies as `verification-report.json`, arranged in Markdown: this
- * module is handed the report that was already stored and returns text, so the
- * two files cannot disagree about what the checker said, and no second call is
- * made to write prose about a judgement that has already been made.
- *
- * It is provisional. The Markdown version exists while the checker is being calibrated by
- * hand against the assessments in `docs/quality/`, which is work done by reading
- * reports and arguing with them; a JSON file is the wrong medium for that. When
- * a checker is settled on, this file goes, along with the stage's `markdownVersion`
- * declaration (technical-design.md §5, `transcript-verification`, "The verification
- * report Markdown is temporary").
+ * The verification report Markdown is temporary. When the checker is calibrated,
+ * this file and the `markdownVersion` declaration of the stage are deleted
+ * (technical-design.md §5, `transcript-verification`).
  */
 
 import {
@@ -26,18 +19,19 @@ import {
 import { pluralise } from "../../../utils/text.js";
 
 /**
- * How each deficiency type is named to a reader, and how early it is read.
+ * The heading of each deficiency type, and its rank in the reading order. The
+ * order puts the highest risk first:
  *
- * The ranks are the reading order, and the order is a claim about risk rather
- * than a tidy alphabetisation. A distortion leads because it is the one fault
- * that makes the structured transcript assert something the lecture does not
- * support, and a reader acting on it is misled rather than merely underserved —
- * the assessment method calls it the highest-risk deficiency type in as many words. An
- * unsourced addition follows for the same reason from the other direction.
- * Content that is missing or thinned comes after, since what is absent can still
- * be recovered from the transcript. The prose fault types rank last and belong to
- * the QA loop; a verification checker is never offered them, and they are here
- * so that a report carrying one is still rendered rather than silently dropped.
+ * - A distortion is first. It makes the structured transcript assert something
+ *   that the lecture does not support, so it misleads a reader. The assessment
+ *   method calls it the highest-risk deficiency type.
+ * - An unsourced addition is second. It puts in the structured transcript
+ *   something with no basis in the lecture, so it also misleads a reader.
+ * - Omissions and underexplained content are next. The transcript still holds what
+ *   is missing.
+ * - The prose faults are last. The checker of this stage is not offered them. They
+ *   are here so that the verification report Markdown does not drop a deficiency
+ *   of a prose fault type (technical-design.md §5, `transcript-verification`).
  */
 const DEFICIENCY_TYPE_PRESENTATION: Readonly<
 	Record<QaDeficiencyType, { readonly label: string; readonly rank: number }>
@@ -53,35 +47,35 @@ const DEFICIENCY_TYPE_PRESENTATION: Readonly<
 	"figure-reference": { label: "Figure reference", rank: 8 },
 };
 
-/** What a deficiency with no source passage says where a location would go. */
+/** The text in place of the source location, for a deficiency with no source passage. */
 const NO_SOURCE_PASSAGE = "the source carries no such passage";
 
-/** Separates the document's blocks: one blank line between them. */
+/** One blank line between two blocks of the verification report Markdown. */
 const BLOCK_BREAK = "\n\n";
 
 /**
- * How severe a deficiency is, as a number the sort can use: the position of its
- * severity in {@link QA_SEVERITIES}, which is declared worst first.
+ * Gives the rank of a severity for the sort. {@link QA_SEVERITIES} lists the
+ * worst severity first.
  *
- * @param severity - The deficiency's severity.
- * @returns Its position in the declared order.
+ * @param severity - The severity of a deficiency.
+ * @returns The position of the severity in {@link QA_SEVERITIES}.
  */
 function severityRank(severity: QaSeverity): number {
 	return QA_SEVERITIES.indexOf(severity);
 }
 
 /**
- * The deficiencies in the order they are read: grouped by deficiency type with
- * the riskiest deficiency type first, and worst first within each one. Deficiencies the
- * checker ranked alike keep the order it reported them in, which is the only
- * ordering it expressed beyond severity.
+ * Sorts the deficiencies into the reading order: by deficiency type, highest risk
+ * first, then by severity, worst first. Deficiencies of the same deficiency type and
+ * severity keep the order of the report, because the checker expresses no other
+ * order.
  *
- * @param deficiencies - The deficiencies as the report holds them.
+ * @param deficiencies - The deficiencies of the report.
  * @returns The same deficiencies, sorted.
  */
 function inReadingOrder(deficiencies: readonly QaDeficiency[]): readonly QaDeficiency[] {
 	return [...deficiencies].sort(
-		// eslint-disable-next-line max-params -- Array.prototype.sort's comparator is spec-defined
+		// eslint-disable-next-line max-params -- the specification of Array.prototype.sort sets the parameters of the comparator.
 		(left, right) =>
 			DEFICIENCY_TYPE_PRESENTATION[left.type].rank -
 				DEFICIENCY_TYPE_PRESENTATION[right.type].rank ||
@@ -90,9 +84,9 @@ function inReadingOrder(deficiencies: readonly QaDeficiency[]): readonly QaDefic
 }
 
 /**
- * A severity as it heads a deficiency: the same word, capitalised.
+ * Gives a severity as the heading of a deficiency shows it.
  *
- * @param severity - The deficiency's severity.
+ * @param severity - The severity of a deficiency.
  * @returns The word with an initial capital.
  */
 function severityLabel(severity: QaSeverity): string {
@@ -100,8 +94,8 @@ function severityLabel(severity: QaSeverity): string {
 }
 
 /**
- * A quoted passage as a markdown blockquote, marking every line of it so that a
- * quote spanning more than one line stays inside the quote.
+ * Gives a quoted passage as a Markdown blockquote. Each line gets the marker, so
+ * that a quote of more than one line stays inside the blockquote.
  *
  * @param evidence - The passage quoted from the source.
  * @returns The passage as a blockquote.
@@ -114,15 +108,15 @@ function asBlockquote(evidence: string): string {
 }
 
 /**
- * The two ends of one deficiency: where the fault sits in the structured
- * transcript, and where in the lecture the passage it is about sits. A deficiency
- * with no source passage says so rather than leaving the second end blank, since
- * having no basis in the source is the whole content of an unsourced addition.
+ * Gives the two locations of a deficiency: in the structured transcript, and in
+ * the source. For a deficiency with no source passage, the source location says
+ * that the source has no such passage. The source location is not blank. An unsourced addition is a fault because it has no
+ * source passage.
  *
- * @param args - The deficiency's two ends.
- * @param args.outputLocation - Where the fault sits in the structured transcript.
- * @param args.source - The source passage the deficiency is about, or `null`.
- * @returns The two locations, and the quoted passage where there is one.
+ * @param args - The two locations of the deficiency.
+ * @param args.outputLocation - The location of the fault in the structured transcript.
+ * @param args.source - The source passage of the deficiency, or `null`.
+ * @returns The two locations, and the quoted passage when there is one.
  */
 function locations({
 	outputLocation,
@@ -136,12 +130,11 @@ function locations({
 }
 
 /**
- * One deficiency: its severity and what it says, both ends of where it applies, and
- * what the checker suggests doing about it. Its deficiency type is the section it sits
- * in rather than a line of its own.
+ * Writes one deficiency: its severity and description, its two locations, and the
+ * suggested fix. The section heading gives its deficiency type.
  *
- * @param deficiency - The deficiency to render.
- * @returns The deficiency's block of markdown.
+ * @param deficiency - The deficiency to write.
+ * @returns The Markdown block of the deficiency.
  */
 function renderDeficiency(deficiency: QaDeficiency): string {
 	return [
@@ -152,15 +145,13 @@ function renderDeficiency(deficiency: QaDeficiency): string {
 }
 
 /**
- * How many deficiencies fell into each deficiency type, in reading order, counting
- * only the deficiency types that occurred — a table of every one the vocabulary carries
- * would be mostly zeroes.
+ * Writes a table of the number of deficiencies of each deficiency type, in reading
+ * order. The table has a row only for a deficiency type that occurs, because a row
+ * for each deficiency type would show mostly zeroes. The rows are joined by single
+ * newlines, because a blank line between two rows ends a Markdown table.
  *
- * The rows are joined by single newlines: a blank line between two rows ends the
- * table, and what a reader would see is a run of pipe characters.
- *
- * @param deficiencies - The deficiencies as the report holds them.
- * @returns The counts table, as one markdown table under its heading.
+ * @param deficiencies - The deficiencies of the report.
+ * @returns The table, under its heading.
  */
 function renderDeficiencyTypeCounts(deficiencies: readonly QaDeficiency[]): string {
 	const counts = new Map<QaDeficiencyType, number>();
@@ -169,7 +160,7 @@ function renderDeficiencyTypeCounts(deficiencies: readonly QaDeficiency[]): stri
 	}
 	const rows = [...counts.entries()]
 		.sort(
-			// eslint-disable-next-line max-params -- Array.prototype.sort's comparator is spec-defined
+			// eslint-disable-next-line max-params -- the specification of Array.prototype.sort sets the parameters of the comparator.
 			([left], [right]) =>
 				DEFICIENCY_TYPE_PRESENTATION[left].rank - DEFICIENCY_TYPE_PRESENTATION[right].rank,
 		)
@@ -179,11 +170,10 @@ function renderDeficiencyTypeCounts(deficiencies: readonly QaDeficiency[]): stri
 }
 
 /**
- * Every deficiency, under a heading per deficiency type, with a heading emitted
- * each time the deficiency type changes down the sorted list.
+ * Writes every deficiency in reading order, under a heading for each deficiency type.
  *
- * @param deficiencies - The deficiencies as the report holds them.
- * @returns The deficiencies section, grouped and ordered.
+ * @param deficiencies - The deficiencies of the report.
+ * @returns The deficiencies section.
  */
 function renderDeficiencies(deficiencies: readonly QaDeficiency[]): string {
 	if (deficiencies.length === 0) {
@@ -202,15 +192,14 @@ function renderDeficiencies(deficiencies: readonly QaDeficiency[]): string {
 }
 
 /**
- * What the checker examined and decided not to raise.
+ * Writes the considerations of the report. A list of deficiencies alone cannot
+ * tell a checker that missed a fault from a checker that looked and cleared the
+ * passage. So the verification report holds the considerations
+ * (technical-design.md §5, `qa-loop`). The verification report Markdown shows
+ * them for the same reason.
  *
- * Recorded in the document for the reason it is recorded in the report: a list
- * of deficiencies alone cannot tell a checker that missed something from one that
- * looked at it and cleared it, and only the first is a reason to distrust what
- * the rest of the page says.
- *
- * @param considered - The cleared passages as the report holds them.
- * @returns The considered section.
+ * @param considered - The considerations of the report.
+ * @returns The considerations section.
  */
 function renderConsiderations(considered: readonly QaConsideration[]): string {
 	const heading = "## Considered and not raised";
@@ -228,17 +217,14 @@ function renderConsiderations(considered: readonly QaConsideration[]): string {
 }
 
 /**
- * The verification report as a document a person reads: what the checker
- * concluded, how much it found and of what kind, every deficiency with both ends of
- * where it applies, and what it looked at and let pass.
+ * Writes the verification report Markdown: the verdict, the coverage score, the
+ * number of deficiencies of each deficiency type, every deficiency and every
+ * consideration. The function reads no file and calls nothing
+ * (technical-design.md §5, `transcript-verification`).
  *
- * Pure — it is handed the stored report and returns text, calls nothing and
- * reads no file, which is what makes every ordering and counting rule here
- * testable on its own (technical-design.md §5, `transcript-verification`).
- *
- * @param args - What to render.
- * @param args.report - The report the checker returned, as it was stored.
- * @returns The whole document, ending in a newline.
+ * @param args - The report to write.
+ * @param args.report - The stored verification report.
+ * @returns The whole verification report Markdown, with a newline at the end.
  * @example
  * renderVerificationReportMarkdown({ report }); // "# Transcript verification\n\nVerdict **fail**, …"
  */

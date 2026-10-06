@@ -8,36 +8,35 @@ import {
 import { renderVerificationReportMarkdown } from "./transcript-verification.view.js";
 
 /**
- * One deficiency, with the fields this test's behaviour depends on replaced. Every
- * test here is about one property of a deficiency — its deficiency type, its severity, or
- * whether it names a source passage — and states only that property.
+ * Builds a deficiency from the fixture. Each test states only the fields that it
+ * is about.
  *
- * @param overrides - The fields this test is about.
- * @returns A well-formed deficiency carrying them.
+ * @param overrides - The fields that the test is about.
+ * @returns A deficiency with these fields.
  */
 function deficiency(overrides: Readonly<Partial<QaDeficiency>> = {}): QaDeficiency {
 	return { ...verificationDeficiency, ...overrides };
 }
 
 /**
- * Renders a report built from the fixture defaults with the fields this test is
- * about replaced, since every test here renders exactly one report.
+ * Writes the verification report Markdown of a report built from the fixture.
  *
- * @param overrides - The report fields this test is about.
- * @returns The rendered document.
+ * @param overrides - The report fields that the test is about.
+ * @returns The verification report Markdown.
  */
 function render(overrides: Readonly<Partial<QaCheckerReport>> = {}): string {
 	return renderVerificationReportMarkdown({ report: verificationReport(overrides) });
 }
 
 /**
- * Where a passage sits in the rendered document, insisting it is there at all —
- * an ordering assertion between two absent passages would otherwise pass.
+ * Gives the position of a passage in the verification report Markdown. It first
+ * asserts that the passage is there. Without the assertion, a test of order passes
+ * when the first passage is absent, because `indexOf` gives -1.
  *
- * @param args - The document and the passage to locate.
- * @param args.document - The rendered document.
- * @param args.passage - The text to find in it.
- * @returns The passage's index.
+ * @param args - The verification report Markdown and the passage to find.
+ * @param args.document - The verification report Markdown.
+ * @param args.passage - The text to find.
+ * @returns The index of the passage.
  */
 function positionOf({
 	document,
