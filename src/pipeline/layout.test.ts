@@ -25,10 +25,10 @@ import {
 	workspaceRootFor,
 } from "./layout.js";
 
-// The roots are arbitrary inputs — this suite asserts the *names* layout.ts
-// puts under them, and those stay written out below because verifying them
-// against layout.ts itself would prove nothing. Each name is written out once
-// here and read by every case that expects it.
+// The suite checks the names that layout.ts puts under the module root, the
+// workspace and the project root. The names are
+// written out here, not read from layout.ts, because a check against layout.ts
+// itself would prove nothing.
 const MODULE_ROOT = testModuleRoot;
 const VIDEO_DIR = join(MODULE_ROOT, "Source files", "Video recordings");
 const SLIDE_DIR = join(MODULE_ROOT, "Source files", "Slide decks");
@@ -67,8 +67,6 @@ describe("runLogsDirPath", () => {
 });
 
 describe("debugLogPath", () => {
-	// Anchored to the project, not the workspace: one invocation writes one debug
-	// log and may run many lectures, so no single workspace could hold it.
 	it("should place the invocation's debug log under the project root when an invocation is identified", () => {
 		expect(debugLogPath({ projectRoot: MODULE_ROOT, invocationId: testTimestampId })).toBe(
 			join(MODULE_ROOT, "debug-logs", `${testTimestampId}-debug.log`),
@@ -164,8 +162,9 @@ describe("resolveStageOutput", () => {
 		);
 	});
 
-	// The one place a reset must not sweep: `Final output/` holds every lecture in
-	// the module, so what comes back names the directory rather than a set to clear.
+	// The final output folder holds the PDFs of all lectures. So resolveStageOutput
+	// for pdf-generation names the folder that pdf-generation puts its file into.
+	// It does not name a folder to delete.
 	it("should give the module directory it deposits into when pdf-generation is resolved", () => {
 		expect(
 			resolveStageOutput({ workspaceRoot: WORKSPACE_ROOT, stageId: "pdf-generation" }),
@@ -191,7 +190,7 @@ describe("stageDirectoryPaths", () => {
 			expected: [],
 		},
 		{
-			// The panel's directory comes first: it is the one its runs are saved in.
+			// The folder of the saved runs is first, because the panel keeps them in the first folder.
 			stageId: "group-into-topics" as const,
 			scenario: "its grouping runs and then the topics chosen from them",
 			expected: [join(WORKSPACE_ROOT, "Grouping runs"), join(WORKSPACE_ROOT, "Topics")],
@@ -217,11 +216,9 @@ describe("stageOutputEntry", () => {
 		expect(stageOutputEntry(stageId)).toBe(expected);
 	});
 
-	// The four stages that write no single file cannot be asked for one at all:
-	// each is null for its own reason, and none of them has an answer to give.
-	// The refusal is the compiler's, so this case is written as a type the
-	// annotations below make load-bearing — remove the narrowing and the
-	// expect-error becomes unused, which fails the build.
+	// The compiler refuses a stage that does not write a single output file. The
+	// expect-error is the assertion. Without the narrower type StageWithOutputFile,
+	// the expect-error is unused, and the build fails.
 	it("should admit only the stages writing one file when a writer is named", () => {
 		const writers: readonly StageWithOutputFile[] = [
 			"audio-extraction",
@@ -232,7 +229,7 @@ describe("stageOutputEntry", () => {
 			"synthesis",
 		];
 
-		// @ts-expect-error -- qa-loop writes across two directories once per iteration, so it names no single file
+		// @ts-expect-error -- qa-loop writes a set of files in two folders, so it has no single output file
 		const notAWriter: StageWithOutputFile = "qa-loop";
 
 		expect(writers.map(stageOutputEntry)).toHaveLength(writers.length);
@@ -255,10 +252,9 @@ describe("stageMarkdownCopyEntry", () => {
 		);
 	});
 
-	// A stage that writes no Markdown version has no path to give, so asking is a compile
-	// error rather than a failure at run time — the same refusal stageOutputEntry
-	// makes for a stage that writes no single file. The expect-error is what
-	// asserts it: remove the narrowing and it becomes unused, which fails the build.
+	// The compiler refuses a stage that writes no Markdown version. The
+	// expect-error is the assertion. Without the narrower type
+	// StageWithMarkdownVersion, the expect-error is unused, and the build fails.
 	it("should admit only the stages writing a Markdown version when one is named", () => {
 		const markdownVersionWriters: readonly StageWithMarkdownVersion[] = ["transcript-verification"];
 

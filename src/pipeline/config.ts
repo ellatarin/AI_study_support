@@ -15,28 +15,23 @@ import { isStageId, unknownStageMessage } from "../utils/stage-id.js";
 import { OPENROUTER_PATHS } from "./openrouter.js";
 
 /**
- * Thrown when `pipeline-config.json` cannot be read, is malformed, or names a
- * model ID that OpenRouter does not recognise. Distinguishes user-config faults
- * from runtime failures so the CLI can surface a corrective message rather than a
- * stack trace (technical-design.md §6).
+ * The error for a `pipeline-config.json` that cannot be read, is not valid, or
+ * fails the model-ID check. The CLI prints the message of this error, not a stack trace
+ * (technical-design.md §6, §8).
  */
 export class ConfigError extends NamedError {}
 
-/**
- * A raw config value together with the key it reports against, which is what
- * every reader below needs and all a reader needs: the value to check, and the
- * name to blame when it is wrong.
- */
+/** A raw config value and the config key that an error names. */
 type LabelledValue = { readonly value: unknown; readonly label: string };
 
 /**
- * The fault every reader raises: a config key holding something other than what
- * it must hold. One sentence, so the five readers below differ only in what they
- * were looking for rather than in how they say so.
+ * Makes the error for a config key that holds the wrong type of value. Each
+ * function in this file that reads a config value calls this function. So each
+ * type error has the same words.
  *
- * @param args - What was wanted, and where.
- * @param args.label - The config key at fault.
- * @param args.expected - What the key must hold, as it should read after "must be".
+ * @param args - The key and the value it must hold.
+ * @param args.label - The config key.
+ * @param args.expected - The value that the key must hold, as it reads after "must be".
  * @returns The error to throw.
  */
 function configFault(args: { readonly label: string; readonly expected: string }): ConfigError {
@@ -65,28 +60,11 @@ function requireNumber(args: LabelledValue): number {
 }
 
 /**
- * Reads a field that may be left unset, which the file may say in either of two
- * ways: leave the key out, or write it as `null`.
+ * Reads a count: a whole number of at least 1, such as a panel size.
  *
- * Both mean the same thing — the pipeline sends no such parameter — but a
- * `null` says it in the file, beside the stage it applies to and next to the
- * tuning that is set. Which parameters a call carries decides which providers
- * can serve it (§6, "JSON mode is routed for as well as asked for"), so leaving
- * one off is a decision worth being able to write down rather than one that can
- * only be expressed by an absence.
- *
- * @param args - The value to read and the label to report against.
- * @param args.value - The raw config value.
- * @param args.label - The config key, for the error message.
- * @returns The number, or `undefined` where the field is unset.
- * @throws {ConfigError} If the value is neither a number nor an explicit `null`.
- */
-/**
- * Requires a count: a whole number of at least 1, such as a panel size.
- *
- * @param args - The raw value and the key it reports against.
+ * @param args - The raw value and its config key.
  * @param args.value - The raw value.
- * @param args.label - The value's config key.
+ * @param args.label - The config key.
  * @returns The count.
  * @throws {ConfigError} If the value is not a whole number of at least 1.
  */
@@ -98,6 +76,18 @@ function requireCount(args: LabelledValue): number {
 	return value;
 }
 
+/**
+ * Reads a number that can be unset. A missing key and `null` both mean that the
+ * setting is unset (technical-design.md §6, "A tuning parameter can be
+ * left unset out loud"). An unset `temperature` or `maxTokens` is not sent in
+ * the model call.
+ *
+ * @param args - The raw value and its config key.
+ * @param args.value - The raw value.
+ * @param args.label - The config key.
+ * @returns The number, or `undefined` when the value is unset.
+ * @throws {ConfigError} If the value is not a number, `null` or missing.
+ */
 function requireOptionalNumber(args: LabelledValue): number | undefined {
 	if (args.value === undefined || args.value === null) {
 		return undefined;
@@ -106,24 +96,22 @@ function requireOptionalNumber(args: LabelledValue): number | undefined {
 }
 
 /**
- * The schemes a configured address may use. Parsing alone does not narrow this:
- * the URL standard accepts any scheme, so a mistyped `htp://openrouter.ai` is a
- * perfectly valid URL — one whose `origin` is the string `"null"`, because only
- * these schemes have an origin at all. Restricting to them is what makes
- * {@link modelsPageFor} able to derive an address worth printing.
+ * The schemes that a configured address can use. The URL parser accepts any
+ * scheme, so a typo such as `htp://openrouter.ai` parses. The `origin` of the
+ * parsed URL is then the string `"null"`. {@link modelsPageFor} would then print a
+ * models page address that starts with `null` (technical-design.md §6).
  */
 const ADDRESSABLE_SCHEMES: ReadonlySet<string> = new Set(["http:", "https:"]);
 
 /**
- * Reads a required absolute URL. Checked at load rather than at first use, so a
- * mistyped address fails at startup instead of at the first billable call
- * (technical-design.md §6).
+ * Reads an absolute URL. The check is at load, so a typo stops the invocation
+ * before the first billable call (technical-design.md §6).
  *
- * @param args - The value to read and the label to report against.
- * @param args.value - The raw config value.
- * @param args.label - The config key, for the error message.
- * @returns The URL, with any trailing slash removed so paths append cleanly.
- * @throws {ConfigError} If the value is not a string, or is not an absolute `http`/`https` URL.
+ * @param args - The raw value and its config key.
+ * @param args.value - The raw value.
+ * @param args.label - The config key.
+ * @returns The URL with no slash at the end, so that a path can follow it.
+ * @throws {ConfigError} If the value is not an absolute `http` or `https` URL.
  */
 function requireUrl(args: LabelledValue): string {
 	const url = requireString(args);
@@ -147,13 +135,10 @@ function requireStringArray(args: LabelledValue): readonly string[] {
 }
 
 /**
- * A config section's fields, read by name.
- *
- * A field reports against `section.field`, derived from the section it was read
- * from rather than written out beside the read — so every key in the file has
- * one place it is spelt, and a section gains a field without anything else
- * having to know. A field the section does not carry is a missing field, so a
- * section and a mistyped field within it each blame their own key.
+ * The readers for the fields of one config section. A reader names a field in an
+ * error as `section.field`, built from the section label. So the code spells each
+ * config key only once, in the call that reads the field. A field that the section does not have is a missing field, so the
+ * error names that field and not the section.
  */
 type ConfigSection = {
 	readonly string: (field: string) => string;
@@ -165,23 +150,23 @@ type ConfigSection = {
 };
 
 /**
- * Opens a config section for reading, having checked it is an object at all.
+ * Checks that a config section is an object, and gives the readers for its fields.
  *
- * @param args - The raw section and the key it reports against.
- * @param args.value - The raw section value, expected to be an object.
- * @param args.label - The section's config key, e.g. `openRouter`.
- * @returns The section's fields, each reader labelling what it reads.
+ * @param args - The raw section and its config key.
+ * @param args.value - The raw section.
+ * @param args.label - The config key of the section, such as `openRouter`.
+ * @returns The readers for the fields of the section.
  * @throws {ConfigError} If the section is not an object.
  */
 function requireSection(args: LabelledValue): ConfigSection {
 	const record = requireRecord(args);
 	/**
-	 * Reads one field through the reader that knows the type it must hold.
+	 * Reads one field with the reader for its type.
 	 *
-	 * @param readArgs - The field to read and how.
-	 * @param readArgs.field - The field's name within the section.
-	 * @param readArgs.require - The reader for the type the field must hold.
-	 * @returns The field's value.
+	 * @param readArgs - The field and its reader.
+	 * @param readArgs.field - The name of the field in the section.
+	 * @param readArgs.require - The reader for the type that the field must hold.
+	 * @returns The value of the field.
 	 */
 	const read = <TValue>(readArgs: {
 		readonly field: string;
@@ -202,14 +187,12 @@ function requireSection(args: LabelledValue): ConfigSection {
 }
 
 /**
- * Validates the `openRouter` section: where the service is, and how patiently to
- * wait on it. All of it is configuration because none of it describes this
- * codebase — a slow gateway wants a longer timeout and a flaky one wants more
- * retries, neither of which should need a release (technical-design.md §6).
+ * Reads the `openRouter` section: the address of the service, the timeout and the
+ * retries (technical-design.md §6, "OpenRouter Integration").
  *
  * @param value - The raw `openRouter` section.
- * @returns The validated section.
- * @throws {ConfigError} If the section is not an object, or any field is missing or mistyped.
+ * @returns The checked section.
+ * @throws {ConfigError} If the section is not an object, or a field is missing or has the wrong type.
  */
 function requireOpenRouter(value: unknown): PipelineConfig["openRouter"] {
 	const openRouter = requireSection({ value, label: "openRouter" });
@@ -221,14 +204,12 @@ function requireOpenRouter(value: unknown): PipelineConfig["openRouter"] {
 }
 
 /**
- * Validates the `elevenLabs` section: where the service is, what language it
- * should expect to hear, and what it charges. All three are facts about the
- * account, the recordings, and the plan in force rather than about this
- * codebase, so all three are configuration (technical-design.md §6).
+ * Reads the `elevenLabs` section: the address of the service, the language spoken
+ * in the lectures, and the price of one hour of audio (technical-design.md §6).
  *
  * @param value - The raw `elevenLabs` section.
- * @returns The validated section.
- * @throws {ConfigError} If the section is not an object, or any field is missing or mistyped.
+ * @returns The checked section.
+ * @throws {ConfigError} If the section is not an object, or a field is missing or has the wrong type.
  */
 function requireElevenLabs(value: unknown): PipelineConfig["elevenLabs"] {
 	const elevenLabs = requireSection({ value, label: "elevenLabs" });
@@ -245,17 +226,13 @@ function requireModelIdCheck(value: unknown): PipelineConfig["modelIdCheck"] {
 }
 
 /**
- * Validates the `naming` section: the module prefixes stripped from a derived
- * lecture title.
- *
- * A prefix that is empty or only whitespace is refused. It would otherwise build
- * a pattern matching any run of underscores or spaces, which would take apart
- * every title the run produces rather than merely failing to strip a prefix
- * (technical-design.md §3.2).
+ * Reads the `naming` section: the module prefixes that are removed from a
+ * provisional title. A blank module prefix is refused, because it would match
+ * each run of underscores or spaces in each title (technical-design.md §3.2, §6).
  *
  * @param value - The raw `naming` section.
- * @returns The validated section.
- * @throws {ConfigError} If the section is not an object, `modulePrefixes` is not an array of strings, or any prefix is blank.
+ * @returns The checked section.
+ * @throws {ConfigError} If the section is not an object, `modulePrefixes` is not an array of strings, or a prefix is blank.
  */
 function requireNaming(value: unknown): PipelineConfig["naming"] {
 	const naming = requireSection({ value, label: "naming" });
@@ -267,15 +244,14 @@ function requireNaming(value: unknown): PipelineConfig["naming"] {
 }
 
 /**
- * Reads a panel section's size and bar: how many runs make up the panel, and
- * how many of them must mark a position for the vote to keep it.
+ * Reads the size and the bar of a panel.
  *
- * @param args - The section, and its top-level key for the error.
- * @param args.section - The section, already checked to be an object.
- * @param args.label - The section's top-level key.
- * @returns The panel's size and bar.
- * @throws {ConfigError} If either is not a whole number of at least 1, or the
- *   bar exceeds the panel size — the vote could then keep nothing.
+ * @param args - The section and its config key.
+ * @param args.section - The readers for the section.
+ * @param args.label - The config key of the section.
+ * @returns The size and the bar of the panel.
+ * @throws {ConfigError} If either is not a whole number of at least 1, or the bar
+ *   is more than the panel size. With that bar, the vote could keep nothing.
  */
 function requirePanel({
 	section,
@@ -295,13 +271,12 @@ function requirePanel({
 }
 
 /**
- * Validates the `subtopicSplitting` section: the splitting panel's size, the bar a cut
- * site must reach, and the size gate for deepening (technical-design.md §6).
+ * Reads the `subtopicSplitting` section: the size and the bar of the splitting
+ * panel, and the size gate (technical-design.md §6).
  *
  * @param value - The raw `subtopicSplitting` section.
- * @returns The validated section.
- * @throws {ConfigError} If the section is not an object, a field is not a whole
- *   number of at least 1, or the bar exceeds the panel size.
+ * @returns The checked section.
+ * @throws {ConfigError} If the section or a field is not valid.
  */
 function requireSubtopicSplitting(value: unknown): PipelineConfig["subtopicSplitting"] {
 	const label = "subtopicSplitting";
@@ -313,14 +288,12 @@ function requireSubtopicSplitting(value: unknown): PipelineConfig["subtopicSplit
 }
 
 /**
- * Validates the `grouping` section: the grouping panel's size, and the bar a
- * topic start must reach in the vote that breaks ties (technical-design.md §5,
- * `group-into-topics`; §6).
+ * Reads the `grouping` section: the size and the bar of the grouping panel
+ * (technical-design.md §5, `group-into-topics`, and §6).
  *
  * @param value - The raw `grouping` section.
- * @returns The validated section.
- * @throws {ConfigError} If the section is not an object, a field is not a whole
- *   number of at least 1, or the bar exceeds the panel size.
+ * @returns The checked section.
+ * @throws {ConfigError} If the section or a field is not valid.
  */
 function requireGrouping(value: unknown): PipelineConfig["grouping"] {
 	const label = "grouping";
@@ -328,11 +301,11 @@ function requireGrouping(value: unknown): PipelineConfig["grouping"] {
 }
 
 /**
- * Validates the `batch` section: how many lectures a batch runs at once
+ * Reads the `batch` section: the number of lectures that a batch runs at one time
  * (technical-design.md §4.7, §6).
  *
  * @param value - The raw `batch` section.
- * @returns The validated section.
+ * @returns The checked section.
  * @throws {ConfigError} If the section is not an object, or `concurrency` is not a whole number of at least 1.
  */
 function requireBatch(value: unknown): PipelineConfig["batch"] {
@@ -340,9 +313,9 @@ function requireBatch(value: unknown): PipelineConfig["batch"] {
 }
 
 /**
- * The settings only one stage reads, each with that stage and why only it does.
- * Set on any other stage, one would silently do nothing, so it is refused
- * instead (technical-design.md §6).
+ * The settings that only one stage reads, with that stage and the reason. On a
+ * different stage, such a setting would do nothing, so the loader refuses it
+ * (technical-design.md §6).
  */
 const SINGLE_STAGE_SETTINGS = {
 	callConcurrency: {
@@ -358,13 +331,13 @@ const SINGLE_STAGE_SETTINGS = {
 >;
 
 /**
- * Reads a setting only one stage reads.
+ * Reads a setting that only one stage reads.
  *
- * @param args - The entry, the setting, and the stage the entry configures.
- * @param args.stage - The raw stage entry, already checked to be an object.
+ * @param args - The stage's config, the setting and the stage.
+ * @param args.stage - The readers for the stage's config.
  * @param args.field - The setting.
- * @param args.stageId - The stage the entry configures.
- * @param args.label - The entry's key path, for the error.
+ * @param args.stageId - The stage that the config is for.
+ * @param args.label - The config key of the stage's config.
  * @returns The setting, or `undefined` when it is unset.
  * @throws {ConfigError} If the setting is not a number, or is set on a stage that does not read it.
  */
@@ -388,15 +361,14 @@ function requireSingleStageSetting({
 }
 
 /**
- * Validates one stage's entry. A setting only one stage reads is refused on
- * every other ({@link SINGLE_STAGE_SETTINGS}).
+ * Reads the config of one stage.
  *
- * @param args - The raw entry and the stage it configures.
- * @param args.value - The raw stage entry.
- * @param args.stageId - The stage the entry configures.
- * @returns The validated entry.
- * @throws {ConfigError} If the entry is not an object, a field is missing or mistyped, or
- *   a setting only one stage reads is set on another.
+ * @param args - The raw config and the stage.
+ * @param args.value - The raw config of the stage.
+ * @param args.stageId - The stage that the config is for.
+ * @returns The checked config.
+ * @throws {ConfigError} If the config or a field is not valid. A setting in
+ *   {@link SINGLE_STAGE_SETTINGS} on a different stage is not valid.
  */
 function requireStageConfig(args: {
 	readonly value: unknown;
@@ -417,14 +389,13 @@ function requireStageConfig(args: {
 }
 
 /**
- * Validates the `stages` section, keys included. A key that names no stage is
- * rejected here: it would otherwise be validated in full and have its model ID
- * checked, while the stage it was meant to configure silently had none — which
- * is the typo case the startup check exists for (technical-design.md §6).
+ * Reads the `stages` section. A key that names no stage is refused. A typo in a
+ * key would leave the intended stage with no config (technical-design.md §6,
+ * "A stage key names a stage").
  *
  * @param value - The raw `stages` section.
- * @returns The validated section.
- * @throws {ConfigError} If the section is not an object, a key names no stage, or any stage's config is invalid.
+ * @returns The checked section.
+ * @throws {ConfigError} If the section is not an object, a key names no stage, or a stage's config is not valid.
  */
 function requireStages(value: unknown): PipelineConfig["stages"] {
 	const record = requireRecord({ value, label: "stages" });
@@ -439,18 +410,13 @@ function requireStages(value: unknown): PipelineConfig["stages"] {
 }
 
 /**
- * Validates the `finalOutput` section: which language the prose stages write, and
- * which engine renders the PDF.
- *
- * The language is checked against the set the pipeline has prompt wording for,
- * rather than merely being required to be a string. A tag with no wording would
- * otherwise reach a prompt as an instruction no model can follow, and the first
- * sign of it would be notes in the wrong language — so it is refused at startup,
- * naming the languages it could have been (technical-design.md §6).
+ * Reads the `finalOutput` section: the language of the notes, and the engine that
+ * makes the PDF. A language that has no name for the prompts is refused
+ * (technical-design.md §6, "`finalOutput.language` is a closed set").
  *
  * @param value - The raw `finalOutput` section.
- * @returns The validated section.
- * @throws {ConfigError} If the section is not an object, either field is missing or mistyped, or the language is one the pipeline cannot write.
+ * @returns The checked section.
+ * @throws {ConfigError} If the section is not an object, a field is missing or has the wrong type, or the language is not in `OUTPUT_LANGUAGES`.
  */
 function requireFinalOutput(value: unknown): PipelineConfig["finalOutput"] {
 	const finalOutput = requireSection({ value, label: "finalOutput" });
@@ -467,16 +433,13 @@ function requireFinalOutput(value: unknown): PipelineConfig["finalOutput"] {
 }
 
 /**
- * Validates parsed config JSON into a {@link PipelineConfig}.
+ * Checks parsed config JSON and gives a {@link PipelineConfig}. It does no model-ID
+ * check. The test fixtures read `pipeline-config.example.json` with it, so each
+ * suite also proves that the example is valid.
  *
- * Exported separately from {@link loadConfig} so config already in memory can be
- * checked without a file read — which is how the test fixtures take their
- * defaults from `pipeline-config.example.json` rather than restating them, and
- * how that example is proved to be valid.
- *
- * @param raw - The parsed JSON to validate.
- * @returns The validated configuration.
- * @throws {ConfigError} If any required field is missing or mistyped.
+ * @param raw - The parsed JSON.
+ * @returns The checked config.
+ * @throws {ConfigError} If a field is missing or has the wrong type or value.
  */
 export function parseConfig(raw: unknown): PipelineConfig {
 	const root = requireRecord({ value: raw, label: CONFIG_FILENAME });
@@ -513,12 +476,12 @@ async function readConfigFile(configPath: string): Promise<unknown> {
 }
 
 /**
- * The human-facing models page, for an error message to point at. Taken from the
- * configured API address's origin, so the two cannot name different hosts — which
- * assumes whatever serves the API also serves that page (technical-design.md §6).
+ * Gives the models page, which an error message names for the user. It is on the
+ * origin of the API address. The function assumes that the host of the API also serves
+ * the page (technical-design.md §6, "OpenRouter Integration").
  *
  * @param baseUrl - The configured OpenRouter base URL.
- * @returns The models page URL.
+ * @returns The URL of the models page.
  */
 function modelsPageFor(baseUrl: string): string {
 	return `${new URL(baseUrl).origin}${OPENROUTER_PATHS.models}`;
@@ -553,14 +516,13 @@ function formatModelIdError(args: {
 }
 
 /**
- * Whether a model ID is excused the OpenRouter check because the provider it
- * names is one of the exempt ones. An ID naming no provider is never excused —
- * it has no prefix to opt out with (technical-design.md §6).
+ * Tells if the model-ID check skips a model ID, because its provider is exempt. A
+ * model ID with no provider is always checked (technical-design.md §6).
  *
- * @param args - The check inputs.
+ * @param args - The model ID and the exempt providers.
  * @param args.modelId - The configured model ID.
- * @param args.exemptProviders - The providers the check skips, as configured.
- * @returns `true` when the ID's provider is exempt.
+ * @param args.exemptProviders - The providers that the check skips.
+ * @returns `true` when the provider of the model ID is exempt.
  */
 function isExemptFromModelIdCheck({
 	modelId,
@@ -575,12 +537,10 @@ function isExemptFromModelIdCheck({
 
 async function assertModelIdsResolvable(config: PipelineConfig): Promise<void> {
 	const { exemptProviders } = config.modelIdCheck;
-	// `stages` is a partial record — not every stage need be configured — so its
-	// entries type as possibly absent. A key is only ever present with a value,
-	// and the config is parsed from JSON, which has no way to express an undefined
-	// one, so a runtime check here would be a branch nothing could ever take. The
-	// assertion says that and nothing else: the keys stay `string`, which is all
-	// the error message reads them as.
+	// `stages` is a partial record, so the type of each value includes `undefined`.
+	// JSON cannot hold an `undefined` value, so a check at run time could never
+	// fail. The assertion removes only `undefined`. The keys stay `string`,
+	// because the error message reads them only as text.
 	const stageEntries = Object.entries(config.stages) as ReadonlyArray<
 		readonly [string, StageConfig]
 	>;
@@ -601,24 +561,16 @@ async function assertModelIdsResolvable(config: PipelineConfig): Promise<void> {
 }
 
 /**
- * Reads, validates, and returns the pipeline configuration from
- * `pipeline-config.json` in the given project root. Every configured
- * `stages[*].modelId` is checked against OpenRouter's live model list (fetched
- * once and cached in-process) so un-substituted placeholders, typos, and retired
- * IDs are caught before any billable call is made. Stages whose model ID names a
- * provider listed in `modelIdCheck.exemptProviders` are excluded from that check
- * — a stage on a non-OpenRouter provider would otherwise always fail it — and
- * the list is never fetched when every configured stage is exempt
- * (technical-design.md §6).
+ * Reads and checks `pipeline-config.json` in the project root. Then it does the
+ * model-ID check: it gets the OpenRouter model list and refuses each model ID that
+ * the list does not hold. The check skips a model ID whose provider is exempt. When
+ * each model ID is exempt, the loader does not get the list. No setting stops the
+ * check (technical-design.md §6, "Model-ID resolution check").
  *
- * The check is not optional. It costs one request per invocation, before any
- * billable call, and a way of turning it off would be a way of discovering a
- * typo'd model id at the first paid call instead of at startup.
- *
- * @param options - Loader options.
- * @param options.projectRoot - Absolute path to the directory containing `pipeline-config.json`.
- * @returns The validated pipeline configuration.
- * @throws {ConfigError} If the file is missing, malformed, fails shape validation, or names an unrecognised model ID.
+ * @param options - The loader options.
+ * @param options.projectRoot - The absolute path to the folder that holds `pipeline-config.json`.
+ * @returns The checked config.
+ * @throws {ConfigError} If the file is missing or not valid, the model list request gets an HTTP error, or a model ID is not in the list.
  */
 export async function loadConfig(options: {
 	readonly projectRoot: string;

@@ -19,17 +19,14 @@ import {
 	transcriptionModelId,
 } from "./fixtures.js";
 
-// Two model IDs the mocked OpenRouter models response returns. The valid config
-// below configures exactly these, so the check under test passes for reasons
-// this suite controls; a second ID is needed so a test can fail one stage's
-// model while leaving the other's resolvable.
+// The two model IDs in the mocked model list. The valid config uses only these.
+// A test can then fail the model of one stage and keep the other valid.
 const STRUCTURING_MODEL_ID = openRouterModelId;
 const SLIDE_MODEL_ID = "google/gemini-2.5-flash";
 const KNOWN_MODEL_IDS = [STRUCTURING_MODEL_ID, SLIDE_MODEL_ID] as const;
 
-// Every optional field a stage entry may tune, checked against the stage config
-// itself so a renamed field fails to compile here rather than leaving the case
-// for it silently exercising a key nothing reads.
+// Each tuning field of a stage's config. `satisfies` makes a renamed field fail to
+// compile here, so no case tests a key that nothing reads.
 const TUNING_FIELDS = [
 	"temperature",
 	"maxTokens",
@@ -40,13 +37,8 @@ const TUNING_FIELDS = [
 ] as const satisfies readonly (keyof StageConfig)[];
 
 /**
- * A structurally valid config as a fresh mutable object each call, so a test can
- * mutate one field to exercise a single validation branch in isolation.
- *
- * Round-tripped from the typed fixture rather than restated, so "valid" means
- * one thing across the suite: a new required field cannot be added to the
- * fixture and forgotten here, which would leave these tests asserting against a
- * config the loader would reject for an unrelated reason.
+ * Makes a new valid config that a test can change. It is copied from the typed
+ * fixture, so a new required field in the fixture is also here.
  */
 function makeValidConfig(): Record<string, unknown> {
 	return JSON.parse(
@@ -54,8 +46,7 @@ function makeValidConfig(): Record<string, unknown> {
 			makeConfig({
 				moduleRoots: exampleConfig.moduleRoots,
 				stages: {
-					// The example's own tuning for each, with only the placeholder models
-					// replaced by the two the mocked model list knows.
+					// The tuning of the example, with the two model IDs of the mocked list.
 					"transcript-structuring": openRouterStageConfig({
 						stageId: "transcript-structuring",
 					}),
@@ -69,20 +60,17 @@ function makeValidConfig(): Record<string, unknown> {
 	) as Record<string, unknown>;
 }
 
-// An address that is not the default, and is not a bare host either: the
-// derived-address tests prove the loader reads the configured base URL rather
-// than a constant, which a gateway with a path of its own is what shows.
+// A base URL that is not the default and has a path of its own. The tests that use
+// it prove that the loader builds each address from the configured base URL.
 const GATEWAY_BASE_URL = "https://gateway.example.test/openrouter/v1";
 const gatewayUrls = openRouterUrlsAt(GATEWAY_BASE_URL);
 
 /**
- * Builds a corrupter for one config section: it returns that section as raw
- * JSON with the named fields replaced, so a validation case states only the
- * field it is corrupting. `undefined` drops the field, which is how the
- * "missing" cases are written.
+ * Makes a function that gives one section of the valid config with some fields
+ * replaced. A value of `undefined` removes the field.
  *
- * @param sectionName - The top-level config key the corrupter targets.
- * @returns A function taking the field overrides and returning the section.
+ * @param sectionName - The top-level config key of the section.
+ * @returns A function that takes the new field values and gives the section.
  */
 function sectionCorrupter(
 	sectionName: string,
@@ -107,11 +95,10 @@ const finalOutputSection = sectionCorrupter("finalOutput");
 const namingSection = sectionCorrupter("naming");
 
 /**
- * The config's stages record, as raw entries these tests read and retune field
- * by field.
+ * Gives the `stages` section of a raw config.
  *
- * @param config - The raw config being corrupted or inspected.
- * @returns Its stages, keyed by stage id.
+ * @param config - The raw config.
+ * @returns The config of each stage, by stage id.
  */
 function configuredStages(
 	config: Record<string, unknown>,
@@ -120,15 +107,12 @@ function configuredStages(
 }
 
 /**
- * The structuring stage's own entry, to be retuned in place.
+ * Gives the raw config of `transcript-structuring`, for a test to change one field
+ * in place. The other fields keep the tuning of the example.
  *
- * The tests that reach for it change one field and leave the rest of the
- * example's tuning standing — replacing the whole entry would drop that tuning
- * and fail the loader for a reason the test is not about.
- *
- * @param config - The raw config being retuned.
- * @returns The stage's raw entry.
- * @throws {Error} If the fixture configures no structuring stage to retune.
+ * @param config - The raw config.
+ * @returns The raw config of the stage.
+ * @throws {Error} If the fixture has no config for `transcript-structuring`.
  */
 function structuringStage(config: Record<string, unknown>): Record<string, unknown> {
 	const stage = configuredStages(config)["transcript-structuring"];
@@ -138,10 +122,7 @@ function structuringStage(config: Record<string, unknown>): Record<string, unkno
 	return stage;
 }
 
-/**
- * Retunes the structuring stage's model ID in place, keeping the rest of its
- * tuning. The tests that do this exercise validation of the ID itself.
- */
+/** Changes the model ID of `transcript-structuring` and keeps its tuning. */
 function setStructuringModelId({
 	config,
 	modelId,
@@ -165,23 +146,18 @@ async function writeConfig(config: unknown): Promise<void> {
 }
 
 /**
- * Loads the config expecting it to be rejected, and hands back what it threw.
- * Every rejection case here differs in how the config was made bad, never in how
- * the failure is asked for, so only that difference is written out per test.
+ * Loads the config and gives the error that the loader throws.
  *
- * @returns The error the load threw.
+ * @returns The error.
  */
 function configRejection(): Promise<Error> {
 	return captureError(loadConfig({ projectRoot }));
 }
 
 /**
- * Puts a config the loader will accept on disk, with one adjustment applied
- * first. Every test here starts from the same valid config and changes the one
- * thing its branch is about, so building it, changing it and writing it is one
- * step rather than three restated per test.
+ * Writes the valid config to the config file, after one change.
  *
- * @param adjust - Applied to the config before it is written; nothing by default.
+ * @param adjust - The change to the config. By default, it changes nothing.
  */
 async function writeValidConfig(
 	adjust: (config: Record<string, unknown>) => void = () => undefined,
@@ -191,7 +167,7 @@ async function writeValidConfig(
 	await writeConfig(config);
 }
 
-/** Writes a valid config addressing OpenRouter at {@link GATEWAY_BASE_URL}. */
+/** Writes the valid config with {@link GATEWAY_BASE_URL} as the OpenRouter base URL. */
 function writeConfigAtGateway(): Promise<void> {
 	return writeValidConfig((config) => {
 		config.openRouter = openRouterSection({ baseUrl: GATEWAY_BASE_URL });
@@ -199,7 +175,7 @@ function writeConfigAtGateway(): Promise<void> {
 }
 
 beforeEach(async () => {
-	// The network half only: nothing here sends a key, so there is none to stub.
+	// The suite stubs no API key, because the model list request sends none.
 	blockNetwork();
 	projectRoot = await makeTempDir({ prefix: "config-test-" });
 });
@@ -305,8 +281,8 @@ describe("loadConfig model-ID resolution check", () => {
 	});
 
 	it("should not fetch the OpenRouter model list when every configured provider is exempt", async () => {
-		// No mocked model list on purpose: with the network blocked, a fetch the
-		// exemptions should have prevented fails the test rather than passing it.
+		// The model list is not mocked and the network is blocked. So a request for
+		// the list makes the test fail.
 		await writeValidConfig((config) => {
 			config.modelIdCheck = { exemptProviders: ["openai", "google"] };
 		});
@@ -370,9 +346,8 @@ describe("loadConfig stage tuning", () => {
 });
 
 /**
- * The two ways the file itself is unusable, before its shape is ever in
- * question. The missing case seeds nothing, which is what makes it the missing
- * case.
+ * The cases where the file is missing or is not valid JSON. The missing file
+ * case writes nothing.
  */
 const fileCases: readonly {
 	readonly name: string;
@@ -387,7 +362,7 @@ const fileCases: readonly {
 	},
 ];
 
-/** One way of breaking a config the loader accepts, and what the error must name. */
+/** One change that makes the valid config not valid, and the text that the error must hold. */
 type ShapeCase = {
 	readonly name: string;
 	readonly mutate: (config: Record<string, unknown>) => void;
@@ -395,10 +370,10 @@ type ShapeCase = {
 };
 
 /**
- * The case for a required top-level key left out of the file.
+ * Makes the case for a missing top-level key.
  *
- * @param key - The key to delete.
- * @returns The case, whose error must name the key.
+ * @param key - The key to remove.
+ * @returns The case. Its error must name the key.
  */
 function missingKeyCase(key: string): ShapeCase {
 	return {
@@ -409,11 +384,10 @@ function missingKeyCase(key: string): ShapeCase {
 }
 
 /**
- * The case for a panel section whose bar is higher than its panel, so the vote
- * could keep nothing.
+ * Makes the case for a panel section whose bar is more than its panel size.
  *
- * @param sectionName - The panel section's top-level key.
- * @returns The case, whose error must name the section's bar.
+ * @param sectionName - The top-level key of the panel section.
+ * @returns The case. Its error must name the bar of the section.
  */
 function barExceedsPanelCase(sectionName: string): ShapeCase {
 	return {
@@ -426,14 +400,14 @@ function barExceedsPanelCase(sectionName: string): ShapeCase {
 }
 
 /**
- * The cases for a section's count fields — whole numbers of at least 1 — each
- * broken one way, and each error naming the field by its full key.
+ * Makes the cases for the count fields of a section. A count is a whole number of
+ * at least 1. Each error must name the field by its full key.
  *
- * @param args - The section, and how each field is broken.
+ * @param args - The section and the bad values.
  * @param args.sectionName - The top-level key of the section.
- * @param args.cases - The field, the value that breaks it, and the problem in words;
- *   `undefined` drops the field.
- * @returns One case per break.
+ * @param args.cases - Each field, its bad value and the problem in words. A value
+ *   of `undefined` removes the field.
+ * @returns One case for each bad value.
  */
 function countFieldCases({
 	sectionName,
@@ -456,10 +430,7 @@ function countFieldCases({
 	}));
 }
 
-/**
- * Every way a structurally invalid config is written: start from one the loader
- * accepts, break the single field the case is about, and put it on disk.
- */
+/** The cases that change one field of the valid config to make it not valid. */
 const shapeCases: readonly ShapeCase[] = [
 	missingKeyCase("version"),
 	{
@@ -514,9 +485,9 @@ const shapeCases: readonly ShapeCase[] = [
 		match: /baseUrl/,
 	},
 	{
-		// The typo class the check exists to reject: every scheme parses, so
-		// `htp://` is accepted as a URL and only reveals itself later, as the
-		// literal "null" origin printed into the error meant to help.
+		// Each scheme parses, so `htp://` is a valid URL. Its origin is "null", so
+		// the models page that a model-ID error names would be wrong. The loader
+		// refuses the scheme for this reason.
 		name: "baseUrl's scheme is mistyped",
 		mutate: (config: Record<string, unknown>) => {
 			config.openRouter = openRouterSection({ baseUrl: "htp://openrouter.ai/api/v1" });
@@ -605,8 +576,8 @@ const shapeCases: readonly ShapeCase[] = [
 		match: /stages/,
 	},
 	{
-		// A mistyped key otherwise validates in full — model ID check included —
-		// while the stage it was meant to configure silently has no config.
+		// Without the check that each stage key names a stage, the key with a typo
+		// would pass. The intended stage would then have no config.
 		name: "a stage key names no pipeline stage",
 		mutate: (config: Record<string, unknown>) => {
 			config.stages = { "transcript-strucuring": { modelId: openRouterModelId } };
@@ -650,9 +621,8 @@ const shapeCases: readonly ShapeCase[] = [
 		match: /modulePrefixes/,
 	},
 	{
-		// An empty code would build a pattern matching any run of underscores or
-		// spaces, taking the whole title apart, so it is refused rather than
-		// quietly dropped.
+		// A blank module prefix would match each run of underscores or spaces in a
+		// title, so the loader refuses it.
 		name: "naming.modulePrefixes holds a code that is nothing but whitespace",
 		mutate: (config: Record<string, unknown>) => {
 			config.naming = namingSection({ modulePrefixes: ["BOD", "  "] });
@@ -701,7 +671,8 @@ const shapeCases: readonly ShapeCase[] = [
 		],
 	}),
 	{
-		// Only deepening reads it, so on any other stage it would silently do nothing.
+		// Only deepen-subtopic-splitting reads callConcurrency. On a different stage,
+		// callConcurrency would do nothing.
 		name: "callConcurrency is set on a stage other than deepen-subtopic-splitting",
 		mutate: (config: Record<string, unknown>) => {
 			structuringStage(config).callConcurrency = 4;
@@ -709,7 +680,8 @@ const shapeCases: readonly ShapeCase[] = [
 		match: /stages\.transcript-structuring\.callConcurrency/,
 	},
 	{
-		// Only grouping spaces its sends, so on any other stage it would silently do nothing.
+		// Only group-into-topics spaces its sends. On a different stage,
+		// sendGapSeconds would do nothing.
 		name: "sendGapSeconds is set on a stage other than group-into-topics",
 		mutate: (config: Record<string, unknown>) => {
 			structuringStage(config).sendGapSeconds = 0.5;
@@ -729,9 +701,8 @@ const shapeCases: readonly ShapeCase[] = [
 ];
 
 describe("loadConfig rejections", () => {
-	// One table, because an unusable file and an invalid shape are rejected the
-	// same way and asserted the same way. Only the seeding differs, so only the
-	// seeding is written per case.
+	// One table for the file cases and the field cases. The loader throws a
+	// ConfigError for both. Only the written file is different.
 	it.each([
 		...fileCases,
 		...shapeCases.map(({ name, mutate, match }) => ({
