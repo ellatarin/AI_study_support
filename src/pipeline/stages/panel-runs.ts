@@ -13,7 +13,7 @@ import { NamedError } from "../../utils/errors.js";
 import { pathExists, readJsonSafe, writeJsonAtomic } from "../../utils/files.js";
 import { sendUntilAccepted } from "../../utils/resend.js";
 import { configuredStage } from "../../utils/stage-config.js";
-import { type StageInWorkspace, stageDirectoryPaths } from "../layout.js";
+import { type StageInWorkspace, savedRunFileName, stageDirectoryPaths } from "../layout.js";
 import { type JsonReplyOutcome, tryJsonReplyAs, type UsableJsonReply } from "./model-stage.js";
 
 /** A call whose reply is still unusable after its last send. The message names the call and the last reason. */
@@ -118,8 +118,7 @@ export function panelDirectory({ workspaceRoot, stageId }: StageInWorkspace): st
 }
 
 /**
- * The paths of a panel's saved runs, in run order. The numbers count from 1 and
- * have two digits, so the files list in run order.
+ * The paths of a panel's saved runs, in run order.
  *
  * @param args - The folder of the panel, and its size.
  * @param args.directory - The folder of the panel.
@@ -131,7 +130,7 @@ function savedRunPaths({
 	panelSize,
 }: Pick<SavedPanel<unknown>, "directory" | "panelSize">): readonly string[] {
 	return [...Array(panelSize).keys()].map((index) =>
-		join(directory, `run-${String(index + 1).padStart(2, "0")}.json`),
+		join(directory, savedRunFileName({ runNumber: index + 1 })),
 	);
 }
 

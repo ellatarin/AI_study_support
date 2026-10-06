@@ -250,6 +250,8 @@ debugLogPath(args: { projectRoot: string; invocationId: string }): string
 // invocation is wider than a pipeline run — a batch spans every configured module, and source-normalisation's work happens
 // before any lecture is chosen — and because a relative path would follow the directory the user invoked
 // from (§10).
+savedRunFileName(args: { runNumber: number }): string
+// The file name of one saved run of a panel, such as run-01.json. Two digits keep the files in run order.
 workspaceRootFor(args: { moduleRoot: string; baseName: string }): string
 // Where one lecture's workspace sits: a folder named with the lecture's base name, inside the module's processing
 // directory. Every stage, the runner, the CLI and every suite that lays a lecture out asks for it here.

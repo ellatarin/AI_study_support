@@ -15,6 +15,7 @@ import {
 	STAGE_FILES,
 	type StageWithMarkdownVersion,
 	type StageWithOutputFile,
+	savedRunFileName,
 	sharedLectureFileDirs,
 	stageDirectoryPaths,
 	stageMarkdownVersionEntry,
@@ -276,6 +277,18 @@ describe("stageMarkdownCopyPath", () => {
 				stageId: "transcript-verification",
 			}),
 		).toBe(join(WORKSPACE_ROOT, "Transcript verification", "verification-report.md"));
+	});
+});
+
+describe("savedRunFileName", () => {
+	it.each([
+		{ runNumber: 1, expected: "run-01.json" },
+		{ runNumber: 12, expected: "run-12.json" },
+	])("should name saved run $runNumber with two digits when the run is numbered", ({
+		runNumber,
+		expected,
+	}) => {
+		expect(savedRunFileName({ runNumber })).toBe(expected);
 	});
 });
 

@@ -95,6 +95,18 @@ export function debugLogPath({
 }
 
 /**
+ * Gives the file name of one saved run of a panel. The number has two digits, so
+ * the files list in run order.
+ *
+ * @param args - The run.
+ * @param args.runNumber - The number of the run, from 1.
+ * @returns The file name, such as `run-01.json`.
+ */
+export function savedRunFileName({ runNumber }: { readonly runNumber: number }): string {
+	return `run-${String(runNumber).padStart(2, "0")}.json`;
+}
+
+/**
  * Gives the workspace of a lecture: a folder named with the base name of the
  * lecture, in the processing folder. {@link moduleRootOf} does the reverse.
  *
