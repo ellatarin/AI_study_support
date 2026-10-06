@@ -17,15 +17,16 @@ import { createGroupIntoTopicsStage } from "./group-into-topics.js";
 
 const STAGE_ID = "group-into-topics";
 
-/** A usable grouping of the two-subtopic division: the whole lecture as one topic. */
+/** A usable grouping of the division of two subtopics: the whole lecture as one topic. */
 const USABLE_ANSWER = JSON.stringify({
 	topics: [{ label: "The lecture", groupedBecause: "It is one subject.", firstSubtopicId: 1 }],
 });
 
 /**
- * The reply each send gets, by the order the sends arrive in: a provider's
- * refusal for the first, an answer with no topics for the second, and a usable
- * answer for the rest — so both kinds of resend are made.
+ * The reply to each send, in the order that the sends arrive. The first send
+ * gets a provider error. The second send gets an answer with no topics. The
+ * other sends get a usable answer. So the stage resends after the provider
+ * error and after the answer with no topics.
  */
 const REPLIES_BY_ARRIVAL: readonly Readonly<Record<string, unknown>>[] = [
 	{ error: { message: "Upstream rate limit reached.", code: 429 } },
@@ -33,11 +34,12 @@ const REPLIES_BY_ARRIVAL: readonly Readonly<Record<string, unknown>>[] = [
 ];
 
 /**
- * Stubs OpenRouter to answer every send, noting the faked clock's time as each
- * arrives: the first sends get `firstReplies` in turn, the rest a usable answer.
+ * Stubs OpenRouter to reply to every send, and records the time of the fake
+ * clock when each send arrives. The first sends get `firstReplies` in turn. The
+ * other sends get a usable answer.
  *
- * @param firstReplies - The replies the first sends get, in the order they arrive.
- * @returns The arrival times, filled in as sends arrive.
+ * @param firstReplies - The replies to the first sends, in the order that they arrive.
+ * @returns The arrival times. The list fills as the sends arrive.
  */
 function stubSendsArrivingAt(
 	firstReplies: readonly Readonly<Record<string, unknown>>[],
@@ -61,7 +63,7 @@ describe("group-into-topics sending", () => {
 		stageId: STAGE_ID,
 		readsFrom: "retitle-subtopics",
 		factory: createGroupIntoTopicsStage,
-		// The network is stubbed per test, not the model call.
+		// Each test stubs the network, not the model call.
 		stubReply: () => undefined,
 	});
 
@@ -75,7 +77,7 @@ describe("group-into-topics sending", () => {
 		resetStubbedApi();
 	});
 
-	/** Runs the stage with `stageConfig`, seeing it through every pause. */
+	/** Runs the stage with `stageConfig`, and moves the fake clock through every pause. */
 	function runWith(stageConfig: PipelineConfig): ReturnType<typeof driveModelStage> {
 		return settleThroughPauses(
 			driveModelStage({
@@ -95,7 +97,7 @@ describe("group-into-topics sending", () => {
 
 		expect(arrivals).toHaveLength(config.grouping.panelSize + REPLIES_BY_ARRIVAL.length);
 		const gaps = arrivals.slice(1).map((arrival, index) => arrival - (arrivals[index] ?? 0));
-		// An arrival is noted up to one clock step after its send began.
+		// The test records an arrival up to one clock step after its send starts.
 		expect(Math.min(...gaps)).toBeGreaterThanOrEqual(gapMs - SETTLE_STEP_MS);
 	});
 
@@ -112,7 +114,7 @@ describe("group-into-topics sending", () => {
 		await runWith(unspaced);
 
 		expect(arrivals).toHaveLength(config.grouping.panelSize);
-		// Released together, the sends arrive within one clock step of each other.
+		// The stage releases the sends together, so they arrive within one clock step of each other.
 		expect(Math.max(...arrivals) - Math.min(...arrivals)).toBeLessThanOrEqual(SETTLE_STEP_MS);
 	});
 });

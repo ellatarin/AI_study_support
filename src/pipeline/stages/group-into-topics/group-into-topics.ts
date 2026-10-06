@@ -1,14 +1,15 @@
 /**
- * `group-into-topics`: groups the retitled subtopics into topics by a panel of
- * grouping runs with the prototype's `g23` prompt, and keeps the grouping the
- * most runs made (technical-design.md §5, `group-into-topics`).
+ * The `group-into-topics` stage, the last division stage. A panel of grouping
+ * runs groups the retitled subtopics into topics, with the `g23` prompt of the
+ * prototype. The stage keeps the chosen grouping: the grouping that the most
+ * runs made, or the winner of a tie (technical-design.md §5, `group-into-topics`).
  */
 
-/* jscpd:ignore-start -- the model-calling stages pull in the same pipeline types,
-   division helpers and model-stage helpers, so their import blocks match line
-   for line. There is nothing to extract: imports cannot be shared, and barrel
-   files are forbidden (CLAUDE.md, File Organisation). Only the imports are
-   exempt; the code below is checked as normal. */
+/* jscpd:ignore-start -- the model-calling stages import the same pipeline types,
+   division helpers and model-stage helpers. So their import blocks are the
+   same line for line. Imports cannot be shared, and CLAUDE.md (File
+   Organisation) forbids barrel files. Only the imports are exempt. jscpd
+   checks the code below. */
 import type { StageResult } from "../../../types/pipeline.js";
 import { isRecord } from "../../../utils/record.js";
 import { isTitledReplyPart, subtopicText, type TitledReplyPart } from "../division.js";
@@ -32,30 +33,30 @@ import { buildGroupingMessages } from "./group-into-topics.prompt.js";
 
 const STAGE_ID = "group-into-topics";
 
-/** One topic as the `g23` prompt asks for it: its title and reason, and the subtopic it starts at. */
+/** One topic as the `g23` prompt asks for it: its title, its reason, and the subtopic id where it starts. */
 type ReplyTopic = TitledReplyPart & { readonly firstSubtopicId: number };
 
-/** A grouping run as the model replied: its topics, in order. */
+/** The reply that the `g23` prompt asks for: the topics of one grouping run, in order. */
 type GroupingReply = { readonly topics: readonly ReplyTopic[] };
 
-/** The reply's shape in words, for the failure a user reads when a reply is not one. */
+/** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE = "{ topics: [{ label, groupedBecause, firstSubtopicId }] } object";
 
 /**
- * Whether a value in a parsed reply is one topic.
+ * Checks that a value in a parsed reply is one topic.
  *
- * @param value - One entry of the reply's list.
- * @returns `true` when it carries a string label and reason and a numeric first subtopic.
+ * @param value - One entry of the list in the reply.
+ * @returns `true` when it has a string `label`, a string `groupedBecause` and a number `firstSubtopicId`.
  */
 function isReplyTopic(value: unknown): value is ReplyTopic {
 	return isTitledReplyPart(value) && typeof value.firstSubtopicId === "number";
 }
 
 /**
- * Whether a value in a saved run is one topic.
+ * Checks that a value in a saved run is one topic.
  *
- * @param value - One entry of the saved run's list.
- * @returns `true` when it carries a string title and reason and a numeric first subtopic.
+ * @param value - One entry of the list in the saved run.
+ * @returns `true` when it has a string `title`, a string `groupedBecause` and a number `firstSubtopicId`.
  */
 function isTopic(value: unknown): value is Topic {
 	return (
@@ -67,13 +68,13 @@ function isTopic(value: unknown): value is Topic {
 }
 
 /**
- * Whether a value is an object that holds a list of topics. A reply and a saved
- * run have this shape. Their topics use different keys.
+ * Checks that a value is an object that holds a list of topics. A reply and a
+ * saved run have this shape. Their topics use different keys.
  *
  * @param args - The value, and the check for one topic.
  * @param args.value - The parsed reply or saved run.
- * @param args.isOneTopic - Whether one entry of the list is a topic.
- * @returns `true` when the value holds a list whose every entry is a topic.
+ * @param args.isOneTopic - Checks that one entry of the list is a topic.
+ * @returns `true` when the value holds a list and each entry is a topic.
  */
 function holdsTopics({
 	value,
@@ -86,25 +87,29 @@ function holdsTopics({
 }
 
 /**
- * Whether a parsed reply is the documented list of topics.
+ * Checks that a parsed reply is a list of topics.
  *
  * @param value - The parsed reply.
- * @returns `true` when it holds a list whose every entry is a topic.
+ * @returns `true` when it holds a list and each entry is a topic.
  */
 function isGroupingReply(value: unknown): value is GroupingReply {
 	return holdsTopics({ value, isOneTopic: isReplyTopic });
 }
 
 /**
- * Checks that a reply's topics put every subtopic in exactly one topic: there
- * is at least one, the first starts at subtopic 1, each later one starts after
- * the one before, and none starts past the last subtopic. Every topic must also
- * carry a title and a reason. Anything else is resent.
+ * Checks that the topics of a reply put each subtopic in exactly one topic:
+ * - There is at least one topic.
+ * - The first topic starts at subtopic 1.
+ * - Each later topic starts after the topic before it.
+ * - No topic starts after the last subtopic.
  *
- * @param args - The reply, and how many subtopics it groups.
+ * Each topic must also have a title and a reason that are not blank. A reply
+ * that fails a check is an unusable reply, and it is resent.
+ *
+ * @param args - The reply, and the number of subtopics that it groups.
  * @param args.reply - The parsed reply.
- * @param args.subtopicCount - How many subtopics the lecture has.
- * @returns The run that the reply gives, or why the reply could not be used.
+ * @param args.subtopicCount - The number of subtopics in the lecture.
+ * @returns The grouping run that the reply gives, or the reason that the reply is unusable.
  */
 function checkGrouping({
 	reply,
@@ -134,35 +139,35 @@ function checkGrouping({
 }
 
 /**
- * Whether a value parsed from a run file is a saved grouping run.
+ * Checks that a value parsed from a saved run is a grouping run.
  *
- * @param value - A value parsed from a run file.
- * @returns `true` when it holds a list whose every entry is a topic.
+ * @param value - A value parsed from a saved run.
+ * @returns `true` when it holds a list and each entry is a topic.
  */
 function isGroupingRun(value: unknown): value is GroupingRun {
 	return holdsTopics({ value, isOneTopic: isTopic });
 }
 
 /**
- * Reads a saved run back.
+ * Reads a saved run.
  *
- * @param value - A value parsed from a run file.
- * @returns The run, or `null` when the value is not one.
+ * @param value - A value parsed from a saved run.
+ * @returns The grouping run, or `null` when the value is not one.
  */
 function readGroupingRun(value: unknown): GroupingRun | null {
 	return isGroupingRun(value) ? value : null;
 }
 
-/** What the stage hands on: the chosen run's topics, in order. */
+/** The output of the stage: the topics of the chosen run, in order. */
 type GroupIntoTopicsOutput = { readonly topics: readonly Topic[] };
 
 /**
- * Changes a grouping run, as the model replied, into the run that is saved and
- * that the chooser reads. The reply's `label` becomes `title`. The code uses this name because it
- * is easier to read. The prompt keeps its own word.
+ * Changes a reply into the grouping run that is saved and that the chooser
+ * reads. The `label` of the reply becomes `title`. The code uses the name
+ * `title` because it is easier to read. The prompt keeps the word `label`.
  *
  * @param reply - A grouping run as the model replied.
- * @returns The run's topics, titled.
+ * @returns The topics of the run, with titles.
  */
 function asGroupingRun(reply: GroupingReply): GroupingRun {
 	return {
@@ -175,19 +180,20 @@ function asGroupingRun(reply: GroupingReply): GroupingRun {
 }
 
 /**
- * Makes the panel of grouping runs, resuming from any an earlier launch saved,
- * then writes the topics of the grouping chosen from them, with the stage record
- * beside them of how it was chosen.
+ * Makes the panel of grouping runs, and chooses a grouping from it. Then it
+ * writes the topics of the chosen grouping, with the stage record of the choice
+ * beside them.
  *
- * @param args - The stage's input, context and dependencies.
+ * @param args - The input, the stage context and the dependencies of the stage.
  * @param args.input - The transcript and the retitled division.
- * @param args.context - The current lecture run context.
- * @param args.logger - The run's logger, on which each model call is recorded.
- * @param args.client - The OpenAI client the calls go through.
- * @returns The chosen topics, what this launch's calls cost, and every file written.
+ * @param args.context - The stage context.
+ * @param args.logger - The logger that records each model call.
+ * @param args.client - The OpenAI client that sends the calls.
+ * @param args.sendGate - The send gate of this stage run. Every send waits on it.
+ * @returns The chosen topics, the cost of the calls of this invocation, and every file written.
  */
 async function groupIntoTopics(
-	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client have mutable properties that the rule cannot ignore. This function only reads them. CLAUDE.md permits a mutable type that a library requires.
 	args: ModelStageRunArgs<TranscriptAndDivision>,
 ): Promise<StageResult<GroupIntoTopicsOutput>> {
 	const { context } = args;
@@ -210,17 +216,19 @@ async function groupIntoTopics(
 }
 
 /**
- * Makes the panel of grouping runs, resuming from any an earlier launch saved.
+ * Makes the panel of grouping runs. The stage reads a saved run that an earlier
+ * invocation made, and does not make that run again.
  *
- * @param args - The stage's input, context and dependencies.
+ * @param args - The input, the stage context and the dependencies of the stage.
  * @param args.input - The transcript and the retitled division.
- * @param args.context - The current lecture run context.
- * @param args.logger - The run's logger, on which each model call is recorded.
- * @param args.client - The OpenAI client the calls go through.
- * @returns Every run, what this launch's calls cost, and the run files.
+ * @param args.context - The stage context.
+ * @param args.logger - The logger that records each model call.
+ * @param args.client - The OpenAI client that sends the calls.
+ * @param args.sendGate - The send gate of this stage run. Every send waits on it.
+ * @returns Every grouping run, the cost of the calls of this invocation, and the saved runs.
  */
 function makeGroupingRuns(
-	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client have mutable properties that the rule cannot ignore. This function only reads them. CLAUDE.md permits a mutable type that a library requires.
 	args: ModelStageRunArgs<TranscriptAndDivision>,
 ): Promise<StageResult<{ readonly runs: readonly GroupingRun[] }>> {
 	const { input, context, logger, client, sendGate } = args;
@@ -249,9 +257,9 @@ function makeGroupingRuns(
 }
 
 /**
- * Builds the `group-into-topics` stage from the run's logger and the invocation's
- * OpenAI client. It starts from the transcript and the retitled division, and
- * fails with a {@link GroupIntoTopicsError} when either is missing or unreadable.
+ * Builds the `group-into-topics` stage from the logger and the OpenAI client of
+ * the invocation. The stage reads the transcript and the retitled division. It
+ * fails with {@link GroupIntoTopicsError} when either is missing or unreadable.
  */
 export const createGroupIntoTopicsStage: ModelStageFactory<
 	TranscriptAndDivision,

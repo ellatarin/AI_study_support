@@ -1,8 +1,8 @@
 /**
- * `retitle-subtopics`: gives every subtopic of the chosen division a new title
- * from its own text, in one call over the whole lecture with the prototype's
- * `r9` prompt. Only titles change; no cut moves (technical-design.md §5,
- * `retitle-subtopics`).
+ * The `retitle-subtopics` stage. It gives each subtopic of the chosen division a
+ * new title from its own text. It makes one call for the whole lecture, with the
+ * `r9` prompt of the prototype. Only titles change. No cut moves
+ * (technical-design.md §5, `retitle-subtopics`).
  */
 
 import type { StageContext, StageResult } from "../../../types/pipeline.js";
@@ -20,55 +20,55 @@ import { type DivisionOutput, writeDivisionWithStageRecord } from "../stage-outp
 import { buildRetitleMessages } from "./retitle-subtopics.prompt.js";
 
 /**
- * The stage could not retitle: its transcript or chosen division is missing or
- * unreadable. A call whose replies stay unusable fails with the resend loop's own error.
+ * The error when the transcript or the chosen division is missing or unreadable.
+ * A call whose third send is still unusable fails the stage with `ResendsExhaustedError`.
  */
 export class RetitleSubtopicsError extends NamedError {}
 
 const STAGE_ID = "retitle-subtopics";
 
-/** One entry of the reply: a subtopic id and the new title for that subtopic. */
+/** One entry of the reply: a subtopic id and the new title of that subtopic. */
 type ReplyTitle = { readonly id: number; readonly title: string };
 
-/** The object the `r9` prompt asks for: a title for each subtopic, by subtopic id. */
+/** The reply that the `r9` prompt asks for: a title for each subtopic, by subtopic id. */
 type TitlesReply = { readonly titles: readonly ReplyTitle[] };
 
-/** The reply's shape in words, for the failure a user reads when a reply is not one. */
+/** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE = "{ titles: [{ id, title }] } object";
 
 /**
- * Whether a value in a parsed reply is one subtopic's title.
+ * Checks that a value in a parsed reply is the title of one subtopic.
  *
- * @param value - One entry of the reply's list.
- * @returns `true` when it carries a numeric subtopic id and a string title.
+ * @param value - One entry of the list in the reply.
+ * @returns `true` when it has a number subtopic id and a string title.
  */
 function isReplyTitle(value: unknown): value is ReplyTitle {
 	return isRecord(value) && typeof value.id === "number" && typeof value.title === "string";
 }
 
 /**
- * Whether a parsed reply is the documented list of titles.
+ * Checks that a parsed reply is a list of titles.
  *
  * @param value - The parsed reply.
- * @returns `true` when it holds a list whose every entry is a title.
+ * @returns `true` when it holds a list and each entry is a title.
  */
 function isTitlesReply(value: unknown): value is TitlesReply {
 	return isRecord(value) && Array.isArray(value.titles) && value.titles.every(isReplyTitle);
 }
 
-/** One subtopic of the chosen division, and the title the reply gave it. */
+/** One subtopic of the chosen division, and the title that the reply gave it. */
 type Retitling = { readonly subtopic: Subtopic; readonly newTitle: string };
 
 /**
- * Each subtopic paired with the reply's title for it, when the reply gives
- * exactly one non-blank title for every subtopic, in order: a missing,
- * repeated, out-of-range or out-of-order subtopic id, or a blank title, makes the
- * reply unusable.
+ * Pairs each subtopic with its title from the reply. The reply must give one
+ * title that is not blank for each subtopic, in order. A missing, repeated,
+ * out-of-range or out-of-order subtopic id makes the reply unusable. A blank
+ * title also makes it unusable.
  *
- * @param args - The division's subtopics, and the reply's titles.
- * @param args.subtopics - The chosen division's subtopics, in order.
- * @param args.titles - The titles the reply gave.
- * @returns Each subtopic with its new title, or why the reply could not be used.
+ * @param args - The subtopics of the division, and the titles of the reply.
+ * @param args.subtopics - The subtopics of the chosen division, in order.
+ * @param args.titles - The titles that the reply gave.
+ * @returns Each subtopic with its new title, or the reason that the reply is unusable.
  */
 function pairTitles({
 	subtopics,
@@ -94,7 +94,7 @@ function pairTitles({
 	return titles.length === subtopics.length ? { reply: pairs } : outOfOrder;
 }
 
-/** How many subtopics there are, and which titles changed (technical-design.md §4.5). */
+/** The stage record of `retitle-subtopics`: the number of subtopics, and the titles that changed (technical-design.md §4.5). */
 type TitleChanges = {
 	readonly subtopics: number;
 	readonly titlesChanged: number;
@@ -106,11 +106,11 @@ type TitleChanges = {
 };
 
 /**
- * Lists the titles retitling changed. A new title identical to the old one is
- * not a change.
+ * Lists the titles that retitling changed. A new title that is the same as the
+ * old title is not a change.
  *
  * @param retitlings - Each subtopic of the chosen division with its new title, in order.
- * @returns The stage record written beside the retitled division.
+ * @returns The stage record that is written beside the retitled division.
  */
 function titleChanges(retitlings: readonly Retitling[]): TitleChanges {
 	const changed = [...retitlings.entries()].flatMap(([index, { subtopic, newTitle }]) =>
@@ -124,8 +124,8 @@ function titleChanges(retitlings: readonly Retitling[]): TitleChanges {
 /**
  * Reads the transcript and the chosen division.
  *
- * @param context - The current lecture run context.
- * @returns The stage's input.
+ * @param context - The stage context.
+ * @returns The input of the stage.
  * @throws {RetitleSubtopicsError} If the transcript is missing or holds no text, or the chosen division is missing or unreadable.
  */
 function readInput(context: StageContext): Promise<TranscriptAndDivision> {
@@ -138,17 +138,19 @@ function readInput(context: StageContext): Promise<TranscriptAndDivision> {
 }
 
 /**
- * Asks the model for a title for every subtopic.
+ * Asks the model for a title for each subtopic. Then it writes the retitled
+ * division, with its stage record beside it.
  *
- * @param args - The stage's input, context and dependencies.
+ * @param args - The input, the stage context and the dependencies of the stage.
  * @param args.input - The transcript and the chosen division.
- * @param args.context - The current lecture run context.
- * @param args.logger - The run's logger, on which the call is recorded.
- * @param args.client - The OpenAI client the call goes through.
- * @param args.sendGate - The run's turns to send, which the call waits on.
- * @returns The retitled division, what the call cost, and the files written.
+ * @param args.context - The stage context.
+ * @param args.logger - The logger that records the model call.
+ * @param args.client - The OpenAI client that sends the call.
+ * @param args.sendGate - The send gate of this stage run. Every send waits on it.
+ * @returns The retitled division, the cost of the call, and the files written.
+ * @throws {ResendsExhaustedError} If the third send is still unusable.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client have mutable properties that the rule cannot ignore. This function only reads them. CLAUDE.md permits a mutable type that a library requires.
 async function retitle({
 	input,
 	context,
@@ -180,9 +182,6 @@ async function retitle({
 	});
 }
 
-/**
- * Builds the `retitle-subtopics` stage from the run's logger and the
- * invocation's OpenAI client.
- */
+/** Builds the `retitle-subtopics` stage from the logger and the OpenAI client of the invocation. */
 export const createRetitleSubtopicsStage: ModelStageFactory<TranscriptAndDivision, DivisionOutput> =
 	defineModelStage({ stageId: STAGE_ID, getInput: readInput, run: retitle });

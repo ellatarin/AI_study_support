@@ -1,8 +1,8 @@
-/* jscpd:ignore-start -- sibling stage suites import the same fixtures and mock the
-   same module, so their preambles match line for line. Neither half can move:
-   imports cannot be shared and barrel files are forbidden (CLAUDE.md, File
-   Organisation), and vi.mock is hoisted, so it must sit in the file that mocks.
-   Only the preamble is exempt; the suite below is checked as normal. */
+/* jscpd:ignore-start -- the suites of sibling stages import the same fixtures
+   and mock the same module. So their preambles are the same line for line.
+   Imports cannot be shared, and CLAUDE.md (File Organisation) forbids barrel
+   files. vi.mock is hoisted, so it must be in the file that mocks. Only the
+   preamble is exempt. jscpd checks the suite below. */
 import { join } from "node:path";
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -30,7 +30,7 @@ import {
 	InitialSubtopicSplittingError,
 } from "./initial-subtopic-splitting.js";
 
-// Only the call is stubbed; everything else the module exports stays real.
+// Only the model call is a stub. The other exports of the module stay real.
 vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 	...(await importOriginal()),
 	callModel: vi.fn(),
@@ -42,8 +42,8 @@ const modelCallMock = callModel as unknown as Mock;
 const STAGE_ID = "initial-subtopic-splitting";
 
 /**
- * A reply dividing the fixture transcript as {@link transcriptDivision} does,
- * the second subtopic starting at `secondStartWords`.
+ * A reply that divides the fixture transcript as {@link transcriptDivision} does.
+ * The second subtopic starts at `secondStartWords`.
  */
 function splitReply({ secondStartWords }: { readonly secondStartWords: string }): string {
 	const startWords = ["Today we are covering", secondStartWords];
@@ -57,10 +57,10 @@ function splitReply({ secondStartWords }: { readonly secondStartWords: string })
 	});
 }
 
-/** Every run's model reply, when the model divides the transcript as intended. */
+/** The reply to every run when the model divides the transcript as {@link transcriptDivision} does. */
 const GOOD_REPLY = splitReply({ secondStartWords: transcriptSecondStartWords });
 
-/** How many runs the example config's panel holds. */
+/** The number of runs in the splitting panel of the example config. */
 const PANEL_SIZE = configuringStage({ stageId: STAGE_ID }).subtopicSplitting.panelSize;
 
 describe("createInitialSubtopicSplittingStage", () => {
@@ -68,7 +68,7 @@ describe("createInitialSubtopicSplittingStage", () => {
 	const logged = useStubLogger();
 	const config = configuringStage({ stageId: STAGE_ID });
 
-	/** The lecture workspace the current test is running against. */
+	/** The workspace of the current test. */
 	const workspaceRoot = (): string => workspace().workspaceRoot;
 
 	beforeEach(() => {
@@ -76,7 +76,7 @@ describe("createInitialSubtopicSplittingStage", () => {
 		modelCallMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost });
 	});
 
-	/** Runs the stage against the prepared workspace, the way the runner would. */
+	/** Runs the stage on the prepared workspace, as the runner does. */
 	function run(): ReturnType<typeof driveModelStage> {
 		return driveModelStage({
 			factory: createInitialSubtopicSplittingStage,
@@ -86,7 +86,7 @@ describe("createInitialSubtopicSplittingStage", () => {
 		});
 	}
 
-	/** The saved run the stage wrote for run `runNumber`, parsed back off disk. */
+	/** The saved run with the number `runNumber`, parsed from disk. */
 	function savedRun(runNumber: number): Promise<unknown> {
 		return readSavedRunJson({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID, runNumber });
 	}

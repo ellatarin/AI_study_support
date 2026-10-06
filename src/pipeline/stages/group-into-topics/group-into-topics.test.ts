@@ -1,8 +1,8 @@
-/* jscpd:ignore-start -- sibling stage suites import the same fixtures and mock the
-   same module, so their preambles match line for line. Neither half can move:
-   imports cannot be shared and barrel files are forbidden (CLAUDE.md, File
-   Organisation), and vi.mock is hoisted, so it must sit in the file that mocks.
-   Only the preamble is exempt; the suite below is checked as normal. */
+/* jscpd:ignore-start -- the suites of sibling stages import the same fixtures
+   and mock the same module. So their preambles are the same line for line.
+   Imports cannot be shared, and CLAUDE.md (File Organisation) forbids barrel
+   files. vi.mock is hoisted, so it must be in the file that mocks. Only the
+   preamble is exempt. jscpd checks the suite below. */
 import { rm, writeFile } from "node:fs/promises";
 import { relative } from "node:path";
 import type { Mock } from "vitest";
@@ -28,7 +28,7 @@ import { ResendsExhaustedError } from "../panel-runs.js";
 import { GroupIntoTopicsError } from "./choose-grouping.js";
 import { createGroupIntoTopicsStage } from "./group-into-topics.js";
 
-// Only the call is stubbed; everything else the module exports stays real.
+// Only the model call is a stub. The other exports of the module stay real.
 vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 	...(await importOriginal()),
 	callModel: vi.fn(),
@@ -39,29 +39,29 @@ const modelCallMock = callModel as unknown as Mock;
 
 const STAGE_ID = "group-into-topics";
 
-/** A grouping reply holding `topics`, each as the prompt asks for it. */
+/** A grouping reply that holds `topics`, each in the shape that the prompt asks for. */
 function replyOf(...topics: readonly Readonly<Record<string, unknown>>[]): string {
 	return JSON.stringify({ topics });
 }
 
-/** The first topic of {@link GOOD_REPLY}, starting at subtopic 1. */
+/** The first topic of {@link GOOD_REPLY}. It starts at subtopic 1. */
 const OPENING_TOPIC = {
 	label: "The lecture's opening",
 	groupedBecause: "It frames the lecture.",
 	firstSubtopicId: 1,
 };
 
-/** The second topic of {@link GOOD_REPLY}, starting at the last subtopic. */
+/** The second topic of {@link GOOD_REPLY}. It starts at the last subtopic. */
 const SUBJECT_TOPIC = {
 	label: "Cell injury",
 	groupedBecause: "It is the lecture's subject.",
 	firstSubtopicId: 2,
 };
 
-/** A grouping reply putting each subtopic of {@link transcriptDivision} in a topic of its own. */
+/** A grouping reply that puts each subtopic of {@link transcriptDivision} in a topic of its own. */
 const GOOD_REPLY = replyOf(OPENING_TOPIC, SUBJECT_TOPIC);
 
-/** The topics of {@link GOOD_REPLY} as the stage saves and writes them: each `label` is a `title`. */
+/** The topics of {@link GOOD_REPLY} as the stage saves and writes them. Each `label` becomes a `title`. */
 const GOOD_TOPICS = [OPENING_TOPIC, SUBJECT_TOPIC].map(
 	({ label, groupedBecause, firstSubtopicId }) => ({
 		title: label,
@@ -79,7 +79,7 @@ describe("createGroupIntoTopicsStage", () => {
 			modelCallMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost }),
 	});
 
-	/** Where a grouping run is saved, counting from 1. */
+	/** The path of the saved grouping run with the number `runNumber`, counting from 1. */
 	const runPath = (runNumber: number): string =>
 		savedRunPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID, runNumber });
 
@@ -179,7 +179,7 @@ describe("createGroupIntoTopicsStage", () => {
 	});
 
 	it("should fail without writing the topics when a run's third send is still unusable", {
-		// Two real pauses, of two seconds and then four, come before the third send fails.
+		// Two real pauses, of two seconds and then four seconds, come before the third send.
 		timeout: 10_000,
 	}, async () => {
 		modelCallMock.mockResolvedValue({ content: replyOf(), cost: stubbedCallCost });

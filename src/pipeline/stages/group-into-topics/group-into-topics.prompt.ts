@@ -1,17 +1,17 @@
 /**
- * The messages `group-into-topics` sends: the segmentation prototype's `g23`
- * prompt in the form that shows each subtopic's title, carried over byte for
- * byte, and every retitled subtopic (technical-design.md §5, `group-into-topics`;
- * "Where prompts live").
+ * The messages that `group-into-topics` sends. They are the `g23` prompt of the
+ * segmentation prototype, in the form that shows the title of each subtopic. The
+ * prompt is copied byte for byte. The messages also hold each retitled subtopic
+ * (technical-design.md §5, `group-into-topics` and "Where prompts live").
  *
- * The prompt is not edited here. Its every rule was measured in the prototype
- * (`docs/quality/segmentation-prototype/group-prompts.mts`, version `g23`), and
- * a change belongs there first, as a new version with runs against it.
+ * Do not edit the prompt here. A change goes first to
+ * `docs/quality/segmentation-prototype/group-prompts.mts`, version `g23`, as a new
+ * version with runs against it.
  */
 
 import { type PromptMessages, promptMessages } from "../model-stage.js";
 
-/** The prototype's `g23` prompt, with titles shown, byte for byte. */
+/** The `g23` prompt of the prototype, in the form that shows titles, byte for byte. */
 const G23_PROMPT = `# Task
 
 You are given the subtopics of a university lecture, in order, each with its full text. Group them into TOPICS.
@@ -86,17 +86,18 @@ Reply with a single JSON object and nothing else, in this exact shape:
 
 \`firstSubtopicId\` is the id of the first subtopic in the topic. Topics appear in order, the first begins at subtopic 1, and each topic runs to the subtopic before the next topic's first. Every subtopic therefore belongs to exactly one topic; do not list them individually and do not leave any out.`;
 
-/** The key a subtopic id is sent under. The word "id" is the prompt's word, not ours to choose. */
+/** The key of a subtopic id in the user message. "id" is the word of the prompt, so the code cannot change it. */
 const SUBTOPIC_ID_KEY = "id";
 
 /**
- * Builds a grouping run's messages: the `g23` prompt, and every subtopic as
- * its subtopic id, its title under the prompt's word `label`, and
- * its text with the blank space at each end removed — the prototype's own
- * payload, so the model reads what the prototype's runs read.
+ * Builds the messages of a grouping run. The system message is the `g23` prompt.
+ * The user message gives each subtopic as its subtopic id, its title and its
+ * text. The title is under the key `label` of the prompt. The text has the
+ * whitespace at its ends removed. The prototype sent the same user message, so
+ * the model reads what the prototype runs read.
  *
  * @param args - The subtopics to group.
- * @param args.subtopics - Each subtopic's title and text, in lecture order.
+ * @param args.subtopics - The title and text of each subtopic, in lecture order.
  * @returns The system and user messages.
  */
 export function buildGroupingMessages({

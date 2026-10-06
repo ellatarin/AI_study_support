@@ -1,15 +1,15 @@
 /**
- * `initial-subtopic-splitting`: the first of the three division stages. Makes a
- * panel of splitting runs, each sending the whole transcript with the `s6`
- * prompt and cutting it where the model says each subtopic begins
+ * The `initial-subtopic-splitting` stage, the first division stage. It makes a
+ * panel of splitting runs. Each run sends the whole transcript with the `s6`
+ * prompt. Then the stage cuts the transcript at the start words of each subtopic
  * (technical-design.md §5, "Dividing the transcript").
  */
 
-/* jscpd:ignore-start -- the division stages pull in the same pipeline types,
-   division helpers and model-stage helpers, so their import blocks match line
-   for line. There is nothing to extract: imports cannot be shared, and barrel
-   files are forbidden (CLAUDE.md, File Organisation). Only the imports are
-   exempt; the code below is checked as normal. */
+/* jscpd:ignore-start -- the division stages import the same pipeline types,
+   division helpers and model-stage helpers. So their import blocks are the
+   same line for line. Imports cannot be shared, and CLAUDE.md (File
+   Organisation) forbids barrel files. Only the imports are exempt. jscpd
+   checks the code below. */
 import type { StageContext, StageResult } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
 import { isRecord } from "../../../utils/record.js";
@@ -34,30 +34,30 @@ import { buildSplittingMessages } from "./initial-subtopic-splitting.prompt.js";
 /* jscpd:ignore-end */
 
 /**
- * Thrown when the transcript cannot be divided: it is missing or empty. A run
- * whose replies stay unusable fails the stage with the panel's own error.
+ * The error when the transcript is missing or holds no text. A run whose third
+ * send is still unusable fails the stage with `ResendsExhaustedError`.
  */
 export class InitialSubtopicSplittingError extends NamedError {}
 
 const STAGE_ID = "initial-subtopic-splitting";
 
-/** The transcript this stage divides, with the whitespace at its ends removed. */
+/** The transcript that this stage divides, with the whitespace at its ends removed. */
 export type InitialSubtopicSplittingInput = { readonly transcript: string };
 
 /** Every splitting run of the panel, in run order. */
 export type InitialSubtopicSplittingOutput = { readonly runs: readonly (readonly Subtopic[])[] };
 
-/** The object the `s6` prompt asks for. */
+/** The reply that the `s6` prompt asks for. */
 type SplitReply = { readonly subtopics: readonly ReplySubtopic[] };
 
-/** The reply's shape in words, for the failure a user reads when a reply is not one. */
+/** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE = "{ subtopics: [{ label, groupedBecause, startsWith }] } object";
 
 /**
- * Whether a parsed reply is the documented list of at least one subtopic.
+ * Checks that a parsed reply is a list of one or more reply subtopics.
  *
  * @param value - The parsed reply.
- * @returns `true` when every subtopic carries its three strings.
+ * @returns `true` when the list is not empty and each subtopic has its three strings.
  */
 function isSplitReply(value: unknown): value is SplitReply {
 	if (!isRecord(value) || !Array.isArray(value.subtopics) || value.subtopics.length === 0) {
@@ -67,14 +67,15 @@ function isSplitReply(value: unknown): value is SplitReply {
 }
 
 /**
- * Cuts the transcript where a reply says each subtopic begins. A reply giving
- * start words the transcript does not contain is as unusable as one that is not
- * JSON, so it is returned as a failure for the panel to resend.
+ * Cuts the transcript at the start words of each subtopic in a reply. A reply
+ * with start words that the transcript does not contain is an unusable reply.
+ * So the function returns a failure, and the panel resends the run.
  *
- * @param args - The transcript, and the reply's subtopics.
+ * @param args - The transcript, and the subtopics of the reply.
  * @param args.transcript - The transcript to divide.
- * @param args.subtopics - The subtopics the reply named, in order.
- * @returns The division, or why the reply could not be used.
+ * @param args.subtopics - The subtopics of the reply, in order.
+ * @returns The division, or the reason that the reply is unusable.
+ * @throws {DivisionNotLosslessError} If the division does not reproduce the transcript. A division that does not reproduce the transcript is always a bug.
  */
 function divideAsReplied({
 	transcript,
@@ -102,17 +103,18 @@ function divideAsReplied({
 }
 
 /**
- * Makes the panel of splitting runs, resuming from any an earlier launch saved.
+ * Makes the panel of splitting runs. The stage reads a saved run that an earlier
+ * invocation made, and does not make that run again.
  *
- * @param args - The stage's input, context and dependencies.
+ * @param args - The input, the stage context and the dependencies of the stage.
  * @param args.input - The transcript to divide.
- * @param args.context - The current lecture run context.
- * @param args.logger - The run's logger, on which each model call is recorded.
- * @param args.client - The OpenAI client the calls go through.
- * @param args.sendGate - The run's turns to send, which every call waits on.
- * @returns Every run, what this launch's calls cost, and the run files.
+ * @param args.context - The stage context.
+ * @param args.logger - The logger that records each model call.
+ * @param args.client - The OpenAI client that sends the calls.
+ * @param args.sendGate - The send gate of this stage run. Every send waits on it.
+ * @returns Every splitting run, the cost of the calls of this invocation, and the saved runs.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client have mutable properties that the rule cannot ignore. This function only reads them. CLAUDE.md permits a mutable type that a library requires.
 function splitTranscript({
 	input,
 	context,
@@ -140,9 +142,9 @@ function splitTranscript({
 }
 
 /**
- * Reads the transcript this stage divides.
+ * Reads the transcript that this stage divides.
  *
- * @param context - The current lecture run context.
+ * @param context - The stage context.
  * @returns The transcript, with the whitespace at its ends removed.
  * @throws {InitialSubtopicSplittingError} If the transcript is missing or holds no text.
  */
@@ -155,10 +157,7 @@ async function readInput(context: StageContext): Promise<InitialSubtopicSplittin
 	};
 }
 
-/**
- * Builds the `initial-subtopic-splitting` stage from the run's logger and the
- * invocation's OpenAI client.
- */
+/** Builds the `initial-subtopic-splitting` stage from the logger and the OpenAI client of the invocation. */
 export const createInitialSubtopicSplittingStage: ModelStageFactory<
 	InitialSubtopicSplittingInput,
 	InitialSubtopicSplittingOutput

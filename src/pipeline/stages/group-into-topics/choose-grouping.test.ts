@@ -6,12 +6,12 @@ import {
 	type GroupingRun,
 } from "./choose-grouping.js";
 
-/** The support the vote asks of a topic start: more than half of a five-run panel. */
+/** The bar of the vote: more than half of a panel of five runs. */
 const BAR = 3;
 
 /**
- * A grouping run starting a topic at subtopic 1 and at each of `laterStarts`,
- * each topic named after its run, so the run handed on can be told from the rest.
+ * A grouping run that starts a topic at subtopic 1 and at each of `laterStarts`.
+ * Each title names the run, so a test can tell the chosen run from the other runs.
  */
 function runStartingAt(runNumber: number, ...laterStarts: readonly number[]): GroupingRun {
 	return {
@@ -23,7 +23,7 @@ function runStartingAt(runNumber: number, ...laterStarts: readonly number[]): Gr
 	};
 }
 
-/** Chooses from runs each starting its later topics where its list says. */
+/** Chooses a grouping from runs whose later topics start at the subtopics in `laterStartsPerRun`. */
 function choosing(
 	laterStartsPerRun: readonly (readonly number[])[],
 ): ReturnType<typeof chooseGrouping> {
@@ -33,7 +33,7 @@ function choosing(
 	});
 }
 
-/** A five-run panel, and how it is chosen from: each panel decided by a different rule. */
+/** A panel of five runs, and the choice from it. A different rule decides each panel below. */
 type DecidedPanel = {
 	readonly laterStartsPerRun: readonly (readonly number[])[];
 	readonly chosenRun: number;
@@ -41,7 +41,7 @@ type DecidedPanel = {
 	readonly decidedBy: GroupingChoice["decidedBy"];
 };
 
-/** Runs 2 and 3 make the one grouping two runs made. */
+/** Runs 2 and 3 make the only grouping that two runs made. */
 const MOST_RUNS: DecidedPanel = {
 	laterStartsPerRun: [[3], [5], [5], [5, 7], [3, 7]],
 	chosenRun: 2,
@@ -49,7 +49,7 @@ const MOST_RUNS: DecidedPanel = {
 	decidedBy: "most-runs",
 };
 
-/** Every run makes the same grouping, so there is no other to set it above. */
+/** Every run makes the same grouping, so there is no other grouping to put it above. */
 const EVERY_RUN_AGREES: DecidedPanel = {
 	laterStartsPerRun: [[5], [5], [5], [5], [5]],
 	chosenRun: 1,
@@ -57,7 +57,7 @@ const EVERY_RUN_AGREES: DecidedPanel = {
 	decidedBy: "most-runs",
 };
 
-/** Two groupings each made by two runs; runs 3 and 4's has more topics. */
+/** Two runs make each of two groupings. The grouping of runs 3 and 4 has more topics. */
 const MORE_TOPICS: DecidedPanel = {
 	laterStartsPerRun: [[3], [3], [3, 6], [3, 6], [7]],
 	chosenRun: 3,
@@ -66,8 +66,8 @@ const MORE_TOPICS: DecidedPanel = {
 };
 
 /*
- * In both vote panels the vote keeps exactly run 3's starts, and run 3 is
- * neither the earliest candidate nor the one with the most topics.
+ * In the two panels below, the vote keeps exactly the topic starts of run 3. Run
+ * 3 is not the earliest candidate, and it does not have the most topics.
  */
 const CLOSEST_WHEN_EVERY_RUN_DIFFERS: DecidedPanel = {
 	laterStartsPerRun: [[3], [3, 5, 7, 9], [3, 5], [5, 8], [3, 5, 2]],
@@ -83,7 +83,7 @@ const CLOSEST_WHEN_TIED_ON_TOPICS: DecidedPanel = {
 	decidedBy: "closest-to-vote",
 };
 
-/** Every run differs and no start reaches the bar, so every run is as far from the empty vote. */
+/** Each run is different, and no topic start reaches the bar. So each run has the same distance from the empty vote. */
 const EARLIEST_RUN: DecidedPanel = {
 	laterStartsPerRun: [[3], [5], [7], [9], [2]],
 	chosenRun: 1,
@@ -99,7 +99,7 @@ describe("chooseGrouping", () => {
 	});
 
 	it("should treat runs as the same grouping when their starts match and their titles differ", () => {
-		// Every run names its topics after itself, so runs 1 and 3 agree only on where topics start.
+		// The titles of each run name the run. So runs 1 and 3 agree only on the topic starts.
 		const { choice } = choosing([[5], [3], [5]]);
 
 		expect(choice).toMatchObject({ chosenRun: 1, support: 2 });

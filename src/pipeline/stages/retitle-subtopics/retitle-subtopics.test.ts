@@ -1,8 +1,8 @@
-/* jscpd:ignore-start -- sibling stage suites import the same fixtures and mock the
-   same module, so their preambles match line for line. Neither half can move:
-   imports cannot be shared and barrel files are forbidden (CLAUDE.md, File
-   Organisation), and vi.mock is hoisted, so it must sit in the file that mocks.
-   Only the preamble is exempt; the suite below is checked as normal. */
+/* jscpd:ignore-start -- the suites of sibling stages import the same fixtures
+   and mock the same module. So their preambles are the same line for line.
+   Imports cannot be shared, and CLAUDE.md (File Organisation) forbids barrel
+   files. vi.mock is hoisted, so it must be in the file that mocks. Only the
+   preamble is exempt. jscpd checks the suite below. */
 import { rm, writeFile } from "node:fs/promises";
 import type { Mock } from "vitest";
 import { describe, expect, it, vi } from "vitest";
@@ -20,7 +20,7 @@ import { callModel } from "../../openrouter.js";
 import { ResendsExhaustedError } from "../panel-runs.js";
 import { createRetitleSubtopicsStage, RetitleSubtopicsError } from "./retitle-subtopics.js";
 
-// Only the call is stubbed; everything else the module exports stays real.
+// Only the model call is a stub. The other exports of the module stay real.
 vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 	...(await importOriginal()),
 	callModel: vi.fn(),
@@ -31,18 +31,18 @@ const modelCallMock = callModel as unknown as Mock;
 
 const STAGE_ID = "retitle-subtopics";
 
-/** The titles the stubbed model gives the subtopics of {@link transcriptDivision}, in order. */
+/** The titles that the stub model gives the subtopics of {@link transcriptDivision}, in order. */
 const NEW_TITLES = ["Introduction to the lecture", "Cell injury and immunity"];
 
-/** A reply giving each subtopic the title at its place in `titles`, by subtopic id. */
+/** A reply that gives each subtopic the title at the same place in `titles`, by subtopic id. */
 function titlesReply(titles: readonly string[]): string {
 	return JSON.stringify({ titles: titles.map((title, index) => ({ id: index + 1, title })) });
 }
 
-/** A reply giving each subtopic its new title. */
+/** A reply that gives each subtopic its new title. */
 const GOOD_REPLY = titlesReply(NEW_TITLES);
 
-/** {@link transcriptDivision} as the stage should write it after {@link GOOD_REPLY}. */
+/** {@link transcriptDivision} as the stage must write it after {@link GOOD_REPLY}. */
 const RETITLED_DIVISION = [
 	{ ...transcriptDivision[0], title: NEW_TITLES[0] },
 	{ ...transcriptDivision[1], title: NEW_TITLES[1] },
@@ -57,7 +57,7 @@ describe("createRetitleSubtopicsStage", () => {
 			modelCallMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost }),
 	});
 
-	/** The retitled division the stage wrote, parsed back off disk. */
+	/** The retitled division that the stage wrote, parsed from disk. */
 	function writtenDivision(): Promise<unknown> {
 		return readJsonFile(stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID }));
 	}
@@ -131,7 +131,7 @@ describe("createRetitleSubtopicsStage", () => {
 	});
 
 	it("should fail without writing the division when the third send's reply is still unusable", {
-		// Two real pauses, of two seconds and then four, come before the third send fails.
+		// Two real pauses, of two seconds and then four seconds, come before the third send.
 		timeout: 10_000,
 	}, async () => {
 		modelCallMock.mockResolvedValue({ content: "", cost: stubbedCallCost });

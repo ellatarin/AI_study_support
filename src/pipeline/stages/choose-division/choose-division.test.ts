@@ -5,14 +5,14 @@ import { ChooseDivisionError, chooseDivision } from "./choose-division.js";
 /** A transcript of 1,000 characters, so one percent of it is 10 characters. */
 const TEXT = "x".repeat(1000);
 
-/** Positions of cut sites far enough apart never to be one site. */
+/** The positions of cut sites that are too far apart to be one cut site. */
 const A = 100;
 const B = 300;
 const C = 500;
 
 /**
- * A splitting run cutting the transcript at `cuts`, each subtopic titled by
- * the run it belongs to, so the run handed on can be told from the rest.
+ * A splitting run that cuts the transcript at `cuts`. Each title names the run,
+ * so a test can tell the chosen run from the other runs.
  */
 function runCuttingAt(runNumber: number, ...cuts: readonly number[]): readonly Subtopic[] {
 	const starts = [0, ...cuts];
@@ -24,7 +24,7 @@ function runCuttingAt(runNumber: number, ...cuts: readonly number[]): readonly S
 	}));
 }
 
-/** Chooses from runs each cutting where its list says, at `bar`. */
+/** Chooses a division at `bar` from runs that cut at the positions in `cutsPerRun`. */
 function choosing({
 	cutsPerRun,
 	bar,
@@ -39,7 +39,7 @@ function choosing({
 	});
 }
 
-/** A panel whose vote keeps A and B, which run 2 cuts at exactly and run 1 does not. */
+/** A panel whose vote keeps A and B. Run 2 cuts at exactly these cut sites. Run 1 does not. */
 const RUN_2_MATCHES_THE_VOTE = {
 	cutsPerRun: [
 		[A, C],
@@ -51,21 +51,23 @@ const RUN_2_MATCHES_THE_VOTE = {
 
 describe("chooseDivision", () => {
 	it("should count cuts as one site when they lie within one percent of the site's first cut", () => {
-		// As one site, 100 and 109 are cut by two runs and kept; as two, neither is.
+		// As one cut site, 100 and 109 have the support of two runs, and the vote keeps it.
+		// As two cut sites, the vote keeps neither.
 		const { choice } = choosing({ cutsPerRun: [[100], [109], [200]], bar: 2 });
 		expect(choice).toMatchObject({ chosenRun: 1, distanceFromVote: 0 });
 	});
 
 	it("should open a new site when a cut lies beyond one percent of the site's first cut even within one percent of the previous cut", () => {
-		// 116 is within 1% of 108 but not of 100, so it is a site of its own and
-		// the run cutting only there is two sites from the vote.
+		// 116 is within 1% of 108 but not within 1% of 100. So 116 is a cut site of
+		// its own, and the run that cuts only there is two cut sites from the vote.
 		const { choice } = choosing({ cutsPerRun: [[116], [100], [108]], bar: 2 });
 		expect(choice).toMatchObject({ chosenRun: 2, distanceFromVote: 0 });
 	});
 
 	it("should credit a run with a site when its cut lies within half a percent beyond the site even in a site of its own", () => {
-		// 100 and 109 form one site; 112 opens its own, yet lies within 114, the
-		// first site's end widened by half a percent, so all three runs cut there.
+		// 100 and 109 are one cut site. 112 starts its own cut site. But 112 is
+		// before 114, the end of the first cut site widened by half a percent. So
+		// all three runs cut at the first cut site.
 		const { choice } = choosing({ cutsPerRun: [[112], [109], [100]], bar: 3 });
 		expect(choice).toMatchObject({ chosenRun: 3, distanceFromVote: 0 });
 	});
@@ -76,8 +78,8 @@ describe("chooseDivision", () => {
 	});
 
 	it("should break a tie for the vote to the run closest to the others when two runs are equally near", () => {
-		// The vote keeps A alone. Every run is one site from it, but runs 2 and 3
-		// agree with each other where run 1 agrees with neither.
+		// The vote keeps only A. Each run is one cut site from the vote. Runs 2 and 3
+		// agree with each other. Run 1 agrees with neither of them.
 		const { choice } = choosing({
 			cutsPerRun: [
 				[A, B],

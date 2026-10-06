@@ -1,8 +1,8 @@
-/* jscpd:ignore-start -- sibling stage suites import the same fixtures and mock the
-   same module, so their preambles match line for line. Neither half can move:
-   imports cannot be shared and barrel files are forbidden (CLAUDE.md, File
-   Organisation), and vi.mock is hoisted, so it must sit in the file that mocks.
-   Only the preamble is exempt; the suite below is checked as normal. */
+/* jscpd:ignore-start -- the suites of sibling stages import the same fixtures
+   and mock the same module. So their preambles are the same line for line.
+   Imports cannot be shared, and CLAUDE.md (File Organisation) forbids barrel
+   files. vi.mock is hoisted, so it must be in the file that mocks. Only the
+   preamble is exempt. jscpd checks the suite below. */
 import { rm } from "node:fs/promises";
 import { join } from "node:path";
 import type { Mock } from "vitest";
@@ -38,7 +38,7 @@ import {
 	DeepenSubtopicSplittingError,
 } from "./deepen-subtopic-splitting.js";
 
-// Only the call is stubbed; everything else the module exports stays real.
+// Only the model call is a stub. The other exports of the module stay real.
 vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 	...(await importOriginal()),
 	callModel: vi.fn(),
@@ -49,33 +49,33 @@ const modelCallMock = callModel as unknown as Mock;
 
 const STAGE_ID = "deepen-subtopic-splitting";
 
-/** How many runs the example config's panel holds. */
+/** The number of runs in the splitting panel of the example config. */
 const PANEL_SIZE = configuringStage({ stageId: STAGE_ID }).subtopicSplitting.panelSize;
 
-/** What the user message puts before the subtopic it sends. */
+/** The heading that the user message puts before the subtopic. */
 const SECTION_HEADING = "Section:\n";
 
-/** The fixture division's subtopics, as text: "Today we are covering " and the rest. */
+/** The text of each subtopic of the fixture division: "Today we are covering " and the rest. */
 const [OPENING = "", SECOND = ""] = transcriptDivision.map((subtopic) =>
 	subtopicText({ text: transcriptText, subtopic }),
 );
 
-/** Where a first-round cut divides the second subtopic, and the two pieces it leaves. */
+/** The start words of a first-round cut in the second subtopic, and the two pieces that it makes. */
 const SECOND_CUT = "the immune system";
 const SECOND_HEAD = SECOND.slice(0, SECOND.indexOf(SECOND_CUT));
 const SECOND_TAIL = SECOND.slice(SECOND.indexOf(SECOND_CUT));
 
-/** Where a second-round cut divides the head piece; it leaves "injury and ", two words. */
+/** The start words of a second-round cut in the head piece. The new piece is "injury and ", two words. */
 const HEAD_CUT = "injury and";
 
-/** A reply saying the section is one step. */
+/** A reply that says the section is one step. */
 const ONE_STEP = JSON.stringify({ verdict: "one step", cuts: [], heldBecause: "One thing." });
 
 /**
- * A reply dividing the section at each of `startWords`.
+ * A reply that cuts the section at each of `startWords`.
  *
- * @param startWords - Where each new subtopic begins.
- * @returns The reply's JSON.
+ * @param startWords - The start words of each new subtopic.
+ * @returns The JSON of the reply.
  */
 function cutsAt(...startWords: readonly string[]): string {
 	return JSON.stringify({
@@ -88,13 +88,13 @@ function cutsAt(...startWords: readonly string[]): string {
 	});
 }
 
-/** Replies that cut the second subtopic in the first round and its head piece in the second. */
+/** Replies that cut the second subtopic in the first round, and its head piece in the second round. */
 const CUTTING_BOTH_ROUNDS = { [SECOND]: cutsAt(SECOND_CUT), [SECOND_HEAD]: cutsAt(HEAD_CUT) };
 
-/** What a call to the model is handed, as far as these tests read it. */
+/** The part of a model call request that these tests read. */
 type SentRequest = { readonly messages: readonly { readonly content: string }[] };
 
-/** The user message of every call made, in the order made. */
+/** The user message of every call, in the order of the calls. */
 function sentMessages(): readonly string[] {
 	return (modelCallMock.mock.calls as [SentRequest][]).map(
 		([{ messages }]) => messages[1]?.content ?? "",
@@ -102,7 +102,7 @@ function sentMessages(): readonly string[] {
 }
 
 /**
- * The subtopic a user message sends.
+ * Gets the subtopic from a user message.
  *
  * @param message - The user message.
  * @returns The message without its heading.
@@ -111,17 +111,17 @@ function passageOf(message: string): string {
 	return message.slice(SECTION_HEADING.length);
 }
 
-/** The subtopic each call sent, in the order sent. */
+/** The subtopic of each call, in the order of the calls. */
 function sentPassages(): readonly string[] {
 	return sentMessages().map(passageOf);
 }
 
 /**
- * Answers a call by the subtopic it sent: with the reply `replies` holds for
- * that subtopic, or "one step" when it holds none.
+ * Replies to a call with the reply in `replies` for the subtopic of the call.
+ * If `replies` has no reply for the subtopic, the reply is "one step".
  *
- * @param replies - The reply for each subtopic, keyed by its text.
- * @returns The stand-in for the model call.
+ * @param replies - The reply for each subtopic, keyed by the text of the subtopic.
+ * @returns The stub for the model call.
  */
 function answerFrom(
 	replies: Readonly<Record<string, string>>,
@@ -133,7 +133,7 @@ function answerFrom(
 		});
 }
 
-/** Where `phrase` begins in the fixture transcript. */
+/** The position of `phrase` in the fixture transcript. */
 function at(phrase: string): number {
 	return transcriptText.indexOf(phrase);
 }
@@ -142,10 +142,10 @@ describe("createDeepenSubtopicSplittingStage", () => {
 	const workspace = useTranscribedWorkspace({ prefix: "deepen-splitting-" });
 	const logged = useStubLogger();
 
-	/** The lecture workspace the current test is running against. */
+	/** The workspace of the current test. */
 	const workspaceRoot = (): string => workspace().workspaceRoot;
 
-	/** Leaves the whole initial splitting panel on disk, every run holding `run`. */
+	/** Writes the whole initial splitting panel to disk. Each saved run holds `run`. */
 	function seedSplittingRunsBeforeDeepening(run: unknown): Promise<void> {
 		return seedSavedRuns({
 			workspaceRoot: workspaceRoot(),
@@ -161,14 +161,14 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		await seedSplittingRunsBeforeDeepening(transcriptDivision);
 	});
 
-	/** Answers every call as {@link answerFrom} does for `replies`. */
+	/** Replies to every call as {@link answerFrom} does for `replies`. */
 	function answering(replies: Readonly<Record<string, string>>): void {
 		modelCallMock.mockImplementation(answerFrom(replies));
 	}
 
 	/**
-	 * Runs the stage with a size gate of `sizeGateWords`, the way the runner
-	 * would, with the example's tuning for the stage but for what `tuning` sets.
+	 * Runs the stage as the runner does, with a size gate of `sizeGateWords`. The
+	 * tuning of the stage is from the example config, except the fields that `tuning` sets.
 	 */
 	function run({
 		sizeGateWords,
@@ -190,7 +190,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		});
 	}
 
-	/** The deepened splitting run the stage saved as run `runNumber`, parsed back off disk. */
+	/** The deepened splitting run with the number `runNumber`, parsed from disk. */
 	async function savedRun(runNumber: number): Promise<readonly Subtopic[]> {
 		return (await readSavedRunJson({
 			workspaceRoot: workspaceRoot(),
@@ -199,18 +199,18 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		})) as readonly Subtopic[];
 	}
 
-	/** Where each subtopic of deepened splitting run `runNumber` starts. */
+	/** The start of each subtopic of the deepened splitting run with the number `runNumber`. */
 	async function savedStarts(runNumber: number): Promise<readonly number[]> {
 		return (await savedRun(runNumber)).map((subtopic) => subtopic.start);
 	}
 
-	/** Where the subtopics start once {@link CUTTING_BOTH_ROUNDS} has cut in both rounds. */
+	/** The start of each subtopic after {@link CUTTING_BOTH_ROUNDS} cuts in both deepening rounds. */
 	const CUT_IN_BOTH_ROUNDS = [0, at(SECOND), at(HEAD_CUT), at(SECOND_CUT)];
 
-	/** A gate only the second subtopic's six words are over; its pieces are not. */
+	/** A size gate that only the second subtopic is above, with its six words. The pieces of the second subtopic are not above the size gate. */
 	const SECOND_ONLY = { sizeGateWords: 4 };
 
-	/** A gate every subtopic and every piece of more than one word is over. */
+	/** A size gate that each subtopic and piece of more than one word is above. */
 	const ALMOST_EVERYTHING = { sizeGateWords: 1 };
 
 	it("should send only the subtopics over the size gate when a run is deepened", async () => {
@@ -279,8 +279,8 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		expect(await savedStarts(1)).toEqual(CUT_IN_BOTH_ROUNDS);
 	});
 
-	// One run at a time, so every call in flight is the same run's. The second
-	// round of CUTTING_BOTH_ROUNDS sends three subtopics, the most sent together.
+	// These tests set `concurrency` to 1, so the stage makes one splitting run at a
+	// time and all calls in flight are from one run. The largest round is the second round of CUTTING_BOTH_ROUNDS, with three subtopics.
 	it.each([
 		{ setting: "unset", callConcurrency: undefined, expected: 1 },
 		{ setting: "2", callConcurrency: 2, expected: 2 },
@@ -298,7 +298,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 	it("should give the same deepened splitting run when the replies arrive out of order", async () => {
 		const answer = answerFrom(CUTTING_BOTH_ROUNDS);
 		let callsMade = 0;
-		// Each call waits fewer turns than the one before it, so later calls answer first.
+		// Each call waits fewer turns than the call before it, so later calls get their reply first.
 		modelCallMock.mockImplementation(async (request: SentRequest) => {
 			callsMade += 1;
 			await waitTurns({ turns: 100 - callsMade });
@@ -336,7 +336,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 	});
 
 	it("should fail the stage without saving the run when a subtopic fails every send", {
-		// Two real pauses, of two seconds and then four, come before the third send fails.
+		// Two real pauses, of two seconds and then four seconds, come before the third send.
 		timeout: 10_000,
 	}, async () => {
 		modelCallMock.mockResolvedValue({ content: "", cost: stubbedCallCost });

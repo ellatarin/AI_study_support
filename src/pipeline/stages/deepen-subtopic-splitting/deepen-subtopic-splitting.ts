@@ -1,15 +1,15 @@
 /**
- * `deepen-subtopic-splitting`: the second of the three division stages. In each
- * splitting run before deepening, every subtopic over the size gate is sent on its own
- * with the `d13` prompt and cut where the model says it divides, for at most two
- * rounds (technical-design.md §5, "Dividing the transcript").
+ * The `deepen-subtopic-splitting` stage, the second division stage. In each
+ * splitting run, it sends each subtopic above the size gate alone with the `d13`
+ * prompt. Then it cuts the subtopic where the model says that it divides. There
+ * are at most two deepening rounds (technical-design.md §5, "Dividing the transcript").
  */
 
-/* jscpd:ignore-start -- the division stages pull in the same pipeline types,
-   division helpers and model-stage helpers, so their import blocks match line
-   for line. There is nothing to extract: imports cannot be shared, and barrel
-   files are forbidden (CLAUDE.md, File Organisation). Only the imports are
-   exempt; the code below is checked as normal. */
+/* jscpd:ignore-start -- the division stages import the same pipeline types,
+   division helpers and model-stage helpers. So their import blocks are the
+   same line for line. Imports cannot be shared, and CLAUDE.md (File
+   Organisation) forbids barrel files. Only the imports are exempt. jscpd
+   checks the code below. */
 import type { StageContext, StageCost, StageResult } from "../../../types/pipeline.js";
 import { mapWithConcurrency } from "../../../utils/concurrency.js";
 import { totalCost } from "../../../utils/cost.js";
@@ -39,21 +39,22 @@ import { buildDeepeningMessages } from "./deepen-subtopic-splitting.prompt.js";
 /* jscpd:ignore-end */
 
 /**
- * Thrown when there is nothing to deepen: the transcript is missing or empty, or
- * a splitting run before deepening is missing. A subtopic whose replies stay unusable
- * fails the stage with the panel's own error.
+ * The error when the transcript is missing or holds no text, or when a splitting
+ * run before deepening is missing. A subtopic whose third send is still unusable
+ * fails the stage with `ResendsExhaustedError`.
  */
 export class DeepenSubtopicSplittingError extends NamedError {}
 
 const STAGE_ID = "deepen-subtopic-splitting";
 
 /**
- * How many deepening rounds a splitting run has. A second round asks again about every
- * subtopic still over the gate; the prototype measured nothing gained by a third.
+ * The most deepening rounds in one splitting run. The second round sends each
+ * subtopic still above the size gate again (technical-design.md §5,
+ * `deepen-subtopic-splitting`).
  */
 const MAX_ROUNDS = 2;
 
-/** The transcript, and the splitting runs this stage deepens. */
+/** The transcript, and the splitting runs that this stage deepens. */
 export type DeepenSubtopicSplittingInput = {
 	readonly transcript: string;
 	readonly splittingRunsBeforeDeepening: readonly (readonly Subtopic[])[];
@@ -62,43 +63,47 @@ export type DeepenSubtopicSplittingInput = {
 /** Every deepened splitting run, in run order. */
 export type DeepenSubtopicSplittingOutput = { readonly runs: readonly (readonly Subtopic[])[] };
 
-/** The object the `d13` prompt asks for. Its `verdict` is not read: no cuts means one step. */
+/**
+ * The reply that the `d13` prompt asks for. The code does not read the reply's
+ * `verdict`. An empty list of cuts means that the subtopic is one step.
+ */
 type DeepenReply = { readonly cuts: readonly ReplySubtopic[] };
 
-/** The reply's shape in words, for the failure a user reads when a reply is not one. */
+/** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE = "{ cuts: [{ label, groupedBecause, startsWith }] } object";
 
 /**
- * Whether a parsed reply is the documented list of cuts. An empty list is the
- * model saying the subtopic is one step.
+ * Checks that a parsed reply is a list of cuts. An empty list is valid. It means
+ * that the subtopic is one step.
  *
  * @param value - The parsed reply.
- * @returns `true` when every cut carries its three strings.
+ * @returns `true` when each cut has its three strings.
  */
 function isDeepenReply(value: unknown): value is DeepenReply {
 	return isRecord(value) && Array.isArray(value.cuts) && value.cuts.every(isReplySubtopic);
 }
 
 /**
- * How many words a text holds, counted by code rather than estimated by the model.
+ * Counts the words in a text. Code counts them, because a model can only
+ * estimate length (CONTEXT.md, "Size gate").
  *
  * @param text - The text to count.
- * @returns The number of runs of non-whitespace.
+ * @returns The number of groups of characters between whitespace.
  */
 function countWords(text: string): number {
 	return text.split(/\s+/u).filter((word) => word.length > 0).length;
 }
 
 /**
- * The cuts in a reply that can be found inside the subtopic's own text, each
- * searched for forward from the one before. A cut that cannot be found — one
- * proposed outside this subtopic, say — is dropped rather than guessed at, so
- * deepening can add cuts but never move one it did not make.
+ * Finds the cuts of a reply in the text of one subtopic. The search for each cut
+ * starts at the cut before it. The function drops a cut that it cannot find, and
+ * does not guess. So deepening can add cuts, but it cannot move or remove a cut
+ * (technical-design.md §5, `deepen-subtopic-splitting`).
  *
- * @param args - The subtopic's text, and the cuts proposed in it.
- * @param args.passage - The subtopic's text.
- * @param args.cuts - The cuts the reply proposed, in order.
- * @returns The cuts that were found, and where each falls in the passage, after the passage's own start at 0.
+ * @param args - The text of the subtopic, and the cuts of the reply.
+ * @param args.passage - The text of the subtopic.
+ * @param args.cuts - The cuts of the reply, in order.
+ * @returns The cuts that were found, and their positions in the passage. The first position is 0, the start of the passage.
  */
 function placeWithin({
 	passage,
@@ -110,7 +115,7 @@ function placeWithin({
 	let kept: readonly ReplySubtopic[] = [];
 	let positions: readonly number[] = [0];
 	for (const cut of cuts) {
-		// The first start words stand for the passage's own start, which is never searched for.
+		// The empty first start words stand for the start of the passage. placeCuts never searches for them.
 		const placed = placeCuts({
 			text: passage,
 			startWords: ["", ...[...kept, cut].map((proposed) => proposed.startsWith)],
@@ -124,14 +129,15 @@ function placeWithin({
 }
 
 /**
- * Cuts one subtopic where the reply says it divides. The first piece keeps the
- * subtopic's own title and reason; each later one takes its cut's.
+ * Cuts one subtopic where the reply says that it divides. The first piece keeps
+ * the title and reason of the subtopic, as an inherited title. Each later piece
+ * takes the title and reason of its cut.
  *
- * @param args - The transcript, the subtopic, and the cuts proposed in it.
- * @param args.transcript - The transcript the subtopic's span indexes into.
+ * @param args - The transcript, the subtopic, and the cuts of the reply.
+ * @param args.transcript - The transcript that the span of the subtopic indexes into.
  * @param args.subtopic - The subtopic that was sent.
- * @param args.cuts - The cuts the reply proposed.
- * @returns The subtopic's pieces, in order; the subtopic itself when nothing was cut.
+ * @param args.cuts - The cuts of the reply.
+ * @returns The pieces of the subtopic, in order. The list holds only the subtopic when no cut was found.
  */
 function cutSubtopic({
 	transcript,
@@ -159,7 +165,6 @@ function cutSubtopic({
 	return [first, ...later];
 }
 
-/** What every model call made while deepening one splitting run needs. */
 type DeepeningCallArgs = {
 	readonly transcript: string;
 	readonly runNumber: number;
@@ -168,21 +173,22 @@ type DeepeningCallArgs = {
 	Pick<ModelStageRunArgs<unknown>, "sendGate">;
 
 /**
- * Deepens one subtopic in one round: sends it when it is over the size gate and
- * cuts it where the reply says it divides. One at or under the gate is never sent.
+ * Deepens one subtopic in one deepening round. A subtopic above the size gate is
+ * sent, and cut where the reply says that it divides. A subtopic at or under the
+ * size gate is never sent.
  *
- * @param args - The subtopic, the round, and the run it belongs to.
+ * @param args - The subtopic, the deepening round, and the splitting run of the subtopic.
  * @param args.subtopic - The subtopic to deepen.
- * @param args.round - The round, counting from 1, for the log and any failure.
- * @param args.transcript - The transcript the subtopic's span indexes into.
- * @param args.runNumber - The run, counting from 1, for the log and any failure.
- * @param args.context - The current lecture run context.
- * @param args.logger - The stage's logger.
- * @param args.client - The OpenAI client the call goes through.
- * @param args.sendGate - The run's turns to send, which the call waits on.
- * @returns The subtopic's pieces, in order, and what its sends cost — `null` when it was not sent.
+ * @param args.round - The deepening round, counting from 1, for the log and the failure message.
+ * @param args.transcript - The transcript that the span of the subtopic indexes into.
+ * @param args.runNumber - The splitting run, counting from 1, for the log and the failure message.
+ * @param args.context - The stage context.
+ * @param args.logger - The logger that records each model call.
+ * @param args.client - The OpenAI client that sends the call.
+ * @param args.sendGate - The send gate of this stage run. Every send waits on it.
+ * @returns The pieces of the subtopic in order, and the cost of its sends. The cost is `null` when the subtopic was not sent.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino Logger and OpenAI client are library types that are not deeply readonly
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client are library types that are not deeply readonly.
 async function deepenSubtopic({
 	subtopic,
 	round,
@@ -216,24 +222,27 @@ async function deepenSubtopic({
 }
 
 /**
- * Deepens one splitting run. Each deepening round sends every subtopic over the
- * size gate, as many at once as the stage's `callConcurrency` allows — one at a
- * time when it is unset — and puts each one's pieces back in its place, so how
- * many are sent together never changes the result. When a round cuts nothing,
- * another would ask the same questions again, so there is none. A subtopic
- * whose every send fails fails the stage, rather than being left whole as
- * though the model had called it one step.
+ * Deepens one splitting run. Each deepening round sends the subtopics above the
+ * size gate, up to the stage's `callConcurrency` at once. When `callConcurrency`
+ * is unset, the stage sends one subtopic at a time. The stage puts the pieces of
+ * each subtopic in the place of that subtopic. So the number of calls at once
+ * never changes the deepened splitting run. A round that cuts nothing is the last round.
+ * A subtopic whose third send is still unusable fails the stage, and is not kept
+ * whole (technical-design.md §5, `deepen-subtopic-splitting`).
  *
- * @param args - The transcript, the splitting run, and what the calls need.
- * @param args.transcript - The transcript the splitting run's spans index into.
+ * @param args - The transcript, the splitting run, the stage context, the logger, the OpenAI client and the send gate.
+ * @param args.transcript - The transcript that the spans of the splitting run index into.
  * @param args.splittingRunBeforeDeepening - The splitting run to deepen.
- * @param args.runNumber - The splitting run, counting from 1, for the log and any failure.
- * @param args.context - The current lecture run context.
- * @param args.logger - The stage's logger.
- * @param args.client - The OpenAI client the calls go through.
- * @returns The deepened splitting run, and what its calls cost — `null` when none was over the gate.
+ * @param args.runNumber - The splitting run, counting from 1, for the log and the failure message.
+ * @param args.context - The stage context.
+ * @param args.logger - The logger that records each model call.
+ * @param args.client - The OpenAI client that sends the calls.
+ * @param args.sendGate - The send gate of this stage run. Every send waits on it.
+ * @returns The deepened splitting run, and the cost of its calls. The cost is `null` when no subtopic was above the size gate.
+ * @throws {ResendsExhaustedError} If the third send for a subtopic is still unusable.
+ * @throws {DivisionNotLosslessError} If the deepened splitting run does not reproduce the transcript. A deepened splitting run that does not reproduce the transcript is always a bug.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino Logger and OpenAI client are library types that are not deeply readonly
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client are library types that are not deeply readonly.
 async function deepenSplittingRun({
 	splittingRunBeforeDeepening,
 	...underDeepening
@@ -269,18 +278,18 @@ async function deepenSplittingRun({
 }
 
 /**
- * Deepens every splitting run of the panel, resuming from any an earlier launch
- * saved.
+ * Deepens every splitting run of the panel. The stage reads a saved run that an
+ * earlier invocation made, and does not make that run again.
  *
- * @param args - The stage's input, context and dependencies.
+ * @param args - The input, the stage context and the dependencies of the stage.
  * @param args.input - The transcript and the splitting runs before deepening.
- * @param args.context - The current lecture run context.
- * @param args.logger - The run's logger, on which each model call is recorded.
- * @param args.client - The OpenAI client the calls go through.
- * @param args.sendGate - The run's turns to send, which every call waits on.
- * @returns Every deepened splitting run, what this launch's calls cost, and the run files.
+ * @param args.context - The stage context.
+ * @param args.logger - The logger that records each model call.
+ * @param args.client - The OpenAI client that sends the calls.
+ * @param args.sendGate - The send gate of this stage run. Every send waits on it.
+ * @returns Every deepened splitting run, the cost of the calls of this invocation, and the saved runs.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client have mutable properties that the rule cannot ignore. This function only reads them. CLAUDE.md permits a mutable type that a library requires.
 function deepenSplittingRuns({
 	input,
 	context,
@@ -310,9 +319,10 @@ function deepenSplittingRuns({
 /**
  * Reads the transcript and every splitting run before deepening.
  *
- * @param context - The current lecture run context.
- * @returns The transcript, trimmed, and the splitting runs in run order.
- * @throws {DeepenSubtopicSplittingError} If the transcript is missing or empty, or a splitting run is missing.
+ * @param context - The stage context.
+ * @returns The transcript with the whitespace at its ends removed, and the splitting runs in run order.
+ * @throws {DeepenSubtopicSplittingError} If the transcript is missing or holds no text, or a splitting run is missing.
+ * @throws {SavedRunUnreadableError} When a saved run holds no readable run.
  */
 async function readInput(context: StageContext): Promise<DeepenSubtopicSplittingInput> {
 	const { transcript, runs } = await readTranscriptAndRuns({
@@ -323,10 +333,7 @@ async function readInput(context: StageContext): Promise<DeepenSubtopicSplitting
 	return { transcript, splittingRunsBeforeDeepening: runs };
 }
 
-/**
- * Builds the `deepen-subtopic-splitting` stage from the run's logger and the
- * invocation's OpenAI client.
- */
+/** Builds the `deepen-subtopic-splitting` stage from the logger and the OpenAI client of the invocation. */
 export const createDeepenSubtopicSplittingStage: ModelStageFactory<
 	DeepenSubtopicSplittingInput,
 	DeepenSubtopicSplittingOutput

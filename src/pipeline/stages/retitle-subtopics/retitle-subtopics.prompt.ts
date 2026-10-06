@@ -1,11 +1,11 @@
 /**
- * The messages `retitle-subtopics` sends: the segmentation prototype's `r9`
- * prompt, carried over byte for byte, and every subtopic's text
- * (technical-design.md §5, `retitle-subtopics`; "Where prompts live").
+ * The messages that `retitle-subtopics` sends. They are the `r9` prompt of the
+ * segmentation prototype, copied byte for byte, and the text of each subtopic
+ * (technical-design.md §5, `retitle-subtopics` and "Where prompts live").
  *
- * The prompt is not edited here. Its every rule was measured in the prototype
- * (`docs/quality/segmentation-prototype/retitle-prompts.mts`, version `r9`), and
- * a change belongs there first, as a new version with runs against it.
+ * Do not edit the prompt here. A change goes first to
+ * `docs/quality/segmentation-prototype/retitle-prompts.mts`, version `r9`, as a new
+ * version with runs against it.
  */
 
 import { type PromptMessages, promptMessages } from "../model-stage.js";
@@ -67,18 +67,19 @@ Reply with a single JSON object and nothing else, in this exact shape:
 Give one entry for every subtopic, in the order the subtopics are given.`;
 
 /**
- * The key for a subtopic id in what the prompt sends and in its reply. The word
- * "id" is the prototype's word. It came over with the prompt.
+ * The key of a subtopic id in the user message. The `r9` prompt uses the same
+ * key in its reply. "id" is the word of the prototype, copied with the prompt.
  */
 const SUBTOPIC_ID_KEY = "id";
 
 /**
- * Builds the messages for the one retitling call: the `r9` prompt, then every
- * subtopic as its subtopic id and its text with the whitespace
- * at its ends removed — as the prototype sent them, and without the old title.
+ * Builds the messages of the retitling call. The system message is the `r9`
+ * prompt. The user message gives each subtopic as its subtopic id and its text,
+ * with the whitespace at its ends removed. The prototype sent the same user
+ * message. The old title is not sent.
  *
- * @param args - What to title.
- * @param args.texts - Each subtopic's text, in order.
+ * @param args - The subtopics to title.
+ * @param args.texts - The text of each subtopic, in order.
  * @returns The system prompt and the user message.
  */
 export function buildRetitleMessages({

@@ -1,11 +1,11 @@
 /**
- * The messages `deepen-subtopic-splitting` sends: the segmentation prototype's
- * `d13` prompt, carried over byte for byte, and one subtopic
- * (technical-design.md §5, "Dividing the transcript"; "Where prompts live").
+ * The messages that `deepen-subtopic-splitting` sends. They are the `d13` prompt
+ * of the segmentation prototype, copied byte for byte, and one subtopic
+ * (technical-design.md §5, "Dividing the transcript" and "Where prompts live").
  *
- * The prompt is not edited here. Its every rule was measured in the prototype
- * (`docs/quality/segmentation-prototype/deepen-prompts.mts`, version `d13`), and
- * a change belongs there first, as a new version with runs against it.
+ * Do not edit the prompt here. A change goes first to
+ * `docs/quality/segmentation-prototype/deepen-prompts.mts`, version `d13`, as a new
+ * version with runs against it.
  */
 
 import { type PromptMessages, promptMessages } from "../model-stage.js";
@@ -128,11 +128,12 @@ When the section is one step, reply instead with:
 }`;
 
 /**
- * Builds the messages for one subtopic: the `d13` prompt, then the subtopic's
- * text under the heading the prototype gave it.
+ * Builds the messages for one subtopic. The system message is the `d13` prompt.
+ * The user message is the text of the subtopic, under the heading that the
+ * prototype gave it.
  *
- * @param args - What to divide.
- * @param args.passage - The subtopic's text, as sliced from the trimmed transcript.
+ * @param args - The subtopic to divide.
+ * @param args.passage - The text of the subtopic, sliced from the transcript.
  * @returns The system prompt and the user message.
  */
 export function buildDeepeningMessages({ passage }: { readonly passage: string }): PromptMessages {

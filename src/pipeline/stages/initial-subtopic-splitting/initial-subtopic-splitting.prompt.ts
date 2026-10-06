@@ -1,11 +1,11 @@
 /**
- * The messages `initial-subtopic-splitting` sends: the segmentation prototype's
- * `s6` prompt, carried over byte for byte, and the transcript
- * (technical-design.md §5, "Dividing the transcript"; "Where prompts live").
+ * The messages that `initial-subtopic-splitting` sends. They are the `s6` prompt
+ * of the segmentation prototype, copied byte for byte, and the transcript
+ * (technical-design.md §5, "Dividing the transcript" and "Where prompts live").
  *
- * The prompt is not edited here. Its every rule was measured in the prototype
- * (`docs/quality/segmentation-prototype/split-prompts.mts`, version `s6`), and
- * a change belongs there first, as a new version with runs against it.
+ * Do not edit the prompt here. A change goes first to
+ * `docs/quality/segmentation-prototype/split-prompts.mts`, version `s6`, as a new
+ * version with runs against it.
  */
 
 import { type PromptMessages, promptMessages } from "../model-stage.js";
@@ -102,10 +102,11 @@ Reply with a single JSON object and nothing else, in this exact shape:
 Ids count up from 1. Subtopics appear in transcript order.`;
 
 /**
- * Builds the messages for one splitting run: the `s6` prompt, then the
- * transcript under the heading the prototype gave it.
+ * Builds the messages of one splitting run. The system message is the `s6`
+ * prompt. The user message is the transcript, under the heading that the
+ * prototype gave it.
  *
- * @param args - What to divide.
+ * @param args - The transcript to divide.
  * @param args.transcript - The transcript, with the whitespace at its ends removed.
  * @returns The system prompt and the user message.
  */

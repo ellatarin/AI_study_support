@@ -23,7 +23,10 @@ describe("choose-division", () => {
 	const logged = useStubLogger();
 	const workspace = useTranscribedWorkspace({ prefix: "choose-division-" });
 
-	/** Leaves deepened splitting runs 1 to `count` on disk, run 1 cutting nowhere and the rest as the fixture division does. */
+	/**
+	 * Writes deepened splitting runs 1 to `count` to disk. Run 1 has no cut. The
+	 * other runs cut as the fixture division does.
+	 */
 	function seedDeepenedSplittingRuns(count: number): Promise<void> {
 		return seedSavedRuns({
 			workspaceRoot: workspace().workspaceRoot,
