@@ -99,6 +99,32 @@ Real data: `pipeline-config.json` at the repo root; module Biology of Disease ha
 
 | # | Stored name | Where | New name | Existing files that carry it |
 |---|---|---|---|---|
+2026-10-06: this table is redone to match every ruling below. The rulings of 2026-10-05 on the stored list use older numbers: their S14 and S15 are S12 and S13 here, and their S16, S17 and S18 are S14, S15 and S16. The token counts were ruled but had no row; they are S17.
+
+| # | Stored name | Where | New name | Existing files that carry it |
+|---|---|---|---|---|
+| S1 | `define-topics` | stage id: manifest `stages` key, run logs, config `stages` key, `--from-stage`/`--to-stage` value; with B4 | `group-into-topics` | 8 manifests, their run logs, `pipeline-config.json` |
+| S2 | `workspaceFolderName` | manifest key | `baseName` | 8 manifests |
+| S3 | `costResolutionError` | stage entry cost key | `unknownCostReason` | 16 stage entries across the 8 manifests |
+| S4 | `runId` | run log key | `pipelineRunId` | 80 run logs |
+| S5 | workspace folder `runs/` | holds run logs | `Run logs/` | 8 folders, 80 files |
+| S6 | project-root `runs/` | holds debug logs only | `debug-logs/` | 1 folder, 58 files |
+| S7 | `changed[].position` in `changes.json` | retitling stage record | `subtopicId` | 8 files, 141 entries |
+| S8 | module folders `Video files`, `Lecture slides` | the user's module tree | `Video recordings`, `Slide decks` (`Final output` stays) | 2 module trees (BOD: 8 video recordings, 8 slide decks) |
+| S9 | subtopic `why` | division output and splitting saved runs | `reason`; drop `titleInherited` from the saved runs | 16 `subtopics.json`, 288 splitting saved runs |
+| S10 | topic `groupedBecause` | `topics.json`, grouping saved runs | **stays** | — |
+| S11 | topic `label` in grouping saved runs | grouping saved runs | `title` | 72 grouping saved runs |
+| S12 | checker report `considered`, `whyNotRaised` | verification report | **stays** | — |
+| S13 | `Transcript verification/verification-report.md` | the verification report Markdown | **stays** | — |
+| S14 | temp suffix `.stage0-tmp` | exists only mid-rename | `.normalisation-tmp` | none |
+| S15 | config `output`, `division`, `completionMaxRetries` | config file | `finalOutput`, `subtopicSplitting`, `completionMaxResends` | `pipeline-config.json`, the example config |
+| S16 | debug-log keys and messages | debug logs | follow the code names; old debug logs are left as history | none fixed |
+| S17 | `promptTokens`, `completionTokens` | stored token counts | `sentTokens`, `replyTokens` | 8 manifests |
+
+The table as first written, before the rulings:
+
+| # | Stored name | Where | New name | Existing files that carry it |
+|---|---|---|---|---|
 | S1 | `define-topics` | stage id: manifest `stages` key, run logs, config `stages` key, `--from-stage`/`--to-stage` value | per B4 | 8 manifests, their run logs, `pipeline-config.json` |
 | S2 | `workspaceFolderName` | manifest key | `baseName` | 8 manifests |
 | S3 | `costResolutionError` | stage entry cost key | `unknownCostReason` | 16 stage entries across the 8 manifests |
@@ -195,3 +221,8 @@ Two things any folder or file rename must also fix: each manifest's `filesWritte
 - B4 is done together with stored rename S1: the stage id, the folder and file names, the report label "Group into topics", and the code names (`GroupIntoTopicsError`, `createGroupIntoTopicsStage`, `GroupIntoTopicsOutput`, `groupIntoTopics`). If the code names changed first, the code and the stage id would disagree until S1.
 - B1, code part: only the grouping comment changes. Splitting already translates its reply. Deepening's `verdict` and `heldBecause` are not read. The checker keeps `considered` and `whyNotRaised`, as ruled. Grouping's saved runs change `label` to `title` in S11. A topic's `groupedBecause` stays.
 - B1: transcript structuring is not translated now. The user expects that stage to change greatly, so work on it now is premature.
+
+2026-10-06, the user's rulings on S5 and S8:
+
+- S5: the workspace folder `runs/` becomes `Run logs/`, to match the other workspace folders.
+- S8: `Video files` becomes `Video recordings` and `Lecture slides` becomes `Slide decks`, to match the glossary. `Final output` stays.
