@@ -117,7 +117,7 @@ Real data: `pipeline-config.json` at the repo root; module Biology of Disease ha
 | S12 | checker report `considered`, `whyNotRaised` | verification report | **stays** | — |
 | S13 | `Transcript verification/verification-report.md` | the verification report Markdown | **stays** | — |
 | S14 | temp suffix `.stage0-tmp` | exists only mid-rename | `.normalisation-tmp` | none |
-| S15 | config `output`, `division`, `completionMaxRetries` | config file | `finalOutput`, `subtopicSplitting`, `completionMaxResends` | `pipeline-config.json`, the example config |
+| S15 | config `output`, `division`, `completionMaxRetries` | config file | `finalOutput`, `subtopicSplitting`; `completionMaxRetries` **stays** (B5 reversed 2026-10-06) | `pipeline-config.json`, the example config |
 | S16 | debug-log keys and messages | debug logs | follow the code names; old debug logs are left as history | none fixed |
 | S17 | `promptTokens`, `completionTokens` | stored token counts | **stays** (ruled 2026-10-06) | — |
 
