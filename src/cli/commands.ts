@@ -101,6 +101,9 @@ export const EXIT_SUCCESS = 0;
 /** The exit code for a command that could not do what the user asked. */
 export const EXIT_FAILURE = 1;
 
+/** The end of a block of CLI output, such as a report. A blank line follows the block. */
+const BLOCK_END = "\n\n";
+
 type CommandArgs<TCommand> = { readonly command: TCommand; readonly deps: CliDeps };
 
 /** The input of {@link printRunSummary} and {@link reportFailures}. */
@@ -246,7 +249,7 @@ async function printRunSummary({ deps, summary }: LectureReport): Promise<void> 
 			outcomes: summary.stageOutcomes,
 			manifest,
 			formatMoney: deps.formatMoney,
-		})}\n\n`,
+		})}${BLOCK_END}`,
 	);
 	reportFailures({ deps, summary });
 }
@@ -270,7 +273,7 @@ function reportFailures({ deps, summary }: LectureReport): void {
 	for (const { stageId, error } of failures) {
 		deps.write(`${stageLabel({ stageId })} failed: ${error}\n`);
 	}
-	deps.write(`The full stack for each is in ${deps.debugLogPath}.\n\n`);
+	deps.write(`The full stack for each is in ${deps.debugLogPath}.${BLOCK_END}`);
 }
 
 /**
@@ -375,7 +378,8 @@ async function batchCommand({
 }
 
 /**
- * Gets the cost reports from the runner and writes them, one for each lecture.
+ * Gets the cost reports from the runner and writes them, one for each lecture. A
+ * blank line follows each report, as it follows each run summary.
  * Both forms of `cost-report`, with and without a lecture date, end here.
  *
  * When there is no lecture to report on, it writes a message that says so
@@ -407,7 +411,7 @@ async function reportCosts({
 		return;
 	}
 	for (const report of reports) {
-		deps.write(`${report}\n`);
+		deps.write(`${report}${BLOCK_END}`);
 	}
 }
 

@@ -541,13 +541,12 @@ describe("executeCommand", () => {
 
 		// The runner returns the reports, and the CLI writes them to its output
 		// stream. So the test reads them from that stream, and not from stdout.
-		it("should write every report it was given when the runner returns them", async () => {
+		it("should write each report followed by a blank line when the runner returns them", async () => {
 			runner.costReport.mockResolvedValue(["FIRST REPORT", "SECOND REPORT"]);
 
 			await invoke(costReport({ lectureDate: null, moduleRoot: null }));
 
-			expect(printed()).toContain("FIRST REPORT");
-			expect(printed()).toContain("SECOND REPORT");
+			expect(printed()).toBe("FIRST REPORT\n\nSECOND REPORT\n\n");
 		});
 
 		it("should report on one module only when --module narrows it", async () => {
