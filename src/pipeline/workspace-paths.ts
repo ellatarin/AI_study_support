@@ -1,11 +1,7 @@
 /**
- * The resolvers of paths in the module tree, one for each kind of input
- * (technical-design.md §4.4).
- *
- * - {@link workspacePath} joins path segments that the code supplies. It checks nothing.
- * - {@link resolveManifestPath} resolves an entry from a manifest. A corrupt or
- *   hand-edited manifest must not reach a file outside the module tree. So the
- *   path is resolved, its symbolic links are followed, and it must be in `moduleRoot`.
+ * The resolver of a path from a manifest (technical-design.md §4.4). A corrupt or
+ * hand-edited manifest must not reach a file outside the module tree. So the path
+ * is resolved, its symbolic links are followed, and it must be in `moduleRoot`.
  *
  * This module is apart from `src/utils/files.ts`, because a mistake here lets a
  * path escape the module tree (technical-design.md §4.4).
@@ -20,28 +16,6 @@ import { NamedError } from "../utils/errors.js";
  * or was edited by hand (technical-design.md §4.4).
  */
 export class ManifestPathError extends NamedError {}
-
-/**
- * Joins trusted path segments onto a workspace root. It checks no boundary, so it
- * is only for segments that the code supplies. A path from a manifest or a model
- * reply must use {@link resolveManifestPath} (technical-design.md §4.4).
- *
- * @param args - The workspace root and the segments.
- * @param args.workspaceRoot - Absolute path to the workspace root.
- * @param args.segments - Trusted path segments, in order.
- * @returns The joined absolute path.
- * @example
- * workspacePath({ workspaceRoot, segments: ["Audio", "audio.m4a"] });
- */
-export function workspacePath({
-	workspaceRoot,
-	segments,
-}: {
-	readonly workspaceRoot: string;
-	readonly segments: readonly string[];
-}): string {
-	return join(workspaceRoot, ...segments);
-}
 
 /**
  * Tells if a file system error has the `ENOENT` (not found) code.

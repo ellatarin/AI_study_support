@@ -2,38 +2,7 @@ import { mkdir, realpath, symlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { beforeEach, describe, expect, it } from "vitest";
 import { testModuleName, useTempDir } from "./fixtures.js";
-import { ManifestPathError, resolveManifestPath, workspacePath } from "./workspace-paths.js";
-
-// Any absolute path will do. workspacePath only joins segments onto the root,
-// so the value is not the subject of the test.
-const TRUSTED_ROOT = "/workspace";
-
-// The separators below are part of the test. Each expected path is written out.
-// workspacePath calls `join`, so an expected path made with `join` would only
-// test `join` against `join`. The written paths fix this suite to POSIX
-// separators, which the rest of the code reads and writes. On Windows, `join`
-// gives `\`, so each row fails. That failure is intentional, because the
-// path separator on Windows is really different. This project targets macOS. If it must run on Windows,
-// rewrite these expected paths.
-describe("workspacePath", () => {
-	it.each([
-		{ segments: ["Audio", "audio.m4a"], expected: `${TRUSTED_ROOT}/Audio/audio.m4a` },
-		{ segments: ["manifest.json"], expected: `${TRUSTED_ROOT}/manifest.json` },
-		{
-			segments: ["Slide content", "raw", "slide-01.png"],
-			expected: `${TRUSTED_ROOT}/Slide content/raw/slide-01.png`,
-		},
-	])("should resolve a path under the workspace root when segments are $segments", ({
-		segments,
-		expected,
-	}) => {
-		expect(workspacePath({ workspaceRoot: TRUSTED_ROOT, segments })).toBe(expected);
-	});
-
-	it("should return the workspace root itself when no segments are given", () => {
-		expect(workspacePath({ workspaceRoot: TRUSTED_ROOT, segments: [] })).toBe(TRUSTED_ROOT);
-	});
-});
+import { ManifestPathError, resolveManifestPath } from "./workspace-paths.js";
 
 describe("resolveManifestPath", () => {
 	const tempDir = useTempDir({ prefix: "workspace-paths-" });

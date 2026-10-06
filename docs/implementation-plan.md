@@ -73,7 +73,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `src/types/pipeline.ts` — every shared type, `STAGE_IDS`, the ordered stage list `StageId` is derived from, and `CONFIG_FILENAME`, the configuration file every layer names **(TD §4.1, §4.2, §4.7, §6)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageConfigUsed`, `StageStatus`), the persisted shapes (`Manifest`, `StageEntry`, `RunLog`, `RunLogStageEntry`, `RunLogCost`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaCheckerReport`, `QaDeficienciesReport`, `QaSourcePassage`, `QaConsideration`), and the runner-facing `LectureMatch`, `PipelineRunOptions`, `BatchOptions`, `ReportOptions`, `PipelineStageOutcome`, `PipelineRunSummary`, `BatchSummary`, with `DEFAULT_PIPELINE_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`
 - `src/pipeline/layout.ts` — the filesystem vocabulary, declared once: `moduleDirs`, `sharedLectureFileDirs`, `workspaceRootFor`, `moduleRootOf`, `moduleName`, `MANIFEST_FILE`, `RUN_LOGS_DIR`, `DEBUG_LOGS_DIR`, `runLogsDirPath`, `debugLogPath`, `STAGE_FILES`, `StageWithOutputFile` and the `stageOutputEntry` that admits only those stages, `stageOutputPath`, `resolveStageOutput`, `stageDirectoryPaths` **(TD §3.3, "The layout has one owner")**. Every stage, the runner, the CLI, and the fixtures take directory and file names from here; no other module states one as a literal
 - `src/utils/files.ts` — `writeFileAtomic`, `writeJsonAtomic`, `readJsonSafe`, `cleanTmpFiles`, `pathExists`, and the directory reads `readDirSafe`/`listFileNames`/`listSubdirectoryNames` **(TD §4.3)**
-- `src/pipeline/workspace-paths.ts` — `workspacePath` and `resolveManifestPath` with its `ManifestPathError` **(TD §4.4)**; apart from the conveniences above because a mistake here is a path escaping the module tree rather than an inconvenience
+- `src/pipeline/workspace-paths.ts` — `resolveManifestPath` with its `ManifestPathError` **(TD §4.4)**. It is apart from the helpers above. A mistake here lets a path escape the module tree.
 - `src/utils/logger.ts` — `createDebugLogger`, `createStageLogger` **(TD §10, Logging and Progress Helpers)**
 - `src/utils/date.ts` — `extractDate`, `formatDateISO`, `isCalendarDate` **(TD §3.2, Date and Naming Helpers)**
 - `src/utils/naming.ts` — `extractProvisionalTitle`, `titledBaseName`, `lectureBaseName` **(TD §3.2)**; `filenameSafe` and the `EmptyNameError` it raises **(TD §4.4)**
@@ -126,8 +126,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `should write the value as indented JSON when a value is given` — and the same no-partial-file rule for `writeJsonAtomic`
 - `readJsonSafe` — the parsed value, and `null` for a file that is absent and one that is not JSON
 
-`workspace-paths.ts` — one suite, since the trusted resolver needs no filesystem and the untrusted one needs a real symlink:
-- `workspacePath` — `test.each` over segment lists, including the empty one
+`workspace-paths.ts` — one integration suite, because the resolver needs a real symlink:
 - `resolveManifestPath` — `test.each` covering: in-workspace path (accepted), `..` escape into `Final output/` under moduleRoot (accepted), `..` escape outside moduleRoot (rejected), symlink pointing outside moduleRoot (rejected after realpath), absolute path (rejected)
 
 `cost.ts` — unit tests:

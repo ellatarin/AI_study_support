@@ -524,9 +524,7 @@ This is enforced in every place a path from `filesWritten` or the manifest is us
 `--from-stage` cleanup takes no manifest-derived path, so the boundary check has nothing to act on there. Every directory it works in comes from the hard-coded `STAGE_FILES`, and it reads `filesWritten` at no point (see "Stage cleanup boundaries" below): the untrusted input is kept out of the function rather than checked on the way in. `isComplete()` reads `filesWritten` as its whole job, so the check belongs there.
 
 ```typescript
-// src/pipeline/workspace-paths.ts — the two path resolvers, one per kind of input
-workspacePath(args: { workspaceRoot: string; segments: readonly string[] }): string
-// Trusted, code-supplied segments only. No boundary check — untrusted input uses the resolver below.
+// src/pipeline/workspace-paths.ts — the resolver of a path from a manifest
 type ManifestPathQuery = { workspaceRoot: string; moduleRoot: string; entry: string }
 class ManifestPathError extends NamedError
 resolveManifestPath(query: ManifestPathQuery): Promise<string>
@@ -534,7 +532,7 @@ resolveManifestPath(query: ManifestPathQuery): Promise<string>
 // The query is a named type so callers forwarding a path state the shape once.
 ```
 
-These live in a module of their own rather than among the filesystem conveniences in `src/utils/files.ts` (§4.3), because they differ from those in kind and not in subject. Listing a directory or writing a file without leaving half of one behind are conveniences: getting one wrong is an inconvenience. This is the one place in the pipeline where getting it wrong means a path escaping the tree the user pointed the tool at, and it is worth being able to read and review on its own. Keeping the trusted resolver beside the untrusted one is deliberate: the two are a pair, and which one a caller reaches for is the decision the pair exists to make visible.
+The resolver has a module of its own. It is not with the filesystem helpers in `src/utils/files.ts` (§4.3). A mistake in a helper, such as a directory listing, causes a small problem. A mistake in the resolver lets a path escape the folder that the user gave to the tool. So a reader can review the resolver alone. A path that the code makes from fixed names needs no check. The layout module (§3.3) joins those names itself.
 
 **`filenameSafe(title)`.** Titles reach the filesystem in the base name, which the workspace, the renamed source files, and the `Final output/` PDF carry. Titles originate from user filenames (`source-normalisation`) or LLM output (`transcript-structuring`) — neither is a trusted path component. `filenameSafe` MUST:
 

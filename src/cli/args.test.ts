@@ -40,8 +40,7 @@ describe("parseCliArgs", () => {
 
 		// The command words are written here, and not taken from the table that makes
 		// the usage text. Words from that table would test the usage text against its
-		// own input. workspace-paths.integration.test.ts writes its expected paths for
-		// the same reason.
+		// own input.
 		it.each([
 			"run",
 			"batch",
