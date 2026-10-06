@@ -1,35 +1,28 @@
 /**
- * Shared type contracts for the lecture-notes pipeline, plus the two runtime
- * constants every layer names: the stage list the contracts are derived from
- * ({@link STAGE_IDS}) and the configuration file they are configured by
- * ({@link CONFIG_FILENAME}).
+ * The types that the stages, the runner, the config loader and the cost report
+ * share. Also, the constants that some of these types are derived from.
  *
- * Every stage, the runner, the config loader, and the cost tooling depend on
- * these definitions. All data types are declared `readonly` throughout: the
- * pipeline treats state as immutable and produces new objects rather than
- * mutating in place (manifest updates flow through the runner's
- * `updateManifest`, never by field assignment).
+ * This module imports nothing. So every layer can import from it without a cycle.
  *
- * See technical-design.md §4 (architecture), §6 (config), §7 (cost).
+ * See technical-design.md §4 (architecture), §6 (config) and §7 (cost).
  */
 
 /**
- * The configuration file's name within the project root.
+ * The name of the configuration file in the project root.
  *
- * It sits with the contracts rather than with the loader that reads it because
- * the parties that name the file are not all downstream of the loader: two stages
- * tell the user to edit it when their configuration is wrong, and the suites write
- * one for the CLI to find. `config.ts` imports from `openrouter.ts`, so a stage
- * importing back from `config.ts` would cycle; this module imports nothing, so
- * everyone can reach it (technical-design.md §6).
+ * The name is declared here, and not in the config loader, because code that the
+ * loader imports also names the file. The OpenRouter client and the message for
+ * an unconfigured stage tell the user to edit it. `config.ts` imports from
+ * `openrouter.ts`, so an import back from `config.ts` would make a cycle
+ * (technical-design.md §6).
  */
 export const CONFIG_FILENAME = "pipeline-config.json";
 
 /**
- * Every pipeline stage, in execution order (technical-design.md §4.1).
+ * Every stage, in pipeline order (technical-design.md §4.1).
  *
- * It is the source of truth for {@link StageId}: the union is derived from it, so
- * a stage cannot be added to one and forgotten in the other.
+ * {@link StageId} is derived from this list, so a stage cannot be in one and not
+ * in the other. Code that walks the stages in order iterates this list.
  */
 export const STAGE_IDS = [
 	"source-normalisation",
@@ -49,247 +42,231 @@ export const STAGE_IDS = [
 	"pdf-generation",
 ] as const;
 
-/**
- * Canonical identifier for each pipeline stage, in execution order
- * (technical-design.md §4.1). Derived from {@link STAGE_IDS}.
- */
+/** The id of one stage (technical-design.md §4.1). */
 export type StageId = (typeof STAGE_IDS)[number];
 
 /**
- * Every language the pipeline can be configured to write, as a BCP-47 tag
- * mapped to the name a prompt calls it by.
+ * Every language that the notes can be written in. Each BCP-47 tag maps to the
+ * name that a prompt uses for the language.
  *
- * A tag identifies the language, and the name beside it is what an LLM is
- * actually told — "Write in en-GB" is not an instruction a model can follow
- * reliably, so the two are declared together and neither can be added without
- * the other. Regional variants are the whole point of the setting: the language
- * every prose stage writes differs from the language spoken in the lectures,
- * which is the transcriber's concern and takes a different form entirely
- * ({@link PipelineConfig.elevenLabs.languageCode}).
+ * A model does not reliably obey "Write in en-GB", so a prompt names the language
+ * in words. The tag and its name are declared together, so the config cannot
+ * offer a language that the prompts have no name for (technical-design.md §6).
  *
- * It is the source of truth for {@link OutputLanguage}, so a language cannot be
- * offered in config without a name for the prompts to use
- * (technical-design.md §6).
+ * The language spoken in the lectures is a different setting:
+ * {@link PipelineConfig.elevenLabs.languageCode}.
  */
 export const OUTPUT_LANGUAGES = {
 	"en-GB": "British English",
 	"en-US": "American English",
 } as const;
 
-/**
- * The configured language every prose stage writes in
- * (technical-design.md §6). Derived from {@link OUTPUT_LANGUAGES}.
- */
+/** The tag of a language that the notes can be written in (technical-design.md §6). */
 export type OutputLanguage = keyof typeof OUTPUT_LANGUAGES;
 
 /**
- * Lifecycle status of a stage as recorded in the manifest.
+ * The status of a stage entry in the manifest (technical-design.md §4.2).
  *
- * `running` is written before a stage begins; a crash therefore leaves
- * `running` behind, which the next launch treats as `failed`
- * (technical-design.md §4.2, stage status semantics).
+ * The runner writes `running` before the stage starts. If the invocation stops
+ * while the stage runs, `running` stays in the manifest. The next pipeline run
+ * does the stage again, because it is not a completed stage.
  */
 export type StageStatus = "pending" | "running" | "complete" | "failed" | "skipped";
 
 /**
- * What establishing a call's cost came to.
+ * The cost of a call, or the reason that the cost is unknown.
  *
- * A discriminated union on `costUsd`: a resolved cost carries a number; one that
- * could not be established carries `null` together with the `unknownCostReason`
- * explaining why.
- * Never zero for an unestablished cost, and never simply absent — a cost that
- * could not be established is reported as unknown (NFR-2.2).
+ * An unknown cost has `costUsd: null` and a reason. It is never zero, because a
+ * failed lookup and a call that cost nothing are different facts (NFR-2.2).
  *
- * Declared apart from {@link StageCost} because the two parties that establish a
- * cost answer in exactly this shape before any token count joins it: the
- * reading of an OpenRouter reply's `usage.cost`, and `transcription`'s reading of
- * the audio's duration.
+ * This type is separate from {@link StageCost} because two parts of the code find
+ * a cost before any token count is known. The OpenRouter client reads `usage.cost`
+ * from a reply, and `transcription` prices the audio by its length.
  */
 export type CostResolution =
 	| { readonly costUsd: number }
 	| { readonly costUsd: null; readonly unknownCostReason: string };
 
-/**
- * Token counts and resolved cost for the billable calls a stage made.
- *
- * Tokens and `callCount` are always populated; what the calls cost is a
- * {@link CostResolution} (technical-design.md §7).
- */
+/** The token counts, the number of calls and the cost of a stage's calls (technical-design.md §7). */
 export type StageCost = {
 	readonly promptTokens: number;
 	readonly completionTokens: number;
 	readonly callCount: number;
 } & CostResolution;
 
-/** Optional model tuning parameters shared by resolved and configured stage configs. */
+/** A stage's tuning: its model settings other than the model itself. */
 type StageTuning = {
 	readonly temperature?: number;
 	readonly maxTokens?: number;
+	/**
+	 * How many splitting or grouping runs a panel stage makes at once. Unset means
+	 * one at a time (technical-design.md §6).
+	 */
 	readonly concurrency?: number;
 	/**
-	 * How many calls one run makes at once. Only `deepen-subtopic-splitting`
-	 * reads it; set on any other stage it is refused at load (technical-design.md §6).
+	 * How many calls one splitting run makes at once in deepening. Only
+	 * `deepen-subtopic-splitting` reads it. The config loader refuses it on any
+	 * other stage (technical-design.md §6).
 	 */
 	readonly callConcurrency?: number;
 	/**
-	 * The least time, in seconds, between the starts of two of the stage's
-	 * sends, resends included. Only `group-into-topics` reads it; set on any other
-	 * stage it is refused at load (technical-design.md §6).
+	 * The send gate: the least time, in seconds, between the starts of two of the
+	 * stage's sends. Resends count. Only `group-into-topics` reads it. The config
+	 * loader refuses it on any other stage (technical-design.md §6).
 	 */
 	readonly sendGapSeconds?: number;
+	/** The iteration limit of the QA loop. Only `qa-loop` uses it, and that stage is not built. */
 	readonly maxIterations?: number;
 };
 
 /**
- * The resolved per-stage configuration a stage actually used, recorded in the
- * manifest and run log so cost data can be attributed to a specific model and
- * parameter set. `modelId` is `null` only for stages that make no LLM calls (in
- * which case the whole `StageConfigUsed` is typically `null`). Recorded per stage
- * in the manifest and run log (technical-design.md §4.5, §4.6).
+ * The configuration that a stage ran with, as its stage entry and the run log
+ * record it. It lets each cost be matched to a model and its tuning (NFR-3.2,
+ * technical-design.md §4.5).
+ *
+ * The type lets `modelId` be `null`, but the runner never writes that. For a stage
+ * with no configuration, the runner writes `null` in place of the whole value.
  */
 export type StageConfigUsed = {
 	readonly modelId: string | null;
 } & StageTuning;
 
-/**
- * Per-stage model and parameter configuration as declared in
- * `pipeline-config.json`. Unlike {@link StageConfigUsed}, `modelId` is required
- * here — a configured stage always names a model (technical-design.md §6).
- */
+/** One stage's configuration in the `stages` section of `pipeline-config.json` (technical-design.md §6). */
 export type StageConfig = {
 	readonly modelId: string;
 } & StageTuning;
 
-/** A panel of runs, and the support a position needs for the panel's vote to keep it. */
+/** The size of a panel, and its bar. */
 export type PanelSettings = {
-	/** How many runs make up the panel. */
+	/** How many runs the panel makes. */
 	readonly panelSize: number;
-	/** How many of the panel's runs must mark a position for the vote to keep it; at most `panelSize`. */
+	/**
+	 * The support that a position needs to be kept. The config loader refuses a bar
+	 * above `panelSize`, because then the vote could keep nothing.
+	 */
 	readonly bar: number;
 };
 
-/**
- * Validated contents of `pipeline-config.json` (technical-design.md §6).
- */
+/** The contents of `pipeline-config.json`, after the config loader checks them (technical-design.md §6). */
 export type PipelineConfig = {
 	readonly version: string;
 	readonly moduleRoots: readonly string[];
 	readonly openRouter: {
 		/**
-		 * The address every OpenRouter call is made against — the SDK's `baseURL`,
-		 * the model-list endpoint, and the models page a failed model-ID check
-		 * links to are all derived from it. Configuration rather than a constant
-		 * for the same reason a model ID is: it describes the service being
-		 * called, not this codebase, so a gateway or regional endpoint is a config
-		 * edit (technical-design.md §6).
+		 * The address of the OpenRouter API. The OpenAI client, the model list and the
+		 * models page that a failed model-ID check links to all come from it.
+		 *
+		 * It is configuration because it describes the service, not this code. A
+		 * gateway or a regional endpoint needs only a config edit
+		 * (technical-design.md §6).
 		 */
 		readonly baseUrl: string;
-		/** How long one completion attempt may take before it is abandoned. */
+		/** How long the OpenAI client waits for one HTTP request, in milliseconds. */
 		readonly completionTimeoutMs: number;
-		/** How many times a failed completion is retried before giving up. */
+		/**
+		 * How many times the OpenAI client itself retries a failed HTTP request. These
+		 * retries happen inside one send. The pipeline's resends are separate.
+		 */
 		readonly completionMaxRetries: number;
 	};
 	readonly elevenLabs: {
 		/**
-		 * The address every ElevenLabs call is made against, handed to the SDK's
-		 * own `baseUrl` option. Configuration for the same reason
-		 * {@link PipelineConfig.openRouter.baseUrl} is, and more pressingly:
-		 * ElevenLabs serves the same API from several regional residency hosts,
-		 * and which one an account must use is a fact about that account rather
-		 * than about this codebase (technical-design.md §6).
+		 * The address of the ElevenLabs API, given to the SDK's own `baseUrl` option.
+		 * ElevenLabs serves one API from several regional hosts. The host that an
+		 * account must use depends on the account, so the host is configuration
+		 * (technical-design.md §6).
 		 */
 		readonly baseUrl: string;
 		/**
-		 * The language spoken in the lectures, as the ISO-639-3 code Scribe expects
-		 * (`eng`). Deliberately not {@link PipelineConfig.finalOutput.language}, which is
-		 * the language the *notes* are written in: a lecture delivered in one
-		 * language may want notes in another, and the two take different forms
-		 * anyway (technical-design.md §6).
+		 * The language spoken in the lectures, as the ISO-639-3 code that Scribe
+		 * expects, such as `eng`.
+		 *
+		 * It is separate from {@link PipelineConfig.finalOutput.language}, which is the
+		 * language of the notes. A user can want notes in a language that the lecture
+		 * was not given in. Also, the two settings take different forms
+		 * (technical-design.md §6).
 		 */
 		readonly languageCode: string;
 		/**
-		 * The rate `transcription` multiplies by audio duration to attribute transcription
-		 * spend, since the Scribe API returns no price with a transcript. Accurate
-		 * only for the call this pipeline makes — batch Scribe v2 with no
-		 * diarization, entity detection, or keyterm prompting, each of which
-		 * ElevenLabs bills as a surcharge on top of the base rate.
+		 * The price of one hour of audio. `transcription` multiplies it by the audio's
+		 * length, because the Scribe API returns no price.
+		 *
+		 * The rate is correct only for the request that this pipeline makes: batch
+		 * Scribe v2 with no diarization, entity detection or keyterm prompting.
+		 * ElevenLabs charges extra for each of those (technical-design.md §6).
 		 */
 		readonly costPerAudioHourUsd: number;
 	};
 	readonly currency: {
 		/**
-		 * The USD→GBP rate applied when presenting costs. Every provider bills in
-		 * US dollars, so costs are stored in USD and converted only at display
-		 * time (NFR-2.3): correcting a stale rate re-renders every historical
-		 * report consistently, and no stored figure ever mixes rates.
+		 * The number of pounds for one US dollar, used when a cost is shown.
+		 *
+		 * Providers charge in US dollars, so costs are stored in dollars and
+		 * converted only when shown. A corrected rate therefore changes every
+		 * report, old ones too, and no stored figure mixes two rates (NFR-2.3).
 		 */
 		readonly gbpPerUsd: number;
 	};
 	readonly modelIdCheck: {
 		/**
-		 * Provider prefixes — the part of a model ID before the `/` — that the
-		 * OpenRouter model-ID check skips, so a stage on a non-OpenRouter provider
-		 * can still declare its model in config. Exempting a provider trades away
-		 * typo protection for its IDs.
+		 * The provider prefixes that the model-ID check skips. A provider prefix is the
+		 * part of a model ID before the `/`.
+		 *
+		 * With its provider listed, a stage that does not call OpenRouter can name its
+		 * model in the config. The IDs of a listed provider get no check for typing
+		 * errors (technical-design.md §6).
 		 */
 		readonly exemptProviders: readonly string[];
 	};
-	/**
-	 * How the transcript is divided into subtopics by a panel of splitting runs
-	 * (technical-design.md §5, "Dividing the transcript").
-	 */
+	/** The splitting panel and the size gate (technical-design.md §5, "Dividing the transcript"). */
 	readonly subtopicSplitting: PanelSettings & {
-		/** The word count above which a subtopic is sent for deepening. */
+		/** The size gate: deepening takes a subtopic with more words than this. */
 		readonly sizeGateWords: number;
 	};
 	/**
-	 * How the subtopics are grouped into topics by a panel of grouping runs
-	 * (technical-design.md §5, `group-into-topics`): the bar is the support a topic
-	 * start needs in the vote that breaks ties.
+	 * The grouping panel (technical-design.md §5, `group-into-topics`). Its bar
+	 * applies to the vote, and the vote only breaks ties between groupings.
 	 */
 	readonly grouping: PanelSettings;
 	/** How a batch runs (technical-design.md §4.7, §6). */
 	readonly batch: {
-		/** How many lectures a batch runs at once; `--concurrency` overrides it for one command. */
+		/** How many lectures a batch runs at once. `--concurrency` overrides it for one invocation. */
 		readonly concurrency: number;
 	};
 	readonly naming: {
 		/**
-		 * How a lecturer names their module at the front of a filename, stripped
-		 * from the title `source-normalisation` derives. Either a code (`BOD_Cell injury`) or the
-		 * module written out (`Biology of Disease - Cell injury`), since lecturers
-		 * do both, and matched without regard to case for the same reason.
+		 * The module prefixes that normalisation strips from a filename when it takes
+		 * the provisional title. The match ignores case.
 		 *
-		 * Configuration rather than a constant because a module prefix describes a
-		 * module rather than this codebase, and the pipeline is pointed at more
-		 * than one: an unlisted prefix survives into the workspace folder name and
-		 * the final PDF for every lecture of that module (technical-design.md §3.2).
+		 * A lecturer can write one module in two ways, such as `BOD_Cell injury` and
+		 * `Biology of Disease - Cell injury`. So the list holds both. It is
+		 * configuration because a module prefix describes a module, not this code. A
+		 * module prefix that is not in the list stays in the base name. So it is in
+		 * the workspace folder name and the notes PDF (technical-design.md §3.2).
 		 */
 		readonly modulePrefixes: readonly string[];
 	};
+	/** Each stage's configuration. The config loader refuses a key that names no stage. */
 	readonly stages: Readonly<Partial<Record<StageId, StageConfig>>>;
 	readonly finalOutput: {
 		/**
-		 * The language every stage that produces prose is told to write in. A
-		 * regional variant, because that is the part a lecturer notices: the
-		 * transcriber cannot be asked for one (its own `languageCode` names a
-		 * language and nothing more), so the first point in the pipeline at which
-		 * the spelling can be chosen at all is the first LLM call.
+		 * The language that every stage that writes prose is told to use
+		 * (technical-design.md §6).
+		 *
+		 * The setting is a regional variant, because a reader notices the spelling.
+		 * The transcriber cannot be told a variant: its `languageCode` names only a
+		 * language. So the first model call is the first point where the spelling can
+		 * be chosen.
 		 */
 		readonly language: OutputLanguage;
 		readonly pandocEngine: string;
 	};
 };
 
-/**
- * The checker's verdict for a single QA iteration (technical-design.md §5, `qa-loop`).
- */
+/** A checker's verdict on one output (technical-design.md §5, `qa-loop`). */
 export type QaVerdict = "pass" | "fail";
 
-/**
- * A single QA iteration's outcome, summarised for the manifest
- * (technical-design.md §5, `qa-loop`).
- */
+/** One iteration of the QA loop, as the `qa-loop` stage entry records it (technical-design.md §5, `qa-loop`). */
 export type QaIterationSummary = {
 	readonly iteration: number;
 	readonly verdict: QaVerdict;
@@ -299,65 +276,61 @@ export type QaIterationSummary = {
 };
 
 /**
- * The condition that terminated the QA loop (technical-design.md §5, `qa-loop`).
+ * The reason that the QA loop stopped (technical-design.md §5, `qa-loop`).
+ * `stalled` means that the deficiencies stopped changing.
  */
 export type TerminationReason = "qa-passed" | "max-iterations-reached" | "stalled";
 
 /**
- * What a stage produced when it ran: what the work cost, and the files it left
- * on disk.
+ * The part of a stage's result that the runner copies into the stage entry
+ * unchanged: the cost and the files written (technical-design.md §4.2).
  *
- * Declared once because these two travel together from the stage to the
- * manifest — the runner reads both off {@link StageResult} and writes both into
- * the stage's entry, unchanged. `configUsed` is not among them: the runner
- * supplies that from the configuration it resolved, so it belongs to the entry
- * rather than to what the stage handed back (technical-design.md §4.2).
+ * `configUsed` is not here, because the runner takes it from the configuration
+ * that it resolved, not from the stage.
  */
 type StageCostAndFiles = {
 	readonly cost: StageCost | null;
 	readonly filesWritten: readonly string[];
 };
 
-/** Output-related fields common to every terminal stage entry. */
+/** The fields of a failed, completed or skipped stage entry. */
 type StageOutputData = StageCostAndFiles & {
 	readonly configUsed: StageConfigUsed | null;
 };
 
-/** Fields carried by a successfully completed or skipped stage entry. */
 type CompletedStageData = StageOutputData & {
 	readonly completedAt: string;
 };
 
-/** A stage that has not yet run in this pipeline configuration. */
+/** A stage that has not run since the manifest was made or the stage was reset. */
 type StageEntryPending = { readonly status: "pending" };
 
-/** A stage currently executing, or crashed mid-run (treated as failed next launch). */
+/** A stage that is running now, or that was running when the invocation stopped. */
 type StageEntryRunning = { readonly status: "running" };
 
-/** A stage whose `run()` threw; `error` and `failedAt` are set. */
+/** A stage whose `run` threw. `error` holds the message. */
 type StageEntryFailed = {
 	readonly status: "failed";
 	readonly failedAt: string;
 	readonly error: string;
 } & StageOutputData;
 
-/** A stage whose `run()` succeeded and whose output files are on disk. */
+/** A stage whose `run` returned a result. */
 type StageEntryComplete = { readonly status: "complete" } & CompletedStageData;
 
-/** A stage skipped because its output already existed from a prior run. */
+/**
+ * A stage that the runner did not run, because it was already a completed stage.
+ * The entry keeps the time, configuration, cost and files of the earlier entry.
+ */
 type StageEntrySkipped = { readonly status: "skipped" } & CompletedStageData;
 
-/** The `qa-loop` completed entry, carrying per-iteration QA data. */
+/** The completed entry of `qa-loop`, with each iteration and the reason that the loop stopped. */
 type StageEntryQaComplete = StageEntryComplete & {
 	readonly qaIterations: readonly QaIterationSummary[];
 	readonly terminationReason: TerminationReason;
 };
 
-/**
- * The stage-entry states that are identical for every stage. Only the completed
- * shape differs between a standard stage and `qa-loop`, so that variant is added
- * separately by each exported entry type.
- */
+/** The stage entries that are the same for every stage. Only the completed entry of `qa-loop` is different. */
 type SharedStageEntry =
 	| StageEntryPending
 	| StageEntryRunning
@@ -365,174 +338,168 @@ type SharedStageEntry =
 	| StageEntryFailed;
 
 /**
- * A stage entry whose output stands on disk: the stage either ran to completion,
- * or was skipped because a prior run had already completed it. Both carry the
- * same {@link CompletedStageData}, and both mean the same thing to a later run —
- * the work is done and does not need paying for again (technical-design.md §4.2).
+ * The entry of a completed stage: `complete` or `skipped`. Both mean that the
+ * stage's output was made and is not paid for again (technical-design.md §4.2).
  *
- * Exported so the predicate that tests for it can be a type guard: a caller that
- * has checked goes on to read `filesWritten`, which a plain boolean would leave
- * it unable to reach without a cast.
+ * The type is exported so that `isCompletedEntry` can be a type guard. A caller
+ * that checks can then read `filesWritten` without a cast.
  *
- * `qa-loop`'s completed entry extends {@link StageEntryComplete}, so it is a
- * member of this union and narrowing preserves its extra fields.
+ * The completed entry of `qa-loop` extends {@link StageEntryComplete}. So it is in
+ * this union, and narrowing keeps its extra fields.
  */
 export type CompletedStageEntry = StageEntryComplete | StageEntrySkipped;
 
 /**
- * A stage's entry in the manifest, discriminated by `status` so that
- * status-specific fields (`completedAt`, `failedAt`, `error`) are present only
- * when they are meaningful. Applies to every stage except `qa-loop`, which
- * carries additional data — see {@link QaStageEntry}. Defined in technical-design.md §4.5.
+ * The stage entry of every stage except `qa-loop`, which has a
+ * {@link QaStageEntry} (technical-design.md §4.5). The `status` field decides
+ * which other fields are present.
  */
 export type StageEntry = SharedStageEntry | StageEntryComplete;
 
 /**
- * The `qa-loop` stage's stage entry. Identical to {@link StageEntry}
- * except that a completed entry additionally records the per-iteration
- * summaries and the reason the loop terminated (technical-design.md §5, `qa-loop`).
+ * The stage entry of `qa-loop`. Its completed entry also records each iteration
+ * and the reason that the loop stopped (technical-design.md §5, `qa-loop`).
  */
 export type QaStageEntry = SharedStageEntry | StageEntryQaComplete;
 
 /**
- * The per-stage map in the manifest: `qa-loop` maps to its richer entry type,
- * every other stage to the standard entry. Keyed by `StageId`, so indexing by a
- * dynamic stage id yields the union of both entry types.
+ * The stage entries of a manifest, by stage id. An index with a stage id that is
+ * not known at compile time gives either kind of entry.
  */
 type ManifestStages = {
 	readonly "qa-loop"?: QaStageEntry;
 } & Readonly<Partial<Record<Exclude<StageId, "qa-loop">, StageEntry>>>;
 
-/** The lecture-identity fields common to the manifest and the stage context. */
+/** The lecture identity fields that the manifest and the stage context share. */
 type LectureIdentity = {
 	readonly lectureNumber: number;
 	/**
-	 * `YYYY-MM-DD`. Unique within its `moduleRoot` (guaranteed by `source-normalisation`) and
-	 * the user-facing identifier the CLI accepts, e.g. `run <date>`
+	 * The lecture date, as `YYYY-MM-DD`. Normalisation makes sure that it is unique
+	 * in the module. The CLI takes it to name a lecture, as in `run <date>`
 	 * (technical-design.md §4.7).
 	 */
 	readonly lectureDate: string;
-	/** Best-effort title from the source filename; may be thin (see naming.ts). */
+	/** The title from the lecturer's filename. It can be empty (see `src/utils/naming.ts`). */
 	readonly provisionalTitle: string;
 	/**
-	 * The final title. Seeded by `source-normalisation` to `provisionalTitle`; replaced by
-	 * `aiDerivedTitle` in `transcript-structuring` only when the LLM judges the lecturer's
-	 * provisional title not meaningful for the content. Always non-null so
-	 * downstream stages read it without a guard.
+	 * The lecture title: the user title if set, otherwise the AI-derived title,
+	 * otherwise the provisional title. It is never `null`, so a later stage reads it
+	 * without a check.
+	 *
+	 * Normalisation sets it to the provisional title for a new lecture.
+	 * `transcript-structuring` changes it when it adopts an AI-derived title. The
+	 * `rename` command changes it to the user title.
 	 */
 	readonly lectureTitle: string;
 };
 
 /**
- * The complete `manifest.json` for a single lecture. All paths within are
- * relative to `workspaceRoot` so the manifest survives a folder rename
- * (technical-design.md §4.5).
+ * The `manifest.json` of one lecture (technical-design.md §4.5). Its paths are
+ * relative to the workspace, so the manifest stays correct when the workspace
+ * folder is renamed.
  */
 export type Manifest = {
 	readonly version: string;
 } & LectureIdentity & {
 		/**
-		 * The title the user set explicitly through the CLI `rename` command.
-		 * `null` until they rename the lecture. It wins the title precedence
-		 * outright — `userTitle` › `aiDerivedTitle` › `provisionalTitle` — so once
-		 * set, neither `source-normalisation` nor `transcript-structuring` overwrites
-		 * `lectureTitle` (technical-design.md §5, `source-normalisation`).
+		 * The user title, set by the `rename` command. It is `null` until the user
+		 * renames the lecture. While it is set, no stage changes `lectureTitle`
+		 * (technical-design.md §5, `source-normalisation`).
 		 */
 		readonly userTitle: string | null;
 		/**
-		 * The replacement title `transcript-structuring`'s LLM proposes from the transcript.
-		 * `null` before that stage runs, and `null` afterwards when it keeps the
-		 * lecturer's provisional title (the LLM prefers a meaningful original and
-		 * proposes nothing). Set only when the provisional is judged not
-		 * meaningful, in which case `lectureTitle` becomes this value and the
-		 * source files, workspace folder, and any PDF are renamed accordingly.
+		 * The AI-derived title. It is `null` until `transcript-structuring` judges the
+		 * provisional title not meaningful and proposes a title.
+		 *
+		 * With no user title, the stage also makes it the lecture title and renames
+		 * the lecture files to match. With a user title, only this field changes.
 		 */
 		readonly aiDerivedTitle: string | null;
 		readonly baseName: string;
 		readonly createdAt: string;
 		readonly updatedAt: string;
 		/**
-		 * Every stage's state, and with it the only record of what each stage cost.
-		 * No roll-up sits beside them: stage costs are read one stage at a time and
-		 * summed nowhere (NFR-2.2, technical-design.md §4.5).
+		 * Each stage's entry. The stage entries are the only record of what each stage
+		 * cost. Nothing adds the stage costs together (NFR-2.2,
+		 * technical-design.md §4.5).
 		 */
 		readonly stages: ManifestStages;
 	};
 
 /**
- * Immutable context handed to every stage for a single lecture run
- * (technical-design.md §4.2). Stages read
- * from it but never mutate it; all manifest changes flow through the runner.
+ * The data that a stage receives about its lecture (technical-design.md §4.2). A
+ * stage only reads it. The runner writes every change to the manifest, and builds
+ * a new stage context after each stage.
  */
 export type StageContext = LectureIdentity & {
-	readonly workspaceRoot: string; // canonical internal handle; absolute path to workspace folder
-	readonly moduleRoot: string; // absolute path to the containing module (e.g. Biology of Disease/)
+	readonly workspaceRoot: string; // absolute path of the workspace
+	readonly moduleRoot: string; // absolute path of the module folder, such as `Biology of Disease/`
 	readonly config: PipelineConfig;
+	/** The manifest as it was before the runner marked this stage `running`. */
 	readonly manifest: Manifest;
 };
 
 /**
- * The lecture-identity fields a stage may decide, for the runner to write into
- * the manifest. Only `transcript-structuring` ever decides any: it judges the lecturer's
- * provisional title and, when it replaces it, renames the lecture's files onto
- * a new base name (technical-design.md §4.2; §5, `transcript-structuring`).
+ * The lecture identity fields that a stage decided, for the runner to write into
+ * the manifest (technical-design.md §4.2). Only `transcript-structuring` decides
+ * any. When it adopts an AI-derived title, it renames the lecture files to a new
+ * base name.
  */
 export type LectureIdentityChanges = Partial<
 	Pick<Manifest, "lectureTitle" | "aiDerivedTitle" | "baseName">
 >;
 
 /**
- * The result of a successful stage run.
+ * What a stage's `run` returns (technical-design.md §4.2).
  *
- * `filesWritten` entries are relative to `workspaceRoot` and MAY escape upward
- * with `..` (e.g. `pdf-generation` writes to `../../Final output/`) but MUST
- * resolve to a location under `moduleRoot` — enforced by path validation
+ * Each `filesWritten` entry is relative to the workspace. An entry can go up with
+ * `..`, as a path into the module's `Final output/` does, but it must stay in the
+ * module. `resolveManifestPath` checks this before the path is used
  * (technical-design.md §4.4).
  *
- * @typeParam TOutput - The stage-specific output payload.
+ * @typeParam TOutput - The stage's own output.
  */
 export type StageResult<TOutput> = StageCostAndFiles & {
 	readonly output: TOutput;
 	/**
-	 * What the stage decided about the lecture's identity, written by the runner
-	 * with the stage's `complete` entry — no stage writes the manifest itself
-	 * (technical-design.md §4.2).
+	 * The lecture identity that the stage decided. The runner writes it into the
+	 * manifest with the stage's `complete` entry. No stage writes the manifest
+	 * itself (technical-design.md §4.2).
 	 *
-	 * Absent and `{}` both mean the stage decided nothing; the runner spreads it
-	 * either way. Only `transcript-structuring` decides anything, which is why the field is
-	 * optional rather than required of every stage.
+	 * Absent and `{}` mean the same: the stage decided nothing. The field is
+	 * optional because only `transcript-structuring` sets it.
 	 */
 	readonly identityChanges?: LectureIdentityChanges;
 };
 
 /**
- * The interface every pipeline stage implements (technical-design.md §4.2).
+ * The contract that every stage of one lecture meets (technical-design.md §4.2).
  *
- * @typeParam TInput - The input the stage consumes, produced by `getInput`.
- * @typeParam TOutput - The output the stage's `run` produces.
+ * @typeParam TInput - What `getInput` gives to `run`.
+ * @typeParam TOutput - The output of `run`.
  */
 export type PipelineStage<TInput, TOutput> = {
 	readonly stageId: StageId;
 
 	/**
-	 * Whether the stage's work already exists on disk and need not re-run.
-	 * @param context - The current lecture run context.
-	 * @returns `true` when the manifest marks the stage complete or skipped (see
-	 * {@link CompletedStageEntry}) and every recorded output file exists.
+	 * Checks whether the stage is a completed stage, so that the runner can skip it.
+	 * @param context - The stage context.
+	 * @returns `true` when the stage entry is `complete` or `skipped` (see
+	 * {@link CompletedStageEntry}) and every file that it records is on disk.
 	 */
 	isComplete(context: StageContext): Promise<boolean>;
 
 	/**
-	 * Gathers and validates the stage's input from prior stages' outputs.
-	 * @param context - The current lecture run context.
-	 * @returns The resolved input payload.
+	 * Reads the stage's input from the output of earlier stages, and checks it.
+	 * @param context - The stage context.
+	 * @returns The input.
 	 */
 	getInput(context: StageContext): Promise<TInput>;
 
 	/**
-	 * Executes the stage.
-	 * @param args - The resolved input and the current lecture run context.
-	 * @returns The stage output, cost, and files written.
+	 * Does the stage's work.
+	 * @param args - The input and the stage context.
+	 * @returns The output, the cost and the files written.
 	 */
 	run(args: {
 		readonly input: TInput;
@@ -541,104 +508,92 @@ export type PipelineStage<TInput, TOutput> = {
 };
 
 /**
- * `source-normalisation`'s per-module contract. Unlike a per-lecture {@link PipelineStage}, it
- * processes ALL of a module's currently-present raw sources together in one batch
- * pass, not one lecture at a time. It is re-run over the module's life as further
- * lectures are added (they arrive weekly): each run picks up new sources, leaves
- * already-normalised lectures untouched, and renumbers existing lectures when a
- * newly added lecture sorts earlier by date. Whole-module scope is required
- * precisely because sequential date-ordered numbering means a new earlier lecture
- * shifts later numbers — which demands collision-safe (temp-first) renames across
- * the whole module, impossible to do lecture-in-isolation (technical-design.md §5,
- * `source-normalisation`).
+ * The contract of `source-normalisation`, which works on a whole module and not on
+ * one lecture (technical-design.md §5, `source-normalisation`).
+ *
+ * The stage runs again each time lectures are added. It finds the new source
+ * pairs, and it does not change a lecture that is already normalised, apart from
+ * its number and base name.
+ *
+ * Numbering runs across the module. When a new lecture has an earlier date than
+ * other lectures, every later lecture gets a new number and a new base name. Each
+ * rename goes through a temporary name first, so that no rename lands on a name
+ * that another lecture still uses. This needs the whole module at once.
  */
 export type SourceNormalisationStage = {
 	readonly stageId: "source-normalisation";
 	/**
-	 * Normalises every raw source under a module into lecture workspaces.
-	 * @param args - The module to normalise.
-	 * @param args.moduleRoot - Absolute path to the module directory.
-	 * @returns A promise that resolves once the module's workspaces exist.
+	 * Normalises every source pair in a module into workspaces.
+	 * @param args - The module.
+	 * @param args.moduleRoot - The absolute path of the module folder.
+	 * @returns A promise that resolves when every workspace of the module exists.
 	 */
 	normaliseModule(args: { readonly moduleRoot: string }): Promise<void>;
 };
 
 /**
- * Every severity a QA deficiency may carry, worst first
+ * Every severity that a deficiency can have, worst first
  * (technical-design.md §5, `qa-loop`).
  *
- * Ordered rather than merely listed, because the order is a fact two parties
- * rely on: a checker's reply is validated against this set, and a report shown
- * to a reader is ordered by it. Written as a list and again as an ordering, the
- * two could disagree about a severity that had been added to one of them.
- *
- * It is the source of truth for {@link QaSeverity}, as {@link STAGE_IDS} is for
- * {@link StageId}.
+ * The order is part of the fact. A checker's reply is checked against this list,
+ * and the verification report Markdown sorts the deficiencies by it. With one list
+ * for both, the two cannot disagree about a severity.
  */
 export const QA_SEVERITIES = ["critical", "major", "minor"] as const;
 
-/**
- * Severity of a single QA deficiency (technical-design.md §5, `qa-loop`).
- * Derived from {@link QA_SEVERITIES}.
- */
+/** The severity of one deficiency (technical-design.md §5, `qa-loop`). */
 export type QaSeverity = (typeof QA_SEVERITIES)[number];
 
 /**
- * The deficiency type of a single deficiency.
+ * The deficiency type of a deficiency (technical-design.md §5, `qa-loop`).
  *
- * One union shared by every stage that checks an output against the source it
- * was made from, so two checkers cannot end up describing the same fault in
- * different words. Each stage's prompt offers only its own subset: a checker
- * asked for a deficiency type it has no way to judge will find one.
+ * Every stage that checks an output against its source uses this one union. So
+ * two checkers cannot name the same fault in different words. Each checker is
+ * offered only the deficiency types that it can judge. A checker that is asked
+ * for a fault that it cannot judge will find one.
  *
- * The faithfulness deficiency types below are asked for by transcript verification
- * and by the QA loop alike; the prose fault types are faults in the notes
- * themselves, which only the QA loop looks for.
- *
- * `distortion` and `unsourced-addition` divide on what the reviser must do, and
- * that line is the whole reason they are separate deficiency types: a distortion
- * contradicts the source and is corrected against it, an unsourced addition is
- * absent from the source and is deleted. Looking for a source that would
- * support one instead would violate NFR-1.3 (technical-design.md §5, `qa-loop`).
+ * Distortion and unsourced addition are separate because their remedies are
+ * opposite. The reviser fixes a distortion against the source. It deletes an
+ * unsourced addition, and never looks for a source to support it (NFR-1.3).
  */
 export type QaDeficiencyType =
-	// Faithfulness to the source: transcript verification and the QA loop.
-	| "omission" // source content is entirely absent from the output (FR-4.2)
-	| "underexplained" // present, but stripped of the mechanism or reasoning that makes it usable (FR-4.2)
-	| "distortion" // the output asserts something the source contradicts (FR-4.3)
-	| "unsourced-addition" // present in the output, absent from the source (FR-4.3)
-	| "other" // a real deficiency no deficiency type fits — a standing prompt to invent the one it needs
-	// Prose faults in the notes: the QA loop only.
-	| "clarity" // factually correct but ambiguous, muddled, or hard to follow (FR-4.3)
-	| "british-english" // spelling, punctuation, or idiom deviating from en-GB
-	| "formatting" // heading level, list structure, table structure, or LaTeX rendering
-	| "figure-reference"; // wrong image, missing image, or broken relative path
+	// Faithfulness: transcript verification and the QA loop.
+	| "omission" // source content that is absent from the output (FR-4.2)
+	| "underexplained" // present, but without the mechanism or reasoning that makes it usable (FR-4.2)
+	| "distortion" // the output asserts something that the source contradicts (FR-4.3)
+	| "unsourced-addition" // in the output, but not in the source (FR-4.3)
+	| "other" // a real deficiency that fits no other type. The description names the type it needs
+	// Prose faults: the QA loop only.
+	| "clarity" // correct, but ambiguous or hard to follow (FR-4.3)
+	| "british-english" // spelling, punctuation or idiom that is not British English
+	| "formatting" // heading levels, lists, tables or LaTeX
+	| "figure-reference"; // a wrong or missing image, or a broken relative path
 
 /**
- * The passage in the source a deficiency is about: the words themselves, and where
- * to go and read them.
+ * The passage of the source that a deficiency or a consideration is about: a
+ * quote, and where the quote is.
  *
- * Both together, because a quote with no locator sends a reader hunting through
- * a whole transcript for it, and a locator with no quote cannot be checked
- * without opening the source. Stated once and reused, so a deficiency and a
- * consideration point at a source the same way.
+ * Both are kept. With no location, a reader must search the whole transcript for
+ * the quote. With no quote, a reader cannot check the location without the source
+ * open.
  */
 export type QaSourcePassage = {
-	readonly evidence: string; // direct quote from the source material
-	readonly location: string; // where that quote sits: topic block, slide number, or timestamp
+	readonly evidence: string; // a direct quote from the source
+	readonly location: string; // where the quote is in the source, in the checker's own words
 };
 
 /**
- * A single issue found by a quality checker, with the evidence and the
- * suggested remedy the reviser will act on (technical-design.md §5, `qa-loop`).
+ * One deficiency that a checker found, with the fix that it suggests to the
+ * reviser (technical-design.md §5, `qa-loop`).
  *
- * A deficiency locates both ends. `outputLocation` is where in the output the
- * fault sits, or — for an omission, where nothing sits yet — the place the
- * missing content belongs. `source` is the passage it is about. A deficiency type with
- * no source end carries `null` there rather than an invented locator: an
- * unsourced addition is defined by its absence from the source, and a prose
- * fault is about the output alone. Nothing branches on that `null`; which
- * deficiency types have a source end is settled by `type`.
+ * A deficiency gives both ends. `outputLocation` is where the fault is in the
+ * output. For an omission, it is where the missing content belongs. `source` is
+ * the passage that the deficiency is about. It is `null` for an unsourced
+ * addition, which has no source, and for a prose fault, which is about the
+ * output only.
+ *
+ * The verification report Markdown writes a "no source passage" line for a `null`
+ * source. The check of a checker's reply accepts `null` for every deficiency type.
  */
 export type QaDeficiency = {
 	readonly severity: QaSeverity;
@@ -646,17 +601,17 @@ export type QaDeficiency = {
 	readonly description: string;
 	readonly source: QaSourcePassage | null;
 	readonly suggestedFix: string;
-	readonly outputLocation: string; // section heading, "Glossary", or "throughout"
+	readonly outputLocation: string;
 };
 
 /**
- * Something a checker examined and decided was not a deficiency, and why.
+ * Something that a checker examined and decided is not a deficiency, with its
+ * reason (technical-design.md §5, `qa-loop`).
  *
- * Recorded because a list of deficiencies alone cannot distinguish a checker that
- * missed something from one that looked at it and cleared it, and only the
- * first is a reason to distrust the checker. A lecturer's aside, an
- * administrative announcement, or a filler phrase dropped on purpose belongs
- * here rather than going unmentioned (technical-design.md §5, `qa-loop`).
+ * A list of deficiencies alone cannot tell a checker that missed something from a
+ * checker that looked and cleared it. Only the first is a reason to distrust the
+ * checker. Examples are a lecturer's aside, an announcement, and filler that the
+ * output left out on purpose.
  */
 export type QaConsideration = {
 	readonly source: QaSourcePassage;
@@ -664,61 +619,53 @@ export type QaConsideration = {
 };
 
 /**
- * What a quality checker returns when asked to judge one output against its
- * source: everything the model itself is in a position to say.
+ * Everything that a checker's reply holds about one output and its source.
  *
- * Separate from {@link QaDeficienciesReport} because the iteration number is not
- * the model's to supply — it is a fact about the loop calling it, and a checker
- * asked for it would have to guess. Transcript verification runs once and has no
- * iteration at all (technical-design.md §5, `transcript-verification` and `qa-loop`).
+ * The iteration number is not here, because the model cannot know it. The QA loop
+ * adds it in {@link QaDeficienciesReport}. Transcript verification checks once
+ * and has no iteration (technical-design.md §5, `transcript-verification` and
+ * `qa-loop`).
  */
 export type QaCheckerReport = {
 	readonly overallVerdict: QaVerdict;
-	readonly coverageScore: number; // 0–100, LLM self-assessed
+	readonly coverageScore: number; // 0 to 100, as the model estimates it
 	readonly deficiencies: readonly QaDeficiency[];
 	readonly considered: readonly QaConsideration[];
 };
 
-/**
- * One iteration's deficiencies as the QA loop records them: what the checker said,
- * stamped with which pass said it (technical-design.md §5, `qa-loop`).
- */
+/** The checker report of one QA loop iteration, with the iteration's number (technical-design.md §5, `qa-loop`). */
 export type QaDeficienciesReport = QaCheckerReport & {
 	readonly iteration: number;
 };
 
-/**
- * How a pipeline run was initiated: a normal manual invocation or a
- * `--from-stage` re-run (technical-design.md §4.6).
- */
+/** How a pipeline run started: with `--from-stage` or without it (technical-design.md §4.6). */
 export type PipelineRunTrigger = "manual" | "from-stage";
 
 /**
- * The run type of a run, decided from manifest state at start, used
- * to lay out the cost report (technical-design.md §7).
+ * The run type of a pipeline run. The runner decides it from the manifest when
+ * the pipeline run starts. The cost report puts each run log's costs in the
+ * section for its run type (technical-design.md §7).
  */
 export type RunType = "normal" | "error-recovery" | "experiment";
 
 /**
- * Cost fields recorded per stage in a run log: what the stage spent and how many
- * calls it took, and deliberately no more (technical-design.md §4.6).
+ * The cost of one stage in a run log: what it spent and how many calls it made
+ * (technical-design.md §4.6).
  *
- * Narrower than {@link StageCost}, which also carries token counts and, for a
- * cost that could not be established, the reason. Keeping the history slim is
- * the intent rather than an oversight: the cost report reads these two fields
- * and nothing else, and the manifest is where a stage's full cost detail lives.
+ * It is smaller than {@link StageCost}. It has no token counts, and no reason for
+ * an unknown cost. The stage entry in the manifest holds the full cost.
  *
- * It is also the only one of the two shapes that can describe a stage making no
- * billable calls at all. `StageCost`'s `costUsd: null` arm requires a
- * `unknownCostReason`, and a stage that never called anything had no lookup
- * fail — so unifying the two would mean inventing a reason where there is none.
+ * It is also the only cost type that can show a stage that made no calls. The
+ * runner writes `costUsd: null` and `callCount: 0` for such a stage. In
+ * {@link StageCost}, `costUsd: null` needs an `unknownCostReason`, and a stage
+ * that made no call had no lookup to fail.
  */
 export type RunLogCost = {
 	readonly costUsd: number | null;
 	readonly callCount: number;
 };
 
-/** Fields common to every `ran` run-log entry, before status discrimination. */
+/** The fields of every run log entry for a stage that ran. */
 type RanStageBase = {
 	readonly action: "ran";
 	readonly configUsed: StageConfigUsed | null;
@@ -726,13 +673,13 @@ type RanStageBase = {
 };
 
 /**
- * What happened to a stage during a run, as recorded in the run log
+ * What happened to one stage in a pipeline run, as the run log records it
  * (technical-design.md §4.6).
  *
- * `skipped` means the stage was eligible but its output already existed;
- * `not-reached` means an upstream failure prevented it from being attempted. A
- * `ran` entry is further discriminated by `status`, so `error` is present only
- * on a failed run.
+ * `skipped` means that the stage was already a completed stage. `not-reached`
+ * means that the pipeline run stopped before the stage. It stopped because a
+ * stage failed with `onStageFailure: "halt"`, or because of the `--to-stage`
+ * bound. A `ran` entry has an `error` only when the stage failed.
  */
 export type RunLogStageEntry =
 	| { readonly action: "skipped" }
@@ -740,52 +687,39 @@ export type RunLogStageEntry =
 	| (RanStageBase & { readonly status: "complete" })
 	| (RanStageBase & { readonly status: "failed"; readonly error: string });
 
-/**
- * When a piece of work began and finished, both ISO 8601.
- *
- * A run log, a lecture's summary and a batch's summary each span a period, and
- * each said so for itself — three declarations of the same pair, which is three
- * places to correct should the pair ever gain a third member or change its
- * format.
- */
+/** When a piece of work started and ended, both as ISO 8601 times. */
 type TimePeriod = {
 	readonly startedAt: string;
 	readonly endedAt: string;
 };
 
 /**
- * A single append-only run log written to `Run logs/<timestamp>.json`. Records the
- * complete financial audit trail for one pipeline invocation, including failed
- * attempts (technical-design.md §4.6).
+ * One run log, written to `Run logs/<timestamp>.json` in the workspace
+ * (technical-design.md §4.6). It is the append-only record of one pipeline run,
+ * failed attempts included.
  */
 export type RunLog = TimePeriod & {
 	readonly pipelineRunId: string;
 	readonly triggeredBy: PipelineRunTrigger;
 	readonly runType: RunType;
 	readonly fromStage: StageId | null;
-	/** The `--to-stage` bound, or `null` for a run that was not bounded; the stages after it read `not-reached`. */
+	/** The `--to-stage` bound, or `null` for a pipeline run with no bound. The stages after it are `not-reached`. */
 	readonly toStage: StageId | null;
-	/** What each stage of this run did and cost. The run itself carries no figure (NFR-2.2). */
+	/** What each stage did and cost in this pipeline run. The run log has no total (NFR-2.2). */
 	readonly stages: Readonly<Partial<Record<StageId, RunLogStageEntry>>>;
 };
 
 /**
- * The overall outcome of a run or batch: every stage's output standing, whether
- * this run produced it or found it already there (`success`), or at least one
- * stage that failed (`failed`) (technical-design.md §4.7).
+ * The outcome of a pipeline run or a batch: `failed` when any stage failed,
+ * otherwise `success` (technical-design.md §4.7).
  *
- * Two values rather than three. The question a run answers is whether the work
- * is done, and there are only two answers to it — a third would have to describe
- * a lecture whose pipeline is incomplete without anything having failed, and
- * nothing the runner sees can be that: it runs every stage it was given, and a
- * stage it never reached was stopped by a failure that already decides the run.
+ * A skipped stage and a stage that was not reached count as success. So a bounded
+ * run succeeds while later stages are still pending. The manifest, not this
+ * status, shows how far a lecture has got.
  */
 export type OverallStatus = "success" | "failed";
 
-/**
- * A lecture located by `resolveLecturesByDate`, identifying its module and
- * workspace (technical-design.md §4.7).
- */
+/** A lecture that `resolveLecturesByDate` found, with its module and workspace (technical-design.md §4.7). */
 export type LectureMatch = {
 	readonly moduleRoot: string;
 	readonly workspaceRoot: string;
@@ -793,106 +727,97 @@ export type LectureMatch = {
 	readonly lectureTitle: string;
 };
 
-/**
- * Options controlling a single pipeline run (technical-design.md §4.7).
- */
+/** The options of one pipeline run (technical-design.md §4.7). */
 export type PipelineRunOptions = {
-	readonly fromStage?: StageId; // reset this stage + all downstream to pending before running
+	readonly fromStage?: StageId; // reset this stage and every later stage, then run from it
 	/**
-	 * The last stage the run performs. Stages after it are not run and are
-	 * recorded `not-reached`, exactly as the stages after a halt are; nothing is
-	 * reset and nothing is deleted, so a bounded run leaves the lecture resumable
-	 * rather than finished (technical-design.md §4.7).
+	 * The last stage that the pipeline run does. The stages after it are recorded
+	 * `not-reached`, as after a halt. Nothing is reset or deleted, so the lecture
+	 * stays resumable (technical-design.md §4.7).
 	 *
-	 * A position in {@link STAGE_IDS} rather than a name matched against the
-	 * stages the runner holds, so a stage the pipeline has not yet built still
-	 * bounds the run.
+	 * The bound is a position in {@link STAGE_IDS}, not a name matched against the
+	 * stages that the runner has. So a stage that is not built can still bound a
+	 * pipeline run.
 	 */
 	readonly toStage?: StageId;
 	/**
-	 * What the runner does once a stage has failed: `halt` stops the run, leaving
-	 * the stages after it `not-reached`; `continue` logs the failure and moves on
-	 * to the next stage (technical-design.md §8, Stage Failure Protocol). Always
-	 * stated — the default is {@link DEFAULT_PIPELINE_RUN_OPTIONS}, not the
-	 * absence of a value.
+	 * What the runner does after a stage fails. `halt` stops the pipeline run, and
+	 * the later stages are `not-reached`. `continue` records the failure and starts
+	 * the next stage (technical-design.md §8, Stage Failure Protocol).
+	 *
+	 * The field is required. The default is {@link DEFAULT_PIPELINE_RUN_OPTIONS},
+	 * not a missing value.
 	 */
 	readonly onStageFailure: "halt" | "continue";
 };
 
 /**
- * Options controlling a batch: everything a single pipeline run takes, plus
- * the one thing only a batch can say (technical-design.md §4.7).
+ * The options of a batch: the options of one pipeline run, and how many lectures
+ * run at once (technical-design.md §4.7).
  */
 export type BatchOptions = PipelineRunOptions & {
 	/**
-	 * How many lectures `runBatch` processes at once, drawn from one queue across
-	 * every module in the batch. Absent from {@link PipelineRunOptions} because `run`
-	 * addresses a single lecture and could do nothing with it. Distinct from
-	 * `StageConfig.concurrency`, which bounds the parallel API calls made
-	 * *within* one stage.
+	 * How many lectures `runBatch` runs at once. The lectures come from one queue
+	 * across every module in the batch. {@link PipelineRunOptions} has no such
+	 * field, because the `run` command runs one lecture.
+	 *
+	 * This is not a stage's `concurrency`, which is how many splitting or grouping
+	 * runs a panel stage makes at once.
 	 */
 	readonly concurrency: number;
 };
 
-/** What a pipeline run does when its caller expresses no preference. */
+/** The options of a pipeline run when the caller gives none: halt at the first failure. */
 export const DEFAULT_PIPELINE_RUN_OPTIONS: PipelineRunOptions = { onStageFailure: "halt" };
 
-/** What a batch does when its caller expresses no preference: one at a time. */
+/** The options of a batch when the caller gives none: one lecture at a time. */
 export const DEFAULT_BATCH_OPTIONS: BatchOptions = {
 	...DEFAULT_PIPELINE_RUN_OPTIONS,
 	concurrency: 1,
 };
 
-/**
- * Options narrowing a cost report (technical-design.md §4.7).
- */
+/** The options that narrow a cost report (technical-design.md §4.7). */
 export type ReportOptions = {
-	readonly lectureDate?: string; // narrow the report to this date (via resolveLecturesByDate)
+	readonly lectureDate?: string; // report only the lecture with this lecture date
 };
 
 /**
- * What one stage did during a pipeline run, paired with the stage it happened
- * to. The run log keys its entries by stage id; a summary is an ordered list, so
- * it carries the id alongside each entry — without it a caller (the CLI's
- * pipeline run summary) could not say which stage an outcome belongs to
+ * What one stage did in a pipeline run, with the stage's id
  * (technical-design.md §4.7, §7).
+ *
+ * The run log keys its entries by stage id. A summary is an ordered list, so each
+ * entry carries the id. Without it, the run summary could not name the stage of a
+ * row.
  */
 export type PipelineStageOutcome = {
 	readonly stageId: StageId;
 	readonly entry: RunLogStageEntry;
 };
 
-/**
- * The outcome of one pipeline run: one lecture through the pipeline
- * (technical-design.md §4.7).
- */
+/** The outcome of one pipeline run (technical-design.md §4.7). */
 export type PipelineRunSummary = TimePeriod & {
 	readonly workspaceRoot: string;
-	readonly pipelineRunId: string; // matches the run log created for this pipeline run
-	readonly stageOutcomes: readonly PipelineStageOutcome[]; // in execution order
+	readonly pipelineRunId: string; // the same as in the run log of this pipeline run
+	readonly stageOutcomes: readonly PipelineStageOutcome[]; // in pipeline order
 	readonly overallStatus: OverallStatus;
 };
 
-/**
- * The outcome of running a batch of lectures across one or more modules
- * (technical-design.md §4.7).
- */
+/** The outcome of a batch, across one or more modules (technical-design.md §4.7). */
 export type BatchSummary = TimePeriod & {
-	readonly lectures: readonly PipelineRunSummary[]; // one entry per lecture attempted, in the order they ran
+	readonly lectures: readonly PipelineRunSummary[]; // one for each lecture, by module and then by date
 	readonly overallStatus: OverallStatus;
 };
 
 /**
- * Something worth telling the user about, at the moment it happens
- * (technical-design.md §10).
+ * A fact that the runner reports while a pipeline run happens, for the CLI to
+ * show (technical-design.md §10).
  *
- * A pipeline run summary describes a pipeline run that has finished. These
- * describe one that is still going, which is the only way a user learns what a
- * long pipeline run is doing — and, for a pipeline run that repeats nothing, the only way they learn it did anything
- * at all.
+ * The run summary describes a pipeline run that has ended. These events are the
+ * only way that a user sees what a long pipeline run is doing. When every stage
+ * is skipped, they are the only sign that the pipeline run did anything.
  *
- * They carry facts rather than sentences: the wording is the CLI's, which is
- * what keeps the runner out of the business of writing to a user (§8).
+ * An event holds facts, not sentences. The CLI writes the words, so the runner
+ * never writes to the user (technical-design.md §8).
  */
 export type PipelineRunEvent =
 	| { readonly event: "lecture-started"; readonly manifest: Manifest }
@@ -906,8 +831,8 @@ export type PipelineRunEvent =
 	| { readonly event: "stage-failed"; readonly stageId: StageId };
 
 /**
- * Where a pipeline run's events are told to. The runner is given one the way it is given
- * a logger; the CLI supplies one that writes to the stream it owns
+ * The function that receives the runner's events. The runner gets one as it gets
+ * a logger. The CLI gives one that writes to the output stream that the CLI owns
  * (technical-design.md §10).
  */
 export type PipelineRunReporter = (event: PipelineRunEvent) => void;
