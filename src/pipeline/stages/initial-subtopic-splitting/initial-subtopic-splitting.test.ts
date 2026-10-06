@@ -11,9 +11,9 @@ import {
 	configuringStage,
 	driveModelStage,
 	earlierSavedRun,
+	firstSavedRun,
 	paddedTranscriptText,
 	readSavedRunJson,
-	seedSavedRun,
 	seedStageOutput,
 	sentUserMessage,
 	stubbedCallCost,
@@ -25,7 +25,6 @@ import {
 	useTranscribedWorkspace,
 } from "../../fixtures.js";
 import { callModel } from "../../openrouter.js";
-import { SavedRunUnreadableError } from "../panel-runs.js";
 import {
 	createInitialSubtopicSplittingStage,
 	InitialSubtopicSplittingError,
@@ -92,15 +91,11 @@ describe("createInitialSubtopicSplittingStage", () => {
 		return readSavedRunJson({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID, runNumber });
 	}
 
-	/** Leaves run 1 on disk as an earlier invocation would have, holding `contents`. */
-	function leaveFirstRun(contents: unknown): Promise<void> {
-		return seedSavedRun({
-			workspaceRoot: workspaceRoot(),
-			stageId: STAGE_ID,
-			runNumber: 1,
-			contents,
-		});
-	}
+	const { leaveFirstRun, expectUnreadableFirstRun } = firstSavedRun({
+		workspaceRoot,
+		stageId: STAGE_ID,
+		run,
+	});
 
 	it("should send the transcript without its surrounding whitespace when a run is made", async () => {
 		await seedStageOutput({
@@ -158,10 +153,8 @@ describe("createInitialSubtopicSplittingStage", () => {
 			problem: "a subtopic named by a label, as saved before titles",
 			contents: [{ start: 0, end: 1, label: "L", reason: "W" }],
 		},
-	])("should fail when a saved run holds $problem", async ({ contents }) => {
-		await leaveFirstRun(contents);
-		expect(await captureError(run())).toBeInstanceOf(SavedRunUnreadableError);
-	});
+	])("should fail when a saved run holds $problem", ({ contents }) =>
+		expectUnreadableFirstRun(contents));
 
 	it.each(unusableTranscripts)("should fail when the transcript is $state", async ({ spoil }) => {
 		await spoil(workspaceRoot());

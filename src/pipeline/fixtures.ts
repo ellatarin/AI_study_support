@@ -53,7 +53,7 @@ import { createMoneyFormatter, type MoneyFormatter } from "./reports.js";
 import { assembleContext } from "./stage-context.js";
 import { type Subtopic, subtopicText } from "./stages/division.js";
 import type { ModelStageFactory } from "./stages/model-stage.js";
-import { panelDirectory } from "./stages/panel-runs.js";
+import { panelDirectory, SavedRunUnreadableError } from "./stages/panel-runs.js";
 import {
 	API_KEY_VARIABLE as ELEVENLABS_KEY_VARIABLE,
 	ELEVENLABS_PATHS,
@@ -1651,6 +1651,44 @@ export async function seedSavedRun({
 	const path = savedRunPath(run);
 	await mkdir(dirname(path), { recursive: true });
 	await writeFile(path, JSON.stringify(contents));
+}
+
+/** What a panel stage's suite does with run 1, as an earlier invocation would have saved it. */
+type FirstSavedRun = {
+	/** Leaves run 1 on disk holding `contents`, written as JSON. */
+	readonly leaveFirstRun: (contents: unknown) => Promise<void>;
+	/** Leaves run 1 holding `contents`, runs the stage, and checks that the stage fails because it cannot read run 1. */
+	readonly expectUnreadableFirstRun: (contents: unknown) => Promise<void>;
+};
+
+/**
+ * Makes the helpers a panel stage's suite uses to leave run 1 on disk before the
+ * stage runs.
+ *
+ * @param args - The panel stage, its workspace, and how to run it.
+ * @param args.workspaceRoot - Gives the absolute path to the lecture workspace of the current test.
+ * @param args.stageId - The panel stage.
+ * @param args.run - Runs the stage.
+ * @returns The two helpers.
+ */
+export function firstSavedRun({
+	workspaceRoot,
+	stageId,
+	run,
+}: {
+	readonly workspaceRoot: () => string;
+	readonly stageId: StageId;
+	readonly run: () => Promise<unknown>;
+}): FirstSavedRun {
+	const leaveFirstRun = (contents: unknown): Promise<void> =>
+		seedSavedRun({ workspaceRoot: workspaceRoot(), stageId, runNumber: 1, contents });
+	return {
+		leaveFirstRun,
+		expectUnreadableFirstRun: async (contents) => {
+			await leaveFirstRun(contents);
+			expect(await captureError(run())).toBeInstanceOf(SavedRunUnreadableError);
+		},
+	};
 }
 
 /**
