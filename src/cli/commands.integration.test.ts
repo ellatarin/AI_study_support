@@ -28,6 +28,8 @@ import {
 } from "../types/pipeline.js";
 import {
 	type CliDeps,
+	EXIT_FAILURE,
+	EXIT_SUCCESS,
 	executeCommand,
 	type PipelineRunnerFacade,
 	type RunnableCliCommand,
@@ -181,7 +183,7 @@ describe("executeCommand", () => {
 		it("should do the work when the reset is approved", async () => {
 			const code = await invoke(resetCommand);
 
-			expect(code).toBe(0);
+			expect(code).toBe(EXIT_SUCCESS);
 			expect(runsThrough()).toHaveBeenCalledTimes(1);
 		});
 
@@ -190,7 +192,7 @@ describe("executeCommand", () => {
 
 			const code = await invoke(resetCommand);
 
-			expect(code).toBe(0);
+			expect(code).toBe(EXIT_SUCCESS);
 			expect(runsThrough()).not.toHaveBeenCalled();
 			expect(printed()).toContain(NOTHING_WAS_RUN);
 		});
@@ -263,7 +265,7 @@ describe("executeCommand", () => {
 		it("should run the lecture without prompting when exactly one matches the date", async () => {
 			const code = await invoke(runCommand);
 
-			expect(code).toBe(0);
+			expect(code).toBe(EXIT_SUCCESS);
 			expect(selectMatches).not.toHaveBeenCalled();
 			expect(runner.runLecture).toHaveBeenCalledWith({
 				workspaceRoot,
@@ -297,7 +299,7 @@ describe("executeCommand", () => {
 
 			const code = await invoke(runCommand);
 
-			expect(code).toBe(1);
+			expect(code).toBe(EXIT_FAILURE);
 		});
 
 		it("should name each failed stage and its error when a stage failed", async () => {
@@ -331,7 +333,7 @@ describe("executeCommand", () => {
 
 			const code = await invoke(runCommand);
 
-			expect(code).toBe(1);
+			expect(code).toBe(EXIT_FAILURE);
 			expect(printed()).toContain(testLecture.date);
 			expect(printed()).toContain("the configured modules");
 			expect(runner.runLecture).not.toHaveBeenCalled();
@@ -365,7 +367,7 @@ describe("executeCommand", () => {
 
 			const code = await invoke(runCommand);
 
-			expect(code).toBe(0);
+			expect(code).toBe(EXIT_SUCCESS);
 			expect(runner.runLecture).not.toHaveBeenCalled();
 		});
 
@@ -434,7 +436,7 @@ describe("executeCommand", () => {
 		it("should batch every configured module when none is named", async () => {
 			const code = await invoke(batchCommand);
 
-			expect(code).toBe(0);
+			expect(code).toBe(EXIT_SUCCESS);
 			expect(runner.runBatch).toHaveBeenCalledWith({
 				moduleRoots: [moduleRoot, secondModuleRoot()],
 				options: configuredBatchOptions,
@@ -478,7 +480,7 @@ describe("executeCommand", () => {
 
 			const code = await invoke(batchCommand);
 
-			expect(code).toBe(1);
+			expect(code).toBe(EXIT_FAILURE);
 		});
 
 		it("should ask nothing when the batch deletes no earlier work", async () => {
@@ -532,7 +534,7 @@ describe("executeCommand", () => {
 		it("should report across every configured module when nothing narrows it", async () => {
 			const code = await invoke(costReport({ lectureDate: null, moduleRoot: null }));
 
-			expect(code).toBe(0);
+			expect(code).toBe(EXIT_SUCCESS);
 			expect(runner.costReport).toHaveBeenCalledWith({
 				moduleRoots: [moduleRoot, secondModuleRoot()],
 				options: {},
@@ -562,7 +564,7 @@ describe("executeCommand", () => {
 
 			const code = await invoke(costReport({ lectureDate: null, moduleRoot: null }));
 
-			expect(code).toBe(0);
+			expect(code).toBe(EXIT_SUCCESS);
 			expect(printed()).toContain("nothing to report");
 		});
 
@@ -600,7 +602,7 @@ describe("executeCommand", () => {
 
 			const code = await invoke(costReport({ lectureDate: testLecture.date, moduleRoot: null }));
 
-			expect(code).toBe(1);
+			expect(code).toBe(EXIT_FAILURE);
 			expect(runner.costReport).not.toHaveBeenCalled();
 		});
 
@@ -632,7 +634,7 @@ describe("executeCommand", () => {
 
 			const code = await invoke(costReport({ lectureDate: testLecture.date, moduleRoot: null }));
 
-			expect(code).toBe(0);
+			expect(code).toBe(EXIT_SUCCESS);
 			expect(runner.costReport).not.toHaveBeenCalled();
 		});
 	});
@@ -647,7 +649,7 @@ describe("executeCommand", () => {
 		it("should record the new title when renaming", async () => {
 			const code = await invoke(renameCommand);
 
-			expect(code).toBe(0);
+			expect(code).toBe(EXIT_SUCCESS);
 			expect((await readManifest({ workspaceRoot })).userTitle).toBe(testUserTitle);
 		});
 
@@ -662,7 +664,7 @@ describe("executeCommand", () => {
 
 			const code = await invoke(renameCommand);
 
-			expect(code).toBe(1);
+			expect(code).toBe(EXIT_FAILURE);
 			expect(runner.normaliseSources).not.toHaveBeenCalled();
 		});
 
@@ -672,7 +674,7 @@ describe("executeCommand", () => {
 
 			const code = await invoke(renameCommand);
 
-			expect(code).toBe(0);
+			expect(code).toBe(EXIT_SUCCESS);
 			expect((await readManifest({ workspaceRoot })).userTitle).toBeNull();
 			expect(runner.normaliseSources).not.toHaveBeenCalled();
 		});
@@ -704,7 +706,7 @@ describe("executeCommand", () => {
 		it("should remove the lecture and renormalise when the deletion is approved", async () => {
 			const code = await invoke(deleteCommand);
 
-			expect(code).toBe(0);
+			expect(code).toBe(EXIT_SUCCESS);
 			await expect(readManifest({ workspaceRoot })).rejects.toThrow();
 			expect(runner.normaliseSources).toHaveBeenCalledWith({ moduleRoots: [moduleRoot] });
 		});
@@ -714,7 +716,7 @@ describe("executeCommand", () => {
 
 			const code = await invoke(deleteCommand);
 
-			expect(code).toBe(0);
+			expect(code).toBe(EXIT_SUCCESS);
 			await expect(readManifest({ workspaceRoot })).resolves.toBeTruthy();
 			expect(runner.normaliseSources).not.toHaveBeenCalled();
 		});
@@ -730,7 +732,7 @@ describe("executeCommand", () => {
 		it("should move the lecture to the new date when changing it", async () => {
 			const code = await invoke(changeCommand);
 
-			expect(code).toBe(0);
+			expect(code).toBe(EXIT_SUCCESS);
 			// The pipeline's own function gives the base name at the new date.
 			const movedBaseName = baseNameForLecture({
 				lectureNumber: testLecture.number,

@@ -11,6 +11,7 @@ import {
 import { DEBUG_LOGS_DIR, moduleDirs } from "../pipeline/layout.js";
 import { CONFIG_FILENAME } from "../types/pipeline.js";
 import { listFileNames } from "../utils/files.js";
+import { EXIT_FAILURE, EXIT_SUCCESS } from "./commands.js";
 import { runCli } from "./run-cli.js";
 
 describe("runCli", () => {
@@ -57,7 +58,7 @@ describe("runCli", () => {
 	it("should print the usage text without reading the config when help is asked for", async () => {
 		const code = await invoke(["--help"]);
 
-		expect(code).toBe(0);
+		expect(code).toBe(EXIT_SUCCESS);
 		expect(out.join("")).toContain("lecture-notes run <date>");
 		expect(errors).toEqual([]);
 	});
@@ -65,7 +66,7 @@ describe("runCli", () => {
 	it("should print usage and fail when the command line cannot be understood", async () => {
 		const code = await invoke(["publish"]);
 
-		expect(code).toBe(1);
+		expect(code).toBe(EXIT_FAILURE);
 		expect(errors.join("")).toContain("publish");
 		expect(out.join("")).toContain("Usage:");
 	});
@@ -73,7 +74,7 @@ describe("runCli", () => {
 	it("should report the problem plainly and fail when the config cannot be read", async () => {
 		const code = await invoke(["cost-report"]);
 
-		expect(code).toBe(1);
+		expect(code).toBe(EXIT_FAILURE);
 		expect(errors.join("")).toContain(CONFIG_FILENAME);
 		expect(errors.join("")).not.toContain("    at ");
 	});
@@ -83,7 +84,7 @@ describe("runCli", () => {
 
 		const code = await invoke(["cost-report"]);
 
-		expect(code).toBe(1);
+		expect(code).toBe(EXIT_FAILURE);
 		expect(errors.join("")).toContain("not valid JSON");
 	});
 
@@ -92,7 +93,7 @@ describe("runCli", () => {
 
 		const code = await invoke(["cost-report"]);
 
-		expect(code).toBe(0);
+		expect(code).toBe(EXIT_SUCCESS);
 		expect(errors).toEqual([]);
 	});
 
@@ -101,7 +102,7 @@ describe("runCli", () => {
 
 		const code = await invoke(["run", testLecture.date]);
 
-		expect(code).toBe(1);
+		expect(code).toBe(EXIT_FAILURE);
 		expect(out.join("")).toContain(testLecture.date);
 	});
 
