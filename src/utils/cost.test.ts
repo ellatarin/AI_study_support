@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { accumulateCost, totalCost } from "./cost.js";
 
-// The two operands every fold below is made of, and what they come to. Only
-// their prices vary from test to test, so the tokens and call counts are stated
-// here and each test supplies its own CostResolution.
+// The two costs that each test below adds, and their total. Only the prices
+// change from test to test. So the tokens and call counts are here, and each
+// test gives its own CostResolution.
 const RUNNING_TOTAL = { promptTokens: 100, completionTokens: 50, callCount: 1 } as const;
 const INCOMING_CALL = { promptTokens: 200, completionTokens: 80, callCount: 2 } as const;
 const FOLDED = { promptTokens: 300, completionTokens: 130, callCount: 3 } as const;
@@ -38,10 +38,10 @@ describe("accumulateCost", () => {
 		expect(result.costUsd).toBeCloseTo(expectedCost);
 	});
 
-	// One call's price unknown leaves the stage's own figure unknown, whichever
-	// operand it was: reporting the calls that did resolve would name a price the
-	// stage was not charged. Two unknowns carry both reasons, joined, each once: a
-	// panel stage's many calls usually fail to price for one shared reason.
+	// One unknown price makes the total unknown, whichever cost it was in. A total
+	// of only the known prices would name a price that the stage was not charged.
+	// Two unknown costs give both reasons, each once, because the many calls of a
+	// panel stage usually fail to price for one reason.
 	it.each([
 		{
 			name: "the incoming call is unresolved",

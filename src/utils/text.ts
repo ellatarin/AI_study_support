@@ -1,20 +1,14 @@
 /**
- * Tidying text that is shown to a user or assembled by taking pieces out of
- * other text.
- *
- * Both the naming rules and the date reader work by removal — a noise token, a
- * date span — and removal leaves gaps behind, so each of them ends by closing
- * the gaps up. That final tidy is written here once rather than at each of them
- * (technical-design.md §3). Counting a thing in a sentence is here for the same
- * reason: several places tell the user how many of something there are.
+ * This module tidies text. The naming rules and the date reader remove parts of
+ * text and then close the gaps with {@link collapseWhitespace}
+ * (technical-design.md §3.2). Several messages give a count of a thing with
+ * {@link pluralise}.
  */
 
-/** Any run of whitespace, however it is spelt. */
 const WHITESPACE_RUN = /\s+/g;
 
 /**
- * Closes up the whitespace in text something has been removed from: every run
- * becomes a single space, and the ends are trimmed.
+ * Makes each run of whitespace a single space, and trims the ends.
  *
  * @param text - The text to tidy.
  * @returns The text, singly spaced and trimmed.
@@ -29,14 +23,12 @@ export function collapseWhitespace(text: string): string {
 const CONSONANT_THEN_Y = /[^aeiou]y$/i;
 
 /**
- * Counts a thing in a sentence: the number, then the noun, pluralised for any
- * count but one.
+ * Gives a count and a noun, with the plural noun for any count but one. A noun
+ * that ends in a consonant and `y` takes `ies`. Every other noun takes `s`. No
+ * caller gives an irregular noun.
  *
- * A noun that ends in a consonant and `y` takes `ies`. Every other noun takes a
- * plain `s`. No noun this is asked for is irregular.
- *
- * @param args - What is being counted.
- * @param args.count - How many there are.
+ * @param args - The thing that is counted, and its count.
+ * @param args.count - The number of things that are counted.
  * @param args.noun - The singular noun.
  * @returns The count and the noun, agreeing with each other.
  * @example

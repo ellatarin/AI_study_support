@@ -16,8 +16,8 @@ describe("splitModelId", () => {
 			name: "scribe_v2",
 		},
 		{
-			// OpenRouter qualifies some IDs beyond the provider. The split is on the
-			// FIRST separator, so everything after it is the name the provider knows.
+			// Some OpenRouter IDs have more than one separator. The split is at the
+			// FIRST one, so the rest is the name that the provider uses.
 			scenario: "the ID carries a further segment",
 			modelId: "openrouter/anthropic/claude-sonnet-4",
 			provider: "openrouter",

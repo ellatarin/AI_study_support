@@ -1,28 +1,27 @@
 /**
- * Spacing a stage's sends: every send waits its turn, and a turn comes no
- * sooner than a set gap after the previous send began (technical-design.md §5,
- * "Dividing the transcript", Panel runs; §6).
+ * This module separates the sends of a stage in time. Each send waits for its
+ * turn. A turn comes no sooner than a set gap after the previous send began
+ * (technical-design.md §5, "Dividing the transcript", Panel runs, and §6).
  */
 
 import { pause } from "./resend.js";
 
-/** Hands out turns to send. One per stage run, so every send the run makes shares it. */
+/** The send gate. Each stage run has one, which all of its sends share. */
 export type SendGate = {
-	/** Resolves when this send may start: at once, or once the gap since the previous send has passed. */
+	/** Resolves when this send can start: at once, or when the gap after the previous send has passed. */
 	readonly waitTurn: () => Promise<void>;
 };
 
-/** How many milliseconds make a second. */
 const MS_PER_SECOND = 1000;
 
 /**
- * Makes a gate spacing sends at least `gapSeconds` apart. Each send's turn
- * follows the one before it, so sends released together go one gap apart, in
- * the order they asked; a send that comes after a long quiet goes at once.
+ * Creates a send gate that starts sends at least `gapSeconds` apart. Each turn
+ * follows the turn before it. So sends that ask together go one gap apart, in
+ * the order that they asked. A send after a long quiet time goes at once.
  *
- * @param args - How far apart to space sends.
- * @param args.gapSeconds - The least time between the starts of two sends; `undefined` spaces nothing.
- * @returns The gate.
+ * @param args - The gap between the sends.
+ * @param args.gapSeconds - The least time between the starts of two sends. `undefined` keeps no gap.
+ * @returns The send gate.
  */
 export function createSendGate({
 	gapSeconds,

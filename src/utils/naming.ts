@@ -1,16 +1,10 @@
 /**
- * Title and base name derivation for lecture files.
+ * This module reads the provisional title from a source filename and builds the
+ * base name of a lecture. {@link extractProvisionalTitle} removes the date, the
+ * module prefix and other noise from a filename. The provisional title can be empty.
+ * {@link filenameSafe} makes a title safe for the filesystem.
  *
- * User-supplied lecture filenames vary widely: the date is always present, but
- * a module-code prefix, day name, lecture-number token, trailing artefacts
- * (`copy`, `co`, `v2`), and a descriptive title may each be present or absent.
- * {@link extractProvisionalTitle} recovers a best-effort title by removing
- * whichever of those noise elements it finds; the result may be thin or empty,
- * and `transcript-structuring`'s LLM later judges its adequacy against the transcript.
- * {@link lectureBaseName} builds the base name, and
- * {@link filenameSafe} sanitises any title before it reaches the filesystem.
- *
- * See technical-design.md §3 (naming) and §4.4 (path validation).
+ * See technical-design.md §3.2 and §4.4.
  */
 
 import { formatDateISO, stripDateTokens } from "./date.js";
@@ -18,29 +12,24 @@ import { NamedError } from "./errors.js";
 import { collapseWhitespace } from "./text.js";
 
 /**
- * Thrown when sanitising a title leaves nothing to name a file with — the whole
- * of the input was unsafe characters, traversal segments, or whitespace. The
- * caller falls back to a provisional title or a stage-defined default
- * (technical-design.md §3, §4.4).
+ * The error for a title that has no characters that are safe in a filename, such as
+ * `..` or only spaces.
  */
 export class EmptyNameError extends NamedError {}
 
 /**
- * Characters carrying meaning inside a pattern. Module prefixes come from the
- * config file, so each is escaped before it is built into one — a prefix is text
- * to match literally, never a pattern the user wrote.
+ * The characters that have a special meaning in a pattern. The config file gives
+ * the module prefixes, so each prefix is escaped. A prefix is text to match, not
+ * a pattern.
  */
 const PATTERN_METACHARACTERS = /[.*+?^${}()|[\]\\]/g;
 
 /**
- * The pattern matching any configured module prefix followed by a separator
- * (`BOD_`, `BOD `, `Biology of Disease_`), or `null` when none are configured
- * and nothing is to be stripped.
+ * Builds the pattern for a module prefix and the separator after it, such as
+ * `BOD_`, `BOD ` or `Biology of Disease_`. The case is ignored, because
+ * lecturers do not write their module prefix in one case.
  *
- * Matched case-insensitively: how a lecturer happens to write their own
- * module's name in a filename says nothing about whether it is one.
- *
- * @param modulePrefixes - The codes or names the modules' filenames are prefixed with.
+ * @param modulePrefixes - The module prefixes from the config file.
  * @returns The pattern, or `null` when the list is empty.
  */
 function modulePrefixPattern(modulePrefixes: readonly string[]): RegExp | null {
@@ -54,37 +43,36 @@ function modulePrefixPattern(modulePrefixes: readonly string[]): RegExp | null {
 }
 
 /**
- * An embedded lecture-number token (`Lecture 1`, `Lectures 2`). Stripped so the
- * provisional title never duplicates the number `source-normalisation` assigns separately.
+ * A lecture number in a filename, such as `Lecture 1`. It is removed, because the
+ * lecture number that `source-normalisation` gives is already in the base name.
  */
 const LECTURE_NUMBER_TOKEN = /\bLectures?\s*\d+\b/gi;
 
 /**
- * Separator debris at either end, left where a stripped token used to be: a
- * base name `Lecture 1 - Cell Injury - 2025-10-10` loses its number and date and
- * comes back as `- Cell Injury -`.
+ * Separators left at either end after the removals. The base name
+ * `Lecture 1 - Cell Injury - 2025-10-10` loses its number and date and becomes
+ * `- Cell Injury -`.
  */
 const EDGE_SEPARATORS = /^[\s-]+|[\s-]+$/g;
 
-/** Trailing artefacts appended by recording/export tools (`copy`, `co`, `v2`). */
+/** Words at the end that recording or export tools add, such as `copy`, `co` or `v2`. */
 const TRAILING_ARTEFACTS = /(?:[\s-]+(?:copy|co|v\d+))+$/i;
 
-/** A file extension of 1–5 alphanumeric characters. */
 const FILE_EXTENSION = /\.[A-Za-z0-9]{1,5}$/;
 
-/** Underscores, which source filenames use where a title would use a space. */
+/** Underscores. A source filename uses them where a title uses a space. */
 const UNDERSCORES = /_/g;
 
-/** Either platform's path separator, which no filename component may contain. */
+/** The path separators of Unix and Windows. A filename cannot contain them. */
 const PATH_SEPARATORS = /[/\\]/g;
 
 /**
- * Dots at either end of a name. A leading one hides the file on Unix and a
- * trailing one is refused on Windows, so neither survives sanitisation.
+ * Dots at either end of a name. A dot at the start hides the file on Unix, and
+ * Windows refuses a dot at the end.
  */
 const EDGE_DOTS = /^\.+|\.+$/g;
 
-/** Upper bound (inclusive) of the ASCII C0 control range; DEL is `0x7f`. */
+/** The last code of the ASCII C0 control characters, and the code of DEL. */
 const LAST_C0_CONTROL_CODE = 0x1f;
 const DELETE_CODE = 0x7f;
 
@@ -104,31 +92,20 @@ function stripControlChars(text: string): string {
 }
 
 /**
- * Derives a best-effort provisional lecture title from a source filename.
+ * Reads the provisional title from a source filename. It removes these parts:
+ * - the extension, the dates and the weekdays
+ * - the module prefixes, a lecture number and the underscores
+ * - the separators at either end, and the words that tools add at the end.
  *
- * Strips the file extension, all date and weekday tokens, any configured
- * module prefix, any embedded lecture-number token, underscores, separator
- * debris at either end, and trailing artefacts. Filenames vary: a rich filename yields
- * a full title, while a `date + Lecture N` filename yields an **empty string**.
- * Callers must fall back (e.g. to the bare `Lecture N` name) on an empty result;
- * `transcript-structuring`'s LLM later judges whether the title is meaningful.
+ * A filename with only a date and `Lecture N` gives an empty string. The capitals
+ * stay as the lecturer typed them. So a lower-case filename gives a lower-case
+ * title. When the filename is a base name that this module built, the
+ * provisional title is the title in that base name (technical-design.md §3.2).
  *
- * **The lecturer's capitalisation is kept exactly as they typed it.** The title
- * becomes part of the base name, which the final PDF also carries, so re-casing it
- * misspells the subject in both — and no rule can tell `mRNA` from an ordinary
- * word, since either may mix cases. The cost is that a filename typed in lower
- * case yields a lower-case title: names are exactly as consistent as the
- * filenames are, and this function never invents a spelling of its own.
- *
- * The separator strip is what lets a name this module built be read back: a
- * lecture whose sources were renamed by a run that then stopped before writing
- * its manifest is re-read from its base name on the next run, and must
- * yield the title that name was built from (technical-design.md §3.2).
- *
- * @param args - The filename to read, and what counts as a module prefix.
- * @param args.modulePrefixes - The configured module prefixes, matched case-insensitively wherever one is followed by a separator; an empty list strips none.
- * @param args.filename - The user-supplied source filename.
- * @returns The cleaned provisional title, possibly empty.
+ * @param args - The filename to read, and the module prefixes.
+ * @param args.modulePrefixes - The module prefixes from the config file. An empty list removes none.
+ * @param args.filename - The source filename.
+ * @returns The provisional title, possibly empty.
  *
  * @example
  * extractProvisionalTitle({
@@ -162,18 +139,14 @@ export function extractProvisionalTitle({
 }
 
 /**
- * Removes characters that are unsafe in a filesystem name.
+ * Removes the characters that are not safe in a filename. A title comes from a
+ * user filename or from a model, so it is not trusted. This function removes null bytes,
+ * control characters, path separators and `.` or `..` segments. It collapses the
+ * whitespace, and trims spaces and dots from the ends (technical-design.md §4.4).
  *
- * Titles reach the filesystem in the base name, which the workspace, the renamed
- * source files and the final PDF carry; they originate from untrusted user filenames or LLM
- * output. This strips null bytes and ASCII control characters, path separators,
- * and directory-traversal segments (`.`, `..`), collapses whitespace, and trims
- * surrounding whitespace and dots.
- *
- * @param title - The raw title to sanitise.
- * @returns The sanitised name, guaranteed non-empty.
- * @throws {EmptyNameError} When sanitisation leaves an empty string; the caller
- *   must fall back to a provisional title or a stage-defined default.
+ * @param title - The title to make safe.
+ * @returns The safe name. It is never empty.
+ * @throws {EmptyNameError} When no character of the title is left after the removals.
  *
  * @example
  * filenameSafe("../etc/passwd"); // → "etc passwd"
@@ -181,9 +154,8 @@ export function extractProvisionalTitle({
  */
 export function filenameSafe(title: string): string {
 	const withoutSeparators = stripControlChars(title).replace(PATH_SEPARATORS, " ");
-	// Collapsed first, so a segment is whatever sits between single spaces and
-	// this reads what counts as whitespace off one definition rather than a
-	// second pattern of its own.
+	// The whitespace is collapsed first, so a segment is the text between single
+	// spaces. So this code needs no second pattern for whitespace.
 	const result = collapseWhitespace(withoutSeparators)
 		.split(" ")
 		.filter((segment) => segment !== "." && segment !== "..")
@@ -199,36 +171,26 @@ export function filenameSafe(title: string): string {
 }
 
 /**
- * The three things a lecture's base name is built from.
- *
- * Not the lecture's identity, which is what `types/pipeline.ts` records and is a
- * wider thing: a recorded identity carries an ISO date string and both a
- * provisional and a decided title, and a name is built from exactly one title
- * and a real `Date`. The two were both called `LectureIdentity`, which read as
- * one type declared twice.
+ * The parts of a base name. This is less than the lecture identity: one title,
+ * and a `Date` in place of a date string.
  */
 type BaseNameParts = {
 	readonly lectureNumber: number;
 	readonly title: string;
 	/**
-	 * `Readonly<Date>` rather than `Date`: the name builders only read the
-	 * calendar day off it, and a bare `Date` carries mutating methods, so a
-	 * parameter holding one is not the immutable input CLAUDE.md asks for. A
-	 * real `Date` is assignable, so callers are unaffected.
+	 * A `Readonly<Date>`, because CLAUDE.md asks for immutable input and a `Date`
+	 * has methods that change it. A plain `Date` can still be passed.
 	 */
 	readonly date: Readonly<Date>;
 };
 
 /**
- * Builds the titled `Lecture N - Title - YYYY-MM-DD` base name.
- *
- * Used for both the workspace and the final PDF (which appends `.pdf`).
- * The title is passed through {@link filenameSafe} so the assembled name is
- * always filesystem-safe.
+ * Builds the base name `Lecture N - Title - YYYY-MM-DD`. {@link filenameSafe}
+ * makes the title safe, so the name is safe for the filesystem.
  *
  * @param parts - The lecture number, title, and date.
- * @returns The base name (without extension).
- * @throws Error when the title sanitises to empty (see {@link filenameSafe}).
+ * @returns The base name, without an extension.
+ * @throws {EmptyNameError} When the title has no safe characters.
  *
  * @example
  * titledBaseName({ lectureNumber: 1, title: "Immune System", date });
@@ -240,17 +202,14 @@ export function titledBaseName(parts: BaseNameParts): string {
 }
 
 /**
- * The `Lecture N - Title - YYYY-MM-DD` base name, falling back to
- * `Lecture N - YYYY-MM-DD` when the provisional title is empty
- * (technical-design.md §3.2, §4.7).
+ * Builds the base name of a lecture. An empty title gives `Lecture N - YYYY-MM-DD`
+ * (technical-design.md §3.2, §4.7). This is here and not in
+ * `source-normalisation`, because `lecture-files.ts` uses it too, and pipeline
+ * code does not import a stage (§9).
  *
- * Lives here rather than in `source-normalisation`, which is where it began: `lecture-files.ts`
- * needs it, and pipeline infrastructure importing from a stage inverts the
- * dependency the pipeline is built on. It is a naming rule and depends on
- * nothing but the other naming rules.
- *
- * @param parts - The lecture number, provisional title (may be empty), and date.
- * @returns The base name shared by the workspace folder and the renamed source files.
+ * @param parts - The lecture number, the title (possibly empty), and the date.
+ * @returns The base name of the lecture files.
+ * @throws {EmptyNameError} When the title is not empty but has no safe characters.
  *
  * @example
  * lectureBaseName({ lectureNumber: 2, title: "", date });

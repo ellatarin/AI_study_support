@@ -42,10 +42,9 @@ describe("createUploadProgressStream", () => {
 });
 
 describe("the upload progress bar's value display", () => {
-	// Driven through the progress bar rather than by calling the formatter, because the
-	// formatter is cli-progress's to call: what this suite has to show is that an
-	// upload reports itself in megabytes, and that the percentage beside them is
-	// left alone rather than being read as a byte count too.
+	// These tests render the progress bar and do not call the formatter, because
+	// cli-progress calls the formatter. They show that an upload shows megabytes,
+	// and that the percentage is not read as a byte count.
 	function renderUploadProgressBar({
 		uploaded,
 		total,
@@ -53,8 +52,8 @@ describe("the upload progress bar's value display", () => {
 		readonly uploaded: number;
 		readonly total: number;
 	}): string {
-		// A progress bar renders nothing off a terminal, so the stream is told it is one for
-		// the duration of the render, exactly as the in-flight suffix's ANSI test does.
+		// A progress bar renders nothing when the stream is not a terminal. So the
+		// stream claims to be a terminal while the progress bar renders.
 		const realIsTTY = process.stderr.isTTY;
 		process.stderr.isTTY = true;
 		const written: string[] = [];

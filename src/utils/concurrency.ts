@@ -1,29 +1,28 @@
 /**
- * This module runs the same asynchronous work on each entry of a list, a few
- * entries at a time. The batch runner uses it to run lectures at the same time.
- * The panel stages use it to make their runs at the same time
- * (technical-design.md §4.7; §5, "Dividing the transcript", Panel runs).
+ * This module does the same asynchronous work on each item of a list, a few
+ * items at a time. The batch runner runs lectures with it. A panel stage makes
+ * its splitting runs or grouping runs with it. Deepening makes the calls of one splitting run with it
+ * (technical-design.md §4.7, and §5, "Dividing the transcript", Panel runs).
  */
 
 /**
- * Runs `work` once for each entry in `items`. At most `limit` of these runs
- * happen at the same time. Returns the results in the order of `items`,
- * whatever order the runs finish in.
+ * Runs `work` once for each item. At most `limit` runs go at the same time. The
+ * results are in the order of `items`, whatever order the runs finish in.
  *
  * When a run fails, no further run starts. The failure is thrown only after the
- * runs that already started have finished. So nothing is left running, unseen,
- * after the caller is told that the work failed.
+ * runs that already started finish. So nothing is left running, unseen, after
+ * the caller learns that the work failed.
  *
  * @param args - The items, the limit, and the work.
- * @param args.items - The entries to run `work` on.
- * @param args.limit - The most runs at the same time. Unset means one at a time,
- *   as an unset concurrency setting does. A value below 1 counts as 1, because
- *   callers are held only to the type, and 0 would start no run.
- * @param args.work - The work for one entry, given the entry and its position.
- * @returns The result for each entry, in the order of `items`.
+ * @param args.items - The items to run `work` on.
+ * @param args.limit - The most runs at the same time. Unset means one at a time.
+ *   A value below 1 counts as 1, because the type does not stop a caller from
+ *   giving 0, and 0 would start no run.
+ * @param args.work - The work for one item. It gets the item and its index.
+ * @returns The result for each item, in the order of `items`.
  * @throws The first run's failure, after the runs that already started have finished.
  * @typeParam TItem - One entry of `items`.
- * @typeParam TResult - What one run produces.
+ * @typeParam TResult - The value that one run produces.
  */
 export async function mapWithConcurrency<TItem, TResult>({
 	items,
@@ -36,10 +35,11 @@ export async function mapWithConcurrency<TItem, TResult>({
 }): Promise<readonly TResult[]> {
 	const results: TResult[] = new Array(items.length);
 	let next = 0;
-	// In the order the runs failed. Any failure stops every worker from claiming more.
+	// The failures, in the order the runs failed. One failure stops every worker
+	// from claiming another item.
 	const failures: unknown[] = [];
-	// The claimed position decides whether there was work, so the bound is read
-	// once rather than checked against the length and then read again.
+	// A worker claims an index first and then checks it against the length. So
+	// the shared counter is read once for each claim.
 	const worker = async (): Promise<void> => {
 		while (failures.length === 0) {
 			const index = next;

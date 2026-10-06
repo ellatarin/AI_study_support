@@ -34,8 +34,8 @@ describe("languageRule", () => {
 	it.each(
 		OUTPUT_LANGUAGE_TAGS,
 	)("should name the language in words rather than as a tag when the tag is %s", (tag) => {
-		// "Write in en-GB" is not an instruction a model can follow, which is the
-		// whole reason a tag is mapped to a name before it reaches a prompt.
+		// A model cannot follow "Write in en-GB". So the tag becomes a name before
+		// it reaches a prompt (technical-design.md §6).
 		expect(languageRule({ language: tag as OutputLanguage })).not.toContain(tag);
 	});
 });

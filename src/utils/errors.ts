@@ -1,12 +1,11 @@
 /**
- * Base class for the pipeline's typed error classes. Subclasses extend it with an
- * empty body; the concrete subclass name is captured as `name` automatically via
- * `new.target`, so each error stays a distinct `instanceof` type without
- * repeating constructor boilerplate.
+ * The base class of the named errors. A subclass has an empty body. Its `name`
+ * is the name of the subclass, which `new.target` gives (technical-design.md §8,
+ * "Typed Errors").
  */
 export abstract class NamedError extends Error {
 	/**
-	 * @param message - Human-readable description of the fault.
+	 * @param message - The description of the fault, for a person to read.
 	 */
 	public constructor(message: string) {
 		super(message);
@@ -15,16 +14,14 @@ export abstract class NamedError extends Error {
 }
 
 /**
- * Renders a caught value as a message string. A `catch` binding is typed
- * `unknown` because any value can be thrown, so every caller that wants to
- * report what went wrong needs this same narrowing — it lives here once rather
- * than at each catch site.
+ * Gives the message of a caught value. Any value can be thrown, so a caught
+ * value is `unknown` (technical-design.md §8, "Typed Errors").
  *
  * @param error - The caught value, of unknown type.
  * @returns The error's message, or the value stringified when it is not an `Error`.
  * @example
  * catch (error: unknown) {
- *   throw new StageError(`Extraction failed: ${errorMessage(error)}`);
+ *   throw new AudioExtractionError(`Extraction failed: ${errorMessage(error)}`);
  * }
  */
 export function errorMessage(error: unknown): string {

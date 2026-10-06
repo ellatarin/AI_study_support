@@ -1,41 +1,28 @@
 /**
- * The arithmetic of what a stage spent.
- *
- * One operation, and it works entirely in stored US dollars: rounding, currency
- * and column widths are presentation, and live with the reports that do it
- * (`src/pipeline/reports.ts`). Keeping them apart is what lets a stage add up
- * what its calls cost without knowing anything about how a figure is shown
- * (technical-design.md §7).
+ * The arithmetic of what a stage spent. It works only in stored US dollars.
+ * Rounding, currency and column widths belong to the reports in
+ * `src/pipeline/reports.ts` (technical-design.md §7, "Cost and Reporting Modules").
  */
 
 import type { StageCost } from "../types/pipeline.js";
 
-/** What separates the reasons an unpriced stage cost gives, one per distinct reason. */
+/** The text between two reasons in the reason for an unknown cost. */
 const REASON_SEPARATOR = "; ";
 
 /**
- * Folds the calls a single stage made into that stage's one `StageCost`, summing
- * tokens, call counts and cost at full precision — rounding is a display concern
- * (technical-design.md §7).
- *
- * This stays inside one stage. Slide conversion issues a call per slide and
- * image extraction one per image, and each has a single figure to record; this
- * is how they reach it. Costs are never added across stages, runs, lectures or
+ * Adds one cost of a stage to the running total of the same stage, at full
+ * precision. Costs are never added across stages, pipeline runs, lectures or
  * modules (NFR-2.2).
  *
- * The merged cost is resolved only when both inputs resolved; if either is
- * `null` the result is `null` and the errors are joined, each distinct reason
- * once, so a stage that could not price one of its calls reports `n/a` rather
- * than the part that came back, and a stage whose many calls failed for one
- * reason states it once.
+ * If either cost is unknown, the total is an unknown cost. The reason of the
+ * unknown total gives each different reason of the two costs once. So a stage that could not price one call shows `n/a`,
+ * not the part of the cost that the provider reported (technical-design.md §7).
  *
- * A running accumulator of `null` means nothing has been counted yet, so a fold
- * can start from the first call's cost rather than from an invented zero.
- *
- * @param args - The two costs to combine.
- * @param args.current - The running accumulator, or `null` before the first call.
- * @param args.incoming - The call's cost to fold in.
- * @returns A `StageCost` carrying the combined counts and cost.
+ * @param args - The two costs to add.
+ * @param args.current - The running total, or `null` before anything is counted.
+ *   So a total starts from the first cost and not from an invented zero.
+ * @param args.incoming - The cost to add.
+ * @returns The total of the two costs.
  */
 export function accumulateCost({
 	current,
@@ -70,12 +57,11 @@ export function accumulateCost({
 }
 
 /**
- * Folds the costs of a stage's parts — its runs, or a run's calls — into one,
- * passing over a part that made no call. Stays inside one stage, as
- * {@link accumulateCost} does.
+ * Adds up the costs of the parts of one stage: its splitting runs or grouping
+ * runs, or the calls of one splitting run. A part that made no call is skipped.
  *
- * @param costs - Each part's cost, `null` for a part that made no call.
- * @returns What the parts cost together, or `null` when none of them made a call.
+ * @param costs - The cost of each part, or `null` for a part that made no call.
+ * @returns The total, or `null` when no part made a call.
  */
 export function totalCost(costs: readonly (StageCost | null)[]): StageCost | null {
 	let total: StageCost | null = null;

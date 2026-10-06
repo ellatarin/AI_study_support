@@ -27,9 +27,8 @@ describe("logger", () => {
 
 	describe("createDebugLogger", () => {
 		it("should write a JSON debug log at the given path when the debug logger logs", async () => {
-			// The whole path is a parameter, so the debug log lands where the caller
-			// says rather than relative to the working directory, and the directory it
-			// names is created rather than having to exist.
+			// The caller gives the whole path. So the debug log goes where the caller
+			// says, not into the working directory. Its directory need not exist.
 			const debugLogFile = join(tempDir(), "debug-logs", "2025-10-10T09-00-00-000Z-debug.log");
 
 			const logger = createDebugLogger({ debugLogFile });

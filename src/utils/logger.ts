@@ -2,19 +2,16 @@ import { destination, type Logger, pino } from "pino";
 import type { StageId } from "../types/pipeline.js";
 
 /**
- * Creates the root logger for a single invocation, which writes the debug log:
- * structured output as newline-delimited JSON to the given file. The destination is
- * asynchronous (`sync: false`) and file-only, so debug output never reaches
- * stdout or stderr and cannot interfere with the cli-progress bars
+ * Creates the root logger of one invocation. It writes the debug log as
+ * newline-delimited JSON. It writes only to the file, and not in sync. So its
+ * output never reaches stdout or stderr, where it could break the progress bars
  * (technical-design.md §10).
  *
- * The whole path is taken from the caller rather than assembled here. Every
- * directory and filename the pipeline uses is declared in its layout module
- * (technical-design.md §3.3), and a utility should not reach up into the
- * pipeline to read one — nor name a file of its own that nothing else can find.
+ * The caller gives the whole path, because the layout module declares every
+ * path and a utility does not import the pipeline (technical-design.md §3.3).
  *
- * @param args - Where the invocation's debug output goes.
- * @param args.debugLogFile - Absolute path to write the debug log at; its directory is created.
+ * @param args - The path of the debug log.
+ * @param args.debugLogFile - Absolute path of the debug log. Its directory is created.
  * @returns A pino logger writing at `debug` level to that file.
  * @example
  * const logger = createDebugLogger({ debugLogFile: debugLogPath({ projectRoot, invocationId }) });
@@ -24,18 +21,16 @@ export function createDebugLogger({ debugLogFile }: { readonly debugLogFile: str
 }
 
 /**
- * Derives a per-stage child logger that stamps `{ stage }` onto every entry, so
- * stage context is attached automatically without each call site repeating it
- * (technical-design.md §10).
+ * Creates a child logger that adds `{ stage }` to each entry (technical-design.md §10).
  *
- * @param args - The child-logger inputs.
+ * @param args - The root logger and the stage.
  * @param args.logger - The root logger to derive from.
  * @param args.stageId - The stage the child logs for.
  * @returns A child logger bound to the given stage.
  * @example
  * const stageLogger = createStageLogger({ logger, stageId: "transcription" });
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties (`level` among them) that a wrapper type cannot remove without losing `child`; it is only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties, such as `level`. A wrapper type that removes them also removes `child`. This function only reads the logger. CLAUDE.md permits a mutable type that a library requires.
 export function createStageLogger({
 	logger,
 	stageId,

@@ -1,12 +1,9 @@
 /**
- * Recognising a string as a language the pipeline can write, reporting it when
- * it is not, and naming it in the words a prompt uses.
- *
- * Every stage that produces prose is told which language to write in, and the
- * config file is where that is chosen. The tag is validated once, when config
- * is loaded, so a stage is never handed a language it has no name for — and the
- * mapping from tag to name lives here rather than in each prompt, so the stages
- * cannot drift into instructing the model differently from one another
+ * This module checks the output language in the config file and gives the
+ * sentence that tells a model which language to write. The config loader checks
+ * the tag once. So a stage never gets a language that has no name. Each prompt
+ * that names the output language takes the sentence from here, so the prompts
+ * cannot word it differently
  * (technical-design.md §6).
  */
 
@@ -14,10 +11,7 @@ import type { OutputLanguage } from "../types/pipeline.js";
 import { OUTPUT_LANGUAGES } from "../types/pipeline.js";
 
 /**
- * Whether a string names a language the pipeline can write.
- *
- * A type guard rather than a boolean so a caller that has checked can go on to
- * use the value as an {@link OutputLanguage} without asserting it.
+ * Tells if a string is the tag of a language that the pipeline can write.
  *
  * @param value - The string to test.
  * @returns `true` when the string is a key of {@link OUTPUT_LANGUAGES}.
@@ -27,15 +21,15 @@ export function isOutputLanguage(value: string): value is OutputLanguage {
 }
 
 /**
- * Reports that something names no language the pipeline can write, listing the
- * languages it could have named.
+ * Gives the message for a value that is not a language that the pipeline can
+ * write. The message lists the languages.
  *
- * @param args - What to report against.
- * @param args.subject - The offending value as it should appear in the message, already quoted and labelled by the caller with the config key it came from.
+ * @param args - The bad value to report.
+ * @param args.subject - The bad value, quoted, after the config key that it came from.
  * @returns The message.
  * @example
- * unknownLanguageMessage({ subject: 'output.language "en-AU"' });
- * // 'output.language "en-AU" is not a language this pipeline can write. Languages are: en-GB, en-US'
+ * unknownLanguageMessage({ subject: 'finalOutput.language "en-AU"' });
+ * // 'finalOutput.language "en-AU" is not a language this pipeline can write. Languages are: en-GB, en-US'
  */
 export function unknownLanguageMessage(args: { readonly subject: string }): string {
 	const tags = Object.keys(OUTPUT_LANGUAGES).join(", ");
@@ -43,13 +37,8 @@ export function unknownLanguageMessage(args: { readonly subject: string }): stri
 }
 
 /**
- * The instruction telling a model which language to write in, as every prose
- * stage's prompt states it.
- *
- * The sentence lives here rather than in each prompt so the stages cannot drift
- * into wording it differently, and so the configured language reaches all of
- * them from one place. It is phrased as a rule because that is how each prompt
- * lists it, alongside the other rules that stage imposes.
+ * Gives the rule that tells a model which language to write. A prompt lists it
+ * with its other rules.
  *
  * @param args - The language to instruct.
  * @param args.language - The configured language tag.

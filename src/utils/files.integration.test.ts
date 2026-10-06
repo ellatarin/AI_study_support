@@ -50,11 +50,9 @@ describe("files utilities", () => {
 		});
 	});
 
-	// One rule, and it is the reason all three writers exist: the real path never
-	// holds partial output. Each writer is driven at a path whose parent
-	// directory is absent, which is what makes the underlying write fail — for
-	// produceFileAtomic that failure arrives from the producer, which is the only
-	// way it can fail.
+	// The three writers share one rule: the target never holds a part of a file.
+	// Each writer gets a path whose parent directory is missing, so the write
+	// fails. For produceFileAtomic, the failure comes from the producer.
 	describe("the atomic writers", () => {
 		it.each([
 			{
@@ -90,8 +88,8 @@ describe("files utilities", () => {
 		});
 	});
 
-	// One rule shared by all three: a directory that is not there is not an error
-	// to raise, because every caller is scanning somewhere optional.
+	// The three listings share one rule: a missing directory is not an error,
+	// because a caller often lists a directory that may not exist yet.
 	describe("the directory listings", () => {
 		it.each([
 			{ listing: "readDirSafe", list: readDirSafe },

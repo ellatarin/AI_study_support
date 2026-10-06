@@ -3,8 +3,8 @@ import { trackingInFlight, waitTurns } from "../pipeline/fixtures.js";
 import { mapWithConcurrency } from "./concurrency.js";
 
 /**
- * Work that records how many tasks are in flight at once, finishing later items
- * sooner so that completion order differs from input order.
+ * Returns work that records the most runs at the same time. A later item
+ * finishes sooner, so the runs finish in a different order from the items.
  */
 function trackedWork(): {
 	readonly work: (args: { readonly item: number }) => Promise<number>;
@@ -19,12 +19,12 @@ function trackedWork(): {
 
 const ITEMS = [1, 2, 3, 4, 5, 6, 7];
 
-/** The error the first item's task fails with in the failure tests. */
+/** The error that the run for the first item throws in the failure tests. */
 const FIRST_ITEM_FAILURE = new Error("the first item failed");
 
 /**
- * Work whose task for the first item fails at once while every other task takes
- * a few turns, recording which tasks started and which finished.
+ * Returns work whose run for the first item fails at once. Every other run takes
+ * a few turns. The work records which runs started and which finished.
  */
 function failingWork(): {
 	readonly work: (args: { readonly item: number }) => Promise<number>;
@@ -77,7 +77,7 @@ describe("mapWithConcurrency", () => {
 		await expect(mapWithConcurrency({ items: ITEMS, limit: 2, work: failing.work })).rejects.toBe(
 			FIRST_ITEM_FAILURE,
 		);
-		// Long enough for a worker left running to have started every other item.
+		// This wait is long enough for a worker that still runs to start every other item.
 		await waitTurns({ turns: ITEMS.length * 4 });
 		expect(failing.started).toEqual([1, 2]);
 	});

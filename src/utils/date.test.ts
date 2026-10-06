@@ -7,12 +7,12 @@ import {
 	stripDateTokens,
 } from "./date.js";
 
-// This suite tests the date derivation itself, so it keeps its own literals
-// rather than importing the shared lecture fixture: asserting a derived value
-// against itself would prove nothing (fixtures.ts says the same of naming).
+// This suite tests how dates are read, so it keeps its own literals and does not
+// import the shared lecture fixture. A test of a derived value against itself
+// would prove nothing.
 //
-// Only the date changes from row to row. The title beside the date is written
-// once. The `.mp4` extension does not affect the test, so it stays inline.
+// Only the date changes from row to row, so the title is written once. The
+// `.mp4` extension does not change the result, so it stays in each row.
 const LECTURE_TITLE = "Cell Injury";
 const TENTH_OF_OCTOBER = "2025-10-10";
 const TENTH_OF_NOVEMBER = "2025-11-10";
@@ -20,12 +20,10 @@ const ELEVENTH_OF_OCTOBER = "2025-10-11";
 
 describe("extractDate", () => {
 	it.each([
-		// Every positive case shares one body, so the table below is the whole
-		// specification: a filename in, the date it must yield out.
+		// Each row is a filename and the date that it must give.
 		//
-		// British convention throughout — a four-digit component is the year,
-		// otherwise the day leads, and month-first is never read
-		// (technical-design.md §3.2).
+		// A four-digit number is the year. Otherwise the day is first. Month first
+		// is never read (technical-design.md §3.2).
 		{ filename: `10102025 ${LECTURE_TITLE}.mp4`, iso: TENTH_OF_OCTOBER },
 		{ filename: `10-10-2025 ${LECTURE_TITLE}.mp4`, iso: TENTH_OF_OCTOBER },
 		{ filename: `10.10.2025 ${LECTURE_TITLE}.mp4`, iso: TENTH_OF_OCTOBER },
@@ -35,8 +33,8 @@ describe("extractDate", () => {
 		{ filename: `2025.10.10 ${LECTURE_TITLE}.mp4`, iso: TENTH_OF_OCTOBER },
 		{ filename: `2025/10/10 ${LECTURE_TITLE}.mp4`, iso: TENTH_OF_OCTOBER },
 
-		// The distinguishing pair: with both components under thirteen, only the
-		// convention decides. The mirror rules out guessing from magnitude.
+		// The day and the month are both below 13 here, so only the order rule
+		// decides. Each date has its mirror, so a guess from size fails.
 		{ filename: `10112025 ${LECTURE_TITLE}.mp4`, iso: TENTH_OF_NOVEMBER },
 		{ filename: `10-11-2025 ${LECTURE_TITLE}.mp4`, iso: TENTH_OF_NOVEMBER },
 		{ filename: `10.11.2025 ${LECTURE_TITLE}.mp4`, iso: TENTH_OF_NOVEMBER },
@@ -50,30 +48,29 @@ describe("extractDate", () => {
 		{ filename: `1/2/2025 ${LECTURE_TITLE}.mp4`, iso: "2025-02-01" },
 		{ filename: `2025-1-2 ${LECTURE_TITLE}.mp4`, iso: "2025-01-02" },
 
-		// A two-digit year is read only at the end, and always as 20xx. A leading
-		// two-digit component is the day, so `YY-MM-DD` is not a form: nothing in
-		// `26-11-10` could distinguish it from `DD-MM-YY`.
+		// A two-digit year is read only at the end, and always as 20xx. Two digits
+		// at the start are the day, because `26-11-10` can be `YY-MM-DD` or `DD-MM-YY`.
 		{ filename: `10-11-26 ${LECTURE_TITLE}.mp4`, iso: "2026-11-10" },
 		{ filename: `10.11.26 ${LECTURE_TITLE}.mp4`, iso: "2026-11-10" },
 		{ filename: `10/11/26 ${LECTURE_TITLE}.mp4`, iso: "2026-11-10" },
 		{ filename: `26-11-10 ${LECTURE_TITLE}.mp4`, iso: "2010-11-26" },
 
-		// Six bare digits are as likely to be an identifier as a date, so DDMMYY is
-		// tried last: any other date in the filename wins, prose included.
+		// Six digits are often not a date, so DDMMYY is tried last. Any other date
+		// in the filename wins, a date in words too.
 		{ filename: `101126 ${LECTURE_TITLE}.mp4`, iso: "2026-11-10" },
 		{ filename: `101126 2025-10-10 ${LECTURE_TITLE}.mp4`, iso: TENTH_OF_OCTOBER },
 		{ filename: `101126 10 Oct 2025 ${LECTURE_TITLE}.mp4`, iso: TENTH_OF_OCTOBER },
 
-		// The boundary is "not a digit" rather than a list of tolerated characters,
-		// so anything may abut the date. Underscores matter most — they defeat
-		// detection entirely without this.
+		// The boundary is "not a digit", so any character can touch the date. A date
+		// next to an underscore matters most, because `\b` finds no boundary between
+		// `_` and a digit.
 		{ filename: `BOD_10102025_${LECTURE_TITLE}.mp4`, iso: TENTH_OF_OCTOBER },
 		{ filename: `BOD_2025-10-10_${LECTURE_TITLE}.mp4`, iso: TENTH_OF_OCTOBER },
 		{ filename: `(10.10.2025)${LECTURE_TITLE}.mp4`, iso: TENTH_OF_OCTOBER },
 		{ filename: `~2025/10/10~${LECTURE_TITLE}.mp4`, iso: TENTH_OF_OCTOBER },
 		{ filename: `BOD[20251010]${LECTURE_TITLE}.mp4`, iso: TENTH_OF_OCTOBER },
 
-		// Dates written in words stay with chrono, which reads them unambiguously.
+		// Chrono reads the dates in words. They have only one meaning.
 		{ filename: `2025-10-10 BOD_${LECTURE_TITLE} copy.mp4`, iso: TENTH_OF_OCTOBER },
 		{ filename: "BOD_Immunity to Infection 13 Oct 2025 v2.mp4", iso: "2025-10-13" },
 		{ filename: "10 October 2025 Immune System.mp4", iso: TENTH_OF_OCTOBER },
@@ -105,9 +102,8 @@ describe("extractDate", () => {
 		expect(extractDate(filename)).toBeNull();
 	});
 
-	// A weekday alone names no day of the year. It is still stripped from titles,
-	// so the set of spans removed there is wider than the set a date is read
-	// from — the two must not be conflated.
+	// A weekday alone names no day of the year. It is still removed from titles.
+	// So more matches are removed than give a date.
 	it.each([
 		{ filename: `Fri ${LECTURE_TITLE}.mp4` },
 		{ filename: `${LECTURE_TITLE} Monday.mp4` },

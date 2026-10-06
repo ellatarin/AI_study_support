@@ -1,12 +1,8 @@
 /**
- * Conveniences over the filesystem: listing a directory that may not exist,
- * asking whether a path is there, and writing a file without ever leaving half
- * of one behind (technical-design.md §4.3).
- *
- * Every one of these is a convenience in the strict sense — the cost of getting
- * one wrong is an inconvenience. Deciding whether a path derived from untrusted
- * input may be touched at all is a different kind of question and lives apart,
- * in `src/pipeline/workspace-paths.ts` (§4.4).
+ * Conveniences for the filesystem. They list a directory that may not exist,
+ * test a path, and write a file that is never left half written
+ * (technical-design.md §4.3). The check of a path from untrusted input is in
+ * `src/pipeline/workspace-paths.ts` (§4.4).
  */
 
 import type { Dirent } from "node:fs";
@@ -14,10 +10,9 @@ import { access, readdir, readFile, rename, rm, writeFile } from "node:fs/promis
 import { join } from "node:path";
 
 /**
- * Reads a directory's entries with file-type info, returning `[]` when the
- * directory does not exist. Wraps `readdir` so callers can scan optional
- * directories (a workspace's `Run logs/`, a module's `Final output/`) without a
- * try/catch at every call site.
+ * Reads the entries of a directory, with the kind of each. A missing directory
+ * gives `[]`, so a caller can read a directory that may not exist yet, such as
+ * `Run logs/`, without a try/catch (technical-design.md §4.3).
  *
  * @param dir - Absolute path to the directory to read.
  * @returns The directory entries, or `[]` when the directory is missing.
@@ -31,11 +26,8 @@ export async function readDirSafe(dir: string): Promise<readonly Dirent[]> {
 }
 
 /**
- * Whether a path exists on disk, whatever kind of entry it is.
- *
- * Phrased as a question rather than as a thrown error because every caller is
- * choosing between two ordinary outcomes — a stage output that still exists or
- * has been deleted, a lecture PDF that has been produced or has not yet.
+ * Tells if a path exists, whatever kind of entry it is. It gives a value, not an
+ * error, because each caller expects both answers.
  *
  * @param path - The absolute path to test.
  * @returns `true` when the path is reachable.
@@ -50,13 +42,12 @@ export async function pathExists(path: string): Promise<boolean> {
 }
 
 /**
- * The names of a directory's entries that a listing wants, or `[]` when the
- * directory is missing. The two public listings below differ only in which
- * entries they keep, so the read and the mapping to names are stated once here.
+ * Lists the names of the entries in a directory that pass a test, or `[]` when
+ * the directory is missing.
  *
- * @param args - Where to look, and which entries to keep.
+ * @param args - The directory to look in, and the test for the entries to keep.
  * @param args.dir - Absolute path to the directory to list.
- * @param args.matches - Whether a directory entry belongs in the listing.
+ * @param args.matches - The test that tells if a directory entry belongs in the listing.
  * @returns The matching entries' names.
  */
 async function readEntryNames({
@@ -70,19 +61,19 @@ async function readEntryNames({
 }
 
 /**
- * Lists the real file names in a directory (excluding subdirectories and
- * dotfiles), or `[]` when the directory is missing.
+ * Lists the names of the files in a directory, or `[]` when the directory is
+ * missing. The list does not include subdirectories or dotfiles.
  *
  * @param dir - Absolute path to the directory to list.
- * @returns The non-dotfile file names.
+ * @returns The file names.
  */
 export function listFileNames(dir: string): Promise<readonly string[]> {
 	return readEntryNames({ dir, matches: (entry) => entry.isFile() && !entry.name.startsWith(".") });
 }
 
 /**
- * Lists the immediate subdirectory names of a directory, or `[]` when it is
- * missing.
+ * Lists the names of the subdirectories in a directory, or `[]` when the
+ * directory is missing.
  *
  * @param dir - Absolute path to the directory to list.
  * @returns The subdirectory names.
@@ -92,20 +83,20 @@ export function listSubdirectoryNames(dir: string): Promise<readonly string[]> {
 }
 
 /**
- * Writes a file atomically: content is written to a `.tmp`-suffixed sibling and
- * renamed onto the target only after the write fully succeeds. A crash mid-write
- * therefore leaves a `.tmp` file, never a partial file at the real path
+ * Writes a file atomically. The content goes to a `.tmp` file beside the target,
+ * which is renamed to the target only after the write succeeds. So a crash
+ * leaves a `.tmp` file, never a part of a file at the target
  * (technical-design.md §4.3).
  *
  * @param args - The destination path and the content to write.
- * @param args.path - The final path to write to; the `.tmp` sibling is derived from it.
+ * @param args.path - The path to write to. The `.tmp` path is this path with the suffix.
  * @param args.content - The text or bytes to write.
  * @returns A promise that resolves once the file is in place.
  * @throws Rethrows any filesystem error after removing the partial `.tmp` file.
  * @example
  * await writeFileAtomic({ path: "notes.md", content: "# Notes" });
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- Uint8Array is mutable through its index signature, which no wrapper type removes, and it is the byte payload node:fs itself asks for (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- A Uint8Array is mutable through its index signature, and no wrapper type removes it. node:fs asks for this type for bytes. CLAUDE.md permits a mutable type that a library requires.
 export function writeFileAtomic({
 	path,
 	content,
@@ -117,24 +108,19 @@ export function writeFileAtomic({
 }
 
 /**
- * The suffix an in-progress write carries until it is renamed into place.
- *
- * The atomic write and the sweep that clears what a crash left behind are the
- * two halves of one convention, and only agreement between them makes it work: a
- * writer using a suffix the sweep does not recognise leaves its debris for ever,
- * and a sweep recognising one the writer does not use deletes nothing. `source-normalisation`'s
- * rename uses a suffix of its own deliberately, and says why — a `.tmp` there
- * would name a complete file mid-move rather than a partial one, and this sweep
- * would delete it (technical-design.md §4.3; §5, `source-normalisation`).
+ * The suffix of a file while it is written. The atomic writes add it, and
+ * {@link cleanTmpFiles} deletes the files that carry it. The two must agree, so
+ * both read this one constant. `source-normalisation` uses a different suffix for
+ * its renames (technical-design.md §4.3, and §5, `source-normalisation`).
  */
 const TMP_SUFFIX = ".tmp";
 
-/** Indentation applied to every JSON file the pipeline writes, so they stay diff-friendly. */
+/** The indentation of a JSON file, so that a diff of it stays easy to read. */
 const JSON_INDENT = 2;
 
 /**
- * A value as the text of a JSON file a stage writes: indented as every JSON file
- * the pipeline writes is, and ending in a newline.
+ * Gives the text of a JSON file that a stage writes: indented, with a newline at
+ * the end.
  *
  * @param value - The value to serialise.
  * @returns The file's text.
@@ -144,16 +130,12 @@ export function jsonFileContent(value: unknown): string {
 }
 
 /**
- * Writes a value as indented JSON, atomically.
- *
- * Every JSON file the pipeline persists — the lecture manifest and the run logs —
- * is read by a human before it is read by anything else, so they are all
- * formatted the same way. Both writers went through {@link writeFileAtomic} and
- * each stated the indentation for itself, which is the one thing about the format
- * neither of them owns; it is settled here instead (technical-design.md §4.3).
+ * Writes a value as indented JSON, atomically, with no newline at the end. The
+ * manifest, the run logs and the saved runs are written with it. A person reads
+ * these files, so they are indented (technical-design.md §4.3).
  *
  * @param args - The destination and the value.
- * @param args.path - The final path to write to; the `.tmp` sibling is derived from it.
+ * @param args.path - The path to write to. The `.tmp` path is this path with the suffix.
  * @param args.value - The value to serialise.
  * @returns A promise that resolves once the file is in place.
  * @throws Rethrows any filesystem error after removing the partial `.tmp` file.
@@ -171,28 +153,21 @@ export function writeJsonAtomic({
 }
 
 /**
- * Fills the `.tmp` path it is given. The file is renamed onto its real target
- * once this resolves, so a producer that rejects leaves nothing behind.
- *
- * Named because both parties to the convention state it — {@link
- * produceFileAtomic} here, and the stage-level writer that reaches it — and a
- * signature written at each end can change at one.
+ * A function that writes a file at the `.tmp` path that it gets. The file is
+ * renamed to its target when the function resolves. The type has a name because
+ * {@link produceFileAtomic} and the stage writer both use it (technical-design.md §4.3).
  */
 export type ProduceFile = (tmpPath: string) => Promise<void>;
 
 /**
- * The general form of {@link writeFileAtomic}, for output a caller produces
- * rather than supplies: `produce` is handed the `.tmp` path to create, and the
- * result is renamed onto the target only once it resolves. A failure removes the
- * partial `.tmp` and rethrows, so the real path never holds partial output
- * (technical-design.md §4.3).
- *
- * Used where the bytes come from a subprocess rather than from memory —
- * `audio-extraction` has ffmpeg write the audio track directly to the `.tmp` sibling.
+ * Writes a file atomically when the caller does not hold the content, such as
+ * when ffmpeg writes the audio in `audio-extraction`. `produce` writes the `.tmp`
+ * file, which is renamed to the target only when `produce` resolves. A failure
+ * removes the `.tmp` file (technical-design.md §4.3).
  *
  * @param args - The destination and the producer.
- * @param args.path - The final path; the `.tmp` sibling is derived from it.
- * @param args.produce - Creates the file at the `.tmp` path it is given.
+ * @param args.path - The target path. The `.tmp` path is this path with the suffix.
+ * @param args.produce - Writes the file at the `.tmp` path that it gets.
  * @returns A promise that resolves once the file is in place.
  * @throws Rethrows any error from `produce` after removing the partial `.tmp` file.
  * @example
@@ -216,20 +191,12 @@ export async function produceFileAtomic({
 }
 
 /**
- * Reads and parses a JSON file, answering `null` when it is missing, unreadable,
- * or not JSON at all.
- *
- * The read half of {@link writeJsonAtomic}, and it answers with a value rather
- * than a throw for the same reason the directory reads below do: both callers
- * are scanning speculatively — the runner over whatever `Run logs/` happens to hold,
- * the manifest reader over a folder that may not be a lecture — and neither has
- * anything to say about a file it cannot read beyond skipping it.
- *
- * The parsed value is `unknown`: what the file was supposed to hold is the
- * caller's claim to make, and it is one a parse cannot check.
+ * Reads and parses a JSON file. A file that is missing, unreadable or not JSON
+ * gives `null`, so the caller decides what such a file means. The value is
+ * `unknown`, because the caller must check its shape (technical-design.md §4.3).
  *
  * @param path - Absolute path to the file to read.
- * @returns The parsed value, or `null` when there is none to be had.
+ * @returns The parsed value, or `null` when the file is missing, unreadable or not JSON.
  * @example
  * const parsed = await readJsonSafe(runLogPath);
  */
@@ -243,10 +210,10 @@ export async function readJsonSafe(path: string): Promise<unknown> {
 }
 
 /**
- * Deletes every `.tmp` file in a directory. Run at the start of a stage to clear
- * partial files left by a crashed previous run (technical-design.md §4.3).
+ * Deletes every `.tmp` file in a directory. Each stage run does this at its
+ * start, to remove the files that a crash left (technical-design.md §4.3).
  *
- * @param dir - The directory to scan; only its immediate `.tmp` entries are removed.
+ * @param dir - The directory to clean. Its subdirectories are not cleaned.
  * @returns A promise that resolves once the `.tmp` files are removed.
  */
 export async function cleanTmpFiles(dir: string): Promise<void> {

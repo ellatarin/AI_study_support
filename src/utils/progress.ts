@@ -7,50 +7,49 @@ import {
 	type ValueType,
 } from "cli-progress";
 
-/** cli-progress format for the upload progress bar, whose value and total render as megabytes. */
+/** The cli-progress format of the upload progress bar. Its value and total show as megabytes. */
 const UPLOAD_FORMAT = "Uploading    |{bar}| {percentage}%  {value} / {total}";
 
 /**
- * The stream every progress bar renders to. It is cli-progress's own default,
- * named here so the progress bars draw somewhere this module states rather than somewhere
- * the library happens to pick, and so stdout stays free for the output the user
- * asked for (technical-design.md §10).
+ * The stream that every progress bar writes to. It is the default of
+ * cli-progress, named here so that this module, not the library, sets it. So
+ * stdout stays free for the output that the user asked for.
  */
 const PROGRESS_STREAM = process.stderr;
 
 /**
- * Formats a byte count as megabytes for the upload progress bar's value display.
+ * Writes a byte count as megabytes.
  *
  * @param bytes - The byte count to format.
- * @returns The value formatted as megabytes (e.g. `1.5 MB`).
+ * @returns The value as megabytes, such as `1.5 MB`.
  */
 function formatMegabytes(bytes: number): string {
 	return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
 
 /**
- * cli-progress value formatter for the upload progress bar: renders the byte value and
- * total as megabytes, and leaves other tokens (e.g. percentage) unchanged.
+ * Formats the tokens of the upload progress bar. The value and the total show as
+ * megabytes. Other tokens, such as the percentage, do not change.
  *
- * @param value - The raw numeric value cli-progress is formatting.
- * @param _options - The cli-progress options (unused).
- * @param type - Which token is being formatted.
- * @returns The formatted token string.
+ * @param value - The number that cli-progress formats.
+ * @param _options - The cli-progress options. This function does not read them.
+ * @param type - The token that is formatted.
+ * @returns The formatted token.
  */
-// eslint-disable-next-line max-params, @typescript-eslint/prefer-readonly-parameter-types -- cli-progress's ValueFormatter signature is fixed: three positional parameters, the second of them cli-progress's own mutable Options, which this ignores entirely (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line max-params, @typescript-eslint/prefer-readonly-parameter-types -- cli-progress sets the ValueFormatter signature: three positional parameters. The second is the mutable Options of cli-progress, which this function does not read. CLAUDE.md permits a mutable type that a library requires.
 function formatUploadValue(value: number, _options: Options, type: ValueType): string {
 	return type === "value" || type === "total" ? formatMegabytes(value) : String(value);
 }
 
 /**
- * Constructs a cli-progress `SingleBar` with the pipeline's shared preset and
- * cursor handling. The single place progress bars are built, so every progress
- * bar shares the same look and no construction is duplicated across stages.
+ * Creates a cli-progress `SingleBar` with the shared preset, stream and cursor
+ * setting. Every progress bar is built here, so all of them look the same
+ * (technical-design.md §10, "Logging and Progress Helpers").
  *
  * @param args - The progress bar configuration.
  * @param args.format - The cli-progress format string.
- * @param args.formatValue - Optional value formatter (e.g. byte-to-megabyte display).
- * @returns A configured, not-yet-started `SingleBar`.
+ * @param args.formatValue - An optional value formatter, such as one that shows megabytes.
+ * @returns A progress bar that is not started.
  */
 export function createProgressBar({
 	format,
@@ -66,13 +65,12 @@ export function createProgressBar({
 }
 
 /**
- * Builds a pass-through stream that advances an upload progress bar as bytes
- * flow through it, without buffering the payload. Piping an upload through the
- * returned `stream` drives the returned `progressBar`; the caller stops the
- * progress bar when the upload settles.
+ * Creates a pass-through stream that moves an upload progress bar as the bytes
+ * pass through it. The stream does not buffer the upload. The progress bar starts
+ * at once. The caller stops it when the upload ends.
  *
- * @param totalBytes - The total upload size, used as the progress bar's target.
- * @returns The pass-through `stream` to pipe through and the `progressBar` it drives.
+ * @param totalBytes - The size of the upload, which is the end of the progress bar.
+ * @returns The `stream` to pipe the upload through, and the `progressBar` that it moves.
  */
 export function createUploadProgressStream(totalBytes: number): {
 	readonly stream: Transform;
@@ -82,7 +80,7 @@ export function createUploadProgressStream(totalBytes: number): {
 
 	let uploaded = 0;
 	const stream = new Transform({
-		// eslint-disable-next-line max-params, @typescript-eslint/prefer-readonly-parameter-types -- Node's Transform.transform signature is fixed: three positional parameters, the first a Buffer, which is mutable through its index signature and is what Node hands us (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+		// eslint-disable-next-line max-params, @typescript-eslint/prefer-readonly-parameter-types -- Node sets the Transform.transform signature: three positional parameters. The first is a Buffer, which is mutable through its index signature. CLAUDE.md permits a mutable type that a library requires.
 		transform(chunk: Buffer, _encoding, callback) {
 			uploaded += chunk.length;
 			progressBar.update(uploaded);

@@ -4,7 +4,7 @@ import { EmptyNameError, extractProvisionalTitle, filenameSafe, titledBaseName }
 const NULL_BYTE = String.fromCharCode(0);
 const CONTROL_CHAR = String.fromCharCode(1);
 
-/** The prefixes a run is configured with, unless a case is about a different set. */
+/** The module prefixes of each test, unless a test is about a different list. */
 const MODULE_PREFIXES = ["BOD", "ANA"];
 
 describe("extractProvisionalTitle", () => {
@@ -19,37 +19,34 @@ describe("extractProvisionalTitle", () => {
 		},
 		{ filename: "Fri 10th Oct Immune System copy.mp4", expected: "Immune System" },
 		{ filename: "BOD_Virology 1.mp4", expected: "Virology 1" },
-		// A file `source-normalisation` has already renamed, re-read because its lecture has no
-		// manifest yet: the title it yields must be the one the name was built from.
+		// A file that `source-normalisation` already renamed, read again because its
+		// lecture has no manifest yet. It must give the title that its name was built from.
 		{ filename: "Lecture 1 - Cell Injury - 2025-10-10.mp4", expected: "Cell Injury" },
-		// Capitals the lecturer typed are how they spell the subject, and the title
-		// reaches the workspace folder and the final PDF. Re-casing it would
-		// misspell the subject in every name the run produces, and no rule can tell
-		// an acronym from an ordinary word once either may hold lower-case letters.
+		// The capitals that the lecturer typed are the spelling of the subject. A
+		// change of case would misspell it in the workspace folder and the PDF. No
+		// rule can tell an acronym from an ordinary word (technical-design.md §3.2).
 		{ filename: "2025-10-10 BOD_DNA replication.mp4", expected: "DNA replication" },
 		{ filename: "2025-10-10 BOD_mRNA processing.mp4", expected: "mRNA processing" },
 		{ filename: "2025-10-10 BOD_CELL INJURY.mp4", expected: "CELL INJURY" },
-		// The cost, stated so it is a decision rather than a surprise: a filename
-		// typed in lower case yields a lower-case title, where title-casing used to
-		// tidy it. Names are now exactly as consistent as the filenames are.
+		// The cost of keeping the capitals that the lecturer typed: a filename in lower
+		// case gives a title in lower case.
 		{ filename: "2025-10-10 BOD_cell injury.mp4", expected: "cell injury" },
-		// Every configured prefix is stripped, not just the first: a second module's
-		// lectures would otherwise carry its prefix into every title.
+		// Every module prefix is removed, not only the first. Otherwise the titles of
+		// a second module would keep its prefix.
 		{ filename: "2025-10-10 ANA_Skeletal system.mp4", expected: "Skeletal system" },
 		{ filename: "ANA Muscles of the Arm 2025-10-10.mp4", expected: "Muscles of the Arm" },
-		// A prefix that names no configured module is part of the title. Stripping
-		// any capitals-then-underscore run would eat this.
+		// A prefix that is not in the config file is part of the title. A rule that
+		// removed any capitals before an underscore would remove it.
 		{ filename: "2025-10-10 XYZ_Cell injury.mp4", expected: "XYZ Cell injury" },
-		// Lecturers do not case their own module's prefix consistently, so how a
-		// filename happens to write it says nothing about whether it is one.
+		// Lecturers do not write their module prefix in one case, so the case is ignored.
 		{ filename: "2025-10-10 bod_Cell injury.mp4", expected: "Cell injury" },
 		{ filename: "2025-10-10 Bod Cell injury.mp4", expected: "Cell injury" },
 	])("should extract provisional title when filename is $filename", ({ filename, expected }) => {
 		expect(extractProvisionalTitle({ filename, modulePrefixes: MODULE_PREFIXES })).toBe(expected);
 	});
 
-	// A module is not always abbreviated — some lecturers write it out in full,
-	// so a configured prefix may be several words rather than a code.
+	// Some lecturers write the full module name. So a module prefix can be
+	// several words, not only a code.
 	it.each([
 		{ scenario: "an underscore", filename: "Biology of Disease_Cell injury 2025-10-10.mp4" },
 		{ scenario: "a dash", filename: "biology of disease - Cell injury 2025-10-10.mp4" },
@@ -67,8 +64,8 @@ describe("extractProvisionalTitle", () => {
 		).toBe("BOD Cell injury");
 	});
 
-	// Prefixes come from the config file, so a character with meaning inside a
-	// pattern must match itself rather than being interpreted.
+	// The config file gives the module prefixes. So a character with a special
+	// meaning in a pattern must match only itself.
 	it.each([
 		{ scenario: "the prefix itself", filename: "B.D_Cell injury.mp4", expected: "Cell injury" },
 		{
