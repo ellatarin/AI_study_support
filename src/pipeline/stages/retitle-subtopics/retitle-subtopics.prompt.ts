@@ -67,14 +67,14 @@ Reply with a single JSON object and nothing else, in this exact shape:
 Give one entry for every subtopic, in the order the subtopics are given.`;
 
 /**
- * What the prompt calls a subtopic's position, counting from 1, in what it is
- * sent and in its reply: the prototype's word, carried over with the prompt.
+ * The key for a subtopic id in what the prompt sends and in its reply. The word
+ * "id" is the prototype's word. It came over with the prompt.
  */
-const POSITION_KEY = "id";
+const SUBTOPIC_ID_KEY = "id";
 
 /**
  * Builds the messages for the one retitling call: the `r9` prompt, then every
- * subtopic as its position, counting from 1, and its text with the whitespace
+ * subtopic as its subtopic id and its text with the whitespace
  * at its ends removed — as the prototype sent them, and without the old title.
  *
  * @param args - What to title.
@@ -90,7 +90,7 @@ export function buildRetitleMessages({
 		system: R9_PROMPT,
 		user: JSON.stringify({
 			subtopics: [...texts.entries()].map(([index, text]) => ({
-				[POSITION_KEY]: index + 1,
+				[SUBTOPIC_ID_KEY]: index + 1,
 				text: text.trim(),
 			})),
 		}),

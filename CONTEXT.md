@@ -419,6 +419,10 @@ _Avoid_: range, segment
 The thing a panel vote counts. A splitting panel counts cut sites. A grouping panel counts topic starts.
 _Avoid_: mark, candidate
 
+**Subtopic id**:
+A subtopic's number in its division, counting from 1. Grouping names a topic's first subtopic by its subtopic id. Retitling records each changed title by subtopic id.
+_Avoid_: position
+
 **Connective**:
 A word such as "So" or "And" that opens a sentence. A model often leaves it out of a subtopic start. The code moves the cut back over it, so that it stays with the subtopic it opens.
 _Avoid_: hinge word

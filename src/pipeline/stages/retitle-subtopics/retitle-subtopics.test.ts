@@ -34,7 +34,7 @@ const STAGE_ID = "retitle-subtopics";
 /** The titles the stubbed model gives the subtopics of {@link transcriptDivision}, in order. */
 const NEW_TITLES = ["Introduction to the lecture", "Cell injury and immunity"];
 
-/** A reply giving each subtopic the title at its place in `titles`, by position. */
+/** A reply giving each subtopic the title at its place in `titles`, by subtopic id. */
 function titlesReply(titles: readonly string[]): string {
 	return JSON.stringify({ titles: titles.map((title, index) => ({ id: index + 1, title })) });
 }
@@ -62,7 +62,7 @@ describe("createRetitleSubtopicsStage", () => {
 		return readJsonFile(stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID }));
 	}
 
-	it("should send every subtopic as its position and trimmed text, without its title, in one call when the stage runs", async () => {
+	it("should send every subtopic as its subtopic id and trimmed text, without its title, in one call when the stage runs", async () => {
 		await run();
 
 		expect(modelCallMock).toHaveBeenCalledTimes(1);
@@ -88,7 +88,7 @@ describe("createRetitleSubtopicsStage", () => {
 		{ problem: "is not an object", content: JSON.stringify("titles") },
 		{ problem: "misses a subtopic", content: titlesReply(NEW_TITLES.slice(0, 1)) },
 		{
-			problem: "repeats a position",
+			problem: "repeats a subtopic id",
 			content: JSON.stringify({
 				titles: [
 					{ id: 1, title: "First" },
@@ -97,7 +97,7 @@ describe("createRetitleSubtopicsStage", () => {
 			}),
 		},
 		{
-			problem: "names a position out of range",
+			problem: "names a subtopic id out of range",
 			content: JSON.stringify({
 				titles: [
 					{ id: 1, title: "First" },
@@ -106,7 +106,7 @@ describe("createRetitleSubtopicsStage", () => {
 			}),
 		},
 		{
-			problem: "gives the positions out of order",
+			problem: "gives the subtopic ids out of order",
 			content: JSON.stringify({
 				titles: [
 					{ id: 2, title: "Second" },

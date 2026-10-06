@@ -27,10 +27,10 @@ export class RetitleSubtopicsError extends NamedError {}
 
 const STAGE_ID = "retitle-subtopics";
 
-/** One entry of the reply: a subtopic's position, counting from 1, and its new title. */
+/** One entry of the reply: a subtopic id and the new title for that subtopic. */
 type ReplyTitle = { readonly id: number; readonly title: string };
 
-/** The object the `r9` prompt asks for: a title for each subtopic, by position. */
+/** The object the `r9` prompt asks for: a title for each subtopic, by subtopic id. */
 type TitlesReply = { readonly titles: readonly ReplyTitle[] };
 
 /** The reply's shape in words, for the failure a user reads when a reply is not one. */
@@ -40,7 +40,7 @@ const DOCUMENTED_REPLY_SHAPE = "{ titles: [{ id, title }] } object";
  * Whether a value in a parsed reply is one subtopic's title.
  *
  * @param value - One entry of the reply's list.
- * @returns `true` when it carries a numeric position and a string title.
+ * @returns `true` when it carries a numeric subtopic id and a string title.
  */
 function isReplyTitle(value: unknown): value is ReplyTitle {
 	return isRecord(value) && typeof value.id === "number" && typeof value.title === "string";
@@ -62,7 +62,7 @@ type Retitling = { readonly subtopic: Subtopic; readonly newTitle: string };
 /**
  * Each subtopic paired with the reply's title for it, when the reply gives
  * exactly one non-blank title for every subtopic, in order: a missing,
- * repeated, out-of-range or out-of-order position, or a blank title, makes the
+ * repeated, out-of-range or out-of-order subtopic id, or a blank title, makes the
  * reply unusable.
  *
  * @param args - The division's subtopics, and the reply's titles.
@@ -99,7 +99,7 @@ type TitleChanges = {
 	readonly subtopics: number;
 	readonly titlesChanged: number;
 	readonly changed: readonly {
-		/** The subtopic, counting from 1. */
+		/** The subtopic id. */
 		readonly position: number;
 		readonly oldTitle: string;
 		readonly newTitle: string;
