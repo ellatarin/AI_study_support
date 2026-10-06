@@ -194,7 +194,7 @@ async function adoptDerivedTitle({
 		identityChanges: {
 			aiDerivedTitle,
 			lectureTitle: aiDerivedTitle,
-			workspaceFolderName: baseName,
+			baseName,
 		},
 	};
 }

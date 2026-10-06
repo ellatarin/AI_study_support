@@ -1046,7 +1046,7 @@ export function makeManifest(overrides: Partial<Manifest> = {}): Manifest {
 		lectureTitle: testLecture.title,
 		userTitle: null,
 		aiDerivedTitle: null,
-		workspaceFolderName: testLecture.baseName,
+		baseName: testLecture.baseName,
 		createdAt: `${testLecture.date}T00:00:00.000Z`,
 		updatedAt: `${testLecture.date}T00:00:00.000Z`,
 		stages: pendingStages(),

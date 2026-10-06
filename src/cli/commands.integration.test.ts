@@ -110,7 +110,7 @@ describe("executeCommand", () => {
 		await writeManifest({
 			workspaceRoot: workspace,
 			manifest: makeManifest({
-				...(baseName === undefined ? {} : { workspaceFolderName: baseName }),
+				...(baseName === undefined ? {} : { baseName }),
 				stages: {
 					transcription: completedEntry({
 						configUsed: { modelId: transcriptionModelId },

@@ -448,7 +448,7 @@ export type Manifest = {
 		 * source files, workspace folder, and any PDF are renamed accordingly.
 		 */
 		readonly aiDerivedTitle: string | null;
-		readonly workspaceFolderName: string;
+		readonly baseName: string;
 		readonly createdAt: string;
 		readonly updatedAt: string;
 		/**
@@ -478,7 +478,7 @@ export type StageContext = LectureIdentity & {
  * a new base name (technical-design.md §4.2; §5, `transcript-structuring`).
  */
 export type LectureIdentityChanges = Partial<
-	Pick<Manifest, "lectureTitle" | "aiDerivedTitle" | "workspaceFolderName">
+	Pick<Manifest, "lectureTitle" | "aiDerivedTitle" | "baseName">
 >;
 
 /**

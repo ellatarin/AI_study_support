@@ -228,7 +228,7 @@ describe("createSourceNormalisationStage", () => {
 			lectureNumber: 1,
 			lectureDate: cellInjurySources.date,
 			provisionalTitle: "Cell Injury",
-			workspaceFolderName: cellInjuryAsFirst,
+			baseName: cellInjuryAsFirst,
 		});
 		expect(manifest.stages["audio-extraction"]).toEqual({ status: "pending" });
 		expect(manifest.stages["pdf-generation"]).toEqual({ status: "pending" });
@@ -410,7 +410,7 @@ describe("createSourceNormalisationStage", () => {
 			workspaceRootFor({ moduleRoot, baseName: vaccinationAsThird }),
 		);
 		expect(renumbered.lectureNumber).toBe(3);
-		expect(renumbered.workspaceFolderName).toBe(vaccinationAsThird);
+		expect(renumbered.baseName).toBe(vaccinationAsThird);
 		expect(await listNames(videoRecordingsDir(moduleRoot))).toContain(`${vaccinationAsThird}.mp4`);
 	});
 

@@ -163,7 +163,7 @@ function initialManifest(lecture: Lecture): Manifest {
 		lectureTitle: lecture.provisionalTitle,
 		userTitle: null,
 		aiDerivedTitle: null,
-		workspaceFolderName: lecture.baseName,
+		baseName: lecture.baseName,
 		createdAt: now,
 		updatedAt: now,
 		stages,
@@ -172,7 +172,7 @@ function initialManifest(lecture: Lecture): Manifest {
 
 /**
  * Creates a new lecture's workspace and manifest, or updates an existing
- * lecture's `lectureNumber`/`workspaceFolderName` after renumbering. Leaves an
+ * lecture's `lectureNumber`/`baseName` after renumbering. Leaves an
  * unchanged lecture's manifest untouched.
  *
  * @param args - The lecture, the module it belongs to, and whether it pre-existed.
@@ -196,16 +196,13 @@ async function reconcileManifest({
 		return "created";
 	}
 	const manifest = await readManifest({ workspaceRoot });
-	if (
-		manifest.lectureNumber === lecture.lectureNumber &&
-		manifest.workspaceFolderName === lecture.baseName
-	) {
+	if (manifest.lectureNumber === lecture.lectureNumber && manifest.baseName === lecture.baseName) {
 		return "unchanged";
 	}
 	const updated: Manifest = {
 		...manifest,
 		lectureNumber: lecture.lectureNumber,
-		workspaceFolderName: lecture.baseName,
+		baseName: lecture.baseName,
 		updatedAt: new Date().toISOString(),
 	};
 	await writeManifest({ workspaceRoot, manifest: updated });

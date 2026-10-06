@@ -75,7 +75,7 @@ const RENAMED_BASE_NAME = `${LECTURE_BASE_NAME} - ${aiDerivedLecture.title}`;
 const DECIDED_IDENTITY: LectureIdentityChanges = {
 	lectureTitle: aiDerivedLecture.title,
 	aiDerivedTitle: aiDerivedLecture.title,
-	workspaceFolderName: RENAMED_BASE_NAME,
+	baseName: RENAMED_BASE_NAME,
 };
 
 // The runner is driven through a single configured stage throughout, so the

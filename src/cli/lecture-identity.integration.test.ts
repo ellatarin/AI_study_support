@@ -135,7 +135,7 @@ describe("lecture identity commands", () => {
 
 			const manifest = await readManifest({ workspaceRoot: movedWorkspaceRoot() });
 			expect(manifest.lectureDate).toBe(changedDate);
-			expect(manifest.workspaceFolderName).toBe(MOVED_BASE_NAME);
+			expect(manifest.baseName).toBe(MOVED_BASE_NAME);
 		});
 
 		// Each of the four things a lecture is on disk moves, and the name it left

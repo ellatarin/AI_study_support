@@ -205,7 +205,7 @@ export async function changeLectureDate({
 	await patchManifest({
 		workspaceRoot: match.workspaceRoot,
 		manifest,
-		changes: { lectureDate: newLectureDate, workspaceFolderName: baseName },
+		changes: { lectureDate: newLectureDate, baseName },
 		updatedAt: new Date().toISOString(),
 	});
 	await renameLectureFiles({

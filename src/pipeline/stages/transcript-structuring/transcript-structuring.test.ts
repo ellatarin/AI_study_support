@@ -233,7 +233,7 @@ describe("createTranscriptStructuringStage", () => {
 			expect(result.identityChanges).toEqual({
 				aiDerivedTitle: aiDerivedLecture.title,
 				lectureTitle: aiDerivedLecture.title,
-				workspaceFolderName: aiDerivedLecture.baseName,
+				baseName: aiDerivedLecture.baseName,
 			});
 		});
 

@@ -127,7 +127,7 @@ describe("transcript structuring against a real module tree", () => {
 			decided: {
 				aiDerivedTitle: aiDerivedLecture.title,
 				lectureTitle: aiDerivedLecture.title,
-				workspaceFolderName: aiDerivedLecture.baseName,
+				baseName: aiDerivedLecture.baseName,
 			},
 		},
 		{ meaningful: true, decided: {} },

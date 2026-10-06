@@ -50,7 +50,7 @@ const PERCENT_BEFORE_END = 99;
  */
 async function locateVideoRecording(context: StageContext): Promise<AudioExtractionInput> {
 	const videoRecordingsDir = moduleDirs({ moduleRoot: context.moduleRoot }).videoRecording;
-	const baseName = context.manifest.workspaceFolderName;
+	const baseName = context.manifest.baseName;
 	const matches = (await listFileNames(videoRecordingsDir)).filter(
 		(name) => basename(name, extname(name)) === baseName,
 	);

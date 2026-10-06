@@ -396,7 +396,7 @@ A stage's context is assembled before its own entry is marked `running`, so the 
 - `StageResult.cost` is `null` for stages that make no billable calls (audio-extraction, pdf-generation).
 - `StageResult.filesWritten` holds paths relative to `workspaceRoot`, and MAY escape upward with `..` (e.g. pdf-generation writes to `../../Final output/`) but MUST resolve under `moduleRoot` — enforced by §4.4.
 - `StageCost` is discriminated on `costUsd`: a resolved cost is a `number`; a failed lookup is `null` paired with a `costResolutionError` (see §7).
-- `StageResult.identityChanges` holds the lecture-identity fields the stage decided — `lectureTitle`, `aiDerivedTitle`, `workspaceFolderName` — for the runner to write. Absent and `{}` both mean the stage decided nothing; only `transcript-structuring` ever decides anything. `workspaceFolderName` is the lecture's canonical base name recorded in the manifest, not the runner's handle on the workspace — the runner locates that itself (§4.7).
+- `StageResult.identityChanges` holds the lecture-identity fields the stage decided — `lectureTitle`, `aiDerivedTitle`, `baseName` — for the runner to write. Absent and `{}` both mean the stage decided nothing; only `transcript-structuring` ever decides anything. `baseName` is the lecture's canonical base name recorded in the manifest, not the runner's handle on the workspace — the runner locates that itself (§4.7).
 - `lectureTitle` is always non-null — seeded by `source-normalisation`, possibly overwritten by `transcript-structuring` (see §3.2, `transcript-structuring`).
 
 `isComplete()` checks two conditions: the manifest marks the stage `'complete'` or `'skipped'`, AND every path in `manifest.stages[stageId].filesWritten` exists on disk. Both must be true. The two statuses count alike because a run that honours this check records `skipped` in place of the `complete` it read, so from the next run's point of view they describe the same disk — the work is done and does not need paying for again. This means a completed stage whose output was manually deleted returns `false` and re-runs automatically. A recorded path that cannot be resolved at all counts as absent rather than as an error, since deleting a stage's output usually removes its containing directory too; a path resolving *outside* `moduleRoot` is a different matter and always throws (§4.4).
@@ -608,7 +608,7 @@ Each stage entry records `configUsed` — a `StageConfigUsed` capturing the mode
   "userTitle": null,
   "aiDerivedTitle": null,
   "lectureTitle": "Disease Cell Injury and the Immune System",
-  "workspaceFolderName": "Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10",
+  "baseName": "Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10",
   "createdAt": "2025-10-10T09:00:00.000Z",
   "updatedAt": "2025-10-10T10:15:00.000Z",
   "stages": {
@@ -891,7 +891,7 @@ Each identity change leaves the module in a state `source-normalisation` can fin
 
 - **`rename`** writes `userTitle` (and `lectureTitle`) to the manifest and stops there. The renaming of video, slide, workspace, and PDF falls out of the following `source-normalisation` pass, which names them from the manifest's current `lectureTitle` — the same code path that named them originally, so a rename cannot drift from a normalisation.
 - **`delete`** removes the video, the slide, the workspace, and the `Final output/` PDF, having first asked for confirmation. Removing the sources *and* the workspace together is what keeps the module consistent: a workspace left without sources is an orphaned workspace the next `source-normalisation` run would stop to ask about, and sources left without a workspace would simply be normalised back into one. `source-normalisation` then renumbers the lectures that follow.
-- **`change-date`** renames the video, slide, and PDF to the base name `source-normalisation` would give them at the new date, renames the workspace folder to match, and writes the new `lectureDate` and `workspaceFolderName` to the manifest — so the `source-normalisation` pass that follows has only renumbering left, and renames again if the new date changes the lecture's number. It refuses when a source file already carries the target date, since a rename would otherwise overwrite another lecture, and when the lecture's own video or slide is missing.
+- **`change-date`** renames the video, slide, and PDF to the base name `source-normalisation` would give them at the new date, renames the workspace folder to match, and writes the new `lectureDate` and `baseName` to the manifest — so the `source-normalisation` pass that follows has only renumbering left, and renames again if the new date changes the lecture's number. It refuses when a source file already carries the target date, since a rename would otherwise overwrite another lecture, and when the lecture's own video or slide is missing.
 
 **Moving a lecture's files.** `change-date` and `transcript-structuring` both rename the same four things onto a new base name — the source video, the source slide, any `Final output/` PDF, and the workspace folder — so the sweep is stated once and shared. It lives under `src/pipeline/` rather than beside the CLI commands that were its first caller, because a stage may not import from the CLI layer.
 
@@ -1012,7 +1012,7 @@ A prompt module has no test file of its own. Its builder is a pure assembly whos
 
 5. **Base names:** Rename the source video and its matched slide, the workspace folder, and any `Final output/` PDF to the shared base name `Lecture N - <title> - YYYY-MM-DD` (bare `Lecture N - YYYY-MM-DD` when the title is empty). Lecture files already at their target are left untouched.
 
-6. **Workspace + manifest:** Create `Pipeline processing/Lecture N - <title> - YYYY-MM-DD/` for any lecture that does not already have one, writing an initial `manifest.json` with `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle = provisionalTitle`, `userTitle = null`, `aiDerivedTitle = null`, and all stage statuses `pending`. For an existing lecture whose number or folder changed, update `lectureNumber` and `workspaceFolderName` in its manifest, preserving everything else.
+6. **Workspace + manifest:** Create `Pipeline processing/Lecture N - <title> - YYYY-MM-DD/` for any lecture that does not already have one, writing an initial `manifest.json` with `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle = provisionalTitle`, `userTitle = null`, `aiDerivedTitle = null`, and all stage statuses `pending`. For an existing lecture whose number or folder changed, update `lectureNumber` and `baseName` in its manifest, preserving everything else.
 
 **Collision-safe renaming.** When the sequence changes, all renames (source files, workspace folders, `Final output/` PDFs) are applied in two phases — each lecture file to a temporary name, then each temporary to its target — so shifting lecture numbers never collide mid-rename. Lecture files already correct are skipped, so a re-run with no changes touches nothing.
 
@@ -1312,7 +1312,7 @@ The rename is **conditional** on the LLM's judgement:
 | LLM judgement | Action |
 |---|---|
 | Provisional meaningful | `lectureTitle` already equals `provisionalTitle` from `source-normalisation` — left unchanged; `aiDerivedTitle` stays `null`. No renaming. |
-| Provisional not meaningful | `aiDerivedTitle` set to the proposed title and `lectureTitle` overwritten with it. Source video, source slide, workspace folder, and any existing `Final output/` PDF are renamed to include the AI-derived title. `workspaceFolderName` updated in manifest. |
+| Provisional not meaningful | `aiDerivedTitle` set to the proposed title and `lectureTitle` overwritten with it. Source video, source slide, workspace folder, and any existing `Final output/` PDF are renamed to include the AI-derived title. `baseName` updated in manifest. |
 
 **A user title outranks the judgement.** When `userTitle` is non-null the user has already named the lecture through `rename`, and it wins the title precedence outright (§5, `source-normalisation`). `transcript-structuring` still records `aiDerivedTitle` when the LLM proposes one — it is a true record of what the model derived from the transcript, and it is what the title would fall back to were the user's ever cleared — but `lectureTitle` is left alone and nothing on disk is renamed.
 
@@ -1324,7 +1324,7 @@ The rename is **conditional** on the LLM's judgement:
 
 1. Make the LLM call and parse the response.
 2. Write `Structured transcript/structured-transcript.md` atomically (§4.3).
-3. Decide the title, and with it the identity changes the stage returns. The provisional title stands: no changes. `userTitle` is set: `aiDerivedTitle` alone, since the user's title holds and no name on disk changes. Otherwise: `aiDerivedTitle`, `lectureTitle`, and `workspaceFolderName`, the last being the base name `lectureBaseName` builds from the new title (§5, `source-normalisation`).
+3. Decide the title, and with it the identity changes the stage returns. The provisional title stands: no changes. `userTitle` is set: `aiDerivedTitle` alone, since the user's title holds and no name on disk changes. Otherwise: `aiDerivedTitle`, `lectureTitle`, and `baseName`, the last being the base name `lectureBaseName` builds from the new title (§5, `source-normalisation`).
 4. In that last case only, rename the source video, the source slide, any `Final output/` PDF, and the workspace folder via `renameLectureFiles` (§4.7).
 5. Return the changes on `StageResult.identityChanges`. The runner writes them into the manifest together with the stage's `complete` entry, re-locating the workspace by `(moduleRoot, lectureDate)` first (§4.2, §4.7).
 
